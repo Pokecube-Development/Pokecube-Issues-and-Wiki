@@ -17,8 +17,8 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.utils.Tools;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
 import thut.core.xml.bind.annotation.XmlElement;
 

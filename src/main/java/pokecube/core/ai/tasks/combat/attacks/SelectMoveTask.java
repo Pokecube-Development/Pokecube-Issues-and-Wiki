@@ -8,11 +8,11 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.Tools;
 import thut.api.entity.ai.IAICombat;
 import thut.core.common.ThutCore;
 

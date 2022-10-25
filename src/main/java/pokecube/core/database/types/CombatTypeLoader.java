@@ -2,6 +2,7 @@ package pokecube.core.database.types;
 
 import java.io.BufferedReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,7 @@ public class CombatTypeLoader
 
         public void init()
         {
-            PokeType.typeTable = new float[this.types.size()][this.types.size()];
-
+            Map<String, JsonType> typeMap = Maps.newHashMap();
             // First add them all in as enums.
             for (final JsonType type2 : this.types)
             {
@@ -33,14 +33,18 @@ public class CombatTypeLoader
                 type.init();
                 if (PokeType.getType(type.name) == PokeType.unknown && !type.name.equals("???"))
                     PokeType.create(type.name, type.colour, type.name);
+                typeMap.put(type.name, type);
             }
-
-            for (int i = 0; i < this.types.size(); i++)
+            int n = PokeType.values().length;
+            PokeType.typeTable = new float[n][n];
+            for (int i = 0; i < n; i++)
             {
-                final float[] arr = new float[this.types.size()];
+                final float[] arr = new float[n];
                 PokeType.typeTable[i] = arr;
-                final JsonType current = this.types.get(i);
-                for (int j = 0; j < this.types.size(); j++) arr[j] = current.effect(this.types.get(j).name);
+                Arrays.fill(arr, 1.0f);
+                PokeType type = PokeType.values()[i];
+                final JsonType current = typeMap.get(type.name);
+                for (int j = 0; j < n; j++) arr[j] = current.effect(PokeType.values()[j].name);
             }
         }
 
@@ -60,8 +64,7 @@ public class CombatTypeLoader
 
         float effect(final String type)
         {
-            if (!this.effects.containsKey(type)) return 1;
-            return this.effects.get(type);
+            return this.effects.getOrDefault(type, 1.0f);
         }
 
         void init()
@@ -81,7 +84,6 @@ public class CombatTypeLoader
 
     public static void loadTypes()
     {
-
         final Map<ResourceLocation, Resource> resources = PackFinder.getResources(CombatTypeLoader.DATABASES,
                 s -> s.endsWith(".json"));
         List<CombatTypes> loaded = new ArrayList<>();
@@ -95,7 +97,7 @@ public class CombatTypeLoader
             }
             catch (final Exception e1)
             {
-                PokecubeAPI.LOGGER.error("Error with moves database " + s, e1);
+                PokecubeAPI.LOGGER.error("Error with types database " + s, e1);
             }
         });
         loaded.sort(null);

@@ -25,10 +25,10 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 import thut.api.terrain.TerrainManager;
 

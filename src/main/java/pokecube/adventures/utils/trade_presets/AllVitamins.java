@@ -9,10 +9,10 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.core.utils.Tools;
 
 @TradePresetAn(key = "allVitamins")
 public class AllVitamins implements TradePreset

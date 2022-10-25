@@ -14,10 +14,10 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.events.PokedexInspectEvent;
 import pokecube.api.stats.CaptureStats;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
-import pokecube.core.utils.Tools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.lib.TComponent;
 

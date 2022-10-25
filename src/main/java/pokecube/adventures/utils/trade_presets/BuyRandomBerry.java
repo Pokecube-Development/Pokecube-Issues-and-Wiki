@@ -9,9 +9,9 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
+import pokecube.api.utils.Tools;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
-import pokecube.core.utils.Tools;
 
 @TradePresetAn(key = "allBerryBuy")
 public class BuyRandomBerry implements TradePreset

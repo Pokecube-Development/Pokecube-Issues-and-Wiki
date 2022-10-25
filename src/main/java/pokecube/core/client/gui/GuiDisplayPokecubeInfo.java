@@ -43,6 +43,7 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.utils.Tools;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -56,7 +57,6 @@ import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
-import pokecube.core.utils.Tools;
 import thut.api.maths.Vector3;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverlay

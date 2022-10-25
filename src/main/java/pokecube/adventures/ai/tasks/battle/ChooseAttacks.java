@@ -5,7 +5,7 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.moves.MovesUtils;
 
@@ -29,7 +29,7 @@ public class ChooseAttacks extends BaseBattleTask
         if (attack == null) return 0;
         int pwr = attack.getPWR(user, target);
         final IPokemob mob = PokemobCaps.getPokemobFor(target);
-        if (mob != null) pwr *= PokeType.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
+        if (mob != null) pwr *= Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
         return pwr;
     }
 

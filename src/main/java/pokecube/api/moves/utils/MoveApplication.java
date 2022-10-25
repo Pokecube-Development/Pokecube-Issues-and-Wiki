@@ -29,6 +29,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.MoveSounds;
 import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.StatDiff;
@@ -157,7 +158,10 @@ public class MoveApplication implements Comparable<MoveApplication>
             if (targetPokemob != null)
             {
                 // Efficiency scales based on typing for pokemobs
-                efficiency = PokeType.getAttackEfficiency(type, targetPokemob.getType1(), targetPokemob.getType2());
+                efficiency = Tools.getAttackEfficiency(type, targetPokemob.getType1(), targetPokemob.getType2());
+
+                System.out.println(
+                        type + " -> " + targetPokemob.getType1() + "," + targetPokemob.getType2() + " " + efficiency);
 
                 // If the target is a pokemob, then attack strength uses the
                 // "proper" calculations

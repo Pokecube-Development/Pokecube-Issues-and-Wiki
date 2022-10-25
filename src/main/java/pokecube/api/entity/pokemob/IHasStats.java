@@ -8,7 +8,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
-import pokecube.core.utils.Tools;
+import pokecube.api.utils.Tools;
 
 public interface IHasStats extends IHasEntry
 {

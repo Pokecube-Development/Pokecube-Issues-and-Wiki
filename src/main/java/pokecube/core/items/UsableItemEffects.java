@@ -27,13 +27,13 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.core.items.vitamins.ItemCandy;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.core.utils.Tools;
 
 public class UsableItemEffects
 {

@@ -1,4 +1,4 @@
-package pokecube.core.utils;
+package pokecube.api.utils;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,9 +41,9 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
-import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
+import pokecube.core.utils.EntityTools;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -179,6 +179,18 @@ public class Tools
             Tools.indexArr[i][1] = (byte) r.intY();
             Tools.indexArr[i][2] = (byte) r.intZ();
         }
+    }
+
+    public static float getAttackEfficiency(final PokeType type, final PokeType defenseType1,
+            final PokeType defenseType2)
+    {
+        float multiplier = 1;
+        if (type == null) return multiplier;
+        if (defenseType1 != PokeType.unknown && defenseType1 != null)
+            multiplier *= PokeType.typeTable[type.ordinal()][defenseType1.ordinal()];
+        if (defenseType2 != PokeType.unknown && defenseType2 != null)
+            multiplier *= PokeType.typeTable[type.ordinal()][defenseType2.ordinal()];
+        return multiplier;
     }
 
     public static int computeCatchRate(final IPokemob pokemob, final double cubeBonus)
@@ -357,7 +369,7 @@ public class Tools
         final IPokemob mob = PokemobCaps.getPokemobFor(target);
         if (mob != null)
         {
-            pwr *= PokeType.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
+            pwr *= Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
             if (mob.getAbility() != null)
                 pwr = mob.getAbility().beforeDamage(mob, new MoveApplication(attack, user, target), pwr);
         }

@@ -24,18 +24,6 @@ public enum PokeType implements IExtensibleEnum
         throw new IllegalStateException("Enum not extended");
     }
 
-    public static float getAttackEfficiency(final PokeType type, final PokeType defenseType1,
-            final PokeType defenseType2)
-    {
-        float multiplier = 1;
-        if (type == null) return multiplier;
-        if (defenseType1 != unknown && defenseType1 != null) multiplier *= PokeType.typeTable[type
-                .ordinal()][defenseType1.ordinal()];
-        if (defenseType2 != unknown && defenseType2 != null) multiplier *= PokeType.typeTable[type
-                .ordinal()][defenseType2.ordinal()];
-        return multiplier;
-    }
-
     private static Map<String, PokeType> names = Maps.newHashMap();
 
     public static String getName(final PokeType type)
@@ -53,8 +41,8 @@ public enum PokeType implements IExtensibleEnum
     {
         MutableComponent ret = TComponent.literal(type.name);
         final String translated = I18n.get(PokeType.getUnlocalizedName(type));
-        if (translated != null && !translated.startsWith("type.")) ret = TComponent.translatable(PokeType
-                .getUnlocalizedName(type));
+        if (translated != null && !translated.startsWith("type."))
+            ret = TComponent.translatable(PokeType.getUnlocalizedName(type));
         ret.setStyle(ret.getStyle().withColor(TextColor.fromRgb(type.colour)));
         return ret;
     }
@@ -63,12 +51,11 @@ public enum PokeType implements IExtensibleEnum
     {
         name = ThutCore.trim(name);
         if (PokeType.names.containsKey(name)) return PokeType.names.get(name);
-        for (final PokeType type : PokeType.values())
-            if (name.equalsIgnoreCase(type.name))
-            {
-                PokeType.names.put(name, type);
-                return type;
-            }
+        for (final PokeType type : PokeType.values()) if (name.equalsIgnoreCase(type.name))
+        {
+            PokeType.names.put(name, type);
+            return type;
+        }
         return unknown;
     }
 

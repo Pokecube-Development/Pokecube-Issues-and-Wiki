@@ -37,6 +37,7 @@ import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.combat.MoveMessageEvent;
 import pokecube.api.utils.TagNames;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
@@ -52,7 +53,6 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
-import pokecube.core.utils.Tools;
 import thut.lib.TComponent;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener

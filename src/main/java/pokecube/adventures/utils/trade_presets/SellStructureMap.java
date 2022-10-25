@@ -20,7 +20,7 @@ import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.PokecubeAPI;
-import pokecube.core.utils.Tools;
+import pokecube.api.utils.Tools;
 import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
 

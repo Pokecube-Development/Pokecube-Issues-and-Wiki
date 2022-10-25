@@ -33,11 +33,11 @@ import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrades;
 import pokecube.adventures.utils.trade_presets.TradePresetAn;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
-import pokecube.core.utils.Tools;
 import thut.api.util.JsonUtil;
 import thut.lib.CompatParser.ClassFinder;
 

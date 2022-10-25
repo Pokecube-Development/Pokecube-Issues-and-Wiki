@@ -18,6 +18,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.Tools;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
 import thut.lib.TComponent;
@@ -80,7 +81,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
 
     public float getEffectiveness(final IPokemob pokemobCap)
     {
-        return PokeType.getAttackEfficiency(this.getType(), pokemobCap.getType1(), pokemobCap.getType2());
+        return Tools.getAttackEfficiency(this.getType(), pokemobCap.getType1(), pokemobCap.getType2());
     }
 
     @Nullable
