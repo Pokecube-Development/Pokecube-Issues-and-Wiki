@@ -140,6 +140,10 @@ public class MovesDatabases
         }
 
         PokecubeAPI.LOGGER.info("Registered {} moves", loadedMoves.size());
+    }
 
+    public static void postInitMoves()
+    {
+        MoveEntry.values().forEach(e -> e.postInit());
     }
 }

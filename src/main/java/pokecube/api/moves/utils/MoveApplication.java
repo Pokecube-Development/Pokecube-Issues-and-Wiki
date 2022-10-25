@@ -369,13 +369,19 @@ public class MoveApplication implements Comparable<MoveApplication>
                 public void applyOngoingEffects(Damage t)
                 {
                     final IOngoingAffected targetAffected = CapabilityAffected.getAffected(t.move().target);
+                    if (PokecubeCore.getConfig().debug_moves)
+                        PokecubeAPI.LOGGER.info("Applying Ongoing Effect for move {} used on {}", t.move().getName(),
+                                t.move().getTarget());
                     if (targetAffected != null) targetAffected.getEffects().add(provider.apply(t));
                 }
             };
         };
 
         default void applyOngoingEffects(Damage t)
-        {}
+        {
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("No Ongoing Effects for move {} used on {}",
+                    t.move().getName(), t.move().getTarget());
+        }
     }
 
     public static interface RecoilApplier
@@ -634,6 +640,8 @@ public class MoveApplication implements Comparable<MoveApplication>
     {
         // Increment number of times this has been used.
         this.apply_number++;
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying move: {} used by {}",
+                getMove().name, this.getUser().getDisplayName().getString());
 
         // then basic events and checks.
         // Events are: Pre, Post
@@ -665,6 +673,9 @@ public class MoveApplication implements Comparable<MoveApplication>
             // Fire the post event, we did not hit, this is apparent in the
             // from didHit == false.
             PokecubeAPI.MOVE_BUS.post(postEvent);
+            if (PokecubeCore.getConfig().debug_moves)
+                PokecubeAPI.LOGGER.info("Move Failed or Cancelled!: {} used by {}", getMove().name,
+                        this.getUser().getDisplayName().getString());
             return;
         }
 
@@ -677,21 +688,28 @@ public class MoveApplication implements Comparable<MoveApplication>
         if (infatuate && targetPokemob != null) targetPokemob.getMoveStats().infatuateTarget = user.getEntity();
 
         // First apply damage and see if we actually hit
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Damage check");
         dealt = damage.applyDamage(this);
         // If this is the case, then lets do others.
         if (dealt.efficiency > 0)
         {
             // First apply stat effects
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Stats Checks");
             stats.applyStats(dealt);
             // Next apply status effects
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Status Checks");
             status.applyStatus(dealt);
             // Next apply recoil then healing
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Recoil Checks");
             recoil.applyRecoil(dealt);
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Healing Checks");
             healer.applyHealing(dealt);
             // and finally apply ongoing effects
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Ongoing Effect Checks");
             applyOngoing.applyOngoingEffects(dealt);
         }
         // Now apply the after move use, this gets done even if it missed.
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Post Move Checks");
         afterUse.applyPostMove(dealt);
 
         PokecubeAPI.MOVE_BUS.post(postEvent);

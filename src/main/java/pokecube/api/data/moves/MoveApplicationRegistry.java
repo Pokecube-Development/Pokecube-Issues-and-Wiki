@@ -54,7 +54,6 @@ public class MoveApplicationRegistry
     {
         EFFECT_REGISTRY.put(entry.name, OngoingApplier.fromFunction(provider));
         entry.root_entry._manually_defined = true;
-
     }
 
     public static void addMoveModifier(MoveEntry entry, MergeOrder order, Consumer<MoveApplication> apply)
@@ -94,22 +93,33 @@ public class MoveApplicationRegistry
 
     public static void preApply(MoveApplication moveApplication)
     {
+        String name = moveApplication.getName();
         // Initialise things which may have been changed via addons, etc. This
         // step is mostly so that preProcess can be run before everything else
         // is run.
-        if (MOVE_MODIFIERS.containsKey(moveApplication.getName()))
+        if (MOVE_MODIFIERS.containsKey(name))
         {
-            MOVE_MODIFIERS.get(moveApplication.getName()).accept(moveApplication);
+            MOVE_MODIFIERS.get(name).accept(moveApplication);
+        }
+        if (EFFECT_REGISTRY.containsKey(name))
+        {
+            moveApplication.applyOngoing = EFFECT_REGISTRY.get(name);
         }
     }
 
     public static void apply(MoveApplication moveApplication)
     {
+        String name = moveApplication.getName();
         // Initialise things which may have been changed via addons, etc. This
         // step now runs it incase changes were needed for different targets.
-        if (MOVE_MODIFIERS.containsKey(moveApplication.getName()))
+        if (MOVE_MODIFIERS.containsKey(name))
         {
-            MOVE_MODIFIERS.get(moveApplication.getName()).accept(moveApplication);
+            MOVE_MODIFIERS.get(name).accept(moveApplication);
+        }
+        System.out.println(EFFECT_REGISTRY.keySet());
+        if (EFFECT_REGISTRY.containsKey(name))
+        {
+            moveApplication.applyOngoing = EFFECT_REGISTRY.get(name);
         }
 
         // TODO hit rate checker in MoveApplication

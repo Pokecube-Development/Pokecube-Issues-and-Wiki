@@ -209,6 +209,7 @@ public class MovesAdder implements IMoveConstants
     {
         // Initialize the databases
         MovesDatabases.preInitLoad();
+        MovesDatabases.postInitMoves();
 
         MovesAdder.registerRemainder(MovesAdder.registerAutodetect());
         // Finally setup the animations for the moves Later we might sync these
