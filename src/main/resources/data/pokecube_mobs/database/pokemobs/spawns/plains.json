@@ -89,10 +89,10 @@
         {"key": "exeggcute","min": 4,"max": 8,"rate": 0.08},
         {"key": "combee","min": 4,"max": 8,"rate": 0.06},
         
-        {"key": "oricorio_baile","min": 5,"max": 10,"rate": 0.05},
-        {"key": "oricorio_pau","min": 5,"max": 10,"rate": 0.05},
-        {"key": "oricorio_pom-pom","min": 5,"max": 10,"rate": 0.05},
-        {"key": "oricorio_sensu","min": 5,"max": 10,"rate": 0.05},
+        {"key": "oricorio-baile","min": 5,"max": 10,"rate": 0.05},
+        {"key": "oricorio-pau","min": 5,"max": 10,"rate": 0.05},
+        {"key": "oricorio-pom-pom","min": 5,"max": 10,"rate": 0.05},
+        {"key": "oricorio-sensu","min": 5,"max": 10,"rate": 0.05},
         
         {"key": "cherubi","min": 5,"max": 10,"rate": 0.02}
         

@@ -53,7 +53,7 @@
         
         {"key": "arrokuda","min": 2,"max": 4,"rate": 0.17},
         
-        {"key": "wishiwashi","min": 5,"max": 10,"rate": 0.1},
+        {"key": "wishiwashi-solo","min": 5,"max": 10,"rate": 0.1},
         {"key": "dhelmise","min": 2,"max": 4,"rate": 0.1},
         {"key": "horsea","min": 2,"max": 4,"rate": 0.1},
         {"key": "shellder","min": 2,"max": 4,"rate": 0.1},
@@ -76,7 +76,7 @@
       "entries": [
         {"key": "binacle","min": 2,"max": 4,"rate": 0.5},
         {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
-        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke-galar","min": 2,"max": 4,"rate": 0.3},
         {"key": "clauncher","min": 2,"max": 4,"rate": 0.25},
         {"key": "chewtle","min": 2,"max": 4,"rate": 0.25},
         {"key": "krabby","min": 2,"max": 4,"rate": 0.2},
@@ -128,7 +128,7 @@
         {"key": "pincurchin","min": 2,"max": 4,"rate": 0.2},
         
         {"key": "horsea","min": 2,"max": 4,"rate": 0.1},
-        {"key": "wishiwashi","min": 5,"max": 10,"rate": 0.1},
+        {"key": "wishiwashi-solo","min": 5,"max": 10,"rate": 0.1},
         {"key": "mantine","min": 2,"max": 4,"rate": 0.1},
         {"key": "corsola","min": 2,"max": 4,"rate": 0.1}
         
@@ -138,7 +138,7 @@
       "and_preset": "beach_water,night_time",
       "entries": [
         {"key": "inkay","min": 2,"max": 4,"rate": 1},
-		    {"key": "basculin_hisui","min": 2,"max": 4,"rate": 0.7}
+	    {"key": "basculin-white-striped","min": 2,"max": 4,"rate": 0.7}
       ]
     }
   ]

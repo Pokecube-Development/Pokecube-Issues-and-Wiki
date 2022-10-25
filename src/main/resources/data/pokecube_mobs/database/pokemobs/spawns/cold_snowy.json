@@ -8,14 +8,14 @@
         {"key": "swinub","min": 2,"max": 4,"rate": 0.3},
         {"key": "bergmite","min": 2,"max": 4,"rate": 0.3},
         {"key": "snover","min": 2,"max": 4,"rate": 0.3},
-        {"key": "darumaka_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "darumaka-galar","min": 2,"max": 4,"rate": 0.3},
         {"key": "snom","min": 2,"max": 4,"rate": 0.3},
-        {"key": "sandshrew_alola","min": 2,"max": 4,"rate": 0.3},
-        {"key": "vulpix_alola","min": 2,"max": 4,"rate": 0.3},
+        {"key": "sandshrew-alola","min": 2,"max": 4,"rate": 0.3},
+        {"key": "vulpix-alola","min": 2,"max": 4,"rate": 0.3},
         
-        {"key": "mr_mime_galar","min": 2,"max": 4,"rate": 0.2},
+        {"key": "mr-mime-galar","min": 2,"max": 4,"rate": 0.2},
         
-        {"key": "eiscue","min": 2,"max": 4,"rate": 0.1},
+        {"key": "eiscue-ice","min": 2,"max": 4,"rate": 0.1},
         
         {"key": "delibird","min": 2,"max": 4,"rate": 0.05},
         {"key": "vanillite","min": 2,"max": 4,"rate": 0.05},
@@ -33,7 +33,7 @@
       "entries": [
         {"key": "nickit","min": 2,"max": 4,"rate": 0.3},
         {"key": "sneasel","min": 2,"max": 4,"rate": 0.2},
-		{"key": "sneasel_hisui","min": 2,"max": 4,"rate": 0.2},
+		{"key": "sneasel-hisui","min": 2,"max": 4,"rate": 0.2},
         {"key": "jynx","min": 2,"max": 4,"rate": 0.2},
         
         {"key": "deerling","min": 2,"max": 4,"rate": 0.11, "variant": "deerling_wi"}

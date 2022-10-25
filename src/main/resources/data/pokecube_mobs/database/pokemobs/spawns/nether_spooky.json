@@ -3,14 +3,14 @@
     {
       "and_preset": "nether_forests",
       "entries": [
-        {"key": "ponyta_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "ponyta-galar","min": 2,"max": 4,"rate": 0.3},
         {"key": "misdreavus","min": 2,"max": 4,"rate": 0.3},
         {"key": "phantump","min": 2,"max": 4,"rate": 0.3},
         
-        {"key": "pumpkaboo","min": 2,"max": 4,"rate": 0.08},
-        {"key": "pumpkaboo_large","min": 2,"max": 4,"rate": 0.08},
-        {"key": "pumpkaboo_small","min": 2,"max": 4,"rate": 0.08},
-        {"key": "pumpkaboo_super","min": 2,"max": 4,"rate": 0.08}
+        {"key": "pumpkaboo-average","min": 2,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo-large","min": 2,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo-small","min": 2,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo-super","min": 2,"max": 4,"rate": 0.08}
       ]
     },
     {
@@ -34,7 +34,7 @@
         {"key": "duskull","min": 2,"max": 4,"rate": 0.2},
         
         {"key": "yamask","min": 2,"max": 4,"rate": 0.1},
-        {"key": "yamask_galar","min": 2,"max": 4,"rate": 0.1},
+        {"key": "yamask-galar","min": 2,"max": 4,"rate": 0.1},
         {"key": "zorua","min": 2,"max": 4,"rate": 0.1},
         {"key": "golett","min": 2,"max": 4,"rate": 0.1},
         
@@ -52,13 +52,13 @@
         
         {"key": "hatenna","min": 2,"max": 4,"rate": 0.2},
         {"key": "impidimp","min": 2,"max": 4,"rate": 0.2},
-        {"key": "ponyta_galar","min": 2,"max": 4,"rate": 0.2},
+        {"key": "ponyta-galar","min": 2,"max": 4,"rate": 0.2},
         
         {"key": "zorua","min": 2,"max": 4,"rate": 0.1},
         {"key": "misdreavus","min": 2,"max": 4,"rate": 0.1},
         {"key": "drifloon","min": 2,"max": 4,"rate": 0.1},
         
-        {"key": "corsola_galar","min": 2,"max": 4,"rate": 0.08},
+        {"key": "corsola-galar","min": 2,"max": 4,"rate": 0.08},
         
         {"key": "spiritomb","min": 2,"max": 4,"rate": 0.05},
         

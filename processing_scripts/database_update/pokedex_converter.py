@@ -1,6 +1,6 @@
 import json
 from ignore_list import isIgnored
-from legacy_renamer import find_old_name, to_model_form, find_new_name
+from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -35,7 +35,7 @@ class PokedexEntry:
         return
 
     def init_simple(self, forme, species):
-        self.name = forme.name
+        self.name = entry_name(forme.name)
         self.names = species.names
         self.id = forme.id
         self.stock = True
@@ -180,12 +180,12 @@ class PokemonSpecies:
         for forme in self.formes:
             entry = PokedexEntry(forme, species)
 
-            model_name = to_model_form(entry.name, species, dex)
+            model_name = to_model_form(forme.name, species, dex)
             if(model_name is not None):
                 # We need to handle this to the older model added?
                 continue
 
-            old_name = find_old_name(entry.name, species, dex)
+            old_name = find_old_name(forme.name, species, dex)
             if(old_name is not None):
 
                 if(old_name in added):
@@ -279,7 +279,7 @@ class PokemonSpecies:
             entry.post_process_evos(forme, species)
 
             entry.id = default
-            if old_name in dex and old_name!=entry.name:
+            if old_name in dex and old_name!=forme.name:
                 entry.old_name = old_name
 
             self.entries.append(entry)

@@ -40,7 +40,7 @@
       }
     },
     {
-      "name": "Moltres Galar",
+      "name": "Moltres-Galar",
       "stats": {
         "spawnRules": [
           {
@@ -53,7 +53,7 @@
       }
     },
     {
-      "name": "Articuno Galar",
+      "name": "Articuno-Galar",
       "stats": {
         "spawnRules": [
           {
@@ -66,7 +66,7 @@
       }
     },
     {
-      "name": "Zapdos Galar",
+      "name": "Zapdos-Galar",
       "stats": {
         "spawnRules": [
           {
@@ -300,7 +300,7 @@
       }
     },
     {
-      "name": "Deoxys",
+      "name": "Deoxys-Normal",
       "stats": {
         "spawnRules": [
           {
@@ -469,7 +469,7 @@
       }
     },
     {
-      "name": "Tornadus Incarnate",
+      "name": "Tornadus-Incarnate",
       "stats": {
         "spawnRules": [
           {
@@ -482,7 +482,7 @@
       }
     },
     {
-      "name": "Thundurus Incarnate",
+      "name": "Thundurus-Incarnate",
       "stats": {
         "spawnRules": [
           {
@@ -495,7 +495,7 @@
       }
     },
     {
-      "name": "Landorus Incarnate",
+      "name": "Landorus-Incarnate",
       "stats": {
         "spawnRules": [
           {
@@ -508,7 +508,7 @@
       }
     },
     {
-      "name": "Meloetta Aria",
+      "name": "Meloetta-Aria",
       "stats": {
         "spawnRules": [
           {
@@ -534,7 +534,7 @@
       }
     },
     {
-      "name": "Hoopa_Confined",
+      "name": "Hoopa",
       "stats": {
         "spawnRules": [
           {
@@ -664,7 +664,7 @@
       }
     },
     {
-      "name": "Zygarde_50",
+      "name": "Zygarde-50",
       "stats": {
         "spawnRules": [
           {
@@ -683,7 +683,7 @@
       }
     },
     {
-      "name": "Tapu_Koko",
+      "name": "Tapu-Koko",
       "stats": {
         "spawnRules": [
           {
@@ -696,7 +696,7 @@
       }
     },
     {
-      "name": "Tapu_Bulu",
+      "name": "Tapu-Bulu",
       "stats": {
         "spawnRules": [
           {
@@ -709,7 +709,7 @@
       }
     },
     {
-      "name": "Tapu_Lele",
+      "name": "Tapu-Lele",
       "stats": {
         "spawnRules": [
           {
@@ -722,7 +722,7 @@
       }
     },
     {
-      "name": "Tapu_Fini",
+      "name": "Tapu-Fini",
       "stats": {
         "spawnRules": [
           {

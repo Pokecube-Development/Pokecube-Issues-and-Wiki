@@ -7,8 +7,8 @@
         {"key": "ralts","min": 2,"max": 4,"rate": 0.3},
         
         {"key": "meowth","min": 2,"max": 4,"rate": 0.25},
-        {"key": "meowth_alola","min": 2,"max": 4,"rate": 0.25},
-        {"key": "meowth_galar","min": 2,"max": 4,"rate": 0.25},
+        {"key": "meowth-alola","min": 2,"max": 4,"rate": 0.25},
+        {"key": "meowth-galar","min": 2,"max": 4,"rate": 0.25},
         
         {"key": "yamper","min": 2,"max": 4,"rate": 0.2},
         {"key": "pidove","min": 2,"max": 4,"rate": 0.2},
@@ -19,8 +19,8 @@
         {"key": "stufful","min": 2,"max": 4,"rate": 0.1},
         {"key": "milcery","min": 2,"max": 4,"rate": 0.1},
         
-        {"key": "indeedee","min": 2,"max": 4,"rate": 0.1},
-        {"key": "indeedee_female","min": 2,"max": 4,"rate": 0.1},
+        {"key": "indeedee-male","min": 2,"max": 4,"rate": 0.1},
+        {"key": "indeedee-female","min": 2,"max": 4,"rate": 0.1},
         
         {"key": "snubbull","min": 2,"max": 4,"rate": 0.08},
         {"key": "ditto","min": 2,"max": 4,"rate": 0.08},
