@@ -77,39 +77,37 @@ public class Parsers
         void parseStatModifiers(String text, final MoveEntry move, int rate)
         {
             if (text.isBlank()) return;
-            final String[] effects = text.split("\\.");
-            for (final String s : effects)
-            {
-                final String effect = s.toLowerCase(Locale.ENGLISH).trim();
-                if (s.isEmpty()) continue;
-                final boolean lower = effect.contains("lower");
-                final boolean raise = effect.contains("raise") || effect.contains("boost");
-                boolean atk = effect.contains("attack");
-                final boolean spatk = effect.contains("special attack");
-                boolean def = effect.contains("defense");
-                final boolean spdef = effect.contains("special defense");
-                final boolean speed = effect.contains("speed");
-                final boolean acc = effect.contains("accuracy");
-                final boolean evas = effect.contains("evasion");
-                int stages = 1;
-                if (effect.contains("two stage") || effect.contains("2 stage")) stages = 2;
-                if (effect.contains("three stage") || effect.contains("3 stage")) stages = 3;
-                if (lower) stages *= -1;
-                else if (!raise) stages = 0;
-                if (!(raise || lower)) continue;
-                if (atk && spatk) // check to ensure is both;
-                    atk = effect.replaceFirst("attack", "").contains("attack");
-                if (def && spdef) // check to ensure is both;
-                    def = effect.replaceFirst("defense", "").contains("defense");
-                int[] amounts = move.root_entry._stat_effects;
-                if (atk) amounts[Stats.ATTACK.ordinal()] = stages;
-                if (def) amounts[Stats.DEFENSE.ordinal()] = stages;
-                if (spatk) amounts[Stats.SPATTACK.ordinal()] = stages;
-                if (spdef) amounts[Stats.SPDEFENSE.ordinal()] = stages;
-                if (speed) amounts[Stats.VIT.ordinal()] = stages;
-                if (acc) amounts[Stats.ACCURACY.ordinal()] = stages;
-                if (evas) amounts[Stats.EVASION.ordinal()] = stages;
-            }
+            final String effect = text.toLowerCase(Locale.ENGLISH).trim();
+            boolean lower = effect.contains("lower");
+            boolean raise = effect.contains("raise") || effect.contains("boost");
+            boolean atk = effect.contains("attack");
+            boolean spatk = effect.contains("special attack");
+            boolean def = effect.contains("defense");
+            boolean spdef = effect.contains("special defense");
+            boolean speed = effect.contains("speed");
+            boolean acc = effect.contains("accuracy");
+            boolean evas = effect.contains("evasion");
+            int stages = 1;
+            if (effect.contains("one stage") || effect.contains("1 stage")) stages = 1;
+            if (effect.contains("two stage") || effect.contains("2 stage")) stages = 2;
+            if (effect.contains("three stage") || effect.contains("3 stage")) stages = 3;
+            if (lower) stages *= -1;
+            else if (!raise) stages = 0;
+            if (!(raise || lower)) return;
+            if (atk && spatk) // check to ensure is both;
+                atk = effect.replaceFirst("attack", "").contains("attack");
+            if (def && spdef) // check to ensure is both;
+                def = effect.replaceFirst("defense", "").contains("defense");
+            if (!(atk || def || spatk || spdef || speed || acc || evas)) return;
+            int[] amounts = move.root_entry._stat_effects;
+            move.root_entry._stat_chance = rate / 100.0f;
+            if (atk) amounts[Stats.ATTACK.ordinal()] = stages;
+            if (def) amounts[Stats.DEFENSE.ordinal()] = stages;
+            if (spatk) amounts[Stats.SPATTACK.ordinal()] = stages;
+            if (spdef) amounts[Stats.SPDEFENSE.ordinal()] = stages;
+            if (speed) amounts[Stats.VIT.ordinal()] = stages;
+            if (acc) amounts[Stats.ACCURACY.ordinal()] = stages;
+            if (evas) amounts[Stats.EVASION.ordinal()] = stages;
         }
 
         void parseStatusEffects(final String effectText, final MoveEntry move, int rate)

@@ -51,6 +51,7 @@ public class MoveEntry implements IMoveConstants
     };
 
     private static HashMap<String, MoveEntry> movesNames = new HashMap<>();
+    private static HashMap<String, MoveEntry> legacyMoveNames = new HashMap<>();
 
     public static int TOTALHP = 1;
     public static int DAMAGEDEALT = 2;
@@ -82,12 +83,13 @@ public class MoveEntry implements IMoveConstants
 
     public static MoveEntry get(String name)
     {
-        return movesNames.get(name);
+        return movesNames.getOrDefault(name, legacyMoveNames.get(name));
     }
 
     public static void removeMove(MoveEntry move)
     {
         movesNames.remove(move.name);
+        legacyMoveNames.remove(move.legacy_name);
     }
 
     public static void addMove(MoveEntry move)
@@ -96,6 +98,7 @@ public class MoveEntry implements IMoveConstants
                 "Warning, adding duplicate entry for {}, this will replace the previous one, call removeMove first if this was intentional!",
                 move.name);
         movesNames.put(move.name, move);
+        legacyMoveNames.put(move.legacy_name, move);
     }
 
     public static List<MoveEntry> values()
@@ -110,6 +113,8 @@ public class MoveEntry implements IMoveConstants
 
     public final String name;
     public PokeType type;
+    
+    private final String legacy_name;
 
     /** Distance, contact, etc. */
     public ContactCategory attackCategory = ContactCategory.OTHER;
@@ -157,6 +162,7 @@ public class MoveEntry implements IMoveConstants
     public MoveEntry(final String name)
     {
         this.name = name;
+        this.legacy_name = name.replace("-", "");
     }
 
     public void postInit()
