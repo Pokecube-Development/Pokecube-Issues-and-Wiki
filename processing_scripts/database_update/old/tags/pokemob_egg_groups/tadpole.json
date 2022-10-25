@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:poliwag",
+    "pokecube:poliwhirl",
+    "pokecube:poliwrath",
+    "pokecube:tympole",
+    "pokecube:palpitoad",
+    "pokecube:seismitoad"
+  ]
+}

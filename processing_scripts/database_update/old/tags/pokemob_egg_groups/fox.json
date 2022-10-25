@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:vulpix",
+    "pokecube:vulpix_alola",
+    "pokecube:ninetales",
+    "pokecube:ninetales_alola",
+    "pokecube:eevee",
+    "pokecube:vaporeon",
+    "pokecube:jolteon",
+    "pokecube:flareon",
+    "pokecube:espeon",
+    "pokecube:umbreon",
+    "pokecube:leafeon",
+    "pokecube:glaceon",
+    "pokecube:zorua",
+    "pokecube:zoroark",
+    "pokecube:fennekin",
+    "pokecube:braixen",
+    "pokecube:delphox",
+    "pokecube:sylveon",
+    "pokecube:nickit",
+    "pokecube:thievul"
+  ]
+}

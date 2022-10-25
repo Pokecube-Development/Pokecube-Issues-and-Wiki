@@ -1,0 +1,24 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:machop",
+    "pokecube:machoke",
+    "pokecube:machamp",
+    "pokecube:hitmonlee",
+    "pokecube:hitmonchan",
+    "pokecube:blaziken",
+    "pokecube:breloom",
+    "pokecube:makuhita",
+    "pokecube:hariyama",
+    "pokecube:meditite",
+    "pokecube:medicham",
+    "pokecube:timburr",
+    "pokecube:gurdurr",
+    "pokecube:conkeldurr",
+    "pokecube:throh",
+    "pokecube:sawk",
+    "pokecube:mienfoo",
+    "pokecube:mienshao",
+    "pokecube:hawlucha"
+  ]
+}

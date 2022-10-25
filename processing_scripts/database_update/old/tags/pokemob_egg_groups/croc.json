@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:totodile",
+    "pokecube:croconaw",
+    "pokecube:feraligatr",
+    "pokecube:sandile",
+    "pokecube:krokorok",
+    "pokecube:krookodile"
+  ]
+}

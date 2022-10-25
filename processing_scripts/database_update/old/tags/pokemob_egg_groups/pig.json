@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:mankey",
+    "pokecube:primeape",
+    "pokecube:swinub",
+    "pokecube:piloswine",
+    "pokecube:spoink",
+    "pokecube:grumpig",
+    "pokecube:mamoswine",
+    "pokecube:tepig",
+    "pokecube:pignite",
+    "pokecube:emboar"
+  ]
+}

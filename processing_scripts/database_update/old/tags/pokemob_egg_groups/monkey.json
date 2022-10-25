@@ -1,0 +1,25 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:mankey",
+    "pokecube:primeape",
+    "pokecube:aipom",
+    "pokecube:slakoth",
+    "pokecube:vigoroth",
+    "pokecube:slaking",
+    "pokecube:chimchar",
+    "pokecube:monferno",
+    "pokecube:infernape",
+    "pokecube:ambipom",
+    "pokecube:pansage",
+    "pokecube:simisage",
+    "pokecube:pansear",
+    "pokecube:simisear",
+    "pokecube:panpour",
+    "pokecube:simipour",
+    "pokecube:passimian",
+    "pokecube:grookey",
+    "pokecube:thwackey",
+    "pokecube:zarude"
+  ]
+}

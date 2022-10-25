@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:bulbasaur",
+    "pokecube:charmander",
+    "pokecube:squirtle",
+    "pokecube:chikorita",
+    "pokecube:cyndaquil",
+    "pokecube:totodile",
+    "pokecube:treecko",
+    "pokecube:torchic",
+    "pokecube:mudkip",
+    "pokecube:turtwig",
+    "pokecube:chimchar",
+    "pokecube:piplup",
+    "pokecube:snivy",
+    "pokecube:tepig",
+    "pokecube:oshawott",
+    "pokecube:chespin",
+    "pokecube:fennekin",
+    "pokecube:froakie",
+    "pokecube:rowlet",
+    "pokecube:litten",
+    "pokecube:popplio",
+    "pokecube:grookey",
+    "pokecube:scorbunny",
+    "pokecube:sobble"
+  ]
+}
