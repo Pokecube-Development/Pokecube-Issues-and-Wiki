@@ -159,10 +159,6 @@ public class MoveApplication implements Comparable<MoveApplication>
             {
                 // Efficiency scales based on typing for pokemobs
                 efficiency = Tools.getAttackEfficiency(type, targetPokemob.getType1(), targetPokemob.getType2());
-
-                System.out.println(
-                        type + " -> " + targetPokemob.getType1() + "," + targetPokemob.getType2() + " " + efficiency);
-
                 // If the target is a pokemob, then attack strength uses the
                 // "proper" calculations
                 attackStrength = MovesUtils.getAttackStrength(user, targetPokemob, move.getCategory(user), t.pwr, move,
