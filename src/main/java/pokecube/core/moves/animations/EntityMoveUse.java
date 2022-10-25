@@ -206,7 +206,7 @@ public class EntityMoveUse extends ThrowableProjectile
         IPokemob userMob = PokemobCaps.getPokemobFor(this.getUser());
         apply = new MoveApplication(getMove(), userMob, this.getTarget());
         apply.finished = this::isDone;
-        userMob.getMoveStats().movesInProgress.add(apply);
+        userMob.getMoveStats().addMoveInProgress(userMob, apply);
     }
 
     @Override

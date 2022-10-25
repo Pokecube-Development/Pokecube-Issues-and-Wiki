@@ -33,7 +33,7 @@ public class DefaultWaterAction extends DefaultAction
     public boolean applyEffect(IPokemob user, Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
-        if (move.isSelfMove()) return false;
+        if (user.getMoveStats().targettingSelf) return false;
         final Level world = user.getEntity().getLevel();
         final UseContext context = MoveEventsHandler.getContext(world, user, Blocks.WATER.defaultBlockState(),
                 location);

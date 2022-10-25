@@ -111,7 +111,7 @@ public class LogicMovesUpdates extends LogicBase
         // Update move cooldowns.
         final int num = this.pokemob.getAttackCooldown();
 
-        this.pokemob.getMoveStats().movesInProgress.removeIf(m -> m.isFinished());
+        this.pokemob.getMoveStats().checkMovesInProgress(this.pokemob);
 
         // Only reduce cooldown if the pokemob does not currently have a
         // move being fired.
