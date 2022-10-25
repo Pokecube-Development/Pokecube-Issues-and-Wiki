@@ -7,7 +7,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.IMove;
 import pokecube.api.data.moves.MoveApplicationRegistry;
+import pokecube.api.data.moves.MoveApplicationRegistry.MergeOrder;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -18,14 +20,18 @@ import pokecube.api.moves.MoveEntry.MoveSounds;
 import pokecube.api.moves.MoveEntry.PowerProvider;
 import pokecube.api.moves.MoveEntry.TypeProvider;
 import pokecube.api.utils.PokeType;
+import pokecube.core.moves.PokemobTerrainEffects.EntryEffectType;
+import pokecube.core.moves.PokemobTerrainEffects.TerrainEffectType;
+import pokecube.core.moves.PokemobTerrainEffects.WeatherEffectType;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.moves.templates.Move_Ongoing;
-import pokecube.mobs.moves.attacks.ongoing.FireSpin;
-import pokecube.mobs.moves.attacks.ongoing.Infestation;
-import pokecube.mobs.moves.attacks.ongoing.Leechseed;
-import pokecube.mobs.moves.attacks.ongoing.Perishsong;
-import pokecube.mobs.moves.attacks.ongoing.Whirlpool;
-import pokecube.mobs.moves.attacks.ongoing.Yawn;
+import pokecube.core.moves.templates.TerrainMove;
+import pokecube.mobs.moves.attacks.FireSpin;
+import pokecube.mobs.moves.attacks.Infestation;
+import pokecube.mobs.moves.attacks.Leechseed;
+import pokecube.mobs.moves.attacks.Perishsong;
+import pokecube.mobs.moves.attacks.Whirlpool;
+import pokecube.mobs.moves.attacks.Yawn;
 import thut.core.common.ThutCore;
 
 public class MoveRegister
@@ -33,6 +39,7 @@ public class MoveRegister
     public static void init()
     {
         MovesAdder.worldActionPackages.add(MoveRegister.class.getPackage());
+        MovesAdder.moveRegistryPackages.add(MoveRegister.class.getPackage());
 
         // Ours is registered as HIGH so that other addons can replace if
         // needed.
@@ -43,6 +50,7 @@ public class MoveRegister
     private static final Map<String, TypeProvider> TYPES = Maps.newHashMap();
     private static final Map<String, PowerProvider> POWER = Maps.newHashMap();
     private static final Map<String, Move_Ongoing> ONGOING = Maps.newHashMap();
+    private static final Map<String, IMove> CUSTOM = Maps.newHashMap();
 
     private static void moveTypeChangers()
     {
@@ -248,11 +256,36 @@ public class MoveRegister
         ONGOING.put("yawn", new Yawn());
     }
 
+    private static void terrainMoves()
+    {
+        // Weather moves
+        CUSTOM.put("mist", TerrainMove.forEffect(WeatherEffectType.MIST));
+        CUSTOM.put("sandstorm", TerrainMove.forEffect(WeatherEffectType.SAND));
+        CUSTOM.put("rain-dance", TerrainMove.forEffect(WeatherEffectType.RAIN));
+        CUSTOM.put("sunny-day", TerrainMove.forEffect(WeatherEffectType.SUN));
+        CUSTOM.put("hail", TerrainMove.forEffect(WeatherEffectType.HAIL));
+
+        // Terrain moves
+        CUSTOM.put("mud-sport", TerrainMove.forEffect(TerrainEffectType.MUD));
+        CUSTOM.put("water-sport", TerrainMove.forEffect(TerrainEffectType.WATER));
+        CUSTOM.put("grassy-terrain", TerrainMove.forEffect(TerrainEffectType.GRASS));
+        CUSTOM.put("misty-terrain", TerrainMove.forEffect(TerrainEffectType.MISTY));
+        CUSTOM.put("electric-terrain", TerrainMove.forEffect(TerrainEffectType.ELECTRIC));
+        CUSTOM.put("psychic-terrain", TerrainMove.forEffect(TerrainEffectType.PHYSIC));
+
+        // Entry hazards
+        CUSTOM.put("spikes", TerrainMove.forEffect(EntryEffectType.SPIKES));
+        CUSTOM.put("toxic-spikes", TerrainMove.forEffect(EntryEffectType.POISON));
+        CUSTOM.put("stealth-rock", TerrainMove.forEffect(EntryEffectType.ROCKS));
+        CUSTOM.put("sticky-web", TerrainMove.forEffect(EntryEffectType.WEBS));
+    }
+
     static
     {
         moveTypeChangers();
         movePowerChangers();
         ongoingMoves();
+        terrainMoves();
     }
 
     private static void onMoveInit(InitMoveEntry event)
@@ -269,6 +302,10 @@ public class MoveRegister
         if (ONGOING.containsKey(name))
         {
             MoveApplicationRegistry.registerOngoingEffect(event.getEntry(), ONGOING.get(name));
+        }
+        if (CUSTOM.containsKey(name))
+        {
+            MoveApplicationRegistry.addMoveModifier(event.getEntry(), MergeOrder.BEFORE, CUSTOM.get(name));
         }
     }
 

@@ -92,9 +92,21 @@ public class MoveApplicationRegistry
         return TARGET_REGISTRY.getOrDefault(move.root_entry._target_type, SelectedTarget.INSTANCE);
     }
 
+    public static void preApply(MoveApplication moveApplication)
+    {
+        // Initialise things which may have been changed via addons, etc. This
+        // step is mostly so that preProcess can be run before everything else
+        // is run.
+        if (MOVE_MODIFIERS.containsKey(moveApplication.getName()))
+        {
+            MOVE_MODIFIERS.get(moveApplication.getName()).accept(moveApplication);
+        }
+    }
+
     public static void apply(MoveApplication moveApplication)
     {
-        // Initialise things which may have been changed via addons, etc
+        // Initialise things which may have been changed via addons, etc. This
+        // step now runs it incase changes were needed for different targets.
         if (MOVE_MODIFIERS.containsKey(moveApplication.getName()))
         {
             MOVE_MODIFIERS.get(moveApplication.getName()).accept(moveApplication);
@@ -107,6 +119,10 @@ public class MoveApplicationRegistry
             int min = moveApplication.getMove().root_entry._min_hits;
             hits = min + moveApplication.getUser().getEntity().getRandom().nextInt(1 + hits - min);
         }
+
+        // Reset this here, as this is for tracking during the hit itself, and
+        // the same MoveApplication is used for multi-hit moves.
+        moveApplication.preApply();
 
         do
         {

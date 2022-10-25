@@ -1,12 +1,22 @@
 package pokecube.core.moves.implementations;
 
+import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Set;
+import java.util.function.BiFunction;
+
+import org.objectweb.asm.Type;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+import net.minecraftforge.fml.loading.moddiscovery.ModFile;
+import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.IMove;
+import pokecube.api.data.moves.LoadedMove;
+import pokecube.api.data.moves.MoveApplicationRegistry;
+import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.api.moves.utils.IMoveConstants;
@@ -74,28 +84,127 @@ public class MovesAdder implements IMoveConstants
             }
         }
         // Register Move Actions.
-        try
+        for (final Class<?> candidateClass : foundClasses)
         {
-            for (final Class<?> candidateClass : foundClasses)
-                if (IMoveWorldEffect.class.isAssignableFrom(candidateClass)
-                        && candidateClass.getEnclosingClass() == null)
+            if (IMoveWorldEffect.class.isAssignableFrom(candidateClass) && candidateClass.getEnclosingClass() == null)
             {
-                final IMoveWorldEffect move = (IMoveWorldEffect) candidateClass.getConstructor().newInstance();
-                MoveEventsHandler.register(move);
+                try
+                {
+                    final IMoveWorldEffect move = (IMoveWorldEffect) candidateClass.getConstructor().newInstance();
+                    MoveEventsHandler.register(move);
+                }
+                catch (final Exception e)
+                {
+                    e.printStackTrace();
+                }
             }
         }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+
+        // Next do move packages
         foundClasses.clear();
 
+        Type ANNOTE = Type.getType("Lpokecube/api/data/moves/MoveProvider;");
+        BiFunction<ModFile, String, Boolean> validClass = (file, name) -> {
+            for (final AnnotationData a : file.getScanResult().getAnnotations())
+                if (name.equals(a.clazz().getClassName()) && a.annotationType().equals(ANNOTE)) return true;
+            return false;
+        };
+
+        for (final Package pack : MovesAdder.moveRegistryPackages)
+        {
+            if (pack == null) continue;
+            try
+            {
+                foundClasses.addAll(ClassFinder.find(pack.getName(), validClass));
+            }
+            catch (final Exception e)
+            {
+                e.printStackTrace();
+            }
+        }
+
         List<MoveEntry> moves = Lists.newArrayList();
-        // Next do move packages
         try
         {
             int num = 0;
+            for (final Class<?> candidateClass : foundClasses)
+            {
+                // Needs annotation
+                if (candidateClass.getAnnotations().length == 0) continue;
+                final MoveProvider details = candidateClass.getAnnotation(MoveProvider.class);
+                if (details != null)
+                {
+                    // Allow multiple keys if you want to apply same effect to
+                    // many moves.
+                    for (var key : details.name())
+                    {
+                        MoveEntry entry = MoveEntry.get(key);
+                        if (entry == null)
+                        {
+                            PokecubeAPI.LOGGER.error(
+                                    "Unable to register Custom Move for {}, as entry is not found! make a json file for the entry to fix this!",
+                                    key);
+                        }
+                        else
+                        {
+                            try
+                            {
+                                entry.root_entry._manually_defined = true;
 
+                                // Lets see what kind of thing this is.
+                                Object thing = candidateClass.getConstructor().newInstance();
+
+                                // first assume it is an IMove.
+                                if (thing instanceof IMove move)
+                                {
+                                    MoveApplicationRegistry.addMoveModifier(entry, details.order(), move);
+                                    moves.add(entry);
+                                }
+                                // Otherwise, it is probably a thing to stuff in
+                                // a
+                                // LoadedMove
+                                else
+                                {
+                                    LoadedMove move = new LoadedMove();
+                                    boolean applied = false;
+
+                                    // We loop over the fields of LoadedMove,
+                                    // and
+                                    // see if the thing we have is the correct
+                                    // type,
+                                    // if so, we stuff it in there, and mark as
+                                    // applied.
+                                    for (Field field : LoadedMove.class.getFields())
+                                    {
+                                        if (field.getType().isAssignableFrom(candidateClass))
+                                        {
+                                            field.set(move, thing);
+                                            applied = true;
+                                            break;
+                                        }
+                                    }
+                                    if (applied)
+                                    {
+                                        MoveApplicationRegistry.addMoveModifier(entry, details.order(), move);
+                                        moves.add(entry);
+                                    }
+                                    else
+                                    {
+                                        PokecubeAPI.LOGGER.error(
+                                                "Unable to register Custom Move for {}, as was unable to find what the implementor did!",
+                                                key);
+                                    }
+
+                                }
+                            }
+                            catch (final Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                }
+            }
             PokecubeAPI.LOGGER.debug("Registered " + num + " Custom Moves");
         }
         catch (final Exception e)

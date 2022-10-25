@@ -33,7 +33,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.entity.pokemob.moves.MovePacket;
 import pokecube.api.entity.pokemob.stats.DefaultModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.events.pokemobs.combat.MoveUse;
@@ -492,25 +491,6 @@ public class MovesUtils implements IMoveConstants
             }
         }
         return new StatDiff(diff, ret);
-    }
-
-    /**
-     * Handles stats modifications of the move
-     *
-     * @param attacker the pokemob being affected
-     * @param atk      the move being used
-     * @param attacked whether the mob is the attacked mob, or the attacker
-     * @return
-     */
-    public static boolean handleStats(final IPokemob attacker, final Entity target, final MovePacket atk,
-            final boolean attacked)
-    {
-        final int[] stats = attacked ? atk.attackedStatModification : atk.attackerStatModification;
-        final float chance = attacked ? atk.attackedStatModProb : atk.attackerStatModProb;
-        StatDiff diffs = handleStats(attacker, target, stats, chance);
-
-        sendStatDiffsMessages(attacker, target, diffs);
-        return diffs.applied;
     }
 
     public static void sendStatDiffsMessages(final IPokemob attacker, final Entity target, StatDiff diffs)

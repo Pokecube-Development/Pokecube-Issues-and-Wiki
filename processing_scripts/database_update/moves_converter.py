@@ -35,6 +35,83 @@ LEGENDS_ARCEUS = [
     "wildbolt-storm",
 ]
 
+SPECIAL_CONTACT = {
+    "petal-dance",
+    "trump-card",
+    "wring-out",
+    "grass-knot",
+    "draining-kiss",
+    "infestation",
+}
+
+PHYSICAL_RANGED = {
+    "attack-order",
+    "aura-wheel",
+    "barrage",
+    "beak-blast",
+    "beat-up",
+    "bone-club",
+    "bone-rush",
+    "bonemerang",
+    "bulldoze",
+    "bullet-seed",
+    "diamond-storm",
+    "dragon-darts",
+    "drum-beating",
+    "earthquake",
+    "egg-bomb",
+    "explosion",
+    "feint",
+    "fissure",
+    "fling",
+    "freeze-shock",
+    "fusion-bolt",
+    "grav-apple",
+    "gunk-shot",
+    "ice-shard",
+    "icicle-crash",
+    "icicle-spear",
+    "land's-wrath",
+    "leafage",
+    "magnet-bomb",
+    "magnitude",
+    "metal-burst",
+    "meteor-assault",
+    "natural-gift",
+    "pay-day",
+    "petal-blizzard",
+    "pin-missile",
+    "poison-sting",
+    "poltergeist",
+    "precipice-blades",
+    "present",
+    "psycho-cut",
+    "pyro-ball",
+    "razor-leaf",
+    "rock-blast",
+    "rock-slide",
+    "rock-throw",
+    "rock-tomb",
+    "rock-wrecker",
+    "sacred-fire",
+    "sand-tomb",
+    "scale-shot",
+    "secret-power",
+    "seed-bomb",
+    "self-destruct",
+    "shadow-bone",
+    "sky-attack",
+    "smack-down",
+    "sinister-arrow-raid",
+    "spike-cannon",
+    "spirit-shackle",
+    "splintered-stormshards",
+    "stone-edge",
+    "thousand-arrows",
+    "thousand-waves",
+    "twineedle",
+}
+
 index_map = get_moves_index()
 
 def is_english(details):
@@ -140,11 +217,17 @@ def convert_moves():
 
     lang_files = {}
 
+    contact = []
+    ranged = []
+
     move_entries = []
+
+    # Dump each move, and collect langs and tags
     for name, index in index_map.items():
         move = get_move(index)
         entry = MoveEntry(move)
 
+        # These will go in langs
         for __name in entry.names:
             _name = __name.name
             lang = utils.get('language', url_to_id(__name.language))
@@ -156,8 +239,19 @@ def convert_moves():
             lang_files[key] = items
         del entry.names
 
+        # These will go in tags
+        if name in SPECIAL_CONTACT:
+            contact.append(name)
+        elif name in PHYSICAL_RANGED:
+            ranged.append(name)
+        elif move.damage_class.name == "physical":
+            contact.append(name)
+        else:
+            ranged.append(name)
+
         move_entries.append(entry)
 
+        # Dump the entry file
         file = f'./new/moves/entries/{name}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
@@ -166,6 +260,7 @@ def convert_moves():
         file.close()
 
 
+    # Dump the lang files
     for key, dict in lang_files.items():
         file = f'./new/assets/pokecube_moves/lang/{key}'
         if not os.path.exists(os.path.dirname(file)):
@@ -178,6 +273,7 @@ def convert_moves():
             print(f'error saving for {key}')
             print(err)
 
+    # Dump animation files
     for name, value in anims_dex.items():
         new_name = convert_old_move_name(name)
         if new_name is not None:
@@ -190,6 +286,23 @@ def convert_moves():
         else:
             print(f'unknown animation: {name}')
 
+    # Dump ranged and contact tags
+    file = f'./new/tags/pokemob_moves/contact-moves.json'
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    tag = {"replace":False,"values":contact}
+    file = open(file, 'w', encoding='utf-8')
+    json.dump(tag, file, indent=2, ensure_ascii=False)
+    file.close()
+    file = f'./new/tags/pokemob_moves/ranged-moves.json'
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    tag = {"replace":False,"values":ranged}
+    file = open(file, 'w', encoding='utf-8')
+    json.dump(tag, file, indent=2, ensure_ascii=False)
+    file.close()
+
+    # Print any that errored
     for name, value in moves_dex.items():
         new_name = convert_old_move_name(name)
         if new_name is None:

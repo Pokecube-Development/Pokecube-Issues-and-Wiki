@@ -98,7 +98,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (this.pokemob.getActiveMove() != null) return;
 
         this.attack = this.pokemob.getSelectedMove();
-        final boolean self = this.attack.isSelfMove(this.pokemob);
+        final boolean self = this.attack.isSelfMove();
 
         if (!this.waitingToStart)
         {

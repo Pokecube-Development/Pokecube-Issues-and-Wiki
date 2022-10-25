@@ -8,7 +8,7 @@ import pokecube.api.data.moves.MoveApplicationRegistry.MergeOrder;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MoveProvider
 {
-    String name();
+    String[] name();
     
     MergeOrder order() default MergeOrder.AFTER;
 }

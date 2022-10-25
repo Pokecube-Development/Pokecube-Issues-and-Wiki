@@ -1,5 +1,6 @@
 package pokecube.api.data.moves;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -7,6 +8,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import pokecube.api.PokecubeAPI;
@@ -23,21 +25,16 @@ public class Parsers
     static final Pattern HALF = Pattern.compile("half");
     static final Pattern THIRD = Pattern.compile("third");
 
-    static final Pattern PSNA = Pattern.compile("(induce).*(poison)");
-    static final Pattern PSNB = Pattern.compile("(may).*(poison)");
-    static final Pattern PSNC = Pattern.compile("(induce).*(severe).*(poison)");
-
-    static final Pattern PARA = Pattern.compile("(induce).*(paralysis)");
-    static final Pattern PARB = Pattern.compile("(may).*(paralyze)");
-
-    static final Pattern BRNA = Pattern.compile("(induce).*(burn)");
-    static final Pattern BRNB = Pattern.compile("(may).*(burn)");
-
-    static final Pattern FRZA = Pattern.compile("(induce).*(freeze)");
-    static final Pattern FRZB = Pattern.compile("(may).*(freeze)");
-
-    static final Pattern SLPA = Pattern.compile("(induce).*(sleep)");
-    static final Pattern SLPB = Pattern.compile("(may).*(sleep)");
+    static final List<Pattern> PSN2_PATTERNS = Lists.newArrayList(Pattern.compile("(badly poisons the target)"));
+    static final List<Pattern> PSN_PATTERNS = Lists.newArrayList(Pattern.compile("(poisons the target)"),
+            Pattern.compile("(chance to poison the target)"));
+    static final List<Pattern> PAR_PATTERNS = Lists.newArrayList(Pattern.compile("(paralyzes the target)"),
+            Pattern.compile("(chance to paralyze the target)"));
+    static final List<Pattern> BRN_PATTERNS = Lists.newArrayList(Pattern.compile("(burns the target)"),
+            Pattern.compile("(chance to burn the target)"));
+    static final List<Pattern> FRZ_PATTERNS = Lists.newArrayList(Pattern.compile("(chance to freeze the target)"));
+    static final List<Pattern> SLP_PATTERNS = Lists.newArrayList(Pattern.compile("(puts the target to sleep)"),
+            Pattern.compile("(induce).*(sleep)"), Pattern.compile("(may).*(sleep)"));
 
     static final Pattern HEALOTHER = Pattern.compile("(restores the target's hp)");
 
@@ -61,19 +58,9 @@ public class Parsers
 
     public static abstract class BaseParser
     {
-        void addCategory(final byte mask, final MoveEntry move)
-        {
-            if ((move.attackCategory & mask) == 0) move.attackCategory += mask;
-        }
-
-        void addChange(final int mask, final MoveEntry move)
-        {
-            if ((move.change & mask) == 0) move.change += mask;
-        }
-
         void addStatus(final int mask, final MoveEntry move)
         {
-            if ((move.statusChange & mask) == 0) move.statusChange += mask;
+            if ((move.root_entry._status_effects & mask) == 0) move.root_entry._status_effects += mask;
         }
 
         void parseCategory(final String category, final MoveEntry move)
@@ -97,7 +84,6 @@ public class Parsers
                 if (s.isEmpty()) continue;
                 final boolean lower = effect.contains("lower");
                 final boolean raise = effect.contains("raise") || effect.contains("boost");
-                final boolean user = effect.contains("user") && !effect.contains("opponent's");
                 boolean atk = effect.contains("attack");
                 final boolean spatk = effect.contains("special attack");
                 boolean def = effect.contains("defense");
@@ -111,22 +97,11 @@ public class Parsers
                 if (lower) stages *= -1;
                 else if (!raise) stages = 0;
                 if (!(raise || lower)) continue;
-
                 if (atk && spatk) // check to ensure is both;
                     atk = effect.replaceFirst("attack", "").contains("attack");
                 if (def && spdef) // check to ensure is both;
                     def = effect.replaceFirst("defense", "").contains("defense");
-                int[] amounts = null;
-                if (user)
-                {
-                    move.attackerStatModProb = rate / 100f;
-                    amounts = move.attackerStatModification;
-                }
-                else
-                {
-                    move.attackedStatModProb = rate / 100f;
-                    amounts = move.attackedStatModification;
-                }
+                int[] amounts = move.root_entry._stat_effects;
                 if (atk) amounts[Stats.ATTACK.ordinal()] = stages;
                 if (def) amounts[Stats.DEFENSE.ordinal()] = stages;
                 if (spatk) amounts[Stats.SPATTACK.ordinal()] = stages;
@@ -140,12 +115,12 @@ public class Parsers
         void parseStatusEffects(final String effectText, final MoveEntry move, int rate)
         {
             if (effectText.isBlank()) return;
-            final boolean burn = Parsers.matches(effectText, Parsers.BRNA, Parsers.BRNB);
-            final boolean par = Parsers.matches(effectText, Parsers.PARA, Parsers.PARB);
-            final boolean poison = Parsers.matches(effectText, Parsers.PSNA, Parsers.PSNB);
-            final boolean frz = Parsers.matches(effectText, Parsers.FRZA, Parsers.FRZB);
-            final boolean slp = Parsers.matches(effectText, Parsers.SLPA, Parsers.SLPB);
-            final boolean poison2 = Parsers.matches(effectText, Parsers.PSNC);
+            final boolean burn = BRN_PATTERNS.stream().anyMatch(p -> Parsers.matches(effectText, p));
+            final boolean par = PAR_PATTERNS.stream().anyMatch(p -> Parsers.matches(effectText, p));
+            final boolean poison = PSN_PATTERNS.stream().anyMatch(p -> Parsers.matches(effectText, p));
+            final boolean frz = FRZ_PATTERNS.stream().anyMatch(p -> Parsers.matches(effectText, p));
+            final boolean slp = SLP_PATTERNS.stream().anyMatch(p -> Parsers.matches(effectText, p));
+            final boolean poison2 = PSN2_PATTERNS.stream().anyMatch(p -> Parsers.matches(effectText, p));
             final boolean confuse = effectText.contains("confus");
             final boolean flinch = effectText.contains("flinch");
             if (burn) addStatus(IMoveConstants.STATUS_BRN, move);
@@ -153,12 +128,9 @@ public class Parsers
             if (frz) addStatus(IMoveConstants.STATUS_FRZ, move);
             if (slp) addStatus(IMoveConstants.STATUS_SLP, move);
             if (poison) addStatus(poison2 ? IMoveConstants.STATUS_PSN2 : IMoveConstants.STATUS_PSN, move);
-            if (confuse) addChange(IMoveConstants.CHANGE_CONFUSED, move);
-            if (flinch) addChange(IMoveConstants.CHANGE_FLINCH, move);
-            if (confuse || flinch) move.chanceChance = rate / 100f;
-            move.statusChance = rate / 100f;
-            if (slp || burn || par || poison || frz || slp) if (PokecubeMod.debug) PokecubeAPI.LOGGER
-                    .info(move.name + " Has Status Effects: " + move.statusChange + " " + move.statusChance);
+            if (confuse) addStatus(IMoveConstants.CHANGE_CONFUSED, move);
+            if (flinch) addStatus(IMoveConstants.CHANGE_FLINCH, move);
+            move.root_entry._status_chance = rate / 100f;
         }
 
         public void process(MoveEntry entry)

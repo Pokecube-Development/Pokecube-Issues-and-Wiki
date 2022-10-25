@@ -26,6 +26,7 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.database.tags.Tags;
 import thut.api.maths.Vector3;
 
 public class MoveEntry implements IMoveConstants
@@ -39,6 +40,11 @@ public class MoveEntry implements IMoveConstants
     public static interface PowerProvider
     {
         int getPWR(final IPokemob user, final LivingEntity target, int pwr);
+    }
+
+    public static interface CategoryProvider
+    {
+        byte getAttackCategory(IPokemob user);
     }
 
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)
@@ -70,12 +76,13 @@ public class MoveEntry implements IMoveConstants
         CONFUSED = new MoveEntry("pokemob.status.confusion");
         MoveEntry.CONFUSED.type = PokeType.unknown;
         MoveEntry.CONFUSED.category = IMoveConstants.PHYSICAL;
-        MoveEntry.CONFUSED.attackCategory = IMoveConstants.CATEGORY_CONTACT + IMoveConstants.CATEGORY_SELF;
+        MoveEntry.CONFUSED.attackCategory = IMoveConstants.CATEGORY_CONTACT;
         MoveEntry.CONFUSED.power = 40;
         MoveEntry.CONFUSED.canHitNonTarget = false;
         // Blank root entry for us.
         CONFUSED.root_entry = new MoveHolder();
         CONFUSED.root_entry._manually_defined = true;
+        CONFUSED.root_entry._target_type = "user";
         MoveEntry.movesNames.put(CONFUSED.name, CONFUSED);
     }
 
@@ -115,36 +122,17 @@ public class MoveEntry implements IMoveConstants
     public int power = 0;
     public int accuracy;
     public int pp;
-    public byte statusChange;
-    public float statusChance;
-    public byte change = IMoveConstants.CHANGE_NONE;
-    public float chanceChance = 0;
-    public int[] attackerStatModification =
-    { 0, 0, 0, 0, 0, 0, 0, 0 };
-    public float attackerStatModProb = 1;
-    public int[] attackedStatModification =
-    { 0, 0, 0, 0, 0, 0, 0, 0 };
-    public float attackedStatModProb = 1;
-
-    public float damageHeal = 0;
-    public float selfHealRatio = 0;
-    public float targetHealRatio = 0;
 
     public float[] customSize = null;
+
+    public int crit;
 
     private boolean multiTarget = false;
     private boolean canHitNonTarget = true;
 
-    public int crit;
-    public boolean soundType = false;
-    public boolean fixed = false;
-    public float selfDamage = 0;
-    public int selfDamageType;
-    public int priority = 0;
-    public boolean defrosts = false;
-    public boolean mirrorcoated = false;
-
     public boolean ohko = false;
+    public boolean fixed = false;
+    public boolean defrosts = false;
 
     /**
      * Scaling factor on cooldown, if not specified in the json, this gets set
@@ -166,11 +154,12 @@ public class MoveEntry implements IMoveConstants
 
     private IMoveAnimation animation;
 
-    public boolean hasStatModSelf = false;
-    public boolean hasStatModTarget = false;
+    private boolean self_move;
 
     public TypeProvider typer = user -> this.type;
     public PowerProvider powerp = (user, target, power) -> power;
+    public CategoryProvider categoryProvider = user -> this.getAttackCategory();
+    public CategoryProvider _categoryProvider = categoryProvider;
 
     public MoveEntry(final String name)
     {
@@ -179,24 +168,11 @@ public class MoveEntry implements IMoveConstants
 
     public void postInit()
     {
-        boolean mod = false;
-        for (final int i : this.attackedStatModification) if (i != 0)
-        {
-            mod = true;
-            break;
-        }
-        if (!mod) this.attackedStatModProb = 0;
-        mod = false;
-        for (final int i : this.attackerStatModification) if (i != 0)
-        {
-            mod = true;
-            break;
-        }
-        if (!mod) this.attackerStatModProb = 0;
-
-        if (this.attackedStatModProb > 0) this.hasStatModTarget = true;
-        if (this.attackerStatModProb > 0) this.hasStatModSelf = true;
-
+        boolean contact = Tags.MOVE.isIn("contact-moves", this.getName());
+        boolean ranged = Tags.MOVE.isIn("ranged-moves", this.getName());
+        self_move = root_entry._target_type.equals("user");
+        this.attackCategory = ((contact ? 1 : 0) * IMoveConstants.CATEGORY_CONTACT)
+                | ((ranged ? 1 : 0) * IMoveConstants.CATEGORY_DISTANCE);
         PokecubeAPI.MOVE_BUS.post(new InitMoveEntry(this));
     }
 
@@ -361,7 +337,7 @@ public class MoveEntry implements IMoveConstants
      */
     public byte getAttackCategory(final IPokemob user)
     {
-        return (byte) this.attackCategory;
+        return categoryProvider.getAttackCategory(user);
     }
 
     /** @return Move category for this move. */
@@ -386,16 +362,14 @@ public class MoveEntry implements IMoveConstants
         return this.name;
     }
 
-    /** @return Does this move targer the user. */
+    /**
+     * @return Does this move targer the user, not for general use in combat,
+     *         use only for things like move actions!
+     */
+    @Deprecated
     public boolean isSelfMove()
     {
-        return (this.getAttackCategory() & IMoveConstants.CATEGORY_SELF) > 0;
-    }
-
-    /** @return Does this move targer the user. */
-    public boolean isSelfMove(IPokemob user)
-    {
-        return (this.getAttackCategory(user) & IMoveConstants.CATEGORY_SELF) > 0;
+        return this.self_move;
     }
 
     public boolean isRanged(IPokemob user)
@@ -405,6 +379,11 @@ public class MoveEntry implements IMoveConstants
 
     public void applyMove(IPokemob user, @Nullable LivingEntity target, @Nullable Vector3 targetPos)
     {
+        MoveApplication apply = new MoveApplication(this, user, target);
+        // Pre-apply to run any special pre-processing needed for changing move
+        // targets, etc.
+        MoveApplicationRegistry.preApply(apply);
+
         Predicate<MoveApplication> target_test = MoveApplicationRegistry.getValidator(this);
         Mob mob = user.getEntity();
         Battle battle = Battle.getBattle(mob);
@@ -421,9 +400,8 @@ public class MoveEntry implements IMoveConstants
             targets.add(mob);
             if (target != null) targets.add(target);
         }
-
         targets.forEach(s -> {
-            MoveApplication apply = new MoveApplication(this, user, s);
+            apply.setTarget(s);
             if (target_test.test(apply)) MoveApplicationRegistry.apply(apply);
         });
     }

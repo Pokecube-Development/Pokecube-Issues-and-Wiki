@@ -69,7 +69,7 @@ public class CicleTask extends CombatTask implements IAICombat
 
         final Vector3 here = new Vector3().set(this.entity);
 
-        boolean meleeCombat = !attack.isRanged(this.pokemob) && !attack.isSelfMove(this.pokemob);
+        boolean meleeCombat = !attack.isRanged(this.pokemob) && !attack.isSelfMove();
         // melee mobs will instead try to be closer to the target, instead of
         // centre of battlefield
         if (meleeCombat) here.set(target);

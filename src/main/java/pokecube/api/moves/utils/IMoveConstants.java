@@ -161,9 +161,6 @@ public interface IMoveConstants extends IMoveNames
      */
     byte CATEGORY_CONTACT = 1;
     byte CATEGORY_DISTANCE = 2;
-    byte CATEGORY_SELF = 4;
-
-    byte CATEGORY_SELF_EFFECT = 8;
     /*
      * Move damage category
      */
