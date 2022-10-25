@@ -339,7 +339,7 @@ public class TrainerSpawnHandler
             {
                 PokecubeAPI.LOGGER.error("Error parsing " + function, e);
             }
-            if (PokecubeCore.getConfig().debug) PokecubeAPI.LOGGER.debug("Adding trainer: " + mob);
+            if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.LOGGER.info("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS
                     .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
             {

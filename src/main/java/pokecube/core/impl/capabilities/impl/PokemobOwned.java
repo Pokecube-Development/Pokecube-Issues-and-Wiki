@@ -65,7 +65,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         // Ensure this is actually client side before sending this.
         if (owner instanceof ServerPlayer player && this.getEntity().isAlive())
         {
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(message.getString());
+            if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.LOGGER.info(message.getString());
             final MoveMessageEvent event = new MoveMessageEvent(this, message);
             PokecubeAPI.MOVE_BUS.post(event);
             PacketPokemobMessage.sendMessage(player, event.message);
@@ -274,7 +274,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             return;
         }
 
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Recalling " + this.getEntity());
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.LOGGER.info("Recalling " + this.getEntity());
         // Clear the pokemob's motion on recall
         this.getEntity().setDeltaMovement(0, 0, 0);
 
@@ -345,7 +345,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             if (targetMob != null)
             {
                 BrainUtils.initiateCombat(targetMob.getEntity(), this.getOwner());
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Swapping agro to cowardly owner!");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Swapping agro to cowardly owner!");
             }
             else targ.setLastHurtByMob(this.getOwner());
         }

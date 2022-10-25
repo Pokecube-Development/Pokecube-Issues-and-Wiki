@@ -18,13 +18,13 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.burrows.AbstractBurrowTask;
 import pokecube.core.ai.tasks.burrows.burrow.Part;
 import pokecube.core.ai.tasks.utility.UtilTask;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.Tracker;
 
 public class DigBurrow extends AbstractBurrowTask
@@ -53,15 +53,15 @@ public class DigBurrow extends AbstractBurrowTask
     {
         super(pokemob, DigBurrow.mems);
 
-        this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude()
+        this.canStand = p -> PokecubeCore.getConfig().debug_ai || this.world.getBlockState(p).canOcclude()
                 && this.world.getBlockState(p.above()).isPathfindable(this.world, p, PathComputationType.LAND);
 
-        this.canStandNear = pos -> PokecubeMod.debug
+        this.canStandNear = pos -> PokecubeCore.getConfig().debug_ai
                 || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))
                         .anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
 
         this.hasEmptySpace = pos -> {
-            if (PokecubeMod.debug) return true;
+            if (PokecubeCore.getConfig().debug_ai) return true;
             for (final Direction dir : Direction.values())
             {
                 final BlockPos pos2 = pos.relative(dir);
@@ -111,7 +111,7 @@ public class DigBurrow extends AbstractBurrowTask
         if (valid.isPresent())
         {
             this.work_pos = valid.get().immutable();
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Found Dig Site!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Found Dig Site!");
             return true;
         }
         if (valids.get() == 0) part.setDigDone(Tracker.instance().getTick() + 12000);

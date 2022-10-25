@@ -17,7 +17,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.utils.PokeType;
-import pokecube.core.impl.PokecubeMod;
+import pokecube.core.PokecubeCore;
 
 public class Parsers
 {
@@ -166,7 +166,8 @@ public class Parsers
                     {
                         entry.fixed = true;
                         entry.power = Integer.parseInt(var);
-                        if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(entry.name + " set to fixed damage of " + var);
+                        if (PokecubeCore.getConfig().debug_moves)
+                            PokecubeAPI.LOGGER.info(entry.name + " set to fixed damage of " + var);
                         return;
                     }
                     catch (final NumberFormatException e)

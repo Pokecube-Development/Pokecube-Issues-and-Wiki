@@ -89,6 +89,7 @@ import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SendOut;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
@@ -96,7 +97,6 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -230,8 +230,8 @@ public class TrainerEventHandler
 
         for (int i = 0; i < 6; i++) mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
 
-        if (PokecubeMod.debug)
-            PokecubeAPI.LOGGER.debug("Initializing caps " + event.getObject() + " " + event.getObject().isAlive());
+        if (PokecubeCore.getConfig().debug_spawning)
+            PokecubeAPI.LOGGER.info("Initializing caps " + event.getObject() + " " + event.getObject().isAlive());
     }
 
     public static void onAttachMobCaps(final AttachCapabilitiesEvent<Entity> event)
@@ -396,7 +396,7 @@ public class TrainerEventHandler
             if (npc instanceof Mob mob && npc.getLevel() instanceof ServerLevel)
             {
                 TypeTrainer.addAI(mob);
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Added Tasks: " + npc);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.debug("Added Tasks: " + npc);
             }
         }
     }

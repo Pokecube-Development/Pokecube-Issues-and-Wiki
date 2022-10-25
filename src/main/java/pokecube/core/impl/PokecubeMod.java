@@ -27,8 +27,6 @@ public abstract class PokecubeMod
 
     public static final UUID fakeUUID = new UUID(1234, 4321);
 
-    public static boolean debug;
-
     private static FakePlayer makeNewFakePlayer(final ServerLevel world)
     {
         return FakePlayerFactory.get(world, new GameProfile(PokecubeMod.fakeUUID, "[Pokecube]DispenserPlayer"));

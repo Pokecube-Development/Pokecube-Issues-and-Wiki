@@ -78,7 +78,7 @@ public class PacketCommander extends Packet
         }
         catch (final Exception e)
         {
-            if (PokecubeCore.getConfig().debug)
+            if (PokecubeCore.getConfig().debug_commands)
                 PokecubeAPI.LOGGER.warn("Invalid Commander Block use at " + tile.getBlockPos(), e);
             tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1,
                     1);

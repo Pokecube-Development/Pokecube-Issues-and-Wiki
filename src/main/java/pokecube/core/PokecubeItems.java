@@ -72,7 +72,6 @@ import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.blocks.trade.TraderBlock;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.database.Database;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
 import pokecube.core.items.ItemPokedex;
@@ -279,8 +278,9 @@ public class PokecubeItems extends ItemList
         NANAB_BARREL = PokecubeCore.BERRY_BLOCKS.register("nanab_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
                         .strength(2.5F).sound(SoundType.WOOD)));
-        ORAN_BARREL = PokecubeCore.BERRY_BLOCKS.register("oran_barrel", () -> new GenericBarrel(BlockBehaviour.Properties
-                .of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
+        ORAN_BARREL = PokecubeCore.BERRY_BLOCKS.register("oran_barrel",
+                () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(2.5F).sound(SoundType.WOOD)));
         PECHA_BARREL = PokecubeCore.BERRY_BLOCKS.register("pecha_barrel",
                 () -> new GenericBarrel(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
                         .strength(2.5F).sound(SoundType.WOOD)));
@@ -298,8 +298,8 @@ public class PokecubeItems extends ItemList
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_BROWN)
                         .strength(2.5F).sound(SoundType.WOOD)));
         ORAN_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("oran_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE)
-                        .strength(2.5F).sound(SoundType.WOOD)));
+                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties
+                        .of(Material.WOOD, MaterialColor.COLOR_LIGHT_BLUE).strength(2.5F).sound(SoundType.WOOD)));
         PECHA_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("pecha_bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.COLOR_PINK)
                         .strength(2.5F).sound(SoundType.WOOD)));
@@ -512,7 +512,8 @@ public class PokecubeItems extends ItemList
         if (stacktrace && PokecubeItems.errored.add(loc))
         {
             PokecubeAPI.LOGGER.error(loc + " Not found in list of items.");
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.error("stacktrace: ", new NullPointerException());
+            if (PokecubeCore.getConfig().debug_misc)
+                PokecubeAPI.LOGGER.error("stacktrace: ", new NullPointerException());
         }
         return ItemStack.EMPTY;
     }
@@ -587,7 +588,7 @@ public class PokecubeItems extends ItemList
 
     public static void init(final MinecraftServer server)
     {
-        if (PokecubeMod.debug) PokecubeItems.initTags(server);
+        if (PokecubeCore.getConfig().debug_misc) PokecubeItems.initTags(server);
     }
 
     private static void initTags(final MinecraftServer server)

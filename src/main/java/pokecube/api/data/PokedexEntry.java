@@ -79,7 +79,6 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.TimePeriod;
@@ -1213,13 +1212,13 @@ public class PokedexEntry
                 ItemStack stack = ItemStack.EMPTY;
                 if (item_preset != null && !item_preset.isEmpty())
                 {
-                    if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(forme + " " + item_preset);
+                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info(forme + " " + item_preset);
                     stack = PokecubeItems.getStack(item_preset, false);
                     if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
                 }
                 else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
-                if (rule.item != null)
-                    if (PokecubeMod.debug) PokecubeAPI.LOGGER.info(stack + " " + rule.item.getValues());
+                if (rule.item != null) if (PokecubeCore.getConfig().debug_data)
+                    PokecubeAPI.LOGGER.info(stack + " " + rule.item.getValues());
                 if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
                 {
                     PokecubeAPI.LOGGER.info("Skipping Mega: " + this + " -> " + formeEntry
@@ -1240,7 +1239,8 @@ public class PokedexEntry
                 formeEntry.setMega(true);
                 formeEntry.setBaseForme(this);
                 this.megaRules.put(formeEntry, mrule);
-                if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
+                if (PokecubeCore.getConfig().debug_data)
+                    PokecubeAPI.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
             }
         }
     }

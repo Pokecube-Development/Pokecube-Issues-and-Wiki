@@ -20,9 +20,9 @@ import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveWorldEffect;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.templates.D_Move_Damage;
@@ -46,7 +46,7 @@ public class MovesAdder implements IMoveConstants
             if (move.root_entry != null && move.root_entry.animation != null
                     && !move.root_entry.animation.animations.isEmpty())
             {
-                if (PokecubeMod.debug)
+                if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.LOGGER.info(move.name + ": animations: " + move.root_entry.animation.animations);
                 move.setAnimation(new AnimationMultiAnimations(move));
                 continue;

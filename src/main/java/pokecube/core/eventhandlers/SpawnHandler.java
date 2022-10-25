@@ -66,7 +66,6 @@ import pokecube.api.events.pokemobs.SpawnEvent.Variance;
 import pokecube.core.PokecubeCore;
 import pokecube.core.commands.Pokemake;
 import pokecube.core.database.Database;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Config;
 import pokecube.core.utils.ChunkCoordinate;
 import pokecube.core.utils.PokecubeSerializer;
@@ -751,7 +750,7 @@ public final class SpawnHandler
 
         if (!SpawnHandler.isPointValidForSpawn(context)) return ret;
         double dt = (System.nanoTime() - time) / 10e3D;
-        if (PokecubeMod.debug && dt > 500)
+        if (PokecubeCore.getConfig().debug_spawning && dt > 500)
         {
             final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn and location";
@@ -760,7 +759,7 @@ public final class SpawnHandler
         time = System.nanoTime();
         ret += num = this.doSpawnForType(context, this.parser, t);
         dt = (System.nanoTime() - time) / 10e3D;
-        if (PokecubeMod.debug && dt > 500)
+        if (PokecubeCore.getConfig().debug_spawning && dt > 500)
         {
             final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn for %3$s %4$s";
@@ -784,7 +783,7 @@ public final class SpawnHandler
         if (num >= SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return null;
         final Vector3 v1 = SpawnHandler.getRandomPointNear(level, v, maxRadius);
         double dt = (System.nanoTime() - time) / 1e3D;
-        if (PokecubeMod.debug && dt > 100) PokecubeAPI.LOGGER.debug("Location Find took " + dt);
+        if (PokecubeCore.getConfig().debug_spawning && dt > 100) PokecubeAPI.LOGGER.debug("Location Find took " + dt);
         if (v1 == null) return null;
         if (v.distanceTo(v1) < minRadius) return null;
         return new SpawnContext(base, v1);
@@ -915,7 +914,8 @@ public final class SpawnHandler
                 final long time = System.nanoTime();
                 this.spawn(world);
                 final double dt = (System.nanoTime() - time) / 1000d;
-                if (PokecubeMod.debug && dt > 100) PokecubeAPI.LOGGER.info("SpawnTick took " + dt);
+                if (PokecubeCore.getConfig().debug_spawning && dt > 100)
+                    PokecubeAPI.LOGGER.info("SpawnTick took " + dt);
             }
             this.doMeteor(world);
         }

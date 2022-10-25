@@ -52,7 +52,6 @@ import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.AABBRegion;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidRegion;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Config;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.ThutCaps;
@@ -135,7 +134,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 });
                 if (this.ants.isEmpty() && this.eggs.isEmpty())
                 {
-                    PokecubeAPI.LOGGER.debug("Dead Nest!");
+                    PokecubeAPI.LOGGER.info("Dead Nest!");
                     WorldTickManager.removeWorldData(level.dimension(), this);
                     return;
                 }
@@ -143,7 +142,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 {
                     if (Config.Rules.canAffectBlocks(level))
                     {
-                        PokecubeAPI.LOGGER.debug("Reviving Nest!");
+                        PokecubeAPI.LOGGER.info("Reviving Nest!");
                         this.world.setBlockAndUpdate(this.here, PokecubeItems.NEST.get().defaultBlockState());
                         tile = this.world.getBlockEntity(this.here);
                         if (!(tile instanceof NestTile nest)) return;
@@ -476,8 +475,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     {
                         if (!n.shouldBuild(time)) continue;
                         final BlockPos pos = n.getCenter();
-                        if (PokecubeMod.debug)
-                            PokecubeAPI.LOGGER.debug("Node Build Order for {} {} {}", pos, mob.getId(), n.type);
+                        if (PokecubeCore.getConfig().debug_ai)
+                            PokecubeAPI.LOGGER.info("Node Build Order for {} {} {}", pos, mob.getId(), n.type);
                         final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
@@ -497,8 +496,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (!a.shouldBuild(time)) break build;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
-                    if (PokecubeMod.debug)
-                        PokecubeAPI.LOGGER.debug("Edge Build Order for {} {} {}", pos, mob.getId(), info);
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.LOGGER.info("Edge Build Order for {} {} {}", pos, mob.getId(), info);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
@@ -517,8 +516,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (n.dug.size() < 10)
                     {
                         final BlockPos pos = n.getCenter();
-                        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Node Dig Finish Order for {} {} {} {}", pos,
-                                mob.getId(), n.type, n.dug.size());
+                        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER
+                                .debug("Node Dig Finish Order for {} {} {} {}", pos, mob.getId(), n.type, n.dug.size());
                         final CompoundTag tag = new CompoundTag();
                         tag.putString("type", "node");
                         tag.put("data", n.serializeNBT());
@@ -531,8 +530,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 if (n.shouldDig(time))
                 {
                     final BlockPos pos = n.getCenter();
-                    if (PokecubeMod.debug)
-                        PokecubeAPI.LOGGER.debug("Node Dig Order for {} {} {}", pos, mob.getId(), n.type);
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.LOGGER.info("Node Dig Order for {} {} {}", pos, mob.getId(), n.type);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "node");
                     tag.put("data", n.serializeNBT());
@@ -553,8 +552,8 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                     if (!a.shouldDig(time)) break dig;
                     final BlockPos pos = n == a.node1 ? a.getEnd1() : a.getEnd2();
                     final String info = a.node1.type + "<->" + a.node2.type;
-                    if (PokecubeMod.debug)
-                        PokecubeAPI.LOGGER.debug("Edge Dig Order for {} {} {}", pos, mob.getId(), info);
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.LOGGER.info("Edge Dig Order for {} {} {}", pos, mob.getId(), info);
                     final CompoundTag tag = new CompoundTag();
                     tag.putString("type", "edge");
                     tag.put("data", a.serializeNBT());
@@ -661,13 +660,13 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         this.ants.add(mob.getUUID());
         AntTasks.setJob(mob, job);
         mob.restrictTo(this.here, 64);
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Ant Left Nest, with Job {}", job);
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Ant Left Nest, with Job {}", job);
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null)
         {
             pokemob.healStatus();
-            if (PokecubeMod.debug) pokemob.setPokemonNickname("" + job);
+            if (PokecubeCore.getConfig().debug_ai) pokemob.setPokemonNickname("" + job);
         }
 
         if (mob.getPersistentData().hasUUID("spectated_by"))
@@ -729,7 +728,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
                 mob.getPersistentData().putUUID("spectated_by", player.getUUID());
                 player.setCamera(null);
             }
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Ant Entered Nest");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Ant Entered Nest");
 
             mob.stopRiding();
             mob.ejectPassengers();

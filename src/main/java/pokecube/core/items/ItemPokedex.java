@@ -26,11 +26,11 @@ import pokecube.api.data.Pokedex;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.Tools;
@@ -101,7 +101,7 @@ public class ItemPokedex extends Item
         if (!worldIn.isClientSide)
         {
             SpawnHandler.refreshTerrain(new Vector3().set(playerIn), playerIn.getLevel(), true);
-            if (PokecubeMod.debug)
+            if (PokecubeCore.getConfig().debug_misc)
             {
                 final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
                 for (final StructureInfo i : infos)

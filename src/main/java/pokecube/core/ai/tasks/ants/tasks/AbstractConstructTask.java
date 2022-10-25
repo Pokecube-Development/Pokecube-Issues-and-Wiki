@@ -20,12 +20,12 @@ import net.minecraft.world.level.pathfinder.PathComputationType;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.ants.AntTasks.AntJob;
 import pokecube.core.ai.tasks.ants.nest.Edge;
 import pokecube.core.ai.tasks.ants.nest.Node;
 import pokecube.core.ai.tasks.ants.nest.Part;
-import pokecube.core.impl.PokecubeMod;
 import thut.api.entity.ai.RootTask;
 
 public abstract class AbstractConstructTask extends AbstractWorkTask
@@ -36,7 +36,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         AbstractConstructTask.mems.put(MemoryModules.JOB_INFO.get(), MemoryStatus.VALUE_PRESENT);
     }
 
-    protected int progressTimer    = 0;
+    protected int progressTimer = 0;
     protected int progressDistance = 0;
 
     protected Node n = null;
@@ -62,18 +62,18 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
             final Predicate<AntJob> job, final double range)
     {
         super(pokemob, RootTask.merge(mems, AbstractConstructTask.mems), job);
-        this.dsMax = PokecubeMod.debug ? 64 : range;
+        this.dsMax = PokecubeCore.getConfig().debug_ai ? 64 : range;
         this.ds2Max = this.dsMax * this.dsMax;
 
-        this.canStand = p -> PokecubeMod.debug || this.world.getBlockState(p).canOcclude() && this.world.getBlockState(p
-                .above()).isPathfindable(this.world, p, PathComputationType.LAND);
+        this.canStand = p -> PokecubeCore.getConfig().debug_ai || this.world.getBlockState(p).canOcclude()
+                && this.world.getBlockState(p.above()).isPathfindable(this.world, p, PathComputationType.LAND);
 
-        this.canStandNear = pos -> PokecubeMod.debug || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))
-                .anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
+        this.canStandNear = pos -> PokecubeCore.getConfig().debug_ai
+                || BlockPos.betweenClosedStream(pos.offset(-2, -2, -2), pos.offset(2, 2, 2))
+                        .anyMatch(p2 -> p2.distSqr(pos) < this.ds2Max && this.canStand.test(p2));
 
-        this.hasEmptySpace = pos ->
-        {
-            if (PokecubeMod.debug) return true;
+        this.hasEmptySpace = pos -> {
+            if (PokecubeCore.getConfig().debug_ai) return true;
             for (final Direction dir : Direction.values())
             {
                 final BlockPos pos2 = pos.relative(dir);
@@ -101,7 +101,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
     protected final void endTask()
     {
-        if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Need New Work Site " + this.progressTimer);
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Need New Work Site " + this.progressTimer);
         if (this.progressTimer > 700) this.entity.getBrain().setMemory(MemoryModules.GOING_HOME.get(), true);
         this.reset();
     }
@@ -198,7 +198,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         }
         if (!(edge || node))
         {
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Invalid Dig Info!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Invalid Dig Info!");
             this.reset();
             return false;
         }
@@ -233,7 +233,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
     {
         if (!this.checkJob()) return;
         final Part part = this.e == null ? this.n : this.e;
-        if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " " + part);
+        if (PokecubeCore.getConfig().debug_ai) this.pokemob.setPokemonNickname(this.job + " " + part);
         this.progressTimer++;
         if (!this.selectJobSite())
         {
@@ -251,8 +251,8 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         final double dr = this.work_pos.distSqr(this.entity.blockPosition());
         final double dr2 = p == null ? dr : p.getEndNode().asBlockPos().distSqr(this.work_pos);
 
-        if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " WORK! (" + dr + "/" + dr2 + ") "
-                + this.ds2Max);
+        if (PokecubeCore.getConfig().debug_ai)
+            this.pokemob.setPokemonNickname(this.job + " WORK! (" + dr + "/" + dr2 + ") " + this.ds2Max);
 
         if (dr2 > this.ds2Max) this.setWalkTo(this.work_pos, 1, Mth.ceil(this.dsMax - 1));
         else if (this.progressTimer > 20) this.progressTimer = 20;
@@ -267,8 +267,9 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         {
             this.progressTimer = -10;
             this.doWork();
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.debug("Work Done! " + this.job + " " + this.n + " " + this.e);
-            if (PokecubeMod.debug) this.pokemob.setPokemonNickname(this.job + " IDLE");
+            if (PokecubeCore.getConfig().debug_ai)
+                PokecubeAPI.LOGGER.info("Work Done! " + this.job + " " + this.n + " " + this.e);
+            if (PokecubeCore.getConfig().debug_ai) this.pokemob.setPokemonNickname(this.job + " IDLE");
             this.work_pos = null;
             this.progressDistance = 0;
         }

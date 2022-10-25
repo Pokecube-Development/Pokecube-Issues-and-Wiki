@@ -11,8 +11,8 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.lib.TComponent;
@@ -36,7 +36,7 @@ public class AttackEntityHandler extends DefaultHandler
         final Entity target = PokecubeAPI.getEntityProvider().getEntity(world, this.targetId, true);
         if (!(target instanceof LivingEntity living))
         {
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.error("Invalid Target!",
+            if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.LOGGER.error("Invalid Target!",
                     new IllegalArgumentException(pokemob.getEntity() + " " + target));
             return;
         }

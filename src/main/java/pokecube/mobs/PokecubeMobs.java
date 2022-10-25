@@ -90,7 +90,7 @@ public class PokecubeMobs
 
     private void loadComplete(final FMLLoadCompleteEvent event)
     {
-        if (PokecubeCore.getConfig().debug && !FMLLoader.isProduction())
+        if (PokecubeCore.getConfig().debug_misc && !FMLLoader.isProduction())
         {
             DataGenerator.execute(false);
         }

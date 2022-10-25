@@ -30,7 +30,6 @@ import pokecube.api.moves.MoveEntry.MoveSounds;
 import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.StatDiff;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
@@ -230,7 +229,6 @@ public class MoveApplication implements Comparable<MoveApplication>
                 finalAttackStrength = Math.min(finalAttackStrength, beforeHealth - 1);
                 finalAttackStrength = Math.max(0, finalAttackStrength);
             }
-            
 
             final boolean wild = !user.getGeneralState(GeneralStates.TAMED);
 
@@ -286,7 +284,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                     }
                     target.hurt(source1, d1);
                     target.hurt(source2, d2);
-                    if (PokecubeMod.debug)
+                    if (PokecubeCore.getConfig().debug_moves)
                     {
                         PokecubeAPI.LOGGER.info("Attack Used: " + move.name);
                         PokecubeAPI.LOGGER.info("Normal Component: " + d1);
@@ -299,7 +297,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                     final DamageSource source = new PokemobDamageSource(attackerMob, move).setType(type);
                     source.bypassMagic();
                     source.bypassArmor();
-                    if (PokecubeMod.debug)
+                    if (PokecubeCore.getConfig().debug_moves)
                     {
                         PokecubeAPI.LOGGER.info("Attack Used: " + move.name);
                         PokecubeAPI.LOGGER.info("Attack Damage: " + finalAttackStrength);
@@ -311,7 +309,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 {
                     final DamageSource source = new PokemobDamageSource(attackerMob, move).setType(type);
                     final boolean damaged = target.hurt(source, finalAttackStrength);
-                    if (PokecubeMod.debug)
+                    if (PokecubeCore.getConfig().debug_moves)
                     {
                         PokecubeAPI.LOGGER.info("Attack Used: {}, expected damage: {}, Did apply? {} ", move.name,
                                 finalAttackStrength, damaged);

@@ -28,10 +28,10 @@ import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.IMergeable;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.utils.Tools;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
@@ -338,7 +338,7 @@ public class JsonPokedexEntry
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeMod.debug) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
         }
     }
 
