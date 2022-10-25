@@ -332,7 +332,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public boolean isDone()
     {
-        return this.applied || !this.isAlive();
+        return this.applied || this.isRemoved() || this.getUser() == null || !this.getUser().isAlive();
     }
 
     @Override
@@ -568,6 +568,8 @@ public class EntityMoveUse extends ThrowableProjectile
                 this.getMove().doWorldAction(userMob, this.end);
             }
         }
+
+        if (this.isDone()) this.remove(RemovalReason.DISCARDED);
     }
 
     @Override

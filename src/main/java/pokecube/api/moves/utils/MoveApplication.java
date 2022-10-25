@@ -379,8 +379,8 @@ public class MoveApplication implements Comparable<MoveApplication>
 
         default void applyOngoingEffects(Damage t)
         {
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("No Ongoing Effects for move {} used on {}",
-                    t.move().getName(), t.move().getTarget());
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER
+                    .info("No Ongoing Effects for move {} used on {}", t.move().getName(), t.move().getTarget());
         }
     }
 
@@ -399,18 +399,24 @@ public class MoveApplication implements Comparable<MoveApplication>
 
             if (recoil != 0)
             {
+                IPokemob other = PokemobCaps.getPokemobFor(moveAppl.getTarget());
                 // This means the move heals as recoil.
                 if (recoil > 0)
                 {
+                    if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER
+                            .info("Applying recoil healing for move {} of amount {}", t.move().getName(), recoil);
                     recoil = Math.min(recoil, moveAppl.getUser().getMaxHealth() - moveAppl.getUser().getHealth());
                     if (recoil > 0) moveAppl.getUser().getEntity().heal(recoil);
+                    MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.heal");
                 }
                 // Otherwise it damages as recoil.
                 else
                 {
-                    moveAppl.getUser().getEntity().hurt(DamageSource.FALL, recoil);
+                    if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER
+                            .info("Applying recoil damage for move {} of amount {}", t.move().getName(), recoil);
+                    moveAppl.getUser().getEntity().hurt(DamageSource.FALL, -recoil);
+                    MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.damage");
                 }
-
             }
         }
     }
@@ -433,6 +439,9 @@ public class MoveApplication implements Comparable<MoveApplication>
             float heal = move.root_entry._healing * max_hp / 100.0f;
             if (heal > 0)
             {
+                if (PokecubeCore.getConfig().debug_moves)
+                    PokecubeAPI.LOGGER.info("Applying healing for move {} of amount {}", t.move().getName(), heal);
+
                 heal = Math.min(max_hp - current_hp, heal);
                 if (heal > 0) moveAppl.getUser().getEntity().heal(heal);
             }

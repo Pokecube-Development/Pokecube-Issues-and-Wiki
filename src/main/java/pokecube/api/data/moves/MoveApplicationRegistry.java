@@ -116,7 +116,6 @@ public class MoveApplicationRegistry
         {
             MOVE_MODIFIERS.get(name).accept(moveApplication);
         }
-        System.out.println(EFFECT_REGISTRY.keySet());
         if (EFFECT_REGISTRY.containsKey(name))
         {
             moveApplication.applyOngoing = EFFECT_REGISTRY.get(name);

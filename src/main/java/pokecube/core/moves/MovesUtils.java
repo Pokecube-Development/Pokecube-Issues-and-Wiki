@@ -89,7 +89,7 @@ public class MovesUtils implements IMoveConstants
                 : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
         if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
         key = baseKey + ".target";
-        if (target != attacker.getEntity() && target != null)
+        if (target != null && (attacker == null || target != attacker.getEntity()))
         {
             final Component message = TComponent.translatable(key, targName);
             if (attacked != null) attacked.displayMessageToOwner(message);

@@ -6,11 +6,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.moves.MovesUtils;
@@ -34,6 +32,8 @@ public class AttackEntityHandler extends DefaultHandler
     {
         final Level world = pokemob.getEntity().getLevel();
         final Entity target = PokecubeAPI.getEntityProvider().getEntity(world, this.targetId, true);
+        if (PokecubeCore.getConfig().debug_commands)
+            PokecubeAPI.LOGGER.info("Recieved Command to Attack {} for {}", target, pokemob.getEntity());
         if (!(target instanceof LivingEntity living))
         {
             if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.LOGGER.error("Invalid Target!",
@@ -46,18 +46,16 @@ public class AttackEntityHandler extends DefaultHandler
         if (!event.isCanceled() && currentMove != 5 && MovesUtils.canUseMove(pokemob))
         {
             final MoveEntry move = MovesUtils.getMove(pokemob.getMoves()[currentMove]);
-            MoveApplication toApply = new MoveApplication(move, pokemob, null);
-            final boolean self = MoveApplicationRegistry.getValidator(move).test(toApply);
-            if (self) pokemob.executeMove(pokemob.getEntity(), null, 0);
-            else
-            {
-                final Component mess = TComponent.translatable("pokemob.command.attack", pokemob.getDisplayName(),
-                        target.getDisplayName(),
-                        TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
-                if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
-                BrainUtils.initiateCombat(pokemob.getEntity(), living);
-            }
+            PokecubeAPI.LOGGER.error("Starting Attack {} for {}", target, pokemob.getEntity());
+            final Component mess = TComponent.translatable("pokemob.command.attack", pokemob.getDisplayName(),
+                    target.getDisplayName(), TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
+            if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
+            BrainUtils.initiateCombat(pokemob.getEntity(), living);
         }
+        else if (PokecubeCore.getConfig().debug_commands)
+            PokecubeAPI.LOGGER.warn("Command to Attack {} for {} was denied event: {}, no move: {}, not-yet: {}",
+                    target, pokemob.getEntity(), event.isCanceled(), event.isCanceled(), currentMove == 5,
+                    !MovesUtils.canUseMove(pokemob));
     }
 
     @Override

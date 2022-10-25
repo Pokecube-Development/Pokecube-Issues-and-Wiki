@@ -6,6 +6,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
 import pokecube.api.moves.MoveEntry;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.moves.MovesUtils;
@@ -18,8 +19,7 @@ public class AttackLocationHandler extends DefaultHandler
     protected Vector3 location;
 
     public AttackLocationHandler()
-    {
-    }
+    {}
 
     public AttackLocationHandler(final Vector3 location)
     {
@@ -32,6 +32,8 @@ public class AttackLocationHandler extends DefaultHandler
         final int currentMove = pokemob.getMoveIndex();
         final CommandAttackEvent evt = new CommandAttackEvent(pokemob.getEntity(), null);
         PokecubeAPI.POKEMOB_BUS.post(evt);
+        if (PokecubeCore.getConfig().debug_commands)
+            PokecubeAPI.LOGGER.info("Recieved Command to Attack {} for {}", this.location, pokemob.getEntity());
 
         if (!evt.isCanceled() && currentMove != 5 && MovesUtils.canUseMove(pokemob))
         {
