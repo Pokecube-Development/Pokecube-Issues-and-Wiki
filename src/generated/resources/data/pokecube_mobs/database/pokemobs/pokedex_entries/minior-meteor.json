@@ -189,6 +189,6 @@
       "dazzling-gleam"
     ]
   },
-  "loot_table": "pokecube:entities/stone_1",
-  "old_name": "minior"
+  "old_name": "minior",
+  "loot_table": "pokecube:entities/stone_1"
 }

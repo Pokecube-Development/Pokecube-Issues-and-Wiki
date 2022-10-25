@@ -194,7 +194,6 @@
       "terrain-pulse"
     ]
   },
-  "loot_table": "pokecube:entities/leaves",
   "spawn_rules": [
     {
       "values": {
@@ -202,5 +201,6 @@
         "rate": "0.0"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/leaves"
 }

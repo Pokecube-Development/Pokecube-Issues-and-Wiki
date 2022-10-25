@@ -206,7 +206,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "interactions": [
     {
       "male": false,
@@ -240,5 +239,6 @@
       "name": "mamoswine",
       "move": "ancientpower"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

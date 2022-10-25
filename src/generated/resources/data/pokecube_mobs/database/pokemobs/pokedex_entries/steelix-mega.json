@@ -2,6 +2,7 @@
   "name": "steelix-mega",
   "id": 208,
   "stock": true,
+  "mega": true,
   "base_experience": 214,
   "size": {
     "height": 10.5,

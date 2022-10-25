@@ -116,7 +116,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/cow_1",
   "evolutions": [
     {
       "name": "hitmonlee",
@@ -133,5 +132,6 @@
       "level": 20,
       "evoMoves": "rollingkick"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cow_1"
 }

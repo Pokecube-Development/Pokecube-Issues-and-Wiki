@@ -201,7 +201,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -237,5 +236,6 @@
       }
     }
   ],
-  "old_name": "zygarde_50"
+  "old_name": "zygarde_50",
+  "loot_table": "pokecube:entities/generic_legend"
 }

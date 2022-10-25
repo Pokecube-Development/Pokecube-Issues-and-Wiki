@@ -2,6 +2,7 @@
   "name": "orbeetle-gmax",
   "id": 826,
   "stock": true,
+  "gmax": true,
   "base_experience": 253,
   "size": {
     "height": 4.0,

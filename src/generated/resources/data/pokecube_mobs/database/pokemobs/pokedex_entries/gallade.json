@@ -268,11 +268,11 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_3",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "gallademega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_3"
 }

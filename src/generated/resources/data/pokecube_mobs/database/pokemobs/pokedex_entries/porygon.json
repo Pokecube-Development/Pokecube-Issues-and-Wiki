@@ -214,12 +214,12 @@
       "speed-swap"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "porygon2",
       "item_preset": "upgrade",
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

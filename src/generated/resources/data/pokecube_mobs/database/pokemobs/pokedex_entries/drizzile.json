@@ -120,7 +120,6 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/fish_2",
   "evolutions": [
     {
       "name": "inteleon",
@@ -128,5 +127,6 @@
       "animation": "18",
       "evoMoves": "snipeshot"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_2"
 }

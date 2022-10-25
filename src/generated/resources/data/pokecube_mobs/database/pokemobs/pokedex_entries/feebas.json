@@ -112,7 +112,6 @@
       "scale-shot"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "milotic",
@@ -120,5 +119,6 @@
       "trade": true,
       "evoMoves": "waterpulse"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

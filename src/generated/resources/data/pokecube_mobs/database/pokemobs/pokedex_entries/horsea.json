@@ -207,11 +207,11 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/squid_fish_1",
   "evolutions": [
     {
       "name": "seadra",
       "level": 32
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/squid_fish_1"
 }

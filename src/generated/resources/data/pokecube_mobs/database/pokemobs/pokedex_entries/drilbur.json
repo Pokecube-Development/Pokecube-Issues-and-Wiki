@@ -190,12 +190,12 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "excadrill",
       "level": 31,
       "evoMoves": "horndrill"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

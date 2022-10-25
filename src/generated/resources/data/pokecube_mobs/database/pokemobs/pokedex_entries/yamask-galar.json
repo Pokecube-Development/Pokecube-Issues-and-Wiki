@@ -165,7 +165,6 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/stone_2",
   "evolutions": [
     {
       "name": "runerigus",
@@ -177,5 +176,6 @@
       "evoMoves": "shadowclaw"
     }
   ],
-  "old_name": "yamask_galar"
+  "old_name": "yamask_galar",
+  "loot_table": "pokecube:entities/stone_2"
 }

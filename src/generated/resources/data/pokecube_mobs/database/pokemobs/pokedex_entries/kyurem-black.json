@@ -208,6 +208,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
-  "old_name": "kyurem_black"
+  "old_name": "kyurem_black",
+  "loot_table": "pokecube:entities/generic_legend"
 }

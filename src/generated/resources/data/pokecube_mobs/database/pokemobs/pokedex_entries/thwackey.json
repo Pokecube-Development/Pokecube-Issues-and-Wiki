@@ -134,7 +134,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
   "evolutions": [
     {
       "name": "rillaboom",
@@ -142,5 +141,6 @@
       "animation": "18",
       "evoMoves": "drumbeating"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

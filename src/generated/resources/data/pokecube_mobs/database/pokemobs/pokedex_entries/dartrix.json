@@ -186,7 +186,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "evolutions": [
     {
       "name": "decidueye",
@@ -201,5 +200,6 @@
       },
       "evoMoves": "rocksmash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

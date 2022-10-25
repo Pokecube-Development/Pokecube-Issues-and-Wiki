@@ -96,7 +96,6 @@
       "types": "bug"
     }
   ],
-  "loot_table": "pokecube:entities/chestplate_seeds_1",
   "evolutions": [
     {
       "name": "wormadam-plant",
@@ -110,5 +109,6 @@
       "sexe": "male",
       "evoMoves": "quiverdance"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

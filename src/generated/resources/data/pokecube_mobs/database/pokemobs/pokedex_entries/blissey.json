@@ -273,6 +273,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
-  "held_table": "pokecube:entities/lucky_oval"
+  "held_table": "pokecube:entities/lucky_oval",
+  "loot_table": "pokecube:entities/rabbit_1"
 }

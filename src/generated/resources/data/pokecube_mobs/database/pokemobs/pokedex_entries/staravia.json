@@ -155,12 +155,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "evolutions": [
     {
       "name": "staraptor",
       "level": 34,
       "evoMoves": "closecombat"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

@@ -196,12 +196,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "evolutions": [
     {
       "name": "piloswine",
       "level": 33,
       "evoMoves": "icefang"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

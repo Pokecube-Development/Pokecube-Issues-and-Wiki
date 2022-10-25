@@ -171,7 +171,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/fish_2",
   "interactions": [
     {
       "male": false,
@@ -214,5 +213,6 @@
       },
       "evoMoves": "nightslash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_2"
 }

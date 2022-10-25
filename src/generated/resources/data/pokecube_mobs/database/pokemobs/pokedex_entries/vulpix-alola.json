@@ -241,7 +241,6 @@
       "aurora-veil"
     ]
   },
-  "loot_table": "pokecube:entities/snow_rabbit_1",
   "evolutions": [
     {
       "name": "ninetales-alola",
@@ -249,5 +248,6 @@
       "evoMoves": "dazzlinggleam"
     }
   ],
-  "old_name": "vulpix_alola"
+  "old_name": "vulpix_alola",
+  "loot_table": "pokecube:entities/snow_rabbit_1"
 }

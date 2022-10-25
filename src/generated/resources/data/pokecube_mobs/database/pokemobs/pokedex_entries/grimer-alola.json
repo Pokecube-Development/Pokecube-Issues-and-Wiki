@@ -215,7 +215,6 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_1",
   "evolutions": [
     {
       "name": "muk-alola",
@@ -223,5 +222,6 @@
       "evoMoves": "venomdrench"
     }
   ],
-  "old_name": "grimer_alola"
+  "old_name": "grimer_alola",
+  "loot_table": "pokecube:entities/slimeballs_1"
 }

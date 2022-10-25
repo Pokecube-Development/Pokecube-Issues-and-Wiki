@@ -2,6 +2,7 @@
   "name": "machamp-gmax",
   "id": 68,
   "stock": true,
+  "gmax": true,
   "base_experience": 227,
   "size": {
     "height": 5.0,

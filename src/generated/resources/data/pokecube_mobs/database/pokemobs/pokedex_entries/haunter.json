@@ -231,7 +231,6 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "gengar",
@@ -239,5 +238,6 @@
       "trade": true,
       "evoMoves": "shadowpunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

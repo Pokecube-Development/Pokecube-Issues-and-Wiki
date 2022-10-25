@@ -200,11 +200,11 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "evolutions": [
     {
       "name": "nidoking",
       "item_preset": "moonstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_2"
 }

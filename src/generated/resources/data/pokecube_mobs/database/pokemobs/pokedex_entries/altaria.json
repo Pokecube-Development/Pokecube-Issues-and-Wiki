@@ -225,11 +225,11 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/wool_2",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "altariamega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wool_2"
 }

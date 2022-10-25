@@ -208,11 +208,11 @@
       "coaching"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "gurdurr",
       "level": 25
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

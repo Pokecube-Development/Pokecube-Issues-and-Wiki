@@ -203,7 +203,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/chestplate_seeds_1",
   "evolutions": [
     {
       "name": "chesnaught",
@@ -211,5 +210,6 @@
       "animation": "18",
       "evoMoves": "spikyshield"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

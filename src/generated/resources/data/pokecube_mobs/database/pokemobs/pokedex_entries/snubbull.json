@@ -202,11 +202,11 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "granbull",
       "level": 23
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

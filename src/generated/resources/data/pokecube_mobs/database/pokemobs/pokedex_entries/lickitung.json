@@ -267,11 +267,11 @@
       "terrain-pulse"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "evolutions": [
     {
       "name": "lickilicky",
       "move": "rollout"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

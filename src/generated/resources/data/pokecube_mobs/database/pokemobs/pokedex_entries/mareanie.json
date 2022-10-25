@@ -182,12 +182,12 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "toxapex",
       "level": 38,
       "evoMoves": "banefulbunker"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

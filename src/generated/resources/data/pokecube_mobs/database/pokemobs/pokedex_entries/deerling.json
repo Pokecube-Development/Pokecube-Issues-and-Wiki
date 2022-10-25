@@ -217,7 +217,6 @@
       "anim": "deerling_wi"
     }
   ],
-  "loot_table": "pokecube:entities/cow_1",
   "evolutions": [
     {
       "name": "sawsbuck",
@@ -255,5 +254,6 @@
         "key": "sawsbuck_au"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cow_1"
 }

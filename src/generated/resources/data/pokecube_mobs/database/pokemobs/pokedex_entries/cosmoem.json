@@ -54,7 +54,6 @@
       "cosmic-power"
     ]
   },
-  "loot_table": "pokecube:entities/cosmic",
   "evolutions": [
     {
       "name": "solgaleo",
@@ -68,5 +67,6 @@
       "time": "night",
       "evoMoves": "moongeistbeam"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cosmic"
 }

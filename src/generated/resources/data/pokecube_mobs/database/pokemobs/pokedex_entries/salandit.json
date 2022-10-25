@@ -201,7 +201,6 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_1",
   "evolutions": [
     {
       "name": "salazzle",
@@ -209,5 +208,6 @@
       "sexe": "female",
       "evoMoves": "captivate"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

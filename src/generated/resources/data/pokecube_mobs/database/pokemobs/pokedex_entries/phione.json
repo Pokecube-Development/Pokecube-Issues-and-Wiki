@@ -154,7 +154,6 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "and_preset": "ocean_monument",
@@ -164,5 +163,6 @@
         "max": "1"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/generic_legend"
 }

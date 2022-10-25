@@ -197,11 +197,11 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "seaking",
       "level": 33
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

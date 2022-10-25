@@ -217,6 +217,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/wool_1",
-  "held_table": "pokecube:entities/persimberry"
+  "held_table": "pokecube:entities/persimberry",
+  "loot_table": "pokecube:entities/wool_1"
 }

@@ -65,7 +65,9 @@
       },
       {
         "L": 31,
-        "moves": []
+        "moves": [
+          "ceaseless-edge"
+        ]
       },
       {
         "L": 35,
@@ -97,6 +99,7 @@
       "rock-smash",
       "aerial-ace",
       "focus-energy",
+      "rest",
       "poison-jab",
       "psycho-cut",
       "x-scissor",

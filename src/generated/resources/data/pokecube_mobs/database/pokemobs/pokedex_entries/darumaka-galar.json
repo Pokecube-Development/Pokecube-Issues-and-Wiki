@@ -172,7 +172,6 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "darmanitan-galar-standard",
@@ -180,5 +179,6 @@
       "evoMoves": "iciclecrash"
     }
   ],
-  "old_name": "darumaka_galar"
+  "old_name": "darumaka_galar",
+  "loot_table": "pokecube:entities/both_ice"
 }

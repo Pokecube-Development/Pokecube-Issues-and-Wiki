@@ -212,13 +212,13 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "pokecube:entities/rotten_rabbit_1",
-  "held_table": "pokecube:entities/oranberry_10",
   "evolutions": [
     {
       "name": "furret",
       "level": 15,
       "evoMoves": "agility"
     }
-  ]
+  ],
+  "held_table": "pokecube:entities/oranberry_10",
+  "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

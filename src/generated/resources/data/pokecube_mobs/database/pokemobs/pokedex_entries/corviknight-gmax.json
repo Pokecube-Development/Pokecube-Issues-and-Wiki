@@ -2,6 +2,7 @@
   "name": "corviknight-gmax",
   "id": 823,
   "stock": true,
+  "gmax": true,
   "base_experience": 248,
   "size": {
     "height": 5.0,

@@ -175,7 +175,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "glalie",
@@ -188,5 +187,6 @@
       "sexe": "female",
       "evoMoves": "ominouswind"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

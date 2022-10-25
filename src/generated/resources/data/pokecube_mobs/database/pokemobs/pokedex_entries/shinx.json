@@ -203,11 +203,11 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_1",
   "evolutions": [
     {
       "name": "luxio",
       "level": 15
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_rabbit_1"
 }

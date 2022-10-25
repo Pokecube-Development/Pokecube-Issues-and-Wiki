@@ -191,7 +191,6 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "interactions": [
     {
       "male": false,
@@ -219,5 +218,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

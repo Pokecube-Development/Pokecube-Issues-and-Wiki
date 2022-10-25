@@ -66,7 +66,6 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "pokecube:entities/snowball",
   "evolutions": [
     {
       "name": "frosmoth",
@@ -75,5 +74,6 @@
       "happy": true,
       "evoMoves": "icywind"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/snowball"
 }

@@ -219,11 +219,11 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "sharpedomega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

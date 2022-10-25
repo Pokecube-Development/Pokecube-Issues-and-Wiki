@@ -192,7 +192,6 @@
       "aurora-veil"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "avalugg",
@@ -207,5 +206,6 @@
       },
       "time": "night"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

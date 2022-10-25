@@ -153,12 +153,12 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "steenee",
       "level": 18,
       "evoMoves": "doubleslap"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

@@ -2,6 +2,7 @@
   "name": "gyarados-mega",
   "id": 130,
   "stock": true,
+  "mega": true,
   "base_experience": 224,
   "size": {
     "height": 1.0,

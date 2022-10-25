@@ -2,6 +2,7 @@
   "name": "gallade-mega",
   "id": 475,
   "stock": true,
+  "mega": true,
   "base_experience": 278,
   "size": {
     "height": 1.6

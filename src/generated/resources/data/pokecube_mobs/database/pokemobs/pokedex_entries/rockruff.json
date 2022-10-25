@@ -186,7 +186,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "lycanroc-midday",
@@ -206,5 +205,6 @@
       "time": "dusk",
       "evoMoves": "thrash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -239,7 +239,6 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/snow_rabbit_1",
   "evolutions": [
     {
       "name": "sandslash-alola",
@@ -247,5 +246,6 @@
       "evoMoves": "iciclespear"
     }
   ],
-  "old_name": "sandshrew_alola"
+  "old_name": "sandshrew_alola",
+  "loot_table": "pokecube:entities/snow_rabbit_1"
 }

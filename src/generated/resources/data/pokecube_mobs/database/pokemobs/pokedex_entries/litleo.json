@@ -186,11 +186,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "pyroar",
       "level": 35
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -230,12 +230,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "marshtomp",
       "level": 16,
       "evoMoves": "Mud Shot"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

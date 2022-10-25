@@ -193,7 +193,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "braviary",
@@ -207,5 +206,6 @@
         "and_preset": "snowy_areas"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

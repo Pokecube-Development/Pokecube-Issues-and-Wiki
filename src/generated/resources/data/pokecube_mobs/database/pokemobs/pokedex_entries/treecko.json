@@ -234,7 +234,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "grovyle",
@@ -242,5 +241,6 @@
       "animation": "18",
       "evoMoves": "furycutter"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

@@ -179,12 +179,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/coal_rabbit_2",
   "evolutions": [
     {
       "name": "incineroar",
       "level": 34,
       "evoMoves": "darkestlariat"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_rabbit_2"
 }

@@ -137,7 +137,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "hattrem",
@@ -145,5 +144,6 @@
       "animation": "18",
       "evoMoves": "brutalswing"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

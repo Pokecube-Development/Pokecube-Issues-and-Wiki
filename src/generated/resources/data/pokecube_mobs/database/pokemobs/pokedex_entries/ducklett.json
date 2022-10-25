@@ -185,11 +185,11 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "swanna",
       "level": 35
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

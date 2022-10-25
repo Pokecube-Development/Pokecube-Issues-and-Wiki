@@ -165,7 +165,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "lurantis",
@@ -173,5 +172,6 @@
       "time": "day",
       "evoMoves": "petalblizzard"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

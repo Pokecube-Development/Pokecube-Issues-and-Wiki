@@ -216,11 +216,11 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/iron_pearls_3",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "metagrossmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_pearls_3"
 }

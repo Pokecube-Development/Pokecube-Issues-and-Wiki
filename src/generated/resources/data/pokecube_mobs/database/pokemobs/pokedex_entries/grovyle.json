@@ -234,7 +234,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
   "evolutions": [
     {
       "name": "sceptile",
@@ -242,5 +241,6 @@
       "animation": "18",
       "evoMoves": "dualchop"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

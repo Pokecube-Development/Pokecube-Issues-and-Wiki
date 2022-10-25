@@ -189,7 +189,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/sheep_2",
   "interactions": [
     {
       "male": false,
@@ -217,5 +216,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/sheep_2"
 }

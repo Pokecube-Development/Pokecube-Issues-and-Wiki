@@ -194,7 +194,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -204,5 +203,6 @@
         "rate": "0.02"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/generic_legend"
 }

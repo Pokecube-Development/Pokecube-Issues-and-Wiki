@@ -149,7 +149,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "morgrem",
@@ -157,5 +156,6 @@
       "animation": "18",
       "evoMoves": "falsesurrender"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

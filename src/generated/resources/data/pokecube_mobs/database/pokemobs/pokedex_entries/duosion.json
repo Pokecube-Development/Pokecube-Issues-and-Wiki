@@ -203,12 +203,12 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_2",
   "evolutions": [
     {
       "name": "reuniclus",
       "level": 41,
       "evoMoves": "dizzypunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_2"
 }

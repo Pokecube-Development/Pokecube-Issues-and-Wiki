@@ -2,6 +2,7 @@
   "name": "diancie-mega",
   "id": 719,
   "stock": true,
+  "mega": true,
   "base_experience": 315,
   "size": {
     "height": 1.1,

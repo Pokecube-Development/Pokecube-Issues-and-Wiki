@@ -204,7 +204,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/dirt_1",
   "evolutions": [
     {
       "name": "dugtrio-alola",
@@ -212,5 +211,6 @@
       "evoMoves": "Sand Tomb"
     }
   ],
-  "old_name": "diglett_alola"
+  "old_name": "diglett_alola",
+  "loot_table": "pokecube:entities/dirt_1"
 }

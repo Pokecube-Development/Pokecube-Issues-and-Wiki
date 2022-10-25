@@ -194,7 +194,6 @@
       "accelerock"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_3",
   "interactions": [
     {
       "male": false,
@@ -223,5 +222,6 @@
       }
     }
   ],
-  "old_name": "lycanroc_dusk"
+  "old_name": "lycanroc_dusk",
+  "loot_table": "pokecube:entities/rabbit_3"
 }

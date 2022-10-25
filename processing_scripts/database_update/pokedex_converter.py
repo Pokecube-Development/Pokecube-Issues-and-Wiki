@@ -8,6 +8,32 @@ import os
 from glob import glob
 import shutil
 
+MEGA_SUFFIX = [
+    '-mega',
+    '-mega-x',
+    '-mega-y',
+    '-primal',
+    '-battle-bond',
+    '-ash',
+]
+GMAX_SUFFIX = [
+    '-gmax',
+    '=eternamax',
+]
+
+def is_mega(name):
+    for suf in MEGA_SUFFIX:
+        if name.endswith(suf):
+            return True
+    return False
+
+def is_gmax(name):
+    for suf in GMAX_SUFFIX:
+        if name.endswith(suf):
+            return True
+    return False
+
+
 index_map = get_pokemon_index()
 
 class PokedexEntry:
@@ -39,6 +65,10 @@ class PokedexEntry:
         self.names = species.names
         self.id = forme.id
         self.stock = True
+        if is_mega(self.name):
+            self.mega = True
+        if is_gmax(self.name):
+            self.gmax = True
         self.base_experience = forme.base_experience
         self.size = {'height': forme.height/10.0}
         self.mass = forme.weight/10.0
@@ -255,10 +285,6 @@ class PokemonSpecies:
                                 size['length'] = float(old['values']['length'])
                             return size
                         entry.size = convert_size(old_entry['stats']['sizes'])
-                    if 'lootTable' in stats:
-                        entry.loot_table = stats['lootTable']
-                    if 'heldTable' in stats:
-                        entry.held_table = stats['heldTable']
                     if 'spawnRules' in stats:
                         entry.spawn_rules = stats['spawnRules']
                     if 'megaRules' in stats:
@@ -364,6 +390,27 @@ def convert_pokedex():
     file.close()
     moves_dex = json.loads(data)
 
+    tables = './data/pokemobs/loot_tables.json'
+    file = open(tables, 'r')
+    data = file.read()
+    file.close()
+    _loot_tables = json.loads(data)
+    tables = './data/pokemobs/held_tables.json'
+    file = open(tables, 'r')
+    data = file.read()
+    file.close()
+    _held_tables = json.loads(data)
+
+    loot_tables = {}
+    for key, list in _loot_tables.items():
+        for name in list:
+            loot_tables[name] = key
+    held_tables = {}
+    for key, list in _held_tables.items():
+        for name in list:
+            held_tables[name] = key
+
+
     def convert_moves(old_moves, name):
         level_up_old = old_moves['lvlupMoves']
 
@@ -421,6 +468,11 @@ def convert_pokedex():
         species.append(entry)
         for var in entry.entries:
 
+            if var.name in held_tables:
+                var.held_table = held_tables[var.name]
+            if var.name in loot_tables:
+                var.loot_table = loot_tables[var.name]
+
             for name in var.names:
                 _name = name.name
                 lang = utils.get('language', url_to_id(name.language))
@@ -447,10 +499,8 @@ def convert_pokedex():
             print(f'error saving for {key}')
             print(err)
 
-
     for var in dex:
         file = f'./new/pokemobs/pokedex_entries/{var["name"]}.json'
-
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 

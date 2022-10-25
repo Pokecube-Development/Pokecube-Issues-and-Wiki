@@ -194,6 +194,6 @@
       "burning-jealousy"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_1",
-  "old_name": "mimikyu"
+  "old_name": "mimikyu",
+  "loot_table": "pokecube:entities/enderpearls_1"
 }

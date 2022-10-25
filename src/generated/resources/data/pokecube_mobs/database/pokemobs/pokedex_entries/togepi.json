@@ -234,11 +234,11 @@
       "dazzling-gleam"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "togetic",
       "happy": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

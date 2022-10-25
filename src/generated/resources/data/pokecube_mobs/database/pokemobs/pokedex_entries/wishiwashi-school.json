@@ -182,6 +182,6 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/fish_2",
-  "old_name": "wishiwashi_school"
+  "old_name": "wishiwashi_school",
+  "loot_table": "pokecube:entities/fish_2"
 }

@@ -91,7 +91,9 @@
       },
       {
         "L": 55,
-        "moves": []
+        "moves": [
+          "victory-dance"
+        ]
       },
       {
         "L": 59,

@@ -205,7 +205,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "and_preset": "villages",
@@ -213,5 +212,6 @@
         "rate": "0.0"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/generic_legend"
 }

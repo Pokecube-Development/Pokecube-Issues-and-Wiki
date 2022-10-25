@@ -225,12 +225,12 @@
       "coaching"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "pangoro",
       "item_preset": "duskstone",
       "evoMoves": "bulletpunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

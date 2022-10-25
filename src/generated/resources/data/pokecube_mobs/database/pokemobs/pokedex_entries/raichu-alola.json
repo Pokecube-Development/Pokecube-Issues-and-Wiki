@@ -156,7 +156,6 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -185,5 +184,6 @@
       }
     }
   ],
-  "old_name": "raichu_alola"
+  "old_name": "raichu_alola",
+  "loot_table": "pokecube:entities/redstone_rabbit_2"
 }

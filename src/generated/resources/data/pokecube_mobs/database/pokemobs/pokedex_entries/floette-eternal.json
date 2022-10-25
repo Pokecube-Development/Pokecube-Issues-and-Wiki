@@ -173,6 +173,6 @@
       "light-of-ruin"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
-  "old_name": "floette_eternal"
+  "old_name": "floette_eternal",
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

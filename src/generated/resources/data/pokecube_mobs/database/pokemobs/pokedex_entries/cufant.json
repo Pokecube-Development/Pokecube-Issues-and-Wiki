@@ -158,7 +158,6 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/terracota_1",
   "evolutions": [
     {
       "name": "copperajah",
@@ -166,5 +165,6 @@
       "animation": "18",
       "evoMoves": "heavyslam"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/terracota_1"
 }

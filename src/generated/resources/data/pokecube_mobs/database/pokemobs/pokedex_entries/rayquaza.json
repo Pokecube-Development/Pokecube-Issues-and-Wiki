@@ -225,7 +225,6 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "spawn_rules": [
     {
       "values": {
@@ -239,5 +238,6 @@
       "name": "Rayquaza Mega",
       "move": "dragonascent"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

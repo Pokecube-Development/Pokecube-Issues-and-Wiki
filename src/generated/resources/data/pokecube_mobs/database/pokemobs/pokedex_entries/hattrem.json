@@ -130,7 +130,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "hatterene",
@@ -138,5 +137,6 @@
       "animation": "18",
       "evoMoves": "psychocut"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

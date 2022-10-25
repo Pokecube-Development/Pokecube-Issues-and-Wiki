@@ -193,7 +193,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_stick_rabbit_1",
   "evolutions": [
     {
       "name": "delphox",
@@ -201,5 +200,6 @@
       "animation": "55",
       "evoMoves": "mysticalfire"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_stick_rabbit_1"
 }

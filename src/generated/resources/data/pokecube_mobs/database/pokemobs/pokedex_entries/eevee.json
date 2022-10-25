@@ -206,7 +206,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "vaporeon",
@@ -253,5 +252,6 @@
       "item_preset": "pokecube_mobs:sylveon",
       "evoMoves": "fairywind"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

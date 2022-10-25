@@ -172,12 +172,12 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/cobble_1",
   "evolutions": [
     {
       "name": "boldore",
       "level": 25,
       "evoMoves": "Power Gem"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cobble_1"
 }

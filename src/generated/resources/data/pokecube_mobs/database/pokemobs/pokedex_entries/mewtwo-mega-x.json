@@ -2,6 +2,7 @@
   "name": "mewtwo-mega-x",
   "id": 150,
   "stock": true,
+  "mega": true,
   "base_experience": 351,
   "size": {
     "height": 2.3,

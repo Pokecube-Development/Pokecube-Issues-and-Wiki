@@ -220,7 +220,6 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "minecraft:entities/squid",
   "interactions": [
     {
       "male": true,
@@ -247,5 +246,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/squid"
 }

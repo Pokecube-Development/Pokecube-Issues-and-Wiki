@@ -2,6 +2,7 @@
   "name": "abomasnow-mega",
   "id": 460,
   "stock": true,
+  "mega": true,
   "base_experience": 208,
   "size": {
     "height": 2.7,

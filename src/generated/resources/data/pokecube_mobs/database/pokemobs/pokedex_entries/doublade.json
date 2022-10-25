@@ -174,11 +174,11 @@
       "steel-beam"
     ]
   },
-  "loot_table": "pokecube:entities/iron_2",
   "evolutions": [
     {
       "name": "aegislash-blade",
       "item_preset": "duskstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_2"
 }

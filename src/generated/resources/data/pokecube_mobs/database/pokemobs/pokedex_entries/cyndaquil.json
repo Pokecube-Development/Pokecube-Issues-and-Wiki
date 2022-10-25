@@ -200,11 +200,11 @@
       "burn-up"
     ]
   },
-  "loot_table": "pokecube:entities/coal_1",
   "evolutions": [
     {
       "name": "quilava",
       "level": 14
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_1"
 }

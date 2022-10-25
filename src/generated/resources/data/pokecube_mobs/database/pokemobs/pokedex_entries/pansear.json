@@ -205,11 +205,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "simisear",
       "item_preset": "firestone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

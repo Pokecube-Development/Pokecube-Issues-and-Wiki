@@ -209,13 +209,13 @@
       "smart-strike"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
-  "held_table": "pokecube:entities/moonstone",
   "evolutions": [
     {
       "name": "nidorino",
       "level": 16
     }
   ],
-  "old_name": "nidoranm"
+  "old_name": "nidoranm",
+  "held_table": "pokecube:entities/moonstone",
+  "loot_table": "pokecube:entities/rabbit_1"
 }

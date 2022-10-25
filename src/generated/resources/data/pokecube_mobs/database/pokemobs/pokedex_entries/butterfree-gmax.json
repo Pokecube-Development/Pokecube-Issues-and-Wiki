@@ -2,6 +2,7 @@
   "name": "butterfree-gmax",
   "id": 12,
   "stock": true,
+  "gmax": true,
   "base_experience": 178,
   "size": {
     "height": 3.0,

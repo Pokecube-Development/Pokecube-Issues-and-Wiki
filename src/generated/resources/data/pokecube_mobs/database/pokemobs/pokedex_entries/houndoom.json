@@ -194,11 +194,11 @@
       "throat-chop"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_2",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "houndoommega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

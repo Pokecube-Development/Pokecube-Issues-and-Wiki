@@ -200,7 +200,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "quilladin",
@@ -208,5 +207,6 @@
       "animation": "18",
       "evoMoves": "needlearm"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

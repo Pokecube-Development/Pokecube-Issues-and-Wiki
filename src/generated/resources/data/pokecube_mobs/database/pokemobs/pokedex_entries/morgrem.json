@@ -150,7 +150,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "grimmsnarl",
@@ -158,5 +157,6 @@
       "animation": "18",
       "evoMoves": "spiritbreak"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

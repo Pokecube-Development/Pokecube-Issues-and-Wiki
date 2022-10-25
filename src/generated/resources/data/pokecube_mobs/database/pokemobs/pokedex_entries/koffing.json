@@ -207,7 +207,6 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "minecraft:entities/creeper",
   "evolutions": [
     {
       "name": "weezing",
@@ -222,5 +221,6 @@
       },
       "evoMoves": "doublehit"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/creeper"
 }

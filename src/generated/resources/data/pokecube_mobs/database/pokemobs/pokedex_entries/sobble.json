@@ -137,12 +137,12 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "drizzile",
       "level": 16,
       "animation": "18"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

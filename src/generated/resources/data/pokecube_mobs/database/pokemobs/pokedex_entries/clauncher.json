@@ -178,12 +178,12 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/shear_fish",
   "evolutions": [
     {
       "name": "clawitzer",
       "level": 37,
       "evoMoves": "aurasphere"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/shear_fish"
 }

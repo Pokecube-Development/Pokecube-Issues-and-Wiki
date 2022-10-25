@@ -186,11 +186,11 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "tranquill",
       "level": 21
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

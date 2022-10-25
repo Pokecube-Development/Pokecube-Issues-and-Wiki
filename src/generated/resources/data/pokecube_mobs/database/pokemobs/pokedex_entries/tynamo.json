@@ -53,12 +53,12 @@
       "charge-beam"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_fish_1",
   "evolutions": [
     {
       "name": "eelektrik",
       "level": 39,
       "evoMoves": "Crunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_fish_1"
 }

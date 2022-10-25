@@ -186,7 +186,6 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "minecraft:entities/sheep/white",
   "interactions": [
     {
       "male": false,
@@ -222,5 +221,6 @@
       "animation": "20",
       "evoMoves": "thunderpunch"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/sheep/white"
 }

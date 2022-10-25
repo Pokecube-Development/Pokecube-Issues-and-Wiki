@@ -130,12 +130,12 @@
       "scale-shot"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "barraskewda",
       "level": 26,
       "animation": "18"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

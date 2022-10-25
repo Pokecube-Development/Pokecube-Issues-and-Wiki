@@ -155,7 +155,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_cow_2",
   "interactions": [
     {
       "male": false,
@@ -183,5 +182,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_cow_2"
 }

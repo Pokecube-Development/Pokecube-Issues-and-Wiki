@@ -2,6 +2,7 @@
   "name": "kingler-gmax",
   "id": 99,
   "stock": true,
+  "gmax": true,
   "base_experience": 166,
   "size": {
     "height": 5.3,

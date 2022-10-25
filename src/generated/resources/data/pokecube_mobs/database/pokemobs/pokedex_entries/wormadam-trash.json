@@ -185,6 +185,6 @@
       "infestation"
     ]
   },
-  "loot_table": "pokecube:entities/other_seeds",
-  "old_name": "wormadam_trash"
+  "old_name": "wormadam_trash",
+  "loot_table": "pokecube:entities/other_seeds"
 }

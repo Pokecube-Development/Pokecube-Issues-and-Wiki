@@ -224,11 +224,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "delcatty",
       "item_preset": "moonstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

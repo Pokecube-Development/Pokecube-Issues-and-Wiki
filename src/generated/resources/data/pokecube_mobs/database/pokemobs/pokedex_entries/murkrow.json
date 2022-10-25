@@ -211,11 +211,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "honchkrow",
       "item_preset": "duskstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

@@ -181,7 +181,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/rotten_rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -210,5 +209,6 @@
       }
     }
   ],
-  "old_name": "raticate_alola"
+  "old_name": "raticate_alola",
+  "loot_table": "pokecube:entities/rotten_rabbit_2"
 }

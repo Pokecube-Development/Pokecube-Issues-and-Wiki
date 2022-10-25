@@ -56,12 +56,12 @@
       "steel-beam"
     ]
   },
-  "loot_table": "pokecube:entities/iron_pearls_1",
   "evolutions": [
     {
       "name": "metang",
       "level": 20,
       "evoMoves": "confusion,  confusionmetalclaw,  metalclaw"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_pearls_1"
 }

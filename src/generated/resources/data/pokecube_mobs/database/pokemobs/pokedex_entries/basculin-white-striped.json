@@ -71,7 +71,9 @@
       },
       {
         "L": 45,
-        "moves": []
+        "moves": [
+          "wave-crash"
+        ]
       },
       {
         "L": 54,
@@ -83,13 +85,13 @@
     "misc": [
       "ice-fang",
       "swift",
+      "rest",
       "zen-headbutt",
       "icy-wind",
       "aqua-tail",
       "ice-beam"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "basculegion-male",
@@ -102,5 +104,6 @@
       "sexe": "female"
     }
   ],
-  "old_name": "basculin_hisui"
+  "old_name": "basculin_hisui",
+  "loot_table": "pokecube:entities/fish_1"
 }

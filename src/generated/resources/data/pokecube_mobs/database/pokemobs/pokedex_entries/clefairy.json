@@ -310,13 +310,13 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/moonstone",
-  "held_table": "pokecube:entities/moonstone",
   "evolutions": [
     {
       "name": "clefable",
       "animation": "121",
       "item_preset": "moonstone"
     }
-  ]
+  ],
+  "held_table": "pokecube:entities/moonstone",
+  "loot_table": "pokecube:entities/moonstone"
 }

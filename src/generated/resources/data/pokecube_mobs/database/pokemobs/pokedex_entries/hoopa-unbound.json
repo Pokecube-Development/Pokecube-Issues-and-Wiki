@@ -193,6 +193,6 @@
       "throat-chop"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
-  "old_name": "hoopa_unbound"
+  "old_name": "hoopa_unbound",
+  "loot_table": "pokecube:entities/generic_legend"
 }

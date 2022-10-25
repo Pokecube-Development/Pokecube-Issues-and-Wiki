@@ -170,7 +170,6 @@
       "coaching"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -186,5 +185,6 @@
         "max": "1"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/generic_legend"
 }

@@ -192,12 +192,12 @@
       "coaching"
     ]
   },
-  "loot_table": "pokecube:entities/pig_2",
   "evolutions": [
     {
       "name": "kommo-o",
       "level": 45,
       "evoMoves": "clangingscales"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_2"
 }

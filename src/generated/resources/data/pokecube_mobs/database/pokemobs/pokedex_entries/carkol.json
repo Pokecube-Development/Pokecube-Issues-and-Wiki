@@ -139,7 +139,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/coal_1",
   "evolutions": [
     {
       "name": "coalossal",
@@ -147,5 +146,6 @@
       "animation": "18",
       "evoMoves": "tarshot"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_1"
 }

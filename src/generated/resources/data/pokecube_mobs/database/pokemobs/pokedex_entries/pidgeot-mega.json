@@ -2,6 +2,7 @@
   "name": "pidgeot-mega",
   "id": 18,
   "stock": true,
+  "mega": true,
   "base_experience": 261,
   "size": {
     "height": 2.2,

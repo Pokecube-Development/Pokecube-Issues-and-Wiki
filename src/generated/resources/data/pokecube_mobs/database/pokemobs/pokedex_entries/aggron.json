@@ -258,11 +258,11 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/iron_3",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "aggronmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_3"
 }

@@ -226,7 +226,6 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/iron_redstone_2",
   "evolutions": [
     {
       "name": "magnezone",
@@ -235,5 +234,6 @@
       },
       "evoMoves": "triattack"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_redstone_2"
 }

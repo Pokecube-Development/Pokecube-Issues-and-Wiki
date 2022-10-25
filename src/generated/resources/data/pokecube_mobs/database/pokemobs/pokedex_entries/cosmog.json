@@ -53,7 +53,6 @@
       "splash"
     ]
   },
-  "loot_table": "pokecube:entities/cosmic",
   "spawn_rules": [
     {
       "values": {
@@ -76,5 +75,6 @@
       "level": 43,
       "evoMoves": "cosmicpower"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cosmic"
 }

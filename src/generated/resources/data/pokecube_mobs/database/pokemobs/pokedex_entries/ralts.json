@@ -255,12 +255,12 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_1",
-  "held_table": "pokecube:entities/dawnstone",
   "evolutions": [
     {
       "name": "kirlia",
       "level": 20
     }
-  ]
+  ],
+  "held_table": "pokecube:entities/dawnstone",
+  "loot_table": "pokecube:entities/enderpearls_1"
 }

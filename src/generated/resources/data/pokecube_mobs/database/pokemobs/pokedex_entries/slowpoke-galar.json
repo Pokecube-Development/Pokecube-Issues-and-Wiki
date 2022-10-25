@@ -198,7 +198,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "interactions": [
     {
       "male": true,
@@ -239,5 +238,6 @@
       "evoMoves": "eeriespell"
     }
   ],
-  "old_name": "slowpoke_galar"
+  "old_name": "slowpoke_galar",
+  "loot_table": "pokecube:entities/pig_1"
 }

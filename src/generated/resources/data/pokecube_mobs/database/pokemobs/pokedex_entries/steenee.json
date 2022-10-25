@@ -163,12 +163,12 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/other_seeds",
   "evolutions": [
     {
       "name": "tsareena",
       "move": "stomp",
       "evoMoves": "tropkick"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/other_seeds"
 }

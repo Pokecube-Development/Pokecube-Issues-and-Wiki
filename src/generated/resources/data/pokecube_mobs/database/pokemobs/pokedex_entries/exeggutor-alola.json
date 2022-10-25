@@ -175,6 +175,6 @@
       "terrain-pulse"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
-  "old_name": "exeggutor_alola"
+  "old_name": "exeggutor_alola",
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

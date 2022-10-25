@@ -217,6 +217,6 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_2",
-  "old_name": "muk_alola"
+  "old_name": "muk_alola",
+  "loot_table": "pokecube:entities/slimeballs_2"
 }

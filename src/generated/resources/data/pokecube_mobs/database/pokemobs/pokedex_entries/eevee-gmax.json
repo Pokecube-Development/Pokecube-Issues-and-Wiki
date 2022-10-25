@@ -2,6 +2,7 @@
   "name": "eevee-gmax",
   "id": 133,
   "stock": true,
+  "gmax": true,
   "base_experience": 65,
   "size": {
     "height": 5.0,

@@ -191,7 +191,6 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_creeper_2",
   "spawn_rules": [
     {
       "values": {
@@ -201,5 +200,6 @@
         "max": "1"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_creeper_2"
 }

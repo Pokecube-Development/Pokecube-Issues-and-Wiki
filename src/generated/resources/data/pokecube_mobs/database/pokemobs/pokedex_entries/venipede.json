@@ -187,12 +187,12 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "whirlipede",
       "level": 22,
       "evoMoves": "irondefense"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

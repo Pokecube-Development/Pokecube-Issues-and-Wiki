@@ -185,6 +185,6 @@
       "revelation-dance"
     ]
   },
-  "loot_table": "pokecube:entities/oranberry",
-  "old_name": "oricorio_sensu"
+  "old_name": "oricorio_sensu",
+  "loot_table": "pokecube:entities/oranberry"
 }

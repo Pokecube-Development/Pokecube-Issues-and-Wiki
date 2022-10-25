@@ -178,7 +178,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/rotten_rabbit_1",
   "evolutions": [
     {
       "name": "raticate-alola",
@@ -187,5 +186,6 @@
       "evoMoves": "scaryface"
     }
   ],
-  "old_name": "rattata_alola"
+  "old_name": "rattata_alola",
+  "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

@@ -211,7 +211,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_stick_rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -239,5 +238,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_stick_rabbit_2"
 }

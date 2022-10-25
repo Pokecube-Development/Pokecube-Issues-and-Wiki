@@ -185,7 +185,6 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/squid_fish_2",
   "evolutions": [
     {
       "name": "kingdra",
@@ -196,5 +195,6 @@
       },
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/squid_fish_2"
 }

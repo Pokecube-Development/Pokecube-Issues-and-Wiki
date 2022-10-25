@@ -236,7 +236,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/skull_rabbit_1",
   "evolutions": [
     {
       "name": "marowak-alola",
@@ -247,5 +246,6 @@
       "name": "marowak",
       "level": 28
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/skull_rabbit_1"
 }

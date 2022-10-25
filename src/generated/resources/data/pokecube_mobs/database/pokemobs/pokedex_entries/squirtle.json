@@ -237,12 +237,12 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/turtleshells_1",
   "evolutions": [
     {
       "name": "wartortle",
       "level": 16,
       "animation": "9"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/turtleshells_1"
 }

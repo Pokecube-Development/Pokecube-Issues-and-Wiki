@@ -2,6 +2,7 @@
   "name": "pinsir-mega",
   "id": 127,
   "stock": true,
+  "mega": true,
   "base_experience": 210,
   "size": {
     "height": 1.7,

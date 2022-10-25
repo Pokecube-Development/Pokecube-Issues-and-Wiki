@@ -221,11 +221,11 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
   "evolutions": [
     {
       "name": "roserade",
       "item_preset": "shinystone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

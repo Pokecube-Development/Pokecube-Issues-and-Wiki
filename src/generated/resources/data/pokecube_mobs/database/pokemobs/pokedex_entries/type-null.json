@@ -203,7 +203,6 @@
       "terrain-pulse"
     ]
   },
-  "loot_table": "pokecube:entities/fossil_mob",
   "evolutions": [
     {
       "name": "silvally",
@@ -211,5 +210,6 @@
       "evoMoves": "multiattack"
     }
   ],
-  "old_name": "type_null"
+  "old_name": "type_null",
+  "loot_table": "pokecube:entities/fossil_mob"
 }

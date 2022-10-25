@@ -227,7 +227,6 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "gardevoir",
@@ -239,5 +238,6 @@
       "sexe": "male",
       "evoMoves": "slash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

@@ -60,7 +60,9 @@
       },
       {
         "L": 25,
-        "moves": []
+        "moves": [
+          "barb-barrage"
+        ]
       },
       {
         "L": 31,

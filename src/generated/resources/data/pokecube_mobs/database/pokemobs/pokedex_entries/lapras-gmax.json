@@ -2,6 +2,7 @@
   "name": "lapras-gmax",
   "id": 131,
   "stock": true,
+  "gmax": true,
   "base_experience": 187,
   "size": {
     "height": 5.5,

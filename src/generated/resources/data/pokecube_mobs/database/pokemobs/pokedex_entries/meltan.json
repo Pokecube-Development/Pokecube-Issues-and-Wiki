@@ -96,12 +96,12 @@
       "steel-beam"
     ]
   },
-  "loot_table": "pokecube:entities/iron_1",
   "evolutions": [
     {
       "name": "melmetal",
       "level": 32,
       "evoMoves": "thunderpunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_1"
 }

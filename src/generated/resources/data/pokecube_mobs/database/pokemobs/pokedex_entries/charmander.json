@@ -239,12 +239,12 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/coal_1",
   "evolutions": [
     {
       "name": "charmeleon",
       "level": 16,
       "animation": "55"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_1"
 }

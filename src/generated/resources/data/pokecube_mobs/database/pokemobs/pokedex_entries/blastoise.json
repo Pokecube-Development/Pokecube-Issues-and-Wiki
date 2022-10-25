@@ -225,11 +225,11 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/turtleshells_3",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "blastoisemega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/turtleshells_3"
 }

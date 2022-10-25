@@ -186,11 +186,11 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_1",
   "evolutions": [
     {
       "name": "heliolisk",
       "item_preset": "sunstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_rabbit_1"
 }

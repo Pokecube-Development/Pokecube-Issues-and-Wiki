@@ -134,7 +134,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "eldegoss",
@@ -142,5 +141,6 @@
       "animation": "18",
       "evoMoves": "cottonspore"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

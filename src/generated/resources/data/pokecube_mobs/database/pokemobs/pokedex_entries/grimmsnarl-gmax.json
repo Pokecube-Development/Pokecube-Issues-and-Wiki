@@ -2,6 +2,7 @@
   "name": "grimmsnarl-gmax",
   "id": 861,
   "stock": true,
+  "gmax": true,
   "base_experience": 255,
   "size": {
     "height": 6.0,

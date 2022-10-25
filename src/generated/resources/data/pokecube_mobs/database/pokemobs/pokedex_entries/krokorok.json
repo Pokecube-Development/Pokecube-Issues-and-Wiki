@@ -211,11 +211,11 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/sand_rabbit_2",
   "evolutions": [
     {
       "name": "krookodile",
       "level": 40
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/sand_rabbit_2"
 }

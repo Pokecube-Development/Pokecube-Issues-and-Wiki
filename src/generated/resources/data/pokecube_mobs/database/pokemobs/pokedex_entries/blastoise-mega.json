@@ -2,6 +2,7 @@
   "name": "blastoise-mega",
   "id": 9,
   "stock": true,
+  "mega": true,
   "base_experience": 284,
   "size": {
     "height": 1.6,

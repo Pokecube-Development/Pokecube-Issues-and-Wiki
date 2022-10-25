@@ -2,6 +2,7 @@
   "name": "gardevoir-mega",
   "id": 282,
   "stock": true,
+  "mega": true,
   "base_experience": 278,
   "size": {
     "height": 1.6,

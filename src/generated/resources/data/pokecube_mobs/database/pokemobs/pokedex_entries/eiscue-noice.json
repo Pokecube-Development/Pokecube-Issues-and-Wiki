@@ -143,6 +143,6 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
-  "old_name": "eiscue_noice"
+  "old_name": "eiscue_noice",
+  "loot_table": "pokecube:entities/fish_1"
 }

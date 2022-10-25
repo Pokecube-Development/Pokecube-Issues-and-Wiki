@@ -243,8 +243,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
-  "held_table": "pokecube:entities/kingsrock",
   "interactions": [
     {
       "male": true,
@@ -284,5 +282,7 @@
       "item_preset": "kingsrock",
       "trade": true
     }
-  ]
+  ],
+  "held_table": "pokecube:entities/kingsrock",
+  "loot_table": "pokecube:entities/pig_1"
 }

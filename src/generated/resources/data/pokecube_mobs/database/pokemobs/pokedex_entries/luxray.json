@@ -196,7 +196,6 @@
     "model": "luxray_female",
     "anim": "luxray_female"
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_3",
   "interactions": [
     {
       "male": false,
@@ -224,5 +223,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_rabbit_3"
 }

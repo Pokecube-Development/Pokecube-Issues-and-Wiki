@@ -140,7 +140,6 @@
       "venom-drench"
     ]
   },
-  "loot_table": "pokecube:entities/spider",
   "spawn_rules": [
     {
       "values": {
@@ -157,5 +156,6 @@
       "move": "dragonpulse",
       "evoMoves": "aircutter"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/spider"
 }

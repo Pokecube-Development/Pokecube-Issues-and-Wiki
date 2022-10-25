@@ -207,12 +207,12 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "beartic",
       "level": 37,
       "evoMoves": "iciclecrash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

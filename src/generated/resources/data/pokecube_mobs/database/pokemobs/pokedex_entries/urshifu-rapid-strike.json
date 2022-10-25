@@ -177,6 +177,6 @@
       "surging-strikes"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
-  "old_name": "urshifu_rapid"
+  "old_name": "urshifu_rapid",
+  "loot_table": "pokecube:entities/generic_legend"
 }

@@ -2,6 +2,7 @@
   "name": "charizard-gmax",
   "id": 6,
   "stock": true,
+  "gmax": true,
   "base_experience": 240,
   "size": {
     "height": 7.0,

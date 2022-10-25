@@ -201,12 +201,12 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/stone_1",
   "evolutions": [
     {
       "name": "cofagrigus",
       "level": 34,
       "evoMoves": "scaryface"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_1"
 }

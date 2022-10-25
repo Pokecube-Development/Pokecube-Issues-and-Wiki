@@ -2,6 +2,7 @@
   "name": "glalie-mega",
   "id": 362,
   "stock": true,
+  "mega": true,
   "base_experience": 203,
   "size": {
     "height": 2.1,

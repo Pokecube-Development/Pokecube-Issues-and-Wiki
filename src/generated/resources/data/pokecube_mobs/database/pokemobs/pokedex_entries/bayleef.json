@@ -172,7 +172,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
   "evolutions": [
     {
       "name": "meganium",
@@ -180,5 +179,6 @@
       "animation": "18",
       "evoMoves": "petaldance"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

@@ -2,6 +2,7 @@
   "name": "centiskorch-gmax",
   "id": 851,
   "stock": true,
+  "gmax": true,
   "base_experience": 184,
   "size": {
     "height": 4.0,

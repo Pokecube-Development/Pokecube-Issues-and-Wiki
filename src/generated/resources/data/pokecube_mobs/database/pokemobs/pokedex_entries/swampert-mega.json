@@ -2,6 +2,7 @@
   "name": "swampert-mega",
   "id": 260,
   "stock": true,
+  "mega": true,
   "base_experience": 286,
   "size": {
     "height": 1.9,

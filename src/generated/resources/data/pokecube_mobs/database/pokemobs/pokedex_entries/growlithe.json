@@ -233,11 +233,11 @@
       "psychic-fangs"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_1",
   "evolutions": [
     {
       "name": "arcanine",
       "item_preset": "firestone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

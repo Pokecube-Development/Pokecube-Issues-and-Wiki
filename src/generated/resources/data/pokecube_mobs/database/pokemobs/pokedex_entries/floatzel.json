@@ -182,7 +182,6 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -210,5 +209,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_2"
 }

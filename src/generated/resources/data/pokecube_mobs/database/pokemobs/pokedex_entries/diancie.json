@@ -216,7 +216,6 @@
       "terrain-pulse"
     ]
   },
-  "loot_table": "pokecube:entities/diamond_legend",
   "spawn_rules": [
     {
       "and_preset": "extreme_hills",
@@ -230,5 +229,6 @@
       "preset": "Mega",
       "item_preset": "dianciemega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/diamond_legend"
 }

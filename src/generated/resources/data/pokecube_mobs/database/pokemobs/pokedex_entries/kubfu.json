@@ -158,7 +158,6 @@
       "coaching"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -190,5 +189,6 @@
       "happy": true,
       "evoMoves": "surgingstrikes"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/generic_legend"
 }

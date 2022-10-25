@@ -2,6 +2,7 @@
   "name": "duraludon-gmax",
   "id": 884,
   "stock": true,
+  "gmax": true,
   "base_experience": 187,
   "size": {
     "height": 5.5,

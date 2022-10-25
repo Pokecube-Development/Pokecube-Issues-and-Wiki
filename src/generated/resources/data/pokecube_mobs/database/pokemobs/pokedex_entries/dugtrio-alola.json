@@ -205,6 +205,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/dirt_1",
-  "old_name": "dugtrio_alola"
+  "old_name": "dugtrio_alola",
+  "loot_table": "pokecube:entities/dirt_1"
 }

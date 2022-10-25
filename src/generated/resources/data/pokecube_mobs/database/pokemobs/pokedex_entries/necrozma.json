@@ -214,7 +214,6 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -228,5 +227,6 @@
       "name": "necrozma_ultra",
       "item_preset": "pokecube_mobs:necrozma"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/generic_legend"
 }

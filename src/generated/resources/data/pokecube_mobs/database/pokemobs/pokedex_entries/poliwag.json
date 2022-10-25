@@ -215,11 +215,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_1",
   "evolutions": [
     {
       "name": "poliwhirl",
       "level": 25
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_1"
 }

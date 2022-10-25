@@ -152,7 +152,6 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/snow_rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -181,5 +180,6 @@
       }
     }
   ],
-  "old_name": "sandslash_alola"
+  "old_name": "sandslash_alola",
+  "loot_table": "pokecube:entities/snow_rabbit_2"
 }

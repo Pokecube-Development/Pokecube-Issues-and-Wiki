@@ -226,12 +226,12 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_2",
   "evolutions": [
     {
       "name": "magmortar",
       "item_preset": "magmarizer",
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

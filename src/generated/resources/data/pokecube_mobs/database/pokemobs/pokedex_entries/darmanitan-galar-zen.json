@@ -178,6 +178,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
-  "old_name": "darmanitan_zen_galar"
+  "old_name": "darmanitan_zen_galar",
+  "loot_table": "pokecube:entities/both_ice"
 }

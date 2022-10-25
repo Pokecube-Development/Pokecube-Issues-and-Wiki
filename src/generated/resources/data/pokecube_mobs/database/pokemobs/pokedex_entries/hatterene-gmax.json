@@ -2,6 +2,7 @@
   "name": "hatterene-gmax",
   "id": 858,
   "stock": true,
+  "gmax": true,
   "base_experience": 255,
   "size": {
     "height": 6.0,

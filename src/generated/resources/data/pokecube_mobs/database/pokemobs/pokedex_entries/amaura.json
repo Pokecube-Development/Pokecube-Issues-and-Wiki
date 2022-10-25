@@ -229,7 +229,6 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/fossil_mob",
   "evolutions": [
     {
       "name": "aurorus",
@@ -237,5 +236,6 @@
       "time": "night",
       "evoMoves": "freezedry"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fossil_mob"
 }

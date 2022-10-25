@@ -163,6 +163,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
-  "old_name": "stunfisk_galar"
+  "old_name": "stunfisk_galar",
+  "loot_table": "pokecube:entities/fish_1"
 }

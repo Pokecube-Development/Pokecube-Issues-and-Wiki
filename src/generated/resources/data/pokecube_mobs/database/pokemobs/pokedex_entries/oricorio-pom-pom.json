@@ -185,6 +185,6 @@
       "revelation-dance"
     ]
   },
-  "loot_table": "pokecube:entities/ender_chicken_1",
-  "old_name": "oricorio_pom-pom"
+  "old_name": "oricorio_pom-pom",
+  "loot_table": "pokecube:entities/ender_chicken_1"
 }

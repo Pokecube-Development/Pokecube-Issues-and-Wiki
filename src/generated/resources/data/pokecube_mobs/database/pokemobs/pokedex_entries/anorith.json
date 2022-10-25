@@ -194,11 +194,11 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/fossil_mob",
   "evolutions": [
     {
       "name": "armaldo",
       "level": 40
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fossil_mob"
 }

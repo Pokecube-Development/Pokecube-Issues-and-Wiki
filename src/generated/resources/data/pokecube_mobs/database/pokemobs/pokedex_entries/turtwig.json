@@ -183,12 +183,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/shellseed_1",
   "evolutions": [
     {
       "name": "grotle",
       "level": 18,
       "animation": "18"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/shellseed_1"
 }

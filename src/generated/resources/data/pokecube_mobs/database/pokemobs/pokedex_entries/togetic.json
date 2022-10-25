@@ -241,11 +241,11 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "togekiss",
       "item_preset": "shinystone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

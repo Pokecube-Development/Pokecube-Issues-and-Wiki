@@ -208,6 +208,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
-  "old_name": "meloetta_pirouette"
+  "old_name": "meloetta_pirouette",
+  "loot_table": "pokecube:entities/generic_legend"
 }

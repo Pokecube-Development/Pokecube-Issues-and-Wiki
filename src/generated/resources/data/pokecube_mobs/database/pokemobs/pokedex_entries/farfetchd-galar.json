@@ -167,7 +167,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "sirfetchd",
@@ -187,5 +186,6 @@
       "evoMoves": "irondefense"
     }
   ],
-  "old_name": "farfetchd_galar"
+  "old_name": "farfetchd_galar",
+  "loot_table": "pokecube:entities/chicken_1"
 }

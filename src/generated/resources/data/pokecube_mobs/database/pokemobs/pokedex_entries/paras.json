@@ -213,7 +213,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/both_shrooms_1",
   "interactions": [
     {
       "male": true,
@@ -253,5 +252,6 @@
       "name": "parasect",
       "level": 24
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_shrooms_1"
 }

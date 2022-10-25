@@ -102,7 +102,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/shulker_pearls_1",
   "evolutions": [
     {
       "name": "huntail",
@@ -122,5 +121,6 @@
       },
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/shulker_pearls_1"
 }

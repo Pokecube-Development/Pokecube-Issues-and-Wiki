@@ -237,12 +237,12 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/fossil_mob",
   "evolutions": [
     {
       "name": "kabutops",
       "level": 40,
       "evoMoves": "slash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fossil_mob"
 }

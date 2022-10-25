@@ -53,7 +53,6 @@
       "infestation"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "dottler",
@@ -61,5 +60,6 @@
       "animation": "18",
       "evoMoves": "reflect, lightscreen, confusion"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

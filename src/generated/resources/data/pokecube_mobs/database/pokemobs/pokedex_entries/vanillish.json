@@ -164,11 +164,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "vanilluxe",
       "level": 47
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

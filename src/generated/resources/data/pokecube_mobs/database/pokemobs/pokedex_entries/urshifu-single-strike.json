@@ -181,6 +181,6 @@
       "wicked-blow"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
-  "old_name": "urshifu_single"
+  "old_name": "urshifu_single",
+  "loot_table": "pokecube:entities/generic_legend"
 }

@@ -206,11 +206,11 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "diggersby",
       "level": 20
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

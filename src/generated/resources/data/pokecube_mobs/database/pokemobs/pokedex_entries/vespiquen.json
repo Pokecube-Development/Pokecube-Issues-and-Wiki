@@ -218,7 +218,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/honeycomb_2",
   "interactions": [
     {
       "male": true,
@@ -246,5 +245,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/honeycomb_2"
 }

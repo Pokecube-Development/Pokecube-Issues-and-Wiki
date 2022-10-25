@@ -196,12 +196,12 @@
     "model": "gible_female",
     "anim": "gible_female"
   },
-  "loot_table": "pokecube:entities/iron_chicken_1",
   "evolutions": [
     {
       "name": "gabite",
       "level": 24,
       "evoMoves": "dualchop"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_chicken_1"
 }

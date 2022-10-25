@@ -215,6 +215,6 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_2",
-  "held_table": "pokecube:entities/berryjuice"
+  "held_table": "pokecube:entities/berryjuice",
+  "loot_table": "pokecube:entities/slimeballs_2"
 }

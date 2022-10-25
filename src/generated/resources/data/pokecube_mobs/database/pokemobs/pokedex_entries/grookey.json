@@ -144,7 +144,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "thwackey",
@@ -152,5 +151,6 @@
       "animation": "18",
       "evoMoves": "doublehit"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

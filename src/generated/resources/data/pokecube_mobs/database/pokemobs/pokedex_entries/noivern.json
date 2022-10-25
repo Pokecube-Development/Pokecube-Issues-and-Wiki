@@ -212,7 +212,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "interactions": [
     {
       "male": false,
@@ -240,5 +239,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

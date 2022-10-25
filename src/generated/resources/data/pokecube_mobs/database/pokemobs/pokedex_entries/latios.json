@@ -258,7 +258,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "spawn_rules": [
     {
       "and_preset": "beaches",
@@ -272,5 +271,6 @@
       "preset": "Mega",
       "item_preset": "latiosmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

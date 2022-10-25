@@ -205,11 +205,11 @@
       "types": "fairy"
     }
   ],
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "florges",
       "item_preset": "shinystone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

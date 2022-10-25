@@ -185,12 +185,12 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "walrein",
       "level": 44,
       "evoMoves": "icefang"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

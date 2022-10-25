@@ -155,7 +155,6 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_1",
   "spawn_rules": [
     {
       "values": {
@@ -163,5 +162,6 @@
         "rate": "0.0"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_1"
 }

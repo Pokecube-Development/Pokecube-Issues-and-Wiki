@@ -256,7 +256,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/coal_3",
   "mega_rules": [
     {
       "preset": "Mega-X",
@@ -266,5 +265,6 @@
       "preset": "Mega-Y",
       "item_preset": "charizardmega-y"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_3"
 }

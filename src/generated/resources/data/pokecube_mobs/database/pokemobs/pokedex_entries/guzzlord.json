@@ -223,7 +223,6 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "spawn_rules": [
     {
       "values": {
@@ -233,5 +232,6 @@
         "max": "1"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

@@ -201,7 +201,6 @@
       "types": "bug"
     }
   ],
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "vivillon",
@@ -330,5 +329,6 @@
         "key": "vivillon_de"
       }
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

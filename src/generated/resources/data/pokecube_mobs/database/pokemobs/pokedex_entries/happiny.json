@@ -149,12 +149,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "chansey",
       "item_preset": "ovalstone",
       "time": "day"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

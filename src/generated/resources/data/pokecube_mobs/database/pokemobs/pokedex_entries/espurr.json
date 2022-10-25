@@ -171,11 +171,11 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "meowstic-male",
       "level": 25
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

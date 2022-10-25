@@ -201,7 +201,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_3",
   "interactions": [
     {
       "male": false,
@@ -230,5 +229,6 @@
       }
     }
   ],
-  "old_name": "lycanroc_midnight"
+  "old_name": "lycanroc_midnight",
+  "loot_table": "pokecube:entities/rabbit_3"
 }

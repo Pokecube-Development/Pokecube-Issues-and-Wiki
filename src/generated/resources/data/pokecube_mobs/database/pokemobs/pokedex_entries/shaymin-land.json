@@ -166,6 +166,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
-  "old_name": "shaymin_land"
+  "old_name": "shaymin_land",
+  "loot_table": "pokecube:entities/generic_legend"
 }

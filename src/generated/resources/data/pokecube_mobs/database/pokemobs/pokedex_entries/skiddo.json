@@ -188,12 +188,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/sheep_1",
   "evolutions": [
     {
       "name": "gogoat",
       "level": 32,
       "evoMoves": "aerialace"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/sheep_1"
 }

@@ -215,12 +215,12 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/wool_1",
   "evolutions": [
     {
       "name": "altaria",
       "level": 35,
       "evoMoves": "dragonbreath"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wool_1"
 }

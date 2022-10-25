@@ -207,11 +207,11 @@
       "life-dew"
     ]
   },
-  "loot_table": "pokecube:entities/shulker_pearls_1",
   "evolutions": [
     {
       "name": "cloyster",
       "item_preset": "waterstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/shulker_pearls_1"
 }

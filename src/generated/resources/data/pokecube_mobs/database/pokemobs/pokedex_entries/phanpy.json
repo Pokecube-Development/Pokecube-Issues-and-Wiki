@@ -169,12 +169,12 @@
       "high-horsepower"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "evolutions": [
     {
       "name": "donphan",
       "level": 25,
       "evoMoves": "furyattack"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

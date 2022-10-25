@@ -182,11 +182,11 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/sand_1",
   "evolutions": [
     {
       "name": "palossand",
       "level": 42
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/sand_1"
 }

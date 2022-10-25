@@ -195,7 +195,6 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/stone_gold",
   "spawn_rules": [
     {
       "values": {
@@ -205,5 +204,6 @@
         "max": "1"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_gold"
 }

@@ -181,12 +181,12 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/glowstone_dust",
   "evolutions": [
     {
       "name": "ribombee",
       "level": 25,
       "evoMoves": "pollenpuff"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/glowstone_dust"
 }

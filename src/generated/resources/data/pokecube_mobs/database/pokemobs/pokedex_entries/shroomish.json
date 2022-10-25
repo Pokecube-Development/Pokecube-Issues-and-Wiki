@@ -169,12 +169,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/both_shrooms_1",
   "evolutions": [
     {
       "name": "breloom",
       "level": 23,
       "evoMoves": "machpunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_shrooms_1"
 }

@@ -70,12 +70,12 @@
       "struggle-bug"
     ]
   },
-  "loot_table": "pokecube:entities/chestplate_seeds_1",
   "evolutions": [
     {
       "name": "kricketune",
       "level": 10,
       "evoMoves": "furycutter"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

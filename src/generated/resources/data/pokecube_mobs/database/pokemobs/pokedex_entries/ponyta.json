@@ -201,12 +201,12 @@
       "solar-blade"
     ]
   },
-  "loot_table": "pokecube:entities/coal_cow_1",
   "evolutions": [
     {
       "name": "rapidash",
       "level": 40,
       "evoMoves": "furyattack"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_cow_1"
 }

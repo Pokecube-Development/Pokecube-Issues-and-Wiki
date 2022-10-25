@@ -60,12 +60,12 @@
       "electroweb"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "kakuna",
       "level": 7,
       "evoMoves": "harden"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

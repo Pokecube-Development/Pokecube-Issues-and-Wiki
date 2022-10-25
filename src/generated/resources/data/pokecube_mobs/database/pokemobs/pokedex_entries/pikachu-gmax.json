@@ -2,6 +2,7 @@
   "name": "pikachu-gmax",
   "id": 25,
   "stock": true,
+  "gmax": true,
   "base_experience": 112,
   "size": {
     "height": 5.0,

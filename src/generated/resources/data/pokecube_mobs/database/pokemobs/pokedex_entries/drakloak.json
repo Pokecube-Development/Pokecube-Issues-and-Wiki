@@ -171,7 +171,6 @@
       "breaking-swipe"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "dragapult",
@@ -179,5 +178,6 @@
       "animation": "18",
       "evoMoves": "dragondarts"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

@@ -133,7 +133,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wool_2",
   "interactions": [
     {
       "male": true,
@@ -187,5 +186,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wool_2"
 }

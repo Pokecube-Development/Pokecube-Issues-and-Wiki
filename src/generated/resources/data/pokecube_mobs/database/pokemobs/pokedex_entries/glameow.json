@@ -200,12 +200,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "purugly",
       "level": 38,
       "evoMoves": "swagger"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

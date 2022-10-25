@@ -2,6 +2,7 @@
   "name": "garbodor-gmax",
   "id": 569,
   "stock": true,
+  "gmax": true,
   "base_experience": 166,
   "size": {
     "height": 5.9,

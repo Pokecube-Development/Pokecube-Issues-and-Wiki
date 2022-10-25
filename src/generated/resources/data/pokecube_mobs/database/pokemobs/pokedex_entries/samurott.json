@@ -190,7 +190,6 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/fish_3",
   "interactions": [
     {
       "male": false,
@@ -218,5 +217,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_3"
 }

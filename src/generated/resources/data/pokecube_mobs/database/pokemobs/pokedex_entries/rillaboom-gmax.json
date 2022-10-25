@@ -2,6 +2,7 @@
   "name": "rillaboom-gmax",
   "id": 812,
   "stock": true,
+  "gmax": true,
   "base_experience": 265,
   "size": {
     "height": 5.0,

@@ -234,7 +234,6 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "pokecube:entities/ghast_pearls",
   "evolutions": [
     {
       "name": "haunter",
@@ -242,5 +241,6 @@
       "animation": "49",
       "evoMoves": "shadowpunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/ghast_pearls"
 }
