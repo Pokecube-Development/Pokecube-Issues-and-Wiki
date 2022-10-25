@@ -588,7 +588,7 @@ public class PokecubeItems extends ItemList
 
     public static void init(final MinecraftServer server)
     {
-        if (PokecubeCore.getConfig().debug_misc) PokecubeItems.initTags(server);
+        if (PokecubeCore.getConfig().debug_data) PokecubeItems.initTags(server);
     }
 
     private static void initTags(final MinecraftServer server)
