@@ -188,7 +188,7 @@ class PokedexEntry:
             self.moves = moves
 
 class PokemonSpecies:
-    def __init__(self, species, dex) -> None:
+    def __init__(self, species, dex, custom_moves) -> None:
         self.species = species
         self.species_id = species.id
 
@@ -226,6 +226,11 @@ class PokemonSpecies:
             if(model_name is not None):
                 # We need to handle this to the older model added?
                 continue
+
+            if entry.name in custom_moves:
+                print(f'adding custom moves for {entry.name} from override files')
+                entry.__dict__['moves'] = custom_moves[entry.name]
+
 
             old_name = find_old_name(forme.name, species, dex)
             if(old_name is not None):
@@ -280,9 +285,6 @@ class PokemonSpecies:
                             models.append(model)
                         
                     entry.add_models(models)
-
-                if not "moves" in entry.__dict__ and 'moves' in old_entry:
-                    entry.__dict__['moves'] = old_entry['moves']
 
                 if 'stats' in old_entry:
                     stats = old_entry['stats']
@@ -396,11 +398,14 @@ def convert_pokedex():
     for var in old_pokedex["pokemon"]:
         pokedex[var["name"]] = var
 
-    moves_dex = './old/pokemobs/pokemobs_moves.json'
+    moves_dex = './data/pokemobs/custom_movesets.json'
     file = open(moves_dex, 'r')
     data = file.read()
     file.close()
-    moves_dex = json.loads(data)
+    _moves_dex = json.loads(data)
+    moves_dex = {}
+    for entry in _moves_dex:
+        moves_dex[entry['name']] = entry['moves']
 
     tables = './data/pokemobs/loot_tables.json'
     file = open(tables, 'r')
@@ -422,51 +427,6 @@ def convert_pokedex():
         for name in list:
             held_tables[name] = key
 
-    def convert_moves(old_moves, name):
-        level_up_old = old_moves['lvlupMoves']
-
-        misc_old = []
-
-        errored_move = False
-
-        if 'misc' in old_moves and 'moves' in old_moves['misc']:
-            misc_old = old_moves['misc']['moves'].split(',')
-
-        misc_old = [convert_old_move_name(x) for x in misc_old]
-        while None in misc_old:
-            misc_old.remove(None)
-            errored_move = True
-        moves = {}
-
-        level_up = []
-
-        if 'values' in level_up_old:
-            level_up_old = level_up_old['values']
-
-        for key, item in level_up_old.items():
-            level = int(key)
-            vars = item.split(',')
-            vars = [convert_old_move_name(x) for x in vars]
-            while None in vars:
-                vars.remove(None)
-                errored_move = True
-            move = {}
-            move['L'] = level
-            move['moves'] = vars
-            level_up.append(move)
-
-        if errored_move:
-            print(f'error with move for {name}')
-
-        if(len(level_up)>0):
-            moves['level_up'] = level_up
-        if(len(misc_old)>0):
-            moves['misc'] = misc_old
-        return moves
-
-    for var in moves_dex["pokemon"]:
-        pokedex[var["name"]]['moves'] = convert_moves(var['moves'], var["name"])
-
     i = 1
     values = get_species(i)
     species = []
@@ -478,7 +438,7 @@ def convert_pokedex():
     pokemob_tag_names = ["pokecube:missingno"]
 
     while values is not None:
-        entry = PokemonSpecies(values, pokedex)
+        entry = PokemonSpecies(values, pokedex, moves_dex)
         species.append(entry)
         for var in entry.entries:
 
@@ -505,14 +465,13 @@ def convert_pokedex():
         i = i + 1
         values = get_species(i)
 
-
     # Now lets handle anything defined as a "custom entry"
     custom = './data/pokemobs/custom_entries.json'
     file = open(custom, 'r')
     data = file.read()
     file.close()
     custom = json.loads(data)
-    for var in custom["values"]:
+    for var in custom:
         tag_name = f'pokecube:{var["name"]}'
         if not tag_name in pokemob_tag_names:
             pokemob_tag_names.append(tag_name)
