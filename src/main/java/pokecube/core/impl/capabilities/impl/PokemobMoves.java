@@ -189,7 +189,7 @@ public abstract class PokemobMoves extends PokemobStats
         final String[] g_z_moves = super.getGZMoves();
         final String[] moves = this.getMoves();
         boolean gigant = this.getCombatState(CombatStates.DYNAMAX)
-                && this.getPokedexEntry().getTrimmedName().contains("_gigantamax");
+                && this.getPokedexEntry().getTrimmedName().contains("-gmax");
         for (int i = 0; i < 4; i++)
         {
             final String gmove = GZMoveManager.getGMove(this, moves[i], gigant);
