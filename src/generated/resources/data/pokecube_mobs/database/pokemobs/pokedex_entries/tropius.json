@@ -199,7 +199,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/apple_cow",
   "interactions": [
     {
       "male": true,
@@ -227,5 +226,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/apple_cow"
 }

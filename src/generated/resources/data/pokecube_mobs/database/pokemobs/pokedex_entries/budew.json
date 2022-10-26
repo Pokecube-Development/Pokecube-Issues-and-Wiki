@@ -139,12 +139,12 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/chestplate_seeds_1",
   "evolutions": [
     {
       "name": "roselia",
       "time": "day",
       "happy": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

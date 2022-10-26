@@ -174,12 +174,12 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "scolipede",
       "level": 30,
-      "evoMoves": "batonpass"
+      "evoMoves": "baton-pass"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

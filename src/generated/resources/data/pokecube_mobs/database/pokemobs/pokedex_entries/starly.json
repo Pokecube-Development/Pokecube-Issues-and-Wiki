@@ -169,11 +169,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "staravia",
       "level": 14
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

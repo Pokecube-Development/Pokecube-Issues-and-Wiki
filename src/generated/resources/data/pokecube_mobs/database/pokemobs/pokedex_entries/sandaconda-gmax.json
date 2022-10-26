@@ -2,6 +2,7 @@
   "name": "sandaconda-gmax",
   "id": 844,
   "stock": true,
+  "gmax": true,
   "base_experience": 179,
   "size": {
     "height": 4.5,

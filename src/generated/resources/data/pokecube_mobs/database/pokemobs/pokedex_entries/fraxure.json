@@ -196,11 +196,11 @@
       "scale-shot"
     ]
   },
-  "loot_table": "pokecube:entities/bones",
   "evolutions": [
     {
       "name": "haxorus",
       "level": 48
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/bones"
 }

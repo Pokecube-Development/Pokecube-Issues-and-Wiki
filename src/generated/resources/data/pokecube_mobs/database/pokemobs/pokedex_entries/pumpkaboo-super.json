@@ -185,12 +185,12 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/other_seeds",
   "evolutions": [
     {
       "name": "gourgeist-super",
       "trade": true
     }
   ],
-  "old_name": "pumpkaboo_super"
+  "old_name": "pumpkaboo_super",
+  "loot_table": "pokecube:entities/other_seeds"
 }

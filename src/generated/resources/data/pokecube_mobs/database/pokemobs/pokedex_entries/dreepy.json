@@ -74,13 +74,13 @@
       "dragon-tail"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_1",
   "evolutions": [
     {
       "name": "drakloak",
       "level": 50,
       "animation": "18",
-      "evoMoves": "dragonpulse"
+      "evoMoves": "dragon-pulse"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_1"
 }

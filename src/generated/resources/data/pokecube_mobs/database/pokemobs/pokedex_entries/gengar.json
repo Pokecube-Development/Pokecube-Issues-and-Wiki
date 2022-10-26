@@ -260,11 +260,11 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_3",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "gengarmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_3"
 }

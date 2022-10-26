@@ -127,7 +127,6 @@
       "baby-doll-eyes"
     ]
   },
-  "loot_table": "pokecube:entities/white_1",
   "evolutions": [
     {
       "name": "alcremie",
@@ -141,5 +140,6 @@
         "key": "alcremie_*"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/white_1"
 }

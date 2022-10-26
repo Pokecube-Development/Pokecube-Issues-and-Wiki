@@ -197,11 +197,11 @@
       "throat-chop"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "banettemega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

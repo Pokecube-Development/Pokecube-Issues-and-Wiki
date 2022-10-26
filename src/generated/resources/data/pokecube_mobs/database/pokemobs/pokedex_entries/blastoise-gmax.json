@@ -2,6 +2,7 @@
   "name": "blastoise-gmax",
   "id": 9,
   "stock": true,
+  "gmax": true,
   "base_experience": 239,
   "size": {
     "height": 5.0,

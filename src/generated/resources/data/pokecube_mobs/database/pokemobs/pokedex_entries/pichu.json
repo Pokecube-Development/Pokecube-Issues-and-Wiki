@@ -179,11 +179,11 @@
       "types": "electric"
     }
   ],
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "pikachu",
       "happy": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

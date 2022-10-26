@@ -213,7 +213,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/stone_gold",
   "spawn_rules": [
     {
       "values": {
@@ -227,5 +226,6 @@
       "name": "Groudon Primal",
       "item_preset": "omegaorb"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_gold"
 }

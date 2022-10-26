@@ -182,6 +182,6 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
-  "old_name": "wishiwashi"
+  "old_name": "wishiwashi",
+  "loot_table": "pokecube:entities/fish_1"
 }

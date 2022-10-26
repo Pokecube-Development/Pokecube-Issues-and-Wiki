@@ -201,11 +201,11 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wool_1",
   "evolutions": [
     {
       "name": "whimsicott",
       "item_preset": "sunstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wool_1"
 }

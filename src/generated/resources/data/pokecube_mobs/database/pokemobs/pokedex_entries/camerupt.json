@@ -187,7 +187,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/cow_2",
   "mega_rules": [
     {
       "preset": "Mega",
@@ -221,5 +220,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cow_2"
 }

@@ -1,0 +1,33 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:gengar",
+    "pokecube:wailord",
+    "pokecube:metang",
+    "pokecube:metagross",
+    "pokecube:metagross_mega",
+    "pokecube:garchomp",
+    "pokecube:garchomp_mega",
+    "pokecube:magnezone",
+    "pokecube:dusknoir",
+    "pokecube:dialga",
+	"pokecube:dialga_origin",
+    "pokecube:palkia",
+	"pokecube:palkia_origin",
+    "pokecube:giratina",
+    "pokecube:cresselia",
+    "pokecube:darkrai",
+    "pokecube:druddigon",
+    "pokecube:golurk",
+    "pokecube:kyurem",
+    "pokecube:malamar",
+    "pokecube:zygarde_100",
+    "pokecube:hoopa_unbound",
+    "pokecube:solgaleo",
+    "pokecube:solgaleo_dusk",
+    "pokecube:buzzwole",
+    "pokecube:necrozma",
+    "pokecube:orbeetle_gigantamax",
+	"pokecube:decidueye_hisui"
+  ]
+}

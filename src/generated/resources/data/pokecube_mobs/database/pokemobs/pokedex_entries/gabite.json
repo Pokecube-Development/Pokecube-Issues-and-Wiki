@@ -190,12 +190,12 @@
     "model": "gabite_female",
     "anim": "gabite_female"
   },
-  "loot_table": "pokecube:entities/iron_chicken_2",
   "evolutions": [
     {
       "name": "garchomp",
       "level": 48,
       "evoMoves": "crunch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_chicken_2"
 }

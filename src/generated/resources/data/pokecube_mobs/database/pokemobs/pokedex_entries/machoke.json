@@ -240,12 +240,12 @@
       "coaching"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "evolutions": [
     {
       "name": "machamp",
       "trade": true,
       "evoMoves": "strength"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

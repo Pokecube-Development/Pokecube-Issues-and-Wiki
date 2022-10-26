@@ -174,13 +174,13 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/fish_2",
   "evolutions": [
     {
       "name": "greninja",
       "level": 36,
       "animation": "9",
-      "evoMoves": "watershuriken"
+      "evoMoves": "water-shuriken"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_2"
 }

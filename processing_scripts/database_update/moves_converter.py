@@ -182,7 +182,8 @@ def convert_old_move_name(old):
         if name == old:
             return name
         test = name.replace('-', '')
-        if test == old:
+        oldtest = old.replace('_', '')
+        if test == oldtest:
             return name
 
     for name in LEGENDS_ARCEUS:
@@ -272,7 +273,7 @@ def convert_moves():
         move_entries.append(entry)
 
         # Dump the entry file
-        file = f'./new/moves/entries/{name}.json'
+        file = f'../../src/generated/resources/data/pokecube_mobs/database/moves/entries/{name}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         file = open(file, 'w', encoding='utf-8')
@@ -289,7 +290,7 @@ def convert_moves():
 
     # Dump the lang files
     for key, dict in lang_files.items():
-        file = f'./new/assets/pokecube_moves/lang/{key}'
+        file = f'../../src/generated/resources/assets/pokecube_moves/lang/{key}'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         try:
@@ -304,7 +305,7 @@ def convert_moves():
     for name, value in anims_dex.items():
         new_name = convert_old_move_name(name)
         if new_name is not None:
-            file = f'./new/moves/animations/{new_name}.json'
+            file = f'../../src/generated/resources/data/pokecube_mobs/database/moves/animations/{new_name}.json'
             value["name"] = new_name
 
             anims = []
@@ -322,14 +323,14 @@ def convert_moves():
             print(f'unknown animation: {name}')
 
     # Dump ranged and contact tags
-    file = f'./new/tags/pokemob_moves/contact-moves.json'
+    file = f'../../src/generated/resources/data/pokecube/tags/pokemob_moves/contact-moves.json'
     if not os.path.exists(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))
     tag = {"replace":False,"values":contact}
     file = open(file, 'w', encoding='utf-8')
     json.dump(tag, file, indent=2, ensure_ascii=False)
     file.close()
-    file = f'./new/tags/pokemob_moves/ranged-moves.json'
+    file = f'../../src/generated/resources/data/pokecube/tags/pokemob_moves/ranged-moves.json'
     if not os.path.exists(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))
     tag = {"replace":False,"values":ranged}

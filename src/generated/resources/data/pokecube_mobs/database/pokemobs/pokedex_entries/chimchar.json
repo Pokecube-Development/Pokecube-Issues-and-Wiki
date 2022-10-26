@@ -197,12 +197,12 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/coal_1",
   "evolutions": [
     {
       "name": "monferno",
       "level": 14,
-      "evoMoves": "machpunch"
+      "evoMoves": "mach-punch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_1"
 }

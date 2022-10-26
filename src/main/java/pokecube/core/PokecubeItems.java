@@ -587,31 +587,16 @@ public class PokecubeItems extends ItemList
 
     public static void init(final MinecraftServer server)
     {
-        if (PokecubeCore.getConfig().debug_misc) PokecubeItems.initTags(server);
+        if (PokecubeCore.getConfig().debug_data) PokecubeItems.initTags(server);
     }
 
     private static void initTags(final MinecraftServer server)
     {
-        // Init an entity type tag for pokemobs
-        JsonObject json = new JsonObject();
-        json.addProperty("replace", false);
-        JsonArray array = new JsonArray();
-        for (final PokedexEntry entry : Database.getSortedFormes()) array.add("pokecube:" + entry.getTrimmedName());
-        json.add("values", array);
-        File folder = new File(".", "generated/entity_types");
-        folder.mkdirs();
-        File file = new File(folder, "pokemob.json");
+        JsonObject json;
+        JsonArray array;
+        File folder;
+        File file;
         FileOutputStream writer;
-        try
-        {
-            writer = new FileOutputStream(file);
-            writer.write(JsonUtil.gson.toJson(json).getBytes());
-            writer.close();
-        }
-        catch (final IOException e)
-        {
-            e.printStackTrace();
-        }
 
         folder = new File(".", "generated/items");
         folder.mkdirs();

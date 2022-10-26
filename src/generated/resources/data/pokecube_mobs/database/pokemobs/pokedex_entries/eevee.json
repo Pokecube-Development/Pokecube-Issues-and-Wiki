@@ -206,19 +206,18 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "vaporeon",
       "animation": "splash",
       "item_preset": "waterstone",
-      "evoMoves": "watergun"
+      "evoMoves": "water-gun"
     },
     {
       "name": "jolteon",
       "animation": "spark",
       "item_preset": "thunderstone",
-      "evoMoves": "thundershock"
+      "evoMoves": "thunder-shock"
     },
     {
       "name": "flareon",
@@ -241,17 +240,18 @@
     {
       "name": "leafeon",
       "item_preset": "leafstone",
-      "evoMoves": "razorleaf"
+      "evoMoves": "razor-leaf"
     },
     {
       "name": "glaceon",
       "item_preset": "pokecube_mobs:ice_stone",
-      "evoMoves": "icywind"
+      "evoMoves": "icy-wind"
     },
     {
       "name": "sylveon",
       "item_preset": "pokecube_mobs:sylveon",
-      "evoMoves": "fairywind"
+      "evoMoves": "fairy-wind"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

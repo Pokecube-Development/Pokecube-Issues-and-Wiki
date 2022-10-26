@@ -214,12 +214,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/shear_fish",
   "evolutions": [
     {
       "name": "crawdaunt",
       "level": 30,
       "evoMoves": "swift"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/shear_fish"
 }

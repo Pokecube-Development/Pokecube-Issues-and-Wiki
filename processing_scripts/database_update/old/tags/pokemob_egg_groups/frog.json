@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:bulbasaur",
+    "pokecube:ivysaur",
+    "pokecube:venusaur",
+    "pokecube:politoed",
+    "pokecube:croagunk",
+    "pokecube:toxicroak",
+    "pokecube:froakie",
+    "pokecube:frogadier",
+    "pokecube:greninja"
+  ]
+}

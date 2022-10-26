@@ -164,7 +164,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -181,5 +180,6 @@
       }
     }
   ],
-  "old_name": "moltres_galar"
+  "old_name": "moltres_galar",
+  "loot_table": "pokecube:entities/generic_legend"
 }

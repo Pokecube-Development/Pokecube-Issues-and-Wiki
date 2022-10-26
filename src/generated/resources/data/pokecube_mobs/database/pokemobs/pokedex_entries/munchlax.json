@@ -233,11 +233,11 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "evolutions": [
     {
       "name": "snorlax",
       "happy": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

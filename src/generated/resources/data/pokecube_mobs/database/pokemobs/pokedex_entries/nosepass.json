@@ -207,14 +207,14 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/stone_1",
   "evolutions": [
     {
       "name": "probopass",
       "location": {
         "and_preset": "industrial"
       },
-      "evoMoves": "Tri Attack"
+      "evoMoves": "tri-attack"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_1"
 }

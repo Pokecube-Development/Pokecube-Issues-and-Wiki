@@ -177,7 +177,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_1",
   "spawn_rules": [
     {
       "and_preset": "nether",
@@ -213,5 +212,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

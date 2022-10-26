@@ -224,11 +224,11 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/lilypad",
   "evolutions": [
     {
       "name": "ludicolo",
       "item_preset": "waterstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/lilypad"
 }

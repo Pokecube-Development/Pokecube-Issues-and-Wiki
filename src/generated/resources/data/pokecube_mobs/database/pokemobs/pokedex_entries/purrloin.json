@@ -219,11 +219,11 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "liepard",
       "level": 20
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

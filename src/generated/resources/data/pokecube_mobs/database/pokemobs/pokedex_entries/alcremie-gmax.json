@@ -2,6 +2,7 @@
   "name": "alcremie-gmax",
   "id": 869,
   "stock": true,
+  "gmax": true,
   "base_experience": 173,
   "size": {
     "height": 6.0,

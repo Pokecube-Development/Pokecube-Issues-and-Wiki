@@ -1,0 +1,150 @@
+{
+  "pokemon": [
+    {
+      "name": "rotom",
+      "formeItems":[ 
+        {
+          "forme": "rotom_fan",
+          "item": "minecraft:shears"
+	      },
+        {
+          "forme": "rotom_frost",
+          "item": "minecraft:chest"
+	      },
+        {
+          "forme": "rotom_heat",
+          "item": "minecraft:furnace"
+	      },
+        {
+          "forme": "rotom_mow",
+          "item": "minecraft:stone_hoe"
+	      },
+        {
+          "forme": "rotom_wash",
+          "item": "minecraft:cauldron"
+	      }
+      ]
+    },
+    {
+      "name": "giratina",
+      "formeItems":[ 
+        {
+          "forme": "Giratina Origin",
+          "item": "pokecube_legends:griseousorb"
+	    }
+      ]
+    },
+    {
+        "name": "dialga",
+        "formeItems":[ 
+          {
+            "forme": "Dialga Origin",
+            "item": "pokecube_legends:adamantorb"
+        }
+        ]
+      },
+    {
+      "name": "palkia",
+      "formeItems":[ 
+        {
+          "forme": "Palkia Origin",
+          "item": "pokecube_legends:lustrousorb"
+	    }
+      ]
+    },
+    {
+      "name": "shaymin_land",
+      "formeItems":[ 
+        {
+          "forme": "Shaymin Sky",
+          "item": "pokecube_legends:gracidea"
+	    }
+      ]
+    },
+    {
+      "name": "kyurem",
+      "formeItems":[
+        {
+          "forme": "Kyurem Black",
+          "item": "pokecube_legends:dna_splicera"
+	    },
+        {
+          "forme": "Kyurem White",
+          "item": "pokecube_legends:dna_splicerb"
+	    }
+      ]
+    },
+    {
+      "name": "genesect",
+      "formeItems":[ 
+        {
+          "forme": "GenesectSDrive",
+          "item": "minecraft:redstone"
+	    }
+      ]
+    },
+    {
+      "name": "hoopa_confined",
+      "formeItems":[ 
+        {
+          "forme": "Hoopa Unbound",
+          "item": "pokecube_legends:prisonbottle"
+	    }
+      ]
+    },
+    {
+      "name": "solgaleo",
+      "formeItems":[ 
+        {
+          "forme": "Solgaleo Dusk",
+          "item": "pokecube_legends:n_sun"
+	    }
+      ]
+    },
+    {
+      "name": "lunala",
+      "formeItems":[ 
+        {
+          "forme": "Lunala Dawn",
+          "item": "pokecube_legends:n_moon"
+	    }
+      ]
+    },
+    {
+      "name": "zacian",
+      "formeItems":[ 
+        {
+          "forme": "Zacian Crowned",
+          "item": "pokecube_legends:zacian_sword"
+	    }
+      ]
+    },
+    {
+      "name": "zamazenta",
+      "formeItems":[ 
+        {
+          "forme": "Zamazenta Crowned",
+          "item": "pokecube_legends:zamazenta_shield"
+	    }
+      ]
+    },
+    {
+      "name": "glastrier",
+      "formeItems":[ 
+        {
+          "forme": "Calyrex Ice Rider",
+          "item": "pokecube_legends:reins_u"
+	    }
+      ]
+    },
+    {
+      "name": "spectrier",
+      "formeItems":[ 
+        {
+          "forme": "Calyrex Shadow Rider",
+          "item": "pokecube_legends:reins_u"
+	    }
+      ]
+    }
+  ]
+}

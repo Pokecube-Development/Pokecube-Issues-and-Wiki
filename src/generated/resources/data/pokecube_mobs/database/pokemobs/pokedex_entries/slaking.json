@@ -183,7 +183,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_3",
   "interactions": [
     {
       "male": false,
@@ -211,5 +210,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_3"
 }

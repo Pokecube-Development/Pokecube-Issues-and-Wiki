@@ -186,12 +186,11 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "evolutions": [
     {
       "name": "decidueye",
       "level": 34,
-      "evoMoves": "spiritshackle"
+      "evoMoves": "spirit-shackle"
     },
     {
       "name": "decidueye-hisui",
@@ -199,7 +198,8 @@
       "location": {
         "and_preset": "savannas"
       },
-      "evoMoves": "rocksmash"
+      "evoMoves": "rock-smash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

@@ -68,7 +68,6 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_1",
   "evolutions": [
     {
       "name": "toxtricity-amped",
@@ -83,5 +82,6 @@
       "trade": true,
       "evoMoves": "spark"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_rabbit_1"
 }

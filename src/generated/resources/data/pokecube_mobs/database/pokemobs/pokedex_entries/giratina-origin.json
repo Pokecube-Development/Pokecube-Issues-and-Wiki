@@ -211,7 +211,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_3",
   "spawn_rules": [
     {
       "values": {
@@ -230,5 +229,6 @@
       }
     }
   ],
-  "old_name": "giratina_origin"
+  "old_name": "giratina_origin",
+  "loot_table": "pokecube:entities/enderpearls_3"
 }

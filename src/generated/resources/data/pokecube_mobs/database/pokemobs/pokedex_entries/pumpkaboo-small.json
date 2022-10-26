@@ -185,12 +185,12 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/other_seeds",
   "evolutions": [
     {
       "name": "gourgeist-small",
       "trade": true
     }
   ],
-  "old_name": "pumpkaboo_small"
+  "old_name": "pumpkaboo_small",
+  "loot_table": "pokecube:entities/other_seeds"
 }

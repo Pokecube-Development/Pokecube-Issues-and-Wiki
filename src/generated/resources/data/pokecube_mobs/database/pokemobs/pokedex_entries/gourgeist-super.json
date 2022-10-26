@@ -186,6 +186,6 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/other_seeds",
-  "old_name": "gourgeist_super"
+  "old_name": "gourgeist_super",
+  "loot_table": "pokecube:entities/other_seeds"
 }

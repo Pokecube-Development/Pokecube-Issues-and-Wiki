@@ -2,6 +2,7 @@
   "name": "banette-mega",
   "id": 354,
   "stock": true,
+  "mega": true,
   "base_experience": 194,
   "size": {
     "height": 1.2,

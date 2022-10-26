@@ -205,7 +205,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/coal_cow_2",
   "interactions": [
     {
       "male": false,
@@ -233,5 +232,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_cow_2"
 }

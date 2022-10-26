@@ -223,11 +223,11 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/stone_2",
   "evolutions": [
     {
       "name": "golem",
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_2"
 }

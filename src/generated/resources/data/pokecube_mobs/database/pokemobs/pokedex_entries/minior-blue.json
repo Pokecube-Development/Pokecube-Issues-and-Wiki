@@ -187,6 +187,6 @@
       "dazzling-gleam"
     ]
   },
-  "loot_table": "pokecube:entities/glowstone_dust",
-  "old_name": "blue_core_minior"
+  "old_name": "blue_core_minior",
+  "loot_table": "pokecube:entities/glowstone_dust"
 }

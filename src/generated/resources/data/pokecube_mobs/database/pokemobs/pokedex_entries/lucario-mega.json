@@ -2,6 +2,7 @@
   "name": "lucario-mega",
   "id": 448,
   "stock": true,
+  "mega": true,
   "base_experience": 219,
   "size": {
     "height": 1.3

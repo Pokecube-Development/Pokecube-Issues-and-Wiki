@@ -134,7 +134,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "evolutions": [
     {
       "name": "thievul",
@@ -142,5 +141,6 @@
       "animation": "18",
       "evoMoves": "thief"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_2"
 }

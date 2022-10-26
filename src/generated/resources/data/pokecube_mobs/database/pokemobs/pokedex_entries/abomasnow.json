@@ -182,11 +182,11 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/snow_rabbit_2",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "abomasnowmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/snow_rabbit_2"
 }

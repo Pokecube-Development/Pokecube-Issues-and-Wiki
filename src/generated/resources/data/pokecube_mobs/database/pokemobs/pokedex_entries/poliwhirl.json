@@ -216,7 +216,6 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_2",
   "evolutions": [
     {
       "name": "poliwrath",
@@ -228,5 +227,6 @@
       "item_preset": "kingsrock",
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_2"
 }

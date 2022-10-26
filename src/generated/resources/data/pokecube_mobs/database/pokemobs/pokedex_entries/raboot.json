@@ -130,13 +130,13 @@
       "work-up"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "evolutions": [
     {
       "name": "cinderace",
       "level": 35,
       "animation": "18",
-      "evoMoves": "pyroball"
+      "evoMoves": "pyro-ball"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_2"
 }

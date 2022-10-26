@@ -2,6 +2,7 @@
   "name": "rayquaza-mega",
   "id": 384,
   "stock": true,
+  "mega": true,
   "base_experience": 351,
   "size": {
     "height": 1.5,

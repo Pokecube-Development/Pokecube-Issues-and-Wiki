@@ -181,12 +181,12 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "frogadier",
       "level": 16,
       "animation": "9"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

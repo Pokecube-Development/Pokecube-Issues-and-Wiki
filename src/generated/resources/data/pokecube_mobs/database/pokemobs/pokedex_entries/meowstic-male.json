@@ -226,7 +226,6 @@
     "model": "meowstic_f",
     "anim": "meowstic_f"
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -255,5 +254,6 @@
       }
     }
   ],
-  "old_name": "meowstic"
+  "old_name": "meowstic",
+  "loot_table": "pokecube:entities/rabbit_2"
 }

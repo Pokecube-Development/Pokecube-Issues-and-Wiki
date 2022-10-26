@@ -1,0 +1,2371 @@
+[
+  {
+    "name": "growlithe-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "ember"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "bite"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "fire-fang"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "rock-slide"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "crunch"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "double-edge"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "flare-blitz"
+          ]
+        }
+      ],
+      "misc": [
+        "fire-fang",
+        "rock-smash",
+        "aerial-ace",
+        "swift",
+        "rest",
+        "rock-slide",
+        "iron-tail",
+        "snarl",
+        "wild-charge",
+        "outrage",
+        "play-rough",
+        "flamethrower"
+      ]
+    }
+  },
+  {
+    "name": "arcanine-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "ember"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "bite"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "fire-fang"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "rock-slide"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "raging-fury",
+            "crunch"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "double-edge"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "flare-blitz"
+          ]
+        }
+      ],
+      "misc": [
+        "fire-fang",
+        "thunder-fang",
+        "rock-smash",
+        "bulldoze",
+        "aerial-ace",
+        "swift",
+        "rest",
+        "rock-slide",
+        "iron-head",
+        "iron-tail",
+        "snarl",
+        "giga-impact",
+        "wild-charge",
+        "stone-edge",
+        "outrage",
+        "play-rough",
+        "hyper-beam",
+        "flamethrower"
+      ]
+    }
+  },
+  {
+    "name": "voltorb-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "thunder-shock"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "thunder-wave"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "spark"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "energy-ball"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "thunderbolt"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "thunder"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "self-destruct"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-ball",
+        "swift",
+        "magical-leaf",
+        "rest",
+        "charge-beam",
+        "energy-ball",
+        "wild-charge",
+        "thunderbolt"
+      ]
+    }
+  },
+  {
+    "name": "electrode-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "thunder-shock"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "thunder-wave"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "spark"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "energy-ball"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "thunderbolt"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "thunder"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "self-destruct",
+            "chloroblast"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-ball",
+        "swift",
+        "magical-leaf",
+        "rest",
+        "charge-beam",
+        "energy-ball",
+        "wild-charge",
+        "hyper-beam",
+        "thunderbolt"
+      ]
+    }
+  },
+  {
+    "name": "typhlosion-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "quick-attack"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "ember"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "rollout"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "flame-wheel"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "swift"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "flamethrower"
+          ]
+        },
+        {
+          "L": 51,
+          "moves": [
+            "infernal-parade"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "shadow-ball",
+            "overheat"
+          ]
+        }
+      ],
+      "misc": [
+        "fire-punch",
+        "thunder",
+        "cut",
+        "headbutt",
+        "roar",
+        "hyper-beam",
+        "strength",
+        "earthquake",
+        "dig",
+        "toxic",
+        "double-team",
+        "fire-blast",
+        "rest",
+        "snore",
+        "curse",
+        "protect",
+        "mud-slap",
+        "detect",
+        "endure",
+        "swagger",
+        "fury-cutter",
+        "attract",
+        "sleep-talk",
+        "return",
+        "frustration",
+        "dynamic-punch",
+        "iron-tail",
+        "hidden-power",
+        "sunny-day",
+        "rock-smash",
+        "facade",
+        "focus-punch",
+        "brick-break",
+        "secret-power",
+        "overheat",
+        "aerial-ace",
+        "mega-punch",
+        "mega-kick",
+        "body-slam",
+        "counter",
+        "seismic-toss",
+        "mimic",
+        "rock-slide",
+        "substitute",
+        "solar-beam",
+        "will-o-wisp",
+        "blast-burn",
+        "rock-tomb",
+        "natural-gift",
+        "fling",
+        "focus-blast",
+        "giga-impact",
+        "shadow-claw",
+        "rock-climb",
+        "captivate",
+        "heat-wave",
+        "low-kick",
+        "round",
+        "incinerate",
+        "fire-pledge",
+        "bulldoze",
+        "wild-charge",
+        "covet",
+        "nature-power",
+        "confide",
+        "power-up-punch",
+        "work-up"
+      ]
+    }
+  },
+  {
+    "name": "qwilfish-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "poison-sting"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "spikes"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "pin-missile"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "barb-barrage"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "water-pulse"
+          ]
+        },
+        {
+          "L": 38,
+          "moves": [
+            "dark-pulse"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "poison-jab"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "aqua-tail"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "double-edge"
+          ]
+        },
+        {
+          "L": 71,
+          "moves": [
+            "self-destruct"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-ball",
+        "spikes",
+        "swift",
+        "rest",
+        "poison-jab",
+        "water-pulse",
+        "icy-wind",
+        "sludge-bomb",
+        "shadow-ball",
+        "aqua-tail",
+        "ice-beam",
+        "dark-pulse"
+      ]
+    }
+  },
+  {
+    "name": "sneasel-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "quick-attack"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "rock-smash"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "swift"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "poison-jab"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "swords-dance"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "close-combat"
+          ]
+        }
+      ],
+      "misc": [
+        "false-swipe",
+        "rock-smash",
+        "aerial-ace",
+        "swift",
+        "focus-energy",
+        "bulk-up",
+        "calm-mind",
+        "rest",
+        "drain-punch",
+        "poison-jab",
+        "x-scissor",
+        "shadow-claw",
+        "iron-tail",
+        "shadow-ball",
+        "snarl"
+      ]
+    }
+  },
+  {
+    "name": "dialga-origin",
+    "moves": {
+      "level_up": [
+        {
+          "L": 1,
+          "moves": [
+            "scary-face",
+            "dragon-breath"
+          ]
+        },
+        {
+          "L": 6,
+          "moves": [
+            "metal-claw"
+          ]
+        },
+        {
+          "L": 10,
+          "moves": [
+            "ancient-power"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 19,
+          "moves": [
+            "power-gem"
+          ]
+        },
+        {
+          "L": 24,
+          "moves": [
+            "metal-burst"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "dragon-claw"
+          ]
+        },
+        {
+          "L": 33,
+          "moves": [
+            "earth-power"
+          ]
+        },
+        {
+          "L": 37,
+          "moves": [
+            "aura-sphere"
+          ]
+        },
+        {
+          "L": 42,
+          "moves": [
+            "iron-tail"
+          ]
+        },
+        {
+          "L": 46,
+          "moves": [
+            "roar-of-time"
+          ]
+        },
+        {
+          "L": 50,
+          "moves": [
+            "flash-cannon"
+          ]
+        }
+      ],
+      "misc": [
+        "cut",
+        "flamethrower",
+        "ice-beam",
+        "blizzard",
+        "hyper-beam",
+        "strength",
+        "thunderbolt",
+        "thunder-wave",
+        "thunder",
+        "earthquake",
+        "toxic",
+        "double-team",
+        "fire-blast",
+        "flash",
+        "rest",
+        "rock-slide",
+        "substitute",
+        "protect",
+        "sandstorm",
+        "endure",
+        "swagger",
+        "sleep-talk",
+        "return",
+        "frustration",
+        "safeguard",
+        "hidden-power",
+        "rain-dance",
+        "sunny-day",
+        "psych-up",
+        "rock-smash",
+        "facade",
+        "brick-break",
+        "secret-power",
+        "overheat",
+        "rock-tomb",
+        "aerial-ace",
+        "bulk-up",
+        "shock-wave",
+        "natural-gift",
+        "heal-block",
+        "dragon-pulse",
+        "giga-impact",
+        "shadow-claw",
+        "trick-room",
+        "draco-meteor",
+        "stone-edge",
+        "stealth-rock",
+        "swift",
+        "snore",
+        "mud-slap",
+        "outrage",
+        "fury-cutter",
+        "twister",
+        "iron-defense",
+        "magnet-rise",
+        "iron-head",
+        "headbutt",
+        "gravity",
+        "hone-claws",
+        "round",
+        "echoed-voice",
+        "incinerate",
+        "bulldoze",
+        "dragon-tail",
+        "hyper-voice",
+        "confide"
+      ]
+    }
+  },
+  {
+    "name": "palkia-origin",
+    "moves": {
+      "level_up": [
+        {
+          "L": 1,
+          "moves": [
+            "scary-face",
+            "dragon-breath"
+          ]
+        },
+        {
+          "L": 6,
+          "moves": [
+            "water-pulse"
+          ]
+        },
+        {
+          "L": 10,
+          "moves": [
+            "ancient-power"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 19,
+          "moves": [
+            "power-gem"
+          ]
+        },
+        {
+          "L": 24,
+          "moves": [
+            "aqua-ring"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "dragon-claw"
+          ]
+        },
+        {
+          "L": 33,
+          "moves": [
+            "earth-power"
+          ]
+        },
+        {
+          "L": 37,
+          "moves": [
+            "aura-sphere"
+          ]
+        },
+        {
+          "L": 42,
+          "moves": [
+            "aqua-tail"
+          ]
+        },
+        {
+          "L": 46,
+          "moves": [
+            "spacial-rend"
+          ]
+        },
+        {
+          "L": 50,
+          "moves": [
+            "hydro-pump"
+          ]
+        }
+      ],
+      "misc": [
+        "cut",
+        "roar",
+        "flamethrower",
+        "surf",
+        "ice-beam",
+        "blizzard",
+        "hyper-beam",
+        "strength",
+        "thunderbolt",
+        "thunder-wave",
+        "thunder",
+        "earthquake",
+        "toxic",
+        "double-team",
+        "fire-blast",
+        "rest",
+        "rock-slide",
+        "substitute",
+        "protect",
+        "sandstorm",
+        "endure",
+        "swagger",
+        "sleep-talk",
+        "return",
+        "frustration",
+        "safeguard",
+        "hidden-power",
+        "rain-dance",
+        "sunny-day",
+        "psych-up",
+        "rock-smash",
+        "hail",
+        "facade",
+        "focus-punch",
+        "brick-break",
+        "secret-power",
+        "rock-tomb",
+        "aerial-ace",
+        "bulk-up",
+        "shock-wave",
+        "brine",
+        "natural-gift",
+        "fling",
+        "heal-block",
+        "dragon-pulse",
+        "focus-blast",
+        "giga-impact",
+        "avalanche",
+        "shadow-claw",
+        "trick-room",
+        "draco-meteor",
+        "stone-edge",
+        "swift",
+        "snore",
+        "mud-slap",
+        "outrage",
+        "fury-cutter",
+        "twister",
+        "dive",
+        "headbutt",
+        "whirlpool",
+        "gravity",
+        "hone-claws",
+        "round",
+        "echoed-voice",
+        "incinerate",
+        "bulldoze",
+        "dragon-tail",
+        "hyper-voice",
+        "confide"
+      ]
+    }
+  },
+  {
+    "name": "samurott-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "aqua-jet"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "swords-dance"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "water-pulse"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "ceaseless-edge"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "aqua-tail"
+          ]
+        },
+        {
+          "L": 51,
+          "moves": [
+            "dark-pulse"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "hydro-pump"
+          ]
+        }
+      ],
+      "misc": [
+        "false-swipe",
+        "rock-smash",
+        "aerial-ace",
+        "focus-energy",
+        "rest",
+        "poison-jab",
+        "psycho-cut",
+        "x-scissor",
+        "iron-tail",
+        "water-pulse",
+        "icy-wind",
+        "giga-impact",
+        "aqua-tail",
+        "megahorn",
+        "hyper-beam",
+        "ice-beam",
+        "dark-pulse"
+      ]
+    }
+  },
+  {
+    "name": "lilligant-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "absorb"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "leafage"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "stun-spore"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "poison-powder"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "energy-ball"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "sleep-powder"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "drain-punch"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "recover",
+            "leaf-blade"
+          ]
+        },
+        {
+          "L": 55,
+          "moves": [
+            "victory-dance"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "leaf-storm"
+          ]
+        },
+        {
+          "L": 66,
+          "moves": [
+            "petal-dance"
+          ]
+        },
+        {
+          "L": 71,
+          "moves": [
+            "close-combat"
+          ]
+        }
+      ],
+      "misc": [
+        "rock-smash",
+        "aerial-ace",
+        "magical-leaf",
+        "focus-energy",
+        "rest",
+        "baby-doll-eyes",
+        "drain-punch",
+        "poison-jab",
+        "energy-ball",
+        "giga-impact",
+        "hyper-beam"
+      ]
+    }
+  },
+  {
+    "name": "basculin-white-striped",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "aqua-jet"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "bite"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "zen-headbutt"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "crunch"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "wave-crash"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "double-edge"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-fang",
+        "swift",
+        "rest",
+        "zen-headbutt",
+        "icy-wind",
+        "aqua-tail",
+        "ice-beam"
+      ]
+    }
+  },
+  {
+    "name": "zorua-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "shadow-sneak"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "snarl"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "swift"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "bitter-malice"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "shadow-claw"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "nasty-plot"
+          ]
+        }
+      ],
+      "misc": [
+        "aerial-ace",
+        "swift",
+        "calm-mind",
+        "rest",
+        "shadow-ball",
+        "snarl",
+        "dark-pulse"
+      ]
+    }
+  },
+  {
+    "name": "zoroark-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "shadow-sneak"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "snarl"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "swift"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "bitter-malice"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "shadow-claw"
+          ]
+        },
+        {
+          "L": 51,
+          "moves": [
+            "shadow-ball"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "nasty-plot"
+          ]
+        },
+        {
+          "L": 64,
+          "moves": [
+            "extrasensory"
+          ]
+        }
+      ],
+      "misc": [
+        "rock-smash",
+        "aerial-ace",
+        "swift",
+        "ominous-wind",
+        "calm-mind",
+        "rest",
+        "shadow-claw",
+        "sludge-bomb",
+        "shadow-ball",
+        "snarl",
+        "giga-impact",
+        "hyper-beam",
+        "flamethrower",
+        "dark-pulse"
+      ]
+    }
+  },
+  {
+    "name": "braviary-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "quick-attack"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "aerial-ace"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "twister"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 30,
+          "moves": [
+            "air-slash"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "esper-wing",
+            "roost"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "double-edge"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "brave-bird"
+          ]
+        },
+        {
+          "L": 64,
+          "moves": [
+            "hurricane"
+          ]
+        }
+      ],
+      "misc": [
+        "rock-smash",
+        "aerial-ace",
+        "swift",
+        "ominous-wind",
+        "power-shift",
+        "bulk-up",
+        "rest",
+        "zen-headbutt",
+        "rock-slide",
+        "shadow-claw",
+        "mystical-fire",
+        "dazzling-gleam",
+        "giga-impact",
+        "hyper-beam",
+        "psychic"
+      ]
+    }
+  },
+  {
+    "name": "sliggoo-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "bubble"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "acid-spray"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "acid-armor"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "water-pulse"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "iron-head",
+            "dragon-pulse"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "shelter"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "hydro-pump"
+          ]
+        }
+      ],
+      "misc": [
+        "rest",
+        "rock-slide",
+        "iron-head",
+        "iron-tail",
+        "water-pulse",
+        "sludge-bomb",
+        "outrage",
+        "thunderbolt",
+        "ice-beam",
+        "draco-meteor",
+        "steel-beam"
+      ]
+    }
+  },
+  {
+    "name": "goodra-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "bubble"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "acid-spray"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "acid-armor"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "water-pulse"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "iron-head",
+            "dragon-pulse"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "shelter"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "hydro-pump"
+          ]
+        }
+      ],
+      "misc": [
+        "rock-smash",
+        "bulldoze",
+        "rest",
+        "fire-punch",
+        "thunder-punch",
+        "rock-slide",
+        "iron-head",
+        "iron-tail",
+        "water-pulse",
+        "sludge-bomb",
+        "giga-impact",
+        "outrage",
+        "hyper-beam",
+        "flamethrower",
+        "thunderbolt",
+        "ice-beam",
+        "draco-meteor",
+        "steel-beam"
+      ]
+    }
+  },
+  {
+    "name": "avalugg-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 1,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 5,
+          "moves": [
+            "rock-slide"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "powder-snow"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "ice-shard"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "bite"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "iron-defense"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "crunch",
+            "earth-power"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "mountain-gale",
+            "blizzard"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "double-edge"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-fang",
+        "ice-ball",
+        "rock-smash",
+        "bulldoze",
+        "stealth-rock",
+        "power-shift",
+        "rest",
+        "rock-slide",
+        "iron-head",
+        "water-pulse",
+        "icy-wind",
+        "earth-power",
+        "flash-cannon",
+        "giga-impact",
+        "high-horsepower",
+        "stone-edge",
+        "hyper-beam",
+        "ice-beam"
+      ]
+    }
+  },
+  {
+    "name": "decidueye-hisui",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "gust"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "leafage"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "roost"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "aerial-ace"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "magical-leaf"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "air-slash"
+          ]
+        },
+        {
+          "L": 41,
+          "moves": [
+            "aura-sphere"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "leaf-blade",
+            "triple-arrows"
+          ]
+        },
+        {
+          "L": 51,
+          "moves": [
+            "brave-bird"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "leaf-storm"
+          ]
+        }
+      ],
+      "misc": [
+        "swords-dance",
+        "solar-beam",
+        "toxic",
+        "double-team",
+        "light-screen",
+        "rest",
+        "substitute",
+        "protect",
+        "false-swipe",
+        "swagger",
+        "steel-wing",
+        "attract",
+        "sleep-talk",
+        "return",
+        "frustration",
+        "safeguard",
+        "hidden-power",
+        "sunny-day",
+        "shadow-ball",
+        "facade",
+        "nature-power",
+        "frenzy-plant",
+        "roost",
+        "energy-ball",
+        "giga-impact",
+        "shadow-claw",
+        "grass-knot",
+        "smack-down",
+        "low-sweep",
+        "round",
+        "echoed-voice",
+        "acrobatics",
+        "grass-pledge",
+        "work-up",
+        "confide"
+      ]
+    }
+  },
+  {
+    "name": "wyrdeer",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "confusion"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "hypnosis"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "calm-mind"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "psyshield-bash"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "extrasensory"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "zen-headbutt"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "double-edge"
+          ]
+        }
+      ],
+      "misc": [
+        "headbutt",
+        "bite",
+        "roar",
+        "disable",
+        "earthquake",
+        "toxic",
+        "psychic",
+        "double-team",
+        "light-screen",
+        "reflect",
+        "swift",
+        "dream-eater",
+        "flash",
+        "rest",
+        "thief",
+        "nightmare",
+        "snore",
+        "curse",
+        "spite",
+        "protect",
+        "mud-slap",
+        "detect",
+        "endure",
+        "swagger",
+        "attract",
+        "sleep-talk",
+        "return",
+        "frustration",
+        "hidden-power",
+        "rain-dance",
+        "sunny-day",
+        "psych-up",
+        "solar-beam",
+        "thunderbolt",
+        "thunder",
+        "iron-tail",
+        "shadow-ball",
+        "facade",
+        "skill-swap",
+        "secret-power",
+        "extrasensory",
+        "shock-wave",
+        "body-slam",
+        "double-edge",
+        "thunder-wave",
+        "mimic",
+        "substitute",
+        "double-kick",
+        "thrash",
+        "natural-gift",
+        "energy-ball",
+        "giga-impact",
+        "trick-room",
+        "charge",
+        "uproar",
+        "signal-beam",
+        "bounce",
+        "last-resort",
+        "sucker-punch",
+        "megahorn",
+        "gravity",
+        "rage",
+        "mud-sport",
+        "psyshock",
+        "round",
+        "retaliate",
+        "bulldoze",
+        "work-up",
+        "wild-charge",
+        "magic-room",
+        "confide"
+      ]
+    }
+  },
+  {
+    "name": "kleavor",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "quick-attack"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "silver-wind"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "aerial-ace"
+          ]
+        },
+        {
+          "L": 24,
+          "moves": [
+            "double-hit",
+            "stealth-rock"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "air-slash"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "swords-dance"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "stone-axe"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "x-scissor"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "close-combat"
+          ]
+        }
+      ],
+      "misc": [
+        "cut",
+        "take-down",
+        "double-edge",
+        "hyper-beam",
+        "toxic",
+        "rage",
+        "mimic",
+        "bide",
+        "swift",
+        "skull-bash",
+        "rest",
+        "substitute",
+        "headbutt",
+        "counter",
+        "light-screen",
+        "thief",
+        "snore",
+        "curse",
+        "reversal",
+        "protect",
+        "detect",
+        "endure",
+        "swagger",
+        "steel-wing",
+        "attract",
+        "sleep-talk",
+        "return",
+        "frustration",
+        "safeguard",
+        "baton-pass",
+        "hidden-power",
+        "sunny-day",
+        "rock-smash",
+        "rain-dance",
+        "facade",
+        "secret-power",
+        "silver-wind",
+        "aerial-ace",
+        "brick-break",
+        "roost",
+        "natural-gift",
+        "u-turn",
+        "bug-buzz",
+        "giga-impact",
+        "defog",
+        "captivate",
+        "knock-off",
+        "ominous-wind",
+        "tailwind",
+        "bug-bite",
+        "round",
+        "struggle",
+        "quick-guard",
+        "confide",
+        "brutal-swing"
+      ]
+    }
+  },
+  {
+    "name": "ursaluna",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "baby-doll-eyes"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "bulldoze"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "play-rough"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "high-horsepower"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "double-edge",
+            "headlong-rush"
+          ]
+        }
+      ],
+      "misc": [
+        "rock-smash",
+        "bulldoze",
+        "aerial-ace",
+        "swift",
+        "focus-energy",
+        "bulk-up",
+        "rest",
+        "baby-doll-eyes",
+        "fire-punch",
+        "thunder-punch",
+        "ice-punch",
+        "rock-slide",
+        "shadow-claw",
+        "earth-power",
+        "giga-impact",
+        "high-horsepower",
+        "stone-edge",
+        "play-rough",
+        "hyper-beam"
+      ]
+    }
+  },
+  {
+    "name": "basculegion-male",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "aqua-jet"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "bite",
+            "hex"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "zen-headbutt"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "crunch",
+            "shadow-ball"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "wave-crash"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "double-edge"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-fang",
+        "swift",
+        "ominous-wind",
+        "calm-mind",
+        "rest",
+        "zen-headbutt",
+        "water-pulse",
+        "icy-wind",
+        "shadow-ball",
+        "giga-impact",
+        "aqua-tail",
+        "hyper-beam",
+        "ice-beam",
+        "psychic"
+      ]
+    }
+  },
+  {
+    "name": "basculegion-female",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "aqua-jet"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "bite",
+            "hex"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "zen-headbutt"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "crunch",
+            "shadow-ball"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "wave-crash"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "double-edge"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-fang",
+        "swift",
+        "ominous-wind",
+        "calm-mind",
+        "rest",
+        "zen-headbutt",
+        "water-pulse",
+        "icy-wind",
+        "shadow-ball",
+        "giga-impact",
+        "aqua-tail",
+        "hyper-beam",
+        "ice-beam",
+        "psychic"
+      ]
+    }
+  },
+  {
+    "name": "sneasler",
+    "moves": {
+      "level_up": [
+        {
+          "L": 10,
+          "moves": [
+            "quick-attack"
+          ]
+        },
+        {
+          "L": 15,
+          "moves": [
+            "rock-smash"
+          ]
+        },
+        {
+          "L": 20,
+          "moves": [
+            "swift",
+            "dire-claw"
+          ]
+        },
+        {
+          "L": 28,
+          "moves": [
+            "slash"
+          ]
+        },
+        {
+          "L": 35,
+          "moves": [
+            "poison-jab"
+          ]
+        },
+        {
+          "L": 45,
+          "moves": [
+            "swords-dance"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "close-combat"
+          ]
+        }
+      ],
+      "misc": [
+        "false-swipe",
+        "rock-smash",
+        "aerial-ace",
+        "swift",
+        "focus-energy",
+        "bulk-up",
+        "calm-mind",
+        "rest",
+        "drain-punch",
+        "poison-jab",
+        "x-scissor",
+        "shadow-claw",
+        "iron-tail",
+        "shadow-ball",
+        "snarl",
+        "giga-impact",
+        "hyper-beam"
+      ]
+    }
+  },
+  {
+    "name": "overqwil",
+    "moves": {
+      "level_up": [
+        {
+          "L": 9,
+          "moves": [
+            "poison-sting"
+          ]
+        },
+        {
+          "L": 14,
+          "moves": [
+            "spikes"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "pin-missile"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "barb-barrage"
+          ]
+        },
+        {
+          "L": 31,
+          "moves": [
+            "water-pulse"
+          ]
+        },
+        {
+          "L": 38,
+          "moves": [
+            "dark-pulse"
+          ]
+        },
+        {
+          "L": 40,
+          "moves": [
+            "poison-jab"
+          ]
+        },
+        {
+          "L": 48,
+          "moves": [
+            "aqua-tail"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "double-edge"
+          ]
+        },
+        {
+          "L": 71,
+          "moves": [
+            "self-destruct"
+          ]
+        }
+      ],
+      "misc": [
+        "ice-ball",
+        "spikes",
+        "swift",
+        "rest",
+        "poison-jab",
+        "water-pulse",
+        "icy-wind",
+        "sludge-bomb",
+        "shadow-ball",
+        "aqua-tail",
+        "ice-beam",
+        "dark-pulse"
+      ]
+    }
+  },
+  {
+    "name": "enamorus-incarnate",
+    "moves": {
+      "level_up": [
+        {
+          "L": 1,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "bite"
+          ]
+        },
+        {
+          "L": 21,
+          "moves": [
+            "twister"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "draining-kiss"
+          ]
+        },
+        {
+          "L": 34,
+          "moves": [
+            "iron-defense"
+          ]
+        },
+        {
+          "L": 43,
+          "moves": [
+            "extrasensory"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "crunch"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "moonblast"
+          ]
+        },
+        {
+          "L": 65,
+          "moves": [
+            "springtide-storm"
+          ]
+        }
+      ],
+      "misc": [
+        "rock-smash",
+        "power-shift",
+        "calm-mind",
+        "rest",
+        "zen-headbutt",
+        "mystical-fire",
+        "sludge-bomb",
+        "earth-power",
+        "dazzling-gleam",
+        "giga-impact",
+        "play-rough",
+        "hyper-beam",
+        "psychic"
+      ]
+    }
+  },
+  {
+    "name": "enamorus-therian",
+    "moves": {
+      "level_up": [
+        {
+          "L": 1,
+          "moves": [
+            "tackle"
+          ]
+        },
+        {
+          "L": 18,
+          "moves": [
+            "bite"
+          ]
+        },
+        {
+          "L": 21,
+          "moves": [
+            "twister"
+          ]
+        },
+        {
+          "L": 25,
+          "moves": [
+            "draining-kiss"
+          ]
+        },
+        {
+          "L": 34,
+          "moves": [
+            "iron-defense"
+          ]
+        },
+        {
+          "L": 43,
+          "moves": [
+            "extrasensory"
+          ]
+        },
+        {
+          "L": 54,
+          "moves": [
+            "crunch"
+          ]
+        },
+        {
+          "L": 59,
+          "moves": [
+            "moonblast"
+          ]
+        },
+        {
+          "L": 65,
+          "moves": [
+            "springtide-storm"
+          ]
+        }
+      ],
+      "misc": [
+        "rock-smash",
+        "power-shift",
+        "calm-mind",
+        "rest",
+        "zen-headbutt",
+        "mystical-fire",
+        "sludge-bomb",
+        "earth-power",
+        "dazzling-gleam",
+        "giga-impact",
+        "play-rough",
+        "hyper-beam",
+        "psychic"
+      ]
+    }
+  }
+]

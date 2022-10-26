@@ -137,13 +137,13 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "hattrem",
       "level": 32,
       "animation": "18",
-      "evoMoves": "brutalswing"
+      "evoMoves": "brutal-swing"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

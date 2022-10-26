@@ -234,11 +234,11 @@
       "aurora-veil"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "jynx",
       "level": 30
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -200,12 +200,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/ender_pig_1",
   "evolutions": [
     {
       "name": "grumpig",
       "level": 32,
-      "evoMoves": "teeterdance"
+      "evoMoves": "teeter-dance"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/ender_pig_1"
 }

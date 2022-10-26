@@ -165,11 +165,11 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "evolutions": [
     {
       "name": "unfezant",
       "level": 32
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

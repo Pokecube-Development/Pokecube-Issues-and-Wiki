@@ -208,12 +208,12 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/iron_1",
   "evolutions": [
     {
       "name": "bronzong",
       "level": 33,
       "evoMoves": "block"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_1"
 }

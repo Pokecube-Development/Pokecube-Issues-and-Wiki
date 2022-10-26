@@ -277,11 +277,11 @@
       "terrain-pulse"
     ]
   },
-  "loot_table": "pokecube:entities/coal_cow_2",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "kangaskhanmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_cow_2"
 }

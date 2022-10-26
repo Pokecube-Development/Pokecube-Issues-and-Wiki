@@ -205,6 +205,6 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
-  "old_name": "mr_rime"
+  "old_name": "mr_rime",
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

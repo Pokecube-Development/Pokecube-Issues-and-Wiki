@@ -167,7 +167,6 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -202,5 +201,6 @@
       "level": 36,
       "evoMoves": "swagger"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_2"
 }

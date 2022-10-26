@@ -202,12 +202,12 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_1",
   "evolutions": [
     {
       "name": "swalot",
       "level": 26,
-      "evoMoves": "bodyslam"
+      "evoMoves": "body-slam"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_1"
 }

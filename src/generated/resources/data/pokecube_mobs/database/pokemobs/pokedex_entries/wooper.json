@@ -203,11 +203,11 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_1",
   "evolutions": [
     {
       "name": "quagsire",
       "level": 20
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_1"
 }

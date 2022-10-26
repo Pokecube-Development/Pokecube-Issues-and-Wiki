@@ -191,7 +191,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "interactions": [
     {
       "male": true,
@@ -213,5 +212,6 @@
       }
     }
   ],
-  "old_name": "zygarde_100"
+  "old_name": "zygarde_100",
+  "loot_table": "pokecube:entities/generic_legend"
 }

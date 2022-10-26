@@ -2,6 +2,7 @@
   "name": "sableye-mega",
   "id": 302,
   "stock": true,
+  "mega": true,
   "base_experience": 168,
   "size": {
     "width": 0.5,

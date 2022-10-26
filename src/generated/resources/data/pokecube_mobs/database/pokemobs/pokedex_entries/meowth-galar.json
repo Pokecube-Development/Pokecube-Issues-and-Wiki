@@ -166,14 +166,14 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/money_cat_small",
-  "held_table": "pokecube:entities/emerald_1_33",
   "evolutions": [
     {
       "name": "perrserker",
       "level": 28,
-      "evoMoves": "ironhead"
+      "evoMoves": "iron-head"
     }
   ],
-  "old_name": "meowth_galar"
+  "old_name": "meowth_galar",
+  "held_table": "pokecube:entities/emerald_1_33",
+  "loot_table": "pokecube:entities/money_cat_small"
 }

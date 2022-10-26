@@ -222,7 +222,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "exeggutor-alola",
@@ -230,12 +229,13 @@
         "and_preset": "beaches"
       },
       "item_preset": "leafstone",
-      "evoMoves": "dragonhammer"
+      "evoMoves": "dragon-hammer"
     },
     {
       "name": "exeggutor",
       "item_preset": "leafstone",
       "evoMoves": "stomp"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

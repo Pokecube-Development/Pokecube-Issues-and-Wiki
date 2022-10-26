@@ -2,6 +2,7 @@
   "name": "greninja-battle-bond",
   "id": 658,
   "stock": true,
+  "mega": true,
   "base_experience": 239,
   "size": {
     "height": 1.5

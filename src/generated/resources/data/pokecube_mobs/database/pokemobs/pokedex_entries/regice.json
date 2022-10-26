@@ -186,7 +186,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/snowball",
   "spawn_rules": [
     {
       "values": {
@@ -194,5 +193,6 @@
         "rate": "0.0"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/snowball"
 }

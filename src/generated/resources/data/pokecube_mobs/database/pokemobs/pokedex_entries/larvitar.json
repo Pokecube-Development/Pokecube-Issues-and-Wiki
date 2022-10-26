@@ -207,11 +207,11 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/stone_gold",
   "evolutions": [
     {
       "name": "pupitar",
       "level": 30
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_gold"
 }

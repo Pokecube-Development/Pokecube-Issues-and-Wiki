@@ -203,11 +203,11 @@
       "scale-shot"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "dragonair",
       "level": 30
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

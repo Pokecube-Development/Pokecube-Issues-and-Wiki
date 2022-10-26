@@ -194,7 +194,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_1",
   "evolutions": [
     {
       "name": "lilligant",
@@ -208,5 +207,6 @@
       "item_preset": "sunstone",
       "time": "day"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_1"
 }

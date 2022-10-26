@@ -225,11 +225,11 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "minecraft:entities/cow_1",
   "evolutions": [
     {
       "name": "hariyama",
       "level": 24
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/cow_1"
 }

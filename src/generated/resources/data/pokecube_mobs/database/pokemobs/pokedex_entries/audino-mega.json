@@ -2,6 +2,7 @@
   "name": "audino-mega",
   "id": 531,
   "stock": true,
+  "mega": true,
   "base_experience": 425,
   "size": {
     "height": 1.5,

@@ -58,7 +58,6 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/apple",
   "evolutions": [
     {
       "name": "flapple",
@@ -68,7 +67,7 @@
           "id": "minecraft:apple"
         }
       },
-      "evoMoves": "wingattack"
+      "evoMoves": "wing-attack"
     },
     {
       "name": "appletun",
@@ -80,5 +79,6 @@
       },
       "evoMoves": "headbutt"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/apple"
 }

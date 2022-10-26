@@ -190,7 +190,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "spawn_rules": [
     {
       "values": {
@@ -198,5 +197,6 @@
         "rate": "0.0"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

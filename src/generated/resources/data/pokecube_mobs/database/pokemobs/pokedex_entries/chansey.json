@@ -282,12 +282,12 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
-  "held_table": "pokecube:entities/lucky_oval",
   "evolutions": [
     {
       "name": "blissey",
       "happy": true
     }
-  ]
+  ],
+  "held_table": "pokecube:entities/lucky_oval",
+  "loot_table": "pokecube:entities/chicken_2"
 }

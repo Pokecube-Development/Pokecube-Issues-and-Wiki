@@ -154,12 +154,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2",
   "evolutions": [
     {
       "name": "toucannon",
       "level": 28,
-      "evoMoves": "beakblast"
+      "evoMoves": "beak-blast"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_2"
 }

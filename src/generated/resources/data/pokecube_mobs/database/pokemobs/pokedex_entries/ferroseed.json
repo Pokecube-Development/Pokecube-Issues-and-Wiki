@@ -185,12 +185,12 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/iron_seeds_1",
   "evolutions": [
     {
       "name": "ferrothorn",
       "level": 40,
-      "evoMoves": "powerwhip"
+      "evoMoves": "power-whip"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_seeds_1"
 }

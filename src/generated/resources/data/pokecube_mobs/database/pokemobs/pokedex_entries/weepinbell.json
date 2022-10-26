@@ -179,12 +179,12 @@
       "infestation"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
   "evolutions": [
     {
       "name": "victreebel",
       "item_preset": "leafstone",
-      "evoMoves": "leaftornado"
+      "evoMoves": "leaf-tornado"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

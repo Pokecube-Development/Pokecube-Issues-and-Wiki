@@ -245,7 +245,6 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "pokecube:entities/wool_1",
   "mega_rules": [
     {
       "preset": "Mega",
@@ -279,5 +278,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wool_1"
 }

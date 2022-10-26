@@ -299,7 +299,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "mega_rules": [
     {
       "preset": "Mega-X",
@@ -309,5 +308,6 @@
       "preset": "Mega-Y",
       "item_preset": "mewtwomega-y"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

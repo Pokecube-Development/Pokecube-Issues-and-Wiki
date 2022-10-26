@@ -187,6 +187,6 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_2",
-  "old_name": "toxtricity_amped"
+  "old_name": "toxtricity_amped",
+  "loot_table": "pokecube:entities/redstone_rabbit_2"
 }

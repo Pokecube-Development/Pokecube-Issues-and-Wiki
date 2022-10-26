@@ -157,7 +157,6 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_1",
   "evolutions": [
     {
       "name": "sliggoo",
@@ -168,5 +167,6 @@
       "level": 39,
       "item_preset": "pokecube_mobs:iron_shell"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_1"
 }

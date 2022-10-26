@@ -241,7 +241,6 @@
       "types": "normal"
     }
   ],
-  "loot_table": "pokecube:entities/rabbit_1",
   "interactions": [
     {
       "male": false,
@@ -269,5 +268,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

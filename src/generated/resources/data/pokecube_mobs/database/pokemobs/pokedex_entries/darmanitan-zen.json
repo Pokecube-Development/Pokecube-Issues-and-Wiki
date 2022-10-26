@@ -225,6 +225,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_2",
-  "old_name": "darmanitan_zen"
+  "old_name": "darmanitan_zen",
+  "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

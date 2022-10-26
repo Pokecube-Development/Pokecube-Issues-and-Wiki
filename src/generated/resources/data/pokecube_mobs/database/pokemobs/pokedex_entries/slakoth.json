@@ -182,11 +182,11 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "vigoroth",
       "level": 18
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

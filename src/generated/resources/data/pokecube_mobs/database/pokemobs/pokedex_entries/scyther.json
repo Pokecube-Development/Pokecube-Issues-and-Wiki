@@ -227,7 +227,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
   "evolutions": [
     {
       "name": "scizor",
@@ -238,5 +237,6 @@
       "name": "kleavor",
       "item_preset": "pokecube_mobs:black_metal"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

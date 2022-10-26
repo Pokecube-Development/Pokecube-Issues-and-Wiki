@@ -214,12 +214,12 @@
       "flip-turn"
     ]
   },
-  "loot_table": "pokecube:entities/turtleshells_2",
   "evolutions": [
     {
       "name": "blastoise",
       "level": 36,
       "animation": "9"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/turtleshells_2"
 }

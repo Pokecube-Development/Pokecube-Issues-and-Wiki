@@ -168,7 +168,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -185,5 +184,6 @@
       }
     }
   ],
-  "old_name": "articuno_galar"
+  "old_name": "articuno_galar",
+  "loot_table": "pokecube:entities/generic_legend"
 }

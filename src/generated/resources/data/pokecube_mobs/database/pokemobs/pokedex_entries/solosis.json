@@ -222,11 +222,11 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_1",
   "evolutions": [
     {
       "name": "duosion",
       "level": 32
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_1"
 }

@@ -191,13 +191,13 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/wheat_seeds_2",
   "evolutions": [
     {
       "name": "venusaur",
       "level": 32,
       "animation": "18",
-      "evoMoves": "petalblizzard"
+      "evoMoves": "petal-blizzard"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/wheat_seeds_2"
 }

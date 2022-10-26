@@ -208,7 +208,6 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "minecraft:entities/sheep/white",
   "mega_rules": [
     {
       "preset": "Mega",
@@ -242,5 +241,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/sheep/white"
 }

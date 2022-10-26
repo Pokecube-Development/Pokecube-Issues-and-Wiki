@@ -298,12 +298,12 @@
       "misty-explosion"
     ]
   },
-  "loot_table": "pokecube:entities/moonstone",
-  "held_table": "pokecube:entities/moonstone",
   "evolutions": [
     {
       "name": "wigglytuff",
       "item_preset": "moonstone"
     }
-  ]
+  ],
+  "held_table": "pokecube:entities/moonstone",
+  "loot_table": "pokecube:entities/moonstone"
 }

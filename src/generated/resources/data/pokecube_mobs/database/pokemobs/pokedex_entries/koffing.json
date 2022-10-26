@@ -207,12 +207,11 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "minecraft:entities/creeper",
   "evolutions": [
     {
       "name": "weezing",
       "level": 35,
-      "evoMoves": "doublehit"
+      "evoMoves": "double-hit"
     },
     {
       "name": "weezing-galar",
@@ -220,7 +219,8 @@
       "location": {
         "and_preset": "industrial"
       },
-      "evoMoves": "doublehit"
+      "evoMoves": "double-hit"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/creeper"
 }

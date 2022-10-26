@@ -192,12 +192,11 @@
       "aurora-veil"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "avalugg",
       "level": 37,
-      "evoMoves": "bodyslam"
+      "evoMoves": "body-slam"
     },
     {
       "name": "avalugg-hisui",
@@ -207,5 +206,6 @@
       },
       "time": "night"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

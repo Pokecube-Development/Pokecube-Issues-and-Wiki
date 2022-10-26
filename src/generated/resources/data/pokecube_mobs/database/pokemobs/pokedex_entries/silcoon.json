@@ -50,12 +50,12 @@
       "electroweb"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "beautifly",
       "level": 10,
       "evoMoves": "gust"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

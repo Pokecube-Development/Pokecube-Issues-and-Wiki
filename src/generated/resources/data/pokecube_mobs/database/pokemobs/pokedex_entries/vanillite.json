@@ -185,11 +185,11 @@
       "aurora-veil"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "vanillish",
       "level": 35
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

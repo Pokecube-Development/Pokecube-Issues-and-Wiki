@@ -244,11 +244,11 @@
       "grassy-glide"
     ]
   },
-  "loot_table": "pokecube:entities/vines",
   "evolutions": [
     {
       "name": "tangrowth",
       "move": "ancientpower"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/vines"
 }

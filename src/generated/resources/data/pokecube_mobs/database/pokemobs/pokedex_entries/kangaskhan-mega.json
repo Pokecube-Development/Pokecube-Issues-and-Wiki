@@ -2,6 +2,7 @@
   "name": "kangaskhan-mega",
   "id": 115,
   "stock": true,
+  "mega": true,
   "base_experience": 207,
   "size": {
     "height": 2.2,

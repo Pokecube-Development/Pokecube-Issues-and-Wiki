@@ -253,7 +253,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "interactions": [
     {
       "male": false,
@@ -281,5 +280,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

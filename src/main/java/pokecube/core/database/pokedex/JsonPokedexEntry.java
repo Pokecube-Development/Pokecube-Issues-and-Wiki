@@ -204,8 +204,12 @@ public class JsonPokedexEntry
     public PokedexEntry toPokedexEntry()
     {
         if (remove) return Database.missingno;
-
-        PokedexEntry entry = new PokedexEntry(id, name);
+        PokedexEntry old = Database.getEntry(this.name);
+        if (old != null && old != Database.missingno)
+        {
+            PokecubeAPI.LOGGER.warn("Duplicate entry for {}", this.name);
+        }
+        PokedexEntry entry = old == null ? new PokedexEntry(id, name) : old;
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;

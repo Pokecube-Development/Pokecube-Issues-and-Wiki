@@ -235,7 +235,6 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "weavile",
@@ -246,5 +245,6 @@
       },
       "time": "night"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -51,12 +51,12 @@
       "electroweb"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "beedrill",
       "level": 10,
       "evoMoves": "twineedle"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

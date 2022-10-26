@@ -206,12 +206,12 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/bones",
   "evolutions": [
     {
       "name": "dusclops",
       "level": 37,
-      "evoMoves": "shadowpunch"
+      "evoMoves": "shadow-punch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/bones"
 }

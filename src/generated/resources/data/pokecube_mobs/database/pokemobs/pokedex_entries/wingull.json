@@ -188,12 +188,12 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "pelipper",
       "level": 25,
       "evoMoves": "protect"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

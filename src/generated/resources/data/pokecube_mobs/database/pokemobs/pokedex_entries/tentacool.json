@@ -236,7 +236,6 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "minecraft:entities/squid",
   "interactions": [
     {
       "male": true,
@@ -269,5 +268,6 @@
       "name": "tentacruel",
       "level": 30
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/squid"
 }

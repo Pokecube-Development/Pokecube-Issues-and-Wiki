@@ -1,0 +1,30 @@
+{
+  "name": "missingno",
+  "id": 0,
+  "stock": true,
+  "size": {
+    "height": 1
+  },
+  "is_default": true,
+  "stats": {
+    "hp": 33,
+    "attack": 136,
+    "defense": 0,
+    "special_attack": 6,
+    "special_defense": 6,
+    "speed": 29
+  },
+  "types": [
+    "bird"
+  ],
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sky-attack"
+        ]
+      }
+    ]
+  }
+}

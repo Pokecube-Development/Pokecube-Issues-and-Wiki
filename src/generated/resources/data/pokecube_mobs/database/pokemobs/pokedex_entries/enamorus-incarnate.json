@@ -89,7 +89,9 @@
       },
       {
         "L": 65,
-        "moves": []
+        "moves": [
+          "springtide-storm"
+        ]
       }
     ],
     "misc": [

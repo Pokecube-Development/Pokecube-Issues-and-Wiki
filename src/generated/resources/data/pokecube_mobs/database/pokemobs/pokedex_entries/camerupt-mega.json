@@ -2,6 +2,7 @@
   "name": "camerupt-mega",
   "id": 323,
   "stock": true,
+  "mega": true,
   "base_experience": 196,
   "size": {
     "height": 2.5,

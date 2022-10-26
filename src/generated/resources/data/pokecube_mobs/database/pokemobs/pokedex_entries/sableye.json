@@ -282,11 +282,11 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/sand_1",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "sableyemega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/sand_1"
 }

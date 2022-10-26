@@ -205,11 +205,11 @@
       "spiky-shield"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "simisage",
       "item_preset": "leafstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

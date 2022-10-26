@@ -184,11 +184,11 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_2",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "manectricmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_rabbit_2"
 }

@@ -5,7 +5,7 @@
       "entries": [
         {"key": "magnemite","min": 2,"max": 4,"rate": 0.7},
         {"key": "grimer","min": 2,"max": 4,"rate": 0.7},
-        {"key": "grimer_alola","min": 2,"max": 4,"rate": 0.7},
+        {"key": "grimer-alola","min": 2,"max": 4,"rate": 0.7},
         {"key": "voltorb","min": 2,"max": 4,"rate": 0.7},
         
         {"key": "klink","min": 2,"max": 4,"rate": 0.1},

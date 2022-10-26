@@ -212,6 +212,6 @@
       "shell-side-arm"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
-  "old_name": "slowbro_galar"
+  "old_name": "slowbro_galar",
+  "loot_table": "pokecube:entities/pig_1"
 }

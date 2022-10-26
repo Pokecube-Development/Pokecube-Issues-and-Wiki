@@ -193,7 +193,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/coal_pig_2",
   "interactions": [
     {
       "male": false,
@@ -228,5 +227,6 @@
       "level": 36,
       "animation": "55"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_pig_2"
 }

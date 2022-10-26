@@ -215,7 +215,6 @@
       "anim": "sawsbuck_wi"
     }
   ],
-  "loot_table": "pokecube:entities/cow_2",
   "interactions": [
     {
       "male": false,
@@ -243,5 +242,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cow_2"
 }

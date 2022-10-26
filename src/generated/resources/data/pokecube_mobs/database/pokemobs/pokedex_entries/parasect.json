@@ -195,7 +195,6 @@
       "throat-chop"
     ]
   },
-  "loot_table": "pokecube:entities/both_shrooms_2",
   "interactions": [
     {
       "male": true,
@@ -223,5 +222,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_shrooms_2"
 }

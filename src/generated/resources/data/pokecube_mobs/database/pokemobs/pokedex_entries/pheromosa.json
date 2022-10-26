@@ -201,7 +201,6 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/spider",
   "spawn_rules": [
     {
       "values": {
@@ -211,5 +210,6 @@
         "max": "1"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/spider"
 }

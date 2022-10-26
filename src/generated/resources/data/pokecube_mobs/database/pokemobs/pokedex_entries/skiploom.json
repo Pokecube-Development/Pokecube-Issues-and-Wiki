@@ -207,11 +207,11 @@
       "infestation"
     ]
   },
-  "loot_table": "pokecube:entities/leaves",
   "evolutions": [
     {
       "name": "jumpluff",
       "level": 27
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/leaves"
 }

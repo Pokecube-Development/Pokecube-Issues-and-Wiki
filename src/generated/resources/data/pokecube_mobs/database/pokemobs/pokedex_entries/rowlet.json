@@ -201,11 +201,11 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "dartrix",
       "level": 17
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

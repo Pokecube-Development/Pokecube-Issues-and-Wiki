@@ -225,7 +225,6 @@
       "throat-chop"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "gliscor",
@@ -236,5 +235,6 @@
       },
       "time": "night"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

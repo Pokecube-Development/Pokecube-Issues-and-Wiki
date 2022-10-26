@@ -97,12 +97,12 @@
       "expanding-force"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "orbeetle",
       "level": 30,
       "animation": "18"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }

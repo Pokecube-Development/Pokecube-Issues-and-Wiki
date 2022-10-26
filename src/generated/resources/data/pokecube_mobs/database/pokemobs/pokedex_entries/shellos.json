@@ -203,7 +203,6 @@
       "anim": "shellos_west"
     }
   ],
-  "loot_table": "pokecube:entities/slimeballs_1",
   "evolutions": [
     {
       "name": "gastrodon",
@@ -227,5 +226,6 @@
         "anim": "gastrodon_west"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_1"
 }

@@ -261,12 +261,12 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/stone_2",
   "evolutions": [
     {
       "name": "rhyperior",
       "item_preset": "protector",
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_2"
 }

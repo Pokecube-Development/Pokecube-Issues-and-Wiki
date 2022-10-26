@@ -198,7 +198,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/cow_1",
   "interactions": [
     {
       "male": false,
@@ -231,7 +230,8 @@
     {
       "name": "camerupt",
       "level": 33,
-      "evoMoves": "rockslide"
+      "evoMoves": "rock-slide"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cow_1"
 }

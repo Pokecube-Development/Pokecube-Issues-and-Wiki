@@ -259,11 +259,11 @@
     "model": "blaziken_female",
     "anim": "blaziken_female"
   },
-  "loot_table": "pokecube:entities/coal_chicken_3",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "blazikenmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_chicken_3"
 }

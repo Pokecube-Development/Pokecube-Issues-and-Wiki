@@ -182,11 +182,11 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/sand_cow_1",
   "evolutions": [
     {
       "name": "hippowdon",
       "level": 34
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/sand_cow_1"
 }

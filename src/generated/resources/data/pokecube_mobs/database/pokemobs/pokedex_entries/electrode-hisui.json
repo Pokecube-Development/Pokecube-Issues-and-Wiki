@@ -85,7 +85,8 @@
       {
         "L": 59,
         "moves": [
-          "self-destruct"
+          "self-destruct",
+          "chloroblast"
         ]
       }
     ],

@@ -2,6 +2,7 @@
   "name": "venusaur-gmax",
   "id": 3,
   "stock": true,
+  "gmax": true,
   "base_experience": 236,
   "size": {
     "height": 5.0,

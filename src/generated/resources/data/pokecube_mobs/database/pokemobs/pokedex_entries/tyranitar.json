@@ -254,11 +254,11 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/stone_gold",
   "mega_rules": [
     {
       "preset": "Mega",
       "item_preset": "tyranitarmega"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_gold"
 }

@@ -217,11 +217,11 @@
       "scale-shot"
     ]
   },
-  "loot_table": "pokecube:entities/bones",
   "evolutions": [
     {
       "name": "fraxure",
       "level": 38
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/bones"
 }

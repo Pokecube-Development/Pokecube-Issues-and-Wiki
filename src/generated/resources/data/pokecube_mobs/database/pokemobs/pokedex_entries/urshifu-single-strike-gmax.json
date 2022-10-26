@@ -2,6 +2,7 @@
   "name": "urshifu-single-strike-gmax",
   "id": 892,
   "stock": true,
+  "gmax": true,
   "base_experience": 275,
   "size": {
     "height": 5.0,

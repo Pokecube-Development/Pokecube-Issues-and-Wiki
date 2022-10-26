@@ -2,6 +2,7 @@
   "name": "mawile-mega",
   "id": 303,
   "stock": true,
+  "mega": true,
   "base_experience": 168,
   "size": {
     "height": 1.0,

@@ -213,7 +213,6 @@
       "terrain-pulse"
     ]
   },
-  "loot_table": "pokecube:entities/leather",
   "interactions": [
     {
       "male": false,
@@ -241,5 +240,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/leather"
 }

@@ -233,12 +233,12 @@
       "triple-axel"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "lopunny",
       "happy": true,
       "evoMoves": "return"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

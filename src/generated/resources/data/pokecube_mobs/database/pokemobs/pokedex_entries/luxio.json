@@ -181,11 +181,11 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_2",
   "evolutions": [
     {
       "name": "luxray",
       "level": 30
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_rabbit_2"
 }

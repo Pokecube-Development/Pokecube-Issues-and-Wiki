@@ -249,7 +249,6 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_rabbit_1",
   "evolutions": [
     {
       "name": "raichu-alola",
@@ -263,5 +262,6 @@
       "name": "raichu",
       "item_preset": "thunderstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_rabbit_1"
 }

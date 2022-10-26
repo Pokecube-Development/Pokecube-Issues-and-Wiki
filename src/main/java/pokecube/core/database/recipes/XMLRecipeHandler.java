@@ -18,6 +18,7 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.api.util.JsonUtil;
 import thut.core.xml.bind.annotation.XmlElement;
@@ -132,7 +133,8 @@ public class XMLRecipeHandler
             final JsonElement type = jsonObject.has("handler") ? jsonObject.get("handler") : jsonObject.get("type");
             final String handler = type.getAsString();
             final IRecipeParser parser = XMLRecipeHandler.recipeParsers.get(handler);
-            PokecubeAPI.LOGGER.debug("Recipe Handler: " + handler + " Parser: " + parser);
+            if (PokecubeCore.getConfig().debug_data)
+                PokecubeAPI.LOGGER.info("Recipe Handler: " + handler + " Parser: " + parser);
             parser.manageRecipe(jsonObject);
         }
         catch (final NullPointerException e)

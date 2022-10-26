@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:villager",
+    "minecraft:armor_stand",
+    "pokecube_adventures:trainer",
+    "pokecube_adventures:leader"
+  ]
+}

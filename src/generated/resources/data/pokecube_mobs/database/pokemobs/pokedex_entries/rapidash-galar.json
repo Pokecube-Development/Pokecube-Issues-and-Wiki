@@ -159,7 +159,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/glowstone_dust",
   "interactions": [
     {
       "male": false,
@@ -188,5 +187,6 @@
       }
     }
   ],
-  "old_name": "rapidash_galar"
+  "old_name": "rapidash_galar",
+  "loot_table": "pokecube:entities/glowstone_dust"
 }

@@ -226,14 +226,14 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/iron_redstone_2",
   "evolutions": [
     {
       "name": "magnezone",
       "location": {
         "and_preset": "caves"
       },
-      "evoMoves": "triattack"
+      "evoMoves": "tri-attack"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_redstone_2"
 }

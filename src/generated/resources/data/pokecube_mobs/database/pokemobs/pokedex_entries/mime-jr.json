@@ -251,7 +251,6 @@
       "psychic-terrain"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "evolutions": [
     {
       "name": "mr-mime",
@@ -265,5 +264,6 @@
       "move": "mimic"
     }
   ],
-  "old_name": "mime_jr"
+  "old_name": "mime_jr",
+  "loot_table": "pokecube:entities/rabbit_2"
 }

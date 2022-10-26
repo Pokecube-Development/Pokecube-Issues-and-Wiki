@@ -172,12 +172,12 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/iron_2",
   "evolutions": [
     {
       "name": "klinklang",
       "level": 49,
-      "evoMoves": "magneticflux"
+      "evoMoves": "magnetic-flux"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_2"
 }

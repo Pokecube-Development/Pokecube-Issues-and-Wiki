@@ -66,14 +66,14 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "pokecube:entities/snowball",
   "evolutions": [
     {
       "name": "frosmoth",
       "animation": "18",
       "time": "night",
       "happy": true,
-      "evoMoves": "icywind"
+      "evoMoves": "icy-wind"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/snowball"
 }

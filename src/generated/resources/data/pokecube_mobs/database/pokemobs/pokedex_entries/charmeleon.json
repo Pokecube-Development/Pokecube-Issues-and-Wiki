@@ -222,13 +222,13 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/coal_2",
   "evolutions": [
     {
       "name": "charizard",
       "level": 36,
       "animation": "55",
-      "evoMoves": "wingattack"
+      "evoMoves": "wing-attack"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_2"
 }

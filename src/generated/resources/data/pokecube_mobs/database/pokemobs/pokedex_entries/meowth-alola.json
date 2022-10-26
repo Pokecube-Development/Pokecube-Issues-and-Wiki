@@ -217,8 +217,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/money_cat_small",
-  "held_table": "pokecube:entities/emerald_1_33",
   "evolutions": [
     {
       "name": "persian-alola",
@@ -226,5 +224,7 @@
       "evoMoves": "swift"
     }
   ],
-  "old_name": "meowth_alola"
+  "old_name": "meowth_alola",
+  "held_table": "pokecube:entities/emerald_1_33",
+  "loot_table": "pokecube:entities/money_cat_small"
 }

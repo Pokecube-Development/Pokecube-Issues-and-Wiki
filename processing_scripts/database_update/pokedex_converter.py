@@ -1,15 +1,42 @@
 import json
 from ignore_list import isIgnored
-from legacy_renamer import find_old_name, to_model_form, find_new_name
+from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
 import os
 from glob import glob
 import shutil
+from types import SimpleNamespace
+
+MEGA_SUFFIX = [
+    '-mega',
+    '-mega-x',
+    '-mega-y',
+    '-primal',
+    '-battle-bond',
+    '-ash',
+]
+GMAX_SUFFIX = [
+    '-gmax',
+    '=eternamax',
+]
+
+def is_mega(name):
+    for suf in MEGA_SUFFIX:
+        if name.endswith(suf):
+            return True
+    return False
+
+def is_gmax(name):
+    for suf in GMAX_SUFFIX:
+        if name.endswith(suf):
+            return True
+    return False
 
 index_map = get_pokemon_index()
 
+# This class is a mirror of the json data structure that pokecube uses for loading
 class PokedexEntry:
     def __init__(self, forme, species) -> None:
         self.init_simple(forme, species)
@@ -18,9 +45,11 @@ class PokedexEntry:
         self.init_abilities(forme)
         self.init_moves(forme)
 
+    # Presently this just sets the models
     def add_models(self, models):
         self.models = models
 
+    # Post processes converting old evolutions, to convert the name and evo move names
     def post_process_evos(self, forme, species):
         evolutions = []
         if 'evolutions' in self.__dict__:
@@ -32,16 +61,34 @@ class PokedexEntry:
                     print(f'unknown evo: {name}')
                 else:
                     evo['name'] = new_name
+                if 'evoMoves' in evo:
+                    args = evo['evoMoves'].split(',')
+                    moves = []
+                    for move in args:
+                        name = convert_old_move_name(move)
+                        if name is not None:
+                            moves.append(name)
+                    if len(moves) > 0:
+                        evo['evoMoves'] = str(moves).replace('[', '').replace(']', '').replace("'", '')
+                    pass
         return
 
+    # Basic set of initialising, covering names, happiness, etc
     def init_simple(self, forme, species):
-        self.name = forme.name
+        self.name = entry_name(forme.name)
         self.names = species.names
         self.id = forme.id
         self.stock = True
+        if is_mega(self.name):
+            self.mega = True
+        if is_gmax(self.name):
+            self.gmax = True
         self.base_experience = forme.base_experience
+
+        # These values are reported as 10x the value in the games for some reason.
         self.size = {'height': forme.height/10.0}
         self.mass = forme.weight/10.0
+
         self.is_default = forme.is_default
         self.capture_rate = species.capture_rate
 
@@ -50,7 +97,10 @@ class PokedexEntry:
         else:
              self.base_happiness = 70
         self.growth_rate = species.growth_rate.name
+
         gender = species.gender_rate
+
+        # Convert gender rate to the format pokecube uses
         if gender == 0:
             self.gender_rate = 0
         elif gender == 1:
@@ -68,6 +118,7 @@ class PokedexEntry:
         else:
             self.gender_rate = 255
 
+    # Initialise the stats and EV yields
     def init_stats(self, forme):
         self.stats = {}
         self.evs = {}
@@ -78,6 +129,7 @@ class PokedexEntry:
             if stat.effort!=0:
                 self.evs[name] = stat.effort
 
+    # Initialises the array of types
     def init_types(self, forme):
         self.types = []
         for type in forme.types:
@@ -86,6 +138,7 @@ class PokedexEntry:
             if not name in self.types:
                 self.types.append(name)
 
+    # Initialises the normal and hidden abilities
     def init_abilities(self, forme):
         normal = []
         hidden = []
@@ -103,6 +156,7 @@ class PokedexEntry:
         if len(abilities) > 0:
             self.abilities = abilities 
 
+    # Initialises movesets
     def init_moves(self, forme):
         moves = {}
         level_up = []
@@ -110,14 +164,17 @@ class PokedexEntry:
 
         move_levels = {}
 
+        # Used to check if learn method is level up.
         def is_levelup(details):
             return details.move_learn_method.name == 'level-up'
 
         for move in forme.moves:
             name = move.move.name
 
+            # See if level up data exists, default means using USUM movesets, as are most complete
             level_up_details = default_or_latest(move.version_group_details, is_levelup)
 
+            # If we have such movesets, use them
             if level_up_details is not None:
                 level = level_up_details.level_learned_at
                 entry = {
@@ -131,12 +188,15 @@ class PokedexEntry:
                     move_levels[key] = entry
                     level_up.append(entry)
                 entry['moves'].append(name)
+
+            # All other moves get added to misc moves for TMs in pokecube
             for details in move.version_group_details:
                 if details == level_up_details:
                     continue
                 if not name in misc:
                     misc.append(name)
 
+        # Add the moves if we found any
         if len(level_up) > 0:
             moves['level_up'] = level_up
         if len(misc) > 0:
@@ -146,17 +206,17 @@ class PokedexEntry:
             self.moves = moves
 
 class PokemonSpecies:
-    def __init__(self, species, dex) -> None:
+    def __init__(self, species, dex, custom_moves) -> None:
         self.species = species
         self.species_id = species.id
 
         numbers = []
         default = -1
-        for value in species.varieties:
 
+        # Varieties in here are what we register as pokedex entries
+        for value in species.varieties:
             if isIgnored(value.pokemon.name):
                 continue
-
             id = url_to_id(value.pokemon)
             if value.is_default:
                 default = id
@@ -177,17 +237,26 @@ class PokemonSpecies:
 
         self.names = []
         self.entries = []
+
+        # Makes the pokedex entry for each one
         for forme in self.formes:
             entry = PokedexEntry(forme, species)
 
-            model_name = to_model_form(entry.name, species, dex)
+            model_name = to_model_form(forme.name, species, dex)
             if(model_name is not None):
                 # We need to handle this to the older model added?
                 continue
 
-            old_name = find_old_name(entry.name, species, dex)
+            # Add custom moves if assigned
+            if entry.name in custom_moves:
+                print(f'adding custom moves for {entry.name} from override files')
+                entry.__dict__['moves'] = custom_moves[entry.name]
+
+            # Check if we need to convert anything over from old ones
+            old_name = find_old_name(forme.name, species, dex)
             if(old_name is not None):
 
+                # Some things get merged, like the meteor miniors, so skip duplicates
                 if(old_name in added):
                     print(f'Skipping duplicate {old_name} -> {entry.name}')
                     continue
@@ -195,13 +264,13 @@ class PokemonSpecies:
                 old_entry = dex[old_name]
                 added.append(old_name)
 
+                # Copy old model info over
                 if 'model' in old_entry:
                     entry.model = old_entry['model']
                 if 'male_model' in old_entry:
                     entry.male_model = old_entry['male_model']
                 if 'female_model' in old_entry:
                     entry.female_model = old_entry['female_model']
-
                 if 'models' in old_entry:
                     entry.add_models(old_entry['models'])
                 elif len(forme.forms) > 1:
@@ -239,11 +308,11 @@ class PokemonSpecies:
                         
                     entry.add_models(models)
 
-                if not "moves" in entry.__dict__ and 'moves' in old_entry:
-                    entry.__dict__['moves'] = old_entry['moves']
-
+                # Copy old custom values from inside stats over
                 if 'stats' in old_entry:
                     stats = old_entry['stats']
+
+                    # Old sizes were more granular, so copy them
                     if 'sizes' in stats:
                         def convert_size(old):
                             size = {}
@@ -255,10 +324,8 @@ class PokemonSpecies:
                                 size['length'] = float(old['values']['length'])
                             return size
                         entry.size = convert_size(old_entry['stats']['sizes'])
-                    if 'lootTable' in stats:
-                        entry.loot_table = stats['lootTable']
-                    if 'heldTable' in stats:
-                        entry.held_table = stats['heldTable']
+                    
+                    # Same for spawns, mega rules, interactions and evolutoons
                     if 'spawnRules' in stats:
                         entry.spawn_rules = stats['spawnRules']
                     if 'megaRules' in stats:
@@ -272,14 +339,18 @@ class PokemonSpecies:
             else:
                 print(f'"{entry.name}" : "",')
 
+            # Print an error if we think it should have had moves, but has none
             if(not '-gmax' in entry.name and (not 'moves' in entry.__dict__ or not 'level_up' in entry.moves)):
                 print(f'No moves for {entry.name}??')
                 pass
 
+            # Now cleanup evolutions
             entry.post_process_evos(forme, species)
 
             entry.id = default
-            if old_name in dex and old_name!=entry.name:
+
+            # Mark the old name for legacy supprt reasons
+            if old_name in dex and old_name!=forme.name:
                 entry.old_name = old_name
 
             self.entries.append(entry)
@@ -346,7 +417,6 @@ def convert_tags():
         json.dump(json_obj, file, indent=2)
         file.close()
 
-
 def convert_pokedex():
 
     old_pokedex = './old/pokemobs/pokemobs.json'
@@ -358,56 +428,34 @@ def convert_pokedex():
     for var in old_pokedex["pokemon"]:
         pokedex[var["name"]] = var
 
-    moves_dex = './old/pokemobs/pokemobs_moves.json'
+    moves_dex = './data/pokemobs/custom_movesets.json'
     file = open(moves_dex, 'r')
     data = file.read()
     file.close()
-    moves_dex = json.loads(data)
+    _moves_dex = json.loads(data)
+    moves_dex = {}
+    for entry in _moves_dex:
+        moves_dex[entry['name']] = entry['moves']
 
-    def convert_moves(old_moves, name):
-        level_up_old = old_moves['lvlupMoves']
+    tables = './data/pokemobs/loot_tables.json'
+    file = open(tables, 'r')
+    data = file.read()
+    file.close()
+    _loot_tables = json.loads(data)
+    tables = './data/pokemobs/held_tables.json'
+    file = open(tables, 'r')
+    data = file.read()
+    file.close()
+    _held_tables = json.loads(data)
 
-        misc_old = []
-
-        errored_move = False
-
-        if 'misc' in old_moves and 'moves' in old_moves['misc']:
-            misc_old = old_moves['misc']['moves'].split(',')
-
-        misc_old = [convert_old_move_name(x) for x in misc_old]
-        while None in misc_old:
-            misc_old.remove(None)
-            errored_move = True
-        moves = {}
-
-        level_up = []
-
-        if 'values' in level_up_old:
-            level_up_old = level_up_old['values']
-
-        for key, item in level_up_old.items():
-            level = int(key)
-            vars = item.split(',')
-            vars = [convert_old_move_name(x) for x in vars]
-            while None in vars:
-                vars.remove(None)
-                errored_move = True
-            move = {}
-            move['L'] = level
-            move['moves'] = vars
-            level_up.append(move)
-
-        if errored_move:
-            print(f'error with move for {name}')
-
-        if(len(level_up)>0):
-            moves['level_up'] = level_up
-        if(len(misc_old)>0):
-            moves['misc'] = misc_old
-        return moves
-
-    for var in moves_dex["pokemon"]:
-        pokedex[var["name"]]['moves'] = convert_moves(var['moves'], var["name"])
+    loot_tables = {}
+    for key, list in _loot_tables.items():
+        for name in list:
+            loot_tables[name] = key
+    held_tables = {}
+    for key, list in _held_tables.items():
+        for name in list:
+            held_tables[name] = key
 
     i = 1
     values = get_species(i)
@@ -416,10 +464,22 @@ def convert_pokedex():
 
     lang_files = {}
 
+    # Initialise this with missingno.
+    pokemob_tag_names = ["pokecube:missingno"]
+
     while values is not None:
-        entry = PokemonSpecies(values, pokedex)
+        entry = PokemonSpecies(values, pokedex, moves_dex)
         species.append(entry)
         for var in entry.entries:
+
+            tag_name = f'pokecube:{var.name}'
+            if not tag_name in pokemob_tag_names:
+                pokemob_tag_names.append(tag_name)
+
+            if var.name in held_tables:
+                var.held_table = held_tables[var.name]
+            if var.name in loot_tables:
+                var.loot_table = loot_tables[var.name]
 
             for name in var.names:
                 _name = name.name
@@ -435,8 +495,42 @@ def convert_pokedex():
         i = i + 1
         values = get_species(i)
 
+    # Now lets handle anything defined as a "custom entry"
+    custom = './data/pokemobs/custom_entries.json'
+    file = open(custom, 'r')
+    data = file.read()
+    file.close()
+    custom = json.loads(data)
+    for var in custom:
+        tag_name = f'pokecube:{var["name"]}'
+        if not tag_name in pokemob_tag_names:
+            pokemob_tag_names.append(tag_name)
+        if "names" in var:
+            for name in var["names"]:
+                _name = name["name"]
+                _id = int(name["language"]['url'].split('/')[-2])
+                lang = utils.get('language', _id)
+                key = f'{lang.iso639}_{lang.iso3166}.json'
+                items = {}
+                if key in lang_files:
+                    items = lang_files[key]
+                items[f"entity.pokecube.{var['name']}"] = _name
+                lang_files[key] = items
+            del var['names']
+        dex.append(var)
+
+    # Construct and output the default pokecube:pokemob tag
+    file = f'../../src/generated/resources/data/pokecube/tags/entity_types/pokemob.json'
+    var = {"replace": False,"values":pokemob_tag_names}
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    file = open(file, 'w')
+    json.dump(var, file, indent=2)
+    file.close()
+
     for key, dict in lang_files.items():
-        file = f'./new/assets/pokecube_mobs/lang/{key}'
+        # Output a lang file for the entries
+        file = f'../../src/generated/resources/assets/pokecube_mobs/lang/{key}'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         try:
@@ -447,10 +541,9 @@ def convert_pokedex():
             print(f'error saving for {key}')
             print(err)
 
-
     for var in dex:
-        file = f'./new/pokemobs/pokedex_entries/{var["name"]}.json'
-
+        # Output each entry into the appropriate database location
+        file = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 
@@ -459,14 +552,13 @@ def convert_pokedex():
         file.close()
 
         # Now lets make a template file which will remove each entry.
-        file = f'./new/_removal_template_/pokemobs/pokedex_entries/{var["name"]}.json'
+        file = f'../../example_datapacks/_removal_template_/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
         var = {"remove": True,"priority":0}
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         file = open(file, 'w')
         json.dump(var, file, indent=2)
         file.close()
-
 
 if __name__ == "__main__":
     convert_pokedex()

@@ -218,12 +218,12 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "zoroark",
       "level": 30,
-      "evoMoves": "nightslash"
+      "evoMoves": "night-slash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

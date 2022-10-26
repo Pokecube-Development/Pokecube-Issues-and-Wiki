@@ -140,7 +140,6 @@
       "venom-drench"
     ]
   },
-  "loot_table": "pokecube:entities/spider",
   "spawn_rules": [
     {
       "values": {
@@ -155,7 +154,8 @@
     {
       "name": "naganadel",
       "move": "dragonpulse",
-      "evoMoves": "aircutter"
+      "evoMoves": "air-cutter"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/spider"
 }

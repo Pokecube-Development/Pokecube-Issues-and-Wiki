@@ -178,11 +178,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "fearow",
       "level": 20
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

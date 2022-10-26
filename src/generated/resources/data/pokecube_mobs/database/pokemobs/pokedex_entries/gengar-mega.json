@@ -2,6 +2,7 @@
   "name": "gengar-mega",
   "id": 94,
   "stock": true,
+  "mega": true,
   "base_experience": 270,
   "size": {
     "height": 1.4,

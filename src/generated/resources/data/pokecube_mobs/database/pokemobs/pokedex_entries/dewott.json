@@ -171,7 +171,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/fish_2",
   "interactions": [
     {
       "male": false,
@@ -212,7 +211,8 @@
       "location": {
         "and_preset": "beach_ground"
       },
-      "evoMoves": "nightslash"
+      "evoMoves": "night-slash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_2"
 }

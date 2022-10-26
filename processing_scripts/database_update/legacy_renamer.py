@@ -4,6 +4,10 @@ TO_MODEL = {
     "basculin-blue-striped" : "basculin-red-striped",
 }
 
+RENAMES = {
+    "minior-red-meteor": "minior-meteor",
+}
+
 LEGACY_REV_MAP = {
     "missingno": "missingno",
     "Sirfetch'd" : "sirfetchd",
@@ -98,6 +102,11 @@ def to_model_form(new_name, species, dex):
         old_name = TO_MODEL[new_name]
         return old_name
     return None
+
+def entry_name(name):
+    if name in RENAMES:
+        return RENAMES[name]
+    return name
 
 def find_new_name(old_name, options):
     if old_name in LEGACY_REV_MAP:

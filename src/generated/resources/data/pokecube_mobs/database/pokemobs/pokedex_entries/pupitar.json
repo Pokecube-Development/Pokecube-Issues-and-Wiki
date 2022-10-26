@@ -193,11 +193,11 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/stone_gold",
   "evolutions": [
     {
       "name": "tyranitar",
       "level": 55
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_gold"
 }

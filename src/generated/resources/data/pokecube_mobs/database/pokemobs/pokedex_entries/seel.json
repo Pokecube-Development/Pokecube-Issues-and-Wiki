@@ -231,12 +231,12 @@
       "smart-strike"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "dewgong",
       "level": 34,
-      "evoMoves": "sheercold"
+      "evoMoves": "sheer-cold"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

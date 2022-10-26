@@ -211,12 +211,12 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/chestplate_seeds_1",
   "evolutions": [
     {
       "name": "trevenant",
       "trade": true,
-      "evoMoves": "shadowclaw"
+      "evoMoves": "shadow-claw"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

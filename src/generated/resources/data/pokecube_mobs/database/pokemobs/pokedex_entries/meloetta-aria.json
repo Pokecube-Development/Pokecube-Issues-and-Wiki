@@ -208,7 +208,6 @@
       "laser-focus"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -223,5 +222,6 @@
       "move": "relicsong"
     }
   ],
-  "old_name": "meloetta_aria"
+  "old_name": "meloetta_aria",
+  "loot_table": "pokecube:entities/generic_legend"
 }

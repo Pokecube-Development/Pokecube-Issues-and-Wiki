@@ -249,7 +249,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/oranberry",
   "spawn_rules": [
     {
       "values": {
@@ -257,5 +256,6 @@
         "rate": "0.0"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/oranberry"
 }

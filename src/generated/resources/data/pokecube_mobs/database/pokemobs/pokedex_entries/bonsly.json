@@ -184,12 +184,12 @@
       "tearful-look"
     ]
   },
-  "loot_table": "pokecube:entities/cobble_1",
   "evolutions": [
     {
       "name": "sudowoodo",
       "move": "mimic",
       "evoMoves": "slam"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cobble_1"
 }

@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:slugma",
+    "pokecube:magcargo",
+    "pokecube:shellos",
+    "pokecube:gastrodon",
+    "pokecube:shelmet",
+    "pokecube:accelgor"
+  ]
+}

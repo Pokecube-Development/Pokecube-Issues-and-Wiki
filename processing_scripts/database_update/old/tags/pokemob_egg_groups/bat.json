@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:zubat",
+    "pokecube:golbat",
+    "pokecube:crobat",
+    "pokecube:woobat",
+    "pokecube:swoobat",
+    "pokecube:noibat",
+    "pokecube:noivern"
+  ]
+}

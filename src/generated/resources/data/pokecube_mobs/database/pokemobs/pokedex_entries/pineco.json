@@ -187,12 +187,12 @@
       "confide"
     ]
   },
-  "loot_table": "minecraft:entities/creeper",
   "evolutions": [
     {
       "name": "forretress",
       "level": 31,
-      "evoMoves": "autotomize,  mirrorshot,  mirrorshotautotomize"
+      "evoMoves": "autotomize, mirror-shot"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/creeper"
 }

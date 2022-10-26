@@ -167,7 +167,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "and_preset": "taigas",
@@ -183,5 +182,6 @@
         "rate": "0.008"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/generic_legend"
 }

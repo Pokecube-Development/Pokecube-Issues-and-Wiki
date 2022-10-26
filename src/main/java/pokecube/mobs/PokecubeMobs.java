@@ -610,7 +610,6 @@ public class PokecubeMobs
     {
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
-            if (entry == Database.missingno) continue;
             if (entry.model != PokedexEntry.MODELNO) continue;
             final String tex = PokedexEntry.TEXTUREPATH;
             final String model = PokedexEntry.MODELPATH;

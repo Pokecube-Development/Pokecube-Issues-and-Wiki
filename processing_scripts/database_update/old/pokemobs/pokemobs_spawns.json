@@ -1,0 +1,550 @@
+{
+  "pokemon": [
+    {
+      "name": "articuno",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "articuno_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:legendary_tree",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "zapdos",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "zapdos_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:legendary_tree",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "moltres",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:lugia_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "moltres_galar",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:legendary_tree",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "unown",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/unown",
+              "rate": "0.3"
+            },
+            "model": {
+              "key": "unown_*"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "raikou",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "entei",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "suicune",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:hooh_tower",
+              "min": "1",
+              "rate": "0.02",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "giratina_origin",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/giratina",
+              "min": "1",
+              "rate": "0.002",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:space_temple",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "phione",
+      "stats": {
+        "spawnRules": [
+          {
+            "and_preset": "ocean_monument",
+            "values": {
+              "min": "1",
+              "rate": "1.0",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "manaphy",
+      "stats": {
+        "spawnRules": [
+          {
+            "and_preset": "ocean_monument",
+            "values": {
+              "min": "1",
+              "rate": "0.01",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "basculin",
+      "stats": {
+        "spawnRules": [
+          {
+            "and_preset": "beach_water",
+            "values": {
+              "rate": "0.15"
+            },
+            "model": {
+              "key": "basculin_red",
+              "tex": "basculin_red",
+              "model": "basculin_red",
+              "anim": "basculin_red"
+            }
+          },
+          {
+            "and_preset": "river_water",
+            "values": {
+              "rate": "0.15"
+            },
+            "model": {
+              "key": "basculin_red",
+              "tex": "basculin_red",
+              "model": "basculin_red",
+              "anim": "basculin_red"
+            }
+          },
+          {
+            "and_preset": "lake_water",
+            "values": {
+              "rate": "0.15"
+            },
+            "model": {
+              "key": "basculin_red",
+              "tex": "basculin_red",
+              "model": "basculin_red",
+              "anim": "basculin_red"
+            }
+          },
+          {
+            "and_preset": "beach_water",
+            "values": {
+              "rate": "0.15"
+            },
+            "model": {
+              "key": "basculin_blue",
+              "tex": "basculin_blue",
+              "model": "basculin_blue",
+              "anim": "basculin_blue"
+            }
+          },
+          {
+            "and_preset": "river_water",
+            "values": {
+              "rate": "0.15"
+            },
+            "model": {
+              "key": "basculin_blue",
+              "tex": "basculin_blue",
+              "model": "basculin_blue",
+              "anim": "basculin_blue"
+            }
+          },
+          {
+            "and_preset": "lake_water",
+            "values": {
+              "rate": "0.15"
+            },
+            "model": {
+              "key": "basculin_blue",
+              "tex": "basculin_blue",
+              "model": "basculin_blue",
+              "anim": "basculin_blue"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cobalion",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "terrakion",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "virizion",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:keldeo_place",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "zygarde_10",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:yveltal_place",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          },
+          {
+            "values": {
+              "structures": "pokecube_legends:xerneas_place",
+              "min": "1",
+              "rate": "0.005",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "cosmog",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/cosmog",
+              "min": "1",
+              "rate": "0.007",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "nihilego",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/nihilego",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "buzzwole",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/buzzwole",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "pheromosa",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/pheromosa",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "xurkitree",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/xurkitree",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "celesteela",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/celesteela",
+              "min": "1",
+              "rate": "0.1",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "kartana",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/kartana",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "guzzlord",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/guzzlord",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "poipole",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/poipole",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "stakataka",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/stakataka",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "blacephalon",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "types": "#pokecube_legends:can_spawn/blacephalon",
+              "min": "1",
+              "rate": "0.2",
+              "max": "1"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "zarude",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:celebi_temple",
+              "min": "1",
+              "max": "1",
+              "rate": "0.02"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "calyrex",
+      "stats": {
+        "spawnRules": [
+          {
+            "values": {
+              "structures": "pokecube_legends:castle_n",
+              "min": "1",
+              "max": "1",
+              "rate": "0.008"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -2,6 +2,7 @@
   "name": "meowth-gmax",
   "id": 52,
   "stock": true,
+  "gmax": true,
   "base_experience": 58,
   "size": {
     "height": 6.0,

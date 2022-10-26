@@ -2,6 +2,7 @@
   "name": "flapple-gmax",
   "id": 841,
   "stock": true,
+  "gmax": true,
   "base_experience": 170,
   "size": {
     "height": 5.0,

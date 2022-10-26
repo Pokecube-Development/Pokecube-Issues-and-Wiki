@@ -178,12 +178,12 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "pokecube:entities/spider",
   "evolutions": [
     {
       "name": "volcarona",
       "level": 59,
-      "evoMoves": "quiverdance"
+      "evoMoves": "quiver-dance"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/spider"
 }

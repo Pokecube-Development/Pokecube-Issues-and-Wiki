@@ -208,12 +208,12 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/iron_pearls_2",
   "evolutions": [
     {
       "name": "metagross",
       "level": 45,
-      "evoMoves": "hammerarm"
+      "evoMoves": "hammer-arm"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_pearls_2"
 }

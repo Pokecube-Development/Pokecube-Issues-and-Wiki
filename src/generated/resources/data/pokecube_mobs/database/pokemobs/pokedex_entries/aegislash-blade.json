@@ -123,6 +123,6 @@
       "steel-beam"
     ]
   },
-  "loot_table": "pokecube:entities/iron_3",
-  "old_name": "aegislash_blade"
+  "old_name": "aegislash_blade",
+  "loot_table": "pokecube:entities/iron_3"
 }

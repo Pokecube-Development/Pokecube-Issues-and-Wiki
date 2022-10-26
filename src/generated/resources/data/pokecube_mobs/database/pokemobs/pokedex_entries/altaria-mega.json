@@ -2,6 +2,7 @@
   "name": "altaria-mega",
   "id": 334,
   "stock": true,
+  "mega": true,
   "base_experience": 207,
   "size": {
     "height": 1.5,

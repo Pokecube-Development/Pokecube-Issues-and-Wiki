@@ -191,7 +191,6 @@
       "burn-up"
     ]
   },
-  "loot_table": "pokecube:entities/coal_2",
   "evolutions": [
     {
       "name": "typhlosion",
@@ -205,5 +204,6 @@
       },
       "evoMoves": "hex"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_2"
 }

@@ -224,11 +224,11 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "bisharp",
       "level": 52
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

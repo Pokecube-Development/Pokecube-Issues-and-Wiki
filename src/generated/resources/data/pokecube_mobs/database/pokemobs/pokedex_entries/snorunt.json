@@ -175,18 +175,18 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/both_ice",
   "evolutions": [
     {
       "name": "glalie",
       "level": 42,
-      "evoMoves": "freezedry"
+      "evoMoves": "freeze-dry"
     },
     {
       "name": "froslass",
       "item_preset": "dawnstone",
       "sexe": "female",
-      "evoMoves": "ominouswind"
+      "evoMoves": "ominous-wind"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_ice"
 }

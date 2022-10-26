@@ -244,11 +244,11 @@
     "model": "meditite_female",
     "anim": "meditite_female"
   },
-  "loot_table": "pokecube:entities/enderpearls_1",
   "evolutions": [
     {
       "name": "medicham",
       "level": 37
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_1"
 }

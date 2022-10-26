@@ -2,6 +2,7 @@
   "name": "toxtricity-low-key-gmax",
   "id": 849,
   "stock": true,
+  "gmax": true,
   "base_experience": 176,
   "size": {
     "height": 5.0,

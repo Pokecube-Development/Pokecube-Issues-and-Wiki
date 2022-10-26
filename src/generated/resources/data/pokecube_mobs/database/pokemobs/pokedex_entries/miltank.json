@@ -239,7 +239,6 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/cow_1",
   "interactions": [
     {
       "male": false,
@@ -267,5 +266,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/cow_1"
 }

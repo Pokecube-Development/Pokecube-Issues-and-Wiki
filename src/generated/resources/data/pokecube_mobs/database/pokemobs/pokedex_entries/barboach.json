@@ -181,12 +181,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "whiscash",
       "level": 30,
       "evoMoves": "thrash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

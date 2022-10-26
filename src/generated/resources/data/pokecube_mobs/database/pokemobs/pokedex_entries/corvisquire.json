@@ -122,13 +122,13 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "corviknight",
       "level": 38,
       "animation": "18",
-      "evoMoves": "steelwing"
+      "evoMoves": "steel-wing"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

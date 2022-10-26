@@ -250,12 +250,12 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "evolutions": [
     {
       "name": "primeape",
       "level": 28,
       "evoMoves": "rage"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

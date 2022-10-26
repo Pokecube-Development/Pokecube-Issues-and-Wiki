@@ -227,7 +227,6 @@
       "anim": "basculin_blue"
     }
   ],
-  "loot_table": "pokecube:entities/fish_1",
   "spawn_rules": [
     {
       "and_preset": "beach_water",
@@ -302,5 +301,6 @@
       }
     }
   ],
-  "old_name": "basculin"
+  "old_name": "basculin",
+  "loot_table": "pokecube:entities/fish_1"
 }

@@ -232,8 +232,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/money_cat_big",
-  "held_table": "pokecube:entities/emerald_3_33",
   "interactions": [
     {
       "male": false,
@@ -261,5 +259,7 @@
         ]
       }
     }
-  ]
+  ],
+  "held_table": "pokecube:entities/emerald_3_33",
+  "loot_table": "pokecube:entities/money_cat_big"
 }

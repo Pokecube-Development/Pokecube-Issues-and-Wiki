@@ -2,6 +2,7 @@
   "name": "groudon-primal",
   "id": 383,
   "stock": true,
+  "mega": true,
   "base_experience": 347,
   "size": {
     "height": 5.0,

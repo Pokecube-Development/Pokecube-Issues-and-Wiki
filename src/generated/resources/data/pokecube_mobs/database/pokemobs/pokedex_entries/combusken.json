@@ -241,12 +241,12 @@
     "model": "combusken_female",
     "anim": "combusken_female"
   },
-  "loot_table": "pokecube:entities/coal_chicken_2",
   "evolutions": [
     {
       "name": "blaziken",
       "level": 36,
-      "evoMoves": "blazekick"
+      "evoMoves": "blaze-kick"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/coal_chicken_2"
 }

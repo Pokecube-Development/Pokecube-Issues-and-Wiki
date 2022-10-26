@@ -2,6 +2,7 @@
   "name": "melmetal-gmax",
   "id": 809,
   "stock": true,
+  "gmax": true,
   "base_experience": 270,
   "size": {
     "height": 6.0,

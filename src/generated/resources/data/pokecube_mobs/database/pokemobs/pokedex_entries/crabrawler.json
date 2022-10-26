@@ -176,14 +176,14 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1",
   "evolutions": [
     {
       "name": "crabominable",
       "location": {
         "and_preset": "caves"
       },
-      "evoMoves": "icepunch"
+      "evoMoves": "ice-punch"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_1"
 }

@@ -213,11 +213,11 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "pokecube:entities/string_1",
   "evolutions": [
     {
       "name": "drifblim",
       "level": 28
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/string_1"
 }

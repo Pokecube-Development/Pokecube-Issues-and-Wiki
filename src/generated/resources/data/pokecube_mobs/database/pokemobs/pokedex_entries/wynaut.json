@@ -68,11 +68,11 @@
       "mirror-coat"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_1",
   "evolutions": [
     {
       "name": "wobbuffet",
       "level": 15
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_1"
 }

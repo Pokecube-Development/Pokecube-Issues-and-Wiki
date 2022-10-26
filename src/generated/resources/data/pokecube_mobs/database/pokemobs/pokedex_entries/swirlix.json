@@ -191,11 +191,11 @@
       "misty-explosion"
     ]
   },
-  "loot_table": "pokecube:entities/persimberry",
   "evolutions": [
     {
       "name": "slurpuff",
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/persimberry"
 }

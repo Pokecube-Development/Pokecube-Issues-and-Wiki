@@ -2,6 +2,7 @@
   "name": "appletun-gmax",
   "id": 842,
   "stock": true,
+  "gmax": true,
   "base_experience": 170,
   "size": {
     "height": 5.0,

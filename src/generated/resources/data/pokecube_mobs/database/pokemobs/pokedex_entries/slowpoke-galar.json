@@ -198,7 +198,6 @@
       "expanding-force"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "interactions": [
     {
       "male": true,
@@ -231,13 +230,14 @@
     {
       "name": "slowbro-galar",
       "item_preset": "galarcuff",
-      "evoMoves": "shellsidearm"
+      "evoMoves": "shell-side-arm"
     },
     {
       "name": "slowking-galar",
       "item_preset": "galarwreath",
-      "evoMoves": "eeriespell"
+      "evoMoves": "eerie-spell"
     }
   ],
-  "old_name": "slowpoke_galar"
+  "old_name": "slowpoke_galar",
+  "loot_table": "pokecube:entities/pig_1"
 }

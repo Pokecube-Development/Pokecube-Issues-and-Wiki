@@ -158,7 +158,6 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -186,5 +185,6 @@
         ]
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

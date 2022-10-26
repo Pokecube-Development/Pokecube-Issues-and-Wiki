@@ -160,12 +160,12 @@
       "meteor-beam"
     ]
   },
-  "loot_table": "pokecube:entities/stone_2",
   "evolutions": [
     {
       "name": "gigalith",
       "trade": true,
-      "evoMoves": "powergem"
+      "evoMoves": "power-gem"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/stone_2"
 }

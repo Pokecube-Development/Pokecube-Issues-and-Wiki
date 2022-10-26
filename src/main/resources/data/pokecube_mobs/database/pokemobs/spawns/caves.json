@@ -10,12 +10,12 @@
         {"key": "rolycoly","min": 2,"max": 5,"rate": 0.5},
         {"key": "diglett","min": 2,"max": 5,"rate": 0.5},
         
-        {"key": "yamask_galar","min": 2,"max": 5,"rate": 0.3},
+        {"key": "yamask-galar","min": 2,"max": 5,"rate": 0.3},
         
-        {"key": "geodude_alola","min": 2,"max": 5,"rate": 0.25},
+        {"key": "geodude-alola","min": 2,"max": 5,"rate": 0.25},
         {"key": "carbink","min": 2,"max": 5,"rate": 0.25},
         
-        {"key": "diglett_alola","min": 2,"max": 5,"rate": 0.1},
+        {"key": "diglett-alola","min": 2,"max": 5,"rate": 0.1},
         {"key": "abra","min": 2,"max": 5,"rate": 0.1},
         {"key": "clefairy","min": 2,"max": 5,"rate": 0.1},
         {"key": "jigglypuff","min": 2,"max": 5,"rate": 0.1},
@@ -192,7 +192,7 @@
     {
       "and_preset": "oceans,caves",
       "entries": [
-	    {"key": "qwilfish_hisui","min": 2,"max": 4,"rate": 0.4},
+	    {"key": "qwilfish-hisui","min": 2,"max": 4,"rate": 0.4},
         {"key": "krabby","min": 2,"max": 4,"rate": 0.3},
         {"key": "spheal","min": 2,"max": 4,"rate": 0.2}
       ]
@@ -202,7 +202,7 @@
       "entries": [
         {"key": "krabby","min": 2,"max": 4,"rate": 0.3},
         {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
-        {"key": "slowpoke_galar","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slowpoke-galar","min": 2,"max": 4,"rate": 0.3},
         
         {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
         {"key": "spheal","min": 2,"max": 4,"rate": 0.2},

@@ -210,7 +210,7 @@ public class Database
         Database.missingno.stats[4] = 6;
         Database.missingno.stats[5] = 29;
         Database.missingno.addMoves(Lists.newArrayList(), Maps.newHashMap());
-        Database.missingno.addMove("skyattack");
+        Database.missingno.addMove("sky-attack");
         Database.missingno.mobType = 15;
         Database.addEntry(Database.missingno);
     }

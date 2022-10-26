@@ -165,11 +165,11 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/lilypad",
   "evolutions": [
     {
       "name": "masquerain",
       "level": 22
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/lilypad"
 }

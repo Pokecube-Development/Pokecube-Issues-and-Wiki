@@ -222,7 +222,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/generic_legend",
   "spawn_rules": [
     {
       "values": {
@@ -252,5 +251,6 @@
       }
     }
   ],
-  "old_name": "deoxys"
+  "old_name": "deoxys",
+  "loot_table": "pokecube:entities/generic_legend"
 }

@@ -76,7 +76,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/honeycomb_1",
   "interactions": [
     {
       "male": true,
@@ -112,5 +111,6 @@
       "sexe": "female",
       "evoMoves": "slash"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/honeycomb_1"
 }

@@ -213,12 +213,12 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "mightyena",
       "level": 18,
       "evoMoves": "snarl"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

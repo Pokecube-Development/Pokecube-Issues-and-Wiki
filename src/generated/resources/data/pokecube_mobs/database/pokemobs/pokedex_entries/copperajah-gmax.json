@@ -2,6 +2,7 @@
   "name": "copperajah-gmax",
   "id": 879,
   "stock": true,
+  "gmax": true,
   "base_experience": 175,
   "size": {
     "height": 5.5,

@@ -172,6 +172,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/rotten_rabbit_1",
-  "old_name": "morpeko_hangry"
+  "old_name": "morpeko_hangry",
+  "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

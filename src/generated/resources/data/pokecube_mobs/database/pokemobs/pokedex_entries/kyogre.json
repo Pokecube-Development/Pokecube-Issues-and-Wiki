@@ -188,7 +188,6 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/fish_2",
   "spawn_rules": [
     {
       "values": {
@@ -202,5 +201,6 @@
       "name": "Kyogre Primal",
       "item_preset": "alphaorb"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/fish_2"
 }

@@ -156,12 +156,12 @@
       "skitter-smack"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_2",
   "evolutions": [
     {
       "name": "goodra",
       "level": 50,
-      "evoMoves": "aquatail"
+      "evoMoves": "aqua-tail"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_2"
 }

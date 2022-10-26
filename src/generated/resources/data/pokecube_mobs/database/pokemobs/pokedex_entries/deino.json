@@ -206,11 +206,11 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/pig_1",
   "evolutions": [
     {
       "name": "zweilous",
       "level": 50
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/pig_1"
 }

@@ -165,12 +165,12 @@
       "infestation"
     ]
   },
-  "loot_table": "pokecube:entities/slimeballs_2",
   "evolutions": [
     {
       "name": "seismitoad",
       "level": 36,
       "evoMoves": "acid"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/slimeballs_2"
 }

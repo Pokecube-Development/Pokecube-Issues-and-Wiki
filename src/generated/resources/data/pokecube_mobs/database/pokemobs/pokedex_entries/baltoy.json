@@ -221,12 +221,12 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/terracota_1",
   "evolutions": [
     {
       "name": "claydol",
       "level": 36,
-      "evoMoves": "hyperbeam"
+      "evoMoves": "hyper-beam"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/terracota_1"
 }

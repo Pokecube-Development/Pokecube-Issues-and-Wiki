@@ -180,6 +180,6 @@
       "corrosive-gas"
     ]
   },
-  "loot_table": "minecraft:entities/creeper",
-  "old_name": "weezing_galar"
+  "old_name": "weezing_galar",
+  "loot_table": "minecraft:entities/creeper"
 }

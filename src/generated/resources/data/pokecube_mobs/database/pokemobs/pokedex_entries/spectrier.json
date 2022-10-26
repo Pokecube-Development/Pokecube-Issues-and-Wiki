@@ -151,7 +151,6 @@
       "lash-out"
     ]
   },
-  "loot_table": "pokecube:entities/ender_cow_1",
   "spawn_rules": [
     {
       "and_preset": "spooky_areas",
@@ -159,5 +158,6 @@
         "rate": "0.0"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/ender_cow_1"
 }

@@ -209,12 +209,12 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/spider_eye",
   "evolutions": [
     {
       "name": "crobat",
       "happy": true,
-      "evoMoves": "crosspoison"
+      "evoMoves": "cross-poison"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/spider_eye"
 }

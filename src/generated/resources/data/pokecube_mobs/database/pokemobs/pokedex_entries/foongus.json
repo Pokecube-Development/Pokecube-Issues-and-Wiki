@@ -185,11 +185,11 @@
       "pollen-puff"
     ]
   },
-  "loot_table": "pokecube:entities/both_shrooms_1",
   "evolutions": [
     {
       "name": "amoonguss",
       "level": 39
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/both_shrooms_1"
 }

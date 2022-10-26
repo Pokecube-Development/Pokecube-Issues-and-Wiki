@@ -214,6 +214,6 @@
       "dual-wingbeat"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_3",
-  "old_name": "giratina"
+  "old_name": "giratina",
+  "loot_table": "pokecube:entities/enderpearls_3"
 }

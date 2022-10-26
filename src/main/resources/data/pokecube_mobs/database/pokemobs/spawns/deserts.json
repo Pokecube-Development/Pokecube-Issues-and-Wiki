@@ -19,7 +19,7 @@
         {"key": "silicobra","min": 2,"max": 4,"rate": 0.15},
         {"key": "sizzlipede","min": 2,"max": 4,"rate": 0.15},
         
-        {"key": "diglett_alola","min": 2,"max": 4,"rate": 0.1},
+        {"key": "diglett-alola","min": 2,"max": 4,"rate": 0.1},
         {"key": "sandygast","min": 2,"max": 4,"rate": 0.1},
         
         {"key": "onix","min": 2,"max": 4,"rate": 0.05},
@@ -32,7 +32,7 @@
       "entries": [
         {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
         {"key": "yamask","min": 2,"max": 4,"rate": 0.2},
-        {"key": "yamask_galar","min": 2,"max": 4,"rate": 0.1},
+        {"key": "yamask-galar","min": 2,"max": 4,"rate": 0.1},
         {"key": "lunatone","min": 2,"max": 4,"rate": 0.01}
       ]
     },
@@ -69,7 +69,7 @@
         {"key": "silicobra","min": 2,"max": 4,"rate": 0.15},
         {"key": "sizzlipede","min": 2,"max": 4,"rate": 0.15},
         
-        {"key": "diglett_alola","min": 2,"max": 4,"rate": 0.1},
+        {"key": "diglett-alola","min": 2,"max": 4,"rate": 0.1},
         
         {"key": "onix","min": 2,"max": 4,"rate": 0.05}
       ]

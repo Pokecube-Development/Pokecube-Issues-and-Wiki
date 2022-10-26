@@ -1,0 +1,41 @@
+{
+  "pokecube:entities/moonstone": [
+    "nidoran-f",
+    "nidoran-m",
+    "clefairy",
+    "jigglypuff"
+  ],
+  "pokecube:entities/emerald_1_33": [
+    "meowth",
+    "meowth-alola",
+    "meowth-galar",
+    "perrserker"
+  ],
+  "pokecube:entities/emerald_3_33": [
+    "persian",
+    "persian-alola"
+  ],
+  "pokecube:entities/kingsrock": [
+    "slowpoke"
+  ],
+  "pokecube:entities/lucky_oval": [
+    "chansey",
+    "blissey"
+  ],
+  "pokecube:entities/oranberry_10": [
+    "sentret"
+  ],
+  "pokecube:entities/berryjuice": [
+    "shuckle"
+  ],
+  "pokecube:entities/oranberry": [
+    "zigzagoon"
+  ],
+  "pokecube:entities/persimberry": [
+    "zigzagoon-galar",
+    "drampa"
+  ],
+  "pokecube:entities/dawnstone": [
+    "ralts"
+  ]
+}

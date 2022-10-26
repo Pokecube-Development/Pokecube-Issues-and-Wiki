@@ -211,12 +211,12 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/blaze_rabbit_1",
   "evolutions": [
     {
       "name": "darmanitan-standard",
       "level": 35,
-      "evoMoves": "hammerarm"
+      "evoMoves": "hammer-arm"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

@@ -194,11 +194,11 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "chandelure",
       "item_preset": "duskstone"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

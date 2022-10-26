@@ -221,12 +221,12 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/bones",
   "evolutions": [
     {
       "name": "dusknoir",
       "item_preset": "reapercloth",
       "trade": true
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/bones"
 }

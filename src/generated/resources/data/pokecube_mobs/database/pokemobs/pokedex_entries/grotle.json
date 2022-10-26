@@ -161,7 +161,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/shellseed_2",
   "evolutions": [
     {
       "name": "torterra",
@@ -169,5 +168,6 @@
       "animation": "18",
       "evoMoves": "earthquake"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/shellseed_2"
 }

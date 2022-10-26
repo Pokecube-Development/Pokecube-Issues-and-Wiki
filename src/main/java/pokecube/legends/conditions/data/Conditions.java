@@ -19,6 +19,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.api.stats.SpecialCaseRegister;
+import pokecube.core.PokecubeCore;
 import pokecube.legends.conditions.AbstractEntriedCondition;
 import pokecube.legends.conditions.AbstractTypedCondition;
 import pokecube.legends.spawns.LegendarySpawn;
@@ -42,7 +43,7 @@ public class Conditions
                 final ResourceLocation loc = new ResourceLocation(this.key.get("id"));
                 Item b = ForgeRegistries.ITEMS.getValue(loc);
                 if (b == null) PokecubeAPI.LOGGER.error("Error loading Legendary Spawn, item {} not found!", loc);
-                else PokecubeAPI.LOGGER.debug("Registering Spawn Key: {}", loc);
+                else if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Registering Spawn Key: {}", loc);
                 this._key = i -> ItemList.is(loc, i);
             }
             else if (this.key.containsKey("tag"))
@@ -60,7 +61,7 @@ public class Conditions
                 final ResourceLocation loc = new ResourceLocation(this.target.get("id"));
                 Block b = ForgeRegistries.BLOCKS.getValue(loc);
                 if (b == null) PokecubeAPI.LOGGER.error("Error loading Legendary Spawn, block {} not found!", loc);
-                else PokecubeAPI.LOGGER.debug("Registering Spawner: {}", loc);
+                else if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Registering Spawner: {}", loc);
                 this._target = i -> ItemList.is(loc, i);
             }
             else if (this.target.containsKey("tag"))

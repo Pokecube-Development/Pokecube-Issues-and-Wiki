@@ -2,6 +2,7 @@
   "name": "venusaur-mega",
   "id": 3,
   "stock": true,
+  "mega": true,
   "base_experience": 281,
   "size": {
     "height": 2.4,

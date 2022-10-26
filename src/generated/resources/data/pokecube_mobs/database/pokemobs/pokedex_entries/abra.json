@@ -145,12 +145,12 @@
       "speed-swap"
     ]
   },
-  "loot_table": "pokecube:entities/enderpearls_1",
   "evolutions": [
     {
       "name": "kadabra",
       "level": 16,
       "evoMoves": "kinesis"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_1"
 }

@@ -205,11 +205,11 @@
       "eerie-impulse"
     ]
   },
-  "loot_table": "pokecube:entities/redstone_creeper_1",
   "evolutions": [
     {
       "name": "electrode",
       "level": 30
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/redstone_creeper_1"
 }

@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:paras",
+    "pokecube:parasect",
+    "pokecube:shroomish",
+    "pokecube:breloom",
+    "pokecube:foongus",
+    "pokecube:amoonguss",
+    "pokecube:morelull",
+    "pokecube:shiinotic"
+  ]
+}

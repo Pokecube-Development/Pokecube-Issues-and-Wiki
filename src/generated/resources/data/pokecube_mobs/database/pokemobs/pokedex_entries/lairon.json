@@ -210,11 +210,11 @@
       "steel-roller"
     ]
   },
-  "loot_table": "pokecube:entities/iron_2",
   "evolutions": [
     {
       "name": "aggron",
       "level": 42
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_2"
 }

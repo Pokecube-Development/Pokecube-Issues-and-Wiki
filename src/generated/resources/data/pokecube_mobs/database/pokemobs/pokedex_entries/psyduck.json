@@ -245,11 +245,11 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1",
   "evolutions": [
     {
       "name": "golduck",
       "level": 33
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/chicken_1"
 }

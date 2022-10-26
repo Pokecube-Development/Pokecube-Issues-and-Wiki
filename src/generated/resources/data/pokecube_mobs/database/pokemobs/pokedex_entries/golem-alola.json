@@ -214,6 +214,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/stone_gold",
-  "old_name": "golem_alola"
+  "old_name": "golem_alola",
+  "loot_table": "pokecube:entities/stone_gold"
 }

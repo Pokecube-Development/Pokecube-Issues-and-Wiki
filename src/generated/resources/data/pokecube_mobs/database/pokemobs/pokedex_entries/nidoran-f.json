@@ -213,13 +213,13 @@
       "venom-drench"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
-  "held_table": "pokecube:entities/moonstone",
   "evolutions": [
     {
       "name": "nidorina",
       "level": 16
     }
   ],
-  "old_name": "nidoranf"
+  "old_name": "nidoranf",
+  "held_table": "pokecube:entities/moonstone",
+  "loot_table": "pokecube:entities/rabbit_1"
 }

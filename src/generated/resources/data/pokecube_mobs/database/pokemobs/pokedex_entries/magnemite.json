@@ -230,12 +230,12 @@
       "rising-voltage"
     ]
   },
-  "loot_table": "pokecube:entities/iron_redstone_1",
   "evolutions": [
     {
       "name": "magneton",
       "level": 30,
-      "evoMoves": "triattack"
+      "evoMoves": "tri-attack"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/iron_redstone_1"
 }

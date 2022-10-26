@@ -173,7 +173,6 @@
       "psychic-fangs"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_2",
   "interactions": [
     {
       "male": false,
@@ -207,5 +206,6 @@
       "name": "stoutland",
       "level": 32
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_2"
 }

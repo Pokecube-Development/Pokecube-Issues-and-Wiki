@@ -190,7 +190,6 @@
       "electric-terrain"
     ]
   },
-  "loot_table": "minecraft:entities/sheep/yellow",
   "interactions": [
     {
       "male": true,
@@ -251,5 +250,6 @@
       "level": 15,
       "animation": "20"
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/sheep/yellow"
 }

@@ -217,11 +217,11 @@
       "scorching-sands"
     ]
   },
-  "loot_table": "pokecube:entities/sand_rabbit_1",
   "evolutions": [
     {
       "name": "krokorok",
       "level": 29
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/sand_rabbit_1"
 }

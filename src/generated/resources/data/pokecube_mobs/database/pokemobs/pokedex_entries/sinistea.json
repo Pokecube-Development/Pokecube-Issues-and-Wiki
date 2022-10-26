@@ -156,7 +156,6 @@
       "anim": "sinistea"
     }
   ],
-  "loot_table": "pokecube:entities/enderpearls_2",
   "evolutions": [
     {
       "name": "polteageist",
@@ -182,5 +181,6 @@
         "anim": "polteageist"
       }
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/enderpearls_2"
 }

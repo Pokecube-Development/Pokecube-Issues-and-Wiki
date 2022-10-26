@@ -226,11 +226,11 @@
       "strength-sap"
     ]
   },
-  "loot_table": "pokecube:entities/leaves",
   "evolutions": [
     {
       "name": "skiploom",
       "level": 18
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/leaves"
 }

@@ -2,6 +2,7 @@
   "name": "lopunny-mega",
   "id": 428,
   "stock": true,
+  "mega": true,
   "base_experience": 203,
   "size": {
     "height": 1.3,

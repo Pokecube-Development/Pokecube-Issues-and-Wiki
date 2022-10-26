@@ -241,11 +241,11 @@
       "coaching"
     ]
   },
-  "loot_table": "pokecube:entities/spider_eye",
   "evolutions": [
     {
       "name": "toxicroak",
       "level": 37
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/spider_eye"
 }

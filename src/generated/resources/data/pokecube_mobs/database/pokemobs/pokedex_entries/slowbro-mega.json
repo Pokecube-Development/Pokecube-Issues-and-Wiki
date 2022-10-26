@@ -2,6 +2,7 @@
   "name": "slowbro-mega",
   "id": 80,
   "stock": true,
+  "mega": true,
   "base_experience": 207,
   "size": {
     "height": 2.0,

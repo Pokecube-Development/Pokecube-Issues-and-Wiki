@@ -203,7 +203,6 @@
       "stomping-tantrum"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_3",
   "interactions": [
     {
       "male": false,
@@ -238,5 +237,6 @@
       "item_preset": "pokecube_mobs:peat_block",
       "time": "night"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_3"
 }

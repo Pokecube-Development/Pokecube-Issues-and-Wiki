@@ -135,7 +135,6 @@
       "brutal-swing"
     ]
   },
-  "loot_table": "pokecube:entities/rabbit_1",
   "evolutions": [
     {
       "name": "greedent",
@@ -143,5 +142,6 @@
       "animation": "18",
       "evoMoves": "covet"
     }
-  ]
+  ],
+  "loot_table": "pokecube:entities/rabbit_1"
 }

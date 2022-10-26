@@ -165,7 +165,6 @@
       "poltergeist"
     ]
   },
-  "loot_table": "pokecube:entities/stone_2",
   "evolutions": [
     {
       "name": "runerigus",
@@ -174,8 +173,9 @@
         "and_preset": "extreme_hills"
       },
       "time": "night",
-      "evoMoves": "shadowclaw"
+      "evoMoves": "shadow-claw"
     }
   ],
-  "old_name": "yamask_galar"
+  "old_name": "yamask_galar",
+  "loot_table": "pokecube:entities/stone_2"
 }

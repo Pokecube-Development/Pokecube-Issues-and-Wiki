@@ -191,11 +191,11 @@
       "power-up-punch"
     ]
   },
-  "loot_table": "minecraft:entities/spider",
   "evolutions": [
     {
       "name": "ledian",
       "level": 18
     }
-  ]
+  ],
+  "loot_table": "minecraft:entities/spider"
 }
