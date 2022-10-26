@@ -1101,5 +1101,6 @@
   "entity.pokecube.spectrier": "Spectrier",
   "entity.pokecube.calyrex": "Calyrex",
   "entity.pokecube.calyrex-ice": "Calyrex",
-  "entity.pokecube.calyrex-shadow": "Calyrex"
+  "entity.pokecube.calyrex-shadow": "Calyrex",
+  "entity.pokecube.missingno": "MissingNo."
 }

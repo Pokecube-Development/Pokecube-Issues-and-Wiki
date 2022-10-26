@@ -7,6 +7,7 @@ from moves_converter import convert_old_move_name
 import os
 from glob import glob
 import shutil
+from types import SimpleNamespace
 
 MEGA_SUFFIX = [
     '-mega',
@@ -481,7 +482,9 @@ def convert_pokedex():
         species.append(entry)
         for var in entry.entries:
 
-            pokemob_tag_names.append(f'pokecube:{var.name}')
+            tag_name = f'pokecube:{var.name}'
+            if not tag_name in pokemob_tag_names:
+                pokemob_tag_names.append(tag_name)
 
             if var.name in held_tables:
                 var.held_table = held_tables[var.name]
@@ -502,6 +505,30 @@ def convert_pokedex():
         i = i + 1
         values = get_species(i)
 
+
+    # Now lets handle anything defined as a "custom entry"
+    custom = './data/pokemobs/custom_entries.json'
+    file = open(custom, 'r')
+    data = file.read()
+    file.close()
+    custom = json.loads(data)
+    for var in custom["values"]:
+        tag_name = f'pokecube:{var["name"]}'
+        if not tag_name in pokemob_tag_names:
+            pokemob_tag_names.append(tag_name)
+        if "names" in var:
+            for name in var["names"]:
+                _name = name["name"]
+                _id = int(name["language"]['url'].split('/')[-2])
+                lang = utils.get('language', _id)
+                key = f'{lang.iso639}_{lang.iso3166}.json'
+                items = {}
+                if key in lang_files:
+                    items = lang_files[key]
+                items[f"entity.pokecube.{var['name']}"] = _name
+                lang_files[key] = items
+            del var['names']
+        dex.append(var)
 
     # Construct and output the default pokecube:pokemob tag
     file = f'../../src/generated/resources/data/pokecube/tags/entity_types/pokemob.json'
