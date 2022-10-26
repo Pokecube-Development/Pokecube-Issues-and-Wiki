@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user gets teary eyed to make the target lose\nits combative spirit. This lowers the target’s\nAttack and Sp. Atk stats.",
+  "flavor_text": "The user gets teary eyed to make the target lose its combative spirit. This lowers the target’s Attack and Sp. Atk stats.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

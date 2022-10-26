@@ -6,7 +6,7 @@
   "type": "fighting",
   "target": "users-field",
   "damage_class": "status",
-  "flavor_text": "The user protects itself and its allies from\npriority moves.",
+  "flavor_text": "The user protects itself and its allies from priority moves.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "Moves with priority greater than 0 will not hit friendly Pokémon for the remainder of this turn.  If the user is last to act this turn, this move will fail.\n\nThis move cannot be selected by assist or metronome.",

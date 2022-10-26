@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "Drawing power from the Eternal Flower, the user\nfires a powerful beam of light. This also damages the\nuser quite a lot.",
+  "flavor_text": "Drawing power from the Eternal Flower, the user fires a powerful beam of light. This also damages the user quite a lot.",
   "move_category": "damage",
   "drain": -50,
   "ailment": "none",

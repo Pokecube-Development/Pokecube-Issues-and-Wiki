@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user yells as if it’s ranting about something,\nwhich lowers the Sp. Atk stat of opposing Pokémon.",
+  "flavor_text": "The user yells as if it’s ranting about something, which lowers the Sp. Atk stat of opposing Pokémon.",
   "move_category": "damage+lower",
   "stat_chance": 100,
   "ailment": "none",

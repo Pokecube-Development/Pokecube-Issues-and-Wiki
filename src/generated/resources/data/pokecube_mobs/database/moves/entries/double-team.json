@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "By moving rapidly, the user makes illusory copies of\nitself to raise its evasiveness.",
+  "flavor_text": "By moving rapidly, the user makes illusory copies of itself to raise its evasiveness.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's evasion by one stage.",

@@ -6,7 +6,7 @@
   "type": "fairy",
   "target": "users-field",
   "damage_class": "status",
-  "flavor_text": "The user protects itself and its allies from status\nmoves with a mysterious power. This does not stop\nmoves that do damage.",
+  "flavor_text": "The user protects itself and its allies from status moves with a mysterious power. This does not stop moves that do damage.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "Protects all friendly Pokémon from non-damaging moves for the rest of the turn.\n\nUnlike other blocking moves, this move may be used consecutively without its chance of success falling.",

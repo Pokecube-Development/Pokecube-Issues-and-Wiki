@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user attacks with a gust of chilled air. This also\nlowers the opposing Pokémon’s Speed stats.",
+  "flavor_text": "The user attacks with a gust of chilled air. This also lowers the opposing Pokémon’s Speed stats.",
   "move_category": "damage+lower",
   "stat_chance": 100,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user blasts the target with power that distorts\neven time. The user can’t move on the next turn.",
+  "flavor_text": "The user blasts the target with power that distorts even time. The user can’t move on the next turn.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User loses its next turn to \"recharge\", and cannot attack or switch out during that turn.",

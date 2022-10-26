@@ -6,7 +6,7 @@
   "type": "water",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user creates a huge whirling current using\nits Z-Power to swallow the target with full force.\nThe power varies, depending on the original move.",
+  "flavor_text": "The user creates a huge whirling current using its Z-Power to swallow the target with full force. The power varies, depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

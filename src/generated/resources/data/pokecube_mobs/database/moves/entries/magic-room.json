@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "The user creates a bizarre area in which Pokémon’s\nheld items lose their effects for five turns.",
+  "flavor_text": "The user creates a bizarre area in which Pokémon’s held items lose their effects for five turns.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "For five turns (including this one), passive effects of held items are ignored, and Pokémon will not use their held items.",

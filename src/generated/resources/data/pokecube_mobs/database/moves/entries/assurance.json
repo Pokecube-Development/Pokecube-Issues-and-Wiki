@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "If the target has already taken some damage in the\nsame turn, this attack’s power is doubled.",
+  "flavor_text": "If the target has already taken some damage in the same turn, this attack’s power is doubled.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target takes damage this turn for any reason before this move is used, this move has double power.",

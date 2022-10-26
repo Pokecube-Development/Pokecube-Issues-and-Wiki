@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user fiercely attacks the target using its\nentire body.",
+  "flavor_text": "The user fiercely attacks the target using its entire body.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

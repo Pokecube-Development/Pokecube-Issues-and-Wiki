@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "This protects Pokémon on the ground from priority\nmoves and powers up Psychic-type moves for\nfive turns.",
+  "flavor_text": "This protects Pokémon on the ground from priority moves and powers up Psychic-type moves for five turns.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "Changes the terrain to Psychic Terrain for 5 turns.  Overrides electric terrain, grassy terrain, and misty terrain.\n\nAll Pokémon on the ground are immune to moves with priority greater than 0.  (Moves that target the field rather than individual Pokémon, such as spikes, are not affected.)  Additionally, when a Pokémon on the ground uses a psychic-type move, that move's power is increased to 1.5×.\n\nIf a Pokémon is holding a Terrain Extender when creating Psychic Terrain (by any means), the effect lasts for 8 turns instead of 5.",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks everything around it by causing a\ntremendous explosion. The user faints upon using\nthis move.",
+  "flavor_text": "The user attacks everything around it by causing a tremendous explosion. The user faints upon using this move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "User faints, even if the attack fails or misses.  Inflicts regular damage.",

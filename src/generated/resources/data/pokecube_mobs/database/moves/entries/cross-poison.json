@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A slashing attack with a poisonous blade that may\nalso poison the target. Critical hits land more easily.",
+  "flavor_text": "A slashing attack with a poisonous blade that may also poison the target. Critical hits land more easily.",
   "move_category": "damage+ailment",
   "crit_rate": 1,
   "ailment_chance": 10,

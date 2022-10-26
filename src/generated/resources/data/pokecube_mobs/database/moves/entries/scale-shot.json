@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks by shooting scales two to five times\nin a row. This move boosts the user’s Speed stat but\nlowers its Defense stat.",
+  "flavor_text": "The user attacks by shooting scales two to five times in a row. This move boosts the user’s Speed stat but lowers its Defense stat.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

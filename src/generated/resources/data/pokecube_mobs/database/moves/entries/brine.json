@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "If the target’s HP is half or less, this attack will hit\nwith double the power.",
+  "flavor_text": "If the target’s HP is half or less, this attack will hit with double the power.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target has less than half its max HP remaining, this move has double power.",

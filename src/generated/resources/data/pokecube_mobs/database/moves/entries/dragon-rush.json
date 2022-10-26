@@ -8,7 +8,7 @@
   "accuracy": 75,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user tackles the target while exhibiting\noverwhelming menace. This may also make the\ntarget flinch.",
+  "flavor_text": "The user tackles the target while exhibiting overwhelming menace. This may also make the target flinch.",
   "move_category": "damage",
   "flinch_chance": 20,
   "ailment": "none",

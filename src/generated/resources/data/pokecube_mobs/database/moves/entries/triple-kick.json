@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A consecutive three-kick attack that becomes more\npowerful with each successful hit.",
+  "flavor_text": "A consecutive three-kick attack that becomes more powerful with each successful hit.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 3,

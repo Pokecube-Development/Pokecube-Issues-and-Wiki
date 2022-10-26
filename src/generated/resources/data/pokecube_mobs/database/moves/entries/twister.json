@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user whips up a vicious tornado to tear at the\nopposing Pokémon. This may also make them flinch.",
+  "flavor_text": "The user whips up a vicious tornado to tear at the opposing Pokémon. This may also make them flinch.",
   "move_category": "damage",
   "flinch_chance": 20,
   "ailment": "none",

@@ -6,7 +6,7 @@
   "type": "flying",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user lands and rests its body. It restores the\nuser’s HP by up to half of its max HP.",
+  "flavor_text": "The user lands and rests its body. It restores the user’s HP by up to half of its max HP.",
   "move_category": "heal",
   "healing": 50,
   "ailment": "none",

@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user draws attention to itself, making all targets\ntake aim only at the user.",
+  "flavor_text": "The user draws attention to itself, making all targets take aim only at the user.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Until the end of this turn, any moves that opposing Pokémon target solely at the user's ally will instead target the user.  If both Pokémon on the same side of the field use this move on the same turn, the Pokémon that uses it last will become the target.\n\nThis effect takes priority over lightning rod and storm drain.\n\nIf the user's ally switches out, opposing Pokémon may still hit it with pursuit.\n\nThis move cannot be selected by assist or metronome.",

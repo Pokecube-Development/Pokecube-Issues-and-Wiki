@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is jabbed with a sharply pointed beak\nor horn.",
+  "flavor_text": "The target is jabbed with a sharply pointed beak or horn.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

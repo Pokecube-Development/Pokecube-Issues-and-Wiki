@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "status",
-  "flavor_text": "The user gives opposing Pokémon an intimidating\nleer that lowers the Defense stat.",
+  "flavor_text": "The user gives opposing Pokémon an intimidating leer that lowers the Defense stat.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

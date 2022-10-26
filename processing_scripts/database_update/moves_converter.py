@@ -116,6 +116,9 @@ PHYSICAL_RANGED = {
 
 index_map = get_moves_index()
 
+OUTPUT_FLAVOUR_TEXT = False
+
+
 def is_english(details):
     return details.language.name == 'en'
 
@@ -133,7 +136,7 @@ class MoveEntry:
 
         flavor_text = default_or_latest(move.flavor_text_entries, is_english)
         if flavor_text is not None:
-            self.flavor_text = flavor_text.flavor_text
+            self.flavor_text = flavor_text.flavor_text.replace('\n', ' ')
 
         if move.meta is not None:
             self.move_category = move.meta.category.name
@@ -218,13 +221,15 @@ def convert_moves():
         anims_dex[var["name"]] = var
 
     lang_files = {}
-    # If we decide we want flavour text, uncomment this.
-    # lang_desc = {}
+    lang_desc = {}
 
     contact = []
     ranged = []
+    z_moves = []
+    d_moves = []
 
     move_entries = []
+
 
     # Dump each move, and collect langs and tags
     for name, index in index_map.items():
@@ -245,20 +250,24 @@ def convert_moves():
             lang_files[key] = items
 
         # These will go in langs
-        # If we decide we want flavour text, uncomment this.
-        # for lang in langs:
-        #     def is_lang(details):
-        #         return url_to_id(details.language) == lang
-        #     text = default_or_latest(move.flavor_text_entries, is_lang)
-        #     if text is None:
-        #         continue
-        #     lang = utils.get('language', lang)
-        #     key = f'{lang.iso639}_{lang.iso3166}.json'
-        #     items = {}
-        #     if key in lang_desc:
-        #         items = lang_desc[key]
-        #     items[f"pokemob.move.{entry.name}.desc"] = text.flavor_text.replace('\n', ' ')
-        #     lang_desc[key] = items
+        for lang in langs:
+            def is_lang(details):
+                return url_to_id(details.language) == lang
+            text = default_or_latest(move.flavor_text_entries, is_lang)
+            if text is None:
+                continue
+            lang = utils.get('language', lang)
+            key = f'{lang.iso639}_{lang.iso3166}.json'
+            items = {}
+            if key in lang_desc:
+                items = lang_desc[key]
+            text = text.flavor_text.replace('\n', ' ')
+            items[f"pokemob.move.{name}.desc"] = text
+            lang_desc[key] = items
+            if 'Z-Power' in text and not name in z_moves:
+                z_moves.append(name)
+            if 'attack Dynamax ' in text and not name in d_moves:
+                d_moves.append(name)
 
         # These will go in tags
         if name in SPECIAL_CONTACT:
@@ -280,13 +289,17 @@ def convert_moves():
         json.dump(entry.__dict__, file, indent=2, ensure_ascii=False)
         file.close()
 
+    # Post process for the "special" z-moves
+    for name, _ in index_map.items():
+        if name.endswith('--special') and name.replace('--special', '--physical') in z_moves and not name in z_moves:
+            z_moves.append(name)
 
-    # If we decide we want flavour text, uncomment this.
-    # for key, dict in lang_files.items():
-    #     if key in lang_desc:
-    #         dict2 = lang_desc[key]
-    #         for key2, value in dict2.items():
-    #             dict[key2] = value
+    if OUTPUT_FLAVOUR_TEXT:
+        for key, dict in lang_files.items():
+            if key in lang_desc:
+                dict2 = lang_desc[key]
+                for key2, value in dict2.items():
+                    dict[key2] = value
 
     # Dump the lang files
     for key, dict in lang_files.items():
@@ -337,6 +350,25 @@ def convert_moves():
     file = open(file, 'w', encoding='utf-8')
     json.dump(tag, file, indent=2, ensure_ascii=False)
     file.close()
+
+    # Dump Z moves
+    file = f'../../src/generated/resources/data/pokecube/tags/pokemob_moves/z-move.json'
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    tag = {"replace":False,"values":z_moves}
+    file = open(file, 'w', encoding='utf-8')
+    json.dump(tag, file, indent=2, ensure_ascii=False)
+    file.close()
+
+    # Dump D moves
+    file = f'../../src/generated/resources/data/pokecube/tags/pokemob_moves/d-move.json'
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    tag = {"replace":False,"values":d_moves}
+    file = open(file, 'w', encoding='utf-8')
+    json.dump(tag, file, indent=2, ensure_ascii=False)
+    file.close()
+
 
     # Print any that errored
     for name, value in moves_dex.items():

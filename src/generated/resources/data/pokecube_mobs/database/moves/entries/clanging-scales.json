@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user rubs the scales on its entire body and\nmakes a huge noise to attack the opposing Pokémon.\nThe user’s Defense stat goes down after the attack.",
+  "flavor_text": "The user rubs the scales on its entire body and makes a huge noise to attack the opposing Pokémon. The user’s Defense stat goes down after the attack.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

@@ -7,7 +7,7 @@
   "type": "flying",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user confounds the target with speed, then\nslashes. This attack never misses.",
+  "flavor_text": "The user confounds the target with speed, then slashes. This attack never misses.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is hit with rhythmically launched\npunches. This may also leave the target confused.",
+  "flavor_text": "The target is hit with rhythmically launched punches. This may also leave the target confused.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "confusion",

@@ -6,7 +6,7 @@
   "type": "ice",
   "target": "users-field",
   "damage_class": "status",
-  "flavor_text": "This move reduces damage from physical and\nspecial moves for five turns. This can be used only\nin a hailstorm.",
+  "flavor_text": "This move reduces damage from physical and special moves for five turns. This can be used only in a hailstorm.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "Places the Aurora Veil effect on the user's side of the field for the next 5 turns.  If the weather is not hail, or the weather is disabled by the effects of cloud nine or air lock, this move will fail.\n\nAny regular damage dealt to an affected Pokémon is reduced by ½.  (If there are multiple Pokémon on the affected field, the reduction is ⅓.)",

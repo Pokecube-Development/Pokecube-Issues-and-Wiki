@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user hurls hard rocks at the target. Two to five\nrocks are launched in a row.",
+  "flavor_text": "The user hurls hard rocks at the target. Two to five rocks are launched in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

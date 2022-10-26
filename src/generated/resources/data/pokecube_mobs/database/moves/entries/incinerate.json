@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user attacks opposing Pokémon with fire.\nIf a Pokémon is holding a certain item, such as a\nBerry, the item becomes burned up and unusable.",
+  "flavor_text": "The user attacks opposing Pokémon with fire. If a Pokémon is holding a certain item, such as a Berry, the item becomes burned up and unusable.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target is holding a berry, it's destroyed and cannot be used in response to this move.",

@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user slams the target with a long tail, vines, or a\ntentacle. The target is hit twice in a row.",
+  "flavor_text": "The user slams the target with a long tail, vines, or a tentacle. The target is hit twice in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 2,

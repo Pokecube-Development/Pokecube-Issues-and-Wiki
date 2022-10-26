@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target is struck with an icy-cold beam of energy.\nThis may also leave the target frozen.",
+  "flavor_text": "The target is struck with an icy-cold beam of energy. This may also leave the target frozen.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "freeze",

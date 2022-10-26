@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "Converting its life-force into power, the user attacks\nopposing Pokémon. The lower the user’s HP, the lower\nthe move’s power.",
+  "flavor_text": "Converting its life-force into power, the user attacks opposing Pokémon. The lower the user’s HP, the lower the move’s power.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

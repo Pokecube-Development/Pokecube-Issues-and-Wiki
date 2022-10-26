@@ -6,7 +6,7 @@
   "type": "electric",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "The user disperses electrically charged particles,\nwhich changes Normal-type moves to\nElectric-type moves.",
+  "flavor_text": "The user disperses electrically charged particles, which changes Normal-type moves to Electric-type moves.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "Changes all Pokémon's normal moves to electric moves for the rest of the turn.",

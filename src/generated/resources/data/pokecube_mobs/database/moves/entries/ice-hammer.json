@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user swings and hits with its strong, heavy fist.\nIt lowers the user’s Speed, however.",
+  "flavor_text": "The user swings and hits with its strong, heavy fist. It lowers the user’s Speed, however.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

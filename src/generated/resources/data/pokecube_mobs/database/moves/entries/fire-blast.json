@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target is attacked with an intense blast of\nall-consuming fire. This may also leave the target\nwith a burn.",
+  "flavor_text": "The target is attacked with an intense blast of all-consuming fire. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "burn",

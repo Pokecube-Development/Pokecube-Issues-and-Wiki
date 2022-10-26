@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "With its mysterious power, the user swaps the effects on\neither side of the field.",
+  "flavor_text": "With its mysterious power, the user swaps the effects on either side of the field.",
   "move_category": "unique",
   "ailment": "none"
 }

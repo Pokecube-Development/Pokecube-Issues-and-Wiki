@@ -6,7 +6,7 @@
   "type": "ghost",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "If the user faints, the user’s grudge fully depletes\nthe PP of the opponent’s move that knocked it out.",
+  "flavor_text": "If the user faints, the user’s grudge fully depletes the PP of the opponent’s move that knocked it out.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "If the user faints before it next acts, the move that fainted it will have its PP dropped to 0.  End-of-turn damage does not trigger this effect.",

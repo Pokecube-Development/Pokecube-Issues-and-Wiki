@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The power stored using the move Stockpile is\nabsorbed by the user to heal its HP. Storing more\npower heals more HP.",
+  "flavor_text": "The power stored using the move Stockpile is absorbed by the user to heal its HP. Storing more power heals more HP.",
   "move_category": "heal",
   "healing": 25,
   "ailment": "none",

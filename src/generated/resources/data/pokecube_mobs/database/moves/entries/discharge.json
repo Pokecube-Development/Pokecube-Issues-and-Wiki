@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user strikes everything around it by letting loose\na flare of electricity. This may also cause paralysis.",
+  "flavor_text": "The user strikes everything around it by letting loose a flare of electricity. This may also cause paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "paralysis",

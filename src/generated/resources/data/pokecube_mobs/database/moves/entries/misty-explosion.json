@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks everything around it and faints upon\nusing this move. This move’s power is increased on\nMisty Terrain.",
+  "flavor_text": "The user attacks everything around it and faints upon using this move. This move’s power is increased on Misty Terrain.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

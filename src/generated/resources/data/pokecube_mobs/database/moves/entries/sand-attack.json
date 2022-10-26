@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "Sand is hurled in the target’s face, reducing the\ntarget’s accuracy.",
+  "flavor_text": "Sand is hurled in the target’s face, reducing the target’s accuracy.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's accuracy by one stage.",

@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Boulders are hurled at the target. This also lowers\nthe target’s Speed stat by preventing its movement.",
+  "flavor_text": "Boulders are hurled at the target. This also lowers the target’s Speed stat by preventing its movement.",
   "move_category": "damage+lower",
   "stat_chance": 100,
   "ailment": "none",

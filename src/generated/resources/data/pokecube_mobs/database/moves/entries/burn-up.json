@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "To inflict massive damage, the user burns itself out.\nAfter using this move, the user will no longer be\nFire type.",
+  "flavor_text": "To inflict massive damage, the user burns itself out. After using this move, the user will no longer be Fire type.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Removes the user's fire type after damage calculation.  If the user is not fire-type, this move will fail.",

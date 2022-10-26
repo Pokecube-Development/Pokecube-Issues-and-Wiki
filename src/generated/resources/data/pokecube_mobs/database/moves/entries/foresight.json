@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "Enables a Ghost-type target to be hit by Normal-\nand Fighting-type attacks. This also enables an\nevasive target to be hit.",
+  "flavor_text": "Enables a Ghost-type target to be hit by Normal- and Fighting-type attacks. This also enables an evasive target to be hit.",
   "move_category": "ailment",
   "ailment": "no-type-immunity",
   "effect_text_extend": "Resets the target's evasion to normal and prevents any further boosting until the target leaves the field.  A ghost under this effect takes normal damage from normal and fighting moves.  This move itself ignores accuracy and evasion modifiers.",

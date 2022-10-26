@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target with a bursting flame.\nThe bursting flame damages Pokémon next to the\ntarget as well.",
+  "flavor_text": "The user attacks the target with a bursting flame. The bursting flame damages Pokémon next to the target as well.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If this move successfully hits the target, any Pokémon adjacent to the target are damaged for 1/16 their max HP.",

@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user hurls an electric orb at the target. The\nfaster the user is than the target, the greater the\nmove’s power.",
+  "flavor_text": "The user hurls an electric orb at the target. The faster the user is than the target, the greater the move’s power.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  The greater the user's Speed compared to the target's, the higher power this move has, to a maximum of 150.\n\nUser's Speed                     | Power\n-------------------------------- | ----:\nUp to 2× the target's Speed      |    60\nUp to 3× the target's Speed      |    80\nUp to 4× the target's Speed      |   120\nMore than 4× the target's Speed  |   150\n",

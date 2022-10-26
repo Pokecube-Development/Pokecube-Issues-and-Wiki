@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user torches everything around it in an inferno\nof scarlet flames. This may also leave those it hits\nwith a burn.",
+  "flavor_text": "The user torches everything around it in an inferno of scarlet flames. This may also leave those it hits with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "burn",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "physical",
-  "flavor_text": "The user gathers the energy of the land and focuses\nthat power on opposing Pokémon to damage them.",
+  "flavor_text": "The user gathers the energy of the land and focuses that power on opposing Pokémon to damage them.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

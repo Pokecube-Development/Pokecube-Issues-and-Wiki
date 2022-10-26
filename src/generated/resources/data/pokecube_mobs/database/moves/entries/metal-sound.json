@@ -7,7 +7,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "A horrible sound like scraping metal harshly lowers\nthe target’s Sp. Def stat.",
+  "flavor_text": "A horrible sound like scraping metal harshly lowers the target’s Sp. Def stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's Special Defense by two stages.",

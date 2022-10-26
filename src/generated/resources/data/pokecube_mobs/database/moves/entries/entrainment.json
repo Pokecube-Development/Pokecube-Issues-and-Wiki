@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user dances with an odd rhythm that compels\nthe target to mimic it, making the target’s Ability\nthe same as the user’s.",
+  "flavor_text": "The user dances with an odd rhythm that compels the target to mimic it, making the target’s Ability the same as the user’s.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Changes the target's ability to match the user's.  This effect ends when the target leaves battle.",

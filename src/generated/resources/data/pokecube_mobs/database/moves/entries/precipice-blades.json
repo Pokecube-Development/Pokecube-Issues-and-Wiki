@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "all-opponents",
   "damage_class": "physical",
-  "flavor_text": "The user attacks opposing Pokémon by manifesting\nthe power of the land in fearsome blades of stone.",
+  "flavor_text": "The user attacks opposing Pokémon by manifesting the power of the land in fearsome blades of stone.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

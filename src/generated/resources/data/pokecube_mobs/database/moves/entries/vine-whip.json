@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is struck with slender, whiplike vines to\ninflict damage.",
+  "flavor_text": "The target is struck with slender, whiplike vines to inflict damage.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

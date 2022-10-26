@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user temporarily empties its mind to forget its\nconcerns. This sharply raises the user’s Sp. Def stat.",
+  "flavor_text": "The user temporarily empties its mind to forget its concerns. This sharply raises the user’s Sp. Def stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Special Defense by two stages.",

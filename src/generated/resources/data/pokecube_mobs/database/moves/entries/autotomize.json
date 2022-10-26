@@ -6,7 +6,7 @@
   "type": "steel",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user sheds part of its body to make itself lighter\nand sharply raise its Speed stat.",
+  "flavor_text": "The user sheds part of its body to make itself lighter and sharply raise its Speed stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Speed by two stages.  Halves the user's weight; this effect does not stack.",

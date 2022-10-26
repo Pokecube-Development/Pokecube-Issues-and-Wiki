@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user strikes the target with a fierce blow. This\nattack always results in a critical hit.",
+  "flavor_text": "The user strikes the target with a fierce blow. This attack always results in a critical hit.",
   "move_category": "damage",
   "crit_rate": 6,
   "ailment": "none",

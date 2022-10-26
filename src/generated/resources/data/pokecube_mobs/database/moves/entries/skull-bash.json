@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user tucks in its head to raise its Defense\nstat on the first turn, then rams the target on the\nnext turn.",
+  "flavor_text": "The user tucks in its head to raise its Defense stat on the first turn, then rams the target on the next turn.",
   "move_category": "damage",
   "ailment_chance": 100,
   "ailment": "none",

@@ -7,7 +7,7 @@
   "type": "psychic",
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "This attack inflicts Attack or Sp. Atk damage—\nwhichever stat is higher for the user, Necrozma. \nThis move ignores the target’s Ability.",
+  "flavor_text": "This attack inflicts Attack or Sp. Atk damage— whichever stat is higher for the user, Necrozma.  This move ignores the target’s Ability.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts damage using either Attack or Special Attack stat, whichever is higher. Determining which stat is used takes into account stat changes but not held items or abilities.",

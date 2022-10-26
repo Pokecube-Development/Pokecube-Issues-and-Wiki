@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user tackles the target with a high-speed spin.\nThe slower the user compared to the target, the\ngreater the move’s power.",
+  "flavor_text": "The user tackles the target with a high-speed spin. The slower the user compared to the target, the greater the move’s power.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power increases with the target's current Speed compared to the user, given by `1 + 25 * target Speed / user Speed`, capped at 150.",

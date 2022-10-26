@@ -7,7 +7,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user shoots a sinister, bluish-white flame at the\ntarget to inflict a burn.",
+  "flavor_text": "The user shoots a sinister, bluish-white flame at the target to inflict a burn.",
   "move_category": "ailment",
   "ailment": "burn",
   "effect_text_extend": "Burns the target.",

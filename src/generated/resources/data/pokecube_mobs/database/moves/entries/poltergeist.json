@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks the target by controlling the target’s\nitem. The move fails if the target doesn’t have an item.",
+  "flavor_text": "The user attacks the target by controlling the target’s item. The move fails if the target doesn’t have an item.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

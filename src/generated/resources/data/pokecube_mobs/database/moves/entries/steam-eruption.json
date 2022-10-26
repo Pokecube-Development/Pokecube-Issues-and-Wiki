@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user immerses the target in superheated steam.\nThis may also leave the target with a burn.",
+  "flavor_text": "The user immerses the target in superheated steam. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "burn",

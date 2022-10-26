@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "users-field",
   "damage_class": "status",
-  "flavor_text": "The user chants an incantation toward the sky,\npreventing opposing Pokémon from landing\ncritical hits for five turns.",
+  "flavor_text": "The user chants an incantation toward the sky, preventing opposing Pokémon from landing critical hits for five turns.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "For five turns, opposing Pokémon cannot score critical hits.",

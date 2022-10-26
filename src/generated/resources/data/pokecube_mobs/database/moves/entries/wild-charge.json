@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user shrouds itself in electricity and smashes\ninto its target. This also damages the user a little.",
+  "flavor_text": "The user shrouds itself in electricity and smashes into its target. This also damages the user a little.",
   "move_category": "damage",
   "drain": -25,
   "ailment": "none",

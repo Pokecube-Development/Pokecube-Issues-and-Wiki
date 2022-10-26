@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user takes sure aim at the target. This ensures\nthe next attack does not miss the target.",
+  "flavor_text": "The user takes sure aim at the target. This ensures the next attack does not miss the target.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "If the user targets the same target again before the end of the next turn, the move it uses is guaranteed to hit.  This move itself also ignores accuracy and evasion modifiers.\n\nOne-hit KO moves are also guaranteed to hit, as long as the user is equal or higher level than the target.  This effect also allows the user to hit Pokémon that are off the field due to moves such as dig or fly.\n\nIf the target uses detect or protect while under the effect of this move, the user is not guaranteed to hit, but has a (100 - accuracy)% chance to break through the protection.\n\nThis effect is passed on by baton pass.",

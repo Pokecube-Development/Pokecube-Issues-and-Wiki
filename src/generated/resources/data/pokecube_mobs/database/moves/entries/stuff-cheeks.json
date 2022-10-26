@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user eats its held Berry, then sharply raises its\nDefense stat.",
+  "flavor_text": "The user eats its held Berry, then sharply raises its Defense stat.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user employs its psychic power to average its\nDefense and Sp. Def stats with those of the target.",
+  "flavor_text": "The user employs its psychic power to average its Defense and Sp. Def stats with those of the target.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Averages the user's unmodified Defense with the target's unmodified Defense; the value becomes the unmodified Defense for both Pokémon. Unmodified Special Defense is averaged the same way.",

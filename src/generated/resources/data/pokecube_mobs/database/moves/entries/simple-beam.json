@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user’s mysterious psychic wave changes the\ntarget’s Ability to Simple.",
+  "flavor_text": "The user’s mysterious psychic wave changes the target’s Ability to Simple.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Changes the target's ability to simple.",

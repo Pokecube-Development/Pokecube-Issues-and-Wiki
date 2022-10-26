@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "all-opponents",
   "damage_class": "physical",
-  "flavor_text": "Large boulders are hurled at the opposing Pokémon\nto inflict damage. This may also make the opposing\nPokémon flinch.",
+  "flavor_text": "Large boulders are hurled at the opposing Pokémon to inflict damage. This may also make the opposing Pokémon flinch.",
   "move_category": "damage",
   "flinch_chance": 30,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is clamped and squeezed by the user’s\nvery thick and sturdy shell for four to five turns.",
+  "flavor_text": "The target is clamped and squeezed by the user’s very thick and sturdy shell for four to five turns.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "trap",

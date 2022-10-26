@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Things such as long bodies or tentacles are used to\nbind and squeeze the target for four to five turns.",
+  "flavor_text": "Things such as long bodies or tentacles are used to bind and squeeze the target for four to five turns.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "trap",

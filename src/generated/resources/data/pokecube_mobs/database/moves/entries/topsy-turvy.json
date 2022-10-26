@@ -6,7 +6,7 @@
   "type": "dark",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "All stat changes affecting the target turn\ntopsy-turvy and become the opposite of what\nthey were.",
+  "flavor_text": "All stat changes affecting the target turn topsy-turvy and become the opposite of what they were.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Inverts the target's stat modifiers.",

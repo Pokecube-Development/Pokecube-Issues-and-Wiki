@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user slams its rugged body into the target to\nattack. This also damages the user quite a lot.",
+  "flavor_text": "The user slams its rugged body into the target to attack. This also damages the user quite a lot.",
   "move_category": "damage",
   "drain": -33,
   "ailment": "none",

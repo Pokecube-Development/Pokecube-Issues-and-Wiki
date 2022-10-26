@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "Flattery is used to confuse the target. However,\nthis also raises the target’s Sp. Atk stat.",
+  "flavor_text": "Flattery is used to confuse the target. However, this also raises the target’s Sp. Atk stat.",
   "move_category": "swagger",
   "ailment": "confusion",
   "max_turns": 5,

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user attacks by sending a frightful amount of small\nghosts at opposing Pokémon.",
+  "flavor_text": "The user attacks by sending a frightful amount of small ghosts at opposing Pokémon.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

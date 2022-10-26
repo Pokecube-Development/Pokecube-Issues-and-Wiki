@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.MoveEntry;
@@ -49,10 +50,15 @@ public class GZMoveManager
         return isZMove(e) ? Z_Move_Damage.INSTANCE : D_Move_Damage.INSTANCE;
     }
 
-    public static void init(final MoveEntry moves)
+    public static void process(final MoveEntry move)
     {
         // TODO re-do this G-Z move stuff to work with the updated moves
         // formatting.
+        if (isZMove(move))
+        {
+            move.root_entry._manually_defined = true;
+            PokecubeAPI.LOGGER.info("Z-move: {}", move.name);
+        }
     }
 
     /**

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target with sound waves of\ndeafening chatter. This confuses the target.",
+  "flavor_text": "The user attacks the target with sound waves of deafening chatter. This confuses the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "confusion",

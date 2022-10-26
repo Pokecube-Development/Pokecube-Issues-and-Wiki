@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "users-field",
   "damage_class": "status",
-  "flavor_text": "The user creates a protective field that prevents\nstatus conditions for five turns.",
+  "flavor_text": "The user creates a protective field that prevents status conditions for five turns.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "Protects Pokémon on the user's side of the field from major status effects and confusion for five turns.  Does not cancel existing ailments.  This effect remains even if the user leaves the field.\n\nIf yawn is used while this move is in effect, it will immediately fail.\n\ndefog used by an opponent will end this effect.\n\nThis effect does not prevent the confusion caused by outrage, petal dance, or thrash.",

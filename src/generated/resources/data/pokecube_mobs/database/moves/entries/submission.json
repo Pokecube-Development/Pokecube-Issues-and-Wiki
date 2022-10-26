@@ -8,7 +8,7 @@
   "accuracy": 80,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user grabs the target and recklessly dives for\nthe ground. This also damages the user a little.",
+  "flavor_text": "The user grabs the target and recklessly dives for the ground. This also damages the user a little.",
   "move_category": "damage",
   "drain": -25,
   "ailment": "none",

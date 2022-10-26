@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user strikes the target with a hard bone two to\nfive times in a row.",
+  "flavor_text": "The user strikes the target with a hard bone two to five times in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

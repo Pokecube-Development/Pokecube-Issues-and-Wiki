@@ -8,7 +8,7 @@
   "accuracy": 70,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target is attacked with a discharge of filthy\ngases. This may also poison the target.",
+  "flavor_text": "The target is attacked with a discharge of filthy gases. This may also poison the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 40,
   "ailment": "poison",

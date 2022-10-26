@@ -6,7 +6,7 @@
   "type": "steel",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user takes a defensive stance while it protects\nitself from damage. It also harshly lowers the Attack\nstat of any attacker who makes direct contact.",
+  "flavor_text": "The user takes a defensive stance while it protects itself from damage. It also harshly lowers the Attack stat of any attacker who makes direct contact.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Blocks damaging attacks and lowers attacking Pokémon's Attack by two stages on contact.  Switches Aegislash to Shield Forme.",

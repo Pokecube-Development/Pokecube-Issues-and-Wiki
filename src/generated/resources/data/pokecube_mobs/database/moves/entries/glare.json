@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user intimidates the target with the pattern on\nits belly to cause paralysis.",
+  "flavor_text": "The user intimidates the target with the pattern on its belly to cause paralysis.",
   "move_category": "ailment",
   "ailment": "paralysis",
   "effect_text_extend": "Paralyzes the target.",

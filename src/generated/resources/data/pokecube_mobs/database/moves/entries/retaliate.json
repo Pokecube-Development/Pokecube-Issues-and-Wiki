@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user gets revenge for a fainted ally. If an ally\nfainted in the previous turn, this move’s power\nis increased.",
+  "flavor_text": "The user gets revenge for a fainted ally. If an ally fainted in the previous turn, this move’s power is increased.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If a friendly Pokémon fainted on the previous turn, this move has double power.",

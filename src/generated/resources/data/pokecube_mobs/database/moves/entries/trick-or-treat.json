@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user takes the target trick-or-treating.\nThis adds Ghost type to the target’s type.",
+  "flavor_text": "The user takes the target trick-or-treating. This adds Ghost type to the target’s type.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Adds ghost to the target's types.",

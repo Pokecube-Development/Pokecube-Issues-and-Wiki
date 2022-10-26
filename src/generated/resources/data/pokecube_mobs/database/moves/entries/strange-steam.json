@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target by emitting steam.\nThis may also confuse the target.",
+  "flavor_text": "The user attacks the target by emitting steam. This may also confuse the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "confusion",

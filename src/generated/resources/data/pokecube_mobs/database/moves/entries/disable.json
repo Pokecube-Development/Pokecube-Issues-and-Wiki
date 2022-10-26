@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "For four turns, this move prevents the target from\nusing the move it last used.",
+  "flavor_text": "For four turns, this move prevents the target from using the move it last used.",
   "move_category": "unique",
   "ailment": "disable",
   "max_turns": 4,

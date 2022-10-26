@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user absorbs its target’s HP. The user’s HP is\nrestored by over half of the damage taken by\nthe target.",
+  "flavor_text": "The user absorbs its target’s HP. The user’s HP is restored by over half of the damage taken by the target.",
   "move_category": "damage+heal",
   "drain": 75,
   "ailment": "none",

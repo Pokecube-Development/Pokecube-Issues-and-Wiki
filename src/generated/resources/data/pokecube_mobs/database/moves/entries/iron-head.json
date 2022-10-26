@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user slams the target with its steel-hard head.\nThis may also make the target flinch.",
+  "flavor_text": "The user slams the target with its steel-hard head. This may also make the target flinch.",
   "move_category": "damage",
   "flinch_chance": 30,
   "ailment": "none",

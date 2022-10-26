@@ -6,7 +6,7 @@
   "type": "ground",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user burrows deep into the ground and slams\ninto the target with the full force of its Z-Power.\nThe power varies, depending on the original move.",
+  "flavor_text": "The user burrows deep into the ground and slams into the target with the full force of its Z-Power. The power varies, depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

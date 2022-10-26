@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user traps the target in a violent swirling\nwhirlpool for four to five turns.",
+  "flavor_text": "The user traps the target in a violent swirling whirlpool for four to five turns.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "trap",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user swings its body around violently to inflict\ndamage on everything in its vicinity.",
+  "flavor_text": "The user swings its body around violently to inflict damage on everything in its vicinity.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

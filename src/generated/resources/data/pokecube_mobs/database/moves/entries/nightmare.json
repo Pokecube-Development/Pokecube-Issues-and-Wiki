@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "A sleeping target sees a nightmare that inflicts some\ndamage every turn.",
+  "flavor_text": "A sleeping target sees a nightmare that inflicts some damage every turn.",
   "move_category": "ailment",
   "ailment": "nightmare",
   "effect_text_extend": "Only works on sleeping Pokémon.  Gives the target a nightmare, damaging it for 1/4 its max HP every turn.  If the target wakes up or leaves the field, this effect ends.",

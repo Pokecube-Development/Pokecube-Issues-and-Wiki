@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user is roused, and its Attack and Sp. Atk\nstats increase.",
+  "flavor_text": "The user is roused, and its Attack and Sp. Atk stats increase.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack and Special Attack by one stage each.",

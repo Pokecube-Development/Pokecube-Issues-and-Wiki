@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is punched with an electrified fist.\nThis may also leave the target with paralysis.",
+  "flavor_text": "The target is punched with an electrified fist. This may also leave the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "paralysis",

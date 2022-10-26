@@ -6,7 +6,7 @@
   "type": "poison",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user alters its cellular structure to liquefy itself,\nsharply raising its Defense stat.",
+  "flavor_text": "The user alters its cellular structure to liquefy itself, sharply raising its Defense stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Defense by two stages.",

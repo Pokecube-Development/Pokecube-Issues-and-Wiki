@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user throws the bone it holds. The bone loops\naround to hit the target twice—coming and going.",
+  "flavor_text": "The user throws the bone it holds. The bone loops around to hit the target twice—coming and going.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 2,

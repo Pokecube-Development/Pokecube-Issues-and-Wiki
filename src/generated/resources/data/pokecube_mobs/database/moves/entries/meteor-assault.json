@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks wildly with its thick leek.\nThe user can’t move on the next turn, because the\nforce of this move makes it stagger.",
+  "flavor_text": "The user attacks wildly with its thick leek. The user can’t move on the next turn, because the force of this move makes it stagger.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User loses its next turn to \"recharge\", and cannot attack or switch out during that turn.",

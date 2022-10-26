@@ -6,7 +6,7 @@
   "type": "flying",
   "target": "users-field",
   "damage_class": "status",
-  "flavor_text": "The user whips up a turbulent whirlwind that ups\nthe Speed stat of the user and its allies for\nfour turns.",
+  "flavor_text": "The user whips up a turbulent whirlwind that ups the Speed stat of the user and its allies for four turns.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "For the next three turns, all Pokémon on the user's side of the field have their original Speed doubled.  This effect remains if the user leaves the field.",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user throws down a giant lightning bolt. This\nmove’s power is increased when influenced by an\nenormous flame.",
+  "flavor_text": "The user throws down a giant lightning bolt. This move’s power is increased when influenced by an enormous flame.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If a friendly Pokémon used fusion flare earlier this turn, this move has double power.",

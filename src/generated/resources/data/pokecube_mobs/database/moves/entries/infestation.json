@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target is infested and attacked for four to five\nturns. The target can’t flee during this time.",
+  "flavor_text": "The target is infested and attacked for four to five turns. The target can’t flee during this time.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "trap",

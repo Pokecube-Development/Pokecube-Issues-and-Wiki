@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "This move can’t be used.\nIt’s recommended that this move is forgotten.\nOnce forgotten, this move can’t be remembered.",
+  "flavor_text": "This move can’t be used. It’s recommended that this move is forgotten. Once forgotten, this move can’t be remembered.",
   "move_category": "damage+heal",
   "drain": 100,
   "ailment": "none",

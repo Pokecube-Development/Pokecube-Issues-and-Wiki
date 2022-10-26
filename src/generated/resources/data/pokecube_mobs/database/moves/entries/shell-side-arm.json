@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "This move inflicts physical or special damage,\nwhichever will be more effective. This may also poison\nthe target.",
+  "flavor_text": "This move inflicts physical or special damage, whichever will be more effective. This may also poison the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "poison",

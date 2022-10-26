@@ -6,7 +6,7 @@
   "type": "ice",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "The user creates a haze that eliminates every stat\nchange among all the Pokémon engaged in battle.",
+  "flavor_text": "The user creates a haze that eliminates every stat change among all the Pokémon engaged in battle.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "Removes stat, accuracy, and evasion modifiers from every Pokémon on the field.\n\nThis does not count as a stat reduction for the purposes of clear body or white smoke.",

@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user blows its cold breath on the target. This\nattack always results in a critical hit.",
+  "flavor_text": "The user blows its cold breath on the target. This attack always results in a critical hit.",
   "move_category": "damage",
   "crit_rate": 6,
   "ailment_chance": 100,

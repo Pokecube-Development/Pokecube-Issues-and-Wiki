@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user lets loose a horribly echoing shout with\nthe power to inflict damage.",
+  "flavor_text": "The user lets loose a horribly echoing shout with the power to inflict damage.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

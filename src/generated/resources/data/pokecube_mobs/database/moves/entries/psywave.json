@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target is attacked with an odd psychic wave.\nThe attack varies in intensity.",
+  "flavor_text": "The target is attacked with an odd psychic wave. The attack varies in intensity.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts typeless damage between 50% and 150% of the user's level, selected at random in increments of 10%.",

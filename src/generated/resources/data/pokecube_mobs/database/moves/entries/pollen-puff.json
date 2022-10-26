@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the enemy with a pollen puff that\nexplodes. If the target is an ally, it gives the ally a\npollen puff that restores its HP instead.",
+  "flavor_text": "The user attacks the enemy with a pollen puff that explodes. If the target is an ally, it gives the ally a pollen puff that restores its HP instead.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "If the target is an opponent, inflicts regular damage.  If the target is an ally, heals the target for 50% of its max HP.",

@@ -6,7 +6,7 @@
   "type": "rock",
   "target": "users-field",
   "damage_class": "status",
-  "flavor_text": "The user and its allies are protected from\nwide-ranging attacks for one turn.",
+  "flavor_text": "The user and its allies are protected from wide-ranging attacks for one turn.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "Moves with multiple targets will not hit friendly Pokémon for the remainder of this turn.  If the user is last to act this turn, this move will fail.\n\nThis move cannot be selected by assist or metronome.",

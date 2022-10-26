@@ -6,7 +6,7 @@
   "type": "fighting",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user tenses its muscles to bulk up its body,\nraising both its Attack and Defense stats.",
+  "flavor_text": "The user tenses its muscles to bulk up its body, raising both its Attack and Defense stats.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack and Defense by one stage each.",

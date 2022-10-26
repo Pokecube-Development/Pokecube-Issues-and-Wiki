@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The power stored using the move Stockpile is\nreleased at once in an attack. The more power\nis stored, the greater the move’s power.",
+  "flavor_text": "The power stored using the move Stockpile is released at once in an attack. The more power is stored, the greater the move’s power.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power is equal to 100 times the amount of energy stored by stockpile.  Ignores the random factor in the damage formula.  Stored energy is consumed, and the user's Defense and Special Defense are reset to what they would be if stockpile had not been used.  If the user has no energy stored, this move will fail.\n\nThis move cannot be copied by mirror move.",

@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user faints when using this move. In return, this\nharshly lowers the target’s Attack and Sp. Atk stats.",
+  "flavor_text": "The user faints when using this move. In return, this harshly lowers the target’s Attack and Sp. Atk stats.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack and Special Attack by two stages.  User faints.",

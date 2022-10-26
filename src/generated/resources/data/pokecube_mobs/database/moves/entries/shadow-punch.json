@@ -7,7 +7,7 @@
   "type": "ghost",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user throws a punch from the shadows. This\nattack never misses.",
+  "flavor_text": "The user throws a punch from the shadows. This attack never misses.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",

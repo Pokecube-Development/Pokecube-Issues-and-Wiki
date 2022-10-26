@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "status",
-  "flavor_text": "Opposing Pokémon are drenched in an odd\npoisonous liquid. This lowers the Attack, Sp. Atk, and\nSpeed stats of a poisoned target.",
+  "flavor_text": "Opposing Pokémon are drenched in an odd poisonous liquid. This lowers the Attack, Sp. Atk, and Speed stats of a poisoned target.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

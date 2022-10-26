@@ -7,7 +7,7 @@
   "type": "fairy",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "After obtaining Z-Power, the user, Mimikyu,\npunches the target with full force.",
+  "flavor_text": "After obtaining Z-Power, the user, Mimikyu, punches the target with full force.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "After inflicting damage, all Normal-type moves become Electric-type for the remainder of the turn, including status moves. This effect is applied after move type-changing abilities, such as Pixilate and Normalize.",

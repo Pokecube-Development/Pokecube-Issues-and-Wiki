@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks by throwing steel gears at its\ntarget twice.",
+  "flavor_text": "The user attacks by throwing steel gears at its target twice.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 2,

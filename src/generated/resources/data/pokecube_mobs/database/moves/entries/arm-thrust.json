@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user lets loose a flurry of open-palmed arm\nthrusts that hit two to five times in a row.",
+  "flavor_text": "The user lets loose a flurry of open-palmed arm thrusts that hit two to five times in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

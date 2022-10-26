@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The power of this attack move is doubled if it’s used\non a target that’s switching out of battle.",
+  "flavor_text": "The power of this attack move is doubled if it’s used on a target that’s switching out of battle.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target attempts to switch out this turn before the user acts, this move hits the target before it leaves and has double power.\n\nThis effect can still hit a Pokémon that switches out when it has a substitute up or when an ally has used follow me.",

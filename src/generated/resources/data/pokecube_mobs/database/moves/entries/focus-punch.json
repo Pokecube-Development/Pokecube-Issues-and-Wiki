@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user focuses its mind before launching a punch.\nThis move fails if the user is hit before it is used.",
+  "flavor_text": "The user focuses its mind before launching a punch. This move fails if the user is hit before it is used.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the user takes damage this turn before hitting, this move will fail.\n\nThis move cannot be copied by mirror move, nor selected by assist, metronome, or sleep talk.",

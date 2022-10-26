@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "On the second turn, the user hits the target with\nelectrically charged ice. This may also leave the\ntarget with paralysis.",
+  "flavor_text": "On the second turn, the user hits the target with electrically charged ice. This may also leave the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "paralysis",

@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user draws power to attack by using its held\nBerry. The Berry determines the move’s type\nand power.",
+  "flavor_text": "The user draws power to attack by using its held Berry. The Berry determines the move’s type and power.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power and type are determined by the user's held berry.  The berry is consumed.  If the user is not holding a berry, this move will fail.",

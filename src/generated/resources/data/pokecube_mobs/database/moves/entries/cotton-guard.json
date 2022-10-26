@@ -6,7 +6,7 @@
   "type": "grass",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user protects itself by wrapping its body in soft\ncotton, which drastically raises the user’s\nDefense stat.",
+  "flavor_text": "The user protects itself by wrapping its body in soft cotton, which drastically raises the user’s Defense stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Defense by three stages.",

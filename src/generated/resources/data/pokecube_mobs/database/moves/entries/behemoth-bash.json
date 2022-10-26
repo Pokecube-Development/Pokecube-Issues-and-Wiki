@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user becomes a gigantic shield and slams into\nthe target. This move deals twice the damage if the\ntarget is Dynamaxed.",
+  "flavor_text": "The user becomes a gigantic shield and slams into the target. This move deals twice the damage if the target is Dynamaxed.",
   "move_category": "damage",
   "ailment": "none"
 }

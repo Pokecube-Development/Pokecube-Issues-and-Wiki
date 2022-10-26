@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "Letting out a noble roar, the user intimidates the\ntarget and lowers its Attack and Sp. Atk stats.",
+  "flavor_text": "Letting out a noble roar, the user intimidates the target and lowers its Attack and Sp. Atk stats.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

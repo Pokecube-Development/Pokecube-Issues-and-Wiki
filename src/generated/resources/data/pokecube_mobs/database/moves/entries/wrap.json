@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A long body, vines, or the like are used to wrap and \nsqueeze the target for four to five turns.",
+  "flavor_text": "A long body, vines, or the like are used to wrap and  squeeze the target for four to five turns.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "trap",

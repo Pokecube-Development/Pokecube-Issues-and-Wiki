@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Round objects are hurled at the target to strike two\nto five times in a row.",
+  "flavor_text": "Round objects are hurled at the target to strike two to five times in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

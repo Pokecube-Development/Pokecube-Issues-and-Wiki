@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "Restoring its own cells, the user restores its own HP\nby half of its max HP.",
+  "flavor_text": "Restoring its own cells, the user restores its own HP by half of its max HP.",
   "move_category": "heal",
   "healing": 50,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 75,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target becomes trapped within a maelstrom of\nfire that rages for four to five turns.",
+  "flavor_text": "The target becomes trapped within a maelstrom of fire that rages for four to five turns.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "trap",

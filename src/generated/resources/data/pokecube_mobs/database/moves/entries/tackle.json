@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A physical attack in which the user charges and\nslams into the target with its whole body.",
+  "flavor_text": "A physical attack in which the user charges and slams into the target with its whole body.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

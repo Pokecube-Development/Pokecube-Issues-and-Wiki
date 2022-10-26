@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user makes its edges more jagged, \nwhich raises its Attack stat.",
+  "flavor_text": "The user makes its edges more jagged,  which raises its Attack stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack by one stage.",

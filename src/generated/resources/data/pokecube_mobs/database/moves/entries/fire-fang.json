@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user bites with flame-cloaked fangs. This may\nalso make the target flinch or leave it with a burn.",
+  "flavor_text": "The user bites with flame-cloaked fangs. This may also make the target flinch or leave it with a burn.",
   "move_category": "damage+ailment",
   "flinch_chance": 10,
   "ailment_chance": 10,

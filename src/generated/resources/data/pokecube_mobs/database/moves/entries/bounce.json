@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user bounces up high, then drops on the target\non the second turn. This may also leave the target\nwith paralysis.",
+  "flavor_text": "The user bounces up high, then drops on the target on the second turn. This may also leave the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "paralysis",

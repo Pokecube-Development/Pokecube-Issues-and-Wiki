@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target at full power. The\nattack’s recoil harshly lowers the user’s Sp. Atk stat.",
+  "flavor_text": "The user attacks the target at full power. The attack’s recoil harshly lowers the user’s Sp. Atk stat.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

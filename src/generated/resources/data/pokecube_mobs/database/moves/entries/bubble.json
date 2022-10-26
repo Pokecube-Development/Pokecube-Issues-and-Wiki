@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "A spray of countless bubbles is jetted at the\nopposing Pokémon. This may also lower their\nSpeed stat.",
+  "flavor_text": "A spray of countless bubbles is jetted at the opposing Pokémon. This may also lower their Speed stat.",
   "move_category": "damage+lower",
   "stat_chance": 10,
   "ailment": "none",

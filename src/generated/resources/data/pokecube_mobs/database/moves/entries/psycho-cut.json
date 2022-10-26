@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user tears at the target with blades formed by\npsychic power. Critical hits land more easily.",
+  "flavor_text": "The user tears at the target with blades formed by psychic power. Critical hits land more easily.",
   "move_category": "damage",
   "crit_rate": 1,
   "ailment": "none",

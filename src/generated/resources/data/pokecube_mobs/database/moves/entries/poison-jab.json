@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is stabbed with a tentacle or arm steeped\nin poison. This may also poison the target.",
+  "flavor_text": "The target is stabbed with a tentacle or arm steeped in poison. This may also poison the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "poison",

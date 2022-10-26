@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user cloaks itself in fire and charges at the\ntarget. This may also leave the target with a burn.",
+  "flavor_text": "The user cloaks itself in fire and charges at the target. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "burn",

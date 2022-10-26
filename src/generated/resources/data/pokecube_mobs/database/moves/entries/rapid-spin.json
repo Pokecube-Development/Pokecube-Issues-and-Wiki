@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A spin attack that can also eliminate such moves as\nBind, Wrap, Leech Seed, and Spikes.",
+  "flavor_text": "A spin attack that can also eliminate such moves as Bind, Wrap, Leech Seed, and Spikes.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

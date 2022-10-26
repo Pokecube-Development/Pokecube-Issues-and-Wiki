@@ -7,7 +7,7 @@
   "type": "electric",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user, Pikachu, surrounds itself with the\nmaximum amount of electricity using its Z-Power\nand pounces on its target with full force.",
+  "flavor_text": "The user, Pikachu, surrounds itself with the maximum amount of electricity using its Z-Power and pounces on its target with full force.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

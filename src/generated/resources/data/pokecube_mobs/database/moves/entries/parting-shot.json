@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "With a parting threat, the user lowers the target’s\nAttack and Sp. Atk stats. Then it switches with a\nparty Pokémon.",
+  "flavor_text": "With a parting threat, the user lowers the target’s Attack and Sp. Atk stats. Then it switches with a party Pokémon.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

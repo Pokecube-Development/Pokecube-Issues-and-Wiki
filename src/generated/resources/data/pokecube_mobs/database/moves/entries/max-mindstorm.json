@@ -7,7 +7,7 @@
   "type": "psychic",
   "target": "selected-pokemon-me-first",
   "damage_class": "physical",
-  "flavor_text": "This is a Psychic-type attack Dynamax Pokémon use.\nThe user turns the ground into Psychic Terrain for\nfive turns.",
+  "flavor_text": "This is a Psychic-type attack Dynamax Pokémon use. The user turns the ground into Psychic Terrain for five turns.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks with its tremendous psychic power.\nThis also removes 3 PP from the target’s last move.",
+  "flavor_text": "The user attacks with its tremendous psychic power. This also removes 3 PP from the target’s last move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

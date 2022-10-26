@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user shoots poisonous threads to poison the\ntarget and lower the target’s Speed stat.",
+  "flavor_text": "The user shoots poisonous threads to poison the target and lower the target’s Speed stat.",
   "move_category": "swagger",
   "stat_chance": 100,
   "ailment_chance": 100,

@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "After obtaining Z-Power, the user, Eevee, gets\nenergy from its evolved friends and boosts its\nstats sharply.",
+  "flavor_text": "After obtaining Z-Power, the user, Eevee, gets energy from its evolved friends and boosts its stats sharply.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

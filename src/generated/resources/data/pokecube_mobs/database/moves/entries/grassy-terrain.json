@@ -6,7 +6,7 @@
   "type": "grass",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "The user turns the ground to grass for five turns.\nThis restores the HP of Pokémon on the ground a\nlittle every turn and powers up Grass type-moves.",
+  "flavor_text": "The user turns the ground to grass for five turns. This restores the HP of Pokémon on the ground a little every turn and powers up Grass type-moves.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "For five turns, heals all Pokémon on the ground for 1/16 their max HP each turn and strengthens their grass moves to 1.5× their power.\n\nChanges nature power to energy ball.",

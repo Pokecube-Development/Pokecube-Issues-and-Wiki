@@ -8,7 +8,7 @@
   "accuracy": 80,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user stabs the target from below with\nsharpened stones. Critical hits land more easily.",
+  "flavor_text": "The user stabs the target from below with sharpened stones. Critical hits land more easily.",
   "move_category": "damage",
   "crit_rate": 1,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "Comets are summoned down from the sky onto the\ntarget. The attack’s recoil harshly lowers the user’s\nSp. Atk stat.",
+  "flavor_text": "Comets are summoned down from the sky onto the target. The attack’s recoil harshly lowers the user’s Sp. Atk stat.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

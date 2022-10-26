@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The target is exposed to a sinister ray that\ntriggers confusion.",
+  "flavor_text": "The target is exposed to a sinister ray that triggers confusion.",
   "move_category": "ailment",
   "ailment": "confusion",
   "max_turns": 5,

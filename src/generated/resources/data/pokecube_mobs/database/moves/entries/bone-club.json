@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user clubs the target with a bone. This may also\nmake the target flinch.",
+  "flavor_text": "The user clubs the target with a bone. This may also make the target flinch.",
   "move_category": "damage",
   "flinch_chance": 10,
   "ailment": "none",

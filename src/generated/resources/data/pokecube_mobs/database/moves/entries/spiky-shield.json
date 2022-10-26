@@ -6,7 +6,7 @@
   "type": "grass",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "In addition to protecting the user from attacks, this\nmove also damages any attacker who makes\ndirect contact.",
+  "flavor_text": "In addition to protecting the user from attacks, this move also damages any attacker who makes direct contact.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Blocks damaging attacks and damages attacking Pokémon for 1/8 their max HP.",

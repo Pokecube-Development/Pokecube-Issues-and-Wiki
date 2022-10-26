@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is hammered with a large pincer. Critical\nhits land more easily.",
+  "flavor_text": "The target is hammered with a large pincer. Critical hits land more easily.",
   "move_category": "damage",
   "crit_rate": 1,
   "ailment": "none",

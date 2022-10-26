@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "status",
-  "flavor_text": "The user wags its tail cutely, making opposing\nPokémon less wary and lowering their Defense stat.",
+  "flavor_text": "The user wags its tail cutely, making opposing Pokémon less wary and lowering their Defense stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's Defense by one stage.",

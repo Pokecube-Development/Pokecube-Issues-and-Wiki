@@ -6,7 +6,7 @@
   "type": "electric",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user boosts the power of the Electric move it\nuses on the next turn. This also raises the user’s\nSp. Def stat.",
+  "flavor_text": "The user boosts the power of the Electric move it uses on the next turn. This also raises the user’s Sp. Def stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Special Defense by one stage.  If the user uses an electric move next turn, its power will be doubled.",

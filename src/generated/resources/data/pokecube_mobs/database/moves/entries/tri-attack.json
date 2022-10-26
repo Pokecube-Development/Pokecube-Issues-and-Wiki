@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user strikes with a simultaneous three-beam\nattack. May also burn, freeze, or paralyze the target.",
+  "flavor_text": "The user strikes with a simultaneous three-beam attack. May also burn, freeze, or paralyze the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "unknown",

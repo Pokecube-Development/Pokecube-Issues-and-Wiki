@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user attacks by exhaling hot breath on the\nopposing Pokémon. This may also leave those\nPokémon with a burn.",
+  "flavor_text": "The user attacks by exhaling hot breath on the opposing Pokémon. This may also leave those Pokémon with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "burn",

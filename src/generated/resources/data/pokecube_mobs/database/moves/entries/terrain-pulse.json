@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user utilizes the power of the terrain to attack.\nThis move’s type and power changes depending on\nthe terrain when it’s used.",
+  "flavor_text": "The user utilizes the power of the terrain to attack. This move’s type and power changes depending on the terrain when it’s used.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

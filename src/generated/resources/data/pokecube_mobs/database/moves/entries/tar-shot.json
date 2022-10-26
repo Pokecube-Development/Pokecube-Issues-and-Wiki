@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user pours sticky tar over the target, lowering the\ntarget’s Speed stat. The target becomes weaker to\nFire-type moves.",
+  "flavor_text": "The user pours sticky tar over the target, lowering the target’s Speed stat. The target becomes weaker to Fire-type moves.",
   "move_category": "swagger",
   "stat_chance": 100,
   "ailment_chance": 100,

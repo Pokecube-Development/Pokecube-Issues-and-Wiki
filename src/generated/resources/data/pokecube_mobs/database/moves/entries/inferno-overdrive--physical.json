@@ -6,7 +6,7 @@
   "type": "fire",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user breathes a stream of intense fire toward\nthe target with the full force of its Z-Power.\nThe power varies depending on the original move.",
+  "flavor_text": "The user breathes a stream of intense fire toward the target with the full force of its Z-Power. The power varies depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

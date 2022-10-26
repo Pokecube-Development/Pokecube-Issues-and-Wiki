@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is punched with an icy fist. This may also\nleave the target frozen.",
+  "flavor_text": "The target is punched with an icy fist. This may also leave the target frozen.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "freeze",
