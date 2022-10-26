@@ -34,9 +34,9 @@ def is_gmax(name):
             return True
     return False
 
-
 index_map = get_pokemon_index()
 
+# This class is a mirror of the json data structure that pokecube uses for loading
 class PokedexEntry:
     def __init__(self, forme, species) -> None:
         self.init_simple(forme, species)
@@ -45,9 +45,11 @@ class PokedexEntry:
         self.init_abilities(forme)
         self.init_moves(forme)
 
+    # Presently this just sets the models
     def add_models(self, models):
         self.models = models
 
+    # Post processes converting old evolutions, to convert the name and evo move names
     def post_process_evos(self, forme, species):
         evolutions = []
         if 'evolutions' in self.__dict__:
@@ -69,9 +71,9 @@ class PokedexEntry:
                     if len(moves) > 0:
                         evo['evoMoves'] = str(moves).replace('[', '').replace(']', '').replace("'", '')
                     pass
-
         return
 
+    # Basic set of initialising, covering names, happiness, etc
     def init_simple(self, forme, species):
         self.name = entry_name(forme.name)
         self.names = species.names
@@ -82,8 +84,11 @@ class PokedexEntry:
         if is_gmax(self.name):
             self.gmax = True
         self.base_experience = forme.base_experience
+
+        # These values are reported as 10x the value in the games for some reason.
         self.size = {'height': forme.height/10.0}
         self.mass = forme.weight/10.0
+
         self.is_default = forme.is_default
         self.capture_rate = species.capture_rate
 
@@ -92,7 +97,10 @@ class PokedexEntry:
         else:
              self.base_happiness = 70
         self.growth_rate = species.growth_rate.name
+
         gender = species.gender_rate
+
+        # Convert gender rate to the format pokecube uses
         if gender == 0:
             self.gender_rate = 0
         elif gender == 1:
@@ -110,6 +118,7 @@ class PokedexEntry:
         else:
             self.gender_rate = 255
 
+    # Initialise the stats and EV yields
     def init_stats(self, forme):
         self.stats = {}
         self.evs = {}
@@ -120,6 +129,7 @@ class PokedexEntry:
             if stat.effort!=0:
                 self.evs[name] = stat.effort
 
+    # Initialises the array of types
     def init_types(self, forme):
         self.types = []
         for type in forme.types:
@@ -128,6 +138,7 @@ class PokedexEntry:
             if not name in self.types:
                 self.types.append(name)
 
+    # Initialises the normal and hidden abilities
     def init_abilities(self, forme):
         normal = []
         hidden = []
@@ -145,6 +156,7 @@ class PokedexEntry:
         if len(abilities) > 0:
             self.abilities = abilities 
 
+    # Initialises movesets
     def init_moves(self, forme):
         moves = {}
         level_up = []
@@ -152,14 +164,17 @@ class PokedexEntry:
 
         move_levels = {}
 
+        # Used to check if learn method is level up.
         def is_levelup(details):
             return details.move_learn_method.name == 'level-up'
 
         for move in forme.moves:
             name = move.move.name
 
+            # See if level up data exists, default means using USUM movesets, as are most complete
             level_up_details = default_or_latest(move.version_group_details, is_levelup)
 
+            # If we have such movesets, use them
             if level_up_details is not None:
                 level = level_up_details.level_learned_at
                 entry = {
@@ -173,12 +188,15 @@ class PokedexEntry:
                     move_levels[key] = entry
                     level_up.append(entry)
                 entry['moves'].append(name)
+
+            # All other moves get added to misc moves for TMs in pokecube
             for details in move.version_group_details:
                 if details == level_up_details:
                     continue
                 if not name in misc:
                     misc.append(name)
 
+        # Add the moves if we found any
         if len(level_up) > 0:
             moves['level_up'] = level_up
         if len(misc) > 0:
@@ -194,11 +212,11 @@ class PokemonSpecies:
 
         numbers = []
         default = -1
-        for value in species.varieties:
 
+        # Varieties in here are what we register as pokedex entries
+        for value in species.varieties:
             if isIgnored(value.pokemon.name):
                 continue
-
             id = url_to_id(value.pokemon)
             if value.is_default:
                 default = id
@@ -219,6 +237,8 @@ class PokemonSpecies:
 
         self.names = []
         self.entries = []
+
+        # Makes the pokedex entry for each one
         for forme in self.formes:
             entry = PokedexEntry(forme, species)
 
@@ -227,14 +247,16 @@ class PokemonSpecies:
                 # We need to handle this to the older model added?
                 continue
 
+            # Add custom moves if assigned
             if entry.name in custom_moves:
                 print(f'adding custom moves for {entry.name} from override files')
                 entry.__dict__['moves'] = custom_moves[entry.name]
 
-
+            # Check if we need to convert anything over from old ones
             old_name = find_old_name(forme.name, species, dex)
             if(old_name is not None):
 
+                # Some things get merged, like the meteor miniors, so skip duplicates
                 if(old_name in added):
                     print(f'Skipping duplicate {old_name} -> {entry.name}')
                     continue
@@ -242,13 +264,13 @@ class PokemonSpecies:
                 old_entry = dex[old_name]
                 added.append(old_name)
 
+                # Copy old model info over
                 if 'model' in old_entry:
                     entry.model = old_entry['model']
                 if 'male_model' in old_entry:
                     entry.male_model = old_entry['male_model']
                 if 'female_model' in old_entry:
                     entry.female_model = old_entry['female_model']
-
                 if 'models' in old_entry:
                     entry.add_models(old_entry['models'])
                 elif len(forme.forms) > 1:
@@ -286,8 +308,11 @@ class PokemonSpecies:
                         
                     entry.add_models(models)
 
+                # Copy old custom values from inside stats over
                 if 'stats' in old_entry:
                     stats = old_entry['stats']
+
+                    # Old sizes were more granular, so copy them
                     if 'sizes' in stats:
                         def convert_size(old):
                             size = {}
@@ -299,6 +324,8 @@ class PokemonSpecies:
                                 size['length'] = float(old['values']['length'])
                             return size
                         entry.size = convert_size(old_entry['stats']['sizes'])
+                    
+                    # Same for spawns, mega rules, interactions and evolutoons
                     if 'spawnRules' in stats:
                         entry.spawn_rules = stats['spawnRules']
                     if 'megaRules' in stats:
@@ -312,13 +339,17 @@ class PokemonSpecies:
             else:
                 print(f'"{entry.name}" : "",')
 
+            # Print an error if we think it should have had moves, but has none
             if(not '-gmax' in entry.name and (not 'moves' in entry.__dict__ or not 'level_up' in entry.moves)):
                 print(f'No moves for {entry.name}??')
                 pass
 
+            # Now cleanup evolutions
             entry.post_process_evos(forme, species)
 
             entry.id = default
+
+            # Mark the old name for legacy supprt reasons
             if old_name in dex and old_name!=forme.name:
                 entry.old_name = old_name
 
@@ -385,7 +416,6 @@ def convert_tags():
         file = open(file, 'w')
         json.dump(json_obj, file, indent=2)
         file.close()
-
 
 def convert_pokedex():
 
@@ -529,7 +559,6 @@ def convert_pokedex():
         file = open(file, 'w')
         json.dump(var, file, indent=2)
         file.close()
-
 
 if __name__ == "__main__":
     convert_pokedex()
