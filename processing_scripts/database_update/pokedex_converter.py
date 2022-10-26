@@ -499,7 +499,7 @@ def convert_pokedex():
         values = get_species(i)
 
     for key, dict in lang_files.items():
-        file = f'./new/assets/pokecube_mobs/lang/{key}'
+        file = f'../../src/generated/resources/assets/pokecube_mobs/lang/{key}'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         try:
