@@ -182,7 +182,8 @@ def convert_old_move_name(old):
         if name == old:
             return name
         test = name.replace('-', '')
-        if test == old:
+        oldtest = old.replace('_', '')
+        if test == oldtest:
             return name
 
     for name in LEGENDS_ARCEUS:

@@ -205,7 +205,7 @@
     {
       "name": "rapidash",
       "level": 40,
-      "evoMoves": "furyattack"
+      "evoMoves": "fury-attack"
     }
   ],
   "loot_table": "pokecube:entities/coal_cow_1"

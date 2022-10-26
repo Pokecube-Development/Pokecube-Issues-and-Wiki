@@ -224,7 +224,7 @@
     {
       "name": "golurk",
       "level": 43,
-      "evoMoves": "heavyslam"
+      "evoMoves": "heavy-slam"
     }
   ],
   "loot_table": "pokecube:entities/stone_1"

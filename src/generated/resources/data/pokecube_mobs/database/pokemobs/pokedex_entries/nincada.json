@@ -163,7 +163,7 @@
     {
       "name": "ninjask",
       "level": 20,
-      "evoMoves": "doubleteam,  doubleteamscreechfurycutter,  furycutter,  screech"
+      "evoMoves": "double-team, fury-cutter, screech"
     }
   ],
   "loot_table": "minecraft:entities/spider"

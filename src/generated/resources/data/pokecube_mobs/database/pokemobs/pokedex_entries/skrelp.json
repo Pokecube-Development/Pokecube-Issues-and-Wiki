@@ -190,7 +190,7 @@
     {
       "name": "dragalge",
       "level": 48,
-      "evoMoves": "Twister"
+      "evoMoves": "twister"
     }
   ],
   "loot_table": "pokecube:entities/fish_1"

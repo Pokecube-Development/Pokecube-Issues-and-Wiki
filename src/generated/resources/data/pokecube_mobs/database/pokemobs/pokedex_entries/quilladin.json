@@ -208,7 +208,7 @@
       "name": "chesnaught",
       "level": 36,
       "animation": "18",
-      "evoMoves": "spikyshield"
+      "evoMoves": "spiky-shield"
     }
   ],
   "loot_table": "pokecube:entities/chestplate_seeds_1"

@@ -183,7 +183,7 @@
     {
       "name": "incineroar",
       "level": 34,
-      "evoMoves": "darkestlariat"
+      "evoMoves": "darkest-lariat"
     }
   ],
   "loot_table": "pokecube:entities/coal_rabbit_2"

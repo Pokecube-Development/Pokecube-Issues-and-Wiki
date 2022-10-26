@@ -192,7 +192,7 @@
     {
       "name": "gogoat",
       "level": 32,
-      "evoMoves": "aerialace"
+      "evoMoves": "aerial-ace"
     }
   ],
   "loot_table": "pokecube:entities/sheep_1"

@@ -132,7 +132,7 @@
       "name": "carkol",
       "level": 18,
       "animation": "18",
-      "evoMoves": "flamecharge"
+      "evoMoves": "flame-charge"
     }
   ],
   "loot_table": "pokecube:entities/coal_1"

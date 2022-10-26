@@ -144,7 +144,7 @@
       "name": "coalossal",
       "level": 34,
       "animation": "18",
-      "evoMoves": "tarshot"
+      "evoMoves": "tar-shot"
     }
   ],
   "loot_table": "pokecube:entities/coal_1"

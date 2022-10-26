@@ -74,7 +74,7 @@
     {
       "name": "kricketune",
       "level": 10,
-      "evoMoves": "furycutter"
+      "evoMoves": "fury-cutter"
     }
   ],
   "loot_table": "pokecube:entities/chestplate_seeds_1"

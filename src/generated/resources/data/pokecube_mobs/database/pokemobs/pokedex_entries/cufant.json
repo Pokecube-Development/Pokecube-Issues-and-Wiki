@@ -163,7 +163,7 @@
       "name": "copperajah",
       "level": 34,
       "animation": "18",
-      "evoMoves": "heavyslam"
+      "evoMoves": "heavy-slam"
     }
   ],
   "loot_table": "pokecube:entities/terracota_1"

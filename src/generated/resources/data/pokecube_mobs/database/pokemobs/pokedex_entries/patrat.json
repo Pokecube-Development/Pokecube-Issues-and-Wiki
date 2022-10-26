@@ -212,7 +212,7 @@
     {
       "name": "watchog",
       "level": 20,
-      "evoMoves": "confuseray"
+      "evoMoves": "confuse-ray"
     }
   ],
   "loot_table": "pokecube:entities/rabbit_1"

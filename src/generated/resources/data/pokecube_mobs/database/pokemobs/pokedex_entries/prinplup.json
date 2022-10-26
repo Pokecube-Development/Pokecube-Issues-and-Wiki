@@ -185,7 +185,7 @@
     {
       "name": "empoleon",
       "level": 36,
-      "evoMoves": "aquajet"
+      "evoMoves": "aqua-jet"
     }
   ],
   "loot_table": "pokecube:entities/chicken_2"

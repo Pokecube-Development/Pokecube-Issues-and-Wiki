@@ -157,7 +157,7 @@
     {
       "name": "steenee",
       "level": 18,
-      "evoMoves": "doubleslap"
+      "evoMoves": "double-slap"
     }
   ],
   "loot_table": "pokecube:entities/wheat_seeds_1"

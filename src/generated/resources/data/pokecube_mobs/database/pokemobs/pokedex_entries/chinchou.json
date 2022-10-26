@@ -208,7 +208,7 @@
     {
       "name": "lanturn",
       "level": 27,
-      "evoMoves": "spitup,  stockpile,  stockpileswallowspitup,  swallow"
+      "evoMoves": "spit-up, stockpile, swallow"
     }
   ],
   "loot_table": "pokecube:entities/glow_fish_1"

@@ -233,7 +233,7 @@
     {
       "name": "flygon",
       "level": 45,
-      "evoMoves": "dragonclaw"
+      "evoMoves": "dragon-claw"
     }
   ],
   "loot_table": "pokecube:entities/sand_2"

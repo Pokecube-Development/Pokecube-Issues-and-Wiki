@@ -219,7 +219,7 @@
       "name": "ampharos",
       "level": 30,
       "animation": "20",
-      "evoMoves": "thunderpunch"
+      "evoMoves": "thunder-punch"
     }
   ],
   "loot_table": "minecraft:entities/sheep/white"

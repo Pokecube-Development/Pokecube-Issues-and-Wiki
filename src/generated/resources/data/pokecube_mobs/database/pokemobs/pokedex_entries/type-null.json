@@ -207,7 +207,7 @@
     {
       "name": "silvally",
       "happy": true,
-      "evoMoves": "multiattack"
+      "evoMoves": "multi-attack"
     }
   ],
   "old_name": "type_null",

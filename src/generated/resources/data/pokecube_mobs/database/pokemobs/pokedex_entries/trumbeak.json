@@ -158,7 +158,7 @@
     {
       "name": "toucannon",
       "level": 28,
-      "evoMoves": "beakblast"
+      "evoMoves": "beak-blast"
     }
   ],
   "loot_table": "pokecube:entities/chicken_2"

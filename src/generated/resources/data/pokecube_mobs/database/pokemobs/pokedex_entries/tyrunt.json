@@ -214,7 +214,7 @@
       "name": "tyrantrum",
       "level": 39,
       "time": "day",
-      "evoMoves": "rockslide"
+      "evoMoves": "rock-slide"
     }
   ],
   "loot_table": "pokecube:entities/fossil_mob"

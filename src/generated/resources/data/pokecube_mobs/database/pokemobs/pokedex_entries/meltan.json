@@ -100,7 +100,7 @@
     {
       "name": "melmetal",
       "level": 32,
-      "evoMoves": "thunderpunch"
+      "evoMoves": "thunder-punch"
     }
   ],
   "loot_table": "pokecube:entities/iron_1"

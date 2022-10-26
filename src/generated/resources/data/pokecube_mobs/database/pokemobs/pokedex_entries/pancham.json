@@ -229,7 +229,7 @@
     {
       "name": "pangoro",
       "item_preset": "duskstone",
-      "evoMoves": "bulletpunch"
+      "evoMoves": "bullet-punch"
     }
   ],
   "loot_table": "pokecube:entities/rabbit_1"

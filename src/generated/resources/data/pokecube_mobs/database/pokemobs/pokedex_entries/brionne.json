@@ -186,7 +186,7 @@
     {
       "name": "primarina",
       "level": 34,
-      "evoMoves": "sparklingaria"
+      "evoMoves": "sparkling-aria"
     }
   ],
   "loot_table": "pokecube:entities/fish_2"

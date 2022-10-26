@@ -73,7 +73,7 @@
     {
       "name": "cosmoem",
       "level": 43,
-      "evoMoves": "cosmicpower"
+      "evoMoves": "cosmic-power"
     }
   ],
   "loot_table": "pokecube:entities/cosmic"

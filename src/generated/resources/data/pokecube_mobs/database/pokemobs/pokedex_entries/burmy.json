@@ -101,13 +101,13 @@
       "name": "wormadam-plant",
       "level": 20,
       "sexe": "female",
-      "evoMoves": "quiverdance"
+      "evoMoves": "quiver-dance"
     },
     {
       "name": "mothim",
       "level": 20,
       "sexe": "male",
-      "evoMoves": "quiverdance"
+      "evoMoves": "quiver-dance"
     }
   ],
   "loot_table": "pokecube:entities/chestplate_seeds_1"

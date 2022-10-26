@@ -232,7 +232,7 @@
       "location": {
         "and_preset": "caves"
       },
-      "evoMoves": "triattack"
+      "evoMoves": "tri-attack"
     }
   ],
   "loot_table": "pokecube:entities/iron_redstone_2"

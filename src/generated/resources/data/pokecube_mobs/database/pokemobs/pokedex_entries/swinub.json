@@ -200,7 +200,7 @@
     {
       "name": "piloswine",
       "level": 33,
-      "evoMoves": "icefang"
+      "evoMoves": "ice-fang"
     }
   ],
   "loot_table": "pokecube:entities/pig_1"

@@ -200,7 +200,7 @@
     {
       "name": "raticate",
       "level": 20,
-      "evoMoves": "scaryface"
+      "evoMoves": "scary-face"
     }
   ],
   "loot_table": "pokecube:entities/rotten_rabbit_1"

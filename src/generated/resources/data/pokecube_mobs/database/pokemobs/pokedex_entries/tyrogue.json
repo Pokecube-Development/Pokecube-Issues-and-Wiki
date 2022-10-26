@@ -120,17 +120,17 @@
     {
       "name": "hitmonlee",
       "level": 20,
-      "evoMoves": "doublekick"
+      "evoMoves": "double-kick"
     },
     {
       "name": "hitmonchan",
       "level": 20,
-      "evoMoves": "cometpunch"
+      "evoMoves": "comet-punch"
     },
     {
       "name": "hitmontop",
       "level": 20,
-      "evoMoves": "rollingkick"
+      "evoMoves": "rolling-kick"
     }
   ],
   "loot_table": "pokecube:entities/cow_1"

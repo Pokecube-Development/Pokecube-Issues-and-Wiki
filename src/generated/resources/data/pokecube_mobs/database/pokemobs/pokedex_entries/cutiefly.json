@@ -185,7 +185,7 @@
     {
       "name": "ribombee",
       "level": 25,
-      "evoMoves": "pollenpuff"
+      "evoMoves": "pollen-puff"
     }
   ],
   "loot_table": "pokecube:entities/glowstone_dust"

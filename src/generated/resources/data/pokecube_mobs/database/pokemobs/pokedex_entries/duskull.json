@@ -210,7 +210,7 @@
     {
       "name": "dusclops",
       "level": 37,
-      "evoMoves": "shadowpunch"
+      "evoMoves": "shadow-punch"
     }
   ],
   "loot_table": "pokecube:entities/bones"

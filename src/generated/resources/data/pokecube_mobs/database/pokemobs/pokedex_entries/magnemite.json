@@ -234,7 +234,7 @@
     {
       "name": "magneton",
       "level": 30,
-      "evoMoves": "triattack"
+      "evoMoves": "tri-attack"
     }
   ],
   "loot_table": "pokecube:entities/iron_redstone_1"

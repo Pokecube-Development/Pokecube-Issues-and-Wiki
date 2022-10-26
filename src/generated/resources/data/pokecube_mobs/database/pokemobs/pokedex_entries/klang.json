@@ -176,7 +176,7 @@
     {
       "name": "klinklang",
       "level": 49,
-      "evoMoves": "magneticflux"
+      "evoMoves": "magnetic-flux"
     }
   ],
   "loot_table": "pokecube:entities/iron_2"

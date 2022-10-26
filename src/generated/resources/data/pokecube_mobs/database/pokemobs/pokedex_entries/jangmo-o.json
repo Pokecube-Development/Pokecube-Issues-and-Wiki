@@ -192,7 +192,7 @@
     {
       "name": "hakamo-o",
       "level": 35,
-      "evoMoves": "skyuppercut"
+      "evoMoves": "sky-uppercut"
     }
   ],
   "loot_table": "pokecube:entities/pig_1"

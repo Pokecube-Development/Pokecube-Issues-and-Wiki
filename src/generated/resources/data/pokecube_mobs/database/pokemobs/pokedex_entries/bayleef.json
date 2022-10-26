@@ -177,7 +177,7 @@
       "name": "meganium",
       "level": 32,
       "animation": "18",
-      "evoMoves": "petaldance"
+      "evoMoves": "petal-dance"
     }
   ],
   "loot_table": "pokecube:entities/wheat_seeds_2"

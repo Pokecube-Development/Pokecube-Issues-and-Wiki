@@ -207,7 +207,7 @@
     {
       "name": "reuniclus",
       "level": 41,
-      "evoMoves": "dizzypunch"
+      "evoMoves": "dizzy-punch"
     }
   ],
   "loot_table": "pokecube:entities/slimeballs_2"

@@ -182,7 +182,7 @@
     {
       "name": "volcarona",
       "level": 59,
-      "evoMoves": "quiverdance"
+      "evoMoves": "quiver-dance"
     }
   ],
   "loot_table": "pokecube:entities/spider"

@@ -236,7 +236,7 @@
       "name": "gengar",
       "animation": "49",
       "trade": true,
-      "evoMoves": "shadowpunch"
+      "evoMoves": "shadow-punch"
     }
   ],
   "loot_table": "pokecube:entities/enderpearls_2"

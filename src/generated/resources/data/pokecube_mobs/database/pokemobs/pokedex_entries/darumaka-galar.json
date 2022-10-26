@@ -176,7 +176,7 @@
     {
       "name": "darmanitan-galar-standard",
       "item_preset": "pokecube_mobs:ice_stone",
-      "evoMoves": "iciclecrash"
+      "evoMoves": "icicle-crash"
     }
   ],
   "old_name": "darumaka_galar",

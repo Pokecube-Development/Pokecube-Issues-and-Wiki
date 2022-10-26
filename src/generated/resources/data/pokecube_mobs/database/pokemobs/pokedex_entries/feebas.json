@@ -117,7 +117,7 @@
       "name": "milotic",
       "item_preset": "prismscale",
       "trade": true,
-      "evoMoves": "waterpulse"
+      "evoMoves": "water-pulse"
     }
   ],
   "loot_table": "pokecube:entities/fish_1"

@@ -155,7 +155,7 @@
       "name": "grimmsnarl",
       "level": 42,
       "animation": "18",
-      "evoMoves": "spiritbreak"
+      "evoMoves": "spirit-break"
     }
   ],
   "loot_table": "pokecube:entities/enderpearls_2"

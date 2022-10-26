@@ -226,7 +226,7 @@
     {
       "name": "lucario",
       "happy": true,
-      "evoMoves": "aurasphere"
+      "evoMoves": "aura-sphere"
     }
   ],
   "loot_table": "pokecube:entities/rabbit_1"

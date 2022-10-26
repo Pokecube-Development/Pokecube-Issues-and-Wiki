@@ -178,7 +178,7 @@
     {
       "name": "nuzleaf",
       "level": 14,
-      "evoMoves": "Razor Leaf"
+      "evoMoves": "razor-leaf"
     }
   ],
   "loot_table": "pokecube:entities/other_seeds"

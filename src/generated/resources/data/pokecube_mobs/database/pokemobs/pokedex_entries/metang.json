@@ -212,7 +212,7 @@
     {
       "name": "metagross",
       "level": 45,
-      "evoMoves": "hammerarm"
+      "evoMoves": "hammer-arm"
     }
   ],
   "loot_table": "pokecube:entities/iron_pearls_2"

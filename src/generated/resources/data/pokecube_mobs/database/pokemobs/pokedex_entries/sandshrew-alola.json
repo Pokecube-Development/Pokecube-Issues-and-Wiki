@@ -243,7 +243,7 @@
     {
       "name": "sandslash-alola",
       "item_preset": "pokecube_mobs:ice_stone",
-      "evoMoves": "iciclespear"
+      "evoMoves": "icicle-spear"
     }
   ],
   "old_name": "sandshrew_alola",

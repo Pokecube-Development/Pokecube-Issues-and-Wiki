@@ -189,7 +189,7 @@
     {
       "name": "walrein",
       "level": 44,
-      "evoMoves": "icefang"
+      "evoMoves": "ice-fang"
     }
   ],
   "loot_table": "pokecube:entities/both_ice"

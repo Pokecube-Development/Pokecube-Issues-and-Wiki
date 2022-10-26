@@ -176,7 +176,7 @@
       },
       "item_preset": "pdark",
       "happy": true,
-      "evoMoves": "wickedblow"
+      "evoMoves": "wicked-blow"
     },
     {
       "name": "urshifu-rapid-strike",
@@ -187,7 +187,7 @@
       },
       "item_preset": "pwater",
       "happy": true,
-      "evoMoves": "surgingstrikes"
+      "evoMoves": "surging-strikes"
     }
   ],
   "loot_table": "pokecube:entities/generic_legend"

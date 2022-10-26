@@ -205,7 +205,7 @@
       "name": "quilladin",
       "level": 16,
       "animation": "18",
-      "evoMoves": "needlearm"
+      "evoMoves": "needle-arm"
     }
   ],
   "loot_table": "pokecube:entities/wheat_seeds_1"

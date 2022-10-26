@@ -58,6 +58,17 @@ class PokedexEntry:
                     print(f'unknown evo: {name}')
                 else:
                     evo['name'] = new_name
+                if 'evoMoves' in evo:
+                    args = evo['evoMoves'].split(',')
+                    moves = []
+                    for move in args:
+                        name = convert_old_move_name(move)
+                        if name is not None:
+                            moves.append(name)
+                    if len(moves) > 0:
+                        evo['evoMoves'] = str(moves).replace('[', '').replace(']', '').replace("'", '')
+                    pass
+
         return
 
     def init_simple(self, forme, species):
@@ -500,7 +511,7 @@ def convert_pokedex():
             print(err)
 
     for var in dex:
-        file = f'./new/pokemobs/pokedex_entries/{var["name"]}.json'
+        file = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 
@@ -509,7 +520,7 @@ def convert_pokedex():
         file.close()
 
         # Now lets make a template file which will remove each entry.
-        file = f'./new/_removal_template_/pokemobs/pokedex_entries/{var["name"]}.json'
+        file = f'../../example_datapacks/_removal_template_/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
         var = {"remove": True,"priority":0}
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))

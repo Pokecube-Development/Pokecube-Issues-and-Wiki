@@ -170,7 +170,7 @@
       "name": "lurantis",
       "level": 34,
       "time": "day",
-      "evoMoves": "petalblizzard"
+      "evoMoves": "petal-blizzard"
     }
   ],
   "loot_table": "pokecube:entities/wheat_seeds_1"

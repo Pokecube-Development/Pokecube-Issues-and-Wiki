@@ -57,7 +57,7 @@
     {
       "name": "eelektrik",
       "level": 39,
-      "evoMoves": "Crunch"
+      "evoMoves": "crunch"
     }
   ],
   "loot_table": "pokecube:entities/redstone_fish_1"

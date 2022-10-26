@@ -167,7 +167,7 @@
     {
       "name": "tsareena",
       "move": "stomp",
-      "evoMoves": "tropkick"
+      "evoMoves": "trop-kick"
     }
   ],
   "loot_table": "pokecube:entities/other_seeds"

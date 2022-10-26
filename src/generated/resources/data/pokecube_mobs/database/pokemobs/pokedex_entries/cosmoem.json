@@ -59,13 +59,13 @@
       "name": "solgaleo",
       "level": 53,
       "time": "day",
-      "evoMoves": "sunsteelstrike"
+      "evoMoves": "sunsteel-strike"
     },
     {
       "name": "lunala",
       "level": 53,
       "time": "night",
-      "evoMoves": "moongeistbeam"
+      "evoMoves": "moongeist-beam"
     }
   ],
   "loot_table": "pokecube:entities/cosmic"

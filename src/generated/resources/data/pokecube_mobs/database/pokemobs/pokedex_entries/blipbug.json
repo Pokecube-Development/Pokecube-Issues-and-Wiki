@@ -58,7 +58,7 @@
       "name": "dottler",
       "level": 10,
       "animation": "18",
-      "evoMoves": "reflect, lightscreen, confusion"
+      "evoMoves": "reflect, light-screen, confusion"
     }
   ],
   "loot_table": "minecraft:entities/spider"

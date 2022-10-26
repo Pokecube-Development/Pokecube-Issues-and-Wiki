@@ -217,7 +217,7 @@
     {
       "name": "omastar",
       "level": 40,
-      "evoMoves": "spikecannon"
+      "evoMoves": "spike-cannon"
     }
   ],
   "loot_table": "pokecube:entities/fossil_mob"

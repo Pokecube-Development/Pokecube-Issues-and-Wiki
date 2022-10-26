@@ -228,7 +228,7 @@
     {
       "name": "muk",
       "level": 38,
-      "evoMoves": "venomdrench"
+      "evoMoves": "venom-drench"
     }
   ],
   "loot_table": "pokecube:entities/slimeballs_1"

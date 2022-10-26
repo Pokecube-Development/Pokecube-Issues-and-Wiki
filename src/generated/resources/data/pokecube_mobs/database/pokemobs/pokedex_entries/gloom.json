@@ -214,7 +214,7 @@
     {
       "name": "bellossom",
       "item_preset": "sunstone",
-      "evoMoves": "magicalleaf"
+      "evoMoves": "magical-leaf"
     }
   ],
   "loot_table": "pokecube:entities/wheat_seeds_2"

@@ -159,7 +159,7 @@
     {
       "name": "staraptor",
       "level": 34,
-      "evoMoves": "closecombat"
+      "evoMoves": "close-combat"
     }
   ],
   "loot_table": "pokecube:entities/chicken_2"

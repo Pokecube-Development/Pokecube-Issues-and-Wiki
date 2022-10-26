@@ -154,7 +154,7 @@
     {
       "name": "naganadel",
       "move": "dragonpulse",
-      "evoMoves": "aircutter"
+      "evoMoves": "air-cutter"
     }
   ],
   "loot_table": "pokecube:entities/spider"

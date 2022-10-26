@@ -173,7 +173,7 @@
     {
       "name": "cherrim",
       "level": 25,
-      "evoMoves": "petaldance"
+      "evoMoves": "petal-dance"
     }
   ],
   "loot_table": "pokecube:entities/oranberry"

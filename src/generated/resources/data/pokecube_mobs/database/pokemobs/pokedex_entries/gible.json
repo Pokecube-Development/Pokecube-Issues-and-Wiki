@@ -200,7 +200,7 @@
     {
       "name": "gabite",
       "level": 24,
-      "evoMoves": "dualchop"
+      "evoMoves": "dual-chop"
     }
   ],
   "loot_table": "pokecube:entities/iron_chicken_1"

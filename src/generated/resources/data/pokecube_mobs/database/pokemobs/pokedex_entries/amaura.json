@@ -234,7 +234,7 @@
       "name": "aurorus",
       "level": 39,
       "time": "night",
-      "evoMoves": "freezedry"
+      "evoMoves": "freeze-dry"
     }
   ],
   "loot_table": "pokecube:entities/fossil_mob"

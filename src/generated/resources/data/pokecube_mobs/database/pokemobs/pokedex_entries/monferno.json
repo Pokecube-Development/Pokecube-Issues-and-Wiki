@@ -203,7 +203,7 @@
     {
       "name": "infernape",
       "level": 36,
-      "evoMoves": "closecombat"
+      "evoMoves": "close-combat"
     }
   ],
   "loot_table": "pokecube:entities/coal_2"

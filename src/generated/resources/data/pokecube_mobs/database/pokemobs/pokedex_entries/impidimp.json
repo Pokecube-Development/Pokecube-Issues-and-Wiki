@@ -154,7 +154,7 @@
       "name": "morgrem",
       "level": 32,
       "animation": "18",
-      "evoMoves": "falsesurrender"
+      "evoMoves": "false-surrender"
     }
   ],
   "loot_table": "pokecube:entities/enderpearls_2"

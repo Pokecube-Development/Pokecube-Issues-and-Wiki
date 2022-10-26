@@ -196,7 +196,7 @@
     {
       "name": "bibarel",
       "level": 15,
-      "evoMoves": "watergun"
+      "evoMoves": "water-gun"
     }
   ],
   "loot_table": "pokecube:entities/rotten_rabbit_1"

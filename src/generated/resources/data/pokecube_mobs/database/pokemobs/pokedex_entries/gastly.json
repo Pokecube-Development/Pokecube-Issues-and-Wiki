@@ -239,7 +239,7 @@
       "name": "haunter",
       "level": 25,
       "animation": "49",
-      "evoMoves": "shadowpunch"
+      "evoMoves": "shadow-punch"
     }
   ],
   "loot_table": "pokecube:entities/ghast_pearls"

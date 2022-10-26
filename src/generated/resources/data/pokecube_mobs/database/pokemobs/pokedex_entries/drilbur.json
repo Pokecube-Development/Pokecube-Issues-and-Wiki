@@ -194,7 +194,7 @@
     {
       "name": "excadrill",
       "level": 31,
-      "evoMoves": "horndrill"
+      "evoMoves": "horn-drill"
     }
   ],
   "loot_table": "pokecube:entities/rabbit_1"

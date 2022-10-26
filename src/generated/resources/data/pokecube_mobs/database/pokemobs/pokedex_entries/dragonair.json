@@ -193,7 +193,7 @@
     {
       "name": "dragonite",
       "level": 55,
-      "evoMoves": "wingattack"
+      "evoMoves": "wing-attack"
     }
   ],
   "loot_table": "pokecube:entities/fish_1"

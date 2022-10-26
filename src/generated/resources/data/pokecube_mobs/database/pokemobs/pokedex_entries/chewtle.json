@@ -123,7 +123,7 @@
       "name": "drednaw",
       "level": 22,
       "animation": "18",
-      "evoMoves": "rocktomb"
+      "evoMoves": "rock-tomb"
     }
   ],
   "loot_table": "pokecube:entities/turtleshells_1"

@@ -253,7 +253,7 @@
     {
       "name": "rhydon",
       "level": 42,
-      "evoMoves": "hammerarm"
+      "evoMoves": "hammer-arm"
     }
   ],
   "loot_table": "pokecube:entities/stone_1"

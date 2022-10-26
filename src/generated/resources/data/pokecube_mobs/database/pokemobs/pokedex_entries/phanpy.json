@@ -173,7 +173,7 @@
     {
       "name": "donphan",
       "level": 25,
-      "evoMoves": "furyattack"
+      "evoMoves": "fury-attack"
     }
   ],
   "loot_table": "pokecube:entities/pig_1"

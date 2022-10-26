@@ -182,7 +182,7 @@
     {
       "name": "clawitzer",
       "level": 37,
-      "evoMoves": "aurasphere"
+      "evoMoves": "aura-sphere"
     }
   ],
   "loot_table": "pokecube:entities/shear_fish"

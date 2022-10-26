@@ -196,7 +196,7 @@
     {
       "name": "kommo-o",
       "level": 45,
-      "evoMoves": "clangingscales"
+      "evoMoves": "clanging-scales"
     }
   ],
   "loot_table": "pokecube:entities/pig_2"

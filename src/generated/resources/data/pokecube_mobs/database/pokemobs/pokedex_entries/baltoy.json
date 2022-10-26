@@ -225,7 +225,7 @@
     {
       "name": "claydol",
       "level": 36,
-      "evoMoves": "hyperbeam"
+      "evoMoves": "hyper-beam"
     }
   ],
   "loot_table": "pokecube:entities/terracota_1"

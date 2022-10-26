@@ -89,7 +89,7 @@
     {
       "name": "golisopod",
       "level": 30,
-      "evoMoves": "firstimpression"
+      "evoMoves": "first-impression"
     }
   ],
   "loot_table": "pokecube:entities/fish_1"

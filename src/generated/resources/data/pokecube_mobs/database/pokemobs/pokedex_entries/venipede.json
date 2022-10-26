@@ -191,7 +191,7 @@
     {
       "name": "whirlipede",
       "level": 22,
-      "evoMoves": "irondefense"
+      "evoMoves": "iron-defense"
     }
   ],
   "loot_table": "minecraft:entities/spider"

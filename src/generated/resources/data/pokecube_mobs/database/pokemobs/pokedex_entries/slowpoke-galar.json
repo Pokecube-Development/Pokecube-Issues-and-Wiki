@@ -230,12 +230,12 @@
     {
       "name": "slowbro-galar",
       "item_preset": "galarcuff",
-      "evoMoves": "shellsidearm"
+      "evoMoves": "shell-side-arm"
     },
     {
       "name": "slowking-galar",
       "item_preset": "galarwreath",
-      "evoMoves": "eeriespell"
+      "evoMoves": "eerie-spell"
     }
   ],
   "old_name": "slowpoke_galar",

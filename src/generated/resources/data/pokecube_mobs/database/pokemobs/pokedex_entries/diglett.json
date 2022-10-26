@@ -209,7 +209,7 @@
     {
       "name": "dugtrio",
       "level": 26,
-      "evoMoves": "sandtomb"
+      "evoMoves": "sand-tomb"
     }
   ],
   "loot_table": "pokecube:entities/dirt_1"

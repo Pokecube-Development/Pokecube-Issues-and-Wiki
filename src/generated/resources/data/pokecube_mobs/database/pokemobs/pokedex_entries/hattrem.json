@@ -135,7 +135,7 @@
       "name": "hatterene",
       "level": 42,
       "animation": "18",
-      "evoMoves": "psychocut"
+      "evoMoves": "psycho-cut"
     }
   ],
   "loot_table": "pokecube:entities/enderpearls_2"

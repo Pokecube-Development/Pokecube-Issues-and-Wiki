@@ -200,7 +200,7 @@
       "name": "pignite",
       "level": 17,
       "animation": "55",
-      "evoMoves": "armthrust"
+      "evoMoves": "arm-thrust"
     }
   ],
   "loot_table": "pokecube:entities/coal_pig_1"
