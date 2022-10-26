@@ -1,6 +1,5 @@
 import json
 
-from pokebase import language
 import utils
 import os
 from utils import get_moves_index, get_move, trim, default_or_latest, url_to_id
