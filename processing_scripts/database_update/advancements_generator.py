@@ -96,6 +96,8 @@ f'''{{
 '''
 
 def make_advancments(mob):
+    if mob == 'missingno':
+      return
 
     file = f'../../src/generated/resources/data/pokecube_mobs/advancements/capture/get_first_pokemob.json'
     if not os.path.exists(os.path.dirname(file)):
