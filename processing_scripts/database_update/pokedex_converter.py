@@ -574,7 +574,7 @@ def make_ability_langs():
             items = {}
             if key in lang_files:
                 items = lang_files[key]
-            items[f"entity.pokecube.{var.name}"] = _name
+            items[f"ability.{var.name}.name"] = _name
             lang_files[key] = items
 
     for key, dict in lang_files.items():

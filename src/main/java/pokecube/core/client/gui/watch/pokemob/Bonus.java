@@ -64,7 +64,7 @@ public class Bonus extends PokeInfoPage
 
         // Draw size
         dy += 10; // 50
-        message = TComponent.translatable("pokewatch.size", this.parent.pokemob.getSize());
+        message = TComponent.translatable("pokewatch.size", "%.2f".formatted(this.parent.pokemob.getSize()));
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
         this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, sizeColour);
 
