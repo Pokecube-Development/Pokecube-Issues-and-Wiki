@@ -25,7 +25,7 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "hoopa_confined"
+        "entry": "hoopa"
       }
     }
   },

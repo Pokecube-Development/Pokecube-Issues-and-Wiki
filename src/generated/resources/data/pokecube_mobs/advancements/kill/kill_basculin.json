@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.kill",
       "with": [
         {
-          "translate": "entity.pokecube.minior-red-meteor"
+          "translate": "entity.pokecube.basculin"
         }
       ]
     },
@@ -15,16 +15,16 @@
       "translate": "achievement.pokecube.kill.desc",
       "with": [
         {
-          "translate": "entity.pokecube.minior-red-meteor"
+          "translate": "entity.pokecube.basculin"
         }
       ]
     }
   },
   "criteria": {
-    "kill_minior-red-meteor": {
+    "kill_basculin": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "entry": "minior-red-meteor"
+        "entry": "basculin"
       }
     }
   },

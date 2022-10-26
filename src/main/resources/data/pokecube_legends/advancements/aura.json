@@ -39,7 +39,7 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "zygarde10"
+        "entry": "zygarde-10"
       }
     }
   },

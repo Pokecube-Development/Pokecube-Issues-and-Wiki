@@ -38,26 +38,26 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "raticate_alola"
+        "entry": "raticate-alola"
       }
     },
     "kill_raticate_alola": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "entry": "raticate_alola"
+        "entry": "raticate-alola"
       }
     },
     "catch_wishiwashi": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "wishiwashi"
+        "entry": "wishiwashi-solo"
       }
     },
     "kill_wishiwashi": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "entry": "wishiwashi"
+        "entry": "wishiwashi-solo"
       }
     },
     "catch_salazzle": {
@@ -103,13 +103,13 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "mimikyu"
+        "entry": "mimikyu-disguised"
       }
     },
     "kill_mimikyu": {
       "trigger": "pokecube:kill",
       "conditions": {
-        "entry": "mimikyu"
+        "entry": "mimikyu-disguised"
       }
     },
     "catch_kommo-o": {

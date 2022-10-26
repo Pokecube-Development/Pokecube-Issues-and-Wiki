@@ -4,10 +4,10 @@ from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_na
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
+from advancements_generator import make_advancments
 import os
 from glob import glob
 import shutil
-from types import SimpleNamespace
 
 MEGA_SUFFIX = [
     '-mega',
@@ -550,6 +550,9 @@ def convert_pokedex():
         file = open(file, 'w')
         json.dump(var, file, indent=2)
         file.close()
+
+        # And also make the advancements
+        make_advancments(var["name"])
 
         # Now lets make a template file which will remove each entry.
         file = f'../../example_datapacks/_removal_template_/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'

@@ -17,7 +17,7 @@
       }
     },
     {
-      "name": "articuno_galar",
+      "name": "articuno-galar",
       "preset": "type_based",
       "options": {
         "threshold": "0.3",
@@ -49,7 +49,7 @@
       }
     },
     {
-      "name": "zapdos_galar",
+      "name": "zapdos-galar",
       "preset": "type_based",
       "options": {
         "threshold": "0.2",
@@ -81,7 +81,7 @@
       }
     },
     {
-      "name": "moltres_galar",
+      "name": "moltres-galar",
       "preset": "type_based",
       "options": {
         "threshold": "0.3",
@@ -278,7 +278,7 @@
       }
     },
     {
-      "name": "deoxys",
+      "name": "deoxys-normal",
       "preset": "type_based",
       "options": {
         "threshold": "0.2",
@@ -388,7 +388,7 @@
       }
     },
     {
-      "name": "giratina",
+      "name": "giratina-altered",
       "preset": "entry_based",
       "options": {
         "entries": "dialga,palkia"
@@ -523,7 +523,7 @@
       }
     },
     {
-      "name": "tornadus_incarnate",
+      "name": "tornadus-incarnate",
       "preset": "entry_based",
       "options": {
         "entries": "meloetta_aria"
@@ -538,7 +538,7 @@
       }
     },
     {
-      "name": "thundurus_incarnate",
+      "name": "thundurus-incarnate",
       "preset": "type_based",
       "options": {
         "threshold": "0.5",
@@ -586,7 +586,7 @@
       }
     },
     {
-      "name": "landorus_incarnate",
+      "name": "landorus-incarnate",
       "preset": "entry_based",
       "options": {
         "entries": "meloetta_aria"
@@ -616,7 +616,7 @@
       }
     },
     {
-      "name": "keldeo",
+      "name": "keldeo-ordinary",
       "preset": "entry_based",
       "options": {
         "entries": "virizion,terrakion,cobalion"
@@ -631,7 +631,7 @@
       }
     },
     {
-      "name": "meloetta_aria",
+      "name": "meloetta-aria",
       "preset": "type_based",
       "options": {
         "threshold": "0.4",
@@ -679,7 +679,7 @@
       }
     },
     {
-      "name": "zygarde_10",
+      "name": "zygarde-10",
       "preset": "type_based",
       "options": {
         "threshold": "0.2",
@@ -695,7 +695,7 @@
       }
     },
     {
-      "name": "zygarde_10",
+      "name": "zygarde-10",
       "preset": "type_based",
       "options": {
         "threshold": "0.2",
@@ -727,7 +727,7 @@
       }
     },
     {
-      "name": "hoopa_confined",
+      "name": "hoopa",
       "preset": "type_based",
       "options": {
         "threshold": "0.3",
@@ -758,7 +758,7 @@
       }
     },
     {
-      "name": "tapu_koko",
+      "name": "tapu-koko",
       "preset": "type_based",
       "options": {
         "threshold": "0.2",
@@ -774,7 +774,7 @@
       }
     },
     {
-      "name": "tapu_lele",
+      "name": "tapu-lele",
       "preset": "type_based",
       "options": {
         "threshold": "0.2",
@@ -790,7 +790,7 @@
       }
     },
     {
-      "name": "tapu_bulu",
+      "name": "tapu-bulu",
       "preset": "type_based",
       "options": {
         "threshold": "0.3",
@@ -806,7 +806,7 @@
       }
     },
     {
-      "name": "tapu_fini",
+      "name": "tapu-fini",
       "preset": "type_based",
       "options": {
         "threshold": "0.3",

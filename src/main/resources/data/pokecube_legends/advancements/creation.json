@@ -32,7 +32,7 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "giratina"
+        "entry": "giratina-altered"
       }
     },
     "catch_dialga": {

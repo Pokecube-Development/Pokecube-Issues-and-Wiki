@@ -25,28 +25,28 @@
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "tapu_koko"
+        "entry": "tapu-koko"
       }
     },
     "catch_tapulele": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "tapulele"
+        "entry": "tapu-lele"
       }
     },
     "catch_tapufini": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "tapu_fini"
+        "entry": "tapu-fini"
       }
     },
     "catch_tapubulu": {
       "trigger": "pokecube:catch",
       "conditions": {
         "lenient": true,
-        "entry": "tapu_bulu"
+        "entry": "tapu-bulu"
       }
     }
   },
