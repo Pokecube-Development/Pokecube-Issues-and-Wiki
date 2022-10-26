@@ -7,7 +7,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 
-@AbilityProvider(name = "illuminate")
+@AbilityProvider(name = "illuminate", singleton = false)
 public class Illuminate extends Ability
 {
     int range = 4;
@@ -35,11 +35,5 @@ public class Illuminate extends Ability
             context = PokecubeCore.spawner.randomSpawnContext(context, 0, this.range);
             PokecubeCore.spawner.doSpawnForContext(context);
         }
-    }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
     }
 }

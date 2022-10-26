@@ -10,7 +10,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.maths.Vector3;
 
-@AbilityProvider(name = "magma-armor")
+@AbilityProvider(name = "magma-armor", singleton = false)
 public class MagmaArmor extends Ability
 {
 
@@ -45,11 +45,4 @@ public class MagmaArmor extends Ability
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();
     }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
-    }
-
 }

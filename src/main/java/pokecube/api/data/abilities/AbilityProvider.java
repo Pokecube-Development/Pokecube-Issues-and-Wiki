@@ -9,6 +9,8 @@ import pokecube.api.utils.Tools.MergeOrder;
 public @interface AbilityProvider
 {
     String[] name();
-    
+
+    boolean singleton() default true;
+
     MergeOrder order() default MergeOrder.AFTER;
 }

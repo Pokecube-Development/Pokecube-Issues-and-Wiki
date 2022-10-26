@@ -11,7 +11,7 @@ import pokecube.core.database.tags.Tags;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-@AbilityProvider(name = "damp")
+@AbilityProvider(name = "damp", singleton = false)
 public class Damp extends Ability
 {
     IPokemob mob;
@@ -21,7 +21,7 @@ public class Damp extends Ability
     @SubscribeEvent
     public void denyBoom(final ExplosionEvent.Start boom)
     {
-        if (!this.mob.getEntity().isAlive()) this.destroy();
+        if (!this.mob.getEntity().isAlive()) this.destroy(this.mob);
         else
         {
             final Vector3 boomLoc = new Vector3().set(boom.getExplosion().getPosition());
@@ -30,7 +30,7 @@ public class Damp extends Ability
     }
 
     @Override
-    public void destroy()
+    public void destroy(IPokemob mob)
     {
         if (ThutCore.proxy.isClientSide()) return;
         MinecraftForge.EVENT_BUS.unregister(this);
@@ -68,11 +68,4 @@ public class Damp extends Ability
     {
         this.mob = mob;
     }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
-    }
-
 }

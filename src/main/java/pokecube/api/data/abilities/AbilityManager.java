@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 
 import org.objectweb.asm.Type;
 
@@ -23,9 +24,7 @@ import thut.lib.CompatParser.ClassFinder;
 public class AbilityManager
 {
 
-    private static Map<String, Class<? extends Ability>> nameMap = Maps.newHashMap();
-    private static Map<Class<? extends Ability>, String> nameMap2 = Maps.newHashMap();
-    private static Map<String, Ability> singltons = Maps.newHashMap();
+    private static Map<String, AbilityFactory> nameMap = Maps.newHashMap();
     private static Set<Package> packages = Sets.newHashSet();
 
     public static void registerAbilityPackage(Package pack)
@@ -51,16 +50,10 @@ public class AbilityManager
         return AbilityManager.nameMap.containsKey(AbilityManager.getAbilityName(name));
     }
 
-    public static void addAbility(final Class<? extends Ability> ability)
-    {
-        AbilityManager.addAbility(ability, ability.getSimpleName());
-    }
-
-    public static void addAbility(final Class<? extends Ability> ability, String name)
+    public static void addAbility(final AbilityFactory ability, String name)
     {
         name = AbilityManager.getAbilityName(name);
         AbilityManager.nameMap.put(name, ability);
-        AbilityManager.nameMap2.put(ability, name);
     }
 
     public static Ability getAbility(String name, final Object... args)
@@ -117,7 +110,35 @@ public class AbilityManager
                     for (var key : details.name())
                     {
                         num++;
-                        AbilityManager.addAbility((Class<? extends Ability>) candidateClass, key);
+
+                        if (details.singleton())
+                        {
+                            try
+                            {
+                                Ability ability = (Ability) candidateClass.getConstructor().newInstance();
+                                AbilityManager.addAbility(AbilityFactory.forAbility(ability), key);
+                            }
+                            catch (Exception e)
+                            {
+                                e.printStackTrace();
+                            }
+                        }
+                        else
+                        {
+                            Class<? extends Ability> clazz = (Class<? extends Ability>) candidateClass;
+                            Supplier<Ability> supplier = () -> {
+                                try
+                                {
+                                    return clazz.getConstructor().newInstance();
+                                }
+                                catch (Exception e)
+                                {
+                                    PokecubeAPI.LOGGER.error("Error generating ability {}", key, e);
+                                    return new DummyAbility();
+                                }
+                            };
+                            AbilityManager.addAbility(AbilityFactory.forSupplier(supplier), key);
+                        }
                     }
                 }
             }
@@ -131,37 +152,6 @@ public class AbilityManager
 
     public static Ability makeAbility(final String name, final Object... args)
     {
-        if (AbilityManager.singltons.containsKey(name))
-        {
-            return AbilityManager.singltons.get(name);
-        }
-        Class<? extends Ability> clazz = AbilityManager.nameMap.get(name);
-        if (clazz == null) clazz = DummyAbility.class;
-        Ability ability = null;
-        try
-        {
-            ability = clazz.getConstructor().newInstance().init(args);
-            ability.setName(name);
-            ability.init(args);
-            if (ability.singleton()) AbilityManager.singltons.put(name, ability);
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
-        return ability;
-    }
-
-    public static void replaceAbility(final Class<? extends Ability> ability, String name)
-    {
-        name = AbilityManager.getAbilityName(name);
-        if (AbilityManager.nameMap.containsKey(name))
-        {
-            final Class<? extends Ability> old = AbilityManager.nameMap.remove(name);
-            AbilityManager.nameMap2.remove(old);
-            AbilityManager.nameMap.put(name, ability);
-            AbilityManager.nameMap2.put(ability, name);
-        }
-        else AbilityManager.addAbility(ability, name);
+        return nameMap.getOrDefault(name, AbilityFactory.DUMMY).create(args).setName(name);
     }
 }

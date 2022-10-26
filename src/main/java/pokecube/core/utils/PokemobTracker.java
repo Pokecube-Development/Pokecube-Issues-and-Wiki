@@ -167,7 +167,7 @@ public class PokemobTracker
 
     private MobEntry _removePokemob(final IPokemob pokemob)
     {
-        if (pokemob.getAbility() != null) pokemob.getAbility().destroy();
+        if (pokemob.getAbility() != null) pokemob.getAbility().destroy(pokemob);
         final MobEntry e = this._removeMobEntry(pokemob.getEntity().getUUID());
         return e;
     }

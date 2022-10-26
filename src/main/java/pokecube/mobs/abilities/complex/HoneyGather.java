@@ -20,7 +20,7 @@ import pokecube.core.ai.tasks.bees.BeeTasks;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.maths.Vector3;
 
-@AbilityProvider(name = "honey-gather")
+@AbilityProvider(name = "honey-gather", singleton = false)
 public class HoneyGather extends Ability
 {
     int range = 4;
@@ -72,11 +72,5 @@ public class HoneyGather extends Ability
                 new BlockHitResult(new Vec3(0.5, 1, 0.5), Direction.UP, here.getPos(), false));
         // Attempt to plant it.
         Items.BONE_MEAL.useOn(context);
-    }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
     }
 }

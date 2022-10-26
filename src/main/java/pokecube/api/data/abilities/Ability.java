@@ -1,5 +1,7 @@
 package pokecube.api.data.abilities;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -9,9 +11,10 @@ public abstract class Ability
 {
     String name = "";
 
-    public void setName(String name)
+    public Ability setName(String name)
     {
         this.name = name;
+        return this;
     }
 
     /**
@@ -56,13 +59,8 @@ public abstract class Ability
     }
 
     /** Ensure to call this if your entity is ever set dead. */
-    public void destroy()
+    public void destroy(@Nullable IPokemob mob)
     {}
-
-    public boolean singleton()
-    {
-        return true;
-    }
 
     public String getName()
     {
@@ -79,7 +77,7 @@ public abstract class Ability
      *             empty in most initial cases!
      * @return this
      */
-    public Ability init(final Object... args)
+    public Ability init(@Nullable Object... args)
     {
         return this;
     }

@@ -472,7 +472,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         final AbilityGene gene = this.genesAbility.getExpressed();
         final AbilityObject obj = gene.getValue();
         final Ability oldAbility = obj.abilityObject;
-        if (oldAbility != null && oldAbility != ability) oldAbility.destroy();
+        if (oldAbility != null && oldAbility != ability) oldAbility.destroy(this);
         final Ability defalt = this.getPokedexEntry().getAbility(this.getAbilityIndex(), this);
         obj.abilityObject = ability;
         obj.ability = ability != null
