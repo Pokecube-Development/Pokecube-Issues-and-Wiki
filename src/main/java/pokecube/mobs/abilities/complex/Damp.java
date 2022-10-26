@@ -4,12 +4,14 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.tags.Tags;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+@AbilityProvider(name = "damp")
 public class Damp extends Ability
 {
     IPokemob mob;

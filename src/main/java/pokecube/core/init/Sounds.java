@@ -3,8 +3,8 @@ package pokecube.core.init;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.api.data.moves.Moves;
 import pokecube.api.data.moves.Animations.AnimationJson;
+import pokecube.api.data.moves.Moves;
 import pokecube.core.PokecubeCore;
 
 public class Sounds

@@ -51,6 +51,11 @@ import thut.lib.RegHelper;
 
 public class Tools
 {
+    public static enum MergeOrder
+    {
+        REPLACE, AFTER, BEFORE;
+    }
+
     /**
      * This is an array of what lvl has what exp for the varying exp modes. This
      * array came from: http://bulbapedia.bulbagarden.net/wiki/Experience

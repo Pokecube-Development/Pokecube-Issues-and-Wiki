@@ -3,6 +3,7 @@ package pokecube.mobs.abilities.simple;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.moves.PokemobTerrainEffects;
@@ -13,6 +14,7 @@ import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 
+@AbilityProvider(name = "sand-spit")
 public class SandSpit extends Ability
 {
 

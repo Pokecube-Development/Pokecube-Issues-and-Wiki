@@ -1,11 +1,13 @@
-package pokecube.mobs.abilities.simple;
+package pokecube.mobs.abilities.complex;
 
 import net.minecraft.server.level.ServerLevel;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 
+@AbilityProvider(name = "illuminate")
 public class Illuminate extends Ability
 {
     int range = 4;

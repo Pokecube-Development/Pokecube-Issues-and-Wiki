@@ -3,12 +3,14 @@ package pokecube.mobs.abilities.complex;
 import java.util.List;
 
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.maths.Vector3;
 
+@AbilityProvider(name = "magma-armor")
 public class MagmaArmor extends Ability
 {
 

@@ -2,12 +2,14 @@ package pokecube.mobs.abilities.complex;
 
 import net.minecraft.server.level.ServerLevel;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 
+@AbilityProvider(name = "swarm")
 public class Swarm extends Ability
 {
     int range = 4;

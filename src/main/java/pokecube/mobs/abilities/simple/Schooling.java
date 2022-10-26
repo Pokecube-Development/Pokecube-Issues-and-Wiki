@@ -2,9 +2,11 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
 
+@AbilityProvider(name = "schooling")
 public class Schooling extends Ability
 {
     private static PokedexEntry base;
@@ -17,8 +19,8 @@ public class Schooling extends Ability
         if (Schooling.noTurn) return;
         if (Schooling.base == null)
         {
-            Schooling.base = Database.getEntry("Wishiwashi");
-            Schooling.school = Database.getEntry("Wishiwashi School");
+            Schooling.base = Database.getEntry("wishiwashi-solo");
+            Schooling.school = Database.getEntry("wishiwashi-school");
             Schooling.noTurn = Schooling.base == null || Schooling.school == null;
             if (Schooling.noTurn) return;
         }

@@ -18,14 +18,10 @@ import pokecube.api.moves.utils.target_types.Ally;
 import pokecube.api.moves.utils.target_types.RandomEnemy;
 import pokecube.api.moves.utils.target_types.SelectedTarget;
 import pokecube.api.moves.utils.target_types.User;
+import pokecube.api.utils.Tools.MergeOrder;
 
 public class MoveApplicationRegistry
 {
-    public static enum MergeOrder
-    {
-        REPLACE, AFTER, BEFORE;
-    }
-
     private static Map<String, Consumer<MoveApplication>> MOVE_MODIFIERS = Maps.newHashMap();
     private static Map<String, Predicate<MoveApplication>> TARGET_REGISTRY = Maps.newHashMap();
     private static Map<String, OngoingApplier> EFFECT_REGISTRY = Maps.newHashMap();

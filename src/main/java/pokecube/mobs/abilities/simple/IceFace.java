@@ -2,6 +2,7 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
@@ -11,6 +12,7 @@ import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 
+@AbilityProvider(name = "ice-face")
 public class IceFace extends Ability
 {
 	private static PokedexEntry Ice;
@@ -24,8 +26,8 @@ public class IceFace extends Ability
         if (IceFace.noTurnBase) return;
         if (IceFace.Ice == null)
         {
-        	IceFace.Ice = Database.getEntry("Eiscue");
-        	IceFace.noIce = Database.getEntry("Eiscue Noice");
+        	IceFace.Ice = Database.getEntry("eiscue-ice");
+        	IceFace.noIce = Database.getEntry("eiscue-noice");
         	IceFace.noTurnBase = IceFace.Ice == null || IceFace.noIce == null; 
             if (IceFace.noTurnBase) return;
         }

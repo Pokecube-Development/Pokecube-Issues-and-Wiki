@@ -2,9 +2,11 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
 
+@AbilityProvider(name = "hunger-switch")
 public class HungerSwitch extends Ability
 {
 	private static PokedexEntry base;
@@ -17,8 +19,8 @@ public class HungerSwitch extends Ability
         if (HungerSwitch.noTurn) return;
         if (HungerSwitch.base == null)
         {
-        	HungerSwitch.base = Database.getEntry("Morpeko");
-        	HungerSwitch.hunger = Database.getEntry("Morpeko Hangry");
+        	HungerSwitch.base = Database.getEntry("morpeko-full-belly");
+        	HungerSwitch.hunger = Database.getEntry("morpeko-hangry");
         	HungerSwitch.noTurn = HungerSwitch.base == null || HungerSwitch.hunger == null;
             if (HungerSwitch.noTurn) return;
         }

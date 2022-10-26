@@ -4,6 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.moves.utils.IMoveConstants;
@@ -12,6 +13,7 @@ import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+@AbilityProvider(name = "synchronize")
 public class Synchronize extends Ability
 {
     Vector3 location = new Vector3();
