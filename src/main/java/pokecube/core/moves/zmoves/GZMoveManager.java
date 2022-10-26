@@ -59,6 +59,17 @@ public class GZMoveManager
             move.root_entry._manually_defined = true;
             PokecubeAPI.LOGGER.info("Z-move: {}", move.name);
         }
+        if (isDMove(move))
+        {
+            move.root_entry._manually_defined = true;
+            PokecubeAPI.LOGGER.info("D-move: {}", move.name);
+        }
+    }
+
+    public static void postProcess()
+    {
+        // Here we loop over the registered moves, and assign each one a Z or D move accordingly.
+
     }
 
     /**
