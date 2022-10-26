@@ -135,9 +135,9 @@ public class Moves
             {
                 // These can be null if the move does not specify them.
                 if (move.effect_text_extend != null)
-                    this._effect_text_extend = move.effect_text_extend.toLowerCase(Locale.ROOT);
+                    this._effect_text_extend = move.effect_text_extend.toLowerCase(Locale.ROOT).strip();
                 if (move.effect_text_simple != null)
-                    this._effect_text_simple = move.effect_text_simple.toLowerCase(Locale.ROOT);
+                    this._effect_text_simple = move.effect_text_simple.toLowerCase(Locale.ROOT).strip();
                 this._preset = move.preset;
                 this._drain = move.drain;
                 this._healing = move.healing;

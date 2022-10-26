@@ -170,6 +170,7 @@ public class MoveEntry implements IMoveConstants
         boolean contact = Tags.MOVE.isIn("contact-moves", this.getName());
         boolean ranged = Tags.MOVE.isIn("ranged-moves", this.getName());
         self_move = root_entry._target_type.equals("user");
+        this.ohko = root_entry._ohko;
         this.attackCategory = contact ? ContactCategory.CONTACT
                 : ranged ? ContactCategory.RANGED : ContactCategory.OTHER;
         PokecubeAPI.MOVE_BUS.post(new InitMoveEntry(this));

@@ -1,7 +1,6 @@
 package pokecube.api.data.moves;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -35,6 +34,8 @@ public class Parsers
     static final List<Pattern> FRZ_PATTERNS = Lists.newArrayList(Pattern.compile("(chance to freeze the target)"));
     static final List<Pattern> SLP_PATTERNS = Lists.newArrayList(Pattern.compile("(puts the target to sleep)"),
             Pattern.compile("(induce).*(sleep)"), Pattern.compile("(may).*(sleep)"));
+
+    static final List<Pattern> OHKO = Lists.newArrayList(Pattern.compile("(causes a one-hit ko.)"));
 
     static final Pattern HEALOTHER = Pattern.compile("(restores the target's hp)");
 
@@ -74,10 +75,9 @@ public class Parsers
             if (physical.equals(category)) move.category = AttackCategory.PHYSICAL;
         }
 
-        void parseStatModifiers(String text, final MoveEntry move, int rate)
+        void parseStatModifiers(String effect, final MoveEntry move, int rate)
         {
-            if (text.isBlank()) return;
-            final String effect = text.toLowerCase(Locale.ENGLISH).trim();
+            if (effect.isBlank()) return;
             boolean lower = effect.contains("lower");
             boolean raise = effect.contains("raise") || effect.contains("boost");
             boolean atk = effect.contains("attack");
@@ -139,6 +139,9 @@ public class Parsers
             entry.pp = entry.root_entry.getMove().pp;
             entry.accuracy = entry.root_entry.getMove().accuracy;
             entry.crit = entry.root_entry.getMove().crit_rate;
+
+            entry.root_entry._ohko = OHKO.stream()
+                    .anyMatch(p -> Parsers.matches(entry.root_entry._effect_text_simple, p));
 
             parseCategory(entry.root_entry.getMove().damage_class, entry);
         }
