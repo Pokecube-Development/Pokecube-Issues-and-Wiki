@@ -421,7 +421,6 @@ def convert_pokedex():
         for name in list:
             held_tables[name] = key
 
-
     def convert_moves(old_moves, name):
         level_up_old = old_moves['lvlupMoves']
 
@@ -474,10 +473,15 @@ def convert_pokedex():
 
     lang_files = {}
 
+    # Initialise this with missingno.
+    pokemob_tag_names = ["pokecube:missingno"]
+
     while values is not None:
         entry = PokemonSpecies(values, pokedex)
         species.append(entry)
         for var in entry.entries:
+
+            pokemob_tag_names.append(f'pokecube:{var.name}')
 
             if var.name in held_tables:
                 var.held_table = held_tables[var.name]
@@ -498,7 +502,18 @@ def convert_pokedex():
         i = i + 1
         values = get_species(i)
 
+
+    # Construct and output the default pokecube:pokemob tag
+    file = f'../../src/generated/resources/data/pokecube/tags/entity_types/pokemob.json'
+    var = {"replace": False,"values":pokemob_tag_names}
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    file = open(file, 'w')
+    json.dump(var, file, indent=2)
+    file.close()
+
     for key, dict in lang_files.items():
+        # Output a lang file for the entries
         file = f'../../src/generated/resources/assets/pokecube_mobs/lang/{key}'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
@@ -511,6 +526,7 @@ def convert_pokedex():
             print(err)
 
     for var in dex:
+        # Output each entry into the appropriate database location
         file = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
