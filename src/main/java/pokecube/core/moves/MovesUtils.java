@@ -52,7 +52,7 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.impl.entity.impl.StatEffect;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
-import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
@@ -293,14 +293,15 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void doAttack(final String attackName, final IPokemob attacker, final LivingEntity attacked)
+    public static MoveApplication doAttack(final String attackName, final IPokemob attacker,
+            final LivingEntity attacked)
     {
         final MoveEntry move = MovesUtils.getMove(attackName);
-        if (move != null) move.applyMove(attacker, attacked, null);
+        if (move != null) return move.applyMove(attacker, attacked, null);
         else
         {
             if (attackName != null) System.err.println("The Move \"" + attackName + "\" does not exist.");
-            MovesUtils.doAttack(IMoveConstants.DEFAULT_MOVE, attacker, attacked);
+            return MovesUtils.doAttack(IMoveConstants.DEFAULT_MOVE, attacker, attacked);
         }
     }
 

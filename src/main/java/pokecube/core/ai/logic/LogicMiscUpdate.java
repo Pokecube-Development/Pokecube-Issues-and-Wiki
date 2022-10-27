@@ -424,10 +424,6 @@ public class LogicMiscUpdate extends LogicBase
             {
                 this.pokemob.setTargetID(-1);
                 this.pokemob.setAllyID(-1);
-                if (pokemob.isPlayerOwned())
-                {
-                    System.out.println("Battle over!");
-                }
                 return;
             }
 

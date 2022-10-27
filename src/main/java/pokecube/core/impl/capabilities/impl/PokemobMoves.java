@@ -12,7 +12,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.CapabilityAffected;
@@ -21,7 +20,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
-import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
@@ -76,19 +74,7 @@ public abstract class PokemobMoves extends PokemobStats
         // Syncs that the move has at least been attempted, this is used for the
         // graphical indicator of move cooldowns
         PacketSyncMoveUse.sendUpdate(this);
-
-        if (target != this.getEntity() && target != null)
-        {
-            boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != this.getEntity();
-            Battle b = Battle.getBattle(entity);
-            if (b != null && b.getEnemies(entity).contains(target)) newCombat = false;
-            if (target instanceof Mob mob && newCombat) BrainUtils.initiateCombat(mob, this.getEntity());
-            if (target.getLastHurtByMob() != this.getEntity())
-            {
-                target.setLastHurtByMob(this.getEntity());
-                this.getEntity().setLastHurtByMob(target);
-            }
-        }
+        
         final int statusChange = this.getChanges();
         final IPokemob targetMob = PokemobCaps.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
         if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)

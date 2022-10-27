@@ -628,20 +628,15 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         if (this.getCurrentPokemob() == null) return;
         final Player player = this.minecraft.player;
         final Predicate<Entity> selector = input -> {
-            final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
             if (!AITools.validCombatTargets.test(input)) return false;
-            if (pokemob == null) return true;
-            return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
+            return true;
         };
-        Entity target = Tools.getPointedEntity(player, 32, selector, 1);
+        Entity target = Tools.getPointedEntity(player, 32, selector.negate(), 1);
         target = EntityTools.getCoreEntity(target);
         if (target == null && Minecraft.getInstance().crosshairPickEntity != null
                 && selector.test(Minecraft.getInstance().crosshairPickEntity))
             target = Minecraft.getInstance().crosshairPickEntity;
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
-        boolean sameOwner = false;
-        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
-        if (targetMob != null) sameOwner = targetMob.getOwner() == player;
         final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
         {
@@ -658,9 +653,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                 return;
             }
         }
-        if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof PartEntity<?>))
-            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY,
-                    new AttackEntityHandler(target.getId()).setFromOwner(true));
+        if (target != null && (target instanceof LivingEntity || target instanceof PartEntity<?>)) PacketCommand
+                .sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getId()).setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,
                 new AttackLocationHandler(targetLocation).setFromOwner(true));
         else PacketCommand.sendCommand(pokemob, Command.ATTACKNOTHING, new AttackNothingHandler().setFromOwner(true));

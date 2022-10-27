@@ -433,17 +433,16 @@ public class MoveApplication implements Comparable<MoveApplication>
             var moveAppl = t.move();
             MoveEntry move = moveAppl.getMove();
 
-            float max_hp = moveAppl.getUser().getMaxHealth();
-            float current_hp = moveAppl.getUser().getHealth();
+            float max_hp = moveAppl.getTarget().getMaxHealth();
+            float current_hp = moveAppl.getTarget().getHealth();
 
             float heal = move.root_entry._healing * max_hp / 100.0f;
             if (heal > 0)
             {
+                heal = Math.min(max_hp - current_hp, heal);
                 if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.LOGGER.info("Applying healing for move {} of amount {}", t.move().getName(), heal);
-
-                heal = Math.min(max_hp - current_hp, heal);
-                if (heal > 0) moveAppl.getUser().getEntity().heal(heal);
+                if (heal > 0) moveAppl.getTarget().heal(heal);
             }
         }
     }

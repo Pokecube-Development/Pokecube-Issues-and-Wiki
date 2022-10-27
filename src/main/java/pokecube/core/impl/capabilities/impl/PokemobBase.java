@@ -29,7 +29,7 @@ import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import thut.api.IOwnable;
 import thut.api.ThutCaps;

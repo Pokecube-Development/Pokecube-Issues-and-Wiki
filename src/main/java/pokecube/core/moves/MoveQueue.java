@@ -15,8 +15,8 @@ import net.minecraft.world.level.LevelAccessor;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 
