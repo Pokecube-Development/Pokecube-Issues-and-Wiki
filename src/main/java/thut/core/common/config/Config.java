@@ -8,11 +8,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.function.Supplier;
 
+import com.electronwill.nightconfig.core.CommentedConfig;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.ForgeConfigSpec.Builder;
@@ -89,31 +93,31 @@ public class Config
         @Override
         public void read(final ModConfig modConfig)
         {
-            Map<Field, ConfigValue<?>> values;
+            Map<Field, Supplier<?>> values = Maps.newHashMap();
             final Type type = modConfig.getType();
             switch (type)
             {
             case CLIENT:
-                values = this.clientValues;
+                values.putAll(clientValues);
                 this.CLIENT_CONFIG = modConfig;
                 break;
             case COMMON:
-                values = this.commonValues;
+                values.putAll(commonValues);
                 this.COMMON_CONFIG = modConfig;
                 break;
             case SERVER:
-                values = this.serverValues;
+                values.putAll(serverValues);
                 this.SERVER_CONFIG = modConfig;
                 break;
             default:
                 return;
             }
-            if (this.read(modConfig, values)) this.onUpdated();
+            ThutCore.LOGGER.info("Reading {}", modConfig.getFileName());
+            if (this.read(values)) this.onUpdated();
         }
 
-        private boolean read(final ModConfig config, final Map<Field, ConfigValue<?>> values)
+        private boolean read(final Map<Field, Supplier<?>> values)
         {
-            ThutCore.LOGGER.info("Reading {}", config.getFileName());
             boolean changed = false;
             for (final Field f : values.keySet()) try
             {
@@ -206,6 +210,45 @@ public class Config
             }
             return ret;
         }
+
+        private void addFromConfig(CommentedConfig config, Map<Field, Supplier<?>> values, Map<String, Field> fields,
+                Set<CommentedConfig> checked)
+        {
+            config.entrySet().forEach(e -> {
+                String name = e.getKey();
+                if (fields.containsKey(name))
+                {
+                    try
+                    {
+                        values.put(fields.get(name), () -> e.getValue());
+                    }
+                    catch (Exception e1)
+                    {
+                        e1.printStackTrace();
+                    }
+                }
+                // checked.add(c) prevents recursion when a config contains its parent
+                else if (e.getValue() instanceof CommentedConfig c && checked.add(c))
+                {
+                    addFromConfig(c, values, fields, checked);
+                }
+            });
+        }
+
+        @Override
+        public void initRead(Type type, CommentedFileConfig config)
+        {
+            Map<Field, Supplier<?>> values = Maps.newHashMap();
+            Map<String, Field> fields = Maps.newHashMap();
+            Set<CommentedConfig> checked = Sets.newHashSet(config);
+            for (Field f : this.getClass().getDeclaredFields())
+            {
+                if (Modifier.isStatic(f.getModifiers())) continue;
+                fields.put(f.getName(), f);
+            }
+            addFromConfig(config, values, fields, checked);
+            this.read(values);
+        }
     }
 
     public static interface IConfigHolder
@@ -225,6 +268,8 @@ public class Config
         void read(ModConfig spec);
 
         void write();
+
+        void initRead(Type type, CommentedFileConfig config);
     }
 
     private static ForgeConfigSpec[] initConfigSpecs(final IConfigHolder holder)
@@ -350,13 +395,14 @@ public class Config
         }
     }
 
-    private static void loadConfig(final IConfigHolder holder, final ForgeConfigSpec spec, final Path path)
+    private static void loadConfig(ModConfig.Type type, IConfigHolder holder, ForgeConfigSpec spec, Path path)
     {
         ThutCore.LOGGER.debug("Loading config file {}", path);
         final CommentedFileConfig configData = CommentedFileConfig.builder(path).sync().autosave()
                 .writingMode(WritingMode.REPLACE).build();
         configData.load();
         spec.setConfig(configData);
+        holder.initRead(type, configData);
     }
 
     /**
@@ -400,9 +446,9 @@ public class Config
             ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, SERVER_CONFIG__SPEC, serverfile.toString());
 
         // Load configs
-        if (COMMON_CONFIG_SPEC != null) Config.loadConfig(holder, COMMON_CONFIG_SPEC, common);
-        if (CLIENT_CONFIG_SPEC != null) Config.loadConfig(holder, CLIENT_CONFIG_SPEC, client);
-        if (SERVER_CONFIG__SPEC != null) Config.loadConfig(holder, SERVER_CONFIG__SPEC, server);
+        if (COMMON_CONFIG_SPEC != null) Config.loadConfig(ModConfig.Type.COMMON, holder, COMMON_CONFIG_SPEC, common);
+        if (CLIENT_CONFIG_SPEC != null) Config.loadConfig(ModConfig.Type.CLIENT, holder, CLIENT_CONFIG_SPEC, client);
+        if (SERVER_CONFIG__SPEC != null) Config.loadConfig(ModConfig.Type.SERVER, holder, SERVER_CONFIG__SPEC, server);
 
         // This ensures the values are initialized, this onUpdated is never
         // called unless the config is different

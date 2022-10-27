@@ -261,6 +261,8 @@ public class Parsers
 
     private static final Map<String, BaseParser> PARSERS = Maps.newHashMap();
 
+    private static final Map<String, BaseParser> CUSTOM_PARSERS = Maps.newHashMap();
+
     static
     {
         PARSERS.put("damage", new DamageParser());
@@ -279,8 +281,26 @@ public class Parsers
         PARSERS.put("unique", new UniqueParser());
     }
 
+    /**
+     * This is used to register a custom parser for moves. Call this during
+     * InitDatabase.Pre, as that is send right before the custom parsers would
+     * be first used.
+     * 
+     * @param move
+     * @param parser
+     */
+    public static void registerCustomParser(String move, BaseParser parser)
+    {
+        CUSTOM_PARSERS.put(move, parser);
+    }
+
     public static BaseParser getParser(String category)
     {
         return PARSERS.get(category);
+    }
+
+    public static BaseParser getCustomParser(String move)
+    {
+        return CUSTOM_PARSERS.get(move);
     }
 }
