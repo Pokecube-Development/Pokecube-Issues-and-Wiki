@@ -1,5 +1,7 @@
 package pokecube.api;
 
+import java.util.function.Consumer;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -30,5 +32,32 @@ public class PokecubeAPI
     public static IEntityProvider getEntityProvider()
     {
         return PokecubeAPI.provider;
+    }
+
+    private static void log(Consumer<Object> logger, Object... args)
+    {
+        String key = args[0].toString();
+        if (args.length == 1) logger.accept(key);
+        else
+        {
+            for (int i = 1; i < args.length; i++)
+            {
+                Object o = args[i];
+                // TODO regex for {} instead to support number formatting like
+                // {:.2f}
+                key = key.replaceFirst("\\{\\}", o == null ? "null" : o.toString());
+            }
+            logger.accept(key);
+        }
+    }
+
+    public static void logInfo(Object... args)
+    {
+        log(LOGGER::info, args);
+    }
+
+    public static void logDebug(Object... args)
+    {
+        log(LOGGER::debug, args);
     }
 }

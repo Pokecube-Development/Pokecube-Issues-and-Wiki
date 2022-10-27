@@ -265,7 +265,7 @@ public class PokemobEventsHandler
 
             if (dynamaxing)
             {
-                PokecubeAPI.LOGGER.debug("Dynamaxing: {}", this.mob);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Dynamaxing: {}", this.mob);
             }
 
         }

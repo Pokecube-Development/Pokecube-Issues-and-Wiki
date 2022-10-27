@@ -134,7 +134,7 @@ public class XMLRecipeHandler
             final String handler = type.getAsString();
             final IRecipeParser parser = XMLRecipeHandler.recipeParsers.get(handler);
             if (PokecubeCore.getConfig().debug_data)
-                PokecubeAPI.LOGGER.info("Recipe Handler: " + handler + " Parser: " + parser);
+                PokecubeAPI.logInfo("Recipe Handler: " + handler + " Parser: " + parser);
             parser.manageRecipe(jsonObject);
         }
         catch (final NullPointerException e)

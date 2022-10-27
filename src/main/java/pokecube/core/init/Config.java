@@ -958,7 +958,7 @@ public class Config extends ConfigData
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.info("No Sound for " + s);
+                    PokecubeAPI.logInfo("No Sound for " + s);
                     failed = true;
                     break;
                 }

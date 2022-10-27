@@ -65,7 +65,7 @@ public class DodgeTask extends CombatTask implements IAICombat
         if (this.pokemob.getCombatState(CombatStates.DODGING)) return;
         // set the dodge flag so other mobs know about this for missing
         this.pokemob.setCombatState(CombatStates.DODGING, true);
-        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Dodge: " + this.entity);
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Dodge: " + this.entity);
         /*
          * Compute a random perpendicular direction.
          */

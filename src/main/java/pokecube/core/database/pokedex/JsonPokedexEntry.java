@@ -305,7 +305,7 @@ public class JsonPokedexEntry
             entry.texture = new ResourceLocation(tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(anim + entry.getTrimmedName() + ".xml");
 
-            PokecubeAPI.LOGGER.info("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
+            PokecubeAPI.logInfo("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
         }
 
         if (this.pose_shapes != null && !this.pose_shapes.isEmpty())
@@ -342,7 +342,7 @@ public class JsonPokedexEntry
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Handling Spawns for {}", entry);
         }
     }
 
@@ -370,7 +370,7 @@ public class JsonPokedexEntry
             }
         });
 
-        PokecubeAPI.LOGGER.info("Loaded {} Pokemobs", toLoad.size());
+        PokecubeAPI.logInfo("Loaded {} Pokemobs", toLoad.size());
 
         List<JsonPokedexEntry> loaded = LOADED;
         loaded.clear();

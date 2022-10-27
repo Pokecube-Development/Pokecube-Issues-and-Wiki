@@ -47,7 +47,7 @@ public class MovesAdder implements IMoveConstants
                     && !move.root_entry.animation.animations.isEmpty())
             {
                 if (PokecubeCore.getConfig().debug_moves)
-                    PokecubeAPI.LOGGER.info(move.name + ": animations: " + move.root_entry.animation.animations);
+                    PokecubeAPI.logInfo(move.name + ": animations: " + move.root_entry.animation.animations);
                 move.setAnimation(new AnimationMultiAnimations(move));
                 continue;
             }
@@ -59,7 +59,7 @@ public class MovesAdder implements IMoveConstants
     {
         final List<Class<?>> foundClasses = Lists.newArrayList();
 
-        PokecubeAPI.LOGGER.debug("Autodecting Moves...");
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Autodecting Moves...");
 
         // start with world action packages.
         for (final Package pack : MovesAdder.worldActionPackages)
@@ -196,7 +196,7 @@ public class MovesAdder implements IMoveConstants
                     }
                 }
             }
-            PokecubeAPI.LOGGER.debug("Registered " + num + " Custom Moves");
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered " + num + " Custom Moves");
         }
         catch (final Exception e)
         {
@@ -235,10 +235,11 @@ public class MovesAdder implements IMoveConstants
             if (!doesSomething)
             {
                 MoveEntry.removeMove(e);
-                PokecubeAPI.LOGGER.debug("Ignoring move {}, as could not figure out what it does...", e.name);
+                if (PokecubeCore.getConfig().debug_data)
+                    PokecubeAPI.logInfo("Ignoring move {}, as could not figure out what it does...", e.name);
             }
             else num++;
         }
-        PokecubeAPI.LOGGER.debug("Registered " + num + " Database Moves");
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered " + num + " Database Moves");
     }
 }

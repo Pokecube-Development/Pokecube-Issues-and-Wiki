@@ -361,7 +361,7 @@ public class MoveEventsHandler
             if (!PermNodes.getBooleanPerm(player, Permissions.MOVEWORLDACTION.get(move.name)))
             {
                 if (PokecubeCore.getConfig().debug_moves)
-                    PokecubeAPI.LOGGER.info("Denied use of " + move.name + " for " + player);
+                    PokecubeAPI.logInfo("Denied use of " + move.name + " for " + player);
                 return;
             }
         }

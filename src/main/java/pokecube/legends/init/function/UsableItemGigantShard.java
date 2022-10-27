@@ -34,7 +34,7 @@ public class UsableItemGigantShard
         public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
                 final LivingEntity user)
         {
-            PokecubeAPI.LOGGER.debug(user + " " + pokemob.getOwner());
+            PokecubeAPI.logDebug(user + " " + pokemob.getOwner());
             if (user != pokemob.getOwner()) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
             boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
             // Already able to gigantamax, no effect.

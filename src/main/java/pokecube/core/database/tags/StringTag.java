@@ -218,7 +218,7 @@ public class StringTag<T> implements IResourceData
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeAPI.LOGGER.debug("No Tag: {}", tagLoc);
+            PokecubeAPI.logDebug("No Tag: {}", tagLoc);
         }
         catch (final Exception e)
         {

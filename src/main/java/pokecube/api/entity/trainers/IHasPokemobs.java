@@ -97,7 +97,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         if (found)
         {
             if (PokecubeCore.getConfig().debug_ai)
-                PokecubeAPI.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), foundID);
+                PokecubeAPI.logInfo("Adding {} to slot {}", mob.getHoverName().getString(), foundID);
             this.setPokemob(foundID, mob.copy());
         }
         else for (int i = 0; i < this.getMaxPokemobCount(); i++)
@@ -107,7 +107,7 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
             {
                 this.setPokemob(i, mob.copy());
                 if (PokecubeCore.getConfig().debug_ai)
-                    PokecubeAPI.LOGGER.debug("Adding {} to slot {}", mob.getHoverName().getString(), i);
+                    PokecubeAPI.logInfo("Adding {} to slot {}", mob.getHoverName().getString(), i);
                 break;
             }
         }

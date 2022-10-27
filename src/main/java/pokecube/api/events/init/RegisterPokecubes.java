@@ -19,12 +19,12 @@ public class RegisterPokecubes extends Event
 
     public RegisterPokecubes()
     {
-        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Cube Registry Event");
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Cube Registry Event");
     }
 
     public void register(final PokecubeBehaviour behaviour)
     {
-        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Registering cube: " + behaviour.name);
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registering cube: " + behaviour.name);
         this.behaviors.add(behaviour);
     }
 }

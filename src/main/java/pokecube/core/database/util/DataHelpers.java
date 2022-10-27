@@ -8,6 +8,7 @@ import com.google.common.hash.Hashing;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.PokecubeAPI;
+import pokecube.core.PokecubeCore;
 import thut.api.util.JsonUtil;
 
 public class DataHelpers
@@ -65,7 +66,7 @@ public class DataHelpers
             long time = System.nanoTime();
             t.reload(valid);
             double dt = (System.nanoTime() - time) / 1e6;
-            PokecubeAPI.LOGGER.debug("Loaded: {} in {} ms", t.getKey(), dt);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded: {} in {} ms", t.getKey(), dt);
         });
         if (valid.get())
         {
@@ -73,9 +74,10 @@ public class DataHelpers
                 long time = System.nanoTime();
                 t.postReload();
                 double dt = (System.nanoTime() - time) / 1e6;
-                PokecubeAPI.LOGGER.debug("Processed: {} in {} ms", t.getKey(), dt);
+                if (PokecubeCore.getConfig().debug_data)
+                    PokecubeAPI.logInfo("Processed: {} in {} ms", t.getKey(), dt);
             });
-            PokecubeAPI.LOGGER.debug("Reloaded Custom Tags");
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Reloaded Custom Tags");
         }
     }
 

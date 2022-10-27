@@ -13,6 +13,7 @@ import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
@@ -56,7 +57,7 @@ public class SpawnPresets extends ResourceData
         resources.forEach((l, r) -> this.loadFile(l, r));
         if (this.validLoad)
         {
-            PokecubeAPI.LOGGER.debug("Loaded Spawn Rule presets.");
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Spawn Rule presets.");
             valid.set(true);
         }
     }

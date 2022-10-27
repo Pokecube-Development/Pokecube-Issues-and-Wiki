@@ -48,7 +48,7 @@ public class SetupHandler
     @SubscribeEvent
     public static void setup(final FMLCommonSetupEvent event)
     {
-        PokecubeAPI.LOGGER.info("Hello from Common Proxy setup!");
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Hello from Common Proxy setup!");
 
         // Registers the event listeners.
         EventsHandler.register();
@@ -78,8 +78,7 @@ public class SetupHandler
     @SubscribeEvent
     public static void onEntityAttributes(final EntityAttributeCreationEvent event)
     {
-        // register a new mob here
-        PokecubeAPI.LOGGER.debug("Registering Pokecube Attributes");
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes");
 
         final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);

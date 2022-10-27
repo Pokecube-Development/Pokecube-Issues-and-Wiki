@@ -105,7 +105,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 {
                     MovesUtils.displayStatusMessages(t.move().user, target, t.move().status_effects, true);
                     if (PokecubeCore.getConfig().debug_moves)
-                        PokecubeAPI.LOGGER.info("Applied Status Effect {} to {}", t.move().status_effects, target);
+                        PokecubeAPI.logInfo("Applied Status Effect {} to {}", t.move().status_effects, target);
                 }
             }
         }
@@ -132,11 +132,11 @@ public class MoveApplication implements Comparable<MoveApplication>
                         t.move().stat_chance);
                 if (PokecubeCore.getConfig().debug_moves)
                 {
-                    PokecubeAPI.LOGGER.info("Base Stat Effect: {}", Arrays.toString(t.move().stat_effects));
+                    PokecubeAPI.logInfo("Base Stat Effect: {}", Arrays.toString(t.move().stat_effects));
                     if (t.move().applied_stat_effects.applied())
-                        PokecubeAPI.LOGGER.info("Applied Stats Effect {} to {}",
+                        PokecubeAPI.logInfo("Applied Stats Effect {} to {}",
                                 Arrays.toString(t.move().applied_stat_effects.diffs()), target);
-                    else PokecubeAPI.LOGGER.info("Failed to Apply Stats Effects to {}", target);
+                    else PokecubeAPI.logInfo("Failed to Apply Stats Effects to {}", target);
                 }
                 MovesUtils.sendStatDiffsMessages(t.move().user, target, t.move().applied_stat_effects);
             }
@@ -299,9 +299,9 @@ public class MoveApplication implements Comparable<MoveApplication>
                     target.hurt(source2, d2);
                     if (PokecubeCore.getConfig().debug_moves)
                     {
-                        PokecubeAPI.LOGGER.info("Attack Used: " + move.name);
-                        PokecubeAPI.LOGGER.info("Normal Component: " + d1);
-                        PokecubeAPI.LOGGER.info("Magic Component: " + d2);
+                        PokecubeAPI.logInfo("Attack Used: " + move.name);
+                        PokecubeAPI.logInfo("Normal Component: " + d1);
+                        PokecubeAPI.logInfo("Magic Component: " + d2);
                     }
                 }
                 // Apply attack damage to a pokemob
@@ -312,8 +312,8 @@ public class MoveApplication implements Comparable<MoveApplication>
                     source.bypassArmor();
                     if (PokecubeCore.getConfig().debug_moves)
                     {
-                        PokecubeAPI.LOGGER.info("Attack Used: " + move.name);
-                        PokecubeAPI.LOGGER.info("Attack Damage: " + finalAttackStrength);
+                        PokecubeAPI.logInfo("Attack Used: " + move.name);
+                        PokecubeAPI.logInfo("Attack Damage: " + finalAttackStrength);
                     }
                     target.hurt(source, finalAttackStrength);
                 }
@@ -324,9 +324,9 @@ public class MoveApplication implements Comparable<MoveApplication>
                     final boolean damaged = target.hurt(source, finalAttackStrength);
                     if (PokecubeCore.getConfig().debug_moves)
                     {
-                        PokecubeAPI.LOGGER.info("Attack Used: {}, expected damage: {}, Did apply? {} ", move.name,
+                        PokecubeAPI.logInfo("Attack Used: {}, expected damage: {}, Did apply? {} ", move.name,
                                 finalAttackStrength, damaged);
-                        PokecubeAPI.LOGGER.info("Attack Target: " + target);
+                        PokecubeAPI.logInfo("Attack Target: " + target);
                     }
                 }
 
@@ -383,7 +383,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 {
                     final IOngoingAffected targetAffected = CapabilityAffected.getAffected(t.move().target);
                     if (PokecubeCore.getConfig().debug_moves)
-                        PokecubeAPI.LOGGER.info("Applying Ongoing Effect for move {} used on {}", t.move().getName(),
+                        PokecubeAPI.logInfo("Applying Ongoing Effect for move {} used on {}", t.move().getName(),
                                 t.move().getTarget());
                     if (targetAffected != null) targetAffected.getEffects().add(provider.apply(t));
                 }
@@ -454,7 +454,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             {
                 heal = Math.min(max_hp - current_hp, heal);
                 if (PokecubeCore.getConfig().debug_moves)
-                    PokecubeAPI.LOGGER.info("Applying healing for move {} of amount {}", t.move().getName(), heal);
+                    PokecubeAPI.logInfo("Applying healing for move {} of amount {}", t.move().getName(), heal);
                 if (heal > 0) moveAppl.getTarget().heal(heal);
             }
         }
@@ -661,7 +661,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     {
         // Increment number of times this has been used.
         this.apply_number++;
-        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying move: {} used by {}",
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying move: {} used by {}",
                 getMove().name, this.getUser().getDisplayName().getString());
 
         // then basic events and checks.
@@ -695,7 +695,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             // from didHit == false.
             PokecubeAPI.MOVE_BUS.post(postEvent);
             if (PokecubeCore.getConfig().debug_moves)
-                PokecubeAPI.LOGGER.info("Move Failed or Cancelled!: {} used by {}", getMove().name,
+                PokecubeAPI.logInfo("Move Failed or Cancelled!: {} used by {}", getMove().name,
                         this.getUser().getDisplayName().getString());
             return;
         }
@@ -709,28 +709,28 @@ public class MoveApplication implements Comparable<MoveApplication>
         if (infatuate && targetPokemob != null) targetPokemob.getMoveStats().infatuateTarget = user.getEntity();
 
         // First apply damage and see if we actually hit
-        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Damage check");
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Damage check");
         dealt = damage.applyDamage(this);
         // If this is the case, then lets do others.
         if (dealt.efficiency > 0)
         {
             // First apply stat effects
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Stats Checks");
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Stats Checks");
             stats.applyStats(dealt);
             // Next apply status effects
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Status Checks");
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Status Checks");
             status.applyStatus(dealt);
             // Next apply recoil then healing
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Recoil Checks");
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Recoil Checks");
             recoil.applyRecoil(dealt);
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Healing Checks");
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Healing Checks");
             healer.applyHealing(dealt);
             // and finally apply ongoing effects
-            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Ongoing Effect Checks");
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Ongoing Effect Checks");
             applyOngoing.applyOngoingEffects(dealt);
         }
         // Now apply the after move use, this gets done even if it missed.
-        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER.info("Applying Post Move Checks");
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying Post Move Checks");
         afterUse.applyPostMove(dealt);
 
         PokecubeAPI.MOVE_BUS.post(postEvent);

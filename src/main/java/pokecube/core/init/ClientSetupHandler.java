@@ -167,7 +167,7 @@ public class ClientSetupHandler
 
     public static void registerKeybinds(Object event)
     {
-        PokecubeAPI.LOGGER.debug("Init Keybinds");
+        PokecubeAPI.logDebug("Init Keybinds");
         registerKey(ClientSetupHandler.nextMob, event);
         registerKey(ClientSetupHandler.previousMob, event);
         registerKey(ClientSetupHandler.nextMove, event);
@@ -202,7 +202,7 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        PokecubeAPI.LOGGER.debug("Pokecube Client Setup");
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Pokecube Client Setup");
 
         // Register event handlers
         EventsHandlerClient.register();
@@ -214,7 +214,7 @@ public class ClientSetupHandler
         NBTEdit.setupClient(event);
 
         // Register the gui side of the screens.
-        PokecubeAPI.LOGGER.debug("Init Screen Factories");
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Init Screen Factories");
 
         MenuScreens.register(MenuTypes.POKEMOB.get(), GuiPokemob::new);
         MenuScreens.register(MenuTypes.HEALER.get(), Healer<HealerContainer>::new);
@@ -223,7 +223,7 @@ public class ClientSetupHandler
         MenuScreens.register(MenuTypes.TMS.get(), TMs<TMContainer>::new);
 
         // Register mob rendering
-        PokecubeAPI.LOGGER.debug("Init Mob Renderers");
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Init Mob Renderers");
 
         // Register the render layers
         for (final RegistryObject<Block> crop : BerryManager.berryCrops.values())
@@ -325,7 +325,7 @@ public class ClientSetupHandler
     public static void textureStitch(final TextureStitchEvent.Pre event)
     {
         if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-        PokecubeAPI.LOGGER.debug("Registering Pokecube Slot Textures");
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Slot Textures");
         event.addSprite(Resources.SLOT_ICON_CUBE);
         event.addSprite(Resources.SLOT_ICON_TM);
         event.addSprite(Resources.SLOT_ICON_BOOK);

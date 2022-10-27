@@ -432,7 +432,7 @@ public class WormholeEntity extends LivingEntity
             final long now = Tracker.instance().getTick();
             final UUID uuid = entity.getUUID();
             if (now < lastTp || tpd.contains(uuid)) continue;
-            PokecubeAPI.LOGGER.debug("Transfering {} through a wormhole!", entity);
+            PokecubeAPI.logDebug("Transfering {} through a wormhole!", entity);
             tpd.add(uuid);
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 

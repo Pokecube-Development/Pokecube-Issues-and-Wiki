@@ -48,7 +48,7 @@ public class MoveQueue
             queue.executeMoves();
             final double dt = (System.nanoTime() - time) / 1000d;
             if (dt > 1000)
-                PokecubeAPI.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world.dimension(), num);
+                PokecubeAPI.logDebug("move queue took {}  for world {} for {} moves.", dt, world.dimension(), num);
         }
 
         @Override

@@ -133,7 +133,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             // target, this prevents player's mobs fighting each other.
             if (!BrainUtils.hasAttackTarget(hurt) && AITools.shouldBeAbleToAgro(hurt, user))
             {
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selecting Retaliation Target.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting Retaliation Target.");
                 Battle.createOrAddToBattle(hurt, (LivingEntity) user);
             }
         }
@@ -197,7 +197,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (newtarget != null)
         {
             this.initiateBattle(newtarget);
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selecting Guard Target.");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting Guard Target.");
             return true;
         }
         return false;
@@ -240,7 +240,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (entity instanceof Mob && targ != null && targ.equals(owner) && this.validGuardTarget.test(entity))
             {
                 this.initiateBattle(entity);
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selecting target who hit owner.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting target who hit owner.");
                 return true;
             }
         }
@@ -334,7 +334,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (BrainUtils.canSee(this.entity, target))
             {
                 this.initiateBattle(target);
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selecting Target who hit us.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting Target who hit us.");
                 return;
             }
         }
@@ -364,7 +364,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             {
                 this.initiateBattle(player);
                 if (PokecubeCore.getConfig().debug_ai)
-                    PokecubeAPI.LOGGER.info("Found player to be angry with, agressing.");
+                    PokecubeAPI.logInfo("Found player to be angry with, agressing.");
             }
         }
     }
@@ -394,7 +394,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
                 this.targetOwner = OwnableCaps.getOwner(target);
                 this.targetId = this.target.getUUID();
                 if (PokecubeCore.getConfig().debug_ai)
-                    PokecubeAPI.LOGGER.info("Found Target {} {}", this.target, this.targetOwner);
+                    PokecubeAPI.logInfo("Found Target {} {}", this.target, this.targetOwner);
             }
             this.checkSwitchedMob();
             return false;

@@ -138,15 +138,18 @@ public class ItemGenerator
     {
         final List<Integer> ids = Lists.newArrayList();
         ids.addAll(BerryManager.berryTypes.keySet());
-        PokecubeAPI.LOGGER.debug(BerryManager.berryTypes);
-        PokecubeAPI.LOGGER.debug(BerryManager.berryTypes.keySet());
+        if (PokecubeCore.getConfig().debug_data)
+        {
+            PokecubeAPI.logInfo(BerryManager.berryTypes);
+            PokecubeAPI.logInfo(BerryManager.berryTypes.keySet());
+        }
         Collections.sort(ids);
         for (final Integer id : ids)
         {
             final int index = id;
             final BerryType berry = BerryManager.berryTypes.get(index);
             if (PokecubeCore.getConfig().debug_data)
-                PokecubeAPI.LOGGER.info("Registering berry_" + berry.name + " " + index + " " + id);
+                PokecubeAPI.logInfo("Registering berry_" + berry.name + " " + index + " " + id);
             makeBerry(berry);
         }
     }

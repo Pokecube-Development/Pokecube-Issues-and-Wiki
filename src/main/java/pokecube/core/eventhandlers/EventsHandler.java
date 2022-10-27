@@ -711,7 +711,7 @@ public class EventsHandler
 
     private static void onServerStarting(final ServerStartingEvent event)
     {
-        PokecubeAPI.LOGGER.info("Server Starting");
+        PokecubeAPI.logInfo("Server Starting");
         PokecubeItems.init(event.getServer());
         EventsHandler.RUNNING = true;
 
@@ -728,7 +728,7 @@ public class EventsHandler
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
-        PokecubeAPI.LOGGER.info("Registering Commands");
+        PokecubeAPI.logInfo("Registering Commands");
         CommandConfigs.register(PokecubeCore.getConfig(), event.getDispatcher(), "pokesettings");
         CommandManager.register(event.getDispatcher());
         NBTEdit.registerCommands(event);

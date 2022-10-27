@@ -80,7 +80,7 @@ public class MovesDatabases
             }
         });
 
-        PokecubeAPI.LOGGER.info("Loaded {} moves and {} animations", movesToLoad.size(), animsToLoad.size());
+        PokecubeAPI.logInfo("Loaded {} moves and {} animations", movesToLoad.size(), animsToLoad.size());
 
         List<Move> loadedMoves = new ArrayList<>();
 
@@ -152,7 +152,7 @@ public class MovesDatabases
             GZMoveManager.process(entry);
         }
 
-        PokecubeAPI.LOGGER.info("Registered {} moves", loadedMoves.size());
+        PokecubeAPI.logInfo("Registered {} moves", loadedMoves.size());
     }
 
     public static void postInitMoves()

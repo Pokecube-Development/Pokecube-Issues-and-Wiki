@@ -653,7 +653,7 @@ public class PokedexEntryLoader
         {
             holder.getForme(entry);
             if (PokecubeCore.getConfig().debug_data)
-                PokecubeAPI.LOGGER.info("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
+                PokecubeAPI.logInfo("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
         }
     }
 
@@ -800,7 +800,7 @@ public class PokedexEntryLoader
     {
         if (evolutions != null && !evolutions.isEmpty())
         {
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Proccessing Evos for " + entry.getName());
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Proccessing Evos for " + entry.getName());
             for (final Evolution evol : evolutions)
             {
                 final String name = evol.name;
@@ -819,7 +819,7 @@ public class PokedexEntryLoader
                     if (clear)
                     {
                         entry.evolutions.remove(d);
-                        PokecubeAPI.LOGGER.info("Replacing evolution for " + entry + " -> " + evolEntry);
+                        PokecubeAPI.logInfo("Replacing evolution for " + entry + " -> " + evolEntry);
                     }
                     break;
                 }
@@ -857,7 +857,7 @@ public class PokedexEntryLoader
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Handling Spawns for {}", entry);
         }
     }
 

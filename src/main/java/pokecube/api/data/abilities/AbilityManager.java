@@ -16,6 +16,7 @@ import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.core.PokecubeCore;
 import thut.lib.CompatParser.ClassFinder;
 
 public class AbilityManager
@@ -126,7 +127,7 @@ public class AbilityManager
                     }
                 }
             }
-            PokecubeAPI.LOGGER.debug("Registered " + num + " Abilities");
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered " + num + " Abilities");
         }
         catch (final Exception e)
         {

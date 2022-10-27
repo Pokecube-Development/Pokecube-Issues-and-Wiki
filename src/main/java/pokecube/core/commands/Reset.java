@@ -24,7 +24,7 @@ public class Reset
         EventsHandler.sendInitInfo(target);
         source.sendSuccess(TComponent.translatable("pokecube.command.reset", target.getDisplayName()), true);
         thut.lib.ChatHelper.sendSystemMessage(target, TComponent.translatable("pokecube.command.canchoose"));
-        PokecubeAPI.LOGGER.info("Reset Starter for {}", target.getGameProfile());
+        PokecubeAPI.logInfo("Reset Starter for {}", target.getGameProfile());
         return 0;
     }
 

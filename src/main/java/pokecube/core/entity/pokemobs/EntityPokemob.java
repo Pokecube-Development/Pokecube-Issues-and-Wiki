@@ -327,7 +327,7 @@ public class EntityPokemob extends PokemobRidable
             if (PokecubeCore.getConfig().debug_spawning && dt > 100)
             {
                 final String toLog = "location: %1$s took: %2$s\u00B5s to spawn Init for %3$s";
-                PokecubeAPI.LOGGER.info(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
+                PokecubeAPI.logInfo(String.format(toLog, loc.getPos(), dt, pokemob.getDisplayName().getString()));
             }
         }
         return super.finalizeSpawn(worldIn, difficultyIn, reason, spawnDataIn, dataTag);
@@ -667,7 +667,7 @@ public class EntityPokemob extends PokemobRidable
     {
         if (this.isInvulnerable())
         {
-            PokecubeAPI.LOGGER.info("Not deleting {} from /kill, as is marked as invulnerable!", this);
+            PokecubeAPI.logInfo("Not deleting {} from /kill, as is marked as invulnerable!", this);
             return;
         }
         super.kill();

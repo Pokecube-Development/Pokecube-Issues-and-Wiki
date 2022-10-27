@@ -151,7 +151,7 @@ public class NBTTree
 
     private void print(Node<NamedNBT> n, int i)
     {
-        PokecubeAPI.LOGGER.info(NBTTree.repeat("\t", i) + NBTStringHelper.getNBTName(n.getObject()));
+        PokecubeAPI.logInfo(NBTTree.repeat("\t", i) + NBTStringHelper.getNBTName(n.getObject()));
         for (final Node<NamedNBT> child : n.getChildren()) this.print(child, i + 1);
     }
 

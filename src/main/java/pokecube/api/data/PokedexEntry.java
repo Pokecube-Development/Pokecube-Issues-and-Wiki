@@ -1175,7 +1175,8 @@ public class PokedexEntry
                     this.formeItems.put(stack, output);
                     if (output.noItemForm != null) PokecubeAPI.LOGGER.warn("Changing Base forme of {} from {} to {}",
                             output, output.noItemForm, this);
-                    PokecubeAPI.LOGGER.debug("Adding Forme with Key " + key + " To " + output + " for " + this);
+                    if (PokecubeCore.getConfig().debug_data)
+                        PokecubeAPI.logInfo("Adding Forme with Key " + key + " To " + output + " for " + this);
                     output.noItemForm = this;
                 }
                 catch (Exception e)
@@ -1201,8 +1202,8 @@ public class PokedexEntry
 
             if (forme == null)
             {
-                PokecubeAPI.LOGGER.info("Error with mega evolution for " + this + " rule: preset=" + rule.preset
-                        + " name=" + rule.name);
+                PokecubeAPI.logInfo("Error with mega evolution for " + this + " rule: preset=" + rule.preset + " name="
+                        + rule.name);
                 continue;
             }
 
@@ -1212,16 +1213,16 @@ public class PokedexEntry
                 ItemStack stack = ItemStack.EMPTY;
                 if (item_preset != null && !item_preset.isEmpty())
                 {
-                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info(forme + " " + item_preset);
+                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(forme + " " + item_preset);
                     stack = PokecubeItems.getStack(item_preset, false);
                     if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
                 }
                 else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
-                if (rule.item != null) if (PokecubeCore.getConfig().debug_data)
-                    PokecubeAPI.LOGGER.info(stack + " " + rule.item.getValues());
+                if (rule.item != null)
+                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(stack + " " + rule.item.getValues());
                 if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
                 {
-                    PokecubeAPI.LOGGER.info("Skipping Mega: " + this + " -> " + formeEntry
+                    PokecubeAPI.logInfo("Skipping Mega: " + this + " -> " + formeEntry
                             + " as it has no conditions, or conditions cannot be met.");
                     PokecubeAPI.LOGGER
                             .info(" rule: preset=" + rule.preset + " name=" + rule.name + " item=" + rule.item_preset);
@@ -1240,7 +1241,7 @@ public class PokedexEntry
                 formeEntry.setBaseForme(this);
                 this.megaRules.put(formeEntry, mrule);
                 if (PokecubeCore.getConfig().debug_data)
-                    PokecubeAPI.LOGGER.info("Added Mega: " + this + " -> " + formeEntry);
+                    PokecubeAPI.logInfo("Added Mega: " + this + " -> " + formeEntry);
             }
         }
     }
@@ -1903,7 +1904,8 @@ public class PokedexEntry
         for (final EvolutionData d : this.evolutions)
             if (!Pokedex.getInstance().isRegistered(d.evolution)) stale.add(d);
         this.evolutions.removeAll(stale);
-        if (!stale.isEmpty()) PokecubeAPI.LOGGER.debug(stale.size() + " stales for " + this);
+        if (!stale.isEmpty())
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(stale.size() + " stales for " + this);
         this.addRelation(this);
         for (final EvolutionData d : this.evolutions)
         {

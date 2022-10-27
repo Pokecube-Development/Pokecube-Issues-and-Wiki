@@ -19,13 +19,13 @@ import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGenerator;
 import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
 import pokecube.api.PokecubeAPI;
+import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration.AvoidanceSettings.AvoidanceEntry;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
 import pokecube.world.gen.structures.utils.ExpandedPostPlacementProcessor;
-import thut.core.common.ThutCore;
 
 public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJigsawConfiguration>
 {
@@ -57,8 +57,8 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
             if (avoid.distance > 0 && !avoid.name.isBlank()) if (!PokecubeSerializer.getInstance()
                     .shouldPlace(avoid.name, bpos, level.dimension(), avoid.distance * 16))
             {
-                if (ThutCore.conf.debug)
-                    PokecubeAPI.LOGGER.debug(config.avoidances.flags + " Conflicts with " + avoid.name);
+                if (PokecubeCore.getConfig().debug_misc)
+                    PokecubeAPI.logDebug(config.avoidances.flags + " Conflicts with " + avoid.name);
                 return true;
             }
         }
@@ -73,7 +73,8 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         ChunkPos pos = context.chunkPos();
         Level level = ExpandedJigsawPacement.getForGen(context);
         BlockPos bpos = pos.getMiddleBlockPosition(0);
-        if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug(config.avoidances.flags + " " + level.dimension());
+        if (PokecubeCore.getConfig().debug_misc)
+            PokecubeAPI.logDebug(config.avoidances.flags + " " + level.dimension());
         for (String flag : flags) PokecubeSerializer.getInstance().place(flag.strip(), bpos, level.dimension());
     }
 
@@ -91,8 +92,9 @@ public abstract class GenericJigsawStructure extends StructureFeature<ExpandedJi
         {
             if (generator.hasFeatureChunkInRange(key, context.seed(), pos.x, pos.z, config.avoid_range))
             {
-                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Skipping generation of {} due to conflict with {}",
-                        context.config().startPool().value().getName(), key);
+                if (PokecubeCore.getConfig().debug_misc)
+                    PokecubeAPI.logDebug("Skipping generation of {} due to conflict with {}",
+                            context.config().startPool().value().getName(), key);
                 return false;
             }
         }

@@ -103,7 +103,7 @@ public abstract class PokemobSexed extends PokemobSaves implements IBreedingMob
     public void lay(final IPokemob male)
     {
         this.here.set(this.getEntity());
-        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info(this + " lay()");
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo(this + " lay()");
         if (this.getEntity().getLevel().isClientSide) return;
         final int num = PokemobTracker.countPokemobs(this.getEntity().getLevel(), this.here,
                 PokecubeCore.getConfig().maxSpawnRadius);

@@ -413,7 +413,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                     evolution.getPersistentData().putString("pokecube:mega_ability", thisMob.getAbility().toString());
                 evolution.getPersistentData().putString("pokecube:mega_base", oldEntry.getTrimmedName());
                 final Ability ability = newEntry.getAbility(0, evoMob);
-                PokecubeAPI.LOGGER.debug("Mega Evolving, changing ability to " + ability);
+                if (PokecubeCore.getConfig().debug_ai)
+                    PokecubeAPI.logInfo("Mega Evolving, changing ability to " + ability);
 
                 if (ability != null) evoMob.setAbilityRaw(ability);
             }
@@ -422,7 +423,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");
                 evolution.getPersistentData().remove("pokecube:mega_ability");
                 if (!ability.isEmpty()) evoMob.setAbilityRaw(AbilityManager.getAbility(ability));
-                PokecubeAPI.LOGGER.debug("Un Mega Evolving, changing ability back to " + ability);
+                if (PokecubeCore.getConfig().debug_ai)
+                    PokecubeAPI.logInfo("Un Mega Evolving, changing ability back to " + ability);
             }
 
             final EvolveEvent evt = new EvolveEvent.Post(evoMob);

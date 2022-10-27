@@ -61,7 +61,7 @@ public class GZMoveManager
         if (isZMove(move))
         {
             move.root_entry._manually_defined = true;
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Z-move: {}", move.name);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Z-move: {}", move.name);
             if (move.name.endsWith("--special"))
             {
                 special_z_moves_by_type.put(move.type, move);
@@ -74,7 +74,7 @@ public class GZMoveManager
         if (isDMove(move))
         {
             move.root_entry._manually_defined = true;
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("D-move: {}", move.name);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("D-move: {}", move.name);
             d_moves_by_type.put(move.type, move);
         }
     }

@@ -92,7 +92,7 @@ public class CapabilityNPCMessages
                 return false;
             if (target instanceof ServerPlayer player)
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(this.messages.get(state), args));
-            if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.LOGGER.info(state + ": " + this.messages.get(state));
+            if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo(state + ": " + this.messages.get(state));
             return true;
         }
 

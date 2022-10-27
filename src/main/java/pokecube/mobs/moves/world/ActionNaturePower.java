@@ -32,6 +32,7 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.util.DataHelpers.ResourceData;
@@ -74,7 +75,7 @@ public class ActionNaturePower implements IMoveWorldEffect
             CHANGERS.sort(Comparator.comparingInt(c -> c.priority));
             if (this.validLoad)
             {
-                PokecubeAPI.LOGGER.debug("Loaded Nature Power effects.");
+                if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Nature Power effects.");
                 valid.set(true);
             }
         }
@@ -203,10 +204,10 @@ public class ActionNaturePower implements IMoveWorldEffect
             ResourceKey<Biome> KEY = ResourceKey.create(Registry.BIOME_REGISTRY, _biome_);
             final PointChecker checker = new PointChecker(world, new Vector3().set(pos), _predicate_);
             checker.checkPoints();
-            PokecubeAPI.LOGGER.debug("Checking for " + _biome_);
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Checking for " + _biome_);
             if (!_has_required_.test(checker))
             {
-                PokecubeAPI.LOGGER.debug("failed required for " + _biome_);
+                if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("failed required for " + _biome_);
                 return false;
             }
             return ActionNaturePower.applyChecker(checker, world, KEY);

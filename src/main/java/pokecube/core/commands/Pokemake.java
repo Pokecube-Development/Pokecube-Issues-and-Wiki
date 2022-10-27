@@ -88,7 +88,8 @@ public class Pokemake
         final String[] moves = new String[4];
         int mindex = 0;
         boolean asWild = false;
-        if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.LOGGER.info("Making by Arguments: " + index + " " + Arrays.toString(args));
+        if (PokecubeCore.getConfig().debug_commands)
+            PokecubeAPI.logInfo("Making by Arguments: " + index + " " + Arrays.toString(args));
         ItemStack itemstack = ItemStack.EMPTY;
 
         if (index < args.length) for (int j = index; j < args.length; j++)
@@ -248,7 +249,8 @@ public class Pokemake
         if (!args.isEmpty() && args.get(0) instanceof LivingEntity owner)
         {
             pokemob.setOwner(owner.getUUID());
-            PokecubeAPI.LOGGER.debug("Creating " + pokemob.getPokedexEntry() + " for " + owner.getName());
+            if (PokecubeCore.getConfig().debug_commands)
+                PokecubeAPI.logInfo("Creating " + pokemob.getPokedexEntry() + " for " + owner.getName());
             pokemob.setGeneralState(GeneralStates.TAMED, true);
         }
 

@@ -47,7 +47,7 @@ public class StatEffect extends BaseEffect
 
         if (PokecubeCore.getConfig().debug_moves)
         {
-            PokecubeAPI.LOGGER.info("Stat effect {} of amount {} on {}", stat, this.amount, entity);
+            PokecubeAPI.logInfo("Stat effect {} of amount {} on {}", stat, this.amount, entity);
         }
 
         switch (this.stat)

@@ -168,7 +168,7 @@ public class Parsers
                         entry.fixed = true;
                         entry.power = Integer.parseInt(var);
                         if (PokecubeCore.getConfig().debug_moves)
-                            PokecubeAPI.LOGGER.info(entry.name + " set to fixed damage of " + var);
+                            PokecubeAPI.logInfo(entry.name + " set to fixed damage of " + var);
                         return;
                     }
                     catch (final NumberFormatException e)

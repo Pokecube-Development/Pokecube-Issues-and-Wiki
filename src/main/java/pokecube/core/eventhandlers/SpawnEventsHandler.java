@@ -273,7 +273,7 @@ public class SpawnEventsHandler
                 PokecubeAPI.LOGGER.warn("Error processing for {}", function, e);
             }
             else if (SpawnEventsHandler.oldSpawns(event, function))
-                PokecubeAPI.LOGGER.info("Handled spawn for {}, {}", function, event.pos);
+                PokecubeAPI.logInfo("Handled spawn for {}, {}", function, event.pos);
             else PokecubeAPI.LOGGER.warn("Warning, no preset found for {}", function);
         }
     }

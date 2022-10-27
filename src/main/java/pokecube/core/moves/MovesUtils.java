@@ -242,7 +242,7 @@ public class MovesUtils implements IMoveConstants
         MutableComponent otherArg = MovesUtils.getMoveName(attack, attacker);
         String key = baseKey + ".user";
         if (PokecubeCore.getConfig().debug_moves)
-            PokecubeAPI.LOGGER.info("Move Message Send: {} on {}", baseKey, target);
+            PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
         if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
@@ -263,7 +263,7 @@ public class MovesUtils implements IMoveConstants
             String baseKey = "pokemob.move.stat.fail";
             String key = baseKey + ".user";
             if (PokecubeCore.getConfig().debug_moves)
-                PokecubeAPI.LOGGER.info("Move Message Send: {} on {}", baseKey, target);
+                PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
             final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
             if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
@@ -286,7 +286,7 @@ public class MovesUtils implements IMoveConstants
             MutableComponent otherArg = TComponent.translatable(statName);
             String key = baseKey + ".user";
             if (PokecubeCore.getConfig().debug_moves)
-                PokecubeAPI.LOGGER.info("Move Message Send: {} on {}", baseKey, target);
+                PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
             final IPokemob attacked = PokemobCaps.getPokemobFor(target);
             final Component targName = target != null ? target.getDisplayName()
                     : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");

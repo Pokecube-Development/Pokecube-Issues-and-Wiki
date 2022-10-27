@@ -7,6 +7,7 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.CaptureEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
@@ -27,7 +28,8 @@ public class RaidCapture
         {
             if (dynamaxCube)
             {
-                PokecubeAPI.LOGGER.debug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
+                if (PokecubeCore.getConfig().debug_misc)
+                    PokecubeAPI.logDebug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
                 if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
                 {
                     if (catcher instanceof Player player)

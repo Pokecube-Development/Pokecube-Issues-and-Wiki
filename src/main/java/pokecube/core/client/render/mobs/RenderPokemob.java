@@ -406,7 +406,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void register()
     {
-        PokecubeAPI.LOGGER.info("Registering Models to the renderer.");
+        PokecubeAPI.logInfo("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
@@ -479,7 +479,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
-            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Reloaded model for " + pokemob.getPokedexEntry());
+            if (ThutCore.conf.debug) PokecubeAPI.logDebug("Reloaded model for " + pokemob.getPokedexEntry());
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded())
         {

@@ -95,7 +95,7 @@ public class PostProcessor implements
                         final BlockPos blockpos = new BlockPos(x, chunkGenerator.getSeaLevel(), z);
                         final BlockPos spos = StructureTemplate.calculateRelativePosition(settings, localSpawn)
                                 .offset(blockpos).offset(0, part.getBoundingBox().minY, 0);
-                        PokecubeAPI.LOGGER.info("Setting spawn to {} {}, professor at {}", spos, localSpawn,
+                        PokecubeAPI.logInfo("Setting spawn to {} {}, professor at {}", spos, localSpawn,
                                 localTrader);
                         PokecubeSerializer.getInstance().setPlacedSpawn();
                         sworld.getServer().execute(() -> {

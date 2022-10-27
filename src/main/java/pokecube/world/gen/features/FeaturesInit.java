@@ -102,7 +102,7 @@ public class FeaturesInit
         ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
         if (make_ores_check.test(key))
         {
-            if (ThutCore.conf.debug) PokecubeAPI.LOGGER.info("Adding Fossils to " + event.getName());
+            if (ThutCore.conf.debug) PokecubeAPI.logInfo("Adding Fossils to " + event.getName());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
                     PLACED_SMALL_FOSSIL.getHolder().get());
             event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES,
@@ -117,7 +117,7 @@ public class FeaturesInit
                 if (config.matches(event))
                 {
 //                    if (ThutCore.conf.debug)
-                        PokecubeAPI.LOGGER.info("Adding " + config.placement + " to " + event.getName());
+                        PokecubeAPI.logInfo("Adding " + config.placement + " to " + event.getName());
                     event.getGeneration().addFeature(GenerationStep.Decoration.VEGETAL_DECORATION,
                             new PlacedFeatureHolder(config.placement));
                 }

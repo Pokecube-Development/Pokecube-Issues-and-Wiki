@@ -299,7 +299,7 @@ public class Pokemob extends Page
 
             if (makeNew)
             {
-                PokecubeAPI.LOGGER.debug("Creating new mob for trainer");
+                PokecubeAPI.logDebug("Creating new mob for trainer");
                 if (entry == null || entry == Database.missingno)
                 {
                     Minecraft.getInstance().player

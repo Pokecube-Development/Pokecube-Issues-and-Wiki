@@ -57,7 +57,6 @@ import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
-import thut.core.common.ThutCore;
 
 public class ExpandedJigsawPiece extends SinglePoolElement
 {
@@ -372,13 +371,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             final boolean toPlaceSpawn = this.isSpawn && !this.placedSpawn;
             if (toPlaceProf && info.pos.equals(this.profPos))
             {
-                PokecubeAPI.LOGGER.info("Overriding an entry as a professor at " + pos);
+                PokecubeAPI.logInfo("Overriding an entry as a professor at " + pos);
                 function = PokecubeCore.getConfig().professor_override;
                 PokecubeSerializer.getInstance().setPlacedProf();
             }
             if (toPlaceSpawn && info.pos.equals(this.spawnPos))
             {
-                PokecubeAPI.LOGGER.info("Overriding world spawn to " + pos);
+                PokecubeAPI.logInfo("Overriding world spawn to " + pos);
                 EventsHandler.Schedule(this.world, w -> {
                     ((ServerLevel) w).setDefaultSpawnPos(pos, 0);
                     return true;
@@ -401,7 +400,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
             {
                 final Event event = new StructureEvent.ReadTag(function.trim(), pos, worldIn, (ServerLevel) this.world,
                         rand, box);
-                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug(function.trim() + " " + pos);
+                if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logDebug(function.trim() + " " + pos);
                 MinecraftForge.EVENT_BUS.post(event);
                 if (event.getResult() == Result.ALLOW) ExpandedJigsawPiece.apply(pos, this.world);
             }
