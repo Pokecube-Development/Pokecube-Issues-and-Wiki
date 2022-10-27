@@ -10,10 +10,10 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
-import pokecube.core.client.Resources;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.utils.Resources;
 import thut.api.ThutCaps;
 import thut.api.inventory.BaseContainer;
 

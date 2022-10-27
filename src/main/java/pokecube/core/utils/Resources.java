@@ -1,7 +1,4 @@
-/**
- *
- */
-package pokecube.core.client;
+package pokecube.core.utils;
 
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.impl.PokecubeMod;

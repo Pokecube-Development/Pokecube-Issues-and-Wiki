@@ -17,11 +17,11 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class AI extends Tab

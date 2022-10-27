@@ -13,7 +13,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.GuardEntry;
 import pokecube.core.client.gui.helper.RouteEditHelper;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -21,6 +20,7 @@ import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.packets.PacketSyncRoutes;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.CapHolders;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class Routes extends Tab

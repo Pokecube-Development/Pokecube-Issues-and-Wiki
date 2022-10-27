@@ -18,12 +18,12 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketPokedex;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class GuiPokeWatch extends Screen

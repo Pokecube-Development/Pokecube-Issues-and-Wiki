@@ -29,7 +29,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.client.EventsHandlerClient;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.gui.watch.util.LineEntry;
@@ -40,6 +39,7 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.Resources;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.lib.TComponent;
 

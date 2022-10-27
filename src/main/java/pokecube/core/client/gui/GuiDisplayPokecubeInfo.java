@@ -48,7 +48,6 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
@@ -56,6 +55,7 @@ import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.Resources;
 import thut.api.maths.Vector3;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverlay
