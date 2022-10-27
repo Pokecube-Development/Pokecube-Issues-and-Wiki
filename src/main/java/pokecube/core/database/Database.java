@@ -484,7 +484,7 @@ public class Database
                     e.mobType = base.mobType;
                     e.catchRate = base.catchRate;
                     e.mass = base.mass;
-                    PokecubeAPI.logDebug("Error with " + e);
+                    PokecubeAPI.logDebug("Error with height for " + e);
                 }
                 if (e.type1 == null)
                 {
@@ -583,7 +583,7 @@ public class Database
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error with " + file, e);
+                PokecubeAPI.LOGGER.error("Error with recipes file " + file, e);
             }
         });
     }
@@ -619,7 +619,7 @@ public class Database
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.error("Error with " + file, e);
+                PokecubeAPI.LOGGER.error("Error with rewards file " + file, e);
             }
         });
     }

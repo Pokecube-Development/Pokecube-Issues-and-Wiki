@@ -188,7 +188,7 @@ public class AnimationLoader
                 else if (name.equals("textures")) texPhases.add(phase);
                 else if (AnimationRegistry.animations.containsKey(name))
                 {
-                    if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
+                    if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Loading " + name + " for " + holder.name);
                     try
                     {
                         final Animation anim = AnimationRegistry.make(phase, null);
@@ -203,7 +203,7 @@ public class AnimationLoader
                 // Handle manual animations
                 else if (phase.type != null)
             {
-                if (ThutCore.conf.debug)
+                if (ThutCore.conf.debug_models)
                     ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
                 final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
                 if (anim != null) tblAnims.add(anim);
@@ -413,7 +413,7 @@ public class AnimationLoader
         {
             InputStream stream = ResourceHelper.getStream(animations, Minecraft.getInstance().getResourceManager());
             if (stream == null) throw new FileNotFoundException(animations.toString());
-            if (ThutCore.conf.debug) ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
+            if (ThutCore.conf.debug_models) ThutCore.LOGGER.debug("Loading " + animations + " for " + holder.name);
             AnimationLoader.parse(stream, holder, model, renderer);
             stream.close();
             return true;

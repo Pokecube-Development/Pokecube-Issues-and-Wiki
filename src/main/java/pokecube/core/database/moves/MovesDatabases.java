@@ -80,7 +80,8 @@ public class MovesDatabases
             }
         });
 
-        PokecubeAPI.logInfo("Loaded {} moves and {} animations", movesToLoad.size(), animsToLoad.size());
+        if (PokecubeCore.getConfig().debug_data)
+            PokecubeAPI.logInfo("Loaded {} moves and {} animations", movesToLoad.size(), animsToLoad.size());
 
         List<Move> loadedMoves = new ArrayList<>();
 
@@ -151,8 +152,7 @@ public class MovesDatabases
             // Let the GZMoveManager process the move as well
             GZMoveManager.process(entry);
         }
-
-        PokecubeAPI.logInfo("Registered {} moves", loadedMoves.size());
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered {} moves", loadedMoves.size());
     }
 
     public static void postInitMoves()

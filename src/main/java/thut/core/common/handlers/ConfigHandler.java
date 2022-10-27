@@ -27,6 +27,7 @@ public class ConfigHandler extends ConfigData
     private static final String MISC = "misc";
     private static final String CLIENT = "client";
     private static final String WORLD = "generation";
+    private static final String DEBUG = "debug";
 
     @Configure(category = WORLD, comment = "Structures listed here will have the relevant subbiome applied for if minecraft thinks that the block is inside the structure.")
     public List<String> structure_subbiomes = Lists.newArrayList(
@@ -66,8 +67,6 @@ public class ConfigHandler extends ConfigData
     @Configure(category = ConfigHandler.BLOCKENTITY)
     public boolean autoBlacklistErroredTEs = true;
     @Configure(category = ConfigHandler.MISC)
-    public boolean debug = false;
-    @Configure(category = ConfigHandler.MISC)
     public boolean supress_warns = false;
 
     @Configure(category = ConfigHandler.CLIENT)
@@ -75,6 +74,13 @@ public class ConfigHandler extends ConfigData
 
     @Configure(category = ConfigHandler.CLIENT)
     public double modelCullThreshold = 1e-1;
+
+    @Configure(category = ConfigHandler.DEBUG)
+    public boolean debug = false;
+    @Configure(category = ConfigHandler.DEBUG)
+    public boolean debug_data = false;
+    @Configure(category = ConfigHandler.DEBUG)
+    public boolean debug_models = false;
 
     public ConfigHandler()
     {

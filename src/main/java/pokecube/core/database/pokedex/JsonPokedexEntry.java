@@ -305,7 +305,8 @@ public class JsonPokedexEntry
             entry.texture = new ResourceLocation(tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(anim + entry.getTrimmedName() + ".xml");
 
-            PokecubeAPI.logInfo("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
+            if (PokecubeCore.getConfig().debug_data)
+                PokecubeAPI.logInfo("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
         }
 
         if (this.pose_shapes != null && !this.pose_shapes.isEmpty())
@@ -370,7 +371,7 @@ public class JsonPokedexEntry
             }
         });
 
-        PokecubeAPI.logInfo("Loaded {} Pokemobs", toLoad.size());
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded {} Pokemobs", toLoad.size());
 
         List<JsonPokedexEntry> loaded = LOADED;
         loaded.clear();

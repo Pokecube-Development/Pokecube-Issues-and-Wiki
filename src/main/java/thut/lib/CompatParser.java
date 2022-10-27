@@ -26,11 +26,9 @@ public class CompatParser
 
             synchronized (ClassFinder.OPTIONS)
             {
-                FMLLoader.getLoadingModList().getMods().forEach(i ->
-                {
+                FMLLoader.getLoadingModList().getMods().forEach(i -> {
                     final Set<ClassData> classes = i.getOwningFile().getFile().getScanResult().getClasses();
-                    classes.forEach(c ->
-                    {
+                    classes.forEach(c -> {
                         ClassFinder.OPTIONS.put(c.clazz().getClassName(), i.getOwningFile().getFile());
                     });
                 });
@@ -47,8 +45,7 @@ public class CompatParser
         {
             ClassFinder.checkOptions();
             final List<Class<?>> ret = Lists.newArrayList();
-            ClassFinder.OPTIONS.keySet().forEach(c ->
-            {
+            ClassFinder.OPTIONS.keySet().forEach(c -> {
                 if (!c.startsWith(packageName)) return;
                 if (!valid.apply(ClassFinder.OPTIONS.get(c), c)) return;
                 try
@@ -60,7 +57,8 @@ public class CompatParser
                     e.printStackTrace();
                 }
             });
-            ThutCore.LOGGER.info("Found {} classes in package {}", ret.size(), packageName);
+            if (ThutCore.conf.debug_data)
+                ThutCore.LOGGER.info("Found {} classes in package {}", ret.size(), packageName);
             return ret;
         }
 
