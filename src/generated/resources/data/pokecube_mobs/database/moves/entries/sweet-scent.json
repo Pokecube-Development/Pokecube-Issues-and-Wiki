@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "status",
-  "flavor_text": "A sweet scent that harshly lowers opposing\nPokémon’s evasiveness.",
+  "flavor_text": "A sweet scent that harshly lowers opposing Pokémon’s evasiveness.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's evasion by one stage.",

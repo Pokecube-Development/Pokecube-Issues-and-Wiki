@@ -2,9 +2,11 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
 
+@AbilityProvider(name = "zen-mode")
 public class ZenMode extends Ability
 {
 	private static PokedexEntry baseNormal;
@@ -22,10 +24,10 @@ public class ZenMode extends Ability
         if (ZenMode.noTurnBase) return;
         if (ZenMode.baseNormal == null)
         {
-        	ZenMode.baseNormal = Database.getEntry("Darmanitan");
-        	ZenMode.zenmodeNormal = Database.getEntry("Darmanitan Zen");
-        	ZenMode.baseGalar = Database.getEntry("Darmanitan Galar");
-        	ZenMode.zenmodeGalar = Database.getEntry("Darmanitan Zen Galar");
+        	ZenMode.baseNormal = Database.getEntry("darmanitan-standard");
+        	ZenMode.zenmodeNormal = Database.getEntry("darmanitan-zen");
+        	ZenMode.baseGalar = Database.getEntry("darmanitan-galar-standard");
+        	ZenMode.zenmodeGalar = Database.getEntry("darmanitan-galar-zen");
         	ZenMode.noTurnBase = ZenMode.baseNormal == null || ZenMode.zenmodeNormal == null; 
             if (ZenMode.noTurnBase) return;
         }

@@ -161,7 +161,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         }
         if (this.ability != null)
         {
-            this.ability.destroy();
+            this.ability.destroy(this.pokemob);
             this.ability = null;
         }
         final ItemStack stack = this.itemstore.getStackInSlot(0);
@@ -171,7 +171,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
         if (this.pokemob != null && this.pokemob.getAbility() != null)
         {
             this.ability = this.pokemob.getAbility();
-            this.ability.destroy();
+            this.ability.destroy(this.pokemob);
             this.pokemob.getEntity().setPos(this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
                     this.getBlockPos().getZ() + 0.5);
             this.ability.init(this.pokemob, this.distance);
@@ -238,7 +238,7 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
     public void setRemoved()
     {
         super.setRemoved();
-        if (this.ability != null) this.ability.destroy();
+        if (this.ability != null) this.ability.destroy(this.pokemob);
         PokecubeAPI.POKEMOB_BUS.unregister(this);
     }
 

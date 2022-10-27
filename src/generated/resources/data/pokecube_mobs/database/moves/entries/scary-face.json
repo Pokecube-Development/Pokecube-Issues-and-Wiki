@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user frightens the target with a scary face to\nharshly lower its Speed stat.",
+  "flavor_text": "The user frightens the target with a scary face to harshly lower its Speed stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's Speed by two stages.",

@@ -6,7 +6,7 @@
   "type": "ghost",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "After using this move, if the user faints, the\nPokémon that landed the knockout hit also faints.\nIts chance of failing rises if it is used in succession.",
+  "flavor_text": "After using this move, if the user faints, the Pokémon that landed the knockout hit also faints. Its chance of failing rises if it is used in succession.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "If the user faints before its next move, the Pokémon that fainted it will automatically faint.  End-of-turn damage is ignored.\n\nThis move cannot be selected by assist or metronome.",

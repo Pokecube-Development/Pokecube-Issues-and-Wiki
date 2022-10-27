@@ -6,7 +6,7 @@
   "type": "electric",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "If the target is electrified before it uses a move\nduring that turn, the target’s move becomes\nElectric type.",
+  "flavor_text": "If the target is electrified before it uses a move during that turn, the target’s move becomes Electric type.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Changes the target's move's type to electric if it hasn't moved yet this turn.",

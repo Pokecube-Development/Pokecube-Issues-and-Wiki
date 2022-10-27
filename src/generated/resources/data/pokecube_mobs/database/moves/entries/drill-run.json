@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user crashes into its target while rotating its\nbody like a drill. Critical hits land more easily.",
+  "flavor_text": "The user crashes into its target while rotating its body like a drill. Critical hits land more easily.",
   "move_category": "damage",
   "crit_rate": 1,
   "ailment": "none",

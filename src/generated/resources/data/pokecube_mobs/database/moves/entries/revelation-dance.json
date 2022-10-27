@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target by dancing very hard.\nThe user’s type determines the type of this move.",
+  "flavor_text": "The user attacks the target by dancing very hard. The user’s type determines the type of this move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  This move's type matches the user's first type, if any; otherwise, it's typeless.",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "physical",
-  "flavor_text": "This move also hits opposing Pokémon that are in\nthe air. Those Pokémon are knocked down to\nthe ground.",
+  "flavor_text": "This move also hits opposing Pokémon that are in the air. Those Pokémon are knocked down to the ground.",
   "move_category": "damage",
   "ailment_chance": 100,
   "ailment": "unknown",

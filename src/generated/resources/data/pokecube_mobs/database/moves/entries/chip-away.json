@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Looking for an opening, the user strikes consistently.\nThe target’s stat changes don’t affect this\nattack’s damage.",
+  "flavor_text": "Looking for an opening, the user strikes consistently. The target’s stat changes don’t affect this attack’s damage.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Damage calculation ignores the target's stat modifiers, including evasion.",

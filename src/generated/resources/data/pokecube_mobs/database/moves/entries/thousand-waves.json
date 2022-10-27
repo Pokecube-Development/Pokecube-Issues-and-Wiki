@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "physical",
-  "flavor_text": "The user attacks with a wave that crawls along the\nground. Those hit can’t flee from battle.",
+  "flavor_text": "The user attacks with a wave that crawls along the ground. Those hit can’t flee from battle.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Traps the target.",

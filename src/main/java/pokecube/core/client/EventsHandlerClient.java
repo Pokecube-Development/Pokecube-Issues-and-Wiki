@@ -64,7 +64,6 @@ import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.GuiArranger;
@@ -80,6 +79,7 @@ import pokecube.core.init.ClientSetupHandler;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.animations.MoveAnimationHelper;
+import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
 import pokecube.core.proxy.ClientProxy;
@@ -164,9 +164,9 @@ public class EventsHandlerClient
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
-            LivingEntity target = BrainUtils.getAttackTarget(pokemob.getEntity());
-            if (target != null && !pokemob.getGeneralState(GeneralStates.MATING))
-                EventsHandlerClient.setMostDamagingMove(pokemob, target);
+            Entity target = pokemob.getEntity().getLevel().getEntity(pokemob.getTargetID());
+            if (target instanceof LivingEntity living && !pokemob.getGeneralState(GeneralStates.MATING))
+                EventsHandlerClient.setMostDamagingMove(pokemob, living);
         }
         if (PokecubeCore.getConfig().autoRecallPokemobs)
         {
@@ -334,12 +334,20 @@ public class EventsHandlerClient
         if (ClientSetupHandler.mobMove3.consumeClick()) GuiDisplayPokecubeInfo.instance().setMove(2);
         if (ClientSetupHandler.mobMove4.consumeClick()) GuiDisplayPokecubeInfo.instance().setMove(3);
 
-        if (ClientSetupHandler.gzmove.consumeClick())
+        final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
+        if (current != null)
         {
-            final IPokemob current = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
-            if (current != null) PacketCommand.sendCommand(current, Command.STANCE,
-                    new StanceHandler(!current.getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE)
-                            .setFromOwner(true));
+            if (ClientSetupHandler.previousAlly.consumeClick()) PacketBattleTargets.cycleAlly(current, true);
+            if (ClientSetupHandler.nextAlly.consumeClick()) PacketBattleTargets.cycleAlly(current, false);
+            if (ClientSetupHandler.previousTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, true);
+            if (ClientSetupHandler.nextTarget.consumeClick()) PacketBattleTargets.cycleEnemy(current, false);
+
+            if (ClientSetupHandler.gzmove.consumeClick())
+            {
+                PacketCommand.sendCommand(current, Command.STANCE,
+                        new StanceHandler(!current.getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE)
+                                .setFromOwner(true));
+            }
         }
     }
 

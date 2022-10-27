@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user employs its psychic power to switch\nchanges to its Defense and Sp. Def stats with\nthe target.",
+  "flavor_text": "The user employs its psychic power to switch changes to its Defense and Sp. Def stats with the target.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "User swaps its Defense and Special Defense modifiers with the target.",

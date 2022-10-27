@@ -406,7 +406,6 @@ public abstract class PokemobAI extends PokemobEvolves
             }
             if (entity == null || remote) return;
             this.setLogicState(LogicStates.SITTING, false);
-            this.setTargetID(entity.getId());
             this.setCombatState(CombatStates.ANGRY, true);
             if (this.getAbility() != null) this.getAbility().onAgress(this, entity);
         }
@@ -422,6 +421,18 @@ public abstract class PokemobAI extends PokemobEvolves
     public void setTargetID(final int id)
     {
         this.dataSync.set(this.params.ATTACKTARGETIDDW, Integer.valueOf(id));
+    }
+
+    @Override
+    public int getAllyID()
+    {
+        return this.dataSync.get(this.params.ALLYTARGETIDDW);
+    }
+
+    @Override
+    public void setAllyID(final int id)
+    {
+        this.dataSync.set(this.params.ALLYTARGETIDDW, Integer.valueOf(id));
     }
 
 }

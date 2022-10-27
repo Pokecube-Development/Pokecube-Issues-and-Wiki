@@ -7,7 +7,7 @@
   "type": "ghost",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "After obtaining Z-Power, the user, Marshadow,\npunches and kicks the target consecutively\nwith full force.",
+  "flavor_text": "After obtaining Z-Power, the user, Marshadow, punches and kicks the target consecutively with full force.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

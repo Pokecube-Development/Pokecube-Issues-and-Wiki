@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user lashes out to vent its frustration toward\nthe target. If the user’s stats were lowered during this\nturn, the power of this move is doubled.",
+  "flavor_text": "The user lashes out to vent its frustration toward the target. If the user’s stats were lowered during this turn, the power of this move is doubled.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

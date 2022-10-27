@@ -6,7 +6,7 @@
   "type": "dark",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user sharpens its claws to boost its Attack stat\nand accuracy.",
+  "flavor_text": "The user sharpens its claws to boost its Attack stat and accuracy.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack and accuracy by one stage.",

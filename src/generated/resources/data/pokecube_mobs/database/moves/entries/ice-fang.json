@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user bites with cold-infused fangs. This may\nalso make the target flinch or leave it frozen.",
+  "flavor_text": "The user bites with cold-infused fangs. This may also make the target flinch or leave it frozen.",
   "move_category": "damage+ailment",
   "flinch_chance": 10,
   "ailment_chance": 10,

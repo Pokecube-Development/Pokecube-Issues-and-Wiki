@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "A vortex of air is shot at the target to inflict damage.\nCritical hits land more easily.",
+  "flavor_text": "A vortex of air is shot at the target to inflict damage. Critical hits land more easily.",
   "move_category": "damage",
   "crit_rate": 1,
   "ailment": "none",

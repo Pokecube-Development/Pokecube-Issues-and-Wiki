@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks with an electric charge. The user\nmay use any remaining electricity to raise its\nSp. Atk stat.",
+  "flavor_text": "The user attacks with an electric charge. The user may use any remaining electricity to raise its Sp. Atk stat.",
   "move_category": "damage+raise",
   "stat_chance": 70,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user becomes a gigantic sword and cuts the target.\nThis move deals twice the damage if the target\nis Dynamaxed.",
+  "flavor_text": "The user becomes a gigantic sword and cuts the target. This move deals twice the damage if the target is Dynamaxed.",
   "move_category": "damage",
   "ailment": "none"
 }

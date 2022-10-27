@@ -3,6 +3,7 @@ package pokecube.mobs.abilities.complex;
 import java.util.List;
 
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
@@ -11,6 +12,7 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 
+@AbilityProvider(name = "steam-engine", singleton = false)
 public class SteamEngine extends Ability
 {
     int range = 4;
@@ -43,11 +45,5 @@ public class SteamEngine extends Ability
         final List<EntityPokemobEgg> eggs = mob.getEntity().getLevel().getEntitiesOfClass(EntityPokemobEgg.class,
                 v.getAABB().expandTowards(this.range, this.range, this.range));
         for (final EntityPokemobEgg egg : eggs) egg.incubateEgg();
-    }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
     }
 }

@@ -7,7 +7,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "An earsplitting screech harshly lowers the target’s\nDefense stat.",
+  "flavor_text": "An earsplitting screech harshly lowers the target’s Defense stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's Defense by two stages.",

@@ -2,9 +2,11 @@ package pokecube.mobs.abilities.simple;
 
 import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication;
 
+@AbilityProvider(name = "airlock")
 public class Airlock extends Ability
 {
     @Override

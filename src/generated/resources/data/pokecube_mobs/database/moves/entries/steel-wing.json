@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is hit with wings of steel. This may also\nraise the user’s Defense stat.",
+  "flavor_text": "The target is hit with wings of steel. This may also raise the user’s Defense stat.",
   "move_category": "damage+raise",
   "stat_chance": 10,
   "ailment": "none",

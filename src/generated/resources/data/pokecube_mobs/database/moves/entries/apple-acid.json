@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target with an acidic liquid created\nfrom tart apples. This also lowers the target’s\nSp. Def stat.",
+  "flavor_text": "The user attacks the target with an acidic liquid created from tart apples. This also lowers the target’s Sp. Def stat.",
   "move_category": "damage+lower",
   "stat_chance": 100,
   "ailment": "none",

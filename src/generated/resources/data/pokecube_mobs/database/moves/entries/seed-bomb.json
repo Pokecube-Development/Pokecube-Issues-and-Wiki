@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user slams a barrage of hard-shelled seeds\ndown on the target from above.",
+  "flavor_text": "The user slams a barrage of hard-shelled seeds down on the target from above.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

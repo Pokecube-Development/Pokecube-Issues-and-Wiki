@@ -7,7 +7,7 @@
   "type": "psychic",
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "Using a hyperspace hole, the user appears right\nnext to the target and strikes. This also hits a target\nusing a move such as Protect or Detect.",
+  "flavor_text": "Using a hyperspace hole, the user appears right next to the target and strikes. This also hits a target using a move such as Protect or Detect.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Bypasses and removes any protection effect on the target.",

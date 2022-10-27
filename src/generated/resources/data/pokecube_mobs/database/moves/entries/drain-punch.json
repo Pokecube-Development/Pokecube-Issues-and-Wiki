@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "An energy-draining punch. The user’s HP is restored\nby half the damage taken by the target.",
+  "flavor_text": "An energy-draining punch. The user’s HP is restored by half the damage taken by the target.",
   "move_category": "damage+heal",
   "drain": 50,
   "ailment": "none",

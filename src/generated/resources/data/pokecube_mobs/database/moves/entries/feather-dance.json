@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user covers the target’s body with a mass of\ndown that harshly lowers its Attack stat.",
+  "flavor_text": "The user covers the target’s body with a mass of down that harshly lowers its Attack stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack by two stages.",

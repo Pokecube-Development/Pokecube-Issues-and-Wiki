@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user employs its psychic power to switch stat\nchanges with the target.",
+  "flavor_text": "The user employs its psychic power to switch stat changes with the target.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "User swaps its stat modifiers with the target.",

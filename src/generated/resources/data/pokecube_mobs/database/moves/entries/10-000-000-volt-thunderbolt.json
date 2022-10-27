@@ -7,7 +7,7 @@
   "type": "electric",
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user, Pikachu wearing a cap, powers up a jolt of\nelectricity using its Z-Power and unleashes it.\nCritical hits land more easily.",
+  "flavor_text": "The user, Pikachu wearing a cap, powers up a jolt of electricity using its Z-Power and unleashes it. Critical hits land more easily.",
   "move_category": "damage",
   "crit_rate": 2,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "With a hot flame on its forehead, the user hurls itself\nat its target. This lowers the user’s Defense, Sp. Def,\nand Speed stats.",
+  "flavor_text": "With a hot flame on its forehead, the user hurls itself at its target. This lowers the user’s Defense, Sp. Def, and Speed stats.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

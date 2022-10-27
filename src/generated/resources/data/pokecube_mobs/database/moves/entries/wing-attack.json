@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is struck with large, imposing wings\nspread wide to inflict damage.",
+  "flavor_text": "The target is struck with large, imposing wings spread wide to inflict damage.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

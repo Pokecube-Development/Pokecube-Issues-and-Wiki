@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is hit with a flurry of punches that strike\ntwo to five times in a row.",
+  "flavor_text": "The target is hit with a flurry of punches that strike two to five times in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

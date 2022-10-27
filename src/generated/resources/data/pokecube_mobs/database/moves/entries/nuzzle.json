@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks by nuzzling its electrified cheeks\nagainst the target. This also leaves the target\nwith paralysis.",
+  "flavor_text": "The user attacks by nuzzling its electrified cheeks against the target. This also leaves the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "paralysis",

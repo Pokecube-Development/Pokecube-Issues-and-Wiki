@@ -6,7 +6,7 @@
   "type": "grass",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user lays roots that restore its HP on every turn.\nBecause it’s rooted, it can’t switch out.",
+  "flavor_text": "The user lays roots that restore its HP on every turn. Because it’s rooted, it can’t switch out.",
   "move_category": "ailment",
   "ailment": "ingrain",
   "effect_text_extend": "Prevents the user from switching out.  User regains 1/16 of its max HP at the end of every turn.  If the user was immune to ground attacks, it will now take normal damage from them.\n\nroar and whirlwind will not affect the user.  The user cannot use magnet rise.\n\nThe user may still use u turn to leave the field.\n\nThis effect can be passed with baton pass.",

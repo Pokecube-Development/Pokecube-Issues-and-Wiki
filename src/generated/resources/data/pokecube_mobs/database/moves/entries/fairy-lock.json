@@ -6,7 +6,7 @@
   "type": "fairy",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "By locking down the battlefield, the user keeps all\nPokémon from fleeing during the next turn.",
+  "flavor_text": "By locking down the battlefield, the user keeps all Pokémon from fleeing during the next turn.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "Prevents all Pokémon from fleeing or switching out during the next turn.",

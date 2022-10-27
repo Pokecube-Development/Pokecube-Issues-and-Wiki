@@ -7,7 +7,7 @@
   "type": "fire",
   "target": "selected-pokemon-me-first",
   "damage_class": "physical",
-  "flavor_text": "This is a Fire-type attack Dynamax Pokémon use.\nThe user intensifies the sun for five turns.",
+  "flavor_text": "This is a Fire-type attack Dynamax Pokémon use. The user intensifies the sun for five turns.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

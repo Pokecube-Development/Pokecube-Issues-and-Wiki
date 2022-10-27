@@ -42,10 +42,9 @@ import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
-import pokecube.api.utils.Tools;
 import pokecube.api.moves.utils.IMoveNames;
+import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.Resources;
@@ -216,6 +215,15 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         final int confuseOffsetX = 12;
         final int confuseOffsetY = 1;
 
+        float total, ratio;
+        int width, height, u, v;
+
+        int moveIndex = 0;
+        int moveCount = 0;
+        int x = hpOffsetX + 1;
+        int y = hpOffsetY + 1;
+        final float s = (float) PokecubeCore.getConfig().guiSize;
+
         final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
         {
@@ -224,33 +232,29 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             {
                 displayName = this.fontRenderer.split(pokemob.getDisplayName(), 70).get(0);
             }
+            total = pokemob.getMaxHealth();
+            ratio = pokemob.getHealth() / total;
             final int currentMoveIndex = pokemob.getMoveIndex();
             evt.getMat().pushPose();
-            final float s = (float) PokecubeCore.getConfig().guiSize;
             GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().guiRef,
                     PokecubeCore.getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
             // Render HP
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
+            width = (int) (92 * ratio);
+            height = 5;
+            u = 0;
+            v = 85;
             this.blit(evt.getMat(), hpOffsetX, hpOffsetY, 43, 12, 92, 7);
-            final float total = pokemob.getMaxHealth();
-            float ratio = pokemob.getHealth() / total;
-            int x = hpOffsetX + 1;
-            int y = hpOffsetY + 1;
-            int width = (int) (92 * ratio);
-            int height = 5;
-            int u = 0;
-            int v = 85;
             this.blit(evt.getMat(), x, y, u, v, width, height);
 
             // Render XP
             this.blit(evt.getMat(), xpOffsetX, xpOffsetY, 43, 19, 92, 5);
-
-            final int current = pokemob.getExp();
-            final int level = pokemob.getLevel();
-            final int prev = Tools.levelToXp(pokemob.getExperienceMode(), level);
-            final int next = Tools.levelToXp(pokemob.getExperienceMode(), level + 1);
-            final int levelDiff = next - prev;
-            final int diff = current - prev;
+            int current = pokemob.getExp();
+            int level = pokemob.getLevel();
+            int prev = Tools.levelToXp(pokemob.getExperienceMode(), level);
+            int next = Tools.levelToXp(pokemob.getExperienceMode(), level + 1);
+            int levelDiff = next - prev;
+            int diff = current - prev;
             ratio = diff / (float) levelDiff;
             if (level == 100) ratio = 1;
             x = xpOffsetX + 1;
@@ -265,7 +269,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             final float full_hunger = PokecubeCore.getConfig().pokemobLifeSpan / 4
                     + PokecubeCore.getConfig().pokemobLifeSpan;
             float current_hunger = -(pokemob.getHungerTime() - PokecubeCore.getConfig().pokemobLifeSpan);
-
             final float scale = 100f / full_hunger;
             current_hunger *= scale / 100f;
             current_hunger = Math.min(1, current_hunger);
@@ -288,7 +291,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             }
             if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
             {
-
                 evt.getMat().translate(0, 0, 100);
                 this.blit(evt.getMat(), confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
                 evt.getMat().translate(0, 0, -100);
@@ -315,8 +317,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
-            int moveIndex = 0;
-            int moveCount = 0;
             for (moveCount = 0; moveCount < 4; moveCount++) if (pokemob.getMove(moveCount) == null) break;
             int h = 0;
             if (dir == -1) h -= 14 + 12 * (moveCount - 1) - (4 - moveCount) * 2;
@@ -367,8 +367,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             // Render Mob
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
 
-            final int mobOffsetX = 0;
-            final int mobOffsetY = 0;
+            int mobOffsetX = 0;
+            int mobOffsetY = 0;
             RenderSystem.enableBlend();
             this.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
@@ -383,14 +383,48 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
             mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-            GuiPokemobHelper.renderMob(evt.getMat(), pokemob.getEntity(), mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0,
-                    0.75f, Minecraft.getInstance().getFrameTime());
+            GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f,
+                    Minecraft.getInstance().getFrameTime());
 
             mob.yBodyRot = yBodyRot;
             mob.yBodyRotO = yBodyRotO;
             mob.yHeadRot = yHeadRot;
             mob.yHeadRotO = yHeadRotO;
 
+            Entity ally = pokemob.getEntity().getLevel().getEntity(pokemob.getAllyID());
+            if (ally != null && ally != pokemob.getEntity() && ally instanceof LivingEntity living)
+            {
+                evt.getMat().pushPose();
+
+                evt.getMat().scale(0.5f, 0.5f, 0.5f);
+
+                RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
+
+                mobOffsetX = 45;
+                mobOffsetY = 80;
+                RenderSystem.enableBlend();
+                this.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
+
+                mob = living;
+
+                f = 30;
+                yBodyRot = mob.yBodyRot;
+                yBodyRotO = mob.yBodyRotO;
+                yHeadRot = mob.yHeadRot;
+                yHeadRotO = mob.yHeadRotO;
+
+                mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
+                mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
+
+                GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f,
+                        Minecraft.getInstance().getFrameTime());
+
+                mob.yBodyRot = yBodyRot;
+                mob.yBodyRotO = yBodyRotO;
+                mob.yHeadRot = yHeadRot;
+                mob.yHeadRotO = yHeadRotO;
+                evt.getMat().popPose();
+            }
             evt.getMat().popPose();
         }
     }
@@ -411,8 +445,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         render:
         if (pokemob != null)
         {
-            final LivingEntity entity = BrainUtils.getAttackTarget(pokemob.getEntity());
-            if (entity == null || !entity.isAlive()) break render;
+            Entity target = pokemob.getEntity().getLevel().getEntity(pokemob.getTargetID());
+            if (!(target instanceof LivingEntity entity) || !entity.isAlive()) break render;
 
             evt.getMat().pushPose();
             GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().targetRef,

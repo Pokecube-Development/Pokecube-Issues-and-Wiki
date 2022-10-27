@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks by engulfing the target in an\nintense, yet beautiful, blue flame. This may also leave\nthe target with a burn.",
+  "flavor_text": "The user attacks by engulfing the target in an intense, yet beautiful, blue flame. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "burn",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user charges its head into its target, using its\npowerful guard hair. This also damages the user\na little.",
+  "flavor_text": "The user charges its head into its target, using its powerful guard hair. This also damages the user a little.",
   "move_category": "damage",
   "drain": -25,
   "ailment": "none",

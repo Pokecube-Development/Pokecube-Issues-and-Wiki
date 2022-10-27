@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A second-turn attack move where critical hits land\nmore easily. This may also make the target flinch.",
+  "flavor_text": "A second-turn attack move where critical hits land more easily. This may also make the target flinch.",
   "move_category": "damage",
   "flinch_chance": 30,
   "crit_rate": 1,

@@ -7,7 +7,7 @@
   "type": "electric",
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "After obtaining Z-Power, the user, Alolan Raichu,\nattacks the target with full force. This move leaves\nthe target with paralysis.",
+  "flavor_text": "After obtaining Z-Power, the user, Alolan Raichu, attacks the target with full force. This move leaves the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "paralysis",

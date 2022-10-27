@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks with a sinister beam of light.\nThis may also confuse the target.",
+  "flavor_text": "The user attacks with a sinister beam of light. This may also confuse the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "confusion",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "This move prevents the user and the target from\nswitching out until either of them faints. The effect goes\naway if either of the Pokémon leaves the field.",
+  "flavor_text": "This move prevents the user and the target from switching out until either of them faints. The effect goes away if either of the Pokémon leaves the field.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage, then (if successful) sets leech seed on the target.",

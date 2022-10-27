@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user slashes at the target by crossing its\nscythes or claws as if they were a pair of scissors.",
+  "flavor_text": "The user slashes at the target by crossing its scythes or claws as if they were a pair of scissors.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

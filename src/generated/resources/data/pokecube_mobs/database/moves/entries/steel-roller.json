@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks while destroying the terrain. This move\nfails when the ground hasn’t turned into a terrain.",
+  "flavor_text": "The user attacks while destroying the terrain. This move fails when the ground hasn’t turned into a terrain.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

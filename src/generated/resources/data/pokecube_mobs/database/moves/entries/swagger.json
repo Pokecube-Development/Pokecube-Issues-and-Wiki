@@ -7,7 +7,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user enrages and confuses the target. However,\nthis also sharply raises the target’s Attack stat.",
+  "flavor_text": "The user enrages and confuses the target. However, this also sharply raises the target’s Attack stat.",
   "move_category": "swagger",
   "ailment": "confusion",
   "max_turns": 5,

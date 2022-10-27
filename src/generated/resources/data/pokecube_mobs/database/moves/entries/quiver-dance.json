@@ -6,7 +6,7 @@
   "type": "bug",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user lightly performs a beautiful, mystic dance.\nThis boosts the user’s Sp. Atk, Sp. Def, and\nSpeed stats.",
+  "flavor_text": "The user lightly performs a beautiful, mystic dance. This boosts the user’s Sp. Atk, Sp. Def, and Speed stats.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Special Attack, Special Defense, and Speed by one stage each.",

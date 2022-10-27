@@ -6,7 +6,7 @@
   "type": "fairy",
   "target": "all-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user raises the Defense stat of all Grass-type\nPokémon in battle with a mysterious power.",
+  "flavor_text": "The user raises the Defense stat of all Grass-type Pokémon in battle with a mysterious power.",
   "move_category": "unique",
   "stat_chance": 100,
   "ailment": "none",

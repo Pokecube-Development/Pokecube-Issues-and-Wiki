@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user just flops and splashes around to no effect\nat all...",
+  "flavor_text": "The user just flops and splashes around to no effect at all...",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Does nothing.\n\nThis move cannot be used while gravity is in effect.",

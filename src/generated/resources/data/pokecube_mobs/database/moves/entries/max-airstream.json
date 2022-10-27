@@ -7,7 +7,7 @@
   "type": "flying",
   "target": "selected-pokemon-me-first",
   "damage_class": "physical",
-  "flavor_text": "This is a Flying-type attack Dynamax Pokémon use.\nThis raises ally Pokémon’s Speed stats.",
+  "flavor_text": "This is a Flying-type attack Dynamax Pokémon use. This raises ally Pokémon’s Speed stats.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

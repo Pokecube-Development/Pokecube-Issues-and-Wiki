@@ -10,12 +10,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.vitamins.ItemCandy;
 
+@AbilityProvider(name = "pickup")
 public class Pickup extends Ability
 {
     public static ResourceLocation lootTable    = new ResourceLocation("pokecube_mobs", "abilities/pickup");

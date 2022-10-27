@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user adds its HP to the target’s HP, then equally\nshares the combined HP with the target.",
+  "flavor_text": "The user adds its HP to the target’s HP, then equally shares the combined HP with the target.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Changes the user's and target's remaining HP to the average of their current remaining HP.  Ignores accuracy and evasion modifiers.  This effect does not count as inflicting damage for other moves and effects that respond to damage taken.\n\nThis effect fails against a substitute.",

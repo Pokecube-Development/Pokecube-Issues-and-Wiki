@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks by igniting a small stone and launching\nit as a fiery ball at the target. This may also leave the\ntarget with a burn.",
+  "flavor_text": "The user attacks by igniting a small stone and launching it as a fiery ball at the target. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "burn",

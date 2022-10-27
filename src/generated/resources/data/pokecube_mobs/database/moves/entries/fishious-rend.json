@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user rends the target with its hard gills.\nIf the user attacks before the target, the power of this\nmove is doubled.",
+  "flavor_text": "The user rends the target with its hard gills. If the user attacks before the target, the power of this move is doubled.",
   "move_category": "damage",
   "ailment": "none"
 }

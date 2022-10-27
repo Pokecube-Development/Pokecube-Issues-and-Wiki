@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "On the second turn, an ultracold, freezing wind\nsurrounds the target. This may leave the target with\na burn.",
+  "flavor_text": "On the second turn, an ultracold, freezing wind surrounds the target. This may leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "burn",

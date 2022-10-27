@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target with its psychic power.\nThis move’s power goes up and damages all opposing\nPokémon on Psychic Terrain.",
+  "flavor_text": "The user attacks the target with its psychic power. This move’s power goes up and damages all opposing Pokémon on Psychic Terrain.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

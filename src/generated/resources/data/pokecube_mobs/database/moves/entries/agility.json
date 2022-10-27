@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user relaxes and lightens its body to move\nfaster. This sharply raises the Speed stat.",
+  "flavor_text": "The user relaxes and lightens its body to move faster. This sharply raises the Speed stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Speed by two stages.",

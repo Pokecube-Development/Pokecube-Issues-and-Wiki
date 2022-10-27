@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "Unsanitary sludge is hurled at the target. This may\nalso poison the target.",
+  "flavor_text": "Unsanitary sludge is hurled at the target. This may also poison the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "poison",

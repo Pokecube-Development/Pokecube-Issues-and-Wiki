@@ -4,10 +4,10 @@ from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_na
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
+from advancements_generator import make_advancments
 import os
 from glob import glob
 import shutil
-from types import SimpleNamespace
 
 MEGA_SUFFIX = [
     '-mega',
@@ -19,7 +19,7 @@ MEGA_SUFFIX = [
 ]
 GMAX_SUFFIX = [
     '-gmax',
-    '=eternamax',
+    '-eternamax',
 ]
 
 def is_mega(name):
@@ -551,6 +551,9 @@ def convert_pokedex():
         json.dump(var, file, indent=2)
         file.close()
 
+        # And also make the advancements
+        make_advancments(var["name"])
+
         # Now lets make a template file which will remove each entry.
         file = f'../../example_datapacks/_removal_template_/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
         var = {"remove": True,"priority":0}
@@ -560,7 +563,38 @@ def convert_pokedex():
         json.dump(var, file, indent=2)
         file.close()
 
+def make_ability_langs():
+    ability_index = utils.get_valid_numbers('ability')
+
+    lang_files = {}
+
+    for name, number in ability_index.items():
+        var = utils.get('ability', number)
+        for name in var.names:
+            _name = name.name
+            lang = utils.get('language', url_to_id(name.language))
+            key = f'{lang.iso639}_{lang.iso3166}.json'
+            items = {}
+            if key in lang_files:
+                items = lang_files[key]
+            items[f"ability.{var.name}.name"] = _name
+            lang_files[key] = items
+
+    for key, dict in lang_files.items():
+        # Output a lang file for the entries
+        file = f'../../src/generated/resources/assets/pokecube_abilities/lang/{key}'
+        if not os.path.exists(os.path.dirname(file)):
+            os.makedirs(os.path.dirname(file))
+        try:
+            file = open(file, 'w', encoding='utf-8')
+            json.dump(dict, file, indent=2, ensure_ascii=False)
+            file.close()
+        except Exception as err:
+            print(f'error saving for {key}')
+            print(err)
+
 if __name__ == "__main__":
     convert_pokedex()
     convert_tags()
     convert_assets()
+    make_ability_langs()

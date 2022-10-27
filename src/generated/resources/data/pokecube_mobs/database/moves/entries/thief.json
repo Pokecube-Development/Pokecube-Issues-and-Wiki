@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks and steals the target’s held item\nsimultaneously. The user can’t steal anything if it\nalready holds an item.",
+  "flavor_text": "The user attacks and steals the target’s held item simultaneously. The user can’t steal anything if it already holds an item.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target is holding an item and the user is not, the user will permanently take the item.  Damage is still inflicted if an item cannot be taken.\n\nPokémon with sticky hold or multitype are immune to the item theft effect.\n\nThe target cannot recover its item with recycle.\n\nThis move cannot be selected by assist or metronome.",

@@ -2,11 +2,13 @@ package pokecube.mobs.abilities.simple;
 
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.utils.EntityTools;
 
+@AbilityProvider(name = "power-spot")
 public class PowerSpot extends Ability
 {
     @Override

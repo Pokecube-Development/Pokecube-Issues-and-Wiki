@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks everything around it by swamping\nits surroundings with a giant wave.",
+  "flavor_text": "The user attacks everything around it by swamping its surroundings with a giant wave.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.\n\nIf the target is in the first turn of dive, this move will hit with double power.",

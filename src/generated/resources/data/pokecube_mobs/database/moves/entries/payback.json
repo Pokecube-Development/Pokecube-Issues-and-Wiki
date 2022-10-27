@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user stores power, then attacks. If the user\nmoves after the target, this attack’s power will\nbe doubled.",
+  "flavor_text": "The user stores power, then attacks. If the user moves after the target, this attack’s power will be doubled.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If the target uses a move or switches out this turn before this move is used, this move has double power.",

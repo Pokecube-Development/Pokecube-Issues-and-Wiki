@@ -7,7 +7,7 @@
   "type": "bug",
   "target": "selected-pokemon-me-first",
   "damage_class": "physical",
-  "flavor_text": "This is a Bug-type attack Dynamax Pokémon use.\nThis lowers the target’s Sp. Atk stat.",
+  "flavor_text": "This is a Bug-type attack Dynamax Pokémon use. This lowers the target’s Sp. Atk stat.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

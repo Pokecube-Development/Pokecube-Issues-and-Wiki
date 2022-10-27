@@ -7,7 +7,7 @@
   "type": "ghost",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user, Decidueye, creates countless arrows\nusing its Z-Power and shoots the target with\nfull force.",
+  "flavor_text": "The user, Decidueye, creates countless arrows using its Z-Power and shoots the target with full force.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

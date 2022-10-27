@@ -6,7 +6,7 @@
   "type": "poison",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "In addition to protecting the user from attacks, this\nmove also poisons any attacker that makes\ndirect contact.",
+  "flavor_text": "In addition to protecting the user from attacks, this move also poisons any attacker that makes direct contact.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Grants the user protection for the rest of the turn.  If a Pokémon attempts to use a move that makes contact with the user, that Pokémon will be poisoned.  This move's chance of success halves every time it's used consecutively with any other protection move.",

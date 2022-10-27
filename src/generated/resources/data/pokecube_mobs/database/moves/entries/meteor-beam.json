@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "In this two-turn attack, the user gathers space power\nand boosts its Sp. Atk stat, then attacks the target\non the next turn.",
+  "flavor_text": "In this two-turn attack, the user gathers space power and boosts its Sp. Atk stat, then attacks the target on the next turn.",
   "move_category": "damage",
   "ailment_chance": 100,
   "ailment": "none",

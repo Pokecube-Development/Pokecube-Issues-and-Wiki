@@ -7,7 +7,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "A move that leaves the target badly poisoned.\nIts poison damage worsens every turn.",
+  "flavor_text": "A move that leaves the target badly poisoned. Its poison damage worsens every turn.",
   "move_category": "ailment",
   "ailment": "poison",
   "max_turns": 15,

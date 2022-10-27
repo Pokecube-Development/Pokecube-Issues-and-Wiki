@@ -2,10 +2,12 @@ package pokecube.mobs.abilities.complex;
 
 import net.minecraft.server.level.ServerLevel;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.core.PokecubeCore;
 
+@AbilityProvider(name = "arena-trap", singleton = false)
 public class ArenaTrap extends Ability
 {
     // the part that usually prevents switching is still "TODO"
@@ -33,11 +35,5 @@ public class ArenaTrap extends Ability
             context = PokecubeCore.spawner.randomSpawnContext(context, 0, this.range);
             PokecubeCore.spawner.doSpawnForContext(context);
         }
-    }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
     }
 }

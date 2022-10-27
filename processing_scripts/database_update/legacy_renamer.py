@@ -7,6 +7,12 @@ TO_MODEL = {
 RENAMES = {
     "minior-red-meteor": "minior-meteor",
 }
+RENAMES = {
+    # Minior meteors are all the same externally, so the internals are handled in code
+    "minior-red-meteor": "minior-meteor",
+    # basculin red and blue stripes are essentially cosmetic, so merged to basculin
+    "basculin-red-striped": "basculin",
+}
 
 LEGACY_REV_MAP = {
     "missingno": "missingno",

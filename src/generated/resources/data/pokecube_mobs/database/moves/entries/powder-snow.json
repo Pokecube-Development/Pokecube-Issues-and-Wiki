@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user attacks with a chilling gust of powdery\nsnow. This may also freeze the opposing Pokémon.",
+  "flavor_text": "The user attacks with a chilling gust of powdery snow. This may also freeze the opposing Pokémon.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "freeze",

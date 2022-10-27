@@ -4,6 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.moves.utils.IMoveConstants;
@@ -12,6 +13,7 @@ import pokecube.core.moves.MovesUtils;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+@AbilityProvider(name = "synchronize", singleton = false)
 public class Synchronize extends Ability
 {
     Vector3 location = new Vector3();
@@ -19,7 +21,7 @@ public class Synchronize extends Ability
     int range = 16;
 
     @Override
-    public void destroy()
+    public void destroy(IPokemob mob)
     {
         if (ThutCore.proxy.isClientSide()) return;
         MinecraftForge.EVENT_BUS.unregister(this);
@@ -28,7 +30,7 @@ public class Synchronize extends Ability
     @SubscribeEvent
     public void editNature(SpawnEvent.Post event)
     {
-        if (!this.pokemob.getEntity().isAlive()) this.destroy();
+        if (!this.pokemob.getEntity().isAlive()) this.destroy(this.pokemob);
         else if (event.location().distToSq(this.location) < this.range * this.range && Math.random() > 0.5)
             event.pokemob.setNature(this.pokemob.getNature());
     }
@@ -69,11 +71,5 @@ public class Synchronize extends Ability
     {
         this.location.set(mob.getEntity());
         this.pokemob = mob;
-    }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
     }
 }

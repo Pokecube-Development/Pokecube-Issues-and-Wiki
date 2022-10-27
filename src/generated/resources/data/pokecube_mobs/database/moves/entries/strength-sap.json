@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user restores its HP by the same amount as the\ntarget’s Attack stat. It also lowers the target’s\nAttack stat.",
+  "flavor_text": "The user restores its HP by the same amount as the target’s Attack stat. It also lowers the target’s Attack stat.",
   "move_category": "unique",
   "stat_chance": 100,
   "ailment": "none",

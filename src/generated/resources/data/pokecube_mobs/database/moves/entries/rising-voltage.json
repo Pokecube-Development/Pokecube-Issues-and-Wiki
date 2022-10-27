@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks with electric voltage rising from\nthe ground. This move’s power doubles when the target\nis on Electric Terrain.",
+  "flavor_text": "The user attacks with electric voltage rising from the ground. This move’s power doubles when the target is on Electric Terrain.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

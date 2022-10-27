@@ -145,7 +145,8 @@ public class ItemGenerator
         {
             final int index = id;
             final BerryType berry = BerryManager.berryTypes.get(index);
-            PokecubeAPI.LOGGER.debug("Registering berry_" + berry.name + " " + index + " " + id);
+            if (PokecubeCore.getConfig().debug_data)
+                PokecubeAPI.LOGGER.info("Registering berry_" + berry.name + " " + index + " " + id);
             makeBerry(berry);
         }
     }

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user fights the target up close without guarding\nitself. This also lowers the user’s Defense and\nSp. Def stats.",
+  "flavor_text": "The user fights the target up close without guarding itself. This also lowers the user’s Defense and Sp. Def stats.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

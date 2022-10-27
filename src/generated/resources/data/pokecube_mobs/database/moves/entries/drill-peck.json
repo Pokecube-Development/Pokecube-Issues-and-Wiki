@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A corkscrewing attack with a sharp beak acting as\na drill.",
+  "flavor_text": "A corkscrewing attack with a sharp beak acting as a drill.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

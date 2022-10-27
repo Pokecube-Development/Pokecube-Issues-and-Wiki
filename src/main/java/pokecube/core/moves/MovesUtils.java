@@ -685,6 +685,7 @@ public class MovesUtils implements IMoveConstants
         if (battle != null)
         {
             targets.addAll(battle.getAllies(mob));
+            if (pokemob.getOwner() != null) targets.add(pokemob.getOwner());
             targets.addAll(battle.getEnemies(mob));
             // If we are in battle, lets deal with that here.
             targets.forEach(s -> {

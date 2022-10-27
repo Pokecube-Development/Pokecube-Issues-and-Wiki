@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user spits fluid that works to melt the target.\nThis harshly lowers the target’s Sp. Def stat.",
+  "flavor_text": "The user spits fluid that works to melt the target. This harshly lowers the target’s Sp. Def stat.",
   "move_category": "damage+lower",
   "stat_chance": 100,
   "ailment": "none",

@@ -7,7 +7,7 @@
   "type": "dark",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user pretends to bow its head, but then it stabs the\ntarget with its disheveled hair. This attack never misses.",
+  "flavor_text": "The user pretends to bow its head, but then it stabs the target with its disheveled hair. This attack never misses.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Ignores accuracy and evasion modifiers.",

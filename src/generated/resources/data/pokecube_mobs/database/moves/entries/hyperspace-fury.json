@@ -7,7 +7,7 @@
   "type": "dark",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Using its many arms, the user unleashes a barrage of\nattacks that ignore the effects of moves like Protect\nand Detect. But the user’s Defense stat falls.",
+  "flavor_text": "Using its many arms, the user unleashes a barrage of attacks that ignore the effects of moves like Protect and Detect. But the user’s Defense stat falls.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

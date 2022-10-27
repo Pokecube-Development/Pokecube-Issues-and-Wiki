@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target is attacked with powdery scales blown\nby the wind. This may also raise all the user’s stats.",
+  "flavor_text": "The target is attacked with powdery scales blown by the wind. This may also raise all the user’s stats.",
   "move_category": "damage+raise",
   "stat_chance": 10,
   "ailment": "none",

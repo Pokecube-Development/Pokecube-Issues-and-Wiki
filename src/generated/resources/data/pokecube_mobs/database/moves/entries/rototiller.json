@@ -6,7 +6,7 @@
   "type": "ground",
   "target": "all-pokemon",
   "damage_class": "status",
-  "flavor_text": "Tilling the soil, the user makes it easier for plants to\ngrow. This raises the Attack and Sp. Atk stats of\nGrass-type Pokémon.",
+  "flavor_text": "Tilling the soil, the user makes it easier for plants to grow. This raises the Attack and Sp. Atk stats of Grass-type Pokémon.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

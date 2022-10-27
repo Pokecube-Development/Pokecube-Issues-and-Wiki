@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user brings down a giant flame. This move’s\npower is increased when influenced by an enormous\nlightning bolt.",
+  "flavor_text": "The user brings down a giant flame. This move’s power is increased when influenced by an enormous lightning bolt.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If a friendly Pokémon used fusion bolt earlier this turn, this move has double power.",

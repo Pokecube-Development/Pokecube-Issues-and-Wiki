@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks with a prehistoric power.\nThis may also raise all the user’s stats at once.",
+  "flavor_text": "The user attacks with a prehistoric power. This may also raise all the user’s stats at once.",
   "move_category": "damage+raise",
   "stat_chance": 10,
   "ailment": "none",

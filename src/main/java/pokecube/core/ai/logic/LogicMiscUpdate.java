@@ -36,6 +36,7 @@ import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
@@ -398,32 +399,60 @@ public class LogicMiscUpdate extends LogicBase
                 }
             }
         }
-        final int id = this.pokemob.getTargetID();
-
         // Ensure our pose matches what we are doing
         this.checkPose();
         // This is used server side as well, for hitbox positions.
         this.checkAnimationStates();
 
-        final LivingEntity targ = BrainUtils.getAttackTarget(this.entity);
+        // Ensure battle targets are kept synced, and then end of server side
+        // logic here.
         if (this.entity.getLevel() instanceof ServerLevel)
         {
-            if (targ != null && targ.isAlive())
+            Battle b = Battle.getBattle(entity);
+            pokemob.setBattle(b);
+
+            if (b == null && pokemob.inCombat())
             {
-                this.pokemob.setTargetID(targ.getId());
+                LivingEntity target = entity.getTarget();
+                if (target != null) Battle.createOrAddToBattle(entity, target);
+
+                b = Battle.getBattle(entity);
+                pokemob.setBattle(b);
+            }
+
+            if (b == null)
+            {
+                this.pokemob.setTargetID(-1);
+                this.pokemob.setAllyID(-1);
+                if (pokemob.isPlayerOwned())
+                {
+                    System.out.println("Battle over!");
+                }
                 return;
             }
-            this.pokemob.setTargetID(-1);
+
+            List<LivingEntity> mobs = b.getEnemies(entity);
+
+            int targetIndex = pokemob.getMoveStats().enemyIndex;
+            if (targetIndex < 0) targetIndex = mobs.size() - 1;
+
+            LivingEntity target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
+            pokemob.setTargetID(target == null ? -1 : target.id);
+            if (target != BrainUtils.getAttackTarget(entity)) BrainUtils.setAttackTarget(entity, target);
+            mobs = b.getAllies(entity);
+            int allyIndex = pokemob.getMoveStats().allyIndex % (mobs.size() + 1);
+            if (allyIndex < 0) allyIndex = mobs.size();
+            if (allyIndex == mobs.size())
+            {
+                // Ally is owner
+                if (pokemob.getOwner() != null) pokemob.setAllyID(pokemob.getOwner().id);
+            }
+            else
+            {
+                pokemob.setAllyID(mobs.get(allyIndex).id);
+            }
             return;
         }
-
-        // Everything below here is client side only!
-
-        if (id >= 0 && targ == null
-                && PokecubeAPI.getEntityProvider().getEntity(world, id, false) instanceof LivingEntity living)
-            this.entity.setTarget(living);
-        if (id < 0 && targ != null) this.entity.setTarget(null);
-        if (targ != null && !targ.isAlive()) this.entity.setTarget(null);
 
         // Particle stuff below here, WARNING, RESETTING RNG HERE
         rand = ThutCore.newRandom();

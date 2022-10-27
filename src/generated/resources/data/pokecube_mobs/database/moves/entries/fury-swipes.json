@@ -8,7 +8,7 @@
   "accuracy": 80,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is raked with sharp claws or scythes\nquickly two to five times in a row.",
+  "flavor_text": "The target is raked with sharp claws or scythes quickly two to five times in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user hides in the target’s shadow, steals\nthe target’s stat boosts, and then attacks.",
+  "flavor_text": "The user hides in the target’s shadow, steals the target’s stat boosts, and then attacks.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Steals the target's stat increases, then inflicts regular damage.  Will not steal stat increases that would put any of the user's stats at more than +6; any excess is left on the target.  Stolen increases are affected by abilities as normal.",

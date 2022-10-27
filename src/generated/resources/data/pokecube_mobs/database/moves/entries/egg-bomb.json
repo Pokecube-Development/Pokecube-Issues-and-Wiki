@@ -8,7 +8,7 @@
   "accuracy": 75,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A large egg is hurled at the target with maximum\nforce to inflict damage.",
+  "flavor_text": "A large egg is hurled at the target with maximum force to inflict damage.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

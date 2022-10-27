@@ -6,7 +6,7 @@
   "type": "grass",
   "target": "user-and-allies",
   "damage_class": "status",
-  "flavor_text": "The user becomes one with the jungle, restoring HP\nand healing any status conditions of itself and its ally\nPokémon in battle.",
+  "flavor_text": "The user becomes one with the jungle, restoring HP and healing any status conditions of itself and its ally Pokémon in battle.",
   "move_category": "unique",
   "healing": 25,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user violently whirls its vines, tentacles, or the \nlike to harshly lash the target.",
+  "flavor_text": "The user violently whirls its vines, tentacles, or the  like to harshly lash the target.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

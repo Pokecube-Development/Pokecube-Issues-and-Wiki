@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks by swinging its tail as if it were a\nvicious wave in a raging storm.",
+  "flavor_text": "The user attacks by swinging its tail as if it were a vicious wave in a raging storm.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

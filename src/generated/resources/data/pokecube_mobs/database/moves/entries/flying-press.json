@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user dives down onto the target from the sky.\nThis move is Fighting and Flying type simultaneously.",
+  "flavor_text": "The user dives down onto the target from the sky. This move is Fighting and Flying type simultaneously.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  For the purposes of type effectiveness, this move is both fighting- and flying-type: its final effectiveness is determined by multiplying the effectiveness of each type against each of the target's types.\n\nFor all other purposes, this move is pure Fighting-type.  If this move's type is changed, its Fighting typing is overwritten, and its secondary type remains Flying.\n\nIf the target has used minimize since entering battle, this move has double power and will never miss.",

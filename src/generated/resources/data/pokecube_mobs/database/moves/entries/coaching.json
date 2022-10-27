@@ -6,7 +6,7 @@
   "type": "fighting",
   "target": "user-and-allies",
   "damage_class": "status",
-  "flavor_text": "The user properly coaches its ally Pokémon,\nboosting their Attack and Defense stats.",
+  "flavor_text": "The user properly coaches its ally Pokémon, boosting their Attack and Defense stats.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

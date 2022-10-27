@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "After making its attack, the user rushes back to\nswitch places with a party Pokémon in waiting.",
+  "flavor_text": "After making its attack, the user rushes back to switch places with a party Pokémon in waiting.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

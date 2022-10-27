@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.minior-red-meteor"
+          "translate": "entity.pokecube.minior-meteor"
         }
       ]
     },
@@ -15,16 +15,16 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.minior-red-meteor"
+          "translate": "entity.pokecube.minior-meteor"
         }
       ]
     }
   },
   "criteria": {
-    "hatch_minior-red-meteor": {
+    "hatch_minior-meteor": {
       "trigger": "pokecube:hatch",
       "conditions": {
-        "entry": "minior-red-meteor"
+        "entry": "minior-meteor"
       }
     }
   },

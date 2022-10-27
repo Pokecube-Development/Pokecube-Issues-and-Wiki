@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "status",
-  "flavor_text": "For five turns, the user prevents the opposing team\nfrom using any moves, Abilities, or held items that\nrecover HP.",
+  "flavor_text": "For five turns, the user prevents the opposing team from using any moves, Abilities, or held items that recover HP.",
   "move_category": "ailment",
   "ailment": "heal-block",
   "max_turns": 5,

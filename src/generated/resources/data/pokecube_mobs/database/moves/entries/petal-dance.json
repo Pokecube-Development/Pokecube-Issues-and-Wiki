@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "random-opponent",
   "damage_class": "special",
-  "flavor_text": "The user attacks the target by scattering petals for\ntwo to three turns. The user then becomes confused.",
+  "flavor_text": "The user attacks the target by scattering petals for two to three turns. The user then becomes confused.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User is forced to attack with this move for 2–3 turns,selected at random.  After the last hit, the user becomes confused.\n\nsafeguard does not protect against the confusion from this move.",

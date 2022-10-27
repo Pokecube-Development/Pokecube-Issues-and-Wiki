@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks everything around it with a\nground-shaking quake. Its power varies.",
+  "flavor_text": "The user attacks everything around it with a ground-shaking quake. Its power varies.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power is selected at random between 10 and 150, with an average of 71:\n\nMagnitude | Power | Chance\n--------: | ----: | -----:\n        4 |    10 |     5%\n        5 |    30 |    10%\n        6 |    50 |    20%\n        7 |    70 |    30%\n        8 |    90 |    20%\n        9 |   110 |    10%\n       10 |   150 |     5%\n\nThis move has double power against Pokémon currently underground due to dig.",

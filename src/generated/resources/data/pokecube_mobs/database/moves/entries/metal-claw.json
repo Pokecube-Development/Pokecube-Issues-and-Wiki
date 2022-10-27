@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is raked with steel claws. This may also\nraise the user’s Attack stat.",
+  "flavor_text": "The target is raked with steel claws. This may also raise the user’s Attack stat.",
   "move_category": "damage+raise",
   "stat_chance": 10,
   "ailment": "none",

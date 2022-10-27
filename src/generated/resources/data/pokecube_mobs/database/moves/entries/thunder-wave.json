@@ -7,7 +7,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user launches a weak jolt of electricity that\nparalyzes the target.",
+  "flavor_text": "The user launches a weak jolt of electricity that paralyzes the target.",
   "move_category": "ailment",
   "ailment": "paralysis",
   "effect_text_extend": "Paralyzes the target.",

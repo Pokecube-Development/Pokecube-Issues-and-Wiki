@@ -6,7 +6,7 @@
   "type": "poison",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user creates a poisonous swamp using its\nZ-Power and sinks the target into it at full force.\nThe power varies, depending on the original move.",
+  "flavor_text": "The user creates a poisonous swamp using its Z-Power and sinks the target into it at full force. The power varies, depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

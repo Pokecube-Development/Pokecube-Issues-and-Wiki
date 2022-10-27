@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user-and-allies",
   "damage_class": "status",
-  "flavor_text": "The user makes a soothing bell chime to heal the\nstatus conditions of all the party Pokémon.",
+  "flavor_text": "The user makes a soothing bell chime to heal the status conditions of all the party Pokémon.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Removes major status effects and confusion from every Pokémon in the user's party.",

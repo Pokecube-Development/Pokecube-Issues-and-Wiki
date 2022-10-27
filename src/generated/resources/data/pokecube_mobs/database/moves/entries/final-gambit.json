@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user risks everything to attack its target. The\nuser faints but does damage equal to its HP.",
+  "flavor_text": "The user risks everything to attack its target. The user faints but does damage equal to its HP.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts damage equal to the user's remaining HP.  User faints.",

@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user focuses its willpower to its head and\nattacks the target. This may also make the\ntarget flinch.",
+  "flavor_text": "The user focuses its willpower to its head and attacks the target. This may also make the target flinch.",
   "move_category": "damage",
   "flinch_chance": 20,
   "ailment": "none",

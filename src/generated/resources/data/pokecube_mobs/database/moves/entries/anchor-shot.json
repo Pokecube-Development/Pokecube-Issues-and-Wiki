@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user entangles the target with its anchor chain\nwhile attacking. The target becomes unable to flee.",
+  "flavor_text": "The user entangles the target with its anchor chain while attacking. The target becomes unable to flee.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Traps the target.",

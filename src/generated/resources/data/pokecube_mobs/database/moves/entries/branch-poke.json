@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks the target by poking it with a sharply\npointed branch.",
+  "flavor_text": "The user attacks the target by poking it with a sharply pointed branch.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

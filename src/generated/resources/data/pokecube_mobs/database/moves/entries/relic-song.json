@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "The user sings an ancient song and attacks by\nappealing to the hearts of the listening opposing\nPokémon. This may also induce sleep.",
+  "flavor_text": "The user sings an ancient song and attacks by appealing to the hearts of the listening opposing Pokémon. This may also induce sleep.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "sleep",

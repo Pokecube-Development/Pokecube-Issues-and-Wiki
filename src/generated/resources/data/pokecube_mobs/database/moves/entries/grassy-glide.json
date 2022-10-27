@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Gliding on the ground, the user attacks the target.\nThis move always goes first on Grassy Terrain.",
+  "flavor_text": "Gliding on the ground, the user attacks the target. This move always goes first on Grassy Terrain.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

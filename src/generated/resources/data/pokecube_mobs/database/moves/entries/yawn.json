@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user lets loose a huge yawn that lulls the target\ninto falling asleep on the next turn.",
+  "flavor_text": "The user lets loose a huge yawn that lulls the target into falling asleep on the next turn.",
   "move_category": "ailment",
   "ailment": "yawn",
   "max_turns": 2,

@@ -6,7 +6,7 @@
   "type": "grass",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user restores its own HP. The amount of HP\nregained varies with the weather.",
+  "flavor_text": "The user restores its own HP. The amount of HP regained varies with the weather.",
   "move_category": "heal",
   "healing": 50,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is quickly kicked twice in succession\nusing both feet.",
+  "flavor_text": "The target is quickly kicked twice in succession using both feet.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 2,

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "A strong electric blast crashes down on the target,\ngiving it an electric shock. This may also make the\ntarget flinch.",
+  "flavor_text": "A strong electric blast crashes down on the target, giving it an electric shock. This may also make the target flinch.",
   "move_category": "damage",
   "flinch_chance": 30,
   "ailment": "none",

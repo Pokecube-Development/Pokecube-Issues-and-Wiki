@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "A frenetic dance to uplift the fighting spirit.\nThis sharply raises the user’s Attack stat.",
+  "flavor_text": "A frenetic dance to uplift the fighting spirit. This sharply raises the user’s Attack stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack by two stages.",

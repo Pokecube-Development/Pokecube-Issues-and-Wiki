@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user surrounds itself with a great amount of\nelectricity and charges its target. This may also\nleave the target with paralysis.",
+  "flavor_text": "The user surrounds itself with a great amount of electricity and charges its target. This may also leave the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "paralysis",

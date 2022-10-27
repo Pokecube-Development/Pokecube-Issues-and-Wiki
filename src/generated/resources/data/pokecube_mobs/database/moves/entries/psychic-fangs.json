@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user bites the target with its psychic\ncapabilities. This can also destroy Light Screen\nand Reflect.",
+  "flavor_text": "The user bites the target with its psychic capabilities. This can also destroy Light Screen and Reflect.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Destroys any light screen or reflect on the target's side of the field, then inflicts regular damage.",

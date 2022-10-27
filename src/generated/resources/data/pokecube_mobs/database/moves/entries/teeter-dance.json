@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user performs a wobbly dance that confuses\nthe Pokémon around it.",
+  "flavor_text": "The user performs a wobbly dance that confuses the Pokémon around it.",
   "move_category": "ailment",
   "ailment": "confusion",
   "max_turns": 5,

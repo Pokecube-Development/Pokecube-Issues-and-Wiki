@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user damages the target twice in succession\nby jabbing it with two spikes. This may also poison\nthe target.",
+  "flavor_text": "The user damages the target twice in succession by jabbing it with two spikes. This may also poison the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "poison",

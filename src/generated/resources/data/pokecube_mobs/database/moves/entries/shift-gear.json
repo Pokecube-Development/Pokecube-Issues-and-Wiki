@@ -6,7 +6,7 @@
   "type": "steel",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user rotates its gears, raising its Attack stat and\nsharply raising its Speed stat.",
+  "flavor_text": "The user rotates its gears, raising its Attack stat and sharply raising its Speed stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack by one stage and its Speed by two stages.",

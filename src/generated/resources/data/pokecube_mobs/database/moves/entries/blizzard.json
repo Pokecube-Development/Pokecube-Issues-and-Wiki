@@ -8,7 +8,7 @@
   "accuracy": 70,
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "A howling blizzard is summoned to strike opposing\nPokémon. This may also leave the opposing\nPokémon frozen.",
+  "flavor_text": "A howling blizzard is summoned to strike opposing Pokémon. This may also leave the opposing Pokémon frozen.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "freeze",

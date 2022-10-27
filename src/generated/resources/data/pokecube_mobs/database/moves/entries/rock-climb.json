@@ -8,7 +8,7 @@
   "accuracy": 85,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks the target by smashing into it with\nincredible force. This may also confuse the target.",
+  "flavor_text": "The user attacks the target by smashing into it with incredible force. This may also confuse the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 20,
   "ailment": "confusion",

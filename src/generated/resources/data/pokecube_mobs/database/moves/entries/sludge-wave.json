@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user strikes everything around it by swamping\nthe area with a giant sludge wave. This may also\npoison those hit.",
+  "flavor_text": "The user strikes everything around it by swamping the area with a giant sludge wave. This may also poison those hit.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "poison",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks with a ray of light that sparkles as\nif it were made of gemstones.",
+  "flavor_text": "The user attacks with a ray of light that sparkles as if it were made of gemstones.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

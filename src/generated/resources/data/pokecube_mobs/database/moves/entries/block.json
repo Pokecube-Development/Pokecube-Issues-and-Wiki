@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user blocks the target’s way with arms spread\nwide to prevent escape.",
+  "flavor_text": "The user blocks the target’s way with arms spread wide to prevent escape.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "The target cannot switch out normally.  Ignores accuracy and evasion modifiers.  This effect ends when the user leaves the field.\n\nThe target may still escape by using baton pass, u turn, or a shed shell.\n\nBoth the user and the target pass on this effect with baton pass.",

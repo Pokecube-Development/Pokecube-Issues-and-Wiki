@@ -2,12 +2,14 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.moves.PokemobTerrainEffects;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 
+@AbilityProvider(name = "mimicry")
 public class Mimicry extends Ability
 {
     @Override

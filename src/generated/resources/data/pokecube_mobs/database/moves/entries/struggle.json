@@ -7,7 +7,7 @@
   "type": "normal",
   "target": "random-opponent",
   "damage_class": "physical",
-  "flavor_text": "This attack is used in desperation only if the user\nhas no PP. It also damages the user a little.",
+  "flavor_text": "This attack is used in desperation only if the user has no PP. It also damages the user a little.",
   "move_category": "damage",
   "healing": -25,
   "ailment": "none",

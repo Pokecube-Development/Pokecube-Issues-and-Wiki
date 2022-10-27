@@ -6,7 +6,7 @@
   "type": "rock",
   "target": "opponents-field",
   "damage_class": "status",
-  "flavor_text": "The user lays a trap of levitating stones around the\nopposing team. The trap hurts opposing Pokémon\nthat switch into battle.",
+  "flavor_text": "The user lays a trap of levitating stones around the opposing team. The trap hurts opposing Pokémon that switch into battle.",
   "move_category": "field-effect",
   "ailment": "none",
   "effect_text_extend": "Spreads sharp rocks around the opposing field, damaging any Pokémon that enters the field for 1/8 its max HP.  This damage is affected by the entering Pokémon's susceptibility to rock moves.\n\nrapid spin removes this effect from its user's side of the field.",

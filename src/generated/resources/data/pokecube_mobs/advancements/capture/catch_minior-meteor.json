@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.catch",
       "with": [
         {
-          "translate": "entity.pokecube.basculin-red-striped"
+          "translate": "entity.pokecube.minior-meteor"
         }
       ]
     },
@@ -15,16 +15,16 @@
       "translate": "achievement.pokecube.catch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.basculin-red-striped"
+          "translate": "entity.pokecube.minior-meteor"
         }
       ]
     }
   },
   "criteria": {
-    "catch_basculin-red-striped": {
+    "catch_minior-meteor": {
       "trigger": "pokecube:catch",
       "conditions": {
-        "entry": "basculin-red-striped"
+        "entry": "minior-meteor"
       }
     }
   },

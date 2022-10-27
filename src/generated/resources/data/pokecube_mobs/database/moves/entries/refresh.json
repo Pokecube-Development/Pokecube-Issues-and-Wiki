@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user rests to cure itself of poisoning, a burn,\nor paralysis.",
+  "flavor_text": "The user rests to cure itself of poisoning, a burn, or paralysis.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Removes a burn, paralysis, or poison from the user.",

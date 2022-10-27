@@ -6,7 +6,7 @@
   "type": "fighting",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "This move raises all the user’s stats but prevents\nthe user from switching out or fleeing.",
+  "flavor_text": "This move raises all the user’s stats but prevents the user from switching out or fleeing.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 80,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks the target with a hazardous,\nfull-power headbutt. This also damages the\nuser terribly.",
+  "flavor_text": "The user attacks the target with a hazardous, full-power headbutt. This also damages the user terribly.",
   "move_category": "damage",
   "drain": -50,
   "ailment": "none",

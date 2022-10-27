@@ -6,7 +6,7 @@
   "type": "fairy",
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user, the Land Spirit Pokémon, obtains Alola’s\nenergy using its Z-Power and attacks the target with\nfull force. This reduces the target’s HP greatly.",
+  "flavor_text": "The user, the Land Spirit Pokémon, obtains Alola’s energy using its Z-Power and attacks the target with full force. This reduces the target’s HP greatly.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts direct damage equal to ¾ of the target's remaining HP.",

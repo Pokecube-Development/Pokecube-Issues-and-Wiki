@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Striking opponents over and over makes the user’s\nfists harder. Hitting a target raises the Attack stat.",
+  "flavor_text": "Striking opponents over and over makes the user’s fists harder. Hitting a target raises the Attack stat.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

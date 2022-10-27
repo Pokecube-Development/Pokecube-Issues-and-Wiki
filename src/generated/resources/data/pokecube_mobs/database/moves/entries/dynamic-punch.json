@@ -8,7 +8,7 @@
   "accuracy": 50,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user punches the target with full, concentrated\npower. This confuses the target if it hits.",
+  "flavor_text": "The user punches the target with full, concentrated power. This confuses the target if it hits.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "confusion",

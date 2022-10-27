@@ -8,7 +8,7 @@
   "accuracy": 90,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user picks up and throws a small rock at the\ntarget to attack.",
+  "flavor_text": "The user picks up and throws a small rock at the target to attack.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

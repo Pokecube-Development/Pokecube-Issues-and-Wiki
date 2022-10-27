@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user attacks while simultaneously stitching the\ntarget’s shadow to the ground to prevent the target\nfrom escaping.",
+  "flavor_text": "The user attacks while simultaneously stitching the target’s shadow to the ground to prevent the target from escaping.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Traps the target.",

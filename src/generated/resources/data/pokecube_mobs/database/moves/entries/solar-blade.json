@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "In this two-turn attack, the user gathers light and\nfills a blade with the light’s energy, attacking the\ntarget on the next turn.",
+  "flavor_text": "In this two-turn attack, the user gathers light and fills a blade with the light’s energy, attacking the target on the next turn.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User charges for one turn before attacking.\n\nDuring sunny day, the charge turn is skipped.\n\nDuring hail, rain dance, or sandstorm, power is halved.\n\nThis move cannot be selected by sleep talk.",

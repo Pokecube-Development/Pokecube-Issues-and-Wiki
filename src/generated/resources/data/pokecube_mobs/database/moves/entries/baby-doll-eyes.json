@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user stares at the target with its baby-doll\neyes, which lowers its Attack stat. This move always\ngoes first.",
+  "flavor_text": "The user stares at the target with its baby-doll eyes, which lowers its Attack stat. This move always goes first.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Lowers the target's Attack by one stage.",

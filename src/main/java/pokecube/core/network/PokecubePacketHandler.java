@@ -16,6 +16,7 @@ import pokecube.core.network.packets.PacketSyncTerrain;
 import pokecube.core.network.packets.PacketTMs;
 import pokecube.core.network.packets.PacketTrade;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
+import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketChangeForme;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
@@ -71,6 +72,7 @@ public class PokecubePacketHandler
                 PokemobPacketHandler.MessageServer::new);
         PokecubeCore.packets.registerMessage(PacketUpdateAI.class, PacketUpdateAI::new);
         PokecubeCore.packets.registerMessage(PacketPingBoss.class, PacketPingBoss::new);
+        PokecubeCore.packets.registerMessage(PacketBattleTargets.class, PacketBattleTargets::new);
 
         PacketCommand.init();
     }

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "all-other-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks everything around it with the\ndestructive power of a terrible, explosive sound.",
+  "flavor_text": "The user attacks everything around it with the destructive power of a terrible, explosive sound.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

@@ -7,10 +7,11 @@ import com.google.common.collect.Lists;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
+import pokecube.core.PokecubeCore;
 
 /**
- * This event is fired during the item registration phase. Add any pokecubes
- * you want to register here. The name of the cube will be &lt;prefix_&gt;cube
+ * This event is fired during the item registration phase. Add any pokecubes you
+ * want to register here. The name of the cube will be &lt;prefix_&gt;cube
  */
 public class RegisterPokecubes extends Event
 {
@@ -18,12 +19,12 @@ public class RegisterPokecubes extends Event
 
     public RegisterPokecubes()
     {
-        PokecubeAPI.LOGGER.debug("Cube Registry Event");
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Cube Registry Event");
     }
 
     public void register(final PokecubeBehaviour behaviour)
     {
-        PokecubeAPI.LOGGER.debug("Registering cube: " + behaviour.name);
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Registering cube: " + behaviour.name);
         this.behaviors.add(behaviour);
     }
 }

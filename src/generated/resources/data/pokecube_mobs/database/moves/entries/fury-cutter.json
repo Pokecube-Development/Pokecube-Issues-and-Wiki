@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is slashed with scythes or claws. This\nattack becomes more powerful if it hits\nin succession.",
+  "flavor_text": "The target is slashed with scythes or claws. This attack becomes more powerful if it hits in succession.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Power doubles after every time this move is used, whether consecutively or not, maxing out at 16x.  If this move misses or the user leaves the field, power resets.",

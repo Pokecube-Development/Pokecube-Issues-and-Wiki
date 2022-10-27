@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user hits the target with its tail. This may also\npoison the target. Critical hits land more easily.",
+  "flavor_text": "The user hits the target with its tail. This may also poison the target. Critical hits land more easily.",
   "move_category": "damage+ailment",
   "crit_rate": 1,
   "ailment_chance": 10,

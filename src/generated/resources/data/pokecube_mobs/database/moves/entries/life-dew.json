@@ -6,7 +6,7 @@
   "type": "water",
   "target": "user-and-allies",
   "damage_class": "status",
-  "flavor_text": "The user scatters mysterious water around and restores\nthe HP of itself and its ally Pokémon in the battle.",
+  "flavor_text": "The user scatters mysterious water around and restores the HP of itself and its ally Pokémon in the battle.",
   "move_category": "heal",
   "healing": 25,
   "ailment": "none"

@@ -7,7 +7,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Z-Power brings out the true capabilities of the user,\nSnorlax. The Pokémon moves its enormous body\nenergetically and attacks the target with full force.",
+  "flavor_text": "Z-Power brings out the true capabilities of the user, Snorlax. The Pokémon moves its enormous body energetically and attacks the target with full force.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

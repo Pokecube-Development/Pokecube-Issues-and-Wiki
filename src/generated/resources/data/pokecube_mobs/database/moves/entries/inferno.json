@@ -8,7 +8,7 @@
   "accuracy": 50,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks by engulfing the target in an\nintense fire. This leaves the target with a burn.",
+  "flavor_text": "The user attacks by engulfing the target in an intense fire. This leaves the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "burn",

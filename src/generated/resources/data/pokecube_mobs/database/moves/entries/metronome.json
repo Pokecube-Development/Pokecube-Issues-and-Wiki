@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user waggles a finger and stimulates its brain\ninto randomly using nearly any move.",
+  "flavor_text": "The user waggles a finger and stimulates its brain into randomly using nearly any move.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Selects any move at random and uses it.  Moves the user already knows are not eligible.  Assist, meta, protection, and reflection moves are also not eligible; specifically, assist, chatter, copycat, counter, covet, destiny bond, detect, endure, feint, focus punch, follow me, helping hand, me first, metronome, mimic, mirror coat, mirror move, protect, quick guard, sketch, sleep talk, snatch, struggle, switcheroo, thief, trick, and wide guard will not be selected by this move.\n\nThis move cannot be copied by mimic or mirror move, nor selected by assist, metronome, or sleep talk.",

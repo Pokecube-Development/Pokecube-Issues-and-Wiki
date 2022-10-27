@@ -6,7 +6,7 @@
   "type": "poison",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user heals the target’s status condition. If the\nmove succeeds, it also restores the user’s own HP.",
+  "flavor_text": "The user heals the target’s status condition. If the move succeeds, it also restores the user’s own HP.",
   "move_category": "unique",
   "healing": 50,
   "ailment": "none",

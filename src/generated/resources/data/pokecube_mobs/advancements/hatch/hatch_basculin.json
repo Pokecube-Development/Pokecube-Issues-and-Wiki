@@ -7,7 +7,7 @@
       "translate": "achievement.pokecube.hatch",
       "with": [
         {
-          "translate": "entity.pokecube.basculin-red-striped"
+          "translate": "entity.pokecube.basculin"
         }
       ]
     },
@@ -15,16 +15,16 @@
       "translate": "achievement.pokecube.hatch.desc",
       "with": [
         {
-          "translate": "entity.pokecube.basculin-red-striped"
+          "translate": "entity.pokecube.basculin"
         }
       ]
     }
   },
   "criteria": {
-    "hatch_basculin-red-striped": {
+    "hatch_basculin": {
       "trigger": "pokecube:hatch",
       "conditions": {
-        "entry": "basculin-red-striped"
+        "entry": "basculin"
       }
     }
   },

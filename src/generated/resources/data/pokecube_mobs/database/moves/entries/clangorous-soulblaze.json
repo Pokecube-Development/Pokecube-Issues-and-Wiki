@@ -7,7 +7,7 @@
   "type": "dragon",
   "target": "all-opponents",
   "damage_class": "special",
-  "flavor_text": "After obtaining Z-Power, the user, Kommo-o,\nattacks the opposing Pokémon with full force. This\nmove boosts the user’s stats.",
+  "flavor_text": "After obtaining Z-Power, the user, Kommo-o, attacks the opposing Pokémon with full force. This move boosts the user’s stats.",
   "move_category": "damage+raise",
   "stat_chance": 100,
   "ailment": "none",

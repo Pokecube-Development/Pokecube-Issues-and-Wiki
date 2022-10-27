@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user turns the target’s power against it. The\nhigher the target’s Attack stat, the greater the\nmove’s power.",
+  "flavor_text": "The user turns the target’s power against it. The higher the target’s Attack stat, the greater the move’s power.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Damage is calculated using the target's attacking stat rather than the user's.",

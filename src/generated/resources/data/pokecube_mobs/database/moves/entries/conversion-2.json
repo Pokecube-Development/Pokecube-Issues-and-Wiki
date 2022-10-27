@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user changes its type to make itself resistant to\nthe type of the attack the opponent used last.",
+  "flavor_text": "The user changes its type to make itself resistant to the type of the attack the opponent used last.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Changes the user's type to a type either resistant or immune to the last damaging move that hit it.  The new type is selected at random and cannot be a type the user already is.  If there is no eligible new type, this move will fail.",

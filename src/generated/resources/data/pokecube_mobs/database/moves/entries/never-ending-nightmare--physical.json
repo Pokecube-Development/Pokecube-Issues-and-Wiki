@@ -6,7 +6,7 @@
   "type": "ghost",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Deep-seated grudges summoned by the user’s\nZ-Power trap the target. The power varies,\ndepending on the original move.",
+  "flavor_text": "Deep-seated grudges summoned by the user’s Z-Power trap the target. The power varies, depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

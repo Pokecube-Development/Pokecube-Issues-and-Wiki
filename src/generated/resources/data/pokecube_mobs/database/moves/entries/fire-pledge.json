@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "A column of fire hits the target. When used with its\ngrass equivalent, its power increases and a vast sea\nof fire appears.",
+  "flavor_text": "A column of fire hits the target. When used with its grass equivalent, its power increases and a vast sea of fire appears.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  If a friendly Pokémon used water pledge earlier this turn, moves used by any friendly Pokémon have doubled effect chance for four turns (including this one).",

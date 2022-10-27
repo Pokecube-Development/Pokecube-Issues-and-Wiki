@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user catches the target off guard and swaps its\nheld item with its own.",
+  "flavor_text": "The user catches the target off guard and swaps its held item with its own.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "User and target permanently swap held items.  Works even if one of the Pokémon isn't holding anything.  If either Pokémon is holding mail, this move will fail.\n\nIf either Pokémon has multitype or sticky hold, this move will fail.\n\nIf this move results in a Pokémon obtaining choice band, choice scarf, or choice specs, and that Pokémon was the latter of the pair to move this turn, then the move it used this turn becomes its chosen forced move.  This applies even if both Pokémon had a choice item before this move was used.  If the first of the two Pokémon gains a choice item, it may select whatever choice move it wishes next turn.\n\nNeither the user nor the target can recover its item with recycle.\n\nThis move cannot be selected by assist or metronome.",

@@ -21,6 +21,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
@@ -78,8 +79,10 @@ public abstract class PokemobMoves extends PokemobStats
 
         if (target != this.getEntity() && target != null)
         {
-            if (target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != this.getEntity())
-                BrainUtils.initiateCombat(mob, this.getEntity());
+            boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != this.getEntity();
+            Battle b = Battle.getBattle(entity);
+            if (b != null && b.getEnemies(entity).contains(target)) newCombat = false;
+            if (target instanceof Mob mob && newCombat) BrainUtils.initiateCombat(mob, this.getEntity());
             if (target.getLastHurtByMob() != this.getEntity())
             {
                 target.setLastHurtByMob(this.getEntity());
@@ -189,7 +192,7 @@ public abstract class PokemobMoves extends PokemobStats
         final String[] g_z_moves = super.getGZMoves();
         final String[] moves = this.getMoves();
         boolean gigant = this.getCombatState(CombatStates.DYNAMAX)
-                && this.getPokedexEntry().getTrimmedName().contains("_gigantamax");
+                && this.getPokedexEntry().getTrimmedName().contains("-gmax");
         for (int i = 0; i < 4; i++)
         {
             final String gmove = GZMoveManager.getGMove(this, moves[i], gigant);

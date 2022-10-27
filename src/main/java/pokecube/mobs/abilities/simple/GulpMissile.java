@@ -3,6 +3,7 @@ package pokecube.mobs.abilities.simple;
 import net.minecraft.world.damagesource.DamageSource;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
@@ -10,6 +11,7 @@ import pokecube.core.database.Database;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.damage.GenericDamageSource;
 
+@AbilityProvider(name = "gulp-missile")
 public class GulpMissile extends Ability
 {
     private static PokedexEntry baseNormal;
@@ -26,9 +28,9 @@ public class GulpMissile extends Ability
         if (GulpMissile.noTurnBase) return;
         if (GulpMissile.baseNormal == null)
         {
-            GulpMissile.baseNormal = Database.getEntry("Cramorant");
-            GulpMissile.arrakuda = Database.getEntry("Cramorant Gulping");
-            GulpMissile.pikachu = Database.getEntry("Cramorant Gorging");
+            GulpMissile.baseNormal = Database.getEntry("cramorant");
+            GulpMissile.arrakuda = Database.getEntry("cramorant-gulping");
+            GulpMissile.pikachu = Database.getEntry("cramorant-gorging");
             GulpMissile.noTurnBase = GulpMissile.baseNormal == null;
             if (GulpMissile.noTurnBase) return;
         }

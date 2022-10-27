@@ -66,6 +66,7 @@ public abstract class PokemobBase implements IPokemob
         public int LOGICSTATESDW;
         public int COMBATSTATESDW;
         public int ATTACKTARGETIDDW;
+        public int ALLYTARGETIDDW;
         public int HUNGERDW;
         public int STATUSDW;
         public int STATUSTIMERDW;
@@ -97,6 +98,7 @@ public abstract class PokemobBase implements IPokemob
             this.DIRECTIONPITCHDW = sync.register(new Data_Float().setRealtime(), Float.valueOf(0));
             this.HEADINGDW = sync.register(new Data_Float().setRealtime(), Float.valueOf(0));
             this.ATTACKTARGETIDDW = sync.register(new Data_Int(), Integer.valueOf(-1));
+            this.ALLYTARGETIDDW = sync.register(new Data_Int(), Integer.valueOf(-1));
             this.GENERALSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.LOGICSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.COMBATSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));

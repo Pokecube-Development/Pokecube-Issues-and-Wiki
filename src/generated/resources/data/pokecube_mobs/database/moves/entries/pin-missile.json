@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "Sharp spikes are shot at the target in rapid\nsuccession. They hit two to five times in a row.",
+  "flavor_text": "Sharp spikes are shot at the target in rapid succession. They hit two to five times in a row.",
   "move_category": "damage",
   "ailment": "none",
   "max_hits": 5,

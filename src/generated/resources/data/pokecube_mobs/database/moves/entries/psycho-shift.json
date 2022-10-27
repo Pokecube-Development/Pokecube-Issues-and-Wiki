@@ -7,7 +7,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "Using its psychic power of suggestion, the user\ntransfers its status conditions to the target.",
+  "flavor_text": "Using its psychic power of suggestion, the user transfers its status conditions to the target.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "If the user has a major status effect and the target does not, the user's status is transferred to the target.",

@@ -8,7 +8,7 @@
   "accuracy": 70,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "A wicked thunderbolt is dropped on the target to\ninflict damage. This may also leave the target\nwith paralysis.",
+  "flavor_text": "A wicked thunderbolt is dropped on the target to inflict damage. This may also leave the target with paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "paralysis",

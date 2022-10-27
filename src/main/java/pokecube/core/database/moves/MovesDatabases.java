@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -18,6 +19,8 @@ import pokecube.api.data.moves.Moves.MoveHolder;
 import pokecube.api.data.moves.Parsers;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.database.resources.PackFinder;
+import pokecube.core.database.tags.Tags;
+import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.api.util.JsonUtil;
 
 public class MovesDatabases
@@ -26,6 +29,10 @@ public class MovesDatabases
 
     public static void preInitLoad()
     {
+        // We need at least the moves tag for processing some things.
+        Tags.MOVE.reload(new AtomicBoolean());
+        
+        
         final String moves_path = "database/moves/entries/";
         final String anims_path = "database/moves/animations/";
 
@@ -137,6 +144,9 @@ public class MovesDatabases
 
             // Register the move entry.
             MoveEntry.addMove(entry);
+            
+            // Let the GZMoveManager process the move as well
+            GZMoveManager.process(entry);
         }
 
         PokecubeAPI.LOGGER.info("Registered {} moves", loadedMoves.size());

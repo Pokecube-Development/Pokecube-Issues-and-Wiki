@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "all-pokemon",
   "damage_class": "status",
-  "flavor_text": "Any Pokémon that hears this song faints in three\nturns, unless it switches out of battle.",
+  "flavor_text": "Any Pokémon that hears this song faints in three turns, unless it switches out of battle.",
   "move_category": "ailment",
   "ailment": "perish-song",
   "max_turns": 4,

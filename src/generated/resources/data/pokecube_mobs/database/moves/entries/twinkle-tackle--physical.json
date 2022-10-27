@@ -6,7 +6,7 @@
   "type": "fairy",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user creates a very charming space using its\nZ-Power and totally toys with the target. The power\nvaries, depending on the original move.",
+  "flavor_text": "The user creates a very charming space using its Z-Power and totally toys with the target. The power varies, depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

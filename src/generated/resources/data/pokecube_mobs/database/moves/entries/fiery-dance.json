@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "Cloaked in flames, the user dances and flaps its\nwings. This may also raise the user’s Sp. Atk stat.",
+  "flavor_text": "Cloaked in flames, the user dances and flaps its wings. This may also raise the user’s Sp. Atk stat.",
   "move_category": "damage+raise",
   "stat_chance": 50,
   "ailment": "none",

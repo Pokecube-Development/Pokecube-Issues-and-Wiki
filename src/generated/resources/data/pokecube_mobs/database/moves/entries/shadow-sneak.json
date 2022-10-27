@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user extends its shadow and attacks the target\nfrom behind. This move always goes first.",
+  "flavor_text": "The user extends its shadow and attacks the target from behind. This move always goes first.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

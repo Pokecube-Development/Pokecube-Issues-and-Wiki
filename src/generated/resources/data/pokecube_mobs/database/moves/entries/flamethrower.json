@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The target is scorched with an intense blast of fire.\nThis may also leave the target with a burn.",
+  "flavor_text": "The target is scorched with an intense blast of fire. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "burn",

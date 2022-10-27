@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user makes the target float with its psychic\npower. The target is easier to hit for three turns.",
+  "flavor_text": "The user makes the target float with its psychic power. The target is easier to hit for three turns.",
   "move_category": "ailment",
   "ailment": "unknown",
   "max_turns": 3,

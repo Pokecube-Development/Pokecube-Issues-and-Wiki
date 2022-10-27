@@ -6,10 +6,12 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.PowerProvider;
+import pokecube.api.utils.PokeType;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.templates.D_Move_Damage;
@@ -21,6 +23,10 @@ public class GZMoveManager
     public static Map<String, List<String>> z_sig_moves_map = Maps.newHashMap();
     private static Map<String, String> gmoves_map = Maps.newHashMap();
     private static Map<String, String> g_max_moves_map = Maps.newHashMap();
+
+    private static Map<PokeType, MoveEntry> physical_z_moves_by_type = Maps.newHashMap();
+    private static Map<PokeType, MoveEntry> special_z_moves_by_type = Maps.newHashMap();
+    private static Map<PokeType, MoveEntry> d_moves_by_type = Maps.newHashMap();
 
     static final Pattern GMAXENTRY = Pattern.compile("(that_gigantamax_)(\\w+)(_use)");
 
@@ -49,10 +55,54 @@ public class GZMoveManager
         return isZMove(e) ? Z_Move_Damage.INSTANCE : D_Move_Damage.INSTANCE;
     }
 
-    public static void init(final MoveEntry moves)
+    public static void process(final MoveEntry move)
     {
-        // TODO re-do this G-Z move stuff to work with the updated moves
-        // formatting.
+        if (isZMove(move))
+        {
+            move.root_entry._manually_defined = true;
+            PokecubeAPI.LOGGER.info("Z-move: {}", move.name);
+            if (move.name.endsWith("--special"))
+            {
+                special_z_moves_by_type.put(move.type, move);
+            }
+            if (move.name.endsWith("--physical"))
+            {
+                physical_z_moves_by_type.put(move.type, move);
+            }
+        }
+        if (isDMove(move))
+        {
+            move.root_entry._manually_defined = true;
+            PokecubeAPI.LOGGER.info("D-move: {}", move.name);
+            d_moves_by_type.put(move.type, move);
+        }
+    }
+
+    public static void postProcess()
+    {
+        // Here we loop over the registered moves, and assign each one a Z or D
+        // move accordingly.
+        MoveEntry.values().forEach(move -> {
+            d_moves_by_type.computeIfPresent(move.type, (type, zmove) -> {
+                gmoves_map.put(move.name, zmove.name);
+                return zmove;
+            });
+            switch (move.category)
+            {
+            case PHYSICAL:
+                physical_z_moves_by_type.computeIfPresent(move.type, (type, zmove) -> {
+                    zmoves_map.put(move.name, zmove.name);
+                    return zmove;
+                });
+                break;
+            default:
+                special_z_moves_by_type.computeIfPresent(move.type, (type, zmove) -> {
+                    zmoves_map.put(move.name, zmove.name);
+                    return zmove;
+                });
+                break;
+            }
+        });
     }
 
     /**

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user shoots its psychic power from its eyes\nto attack. This may also leave the target frozen.",
+  "flavor_text": "The user shoots its psychic power from its eyes to attack. This may also leave the target frozen.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "freeze",

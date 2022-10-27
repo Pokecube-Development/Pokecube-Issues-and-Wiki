@@ -8,7 +8,7 @@
   "accuracy": 95,
   "target": "all-opponents",
   "damage_class": "physical",
-  "flavor_text": "The user whips up a storm of diamonds to damage\nopposing Pokémon. This may also sharply raise the\nuser’s Defense stat.",
+  "flavor_text": "The user whips up a storm of diamonds to damage opposing Pokémon. This may also sharply raise the user’s Defense stat.",
   "move_category": "damage+raise",
   "stat_chance": 50,
   "ailment": "none",

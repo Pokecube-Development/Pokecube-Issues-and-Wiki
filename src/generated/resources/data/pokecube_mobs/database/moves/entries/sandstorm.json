@@ -6,7 +6,7 @@
   "type": "rock",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "A five-turn sandstorm is summoned to hurt all\ncombatants except the Rock, Ground, and\nSteel types. It raises the Sp. Def stat of Rock types.",
+  "flavor_text": "A five-turn sandstorm is summoned to hurt all combatants except the Rock, Ground, and Steel types. It raises the Sp. Def stat of Rock types.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "Changes the weather to a sandstorm for five turns.  Pokémon that are not ground, rock, or steel take 1/16 their max HP at the end of every turn.  Every rock Pokémon's original Special Defense is raised by 50% for the duration of this effect.\n\nsolar beam's power is halved.\n\nmoonlight, morning sun, and synthesis only heal 1/4 the user's max HP.",

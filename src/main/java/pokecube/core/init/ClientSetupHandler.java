@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.InputConstants.Type;
 
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -29,6 +30,8 @@ import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -93,32 +96,61 @@ public class ClientSetupHandler
     public static KeyMapping arrangeGui;
     public static KeyMapping animateGui;
 
+    public static KeyMapping nextTarget;
+    public static KeyMapping previousTarget;
+
+    public static KeyMapping nextAlly;
+    public static KeyMapping previousAlly;
+
     static
     {
         int unk = InputConstants.UNKNOWN.getValue();
 
-        nextMob = new KeyMapping("key.pokemob.next", GLFW.GLFW_KEY_RIGHT, "Pokecube");
-        previousMob = new KeyMapping("key.pokemob.prev", GLFW.GLFW_KEY_LEFT, "Pokecube");
-        nextMove = new KeyMapping("key.pokemob.move.next", GLFW.GLFW_KEY_DOWN, "Pokecube");
-        previousMove = new KeyMapping("key.pokemob.move.prev", GLFW.GLFW_KEY_UP, "Pokecube");
-        mobBack = new KeyMapping("key.pokemob.recall", GLFW.GLFW_KEY_R, "Pokecube");
-        mobAttack = new KeyMapping("key.pokemob.attack", GLFW.GLFW_KEY_G, "Pokecube");
-        mobStance = new KeyMapping("key.pokemob.stance", GLFW.GLFW_KEY_BACKSLASH, "Pokecube");
-        mobMegavolve = new KeyMapping("key.pokemob.megaevolve", GLFW.GLFW_KEY_M, "Pokecube");
-        noEvolve = new KeyMapping("key.pokemob.b", GLFW.GLFW_KEY_B, "Pokecube");
+        nextMob = new KeyMapping("key.pokemob.next", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_RIGHT,
+                "Pokecube");
+        previousMob = new KeyMapping("key.pokemob.prev", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_LEFT,
+                "Pokecube");
+        nextMove = new KeyMapping("key.pokemob.move.next", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_DOWN,
+                "Pokecube");
+        previousMove = new KeyMapping("key.pokemob.move.prev", KeyConflictContext.IN_GAME, Type.KEYSYM,
+                GLFW.GLFW_KEY_UP, "Pokecube");
+        mobBack = new KeyMapping("key.pokemob.recall", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_R,
+                "Pokecube");
+        mobAttack = new KeyMapping("key.pokemob.attack", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_G,
+                "Pokecube");
+        mobStance = new KeyMapping("key.pokemob.stance", KeyConflictContext.IN_GAME, Type.KEYSYM,
+                GLFW.GLFW_KEY_BACKSLASH, "Pokecube");
+        mobMegavolve = new KeyMapping("key.pokemob.megaevolve", KeyConflictContext.IN_GAME, Type.KEYSYM,
+                GLFW.GLFW_KEY_M, "Pokecube");
+        noEvolve = new KeyMapping("key.pokemob.b", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_B,
+                "Pokecube");
 
-        mobMove1 = new KeyMapping("key.pokemob.move.1", unk, "Pokecube");
-        mobMove2 = new KeyMapping("key.pokemob.move.2", unk, "Pokecube");
-        mobMove3 = new KeyMapping("key.pokemob.move.3", unk, "Pokecube");
-        mobMove4 = new KeyMapping("key.pokemob.move.4", unk, "Pokecube");
+        mobMove1 = new KeyMapping("key.pokemob.move.1", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+        mobMove2 = new KeyMapping("key.pokemob.move.2", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+        mobMove3 = new KeyMapping("key.pokemob.move.3", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+        mobMove4 = new KeyMapping("key.pokemob.move.4", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
 
-        mobUp = new KeyMapping("key.pokemob.up", GLFW.GLFW_KEY_SPACE, "Pokecube");
-        mobDown = new KeyMapping("key.pokemob.down", GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube");
-        throttleUp = new KeyMapping("key.pokemob.speed.up", GLFW.GLFW_KEY_LEFT_BRACKET, "Pokecube");
-        throttleDown = new KeyMapping("key.pokemob.speed.down", GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube");
-        arrangeGui = new KeyMapping("key.pokemob.arrangegui", unk, "Pokecube");
-        animateGui = new KeyMapping("key.pokemob.animategui", unk, "Pokecube");
-        gzmove = new KeyMapping("key.pokemob.gzmove", unk, "Pokecube");
+        mobUp = new KeyMapping("key.pokemob.up", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_SPACE,
+                "Pokecube");
+        mobDown = new KeyMapping("key.pokemob.down", KeyConflictContext.IN_GAME, Type.KEYSYM,
+                GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube");
+        throttleUp = new KeyMapping("key.pokemob.speed.up", KeyConflictContext.IN_GAME, Type.KEYSYM,
+                GLFW.GLFW_KEY_LEFT_BRACKET, "Pokecube");
+        throttleDown = new KeyMapping("key.pokemob.speed.down", KeyConflictContext.IN_GAME, Type.KEYSYM,
+                GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube");
+        arrangeGui = new KeyMapping("key.pokemob.arrangegui", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+        animateGui = new KeyMapping("key.pokemob.animategui", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+        gzmove = new KeyMapping("key.pokemob.gzmove", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+
+        nextTarget = new KeyMapping("key.pokemob.target.next", KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
+                Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, "Pokecube");
+        previousTarget = new KeyMapping("key.pokemob.target.prev", KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
+                Type.KEYSYM, GLFW.GLFW_KEY_LEFT, "Pokecube");
+
+        nextAlly = new KeyMapping("key.pokemob.ally.next", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
+                GLFW.GLFW_KEY_RIGHT, "Pokecube");
+        previousAlly = new KeyMapping("key.pokemob.ally.prev", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
+                GLFW.GLFW_KEY_LEFT, "Pokecube");
     }
 
     @SubscribeEvent
@@ -162,6 +194,11 @@ public class ClientSetupHandler
         registerKey(ClientSetupHandler.arrangeGui, event);
         registerKey(ClientSetupHandler.animateGui, event);
         registerKey(ClientSetupHandler.gzmove, event);
+
+        registerKey(ClientSetupHandler.nextTarget, event);
+        registerKey(ClientSetupHandler.previousTarget, event);
+        registerKey(ClientSetupHandler.nextAlly, event);
+        registerKey(ClientSetupHandler.previousAlly, event);
 
         ClientProxy.NBTEditKey = new KeyMapping("NBTEdit Shortcut", InputConstants.UNKNOWN.getValue(),
                 "key.categories.misc");
@@ -266,7 +303,7 @@ public class ClientSetupHandler
             String moveName = ItemTM.getMoveFromStack(stack);
             if (moveName == null) return 0xFFFFFFFF;
             var move = MovesUtils.getMove(moveName);
-            if (move != null) return move.getType(null).colour; 
+            if (move != null) return move.getType(null).colour;
             return 0xFFFFFFFF;
         }, PokecubeItems.TM.get());
     }

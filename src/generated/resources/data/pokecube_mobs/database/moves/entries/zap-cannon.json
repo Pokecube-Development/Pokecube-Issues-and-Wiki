@@ -8,7 +8,7 @@
   "accuracy": 50,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user fires an electric blast like a cannon to inflict\ndamage and cause paralysis.",
+  "flavor_text": "The user fires an electric blast like a cannon to inflict damage and cause paralysis.",
   "move_category": "damage+ailment",
   "ailment_chance": 100,
   "ailment": "paralysis",

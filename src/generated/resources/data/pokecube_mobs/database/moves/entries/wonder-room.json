@@ -6,7 +6,7 @@
   "type": "psychic",
   "target": "entire-field",
   "damage_class": "status",
-  "flavor_text": "The user creates a bizarre area in which Pokémon’s\nDefense and Sp. Def stats are swapped for\nfive turns.",
+  "flavor_text": "The user creates a bizarre area in which Pokémon’s Defense and Sp. Def stats are swapped for five turns.",
   "move_category": "whole-field-effect",
   "ailment": "none",
   "effect_text_extend": "For five turns (including this one), every Pokémon's Defense and Special Defense are swapped.",

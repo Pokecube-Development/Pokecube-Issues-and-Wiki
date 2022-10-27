@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user flash-freezes chunks of ice and hurls them\nat the target. This move always goes first.",
+  "flavor_text": "The user flash-freezes chunks of ice and hurls them at the target. This move always goes first.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

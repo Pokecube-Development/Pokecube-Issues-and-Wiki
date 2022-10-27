@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user builds up its momentum using its Z-Power\nand crashes into the target at full speed. The power\nvaries, depending on the original move.",
+  "flavor_text": "The user builds up its momentum using its Z-Power and crashes into the target at full speed. The power varies, depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

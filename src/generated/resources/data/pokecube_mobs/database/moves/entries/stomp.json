@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is stomped with a big foot. This may also\nmake the target flinch.",
+  "flavor_text": "The target is stomped with a big foot. This may also make the target flinch.",
   "move_category": "damage",
   "flinch_chance": 30,
   "ailment": "none",

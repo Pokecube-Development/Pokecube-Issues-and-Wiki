@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user emits a sinister ray to attack the target.\nThis move can be used on the target regardless of \nits Abilities.",
+  "flavor_text": "The user emits a sinister ray to attack the target. This move can be used on the target regardless of  its Abilities.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  Other Pokémon's abilities cannot activate in response to this move.  In particular, it hits through disguise",

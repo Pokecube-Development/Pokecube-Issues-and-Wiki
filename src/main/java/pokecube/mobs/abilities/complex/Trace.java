@@ -3,11 +3,13 @@ package pokecube.mobs.abilities.complex;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.ai.brain.BrainUtils;
 
+@AbilityProvider(name = "trace", singleton = false)
 public class Trace extends Ability
 {
     Ability traced;
@@ -41,16 +43,9 @@ public class Trace extends Ability
     {
         if (this.traced != null && !BrainUtils.hasAttackTarget(mob.getEntity()))
         {
-            this.traced.destroy();
+            this.traced.destroy(mob);
             this.traced = null;
         }
         else if (this.traced != null) this.traced.onUpdate(mob);
     }
-
-    @Override
-    public boolean singleton()
-    {
-        return false;
-    }
-
 }

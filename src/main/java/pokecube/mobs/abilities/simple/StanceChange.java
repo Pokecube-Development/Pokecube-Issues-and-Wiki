@@ -2,11 +2,13 @@ package pokecube.mobs.abilities.simple;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.Ability;
+import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
 
+@AbilityProvider(name = "stance-change")
 public class StanceChange extends Ability
 {
     private static PokedexEntry base_form;
@@ -19,8 +21,8 @@ public class StanceChange extends Ability
         if (StanceChange.noTurn) return;
         if (StanceChange.base_form == null)
         {
-            StanceChange.base_form = Database.getEntry("Aegislash Shield");
-            StanceChange.blade_form = Database.getEntry("Aegislash Blade");
+            StanceChange.base_form = Database.getEntry("aegislash-shield");
+            StanceChange.blade_form = Database.getEntry("aegislash-blade");
             StanceChange.noTurn = StanceChange.base_form == null || StanceChange.blade_form == null;
             if (StanceChange.noTurn) return;
         }

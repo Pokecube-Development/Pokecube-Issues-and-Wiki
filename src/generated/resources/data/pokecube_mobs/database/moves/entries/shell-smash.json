@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user breaks its shell, which lowers Defense and\nSp. Def stats but sharply raises its Attack, Sp. Atk,\nand Speed stats.",
+  "flavor_text": "The user breaks its shell, which lowers Defense and Sp. Def stats but sharply raises its Attack, Sp. Atk, and Speed stats.",
   "move_category": "unique",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack, Special Attack, and Speed by two stages each.  Lowers the user's Defense and Special Defense by one stage each.",

@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user rapidly cools the target. This may also\nleave the target frozen. This move is super effective\non Water types.",
+  "flavor_text": "The user rapidly cools the target. This may also leave the target frozen. This move is super effective on Water types.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "freeze",

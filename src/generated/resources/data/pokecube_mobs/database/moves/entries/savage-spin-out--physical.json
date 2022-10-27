@@ -6,7 +6,7 @@
   "type": "bug",
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The user binds the target with full force with\nthreads of silk that the user spits using its Z-Power.\nThe power varies, depending on the original move.",
+  "flavor_text": "The user binds the target with full force with threads of silk that the user spits using its Z-Power. The power varies, depending on the original move.",
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.",

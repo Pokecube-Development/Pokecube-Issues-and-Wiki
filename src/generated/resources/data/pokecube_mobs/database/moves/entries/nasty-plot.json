@@ -6,7 +6,7 @@
   "type": "dark",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user stimulates its brain by thinking bad\nthoughts. This sharply raises the user’s Sp. Atk stat.",
+  "flavor_text": "The user stimulates its brain by thinking bad thoughts. This sharply raises the user’s Sp. Atk stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Special Attack by two stages.",

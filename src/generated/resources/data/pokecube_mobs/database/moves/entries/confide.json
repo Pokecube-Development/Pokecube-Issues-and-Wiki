@@ -6,7 +6,7 @@
   "type": "normal",
   "target": "selected-pokemon",
   "damage_class": "status",
-  "flavor_text": "The user tells the target a secret, and the target\nloses its ability to concentrate. This lowers\nthe target’s Sp. Atk stat.",
+  "flavor_text": "The user tells the target a secret, and the target loses its ability to concentrate. This lowers the target’s Sp. Atk stat.",
   "move_category": "net-good-stats",
   "stat_chance": 100,
   "ailment": "none",

@@ -8,7 +8,7 @@
   "accuracy": 70,
   "target": "selected-pokemon",
   "damage_class": "special",
-  "flavor_text": "The user attacks by wrapping its opponent in a\nfierce wind that flies up into the sky. This may also\nconfuse the target.",
+  "flavor_text": "The user attacks by wrapping its opponent in a fierce wind that flies up into the sky. This may also confuse the target.",
   "move_category": "damage+ailment",
   "ailment_chance": 30,
   "ailment": "confusion",

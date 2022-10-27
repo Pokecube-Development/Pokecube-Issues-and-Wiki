@@ -6,7 +6,7 @@
   "type": "water",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user withdraws its body into its hard shell,\nraising its Defense stat.",
+  "flavor_text": "The user withdraws its body into its hard shell, raising its Defense stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Defense by one stage.",

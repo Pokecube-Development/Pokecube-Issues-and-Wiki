@@ -6,7 +6,7 @@
   "type": "ground",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user regains up to half of its max HP. It restores\nmore HP in a sandstorm.",
+  "flavor_text": "The user regains up to half of its max HP. It restores more HP in a sandstorm.",
   "move_category": "heal",
   "healing": 50,
   "ailment": "none",

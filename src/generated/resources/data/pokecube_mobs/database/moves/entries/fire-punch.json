@@ -8,7 +8,7 @@
   "accuracy": 100,
   "target": "selected-pokemon",
   "damage_class": "physical",
-  "flavor_text": "The target is punched with a fiery fist. This may also\nleave the target with a burn.",
+  "flavor_text": "The target is punched with a fiery fist. This may also leave the target with a burn.",
   "move_category": "damage+ailment",
   "ailment_chance": 10,
   "ailment": "burn",

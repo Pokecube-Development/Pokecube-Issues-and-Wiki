@@ -6,7 +6,7 @@
   "type": "dragon",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user vigorously performs a mystic, powerful\ndance that raises its Attack and Speed stats.",
+  "flavor_text": "The user vigorously performs a mystic, powerful dance that raises its Attack and Speed stats.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Attack and Speed by one stage each.",

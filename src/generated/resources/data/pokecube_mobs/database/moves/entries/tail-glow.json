@@ -6,7 +6,7 @@
   "type": "bug",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user stares at flashing lights to focus its mind,\ndrastically raising its Sp. Atk stat.",
+  "flavor_text": "The user stares at flashing lights to focus its mind, drastically raising its Sp. Atk stat.",
   "move_category": "net-good-stats",
   "ailment": "none",
   "effect_text_extend": "Raises the user's Special Attack by three stages.",

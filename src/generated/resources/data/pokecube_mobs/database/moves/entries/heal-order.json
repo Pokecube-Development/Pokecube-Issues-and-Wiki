@@ -6,7 +6,7 @@
   "type": "bug",
   "target": "user",
   "damage_class": "status",
-  "flavor_text": "The user calls out its underlings to heal it. The user\nregains up to half of its max HP.",
+  "flavor_text": "The user calls out its underlings to heal it. The user regains up to half of its max HP.",
   "move_category": "heal",
   "healing": 50,
   "ailment": "none",
