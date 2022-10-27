@@ -75,7 +75,6 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         final boolean targetHasMobs = !mobs.isEmpty();
         if (targetHasMobs)
         {
-
             mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.mob) - o2.distanceToSqr(event.mob)));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);

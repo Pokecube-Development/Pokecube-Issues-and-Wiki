@@ -98,6 +98,12 @@ public class PokemobMoveStats
      */
     public Ability battleAbility = null;
 
+    // Index in battle of targetted ally, owner is always last in the battle,
+    // even if not in battle
+    public int allyIndex = 0;
+    // Index in battle of targetted enemy.
+    public int enemyIndex = 0;
+
     public void reset()
     {
         for (final Field f : this.getClass().getFields()) try

@@ -11,6 +11,7 @@ import net.minecraft.sounds.SoundEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.mobs.PokecubeMobs;
 
@@ -57,7 +58,7 @@ public class PokemobSounds
                     e1.printStackTrace();
                 }
             }
-            PokecubeAPI.LOGGER.debug(e + " has Sound: " + e.sound);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info(e + " has Sound: " + e.sound);
             e.soundEvent = new SoundEvent(e.sound);
             if (sounds.containsKey(e.sound)) e.soundEvent = sounds.get(e.sound);
             else sounds.put(e.sound, e.soundEvent);

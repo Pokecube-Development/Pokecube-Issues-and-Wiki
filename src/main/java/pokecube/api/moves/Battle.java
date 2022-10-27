@@ -1,13 +1,14 @@
 package pokecube.api.moves;
 
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -133,8 +134,13 @@ public class Battle
         return true;
     }
 
+    private static final Comparator<LivingEntity> BATTLESORTER = (o1, o2) -> Integer.compare(o1.id, o2.id);
+
     private final Map<UUID, LivingEntity> side1 = Maps.newHashMap();
     private final Map<UUID, LivingEntity> side2 = Maps.newHashMap();
+
+    private final List<LivingEntity> s1 = Lists.newArrayList();
+    private final List<LivingEntity> s2 = Lists.newArrayList();
 
     private final Set<String> teams1 = Sets.newHashSet();
     private final Set<String> teams2 = Sets.newHashSet();
@@ -156,18 +162,18 @@ public class Battle
         this.world = world;
     }
 
-    public Collection<LivingEntity> getAllies(LivingEntity mob)
+    public List<LivingEntity> getAllies(LivingEntity mob)
     {
-        if (side1.containsKey(mob.getUUID())) return side1.values();
-        if (side2.containsKey(mob.getUUID())) return side2.values();
-        return Collections.emptySet();
+        if (side1.containsKey(mob.getUUID())) return s1;
+        if (side2.containsKey(mob.getUUID())) return s2;
+        return Lists.newArrayList();
     }
 
-    public Collection<LivingEntity> getEnemies(LivingEntity mob)
+    public List<LivingEntity> getEnemies(LivingEntity mob)
     {
-        if (side1.containsKey(mob.getUUID())) return side2.values();
-        if (side2.containsKey(mob.getUUID())) return side1.values();
-        return Collections.emptySet();
+        if (side1.containsKey(mob.getUUID())) return s2;
+        if (side2.containsKey(mob.getUUID())) return s1;
+        return Lists.newArrayList();
     }
 
     private void addToSide(final Map<UUID, LivingEntity> side, final Set<String> teams, final LivingEntity mob,
@@ -175,6 +181,9 @@ public class Battle
     {
         side.put(mob.getUUID(), mob);
         teams.add(team);
+
+        List<LivingEntity> s = side == side1 ? s1 : s2;
+        s.add(mob);
 
         final ServerLevel world = (ServerLevel) mob.getLevel();
         final BattleManager manager = BattleManager.managers.get(world.dimension());
@@ -205,15 +214,36 @@ public class Battle
 
         sideBThem.forEach((id, mob) -> {
             sideBUs.put(id, mob);
+            List<LivingEntity> s = sideBUs == side1 ? s1 : s2;
+            if (!s.contains(mob)) s.add(mob);
             this.manager.battlesById.put(id, this);
         });
         sideAThem.forEach((id, mob) -> {
             sideAUs.put(id, mob);
+            List<LivingEntity> s = sideBUs == side1 ? s1 : s2;
+            if (!s.contains(mob)) s.add(mob);
             this.manager.battlesById.put(id, this);
         });
 
         other.side1.clear();
         other.side2.clear();
+
+        this.sortSides();
+    }
+
+    private void sortSides()
+    {
+        // Remove removed mobs.
+        s1.removeIf(v -> v.isRemoved());
+        s2.removeIf(v -> v.isRemoved());
+
+        Set<LivingEntity> mask = Sets.newHashSet();
+        // Remove duplicates
+        s1.removeIf(v -> !mask.add(v));
+        s2.removeIf(v -> !mask.add(v));
+
+        s1.sort(BATTLESORTER);
+        s2.sort(BATTLESORTER);
     }
 
     public void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
@@ -252,6 +282,8 @@ public class Battle
                 this.addToSide(this.side2, this.teams2, mobA, teamA, mobB);
             }
         }
+
+        this.sortSides();
     }
 
     public void removeFromBattle(final LivingEntity mob)
@@ -262,12 +294,14 @@ public class Battle
         if (this.side1.containsKey(id))
         {
             this.side1.remove(id);
+            this.s1.remove(mob);
             final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
         }
         if (this.side2.containsKey(id))
         {
             this.side2.remove(id);
+            this.s2.remove(mob);
             final IPokemob poke = PokemobCaps.getPokemobFor(mob);
             if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
         }
@@ -280,6 +314,7 @@ public class Battle
         this.valid = true;
         final Set<LivingEntity> stale = Sets.newHashSet();
         final int tooLong = Battle.BATTLE_END_TIMER;
+        boolean changed = false;
         for (final LivingEntity mob1 : this.side1.values()) if (!mob1.isAlive())
         {
             final int tick = this.aliveTracker.getInt(mob1) + 1;
@@ -289,7 +324,12 @@ public class Battle
             if (mob != null && mob != mob1)
             {
                 this.aliveTracker.removeInt(mob1);
-                if (mob instanceof LivingEntity living) this.side1.put(id, living);
+                if (mob instanceof LivingEntity living)
+                {
+                    this.side1.put(id, living);
+                    if (!this.s1.contains(living)) this.s1.add(living);
+                    changed = true;
+                }
                 continue;
             }
             if (tick > tooLong) stale.add(mob1);
@@ -303,7 +343,12 @@ public class Battle
             if (mob != null && mob != mob2)
             {
                 this.aliveTracker.removeInt(mob2);
-                if (mob instanceof LivingEntity living) this.side2.put(id, living);
+                if (mob instanceof LivingEntity living)
+                {
+                    this.side2.put(id, living);
+                    if (!this.s2.contains(living)) this.s2.add(living);
+                    changed = true;
+                }
                 continue;
             }
             this.aliveTracker.put(mob2, tick);
@@ -313,6 +358,8 @@ public class Battle
         stale.forEach(mob -> {
             this.removeFromBattle(mob);
         });
+        changed = changed || !stale.isEmpty();
+        if (changed) this.sortSides();
         if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
     }
 

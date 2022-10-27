@@ -194,7 +194,7 @@ public interface IHasMoves extends IHasStats
      *
      * @return the index from 0 to 3;
      */
-    public int getMoveIndex();
+    int getMoveIndex();
 
     /**
      * Returns all the 4 available moves name.
@@ -220,8 +220,27 @@ public interface IHasMoves extends IHasStats
      */
     PokemobMoveStats getMoveStats();
 
-    /** @return entityId of our target. */
+    /**
+     * @return entityId of our target.
+     */
     int getTargetID();
+
+    /**
+     * 
+     * @return ID of ally to target for single target moves when fighting
+     *         multiples
+     */
+    int getAllyID();
+
+    /**
+     * @param id - new entityId of target, -1 for no target.
+     */
+    void setTargetID(int id);
+
+    /**
+     * @param id - new entityId of target, -1 for no target.
+     */
+    void setAllyID(int id);
 
     /** @return Mob we are transformed into, null for no mob. */
     LivingEntity getTransformedTo();
@@ -402,11 +421,6 @@ public interface IHasMoves extends IHasStats
      * @param timer the initial value to set
      */
     void setStatusTimer(short timer);
-
-    /**
-     * @param id - new entityId of target, -1 for no target.
-     */
-    void setTargetID(int id);
 
     /**
      * The pokemob will render and have moves according to whatever is set here.
