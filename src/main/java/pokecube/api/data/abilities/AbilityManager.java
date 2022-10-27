@@ -1,6 +1,5 @@
 package pokecube.api.data.abilities;
 
-import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,8 +16,6 @@ import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.moves.implementations.MovesAdder;
-import thut.core.common.ThutCore;
 import thut.lib.CompatParser.ClassFinder;
 
 public class AbilityManager
@@ -32,27 +29,14 @@ public class AbilityManager
         packages.add(pack);
     }
 
-    private static Map<String, String> fixed = Maps.newHashMap();
-
-    private static String getAbilityName(String name)
-    {
-        if (name == null) return null;
-        if (AbilityManager.fixed.containsKey(name)) return AbilityManager.fixed.get(name);
-        final String original = name;
-        name = ThutCore.trim(name);
-        AbilityManager.fixed.put(original, name);
-        return name;
-    }
-
     public static boolean abilityExists(final String name)
     {
         if (name == null) return false;
-        return AbilityManager.nameMap.containsKey(AbilityManager.getAbilityName(name));
+        return AbilityManager.nameMap.containsKey(name);
     }
 
     public static void addAbility(final AbilityFactory ability, String name)
     {
-        name = AbilityManager.getAbilityName(name);
         AbilityManager.nameMap.put(name, ability);
     }
 
@@ -61,7 +45,7 @@ public class AbilityManager
         if (name == null) return null;
         if (name.startsWith("ability.")) name = name.substring(7);
         if (name.endsWith(".name")) name = name.substring(0, name.length() - 5);
-        Ability ability = AbilityManager.makeAbility(AbilityManager.getAbilityName(name), args);
+        Ability ability = AbilityManager.makeAbility(name, args);
         return ability;
     }
 
@@ -69,7 +53,7 @@ public class AbilityManager
     {
         final Ability ability = pokemob.getAbility();
         if (ability == null) return false;
-        return ability.toString().equalsIgnoreCase(AbilityManager.getAbilityName(abilityName));
+        return ability.toString().equalsIgnoreCase(abilityName);
     }
 
     @SuppressWarnings("unchecked")
@@ -84,7 +68,7 @@ public class AbilityManager
             return false;
         };
 
-        for (final Package pack : MovesAdder.moveRegistryPackages)
+        for (final Package pack : AbilityManager.packages)
         {
             if (pack == null) continue;
             try
@@ -99,8 +83,7 @@ public class AbilityManager
         try
         {
             int num = 0;
-            for (final Class<?> candidateClass : foundClasses) if (Ability.class.isAssignableFrom(candidateClass)
-                    && !Modifier.isAbstract(candidateClass.getModifiers()))
+            for (final Class<?> candidateClass : foundClasses)
             {
                 // Needs annotation
                 if (candidateClass.getAnnotations().length == 0) continue;
@@ -109,12 +92,12 @@ public class AbilityManager
                 {
                     for (var key : details.name())
                     {
-                        num++;
 
                         if (details.singleton())
                         {
                             try
                             {
+                                num++;
                                 Ability ability = (Ability) candidateClass.getConstructor().newInstance();
                                 AbilityManager.addAbility(AbilityFactory.forAbility(ability), key);
                             }
@@ -137,6 +120,7 @@ public class AbilityManager
                                     return new DummyAbility();
                                 }
                             };
+                            num++;
                             AbilityManager.addAbility(AbilityFactory.forSupplier(supplier), key);
                         }
                     }

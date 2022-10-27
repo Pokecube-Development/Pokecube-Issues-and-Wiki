@@ -1,5 +1,6 @@
 package pokecube.api.moves.utils;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
@@ -101,7 +102,11 @@ public class MoveApplication implements Comparable<MoveApplication>
             if (t.move().status_chance > target.getRandom().nextDouble())
             {
                 if (MovesUtils.setStatus(target, t.move().status_effects))
+                {
                     MovesUtils.displayStatusMessages(t.move().user, target, t.move().status_effects, true);
+                    if (PokecubeCore.getConfig().debug_moves)
+                        PokecubeAPI.LOGGER.info("Applied Status Effect {} to {}", t.move().status_effects, target);
+                }
             }
         }
     }
@@ -125,6 +130,14 @@ public class MoveApplication implements Comparable<MoveApplication>
             {
                 t.move().applied_stat_effects = MovesUtils.handleStats(t.move().user, target, t.move().stat_effects,
                         t.move().stat_chance);
+                if (PokecubeCore.getConfig().debug_moves)
+                {
+                    PokecubeAPI.LOGGER.info("Base Stat Effect: {}", Arrays.toString(t.move().stat_effects));
+                    if (t.move().applied_stat_effects.applied())
+                        PokecubeAPI.LOGGER.info("Applied Stats Effect {} to {}",
+                                Arrays.toString(t.move().applied_stat_effects.diffs()), target);
+                    else PokecubeAPI.LOGGER.info("Failed to Apply Stats Effects to {}", target);
+                }
                 MovesUtils.sendStatDiffsMessages(t.move().user, target, t.move().applied_stat_effects);
             }
         }
