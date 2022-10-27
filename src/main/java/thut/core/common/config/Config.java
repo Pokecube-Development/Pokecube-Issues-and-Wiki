@@ -125,6 +125,7 @@ public class Config
                 final Object ours = f.get(this);
                 final Object o = values.get(f).get();
                 if (ours.equals(o)) continue;
+                if (f.getType() != ours.getClass()) continue;
                 ThutCore.LOGGER.info("Set {} to {}", f.getName(), o);
                 f.set(this, o);
                 changed = true;
@@ -227,7 +228,8 @@ public class Config
                         e1.printStackTrace();
                     }
                 }
-                // checked.add(c) prevents recursion when a config contains its parent
+                // checked.add(c) prevents recursion when a config contains its
+                // parent
                 else if (e.getValue() instanceof CommentedConfig c && checked.add(c))
                 {
                     addFromConfig(c, values, fields, checked);

@@ -4,9 +4,7 @@
   "stock": true,
   "base_experience": 168,
   "size": {
-    "height": 1.2,
-    "width": 1.2,
-    "length": 1.2
+    "height": 1.2
   },
   "mass": 22.2,
   "is_default": true,

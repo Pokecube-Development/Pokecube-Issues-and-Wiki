@@ -478,12 +478,12 @@ public class Database
                 }
                 if (e.height <= 0)
                 {
-                    e.height = base.height;
-                    e.width = base.width;
-                    e.length = base.length;
-                    e.mobType = base.mobType;
-                    e.catchRate = base.catchRate;
-                    e.mass = base.mass;
+                    e.height = 1;
+                    e.width = 1;
+                    e.length = 1;
+                    e.mobType = 0;
+                    e.catchRate = 0;
+                    e.mass = 1;
                     PokecubeAPI.logDebug("Error with height for " + e);
                 }
                 if (e.type1 == null)

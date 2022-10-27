@@ -5,9 +5,7 @@
   "gmax": true,
   "base_experience": 253,
   "size": {
-    "height": 4.0,
-    "width": 4.0,
-    "length": 4.0
+    "height": 14.0
   },
   "mass": 1000.0,
   "is_default": false,

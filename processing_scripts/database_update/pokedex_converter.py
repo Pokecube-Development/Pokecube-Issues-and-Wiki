@@ -206,7 +206,7 @@ class PokedexEntry:
             self.moves = moves
 
 class PokemonSpecies:
-    def __init__(self, species, dex, custom_moves) -> None:
+    def __init__(self, species, dex, custom_moves, custom_sizes) -> None:
         self.species = species
         self.species_id = species.id
 
@@ -251,6 +251,9 @@ class PokemonSpecies:
             if entry.name in custom_moves:
                 print(f'adding custom moves for {entry.name} from override files')
                 entry.__dict__['moves'] = custom_moves[entry.name]
+
+            if entry.name in custom_sizes:
+                entry.size = custom_sizes[entry.name]
 
             # Check if we need to convert anything over from old ones
             old_name = find_old_name(forme.name, species, dex)
@@ -311,20 +314,6 @@ class PokemonSpecies:
                 # Copy old custom values from inside stats over
                 if 'stats' in old_entry:
                     stats = old_entry['stats']
-
-                    # Old sizes were more granular, so copy them
-                    if 'sizes' in stats:
-                        def convert_size(old):
-                            size = {}
-                            if 'height' in old['values']:
-                                size['height'] = float(old['values']['height'])
-                            if 'width' in old['values']:
-                                size['width'] = float(old['values']['width'])
-                            if 'length' in old['values']:
-                                size['length'] = float(old['values']['length'])
-                            return size
-                        entry.size = convert_size(old_entry['stats']['sizes'])
-                    
                     # Same for spawns, mega rules, interactions and evolutoons
                     if 'spawnRules' in stats:
                         entry.spawn_rules = stats['spawnRules']
@@ -437,6 +426,15 @@ def convert_pokedex():
     for entry in _moves_dex:
         moves_dex[entry['name']] = entry['moves']
 
+    sizes_dex = './data/pokemobs/custom_sizes.json'
+    file = open(sizes_dex, 'r')
+    data = file.read()
+    file.close()
+    _sizes_dex = json.loads(data)
+    sizes_dex = {}
+    for entry in _sizes_dex:
+        sizes_dex[entry['name']] = entry['sizes']
+
     tables = './data/pokemobs/loot_tables.json'
     file = open(tables, 'r')
     data = file.read()
@@ -467,8 +465,10 @@ def convert_pokedex():
     # Initialise this with missingno.
     pokemob_tag_names = ["pokecube:missingno"]
 
+    sizes = []
+
     while values is not None:
-        entry = PokemonSpecies(values, pokedex, moves_dex)
+        entry = PokemonSpecies(values, pokedex, moves_dex, sizes_dex)
         species.append(entry)
         for var in entry.entries:
 
@@ -491,6 +491,9 @@ def convert_pokedex():
                 items[f"entity.pokecube.{var.name}"] = _name
                 lang_files[key] = items
             del var.names
+
+            sizes.append({'name':var.name, 'sizes': var.size})
+
             dex.append(var.__dict__)
         i = i + 1
         values = get_species(i)
@@ -517,7 +520,35 @@ def convert_pokedex():
                 items[f"entity.pokecube.{var['name']}"] = _name
                 lang_files[key] = items
             del var['names']
+
+            sizes.append({'name':var["name"], 'sizes': var["size"]})
+
         dex.append(var)
+
+    # cleanup sizes file
+    copy = [x for x in sizes]
+    for var in copy:
+        height = var['sizes']['height'] if 'height' in var['sizes'] else 1
+        width = var['sizes']['width'] if 'width' in var['sizes'] else height
+        length = var['sizes']['length'] if 'length' in var['sizes'] else width
+        if width == length and 'length' in var['sizes']:
+            del var['sizes']['length']
+        if width == height and 'width' in var['sizes']:
+            del var['sizes']['width']
+
+        if not 'height' in var['sizes']:
+            var['sizes']['height'] = 1.0
+        if len(var['sizes']) == 1:
+            sizes.remove(var)
+
+
+    # Updated the sizes file to cleanup things
+    file = './data/pokemobs/custom_sizes.json'
+    if not os.path.exists(os.path.dirname(file)):
+        os.makedirs(os.path.dirname(file))
+    file = open(file, 'w')
+    json.dump(sizes, file, indent=2)
+    file.close()
 
     # Construct and output the default pokecube:pokemob tag
     file = f'../../src/generated/resources/data/pokecube/tags/entity_types/pokemob.json'
