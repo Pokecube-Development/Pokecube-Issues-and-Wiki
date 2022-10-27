@@ -53,20 +53,10 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public Ability getAbility()
     {
-        if (this.inCombat()) return this.moveInfo.battleAbility;
         if (this.genesAbility == null) this.initAbilityGene();
         final AbilityGene gene = this.genesAbility.getExpressed();
         final AbilityObject obj = gene.getValue();
-        if (obj.abilityObject == null && !obj.searched)
-        {
-            if (!obj.ability.isEmpty())
-            {
-                final Ability ability = AbilityManager.getAbility(obj.ability);
-                obj.abilityObject = ability;
-            }
-            else obj.abilityObject = this.getPokedexEntry().getAbility(obj.abilityIndex, this);
-            obj.searched = true;
-        }
+        if (this.inCombat()) return this.moveInfo.battleAbility;
         // not in battle, re-synchronize this.
         this.moveInfo.battleAbility = obj.abilityObject;
         return obj.abilityObject;
@@ -367,6 +357,19 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 this.genesAbility.setAllele(1, gene);
                 this.genesAbility.refreshExpressed();
             }
+            final AbilityGene gene = this.genesAbility.getExpressed();
+            final AbilityObject obj = gene.getValue();
+            if (obj.abilityObject == null && !obj.searched)
+            {
+                if (!obj.ability.isEmpty())
+                {
+                    final Ability ability = AbilityManager.getAbility(obj.ability);
+                    obj.abilityObject = ability;
+                }
+                else obj.abilityObject = this.getPokedexEntry().getAbility(obj.abilityIndex, this);
+                obj.searched = true;
+            }
+            this.moveInfo.battleAbility = obj.abilityObject;
             this.setAbilityRaw(this.getAbility());
         }
     }

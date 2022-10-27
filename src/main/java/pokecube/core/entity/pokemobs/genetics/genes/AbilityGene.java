@@ -17,7 +17,7 @@ public class AbilityGene implements Gene<AbilityObject>
         public Ability abilityObject = null;
         // Have we searched for an ability yet, if not, will look for one first
         // time ability is got.
-        public boolean searched     = false;
+        public boolean searched = false;
         public String  ability      = "";
         public byte    abilityIndex = 0;
     }
