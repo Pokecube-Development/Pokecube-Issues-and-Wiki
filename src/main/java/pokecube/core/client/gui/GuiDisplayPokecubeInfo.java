@@ -323,9 +323,15 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int n = this.getPokemobsToDisplay().length;
-            final int num = this.fontRenderer.width("" + n);
-            this.blit(evt.getMat(), nameOffsetX + 89, nameOffsetY, 0, 27, 15, 15);
-            this.fontRenderer.draw(evt.getMat(), "" + n, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
+            final int n2 = this.indexPokemob + 1;
+            String txt = n == 1 ? n + "" : n2 + "/" + n;
+            final int num = this.fontRenderer.width(txt);
+            evt.getMat().pushPose();
+            evt.getMat().translate(nameOffsetX + 89, nameOffsetY, 0);
+            if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
+            this.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
+            evt.getMat().popPose();
+            this.fontRenderer.draw(evt.getMat(), txt, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
@@ -403,8 +409,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             mob.yHeadRot = yHeadRot;
             mob.yHeadRotO = yHeadRotO;
 
-            Entity ally = pokemob.getEntity().getLevel().getEntity(pokemob.getAllyID());
-            if (ally != null && ally != pokemob.getEntity() && ally instanceof LivingEntity living)
+            LivingEntity ally = pokemob.getMoveStats().targetAlly;
+            if (ally != null && ally != pokemob.getEntity())
             {
                 evt.getMat().pushPose();
 
@@ -417,7 +423,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
                 RenderSystem.enableBlend();
                 this.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
-                mob = living;
+                mob = ally;
 
                 f = 30;
                 yBodyRot = mob.yBodyRot;
@@ -457,8 +463,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         render:
         if (pokemob != null)
         {
-            Entity target = pokemob.getEntity().getLevel().getEntity(pokemob.getTargetID());
-            if (!(target instanceof LivingEntity entity) || !entity.isAlive()) break render;
+            LivingEntity entity = pokemob.getMoveStats().targetEnemy;
+            if (entity == null || !entity.isAlive()) break render;
 
             evt.getMat().pushPose();
             GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().targetRef,

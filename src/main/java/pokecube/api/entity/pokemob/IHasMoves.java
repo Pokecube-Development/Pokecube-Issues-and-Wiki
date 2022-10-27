@@ -221,6 +221,22 @@ public interface IHasMoves extends IHasStats
     PokemobMoveStats getMoveStats();
 
     /**
+     * Updates trackers for target ID, ally ID, enemy number, ally number, etc.
+     */
+    void updateBattleInfo();
+
+    /**
+     * @return number of enemies in the battle, mostly used for tracking in guis
+     */
+    int getEnemyNumber();
+
+    /**
+     * 
+     * @return number of allies in the battle, mostly used for tracking in guis
+     */
+    int getAllyNumber();
+
+    /**
      * @return entityId of our target.
      */
     int getTargetID();

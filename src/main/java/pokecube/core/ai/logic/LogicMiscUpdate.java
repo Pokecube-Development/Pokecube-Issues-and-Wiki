@@ -16,7 +16,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.item.ItemStack;
@@ -36,7 +35,6 @@ import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
-import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
@@ -404,49 +402,9 @@ public class LogicMiscUpdate extends LogicBase
         // This is used server side as well, for hitbox positions.
         this.checkAnimationStates();
 
-        // Ensure battle targets are kept synced, and then end of server side
-        // logic here.
+        // end of server side logic here.
         if (this.entity.getLevel() instanceof ServerLevel)
         {
-            Battle b = Battle.getBattle(entity);
-            pokemob.setBattle(b);
-
-            if (b == null && pokemob.inCombat())
-            {
-                LivingEntity target = entity.getTarget();
-                if (target != null) Battle.createOrAddToBattle(entity, target);
-
-                b = Battle.getBattle(entity);
-                pokemob.setBattle(b);
-            }
-
-            if (b == null)
-            {
-                this.pokemob.setTargetID(-1);
-                this.pokemob.setAllyID(-1);
-                return;
-            }
-
-            List<LivingEntity> mobs = b.getEnemies(entity);
-
-            int targetIndex = pokemob.getMoveStats().enemyIndex;
-            if (targetIndex < 0) targetIndex = mobs.size() - 1;
-
-            LivingEntity target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
-            pokemob.setTargetID(target == null ? -1 : target.id);
-            if (target != BrainUtils.getAttackTarget(entity)) BrainUtils.setAttackTarget(entity, target);
-            mobs = b.getAllies(entity);
-            int allyIndex = pokemob.getMoveStats().allyIndex % (mobs.size() + 1);
-            if (allyIndex < 0) allyIndex = mobs.size();
-            if (allyIndex == mobs.size())
-            {
-                // Ally is owner
-                if (pokemob.getOwner() != null) pokemob.setAllyID(pokemob.getOwner().id);
-            }
-            else
-            {
-                pokemob.setAllyID(mobs.get(allyIndex).id);
-            }
             return;
         }
 

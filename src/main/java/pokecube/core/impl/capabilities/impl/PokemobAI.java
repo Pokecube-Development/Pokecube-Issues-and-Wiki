@@ -411,28 +411,4 @@ public abstract class PokemobAI extends PokemobEvolves
         }
     }
 
-    @Override
-    public int getTargetID()
-    {
-        return this.dataSync.get(this.params.ATTACKTARGETIDDW);
-    }
-
-    @Override
-    public void setTargetID(final int id)
-    {
-        this.dataSync.set(this.params.ATTACKTARGETIDDW, Integer.valueOf(id));
-    }
-
-    @Override
-    public int getAllyID()
-    {
-        return this.dataSync.get(this.params.ALLYTARGETIDDW);
-    }
-
-    @Override
-    public void setAllyID(final int id)
-    {
-        this.dataSync.set(this.params.ALLYTARGETIDDW, Integer.valueOf(id));
-    }
-
 }

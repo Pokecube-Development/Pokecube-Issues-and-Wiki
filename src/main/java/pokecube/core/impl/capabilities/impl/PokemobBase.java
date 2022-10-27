@@ -67,6 +67,8 @@ public abstract class PokemobBase implements IPokemob
         public int COMBATSTATESDW;
         public int ATTACKTARGETIDDW;
         public int ALLYTARGETIDDW;
+        public int ENEMYNUMDW;
+        public int ALLYNUMDW;
         public int HUNGERDW;
         public int STATUSDW;
         public int STATUSTIMERDW;
@@ -102,6 +104,9 @@ public abstract class PokemobBase implements IPokemob
             this.GENERALSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.LOGICSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.COMBATSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
+
+            this.ALLYNUMDW = sync.register(new Data_Int(), Integer.valueOf(1));
+            this.ENEMYNUMDW = sync.register(new Data_Int(), Integer.valueOf(0));
 
             // from EntityEvolvablePokemob
             this.EVOLTICKDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));// evolution

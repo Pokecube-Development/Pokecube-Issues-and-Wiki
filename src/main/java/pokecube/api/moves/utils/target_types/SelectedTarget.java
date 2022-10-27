@@ -1,7 +1,7 @@
 package pokecube.api.moves.utils.target_types;
 
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.moves.utils.MoveApplication;
-import pokecube.core.ai.brain.BrainUtils;
 
 public class SelectedTarget implements IMoveTargetter
 {
@@ -11,6 +11,11 @@ public class SelectedTarget implements IMoveTargetter
     public boolean test(MoveApplication move)
     {
         if (move.getTarget() == null) return false;
-        return move.getTarget() == BrainUtils.getAttackTarget(move.getUser().getEntity());
+        boolean isTargetEnemy = move.getTarget() == move.getUser().getMoveStats().targetEnemy;
+        if (isTargetEnemy) return true;
+        LivingEntity targ = move.getUser().getMoveStats().targetAlly;
+        boolean isTargetAlly = move.getUser().getMoveStats().targetEnemy == null && targ != move.getUser().getEntity()
+                && targ == move.getTarget();
+        return isTargetAlly;
     }
 }
