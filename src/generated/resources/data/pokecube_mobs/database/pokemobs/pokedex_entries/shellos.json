@@ -207,10 +207,10 @@
       "level": 30,
       "form_from": "shellos_east",
       "model": {
-        "key": "gastrodon_east",
-        "tex": "gastrodon_east",
-        "model": "gastrodon_east",
-        "anim": "gastrodon_east"
+        "key": "gastrodon-east",
+        "tex": "gastrodon-east",
+        "model": "gastrodon-east",
+        "anim": "gastrodon-east"
       }
     },
     {
@@ -218,10 +218,10 @@
       "level": 30,
       "form_from": "shellos_west",
       "model": {
-        "key": "gastrodon_west",
-        "tex": "gastrodon_west",
-        "model": "gastrodon_west",
-        "anim": "gastrodon_west"
+        "key": "gastrodon-west",
+        "tex": "gastrodon-west",
+        "model": "gastrodon-west",
+        "anim": "gastrodon-west"
       }
     }
   ],

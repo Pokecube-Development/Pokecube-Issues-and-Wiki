@@ -177,38 +177,38 @@
   },
   "model": {
     "key": "flabebe-red",
-    "tex": "flabebe-red",
-    "model": "flabebe-red",
-    "anim": "flabebe-red",
+    "tex": "flabebe",
+    "model": "flabebe",
+    "anim": "flabebe",
     "types": "fairy"
   },
   "models": [
     {
       "key": "flabebe-yellow",
-      "tex": "flabebe-yellow",
-      "model": "flabebe-yellow",
-      "anim": "flabebe-yellow",
+      "tex": "flabebe",
+      "model": "flabebe",
+      "anim": "flabebe",
       "types": "fairy"
     },
     {
       "key": "flabebe-orange",
-      "tex": "flabebe-orange",
-      "model": "flabebe-orange",
-      "anim": "flabebe-orange",
+      "tex": "flabebe",
+      "model": "flabebe",
+      "anim": "flabebe",
       "types": "fairy"
     },
     {
       "key": "flabebe-blue",
-      "tex": "flabebe-blue",
-      "model": "flabebe-blue",
-      "anim": "flabebe-blue",
+      "tex": "flabebe",
+      "model": "flabebe",
+      "anim": "flabebe",
       "types": "fairy"
     },
     {
       "key": "flabebe-white",
-      "tex": "flabebe-white",
-      "model": "flabebe-white",
-      "anim": "flabebe-white",
+      "tex": "flabebe",
+      "model": "flabebe",
+      "anim": "flabebe",
       "types": "fairy"
     }
   ],

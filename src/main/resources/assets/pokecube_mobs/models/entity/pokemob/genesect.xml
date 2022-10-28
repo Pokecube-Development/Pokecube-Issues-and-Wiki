@@ -4,12 +4,12 @@
   <phase name="global" scale="1.3"/>
   <metadata head="head1"/>
   <phase armAngle="30" duration="10" leftArm="LeftArm1" leftLeg="LeftLeg1" legAngle="25" name="biWalk" rightArm="RightArm1" rightLeg="RightLeg1"/>
-  <customTex default="Genesect">
-   <forme name="Genesect" tex="Genesect"/>
-   <forme name="GenesectBDrive" tex="GenesectBDrive"/>
-   <forme name="GenesectCDrive" tex="GenesectCDrive"/>
-   <forme name="GenesectDDrive" tex="GenesectDDrive"/>
-   <forme name="GenesectSDrive" tex="GenesectSDrive"/>
+  <customTex default="genesect">
+   <forme name="genesect" tex="genesect"/>
+   <forme name="genesect-burn" tex="GenesectBDrive"/>
+   <forme name="genesect-chill" tex="GenesectCDrive"/>
+   <forme name="genesect-douse" tex="GenesectDDrive"/>
+   <forme name="genesect-shock" tex="GenesectSDrive"/>
   </customTex>
  </model>
 </ModelAnimator>

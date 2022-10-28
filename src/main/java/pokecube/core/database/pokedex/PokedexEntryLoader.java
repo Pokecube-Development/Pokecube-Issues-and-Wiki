@@ -649,13 +649,14 @@ public class PokedexEntryLoader
 
     public static void initFormeModels(final PokedexEntry entry, final List<DefaultFormeHolder> list)
     {
-        for (final DefaultFormeHolder holder : list)
-        {
-            FormeHolder forme = holder.getForme(entry);
-            if (PokecubeCore.getConfig().debug_data)
-                PokecubeAPI.logInfo("Loaded form for {}: ({} {} {}) -> ({} {} {} {})", entry, holder.model, holder.anim,
-                        holder.tex, forme.key, forme.model, forme.animation, forme.texture);
-        }
+        list.forEach(holder -> initFormeModel(entry, holder));
+    }
+
+    public static void initFormeModel(final PokedexEntry entry, DefaultFormeHolder holder)
+    {
+        FormeHolder forme = holder.getForme(entry);
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded form for {}: ({} {} {}) -> ({} {} {} {})",
+                entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
     }
 
     public static void updateEntry(final PokedexEntry entry)

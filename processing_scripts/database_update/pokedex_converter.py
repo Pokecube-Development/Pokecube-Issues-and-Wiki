@@ -4,6 +4,7 @@ from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_na
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
+from model_processor import process_model
 from advancements_generator import make_advancments
 import os
 from glob import glob
@@ -306,18 +307,14 @@ class PokemonSpecies:
                             'model': key,
                             'anim': key,
                         }
-                        # For now hard code in for arceus/silvally that we replace model and anim
-                        if entry.name == 'silvally' or entry.name == 'arceus':
-                            model['model'] = entry.name
-                            model['anim'] = entry.name
-                            model['key'] = key.replace('-', '_')
-                            model['tex'] = key.replace('-', '_')
+                        # Process any changes needed, like for arceus,silvally,etc
+                        process_model(entry, key, model)
 
                         types = ''
                         for type in form.types:
                             types = types + ' '+ type.type.name
                         types = types.strip().replace(' ', ',')
-                        if len(types)>0:
+                        if len(types) > 0:
                             model['types'] = types
 
                         if form.is_default:
