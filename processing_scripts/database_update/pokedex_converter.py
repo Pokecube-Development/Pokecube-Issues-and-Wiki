@@ -309,7 +309,7 @@ class PokemonSpecies:
                         # For now hard code in for arceus/silvally that we replace model and anim
                         if entry.name == 'silvally' or entry.name == 'arceus':
                             model['model'] = entry.name
-                            model['anim'] = entry.name
+                            model['anim'] = key.replace('-', '_')
                             model['key'] = key.replace('-', '_')
                             model['tex'] = key.replace('-', '_')
 
@@ -317,7 +317,7 @@ class PokemonSpecies:
                         for type in form.types:
                             types = types + ' '+ type.type.name
                         types = types.strip().replace(' ', ',')
-                        if len(types)>0:
+                        if len(types) > 0:
                             model['types'] = types
 
                         if form.is_default:

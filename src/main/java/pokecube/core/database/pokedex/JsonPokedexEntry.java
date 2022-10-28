@@ -303,9 +303,9 @@ public class JsonPokedexEntry
             String anim = this.anim_path;
             if (anim == null) anim = model;
             entry.texturePath = tex;
-            entry.model = new ResourceLocation(model + entry.getTrimmedName() + entry.modelExt);
-            entry.texture = new ResourceLocation(tex + entry.getTrimmedName() + ".png");
-            entry.animation = new ResourceLocation(anim + entry.getTrimmedName() + ".xml");
+            entry.model = new ResourceLocation(this.modid, model + entry.getTrimmedName() + entry.modelExt);
+            entry.texture = new ResourceLocation(this.modid, tex + entry.getTrimmedName() + ".png");
+            entry.animation = new ResourceLocation(this.modid, anim + entry.getTrimmedName() + ".xml");
 
             if (PokecubeCore.getConfig().debug_data)
                 PokecubeAPI.logInfo("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
@@ -324,6 +324,9 @@ public class JsonPokedexEntry
             if (base == null) PokecubeAPI.LOGGER.error("Error with base form {} for {}", this.base_form, entry);
             else entry.setBaseForme(base);
         }
+        if (this.model != null) PokedexEntryLoader.initFormeModel(entry, model);
+        if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
+        if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
         PokedexEntryLoader.parseEvols(entry, this.evolutions, false);
     }

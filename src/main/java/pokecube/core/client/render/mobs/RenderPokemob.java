@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -399,14 +398,14 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
     }
 
-    public static final Map<ResourceLocation, Holder> customs = Maps.newHashMap();
+    public static final Map<ResourceLocation, Holder> customs = new Object2ObjectOpenHashMap<>();
 
-    public static Map<PokemobType<?>, Holder> holderMap = Maps.newHashMap();
-    public static Map<PokedexEntry, Holder> holders = Maps.newHashMap();
+    public static Map<PokemobType<?>, Holder> holderMap = new Object2ObjectOpenHashMap<>();
+    public static Map<PokedexEntry, Holder> holders = new Object2ObjectOpenHashMap<>();
 
     public static void register()
     {
-        PokecubeAPI.logInfo("Registering Models to the renderer.");
+        if (ThutCore.conf.debug_models) PokecubeAPI.logInfo("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
@@ -458,7 +457,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return;
-        Holder holder = RenderPokemob.holders.getOrDefault(pokemob.getPokedexEntry(), this.holder);
+        PokedexEntry entry = pokemob.getPokedexEntry();
+        Holder holder = RenderPokemob.holders.getOrDefault(entry, this.holder);
         if (pokemob.getCustomHolder() != null)
         {
             final FormeHolder forme = pokemob.getCustomHolder();
@@ -466,7 +466,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             Holder temp = RenderPokemob.customs.get(model);
             if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
             {
-                if (temp == null) temp = new Holder(pokemob.getPokedexEntry());
+                if (temp == null) temp = new Holder(entry);
                 if (forme.model != null) temp.model = forme.model;
                 if (forme.animation != null) temp.animation = forme.animation;
                 if (forme.texture != null) temp.texture = forme.texture;
@@ -478,7 +478,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
-            if (ThutCore.conf.debug_models) PokecubeAPI.logDebug("Reloaded model for " + pokemob.getPokedexEntry());
+            if (ThutCore.conf.debug_models) PokecubeAPI.logDebug("Reloaded model for " + entry);
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded())
         {
