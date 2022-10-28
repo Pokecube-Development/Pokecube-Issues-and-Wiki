@@ -225,30 +225,30 @@
   "models": [
     {
       "key": "genesect-douse",
-      "tex": "genesect-douse",
-      "model": "genesect-douse",
-      "anim": "genesect-douse",
+      "tex": "genesect",
+      "model": "genesect",
+      "anim": "genesect",
       "types": "bug,steel"
     },
     {
       "key": "genesect-shock",
-      "tex": "genesect-shock",
-      "model": "genesect-shock",
-      "anim": "genesect-shock",
+      "tex": "genesect",
+      "model": "genesect",
+      "anim": "genesect",
       "types": "bug,steel"
     },
     {
       "key": "genesect-burn",
-      "tex": "genesect-burn",
-      "model": "genesect-burn",
-      "anim": "genesect-burn",
+      "tex": "genesect",
+      "model": "genesect",
+      "anim": "genesect",
       "types": "bug,steel"
     },
     {
       "key": "genesect-chill",
-      "tex": "genesect-chill",
-      "model": "genesect-chill",
-      "anim": "genesect-chill",
+      "tex": "genesect",
+      "model": "genesect",
+      "anim": "genesect",
       "types": "bug,steel"
     }
   ]
