@@ -608,9 +608,8 @@ public class PokecubeMobs
     @SubscribeEvent
     public void RegisterPokemobsEvent(final RegisterPokemobsEvent.Register event)
     {
-        for (final PokedexEntry entry : Database.getSortedFormes())
-        {
-            if (entry.model != PokedexEntry.MODELNO) continue;
+        Database.getSortedFormes().forEach(entry -> {
+            if (entry.model != PokedexEntry.MODELNO) return;
             final String tex = PokedexEntry.TEXTUREPATH;
             final String model = PokedexEntry.MODELPATH;
             entry.setModId(PokecubeMobs.MODID);
@@ -618,7 +617,17 @@ public class PokecubeMobs
             entry.model = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(PokecubeMobs.MODID, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + ".xml");
-        }
+        });
+        Database.customModels.forEach((entry, list) -> {
+            if (entry.getModId() == PokecubeMobs.MODID) list.forEach(holder -> {
+                if (holder.texture != null) holder.texture = new ResourceLocation(PokecubeMobs.MODID,
+                        holder.texture.getPath() + (holder.texture.getPath().endsWith(".png") ? "" : ".png"));
+                if (holder.model != null)
+                    holder.model = new ResourceLocation(PokecubeMobs.MODID, holder.model.getPath());
+                if (holder.animation != null) holder.animation = new ResourceLocation(PokecubeMobs.MODID,
+                        holder.animation.getPath() + (holder.animation.getPath().endsWith(".xml") ? "" : ".xml"));
+            });
+        });
     }
 
     @SubscribeEvent

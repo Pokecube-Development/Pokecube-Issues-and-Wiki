@@ -4,7 +4,7 @@
   <phase name="global" scale="0.24"/>
   <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
   <phase duration="10" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
-  <customTex default="typenull">
+  <customTex default="type-null">
    <part name="Head" tex="typenulleye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:6"/>
   </customTex>

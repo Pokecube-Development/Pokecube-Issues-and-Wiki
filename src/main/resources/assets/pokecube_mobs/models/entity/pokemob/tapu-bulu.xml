@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.51"/>
-  <customTex default="tapubulu">
+  <customTex default="tapu-bulu">
    <part name="Head" tex="tapubulueye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
    <part name="Mark" tex="tapubulumark"/>

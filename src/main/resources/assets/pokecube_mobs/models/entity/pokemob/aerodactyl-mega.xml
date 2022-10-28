@@ -7,7 +7,7 @@
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase duration="10" leftFront="" leftHind="leg1" name="quadWalk" rightFront="" rightHind="leg2"/>
-  <customTex default="aerodactyl_mega">
+  <customTex default="aerodactyl-mega">
    <part name="Head" tex="aerodactyl_meye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
   </customTex>

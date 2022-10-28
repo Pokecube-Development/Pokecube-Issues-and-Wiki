@@ -7,7 +7,7 @@
   <customTex default="palkia-origin">
    <part name="Head" tex="palkiaorigineye"/>
    <part name="Mark" tex="palkiaorigineye"/>
-   <part name="Glow" tex="palkia_origin"/>
+   <part name="Glow" tex="palkia-origin"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5"/>

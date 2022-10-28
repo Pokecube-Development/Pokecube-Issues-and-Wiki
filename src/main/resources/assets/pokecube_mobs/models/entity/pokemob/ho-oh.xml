@@ -4,7 +4,7 @@
   <phase name="global" scale="1.5"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
   <phase duration="10" leftArm="leg1_1" leftLeg="leg1" legAngle="15" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
-  <customTex default="hooh">
+  <customTex default="ho-oh">
    <part name="Head" tex="hoohhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>
