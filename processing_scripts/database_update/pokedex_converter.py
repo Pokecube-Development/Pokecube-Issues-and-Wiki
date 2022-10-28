@@ -282,13 +282,23 @@ class PokemonSpecies:
 
                 # Copy old model info over
                 if 'model' in old_entry:
-                    entry.model = old_entry['model']
+                    model = old_entry['model']
+                    key = model['key']
+                    entry.model = process_model(entry, key, model)
                 if 'male_model' in old_entry:
-                    entry.male_model = old_entry['male_model']
+                    model = old_entry['male_model']
+                    key = model['key']
+                    entry.male_model = process_model(entry, key, model)
                 if 'female_model' in old_entry:
-                    entry.female_model = old_entry['female_model']
+                    model = old_entry['female_model']
+                    key = model['key']
+                    entry.female_model = process_model(entry, key, model)
                 if 'models' in old_entry:
-                    entry.add_models(old_entry['models'])
+                    models = [m for m in old_entry['models']]
+                    for model in models:
+                        key = model['key']
+                        process_model(entry, key, model)
+                    entry.add_models(models)
                 elif len(forme.forms) > 1:
                     models = []
                     # Automatically make and add models for each forme if multiple
