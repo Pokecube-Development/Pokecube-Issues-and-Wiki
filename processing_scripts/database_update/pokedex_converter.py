@@ -1,6 +1,6 @@
 import json
 from ignore_list import isIgnored
-from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name
+from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -21,6 +21,16 @@ GMAX_SUFFIX = [
     '-gmax',
     '-eternamax',
 ]
+
+NO_SHINY = [
+    'vivillon'
+]
+
+def no_shiny(name):
+    for suf in NO_SHINY:
+        if name == suf:
+            return True
+    return False
 
 def is_mega(name):
     for suf in MEGA_SUFFIX:
@@ -83,6 +93,8 @@ class PokedexEntry:
             self.mega = True
         if is_gmax(self.name):
             self.gmax = True
+        if no_shiny(self.name):
+            self.no_shiny = True
         self.base_experience = forme.base_experience
 
         # These values are reported as 10x the value in the games for some reason.
@@ -281,6 +293,10 @@ class PokemonSpecies:
                     # Automatically make and add models for each forme if multiple
                     for form in forme.forms:
                         name = form.name
+
+                        if banned_form(name):
+                            continue
+
                         id = url_to_id(form)
                         form = get_form(id)
                         key = name
@@ -308,8 +324,8 @@ class PokemonSpecies:
                             entry.model = model
                         else:
                             models.append(model)
-                        
-                    entry.add_models(models)
+                    if len(models) > 0:
+                        entry.add_models(models)
 
                 # Copy old custom values from inside stats over
                 if 'stats' in old_entry:

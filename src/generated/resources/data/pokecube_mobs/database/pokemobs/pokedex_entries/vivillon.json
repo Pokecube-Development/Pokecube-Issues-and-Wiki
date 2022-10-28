@@ -2,6 +2,7 @@
   "name": "vivillon",
   "id": 666,
   "stock": true,
+  "no_shiny": true,
   "base_experience": 185,
   "size": {
     "height": 1.2

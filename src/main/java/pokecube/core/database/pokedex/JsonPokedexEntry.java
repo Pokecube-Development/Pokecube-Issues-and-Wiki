@@ -167,6 +167,7 @@ public class JsonPokedexEntry
 
     public Boolean mega = null;
     public Boolean gmax = null;
+    public Boolean no_shiny = null;
 
     public String sound = null;
 
@@ -278,6 +279,7 @@ public class JsonPokedexEntry
 
         if (this.mega != null) entry.setMega(this.mega);
         if (this.gmax != null) entry.setGMax(this.gmax);
+        if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 
         if (this.size != null) this.size.accept(entry);
         if (this.moves != null) this.moves.accept(entry);
@@ -293,13 +295,13 @@ public class JsonPokedexEntry
         if (this.prey != null) entry.food = this.prey.trim().split(" ");
 
         if (this.dye != null) this.dye.accept(entry);
+        entry.setModId(this.modid);
         if (this.model_path != null && this.tex_path != null)
         {
             final String tex = this.tex_path;
             final String model = this.model_path;
             String anim = this.anim_path;
             if (anim == null) anim = model;
-            entry.setModId(this.modid);
             entry.texturePath = tex;
             entry.model = new ResourceLocation(model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(tex + entry.getTrimmedName() + ".png");
