@@ -2,8 +2,6 @@ package pokecube.core.database.tags;
 
 import java.lang.reflect.Type;
 
-import javax.json.JsonException;
-
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -43,7 +41,7 @@ public class StringValueAdaptor implements JsonDeserializer<StringValue<?>>
             }
             return new StringValue<>(name);
         }
-        throw new JsonException("Error. currently only supports strings here");
+        throw new JsonParseException("Error. currently only supports strings here");
     }
 
 }
