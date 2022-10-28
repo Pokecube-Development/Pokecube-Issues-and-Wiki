@@ -145,6 +145,15 @@ IGNORED_FORMS = [
     "spewpa-jungle",
     "spewpa-fancy",
     "spewpa-poke-ball",
+
+    # All mothims are the same, so no forms for it.
+    "mothim-plant",
+    "mothim-sandy",
+    "mothim-trash",
+
+    # We don't care for the spiky pichu.
+    "pichu",
+    "pichu-spiky-eared",
 ]
 
 

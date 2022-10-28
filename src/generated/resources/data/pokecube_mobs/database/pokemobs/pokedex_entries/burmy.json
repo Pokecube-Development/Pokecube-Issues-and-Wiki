@@ -74,23 +74,23 @@
   "model": {
     "key": "burmy-plant",
     "tex": "burmy-plant",
-    "model": "burmy-plant",
-    "anim": "burmy-plant",
+    "model": "burmy",
+    "anim": "burmy",
     "types": "bug"
   },
   "models": [
     {
       "key": "burmy-sandy",
       "tex": "burmy-sandy",
-      "model": "burmy-sandy",
-      "anim": "burmy-sandy",
+      "model": "burmy",
+      "anim": "burmy",
       "types": "bug"
     },
     {
       "key": "burmy-trash",
       "tex": "burmy-trash",
-      "model": "burmy-trash",
-      "anim": "burmy-trash",
+      "model": "burmy",
+      "anim": "burmy",
       "types": "bug"
     }
   ],
