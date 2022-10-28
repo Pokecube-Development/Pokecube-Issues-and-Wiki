@@ -15,7 +15,7 @@
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4"/>
   <phase axis="0" name="snakeFly" parts="f1:f2:f3:f4:f5:f6:f7:f8"/>
   <phase axis="1" name="snakeFly" parts="f_2:f_3"/>
-  <customTex default="charizard_gigantamax">
+  <customTex default="charizard-gmax">
    <part name="Head" tex="charizardgmaxeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
    <part name="Fire" tex="charizardgfire"/>

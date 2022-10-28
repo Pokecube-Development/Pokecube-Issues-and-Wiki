@@ -4,7 +4,7 @@
   <phase name="global" scale="1.2"/>
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
-  <customTex default="machamp_gigantamax">
+  <customTex default="machamp-gmax">
    <part name="Head" tex="machampgigantamaxhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
   </customTex>

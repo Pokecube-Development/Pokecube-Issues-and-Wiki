@@ -4,7 +4,7 @@
   <phase name="global" scale="0.3"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-15,10" headDir="-1"/>
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="marowak_alola">
+  <customTex default="marowak-alola">
    <part name="Head" tex="marowakalolaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:2"/>
   </customTex>

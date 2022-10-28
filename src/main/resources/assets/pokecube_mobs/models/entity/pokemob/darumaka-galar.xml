@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.3"/>
-  <customTex default="darumaka_galar">
+  <customTex default="darumaka-galar">
    <part name="Head" tex="darumakagalareye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
   </customTex>

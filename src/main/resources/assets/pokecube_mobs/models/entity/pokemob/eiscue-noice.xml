@@ -6,7 +6,7 @@
 	<phase name="snakeIdle" parts="tail1:tail2:tail3:tail4" axis="0"/>
 	<phase name="snakeWalk" parts="tail1:tail2:tail3:tail4" axis="0"/>
 	<phase name="snakeSwim" parts="tail1:tail2:tail3:tail4" axis="0"/>
-	<customTex default="eiscue">
+	<customTex default="eiscue-ice">
 	 <part name="Head" tex="eiscuenohead"/>
 	 <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
 	</customTex>

@@ -4,7 +4,7 @@
   <phase name="global" scale="0.5"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-50,50" headDir="-1"/>
   <phase duration="8" angles="25" leftArm="" leftLeg="leg1" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="mawile_mega">
+  <customTex default="mawile-mega">
    <part name="Head" tex="mawilemegahead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:25"/>
   </customTex>

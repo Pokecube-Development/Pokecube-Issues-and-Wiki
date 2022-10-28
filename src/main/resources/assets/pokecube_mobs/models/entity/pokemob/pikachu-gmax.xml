@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="1.9"/>
   <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
-  <customTex default="pikachu_gigantamax">
+  <customTex default="pikachu-gmax">
    <part name="Head" tex="pikachugigantamaxeye"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>
    <part name="Mouth" tex="pikachugigantamaxeye"/>

@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="0.6"/>
   <metadata head="head" headCap="-5,5" headCap1="-5,5" headAxis="2" headAxis2="0" headDir="-1" headDir1="-1"/>
-  <customTex default="giratina">
+  <customTex default="giratina-altered">
    <part name="Head" tex="giratinaeye"/>
   </customTex>
   <phase axis="0" name="snakeidle" parts="tail1:tail2:tail3:tail4:tail5:tail6"/> 

@@ -6,7 +6,7 @@
   <phase axis="0" name="snakeIdle" parts="tail1:tail2:tail3:tail4:tail5"/>
   <phase axis="1" name="snakeWalk" parts="tail1:tail2:tail3:tail4:tail5"/>
   <phase axis="0" name="snakeSwim" parts="tail1:tail2:tail3:tail4:tail5"/>
-  <customTex default="persian_alola">
+  <customTex default="persian-alola">
    <part name="Head" tex="persianalolaeye"/>
    <animation diffs="0,0.4" part="Head" trigger="random:0.005:4"/>
   </customTex>

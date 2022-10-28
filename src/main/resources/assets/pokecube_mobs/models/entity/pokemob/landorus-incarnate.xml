@@ -3,7 +3,7 @@
  <model>
   <phase name="global" offset="0,0.2,0" scale="0.55"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-50,50" headDir="-1"/>
-  <customTex default="landorus_incarnate">
+  <customTex default="landorus-incarnate">
    <part name="Head" tex="landorushead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>

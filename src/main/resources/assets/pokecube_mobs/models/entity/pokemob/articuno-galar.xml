@@ -4,7 +4,7 @@
   <phase name="global" scale="0.45"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-25,25" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="articuno_galar">
+  <customTex default="articuno-galar">
    <part name="glow" tex="articuno_galar_eye"/>
    <animation diffs="0,0.5" part="glow" trigger="random:0.001:2"/>
   </customTex>

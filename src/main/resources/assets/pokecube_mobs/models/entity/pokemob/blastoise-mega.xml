@@ -6,7 +6,7 @@
   <worn angles="-90,0,0" id="__EYE__" offset="0,0.58,0.33" parent="head" scale="2.1,1.8,1.8"/>
   <metadata head="neck" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-15,10" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="blastoise_mega">
+  <customTex default="blastoise-mega">
    <part name="Head" tex="blastoise_mega_eye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>

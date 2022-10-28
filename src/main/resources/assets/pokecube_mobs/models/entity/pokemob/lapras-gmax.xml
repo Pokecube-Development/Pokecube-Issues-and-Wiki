@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="2.9"/>
   <metadata head="neck1:neck2:neck3:neck4" headAxis="2" headAxis2="0" headCap="-7,7" headCap1="-7,7" headDir="-1"/>
-  <customTex default="lapras_gigantamax">
+  <customTex default="lapras-gmax">
    <part name="Head" tex="laprasghead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:15"/>
   </customTex>

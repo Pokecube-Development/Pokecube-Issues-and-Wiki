@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="Gengar Mega">
   <phase name="global" offset="0,0.2,0" scale="0.4"/>
-  <customTex default="gengar_mega">
+  <customTex default="gengar-mega">
    <part name="Head" tex="gengarmegaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:10"/>
   </customTex>

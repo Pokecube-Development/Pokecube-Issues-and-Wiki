@@ -6,7 +6,7 @@
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <worn angles="-90,0,0" id="__HAT__" offset="0,0.45,0" parent="head" scale="1.8"/>
   <worn angles="-90,0,0" id="__EYE__" offset="0,0.1,0.58" parent="head" scale="1.5,1.5,1.5"/>
-  <customTex default="venusaur_gigantamax">
+  <customTex default="venusaur-gmax">
    <part name="Head" tex="venusaurgeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>

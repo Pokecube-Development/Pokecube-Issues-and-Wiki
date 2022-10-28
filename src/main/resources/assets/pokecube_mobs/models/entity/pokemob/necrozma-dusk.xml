@@ -7,7 +7,7 @@
   <phase axis="0" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5:tail6"/>
-  <customTex default="solgaleo_dusk">
+  <customTex default="necrozma-dusk">
    <part name="Body_N" tex="necrozma"/>
    <part name="Glow2" tex="necrozma"/>
    <part name="Head" tex="solgaleoduskeye"/>
