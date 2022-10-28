@@ -160,6 +160,10 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         // gives some time to actually load the model.
         protected int loadTimer = 3;
 
+        // This increments while the model is not found, and if it exceeds 100,
+        // will render missingno model.
+        protected int failTimer = 0;
+
         IAnimationHolder currentHolder = null;
 
         HeadInfo headInfo = new HeadInfo();
@@ -483,12 +487,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.wrapper != null && !holder.wrapper.isLoaded())
         {
             if (!holder.wrapper.isLoaded() && holder.wrapper.lastInit < Tracker.instance().getTick()) holder.init();
-            return;
+            if (holder.failTimer++ < 100) return;
         }
         // This gives time for the model to actually finish loading in.
         if (holder.loadTimer-- > 0) return;
         holder.loadTimer = 0;
-
+        holder.failTimer = 0;
         if (holder.wrapper == null || holder.wrapper.imodel == null || !holder.wrapper.isValid() || holder.model == null
                 || holder.texture == null)
             holder = RenderPokemob.getMissingNo();
