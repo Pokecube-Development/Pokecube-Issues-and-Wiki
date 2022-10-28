@@ -114,6 +114,11 @@ public class IconModule extends AnimModule
     @Override
     public void postRender()
     {
+        parent.xRenderAngle = 35;
+        parent.yRenderAngle = 5;
+        parent.yHeadRenderAngle = -5;
+        parent.xHeadRenderAngle = -15;
+        
         boolean debug = false;
         if (this.cap)
         {
@@ -218,16 +223,18 @@ public class IconModule extends AnimModule
         // Already captured for this icon.
         if (this.doneLocs.contains(icon1)) return true;
 
-        final File outFile = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").resolve(icon1.getNamespace())
-                .resolve(icon1.getPath()).toFile();
+        final File outFile = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img")
+                .resolve(parent.shiny ? "shiny" : "normal").resolve(icon1.getNamespace()).resolve(icon1.getPath())
+                .toFile();
         outFile.getParentFile().mkdirs();
         File outFile2 = null;
         if (parent.shiny && !AnimationGui.entry.hasShiny)
         {
             ResourceLocation icon = AnimationGui.entry.getIcon(male, false);
             if (parent.holder != null) icon = parent.holder.getIcon(male, false, AnimationGui.entry);
-            outFile2 = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img").resolve(icon.getNamespace())
-                    .resolve(icon.getPath()).toFile();
+            outFile2 = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img")
+                    .resolve(parent.shiny ? "shiny" : "normal").resolve(icon.getNamespace()).resolve(icon.getPath())
+                    .toFile();
         }
 
         GL11.glPixelStorei(3333, 1);
@@ -341,6 +348,7 @@ public class IconModule extends AnimModule
     public void cylceUp()
     {
         boolean next = false;
+
         if (parent.genders[0] && parent.genders[1])
         {
             parent.genders[0] = false;
