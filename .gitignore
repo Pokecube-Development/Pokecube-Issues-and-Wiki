@@ -25,7 +25,7 @@ run
 
 logs/*
 /git/
-processing_scripts/icon_generator/icons/*
+processing_scripts/icon_generator/icon/*
 processing_scripts/icon_generator/img/*
 processing_scripts/database_update/.cache/*
 processing_scripts/database_update/new/*
