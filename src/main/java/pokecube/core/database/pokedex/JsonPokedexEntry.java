@@ -167,6 +167,7 @@ public class JsonPokedexEntry
 
     public Boolean mega = null;
     public Boolean gmax = null;
+    public Boolean no_shiny = null;
 
     public String sound = null;
 
@@ -278,6 +279,7 @@ public class JsonPokedexEntry
 
         if (this.mega != null) entry.setMega(this.mega);
         if (this.gmax != null) entry.setGMax(this.gmax);
+        if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 
         if (this.size != null) this.size.accept(entry);
         if (this.moves != null) this.moves.accept(entry);

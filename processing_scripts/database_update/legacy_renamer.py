@@ -103,6 +103,54 @@ LEGACY_MAP = {
     "calyrex-shadow" : "calyrex_shadow_rider",
 }
 
+IGNORED_FORMS = [
+    # We handle scatterbug and spewpa with just vivilon.
+    "scatterbug-icy-snow",
+    "scatterbug-polar",
+    "scatterbug-tundra",
+    "scatterbug-continental",
+    "scatterbug-garden",
+    "scatterbug-elegant",
+    "scatterbug-meadow",
+    "scatterbug-modern",
+    "scatterbug-marine",
+    "scatterbug-archipelago",
+    "scatterbug-high-plains",
+    "scatterbug-sandstorm",
+    "scatterbug-river",
+    "scatterbug-monsoon",
+    "scatterbug-savanna",
+    "scatterbug-sun",
+    "scatterbug-ocean",
+    "scatterbug-jungle",
+    "scatterbug-fancy",
+    "scatterbug-poke-ball",            
+    "spewpa-icy-snow",
+    "spewpa-polar",
+    "spewpa-tundra",
+    "spewpa-continental",
+    "spewpa-garden",
+    "spewpa-elegant",
+    "spewpa-meadow",
+    "spewpa-modern",
+    "spewpa-marine",
+    "spewpa-archipelago",
+    "spewpa-high-plains",
+    "spewpa-sandstorm",
+    "spewpa-river",
+    "spewpa-monsoon",
+    "spewpa-savanna",
+    "spewpa-sun",
+    "spewpa-ocean",
+    "spewpa-jungle",
+    "spewpa-fancy",
+    "spewpa-poke-ball",
+]
+
+
+def banned_form(name):
+    return name in IGNORED_FORMS
+
 def to_model_form(new_name, species, dex):
     if new_name in TO_MODEL:
         old_name = TO_MODEL[new_name]
