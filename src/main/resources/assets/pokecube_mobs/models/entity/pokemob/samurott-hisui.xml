@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.38"/>
   <metadata head="neck1:head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
-  <customTex default="samurott_hisui">
+  <customTex default="samurott-hisui">
    <part name="Head" tex="samurotthisuieye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>

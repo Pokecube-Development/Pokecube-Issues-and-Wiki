@@ -4,9 +4,7 @@
   "stock": true,
   "base_experience": 62,
   "size": {
-    "height": 0.15,
-    "width": 0.15,
-    "length": 0.15
+    "height": 0.1
   },
   "mass": 0.2,
   "is_default": true,
@@ -137,22 +135,22 @@
     ]
   },
   "model": {
-    "key": "sinistea_nofake",
+    "key": "sinistea-antique",
     "tex": "sinistea",
-    "model": "sinistea_nofake",
-    "anim": "sinistea_nofake"
+    "model": "sinistea-antique",
+    "anim": "sinistea"
   },
   "models": [
     {
-      "key": "sinistea_nofake",
+      "key": "sinistea-antique",
       "tex": "sinistea",
-      "model": "sinistea_nofake",
+      "model": "sinistea-antique",
       "anim": "sinistea"
     },
     {
-      "key": "sinistea_fake",
+      "key": "sinistea-phony",
       "tex": "sinistea",
-      "model": "sinistea_fake",
+      "model": "sinistea-phony",
       "anim": "sinistea"
     }
   ],
@@ -161,11 +159,11 @@
       "name": "polteageist",
       "item_preset": "chippedpot",
       "evoMoves": "teatime",
-      "form_from": "sinistea_nofake",
+      "form_from": "sinistea-antique",
       "model": {
-        "key": "polteageist_nofake",
+        "key": "polteageist-antique",
         "tex": "polteageist",
-        "model": "polteageist_nofake",
+        "model": "polteageist-antique",
         "anim": "polteageist"
       }
     },
@@ -173,11 +171,11 @@
       "name": "polteageist",
       "item_preset": "crackedpot",
       "evoMoves": "teatime",
-      "form_from": "sinistea_fake",
+      "form_from": "sinistea-phony",
       "model": {
-        "key": "polteageist_fake",
+        "key": "polteageist-phony",
         "tex": "polteageist",
-        "model": "polteageist_fake",
+        "model": "polteageist-phony",
         "anim": "polteageist"
       }
     }

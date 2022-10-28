@@ -142,7 +142,7 @@ public class Restore
         final Map<Integer, ItemStack> cache = pokemobCache.cache;
         final ItemStack stack = cache.getOrDefault(id, ItemStack.EMPTY);
         Tools.giveItem(user, stack.copy());
-        PokecubeAPI.LOGGER.info("{} Restored {}", user.getDisplayName().getString(), stack.getHoverName().getString());
+        PokecubeAPI.logInfo("{} Restored {}", user.getDisplayName().getString(), stack.getHoverName().getString());
         return 0;
     }
 

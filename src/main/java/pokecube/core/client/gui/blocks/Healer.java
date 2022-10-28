@@ -9,10 +9,10 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.Resources;
 import pokecube.core.init.Sounds;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketHeal;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T>

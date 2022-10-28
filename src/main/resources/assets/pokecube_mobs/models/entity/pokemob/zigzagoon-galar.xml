@@ -3,7 +3,7 @@
   <model>
    <phase name="global" scale="0.15"/>
    <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="-1"/>
-   <customTex default="zigzagoon_galar">
+   <customTex default="zigzagoon-galar">
    <part name="Head" tex="zigzagoongalarhead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>

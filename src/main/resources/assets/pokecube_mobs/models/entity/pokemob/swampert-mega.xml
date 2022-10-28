@@ -4,7 +4,7 @@
   <phase name="global" scale="0.5"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-25,25" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="swampert_mega">
+  <customTex default="swampert-mega">
    <part name="Head" tex="swampertmegahead"/>
    <animation diffs="0,0.4" part="Head" trigger="random:0.005:4"/>
   </customTex>

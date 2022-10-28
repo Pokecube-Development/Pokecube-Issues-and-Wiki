@@ -126,7 +126,7 @@ public class GuiInfoMessages
             if (index < 0) index = 0;
             if (index > size) break;
             final MutableComponent mess2 = TComponent.literal(toUse.get(index));
-            var mess1 = minecraft.font.split(mess2, 114);
+            var mess1 = minecraft.font.split(mess2, trim);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
                 h = y + texH * shift;

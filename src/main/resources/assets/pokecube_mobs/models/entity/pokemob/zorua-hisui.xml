@@ -10,7 +10,7 @@
   <phase angle="15" axis="0" name="snakeWalk" parts="p2:p3:p4:p5"/>
   <phase angle="15" axis="2" name="snakeWalk" parts="hair3:hair4:hair5:hair6:hair7:hair8:hair9:hair10:hair11"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
-  <customTex default="zorua_hisui">
+  <customTex default="zorua-hisui">
    <part name="Head" tex="zorua_hisuieye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
   </customTex>

@@ -4,10 +4,10 @@
   <phase name="global" scale="0.58"/>
   <metadata head="body2:neck" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
-  <customTex default="palkia_origin">
+  <customTex default="palkia-origin">
    <part name="Head" tex="palkiaorigineye"/>
    <part name="Mark" tex="palkiaorigineye"/>
-   <part name="Glow" tex="palkia_origin"/>
+   <part name="Glow" tex="palkia-origin"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5"/>

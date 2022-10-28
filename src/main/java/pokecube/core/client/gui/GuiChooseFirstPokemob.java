@@ -27,10 +27,10 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.EventsHandlerClient;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketChoose;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class GuiChooseFirstPokemob extends Screen

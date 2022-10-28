@@ -4,9 +4,7 @@
   "stock": true,
   "base_experience": 130,
   "size": {
-    "height": 0.2,
-    "width": 0.2,
-    "length": 0.2
+    "height": 0.2
   },
   "mass": 0.9,
   "is_default": true,
@@ -170,38 +168,38 @@
   },
   "model": {
     "key": "floette-red",
-    "tex": "floette-red",
-    "model": "floette-red",
-    "anim": "floette-red",
+    "tex": "floette",
+    "model": "floette",
+    "anim": "floette",
     "types": "fairy"
   },
   "models": [
     {
       "key": "floette-yellow",
-      "tex": "floette-yellow",
-      "model": "floette-yellow",
-      "anim": "floette-yellow",
+      "tex": "floette",
+      "model": "floette",
+      "anim": "floette",
       "types": "fairy"
     },
     {
       "key": "floette-orange",
-      "tex": "floette-orange",
-      "model": "floette-orange",
-      "anim": "floette-orange",
+      "tex": "floette",
+      "model": "floette",
+      "anim": "floette",
       "types": "fairy"
     },
     {
       "key": "floette-blue",
-      "tex": "floette-blue",
-      "model": "floette-blue",
-      "anim": "floette-blue",
+      "tex": "floette",
+      "model": "floette",
+      "anim": "floette",
       "types": "fairy"
     },
     {
       "key": "floette-white",
-      "tex": "floette-white",
-      "model": "floette-white",
-      "anim": "floette-white",
+      "tex": "floette",
+      "model": "floette",
+      "anim": "floette",
       "types": "fairy"
     }
   ],

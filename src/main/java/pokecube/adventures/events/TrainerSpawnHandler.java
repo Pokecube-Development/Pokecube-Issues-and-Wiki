@@ -282,7 +282,7 @@ public class TrainerSpawnHandler
                 TrainerSpawnHandler.randomizeTrainerTeam(t, cap);
                 // Force a re-fresh of the type for fixing bag, belt, etc.
                 t.setNpcType(t.getNpcType());
-                PokecubeAPI.LOGGER.debug("Spawned Trainer: " + t + " " + count);
+                if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Spawned Trainer: " + t + " " + count);
             }
             else t.remove(RemovalReason.DISCARDED);
         }
@@ -339,7 +339,7 @@ public class TrainerSpawnHandler
             {
                 PokecubeAPI.LOGGER.error("Error parsing " + function, e);
             }
-            if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.LOGGER.info("Adding trainer: " + mob);
+            if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Adding trainer: " + mob);
             if (!MinecraftForge.EVENT_BUS
                     .post(new NpcSpawn.Check(mob, event.pos, event.worldActual, MobSpawnType.STRUCTURE, thing)))
             {

@@ -3,7 +3,7 @@
 	<model name="">
 	<phase name="global" scale="0.36"/>
 	<metadata head="head" headCap="-60,60" headCap1="-60,60" headAxis="2" headAxis2="0" headDir="-1"/>
-	<customTex default="eiscue">
+	<customTex default="eiscue-ice">
 	 <part name="Head" tex="eiscuehead"/>
 	</customTex>
 	<phase type="sitting">

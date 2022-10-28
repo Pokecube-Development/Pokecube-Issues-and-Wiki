@@ -15,6 +15,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.resources.PackFinder;
@@ -84,14 +85,14 @@ public class PokemobSpawns extends ResourceData
         resources.forEach((l, r) -> this.loadFile(l, r));
         if (this.validLoad)
         {
-            PokecubeAPI.LOGGER.debug("Loaded Pokemob spawns.");
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Pokemob spawns.");
             valid.set(true);
         }
     }
 
     private void apply()
     {
-        PokecubeAPI.LOGGER.debug("Applying Pokemob spawns.");
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Applying Pokemob spawns.");
         MASTER_LIST.rules.forEach(entry -> {
 
             SpawnRule rule = null;
@@ -179,7 +180,7 @@ public class PokemobSpawns extends ResourceData
                 });
             }
         });
-        PokecubeAPI.LOGGER.debug("Applied Pokemob spawns.");
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Applied Pokemob spawns.");
     }
 
     private void loadFile(final ResourceLocation l, Resource r)

@@ -111,7 +111,7 @@ public class DigBurrow extends AbstractBurrowTask
         if (valid.isPresent())
         {
             this.work_pos = valid.get().immutable();
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Found Dig Site!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Found Dig Site!");
             return true;
         }
         if (valids.get() == 0) part.setDigDone(Tracker.instance().getTick() + 12000);

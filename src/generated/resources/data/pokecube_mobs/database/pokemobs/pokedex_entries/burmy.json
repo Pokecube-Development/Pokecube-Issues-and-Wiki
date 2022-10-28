@@ -4,9 +4,7 @@
   "stock": true,
   "base_experience": 45,
   "size": {
-    "height": 0.2,
-    "width": 0.2,
-    "length": 0.2
+    "height": 0.2
   },
   "mass": 3.4,
   "is_default": true,
@@ -76,23 +74,23 @@
   "model": {
     "key": "burmy-plant",
     "tex": "burmy-plant",
-    "model": "burmy-plant",
-    "anim": "burmy-plant",
+    "model": "burmy",
+    "anim": "burmy",
     "types": "bug"
   },
   "models": [
     {
       "key": "burmy-sandy",
       "tex": "burmy-sandy",
-      "model": "burmy-sandy",
-      "anim": "burmy-sandy",
+      "model": "burmy",
+      "anim": "burmy",
       "types": "bug"
     },
     {
       "key": "burmy-trash",
       "tex": "burmy-trash",
-      "model": "burmy-trash",
-      "anim": "burmy-trash",
+      "model": "burmy",
+      "anim": "burmy",
       "types": "bug"
     }
   ],

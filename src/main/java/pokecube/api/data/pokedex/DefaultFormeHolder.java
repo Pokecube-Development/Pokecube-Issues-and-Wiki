@@ -147,18 +147,21 @@ public class DefaultFormeHolder
                 c.material = ThutCore.trim(c.material);
                 this._matsMap_.put(c.material, c);
             }
+            String tex = PokedexEntry.TEXTUREPATH;
+            String model = PokedexEntry.MODELPATH;
 
-            final ResourceLocation texl = this.tex != null
-                    ? PokecubeItems.toPokecubeResource(baseEntry.texturePath + this.tex)
-                    : null;
-            final ResourceLocation modell = this.model != null
-                    ? PokecubeItems.toPokecubeResource(
-                            baseEntry.model.toString().replace(baseEntry.getTrimmedName(), this.model))
-                    : null;
-            final ResourceLocation animl = this.anim != null
-                    ? PokecubeItems.toPokecubeResource(
-                            baseEntry.animation.toString().replace(baseEntry.getTrimmedName(), this.anim))
-                    : null;
+            String modid = baseEntry.getModId();
+            if (modid == null) modid = "pokecube_mobs";
+
+            ResourceLocation texl = this.tex != null ? PokecubeItems.toResource(tex + this.tex, modid) : null;
+            ResourceLocation modell = this.model != null ? PokecubeItems.toResource(model + this.model, modid) : null;
+            ResourceLocation animl = this.anim != null ? PokecubeItems.toResource(model + this.anim, modid) : null;
+
+            if (texl != null && !texl.getPath().endsWith(".png"))
+                texl = new ResourceLocation(texl.getNamespace(), texl.getPath() + ".png");
+            if (animl != null && !animl.getPath().endsWith(".xml"))
+                animl = new ResourceLocation(animl.getNamespace(), animl.getPath() + ".xml");
+
             final FormeHolder holder = FormeHolder.get(modell, texl, animl, key);
             holder.loaded_from = this;
             Database.registerFormeHolder(baseEntry, holder);

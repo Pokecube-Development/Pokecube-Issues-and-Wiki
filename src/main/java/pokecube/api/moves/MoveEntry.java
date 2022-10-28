@@ -382,11 +382,12 @@ public class MoveEntry implements IMoveConstants
         return (this.getAttackCategory(user)) == ContactCategory.CONTACT;
     }
 
-    public void applyMove(IPokemob user, @Nullable LivingEntity target, @Nullable Vector3 targetPos)
+    public MoveApplication applyMove(IPokemob user, @Nullable LivingEntity target, @Nullable Vector3 targetPos)
     {
         MoveApplication apply = new MoveApplication(this, user, target);
         MoveApplicationRegistry.preApply(apply);
         MoveApplicationRegistry.apply(apply);
+        return apply;
     }
 
     public float getPostDelayFactor(IPokemob attacker)

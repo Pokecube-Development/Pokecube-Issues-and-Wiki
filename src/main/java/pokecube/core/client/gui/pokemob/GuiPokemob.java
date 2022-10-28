@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.tabs.AI;
@@ -24,6 +23,7 @@ import pokecube.core.client.gui.pokemob.tabs.Routes;
 import pokecube.core.client.gui.pokemob.tabs.Storage;
 import pokecube.core.client.gui.pokemob.tabs.Tab;
 import pokecube.core.inventory.pokemob.PokemobContainer;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>

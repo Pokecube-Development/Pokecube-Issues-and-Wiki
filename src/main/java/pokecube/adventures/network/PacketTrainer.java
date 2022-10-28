@@ -209,7 +209,7 @@ public class PacketTrainer extends NBTPacket
                         TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
-            PokecubeAPI.LOGGER.debug("Recieved Trainer Spawn Packet");
+            PokecubeAPI.logDebug("Recieved Trainer Spawn Packet");
 
             final int level = this.getTag().getInt("L");
             final Vector3 vec = new Vector3().set(player);
@@ -305,7 +305,7 @@ public class PacketTrainer extends NBTPacket
             if (this.getTag().contains("__messages__"))
             {
                 final IHasMessages messages = TrainerCaps.getMessages(mob);
-                PokecubeAPI.LOGGER.debug("Editing Messages");
+                PokecubeAPI.logDebug("Editing Messages");
                 try
                 {
                     messages.deserializeNBT((CompoundTag) this.getTag().get("__messages__"));

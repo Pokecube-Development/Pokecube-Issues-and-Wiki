@@ -4,9 +4,7 @@
   "stock": true,
   "base_experience": 41,
   "size": {
-    "height": 0.3,
-    "width": 0.3,
-    "length": 0.3
+    "height": 0.3
   },
   "mass": 2.0,
   "is_default": true,
@@ -163,22 +161,6 @@
       "electric-terrain"
     ]
   },
-  "model": {
-    "key": "pichu",
-    "tex": "pichu",
-    "model": "pichu",
-    "anim": "pichu",
-    "types": "electric"
-  },
-  "models": [
-    {
-      "key": "pichu-spiky-eared",
-      "tex": "pichu-spiky-eared",
-      "model": "pichu-spiky-eared",
-      "anim": "pichu-spiky-eared",
-      "types": "electric"
-    }
-  ],
   "evolutions": [
     {
       "name": "pikachu",

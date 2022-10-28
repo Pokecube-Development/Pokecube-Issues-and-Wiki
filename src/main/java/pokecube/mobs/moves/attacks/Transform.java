@@ -13,7 +13,6 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
-import pokecube.core.ai.brain.BrainUtils;
 
 /** @author Manchou */
 @MoveProvider(name = "transform")
@@ -48,10 +47,7 @@ public class Transform implements PostMoveUse, PreProcessor
         IPokemob attacker = packet.getUser();
         LivingEntity attacked = packet.getTarget();
         if (attacked instanceof LivingEntity && attacked != attacker.getTransformedTo())
-        {
-            BrainUtils.initiateCombat(attacker.getEntity(), attacked);
             attacker.setTransformedTo(attacked);
-        }
     }
 
     @Override

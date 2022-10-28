@@ -4,7 +4,7 @@
   <phase name="global" scale="1.4"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1" headDir1="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="orbeetle_gigantamax">
+  <customTex default="orbeetle-gmax">
    <part name="Head" tex="orbeetlegigantamaxhead"/>
    <part name="Led" tex="glow"/>
    <animation diffs="0,0.5" part="Led" trigger="random:0.004:10"/>

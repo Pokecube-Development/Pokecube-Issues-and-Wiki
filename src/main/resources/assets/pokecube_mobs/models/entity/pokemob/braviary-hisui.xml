@@ -4,7 +4,7 @@
   <phase name="global" scale="0.19"/>
   <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-25,25" headCap1="-25,25" headDir="-1"/>
   <phase duration="10" leftArm="leg1_1" leftLeg="leg1" legAngle="16" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
-  <customTex default="braviary_hisui">
+  <customTex default="braviary-hisui">
    <part name="Mark" tex="braviary_hisui_mark"/>
    <part name="Head" tex="braviaryhisuieye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:11"/>

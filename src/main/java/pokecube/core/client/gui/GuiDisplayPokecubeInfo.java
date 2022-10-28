@@ -47,7 +47,6 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.GuiEvent;
-import pokecube.core.client.Resources;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.MovesUtils.AbleStatus;
@@ -55,6 +54,7 @@ import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.Resources;
 import thut.api.maths.Vector3;
 
 public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
@@ -311,9 +311,15 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int n = this.getPokemobsToDisplay().length;
-            final int num = this.fontRenderer.width("" + n);
-            this.blit(evt.getMat(), nameOffsetX + 89, nameOffsetY, 0, 27, 15, 15);
-            this.fontRenderer.draw(evt.getMat(), "" + n, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
+            final int n2 = this.indexPokemob + 1;
+            String txt = n == 1 ? n + "" : n2 + "/" + n;
+            final int num = this.fontRenderer.width(txt);
+            evt.getMat().pushPose();
+            evt.getMat().translate(nameOffsetX + 89, nameOffsetY, 0);
+            if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
+            this.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
+            evt.getMat().popPose();
+            this.fontRenderer.draw(evt.getMat(), txt, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
@@ -391,8 +397,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             mob.yHeadRot = yHeadRot;
             mob.yHeadRotO = yHeadRotO;
 
-            Entity ally = pokemob.getEntity().getLevel().getEntity(pokemob.getAllyID());
-            if (ally != null && ally != pokemob.getEntity() && ally instanceof LivingEntity living)
+            LivingEntity ally = pokemob.getMoveStats().targetAlly;
+            if (ally != null && ally != pokemob.getEntity())
             {
                 evt.getMat().pushPose();
 
@@ -405,7 +411,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
                 RenderSystem.enableBlend();
                 this.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
-                mob = living;
+                mob = ally;
 
                 f = 30;
                 yBodyRot = mob.yBodyRot;
@@ -445,8 +451,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         render:
         if (pokemob != null)
         {
-            Entity target = pokemob.getEntity().getLevel().getEntity(pokemob.getTargetID());
-            if (!(target instanceof LivingEntity entity) || !entity.isAlive()) break render;
+            LivingEntity entity = pokemob.getMoveStats().targetEnemy;
+            if (entity == null || !entity.isAlive()) break render;
 
             evt.getMat().pushPose();
             GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().targetRef,
@@ -463,6 +469,22 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             final int width = (int) (92 * ratio);
             this.blit(evt.getMat(), x, y, 0, 85, width, 5);
 
+            // Render number of enemies
+            RenderSystem.enableBlend();
+            final int n = pokemob.getEnemyNumber();
+            if (n > 1)
+            {
+                final int n2 = pokemob.getMoveStats().enemyIndex + 1;
+                String txt = n == 1 ? n + "" : n2 + "/" + n;
+                final int num = this.fontRenderer.width(txt);
+                evt.getMat().pushPose();
+                evt.getMat().translate(nameOffsetX - 43 - num, nameOffsetY, 0);
+                if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
+                this.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
+                evt.getMat().popPose();
+                this.fontRenderer.draw(evt.getMat(), txt, nameOffsetX - 43 - num + 2, nameOffsetY + 4,
+                        GuiDisplayPokecubeInfo.lightGrey);
+            }
             // Render Status
             pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null)
@@ -616,20 +638,15 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         if (this.getCurrentPokemob() == null) return;
         final Player player = this.minecraft.player;
         final Predicate<Entity> selector = input -> {
-            final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
             if (!AITools.validCombatTargets.test(input)) return false;
-            if (pokemob == null) return true;
-            return pokemob.getOwner() != GuiDisplayPokecubeInfo.this.getCurrentPokemob().getOwner();
+            return true;
         };
-        Entity target = Tools.getPointedEntity(player, 32, selector, 1);
+        Entity target = Tools.getPointedEntity(player, 32, selector.negate(), 1);
         target = EntityTools.getCoreEntity(target);
         if (target == null && Minecraft.getInstance().crosshairPickEntity != null
                 && selector.test(Minecraft.getInstance().crosshairPickEntity))
             target = Minecraft.getInstance().crosshairPickEntity;
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
-        boolean sameOwner = false;
-        final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
-        if (targetMob != null) sameOwner = targetMob.getOwner() == player;
         final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
         {
@@ -646,9 +663,8 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
                 return;
             }
         }
-        if (target != null && !sameOwner && (target instanceof LivingEntity || target instanceof PartEntity<?>))
-            PacketCommand.sendCommand(pokemob, Command.ATTACKENTITY,
-                    new AttackEntityHandler(target.getId()).setFromOwner(true));
+        if (target != null && (target instanceof LivingEntity || target instanceof PartEntity<?>)) PacketCommand
+                .sendCommand(pokemob, Command.ATTACKENTITY, new AttackEntityHandler(target.getId()).setFromOwner(true));
         else if (targetLocation != null) PacketCommand.sendCommand(pokemob, Command.ATTACKLOCATION,
                 new AttackLocationHandler(targetLocation).setFromOwner(true));
         else PacketCommand.sendCommand(pokemob, Command.ATTACKNOTHING, new AttackNothingHandler().setFromOwner(true));

@@ -223,6 +223,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default void onTick()
     {
         this.tickTimeSinceCombat();
+        this.updateBattleInfo();
     }
 
     /**

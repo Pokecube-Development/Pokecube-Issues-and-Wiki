@@ -5,7 +5,7 @@
   <metadata head="neck1:head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-10,10" headDir="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <phase axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4"/>
-  <customTex default="sceptile_mega">
+  <customTex default="sceptile-mega">
    <part name="Head" tex="sceptilemegahead"/>
    <animation diffs="0,0.35" part="Head" trigger="random:0.005:1"/>
   </customTex>

@@ -6,6 +6,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
@@ -40,9 +41,15 @@ public class StatEffect extends BaseEffect
             this.setDuration(0);
             return;
         }
-        final boolean up = this.amount < 0;
+        final boolean up = this.amount > 0;
         final LivingEntity entity = target.getEntity();
         final int duration = PokecubeCore.getConfig().attackCooldown + 10;
+
+        if (PokecubeCore.getConfig().debug_moves)
+        {
+            PokecubeAPI.logInfo("Stat effect {} of amount {} on {}", stat, this.amount, entity);
+        }
+
         switch (this.stat)
         {
         case ACCURACY:

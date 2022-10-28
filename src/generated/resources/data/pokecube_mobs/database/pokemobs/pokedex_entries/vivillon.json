@@ -2,11 +2,10 @@
   "name": "vivillon",
   "id": 666,
   "stock": true,
+  "no_shiny": true,
   "base_experience": 185,
   "size": {
-    "height": 1.2,
-    "width": 1.2,
-    "length": 1.2
+    "height": 1.2
   },
   "mass": 17.0,
   "is_default": true,
@@ -174,7 +173,7 @@
   },
   "model": {
     "key": "vivillon_mod",
-    "tex": "vivillon_mod",
+    "tex": "vivillon_modern",
     "model": "vivillon",
     "anim": "vivillon"
   },

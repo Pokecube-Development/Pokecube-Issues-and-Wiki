@@ -4,7 +4,7 @@
   <phase name="global" scale="0.6"/>
   <metadata head="neck:neck1:neck2:neck3:head" headCap="-10,10" headCap1="-10,10" headAxis="2" headAxis2="0" headDir="-1" headDir1="-1"/>
   <phase armAngle="20" duration="10" leftArm="" leftLeg="leg1:leg5:leg3" legAngle="15" name="biWalk" rightArm="" rightLeg="leg4:leg2:leg6"/>
-  <customTex default="giratina">
+  <customTex default="giratina-altered">
 	<part name="Head" tex="giratinaeye"/>
   </customTex>
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3"/>

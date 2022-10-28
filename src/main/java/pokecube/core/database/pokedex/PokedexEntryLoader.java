@@ -649,12 +649,14 @@ public class PokedexEntryLoader
 
     public static void initFormeModels(final PokedexEntry entry, final List<DefaultFormeHolder> list)
     {
-        for (final DefaultFormeHolder holder : list)
-        {
-            holder.getForme(entry);
-            if (PokecubeCore.getConfig().debug_data)
-                PokecubeAPI.LOGGER.info("Loaded Forme: " + holder.key + " " + holder.model + " " + holder.tex);
-        }
+        list.forEach(holder -> initFormeModel(entry, holder));
+    }
+
+    public static void initFormeModel(final PokedexEntry entry, DefaultFormeHolder holder)
+    {
+        FormeHolder forme = holder.getForme(entry);
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded form for {}: ({} {} {}) -> ({} {} {} {})",
+                entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
     }
 
     public static void updateEntry(final PokedexEntry entry)
@@ -800,7 +802,7 @@ public class PokedexEntryLoader
     {
         if (evolutions != null && !evolutions.isEmpty())
         {
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Proccessing Evos for " + entry.getName());
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Proccessing Evos for " + entry.getName());
             for (final Evolution evol : evolutions)
             {
                 final String name = evol.name;
@@ -819,7 +821,7 @@ public class PokedexEntryLoader
                     if (clear)
                     {
                         entry.evolutions.remove(d);
-                        PokecubeAPI.LOGGER.info("Replacing evolution for " + entry + " -> " + evolEntry);
+                        PokecubeAPI.logInfo("Replacing evolution for " + entry + " -> " + evolEntry);
                     }
                     break;
                 }
@@ -857,7 +859,7 @@ public class PokedexEntryLoader
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Handling Spawns for {}", entry);
         }
     }
 

@@ -181,11 +181,11 @@ public class ExpandedJigsawPacement
                             {
                                 List<Placer> attempts = Lists.newArrayList();
 
-                                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Building: {}", root_pool.getName());
+                                if (ThutCore.conf.debug) PokecubeAPI.logDebug("Building: {}", root_pool.getName());
                                 tries:
                                 for (int n = 0; n < 10; n++)
                                 {
-                                    if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Starting Try: {}", n);
+                                    if (ThutCore.conf.debug) PokecubeAPI.logDebug("Starting Try: {}", n);
                                     List<PoolElementStructurePiece> list = Lists.newArrayList();
                                     list.add(root_piece);
                                     Placer placer = new Placer(config, context, registry, config.max_depth, maxBounds,
@@ -205,14 +205,14 @@ public class ExpandedJigsawPacement
                                         placer.tryPlacingChildren(next_state, bound_checks, levelheightaccessor);
                                     }
 
-                                    if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Ended Try: {}", n);
+                                    if (ThutCore.conf.debug) PokecubeAPI.logDebug("Ended Try: {}", n);
                                     if (placer.needed_once.isEmpty()) break;
                                     for (String s : placer.needed_once)
                                     {
                                         if (!placer.added_once.contains(s))
                                         {
                                             if (ThutCore.conf.debug)
-                                                PokecubeAPI.LOGGER.debug("Try: {} has failed. Missing {}", n, s);
+                                                PokecubeAPI.logDebug("Try: {} has failed. Missing {}", n, s);
                                             continue tries;
                                         }
                                     }
@@ -427,7 +427,7 @@ public class ExpandedJigsawPacement
 
             boolean correct_direction = root_front == next_front.getOpposite();
 
-            if (!correct_direction && logs) PokecubeAPI.LOGGER.debug("wrong direction");
+            if (!correct_direction && logs) PokecubeAPI.logDebug("wrong direction");
             if (!correct_direction) return Attachment.INVALID;
 
             Direction root_top = JigsawBlock.getTopFacing(root.state);
@@ -437,14 +437,14 @@ public class ExpandedJigsawPacement
             });
 
             boolean correct_orientation = jointtype == JointType.ROLLABLE || root_top == next_top;
-            if (!correct_orientation && logs) PokecubeAPI.LOGGER.debug("wrong orientation");
+            if (!correct_orientation && logs) PokecubeAPI.logDebug("wrong orientation");
 
             if (!correct_orientation) return Attachment.INVALID;
 
             boolean tag_match = root.nbt.getString("target").equals(next.nbt.getString("name"));
 
             if (!tag_match && logs)
-                PokecubeAPI.LOGGER.debug(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
+                PokecubeAPI.logDebug(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
             if (!tag_match) return Attachment.INVALID;
             BlockPos next_pos = root.pos.relative(root_front);
             return root_box.contains(next_pos.getX(), next_pos.getY(), next_pos.getZ()) ? Attachment.INSIDE
@@ -591,7 +591,7 @@ public class ExpandedJigsawPacement
                                     l = 0;
                                 }
 
-                                if (this.logs) PokecubeAPI.LOGGER.info(next_jigsaws);
+                                if (this.logs) PokecubeAPI.logInfo(next_jigsaws);
 
                                 pick_jigsaws:
                                 for (StructureBlockInfo next_block_info : next_jigsaws)
@@ -689,7 +689,7 @@ public class ExpandedJigsawPacement
                                         }
 
                                         if (this.logs)
-                                            PokecubeAPI.LOGGER.debug("Placing Sub Part! {}", next_picked_element);
+                                            PokecubeAPI.logDebug("Placing Sub Part! {}", next_picked_element);
 
                                         int root_y_offset = current_root.getGroundLevelDelta();
                                         int next_y_offset;
@@ -813,7 +813,7 @@ public class ExpandedJigsawPacement
                                     else wrong_attach++;
                                 }
                             }
-                            if (this.logs) PokecubeAPI.LOGGER.debug(
+                            if (this.logs) PokecubeAPI.logDebug(
                                     "Skipping {} as did not fit: root_conflict:{} duplicated:{} no_attachment:{} box_conflicts:{}",
                                     next_picked_element, bounds_fails, duplicated_fails, wrong_attach, vanilla_fails);
                         }

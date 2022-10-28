@@ -171,73 +171,73 @@
   },
   "model": {
     "key": "furfrou-natural",
-    "tex": "furfrou-natural",
-    "model": "furfrou-natural",
-    "anim": "furfrou-natural",
+    "tex": "furfrou",
+    "model": "furfrou",
+    "anim": "furfrou",
     "types": "normal"
   },
   "models": [
     {
       "key": "furfrou-heart",
-      "tex": "furfrou-heart",
-      "model": "furfrou-heart",
-      "anim": "furfrou-heart",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-star",
-      "tex": "furfrou-star",
-      "model": "furfrou-star",
-      "anim": "furfrou-star",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-diamond",
-      "tex": "furfrou-diamond",
-      "model": "furfrou-diamond",
-      "anim": "furfrou-diamond",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-debutante",
-      "tex": "furfrou-debutante",
-      "model": "furfrou-debutante",
-      "anim": "furfrou-debutante",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-matron",
-      "tex": "furfrou-matron",
-      "model": "furfrou-matron",
-      "anim": "furfrou-matron",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-dandy",
-      "tex": "furfrou-dandy",
-      "model": "furfrou-dandy",
-      "anim": "furfrou-dandy",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-la-reine",
-      "tex": "furfrou-la-reine",
-      "model": "furfrou-la-reine",
-      "anim": "furfrou-la-reine",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-kabuki",
-      "tex": "furfrou-kabuki",
-      "model": "furfrou-kabuki",
-      "anim": "furfrou-kabuki",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     },
     {
       "key": "furfrou-pharaoh",
-      "tex": "furfrou-pharaoh",
-      "model": "furfrou-pharaoh",
-      "anim": "furfrou-pharaoh",
+      "tex": "furfrou",
+      "model": "furfrou",
+      "anim": "furfrou",
       "types": "normal"
     }
   ],

@@ -167,6 +167,7 @@ public class JsonPokedexEntry
 
     public Boolean mega = null;
     public Boolean gmax = null;
+    public Boolean no_shiny = null;
 
     public String sound = null;
 
@@ -278,6 +279,7 @@ public class JsonPokedexEntry
 
         if (this.mega != null) entry.setMega(this.mega);
         if (this.gmax != null) entry.setGMax(this.gmax);
+        if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 
         if (this.size != null) this.size.accept(entry);
         if (this.moves != null) this.moves.accept(entry);
@@ -293,19 +295,20 @@ public class JsonPokedexEntry
         if (this.prey != null) entry.food = this.prey.trim().split(" ");
 
         if (this.dye != null) this.dye.accept(entry);
+        entry.setModId(this.modid);
         if (this.model_path != null && this.tex_path != null)
         {
             final String tex = this.tex_path;
             final String model = this.model_path;
             String anim = this.anim_path;
             if (anim == null) anim = model;
-            entry.setModId(this.modid);
             entry.texturePath = tex;
-            entry.model = new ResourceLocation(model + entry.getTrimmedName() + entry.modelExt);
-            entry.texture = new ResourceLocation(tex + entry.getTrimmedName() + ".png");
-            entry.animation = new ResourceLocation(anim + entry.getTrimmedName() + ".xml");
+            entry.model = new ResourceLocation(this.modid, model + entry.getTrimmedName() + entry.modelExt);
+            entry.texture = new ResourceLocation(this.modid, tex + entry.getTrimmedName() + ".png");
+            entry.animation = new ResourceLocation(this.modid, anim + entry.getTrimmedName() + ".xml");
 
-            PokecubeAPI.LOGGER.info("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
+            if (PokecubeCore.getConfig().debug_data)
+                PokecubeAPI.logInfo("Paths for {}: {} {} {}", entry.model, entry.texture, entry.animation);
         }
 
         if (this.pose_shapes != null && !this.pose_shapes.isEmpty())
@@ -321,6 +324,9 @@ public class JsonPokedexEntry
             if (base == null) PokecubeAPI.LOGGER.error("Error with base form {} for {}", this.base_form, entry);
             else entry.setBaseForme(base);
         }
+        if (this.model != null) PokedexEntryLoader.initFormeModel(entry, model);
+        if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
+        if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
         PokedexEntryLoader.parseEvols(entry, this.evolutions, false);
     }
@@ -342,7 +348,7 @@ public class JsonPokedexEntry
             if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info("Handling Spawns for {}", entry);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Handling Spawns for {}", entry);
         }
     }
 
@@ -370,7 +376,7 @@ public class JsonPokedexEntry
             }
         });
 
-        PokecubeAPI.LOGGER.info("Loaded {} Pokemobs", toLoad.size());
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded {} Pokemobs", toLoad.size());
 
         List<JsonPokedexEntry> loaded = LOADED;
         loaded.clear();

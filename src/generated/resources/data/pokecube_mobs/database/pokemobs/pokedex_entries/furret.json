@@ -5,8 +5,7 @@
   "base_experience": 145,
   "size": {
     "height": 1.2,
-    "width": 1.8,
-    "length": 1.8
+    "width": 1.8
   },
   "mass": 32.5,
   "is_default": true,

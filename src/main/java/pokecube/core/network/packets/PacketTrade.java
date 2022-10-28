@@ -43,7 +43,8 @@ public class PacketTrade extends Packet
         {
             container.tile.confirmed[0] = false;
             container.tile.confirmed[1] = false;
-            PokecubeAPI.LOGGER.debug("Resetting trade status, users: " + container.tile.users);
+            if (PokecubeCore.getConfig().debug_misc)
+                PokecubeAPI.logInfo("Resetting trade status, users: " + container.tile.users);
             return;
         }
         if (this.data.contains("0"))
@@ -63,8 +64,7 @@ public class PacketTrade extends Packet
     {
         final AbstractContainerMenu cont = player.containerMenu;
         if (!(cont instanceof TradeContainer container)) return;
-        final InvWrapper inv = (InvWrapper) container.tile.getCapability(ThutCaps.ITEM_HANDLER)
-                .orElse(null);
+        final InvWrapper inv = (InvWrapper) container.tile.getCapability(ThutCaps.ITEM_HANDLER).orElse(null);
         if (this.data.contains("r"))
         {
             container.tile.confirmed[0] = false;

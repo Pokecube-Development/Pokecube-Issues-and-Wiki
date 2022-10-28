@@ -5,9 +5,7 @@
   "mega": true,
   "base_experience": 261,
   "size": {
-    "height": 2.2,
-    "width": 2.2,
-    "length": 2.2
+    "height": 2.2
   },
   "mass": 50.5,
   "is_default": false,

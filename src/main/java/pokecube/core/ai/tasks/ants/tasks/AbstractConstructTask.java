@@ -101,7 +101,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
 
     protected final void endTask()
     {
-        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Need New Work Site " + this.progressTimer);
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Need New Work Site " + this.progressTimer);
         if (this.progressTimer > 700) this.entity.getBrain().setMemory(MemoryModules.GOING_HOME.get(), true);
         this.reset();
     }
@@ -198,7 +198,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
         }
         if (!(edge || node))
         {
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Invalid Dig Info!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Invalid Dig Info!");
             this.reset();
             return false;
         }
@@ -268,7 +268,7 @@ public abstract class AbstractConstructTask extends AbstractWorkTask
             this.progressTimer = -10;
             this.doWork();
             if (PokecubeCore.getConfig().debug_ai)
-                PokecubeAPI.LOGGER.info("Work Done! " + this.job + " " + this.n + " " + this.e);
+                PokecubeAPI.logInfo("Work Done! " + this.job + " " + this.n + " " + this.e);
             if (PokecubeCore.getConfig().debug_ai) this.pokemob.setPokemonNickname(this.job + " IDLE");
             this.work_pos = null;
             this.progressDistance = 0;

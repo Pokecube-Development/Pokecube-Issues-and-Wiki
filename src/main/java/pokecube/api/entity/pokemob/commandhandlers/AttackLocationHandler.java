@@ -33,7 +33,7 @@ public class AttackLocationHandler extends DefaultHandler
         final CommandAttackEvent evt = new CommandAttackEvent(pokemob.getEntity(), null);
         PokecubeAPI.POKEMOB_BUS.post(evt);
         if (PokecubeCore.getConfig().debug_commands)
-            PokecubeAPI.LOGGER.info("Recieved Command to Attack {} for {}", this.location, pokemob.getEntity());
+            PokecubeAPI.logInfo("Recieved Command to Attack {} for {}", this.location, pokemob.getEntity());
 
         if (!evt.isCanceled() && currentMove != 5 && MovesUtils.canUseMove(pokemob))
         {

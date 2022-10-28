@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.inventory.trainer.ContainerTrainer;
-import pokecube.core.client.Resources;
+import pokecube.core.utils.Resources;
 
 public class Trainer extends AbstractContainerScreen<ContainerTrainer>
 {

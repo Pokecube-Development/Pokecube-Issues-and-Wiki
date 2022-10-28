@@ -231,7 +231,7 @@ public class TrainerEventHandler
         for (int i = 0; i < 6; i++) mobs.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
 
         if (PokecubeCore.getConfig().debug_spawning)
-            PokecubeAPI.LOGGER.info("Initializing caps " + event.getObject() + " " + event.getObject().isAlive());
+            PokecubeAPI.logInfo("Initializing caps " + event.getObject() + " " + event.getObject().isAlive());
     }
 
     public static void onAttachMobCaps(final AttachCapabilitiesEvent<Entity> event)
@@ -396,7 +396,7 @@ public class TrainerEventHandler
             if (npc instanceof Mob mob && npc.getLevel() instanceof ServerLevel)
             {
                 TypeTrainer.addAI(mob);
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.debug("Added Tasks: " + npc);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Added Tasks: " + npc);
             }
         }
     }

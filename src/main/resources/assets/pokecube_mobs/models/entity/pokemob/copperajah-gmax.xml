@@ -2,7 +2,6 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="1.4"/>
-  <customTex default="copperajah_gigantamax"/>
   <phase type="idle">
    <part name="tail">
     <component length="10" name="1" rotOffset="-20,0,0" rotChange="-1,0,0" startKey="0"/>

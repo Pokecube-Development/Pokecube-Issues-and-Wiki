@@ -88,7 +88,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         // Update index if it changed.
         if (index != this.pokemob.getMoveIndex())
         {
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Move Swap to Highest Damage, "
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Move Swap to Highest Damage, "
                     + this.pokemob.getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
                     + this.pokemob.getCombatState(CombatStates.HUNTING));
             this.pokemob.setMoveIndex(index);
@@ -119,7 +119,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
             this.moveIndexCounter = 0;
             if (index != this.pokemob.getMoveIndex())
             {
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Move Swap to Random Move, "
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Move Swap to Random Move, "
                         + this.pokemob.getEntity() + " g:" + this.pokemob.getCombatState(CombatStates.GUARDING) + " h:"
                         + this.pokemob.getCombatState(CombatStates.HUNTING));
                 this.pokemob.setMoveIndex(index);

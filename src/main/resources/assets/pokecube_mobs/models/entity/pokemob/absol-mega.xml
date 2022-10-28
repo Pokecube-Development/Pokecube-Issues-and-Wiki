@@ -9,7 +9,7 @@
   <worn angles="-90,0,0" id="__NECK__" offset="0,0.5,0.2" parent="neck" scale="1.5"/>
   <phase axis="0" name="snakeIdle" parts="tail"/>
   <phase axis="0" name="snakeWalk" parts="tail"/>
-  <customTex default="absol_mega">
+  <customTex default="absol-mega">
    <part name="Head" tex="absolmegahead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>
   </customTex>

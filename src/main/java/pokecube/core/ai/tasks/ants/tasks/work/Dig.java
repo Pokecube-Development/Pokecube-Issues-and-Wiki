@@ -55,11 +55,11 @@ public class Dig extends AbstractConstructTask
         if (valid.isPresent())
         {
             this.work_pos = valid.get().immutable();
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Found Dig Site!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Found Dig Site!");
             return true;
         }
         final boolean done = part instanceof Edge ? this.valids.get() == 0 : this.valids.get() < 3;
-        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("No Site " + this.valids.get() + " " + done);
+        if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("No Site " + this.valids.get() + " " + done);
         // None were valid to dig, so mark as done.
         if (done) part.setDigDone(time + (part instanceof Node ? 2400 : 1200));
         return false;
@@ -77,7 +77,7 @@ public class Dig extends AbstractConstructTask
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to a node 1 " + this.n);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 1 " + this.n);
                 return true;
             }
             next = edge.node2;
@@ -85,7 +85,7 @@ public class Dig extends AbstractConstructTask
             {
                 this.n = next;
                 this.e = null;
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to a node 2 " + this.n);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 2 " + this.n);
                 return true;
             }
         }
@@ -102,7 +102,7 @@ public class Dig extends AbstractConstructTask
             {
                 this.n = null;
                 this.e = next;
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to an edge 1 " + this.e);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to an edge 1 " + this.e);
                 return true;
             }
         }
@@ -111,14 +111,14 @@ public class Dig extends AbstractConstructTask
             if (n.shouldDig(time))
             {
                 this.n = n;
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to a node 3 " + this.n);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to a node 3 " + this.n);
                 return true;
             }
         for (final Edge e : this.nest.hab.rooms.allEdges)
             if (e.shouldDig(time))
             {
                 this.e = e;
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Switching to an edge 2 " + e);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Switching to an edge 2 " + e);
                 return true;
             }
         return false;
@@ -132,16 +132,16 @@ public class Dig extends AbstractConstructTask
         if (this.work_pos == null && (this.progressTimer % 5 == 0 || this.progressTimer < 0))
         {
             final Part part = edge ? this.e : this.n;
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selecting dig site: " + part);
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting dig site: " + part);
             if (this.digPart(part))
             {
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Selected dig site");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selected dig site");
                 break dig_select;
             }
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Site No Task!");
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Site No Task!");
             if (!this.divert(part))
             {
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Job Done!");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Job Done!");
                 this.endTask();
             }
             return false;

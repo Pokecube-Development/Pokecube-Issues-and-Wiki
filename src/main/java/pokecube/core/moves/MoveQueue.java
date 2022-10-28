@@ -15,8 +15,8 @@ import net.minecraft.world.level.LevelAccessor;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.core.moves.animations.EntityMoveUse;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 
@@ -48,7 +48,7 @@ public class MoveQueue
             queue.executeMoves();
             final double dt = (System.nanoTime() - time) / 1000d;
             if (dt > 1000)
-                PokecubeAPI.LOGGER.debug("move queue took {}  for world {} for {} moves.", dt, world.dimension(), num);
+                PokecubeAPI.logDebug("move queue took {}  for world {} for {} moves.", dt, world.dimension(), num);
         }
 
         @Override

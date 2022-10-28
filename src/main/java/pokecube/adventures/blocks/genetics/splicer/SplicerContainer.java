@@ -8,8 +8,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.helper.PoweredContainer;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
-import pokecube.core.client.Resources;
 import pokecube.core.inventory.TexturedSlot;
+import pokecube.core.utils.Resources;
 
 public class SplicerContainer extends PoweredContainer<SplicerTile>
 {

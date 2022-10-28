@@ -205,7 +205,7 @@ public class BerryGenManager
             }
             catch (final FileNotFoundException e1)
             {
-                PokecubeAPI.LOGGER.debug("No berry spawns list {} found.", s);
+                PokecubeAPI.logDebug("No berry spawns list {} found.", s);
             }
             catch (final Exception e)
             {

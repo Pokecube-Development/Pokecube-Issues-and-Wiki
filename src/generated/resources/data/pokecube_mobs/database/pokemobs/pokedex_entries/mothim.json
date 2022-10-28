@@ -4,9 +4,7 @@
   "stock": true,
   "base_experience": 148,
   "size": {
-    "height": 0.9,
-    "width": 0.9,
-    "length": 0.9
+    "height": 0.9
   },
   "mass": 23.3,
   "is_default": true,
@@ -187,28 +185,5 @@
       "lunge"
     ]
   },
-  "model": {
-    "key": "mothim-plant",
-    "tex": "mothim-plant",
-    "model": "mothim-plant",
-    "anim": "mothim-plant",
-    "types": "bug,flying"
-  },
-  "models": [
-    {
-      "key": "mothim-sandy",
-      "tex": "mothim-sandy",
-      "model": "mothim-sandy",
-      "anim": "mothim-sandy",
-      "types": "bug,flying"
-    },
-    {
-      "key": "mothim-trash",
-      "tex": "mothim-trash",
-      "model": "mothim-trash",
-      "anim": "mothim-trash",
-      "types": "bug,flying"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

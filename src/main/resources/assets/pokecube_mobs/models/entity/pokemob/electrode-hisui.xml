@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.55"/>
-  <customTex default="electrode_hisui">
+  <customTex default="electrode-hisui">
    <part name="Mouth" tex="electrodehisuimouth"/>
   </customTex>
   <phase type="idle">

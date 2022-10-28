@@ -4,9 +4,7 @@
   "stock": true,
   "base_experience": 178,
   "size": {
-    "height": 0.25,
-    "width": 0.25,
-    "length": 0.25
+    "height": 0.2
   },
   "mass": 0.4,
   "is_default": true,
@@ -146,19 +144,23 @@
     ]
   },
   "model": {
-    "key": "polteageist-phony",
-    "tex": "polteageist-phony",
-    "model": "polteageist-phony",
-    "anim": "polteageist-phony",
-    "types": "ghost"
+    "key": "polteageist-antique",
+    "tex": "polteageist",
+    "model": "polteageist-antique",
+    "anim": "polteageist"
   },
   "models": [
     {
       "key": "polteageist-antique",
-      "tex": "polteageist-antique",
+      "tex": "polteageist",
       "model": "polteageist-antique",
-      "anim": "polteageist-antique",
-      "types": "ghost"
+      "anim": "polteageist"
+    },
+    {
+      "key": "polteageist-phony",
+      "tex": "polteageist",
+      "model": "polteageist-phony",
+      "anim": "polteageist"
     }
   ],
   "loot_table": "pokecube:entities/enderpearls_2"

@@ -6,7 +6,7 @@
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1_1" legAngle="45" name="biWalk" rightArm="" rightLeg="leg2_1"/>
   <phase axis="0" name="snakeIdle" parts="tail1:tail2:tail3:tail4"/>
   <phase axis="1" name="snakeWalk" parts="tail1:tail2:tail3:tail4"/>
-  <customTex default="aggronmega">
+  <customTex default="aggron-mega">
    <part name="Head" tex="aggronmegaeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>

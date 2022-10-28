@@ -1,4 +1,4 @@
-package pokecube.core.moves.animations;
+package pokecube.core.moves.damage;
 
 import java.util.List;
 import java.util.Set;
@@ -34,10 +34,12 @@ import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.EntityTools;
@@ -243,8 +245,24 @@ public class EntityMoveUse extends ThrowableProjectile
         // Only hit multipart entities once
         // Only can hit our valid target!
         if (targId != null && !attack.canHitNonTarget() && !targId.equals(targetID)) return;
-        if (!this.level.isClientSide)
+        if (!this.level.isClientSide && user instanceof LivingEntity livingUser)
         {
+            // Initiate battle in here if the target was not the intended
+            // target.
+            if (target != apply.getTarget())
+            {
+                boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
+                Battle b = Battle.getBattle(livingUser);
+                if (b != null && b.getEnemies(livingUser).contains(target)) newCombat = false;
+                if (target instanceof Mob mob && newCombat) BrainUtils.initiateCombat(mob, livingUser);
+            }
+
+            if (target.getLastHurtByMob() != livingUser)
+            {
+                target.setLastHurtByMob(livingUser);
+                livingUser.setLastHurtByMob(target);
+            }
+
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
 

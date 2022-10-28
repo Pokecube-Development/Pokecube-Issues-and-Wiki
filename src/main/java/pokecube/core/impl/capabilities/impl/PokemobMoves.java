@@ -11,8 +11,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.CapabilityAffected;
@@ -77,18 +77,6 @@ public abstract class PokemobMoves extends PokemobStats
         // graphical indicator of move cooldowns
         PacketSyncMoveUse.sendUpdate(this);
 
-        if (target != this.getEntity() && target != null)
-        {
-            boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != this.getEntity();
-            Battle b = Battle.getBattle(entity);
-            if (b != null && b.getEnemies(entity).contains(target)) newCombat = false;
-            if (target instanceof Mob mob && newCombat) BrainUtils.initiateCombat(mob, this.getEntity());
-            if (target.getLastHurtByMob() != this.getEntity())
-            {
-                target.setLastHurtByMob(this.getEntity());
-                this.getEntity().setLastHurtByMob(target);
-            }
-        }
         final int statusChange = this.getChanges();
         final IPokemob targetMob = PokemobCaps.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
         if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)
@@ -225,6 +213,125 @@ public abstract class PokemobMoves extends PokemobStats
     {
         final Integer val = this.dataSync().get(this.params.STATUSDW);
         return Math.max(0, val);
+    }
+
+    @Override
+    public int getEnemyNumber()
+    {
+        return this.dataSync().get(this.params.ENEMYNUMDW);
+    }
+
+    @Override
+    public int getAllyNumber()
+    {
+        return this.dataSync().get(this.params.ALLYNUMDW);
+    }
+
+    @Override
+    public int getTargetID()
+    {
+        return this.dataSync.get(this.params.ATTACKTARGETIDDW);
+    }
+
+    @Override
+    public void setTargetID(final int id)
+    {
+        this.dataSync.set(this.params.ATTACKTARGETIDDW, Integer.valueOf(id));
+    }
+
+    @Override
+    public int getAllyID()
+    {
+        return this.dataSync.get(this.params.ALLYTARGETIDDW);
+    }
+
+    @Override
+    public void setAllyID(final int id)
+    {
+        this.dataSync.set(this.params.ALLYTARGETIDDW, Integer.valueOf(id));
+    }
+
+    @Override
+    public void updateBattleInfo()
+    {
+        // Only owned mobs process beyond here.
+        if (this.getOwner() == null) return;
+
+        // Only process battle stuff server side.
+        battle_check:
+        if (!entity.getLevel().isClientSide())
+        {
+            Battle b = Battle.getBattle(entity);
+            this.setBattle(b);
+
+            if (b == null && this.inCombat())
+            {
+                LivingEntity target = entity.getTarget();
+                if (target != null) Battle.createOrAddToBattle(entity, target);
+
+                b = Battle.getBattle(entity);
+                this.setBattle(b);
+            }
+
+            if (b == null)
+            {
+                // Enemy always empty when not in battle
+                this.setTargetID(-1);
+
+                // Ally is either us, or owner when not in battle.
+                int allyIndex = this.getMoveStats().allyIndex % 2;
+                if (allyIndex < 0) allyIndex = 1;
+
+                if (allyIndex == 1)
+                {
+                    this.setAllyID(this.getOwner().id);
+                }
+                else this.setAllyID(this.getEntity().id);
+
+                this.dataSync().set(this.params.ENEMYNUMDW, 0);
+                this.dataSync().set(this.params.ALLYNUMDW, 1);
+                break battle_check;
+            }
+
+            List<LivingEntity> mobs = b.getEnemies(entity);
+            int targetIndex = this.getMoveStats().enemyIndex;
+            if (targetIndex < 0) targetIndex = mobs.size() - 1;
+
+            LivingEntity target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
+            this.dataSync().set(this.params.ENEMYNUMDW, mobs.size());
+            this.setTargetID(target == null ? -1 : target.id);
+            if (target != BrainUtils.getAttackTarget(entity)) BrainUtils.setAttackTarget(entity, target);
+            mobs = b.getAllies(entity);
+            this.dataSync().set(this.params.ALLYNUMDW, mobs.size());
+            int allyIndex = this.getMoveStats().allyIndex % (mobs.size() + 1);
+            if (allyIndex < 0) allyIndex = mobs.size();
+            if (allyIndex == mobs.size())
+            {
+                // Ally is owner
+                if (this.getOwner() != null) this.setAllyID(this.getOwner().id);
+            }
+            else
+            {
+                this.setAllyID(mobs.get(allyIndex).id);
+            }
+            break battle_check;
+        }
+        // Then both sides update targetEnemy and targetAlly
+        Entity target = entity.getLevel().getEntity(this.getTargetID());
+        this.getMoveStats().targetEnemy = target instanceof LivingEntity living ? living : null;
+        target = entity.getLevel().getEntity(this.getAllyID());
+        this.getMoveStats().targetAlly = target instanceof LivingEntity living ? living : null;
+
+        // Ensure indeces are in range
+        int num = this.getAllyNumber() + 1;
+        // Cull down in this case
+        if (this.getMoveStats().allyIndex >= num) this.getMoveStats().allyIndex = 0;
+        else if (this.getMoveStats().allyIndex < 0) this.getMoveStats().allyIndex = 1;
+
+        num = this.getEnemyNumber();
+        // Cull down in this case
+        if (this.getMoveStats().enemyIndex >= num) this.getMoveStats().enemyIndex = 0;
+        else if (this.getMoveStats().enemyIndex < 0) this.getMoveStats().enemyIndex = num - 1;
     }
 
     @Override

@@ -368,7 +368,7 @@ public abstract class PokemobAI extends PokemobEvolves
         if (entity == null)
         {
             if (forced && this.targetFinder != null) this.targetFinder.clear();
-            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.LOGGER.info("Null Target Set for " + this.getEntity());
+            if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Null Target Set for " + this.getEntity());
             this.setTargetID(-1);
             this.getEntity().getPersistentData().putString("lastMoveHitBy", "");
         }
@@ -377,7 +377,7 @@ public abstract class PokemobAI extends PokemobEvolves
             final IOwnable target = OwnableCaps.getOwnable(entity);
             final boolean mateFight = this.getCombatState(CombatStates.MATEFIGHT);
             if (PokecubeCore.getConfig().debug_ai)
-                PokecubeAPI.LOGGER.info("Target Set: {} -> {} ", this.getEntity(), entity);
+                PokecubeAPI.logInfo("Target Set: {} -> {} ", this.getEntity(), entity);
             /**
              * Ensure that the target being set is actually a valid target.
              */
@@ -409,30 +409,6 @@ public abstract class PokemobAI extends PokemobEvolves
             this.setCombatState(CombatStates.ANGRY, true);
             if (this.getAbility() != null) this.getAbility().onAgress(this, entity);
         }
-    }
-
-    @Override
-    public int getTargetID()
-    {
-        return this.dataSync.get(this.params.ATTACKTARGETIDDW);
-    }
-
-    @Override
-    public void setTargetID(final int id)
-    {
-        this.dataSync.set(this.params.ATTACKTARGETIDDW, Integer.valueOf(id));
-    }
-
-    @Override
-    public int getAllyID()
-    {
-        return this.dataSync.get(this.params.ALLYTARGETIDDW);
-    }
-
-    @Override
-    public void setAllyID(final int id)
-    {
-        this.dataSync.set(this.params.ALLYTARGETIDDW, Integer.valueOf(id));
     }
 
 }

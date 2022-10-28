@@ -20,7 +20,7 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
-import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.api.entity.CopyCaps;
 

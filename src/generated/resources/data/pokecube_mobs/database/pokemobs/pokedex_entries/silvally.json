@@ -253,7 +253,7 @@
     "key": "silvally_normal",
     "tex": "silvally_normal",
     "model": "silvally",
-    "anim": "silvally",
+    "anim": "silvally_normal",
     "types": "normal"
   },
   "models": [
@@ -261,119 +261,119 @@
       "key": "silvally_fighting",
       "tex": "silvally_fighting",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_fighting",
       "types": "fighting"
     },
     {
       "key": "silvally_flying",
       "tex": "silvally_flying",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_flying",
       "types": "flying"
     },
     {
       "key": "silvally_poison",
       "tex": "silvally_poison",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_poison",
       "types": "poison"
     },
     {
       "key": "silvally_ground",
       "tex": "silvally_ground",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_ground",
       "types": "ground"
     },
     {
       "key": "silvally_rock",
       "tex": "silvally_rock",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_rock",
       "types": "rock"
     },
     {
       "key": "silvally_bug",
       "tex": "silvally_bug",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_bug",
       "types": "bug"
     },
     {
       "key": "silvally_ghost",
       "tex": "silvally_ghost",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_ghost",
       "types": "ghost"
     },
     {
       "key": "silvally_steel",
       "tex": "silvally_steel",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_steel",
       "types": "steel"
     },
     {
       "key": "silvally_fire",
       "tex": "silvally_fire",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_fire",
       "types": "fire"
     },
     {
       "key": "silvally_water",
       "tex": "silvally_water",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_water",
       "types": "water"
     },
     {
       "key": "silvally_grass",
       "tex": "silvally_grass",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_grass",
       "types": "grass"
     },
     {
       "key": "silvally_electric",
       "tex": "silvally_electric",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_electric",
       "types": "electric"
     },
     {
       "key": "silvally_psychic",
       "tex": "silvally_psychic",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_psychic",
       "types": "psychic"
     },
     {
       "key": "silvally_ice",
       "tex": "silvally_ice",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_ice",
       "types": "ice"
     },
     {
       "key": "silvally_dragon",
       "tex": "silvally_dragon",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_dragon",
       "types": "dragon"
     },
     {
       "key": "silvally_dark",
       "tex": "silvally_dark",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_dark",
       "types": "dark"
     },
     {
       "key": "silvally_fairy",
       "tex": "silvally_fairy",
       "model": "silvally",
-      "anim": "silvally",
+      "anim": "silvally_fairy",
       "types": "fairy"
     }
   ],

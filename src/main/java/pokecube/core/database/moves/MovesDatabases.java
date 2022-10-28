@@ -18,6 +18,7 @@ import pokecube.api.data.moves.Moves.Move;
 import pokecube.api.data.moves.Moves.MoveHolder;
 import pokecube.api.data.moves.Parsers;
 import pokecube.api.moves.MoveEntry;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.moves.zmoves.GZMoveManager;
@@ -31,8 +32,7 @@ public class MovesDatabases
     {
         // We need at least the moves tag for processing some things.
         Tags.MOVE.reload(new AtomicBoolean());
-        
-        
+
         final String moves_path = "database/moves/entries/";
         final String anims_path = "database/moves/animations/";
 
@@ -80,7 +80,8 @@ public class MovesDatabases
             }
         });
 
-        PokecubeAPI.LOGGER.info("Loaded {} moves and {} animations", movesToLoad.size(), animsToLoad.size());
+        if (PokecubeCore.getConfig().debug_data)
+            PokecubeAPI.logInfo("Loaded {} moves and {} animations", movesToLoad.size(), animsToLoad.size());
 
         List<Move> loadedMoves = new ArrayList<>();
 
@@ -135,21 +136,23 @@ public class MovesDatabases
             entry.root_entry = holder;
 
             var parser = Parsers.getParser(json.move_category);
+
+            if (parser == null) parser = Parsers.getCustomParser(entry.name);
             if (parser == null)
             {
-                PokecubeAPI.LOGGER.error("Warning, no parser for {} {}", json.name, json.move_category);
+                if (PokecubeCore.getConfig().debug_data)
+                    PokecubeAPI.LOGGER.error("Warning, no parser for {} {}", json.name, json.move_category);
             }
             // Process the move values.
             else parser.process(entry);
 
             // Register the move entry.
             MoveEntry.addMove(entry);
-            
+
             // Let the GZMoveManager process the move as well
             GZMoveManager.process(entry);
         }
-
-        PokecubeAPI.LOGGER.info("Registered {} moves", loadedMoves.size());
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered {} moves", loadedMoves.size());
     }
 
     public static void postInitMoves()

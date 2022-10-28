@@ -7,7 +7,7 @@
   <phase axis="1" name="snakeIdle" parts="tail:tail1:tail2:tail3:tail4:tail5"/>
   <phase axis="0" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5"/>
   <phase axis="0" name="snakeFly" parts="tail:tail1:tail2:tail3:tail4:tail5"/>
-  <customTex default="dialga_origin">
+  <customTex default="dialga-origin">
    <part name="Head" tex="dialgaorigineye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>
   </customTex>

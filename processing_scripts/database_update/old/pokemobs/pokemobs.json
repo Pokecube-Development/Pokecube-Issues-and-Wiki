@@ -29959,8 +29959,8 @@
         },
         "sizes": {
           "values": {
-            "length": "0.5",
-            "width": "0.5",
+            "length": "0.45",
+            "width": "0.45",
             "height": "0.5"
           }
         },
@@ -39835,10 +39835,10 @@
             "level": 30,
             "form_from": "shellos_east",
             "model": {
-              "key": "gastrodon_east",
-              "tex": "gastrodon_east",
-              "model": "gastrodon_east",
-              "anim": "gastrodon_east"
+              "key": "gastrodon-east",
+              "tex": "gastrodon-east",
+              "model": "gastrodon-east",
+              "anim": "gastrodon-east"
             }
           },
           {
@@ -39846,10 +39846,10 @@
             "level": 30,
             "form_from": "shellos_west",
             "model": {
-              "key": "gastrodon_west",
-              "tex": "gastrodon_west",
-              "model": "gastrodon_west",
-              "anim": "gastrodon_west"
+              "key": "gastrodon-west",
+              "tex": "gastrodon-west",
+              "model": "gastrodon-west",
+              "anim": "gastrodon-west"
             }
           }
         ],
@@ -39928,10 +39928,10 @@
       "mega": false,
       "gmax": false,
       "model": {
-        "key": "gastrodon_east",
-        "tex": "gastrodon_east",
-        "model": "gastrodon_east",
-        "anim": "gastrodon_east"
+        "key": "gastrodon-east",
+        "tex": "gastrodon-east",
+        "model": "gastrodon-east",
+        "anim": "gastrodon-east"
       },
       "stats": {
         "lootTable": "pokecube:entities/slimeballs_2",
@@ -59847,7 +59847,7 @@
       "gmax": false,
       "model": {
         "key": "vivillon_mod",
-        "tex": "vivillon_mod",
+        "tex": "vivillon_modern",
         "model": "vivillon",
         "anim": "vivillon"
       },
@@ -76631,10 +76631,10 @@
       "mega": false,
       "gmax": false,
       "model": {
-        "key": "sinistea_nofake",
+        "key": "sinistea-antique",
         "tex": "sinistea",
-        "model": "sinistea_nofake",
-        "anim": "sinistea_nofake"
+        "model": "sinistea-antique",
+        "anim": "sinistea-antique"
       },
       "stats": {
         "evolutions": [
@@ -76642,11 +76642,11 @@
             "name": "Polteageist",
             "item_preset": "chippedpot",
             "evoMoves": "teatime",
-            "form_from": "sinistea_nofake",
+            "form_from": "sinistea-antique",
             "model": {
-              "key": "polteageist_nofake",
+              "key": "polteageist-antique",
               "tex": "polteageist",
-              "model": "polteageist_nofake",
+              "model": "polteageist-antique",
               "anim": "polteageist"
             }
           },
@@ -76654,11 +76654,11 @@
             "name": "Polteageist",
             "item_preset": "crackedpot",
             "evoMoves": "teatime",
-            "form_from": "sinistea_fake",
+            "form_from": "sinistea-phony",
             "model": {
-              "key": "polteageist_fake",
+              "key": "polteageist-phony",
               "tex": "polteageist",
-              "model": "polteageist_fake",
+              "model": "polteageist-phony",
               "anim": "polteageist"
             }
           }
@@ -76712,15 +76712,15 @@
       },
       "models": [
         {
-          "key": "sinistea_nofake",
+          "key": "sinistea-antique",
           "tex": "sinistea",
-          "model": "sinistea_nofake",
+          "model": "sinistea-antique",
           "anim": "sinistea"
         },
         {
-          "key": "sinistea_fake",
+          "key": "sinistea-phony",
           "tex": "sinistea",
-          "model": "sinistea_fake",
+          "model": "sinistea-phony",
           "anim": "sinistea"
         }
       ]
@@ -76738,11 +76738,25 @@
       "mega": false,
       "gmax": false,
       "model": {
-        "key": "polteageist_nofake",
+        "key": "polteageist-antique",
         "tex": "polteageist",
-        "model": "polteageist_nofake",
-        "anim": "polteageist_nofake"
+        "model": "polteageist-antique",
+        "anim": "polteageist"
       },
+      "models": [
+        {
+          "key": "polteageist-antique",
+          "tex": "polteageist",
+          "model": "polteageist-antique",
+          "anim": "polteageist"
+        },
+        {
+          "key": "polteageist-phony",
+          "tex": "polteageist",
+          "model": "polteageist-phony",
+          "anim": "polteageist"
+        }
+      ],
       "stats": {
         "lootTable": "pokecube:entities/enderpearls_2",
         "stats": {

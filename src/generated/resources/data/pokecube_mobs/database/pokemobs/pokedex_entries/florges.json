@@ -5,8 +5,7 @@
   "base_experience": 248,
   "size": {
     "height": 1.1,
-    "width": 1.0,
-    "length": 1.0
+    "width": 1.0
   },
   "mass": 10.0,
   "is_default": true,
@@ -115,38 +114,38 @@
   },
   "model": {
     "key": "florges-red",
-    "tex": "florges-red",
-    "model": "florges-red",
-    "anim": "florges-red",
+    "tex": "florges",
+    "model": "florges",
+    "anim": "florges",
     "types": "fairy"
   },
   "models": [
     {
       "key": "florges-yellow",
-      "tex": "florges-yellow",
-      "model": "florges-yellow",
-      "anim": "florges-yellow",
+      "tex": "florges",
+      "model": "florges",
+      "anim": "florges",
       "types": "fairy"
     },
     {
       "key": "florges-orange",
-      "tex": "florges-orange",
-      "model": "florges-orange",
-      "anim": "florges-orange",
+      "tex": "florges",
+      "model": "florges",
+      "anim": "florges",
       "types": "fairy"
     },
     {
       "key": "florges-blue",
-      "tex": "florges-blue",
-      "model": "florges-blue",
-      "anim": "florges-blue",
+      "tex": "florges",
+      "model": "florges",
+      "anim": "florges",
       "types": "fairy"
     },
     {
       "key": "florges-white",
-      "tex": "florges-white",
-      "model": "florges-white",
-      "anim": "florges-white",
+      "tex": "florges",
+      "model": "florges",
+      "anim": "florges",
       "types": "fairy"
     }
   ],

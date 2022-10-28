@@ -10,7 +10,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
-import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.damage.EntityMoveUse;
 
 public class RenderMoves extends EntityRenderer<EntityMoveUse>
 {

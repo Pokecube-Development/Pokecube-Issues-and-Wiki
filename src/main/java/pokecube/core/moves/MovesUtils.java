@@ -52,7 +52,7 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.impl.entity.impl.StatEffect;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
-import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
@@ -81,35 +81,27 @@ public class MovesUtils implements IMoveConstants
         return MoveEntry.values();
     }
 
-    public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey)
+    public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey,
+            Object arg)
     {
         String key = baseKey + ".user";
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = target != null ? target.getDisplayName()
                 : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
-        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
+        Component msg = arg == null ? TComponent.translatable(key, targName)
+                : TComponent.translatable(key, targName, arg);
+        if (attacker != null) attacker.displayMessageToOwner(msg);
         key = baseKey + ".target";
         if (target != null && (attacker == null || target != attacker.getEntity()))
         {
-            final Component message = TComponent.translatable(key, targName);
-            if (attacked != null) attacked.displayMessageToOwner(message);
+            msg = arg == null ? TComponent.translatable(key, targName) : TComponent.translatable(key, targName, arg);
+            if (attacked != null) attacked.displayMessageToOwner(msg);
         }
     }
 
-    public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey,
-            final Object otherArg)
+    public static void sendPairedMessages(final Entity target, final IPokemob attacker, final String baseKey)
     {
-        String key = baseKey + ".user";
-        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
-        final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
-        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
-        key = baseKey + ".target";
-        if (target != attacker.getEntity() && target != null)
-        {
-            final Component message = TComponent.translatable(key, targName, otherArg);
-            if (attacked != null) attacked.displayMessageToOwner(message);
-            else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
-        }
+        sendPairedMessages(target, attacker, baseKey, null);
     }
 
     public static void addChange(final Entity target, final IPokemob attacker, final int change)
@@ -244,32 +236,68 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void displayMoveMessages(final IPokemob attacker, final Entity attacked, final String attack)
+    public static void displayMoveMessages(final IPokemob attacker, final Entity target, final String attack)
     {
-        if (attack.equals(MoveEntry.CONFUSED.name))
+        String baseKey = attack.equals(MoveEntry.CONFUSED.name) ? "pokemob.status.confusion" : "pokemob.move.used";
+        MutableComponent otherArg = MovesUtils.getMoveName(attack, attacker);
+        String key = baseKey + ".user";
+        if (PokecubeCore.getConfig().debug_moves)
+            PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
+        final IPokemob attacked = PokemobCaps.getPokemobFor(target);
+        final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
+        if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
+        key = baseKey + ".target";
+        if (target != attacker.getEntity() && target != null)
         {
-            MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.status.confusion");
-            return;
+            final Component message = TComponent.translatable(key, targName, otherArg);
+            if (attacked != null) attacked.displayMessageToOwner(message);
+            else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
         }
-        MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.used",
-                MovesUtils.getMoveName(attack, attacker));
     }
 
-    public static void displayStatsMessage(final IPokemob attacker, final Entity attacked, final float efficiency,
+    public static void displayStatsMessage(final IPokemob attacker, final Entity target, final float efficiency,
             final int stat, final byte amount)
     {
         if (efficiency == -2)
         {
-            MovesUtils.sendPairedMessages(attacked, attacker, "pokemob.move.stat.fail");
+            String baseKey = "pokemob.move.stat.fail";
+            String key = baseKey + ".user";
+            if (PokecubeCore.getConfig().debug_moves)
+                PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
+            final IPokemob attacked = PokemobCaps.getPokemobFor(target);
+            final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
+            if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName));
+            key = baseKey + ".target";
+            if (target != attacker.getEntity() && target != null)
+            {
+                final Component message = TComponent.translatable(key, targName);
+                if (attacked != null) attacked.displayMessageToOwner(message);
+                else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
+            }
             return;
         }
         else
         {
-            String message = "pokemob.move.stat";
-            if (amount > 0) message += ".fall" + amount;
-            else message += ".rise" + -amount;
+            String baseKey = "pokemob.move.stat";
+            if (amount < 0) baseKey += ".fall" + -amount;
+            else baseKey += ".rise" + amount;
             final String statName = "pokemob.move.stat" + stat;
-            MovesUtils.sendPairedMessages(attacked, attacker, message, TComponent.translatable(statName));
+
+            MutableComponent otherArg = TComponent.translatable(statName);
+            String key = baseKey + ".user";
+            if (PokecubeCore.getConfig().debug_moves)
+                PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
+            final IPokemob attacked = PokemobCaps.getPokemobFor(target);
+            final Component targName = target != null ? target.getDisplayName()
+                    : attacker != null ? attacker.getDisplayName() : TComponent.literal("ERR PLS REPORT");
+            if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
+            key = baseKey + ".target";
+            if (target != attacker.getEntity() && target != null)
+            {
+                final Component message = TComponent.translatable(key, targName, otherArg);
+                if (attacked != null) attacked.displayMessageToOwner(message);
+                else if (target instanceof Player player) PacketPokemobMessage.sendMessage(player, message);
+            }
         }
     }
 
@@ -293,14 +321,15 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static void doAttack(final String attackName, final IPokemob attacker, final LivingEntity attacked)
+    public static MoveApplication doAttack(final String attackName, final IPokemob attacker,
+            final LivingEntity attacked)
     {
         final MoveEntry move = MovesUtils.getMove(attackName);
-        if (move != null) move.applyMove(attacker, attacked, null);
+        if (move != null) return move.applyMove(attacker, attacked, null);
         else
         {
             if (attackName != null) System.err.println("The Move \"" + attackName + "\" does not exist.");
-            MovesUtils.doAttack(IMoveConstants.DEFAULT_MOVE, attacker, attacked);
+            return MovesUtils.doAttack(IMoveConstants.DEFAULT_MOVE, attacker, attacked);
         }
     }
 
@@ -481,8 +510,8 @@ public class MovesUtils implements IMoveConstants
         final byte[] diff = new byte[old.length];
         for (int i = 0; i < old.length; i++)
         {
-            diff[i] = (byte) (old[i] - mods[i]);
-            if (old[i] != mods[i]) ret = true;
+            diff[i] = (byte) (mods[i] - old[i]);
+            if (diff[i] != 0) ret = true;
         }
 
         if (ret)

@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
@@ -103,6 +104,9 @@ public class PokemobMoveStats
     public int allyIndex = 0;
     // Index in battle of targetted enemy.
     public int enemyIndex = 0;
+
+    public LivingEntity targetEnemy = null;
+    public LivingEntity targetAlly = null;
 
     public void reset()
     {

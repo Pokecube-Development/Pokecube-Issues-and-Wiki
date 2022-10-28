@@ -15,11 +15,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.client.Resources;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.tms.TMContainer;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.packets.PacketTMs;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>

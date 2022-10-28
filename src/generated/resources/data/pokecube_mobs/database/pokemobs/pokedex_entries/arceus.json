@@ -240,7 +240,7 @@
     "key": "arceus_normal",
     "tex": "arceus_normal",
     "model": "arceus",
-    "anim": "arceus",
+    "anim": "arceus_normal",
     "types": "normal"
   },
   "models": [
@@ -248,126 +248,126 @@
       "key": "arceus_bug",
       "tex": "arceus_bug",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_bug",
       "types": "bug"
     },
     {
       "key": "arceus_dark",
       "tex": "arceus_dark",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_dark",
       "types": "dark"
     },
     {
       "key": "arceus_dragon",
       "tex": "arceus_dragon",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_dragon",
       "types": "dragon"
     },
     {
       "key": "arceus_electric",
       "tex": "arceus_electric",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_electric",
       "types": "electric"
     },
     {
       "key": "arceus_fighting",
       "tex": "arceus_fighting",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_fighting",
       "types": "fighting"
     },
     {
       "key": "arceus_fire",
       "tex": "arceus_fire",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_fire",
       "types": "fire"
     },
     {
       "key": "arceus_flying",
       "tex": "arceus_flying",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_flying",
       "types": "flying"
     },
     {
       "key": "arceus_ghost",
       "tex": "arceus_ghost",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_ghost",
       "types": "ghost"
     },
     {
       "key": "arceus_grass",
       "tex": "arceus_grass",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_grass",
       "types": "grass"
     },
     {
       "key": "arceus_ground",
       "tex": "arceus_ground",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_ground",
       "types": "ground"
     },
     {
       "key": "arceus_ice",
       "tex": "arceus_ice",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_ice",
       "types": "ice"
     },
     {
       "key": "arceus_poison",
       "tex": "arceus_poison",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_poison",
       "types": "poison"
     },
     {
       "key": "arceus_psychic",
       "tex": "arceus_psychic",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_psychic",
       "types": "psychic"
     },
     {
       "key": "arceus_rock",
       "tex": "arceus_rock",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_rock",
       "types": "rock"
     },
     {
       "key": "arceus_steel",
       "tex": "arceus_steel",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_steel",
       "types": "steel"
     },
     {
       "key": "arceus_water",
       "tex": "arceus_water",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_water",
       "types": "water"
     },
     {
       "key": "arceus_unknown",
       "tex": "arceus_unknown",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_unknown",
       "types": "unknown"
     },
     {
       "key": "arceus_fairy",
       "tex": "arceus_fairy",
       "model": "arceus",
-      "anim": "arceus",
+      "anim": "arceus_fairy",
       "types": "fairy"
     }
   ],

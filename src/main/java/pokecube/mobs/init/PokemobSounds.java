@@ -58,7 +58,7 @@ public class PokemobSounds
                     e1.printStackTrace();
                 }
             }
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.LOGGER.info(e + " has Sound: " + e.sound);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(e + " has Sound: " + e.sound);
             e.soundEvent = new SoundEvent(e.sound);
             if (sounds.containsKey(e.sound)) e.soundEvent = sounds.get(e.sound);
             else sounds.put(e.sound, e.soundEvent);

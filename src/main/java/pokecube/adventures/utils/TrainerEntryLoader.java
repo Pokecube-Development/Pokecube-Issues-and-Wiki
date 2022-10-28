@@ -18,6 +18,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
@@ -116,7 +117,7 @@ public class TrainerEntryLoader
         for (final TrainerEntry entry : TrainerEntryLoader.database.trainers)
         {
             final String name = entry.type;
-            PokecubeAPI.LOGGER.debug("Loaded Type: " + name);
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded Type: " + name);
             final TypeTrainer type = TypeTrainer.typeMap.containsKey(name) ? TypeTrainer.typeMap.get(name)
                     : new TypeTrainer(name);
             type.spawns.clear();

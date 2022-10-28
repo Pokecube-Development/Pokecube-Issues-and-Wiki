@@ -61,7 +61,7 @@ public class LegendaryConditions
                 }
             }
             if (PokecubeCore.getConfig().debug_misc)
-                PokecubeAPI.LOGGER.info("Detected " + num + " Legendary Conditions.");
+                PokecubeAPI.logInfo("Detected " + num + " Legendary Conditions.");
         }
         catch (final Exception e)
         {
@@ -83,6 +83,6 @@ public class LegendaryConditions
         {
             e.printStackTrace();
         }
-        PokecubeAPI.LOGGER.info("Registered " + num + " Legendary Conditions.");
+        PokecubeAPI.logInfo("Registered " + num + " Legendary Conditions.");
     }
 }

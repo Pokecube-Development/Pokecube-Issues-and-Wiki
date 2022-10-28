@@ -29,7 +29,7 @@ import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.core.ai.logic.Logic;
 import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.ai.routes.IGuardAICapability;
-import pokecube.core.moves.animations.EntityMoveUse;
+import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.network.pokemobs.PacketPingBoss;
 import thut.api.IOwnable;
 import thut.api.ThutCaps;
@@ -67,6 +67,8 @@ public abstract class PokemobBase implements IPokemob
         public int COMBATSTATESDW;
         public int ATTACKTARGETIDDW;
         public int ALLYTARGETIDDW;
+        public int ENEMYNUMDW;
+        public int ALLYNUMDW;
         public int HUNGERDW;
         public int STATUSDW;
         public int STATUSTIMERDW;
@@ -102,6 +104,9 @@ public abstract class PokemobBase implements IPokemob
             this.GENERALSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.LOGICSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
             this.COMBATSTATESDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));
+
+            this.ALLYNUMDW = sync.register(new Data_Int(), Integer.valueOf(1));
+            this.ENEMYNUMDW = sync.register(new Data_Int(), Integer.valueOf(0));
 
             // from EntityEvolvablePokemob
             this.EVOLTICKDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));// evolution

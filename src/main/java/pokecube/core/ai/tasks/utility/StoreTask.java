@@ -234,7 +234,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
             this.setWalkTo(this.berryLoc, speed, 0);
             // We should be pathing to berries, so return true to stop other
             // storage tasks.
-            // PokecubeAPI.LOGGER.debug(this.pokemob.getDisplayName().getUnformattedComponentText()
+            // PokecubeAPI.logDebug(this.pokemob.getDisplayName().getUnformattedComponentText()
             // + " Pathing to Berries at " + this.berryLoc);
             return true;
         }

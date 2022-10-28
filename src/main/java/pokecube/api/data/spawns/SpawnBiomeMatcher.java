@@ -794,7 +794,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
             if (!this._valid && SpawnBiomeMatcher.loadedIn && !__client__)
             {
-                PokecubeAPI.LOGGER.debug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
+                PokecubeAPI.logDebug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
             }
             return;
         }
@@ -846,7 +846,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         //@formatter:on
         if (!hasSomething && !hasBasicSettings) this._valid = false;
 
-        if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeAPI.LOGGER.debug("Invalid Matcher: {} ({})",
+        if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeAPI.logDebug("Invalid Matcher: {} ({})",
                 PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule));
     }
 

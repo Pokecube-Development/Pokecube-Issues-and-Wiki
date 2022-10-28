@@ -4,7 +4,7 @@
   <phase name="global" scale="0.5"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-5,5" headDir="-1"/>
   <phase armAngle="" duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <customTex default="kyurem_black">
+  <customTex default="kyurem-black">
    <part name="Head" tex="kyuremblackeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>
   </customTex>

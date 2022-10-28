@@ -3,6 +3,6 @@
  <model name="">
   <phase name="global" scale="0.525"/>
   <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-10,10" headDir="1"/>
-  <customTex default="gourgeist"/>
+  <customTex default="gourgeist-average"/>
  </model>
 </ModelAnimator>

@@ -561,7 +561,7 @@ public final class SpawnHandler
                             .setMaxRadius(PokecubeCore.getConfig().meteorRadius);
             boom.breaker = new MeteorBlockBreaker(world);
             final String message = "Meteor at " + location + " with energy of " + power;
-            PokecubeAPI.LOGGER.debug(message);
+            PokecubeAPI.logDebug(message);
 
             boom.doKineticImpactor(world, new Vector3().set(0, -1, 0), location, null, 0.1f, power);
         }
@@ -754,7 +754,7 @@ public final class SpawnHandler
         {
             final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn and location";
-            PokecubeAPI.LOGGER.info(String.format(toLog, debug.getPos(), dt));
+            PokecubeAPI.logInfo(String.format(toLog, debug.getPos(), dt));
         }
         time = System.nanoTime();
         ret += num = this.doSpawnForType(context, this.parser, t);
@@ -763,7 +763,7 @@ public final class SpawnHandler
         {
             final Vector3 debug = new Vector3().set(v.getPos());
             final String toLog = "location: %1$s took: %2$s\u00B5s to find a valid spawn for %3$s %4$s";
-            PokecubeAPI.LOGGER.info(String.format(toLog, debug.getPos(), dt, num, context.entry()));
+            PokecubeAPI.logInfo(String.format(toLog, debug.getPos(), dt, num, context.entry()));
         }
         return ret;
     }
@@ -783,7 +783,7 @@ public final class SpawnHandler
         if (num >= SpawnHandler.MAX_DENSITY * SpawnHandler.MAXNUM) return null;
         final Vector3 v1 = SpawnHandler.getRandomPointNear(level, v, maxRadius);
         double dt = (System.nanoTime() - time) / 1e3D;
-        if (PokecubeCore.getConfig().debug_spawning && dt > 100) PokecubeAPI.LOGGER.debug("Location Find took " + dt);
+        if (PokecubeCore.getConfig().debug_spawning && dt > 100) PokecubeAPI.logDebug("Location Find took " + dt);
         if (v1 == null) return null;
         if (v.distanceTo(v1) < minRadius) return null;
         return new SpawnContext(base, v1);
@@ -915,7 +915,7 @@ public final class SpawnHandler
                 this.spawn(world);
                 final double dt = (System.nanoTime() - time) / 1000d;
                 if (PokecubeCore.getConfig().debug_spawning && dt > 100)
-                    PokecubeAPI.LOGGER.info("SpawnTick took " + dt);
+                    PokecubeAPI.logInfo("SpawnTick took " + dt);
             }
             this.doMeteor(world);
         }
