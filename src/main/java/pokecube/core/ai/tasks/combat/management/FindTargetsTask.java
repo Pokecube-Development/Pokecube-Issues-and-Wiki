@@ -29,7 +29,6 @@ import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
-import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.IOwnable;
@@ -89,6 +88,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (!FindTargetsTask.handleDamagedTargets) return;
 
         LivingEntity newTarget = event.getNewTarget();
+        LivingEntity rootMob = event.getEntityLiving();
 
         // Don't manage this.
         if (newTarget == null) return;
@@ -104,38 +104,42 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             return !poke.isRoutineEnabled(AIRoutine.AGRESSIVE);
         });
         final boolean targetHasMobs = !mobs.isEmpty();
-
+        LivingEntity target = newTarget;
         if (targetHasMobs)
         {
-            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(event.getEntity()) - o2.distanceToSqr(event.getEntity())));
+            mobs.sort((o1, o2) -> (int) (o1.distanceToSqr(rootMob) - o2.distanceToSqr(event.getEntity())));
             final Entity mob = mobs.get(0);
             mobs = PokemobTracker.getMobs(mob, e -> true);
             // No loop diverting
             if (!mobs.isEmpty() || !(mob instanceof LivingEntity entity)) return;
 
             // Divert the target over.
-            Battle.createOrAddToBattle((LivingEntity) event.getEntity(), entity);
+            target = entity;
         }
+        // Make sure they are marked as in a battle with each other.
+        Battle.createOrAddToBattle(rootMob, target);
     }
 
     private static void onLivingHurt(final LivingHurtEvent event)
     {
         if (!FindTargetsTask.handleDamagedTargets) return;
+
         final DamageSource source = event.getSource();
-        // for pokemobs, we divert agro to the pokemob, instead of to the owner.
-        // The vanilla HURT_BY_SENSOR will divert to the owner of the pokemob
-        // instead, so we manually do this first.
-        if (source instanceof PokemobDamageSource)
+        final LivingEntity hurt = event.getEntityLiving();
+        final Entity user = source.getDirectEntity();
+
+        // Make sure they are marked as in a battle with each other.
+
+        // First start with the direct entity, as this will cover things like
+        // pokemobs.
+        if (user instanceof LivingEntity mob)
         {
-            final LivingEntity hurt = event.getEntityLiving();
-            final Entity user = source.getDirectEntity();
-            // Only divert target if no target already, and this is a valid
-            // target, this prevents player's mobs fighting each other.
-            if (!BrainUtils.hasAttackTarget(hurt) && AITools.shouldBeAbleToAgro(hurt, user))
-            {
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Selecting Retaliation Target.");
-                Battle.createOrAddToBattle(hurt, (LivingEntity) user);
-            }
+            Battle.createOrAddToBattle(hurt, mob);
+        }
+        // Then check the root entity, for things like shooters of arrows.
+        else if (source.getEntity() instanceof LivingEntity mob)
+        {
+            Battle.createOrAddToBattle(hurt, mob);
         }
     }
 
@@ -363,8 +367,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
             if (player != null && AITools.validAgroTarget.test(player))
             {
                 this.initiateBattle(player);
-                if (PokecubeCore.getConfig().debug_ai)
-                    PokecubeAPI.logInfo("Found player to be angry with, agressing.");
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Found player to be angry with, agressing.");
             }
         }
     }

@@ -200,6 +200,24 @@ public class ForgetTargetTask extends CombatTask
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("They are Dead!");
                 giveUpTimer /= 2;
+
+                // Check if we are in a battle, and if so, divert to another
+                // member
+                Battle b = pokemob.getBattle();
+                if (b != null)
+                {
+                    var targets = b.getEnemies(entity);
+                    for (var e : targets)
+                    {
+                        if (e.isAlive())
+                        {
+                            // Divery agro to it.
+                            BrainUtils.initiateCombat(entity, e);
+                            this.entityTarget = e;
+                            return;
+                        }
+                    }
+                }
                 break agroCheck;
             }
             if (!this.entity.isAlive() || this.entity.getHealth() <= 0)
@@ -334,17 +352,14 @@ public class ForgetTargetTask extends CombatTask
 
     private void endBattle()
     {
-        final Battle battle = Battle.getBattle(this.entity);
-        if (battle != null) battle.removeFromBattle(this.entity);
         this.pokemob.getTargetFinder().clear();
         this.pokemob.onSetTarget(null, true);
-        if (this.pokemobTarget != null && !this.mutualDeagro)
+        if (this.pokemobTarget != null && this.mutualDeagro)
         {
             this.pokemobTarget.getTargetFinder().clear();
             this.pokemobTarget.onSetTarget(null, true);
         }
         BrainUtils.deagro(this.entity, this.mutualDeagro);
-
         this.entityTarget = null;
         this.pokemobTarget = null;
         this.battleTime = 0;

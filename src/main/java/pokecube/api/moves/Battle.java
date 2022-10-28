@@ -23,6 +23,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.utils.AITools;
 import thut.api.world.IWorldTickListener;
@@ -114,8 +115,7 @@ public class Battle
             // re-agroing, so we will tell the battle to re-add the one to it.
             if (existingA == existingB)
             {
-                // Need to ensure the mobs are still agressed.
-                existingA.addToBattle(mobA, mobB);
+                // Already in battle, no need to proceed.
                 return true;
             }
             existingA.mergeFrom(mobA, mobB, existingB, level);
@@ -251,6 +251,9 @@ public class Battle
         final String teamA = TeamManager.getTeam(mobA);
         final String teamB = TeamManager.getTeam(mobB);
 
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Adding {}({}) and {}({}) to a battle!",
+                mobA.getName().getString(), mobA.getId(), mobB.getName().getString(), mobB.getId());
+
         boolean aIs1 = this.side1.containsKey(mobA.getUUID());
         boolean aIs2 = this.side2.containsKey(mobA.getUUID());
 
@@ -282,12 +285,14 @@ public class Battle
                 this.addToSide(this.side2, this.teams2, mobA, teamA, mobB);
             }
         }
-
         this.sortSides();
     }
 
     public void removeFromBattle(final LivingEntity mob)
     {
+        if (PokecubeCore.getConfig().debug_moves)
+            PokecubeAPI.logInfo("Removing {}({}) from the battle!", mob.getName().getString(), mob.getId());
+
         final UUID id = mob.getUUID();
         this.aliveTracker.removeInt(mob);
         this.manager.battlesById.remove(mob.getUUID());
@@ -295,72 +300,85 @@ public class Battle
         {
             this.side1.remove(id);
             this.s1.remove(mob);
-            final IPokemob poke = PokemobCaps.getPokemobFor(mob);
-            if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
         }
         if (this.side2.containsKey(id))
         {
             this.side2.remove(id);
             this.s2.remove(mob);
-            final IPokemob poke = PokemobCaps.getPokemobFor(mob);
-            if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
         }
-        if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
+        final IPokemob poke = PokemobCaps.getPokemobFor(mob);
+        if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
+    }
+
+    private boolean checkStale(final Map<UUID, LivingEntity> side, List<LivingEntity> set, List<LivingEntity> stale)
+    {
+        final int tooLong = Battle.BATTLE_END_TIMER;
+        boolean changed = false;
+        for (final LivingEntity mob1 : side.values())
+        {
+            if (!mob1.isAlive())
+            {
+                set.remove(mob1);
+                final int tick = this.aliveTracker.getInt(mob1) + 1;
+                this.aliveTracker.put(mob1, tick);
+                final UUID id = mob1.getUUID();
+                final Entity mob = this.world.getEntity(id);
+                if (mob != null && mob != mob1)
+                {
+                    this.aliveTracker.removeInt(mob1);
+                    if (mob instanceof LivingEntity living)
+                    {
+                        side.put(id, living);
+                        if (!set.contains(living)) set.add(living);
+                        // We changed if we had to adjust the sets.
+                        changed = true;
+                    }
+                    continue;
+                }
+                if (tick > tooLong) stale.add(mob1);
+                continue;
+            }
+            else
+            {
+                LivingEntity target = BrainUtils.getAttackTarget(mob1);
+                // No more target means we remove it from the battle.
+                if (target == null)
+                {
+                    stale.add(mob1);
+                }
+                else if (!set.contains(mob1))
+                {
+                    set.add(mob1);
+                    changed = true;
+                }
+            }
+        }
+        return changed;
     }
 
     public void tick()
     {
         if (this.ended) return;
         this.valid = true;
-        final Set<LivingEntity> stale = Sets.newHashSet();
-        final int tooLong = Battle.BATTLE_END_TIMER;
+        final List<LivingEntity> stale = Lists.newArrayList();
         boolean changed = false;
-        for (final LivingEntity mob1 : this.side1.values()) if (!mob1.isAlive())
-        {
-            final int tick = this.aliveTracker.getInt(mob1) + 1;
-            this.aliveTracker.put(mob1, tick);
-            final UUID id = mob1.getUUID();
-            final Entity mob = this.world.getEntity(id);
-            if (mob != null && mob != mob1)
-            {
-                this.aliveTracker.removeInt(mob1);
-                if (mob instanceof LivingEntity living)
-                {
-                    this.side1.put(id, living);
-                    if (!this.s1.contains(living)) this.s1.add(living);
-                    changed = true;
-                }
-                continue;
-            }
-            if (tick > tooLong) stale.add(mob1);
-            continue;
-        }
-        for (final LivingEntity mob2 : this.side2.values()) if (!mob2.isAlive())
-        {
-            final int tick = this.aliveTracker.getInt(mob2) + 1;
-            final UUID id = mob2.getUUID();
-            final Entity mob = this.world.getEntity(id);
-            if (mob != null && mob != mob2)
-            {
-                this.aliveTracker.removeInt(mob2);
-                if (mob instanceof LivingEntity living)
-                {
-                    this.side2.put(id, living);
-                    if (!this.s2.contains(living)) this.s2.add(living);
-                    changed = true;
-                }
-                continue;
-            }
-            this.aliveTracker.put(mob2, tick);
-            if (tick > tooLong) stale.add(mob2);
-            continue;
-        }
+
+        // check if we have any stale mobs, this checks if they have revived
+        // somehow using a timer. The function calls are before || so that both
+        // sets get checked, and not optimised out.
+        changed = checkStale(side1, s1, stale) || changed;
+        changed = checkStale(side2, s2, stale) || changed;
+
+        // Remove anything that is stale from the battle.
         stale.forEach(mob -> {
             this.removeFromBattle(mob);
         });
+        // We have changed if stale is not empty
         changed = changed || !stale.isEmpty();
-        if (changed) this.sortSides();
+        // If one side is empty, end the battle
         if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
+        // Otherwise If we did change, sort the sides
+        if (changed) this.sortSides();
     }
 
     public void start()

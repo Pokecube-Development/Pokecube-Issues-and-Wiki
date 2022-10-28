@@ -996,11 +996,14 @@ public class PokemobEventsHandler
                 attacker.addEVs(evsToAdd);
             }
             final Entity targetOwner = attackedMob.getOwner();
-            attacker.displayMessageToOwner(
-                    TComponent.translatable("pokemob.action.faint.enemy", attackedMob.getDisplayName()));
+            Component faintMsg = TComponent.translatable("pokemob.action.faint.enemy", attackedMob.getDisplayName());
+            attacker.displayMessageToOwner(faintMsg);
+
+            // If the target has an owner, divert agro over to that, as the
+            // owner has now lost the fight, or should send out a new mob.
             if (targetOwner instanceof Player player && attacker.getOwner() != targetOwner)
                 BrainUtils.initiateCombat(pokemob, player);
-            else BrainUtils.deagro(pokemob);
+
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry())
                     && attacker.getCombatState(CombatStates.HUNTING))
             {

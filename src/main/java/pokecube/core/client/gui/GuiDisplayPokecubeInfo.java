@@ -481,6 +481,22 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
             final int width = (int) (92 * ratio);
             this.blit(evt.getMat(), x, y, 0, 85, width, 5);
 
+            // Render number of enemies
+            RenderSystem.enableBlend();
+            final int n = pokemob.getEnemyNumber();
+            if (n > 1)
+            {
+                final int n2 = pokemob.getMoveStats().enemyIndex + 1;
+                String txt = n == 1 ? n + "" : n2 + "/" + n;
+                final int num = this.fontRenderer.width(txt);
+                evt.getMat().pushPose();
+                evt.getMat().translate(nameOffsetX - 43 - num, nameOffsetY, 0);
+                if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
+                this.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
+                evt.getMat().popPose();
+                this.fontRenderer.draw(evt.getMat(), txt, nameOffsetX - 43 - num + 2, nameOffsetY + 4,
+                        GuiDisplayPokecubeInfo.lightGrey);
+            }
             // Render Status
             pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob != null)

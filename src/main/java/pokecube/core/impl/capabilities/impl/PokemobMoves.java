@@ -287,8 +287,6 @@ public abstract class PokemobMoves extends PokemobStats
                     this.setAllyID(this.getOwner().id);
                 }
                 else this.setAllyID(this.getEntity().id);
-                
-                System.out.println(this.getOwner().id+" "+this.getAllyID());
 
                 this.dataSync().set(this.params.ENEMYNUMDW, 0);
                 this.dataSync().set(this.params.ALLYNUMDW, 1);
@@ -296,7 +294,6 @@ public abstract class PokemobMoves extends PokemobStats
             }
 
             List<LivingEntity> mobs = b.getEnemies(entity);
-
             int targetIndex = this.getMoveStats().enemyIndex;
             if (targetIndex < 0) targetIndex = mobs.size() - 1;
 
@@ -323,7 +320,6 @@ public abstract class PokemobMoves extends PokemobStats
         Entity target = entity.getLevel().getEntity(this.getTargetID());
         this.getMoveStats().targetEnemy = target instanceof LivingEntity living ? living : null;
         target = entity.getLevel().getEntity(this.getAllyID());
-        System.out.println(target+" "+this.getAllyID());
         this.getMoveStats().targetAlly = target instanceof LivingEntity living ? living : null;
 
         // Ensure indeces are in range
