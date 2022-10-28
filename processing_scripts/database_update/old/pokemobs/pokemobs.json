@@ -59847,7 +59847,7 @@
       "gmax": false,
       "model": {
         "key": "vivillon_mod",
-        "tex": "vivillon_mod",
+        "tex": "vivillon_modern",
         "model": "vivillon",
         "anim": "vivillon"
       },
