@@ -147,17 +147,13 @@ public class DefaultFormeHolder
                 c.material = ThutCore.trim(c.material);
                 this._matsMap_.put(c.material, c);
             }
+            final String tex = PokedexEntry.TEXTUREPATH;
+            final String model = PokedexEntry.MODELPATH;
 
-            final ResourceLocation texl = this.tex != null
-                    ? PokecubeItems.toPokecubeResource(baseEntry.texturePath + this.tex)
+            final ResourceLocation texl = this.tex != null ? PokecubeItems.toPokecubeResource(tex + this.tex) : null;
+            final ResourceLocation modell = this.model != null ? PokecubeItems.toPokecubeResource(model + this.model)
                     : null;
-            final ResourceLocation modell = this.model != null
-                    ? PokecubeItems.toPokecubeResource(
-                            baseEntry.model.toString().replace(baseEntry.getTrimmedName(), this.model))
-                    : null;
-            final ResourceLocation animl = this.anim != null
-                    ? PokecubeItems.toPokecubeResource(
-                            baseEntry.animation.toString().replace(baseEntry.getTrimmedName(), this.anim))
+            final ResourceLocation animl = this.anim != null ? PokecubeItems.toPokecubeResource(model + this.anim)
                     : null;
             final FormeHolder holder = FormeHolder.get(modell, texl, animl, key);
             holder.loaded_from = this;

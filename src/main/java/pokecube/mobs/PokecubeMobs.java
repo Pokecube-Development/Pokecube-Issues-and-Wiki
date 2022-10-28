@@ -29,6 +29,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -608,26 +609,32 @@ public class PokecubeMobs
     @SubscribeEvent
     public void RegisterPokemobsEvent(final RegisterPokemobsEvent.Register event)
     {
+        final String tex = PokedexEntry.TEXTUREPATH;
+        final String model = PokedexEntry.MODELPATH;
+        final String modid = PokecubeMobs.MODID;
         Database.getSortedFormes().forEach(entry -> {
-            if (entry.model != PokedexEntry.MODELNO) return;
-            final String tex = PokedexEntry.TEXTUREPATH;
-            final String model = PokedexEntry.MODELPATH;
-            entry.setModId(PokecubeMobs.MODID);
-            entry.texturePath = PokecubeMobs.MODID + ":" + tex;
-            entry.model = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + entry.modelExt);
-            entry.texture = new ResourceLocation(PokecubeMobs.MODID, tex + entry.getTrimmedName() + ".png");
-            entry.animation = new ResourceLocation(PokecubeMobs.MODID, model + entry.getTrimmedName() + ".xml");
+            if (!modid.equals(entry.getModId())) return;
+            entry.texturePath = modid + ":" + tex;
+            entry.model = new ResourceLocation(modid, model + entry.getTrimmedName() + entry.modelExt);
+            entry.texture = new ResourceLocation(modid, tex + entry.getTrimmedName() + ".png");
+            entry.animation = new ResourceLocation(modid, model + entry.getTrimmedName() + ".xml");
         });
         Database.customModels.forEach((entry, list) -> {
-            if (entry.getModId() == PokecubeMobs.MODID) list.forEach(holder -> {
-                if (holder.texture != null) holder.texture = new ResourceLocation(PokecubeMobs.MODID,
-                        holder.texture.getPath() + (holder.texture.getPath().endsWith(".png") ? "" : ".png"));
-                if (holder.model != null)
-                    holder.model = new ResourceLocation(PokecubeMobs.MODID, holder.model.getPath());
-                if (holder.animation != null) holder.animation = new ResourceLocation(PokecubeMobs.MODID,
-                        holder.animation.getPath() + (holder.animation.getPath().endsWith(".xml") ? "" : ".xml"));
+            if (modid.equals(entry.getModId())) list.forEach(forme -> {
+                DefaultFormeHolder holder = forme.loaded_from;
+                if (forme.texture != null) forme.texture = new ResourceLocation(modid,
+                        forme.texture.getPath() + (forme.texture.getPath().endsWith(".png") ? "" : ".png"));
+                if (forme.model != null && forme.model != PokedexEntry.MODELNO)
+                    forme.model = new ResourceLocation(modid, forme.model.getPath());
+                if (forme.animation != null && forme.animation != PokedexEntry.ANIMNO)
+                    forme.animation = new ResourceLocation(modid,
+                            forme.animation.getPath() + (forme.animation.getPath().endsWith(".xml") ? "" : ".xml"));
+                if (PokecubeCore.getConfig().debug_data)
+                    PokecubeAPI.logInfo("Model holder for {}: ({} {} {}) -> ({} {} {} {})", entry, holder.model,
+                            holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
             });
         });
+        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Finished adjusting model and texture locations");
     }
 
     @SubscribeEvent
