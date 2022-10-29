@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube:darmanitan",
-    "pokecube:darmanitan_galar"
+    "pokecube:darmanitan-standard",
+    "pokecube:darmanitan-galar-standard"
   ]
 }
