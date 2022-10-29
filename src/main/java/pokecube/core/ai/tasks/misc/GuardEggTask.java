@@ -1,4 +1,4 @@
-package pokecube.core.ai.tasks.idle;
+package pokecube.core.ai.tasks.misc;
 
 import java.util.Map;
 import java.util.Optional;
@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 
 /**
@@ -17,7 +18,7 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
  * blocks of it. It also prevents the mother from breeding, as well as prevents
  * the mother's breeding cooldown from dropping while an egg is being guarded.
  */
-public class GuardEggTask extends BaseIdleTask
+public class GuardEggTask extends TaskBase
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 

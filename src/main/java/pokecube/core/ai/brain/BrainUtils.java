@@ -194,6 +194,7 @@ public class BrainUtils extends BrainUtil
         MinecraftForge.EVENT_BUS.post(event);
 
         target = event.newTarget;
+
         // No target self
         if (mob == target) return;
         // No target null

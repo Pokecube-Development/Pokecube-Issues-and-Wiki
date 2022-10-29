@@ -69,7 +69,7 @@
     },
     {
       "type": "mustard",
-      "pokemon": "mienshao,luxray,corviknight,lycanroc,kommo-o,urshifu_single,urshifu_rapid,lucario_mega,sawk,hitmonlee,hawlucha",
+      "pokemon": "mienshao,luxray,corviknight,lycanroc-midday,kommo-o,urshifu-single-strike,urshifu-rapid-strike,lucario-mega,sawk,hitmonlee,hawlucha",
       "gender": "Male"
     },
     {
@@ -89,12 +89,12 @@
     },
     {
       "type": "jessie",
-      "pokemon": "wobbuffet,morpeko,seviper,yanmega,pumpkaboo,gourgeist,arbok,dustox,mimikyu,lickitung,frillish",
+      "pokemon": "wobbuffet,morpeko-full-belly,seviper,yanmega,pumpkaboo-average,gourgeist-average,arbok,dustox,mimikyu-disguised,lickitung,frillish",
       "gender": "Female"
     },
     {
       "type": "james",
-      "pokemon": "mime_jr,carnivine,inkay,cacnea,growlithe,chimecho,weezing,gyarados,victreebel,mareanie,yamask,amoonguss",
+      "pokemon": "mime-jr,carnivine,inkay,cacnea,growlithe,chimecho,weezing,gyarados,victreebel,mareanie,yamask,amoonguss",
       "gender": "Male"
     },
     {
@@ -134,7 +134,7 @@
     },
     {
       "type": "n",
-      "pokemon": "reshiram,zekrom,purrloin,pidove,timburr,tympole,sandile,scraggy,sigilyph,boldore,ferroseed,joltik,klinklang,carracosta,vanilluxe,archeops,zoroark,politoed,lanturn,tentacruel,omastar,kabutops,starmie,ninetales,arcanine,rapidash,shiftry,ninjask,leafeon,hippowdon,gastrodon,cradily,armaldo,scizor,rhyperior,abomasnow,cloyster,mamoswine,froslass,glaceon,darmanitan",
+      "pokemon": "reshiram,zekrom,purrloin,pidove,timburr,tympole,sandile,scraggy,sigilyph,boldore,ferroseed,joltik,klinklang,carracosta,vanilluxe,archeops,zoroark,politoed,lanturn,tentacruel,omastar,kabutops,starmie,ninetales,arcanine,rapidash,shiftry,ninjask,leafeon,hippowdon,gastrodon,cradily,armaldo,scizor,rhyperior,abomasnow,cloyster,mamoswine,froslass,glaceon,darmanitan-standard",
       "gender": "Male"
     },
     {
@@ -249,7 +249,7 @@
     },
     {
       "type": "olivia",
-      "pokemon": "relicanth,probopass,golem_alola,lycanroc_midnight,carbink,onix,armaldo,cradily,gigalith",
+      "pokemon": "relicanth,probopass,golem_alola,lycanroc-midnight,carbink,onix,armaldo,cradily,gigalith",
       "gender": "Female"
     },
     {
@@ -259,7 +259,7 @@
     },
     {
       "type": "kahili",
-      "pokemon": "skarmory,mandibuzz,oricorio,toucannon,crobat,swanna,braviary,hawlucha",
+      "pokemon": "skarmory,mandibuzz,oricorio-baile,toucannon,crobat,swanna,braviary,hawlucha",
       "gender": "Female"
     },
     {
@@ -269,7 +269,7 @@
     },
     {
       "type": "steven",
-      "pokemon": "skarmory,claydol,aggron,cradily,armaldo,metagross_mega,excadrill,archeops,carbink,aerodactyl",
+      "pokemon": "skarmory,claydol,aggron,cradily,armaldo,metagross-mega,excadrill,archeops,carbink,aerodactyl",
       "gender": "Male"
     },
     {
@@ -284,22 +284,22 @@
     },
     {
       "type": "leon",
-      "pokemon": "aegislash_shield,dragapult,haxorus,seismitoad,cinderace,charizard_gigantamax,mr_rime, inteleon,rhyperior,rillaboom",
+      "pokemon": "aegislash-shield,dragapult,haxorus,seismitoad,cinderace,charizard-gmax,mr-rime,inteleon,rhyperior,rillaboom",
       "gender": "Male"
     },
     {
       "type": "marnie",
-      "pokemon": "liepard,toxicroak,scrafty,morpeko,grimmsnarl_gigantamax,lycanroc_midnight",
+      "pokemon": "liepard,toxicroak,scrafty,morpeko-full-belly,grimmsnarl-gmax,lycanroc-midnight",
       "gender": "Female"
     },
     {
       "type": "blue",
-      "pokemon": "aerodactyl,exeggutor,gyarados,alakazam,arcanine,machamp,pidgeot,tyranitar,rhyperior,tauros,charizard_mega_y",
+      "pokemon": "aerodactyl,exeggutor,gyarados,alakazam,arcanine,machamp,pidgeot,tyranitar,rhyperior,tauros,charizard-mega-y",
       "gender": "Male"
     },
     {
       "type": "thutmose",
-      "pokemon": "ferrothorn,shuckle,gardevoir,gardevoir_mega,toxapex,drednaw,toxtricity_amped,bulbasaur,mew,magnezone,magikarp",
+      "pokemon": "ferrothorn,shuckle,gardevoir,gardevoir-mega,toxapex,drednaw,toxtricity-amped,bulbasaur,mew,magnezone,magikarp",
       "gender": "Male"
     }
   ]

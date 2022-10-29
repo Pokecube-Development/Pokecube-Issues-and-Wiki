@@ -11528,22 +11528,22 @@
       }
     ]
   },
-  "mobs.basculin-red-striped": {
+  "mobs.basculin": {
     "category": "hostile",
-    "subtitle": "entity.pokecube.basculin-red-striped",
+    "subtitle": "entity.pokecube.basculin",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/basculin",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/basculin",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/basculin",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16232,22 +16232,22 @@
       }
     ]
   },
-  "mobs.minior-red-meteor": {
+  "mobs.minior-meteor": {
     "category": "hostile",
-    "subtitle": "entity.pokecube.minior-red-meteor",
+    "subtitle": "entity.pokecube.minior-meteor",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/minior",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/minior",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/minior",
         "volume": 1.0,
         "pitch": 1.0
       }

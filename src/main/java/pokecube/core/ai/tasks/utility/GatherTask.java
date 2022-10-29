@@ -123,9 +123,8 @@ public class GatherTask extends UtilTask
             if (!replanted) for (int i = 2; i < pokemob.getInventory().getContainerSize(); i++)
             {
                 final ItemStack stack = pokemob.getInventory().getItem(i);
-                if (!stack.isEmpty() && stack.getItem() instanceof IPlantable)
+                if (!stack.isEmpty() && stack.getItem() instanceof IPlantable plantable)
                 {
-                    final IPlantable plantable = (IPlantable) stack.getItem();
                     final BlockState plantState = plantable.getPlant(world, pos.above());
                     if (plantState.getBlock() == state.getBlock() && !replanted)
                     {
@@ -364,10 +363,9 @@ public class GatherTask extends UtilTask
         {
             double diff = 1;
             diff = Math.max(diff, this.entity.getBbWidth());
-            if (this.targetItem.distanceTo(this.entity) < diff)
+            if (this.targetItem.distanceTo(this.entity) < diff && ItemStackTools.addItemStackToInventory(
+                    this.targetItem.getItem(), this.pokemob.getInventory(), 2, PokemobInventory.MAIN_INVENTORY_SIZE))
             {
-                ItemStackTools.addItemStackToInventory(this.targetItem.getItem(), this.pokemob.getInventory(), 2,
-                        PokemobInventory.MAIN_INVENTORY_SIZE);
                 this.targetItem.discard();
             }
             else this.setWalkTo(stuffLoc, speed, 0);
