@@ -9,14 +9,13 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
-import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.moves.damage.EntityMoveUse;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 
@@ -95,7 +94,7 @@ public class MoveQueue
             {
                 if (move.getUser() == null || !move.getUser().isAlive()) continue;
                 boolean toUse = true;
-                if (move.getUser() instanceof LivingEntity living) toUse = living.getHealth() >= 1;
+                toUse = move.getUser().getHealth() >= 1;
                 if (toUse)
                 {
                     final IPokemob mob = PokemobCaps.getPokemobFor(move.getUser());
