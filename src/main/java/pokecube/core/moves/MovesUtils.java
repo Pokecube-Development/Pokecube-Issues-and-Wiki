@@ -241,8 +241,7 @@ public class MovesUtils implements IMoveConstants
         String baseKey = attack.equals(MoveEntry.CONFUSED.name) ? "pokemob.status.confusion" : "pokemob.move.used";
         MutableComponent otherArg = MovesUtils.getMoveName(attack, attacker);
         String key = baseKey + ".user";
-        if (PokecubeCore.getConfig().debug_moves)
-            PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Move Message Send: {} on {}", baseKey, target);
         final IPokemob attacked = PokemobCaps.getPokemobFor(target);
         final Component targName = attacker != null ? attacker.getDisplayName() : target.getDisplayName();
         if (attacker != null) attacker.displayMessageToOwner(TComponent.translatable(key, targName, otherArg));
@@ -722,10 +721,17 @@ public class MovesUtils implements IMoveConstants
                 if (target_test.test(apply))
                 {
                     if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s))) return;
+                    // In this case, we had selected a new target from the
+                    // battle, so we want to change our end for when the move is
+                    // fired.
+                    if (s != target) end.set(s);
                     final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end).setTarget(s)
                             .build();
                     if (GZMoveManager.zmoves_map.containsValue(move.name))
                         pokemob.setCombatState(CombatStates.USEDZMOVE, true);
+
+                    if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Queuing move: {} used by {} on {}",
+                            move.name, user.getDisplayName().getString(), s.getDisplayName().getString());
                     MoveQueuer.queueMove(moveUse);
                 }
             });

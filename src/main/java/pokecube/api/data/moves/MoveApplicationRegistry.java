@@ -1,11 +1,13 @@
 package pokecube.api.data.moves;
 
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.moves.MoveEntry;
@@ -25,6 +27,7 @@ public class MoveApplicationRegistry
     private static Map<String, Consumer<MoveApplication>> MOVE_MODIFIERS = Maps.newHashMap();
     private static Map<String, Predicate<MoveApplication>> TARGET_REGISTRY = Maps.newHashMap();
     private static Map<String, OngoingApplier> EFFECT_REGISTRY = Maps.newHashMap();
+    private static Set<String> allyTargetMoves = Sets.newHashSet();
 
     static
     {
@@ -85,6 +88,16 @@ public class MoveApplicationRegistry
     public static Predicate<MoveApplication> getValidator(MoveEntry move)
     {
         return TARGET_REGISTRY.getOrDefault(move.root_entry._target_type, SelectedTarget.INSTANCE);
+    }
+
+    public static void registerAllyTargetMove(String move)
+    {
+        allyTargetMoves.add(move);
+    }
+
+    public static boolean targetsAllyIfPossible(MoveApplication moveApplication)
+    {
+        return allyTargetMoves.contains(moveApplication.getName());
     }
 
     public static void preApply(MoveApplication moveApplication)
