@@ -290,8 +290,8 @@ public class Battle
 
     public void removeFromBattle(final LivingEntity mob)
     {
-        if (PokecubeCore.getConfig().debug_moves)
-            PokecubeAPI.logInfo("Removing {}({}) from the battle!", mob.getName().getString(), mob.getId());
+//        if (PokecubeCore.getConfig().debug_moves)
+        PokecubeAPI.logInfo("Removing {}({}) from the battle!", mob.getName().getString(), mob.getId());
 
         final UUID id = mob.getUUID();
         this.aliveTracker.removeInt(mob);
@@ -340,11 +340,31 @@ public class Battle
             }
             else
             {
+
                 LivingEntity target = BrainUtils.getAttackTarget(mob1);
                 // No more target means we remove it from the battle.
                 if (target == null)
                 {
-                    stale.add(mob1);
+                    // Null target could also occur if the LivingEntity is not a
+                    // Mob, such as for a player. So in that case, we need to
+                    // check members of the other team, and see if any of them
+                    // are still trying to attack it.
+                    boolean valid = mob1 instanceof Mob;
+                    if (!valid)
+                    {
+                        valid = true;
+                        List<LivingEntity> otherSide = set == s1 ? s2 : s1;
+                        for (LivingEntity e : otherSide)
+                        {
+                            if (BrainUtils.getAttackTarget(e) == mob1)
+                            {
+                                valid = false;
+                                break;
+                            }
+                        }
+
+                    }
+                    if (valid) stale.add(mob1);
                 }
                 else if (!set.contains(mob1))
                 {
