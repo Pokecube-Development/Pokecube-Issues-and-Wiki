@@ -143,8 +143,10 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         this.firstEmpty = -1;
         // Has a berry already, can pass through to storage check.
         final IItemHandlerModifiable itemhandler = new InvWrapper(this.pokemob.getInventory());
+
         // Search inventory for free slots or berries.
-        for (int i = 2; i < itemhandler.getSlots(); i++)
+        // We only use 5 of the slots, so starting at 2.
+        for (int i = 2; i < Math.min(7, itemhandler.getSlots()); i++)
         {
             final boolean test = (stack = itemhandler.getStackInSlot(i)).isEmpty();
             if (!test)
@@ -335,7 +337,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
     private boolean doStorageCheck(final IItemHandlerModifiable pokemobInv)
     {
         // Only dump inventory if no free slots.
-        if (this.emptySlots > 2) return false;
+        if (this.emptySlots > 1) return false;
         // No ItemStorage
         if (!this.findItemStorage(false)) return false;
         // check if should path to storage.
@@ -568,6 +570,8 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         if (this.searchInventoryCooldown-- < 0)
         {
             this.searchInventoryCooldown = StoreTask.COOLDOWN;
+            // Re-initialise this.
+            this.containerChanged(pokemob.getInventory());
             this.findBerryStorage(true);
             stuff = this.findItemStorage(true);
             if (!stuff) this.searchInventoryCooldown = 50 * StoreTask.COOLDOWN;
