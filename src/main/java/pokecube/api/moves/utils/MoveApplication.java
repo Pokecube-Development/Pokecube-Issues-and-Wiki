@@ -133,9 +133,8 @@ public class MoveApplication implements Comparable<MoveApplication>
                 if (PokecubeCore.getConfig().debug_moves)
                 {
                     PokecubeAPI.logInfo("Base Stat Effect: {}", Arrays.toString(t.move().stat_effects));
-                    if (t.move().applied_stat_effects.applied())
-                        PokecubeAPI.logInfo("Applied Stats Effect {} to {}",
-                                Arrays.toString(t.move().applied_stat_effects.diffs()), target);
+                    if (t.move().applied_stat_effects.applied()) PokecubeAPI.logInfo("Applied Stats Effect {} to {}",
+                            Arrays.toString(t.move().applied_stat_effects.diffs()), target);
                     else PokecubeAPI.logInfo("Failed to Apply Stats Effects to {}", target);
                 }
                 MovesUtils.sendStatDiffsMessages(t.move().user, target, t.move().applied_stat_effects);
@@ -694,9 +693,8 @@ public class MoveApplication implements Comparable<MoveApplication>
             // Fire the post event, we did not hit, this is apparent in the
             // from didHit == false.
             PokecubeAPI.MOVE_BUS.post(postEvent);
-            if (PokecubeCore.getConfig().debug_moves)
-                PokecubeAPI.logInfo("Move Failed or Cancelled!: {} used by {}", getMove().name,
-                        this.getUser().getDisplayName().getString());
+            if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Move Failed or Cancelled!: {} used by {}",
+                    getMove().name, this.getUser().getDisplayName().getString());
             return;
         }
 

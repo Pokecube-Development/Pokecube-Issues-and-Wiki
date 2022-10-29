@@ -285,13 +285,23 @@ public class Battle
                 this.addToSide(this.side2, this.teams2, mobA, teamA, mobB);
             }
         }
+
+        if (mobA instanceof Mob mob && mob.getTarget() != mobB)
+        {
+            BrainUtils.initiateCombat(mob, mobB);
+        }
+        if (mobB instanceof Mob mob && mob.getTarget() != mobA)
+        {
+            BrainUtils.initiateCombat(mob, mobA);
+        }
+
         this.sortSides();
     }
 
     public void removeFromBattle(final LivingEntity mob)
     {
-//        if (PokecubeCore.getConfig().debug_moves)
-        PokecubeAPI.logInfo("Removing {}({}) from the battle!", mob.getName().getString(), mob.getId());
+        if (PokecubeCore.getConfig().debug_moves)
+            PokecubeAPI.logInfo("Removing {}({}) from the battle!", mob.getName().getString(), mob.getId());
 
         final UUID id = mob.getUUID();
         this.aliveTracker.removeInt(mob);
@@ -393,12 +403,13 @@ public class Battle
         stale.forEach(mob -> {
             this.removeFromBattle(mob);
         });
+
         // We have changed if stale is not empty
         changed = changed || !stale.isEmpty();
         // If one side is empty, end the battle
         if (this.side1.isEmpty() || this.side2.isEmpty()) this.end();
         // Otherwise If we did change, sort the sides
-        if (changed) this.sortSides();
+        else if (changed) this.sortSides();
     }
 
     public void start()
