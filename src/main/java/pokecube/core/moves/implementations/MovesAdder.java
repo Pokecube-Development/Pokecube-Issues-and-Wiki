@@ -150,6 +150,7 @@ public class MovesAdder implements IMoveConstants
                                 {
                                     MoveApplicationRegistry.addMoveModifier(entry, details.order(), move);
                                     moves.add(entry);
+                                    entry.root_entry._implemented = true;
                                 }
                                 // Otherwise, it is probably a thing to stuff in
                                 // a
@@ -178,6 +179,7 @@ public class MovesAdder implements IMoveConstants
                                     {
                                         MoveApplicationRegistry.addMoveModifier(entry, details.order(), move);
                                         moves.add(entry);
+                                        entry.root_entry._implemented = true;
                                     }
                                     else
                                     {
@@ -238,7 +240,11 @@ public class MovesAdder implements IMoveConstants
                 if (PokecubeCore.getConfig().debug_data)
                     PokecubeAPI.logInfo("Ignoring move {}, as could not figure out what it does...", e.name);
             }
-            else num++;
+            else
+            {
+                e.root_entry._implemented = true;
+                num++;
+            }
         }
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered " + num + " Database Moves");
     }
