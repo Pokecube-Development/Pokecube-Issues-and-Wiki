@@ -63,6 +63,9 @@ public class SetupHandler
         MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onBrainInit);
         // Loads the trades for the trainers.
         MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGH, TrainerEventHandler::onPostServerStart);
+        // Manages npcs joining battles, such as preventing always friendly ones
+        // from doing so.
+        MinecraftForge.EVENT_BUS.addListener(TrainerEventHandler::onBattleJoin);
         // Prevent trainer's pokemobs going to the PC
         PokecubeAPI.POKEMOB_BUS.addListener(TrainerEventHandler::onSentToPC);
         // Prevents normal processing for recalling pokemobs, this re-adds it to

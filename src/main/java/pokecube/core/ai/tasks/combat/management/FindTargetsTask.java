@@ -23,7 +23,7 @@ import pokecube.api.entity.pokemob.IPokemob.ITargetFinder;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.pokemobs.combat.SetAttackTargetEvent;
+import pokecube.api.events.combat.SetAttackTargetEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;

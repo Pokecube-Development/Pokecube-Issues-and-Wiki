@@ -19,11 +19,14 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.events.combat.ExitBattleEvent;
+import pokecube.api.events.combat.JoinBattleEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.utils.AITools;
@@ -109,6 +112,8 @@ public class Battle
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
+
+        if (MinecraftForge.EVENT_BUS.post(new JoinBattleEvent(mobA, mobB, existingA, existingB))) return false;
 
         IPokemob pokemob = PokemobCaps.getPokemobFor(mobA);
         if (pokemob != null) pokemob.setCombatState(CombatStates.BATTLING, true);
@@ -252,7 +257,7 @@ public class Battle
         s2.sort(BATTLESORTER);
     }
 
-    public void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
+    private void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         final String teamA = TeamManager.getTeam(mobA);
         final String teamB = TeamManager.getTeam(mobB);
@@ -304,7 +309,7 @@ public class Battle
         this.sortSides();
     }
 
-    public void removeFromBattle(final LivingEntity mob)
+    private void removeFromBattle(final LivingEntity mob)
     {
         if (PokecubeCore.getConfig().debug_moves)
             PokecubeAPI.logInfo("Removing {}({}) from the battle!", mob.getName().getString(), mob.getId());
@@ -324,6 +329,8 @@ public class Battle
         }
         final IPokemob poke = PokemobCaps.getPokemobFor(mob);
         if (poke != null && poke.getAbility() != null) poke.getAbility().endCombat(poke);
+
+        MinecraftForge.EVENT_BUS.post(new ExitBattleEvent(mob, this));
     }
 
     private boolean checkStale(final Map<UUID, LivingEntity> side, List<LivingEntity> set, List<LivingEntity> stale)
@@ -392,7 +399,7 @@ public class Battle
         return changed;
     }
 
-    public void tick()
+    private void tick()
     {
         if (this.ended) return;
         this.valid = true;
@@ -418,7 +425,7 @@ public class Battle
         else if (changed) this.sortSides();
     }
 
-    public void start()
+    private void start()
     {
         if (this.side1.isEmpty() || this.side2.isEmpty()) return;
         this.valid = true;
@@ -444,7 +451,7 @@ public class Battle
         }
     }
 
-    public void end()
+    private void end()
     {
         this.ended = true;
         for (final LivingEntity mob1 : this.side1.values())
