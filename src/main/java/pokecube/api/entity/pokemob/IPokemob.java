@@ -622,7 +622,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default void revive()
     {
         this.setCombatState(CombatStates.FAINTED, false);
-        this.setCombatState(CombatStates.ANGRY, false);
         this.setHungerTime(0);
         this.onSetTarget(null, true);
         this.healStatus();

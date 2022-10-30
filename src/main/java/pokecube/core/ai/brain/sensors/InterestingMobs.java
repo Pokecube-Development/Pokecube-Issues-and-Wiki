@@ -44,7 +44,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (pokemob.getPokedexEntry().isMega()) return false;
         if (pokemob.getPokedexEntry().isGMax()) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
-        if (pokemob.getCombatState(CombatStates.ANGRY) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
+        if (pokemob.getCombatState(CombatStates.MATEFIGHT)) return true;
+        if (pokemob.getCombatState(CombatStates.BATTLING) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
         return true;
     }
 

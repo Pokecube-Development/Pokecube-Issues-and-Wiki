@@ -140,7 +140,7 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         // Should not swap moves if this is set.
         if (this.pokemob.getCombatState(CombatStates.NOMOVESWAP)) return false;
         // Only swap moves during combat.
-        return this.pokemob.getCombatState(CombatStates.ANGRY)
+        return this.pokemob.getCombatState(CombatStates.BATTLING)
                 && (this.target = BrainUtils.getAttackTarget(this.entity)) != null;
     }
 }

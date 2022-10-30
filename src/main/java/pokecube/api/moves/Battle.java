@@ -23,6 +23,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.utils.AITools;
@@ -108,6 +109,11 @@ public class Battle
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
+
+        IPokemob pokemob = PokemobCaps.getPokemobFor(mobA);
+        if (pokemob != null) pokemob.setCombatState(CombatStates.BATTLING, true);
+        pokemob = PokemobCaps.getPokemobFor(mobB);
+        if (pokemob != null) pokemob.setCombatState(CombatStates.BATTLING, true);
 
         if (existingA != null && existingB != null)
         {

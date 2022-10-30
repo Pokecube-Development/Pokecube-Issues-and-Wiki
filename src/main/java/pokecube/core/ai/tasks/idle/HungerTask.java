@@ -336,7 +336,7 @@ public class HungerTask extends BaseIdleTask
             this.pokemob.setCombatState(CombatStates.HUNTING, false);
 
         // Do not run if the mob is in battle.
-        if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
+        if (this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
         if (this.pokemob.neverHungry())
         {

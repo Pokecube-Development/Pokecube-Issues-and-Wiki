@@ -236,7 +236,7 @@ public class ForgetTargetTask extends CombatTask
             }
 
             // If we are not angry, we should forget target.
-            if (!this.pokemob.getCombatState(CombatStates.ANGRY))
+            if (!this.pokemob.getCombatState(CombatStates.BATTLING))
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Not Angry. losing target now.");
                 deAgro = true;

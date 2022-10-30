@@ -3,7 +3,6 @@ package pokecube.mobs.moves.attacks;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
@@ -29,7 +28,6 @@ public class Whirlwind implements PostMoveUse
                 return;
             }
             if (attacked.getGeneralState(GeneralStates.TAMED)) attacked.onRecall();
-            attacked.setCombatState(CombatStates.ANGRY, false);
         }
         // ends the battle
         BrainUtils.deagro(packet.getUser().getEntity());

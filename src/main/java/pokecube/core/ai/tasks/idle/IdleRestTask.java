@@ -75,7 +75,7 @@ public class IdleRestTask extends BaseIdleTask
         if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
 
         // Don't run in combat
-        if (!this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
+        if (!this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
         final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED)
                 && !this.pokemob.getGeneralState(GeneralStates.STAYING);

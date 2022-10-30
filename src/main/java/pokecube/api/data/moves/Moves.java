@@ -122,6 +122,7 @@ public class Moves
         public int _healing = 0;
 
         public boolean _manually_defined = false;
+        public boolean _implemented = false;
         public String _target_type = "user";
 
         public int _min_turns = -1;
