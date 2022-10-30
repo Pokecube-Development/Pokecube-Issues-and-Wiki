@@ -306,9 +306,11 @@ public abstract class PokemobMoves extends PokemobStats
             mobs = b.getAllies(entity);
             this.dataSync().set(this.params.ALLYNUMDW, mobs.size());
 
-            int allyIndex = this.getMoveStats().allyIndex % (mobs.size() + ownerOffset);
+            int allyN = mobs.size() + ownerOffset;
+
+            int allyIndex = (allyN != 0) ? this.getMoveStats().allyIndex % allyN : 0;
             if (allyIndex < 0) allyIndex = mobs.size();
-            if (allyIndex == mobs.size())
+            if (allyIndex == mobs.size() && ownerOffset > 0)
             {
                 // Ally is owner
                 if (this.getOwner() != null) this.setAllyID(this.getOwner().id);
