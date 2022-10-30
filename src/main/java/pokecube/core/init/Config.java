@@ -599,7 +599,7 @@ public class Config extends ConfigData
 
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks, and apply their effects regardless.")
     public List<String> damageBlocksWhitelist = Lists.newArrayList(new String[]
-    { "flash", "teleport", "dig", "cut", "rocksmash", "secretpower", "naturepower", "hyperspacehole", "nest_dig" });
+    { "flash", "teleport", "dig", "cut", "rock-smash", "secret-power", "nature-power", "hyperspace-hole", "nest_dig" });
     @Configure(category = Config.advanced, comment = "Moves in here will ignore pokemobsDamageBlocks and never apply their effects.")
     public List<String> damageBlocksBlacklist = Lists.newArrayList();
     @Configure(category = Config.advanced, comment = "This is how much exp is given for killing a non-pokemob, h is the max health of the mob, and a is the amount of armour it had. [Default: \"h*(a+1)^2\"]")
