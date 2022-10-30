@@ -254,8 +254,6 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public void updateBattleInfo()
     {
-        // Only owned mobs process beyond here.
-        if (this.getOwner() == null) return;
 
         // Only process battle stuff server side.
         battle_check:
@@ -273,6 +271,10 @@ public abstract class PokemobMoves extends PokemobStats
                 this.setBattle(b);
             }
 
+            this.setCombatState(CombatStates.BATTLING, b != null);
+
+            int ownerOffset = this.getOwner() != null ? 1 : 0;
+
             if (b == null)
             {
                 // Enemy always empty when not in battle
@@ -280,7 +282,7 @@ public abstract class PokemobMoves extends PokemobStats
 
                 // Ally is either us, or owner when not in battle.
                 int allyIndex = this.getMoveStats().allyIndex % 2;
-                if (allyIndex < 0) allyIndex = 1;
+                if (allyIndex < 0) allyIndex = ownerOffset;
 
                 if (allyIndex == 1)
                 {
@@ -303,7 +305,8 @@ public abstract class PokemobMoves extends PokemobStats
             if (target != BrainUtils.getAttackTarget(entity)) BrainUtils.setAttackTarget(entity, target);
             mobs = b.getAllies(entity);
             this.dataSync().set(this.params.ALLYNUMDW, mobs.size());
-            int allyIndex = this.getMoveStats().allyIndex % (mobs.size() + 1);
+
+            int allyIndex = this.getMoveStats().allyIndex % (mobs.size() + ownerOffset);
             if (allyIndex < 0) allyIndex = mobs.size();
             if (allyIndex == mobs.size())
             {
@@ -321,6 +324,9 @@ public abstract class PokemobMoves extends PokemobStats
         this.getMoveStats().targetEnemy = target instanceof LivingEntity living ? living : null;
         target = entity.getLevel().getEntity(this.getAllyID());
         this.getMoveStats().targetAlly = target instanceof LivingEntity living ? living : null;
+
+        // Only owned mobs process beyond here.
+        if (this.getOwner() == null) return;
 
         // Ensure indeces are in range
         int num = this.getAllyNumber() + 1;
@@ -519,7 +525,7 @@ public abstract class PokemobMoves extends PokemobStats
     @Override
     public void tickTimeSinceCombat()
     {
-        final boolean angry = this.getCombatState(CombatStates.ANGRY);
+        final boolean angry = this.getCombatState(CombatStates.BATTLING);
         if (angry && this.timeSinceCombat() < 0 || !angry && this.timeSinceCombat() > 0) this.resetCombatTime();
         if (angry) this.timeSinceCombat++;
         else this.timeSinceCombat--;

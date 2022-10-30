@@ -3,7 +3,7 @@ package pokecube.api.entity.pokemob.ai;
 public enum CombatStates
 {
     /** Is the pokemob angry at something */
-    ANGRY(1 << 0),
+    BATTLING(1 << 0),
     /** A Guarding pokemon will attack any strangers nearby */
     GUARDING(1 << 1),
     /**

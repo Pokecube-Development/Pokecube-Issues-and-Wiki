@@ -113,7 +113,7 @@ public class CicleTask extends CombatTask implements IAICombat
         if (!TaskBase.canMove(this.pokemob)) return false;
         // Has target and is angry.
         return (this.target = BrainUtils.getAttackTarget(this.entity)) != null
-                && this.pokemob.getCombatState(CombatStates.ANGRY)
+                && this.pokemob.getCombatState(CombatStates.BATTLING)
                 && !this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE);
     }
 }

@@ -238,7 +238,7 @@ public class IdleWalkTask extends BaseIdleTask
         if (this.pokemob.getPokedexEntry().isStationary) return false;
 
         // Angry at something
-        if (this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
+        if (this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
         // Owner is controlling us.
         if (this.pokemob.getGeneralState(GeneralStates.CONTROLLED)) return false;

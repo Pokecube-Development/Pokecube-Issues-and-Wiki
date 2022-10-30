@@ -209,16 +209,8 @@ public class BrainUtils extends BrainUtil
         if (aggressor != null && !AITools.validCombatTargets.test(target)) return;
         if (targetMob != null && !AITools.validCombatTargets.test(mob)) return;
 
-        if (targetMob != null)
-        {
-            targetMob.setCombatState(CombatStates.ANGRY, true);
-            targetMob.onSetTarget(mob, true);
-        }
-        if (aggressor != null)
-        {
-            aggressor.setCombatState(CombatStates.ANGRY, true);
-            aggressor.onSetTarget(target, true);
-        }
+        if (targetMob != null) targetMob.onSetTarget(mob, true);
+        if (aggressor != null) aggressor.onSetTarget(target, true);
 
         BrainUtils.setAttackTarget(mob, target);
         BrainUtils.setAttackTarget(target, mob);
@@ -237,7 +229,6 @@ public class BrainUtils extends BrainUtil
         {
             aggressor.getTargetFinder().clear();
             aggressor.onSetTarget(null, true);
-            aggressor.setCombatState(CombatStates.ANGRY, false);
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }
         final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);

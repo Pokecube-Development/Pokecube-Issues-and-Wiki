@@ -151,7 +151,7 @@ public class PokecubeHelper
     public double premier(final IPokemob mob)
     {
         double x = 0.25;
-        if (!mob.getCombatState(CombatStates.ANGRY)) x = 1;
+        if (!mob.getCombatState(CombatStates.BATTLING)) x = 1;
         return x;
     }
 
@@ -160,7 +160,7 @@ public class PokecubeHelper
         double x = 1;
         final Entity entity = mob.getEntity();
         final double alive = entity.tickCount;
-        if (!mob.getCombatState(CombatStates.ANGRY) && alive < 601) x = 4;
+        if (!mob.getCombatState(CombatStates.BATTLING) && alive < 601) x = 4;
         return x;
     }
 
