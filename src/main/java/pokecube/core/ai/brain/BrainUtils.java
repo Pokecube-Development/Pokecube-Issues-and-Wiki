@@ -16,7 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.events.pokemobs.combat.SetAttackTargetEvent;
+import pokecube.api.events.combat.SetAttackTargetEvent;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ai.BrainUtil;

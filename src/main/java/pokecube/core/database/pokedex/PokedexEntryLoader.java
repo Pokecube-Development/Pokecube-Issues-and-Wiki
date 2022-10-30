@@ -332,7 +332,6 @@ public class PokedexEntryLoader
             if (this.movementType != null)
             {
                 final String[] strings = this.movementType.trim().split(":");
-
                 final String typeArg = strings[0];
                 final String[] types = typeArg.split(",");
                 for (final String type : types)

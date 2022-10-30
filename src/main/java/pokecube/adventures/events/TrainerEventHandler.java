@@ -81,6 +81,7 @@ import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.api.events.CustomInteractEvent;
 import pokecube.api.events.PCEvent;
+import pokecube.api.events.combat.JoinBattleEvent;
 import pokecube.api.events.npcs.NpcBreedEvent;
 import pokecube.api.events.npcs.NpcEvent;
 import pokecube.api.events.npcs.NpcSpawn;
@@ -399,6 +400,14 @@ public class TrainerEventHandler
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Added Tasks: " + npc);
             }
         }
+    }
+
+    public static void onBattleJoin(JoinBattleEvent event)
+    {
+        final IHasNPCAIStates holderA = TrainerCaps.getNPCAIStates(event.mobA);
+        final IHasNPCAIStates holderB = TrainerCaps.getNPCAIStates(event.mobB);
+        if (holderA != null && holderA.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
+        if (holderB != null && holderB.getAIState(AIState.PERMFRIENDLY)) event.setCanceled(true);
     }
 
     private static void initTrainer(final LivingEntity mob, final MobSpawnType reason)
