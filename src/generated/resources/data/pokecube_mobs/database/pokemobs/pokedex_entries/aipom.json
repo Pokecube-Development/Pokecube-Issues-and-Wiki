@@ -226,7 +226,7 @@
   "evolutions": [
     {
       "name": "ambipom",
-      "move": "doublehit"
+      "move": "double-hit"
     }
   ],
   "loot_table": "pokecube:entities/rabbit_1"

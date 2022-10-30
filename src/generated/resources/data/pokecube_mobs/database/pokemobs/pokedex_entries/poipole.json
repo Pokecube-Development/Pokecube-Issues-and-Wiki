@@ -151,7 +151,7 @@
   "evolutions": [
     {
       "name": "naganadel",
-      "move": "dragonpulse",
+      "move": "dragon-pulse",
       "evoMoves": "air-cutter"
     }
   ],

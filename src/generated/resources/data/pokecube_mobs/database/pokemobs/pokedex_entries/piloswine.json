@@ -236,7 +236,7 @@
   "evolutions": [
     {
       "name": "mamoswine",
-      "move": "ancientpower"
+      "move": "ancient-power"
     }
   ],
   "loot_table": "pokecube:entities/pig_1"
