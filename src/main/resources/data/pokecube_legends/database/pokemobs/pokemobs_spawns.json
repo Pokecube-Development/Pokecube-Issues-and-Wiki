@@ -97,7 +97,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:hooh_tower",
+              "structures": "pokecube_legends:ho-oh_temple",
               "rate": "0.0"
             }
           }
@@ -110,7 +110,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:hooh_tower",
+              "structures": "pokecube_legends:ho-oh_temple",
               "rate": "0.0"
             }
           }
@@ -123,7 +123,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:hooh_tower",
+              "structures": "pokecube_legends:ho-oh_temple",
               "rate": "0.0"
             }
           }
@@ -136,7 +136,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:hooh_tower",
+              "structures": "pokecube_legends:ho-oh_temple",
               "rate": "0.0"
             }
           }
@@ -565,7 +565,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:yveltal_place",
+              "structures": "pokecube_legends:yveltal_ruins",
               "rate": "0.0"
             }
           }
@@ -643,7 +643,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:xerneas_place",
+              "structures": "pokecube_legends:xerneas_tree",
               "rate": "0.0"
             }
           }
@@ -656,7 +656,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:yveltal_place",
+              "structures": "pokecube_legends:yveltal_ruins",
               "rate": "0.0"
             }
           }
@@ -664,18 +664,18 @@
       }
     },
     {
-      "name": "Zygarde-50",
+      "name": "Zygarde-10",
       "stats": {
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:xerneas_place",
+              "structures": "pokecube_legends:xerneas_tree",
               "rate": "0.0"
             }
           },
           {
             "values": {
-              "structures": "pokecube_legends:yveltal_place",
+              "structures": "pokecube_legends:yveltal_ruins",
               "rate": "0.0"
             }
           }
@@ -688,7 +688,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:tapus_temple",
+              "structures": "pokecube_legends:tapu_center",
               "rate": "0.0"
             }
           }
@@ -701,7 +701,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:tapus_temple",
+              "structures": "pokecube_legends:tapu_center",
               "rate": "0.0"
             }
           }
@@ -714,7 +714,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:tapus_temple",
+              "structures": "pokecube_legends:tapu_center",
               "rate": "0.0"
             }
           }
@@ -727,7 +727,7 @@
         "spawnRules": [
           {
             "values": {
-              "structures": "pokecube_legends:tapus_temple",
+              "structures": "pokecube_legends:tapu_center",
               "rate": "0.0"
             }
           }
