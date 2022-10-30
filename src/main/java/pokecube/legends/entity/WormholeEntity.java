@@ -216,6 +216,8 @@ public class WormholeEntity extends LivingEntity
     int timer = 0;
     int uses = 0;
 
+    private boolean stable = false;
+
     public WormholeEntity(final EntityType<? extends LivingEntity> type, final Level level)
     {
         super(type, level);
@@ -263,6 +265,7 @@ public class WormholeEntity extends LivingEntity
             final CompoundTag tag = nbt.getCompound("face_dir");
             this.setDir(new Vec3(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z")));
         }
+        this.stable = nbt.getBoolean("stable");
         this.timer = nbt.getInt("timer");
         this.uses = nbt.getInt("uses");
         this.entityData.set(WormholeEntity.ACTIVE_STATE, nbt.getByte("state"));
@@ -399,6 +402,8 @@ public class WormholeEntity extends LivingEntity
         }
 
         this.energy.receiveEnergy(WormholeEntity.wormholeEnergyPerTick, false);
+        // Stable wormholes just lose all of their energy.
+        if (this.stable) this.energy.extractEnergy(Integer.MAX_VALUE, false);
 
         final BlockPos anchor = this.getPos().getPos().pos();
         final Vec3 origin = new Vec3(anchor.getX(), anchor.getY(), anchor.getZ());
@@ -462,6 +467,7 @@ public class WormholeEntity extends LivingEntity
         nbt.put("face_dir", tag);
         nbt.putInt("timer", this.timer);
         nbt.putInt("uses", this.uses);
+        nbt.putBoolean("stable", this.stable);
         nbt.putByte("state", this.entityData.get(WormholeEntity.ACTIVE_STATE));
     }
 

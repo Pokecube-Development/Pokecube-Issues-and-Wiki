@@ -961,10 +961,9 @@ public class PokedexEntryLoader
             entry.animation = new ResourceLocation(anim + entry.getTrimmedName() + ".xml");
         }
 
-        entry.poseShapes = null;
-
         if (xmlEntry.poseShapes != null && !xmlEntry.poseShapes.isEmpty())
         {
+            entry.poseShapes = null;
             xmlEntry.poseShapes.forEach((s, n) -> n.onLoad());
             entry.poseShapes = xmlEntry.poseShapes;
         }
