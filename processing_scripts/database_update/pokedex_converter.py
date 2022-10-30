@@ -82,6 +82,9 @@ class PokedexEntry:
                     if len(moves) > 0:
                         evo['evoMoves'] = str(moves).replace('[', '').replace(']', '').replace("'", '')
                     pass
+                if 'move' in evo:
+                    move = evo['move']
+                    evo['move'] = convert_old_move_name(move)
         return
 
     # Basic set of initialising, covering names, happiness, etc

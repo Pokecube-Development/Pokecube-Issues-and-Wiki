@@ -206,7 +206,7 @@
   "evolutions": [
     {
       "name": "yanmega",
-      "move": "ancientpower"
+      "move": "ancient-power"
     }
   ],
   "loot_table": "minecraft:entities/spider"
