@@ -175,7 +175,7 @@ public class PokedexEntryLoader
         public Stats sizes;
         public Stats types;
         public Stats abilities;
-        public Float mass = -1f;
+        public Float mass;
         public Integer captureRate = -1;
         public Integer baseExp = -1;
         public Integer baseFriendship = 70;
@@ -326,7 +326,7 @@ public class PokedexEntryLoader
             if (this.baseExp != PokedexEntryLoader.missingno.stats.baseExp) entry.baseXP = this.baseExp;
             if (this.baseFriendship != null) entry.baseHappiness = this.baseFriendship;
             if (this.genderRatio != PokedexEntryLoader.missingno.stats.genderRatio) entry.sexeRatio = this.genderRatio;
-            if (this.mass != PokedexEntryLoader.missingno.stats.mass) entry.mass = this.mass;
+            if (this.mass != PokedexEntryLoader.missingno.stats.mass && this.mass != null) entry.mass = this.mass;
             if (entry.ridable != PokedexEntryLoader.missingno.ridable)
                 entry.ridable = PokedexEntryLoader.missingno.ridable;
             if (this.movementType != null)
