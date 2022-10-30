@@ -630,7 +630,7 @@
           "trades": [
             {
               "exp": 1,
-              "sell": {"values": {"id": "pokecube:tm0", "n": "2"}},
+              "sell": {"values": {"id": "pokecube:tm", "n": "2"}},
               "buys": [
                 {"values": {"id": "minecraft:emerald", "n": "1"}}
               ]
