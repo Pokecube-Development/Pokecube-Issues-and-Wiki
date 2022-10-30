@@ -315,8 +315,9 @@ public abstract class PokemobMoves extends PokemobStats
                 // Ally is owner
                 if (this.getOwner() != null) this.setAllyID(this.getOwner().id);
             }
-            else
+            else if (mobs.size() > 0)
             {
+
                 this.setAllyID(mobs.get(allyIndex).id);
             }
             break battle_check;
