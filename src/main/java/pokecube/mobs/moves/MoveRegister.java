@@ -174,8 +174,19 @@ public class MoveRegister
             if (mass < 50) return 60;
             if (mass < 100) return 80;
             if (mass < 200) return 100;
-
             return pwr;
+        });
+
+        POWER.put("heat-crash", (IPokemob user, LivingEntity target, int pwr) -> {
+            pwr = 80;
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(target);
+            if (targetMob == null) return pwr;
+            final double mass = targetMob.getWeight() / user.getWeight();
+            if (mass <= 0.2) return 120;
+            if (mass <= 0.25) return 100;
+            if (mass <= 0.33) return 80;
+            if (mass <= 0.5) return 60;
+            return 40;
         });
 
         POWER.put("night-shade", (IPokemob user, LivingEntity target, int pwr) -> {
