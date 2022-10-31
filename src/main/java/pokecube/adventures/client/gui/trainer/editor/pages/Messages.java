@@ -145,6 +145,12 @@ public class Messages extends ListPage<MessageOption>
     }
 
     @Override
+    public boolean isValid()
+    {
+        return this.parent.messages != null;
+    }
+
+    @Override
     public void initList()
     {
         this.children.clear();

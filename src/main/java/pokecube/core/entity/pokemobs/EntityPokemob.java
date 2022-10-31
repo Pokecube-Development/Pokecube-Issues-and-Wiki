@@ -67,6 +67,7 @@ import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMountedControl;
+import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -569,6 +570,8 @@ public class EntityPokemob extends PokemobRidable
     public void readAdditionalSaveData(final CompoundTag compound)
     {
         super.readAdditionalSaveData(compound);
+        if (this.pokemobCap.getCustomHolder() != null && this.pokemobCap.getCustomHolder()._entry == Database.missingno)
+            this.pokemobCap.getCustomHolder().setEntry(this.pokemobCap.getPokedexEntry());
         if (compound.contains("OwnerUUID")) try
         {
             final UUID id = UUID.fromString(compound.getString("OwnerUUID"));
