@@ -179,13 +179,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             if (animChanger != null) animChanger.isPartHidden(partName, entityIn, false);
             if (part instanceof IRetexturableModel tex) tex.setTexturer(texer);
         });
-//        for (final Entry<String, IExtendedModelPart> entry : this.imodel.getParts().entrySet())
-//        {
-//            String partName = entry.getKey();
-//            IExtendedModelPart part = entry.getValue();
-//            if (animChanger != null) animChanger.isPartHidden(partName, entityIn, false);
-//            if (part instanceof IRetexturableModel tex) tex.setTexturer(texer);
-//        }
         if (info != null) info.lastTick = entityIn.tickCount;
     }
 
@@ -193,6 +186,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public void renderToBuffer(final PoseStack mat, final VertexConsumer buffer, final int packedLightIn,
             final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
     {
+        if (this.entityIn == null) return;
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         if (!this.isLoaded()) return;
         mat.pushPose();
@@ -211,22 +205,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
                 this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
             }
         });
-
-//        for (final Entry<String, IExtendedModelPart> entry : this.imodel.getParts().entrySet())
-//        {
-//            String partName = entry.getKey();
-//            IExtendedModelPart part = entry.getValue();
-//            if (part == null) continue;
-//            if (part.isHidden())
-//            {
-//                excluded.add(partName);
-//                excluded.addAll(part.getRecursiveChildNames());
-//            }
-//            if (part.getParent() == null)
-//            {
-//                this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
-//            }
-//        }
         if (this.imodel instanceof IModelCustom cmodel)
         {
             cmodel.renderAllExcept(mat, buffer, excluded);
@@ -287,6 +265,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
         if (!this.isLoaded()) return;
+        this.setEntity(entityIn);
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
         holder.preRun();
         this.renderer.setAnimationHolder(holder);
