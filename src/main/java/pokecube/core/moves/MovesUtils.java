@@ -15,20 +15,22 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AnvilMenu;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
@@ -46,6 +48,7 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect;
 import pokecube.core.impl.entity.impl.NonPersistantStatusEffect.Effect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect;
@@ -787,18 +790,29 @@ public class MovesUtils implements IMoveConstants
         }
     }
 
-    public static boolean shouldSilk(final IPokemob pokemob)
+    public static ItemStack applyEnchants(IPokemob pokemob, ItemStack tool)
     {
-        if (pokemob.getAbility() == null) return false;
-        final Ability ability = pokemob.getAbility();
-        return pokemob.getLevel() >= 90 && ability.toString().equalsIgnoreCase("hypercutter");
+        ItemStack offhand = pokemob.getEntity().getOffhandItem();
+        if (!offhand.isEmpty())
+        {
+            FakePlayer player = PokecubeMod.getFakePlayer(pokemob.getEntity().getLevel());
+            player.setExperienceLevels(1000);
+            AnvilMenu menu = new AnvilMenu(0, player.getInventory());
+            menu.getSlot(0).set(tool);
+            menu.getSlot(1).set(offhand.copy());
+            menu.createResult();
+            return menu.getSlot(2).getItem();
+        }
+        return tool;
     }
 
-    public static void silkHarvest(final BlockState state, final BlockPos pos, final Level worldIn, final Player player)
+    public static void harvestBlock(IPokemob pokemob, ItemStack tool, BlockState state, BlockPos pos, Level worldIn,
+            ServerPlayer player, boolean applyEnchants)
     {
-        final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
-        pickaxe.enchant(Enchantments.SILK_TOUCH, 1);
-        state.getBlock().playerDestroy(worldIn, player, pos, state, null, pickaxe);
+        if (applyEnchants) tool = applyEnchants(pokemob, tool);
+        BlockEntity blockEntity = worldIn.getBlockEntity(pos);
         worldIn.destroyBlock(pos, false);
+        if (player == null) Block.dropResources(state, worldIn, pos, blockEntity, player, tool);
+        else state.getBlock().playerDestroy(worldIn, player, pos, state, blockEntity, tool);
     }
 }

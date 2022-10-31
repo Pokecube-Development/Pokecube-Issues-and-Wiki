@@ -4,7 +4,12 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
@@ -12,12 +17,12 @@ import thut.api.maths.Vector3;
 
 public class TreeRemover
 {
-    Level    world;
+    Level world;
     IPokemob user;
-    Vector3  centre;
-    String   move;
+    Vector3 centre;
+    String move;
 
-    List<Vector3> blocks  = new LinkedList<>();
+    List<Vector3> blocks = new LinkedList<>();
     List<Vector3> checked = new LinkedList<>();
 
     public TreeRemover(final Level world, final IPokemob user, final String move, final Vector3 pos)
@@ -43,23 +48,31 @@ public class TreeRemover
     public void cutGrass()
     {
         final Vector3 temp = new Vector3();
-        for (int i = -4; i < 5; i++)
-            for (int j = -4; j < 5; j++)
-                for (int k = -1; k < 6; k++)
-                {
-                    temp.set(this.centre).addTo(i, k, j);
-                    if (PokecubeTerrainChecker.isCutablePlant(temp.getBlockState(this.world))) temp.breakBlock(
-                            this.world, true);
-                }
+        ServerPlayer player = null;
+        if (user.getOwner() instanceof ServerPlayer splayer) player = splayer;
+        ItemStack tool = new ItemStack(Items.SHEARS);
+        for (int i = -4; i < 5; i++) for (int j = -4; j < 5; j++) for (int k = -1; k < 6; k++)
+        {
+            temp.set(this.centre).addTo(i, k, j);
+            BlockState state = temp.getBlockState(world);
+            BlockPos pos = temp.getPos();
+            if (PokecubeTerrainChecker.isCutablePlant(state))
+                MovesUtils.harvestBlock(user, tool, state, pos, world, player, true);
+        }
     }
 
     private int cutPoints(final boolean count)
     {
         int ret = 0;
+        ServerPlayer player = null;
+        if (user.getOwner() instanceof ServerPlayer splayer) player = splayer;
+        ItemStack tool = new ItemStack(Items.DIAMOND_AXE);
         for (final Vector3 v : this.blocks)
         {
-            if (!count && MoveEventsHandler.canAffectBlock(this.user, v,
-                    this.move, false, true)) v.breakBlock(this.world, true);
+            BlockState state = v.getBlockState(world);
+            BlockPos pos = v.getPos();
+            if (!count && MoveEventsHandler.canAffectBlock(this.user, v, this.move, false, true))
+                MovesUtils.harvestBlock(user, tool, state, pos, world, player, true);
             ret++;
         }
         return ret;
@@ -91,10 +104,10 @@ public class TreeRemover
             while (this.centre.intY() + k > 0)
             {
                 if (PokecubeTerrainChecker.isWood(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
-                {
-                }
-                else if (PokecubeTerrainChecker.isGround(temp.set(this.centre).addTo(0, k, 0).getBlockState(
-                        this.world))) valid = true;
+                {}
+                else if (PokecubeTerrainChecker
+                        .isGround(temp.set(this.centre).addTo(0, k, 0).getBlockState(this.world)))
+                    valid = true;
                 else break;
                 if (valid) break;
                 k--;
@@ -107,19 +120,16 @@ public class TreeRemover
     private boolean nextPoint(final Vector3 prev, final List<Vector3> tempList)
     {
         boolean ret = false;
-
         final Vector3 temp = new Vector3();
-        for (int i = -1; i <= 1; i++)
-            for (int j = -1; j <= 1; j++)
-                for (int k = -1; k <= 1; k++)
-                {
-                    temp.set(prev).addTo(i, k, j);
-                    if (PokecubeTerrainChecker.isWood(temp.getBlockState(this.world)))
-                    {
-                        tempList.add(temp.copy());
-                        ret = true;
-                    }
-                }
+        for (int i = -1; i <= 1; i++) for (int j = -1; j <= 1; j++) for (int k = -1; k <= 1; k++)
+        {
+            temp.set(prev).addTo(i, k, j);
+            if (PokecubeTerrainChecker.isWood(temp.getBlockState(this.world)))
+            {
+                tempList.add(temp.copy());
+                ret = true;
+            }
+        }
         this.checked.add(prev);
         return ret;
     }
@@ -130,10 +140,8 @@ public class TreeRemover
         while (this.checked.size() < this.blocks.size())
         {
             final List<Vector3> toAdd = new ArrayList<>();
-            for (final Vector3 v : this.blocks)
-                if (!this.checked.contains(v)) this.nextPoint(v, toAdd);
-            for (final Vector3 v : toAdd)
-                if (!this.blocks.contains(v)) this.blocks.add(v);
+            for (final Vector3 v : this.blocks) if (!this.checked.contains(v)) this.nextPoint(v, toAdd);
+            for (final Vector3 v : toAdd) if (!this.blocks.contains(v)) this.blocks.add(v);
         }
     }
 }
