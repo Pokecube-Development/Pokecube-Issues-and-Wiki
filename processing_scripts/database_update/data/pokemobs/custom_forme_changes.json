@@ -74,6 +74,15 @@
     ]
   },
   {
+    "name": "genesect",
+    "forme_items": [
+      {
+        "item": "minecraft:redstone",
+        "model": { "key": "genesect-shock" }
+      }
+    ]
+  },
+  {
     "name": "hoopa",
     "forme_items": [
       {

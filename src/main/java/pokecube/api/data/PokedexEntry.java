@@ -933,7 +933,7 @@ public class PokedexEntry
     { false, false, false, false, false, true, false };
 
     @CopyToGender
-    public HashMap<ItemStack, PokedexEntry> formeItems = Maps.newHashMap();
+    public HashMap<ItemStack, FormeItem> formeItems = Maps.newHashMap();
 
     public PokedexEntry noItemForm = null;
 
@@ -1157,27 +1157,34 @@ public class PokedexEntry
             for (FormeItem i : _forme_items)
             {
                 PokedexEntry output = i.getOutput();
-                if (output == null)
+                if (output == null && i.getForme(this) == null)
                 {
                     PokecubeAPI.LOGGER.error("Error loading output forme for " + this);
                     continue;
                 }
                 try
                 {
-                    ResourceLocation key = i.getKey();
-                    ItemStack stack = PokecubeItems.getStack(key);
+                    ItemStack stack = i.getKey();
                     if (stack.isEmpty())
                     {
-                        PokecubeAPI.LOGGER.error("Error with key " + key + " for " + this);
+                        PokecubeAPI.LOGGER.error("Error with key  for " + this);
                         continue;
                     }
                     PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
-                    this.formeItems.put(stack, output);
-                    if (output.noItemForm != null && output.noItemForm != this) PokecubeAPI.LOGGER
-                            .warn("Changing Base forme of {} from {} to {}", output, output.noItemForm, this);
-                    if (PokecubeCore.getConfig().debug_data)
-                        PokecubeAPI.logInfo("Adding Forme with Key " + key + " To " + output + " for " + this);
-                    output.noItemForm = this;
+                    this.formeItems.put(stack, i);
+                    if (output != null)
+                    {
+                        if (output.noItemForm != null) PokecubeAPI.LOGGER
+                                .warn("Changing Base forme of {} from {} to {}", output, output.noItemForm, this);
+                        if (PokecubeCore.getConfig().debug_data)
+                            PokecubeAPI.logInfo("Adding Forme with Key " + stack + " To " + output + " for " + this);
+                        output.noItemForm = this;
+                    }
+                    else
+                    {
+                        if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(
+                                "Adding Forme with Key " + stack + " To " + i.getForme(this).key + " for " + this);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -2013,24 +2020,43 @@ public class PokedexEntry
     public void onHeldItemChange(final ItemStack oldStack, final ItemStack newStack, final IPokemob pokemob)
     {
         if (newStack.isEmpty() && oldStack.isEmpty()) return;
-        PokedexEntry newForme = null;
-        if (this.formeItems.isEmpty() && this.getBaseForme() != null)
-            for (final PokedexEntry entry : this.getBaseForme().formeItems.values()) if (entry == this)
+        boolean isChangedForme = pokemob.getCustomHolder() != null && pokemob.getCustomHolder()._is_item_forme;
+        PokedexEntry base = this;
+        if (!isChangedForme && this.formeItems.isEmpty() && this.getBaseForme() != null)
         {
-            this.getBaseForme().onHeldItemChange(oldStack, newStack, pokemob);
+            for (var entry : this.getBaseForme().formeItems.entrySet())
+            {
+                if (entry.getValue().getOutput() == this)
+                {
+                    isChangedForme = true;
+                    base = this.getBaseForme();
+                    break;
+                }
+            }
+        }
+        if (isChangedForme && base != this)
+        {
+            base.onHeldItemChange(oldStack, newStack, pokemob);
             return;
         }
+        PokedexEntry newForme = null;
+        FormeHolder newHolder = null;
         if (newStack.isEmpty() && this.noItemForm != null) newForme = this.noItemForm;
         for (final ItemStack key : this.formeItems.keySet()) if (Tools.isSameStack(oldStack, key, true))
         {
             newForme = this;
+            newHolder = this.getModel(pokemob.getSexe());
             break;
         }
         for (final ItemStack key : this.formeItems.keySet()) if (Tools.isSameStack(newStack, key, true))
         {
-            newForme = this.formeItems.get(key);
+            FormeItem forme = this.formeItems.get(key);
+            newForme = forme.getOutput();
+            newHolder = forme.getForme(this);
             break;
         }
+        // Set the custom holder regardless incase it was needed.
+        if (newHolder != null) pokemob.setCustomHolder(newHolder);
         if (newForme != null && newForme != pokemob.getPokedexEntry())
             ICanEvolve.setDelayedMegaEvolve(pokemob, newForme, null);
     }

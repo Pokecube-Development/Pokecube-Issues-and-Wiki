@@ -215,6 +215,14 @@
       "steel-beam"
     ]
   },
+  "forme_items": [
+    {
+      "item": "minecraft:redstone",
+      "model": {
+        "key": "genesect-shock"
+      }
+    }
+  ],
   "model": {
     "key": "genesect",
     "tex": "genesect",

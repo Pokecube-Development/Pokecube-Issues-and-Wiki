@@ -64,6 +64,10 @@ class PokedexEntry:
     def post_process_evos(self, forme, species):
         if 'forme_items' in self.__dict__:
             for evo in self.forme_items:
+                # ones that change model don't have this, so we skip
+                if not 'forme' in evo:
+                    continue
+                # Ensure name is updated.
                 name = evo['forme']
                 new_name = find_new_name(name, index_map.keys())
                 if new_name is None:
