@@ -53,6 +53,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             this.value = tag.getByte("G");
             this.entry = Database.getEntry(tag.getString("E"));
             if (tag.contains("F")) forme = FormeHolder.load(tag.getCompound("F"));
+            forme.setEntry(this.entry);
         }
 
         CompoundTag save()

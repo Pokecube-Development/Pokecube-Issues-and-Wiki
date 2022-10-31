@@ -162,7 +162,7 @@ public class DefaultFormeHolder
             if (animl != null && !animl.getPath().endsWith(".xml"))
                 animl = new ResourceLocation(animl.getNamespace(), animl.getPath() + ".xml");
 
-            final FormeHolder holder = FormeHolder.get(modell, texl, animl, key);
+            final FormeHolder holder = FormeHolder.get(baseEntry, modell, texl, animl, key);
             holder.loaded_from = this;
             Database.registerFormeHolder(baseEntry, holder);
             return holder;
