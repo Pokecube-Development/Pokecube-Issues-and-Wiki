@@ -89,7 +89,6 @@ public class PermNodes
     @SubscribeEvent
     public static void gatherPerms(PermissionGatherEvent.Nodes event)
     {
-        Permissions.register();
         Set<PermissionNode<?>> nodes = Sets.newHashSet();
         nodes.addAll(NODES.values());
         // We add them 1 at a time. For some reason, in the development

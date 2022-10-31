@@ -67,6 +67,7 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.EntityTools;
+import pokecube.core.utils.Permissions;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.dimension.SecretBaseDimension;
@@ -283,6 +284,7 @@ public class PokecubeCore
             DispenseBehaviors.registerDefaults();
             ItemInit.postInit();
             PointsOfInterest.postInit();
+            Permissions.register();
 
             CopyCaps.register(EntityTypes.getNpc());
             CopyCaps.register(EntityType.ARMOR_STAND);
