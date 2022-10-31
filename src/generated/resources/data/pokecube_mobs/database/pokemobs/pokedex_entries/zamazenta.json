@@ -145,6 +145,12 @@
       "coaching"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:zamazenta_shield",
+      "forme": "zamazenta-crowned"
+    }
+  ],
   "spawn_rules": [
     {
       "values": {

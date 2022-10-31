@@ -157,6 +157,12 @@
       "lash-out"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:reins_u",
+      "forme": "calyrex-ice"
+    }
+  ],
   "spawn_rules": [
     {
       "and_preset": "snowy_areas",

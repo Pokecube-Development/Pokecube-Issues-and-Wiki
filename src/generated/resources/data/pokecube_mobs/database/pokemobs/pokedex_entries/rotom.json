@@ -157,5 +157,27 @@
       "poltergeist"
     ]
   },
+  "forme_items": [
+    {
+      "item": "minecraft:shears",
+      "forme": "rotom-fan"
+    },
+    {
+      "item": "minecraft:chest",
+      "forme": "rotom-frost"
+    },
+    {
+      "item": "minecraft:furnace",
+      "forme": "rotom-heat"
+    },
+    {
+      "item": "minecraft:stone_hoe",
+      "forme": "rotom-mow"
+    },
+    {
+      "item": "minecraft:cauldron",
+      "forme": "rotom-wash"
+    }
+  ],
   "loot_table": "pokecube:entities/redstone_creeper_1"
 }

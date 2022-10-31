@@ -43,6 +43,10 @@ LEGACY_REV_MAP = {
     "googra_hisui": "goodra-hisui",
     "cherrim_sunny": "cherrim",
     "basculegion": "basculegion-make",
+    "Solgaleo Dusk": "necrozma-dusk",
+    "Lunala Dawn": "necrozma-dawn",
+    "Calyrex Ice Rider": "calyrex-ice",
+    "Calyrex Shadow Rider": "calyrex-shadow",
 }
 
 LEGACY_MAP = {

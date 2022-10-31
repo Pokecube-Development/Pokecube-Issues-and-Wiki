@@ -164,6 +164,12 @@
       "laser-focus"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:gracidea",
+      "forme": "shaymin-sky"
+    }
+  ],
   "old_name": "shaymin_land",
   "loot_table": "pokecube:entities/generic_legend"
 }

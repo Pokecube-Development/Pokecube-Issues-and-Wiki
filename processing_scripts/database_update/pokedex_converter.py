@@ -62,10 +62,16 @@ class PokedexEntry:
 
     # Post processes converting old evolutions, to convert the name and evo move names
     def post_process_evos(self, forme, species):
-        evolutions = []
+        if 'forme_items' in self.__dict__:
+            for evo in self.forme_items:
+                name = evo['forme']
+                new_name = find_new_name(name, index_map.keys())
+                if new_name is None:
+                    print(f'unknown evo: {name}')
+                else:
+                    evo['forme'] = new_name
         if 'evolutions' in self.__dict__:
-            evolutions = self.evolutions
-            for evo in evolutions:
+            for evo in self.evolutions:
                 name = evo['name']
                 new_name = find_new_name(name, index_map.keys())
                 if new_name is None:
@@ -282,6 +288,10 @@ class PokemonSpecies:
 
                 old_entry = dex[old_name]
                 added.append(old_name)
+
+                # Copy and convert forme items over
+                if 'formeItems' in old_entry:
+                    entry.forme_items = old_entry['formeItems']
 
                 # Copy old model info over
                 if 'model' in old_entry:
