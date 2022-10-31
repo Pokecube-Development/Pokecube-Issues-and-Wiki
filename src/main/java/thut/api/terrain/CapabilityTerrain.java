@@ -26,7 +26,7 @@ public class CapabilityTerrain
     {
         private final LazyOptional<ITerrainProvider> holder = LazyOptional.of(() -> this);
 
-        private BlockPos    pos;
+        private BlockPos pos;
         private ChunkAccess chunk;
 
         Int2ObjectArrayMap<TerrainSegment> segMap = new Int2ObjectArrayMap<>();
@@ -34,11 +34,6 @@ public class CapabilityTerrain
         Int2BooleanArrayMap reals = new Int2BooleanArrayMap();
 
         MutableBlockPos mutable = new MutableBlockPos();
-
-        public DefaultProvider()
-        {
-            this.chunk = null;
-        }
 
         public DefaultProvider(final ChunkAccess chunk)
         {
@@ -48,7 +43,7 @@ public class CapabilityTerrain
         @Override
         public ITerrainProvider setChunk(final ChunkAccess chunk)
         {
-            if (this.chunk == null) this.chunk = chunk;
+            if (this.chunk == null && chunk != null) this.chunk = chunk;
             return this;
         }
 
@@ -132,8 +127,8 @@ public class CapabilityTerrain
             // Try to pull it from our array
             TerrainSegment ret = this.segMap.get(chunkY);
             // try to find any cached variants if they exist
-            final TerrainSegment cached = thut.api.terrain.ITerrainProvider.removeCached(((Level) this.chunk
-                    .getWorldForge()).dimension(), this.chunk.getPos(), chunkY);
+            final TerrainSegment cached = thut.api.terrain.ITerrainProvider
+                    .removeCached(((Level) this.chunk.getWorldForge()).dimension(), this.chunk.getPos(), chunkY);
 
             // If not found, make a new one, or use cached
             if (ret == null)
@@ -165,8 +160,7 @@ public class CapabilityTerrain
                 final TerrainSegment t = this.getTerrainSegment(i);
                 if (t == null) continue;
                 if (!t.toSave) continue;
-                for (final int id : t.biomes)
-                    ids.add(id);
+                for (final int id : t.biomes) ids.add(id);
                 final CompoundTag terrainTag = new CompoundTag();
                 t.saveToNBT(terrainTag);
                 segs.add(terrainTag);
