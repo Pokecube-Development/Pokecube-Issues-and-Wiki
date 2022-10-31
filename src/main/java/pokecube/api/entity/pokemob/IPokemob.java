@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -104,6 +106,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             this._entry = entry;
         }
 
+        private List<PokeType> _types = Lists.newArrayList();
+
         public ResourceLocation getIcon(final boolean male, final boolean shiny, final PokedexEntry base)
         {
             if (this.icons[0][0] == null)
@@ -161,7 +165,16 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
         public List<PokeType> getTypes(PokedexEntry baseEntry)
         {
-            return this.loaded_from.getTypes(baseEntry);
+            if (this.loaded_from == null)
+            {
+                if (_types.isEmpty())
+                {
+                    _types.add(baseEntry.getType1());
+                    _types.add(baseEntry.getType2());
+                }
+                return _types;
+            }
+            else return this.loaded_from.getTypes(baseEntry);
         }
 
         public void setEntry(PokedexEntry entry)
