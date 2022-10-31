@@ -208,6 +208,12 @@ public class Rewards extends ListPage<RewardOption>
     }
 
     @Override
+    public boolean isValid()
+    {
+        return parent.rewards != null;
+    }
+
+    @Override
     public void initList()
     {
         this.children.clear();

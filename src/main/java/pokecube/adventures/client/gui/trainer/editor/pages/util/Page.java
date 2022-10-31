@@ -10,13 +10,11 @@ import pokecube.adventures.client.gui.trainer.editor.EditorGui;
 
 public abstract class Page extends Screen implements GuiEventListener
 {
-    public final EditorGui       parent;
+    public final EditorGui parent;
     private final Component title;
 
     // this can be easily called by buttons to go back to previous page.
-    public Runnable closeCallback = () ->
-    {
-    };
+    public Runnable closeCallback = () -> {};
 
     public Page(final Component title, final EditorGui parent)
     {
@@ -31,6 +29,15 @@ public abstract class Page extends Screen implements GuiEventListener
     public Component getTitle()
     {
         return this.title;
+    }
+
+    /**
+     * 
+     * @return Whether this page is valid for this parent.
+     */
+    public boolean isValid()
+    {
+        return true;
     }
 
     @Override

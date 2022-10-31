@@ -52,6 +52,12 @@ public class AI extends Page
     }
 
     @Override
+    public boolean isValid()
+    {
+        return parent.aiStates != null;
+    }
+
+    @Override
     public void onPageOpened()
     {
         this.children.clear();
@@ -70,10 +76,12 @@ public class AI extends Page
         };
         int dx = 3;
         int dy = 25;
-        RouteEditHelper.getGuiList(this.guardList, this.parent.guard, function, this.parent.entity, this, 60, dx, dy,
-                50);
-        this.children.add(this.guardList);
-
+        if (parent.guard != null)
+        {
+            RouteEditHelper.getGuiList(this.guardList, this.parent.guard, function, this.parent.entity, this, 60, dx,
+                    dy, 50);
+            this.children.add(this.guardList);
+        }
         dx = -121;
         dy = -73;
         final int sy = 12;
