@@ -538,6 +538,7 @@ public class MoveApplication implements Comparable<MoveApplication>
     public float stat_chance = 0;
     public int[] stat_effects;
 
+    @Nullable
     public StatDiff applied_stat_effects;
 
     // Generally the same things
@@ -660,8 +661,8 @@ public class MoveApplication implements Comparable<MoveApplication>
     {
         // Increment number of times this has been used.
         this.apply_number++;
-        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying move: {} used by {}",
-                getMove().name, this.getUser().getDisplayName().getString());
+        if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Applying move: {} used by {}", getMove().name,
+                this.getUser().getDisplayName().getString());
 
         // then basic events and checks.
         // Events are: Pre, Post

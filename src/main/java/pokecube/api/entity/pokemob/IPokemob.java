@@ -82,6 +82,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public ResourceLocation key;
         public DefaultFormeHolder loaded_from;
 
+        public boolean _is_item_forme = false;
+
         // Icons for the entry, ordering is male/maleshiny, female/female shiny.
         // genderless fills the male slot.
         private final ResourceLocation[][] icons =

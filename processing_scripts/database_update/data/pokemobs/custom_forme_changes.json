@@ -1,0 +1,148 @@
+[
+  {
+    "name": "rotom",
+    "forme_items": [
+      {
+        "item": "minecraft:shears",
+        "forme": "rotom-fan"
+      },
+      {
+        "item": "minecraft:chest",
+        "forme": "rotom-frost"
+      },
+      {
+        "item": "minecraft:furnace",
+        "forme": "rotom-heat"
+      },
+      {
+        "item": "minecraft:stone_hoe",
+        "forme": "rotom-mow"
+      },
+      {
+        "item": "minecraft:cauldron",
+        "forme": "rotom-wash"
+      }
+    ]
+  },
+  {
+    "name": "dialga",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:adamantorb",
+        "forme": "dialga-origin"
+      }
+    ]
+  },
+  {
+    "name": "palkia",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:lustrousorb",
+        "forme": "palkia-origin"
+      }
+    ]
+  },
+  {
+    "name": "giratina-altered",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:griseousorb",
+        "forme": "giratina-origin"
+      }
+    ]
+  },
+  {
+    "name": "shaymin-land",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:gracidea",
+        "forme": "shaymin-sky"
+      }
+    ]
+  },
+  {
+    "name": "kyurem",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:dna_splicera",
+        "forme": "kyurem-black"
+      },
+      {
+        "item": "pokecube_legends:dna_splicerb",
+        "forme": "kyurem-white"
+      }
+    ]
+  },
+  {
+    "name": "genesect",
+    "forme_items": [
+      {
+        "item": "minecraft:redstone",
+        "model": { "key": "genesect-shock" }
+      }
+    ]
+  },
+  {
+    "name": "hoopa",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:prisonbottle",
+        "forme": "hoopa-unbound"
+      }
+    ]
+  },
+  {
+    "name": "solgaleo",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:n_sun",
+        "forme": "necrozma-dusk"
+      }
+    ]
+  },
+  {
+    "name": "lunala",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:n_moon",
+        "forme": "necrozma-dawn"
+      }
+    ]
+  },
+  {
+    "name": "zacian",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:zacian_sword",
+        "forme": "zacian-crowned"
+      }
+    ]
+  },
+  {
+    "name": "zamazenta",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:zamazenta_shield",
+        "forme": "zamazenta-crowned"
+      }
+    ]
+  },
+  {
+    "name": "glastrier",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:reins_u",
+        "forme": "calyrex-ice"
+      }
+    ]
+  },
+  {
+    "name": "spectrier",
+    "forme_items": [
+      {
+        "item": "pokecube_legends:reins_u",
+        "forme": "calyrex-shadow"
+      }
+    ]
+  }
+]

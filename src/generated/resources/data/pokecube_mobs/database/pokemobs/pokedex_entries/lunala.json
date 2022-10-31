@@ -209,5 +209,11 @@
       "dual-wingbeat"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:n_moon",
+      "forme": "necrozma-dawn"
+    }
+  ],
   "loot_table": "pokecube:entities/cosmic"
 }

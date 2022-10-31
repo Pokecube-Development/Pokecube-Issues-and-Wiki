@@ -214,5 +214,11 @@
       "meteor-beam"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:n_sun",
+      "forme": "necrozma-dusk"
+    }
+  ],
   "loot_table": "pokecube:entities/cosmic"
 }

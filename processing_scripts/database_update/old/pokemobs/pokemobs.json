@@ -58437,12 +58437,6 @@
       "override": false,
       "mega": false,
       "gmax": false,
-      "formeItems": [
-        {
-          "item": "minecraft:redstone",
-          "forme": "GenesectSDrive"
-        }
-      ],
       "stats": {
         "stats": {
           "values": {

@@ -204,6 +204,12 @@
       "scale-shot"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:adamantorb",
+      "forme": "dialga-origin"
+    }
+  ],
   "spawn_rules": [
     {
       "values": {
