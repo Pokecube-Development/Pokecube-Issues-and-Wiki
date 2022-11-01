@@ -88,6 +88,6 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
     @Override
     public String getMoveName()
     {
-        return "hyperspacehole";
+        return "hyperspace-hole";
     }
 }
