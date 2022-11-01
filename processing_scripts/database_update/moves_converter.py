@@ -209,15 +209,12 @@ def convert_moves():
     for var in old_moves["moves"]:
         moves_dex[var["name"]] = var
 
-    old_animations = './old/moves/moves_anims.json'
-    file = open(old_animations, 'r')
-    data = file.read()
-    file.close()
-    old_animations = json.loads(data)
-
     anims_dex = {}
-    for var in old_animations["moves"]:
-        anims_dex[var["name"]] = var
+    for filename in os.listdir('./data/moves/'):
+        file = open(f'./data/moves/{filename}', 'r')
+        data = file.read()
+        data =  json.loads(data)
+        anims_dex[data['name']] = data['animations']
 
     lang_files = {}
     lang_desc = {}
@@ -228,7 +225,6 @@ def convert_moves():
     d_moves = []
 
     move_entries = []
-
 
     # Dump each move, and collect langs and tags
     for name, index in index_map.items():
@@ -318,8 +314,8 @@ def convert_moves():
         new_name = convert_old_move_name(name)
         if new_name is not None:
             file = f'../../src/generated/resources/data/pokecube_mobs/database/moves/animations/{new_name}.json'
-            value["name"] = new_name
-
+            var = {"name":new_name, "animations":value}
+            value = var
             anims = []
             for var in value["animations"]:
                 var["preset"] = var["preset"].split(":~")[0]

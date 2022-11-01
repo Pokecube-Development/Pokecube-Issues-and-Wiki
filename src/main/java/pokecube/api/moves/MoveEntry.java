@@ -92,9 +92,11 @@ public class MoveEntry implements IMoveConstants
         legacyMoveNames.remove(move.legacy_name);
     }
 
+    public static boolean reloading = false;
+
     public static void addMove(MoveEntry move)
     {
-        if (movesNames.containsKey(move.name)) PokecubeAPI.LOGGER.warn(
+        if (!reloading && movesNames.containsKey(move.name)) PokecubeAPI.LOGGER.warn(
                 "Warning, adding duplicate entry for {}, this will replace the previous one, call removeMove first if this was intentional!",
                 move.name);
         movesNames.put(move.name, move);
@@ -113,7 +115,7 @@ public class MoveEntry implements IMoveConstants
 
     public final String name;
     public PokeType type;
-    
+
     private final String legacy_name;
 
     /** Distance, contact, etc. */
