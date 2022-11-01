@@ -32,6 +32,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Battle;
@@ -129,6 +130,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     MoveEntry move = null;
 
+    boolean finished = false;
     boolean applied = false;
     boolean onSelf = false;
     boolean contact = false;
@@ -268,11 +270,12 @@ public class EntityMoveUse extends ThrowableProjectile
 
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
+            this.applied = true;
 
             // Don't penetrate through blocking mobs, so end the move here.
             if (living.isBlocking() && !this.getMove().isAoE())
             {
-                this.applied = true;
+                this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
                 if (b == null) this.getMove().doWorldAction(userMob, this.end);
@@ -353,7 +356,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public boolean isDone()
     {
-        return this.applied || this.isRemoved() || this.getUser() == null || !this.getUser().isAlive();
+        return this.finished || this.isRemoved() || this.getUser() == null || !this.getUser().isAlive();
     }
 
     @Override
@@ -481,6 +484,11 @@ public class EntityMoveUse extends ThrowableProjectile
         if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
             this.discard();
+            if (!this.applied && PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+            {
+                PokecubeAPI.logInfo("Attack {} by {} terminated without applying!", this.getMove().getName(),
+                        user.getDisplayName().getString());
+            }
             return;
         }
 
@@ -565,7 +573,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
 
-        if (this.getMove() != null && userMob != null && !this.applied && !this.level.isClientSide)
+        if (this.getMove() != null && userMob != null && !this.finished && !this.level.isClientSide)
         {
             boolean canApply = age == 0;
             this.getEnd();
@@ -584,14 +592,22 @@ public class EntityMoveUse extends ThrowableProjectile
             if (canApply)
             {
                 Battle b = Battle.getBattle(this.getUser());
-                this.applied = true;
+                this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
                 if (b == null) this.getMove().doWorldAction(userMob, this.end);
             }
         }
 
-        if (this.isDone()) this.remove(RemovalReason.DISCARDED);
+        if (this.isDone())
+        {
+            this.remove(RemovalReason.DISCARDED);
+            if (!this.applied && PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+            {
+                PokecubeAPI.logInfo("Attack {} by {} terminated without applying!", this.getMove().getName(),
+                        user.getDisplayName().getString());
+            }
+        }
     }
 
     @Override
