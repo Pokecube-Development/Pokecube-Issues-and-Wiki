@@ -1,0 +1,25 @@
+{
+  "name": "final-gambit",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d0.2:w1:rtrue:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "3",
+      "starttick": "0"
+    },
+    {
+      "preset": "throw:pend_rod:clight_blue:d1:w1:l7:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "3"
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:clight_blue:d0.1:w1.5:l20:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
+      "duration": "1",
+      "starttick": "5"
+    },
+    {
+      "preset": "cartFunc:pcloud:clight_blue:d0.4:w4:l40:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
+      "duration": "1",
+      "starttick": "5"
+    }
+  ]
+}

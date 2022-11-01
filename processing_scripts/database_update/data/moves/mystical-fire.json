@@ -1,0 +1,25 @@
+{
+  "name": "mystical-fire",
+  "animations": [
+    {
+      "preset": "flow:pflame:d0.5:w0.5:l10",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    },
+    {
+      "preset": "flow:pwitch:d0.1:l10",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

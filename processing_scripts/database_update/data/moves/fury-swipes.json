@@ -1,0 +1,15 @@
+{
+  "name": "fury-swipes",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:d0.4:w1:l5:f0,0,0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

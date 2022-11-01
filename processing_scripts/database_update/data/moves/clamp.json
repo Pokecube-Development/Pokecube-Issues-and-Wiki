@@ -1,0 +1,15 @@
+{
+  "name": "clamp",
+  "animations": [
+    {
+      "preset": "cartFunc:psplash:d0.5:w1:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

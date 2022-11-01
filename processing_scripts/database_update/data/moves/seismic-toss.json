@@ -1,0 +1,20 @@
+{
+  "name": "seismic-toss",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d0.5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d5:w0.5",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

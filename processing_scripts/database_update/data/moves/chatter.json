@@ -1,0 +1,27 @@
+{
+  "name": "chatter",
+  "animations": [
+    {
+      "preset": "flow:pmisc:cwhite:atrue:d0.25:w2",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pnote:rtrue:atrue:d4:f0,0.1,0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "applyAfter": false
+    }
+  ]
+}

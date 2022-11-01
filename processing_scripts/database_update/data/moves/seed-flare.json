@@ -1,0 +1,40 @@
+{
+  "name": "seed-flare",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d0.66:rtrue:atrue:l6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8
+    },
+    {
+      "preset": "flow:pmisc:d0.5:atrue",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pend_rod:atrue:d0.5:w0.5",
+      "duration": "5",
+      "starttick": "3"
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:atrue:d5:w0.5",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

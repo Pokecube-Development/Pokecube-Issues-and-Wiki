@@ -1,0 +1,15 @@
+{
+  "name": "lick",
+  "animations": [
+    {
+      "preset": "cartFunc:psplash:d1:w0.5:rfalse:l7:atrue:f0,1,0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    }
+  ]
+}

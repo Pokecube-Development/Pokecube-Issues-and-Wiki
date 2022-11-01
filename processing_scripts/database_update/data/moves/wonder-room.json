@@ -1,0 +1,30 @@
+{
+  "name": "wonder-room",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:cblue:d0.07:rtrue:l6:f(0.5-rand())*(60),30,(0.5-rand())*(60)",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cblue:d0.07:rtrue:l6:f(0.5-rand())*(60),(0.5-rand())*(60),30",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cblue:d0.07:rtrue:l6:f(0.5-rand())*(60),(0.5-rand())*(60),-30",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cblue:d0.07:rtrue:l6:f30,(0.5-rand())*(60),(0.5-rand())*(60)",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pmisc:cblue:d0.07:rtrue:l6:f-30,(0.5-rand())*(60),(0.5-rand())*(60)",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

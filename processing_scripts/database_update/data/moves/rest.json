@@ -1,0 +1,15 @@
+{
+  "name": "rest",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d4:rtrue:atrue:l20:f0,1,0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    }
+  ]
+}

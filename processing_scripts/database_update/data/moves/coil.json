@@ -1,0 +1,15 @@
+{
+  "name": "coil",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d0.3:w1:rtrue:l4:f(0.5-rand())*(1),(0.5-rand())*(3),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

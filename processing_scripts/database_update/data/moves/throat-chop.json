@@ -1,0 +1,20 @@
+{
+  "name": "throat-chop",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:d1:l3",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:psmoke:d1:w0.5:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4"
+    }
+  ]
+}

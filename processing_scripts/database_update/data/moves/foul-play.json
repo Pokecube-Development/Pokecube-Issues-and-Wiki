@@ -1,0 +1,20 @@
+{
+  "name": "foul-play",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "cartFunc:psmoke:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

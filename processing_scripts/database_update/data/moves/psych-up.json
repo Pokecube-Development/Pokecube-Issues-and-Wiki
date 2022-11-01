@@ -1,0 +1,15 @@
+{
+  "name": "psych-up",
+  "animations": [
+    {
+      "preset": "cartFunc:pexplosion_emitter:cwhite:d0.5:w1:rtrue:f0,0,0",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "pons:pmisc:cmagenta:d1:w1.5:l5",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

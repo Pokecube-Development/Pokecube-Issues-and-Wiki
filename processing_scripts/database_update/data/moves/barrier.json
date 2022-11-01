@@ -1,0 +1,15 @@
+{
+  "name": "barrier",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:cmagenta:d0.05:rtrue:l10:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

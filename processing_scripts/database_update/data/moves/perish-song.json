@@ -1,0 +1,15 @@
+{
+  "name": "perish-song",
+  "animations": [
+    {
+      "preset": "cartFunc:pnote:d3:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pwitch:d2:w1:rtrue:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "quiver-dance",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d1:w1:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.safeguard",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "cartFunc:phappy_villager:d1:w1:atrue:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

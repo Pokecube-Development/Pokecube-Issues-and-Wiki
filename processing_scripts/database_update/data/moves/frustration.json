@@ -1,0 +1,20 @@
+{
+  "name": "frustration",
+  "animations": [
+    {
+      "preset": "cartFunc:pangry_villager:d0.5:w1:rtrue:l5:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    },
+    {
+      "preset": "cartFunc:pcrit:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

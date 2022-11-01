@@ -1,0 +1,15 @@
+{
+  "name": "smog",
+  "animations": [
+    {
+      "preset": "flow:d0.25:atrue:w1.25",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

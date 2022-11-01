@@ -1,0 +1,28 @@
+{
+  "name": "high-horsepower",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pmisc:cbrown:w0.5:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcrit:atrue:w2.5:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    }
+  ]
+}

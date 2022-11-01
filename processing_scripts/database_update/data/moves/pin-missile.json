@@ -1,0 +1,25 @@
+{
+  "name": "pin-missile",
+  "animations": [
+    {
+      "preset": "throw:w0.1",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "cartFunc",
+      "duration": "0",
+      "starttick": "4",
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    }
+  ]
+}

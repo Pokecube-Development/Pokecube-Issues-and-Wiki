@@ -1,0 +1,25 @@
+{
+  "name": "sucker-punch",
+  "animations": [
+    {
+      "preset": "cartFunc:psmoke:d1.5:atrue:w0.8:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    },
+    {
+      "preset": "cartFunc:pcrit:d1.7:w0.5:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.illusioner.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

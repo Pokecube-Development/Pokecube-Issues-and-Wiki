@@ -1,0 +1,20 @@
+{
+  "name": "incinerate",
+  "animations": [
+    {
+      "preset": "flow:plava:d0.4:w0.5:l5:f0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pflame:d0.8:w0.5:l5:f0",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

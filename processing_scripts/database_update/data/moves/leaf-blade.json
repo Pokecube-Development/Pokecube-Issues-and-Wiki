@@ -1,0 +1,20 @@
+{
+  "name": "leaf-blade",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d2:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    },
+    {
+      "preset": "cartFunc:psweep_attack:d1:w1",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

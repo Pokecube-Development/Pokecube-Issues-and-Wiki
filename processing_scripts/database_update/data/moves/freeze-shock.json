@@ -1,0 +1,66 @@
+{
+  "name": "freeze-shock",
+  "animations": [
+    {
+      "preset": "throw:atrue:cyellow",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    },
+    {
+      "preset": "flow:d0.3:pmisc:w2.5:atrue",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 0.7,
+      "applyAfter": false
+    },
+    {
+      "preset": "flow:d0.3:atrue:l8:w2:psnowballpoof",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 2.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cylFunc:d0.6:atrue:w2:pmisc:cyellow:d1.5:l3:f(z^1.5-z)*2,z*4",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.icebreak",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 0.8,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 1.8,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:d0.5:atrue:w3:l15:pcloud:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.thunder",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "applyAfter": false
+    }
+  ]
+}

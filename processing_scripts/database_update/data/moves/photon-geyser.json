@@ -1,0 +1,49 @@
+{
+  "name": "photon-geyser",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:rtrue:l5:d0.1:w1.4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": true
+    },
+    {
+      "preset": "throw:pend_rod:cwhite",
+      "duration": "5",
+      "starttick": "3",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pend_rod:d0.1:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pend_rod:d0.5:l15:w4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "applyAfter": true
+    }
+  ]
+}

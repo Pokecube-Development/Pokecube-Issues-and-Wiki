@@ -1,0 +1,38 @@
+{
+  "name": "octazooka",
+  "animations": [
+    {
+      "preset": "throw:cblack:atrue:w0.4",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:ppowder:cblack:l10:d0.1:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:psplash:l30:d0.1:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "applyAfter": false
+    }
+  ]
+}

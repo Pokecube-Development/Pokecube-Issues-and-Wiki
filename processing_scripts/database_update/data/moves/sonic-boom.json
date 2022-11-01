@@ -1,0 +1,25 @@
+{
+  "name": "sonic-boom",
+  "animations": [
+    {
+      "preset": "flow:d0.33:pcloud:w0.2:l2",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    },
+    {
+      "preset": "cartFunc:d3:psweep_attack",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

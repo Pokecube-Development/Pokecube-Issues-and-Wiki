@@ -1,0 +1,33 @@
+{
+  "name": "pollen-puff",
+  "animations": [
+    {
+      "preset": "throw:w0.3:cyellow:atrue",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:ppowder:l2:d0.2:w0.5:cyellow:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:ppowder:l6:d0.2:w1.2:cyellow:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "5",
+      "applyAfter": false
+    }
+  ]
+}

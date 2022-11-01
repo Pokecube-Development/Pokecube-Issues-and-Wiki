@@ -1,0 +1,27 @@
+{
+  "name": "dragon-hammer",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d0.2:l15:w3.5:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pmisc:d0.8:w2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    }
+  ]
+}
