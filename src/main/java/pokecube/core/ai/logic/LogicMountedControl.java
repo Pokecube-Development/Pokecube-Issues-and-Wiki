@@ -28,8 +28,8 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.init.Config;
-import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
+import thut.api.util.PermNodes;
 
 /**
  * This manages the ridden controls of the pokemob. The booleans are set on the

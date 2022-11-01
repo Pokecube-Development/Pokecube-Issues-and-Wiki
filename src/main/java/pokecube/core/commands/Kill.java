@@ -17,9 +17,9 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.init.Config;
-import pokecube.core.utils.PermNodes;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Permissions;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.lib.TComponent;
 
 public class Kill

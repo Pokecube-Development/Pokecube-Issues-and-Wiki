@@ -9,7 +9,8 @@ import net.minecraft.commands.CommandSourceStack;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
 
 /**

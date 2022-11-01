@@ -6,9 +6,9 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import pokecube.core.database.Database;
-import pokecube.core.utils.PermNodes;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Permissions;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.lib.TComponent;
 
 public class Reload

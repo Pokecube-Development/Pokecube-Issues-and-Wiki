@@ -56,9 +56,9 @@ import pokecube.core.moves.world.DefaultElectricAction;
 import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
-import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import thut.api.maths.Vector3;
+import thut.api.util.PermNodes;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 

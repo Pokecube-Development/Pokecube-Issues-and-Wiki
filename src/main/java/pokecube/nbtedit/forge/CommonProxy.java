@@ -13,9 +13,9 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.fml.loading.FMLPaths;
-import pokecube.core.utils.PermNodes;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.nbtedit.NBTEdit;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.Proxy;
 import thut.lib.TComponent;
 

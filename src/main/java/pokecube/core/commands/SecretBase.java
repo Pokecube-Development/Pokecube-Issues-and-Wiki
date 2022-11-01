@@ -29,14 +29,14 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
-import pokecube.core.utils.PermNodes;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.api.entity.ThutTeleporter;
 import thut.api.entity.ThutTeleporter.TeleDest;
 import thut.api.maths.Vector3;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 

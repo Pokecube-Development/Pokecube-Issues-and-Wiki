@@ -19,13 +19,13 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.utils.CapHolders;
-import pokecube.core.utils.PermNodes;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import thut.api.IOwnable;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.LinkableCaps.LinkStorage;
 import thut.api.OwnableCaps;
 import thut.api.ThutCaps;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.lib.TComponent;
 
 public class Linker extends Item
