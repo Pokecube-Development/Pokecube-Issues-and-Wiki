@@ -57,6 +57,7 @@ import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.terrain.StructureManager;
+import thut.api.util.PermNodes;
 import thut.core.common.config.Config;
 import thut.core.common.handlers.ConfigHandler;
 import thut.core.common.network.CapabilitySync;
@@ -268,6 +269,7 @@ public class ThutCore
         // Register ourselves for server and other game events we are interested
         // in
         MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(PermNodes::gatherPerms);
 
         Tracker.init();
         LootLayerFunction.init();

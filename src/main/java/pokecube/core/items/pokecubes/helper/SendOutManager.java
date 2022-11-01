@@ -30,10 +30,10 @@ import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.maths.Vector3;
+import thut.api.util.PermNodes;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 

@@ -22,8 +22,8 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
-import pokecube.core.utils.PermNodes;
 import pokecube.core.utils.Permissions;
+import thut.api.util.PermNodes;
 import thut.lib.TComponent;
 
 public class StatsHandler

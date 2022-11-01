@@ -9,10 +9,10 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.server.level.ServerPlayer;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.utils.PermNodes;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.lib.TComponent;
 
 public class Reset
