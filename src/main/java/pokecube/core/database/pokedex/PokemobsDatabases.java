@@ -29,7 +29,6 @@ public class PokemobsDatabases
     public static void load()
     {
         JsonPokedexEntry.loadPokedex();
-        if (!JsonPokedexEntry.LOADED.isEmpty()) return;
 
         final List<PokemobsJson> allFound = Lists.newArrayList();
 
@@ -81,7 +80,7 @@ public class PokemobsDatabases
         {
             // Lower priorities than this are assumed to be adding
             // entries, any higher are adding extra things to the entry.
-            if (e.stock && json.priority > 10 && !json.register)
+            if (e.stock && json.priority > 10 && !json.register && Database.getEntry(e.name) == null)
             {
                 PokecubeAPI.logInfo("Adding entry again? {} {}, skipping entry!", e.name, json._file);
                 continue;

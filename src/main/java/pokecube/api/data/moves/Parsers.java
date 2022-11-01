@@ -206,7 +206,12 @@ public class Parsers
 
     public static class HealParser extends BaseParser
     {
-
+        @Override
+        public void process(MoveEntry entry)
+        {
+            super.process(entry);
+            MoveApplicationRegistry.registerAllyTargetMove(entry.name);
+        }
     }
 
     public static class DamageAlimentParser extends DamageParser

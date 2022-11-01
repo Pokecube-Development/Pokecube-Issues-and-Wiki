@@ -135,10 +135,10 @@ public class AnimationGui extends Screen
     public int entryIndex = 0;
     public int formIndex = 0;
 
-    float xRenderAngle = 0;
-    float yRenderAngle = 0;
-    float yHeadRenderAngle = 0;
-    float xHeadRenderAngle = 0;
+    public float xRenderAngle = 0;
+    public float yRenderAngle = 0;
+    public float yHeadRenderAngle = 0;
+    public float xHeadRenderAngle = 0;
     int mouseRotateControl;
     int prevX = 0;
     int prevY = 0;

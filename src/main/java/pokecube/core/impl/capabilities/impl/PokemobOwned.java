@@ -288,7 +288,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         final Entity owner = this.getOwner();
 
         this.setCombatState(CombatStates.NOMOVESWAP, false);
-        this.setCombatState(CombatStates.ANGRY, false);
 
         // Reset this so that the ability shows correctly on the cube.
         this.timeSinceCombat = -50;
@@ -338,8 +337,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
          * If we have a target, and we were recalled with health, assign the
          * target to our owner instead.
          */
-        if (this.getCombatState(CombatStates.ANGRY) && targ != null && this.getHealth() > 0)
-            if (owner instanceof LivingEntity)
+        if (targ != null && this.getHealth() > 0) if (owner instanceof LivingEntity)
         {
             final IPokemob targetMob = PokemobCaps.getPokemobFor(targ);
             if (targetMob != null)

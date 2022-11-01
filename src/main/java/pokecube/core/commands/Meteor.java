@@ -9,9 +9,9 @@ import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
 import pokecube.core.eventhandlers.SpawnHandler;
-import pokecube.core.utils.PermNodes;
-import pokecube.core.utils.PermNodes.DefaultPermissionLevel;
 import thut.api.maths.Vector3;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 

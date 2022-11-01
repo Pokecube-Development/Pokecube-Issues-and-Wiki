@@ -151,6 +151,12 @@
       "lash-out"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:reins_u",
+      "forme": "calyrex-shadow"
+    }
+  ],
   "spawn_rules": [
     {
       "and_preset": "spooky_areas",

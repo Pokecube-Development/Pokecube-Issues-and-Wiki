@@ -117,6 +117,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
+            player.inventoryMenu.sendAllDataToRemote();
             player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
         }
     }
@@ -130,6 +131,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
+            player.inventoryMenu.sendAllDataToRemote();
             player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
         }
     }
@@ -148,6 +150,7 @@ public class ForgeEventHandlers
         if (this.protectTemple(player, world, null, pos))
         {
             evt.setCanceled(true);
+            player.inventoryMenu.sendAllDataToRemote();
             player.displayClientMessage(TComponent.translatable("msg.cannot_defile_temple"), true);
         }
     }

@@ -207,6 +207,16 @@
       "dual-wingbeat"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:dna_splicera",
+      "forme": "kyurem-black"
+    },
+    {
+      "item": "pokecube_legends:dna_splicerb",
+      "forme": "kyurem-white"
+    }
+  ],
   "spawn_rules": [
     {
       "and_preset": "snowy_areas",

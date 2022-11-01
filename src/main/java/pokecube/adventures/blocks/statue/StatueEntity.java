@@ -252,7 +252,7 @@ public class StatueEntity extends BlockEntity
 
             final ResourceLocation model = old != null ? old.model : null;
             final ResourceLocation animation = old != null ? old.animation : null;
-            final FormeHolder holder = FormeHolder.get(model, texRes, animation, name);
+            final FormeHolder holder = FormeHolder.get(pokemob.getPokedexEntry(), model, texRes, animation, name);
             pokemob.setCustomHolder(holder);
         }
         if (over_tex != null) copy.getCopiedMob().getPersistentData().putString("statue:over_tex", over_tex);

@@ -16,7 +16,7 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.events.pokemobs.combat.SetAttackTargetEvent;
+import pokecube.api.events.combat.SetAttackTargetEvent;
 import pokecube.core.ai.brain.sensors.NearBlocks.NearBlock;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ai.BrainUtil;
@@ -194,6 +194,7 @@ public class BrainUtils extends BrainUtil
         MinecraftForge.EVENT_BUS.post(event);
 
         target = event.newTarget;
+
         // No target self
         if (mob == target) return;
         // No target null
@@ -208,16 +209,8 @@ public class BrainUtils extends BrainUtil
         if (aggressor != null && !AITools.validCombatTargets.test(target)) return;
         if (targetMob != null && !AITools.validCombatTargets.test(mob)) return;
 
-        if (targetMob != null)
-        {
-            targetMob.setCombatState(CombatStates.ANGRY, true);
-            targetMob.onSetTarget(mob, true);
-        }
-        if (aggressor != null)
-        {
-            aggressor.setCombatState(CombatStates.ANGRY, true);
-            aggressor.onSetTarget(target, true);
-        }
+        if (targetMob != null) targetMob.onSetTarget(mob, true);
+        if (aggressor != null) aggressor.onSetTarget(target, true);
 
         BrainUtils.setAttackTarget(mob, target);
         BrainUtils.setAttackTarget(target, mob);
@@ -236,7 +229,6 @@ public class BrainUtils extends BrainUtil
         {
             aggressor.getTargetFinder().clear();
             aggressor.onSetTarget(null, true);
-            aggressor.setCombatState(CombatStates.ANGRY, false);
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }
         final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);

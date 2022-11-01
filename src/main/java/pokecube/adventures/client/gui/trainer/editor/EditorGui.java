@@ -56,7 +56,7 @@ public class EditorGui extends Screen
 
     }
 
-    public static final ResourceLocation      TEXTURE  = new ResourceLocation(PokecubeAdv.MODID,
+    public static final ResourceLocation TEXTURE = new ResourceLocation(PokecubeAdv.MODID,
             "textures/gui/traineredit.png");
     public static List<Class<? extends Page>> PAGELIST = Lists.newArrayList();
 
@@ -88,15 +88,15 @@ public class EditorGui extends Screen
 
     public Page current_page = null;
 
-    public final Entity             entity;
-    public final Minecraft          mc    = Minecraft.getInstance();
+    public final Entity entity;
+    public final Minecraft mc = Minecraft.getInstance();
     public final IGuardAICapability guard;
-    public final IHasPokemobs       trainer;
-    public final IHasRewards        rewards;
-    public final IHasMessages       messages;
-    public final IHasNPCAIStates    aiStates;
-    public final IPokemob           pokemob;
-    public int                      index = 0;
+    public final IHasPokemobs trainer;
+    public final IHasRewards rewards;
+    public final IHasMessages messages;
+    public final IHasNPCAIStates aiStates;
+    public final IPokemob pokemob;
+    public int index = 0;
 
     public EditorGui(final Entity mob)
     {
@@ -164,12 +164,17 @@ public class EditorGui extends Screen
     public void changePage(final int newIndex)
     {
         if (newIndex == this.index) return;
+        Page newPage = this.createPage(newIndex);
+        if (!newPage.isValid())
+        {
+            return;
+        }
         if (this.current_page != null) this.current_page.onPageClosed();
         this.index = newIndex;
-        this.current_page = this.createPage(this.index);
+        this.current_page = newPage;
         this.current_page.init(this.minecraft, this.width, this.height);
         this.current_page.onPageOpened();
-        
+
     }
 
     public Page createPage(final int index)

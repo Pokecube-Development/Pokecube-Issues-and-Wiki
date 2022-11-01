@@ -204,16 +204,16 @@
   "model": {
     "key": "xerneas-neutral",
     "tex": "xerneas-neutral",
-    "model": "xerneas-neutral",
-    "anim": "xerneas-neutral",
+    "model": "xerneas",
+    "anim": "xerneas",
     "types": "fairy"
   },
   "models": [
     {
       "key": "xerneas-active",
       "tex": "xerneas-active",
-      "model": "xerneas-active",
-      "anim": "xerneas-active",
+      "model": "xerneas",
+      "anim": "xerneas",
       "types": "fairy"
     }
   ],

@@ -8,6 +8,8 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -59,20 +61,24 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             final String anim = nbt.contains("anim") ? nbt.getString("anim") : null;
             final String model = nbt.contains("model") ? nbt.getString("model") : null;
             final String tex = nbt.contains("tex") ? nbt.getString("tex") : null;
+            String entry_name = nbt.getString("entry");
 
             final ResourceLocation _model = model != null ? PokecubeItems.toPokecubeResource(model) : null;
             final ResourceLocation _tex = tex != null ? PokecubeItems.toPokecubeResource(tex) : null;
             final ResourceLocation _anim = anim != null ? PokecubeItems.toPokecubeResource(anim) : null;
+            PokedexEntry entry = Database.getEntry(entry_name);
+            if (entry == null) entry = Database.missingno;
 
-            final FormeHolder holder = FormeHolder.get(_model, _tex, _anim, PokecubeItems.toPokecubeResource(name));
+            final FormeHolder holder = FormeHolder.get(entry, _model, _tex, _anim,
+                    PokecubeItems.toPokecubeResource(name));
             return holder;
         }
 
-        public static FormeHolder get(final ResourceLocation model, final ResourceLocation texture,
+        public static FormeHolder get(PokedexEntry entry, final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
         {
             if (Database.formeHolders.containsKey(name)) return Database.formeHolders.get(name);
-            final FormeHolder holder = new FormeHolder(model, texture, animation, name);
+            final FormeHolder holder = new FormeHolder(entry, model, texture, animation, name);
             Database.formeHolders.put(name, holder);
             return holder;
         }
@@ -82,6 +88,9 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public ResourceLocation key;
         public DefaultFormeHolder loaded_from;
 
+        public boolean _is_item_forme = false;
+        public PokedexEntry _entry = Database.missingno;
+
         // Icons for the entry, ordering is male/maleshiny, female/female shiny.
         // genderless fills the male slot.
         private final ResourceLocation[][] icons =
@@ -89,12 +98,15 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
                 { null, null },
                 { null, null } };
 
-        private FormeHolder(final ResourceLocation model, final ResourceLocation texture,
+        private FormeHolder(PokedexEntry entry, final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
         {
             super(model, texture, animation, name.toString());
             this.key = name;
+            this._entry = entry;
         }
+
+        private List<PokeType> _types = Lists.newArrayList();
 
         public ResourceLocation getIcon(final boolean male, final boolean shiny, final PokedexEntry base)
         {
@@ -134,6 +146,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             if (this.model != null) ret.putString("model", this.model.toString());
             if (this.animation != null) ret.putString("anim", this.animation.toString());
             if (this.texture != null) ret.putString("tex", this.texture.toString());
+            ret.putString("entry", this._entry.getTrimmedName());
             return ret;
         }
 
@@ -152,7 +165,21 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
         public List<PokeType> getTypes(PokedexEntry baseEntry)
         {
-            return this.loaded_from.getTypes(baseEntry);
+            if (this.loaded_from == null)
+            {
+                if (_types.isEmpty())
+                {
+                    _types.add(baseEntry.getType1());
+                    _types.add(baseEntry.getType2());
+                }
+                return _types;
+            }
+            else return this.loaded_from.getTypes(baseEntry);
+        }
+
+        public void setEntry(PokedexEntry entry)
+        {
+            this._entry = entry;
         }
     }
 
@@ -622,7 +649,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     default void revive()
     {
         this.setCombatState(CombatStates.FAINTED, false);
-        this.setCombatState(CombatStates.ANGRY, false);
         this.setHungerTime(0);
         this.onSetTarget(null, true);
         this.healStatus();

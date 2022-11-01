@@ -212,6 +212,12 @@
       "dual-wingbeat"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:griseousorb",
+      "forme": "giratina-origin"
+    }
+  ],
   "old_name": "giratina",
   "loot_table": "pokecube:entities/enderpearls_3"
 }

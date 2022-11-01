@@ -12,4 +12,10 @@ public class LivePokemob extends Pokemob
         this.closeCallback = () -> this.onClose();
     }
 
+    @Override
+    public boolean isValid()
+    {
+        return parent.pokemob != null;
+    }
+
 }

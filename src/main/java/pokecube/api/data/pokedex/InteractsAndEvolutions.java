@@ -11,6 +11,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.MegaRule;
 import pokecube.api.data.abilities.AbilityManager;
@@ -151,20 +152,42 @@ public class InteractsAndEvolutions
 
         protected DefaultFormeHolder model = null;
 
+        private PokedexEntry _entry = null;
+        private ItemStack _itemstack = ItemStack.EMPTY;
+        private FormeHolder _forme = null;
+
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
-            if (this.model != null) return this.model.getForme(baseEntry);
-            return null;
+            if (this.model != null)
+            {
+                if (this._forme == null)
+                {
+                    this._forme = this.model.getForme(baseEntry);
+                    if (this._forme != null)
+                    {
+                        this._forme._is_item_forme = true;
+                    }
+                    else
+                    {
+                        PokecubeAPI.LOGGER.error("No forme found for model: {}", model.key);
+                        this.model = null;
+                    }
+                }
+                return this._forme;
+            }
+            return this._forme;
         }
 
         public PokedexEntry getOutput()
         {
-            return Database.getEntry(forme);
+            if (_entry == null) _entry = Database.getEntry(forme);
+            return _entry;
         }
 
-        public ResourceLocation getKey()
+        public ItemStack getKey()
         {
-            return new ResourceLocation(item);
+            if (_itemstack.isEmpty()) _itemstack = PokecubeItems.getStack(new ResourceLocation(item));
+            return _itemstack;
         }
     }
 

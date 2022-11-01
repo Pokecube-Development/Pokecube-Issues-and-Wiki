@@ -3,12 +3,11 @@ package pokecube.api.entity.pokemob.ai;
 public enum CombatStates
 {
     /** Is the pokemob angry at something */
-    ANGRY(1 << 0),
+    BATTLING(1 << 0, false),
     /** A Guarding pokemon will attack any strangers nearby */
     GUARDING(1 << 1),
     /**
-     * A Hunting pokemon will look for food to eat)), Either prey or
-     * berries.
+     * A Hunting pokemon will look for food to eat)), Either prey or berries.
      */
     HUNTING(1 << 2),
     /** has the pokemob used a zmove this "battle" */
@@ -43,7 +42,7 @@ public enum CombatStates
     /** has the pokemob used a zmove this "battle" */
     USINGGZMOVE(1 << 14, false);
 
-    final int     mask;
+    final int mask;
     final boolean persist;
 
     private CombatStates(final int mask)

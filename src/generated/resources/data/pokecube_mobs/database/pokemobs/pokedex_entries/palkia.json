@@ -207,6 +207,12 @@
       "dual-wingbeat"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:lustrousorb",
+      "forme": "palkia-origin"
+    }
+  ],
   "spawn_rules": [
     {
       "values": {

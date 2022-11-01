@@ -62,10 +62,20 @@ class PokedexEntry:
 
     # Post processes converting old evolutions, to convert the name and evo move names
     def post_process_evos(self, forme, species):
-        evolutions = []
+        if 'forme_items' in self.__dict__:
+            for evo in self.forme_items:
+                # ones that change model don't have this, so we skip
+                if not 'forme' in evo:
+                    continue
+                # Ensure name is updated.
+                name = evo['forme']
+                new_name = find_new_name(name, index_map.keys())
+                if new_name is None:
+                    print(f'unknown evo: {name}')
+                else:
+                    evo['forme'] = new_name
         if 'evolutions' in self.__dict__:
-            evolutions = self.evolutions
-            for evo in evolutions:
+            for evo in self.evolutions:
                 name = evo['name']
                 new_name = find_new_name(name, index_map.keys())
                 if new_name is None:
@@ -82,6 +92,9 @@ class PokedexEntry:
                     if len(moves) > 0:
                         evo['evoMoves'] = str(moves).replace('[', '').replace(']', '').replace("'", '')
                     pass
+                if 'move' in evo:
+                    move = evo['move']
+                    evo['move'] = convert_old_move_name(move)
         return
 
     # Basic set of initialising, covering names, happiness, etc
@@ -219,7 +232,7 @@ class PokedexEntry:
             self.moves = moves
 
 class PokemonSpecies:
-    def __init__(self, species, dex, custom_moves, custom_sizes) -> None:
+    def __init__(self, species, old_pokedex, overrides) -> None:
         self.species = species
         self.species_id = species.id
 
@@ -255,21 +268,22 @@ class PokemonSpecies:
         for forme in self.formes:
             entry = PokedexEntry(forme, species)
 
-            model_name = to_model_form(forme.name, species, dex)
+            model_name = to_model_form(forme.name, species, old_pokedex)
             if(model_name is not None):
                 # We need to handle this to the older model added?
                 continue
 
             # Add custom moves if assigned
-            if entry.name in custom_moves:
-                print(f'adding custom moves for {entry.name} from override files')
-                entry.__dict__['moves'] = custom_moves[entry.name]
-
-            if entry.name in custom_sizes:
-                entry.size = custom_sizes[entry.name]
+            if entry.name in overrides:
+                if 'moves' in overrides[entry.name]:
+                    entry.__dict__['moves'] = overrides[entry.name]['moves']
+                if 'sizes' in overrides[entry.name]:
+                    entry.size = overrides[entry.name]['sizes']
+                if 'forme_items' in overrides[entry.name]:
+                    entry.forme_items = overrides[entry.name]['forme_items']
 
             # Check if we need to convert anything over from old ones
-            old_name = find_old_name(forme.name, species, dex)
+            old_name = find_old_name(forme.name, species, old_pokedex)
             if(old_name is not None):
 
                 # Some things get merged, like the meteor miniors, so skip duplicates
@@ -277,7 +291,7 @@ class PokemonSpecies:
                     print(f'Skipping duplicate {old_name} -> {entry.name}')
                     continue
 
-                old_entry = dex[old_name]
+                old_entry = old_pokedex[old_name]
                 added.append(old_name)
 
                 # Copy old model info over
@@ -362,7 +376,7 @@ class PokemonSpecies:
             entry.id = default
 
             # Mark the old name for legacy supprt reasons
-            if old_name in dex and old_name!=forme.name:
+            if old_name in old_pokedex and old_name!=forme.name:
                 entry.old_name = old_name
 
             self.entries.append(entry)
@@ -429,6 +443,18 @@ def convert_tags():
         json.dump(json_obj, file, indent=2)
         file.close()
 
+def load_overrides(override_file, overrides, key):
+    override = f'./data/pokemobs/{override_file}.json'
+    file = open(override, 'r')
+    data = file.read()
+    file.close()
+    _override = json.loads(data)
+    for entry in _override:
+        name = entry['name']
+        if not name in overrides:
+            overrides[name] = {}
+        overrides[name][key] = entry[key]
+
 def convert_pokedex():
 
     old_pokedex = './old/pokemobs/pokemobs.json'
@@ -440,23 +466,11 @@ def convert_pokedex():
     for var in old_pokedex["pokemon"]:
         pokedex[var["name"]] = var
 
-    moves_dex = './data/pokemobs/custom_movesets.json'
-    file = open(moves_dex, 'r')
-    data = file.read()
-    file.close()
-    _moves_dex = json.loads(data)
-    moves_dex = {}
-    for entry in _moves_dex:
-        moves_dex[entry['name']] = entry['moves']
+    overrides = {}
 
-    sizes_dex = './data/pokemobs/custom_sizes.json'
-    file = open(sizes_dex, 'r')
-    data = file.read()
-    file.close()
-    _sizes_dex = json.loads(data)
-    sizes_dex = {}
-    for entry in _sizes_dex:
-        sizes_dex[entry['name']] = entry['sizes']
+    load_overrides('custom_movesets', overrides, 'moves')
+    load_overrides('custom_sizes', overrides, 'sizes')
+    load_overrides('custom_forme_changes', overrides, 'forme_items')
 
     tables = './data/pokemobs/loot_tables.json'
     file = open(tables, 'r')
@@ -488,10 +502,8 @@ def convert_pokedex():
     # Initialise this with missingno.
     pokemob_tag_names = ["pokecube:missingno"]
 
-    sizes = []
-
     while values is not None:
-        entry = PokemonSpecies(values, pokedex, moves_dex, sizes_dex)
+        entry = PokemonSpecies(values, pokedex, overrides)
         species.append(entry)
         for var in entry.entries:
 
@@ -514,8 +526,6 @@ def convert_pokedex():
                 items[f"entity.pokecube.{var.name}"] = _name
                 lang_files[key] = items
             del var.names
-
-            sizes.append({'name':var.name, 'sizes': var.size})
 
             dex.append(var.__dict__)
         i = i + 1
@@ -544,34 +554,7 @@ def convert_pokedex():
                 lang_files[key] = items
             del var['names']
 
-            sizes.append({'name':var["name"], 'sizes': var["size"]})
-
         dex.append(var)
-
-    # cleanup sizes file
-    copy = [x for x in sizes]
-    for var in copy:
-        height = var['sizes']['height'] if 'height' in var['sizes'] else 1
-        width = var['sizes']['width'] if 'width' in var['sizes'] else height
-        length = var['sizes']['length'] if 'length' in var['sizes'] else width
-        if width == length and 'length' in var['sizes']:
-            del var['sizes']['length']
-        if width == height and 'width' in var['sizes']:
-            del var['sizes']['width']
-
-        if not 'height' in var['sizes']:
-            var['sizes']['height'] = 1.0
-        if len(var['sizes']) == 1:
-            sizes.remove(var)
-
-
-    # Updated the sizes file to cleanup things
-    file = './data/pokemobs/custom_sizes.json'
-    if not os.path.exists(os.path.dirname(file)):
-        os.makedirs(os.path.dirname(file))
-    file = open(file, 'w')
-    json.dump(sizes, file, indent=2)
-    file.close()
 
     # Construct and output the default pokecube:pokemob tag
     file = f'../../src/generated/resources/data/pokecube/tags/entity_types/pokemob.json'

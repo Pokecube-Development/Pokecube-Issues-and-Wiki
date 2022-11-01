@@ -4,8 +4,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -13,8 +11,6 @@ import com.mojang.authlib.GameProfile;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.events.PermissionGatherEvent;
@@ -23,7 +19,6 @@ import net.minecraftforge.server.permission.nodes.PermissionTypes;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
-@Mod.EventBusSubscriber
 public class PermNodes
 {
     public static enum DefaultPermissionLevel
@@ -51,8 +46,6 @@ public class PermNodes
     public static final GameProfile testProfile = new GameProfile(new UUID(1234567987, 123545787), "_permtest_");
     public static ServerPlayer testPlayer;
 
-    private static final Pattern NODENAMEFIXER = Pattern.compile("(\\w+).(.*)");
-
     private static final Map<String, PermissionNode<?>> NODES = Maps.newHashMap();
 
     @SuppressWarnings("unchecked")
@@ -64,16 +57,6 @@ public class PermNodes
     public static boolean getBooleanPerm(ServerPlayer player, String name)
     {
         PermissionNode<Boolean> node = getBooleanNode(name);
-        if (node == null)
-        {
-            for (PermissionNode<?> n : PermissionAPI.getRegisteredNodes())
-            {
-                NODES.put(n.getNodeName(), n);
-                Matcher m = NODENAMEFIXER.matcher(n.getNodeName());
-                if (m.find()) NODES.put(m.group(2), n);
-            }
-            node = getBooleanNode(name);
-        }
         return PermissionAPI.getPermission(player, node);
     }
 
@@ -91,7 +74,6 @@ public class PermNodes
         NODES.put(node.getNodeName(), node);
     }
 
-    @SubscribeEvent
     public static void gatherPerms(PermissionGatherEvent.Nodes event)
     {
         Set<PermissionNode<?>> nodes = Sets.newHashSet();

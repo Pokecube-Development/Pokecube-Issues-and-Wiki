@@ -68,7 +68,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
 
     public boolean continueExecuting()
     {
-        return this.pokemob.getCombatState(CombatStates.ANGRY);
+        return this.pokemob.getCombatState(CombatStates.BATTLING);
     }
 
     @Override
@@ -247,7 +247,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     public boolean shouldRun()
     {
         // If we do have the target, but are not angry, return false.
-        if (!this.pokemob.getCombatState(CombatStates.ANGRY)) return false;
+        if (!this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
         final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
         // No target, we can't do anything, so return false

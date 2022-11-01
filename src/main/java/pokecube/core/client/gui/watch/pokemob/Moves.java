@@ -99,7 +99,7 @@ public class Moves extends ListPage<LineEntry>
         {
             final int[] offset = this.moveOffsets[held];
             final MoveEntry move = MovesUtils.getMove(this.parent.pokemob.getMove(offset[3]));
-            if (move != null)
+            if (move != null && move.root_entry._implemented)
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 final int oy = 10;
@@ -171,6 +171,9 @@ public class Moves extends ListPage<LineEntry>
                 final List<String> moves = entry.getMovesForLevel(i, i - 1);
                 for (final String s : moves)
                 {
+                    MoveEntry m = MoveEntry.get(s);
+                    if (m == null || !m.root_entry._implemented) continue;
+
                     added.add(s);
                     final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                     final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i, moveName);
@@ -183,6 +186,9 @@ public class Moves extends ListPage<LineEntry>
             }
             for (final String s : entry.getMoves())
             {
+                MoveEntry m = MoveEntry.get(s);
+                if (m == null || !m.root_entry._implemented) continue;
+
                 added.add(s);
                 final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                 final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
@@ -251,7 +257,7 @@ public class Moves extends ListPage<LineEntry>
                 // 5th slot is different spacing, otherwise could just use
                 // index * 10
                 final int indexShift = this.moveOffsets[index][1] - this.moveOffsets[0][1];
-                
+
                 // This marks the move as "selected"
                 this.moveOffsets[index][2] = 1;
                 // This records the original location of the mouse relative to

@@ -205,6 +205,12 @@
       "throat-chop"
     ]
   },
+  "forme_items": [
+    {
+      "item": "pokecube_legends:prisonbottle",
+      "forme": "hoopa-unbound"
+    }
+  ],
   "spawn_rules": [
     {
       "and_preset": "ruins",

@@ -34,6 +34,7 @@ PROCESSORS = {
     'florges': _process_no_custom,
     'sinistea': _process_model_only,
     'polteageist': _process_model_only,
+    'xerneas': _process_tex_only,
 }
 
 def process_model(entry, key, model):

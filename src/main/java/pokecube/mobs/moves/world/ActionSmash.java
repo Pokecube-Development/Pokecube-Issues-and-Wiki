@@ -2,13 +2,11 @@ package pokecube.mobs.moves.world;
 
 import java.util.List;
 
-import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.PokecubeAPI;
@@ -25,8 +23,7 @@ import thut.api.maths.Vector3;
 public class ActionSmash implements IMoveWorldEffect
 {
     public ActionSmash()
-    {
-    }
+    {}
 
     @Override
     public boolean applyEffect(final IPokemob user, final Vector3 location)
@@ -59,16 +56,6 @@ public class ActionSmash implements IMoveWorldEffect
         return used;
     }
 
-    private void doFortuneDrop(final BlockState state, final BlockPos pos, final Level worldIn,
-            final Player player, final int fortune)
-    {
-
-        final ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
-        pickaxe.enchant(Enchantments.BLOCK_FORTUNE, fortune);
-        state.getBlock().playerDestroy(worldIn, player, pos, state, null, pickaxe);
-        worldIn.destroyBlock(pos, false);
-    }
-
     @Override
     public String getMoveName()
     {
@@ -79,33 +66,26 @@ public class ActionSmash implements IMoveWorldEffect
     {
         int ret = 0;
         final LivingEntity owner = digger.getOwner();
-        Player player = null;
-        if (owner instanceof Player) player = (Player) owner;
-        final int fortune = digger.getLevel() / 30;
-        final boolean silky = MovesUtils.shouldSilk(digger) && player != null;
+        ServerPlayer player = null;
+        if (owner instanceof ServerPlayer splayer) player = splayer;
         final Level world = digger.getEntity().getLevel();
         final Vector3 temp = new Vector3();
+        ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
         temp.set(v);
         final int range = 1;
         for (int i = -range; i <= range; i++)
-            for (int j = -range; j <= range; j++)
-                for (int k = -range; k <= range; k++)
-                {
-                    if (!(i == 0 || k == 0 || j == 0)) continue;
-                    temp.set(v).addTo(i, j, k);
-                    final BlockState state = temp.getBlockState(world);
-                    if (PokecubeTerrainChecker.isRock(state))
-                    {
-                        if (!MoveEventsHandler.canAffectBlock(digger, temp, this.getMoveName(), false, true)) continue;
-                        if (!count) if (!silky) this.doFortuneDrop(state, temp.getPos(), world, player, fortune);
-                        else
-                        {
-                            MovesUtils.silkHarvest(state, temp.getPos(), world, player);
-                            temp.breakBlock(world, false);
-                        }
-                        ret++;
-                    }
-                }
+            for (int j = -range; j <= range; j++) for (int k = -range; k <= range; k++)
+        {
+            if (!(i == 0 || k == 0 || j == 0)) continue;
+            temp.set(v).addTo(i, j, k);
+            final BlockState state = temp.getBlockState(world);
+            if (PokecubeTerrainChecker.isRock(state))
+            {
+                if (!MoveEventsHandler.canAffectBlock(digger, temp, this.getMoveName(), false, true)) continue;
+                if (!count) MovesUtils.harvestBlock(digger, pickaxe, state, temp.getPos(), world, player, true);
+                ret++;
+            }
+        }
         return ret;
     }
 }

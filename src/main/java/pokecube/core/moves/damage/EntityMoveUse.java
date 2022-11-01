@@ -87,30 +87,34 @@ public class EntityMoveUse extends ThrowableProjectile
         }
     }
 
-    static final EntityDataAccessor<String> MOVENAME = SynchedEntityData.<String>defineId(EntityMoveUse.class,
-            EntityDataSerializers.STRING);
-    static final EntityDataAccessor<Float> ENDX = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
-            EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float> ENDY = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
-            EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float> ENDZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
-            EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float> STARTX = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
-            EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float> STARTY = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
-            EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Float> STARTZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class,
-            EntityDataSerializers.FLOAT);
-    static final EntityDataAccessor<Integer> USER = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
-            EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> TARGET = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
-            EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> TICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
-            EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> STARTTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
-            EntityDataSerializers.INT);
-    static final EntityDataAccessor<Integer> APPLYTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class,
-            EntityDataSerializers.INT);
+    static final EntityDataAccessor<String> MOVENAME;
+    static final EntityDataAccessor<Float> ENDX;
+    static final EntityDataAccessor<Float> ENDY;
+    static final EntityDataAccessor<Float> ENDZ;
+    static final EntityDataAccessor<Float> STARTX;
+    static final EntityDataAccessor<Float> STARTY;
+    static final EntityDataAccessor<Float> STARTZ;
+    static final EntityDataAccessor<Integer> USER;
+    static final EntityDataAccessor<Integer> TARGET;
+    static final EntityDataAccessor<Integer> TICK;
+    static final EntityDataAccessor<Integer> STARTTICK;
+    static final EntityDataAccessor<Integer> APPLYTICK;
+
+    static
+    {
+        MOVENAME = SynchedEntityData.<String>defineId(EntityMoveUse.class, EntityDataSerializers.STRING);
+        ENDX = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        ENDY = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        ENDZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        STARTX = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        STARTY = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        STARTZ = SynchedEntityData.<Float>defineId(EntityMoveUse.class, EntityDataSerializers.FLOAT);
+        USER = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        TARGET = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        TICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        STARTTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+        APPLYTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
+    }
 
     Vector3 end = new Vector3();
     Vector3 start = new Vector3();
@@ -131,10 +135,9 @@ public class EntityMoveUse extends ThrowableProjectile
     boolean init = false;
 
     int startAge = 1;
+    int initTimer = 10;
 
     double dist = 0;
-
-    int initTimer = 10;
 
     final Set<UUID> alreadyHit = Sets.newHashSet();
 
@@ -229,7 +232,7 @@ public class EntityMoveUse extends ThrowableProjectile
     private void doMoveUse(final LivingEntity target)
     {
         final MoveEntry attack = this.getMove();
-        final Entity user = this.getUser();
+        final Mob user = this.getUser();
         if (user == null || !this.isAlive() || !user.isAlive()) return;
 
         final LivingEntity living = EntityTools.getCoreLiving(target);
@@ -245,22 +248,22 @@ public class EntityMoveUse extends ThrowableProjectile
         // Only hit multipart entities once
         // Only can hit our valid target!
         if (targId != null && !attack.canHitNonTarget() && !targId.equals(targetID)) return;
-        if (!this.level.isClientSide && user instanceof LivingEntity livingUser)
+        if (!this.level.isClientSide)
         {
+            Battle b = Battle.getBattle(user);
             // Initiate battle in here if the target was not the intended
             // target.
             if (target != apply.getTarget())
             {
                 boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
-                Battle b = Battle.getBattle(livingUser);
-                if (b != null && b.getEnemies(livingUser).contains(target)) newCombat = false;
-                if (target instanceof Mob mob && newCombat) BrainUtils.initiateCombat(mob, livingUser);
+                if (b != null && b.getEnemies(user).contains(target)) newCombat = false;
+                if (target instanceof Mob mob && newCombat) BrainUtils.initiateCombat(mob, user);
             }
 
-            if (target.getLastHurtByMob() != livingUser)
+            if (target.getLastHurtByMob() != user)
             {
-                target.setLastHurtByMob(livingUser);
-                livingUser.setLastHurtByMob(target);
+                target.setLastHurtByMob(user);
+                user.setLastHurtByMob(target);
             }
 
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
@@ -272,7 +275,7 @@ public class EntityMoveUse extends ThrowableProjectile
                 this.applied = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                this.getMove().doWorldAction(userMob, this.end);
+                if (b == null) this.getMove().doWorldAction(userMob, this.end);
                 this.discard();
             }
         }
@@ -341,7 +344,7 @@ public class EntityMoveUse extends ThrowableProjectile
         return this.target;
     }
 
-    public Entity getUser()
+    public Mob getUser()
     {
         if (this.user != null) return this.user;
         if (this.level.getEntity(this.getEntityData().get(EntityMoveUse.USER)) instanceof Mob user) this.user = user;
@@ -580,10 +583,11 @@ public class EntityMoveUse extends ThrowableProjectile
             }
             if (canApply)
             {
+                Battle b = Battle.getBattle(this.getUser());
                 this.applied = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                this.getMove().doWorldAction(userMob, this.end);
+                if (b == null) this.getMove().doWorldAction(userMob, this.end);
             }
         }
 

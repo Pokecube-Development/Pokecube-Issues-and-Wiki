@@ -25,6 +25,7 @@
     "minecraft:stone_hoe",
     "minecraft:furnace",
     "minecraft:chest",
-    "minecraft:shears"
+    "minecraft:shears",
+    "minecraft:redstone"
   ]
 }
