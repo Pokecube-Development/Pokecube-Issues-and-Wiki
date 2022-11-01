@@ -219,8 +219,8 @@
       "psychic-terrain",
       "expanding-force"
     ]
-   },
-    "interactions": [
+  },
+  "interactions": [
     {
       "male": false,
       "female": true,
@@ -248,6 +248,5 @@
       }
     }
   ],
-  "old_name": "meowstic",
   "loot_table": "pokecube:entities/rabbit_2"
 }

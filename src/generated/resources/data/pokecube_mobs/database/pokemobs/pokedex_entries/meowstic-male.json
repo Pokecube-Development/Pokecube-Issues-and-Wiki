@@ -214,34 +214,6 @@
       "expanding-force"
     ]
   },
-  "interactions": [
-    {
-      "male": false,
-      "female": true,
-      "cooldown": 50,
-      "variance": 100,
-      "baseHunger": 100,
-      "isTag": false,
-      "key": {
-        "values": {
-          "id": "minecraft:bucket"
-        }
-      },
-      "action": {
-        "values": {
-          "type": "item"
-        },
-        "drops": [
-          {
-            "values": {
-              "id": "minecraft:milk_bucket",
-              "n": "1"
-            }
-          }
-        ]
-      }
-    }
-  ],
   "old_name": "meowstic",
   "loot_table": "pokecube:entities/rabbit_2"
 }
