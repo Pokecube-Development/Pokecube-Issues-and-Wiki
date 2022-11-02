@@ -716,15 +716,32 @@ public class MovesUtils implements IMoveConstants
 
         if (battle != null)
         {
-            targets.addAll(battle.getAllies(mob));
-            if (pokemob.getOwner() != null) targets.add(pokemob.getOwner());
-            targets.addAll(battle.getEnemies(mob));
+            // Actual target first.
+            if (target != null) targets.add(target);
+            // Then targetted enemy
+            if (pokemob.getMoveStats().targetEnemy != null && !targets.contains(pokemob.getMoveStats().targetEnemy))
+            {
+                targets.add(pokemob.getMoveStats().targetEnemy);
+            }
+            // Then targetted ally
+            if (pokemob.getMoveStats().targetAlly != null && !targets.contains(pokemob.getMoveStats().targetAlly))
+            {
+                targets.add(pokemob.getMoveStats().targetAlly);
+            }
+            // Then all enemies
+            var list = battle.getEnemies(mob);
+            for (var e : list) if (!targets.contains(e)) targets.add(e);
+            // Then all allies
+            list = battle.getAllies(mob);
+            for (var e : list) if (!targets.contains(e)) targets.add(e);
+
             // If we are in battle, lets deal with that here.
-            targets.forEach(s -> {
+            for (var s : targets)
+            {
                 apply.setTarget(s);
                 if (target_test.test(apply))
                 {
-                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s))) return;
+                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s))) continue;
                     // In this case, we had selected a new target from the
                     // battle, so we want to change our end for when the move is
                     // fired.
@@ -738,8 +755,10 @@ public class MovesUtils implements IMoveConstants
                     if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Queuing move: {} used by {} on {}",
                             move.name, user.getDisplayName().getString(), s.getDisplayName().getString());
                     MoveQueuer.queueMove(moveUse);
+
+                    if (!move.isMultiTarget()) break;
                 }
-            });
+            }
         }
         else
         {

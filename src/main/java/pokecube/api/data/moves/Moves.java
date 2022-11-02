@@ -96,11 +96,11 @@ public class Moves
         private Move move;
         public Animation animation;
 
-        public boolean _multi_target = false;
-        public boolean _interceptable = true;
+        public boolean _aoe = false;
         public boolean _ohko = false;
         public boolean _protects = false;
         public boolean _infatuates = false;
+        public boolean _multi_target = false;
         public int _effect_index = -1;
         public String _preset;
         public float _post_attack_delay_factor = 1;

@@ -128,7 +128,6 @@ public class MoveEntry implements IMoveConstants
 
     public int crit;
 
-    private boolean multiTarget = false;
     private boolean canHitNonTarget = true;
 
     public boolean ohko = false;
@@ -192,32 +191,19 @@ public class MoveEntry implements IMoveConstants
         return valid;
     }
 
-    public boolean isMultiTarget()
-    {
-        if (this.root_entry != null) return this.root_entry._multi_target;
-        return this.multiTarget;
-    }
-
-    public boolean notInterceptable()
-    {
-        if (this.root_entry != null) return this.root_entry._interceptable;
-        return false;
-    }
-
     public boolean canHitNonTarget()
     {
         return this.canHitNonTarget;
     }
 
-    public void setCanHitNonTarget(final boolean b)
-    {
-        this.canHitNonTarget = b;
-    }
-
     public boolean isAoE()
     {
-        // TODO AoE
-        return false;
+        return this.root_entry._aoe;
+    }
+
+    public boolean isMultiTarget()
+    {
+        return this.root_entry._multi_target;
     }
 
     /**
