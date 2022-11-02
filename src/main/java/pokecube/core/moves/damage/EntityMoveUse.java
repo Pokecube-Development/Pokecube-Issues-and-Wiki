@@ -157,6 +157,11 @@ public class EntityMoveUse extends ThrowableProjectile
         if (this.getUser() == null) return;
 
         IPokemob userMob = PokemobCaps.getPokemobFor(this.getUser());
+        if (userMob == null)
+        {
+            this.discard();
+            return;
+        }
 
         if (this.apply == null)
         {
