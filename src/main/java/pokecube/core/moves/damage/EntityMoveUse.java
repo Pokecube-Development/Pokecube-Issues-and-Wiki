@@ -538,8 +538,6 @@ public class EntityMoveUse extends ThrowableProjectile
         final List<Entity> hits = this.level.getEntities(this, testBox, this.valid);
         final AABB hitBox = testBox;
 
-        System.out.println(hits + " " + testBox + " " + this.getTarget());
-
         hits.removeIf(e -> {
             boolean hit = hitboxes.size() > 1;
             if (!hit) for (final AABB box : hitboxes) if (box.intersects(e.getBoundingBox()))
