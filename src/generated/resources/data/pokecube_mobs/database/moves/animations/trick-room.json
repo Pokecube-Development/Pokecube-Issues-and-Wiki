@@ -2,29 +2,79 @@
   "name": "trick-room",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:clight_blue:d0.07:rtrue:l6:f(0.5-rand())*(60),(0.5-rand())*(60),30",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.07,
+        "reverse": true,
+        "lifetime": 6,
+        "f_x": "(0.5-rand())*(60)",
+        "f_y": "(0.5-rand())*(60)",
+        "f_z": "30"
+      }
     },
     {
-      "preset": "cartFunc:pmisc:clight_blue:d0.07:rtrue:l6:f30,(0.5-rand())*(60),(0.5-rand())*(60)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.07,
+        "reverse": true,
+        "lifetime": 6,
+        "f_x": "30",
+        "f_y": "(0.5-rand())*(60)",
+        "f_z": "(0.5-rand())*(60)"
+      }
     },
     {
-      "preset": "cartFunc:pmisc:clight_blue:d0.07:rtrue:l6:f-30,(0.5-rand())*(60),(0.5-rand())*(60)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.07,
+        "reverse": true,
+        "lifetime": 6,
+        "f_x": "-30",
+        "f_y": "(0.5-rand())*(60)",
+        "f_z": "(0.5-rand())*(60)"
+      }
     },
     {
-      "preset": "cartFunc:pmisc:clight_blue:d0.07:rtrue:l6:f(0.5-rand())*(60),(0.5-rand())*(60),-30",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.07,
+        "reverse": true,
+        "lifetime": 6,
+        "f_x": "(0.5-rand())*(60)",
+        "f_y": "(0.5-rand())*(60)",
+        "f_z": "-30"
+      }
     },
     {
-      "preset": "cartFunc:pmisc:clight_blue:d0.07:rtrue:l6:f(0.5-rand())*(60),30,(0.5-rand())*(60)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.07,
+        "reverse": true,
+        "lifetime": 6,
+        "f_x": "(0.5-rand())*(60)",
+        "f_y": "30",
+        "f_z": "(0.5-rand())*(60)"
+      }
     }
   ]
 }

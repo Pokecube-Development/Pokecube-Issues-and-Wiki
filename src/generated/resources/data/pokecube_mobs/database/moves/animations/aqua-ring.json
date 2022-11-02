@@ -2,14 +2,31 @@
   "name": "aqua-ring",
   "animations": [
     {
-      "preset": "cartFunc:psplash:d0.5:rtrue:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.5,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
     },
     {
-      "preset": "cartFunc:pdripWater:d1:rtrue:l30:f(0.5-rand())*(3.2),(0.5-rand())*(3.2),(0.5-rand())*(3.2)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "dripWater",
+        "density": 1.0,
+        "reverse": true,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
     }
   ]
 }

@@ -2,24 +2,33 @@
   "name": "razor-leaf",
   "animations": [
     {
-      "preset": "flow:pmisc:w0.5:d0.33",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.gustwind",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "misc",
+        "width": 0.5,
+        "density": 0.33
+      }
     },
     {
-      "preset": "cartFunc:psweep_attack:d3",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.cut",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 3.0
+      }
     }
   ]
 }

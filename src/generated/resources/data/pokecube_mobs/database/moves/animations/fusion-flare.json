@@ -2,24 +2,36 @@
   "name": "fusion-flare",
   "animations": [
     {
-      "preset": "throw:pmisc:corange:w3",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.sacredfire",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "orange",
+        "width": 3.0
+      }
     },
     {
-      "preset": "powder:pflame:clight_blue:d0.3:w3:l8",
-      "duration": "5",
-      "starttick": "3",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.flamewheel",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "flame",
+        "rgba_string": "light_blue",
+        "density": 0.3,
+        "width": 3.0,
+        "lifetime": 8
+      }
     }
   ]
 }

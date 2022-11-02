@@ -2,65 +2,120 @@
   "name": "origin-pulse",
   "animations": [
     {
-      "preset": "cartFunc:rtrue:pend_rod:l2:d0.1:atrue:w4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
-      "sound": "pokecube:moves.unknown",
-      "soundSource": true,
-      "soundTarget": false,
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
       "volume": 2.0,
       "pitch": 1.4,
-      "applyAfter": true
-    },
-    {
-      "preset": "cartFunc:rtrue:pend_rod:d0.1:l2:atrue:w6:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "2",
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "reverse": true,
+        "particle": "end_rod",
+        "lifetime": 2,
+        "density": 0.1,
+        "absolute": true,
+        "width": 4.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 2,
       "volume": 2.0,
       "pitch": 1.6,
-      "applyAfter": false
-    },
-    {
-      "preset": "cartFunc:pend_rod:rtrue:l15:d0.1:atrue:w8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "reverse": true,
+        "particle": "end_rod",
+        "density": 0.1,
+        "lifetime": 2,
+        "absolute": true,
+        "width": 6.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
       "volume": 2.0,
       "pitch": 1.8,
-      "applyAfter": false
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "lifetime": 15,
+        "density": 0.1,
+        "absolute": true,
+        "width": 8.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "throw:w0.9:clight_blue",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "width": 0.9,
+        "rgba_string": "light_blue"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:w1.5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 2.0,
+      "pitch": 1.8,
       "sound": "minecraft:entity.evoker.prepare_summon",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 2.0,
-      "pitch": 1.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "width": 1.5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:psplash:l30:d0.1:atrue:w3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 2.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.dive",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 2.0,
-      "pitch": 1.2,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "splash",
+        "lifetime": 30,
+        "density": 0.1,
+        "absolute": true,
+        "width": 3.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

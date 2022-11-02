@@ -2,29 +2,57 @@
   "name": "doom-desire",
   "animations": [
     {
-      "preset": "cartFunc:penchantmenttable:d0.1:w1:rtrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "1",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
       "sound": "pokecube:moves.megaattack",
       "soundSource": true,
       "soundTarget": false,
+      "preset_values": {
+        "particle": "enchantmenttable",
+        "density": 0.1,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 4,
+      "starttick": 1,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 0.2,
+        "width": 2.0,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 2,
+      "starttick": 3,
       "volume": 1.0,
-      "pitch": 1.8
-    },
-    {
-      "preset": "cartFunc:pexplosion_emitter:d0.2:w2:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "4",
-      "starttick": "1"
-    },
-    {
-      "preset": "cartFunc:pend_rod:d0.1:w3:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "2",
-      "starttick": "3",
+      "pitch": 1.0,
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.1,
+        "width": 3.0,
+        "lifetime": 20,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

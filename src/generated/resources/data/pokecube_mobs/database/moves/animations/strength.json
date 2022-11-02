@@ -2,14 +2,24 @@
   "name": "strength",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:atrue:d1.5:w0.5:l3:frand()*0.5,(0.5-rand()),(0.5-rand())*(2)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "crit",
+        "absolute": true,
+        "density": 1.5,
+        "width": 0.5,
+        "lifetime": 3,
+        "f_x": "rand()*0.5",
+        "f_y": "(0.5-rand())",
+        "f_z": "(0.5-rand())*(2)"
+      }
     }
   ]
 }

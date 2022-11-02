@@ -2,34 +2,52 @@
   "name": "aeroblast",
   "animations": [
     {
-      "preset": "throw:atrue:w1.3",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.megaattack",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "absolute": true,
+        "width": 1.3
+      }
     },
     {
-      "preset": "cartFunc:pcloud:atrue:d0.5:w3.5:l40:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8
+      "preset_values": {
+        "particle": "cloud",
+        "absolute": true,
+        "density": 0.5,
+        "width": 3.5,
+        "lifetime": 40,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "flow:w0.8:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.gustwind",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "width": 0.8,
+        "absolute": true
+      }
     }
   ]
 }

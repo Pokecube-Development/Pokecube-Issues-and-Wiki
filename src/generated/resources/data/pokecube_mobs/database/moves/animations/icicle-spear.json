@@ -2,26 +2,35 @@
   "name": "icicle-spear",
   "animations": [
     {
-      "preset": "throw:atrue:w0.2",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.iceball",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "absolute": true,
+        "width": 0.2
+      }
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.8,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "lifetime": 2,
+        "absolute": true
+      }
     }
   ]
 }

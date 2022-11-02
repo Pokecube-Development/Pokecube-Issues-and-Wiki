@@ -2,29 +2,43 @@
   "name": "hydro-pump",
   "animations": [
     {
-      "preset": "beam:psplash:d0.2",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.surf",
       "soundSource": true,
       "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.2
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "splash",
+        "density": 1.0,
+        "width": 1.0
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
       "volume": 1.0,
-      "pitch": 1.0
-    },
-    {
-      "preset": "flow:psplash:d1:w1",
-      "duration": "5",
-      "starttick": "0"
-    },
-    {
-      "preset": "cartFunc:pexplosion_emitter:d1:w1",
-      "duration": "5",
-      "starttick": "3",
+      "pitch": 0.7,
       "sound": "pokecube:moves.bubbleattack",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.7
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 1.0,
+        "width": 1.0
+      }
     }
   ]
 }

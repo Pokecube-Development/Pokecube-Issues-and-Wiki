@@ -208,6 +208,27 @@ def convert_animation(move_name, old_animation):
         args = preset.split(':')
         name = args[0]
         new_animation['preset'] = name
+
+        if 'duration' in old_animation:
+            new_animation['duration'] = int(old_animation['duration'])
+        if 'starttick' in old_animation:
+            new_animation['starttick'] = int(old_animation['starttick'])
+
+        if 'volume' in old_animation:
+            new_animation['volume'] = old_animation['volume']
+        if 'pitch' in old_animation:
+            new_animation['pitch'] = old_animation['pitch']
+
+        if 'sound' in old_animation:
+            new_animation['sound'] = old_animation['sound']
+        if 'soundSource' in old_animation:
+            new_animation['soundSource'] = old_animation['soundSource']
+        if 'soundTarget' in old_animation:
+            new_animation['soundTarget'] = old_animation['soundTarget']
+
+        if 'applyAfter' in old_animation:
+            new_animation['applyAfter'] = old_animation['applyAfter']
+
         values = {}
         for i in range(1,len(args)):
             arg = args[i]
@@ -226,7 +247,7 @@ def convert_animation(move_name, old_animation):
                 elif t == 'w':
                     values['width'] = float(val)
                 elif t == 'l':
-                    values['lifetime'] = float(val)
+                    values['lifetime'] = int(val)
                 elif t == 'r':
                     values['reverse'] = val == 'true'
                 elif t == 'c':
@@ -262,7 +283,7 @@ def convert_animation(move_name, old_animation):
                 print(err)
 
         new_animation['preset_values'] = values
-    return old_animation
+    return new_animation
 
 
 def convert_moves():
@@ -381,16 +402,16 @@ def convert_moves():
         new_name = convert_old_move_name(name)
         if new_name is not None:
             file = f'../../src/generated/resources/data/pokecube_mobs/database/moves/animations/{new_name}.json'
-            value = {"name":new_name, "animations":value}
+            output = {"name":new_name, "animations":value}
             anims = []
-            for var in value["animations"]:
+            for var in output["animations"]:
                 var["preset"] = var["preset"].split(":~")[0]
                 anims.append(convert_animation(new_name, var))
-            value["animations"] = anims
+            output["animations"] = anims
             if not os.path.exists(os.path.dirname(file)):
                 os.makedirs(os.path.dirname(file))
             file = open(file, 'w', encoding='utf-8')
-            json.dump(value, file, indent=2, ensure_ascii=False)
+            json.dump(output, file, indent=2, ensure_ascii=False)
             file.close()
         else:
             print(f'unknown animation: {name}')

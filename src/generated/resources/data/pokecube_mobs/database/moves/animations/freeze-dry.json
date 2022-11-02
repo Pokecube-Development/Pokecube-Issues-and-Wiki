@@ -3,13 +3,14 @@
   "animations": [
     {
       "preset": "flow",
-      "duration": "5",
-      "starttick": "0",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.icebreak",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2
+      "preset_values": {}
     }
   ]
 }

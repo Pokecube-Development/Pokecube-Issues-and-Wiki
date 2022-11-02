@@ -2,14 +2,20 @@
   "name": "spore",
   "animations": [
     {
-      "preset": "powder:ppowder:cwhite:l8:d0.15",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
       "sound": "minecraft:block.sand.place",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 0.7
+      "preset_values": {
+        "particle": "powder",
+        "rgba_string": "white",
+        "lifetime": 8,
+        "density": 0.15
+      }
     }
   ]
 }

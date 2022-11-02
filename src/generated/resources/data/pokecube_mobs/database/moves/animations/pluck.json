@@ -2,14 +2,19 @@
   "name": "pluck",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d4:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.9
+      "preset_values": {
+        "particle": "crit",
+        "density": 4.0,
+        "absolute": true
+      }
     }
   ]
 }

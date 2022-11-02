@@ -2,24 +2,39 @@
   "name": "echoed-voice",
   "animations": [
     {
-      "preset": "flow:pmisc:cwhite:d0.5:w1",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.charm",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "density": 0.5,
+        "width": 1.0
+      }
     },
     {
-      "preset": "cartFunc:pnote:d1:w1:rtrue:f0,1,0",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.gustwind",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "particle": "note",
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": true,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
     }
   ]
 }

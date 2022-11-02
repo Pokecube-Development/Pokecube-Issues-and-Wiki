@@ -2,34 +2,42 @@
   "name": "attack-order",
   "animations": [
     {
-      "preset": "flow:pmisc:d0.2:w0.1:cyellow",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.charm",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.2,
+        "width": 0.1,
+        "rgba_string": "yellow"
+      }
     },
     {
       "preset": "cartFunc",
-      "duration": "0",
-      "starttick": "2",
+      "duration": 0,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.charm",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {}
     },
     {
       "preset": "cartFunc",
-      "duration": "1",
-      "starttick": "5",
+      "duration": 1,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.charm",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {}
     }
   ]
 }

@@ -2,14 +2,26 @@
   "name": "aromatic-mist",
   "animations": [
     {
-      "preset": "flow:pmisc:d2:w4:l3",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "density": 2.0,
+        "width": 4.0,
+        "lifetime": 3
+      }
     },
     {
-      "preset": "powder:pmisc:d0.5:w1:l5",
-      "duration": "1",
-      "starttick": "4"
+      "preset": "powder",
+      "duration": 1,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 5
+      }
     }
   ]
 }

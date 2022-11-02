@@ -2,38 +2,78 @@
   "name": "water-spout",
   "animations": [
     {
-      "preset": "cartFunc:rtrue:psplash:d0.03:l8:atrue:f(0.5-rand())*(1),(0-rand())*(-12),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.5,
+      "pitch": 1.2,
       "sound": "pokecube:moves.surf",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.5,
-      "pitch": 1.2,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "reverse": true,
+        "particle": "splash",
+        "density": 0.03,
+        "lifetime": 8,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0-rand())*(-12)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:rtrue:psplash:d0.4:w2:l15:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "reverse": true,
+        "particle": "splash",
+        "density": 0.4,
+        "width": 2.0,
+        "lifetime": 15,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:psplash:l8:d0.03:atrue:f(0.5-rand())*(1),(0-rand())*(-12),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.waterpulse",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.0,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "splash",
+        "lifetime": 8,
+        "density": 0.03,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0-rand())*(-12)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pcloud:d0.4:w2:l4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "6",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 6,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.4,
+        "width": 2.0,
+        "lifetime": 4,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

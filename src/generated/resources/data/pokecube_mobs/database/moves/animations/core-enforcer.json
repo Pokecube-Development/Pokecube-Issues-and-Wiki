@@ -2,91 +2,200 @@
   "name": "core-enforcer",
   "animations": [
     {
-      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f(0.5-rand())*(8),0,6",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 2.0,
+      "pitch": 1.5,
       "sound": "minecraft:entity.evoker.prepare_summon",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 2.0,
-      "pitch": 1.5,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 0.1,
+        "width": 1.0,
+        "f_x": "(0.5-rand())*(8)",
+        "f_y": "0",
+        "f_z": "6"
+      }
     },
     {
-      "preset": "flow:phappy_villager:clime:atrue:d1:w1:f(0.5-rand())*(8),0,6",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.megaattack",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "happy_villager",
+        "rgba_string": "lime",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "flat": true
+      }
     },
     {
-      "preset": "sphFunc:phappy_villager:clime:atrue:d0.1:w1.5:l20:f(0.5-rand())*(10),8,(0.5-rand())*(10)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "sphFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 2.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.sacredfire",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 2.0,
-      "pitch": 1.0,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "happy_villager",
+        "rgba_string": "lime",
+        "absolute": true,
+        "density": 0.1,
+        "width": 1.5,
+        "lifetime": 20,
+        "f_radial": "(0.5-rand())*(10)",
+        "f_theta": "8",
+        "f_phi": "(0.5-rand())*(10)"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f(0.5-rand())*(8),0,-6",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 0.1,
+        "width": 1.0,
+        "f_x": "(0.5-rand())*(8)",
+        "f_y": "0",
+        "f_z": "-6"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f6,0,-6",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 0.1,
+        "width": 1.0,
+        "f_x": "6",
+        "f_y": "0",
+        "f_z": "-6"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d1:w1:f4,0,-4",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "f_x": "4",
+        "f_y": "0",
+        "f_z": "-4"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d1:w1:f2,0,-2",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "f_x": "2",
+        "f_y": "0",
+        "f_z": "-2"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d1:w1:f0,0,0",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "f_x": "0",
+        "f_y": "0",
+        "f_z": "0"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d0.1:w1:f-6,0,6",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 0.1,
+        "width": 1.0,
+        "f_x": "-6",
+        "f_y": "0",
+        "f_z": "6"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d1:w1:f-4,0,4",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "f_x": "-4",
+        "f_y": "0",
+        "f_z": "4"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d1:w1:f-2,0,2",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "f_x": "-2",
+        "f_y": "0",
+        "f_z": "2"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue:d1:w1:f0,0,0",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "f_x": "0",
+        "f_y": "0",
+        "f_z": "0"
+      }
     }
   ]
 }

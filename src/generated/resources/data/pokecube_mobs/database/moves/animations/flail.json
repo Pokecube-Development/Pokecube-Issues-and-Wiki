@@ -2,26 +2,41 @@
   "name": "flail",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.withdraw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "cloud",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.3,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.3,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

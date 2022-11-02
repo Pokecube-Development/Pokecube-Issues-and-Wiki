@@ -2,25 +2,42 @@
   "name": "rock-polish",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:atrue:rtrue:d3:l3",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.withdraw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "absolute": true,
+        "reverse": true,
+        "density": 3.0,
+        "lifetime": 3
+      }
     },
     {
-      "preset": "cartFunc:pend_rod:w1:rtrue:atrue:w1.25:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.payday",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "end_rod",
+        "width": 1.25,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

@@ -2,24 +2,44 @@
   "name": "sky-drop",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:w1:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "width": 1.0,
+        "absolute": true,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pcloud:d0.75:w4:atrue:l10:f(0.5-rand())*(1),(0-rand())*(0.5),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.75,
+        "width": 4.0,
+        "absolute": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0-rand())*(0.5)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

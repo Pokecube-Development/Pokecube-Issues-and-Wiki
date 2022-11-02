@@ -2,14 +2,20 @@
   "name": "smokescreen",
   "animations": [
     {
-      "preset": "powder:d0.33:w1.5:plarge_smoke:l15",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.7
+      "preset_values": {
+        "density": 0.33,
+        "width": 1.5,
+        "particle": "large_smoke",
+        "lifetime": 15
+      }
     }
   ]
 }

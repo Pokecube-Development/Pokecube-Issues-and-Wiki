@@ -2,14 +2,24 @@
   "name": "rolling-kick",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:w0.66:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "width": 0.66,
+        "absolute": true,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

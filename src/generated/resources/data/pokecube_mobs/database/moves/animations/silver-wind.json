@@ -2,24 +2,37 @@
   "name": "silver-wind",
   "animations": [
     {
-      "preset": "flow:pend_rod:d0.5:w3.5:l5",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.8
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.5,
+        "width": 3.5,
+        "lifetime": 5
+      }
     },
     {
-      "preset": "flow:pmisc:csilver:d1:w3.5:l4",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.gustwind",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "silver",
+        "density": 1.0,
+        "width": 3.5,
+        "lifetime": 4
+      }
     }
   ]
 }

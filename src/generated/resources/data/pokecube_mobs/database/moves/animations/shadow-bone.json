@@ -2,34 +2,59 @@
   "name": "shadow-bone",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:w0.5:d2:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "3",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "crit",
+        "width": 0.5,
+        "density": 2.0,
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pmisc:w1.5:atrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "3",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.9,
       "sound": "minecraft:entity.evoker.prepare_summon",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.9
+      "preset_values": {
+        "particle": "misc",
+        "width": 1.5,
+        "absolute": true,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "throw:pmisc:cwhite:w0.2:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "width": 0.2,
+        "absolute": true
+      }
     }
   ]
 }

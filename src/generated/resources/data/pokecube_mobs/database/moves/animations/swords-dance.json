@@ -2,24 +2,44 @@
   "name": "swords-dance",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d2:atrue:w0.8:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
       "sound": "pokecube:moves.metalclaw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.8
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 2.0,
+        "absolute": true,
+        "width": 0.8,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pend_rod:d2:atrue:w1.6:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.8,
       "sound": "pokecube:moves.metalclaw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.8
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 2.0,
+        "absolute": true,
+        "width": 1.6,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

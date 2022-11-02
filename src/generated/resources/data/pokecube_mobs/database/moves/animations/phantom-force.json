@@ -2,37 +2,64 @@
   "name": "phantom-force",
   "animations": [
     {
-      "preset": "cartFunc:rtrue:l8:pwitch:w1.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
-      "sound": "minecraft:entity.evoker.cast_spell",
-      "soundSource": true,
-      "soundTarget": false,
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
       "volume": 1.0,
       "pitch": 1.6,
-      "applyAfter": true
-    },
-    {
-      "preset": "cartFunc:l8:pwitch:w1.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
       "sound": "minecraft:entity.evoker.cast_spell",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2,
-      "applyAfter": false
+      "applyAfter": true,
+      "preset_values": {
+        "reverse": true,
+        "lifetime": 8,
+        "particle": "witch",
+        "width": 1.5,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pcrit:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "minecraft:entity.evoker.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "lifetime": 8,
+        "particle": "witch",
+        "width": 1.5,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

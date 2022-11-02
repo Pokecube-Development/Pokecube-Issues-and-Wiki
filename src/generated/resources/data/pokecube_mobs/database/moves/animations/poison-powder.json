@@ -2,14 +2,19 @@
   "name": "poison-powder",
   "animations": [
     {
-      "preset": "powder:ppowder:d0.7:l10",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.3,
       "sound": "pokecube:moves.poisontoxic",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.3
+      "preset_values": {
+        "particle": "powder",
+        "density": 0.7,
+        "lifetime": 10
+      }
     }
   ]
 }

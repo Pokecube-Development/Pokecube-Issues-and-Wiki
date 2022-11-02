@@ -2,29 +2,49 @@
   "name": "shadow-force",
   "animations": [
     {
-      "preset": "powder:psmoke:d0.5:w1:atrue:rtrue:l75",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
       "sound": "minecraft:entity.evoker.prepare_summon",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.9
+      "preset_values": {
+        "particle": "smoke",
+        "density": 0.5,
+        "width": 1.0,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 75
+      }
     },
     {
-      "preset": "throw:pmisc:w4:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "minecraft:entity.wither.death",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "particle": "misc",
+        "width": 4.0,
+        "absolute": true
+      }
     },
     {
-      "preset": "powder:pmisc:d0.1:w1:rtrue:l15",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.1,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 15
+      }
     }
   ]
 }

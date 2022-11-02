@@ -2,24 +2,31 @@
   "name": "spike-cannon",
   "animations": [
     {
-      "preset": "throw:csilver:w0.1",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "rgba_string": "silver",
+        "width": 0.1
+      }
     },
     {
-      "preset": "throw:w0.2",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "width": 0.2
+      }
     }
   ]
 }

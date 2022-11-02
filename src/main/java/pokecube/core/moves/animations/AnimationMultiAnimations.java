@@ -52,7 +52,6 @@ public class AnimationMultiAnimations extends MoveAnimationBase
         if (animations == null || animations.isEmpty()) return;
         for (final AnimationJson anim : animations)
         {
-            if (!anim.preset.endsWith(":~" + move.name)) anim.preset = anim.preset + ":~" + move.name;
             final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim.preset, anim.preset_values);
             if (animation == null)
             {

@@ -2,39 +2,75 @@
   "name": "shock-wave",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:atrue:cyellow:rtrue:d0.8:w0.66:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "rgba_string": "yellow",
+        "reverse": true,
+        "density": 0.8,
+        "width": 0.66,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "flow:pmisc:cyellow:atrue:d2:w3.5:l1",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.thunderbolt",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "yellow",
+        "absolute": true,
+        "density": 2.0,
+        "width": 3.5,
+        "lifetime": 1
+      }
     },
     {
-      "preset": "flow:pmisc:atrue:cyellow:d2:w3.5:l1",
-      "duration": "5",
-      "starttick": "2",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.thunderbolt",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "rgba_string": "yellow",
+        "density": 2.0,
+        "width": 3.5,
+        "lifetime": 1
+      }
     },
     {
-      "preset": "flow:pmisc:atrue:cyellow:d2:w3.5:l1",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.thunderbolt",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "rgba_string": "yellow",
+        "density": 2.0,
+        "width": 3.5,
+        "lifetime": 1
+      }
     }
   ]
 }

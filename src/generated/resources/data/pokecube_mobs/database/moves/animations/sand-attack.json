@@ -2,14 +2,19 @@
   "name": "sand-attack",
   "animations": [
     {
-      "preset": "flow:ppowder:d1:w1.5",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.3,
       "sound": "minecraft:block.sand.place",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.3
+      "preset_values": {
+        "particle": "powder",
+        "density": 1.0,
+        "width": 1.5
+      }
     }
   ]
 }

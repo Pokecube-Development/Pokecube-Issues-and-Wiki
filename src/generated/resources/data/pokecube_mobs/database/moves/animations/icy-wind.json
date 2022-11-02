@@ -2,24 +2,30 @@
   "name": "icy-wind",
   "animations": [
     {
-      "preset": "flow:d0.5:pmisc:w2.5",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "density": 0.5,
+        "particle": "misc",
+        "width": 2.5
+      }
     },
     {
       "preset": "cartFunc",
-      "duration": "5",
-      "starttick": "0",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.1,
       "sound": "pokecube:moves.iceball",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.1
+      "preset_values": {}
     }
   ]
 }

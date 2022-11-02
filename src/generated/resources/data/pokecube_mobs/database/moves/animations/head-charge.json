@@ -2,26 +2,45 @@
   "name": "head-charge",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:d0.6:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "particle": "crit",
+        "density": 0.6,
+        "lifetime": 2,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:atrue:pcrit:d2:w3:l10:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "particle": "crit",
+        "density": 2.0,
+        "width": 3.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

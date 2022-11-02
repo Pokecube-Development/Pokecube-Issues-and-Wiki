@@ -2,25 +2,45 @@
   "name": "recover",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:rtrue:atrue:l10:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.safeguard",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(3)"
+      }
     },
     {
-      "preset": "cartFunc:pend_rod:atrue:rtrue:d0.66:l3:w0.25:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
       "sound": "pokecube:moves.payday",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.9,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "absolute": true,
+        "reverse": true,
+        "density": 0.66,
+        "lifetime": 3,
+        "width": 0.25,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(3)"
+      }
     }
   ]
 }

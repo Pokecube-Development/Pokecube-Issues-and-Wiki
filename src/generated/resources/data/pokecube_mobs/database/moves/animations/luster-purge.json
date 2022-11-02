@@ -2,24 +2,30 @@
   "name": "luster-purge",
   "animations": [
     {
-      "preset": "flow:pend_rod",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5
+      "preset_values": {
+        "particle": "end_rod"
+      }
     },
     {
-      "preset": "throw:pend_rod",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.megaattack",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "particle": "end_rod"
+      }
     }
   ]
 }

@@ -2,15 +2,20 @@
   "name": "horn-attack",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:l2:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "crit",
+        "lifetime": 2,
+        "absolute": true
+      }
     }
   ]
 }

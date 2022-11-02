@@ -2,24 +2,38 @@
   "name": "megahorn",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.8:atrue:w2:l6",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.6,
       "sound": "pokecube:moves.slash",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.6
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.8,
+        "absolute": true,
+        "width": 2.0,
+        "lifetime": 6
+      }
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:atrue:d2:w1:l8",
-      "duration": "2",
-      "starttick": "3",
+      "preset": "cartFunc",
+      "duration": 2,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "absolute": true,
+        "density": 2.0,
+        "width": 1.0,
+        "lifetime": 8
+      }
     }
   ]
 }

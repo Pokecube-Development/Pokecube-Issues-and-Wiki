@@ -2,14 +2,20 @@
   "name": "defog",
   "animations": [
     {
-      "preset": "flow:pcloud:d0.5:w4:l3",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.5,
+        "width": 4.0,
+        "lifetime": 3
+      }
     }
   ]
 }

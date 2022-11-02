@@ -2,14 +2,23 @@
   "name": "double-slap",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:w0.5:l3:f(0.5-rand())*(0.6),(0.5-rand())*(0.6),(0.5-rand())*(0.6)",
-      "duration": "3",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 3,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "width": 0.5,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(0.6)",
+        "f_y": "(0.5-rand())*(0.6)",
+        "f_z": "(0.5-rand())*(0.6)"
+      }
     }
   ]
 }

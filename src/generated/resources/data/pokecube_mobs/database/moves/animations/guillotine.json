@@ -2,19 +2,36 @@
   "name": "guillotine",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack:d0.7:w1:l5:f0,0,0",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 0.7,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "0",
+        "f_y": "0",
+        "f_z": "0"
+      }
     },
     {
-      "preset": "cartFunc:pcloud:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.6,
       "sound": "pokecube:moves.slash",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.6
+      "preset_values": {
+        "particle": "cloud",
+        "density": 1.0,
+        "width": 1.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

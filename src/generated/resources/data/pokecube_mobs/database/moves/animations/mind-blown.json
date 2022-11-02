@@ -2,37 +2,49 @@
   "name": "mind-blown",
   "animations": [
     {
-      "preset": "throw:cwhite:w1.0",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.charm",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "rgba_string": "white",
+        "width": 1.0
+      }
     },
     {
-      "preset": "cartFunc:pexplosion:atrue",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.7,
       "sound": "minecraft:entity.firework.blast",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 0.7,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true
+      }
     },
     {
-      "preset": "powder:paurora:atrue",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.7,
       "sound": "minecraft:entity.firework.twinkle",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 0.7,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "aurora",
+        "absolute": true
+      }
     }
   ]
 }

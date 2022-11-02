@@ -2,25 +2,37 @@
   "name": "retaliate",
   "animations": [
     {
-      "preset": "cartFunc:psweep_attack",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "sweep_attack"
+      }
     },
     {
-      "preset": "cartFunc:pcrit:d2:atrue:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.slash",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "absolute": true,
+        "lifetime": 2,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

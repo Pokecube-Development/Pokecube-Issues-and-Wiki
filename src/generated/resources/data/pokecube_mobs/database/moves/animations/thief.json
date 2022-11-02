@@ -2,19 +2,39 @@
   "name": "thief",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:w1:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "width": 1.0,
+        "absolute": true,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:psmoke:atrue:d1:w1:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "3"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "smoke",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 15,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

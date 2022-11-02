@@ -2,19 +2,25 @@
   "name": "dream-eater",
   "animations": [
     {
-      "preset": "pons:pwitch",
-      "duration": "2",
-      "starttick": "0",
+      "preset": "pons",
+      "duration": 2,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
       "sound": "pokecube:moves.aurorabeam",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.7
+      "preset_values": {
+        "particle": "witch"
+      }
     },
     {
-      "preset": "pont:pwitch",
-      "duration": "3",
-      "starttick": "2"
+      "preset": "pont",
+      "duration": 3,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "witch"
+      }
     }
   ]
 }

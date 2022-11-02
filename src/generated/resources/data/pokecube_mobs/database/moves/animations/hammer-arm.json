@@ -2,26 +2,42 @@
   "name": "hammer-arm",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "particle": "crit",
+        "lifetime": 2,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:atrue:l8:pcloud:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "lifetime": 8,
+        "particle": "cloud",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "0",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

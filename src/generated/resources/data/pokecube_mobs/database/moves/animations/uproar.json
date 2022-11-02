@@ -2,9 +2,16 @@
   "name": "uproar",
   "animations": [
     {
-      "preset": "flow:pcloud:d0.5:w1.5:atrue:l3",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.5,
+        "width": 1.5,
+        "absolute": true,
+        "lifetime": 3
+      }
     }
   ]
 }
