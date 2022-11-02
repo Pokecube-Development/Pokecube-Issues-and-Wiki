@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.moves.animations.AnimPreset;
 import pokecube.core.moves.animations.MoveAnimationBase;
 import thut.api.maths.Vector3;
@@ -24,12 +23,8 @@ import thut.api.maths.Vector3;
 @AnimPreset(getPreset = "throw")
 public class ThrowParticle extends MoveAnimationBase
 {
-
-    float width = 1;
-
     public ThrowParticle()
-    {
-    }
+    {}
 
     @OnlyIn(Dist.CLIENT)
     @Override
@@ -58,14 +53,14 @@ public class ThrowParticle extends MoveAnimationBase
         GlStateManager._enableDepthTest();
 
         this.initColour(info.currentTick * 300, partialTick, info.move);
-        final float alpha = (this.rgba >> 24 & 255) / 255f;
-        final float red = (this.rgba >> 16 & 255) / 255f;
-        final float green = (this.rgba >> 8 & 255) / 255f;
-        final float blue = (this.rgba & 255) / 255f;
+        final float alpha = (this.values.rgba >> 24 & 255) / 255f;
+        final float red = (this.values.rgba >> 16 & 255) / 255f;
+        final float green = (this.values.rgba >> 8 & 255) / 255f;
+        final float blue = (this.values.rgba & 255) / 255f;
 
         final long hash = (long) (temp.x * 1000000l + temp.z * 1000000000000l);
         final Random rand = new Random(hash);
-        factor = this.width * 0.2;
+        factor = values.width * 0.2;
         tez.begin(Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
         final Matrix4f pos = mat.last().pose();
 
@@ -98,22 +93,6 @@ public class ThrowParticle extends MoveAnimationBase
     @Override
     public int getDuration()
     {
-        return this.duration;
-    }
-
-    @Override
-    public IMoveAnimation init(final String preset)
-    {
-        this.particle = preset;
-        this.rgba = 0xFFFFFFFF;
-        final String[] args = preset.split(":");
-        for (int i = 1; i < args.length; i++)
-        {
-            final String ident = args[i].substring(0, 1);
-            final String val = args[i].substring(1);
-            if (ident.equals("w")) this.width = Float.parseFloat(val);
-            else if (ident.equals("c")) this.initRGBA(val);
-        }
-        return this;
+        return this.values.duration;
     }
 }

@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 import org.objectweb.asm.Type;
 
 import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -75,16 +76,15 @@ public class MoveAnimationHelper
 
     private static MoveAnimationHelper instance;
 
-    public static IMoveAnimation getAnimationPreset(final String anim)
+    public static IMoveAnimation getAnimationPreset(final String preset, JsonObject values)
     {
         IMoveAnimation animation = null;
-        if (anim == null || anim.isEmpty()) return animation;
-        final String preset = anim.split(":")[0];
+        if (preset == null || preset.isEmpty()) return animation;
         final Class<? extends MoveAnimationBase> presetClass = MoveAnimationHelper.presets.get(preset);
         if (presetClass != null) try
         {
             animation = presetClass.getConstructor().newInstance();
-            ((MoveAnimationBase) animation).init(anim);
+            ((MoveAnimationBase) animation).init(values);
         }
         catch (final Exception e)
         {

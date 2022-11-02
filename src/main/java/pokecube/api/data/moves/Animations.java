@@ -3,13 +3,16 @@ package pokecube.api.data.moves;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.JsonObject;
+
 public class Animations
 {
     public static class AnimationJson
     {
         public String preset;
-        public String duration = "5";
-        public String starttick = "0";
+        public JsonObject preset_values = null;
+        public int duration = 5;
+        public int starttick = 0;
         public String sound;
 
         public Boolean soundSource;

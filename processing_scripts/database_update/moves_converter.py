@@ -198,6 +198,73 @@ def convert_old_move_name(old):
     print(f'error converting old name for {old}')
     return None
 
+def convert_animation(move_name, old_animation):
+    new_animation = {}
+
+    # Start with the preset type.
+    preset = old_animation['preset']
+    if ':' in preset or not 'preset_values' in old_animation:
+        # We need to convert to new format
+        args = preset.split(':')
+        name = args[0]
+        new_animation['preset'] = name
+        values = {}
+        for i in range(1,len(args)):
+            arg = args[i]
+            # Old system first character was what was going on.
+            t = arg[0]
+            val = arg[1:len(arg)]
+
+            try:
+                # Now to handle the things.
+                if t == 'p':
+                    values['particle'] = val
+                elif t == 'a':
+                    values['absolute'] = val == 'true'
+                elif t == 'd':
+                    values['density'] = float(val)
+                elif t == 'w':
+                    values['width'] = float(val)
+                elif t == 'l':
+                    values['lifetime'] = float(val)
+                elif t == 'r':
+                    values['reverse'] = val == 'true'
+                elif t == 'c':
+                    values['rgba_string'] = val
+                elif t == 'f':
+                    # This one depends strongly on the old preset.
+                    if name == 'cartFunc':
+                        sub_args = val.split(',')
+                        values['f_x'] = sub_args[0]
+                        values['f_y'] = sub_args[1]
+                        values['f_z'] = sub_args[2]
+                        pass
+                    elif name == 'cylFunc':
+                        sub_args = val.split(',')
+                        values['f_radial'] = sub_args[0]
+                        values['f_phi'] = sub_args[1]
+                        pass
+                    elif name == 'sphFunc':
+                        sub_args = val.split(',')
+                        values['f_radial'] = sub_args[0]
+                        values['f_theta'] = sub_args[1]
+                        values['f_phi'] = sub_args[2]
+                        pass
+                    elif name == 'flow':
+                        values['flat'] = True
+                        values['angle'] = float(val)
+                    else:
+                        print(f'unknown f key for preset {name} {preset} for {move_name}')
+                else:
+                    print(f'unknown key {t} for preset {name} {preset} for {move_name}')
+            except Exception as err:
+                print(f'error with key {t} {val} ({arg}) for preset {name} {preset} for {move_name}')
+                print(err)
+
+        new_animation['preset_values'] = values
+    return old_animation
+
+
 def convert_moves():
 
     old_moves = './old/moves/moves.json'
@@ -314,14 +381,12 @@ def convert_moves():
         new_name = convert_old_move_name(name)
         if new_name is not None:
             file = f'../../src/generated/resources/data/pokecube_mobs/database/moves/animations/{new_name}.json'
-            var = {"name":new_name, "animations":value}
-            value = var
+            value = {"name":new_name, "animations":value}
             anims = []
             for var in value["animations"]:
                 var["preset"] = var["preset"].split(":~")[0]
-                anims.append(var)
+                anims.append(convert_animation(new_name, var))
             value["animations"] = anims
-
             if not os.path.exists(os.path.dirname(file)):
                 os.makedirs(os.path.dirname(file))
             file = open(file, 'w', encoding='utf-8')
