@@ -23,13 +23,15 @@ import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.init.Config;
 import pokecube.core.utils.Permissions;
 import thut.api.util.PermNodes;
+import thut.lib.ChatHelper;
+import thut.lib.TComponent;
 
 /**
  * This manages the ridden controls of the pokemob. The booleans are set on the
@@ -119,7 +121,20 @@ public class LogicMountedControl extends LogicBase
                     && !PermNodes.getBooleanPerm(player, Permissions.DIVESPECIFIC.get(entry)))
                 this.canDive = false;
         }
-        if (this.canFly) this.canFly = !LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
+        if (this.canFly)
+        {
+            boolean noFly = LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
+            if (noFly)
+            {
+                if (this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))
+                {
+                    this.pokemob.setRoutineState(AIRoutine.AIRBORNE, false);
+                    if (rider instanceof ServerPlayer player) ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable("pokemob.fly.disabled", pokemob.getDisplayName()));
+                } ;
+                this.canFly = false;
+            }
+        }
     }
 
     public boolean hasInput()

@@ -16,7 +16,7 @@ import net.minecraft.network.chat.FormattedText;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
