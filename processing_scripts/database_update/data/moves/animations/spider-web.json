@@ -1,0 +1,14 @@
+{
+  "name": "spider-web",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white"
+      }
+    }
+  ]
+}

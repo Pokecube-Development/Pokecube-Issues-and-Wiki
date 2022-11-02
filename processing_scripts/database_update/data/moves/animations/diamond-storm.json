@@ -1,0 +1,53 @@
+{
+  "name": "diamond-storm",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 3,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "pink",
+        "density": 5.0,
+        "width": 3.0
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 3,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "pink",
+        "density": 5.0,
+        "width": 4.0,
+        "lifetime": 1
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 2,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "rgba_string": "pink",
+        "density": 0.05,
+        "width": 2.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

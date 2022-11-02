@@ -1,0 +1,11 @@
+{
+  "name": "focus-energy",
+  "animations": [
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {}
+    }
+  ]
+}

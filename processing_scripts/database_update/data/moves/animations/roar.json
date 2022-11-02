@@ -1,0 +1,16 @@
+{
+  "name": "roar",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "item_snowball",
+        "density": 0.5,
+        "width": 3.0,
+        "lifetime": 4
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "fusion-bolt",
+  "animations": [
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.thunderend",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.5,
+        "width": 1.5,
+        "lifetime": 14
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "rgba_string": "light_blue",
+        "density": 0.5,
+        "width": 1.5,
+        "lifetime": 14,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

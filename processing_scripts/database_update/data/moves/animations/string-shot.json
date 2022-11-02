@@ -1,0 +1,23 @@
+{
+  "name": "string-shot",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "rgba_string": "silver",
+        "density": 2.0,
+        "width": 0.05,
+        "lifetime": 3
+      }
+    }
+  ]
+}

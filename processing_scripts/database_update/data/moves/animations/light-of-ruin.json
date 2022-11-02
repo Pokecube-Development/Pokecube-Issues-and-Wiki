@@ -1,0 +1,19 @@
+{
+  "name": "light-of-ruin",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.safeguard",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "rgba_string": "pink",
+        "width": 1.5
+      }
+    }
+  ]
+}

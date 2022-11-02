@@ -1,0 +1,59 @@
+{
+  "name": "max-hailstorm",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 4,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.05,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(5)",
+        "f_z": "(0.5-rand())*(3)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "poof",
+        "density": 0.01,
+        "width": 1.0,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(2.5)",
+        "f_y": "(0.5-rand())*(10)",
+        "f_z": "(0.5-rand())*(2.5)"
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 1,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.icebreak",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "item_snowball",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 4
+      }
+    }
+  ]
+}

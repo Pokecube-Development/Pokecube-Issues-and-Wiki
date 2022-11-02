@@ -1,0 +1,19 @@
+{
+  "name": "bonemerang",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "rgba_string": "white",
+        "width": 0.3
+      }
+    }
+  ]
+}

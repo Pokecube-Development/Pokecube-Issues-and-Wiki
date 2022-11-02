@@ -1,0 +1,50 @@
+{
+  "name": "solar-beam",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "density": 0.8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)",
+        "absolute": true
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "absolute": true,
+        "density": 0.8,
+        "width": 0.4
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "absolute": true
+      }
+    }
+  ]
+}

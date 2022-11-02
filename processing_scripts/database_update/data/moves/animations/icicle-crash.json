@@ -1,0 +1,44 @@
+{
+  "name": "icicle-crash",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "poof",
+        "absolute": true,
+        "density": 0.05,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(5)",
+        "f_z": "(0.5-rand())*(3)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.icebreak",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.1,
+        "width": 1.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(2.5)",
+        "f_y": "(0.5-rand())*(10)",
+        "f_z": "(0.5-rand())*(2.5)"
+      }
+    }
+  ]
+}

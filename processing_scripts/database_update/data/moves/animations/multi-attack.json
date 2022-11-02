@@ -1,0 +1,41 @@
+{
+  "name": "multi-attack",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "absolute": true,
+        "density": 2.0,
+        "width": 1.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

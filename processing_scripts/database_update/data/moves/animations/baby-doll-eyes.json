@@ -1,0 +1,25 @@
+{
+  "name": "baby-doll-eyes",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "reverse": true,
+        "particle": "end_rod",
+        "density": 0.7,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
+    }
+  ]
+}

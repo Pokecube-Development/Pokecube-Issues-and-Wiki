@@ -1,0 +1,79 @@
+{
+  "name": "magic-coat",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "density": 0.05,
+        "width": 1.0,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "purple",
+        "density": 0.5,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "witch",
+        "rgba_string": "magenta",
+        "density": 0.9,
+        "reverse": true,
+        "lifetime": 100,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "magenta",
+        "density": 0.9,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "density": 0.05,
+        "width": 1.0,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    }
+  ]
+}

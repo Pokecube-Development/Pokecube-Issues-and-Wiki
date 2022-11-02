@@ -1,0 +1,32 @@
+{
+  "name": "air-cutter",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "density": 0.3,
+        "lifetime": 10
+      }
+    },
+    {
+      "preset": "pont",
+      "duration": 0,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack"
+      }
+    }
+  ]
+}

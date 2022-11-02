@@ -1,0 +1,59 @@
+{
+  "name": "natures-madness",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "powder",
+        "rgba_string": "pink",
+        "density": 0.5,
+        "width": 2.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "powder",
+        "rgba_string": "pink",
+        "density": 0.3,
+        "width": 1.0,
+        "lifetime": 16
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "pink",
+        "density": 0.05,
+        "width": 2.0,
+        "lifetime": 16
+      }
+    }
+  ]
+}

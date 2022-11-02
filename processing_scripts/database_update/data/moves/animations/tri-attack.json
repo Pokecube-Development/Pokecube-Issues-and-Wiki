@@ -1,0 +1,56 @@
+{
+  "name": "tri-attack",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "poof",
+        "rgba_string": "light_blue",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    },
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "yellow",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    },
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 6,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "rgba_string": "yellow",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

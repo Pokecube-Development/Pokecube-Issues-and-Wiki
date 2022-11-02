@@ -1,0 +1,46 @@
+{
+  "name": "crabhammer",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "lifetime": 2,
+        "width": 1.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "splash",
+        "lifetime": 40,
+        "density": 0.2,
+        "width": 1.2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

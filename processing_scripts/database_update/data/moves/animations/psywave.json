@@ -1,0 +1,35 @@
+{
+  "name": "psywave",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 0.5,
+        "density": 0.33
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "witch",
+        "density": 0.33,
+        "width": 0.5,
+        "lifetime": 7
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "bolt-strike",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 3.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.thunder",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.5,
+        "width": 0.7,
+        "lifetime": 5
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 2.0,
+        "width": 1.0,
+        "lifetime": 14,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

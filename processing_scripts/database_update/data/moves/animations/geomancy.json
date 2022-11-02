@@ -1,0 +1,96 @@
+{
+  "name": "geomancy",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "instant_effect",
+        "rgba_string": "black",
+        "density": 0.5,
+        "width": 3.0,
+        "reverse": true,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.safeguard",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "yellow",
+        "density": 0.8,
+        "width": 3.0,
+        "reverse": true,
+        "lifetime": 30,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "lime",
+        "density": 0.8,
+        "width": 3.0,
+        "reverse": true,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "density": 0.8,
+        "width": 3.0,
+        "reverse": true,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.8,
+        "width": 3.0,
+        "reverse": true,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

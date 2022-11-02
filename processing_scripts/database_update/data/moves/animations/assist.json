@@ -1,0 +1,20 @@
+{
+  "name": "assist",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "happy_villager",
+        "density": 0.5,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

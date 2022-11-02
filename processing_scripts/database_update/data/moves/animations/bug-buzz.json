@@ -1,0 +1,30 @@
+{
+  "name": "bug-buzz",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 0.8,
+        "particle": "misc",
+        "rgba_string": "lime"
+      }
+    },
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "width": 1.0,
+        "density": 0.3
+      }
+    }
+  ]
+}

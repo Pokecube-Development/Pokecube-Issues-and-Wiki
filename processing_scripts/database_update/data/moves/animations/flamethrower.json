@@ -1,0 +1,40 @@
+{
+  "name": "flamethrower",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "flame",
+        "density": 0.7,
+        "width": 0.5
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "lava",
+        "density": 2.0,
+        "width": 1.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

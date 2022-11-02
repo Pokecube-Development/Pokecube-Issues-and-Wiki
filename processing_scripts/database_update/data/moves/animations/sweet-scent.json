@@ -1,0 +1,17 @@
+{
+  "name": "sweet-scent",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "pink",
+        "density": 2.0,
+        "width": 3.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

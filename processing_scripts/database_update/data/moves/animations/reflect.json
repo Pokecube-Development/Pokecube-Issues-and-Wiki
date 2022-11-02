@@ -1,0 +1,73 @@
+{
+  "name": "reflect",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "purple",
+        "density": 0.1,
+        "width": 1.0,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "density": 0.1,
+        "width": 1.0,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "enchantmenttable",
+        "rgba_string": "light_blue",
+        "absolute": true,
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "light_blue",
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    }
+  ]
+}

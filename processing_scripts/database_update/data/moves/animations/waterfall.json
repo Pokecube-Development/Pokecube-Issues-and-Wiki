@@ -1,0 +1,43 @@
+{
+  "name": "waterfall",
+  "animations": [
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.4,
+        "width": 0.5,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 10
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "absolute": true,
+        "density": 1.5,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

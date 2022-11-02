@@ -403,7 +403,7 @@ public class Pokecube extends Item implements IPokecube
     {
         return true;
     }
-
+    
     @Override
     public EntityPokecubeBase throwPokecube(final Level world, final LivingEntity thrower, final ItemStack cube,
             final Vector3 direction, final float power)

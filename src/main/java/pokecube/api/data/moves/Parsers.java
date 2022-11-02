@@ -64,15 +64,41 @@ public class Parsers
             if ((move.root_entry._status_effects & mask) == 0) move.root_entry._status_effects += mask;
         }
 
-        void parseCategory(final String category, final MoveEntry move)
+        void parseCategory(final MoveEntry move)
         {
             final String other = "status";
             final String special = "special";
             final String physical = "physical";
             move.category = AttackCategory.OTHER;
-            if (other.equals(category)) move.category = AttackCategory.STATUS;
-            if (special.equals(category)) move.category = AttackCategory.SPECIAL;
-            if (physical.equals(category)) move.category = AttackCategory.PHYSICAL;
+
+            // Process move attack category
+            switch (move.root_entry.getMove().damage_class)
+            {
+            case other:
+                move.category = AttackCategory.STATUS;
+                break;
+            case special:
+                move.category = AttackCategory.SPECIAL;
+                break;
+            case physical:
+                move.category = AttackCategory.PHYSICAL;
+                break;
+            }
+
+            // Process whether move is "aoe"
+            switch (move.root_entry._target_type)
+            {
+            case "all-opponents", "all-pokemon", "all-other-pokemon", "user-and-allies", "all-allies", "entire-field", "opponents-field", "users-field":
+                move.root_entry._aoe = true;
+                break;
+            }
+            // Process if move targets multiples.
+            switch (move.root_entry._target_type)
+            {
+            case "all-opponents", "all-pokemon", "all-other-pokemon", "user-and-allies", "all-allies":
+                move.root_entry._multi_target = true;
+                break;
+            }
         }
 
         void parseStatModifiers(String effect, final MoveEntry move, int rate)
@@ -143,7 +169,7 @@ public class Parsers
             entry.root_entry._ohko = OHKO.stream()
                     .anyMatch(p -> Parsers.matches(entry.root_entry._effect_text_simple, p));
 
-            parseCategory(entry.root_entry.getMove().damage_class, entry);
+            parseCategory(entry);
         }
     }
 

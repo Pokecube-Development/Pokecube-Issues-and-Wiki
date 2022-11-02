@@ -1,0 +1,36 @@
+{
+  "name": "crush-claw",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.6,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 1.0
+      }
+    }
+  ]
+}

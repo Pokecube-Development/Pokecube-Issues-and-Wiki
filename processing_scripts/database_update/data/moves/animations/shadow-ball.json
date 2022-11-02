@@ -1,0 +1,33 @@
+{
+  "name": "shadow-ball",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
+      "sound": "minecraft:entity.evoker.prepare_summon",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "width": 0.8
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.5,
+        "width": 0.6,
+        "lifetime": 3,
+        "rgba_string": "black",
+        "absolute": true
+      }
+    }
+  ]
+}

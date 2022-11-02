@@ -1,0 +1,25 @@
+{
+  "name": "agility",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "density": 1.0,
+        "reverse": true,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    }
+  ]
+}

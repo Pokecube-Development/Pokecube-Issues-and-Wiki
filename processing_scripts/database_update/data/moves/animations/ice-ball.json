@@ -1,0 +1,39 @@
+{
+  "name": "ice-ball",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.icebreak",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "absolute": true,
+        "width": 1.8
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "lifetime": 2,
+        "particle": "crit",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

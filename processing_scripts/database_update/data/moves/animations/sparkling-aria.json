@@ -1,0 +1,59 @@
+{
+  "name": "sparkling-aria",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.5,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.surf",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "absolute": true,
+        "width": 0.8
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.1,
+        "absolute": true,
+        "width": 2.5,
+        "lifetime": 15,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

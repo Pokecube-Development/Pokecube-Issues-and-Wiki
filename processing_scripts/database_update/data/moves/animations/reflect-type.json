@@ -1,0 +1,36 @@
+{
+  "name": "reflect-type",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "spell",
+        "rgba_string": "light_blue",
+        "density": 0.1,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 7,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(2.3)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "spell",
+        "rgba_string": "light_blue",
+        "density": 0.1,
+        "width": 1.0,
+        "lifetime": 7,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(2.3)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

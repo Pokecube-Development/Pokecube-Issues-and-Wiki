@@ -1,0 +1,51 @@
+{
+  "name": "toxic-thread",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "minecraft:block.sand.place",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "powder",
+        "rgba_string": "silver",
+        "density": 0.5,
+        "width": 1.5,
+        "lifetime": 6
+      }
+    },
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "witch",
+        "rgba_string": "magenta",
+        "density": 4.0,
+        "width": 1.5,
+        "lifetime": 3
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "witch",
+        "density": 0.05,
+        "width": 1.0,
+        "absolute": true,
+        "lifetime": 4
+      }
+    }
+  ]
+}

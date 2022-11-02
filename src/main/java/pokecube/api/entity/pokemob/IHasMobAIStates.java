@@ -2,6 +2,7 @@ package pokecube.api.entity.pokemob;
 
 import java.util.List;
 
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;

@@ -1,0 +1,19 @@
+{
+  "name": "aurora-beam",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "aurora",
+        "density": 0.5
+      }
+    }
+  ]
+}

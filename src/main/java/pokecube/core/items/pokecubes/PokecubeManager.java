@@ -328,15 +328,6 @@ public class PokecubeManager
         var4.putInt("cubecolor", color);
     }
 
-    @Deprecated
-    public static void setOwner(final ItemStack itemStack, final UUID owner)
-    {
-        if (!itemStack.hasTag()) return;
-        final CompoundTag poketag = TagNames.getPokecubePokemobTag(itemStack.getTag());
-        if (owner == null) poketag.getCompound(TagNames.OWNERSHIPTAG).remove(TagNames.OWNER);
-        else poketag.getCompound(TagNames.OWNERSHIPTAG).putString(TagNames.OWNER, owner.toString());
-    }
-
     public static void setStatus(final ItemStack itemStack, final int status)
     {
         if (!itemStack.hasTag()) return;

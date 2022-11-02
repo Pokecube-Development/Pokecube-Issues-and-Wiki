@@ -1,0 +1,24 @@
+{
+  "name": "constrict",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.5,
+        "width": 1.1,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

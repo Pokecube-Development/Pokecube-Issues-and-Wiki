@@ -9,8 +9,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.pathing.ClimbPathNavi;
 import pokecube.core.ai.pathing.FlyPathNavi;
@@ -149,7 +149,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            if (pokemob.getController().blocksPathing()) return;
+            if (pokemob.getController().blocksPathing() || !pokemob.getEntity().isAlive()) return;
 
             if (this.operation == MoveControl.Operation.MOVE_TO)
             {

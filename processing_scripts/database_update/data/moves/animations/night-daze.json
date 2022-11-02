@@ -1,0 +1,44 @@
+{
+  "name": "night-daze",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "minecraft:entity.evoker.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "black",
+        "density": 1.0
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "powder",
+        "rgba_string": "black",
+        "density": 1.0,
+        "width": 0.6,
+        "lifetime": 10
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "powder",
+        "rgba_string": "purple",
+        "density": 1.0,
+        "width": 0.6,
+        "lifetime": 10
+      }
+    }
+  ]
+}

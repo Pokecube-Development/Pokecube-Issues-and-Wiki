@@ -1,0 +1,44 @@
+{
+  "name": "shell-smash",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.8,
+        "width": 1.5,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "absolute": true,
+        "density": 2.0,
+        "width": 1.0,
+        "reverse": true
+      }
+    }
+  ]
+}

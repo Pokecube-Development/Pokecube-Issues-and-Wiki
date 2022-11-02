@@ -1,0 +1,67 @@
+{
+  "name": "eruption",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "width": 0.7,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "width": 0.7,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "width": 0.7,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "density": 0.5,
+        "width": 0.7,
+        "particle": "lava",
+        "absolute": true
+      }
+    }
+  ]
+}

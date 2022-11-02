@@ -1,0 +1,37 @@
+{
+  "name": "focus-blast",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "orange",
+        "density": 5.0,
+        "width": 0.5
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 5.0,
+        "width": 0.5,
+        "lifetime": 5
+      }
+    }
+  ]
+}

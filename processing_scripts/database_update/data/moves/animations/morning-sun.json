@@ -1,0 +1,42 @@
+{
+  "name": "morning-sun",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "preset_values": {
+        "particle": "happy_villager",
+        "density": 1.5,
+        "width": 0.5,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "firework",
+        "density": 0.33,
+        "width": 3.0,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(8)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

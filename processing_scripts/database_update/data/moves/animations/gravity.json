@@ -1,0 +1,32 @@
+{
+  "name": "gravity",
+  "animations": [
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "witch",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    },
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "enchantmenttable",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

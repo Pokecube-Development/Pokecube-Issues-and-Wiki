@@ -1,0 +1,20 @@
+{
+  "name": "soak",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.09,
+        "width": 1.0,
+        "reverse": false,
+        "lifetime": 20,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "1",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

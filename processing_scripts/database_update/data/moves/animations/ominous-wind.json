@@ -1,0 +1,33 @@
+{
+  "name": "ominous-wind",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 2.5
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 0,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "minecraft:entity.evoker.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "smoke",
+        "density": 1.0,
+        "width": 2.5
+      }
+    }
+  ]
+}

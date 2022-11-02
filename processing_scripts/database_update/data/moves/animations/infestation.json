@@ -1,0 +1,68 @@
+{
+  "name": "infestation",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "minecraft:entity.silverfish.ambient",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "density": 0.7,
+        "lifetime": 8,
+        "rgba_string": "green",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "minecraft:entity.silverfish.ambient",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "density": 0.7,
+        "lifetime": 8,
+        "rgba_string": "green",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "minecraft:entity.silverfish.ambient",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "density": 0.7,
+        "lifetime": 8,
+        "rgba_string": "green",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

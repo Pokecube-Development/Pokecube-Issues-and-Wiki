@@ -1,0 +1,17 @@
+{
+  "name": "bestow",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "density": 1.0,
+        "width": 0.5,
+        "lifetime": 5
+      }
+    }
+  ]
+}

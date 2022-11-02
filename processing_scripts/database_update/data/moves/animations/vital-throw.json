@@ -1,0 +1,44 @@
+{
+  "name": "vital-throw",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "crit",
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "width": 1.5,
+        "lifetime": 3,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

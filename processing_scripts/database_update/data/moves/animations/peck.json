@@ -1,0 +1,19 @@
+{
+  "name": "peck",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 5.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "max-quake",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "rgba_string": "brown",
+        "reverse": true
+      }
+    }
+  ]
+}

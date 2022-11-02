@@ -1,0 +1,20 @@
+{
+  "name": "mud-slap",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "absolute": true,
+        "rgba_string": "brown",
+        "width": 0.3
+      }
+    }
+  ]
+}

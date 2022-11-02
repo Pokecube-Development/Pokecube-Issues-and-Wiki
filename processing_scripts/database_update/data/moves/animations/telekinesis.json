@@ -1,0 +1,37 @@
+{
+  "name": "telekinesis",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "misc",
+        "density": 1.0,
+        "reverse": false,
+        "absolute": true,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "witch",
+        "density": 2.0,
+        "width": 2.5,
+        "absolute": true,
+        "reverse": false,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

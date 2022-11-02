@@ -178,6 +178,10 @@ public class EntityMoveUse extends ThrowableProjectile
             final float height = this.getUser().getBbHeight() + s;
             this.size.set(width, height, width);
         }
+        else
+        {
+            this.size.set(0.75);
+        }
         if (this.move.customSize != null) this.size.set(this.move.customSize);
 
         this.init = true;
@@ -537,8 +541,6 @@ public class EntityMoveUse extends ThrowableProjectile
         testBox = testBox.expandTowards(v.x, v.y, v.z);
         final List<Entity> hits = this.level.getEntities(this, testBox, this.valid);
         final AABB hitBox = testBox;
-
-        System.out.println(hits + " " + testBox + " " + this.getTarget());
 
         hits.removeIf(e -> {
             boolean hit = hitboxes.size() > 1;

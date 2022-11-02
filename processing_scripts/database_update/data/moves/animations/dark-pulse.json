@@ -1,0 +1,33 @@
+{
+  "name": "dark-pulse",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "minecraft:entity.evoker.prepare_attack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 0.3,
+        "density": 1.0,
+        "absolute": true,
+        "particle": "misc",
+        "rgba_string": "purple"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 0,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "smoke",
+        "absolute": true,
+        "width": 0.3,
+        "density": 2.0
+      }
+    }
+  ]
+}

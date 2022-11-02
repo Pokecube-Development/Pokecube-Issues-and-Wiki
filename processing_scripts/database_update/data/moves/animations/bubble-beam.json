@@ -1,0 +1,19 @@
+{
+  "name": "bubble-beam",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "bubble",
+        "density": 0.5
+      }
+    }
+  ]
+}

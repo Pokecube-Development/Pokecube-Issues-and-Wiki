@@ -1,0 +1,20 @@
+{
+  "name": "brutal-swing",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "width": 1.0
+      }
+    }
+  ]
+}

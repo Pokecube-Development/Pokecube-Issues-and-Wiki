@@ -1,0 +1,19 @@
+{
+  "name": "mat-block",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.05,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    }
+  ]
+}

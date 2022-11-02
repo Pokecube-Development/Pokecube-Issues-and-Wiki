@@ -1,0 +1,13 @@
+{
+  "name": "growl",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 0,
+      "preset_values": {
+        "density": 50.0
+      }
+    }
+  ]
+}

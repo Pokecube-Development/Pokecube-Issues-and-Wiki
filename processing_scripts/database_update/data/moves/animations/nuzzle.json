@@ -1,0 +1,33 @@
+{
+  "name": "nuzzle",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 0,
+      "preset_values": {}
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "powder",
+        "rgba_string": "yellow",
+        "density": 0.8,
+        "width": 1.0,
+        "reverse": false,
+        "lifetime": 7,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

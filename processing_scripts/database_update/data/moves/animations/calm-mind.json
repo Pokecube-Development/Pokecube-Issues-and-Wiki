@@ -1,0 +1,35 @@
+{
+  "name": "calm-mind",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 3,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "enchantmenttable",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

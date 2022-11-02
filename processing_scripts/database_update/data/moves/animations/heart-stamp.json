@@ -1,0 +1,37 @@
+{
+  "name": "heart-stamp",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.charm",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "heart",
+        "absolute": true,
+        "lifetime": 1,
+        "density": 5.0
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "witch",
+        "density": 1.5,
+        "absolute": true,
+        "lifetime": 15,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

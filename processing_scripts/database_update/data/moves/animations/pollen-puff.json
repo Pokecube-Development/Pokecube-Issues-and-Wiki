@@ -1,0 +1,60 @@
+{
+  "name": "pollen-puff",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "width": 0.3,
+        "rgba_string": "yellow",
+        "absolute": true
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "powder",
+        "lifetime": 2,
+        "density": 0.2,
+        "width": 0.5,
+        "rgba_string": "yellow",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "powder",
+        "lifetime": 6,
+        "density": 0.2,
+        "width": 1.2,
+        "rgba_string": "yellow",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

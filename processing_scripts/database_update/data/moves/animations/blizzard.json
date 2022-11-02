@@ -1,0 +1,57 @@
+{
+  "name": "blizzard",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 1.5,
+        "width": 3.0
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 3,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "poof",
+        "density": 1.0,
+        "width": 4.0
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.icebreak",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {}
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {}
+    }
+  ]
+}

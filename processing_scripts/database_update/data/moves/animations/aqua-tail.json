@@ -1,0 +1,38 @@
+{
+  "name": "aqua-tail",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.3,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(3.2)",
+        "f_y": "(0.5-rand())*(3.2)",
+        "f_z": "(0.5-rand())*(3.2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 2,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

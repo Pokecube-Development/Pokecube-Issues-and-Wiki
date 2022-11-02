@@ -1,0 +1,56 @@
+{
+  "name": "moonblast",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "density": 0.75,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "rgba_string": "white"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "absolute": true,
+        "density": 1.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

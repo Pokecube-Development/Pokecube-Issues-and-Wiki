@@ -1,0 +1,32 @@
+{
+  "name": "air-slash",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "width": 0.75,
+        "density": 0.1,
+        "lifetime": 10
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.cut",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {}
+    }
+  ]
+}

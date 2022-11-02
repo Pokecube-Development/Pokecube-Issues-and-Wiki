@@ -1,0 +1,39 @@
+{
+  "name": "aura-sphere",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 0.6,
+        "rgba_string": "light_blue"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.dig",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 0.7,
+        "width": 1.5,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

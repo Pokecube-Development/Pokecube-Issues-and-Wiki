@@ -1,0 +1,37 @@
+{
+  "name": "max-rockfall",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {}
+    }
+  ]
+}

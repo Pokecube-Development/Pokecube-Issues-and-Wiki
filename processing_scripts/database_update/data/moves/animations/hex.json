@@ -1,0 +1,43 @@
+{
+  "name": "hex",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "minecraft:entity.illusioner.cast_spell",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "width": 2.0,
+        "lifetime": 20,
+        "particle": "witch",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "0",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": true,
+      "preset_values": {
+        "absolute": true,
+        "particle": "misc",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

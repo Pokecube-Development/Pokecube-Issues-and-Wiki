@@ -1,0 +1,14 @@
+{
+  "name": "heal-bell",
+  "animations": [
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "spell",
+        "density": 1.0
+      }
+    }
+  ]
+}

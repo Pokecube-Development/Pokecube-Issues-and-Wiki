@@ -1,0 +1,24 @@
+{
+  "name": "feather-dance",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.2,
+        "reverse": true,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

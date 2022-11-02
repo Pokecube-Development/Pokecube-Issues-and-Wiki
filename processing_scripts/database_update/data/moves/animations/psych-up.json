@@ -1,0 +1,32 @@
+{
+  "name": "psych-up",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "rgba_string": "white",
+        "density": 0.5,
+        "width": 1.0,
+        "reverse": true,
+        "f_x": "0",
+        "f_y": "0",
+        "f_z": "0"
+      }
+    },
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "density": 1.0,
+        "width": 1.5,
+        "lifetime": 5
+      }
+    }
+  ]
+}

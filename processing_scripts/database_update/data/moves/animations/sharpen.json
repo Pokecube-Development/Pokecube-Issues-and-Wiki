@@ -1,0 +1,26 @@
+{
+  "name": "sharpen",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "firework",
+        "rgba_string": "white",
+        "density": 2.0,
+        "width": 0.6,
+        "absolute": true,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

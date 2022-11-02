@@ -1,0 +1,27 @@
+{
+  "name": "role-play",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.5,
+        "reverse": true,
+        "lifetime": 5,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "witch",
+        "density": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

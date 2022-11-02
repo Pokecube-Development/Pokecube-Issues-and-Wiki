@@ -7,10 +7,10 @@ import com.google.common.collect.Maps;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.ai.brain.MemoryModules;
 
 public class IdleRestTask extends BaseIdleTask

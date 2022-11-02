@@ -1,0 +1,20 @@
+{
+  "name": "sing",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "note",
+        "reverse": true,
+        "absolute": true,
+        "density": 2.0,
+        "lifetime": 1,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
+    }
+  ]
+}

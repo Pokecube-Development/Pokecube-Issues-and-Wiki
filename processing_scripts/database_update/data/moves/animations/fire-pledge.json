@@ -1,0 +1,38 @@
+{
+  "name": "fire-pledge",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "density": 0.1,
+        "width": 2.0,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(4)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.2,
+        "width": 2.0,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(4)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

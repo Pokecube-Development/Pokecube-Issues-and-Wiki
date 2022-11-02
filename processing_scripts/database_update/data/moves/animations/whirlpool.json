@@ -1,0 +1,40 @@
+{
+  "name": "whirlpool",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.surf",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "droplet",
+        "absolute": true,
+        "density": 0.02,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(15)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "density": 0.1,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(15)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

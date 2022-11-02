@@ -1,0 +1,47 @@
+{
+  "name": "stone-edge",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "brown",
+        "absolute": true,
+        "density": 0.1,
+        "width": 4.0,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "0",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "brown",
+        "density": 0.07,
+        "width": 1.0,
+        "absolute": true,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(10)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

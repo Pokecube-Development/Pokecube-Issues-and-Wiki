@@ -1,0 +1,40 @@
+{
+  "name": "sheer-cold",
+  "animations": [
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.5,
+      "sound": "pokecube:moves.icebreak",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.33,
+        "width": 3.0,
+        "lifetime": 8,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": false,
+        "lifetime": 10
+      }
+    }
+  ]
+}

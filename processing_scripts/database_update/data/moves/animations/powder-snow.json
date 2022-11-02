@@ -1,0 +1,20 @@
+{
+  "name": "powder-snow",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "density": 0.5,
+        "particle": "item_snowball",
+        "lifetime": 7
+      }
+    }
+  ]
+}

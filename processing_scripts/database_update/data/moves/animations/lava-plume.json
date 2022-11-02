@@ -1,0 +1,33 @@
+{
+  "name": "lava-plume",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "lava"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 0,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "density": 1.0,
+        "width": 1.0
+      }
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "name": "future-sight",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "enchantmenttable",
+        "density": 0.1,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 40,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "minecraft:entity.elder_guardian.curse",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 0.05,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 40,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.05,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(3)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 40,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 0.05,
+        "width": 1.0,
+        "lifetime": 10
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "witch",
+        "density": 0.05,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 10
+      }
+    }
+  ]
+}

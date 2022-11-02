@@ -1,0 +1,61 @@
+{
+  "name": "searing-shot",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "density": 1.0,
+        "width": 0.4
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "absolute": true,
+        "density": 0.05,
+        "width": 3.0,
+        "lifetime": 20,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "absolute": true,
+        "density": 0.1,
+        "width": 9.0,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

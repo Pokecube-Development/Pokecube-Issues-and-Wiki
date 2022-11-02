@@ -1,0 +1,37 @@
+{
+  "name": "acupressure",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.razorwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "density": 1.0,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "rgba_string": "light_blue",
+        "density": 1.0,
+        "reverse": true,
+        "lifetime": 20
+      }
+    }
+  ]
+}

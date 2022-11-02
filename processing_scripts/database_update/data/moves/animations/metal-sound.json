@@ -1,0 +1,22 @@
+{
+  "name": "metal-sound",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "density": 0.4,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

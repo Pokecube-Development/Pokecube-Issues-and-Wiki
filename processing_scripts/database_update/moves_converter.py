@@ -199,11 +199,11 @@ def convert_old_move_name(old):
     return None
 
 def convert_animation(move_name, old_animation):
-    new_animation = {}
 
     # Start with the preset type.
     preset = old_animation['preset']
     if ':' in preset or not 'preset_values' in old_animation:
+        new_animation = {}
         # We need to convert to new format
         args = preset.split(':')
         name = args[0]
@@ -281,9 +281,9 @@ def convert_animation(move_name, old_animation):
             except Exception as err:
                 print(f'error with key {t} {val} ({arg}) for preset {name} {preset} for {move_name}')
                 print(err)
-
         new_animation['preset_values'] = values
-    return new_animation
+        return new_animation
+    return old_animation
 
 
 def convert_moves():
@@ -298,8 +298,8 @@ def convert_moves():
         moves_dex[var["name"]] = var
 
     anims_dex = {}
-    for filename in os.listdir('./data/moves/'):
-        file = open(f'./data/moves/{filename}', 'r')
+    for filename in os.listdir('./data/moves/animations/'):
+        file = open(f'./data/moves/animations/{filename}', 'r')
         data = file.read()
         data =  json.loads(data)
         anims_dex[data['name']] = data['animations']

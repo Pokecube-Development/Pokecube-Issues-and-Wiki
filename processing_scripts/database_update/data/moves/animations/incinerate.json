@@ -1,0 +1,36 @@
+{
+  "name": "incinerate",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "lava",
+        "density": 0.4,
+        "width": 0.5,
+        "lifetime": 5,
+        "flat": true,
+        "angle": 0.0
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "flame",
+        "density": 0.8,
+        "width": 0.5,
+        "lifetime": 5,
+        "flat": true,
+        "angle": 0.0
+      }
+    }
+  ]
+}

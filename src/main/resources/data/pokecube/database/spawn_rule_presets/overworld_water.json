@@ -19,7 +19,7 @@
     {
       "values": {
         "preset": "beach_water",
-        "types": "#minecraft:is_beach",
+        "types": "#pokecube_world:is_beach",
         "air": "false",
         "and_preset": "overworld"
       }

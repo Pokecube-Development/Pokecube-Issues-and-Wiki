@@ -1,0 +1,34 @@
+{
+  "name": "magma-storm",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "lava",
+        "width": 2.0
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "density": 0.5,
+        "width": 1.0
+      }
+    }
+  ]
+}

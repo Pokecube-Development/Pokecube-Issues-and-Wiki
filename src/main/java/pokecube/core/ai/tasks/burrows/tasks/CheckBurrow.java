@@ -14,7 +14,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;

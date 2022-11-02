@@ -1,0 +1,39 @@
+{
+  "name": "earth-power",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.1,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.1-rand())*(0.5)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "brown",
+        "density": 0.3,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(0.8)",
+        "f_y": "(0.1-rand())*(-3)",
+        "f_z": "(0.5-rand())*(0.8)"
+      }
+    }
+  ]
+}

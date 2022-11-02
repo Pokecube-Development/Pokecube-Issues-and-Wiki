@@ -1,0 +1,43 @@
+{
+  "name": "rock-polish",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "absolute": true,
+        "reverse": true,
+        "density": 3.0,
+        "lifetime": 3
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "width": 1.25,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

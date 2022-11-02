@@ -1,0 +1,27 @@
+{
+  "name": "sticky-web",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "density": 4.0,
+        "lifetime": 3
+      }
+    },
+    {
+      "preset": "pont",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "density": 1.0,
+        "lifetime": 4
+      }
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "name": "thousand-arrows",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 2.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.2,
+        "lifetime": 20,
+        "width": 2.0,
+        "reverse": true,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "density": 0.2,
+        "particle": "misc",
+        "rgba_string": "lime",
+        "width": 2.0,
+        "reverse": true,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 2.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.2,
+        "width": 4.5,
+        "reverse": true,
+        "rgba_string": "lime",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "lifetime": 2,
+        "density": 0.1,
+        "rgba_string": "lime",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(1-rand())*(10)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 6,
+      "volume": 2.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "lifetime": 2,
+        "density": 0.1,
+        "rgba_string": "lime",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(1-rand())*(10)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 6,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 7,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "lifetime": 2,
+        "density": 0.1,
+        "rgba_string": "lime",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(1-rand())*(10)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 8,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "lifetime": 2,
+        "density": 0.1,
+        "rgba_string": "lime",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(1-rand())*(10)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 9,
+      "volume": 2.0,
+      "pitch": 1.9,
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "lifetime": 2,
+        "density": 0.1,
+        "rgba_string": "lime",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(1-rand())*(10)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

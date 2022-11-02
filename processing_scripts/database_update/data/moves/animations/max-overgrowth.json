@@ -1,0 +1,56 @@
+{
+  "name": "max-overgrowth",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "lava",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.7,
+        "width": 0.7,
+        "lifetime": 4
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 4
+      }
+    }
+  ]
+}

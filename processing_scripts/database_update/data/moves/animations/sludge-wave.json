@@ -1,0 +1,33 @@
+{
+  "name": "sludge-wave",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.acidarmor",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "absolute": true
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "density": 0.66,
+        "width": 1.5,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

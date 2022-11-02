@@ -1,0 +1,62 @@
+{
+  "name": "final-gambit",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 3,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.2,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 7,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "light_blue",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 7
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 5,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "rgba_string": "light_blue",
+        "density": 0.1,
+        "width": 1.5,
+        "lifetime": 20,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 5,
+      "preset_values": {
+        "particle": "cloud",
+        "rgba_string": "light_blue",
+        "density": 0.4,
+        "width": 4.0,
+        "lifetime": 40,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

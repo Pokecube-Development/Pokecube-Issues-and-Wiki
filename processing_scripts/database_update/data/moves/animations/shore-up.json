@@ -1,0 +1,71 @@
+{
+  "name": "shore-up",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.5,
+      "sound": "minecraft:block.sand.step",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "brown",
+        "density": 0.1,
+        "width": 4.0,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0-rand())*(0.66)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "minecraft:block.sand.step",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "brown",
+        "density": 0.1,
+        "width": 2.0,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0-rand())*(0.66)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 6,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "minecraft:block.sand.step",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "brown",
+        "density": 0.1,
+        "width": 0.5,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0-rand())*(0.66)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "twineedle",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 0.1
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "witch",
+        "density": 3.5,
+        "absolute": true
+      }
+    }
+  ]
+}

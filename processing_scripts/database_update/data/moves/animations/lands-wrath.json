@@ -1,0 +1,91 @@
+{
+  "name": "lands-wrath",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 2.0,
+      "pitch": 1.1,
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.5,
+        "lifetime": 2,
+        "width": 5.0,
+        "reverse": true,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "lime",
+        "density": 0.1,
+        "width": 4.0,
+        "reverse": true,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "reverse": true,
+        "lifetime": 5,
+        "density": 0.5,
+        "width": 8.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 6,
+      "volume": 2.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "cloud",
+        "absolute": true,
+        "width": 2.5,
+        "lifetime": 15,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "name": "earthquake",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 4,
+      "volume": 2.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.earthquake",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "rgba_string": "magenta",
+        "density": 0.08,
+        "reverse": false,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(3)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 4,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "rgba_string": "magenta",
+        "density": 0.1,
+        "reverse": true,
+        "lifetime": 10
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "bubble",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "bubble",
+        "width": 0.5,
+        "lifetime": 10
+      }
+    }
+  ]
+}
