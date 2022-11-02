@@ -87,9 +87,6 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (!breedingTag.isEmpty())
         {
             this.loveTimer = breedingTag.getInt(TagNames.SEXETIME);
-            // Sets this client side for rendering purposes.
-            if (breedingTag.contains(TagNames.SEXE) && this.entity.level.isClientSide)
-                this.entity.getPersistentData().putByte(TagNames.SEXE, breedingTag.getByte(TagNames.SEXE));
         }
         // Read visuals tag
         if (!visualsTag.isEmpty())
@@ -198,7 +195,6 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         // Write Breeding tag
         final CompoundTag breedingTag = new CompoundTag();
         breedingTag.putInt(TagNames.SEXETIME, this.loveTimer);
-        breedingTag.putByte(TagNames.SEXE, this.getSexe());
 
         // Write visuals tag
         final CompoundTag visualsTag = new CompoundTag();

@@ -10,6 +10,7 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
@@ -443,6 +444,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.setEVs(this.getEVs());
 
         this.setSize(this.getSizeRaw());
+
+        // Ensure this is in persistent data for client side tooltip
+        this.entity.getPersistentData().putByte(TagNames.SEXE, this.getSexe());
     }
 
     private void refreshDynaGene()
@@ -629,7 +633,11 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         final SpeciesInfo info = gene.getValue();
         if (sexe == IPokemob.NOSEXE || sexe == IPokemob.FEMALE || sexe == IPokemob.MALE
                 || sexe == IPokemob.SEXLEGENDARY)
+        {
             info.value = sexe;
+            // Ensure this is in persistent data for client side tooltip
+            this.entity.getPersistentData().putByte(TagNames.SEXE, sexe);
+        }
         else
         {
             System.err.println("Illegal argument. Sexe cannot be " + sexe);

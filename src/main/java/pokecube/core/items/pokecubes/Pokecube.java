@@ -171,6 +171,7 @@ public class Pokecube extends Item implements IPokecube
 
                 byte sexe = pokemob.getEntity().getPersistentData().getByte(TagNames.SEXE);
                 final String gender = sexe == IPokemob.MALE ? "\u2642" : sexe == IPokemob.FEMALE ? "\u2640" : "";
+                System.out.println(pokemob.getEntity().getPersistentData());
                 if (!gender.isBlank()) list.add(TComponent.literal(gender));
             }
             else list.add(TComponent.translatable("pokecube.tooltip.advanced"));
@@ -403,7 +404,7 @@ public class Pokecube extends Item implements IPokecube
     {
         return true;
     }
-
+    
     @Override
     public EntityPokecubeBase throwPokecube(final Level world, final LivingEntity thrower, final ItemStack cube,
             final Vector3 direction, final float power)
