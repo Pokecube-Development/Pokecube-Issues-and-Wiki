@@ -35,19 +35,23 @@ public class CapabilityAnimation
 
         List<Animation> keys = Lists.newArrayList();
 
-        String pending = "";
-        String playing = "";
+        public String _default = "idle";
+
+        String pending = _default;
+        String playing = _default;
 
         boolean fixed = false;
 
         HeadInfo head = new HeadInfo();
 
+        boolean init = false;
+
         @Override
         public void clean()
         {
-            this.pending = "";
-            this.playing = "";
-            this.playingList = DefaultImpl.EMPTY;
+            this.pending = _default;
+            this.playing = _default;
+            this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
         }
 
         @Override
@@ -60,6 +64,15 @@ public class CapabilityAnimation
         public String getPendingAnimations()
         {
             return this.pending;
+        }
+
+        @Override
+        public void initAnimations(Map<String, List<Animation>> map, String _default)
+        {
+            if (init) return;
+            map.forEach((s, l) -> anims.computeIfAbsent(s, s2 -> Lists.newArrayList(l)));
+            this._default = _default;
+            init = true;
         }
 
         @Override
