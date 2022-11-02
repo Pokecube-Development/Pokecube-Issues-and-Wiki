@@ -1,6 +1,7 @@
 package thut.api.entity;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nonnull;
 
@@ -37,19 +38,19 @@ public interface IAnimated
         /** This is the current ticksExisted for the object being rendered.. */
         public int currentTick = 0;
         /**
-         * This is the ticksExisted before this render tick for the object
-         * being rendered
+         * This is the ticksExisted before this render tick for the object being
+         * rendered
          */
-        public int lastTick    = 0;
+        public int lastTick = 0;
 
-        public float yawCapMax   = 180;
-        public float yawCapMin   = -180;
+        public float yawCapMax = 180;
+        public float yawCapMin = -180;
         public float pitchCapMax = 40;
         public float pitchCapMin = -40;
 
-        public int yawAxis        = 1;
-        public int pitchAxis      = 0;
-        public int yawDirection   = 1;
+        public int yawAxis = 1;
+        public int pitchAxis = 0;
+        public int yawDirection = 1;
         public int pitchDirection = 1;
 
         public boolean fixed = false;
@@ -90,8 +91,8 @@ public interface IAnimated
         void setPendingAnimations(final List<Animation> list, final String name);
 
         /**
-         * Sets the last tick this animation was run. Can set to 0 to count
-         * this animation as cleared.
+         * Sets the last tick this animation was run. Can set to 0 to count this
+         * animation as cleared.
          *
          * @param animation
          * @param step
@@ -119,5 +120,7 @@ public interface IAnimated
 
         @Nonnull
         HeadInfo getHeadInfo();
+
+        void initAnimations(Map<String, List<Animation>> map, String _default);
     }
 }
