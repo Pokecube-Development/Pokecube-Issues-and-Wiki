@@ -1,0 +1,50 @@
+{
+  "name": "water-pulse",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 1.0,
+        "width": 0.7,
+        "lifetime": 2
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "width": 0.5,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "droplet",
+        "absolute": true,
+        "density": 0.5,
+        "width": 1.5,
+        "lifetime": 15,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(4)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

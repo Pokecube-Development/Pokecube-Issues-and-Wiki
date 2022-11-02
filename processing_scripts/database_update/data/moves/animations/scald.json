@@ -1,0 +1,37 @@
+{
+  "name": "scald",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 5.0,
+        "lifetime": 10,
+        "width": 0.4
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.1,
+        "width": 0.75,
+        "lifetime": 20
+      }
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "name": "blue-flare",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 3.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue",
+        "absolute": true,
+        "density": 2.5,
+        "width": 2.0,
+        "lifetime": 6
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "light_blue",
+        "density": 0.3,
+        "width": 2.0,
+        "lifetime": 6,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "absolute": true,
+        "density": 0.5,
+        "width": 3.0,
+        "lifetime": 45,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(1.5)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

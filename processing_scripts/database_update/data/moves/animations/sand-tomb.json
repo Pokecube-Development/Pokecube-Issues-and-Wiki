@@ -1,0 +1,40 @@
+{
+  "name": "sand-tomb",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "powder",
+        "density": 0.01,
+        "width": 1.0,
+        "absolute": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(18)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 0.5,
+        "absolute": true,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1.5)",
+        "f_y": "(0.5-rand())*(18)",
+        "f_z": "(0.5-rand())*(1.5)"
+      }
+    }
+  ]
+}

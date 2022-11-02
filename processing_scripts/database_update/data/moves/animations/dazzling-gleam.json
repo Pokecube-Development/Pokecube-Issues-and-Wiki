@@ -1,0 +1,33 @@
+{
+  "name": "dazzling-gleam",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.safeguard",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 2.2,
+        "particle": "end_rod"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "width": 0.5
+      }
+    }
+  ]
+}

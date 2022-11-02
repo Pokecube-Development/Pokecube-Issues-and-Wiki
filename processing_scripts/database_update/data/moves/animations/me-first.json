@@ -1,0 +1,37 @@
+{
+  "name": "me-first",
+  "animations": [
+    {
+      "preset": "pons",
+      "duration": 3,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 1.0,
+        "lifetime": 3
+      }
+    },
+    {
+      "preset": "beam",
+      "duration": 2,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 1.0,
+        "reverse": true,
+        "lifetime": 3
+      }
+    },
+    {
+      "preset": "pons",
+      "duration": 3,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "density": 1.0,
+        "lifetime": 3
+      }
+    }
+  ]
+}

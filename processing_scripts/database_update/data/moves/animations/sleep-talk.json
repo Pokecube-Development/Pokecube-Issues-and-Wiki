@@ -1,0 +1,16 @@
+{
+  "name": "sleep-talk",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "note",
+        "density": 1.0,
+        "width": 2.0,
+        "reverse": true
+      }
+    }
+  ]
+}

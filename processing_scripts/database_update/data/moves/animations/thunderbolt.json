@@ -1,0 +1,38 @@
+{
+  "name": "thunderbolt",
+  "animations": [
+    {
+      "preset": "cylFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.thunderbolt",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "lifetime": 3,
+        "f_radial": "(z^1.5-z)*2",
+        "f_phi": "z*4"
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "sound": "pokecube:moves.thunderwave",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "density": 0.05,
+        "lifetime": 4
+      }
+    }
+  ]
+}

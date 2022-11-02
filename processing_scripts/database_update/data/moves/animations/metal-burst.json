@@ -1,0 +1,11 @@
+{
+  "name": "metal-burst",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {}
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "captivate",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 3,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "heart",
+        "density": 0.5,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 3,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.6,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "name": "false-swipe",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

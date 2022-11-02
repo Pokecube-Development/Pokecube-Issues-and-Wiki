@@ -1,0 +1,15 @@
+{
+  "name": "natural-gift",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.5,
+        "width": 1.0
+      }
+    }
+  ]
+}

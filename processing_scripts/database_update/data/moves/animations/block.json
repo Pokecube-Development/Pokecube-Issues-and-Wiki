@@ -1,0 +1,16 @@
+{
+  "name": "block",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "barrier",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

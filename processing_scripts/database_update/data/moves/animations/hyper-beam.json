@@ -1,0 +1,69 @@
+{
+  "name": "hyper-beam",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 2.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "rgba_string": "orange"
+      }
+    },
+    {
+      "preset": "cylFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "f_radial": "(z^2-z)*2",
+        "f_phi": "z*6.3"
+      }
+    },
+    {
+      "preset": "cylFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "f_radial": "(z^2-z)*2",
+        "f_phi": "z*6.3+4.2"
+      }
+    },
+    {
+      "preset": "cylFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "f_radial": "(z^2-z)*2",
+        "f_phi": "z*6.3+2.1"
+      }
+    },
+    {
+      "preset": "sphFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "sound": "minecraft:block.end_gateway.spawn",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "red",
+        "density": 0.05,
+        "f_radial": "2*rand()",
+        "f_theta": "rand()*6.3",
+        "f_phi": "(0.5-rand())*(3.2)"
+      }
+    }
+  ]
+}

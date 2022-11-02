@@ -1,0 +1,35 @@
+{
+  "name": "lucky-chant",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.8,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 20,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.4,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

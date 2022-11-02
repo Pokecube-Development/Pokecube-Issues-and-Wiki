@@ -1,0 +1,83 @@
+{
+  "name": "photon-geyser",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "lifetime": 5,
+        "density": 0.1,
+        "width": 1.4,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "white"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.1,
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.5,
+        "lifetime": 15,
+        "width": 4.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

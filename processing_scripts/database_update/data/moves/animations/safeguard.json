@@ -1,0 +1,17 @@
+{
+  "name": "safeguard",
+  "animations": [
+    {
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "spell",
+        "rgba_string": "white",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "name": "boomburst",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "cloud",
+        "lifetime": 3,
+        "density": 0.4,
+        "width": 4.0,
+        "absolute": true,
+        "flat": true
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "density": 2.0,
+        "lifetime": 3,
+        "reverse": true,
+        "absolute": true
+      }
+    }
+  ]
+}

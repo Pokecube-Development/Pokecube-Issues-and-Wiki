@@ -1,0 +1,24 @@
+{
+  "name": "hypnosis",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "witch",
+        "rgba_string": "red",
+        "density": 1.0,
+        "lifetime": 60,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

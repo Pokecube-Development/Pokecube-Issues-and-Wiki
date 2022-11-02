@@ -1,0 +1,189 @@
+{
+  "name": "v-create",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "lava",
+        "reverse": true,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 2.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "lava",
+        "lifetime": 3,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 2.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "lava",
+        "width": 2.0,
+        "lifetime": 3,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 6,
+      "volume": 2.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "lava",
+        "width": 3.0,
+        "lifetime": 30,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "applyAfter": false,
+      "preset_values": {
+        "lifetime": 3,
+        "width": 1.5,
+        "particle": "flame",
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "flame",
+        "lifetime": 30,
+        "width": 3.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 2.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.payday",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "lifetime": 3,
+        "width": 3.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 7,
+      "volume": 2.0,
+      "pitch": 1.5,
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "density": 2.0,
+        "lifetime": 10,
+        "width": 3.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 7,
+      "volume": 2.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.payday",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 1.5,
+        "lifetime": 40,
+        "width": 4.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

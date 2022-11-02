@@ -1,0 +1,25 @@
+{
+  "name": "tail-whip",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 1.5,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

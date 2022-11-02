@@ -1,0 +1,17 @@
+{
+  "name": "uproar",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.5,
+        "width": 1.5,
+        "absolute": true,
+        "lifetime": 3
+      }
+    }
+  ]
+}

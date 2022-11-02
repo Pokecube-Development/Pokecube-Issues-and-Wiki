@@ -1,0 +1,35 @@
+{
+  "name": "sonic-boom",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "density": 0.33,
+        "particle": "cloud",
+        "width": 0.2,
+        "lifetime": 2
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "density": 3.0,
+        "particle": "sweep_attack"
+      }
+    }
+  ]
+}

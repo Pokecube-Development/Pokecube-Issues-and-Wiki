@@ -1,0 +1,52 @@
+{
+  "name": "fire-lash",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "density": 0.03,
+        "width": 0.1
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 2,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.9,
+        "width": 1.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 2,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "flame",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 14,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

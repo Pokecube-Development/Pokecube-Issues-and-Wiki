@@ -1,0 +1,21 @@
+{
+  "name": "dragon-rage",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 4.0,
+        "width": 0.5,
+        "lifetime": 5
+      }
+    }
+  ]
+}

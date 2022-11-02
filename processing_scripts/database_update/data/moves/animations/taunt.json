@@ -1,0 +1,34 @@
+{
+  "name": "taunt",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 3,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.7,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 2,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "angry_villager",
+        "density": 1.5,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

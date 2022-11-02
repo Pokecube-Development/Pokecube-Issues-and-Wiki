@@ -1,0 +1,49 @@
+{
+  "name": "fire-blast",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.6,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "density": 2.0,
+        "width": 2.0,
+        "lifetime": 1,
+        "flat": true,
+        "angle": 0.0
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "flame",
+        "density": 2.0,
+        "width": 2.0,
+        "lifetime": 1,
+        "flat": true,
+        "angle": 60.0
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "flame",
+        "density": 2.0,
+        "width": 2.0,
+        "lifetime": 1,
+        "flat": true,
+        "angle": 120.0
+      }
+    }
+  ]
+}

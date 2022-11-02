@@ -1,0 +1,31 @@
+{
+  "name": "poison-sting",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "width": 0.1
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "name": "belch",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.acidarmor",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.5,
+        "lifetime": 5
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {}
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "name": "sacred-fire",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "light_blue",
+        "density": 0.66,
+        "width": 0.66,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "width": 1.66,
+        "rgba_string": "light_blue"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "end_rod",
+        "width": 1.66,
+        "density": 0.5
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "misc",
+        "width": 1.5,
+        "rgba_string": "light_blue"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.9,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.5,
+        "width": 3.0,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

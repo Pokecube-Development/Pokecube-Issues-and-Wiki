@@ -1,0 +1,36 @@
+{
+  "name": "snarl",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "minecraft:entity.wolf.ambient",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "smoke",
+        "density": 0.7,
+        "width": 2.3
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "minecraft:entity.evoker.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "density": 0.1,
+        "width": 2.3
+      }
+    }
+  ]
+}

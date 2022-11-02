@@ -1,0 +1,67 @@
+{
+  "name": "seed-flare",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.66,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 6,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.5,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "end_rod",
+        "absolute": true,
+        "density": 0.5,
+        "width": 0.5
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "absolute": true,
+        "density": 5.0,
+        "width": 0.5
+      }
+    }
+  ]
+}

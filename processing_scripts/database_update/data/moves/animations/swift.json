@@ -1,0 +1,22 @@
+{
+  "name": "swift",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.safeguard",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "yellow",
+        "density": 0.3,
+        "width": 0.8,
+        "lifetime": 3
+      }
+    }
+  ]
+}

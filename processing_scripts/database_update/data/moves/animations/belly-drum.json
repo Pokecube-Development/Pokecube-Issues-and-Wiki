@@ -1,0 +1,32 @@
+{
+  "name": "belly-drum",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 0.5,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 10
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "note",
+        "density": 1.0,
+        "width": 1.5,
+        "reverse": true,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

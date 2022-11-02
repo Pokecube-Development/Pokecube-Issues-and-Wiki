@@ -1,0 +1,48 @@
+{
+  "name": "soft-boiled",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.7,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "happy_villager",
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "minecraft:block.glass.break",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "poof",
+        "density": 3.0,
+        "width": 1.0,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 5,
+        "f_x": "0",
+        "f_y": "0.5",
+        "f_z": "0"
+      }
+    }
+  ]
+}

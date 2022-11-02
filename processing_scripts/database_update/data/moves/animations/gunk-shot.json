@@ -1,0 +1,24 @@
+{
+  "name": "gunk-shot",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {}
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc"
+      }
+    }
+  ]
+}

@@ -1,0 +1,70 @@
+{
+  "name": "roar-of-time",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 2,
+      "preset_values": {
+        "width": 0.4,
+        "rgba_string": "blue",
+        "lifetime": 8
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 3.0,
+      "pitch": 0.8,
+      "sound": "minecraft:entity.illusioner.prepare_blindness",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "width": 0.2,
+        "density": 0.7,
+        "lifetime": 8
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 3.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 2.0,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 3.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "width": 1.5,
+        "density": 0.66,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

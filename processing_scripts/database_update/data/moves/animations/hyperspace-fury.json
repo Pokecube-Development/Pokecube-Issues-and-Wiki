@@ -1,0 +1,101 @@
+{
+  "name": "hyperspace-fury",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "sound": "minecraft:entity.illusioner.mirror_move",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.08,
+        "particle": "dragon_breath",
+        "width": 1.0,
+        "lifetime": 8,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(6)",
+        "f_y": "-3",
+        "f_z": "(0.5-rand())*(6)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 2.0,
+      "pitch": 0.9,
+      "sound": "minecraft:entity.illusioner.mirror_move",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.08,
+        "particle": "dragon_breath",
+        "width": 1.0,
+        "lifetime": 14,
+        "f_x": "(0.5-rand())*(6)",
+        "f_y": "5",
+        "f_z": "(0.5-rand())*(6)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.1,
+        "particle": "end_rod",
+        "width": 1.0,
+        "lifetime": 14,
+        "f_x": "(0.5-rand())*(4)",
+        "f_y": "5",
+        "f_z": "(0.5-rand())*(4)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.1,
+        "particle": "end_rod",
+        "reverse": true,
+        "width": 1.0,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(4)",
+        "f_y": "-3",
+        "f_z": "(0.5-rand())*(4)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 2.0,
+      "pitch": 2.0,
+      "sound": "minecraft:entity.wither.spawn",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.07,
+        "particle": "smoke",
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(10)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

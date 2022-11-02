@@ -1,0 +1,55 @@
+{
+  "name": "psychic",
+  "animations": [
+    {
+      "preset": "sphFunc",
+      "duration": 5,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "witch",
+        "density": 2.0,
+        "width": 5.0,
+        "lifetime": 15,
+        "absolute": true,
+        "f_radial": "rand()*0.5",
+        "f_theta": "(0.5-rand())",
+        "f_phi": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "minecraft:entity.elder_guardian.curse",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.7,
+        "width": 1.5,
+        "lifetime": 8,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(3)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.3,
+        "lifetime": 5,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

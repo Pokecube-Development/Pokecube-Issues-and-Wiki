@@ -1,0 +1,37 @@
+{
+  "name": "power-gem",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "pokecube:moves.payday",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "density": 0.5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(1.80-rand())*(2)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "light_blue"
+      }
+    }
+  ]
+}

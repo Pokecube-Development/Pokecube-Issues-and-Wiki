@@ -1,0 +1,20 @@
+{
+  "name": "snore",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 1.0,
+        "reverse": true,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0",
+        "absolute": true,
+        "lifetime": 10
+      }
+    }
+  ]
+}

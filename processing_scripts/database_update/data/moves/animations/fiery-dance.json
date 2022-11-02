@@ -1,0 +1,50 @@
+{
+  "name": "fiery-dance",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "lava",
+        "reverse": true,
+        "absolute": true
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "density": 1.0,
+        "particle": "flame",
+        "absolute": true,
+        "width": 2.5
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "density": 0.1,
+        "particle": "lava",
+        "absolute": true,
+        "width": 2.5
+      }
+    }
+  ]
+}

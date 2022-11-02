@@ -1,0 +1,38 @@
+{
+  "name": "max-phantasm",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "minecraft:entity.elder_guardian.curse",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 0.05,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(25)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.05,
+        "width": 1.0,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(25)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    }
+  ]
+}

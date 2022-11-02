@@ -1,0 +1,24 @@
+{
+  "name": "low-sweep",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.woodenhammer",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "absolute": true,
+        "density": 0.9,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(0.7)",
+        "f_y": "(0.5-rand())*(0.7)",
+        "f_z": "(0.5-rand())*(0.7)"
+      }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "name": "dragon-rush",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "particle": "explosion"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.25,
+        "lifetime": 20,
+        "width": 3.0,
+        "particle": "cloud",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(0.6)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "width": 4.0,
+        "particle": "misc",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(0.6)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

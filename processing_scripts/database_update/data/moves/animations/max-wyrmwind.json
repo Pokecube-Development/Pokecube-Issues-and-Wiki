@@ -1,0 +1,20 @@
+{
+  "name": "max-wyrmwind",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "density": 0.25,
+        "absolute": true,
+        "width": 1.25
+      }
+    }
+  ]
+}

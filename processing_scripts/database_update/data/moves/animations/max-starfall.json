@@ -1,0 +1,26 @@
+{
+  "name": "max-starfall",
+  "animations": [
+    {
+      "preset": "pons",
+      "duration": 2,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "witch"
+      }
+    },
+    {
+      "preset": "pont",
+      "duration": 3,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "witch"
+      }
+    }
+  ]
+}

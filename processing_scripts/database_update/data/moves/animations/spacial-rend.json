@@ -1,0 +1,91 @@
+{
+  "name": "spacial-rend",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "sound": "minecraft:entity.illusioner.mirror_move",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "witch",
+        "density": 0.66,
+        "absolute": true,
+        "reverse": true,
+        "width": 3.5,
+        "lifetime": 15,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.slash",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "density": 0.75,
+        "width": 3.5,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.dig",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 2.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "minecraft:entity.illusioner.prepare_mirror",
+      "soundSource": false,
+      "soundTarget": true,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "magenta",
+        "absolute": true,
+        "density": 0.1,
+        "lifetime": 10
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 5,
+      "preset_values": {
+        "particle": "witch",
+        "density": 0.1,
+        "absolute": true,
+        "width": 0.5,
+        "lifetime": 10
+      }
+    }
+  ]
+}

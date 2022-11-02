@@ -1,0 +1,70 @@
+{
+  "name": "glaciate",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "reverse": true,
+        "density": 0.5,
+        "lifetime": 10,
+        "absolute": true,
+        "width": 1.0,
+        "particle": "misc",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "reverse": true,
+        "absolute": true,
+        "density": 0.1,
+        "particle": "cloud",
+        "width": 6.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(0.6)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 0.8,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "reverse": true,
+        "density": 0.1,
+        "lifetime": 20,
+        "absolute": true,
+        "particle": "cloud",
+        "width": 12.0,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(0.6)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

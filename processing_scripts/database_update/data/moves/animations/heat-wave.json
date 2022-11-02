@@ -1,0 +1,32 @@
+{
+  "name": "heat-wave",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "flame",
+        "density": 0.5,
+        "width": 4.0,
+        "lifetime": 15
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "lava",
+        "density": 0.5,
+        "width": 4.0,
+        "lifetime": 5
+      }
+    }
+  ]
+}

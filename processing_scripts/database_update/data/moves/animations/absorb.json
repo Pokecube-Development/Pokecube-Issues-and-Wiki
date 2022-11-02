@@ -1,0 +1,37 @@
+{
+  "name": "absorb",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 2.0,
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "density": 1.0,
+        "width": 0.5,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "misc",
+        "reverse": true,
+        "absolute": true,
+        "density": 0.25,
+        "width": 0.4
+      }
+    }
+  ]
+}

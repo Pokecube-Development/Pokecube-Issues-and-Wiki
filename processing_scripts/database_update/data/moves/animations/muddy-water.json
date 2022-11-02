@@ -1,0 +1,33 @@
+{
+  "name": "muddy-water",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 1.0,
+        "width": 3.5,
+        "lifetime": 15
+      }
+    },
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "brown",
+        "density": 1.0,
+        "width": 4.0,
+        "lifetime": 10
+      }
+    }
+  ]
+}

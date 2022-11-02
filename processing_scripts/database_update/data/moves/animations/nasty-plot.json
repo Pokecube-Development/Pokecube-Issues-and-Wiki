@@ -1,0 +1,38 @@
+{
+  "name": "nasty-plot",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "cloud",
+        "absolute": true,
+        "density": 1.5,
+        "reverse": true,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "preset_values": {
+        "particle": "smoke",
+        "density": 3.0,
+        "width": 1.0,
+        "reverse": true,
+        "f_x": "0",
+        "f_y": "2",
+        "f_z": "0"
+      }
+    }
+  ]
+}

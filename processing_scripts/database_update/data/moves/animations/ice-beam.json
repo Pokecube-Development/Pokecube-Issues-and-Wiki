@@ -1,0 +1,38 @@
+{
+  "name": "ice-beam",
+  "animations": [
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {}
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {}
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 6,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {}
+    }
+  ]
+}

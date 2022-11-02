@@ -1,0 +1,47 @@
+{
+  "name": "wring-out",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "absolute": true,
+        "density": 1.0
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 2,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "absolute": true,
+        "density": 1.0,
+        "lifetime": 15
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.1,
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "sweep_attack",
+        "absolute": true,
+        "density": 1.0,
+        "lifetime": 15
+      }
+    }
+  ]
+}

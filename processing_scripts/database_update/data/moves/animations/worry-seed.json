@@ -1,0 +1,23 @@
+{
+  "name": "worry-seed",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "density": 0.1
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "witch",
+        "density": 1.0,
+        "lifetime": 40
+      }
+    }
+  ]
+}

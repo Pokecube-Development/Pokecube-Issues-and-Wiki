@@ -1,0 +1,50 @@
+{
+  "name": "mind-blown",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "rgba_string": "white",
+        "width": 1.0
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "minecraft:entity.firework.blast",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "explosion",
+        "absolute": true
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.7,
+      "sound": "minecraft:entity.firework.twinkle",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "aurora",
+        "absolute": true
+      }
+    }
+  ]
+}

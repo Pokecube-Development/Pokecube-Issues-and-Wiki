@@ -1,0 +1,25 @@
+{
+  "name": "rest",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 4.0,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 20,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
+    }
+  ]
+}

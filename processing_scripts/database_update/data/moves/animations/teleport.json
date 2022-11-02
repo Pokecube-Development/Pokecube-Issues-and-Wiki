@@ -1,0 +1,43 @@
+{
+  "name": "teleport",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "minecraft:entity.enderman.teleport",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 1.0,
+        "width": 1.5,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 15,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 15,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "portal",
+        "density": 0.8,
+        "width": 2.5,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 20,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}

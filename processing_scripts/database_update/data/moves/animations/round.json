@@ -1,0 +1,37 @@
+{
+  "name": "round",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "firework",
+        "rgba_string": "white",
+        "density": 0.66,
+        "lifetime": 3
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "note",
+        "density": 4.0,
+        "reverse": true,
+        "absolute": true,
+        "width": 1.0,
+        "lifetime": 3,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
+    }
+  ]
+}

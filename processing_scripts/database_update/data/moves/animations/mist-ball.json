@@ -1,0 +1,46 @@
+{
+  "name": "mist-ball",
+  "animations": [
+    {
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "sound": "minecraft:entity.zombie_villager.converted",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "cloud",
+        "width": 1.5,
+        "density": 0.2
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "rgba_string": "white",
+        "width": 0.7
+      }
+    },
+    {
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.3,
+      "sound": "minecraft:entity.illusioner.cast_spell",
+      "soundSource": false,
+      "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.01
+      }
+    }
+  ]
+}

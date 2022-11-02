@@ -1,0 +1,26 @@
+{
+  "name": "splash",
+  "animations": [
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
+      "sound": "minecraft:entity.generic.swim",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {
+        "particle": "splash",
+        "density": 0.33,
+        "lifetime": 20,
+        "width": 1.5,
+        "absolute": true,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "0",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    }
+  ]
+}
