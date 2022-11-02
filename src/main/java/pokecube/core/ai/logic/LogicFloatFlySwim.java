@@ -149,7 +149,7 @@ public class LogicFloatFlySwim extends LogicBase
         @Override
         public void tick()
         {
-            if (pokemob.getController().blocksPathing()) return;
+            if (pokemob.getController().blocksPathing() || !pokemob.getEntity().isAlive()) return;
 
             if (this.operation == MoveControl.Operation.MOVE_TO)
             {

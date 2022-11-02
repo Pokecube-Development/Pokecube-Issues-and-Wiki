@@ -712,28 +712,24 @@ public class MovesUtils implements IMoveConstants
         Level level = mob.level;
         Battle battle = Battle.getBattle(mob);
 
-        List<LivingEntity> targets = Lists.newArrayList();
-
         if (battle != null)
         {
+            List<LivingEntity> targets = Lists.newArrayList();
+            
+            List<LivingEntity> options = Lists.newArrayList();
             // Actual target first.
-            if (target != null) targets.add(target);
+            options.add(target);
             // Then targetted enemy
-            if (pokemob.getMoveStats().targetEnemy != null && !targets.contains(pokemob.getMoveStats().targetEnemy))
-            {
-                targets.add(pokemob.getMoveStats().targetEnemy);
-            }
+            options.add(pokemob.getMoveStats().targetEnemy);
             // Then targetted ally
-            if (pokemob.getMoveStats().targetAlly != null && !targets.contains(pokemob.getMoveStats().targetAlly))
-            {
-                targets.add(pokemob.getMoveStats().targetAlly);
-            }
+            options.add(pokemob.getMoveStats().targetAlly);
             // Then all enemies
-            var list = battle.getEnemies(mob);
-            for (var e : list) if (!targets.contains(e)) targets.add(e);
+            options.addAll(battle.getEnemies(mob));
             // Then all allies
-            list = battle.getAllies(mob);
-            for (var e : list) if (!targets.contains(e)) targets.add(e);
+            options.addAll(battle.getAllies(mob));
+
+            // Now ensure no null entries or duplicates in the actual list.
+            for (var e : options) if (e != null && !targets.contains(e)) targets.add(e);
 
             // If we are in battle, lets deal with that here.
             for (var s : targets)
@@ -768,7 +764,6 @@ public class MovesUtils implements IMoveConstants
 
             apply_test:
             {
-                targets.add(mob);
                 if (target != null)
                 {
                     apply.setTarget(target);

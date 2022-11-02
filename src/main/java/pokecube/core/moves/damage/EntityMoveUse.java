@@ -178,6 +178,10 @@ public class EntityMoveUse extends ThrowableProjectile
             final float height = this.getUser().getBbHeight() + s;
             this.size.set(width, height, width);
         }
+        else
+        {
+            this.size.set(0.75);
+        }
         if (this.move.customSize != null) this.size.set(this.move.customSize);
 
         this.init = true;
