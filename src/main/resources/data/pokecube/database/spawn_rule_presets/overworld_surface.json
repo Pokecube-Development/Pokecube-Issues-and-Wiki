@@ -121,7 +121,7 @@
     {
       "values": {
         "preset": "beach_ground",
-        "types": "#minecraft:is_beach",
+        "types": "#pokecube_world:is_beach",
         "and_preset": "overworld"
       }
     },
