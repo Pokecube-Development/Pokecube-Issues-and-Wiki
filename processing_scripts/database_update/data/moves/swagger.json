@@ -1,0 +1,15 @@
+{
+  "name": "swagger",
+  "animations": [
+    {
+      "preset": "cartFunc:rtrue:psmoke:d1:w1:l7:f0,1,0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.9
+    }
+  ]
+}

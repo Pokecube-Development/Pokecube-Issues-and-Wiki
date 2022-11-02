@@ -1,0 +1,15 @@
+{
+  "name": "discharge",
+  "animations": [
+    {
+      "preset": "flow:w2",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.thunderend",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

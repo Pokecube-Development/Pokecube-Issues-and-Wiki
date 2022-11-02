@@ -2,26 +2,45 @@
   "name": "bullet-punch",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1:l2:w0.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 1.0,
+        "lifetime": 2,
+        "width": 0.5,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pend_rod:d1:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.metalclaw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 1.0,
+        "width": 2.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

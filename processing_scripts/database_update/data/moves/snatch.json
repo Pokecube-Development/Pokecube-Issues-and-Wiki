@@ -1,0 +1,15 @@
+{
+  "name": "snatch",
+  "animations": [
+    {
+      "preset": "pons:pmisc:d1:w1:l5",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "pons:psmoke:cblack:d1:w1.2:l10",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

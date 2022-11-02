@@ -2,29 +2,46 @@
   "name": "rock-wrecker",
   "animations": [
     {
-      "preset": "throw:atrue:w1.8",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "absolute": true,
+        "width": 1.8
+      }
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d2:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.rocksmash",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 2.0,
+        "absolute": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "flow:pmisc:d0.5",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.5
+      }
     }
   ]
 }

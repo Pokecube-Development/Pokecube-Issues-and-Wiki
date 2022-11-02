@@ -40,7 +40,7 @@ public class UsableItemGigantShard
             // Already able to gigantamax, no effect.
             if (gigant) return super.onUse(pokemob, stack, user);
             final PokedexEntry entry = pokemob.getPokedexEntry();
-            gigant = Database.getEntry(entry.getTrimmedName() + "_gigantamax") != null;
+            gigant = Database.getEntry(entry.getTrimmedName() + "-gmax") != null;
             // No gigantamax form for this pokemob, no effect.
             if (!gigant) return super.onUse(pokemob, stack, user);
             pokemob.setCombatState(CombatStates.GIGANTAMAX, true);

@@ -1,0 +1,40 @@
+{
+  "name": "magical-leaf",
+  "animations": [
+    {
+      "preset": "flow:pleaf:d0.5:w1",
+      "duration": "3",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pmisc:clight_blue:d1:w1",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.6
+    },
+    {
+      "preset": "flow:pmisc:cmagenta:d1:w1",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc",
+      "duration": "0",
+      "starttick": "4",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

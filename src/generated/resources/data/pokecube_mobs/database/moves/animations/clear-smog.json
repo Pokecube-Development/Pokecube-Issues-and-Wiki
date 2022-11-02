@@ -2,26 +2,42 @@
   "name": "clear-smog",
   "animations": [
     {
-      "preset": "cartFunc:pwitch:l7:rtrue:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.gustwind",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "witch",
+        "lifetime": 7,
+        "reverse": true,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "flow:pcloud:l5:d0.4:w2:atrue",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.fly",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 0.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "cloud",
+        "lifetime": 5,
+        "density": 0.4,
+        "width": 2.0,
+        "absolute": true
+      }
     }
   ]
 }

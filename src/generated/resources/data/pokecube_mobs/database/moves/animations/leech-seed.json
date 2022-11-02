@@ -2,14 +2,18 @@
   "name": "leech-seed",
   "animations": [
     {
-      "preset": "throw:clime:w0.3",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.9
+      "preset_values": {
+        "rgba_string": "lime",
+        "width": 0.3
+      }
     }
   ]
 }

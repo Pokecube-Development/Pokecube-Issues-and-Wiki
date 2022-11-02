@@ -2,14 +2,23 @@
   "name": "flash",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d1:w1:rtrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

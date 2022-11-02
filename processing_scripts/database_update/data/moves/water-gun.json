@@ -1,0 +1,15 @@
+{
+  "name": "water-gun",
+  "animations": [
+    {
+      "preset": "beam:psplash",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    }
+  ]
+}

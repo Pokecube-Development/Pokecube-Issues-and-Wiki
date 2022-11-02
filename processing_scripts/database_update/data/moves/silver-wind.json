@@ -1,0 +1,25 @@
+{
+  "name": "silver-wind",
+  "animations": [
+    {
+      "preset": "flow:pend_rod:d0.5:w3.5:l5",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8
+    },
+    {
+      "preset": "flow:pmisc:csilver:d1:w3.5:l4",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

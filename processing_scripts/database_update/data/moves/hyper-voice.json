@@ -1,0 +1,15 @@
+{
+  "name": "hyper-voice",
+  "animations": [
+    {
+      "preset": "flow:pnote:d0.5:w3:1",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d1:w3:l5",
+      "duration": "1",
+      "starttick": "4"
+    }
+  ]
+}

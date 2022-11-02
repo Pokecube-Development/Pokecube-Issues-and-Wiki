@@ -1,0 +1,10 @@
+{
+  "name": "snore",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d1:rtrue:f0,1,0:atrue:l10",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

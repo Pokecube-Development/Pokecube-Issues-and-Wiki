@@ -1,0 +1,30 @@
+{
+  "name": "will-o-wisp",
+  "animations": [
+    {
+      "preset": "flow:pmisc:cpurple:d0.3:atrue:w0.1",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "throw:cpurple:w0.3:atrue",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:plava:atrue:d5:w0.5:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

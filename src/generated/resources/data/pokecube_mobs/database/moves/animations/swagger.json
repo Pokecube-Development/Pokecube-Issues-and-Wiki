@@ -2,14 +2,24 @@
   "name": "swagger",
   "animations": [
     {
-      "preset": "cartFunc:rtrue:psmoke:d1:w1:l7:f0,1,0",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.9,
       "sound": "pokecube:moves.withdraw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.9
+      "preset_values": {
+        "reverse": true,
+        "particle": "smoke",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 7,
+        "f_x": "0",
+        "f_y": "1",
+        "f_z": "0"
+      }
     }
   ]
 }

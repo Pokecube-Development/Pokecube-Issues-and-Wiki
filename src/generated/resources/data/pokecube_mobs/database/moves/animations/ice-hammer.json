@@ -2,32 +2,58 @@
   "name": "ice-hammer",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:w3:l8:atrue:f(0.5-rand())*(1),0,(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "cloud",
+        "width": 3.0,
+        "lifetime": 8,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "0",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "width": 1.0,
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
       "volume": 1.0,
       "pitch": 0.9,
-      "applyAfter": true
-    },
-    {
-      "preset": "cartFunc:pcrit:w1:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
-      "applyAfter": false
-    },
-    {
-      "preset": "cartFunc:pmisc:w0.7:atrue:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
       "sound": "pokecube:moves.iceball",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "width": 0.7,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(0.6)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

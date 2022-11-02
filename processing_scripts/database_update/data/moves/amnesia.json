@@ -1,0 +1,20 @@
+{
+  "name": "amnesia",
+  "animations": [
+    {
+      "preset": "cartFunc:pwitch:d0.8:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.charm",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    },
+    {
+      "preset": "cartFunc:penchantmenttable:d1:rtrue:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

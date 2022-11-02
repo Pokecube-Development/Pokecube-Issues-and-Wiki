@@ -2,34 +2,58 @@
   "name": "giga-impact",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.09:l5:f(0.5-rand())*(3),(0.5-rand())*(3),(0.5-rand())*(3)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.7
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.09,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(3)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(3)"
+      }
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d0.2:l55:f(0.5-rand())*(5),(0.5-rand())*(3),(0.5-rand())*(5)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.rocktomb",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 0.2,
+        "lifetime": 55,
+        "f_x": "(0.5-rand())*(5)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(5)"
+      }
     },
     {
-      "preset": "cartFunc:pcloud:d0.07:l55:f(0.5-rand())*(5),(0.5-rand())*(3),(0.5-rand())*(5)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.8,
       "sound": "pokecube:moves.rocksmash",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.8
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.07,
+        "lifetime": 55,
+        "f_x": "(0.5-rand())*(5)",
+        "f_y": "(0.5-rand())*(3)",
+        "f_z": "(0.5-rand())*(5)"
+      }
     }
   ]
 }

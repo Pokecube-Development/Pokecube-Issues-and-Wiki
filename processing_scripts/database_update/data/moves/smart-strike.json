@@ -1,0 +1,25 @@
+{
+  "name": "smart-strike",
+  "animations": [
+    {
+      "preset": "cartFunc:atrue:pcrit:d1:w1:l3",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    },
+    {
+      "preset": "cartFunc:pend_rod:d0.75:w3:atrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.metalclaw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

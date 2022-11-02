@@ -1,0 +1,15 @@
+{
+  "name": "ice-shard",
+  "animations": [
+    {
+      "preset": "throw:w0.3",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

@@ -2,14 +2,19 @@
   "name": "fairy-wind",
   "animations": [
     {
-      "preset": "flow:pmisc:d0.8:w2",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.8,
+        "width": 2.0
+      }
     }
   ]
 }

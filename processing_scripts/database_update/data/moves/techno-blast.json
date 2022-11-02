@@ -1,0 +1,30 @@
+{
+  "name": "techno-blast",
+  "animations": [
+    {
+      "preset": "throw:cwhite:d1.5:w1:l5",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "flow:pmisc:cyellow:d0.5:w1:rfalse:l5",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d2:w1",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

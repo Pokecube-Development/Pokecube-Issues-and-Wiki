@@ -2,19 +2,35 @@
   "name": "leafage",
   "animations": [
     {
-      "preset": "throw:pmisc:d0.8:w0.4:l5:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.8,
+        "width": 0.4,
+        "lifetime": 5,
+        "absolute": true
+      }
     },
     {
-      "preset": "cartFunc:pcrit:d3:w1:l2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "crit",
+        "density": 3.0,
+        "width": 1.0,
+        "lifetime": 2,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "name": "scratch",
+  "animations": [
+    {
+      "preset": "cartFunc:atrue:psweep_attack:d1:w1:l2",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.scratch",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

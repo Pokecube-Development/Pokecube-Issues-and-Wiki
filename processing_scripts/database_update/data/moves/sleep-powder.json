@@ -1,0 +1,15 @@
+{
+  "name": "sleep-powder",
+  "animations": [
+    {
+      "preset": "powder:l5",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:block.sand.place",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.6
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "cotton-spore",
+  "animations": [
+    {
+      "preset": "powder:pcloud:d0.8:rtrue",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

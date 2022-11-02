@@ -2,37 +2,55 @@
   "name": "drill-peck",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d2:l2:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "lifetime": 2,
+        "absolute": true
+      }
     },
     {
-      "preset": "cartFunc:pcrit:d2:l2:atrue",
-      "duration": "5",
-      "starttick": "2",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 2,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "lifetime": 2,
+        "absolute": true
+      }
     },
     {
-      "preset": "cartFunc:pcrit:d2:l2:atrue",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "crit",
+        "density": 2.0,
+        "lifetime": 2,
+        "absolute": true
+      }
     }
   ]
 }

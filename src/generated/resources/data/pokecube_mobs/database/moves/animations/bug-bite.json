@@ -2,14 +2,23 @@
   "name": "bug-bite",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d1.2:w0.7:l5:f(0.5-rand())*(0.7),(0.5-rand())*(0.7),(0.5-rand())*(0.7)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "crit",
+        "density": 1.2,
+        "width": 0.7,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(0.7)",
+        "f_y": "(0.5-rand())*(0.7)",
+        "f_z": "(0.5-rand())*(0.7)"
+      }
     }
   ]
 }

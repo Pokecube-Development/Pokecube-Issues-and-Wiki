@@ -2,26 +2,40 @@
   "name": "horn-leech",
   "animations": [
     {
-      "preset": "cartFunc:atrue:pcrit:l2",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.1,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.1,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "absolute": true,
+        "particle": "crit",
+        "lifetime": 2
+      }
     },
     {
-      "preset": "cartFunc:atrue:pmisc:w0.4:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
       "sound": "pokecube:moves.withdraw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.8,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "particle": "misc",
+        "width": 0.4,
+        "lifetime": 4,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

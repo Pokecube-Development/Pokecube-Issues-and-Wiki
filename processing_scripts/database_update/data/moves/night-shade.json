@@ -1,0 +1,15 @@
+{
+  "name": "night-shade",
+  "animations": [
+    {
+      "preset": "flow:cblack:d0.5",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.evoker.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

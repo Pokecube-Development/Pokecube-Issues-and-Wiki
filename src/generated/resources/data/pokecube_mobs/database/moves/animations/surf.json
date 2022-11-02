@@ -2,19 +2,33 @@
   "name": "surf",
   "animations": [
     {
-      "preset": "flow:pdroplet:atrue:d3:w5:l15",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.surf",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "droplet",
+        "absolute": true,
+        "density": 3.0,
+        "width": 5.0,
+        "lifetime": 15
+      }
     },
     {
-      "preset": "flow:psplash:atrue:d3:w3.5:l15",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "splash",
+        "absolute": true,
+        "density": 3.0,
+        "width": 3.5,
+        "lifetime": 15
+      }
     }
   ]
 }

@@ -24,6 +24,7 @@ public class CommandManager
         Restore.register(command);
         Reset.register(command);
         Reload.register(command);
+        ReloadMoves.register(command);
 
         commandDispatcher.register(command);
         TM.register(commandDispatcher);

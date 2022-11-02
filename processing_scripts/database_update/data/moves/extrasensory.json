@@ -1,0 +1,25 @@
+{
+  "name": "extrasensory",
+  "animations": [
+    {
+      "preset": "cartFunc:pend_rod:d0.8:w1:l5:f(0.5-rand())*(1.5),(0.5-rand())*(1.5),(0.5-rand())*(1.5)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.aurorabeam",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "cartFunc:pmisc:cmagenta:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pwitch:rtrue:l10:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "10",
+      "starttick": "0"
+    }
+  ]
+}

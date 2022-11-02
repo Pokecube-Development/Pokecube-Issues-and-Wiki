@@ -2,9 +2,18 @@
   "name": "spikes",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.5:w1:l10:f(0.5-rand())*(13),(0.5-rand())*(2),(0.5-rand())*(13)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.5,
+        "width": 1.0,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(13)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(13)"
+      }
     }
   ]
 }

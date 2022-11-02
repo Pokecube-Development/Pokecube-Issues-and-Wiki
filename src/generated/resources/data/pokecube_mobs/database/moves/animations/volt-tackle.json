@@ -2,24 +2,34 @@
   "name": "volt-tackle",
   "animations": [
     {
-      "preset": "throw:atrue:w1.66",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "absolute": true,
+        "width": 1.66
+      }
     },
     {
-      "preset": "powder:pmisc:d0.05:w0.33:l5",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.thunderwave",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4
+      "preset_values": {
+        "particle": "misc",
+        "density": 0.05,
+        "width": 0.33,
+        "lifetime": 5
+      }
     }
   ]
 }

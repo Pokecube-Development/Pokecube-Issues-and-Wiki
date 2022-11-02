@@ -2,14 +2,25 @@
   "name": "hyper-voice",
   "animations": [
     {
-      "preset": "flow:pnote:d0.5:w3:1",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "note",
+        "density": 0.5,
+        "width": 3.0
+      }
     },
     {
-      "preset": "cartFunc:pexplosion_emitter:d1:w3:l5",
-      "duration": "1",
-      "starttick": "4"
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 1.0,
+        "width": 3.0,
+        "lifetime": 5
+      }
     }
   ]
 }

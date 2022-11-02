@@ -2,34 +2,52 @@ package pokecube.core.moves.animations;
 
 import java.util.Random;
 
+import com.google.gson.JsonObject;
+
 import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation;
+import thut.api.util.JsonUtil;
 
 public abstract class MoveAnimationBase implements IMoveAnimation
 {
-    protected String particle;
 
-    protected int rgba         = 0xFFFFFFFF;
-    protected int duration     = 5;
-    protected int particleLife = 5;
+    public static class Values
+    {
+        public String particle = "misc";
 
-    protected boolean customColour = false;
-    protected boolean flat         = false;
-    protected boolean reverse      = false;
+        public int rgba = 0xFFFFFFFF;
+        public int duration = 5;
+        public int lifetime = 5;
 
-    protected float density = 1;
-    protected float width   = 1;
-    protected float angle   = 0;
+        public boolean customColour = false;
+        public boolean flat = false;
+        public boolean reverse = false;
+        public boolean absolute = false;
 
-    protected String rgbaVal = null;
+        public float density = 1;
+        public float width = 1;
+        public float angle = 0;
+
+        public String rgba_string = null;
+
+        public String f_radial;
+        public String f_phi;
+        public String f_theta;
+
+        public String f_x;
+        public String f_y;
+        public String f_z;
+    }
+
+    protected Values values = new Values();
 
     @Override
     public int getApplicationTick()
     {
-        return this.duration;
+        return this.values.duration;
     }
 
     public int getColourFromMove(final MoveEntry move, int alpha)
@@ -42,11 +60,25 @@ public abstract class MoveAnimationBase implements IMoveAnimation
     @Override
     public int getDuration()
     {
-        return this.duration;
+        return this.values.duration;
     }
 
-    public IMoveAnimation init(final String preset)
+    public IMoveAnimation init(JsonObject preset)
     {
+        if (preset != null)
+        {
+            try
+            {
+                this.values = JsonUtil.gson.fromJson(preset, Values.class);
+            }
+            catch (Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                values = new Values();
+            }
+        }
+        else values = new Values();
         return this;
     }
 
@@ -54,36 +86,31 @@ public abstract class MoveAnimationBase implements IMoveAnimation
     public void initColour(final long time, final float partialTicks, final MoveEntry move)
     {
         this.reallyInitRGBA();
-        if (this.customColour) return;
-        if (this.particle == null)
+        if (this.values.customColour) return;
+        if (this.values.particle == null)
         {
-            this.rgba = this.getColourFromMove(move, 255);
+            this.values.rgba = this.getColourFromMove(move, 255);
             return;
         }
-        if (this.particle.equals("airbubble")) this.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
-        else if (this.particle.equals("aurora"))
+        if (this.values.particle.equals("airbubble")) this.values.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
+        else if (this.values.particle.equals("aurora"))
         {
             final DyeColor colour = DyeColor.values()[new Random(time / 10).nextInt(DyeColor.values().length)];
             final int rand = colour.getTextColor();
-            this.rgba = 0x61000000 + rand;
+            this.values.rgba = 0x61000000 + rand;
         }
-        else if (this.particle.equals("iceshard")) this.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
-        else if (this.particle.equals("spark")) this.rgba = 0x78000000 + DyeColor.YELLOW.getTextColor();
-        else this.rgba = this.getColourFromMove(move, 255);
-    }
-
-    protected void initRGBA(final String val)
-    {
-        this.rgbaVal = val;
+        else if (this.values.particle.equals("iceshard")) this.values.rgba = 0x78000000 + DyeColor.CYAN.getTextColor();
+        else if (this.values.particle.equals("spark")) this.values.rgba = 0x78000000 + DyeColor.YELLOW.getTextColor();
+        else this.values.rgba = this.getColourFromMove(move, 255);
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void reallyInitRGBA()
     {
-        if (this.rgbaVal == null) return;
-        final String val = this.rgbaVal;
-        this.rgbaVal = null;
+        if (this.values.rgba_string == null) return;
+        final String val = this.values.rgba_string;
+        this.values.rgba_string = null;
         final int alpha = 255;
         DyeColor colour = null;
         try
@@ -98,19 +125,18 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             }
             catch (final Exception e1)
             {
-                for (final DyeColor col : DyeColor.values())
-                    if (col.getSerializedName().equals(val))
-                    {
-                        colour = col;
-                        break;
-                    }
+                for (final DyeColor col : DyeColor.values()) if (col.getSerializedName().equals(val))
+                {
+                    colour = col;
+                    break;
+                }
             }
         }
         if (colour == null)
         {
             try
             {
-                this.rgba = Integer.parseInt(val);
+                this.values.rgba = Integer.parseInt(val);
             }
             catch (final NumberFormatException e)
             {
@@ -118,13 +144,13 @@ public abstract class MoveAnimationBase implements IMoveAnimation
             }
             return;
         }
-        this.rgba = colour.getTextColor() + 0x01000000 * alpha;
-        this.customColour = true;
+        this.values.rgba = colour.getTextColor() + 0x01000000 * alpha;
+        this.values.customColour = true;
     }
 
     @Override
     public void setDuration(final int duration)
     {
-        this.duration = duration;
+        this.values.duration = duration;
     }
 }

@@ -1,0 +1,25 @@
+{
+  "name": "water-shuriken",
+  "animations": [
+    {
+      "preset": "throw:w0.2",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pdroplet:atrue:d0.5:w1.5:l15:f(0.5-rand())*(1),(0.5-rand())*(4),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.bubbleattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    }
+  ]
+}

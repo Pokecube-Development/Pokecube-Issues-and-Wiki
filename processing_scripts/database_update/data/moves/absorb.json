@@ -1,0 +1,20 @@
+{
+  "name": "absorb",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:atrue:d1:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    },
+    {
+      "preset": "flow:pmisc:rtrue:atrue:d0.25:w0.4",
+      "duration": "5",
+      "starttick": "3"
+    }
+  ]
+}

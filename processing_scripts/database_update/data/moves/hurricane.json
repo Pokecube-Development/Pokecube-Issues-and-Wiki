@@ -1,0 +1,15 @@
+{
+  "name": "hurricane",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:atrue:d0.05:w1:l5:f(0.5-rand())*(2),(0.5-rand())*(18),(0.5-rand())*(2)",
+      "duration": "4",
+      "starttick": "0",
+      "sound": "pokecube:moves.gustwind",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

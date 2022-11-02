@@ -2,6 +2,8 @@ package pokecube.core.moves.animations.presets.parametric;
 
 import org.nfunk.jep.JEP;
 
+import com.google.gson.JsonObject;
+
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
@@ -14,46 +16,20 @@ public class CartesianFunction extends MoveAnimationBase
     JEP x;
     JEP y;
     JEP z;
-    
-    boolean reverse  = false;
-    boolean absolute = false;
 
     public CartesianFunction()
-    {
-    }
+    {}
 
     @Override
-    public IMoveAnimation init(String preset)
+    public IMoveAnimation init(JsonObject preset)
     {
-        this.rgba = 0xFFFFFFFF;
-        this.density = 0.5f;
-        final String[] args = preset.split(":");
-        this.particle = "misc";
-        String fx = "0";
-        String fy = "0";
-        String fz = "0";
-        for (int i = 1; i < args.length; i++)
-        {
-            final String ident = args[i].substring(0, 1);
-            final String val = args[i].substring(1);
-            if (ident.equals("d")) this.density = Float.parseFloat(val);
-            else if (ident.equals("w")) this.width = Float.parseFloat(val);
-            else if (ident.equals("r")) this.reverse = Boolean.parseBoolean(val);
-            else if (ident.equals("p")) this.particle = val;
-            else if (ident.equals("l")) this.particleLife = Integer.parseInt(val);
-            else if (ident.equals("a")) this.absolute = Boolean.parseBoolean(val);
-            else if (ident.equals("c")) this.initRGBA(val);
-            else if (ident.equals("f"))
-            {
-                final String[] funcs = val.split(",");
-                fx = funcs[0];
-                fy = funcs[1];
-                fz = funcs[2];
-            }
-        }
-        this.initJEP(fx, this.x = new JEP());
-        this.initJEP(fy, this.y = new JEP());
-        this.initJEP(fz, this.z = new JEP());
+        super.init(preset);
+        if (values.f_x == null) values.f_x = "0";
+        if (values.f_y == null) values.f_y = "0";
+        if (values.f_z == null) values.f_z = "0";
+        this.initJEP(values.f_x, this.x = new JEP());
+        this.initJEP(values.f_y, this.y = new JEP());
+        this.initJEP(values.f_z, this.z = new JEP());
         return this;
     }
 
@@ -83,18 +59,18 @@ public class CartesianFunction extends MoveAnimationBase
     @Override
     public void spawnClientEntities(MovePacketInfo info)
     {
-        final Vector3 source = this.reverse ? info.source : info.target;
+        final Vector3 source = values.reverse ? info.source : info.target;
         this.initColour(info.attacker.getLevel().getDayTime() * 20, 0, info.move);
         final Vector3 temp = new Vector3();
-        double scale = this.width;
-        if (!this.absolute) if (this.reverse && info.attacker != null) scale *= info.attacker.getBbWidth();
-        else if (!this.reverse && info.attacked != null) scale *= info.attacked.getBbWidth();
-        for (double i = info.currentTick; i < info.currentTick + 1; i += this.density)
+        double scale = values.width;
+        if (!values.absolute) if (values.reverse && info.attacker != null) scale *= info.attacker.getBbWidth();
+        else if (!values.reverse && info.attacked != null) scale *= info.attacked.getBbWidth();
+        for (double i = info.currentTick; i < info.currentTick + 1; i += values.density)
         {
             this.setVector(i, temp);
             temp.scalarMultBy(scale).addTo(source);
-            PokecubeCore.spawnParticle(info.attacker.getLevel(), this.particle, temp, null, this.rgba,
-                    this.particleLife);
+            PokecubeCore.spawnParticle(info.attacker.getLevel(), values.particle, temp, null, values.rgba,
+                    values.lifetime);
         }
     }
 }

@@ -1,0 +1,33 @@
+{
+  "name": "dragon-ascent",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:d0.2:w4:l20:atrue:f(0.5-rand())*(1),(0.5-rand())*(0.6),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pexplosion:atrue:f(0.5-rand())*(1),(0.5-rand())*(0.1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.enderdragon.ambient",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 2.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pdragon_breath:w4:d0.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": true
+    }
+  ]
+}

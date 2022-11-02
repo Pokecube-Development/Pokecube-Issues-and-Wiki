@@ -2,19 +2,29 @@
   "name": "bug-buzz",
   "animations": [
     {
-      "preset": "flow:w0.8:pmisc:clime",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.aurorabeam",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "width": 0.8,
+        "particle": "misc",
+        "rgba_string": "lime"
+      }
     },
     {
-      "preset": "beam:pmisc:w1:d0.3",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "width": 1.0,
+        "density": 0.3
+      }
     }
   ]
 }

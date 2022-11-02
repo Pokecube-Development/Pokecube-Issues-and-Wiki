@@ -2,14 +2,30 @@
   "name": "mean-look",
   "animations": [
     {
-      "preset": "pons:pmisc:cblack:d1:w1:rtrue:l15",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "black",
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 15
+      }
     },
     {
-      "preset": "pons:pangry_villager:cblack:d0.8:w1:rtrue:l15",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "angry_villager",
+        "rgba_string": "black",
+        "density": 0.8,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 15
+      }
     }
   ]
 }

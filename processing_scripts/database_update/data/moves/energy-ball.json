@@ -1,0 +1,25 @@
+{
+  "name": "energy-ball",
+  "animations": [
+    {
+      "preset": "throw:w0.3:clime",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    },
+    {
+      "preset": "cartFunc:pmisc:clime:d0.7:w1:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

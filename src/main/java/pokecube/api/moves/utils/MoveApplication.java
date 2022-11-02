@@ -3,11 +3,15 @@ package pokecube.api.moves.utils;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Sets;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -638,6 +642,12 @@ public class MoveApplication implements Comparable<MoveApplication>
      */
     public Map<String, Object> customFlags = new HashMap<>();
 
+    /**
+     * Collection of UUIDs of mobs this has already applied to. This is used by
+     * the EntityMoveUse to decide what mobs to hit.
+     */
+    public Set<UUID> alreadyHit = Sets.newHashSet();
+
     public MoveApplication(MoveEntry move, IPokemob user, LivingEntity target)
     {
         this.setTarget(target);
@@ -803,5 +813,13 @@ public class MoveApplication implements Comparable<MoveApplication>
     public boolean isFinished()
     {
         return finished.get();
+    }
+
+    public MoveApplication copyForMoveUse()
+    {
+        var copy = new MoveApplication(getMove(), getUser(), getTarget());
+        // Ensure they all share the same already hit set.
+        copy.alreadyHit = this.alreadyHit;
+        return copy;
     }
 }

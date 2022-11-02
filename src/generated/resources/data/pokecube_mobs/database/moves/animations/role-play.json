@@ -2,14 +2,26 @@
   "name": "role-play",
   "animations": [
     {
-      "preset": "beam:pend_rod:d0.5:rtrue:l5:atrue",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.5,
+        "reverse": true,
+        "lifetime": 5,
+        "absolute": true
+      }
     },
     {
-      "preset": "pons:pwitch:d1:l5",
-      "duration": "5",
-      "starttick": "4"
+      "preset": "pons",
+      "duration": 5,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "witch",
+        "density": 1.0,
+        "lifetime": 5
+      }
     }
   ]
 }

@@ -1,0 +1,25 @@
+{
+  "name": "magma-storm",
+  "animations": [
+    {
+      "preset": "flow:plava:w2",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    },
+    {
+      "preset": "flow:pflame:10:d0.5:w1",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.waterpulse",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    }
+  ]
+}

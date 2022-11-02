@@ -1,0 +1,15 @@
+{
+  "name": "wing-attack",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:atrue",
+      "duration": "5",
+      "starttick": "2",
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    }
+  ]
+}

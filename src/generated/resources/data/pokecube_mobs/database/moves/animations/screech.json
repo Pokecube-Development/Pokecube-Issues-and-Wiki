@@ -2,14 +2,21 @@
   "name": "screech",
   "animations": [
     {
-      "preset": "flow:pfirework:csilver:w2:atrue:d0.20",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.metalclaw",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "particle": "firework",
+        "rgba_string": "silver",
+        "width": 2.0,
+        "absolute": true,
+        "density": 0.2
+      }
     }
   ]
 }

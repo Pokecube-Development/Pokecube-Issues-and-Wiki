@@ -2,48 +2,82 @@
   "name": "photon-geyser",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:rtrue:l5:d0.1:w1.4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
-      "sound": "pokecube:moves.megaattack",
-      "soundSource": true,
-      "soundTarget": false,
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
       "volume": 1.0,
       "pitch": 1.0,
-      "applyAfter": true
-    },
-    {
-      "preset": "throw:pend_rod:cwhite",
-      "duration": "5",
-      "starttick": "3",
       "sound": "pokecube:moves.megaattack",
       "soundSource": true,
       "soundTarget": false,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "reverse": true,
+        "lifetime": 5,
+        "density": 0.1,
+        "width": 1.4,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
+    },
+    {
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 3,
       "volume": 1.0,
       "pitch": 1.4,
-      "applyAfter": false
+      "sound": "pokecube:moves.megaattack",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "white"
+      }
     },
     {
-      "preset": "cartFunc:pend_rod:d0.1:l2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "minecraft:entity.generic.explode",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 2.0,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.1,
+        "lifetime": 2,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pend_rod:d0.5:l15:w4:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "minecraft:entity.generic.explode",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 2.0,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.5,
+        "lifetime": 15,
+        "width": 4.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

@@ -1,0 +1,25 @@
+{
+  "name": "rock-blast",
+  "animations": [
+    {
+      "preset": "throw:w0.4",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    },
+    {
+      "preset": "cartFunc:pcrit:d2:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.rocksmash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    }
+  ]
+}

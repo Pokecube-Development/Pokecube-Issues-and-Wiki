@@ -2,6 +2,8 @@ package pokecube.core.moves.animations.presets.parametric;
 
 import org.nfunk.jep.JEP;
 
+import com.google.gson.JsonObject;
+
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.animations.AnimPreset;
@@ -15,34 +17,16 @@ public class CylindricalFunction extends MoveAnimationBase
     JEP angular;
 
     public CylindricalFunction()
-    {
-    }
+    {}
 
     @Override
-    public IMoveAnimation init(String preset)
+    public IMoveAnimation init(JsonObject preset)
     {
-        this.rgba = 0xFFFFFFFF;
-        final String[] args = preset.split(":");
-        this.particle = "misc";
-        String fr = "z";
-        String fphi = "0";
-        for (int i = 1; i < args.length; i++)
-        {
-            final String ident = args[i].substring(0, 1);
-            final String val = args[i].substring(1);
-            if (ident.equals("p")) this.particle = val;
-            else if (ident.equals("l")) this.particleLife = Integer.parseInt(val);
-            else if (ident.equals("c")) this.initRGBA(val);
-            else if (ident.equals("f"))
-            {
-                final String[] funcs = val.split(",");
-                fr = funcs[0];
-                fphi = funcs[1];
-            }
-            else if (ident.equals("d")) this.density = Float.parseFloat(val);
-        }
-        this.initJEP(fr, this.radial = new JEP());
-        this.initJEP(fphi, this.angular = new JEP());
+        super.init(preset);
+        if (values.f_radial == null) values.f_radial = "z";
+        if (values.f_phi == null) values.f_phi = "0";
+        this.initJEP(values.f_radial, this.radial = new JEP());
+        this.initJEP(values.f_phi, this.angular = new JEP());
         return this;
     }
 
@@ -84,11 +68,11 @@ public class CylindricalFunction extends MoveAnimationBase
         final Vector3 angleF = temp.horizonalPerp().norm();
         for (double i = frac; i < frac3; i += 0.1)
         {
-            if (this.density < 1 && Math.random() > this.density) continue;
+            if (values.density < 1 && Math.random() > values.density) continue;
             if (i / dist > 1) return;
             this.setVector(angleF, temp, i / dist, temp1);
-            PokecubeCore.spawnParticle(info.attacker.getLevel(), this.particle, source.add(temp.scalarMult(i)
-                    .addTo(temp1)), null, this.rgba, this.particleLife);
+            PokecubeCore.spawnParticle(info.attacker.getLevel(), values.particle,
+                    source.add(temp.scalarMult(i).addTo(temp1)), null, values.rgba, values.lifetime);
         }
     }
 }

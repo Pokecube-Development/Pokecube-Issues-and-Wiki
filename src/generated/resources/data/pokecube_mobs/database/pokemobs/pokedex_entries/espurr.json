@@ -172,6 +172,12 @@
   "evolutions": [
     {
       "name": "meowstic-male",
+      "sexe": "male",
+      "level": 25
+    },
+    {
+      "name": "meowstic-female",
+      "sexe": "female",
       "level": 25
     }
   ],

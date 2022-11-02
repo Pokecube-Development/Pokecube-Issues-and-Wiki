@@ -2,24 +2,33 @@
   "name": "mud-bomb",
   "animations": [
     {
-      "preset": "throw:atrue:w0.7:cbrown",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.waterpulse",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "absolute": true,
+        "width": 0.7,
+        "rgba_string": "brown"
+      }
     },
     {
-      "preset": "cartFunc:atrue:pexplosion_emitter",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.dig",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2
+      "preset_values": {
+        "absolute": true,
+        "particle": "explosion_emitter"
+      }
     }
   ]
 }

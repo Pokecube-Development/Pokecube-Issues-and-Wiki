@@ -2,24 +2,34 @@
   "name": "overheat",
   "animations": [
     {
-      "preset": "flow:pflame:d1:w2.5",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.sacredfire",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "particle": "flame",
+        "density": 1.0,
+        "width": 2.5
+      }
     },
     {
-      "preset": "flow:plava:d1:w3",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.flamewheel",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "lava",
+        "density": 1.0,
+        "width": 3.0
+      }
     }
   ]
 }

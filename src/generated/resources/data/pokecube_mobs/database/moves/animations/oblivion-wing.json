@@ -2,29 +2,45 @@
   "name": "oblivion-wing",
   "animations": [
     {
-      "preset": "beam:pmisc:cred",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "minecraft:entity.evoker.cast_spell",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "red"
+      }
     },
     {
-      "preset": "flow:pend_rod:cblack:d0.5:w0.5",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "minecraft:entity.evoker.prepare_attack",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "end_rod",
+        "rgba_string": "black",
+        "density": 0.5,
+        "width": 0.5
+      }
     },
     {
-      "preset": "flow:psmoke:cblack:d0.5:w0.5",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "smoke",
+        "rgba_string": "black",
+        "density": 0.5,
+        "width": 0.5
+      }
     }
   ]
 }

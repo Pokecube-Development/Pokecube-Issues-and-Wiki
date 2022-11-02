@@ -1,0 +1,30 @@
+{
+  "name": "play-rough",
+  "animations": [
+    {
+      "preset": "cartFunc:pcrit:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.5
+    },
+    {
+      "preset": "cartFunc:pmisc:atrue:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0"
+    },
+    {
+      "preset": "cartFunc:pcloud:atrue:d2:l25:f(0.5-rand())*(2.5),(0.5-rand())*(2.5),(0.5-rand())*(2.5)",
+      "duration": "5",
+      "starttick": "2",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

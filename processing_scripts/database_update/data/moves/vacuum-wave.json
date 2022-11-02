@@ -1,0 +1,25 @@
+{
+  "name": "vacuum-wave",
+  "animations": [
+    {
+      "preset": "throw:atrue:w0.5:csilver",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    },
+    {
+      "preset": "cartFunc:pcrit:d3:atrue:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "name": "brine",
+  "animations": [
+    {
+      "preset": "flow:psplash",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dive",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "flow:pcloud:d0.5",
+      "duration": "0",
+      "starttick": "0",
+      "sound": "pokecube:moves.sacredfire",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 2.0
+    }
+  ]
+}

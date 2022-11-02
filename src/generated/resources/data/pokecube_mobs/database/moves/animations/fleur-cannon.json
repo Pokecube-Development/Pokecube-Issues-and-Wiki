@@ -2,54 +2,81 @@
   "name": "fleur-cannon",
   "animations": [
     {
-      "preset": "beam:atrue:cpink",
-      "duration": "5",
-      "starttick": "0",
-      "sound": "pokecube:moves.unknown",
-      "soundSource": true,
-      "soundTarget": false,
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 0,
       "volume": 1.0,
       "pitch": 1.0,
-      "applyAfter": false
-    },
-    {
-      "preset": "beam:atrue:cmagenta",
-      "duration": "5",
-      "starttick": "3",
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "rgba_string": "pink"
+      }
     },
     {
-      "preset": "beam:atrue:cpink",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "sound": "pokecube:moves.unknown",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "rgba_string": "magenta"
+      }
+    },
+    {
+      "preset": "beam",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "pokecube:moves.safeguard",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.4,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "rgba_string": "pink"
+      }
     },
     {
-      "preset": "cartFunc:pcloud:l15:w2:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "3",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.dig",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.5,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "cloud",
+        "lifetime": 15,
+        "width": 2.0,
+        "absolute": true,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "flow:pend_rod:atrue:d0.5:w1.5",
-      "duration": "5",
-      "starttick": "0",
-      "applyAfter": true
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "end_rod",
+        "absolute": true,
+        "density": 0.5,
+        "width": 1.5
+      }
     }
   ]
 }

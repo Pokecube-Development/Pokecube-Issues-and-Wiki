@@ -2,19 +2,38 @@
   "name": "draining-kiss",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:d1:w1:l5:f0,0,0",
-      "duration": "4",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 4,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.charm",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5
+      "preset_values": {
+        "particle": "misc",
+        "density": 1.0,
+        "width": 1.0,
+        "lifetime": 5,
+        "f_x": "0",
+        "f_y": "0",
+        "f_z": "0"
+      }
     },
     {
-      "preset": "cartFunc:pheart:d1:w1:rtrue:l5:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "heart",
+        "density": 1.0,
+        "width": 1.0,
+        "reverse": true,
+        "lifetime": 5,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

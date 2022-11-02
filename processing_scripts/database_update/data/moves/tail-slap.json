@@ -1,0 +1,22 @@
+{
+  "name": "tail-slap",
+  "animations": [
+    {
+      "preset": "cartFunc:pcloud:l3:w0.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcrit:l2:w0.5:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": false
+    }
+  ]
+}

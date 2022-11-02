@@ -2,14 +2,19 @@
   "name": "fury-attack",
   "animations": [
     {
-      "preset": "cartFunc:pcrit:d0.5:l3",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.vicegrip",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.5,
+        "lifetime": 3
+      }
     }
   ]
 }

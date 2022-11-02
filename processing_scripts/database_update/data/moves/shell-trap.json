@@ -1,0 +1,25 @@
+{
+  "name": "shell-trap",
+  "animations": [
+    {
+      "preset": "cartFunc:pflame:d0.25:atrue:w2:rtrue:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.flamewheel",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d1:w2:atrue:rtrue:l15:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "5",
+      "sound": "minecraft:entity.generic.explode",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.8
+    }
+  ]
+}

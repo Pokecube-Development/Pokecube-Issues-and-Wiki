@@ -2,24 +2,34 @@
   "name": "u-turn",
   "animations": [
     {
-      "preset": "cartFunc:pmisc:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
-      "duration": "5",
-      "starttick": "3",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.5,
       "sound": "pokecube:moves.woodenhammer",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.5
+      "preset_values": {
+        "particle": "misc",
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
     },
     {
-      "preset": "throw:atrue:w1.5",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "absolute": true,
+        "width": 1.5
+      }
     }
   ]
 }

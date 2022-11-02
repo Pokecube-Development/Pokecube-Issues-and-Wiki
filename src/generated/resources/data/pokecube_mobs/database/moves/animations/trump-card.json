@@ -2,24 +2,41 @@
   "name": "trump-card",
   "animations": [
     {
-      "preset": "cartFunc:ppowder:atrue:d0.3:w0.5:l3:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.7,
+      "pitch": 1.8,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.7,
-      "pitch": 1.8
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "density": 0.3,
+        "width": 0.5,
+        "lifetime": 3,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:pcloud:d1:atrue:w2:l15",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 2.0,
       "sound": "pokecube:moves.slash",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 2.0
+      "preset_values": {
+        "particle": "cloud",
+        "density": 1.0,
+        "absolute": true,
+        "width": 2.0,
+        "lifetime": 15
+      }
     }
   ]
 }

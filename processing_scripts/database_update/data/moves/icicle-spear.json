@@ -1,0 +1,27 @@
+{
+  "name": "icicle-spear",
+  "animations": [
+    {
+      "preset": "throw:atrue:w0.2",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.iceball",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pcrit:l2:atrue",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": false,
+      "soundTarget": true,
+      "volume": 1.0,
+      "pitch": 1.8,
+      "applyAfter": false
+    }
+  ]
+}

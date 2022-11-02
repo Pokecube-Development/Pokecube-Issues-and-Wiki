@@ -1,0 +1,38 @@
+{
+  "name": "first-impression",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:atrue",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:pcrit:atrue:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.vicegrip",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:rtrue:atrue:pcloud:l2:w2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.6,
+      "applyAfter": true
+    }
+  ]
+}

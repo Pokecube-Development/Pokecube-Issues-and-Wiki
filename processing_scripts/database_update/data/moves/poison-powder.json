@@ -1,0 +1,15 @@
+{
+  "name": "poison-powder",
+  "animations": [
+    {
+      "preset": "powder:ppowder:d0.7:l10",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.3
+    }
+  ]
+}

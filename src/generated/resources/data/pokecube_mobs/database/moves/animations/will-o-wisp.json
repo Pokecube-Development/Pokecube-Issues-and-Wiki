@@ -2,29 +2,51 @@
   "name": "will-o-wisp",
   "animations": [
     {
-      "preset": "flow:pmisc:cpurple:d0.3:atrue:w0.1",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "purple",
+        "density": 0.3,
+        "absolute": true,
+        "width": 0.1
+      }
     },
     {
-      "preset": "throw:cpurple:w0.3:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.aurorabeam",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "rgba_string": "purple",
+        "width": 0.3,
+        "absolute": true
+      }
     },
     {
-      "preset": "cartFunc:plava:atrue:d5:w0.5:l20:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 0.9,
       "sound": "pokecube:moves.ember",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 0.9
+      "preset_values": {
+        "particle": "lava",
+        "absolute": true,
+        "density": 5.0,
+        "width": 0.5,
+        "lifetime": 20,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

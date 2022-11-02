@@ -1,0 +1,35 @@
+{
+  "name": "sludge-bomb",
+  "animations": [
+    {
+      "preset": "throw",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pmisc:d0.66:w2.5:atrue:l4:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.poisontoxic",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.8
+    },
+    {
+      "preset": "cartFunc:pexplosion_emitter:d3:atrue",
+      "duration": "5",
+      "starttick": "4",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.7
+    }
+  ]
+}

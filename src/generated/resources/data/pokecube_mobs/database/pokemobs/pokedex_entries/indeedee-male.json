@@ -11,7 +11,7 @@
   "capture_rate": 30,
   "base_happiness": 140,
   "growth_rate": "fast",
-  "gender_rate": 127,
+  "gender_rate": 0,
   "stats": {
     "hp": 60,
     "attack": 65,

@@ -2,9 +2,15 @@
   "name": "stealth-rock",
   "animations": [
     {
-      "preset": "powder:pcrit:d0.1:w5:l5",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "crit",
+        "density": 0.1,
+        "width": 5.0,
+        "lifetime": 5
+      }
     }
   ]
 }

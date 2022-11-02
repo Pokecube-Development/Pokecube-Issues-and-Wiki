@@ -1,0 +1,10 @@
+{
+  "name": "rototiller",
+  "animations": [
+    {
+      "preset": "powder:pmisc:d1:w5:l5",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

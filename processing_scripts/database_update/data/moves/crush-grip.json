@@ -1,0 +1,27 @@
+{
+  "name": "crush-grip",
+  "animations": [
+    {
+      "preset": "cartFunc:atrue:l3:pcrit:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    },
+    {
+      "preset": "cartFunc:atrue:l10:w2:pcloud:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.withdraw",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0,
+      "applyAfter": false
+    }
+  ]
+}

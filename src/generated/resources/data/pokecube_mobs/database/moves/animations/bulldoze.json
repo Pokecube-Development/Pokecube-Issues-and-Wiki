@@ -2,34 +2,51 @@
   "name": "bulldoze",
   "animations": [
     {
-      "preset": "cartFunc:pexplosion_emitter:d0.5:rtrue:l10",
-      "duration": "5",
-      "starttick": "0",
-      "sound": "pokecube:moves.rocktomb",
-      "soundSource": true,
-      "soundTarget": false,
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
       "volume": 2.0,
-      "pitch": 1.0
-    },
-    {
-      "preset": "cartFunc:pcrit:cmagenta:d0.3:rfalse:l10:f(0.5-rand())*(2),(0.5-rand())*(2),(0.5-rand())*(2)",
-      "duration": "2",
-      "starttick": "3",
+      "pitch": 1.0,
       "sound": "pokecube:moves.rocktomb",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "explosion_emitter",
+        "density": 0.5,
+        "reverse": true,
+        "lifetime": 10
+      }
     },
     {
       "preset": "cartFunc",
-      "duration": "0",
-      "starttick": "5",
+      "duration": 2,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.rocktomb",
       "soundSource": true,
       "soundTarget": false,
+      "preset_values": {
+        "particle": "crit",
+        "rgba_string": "magenta",
+        "density": 0.3,
+        "reverse": false,
+        "lifetime": 10,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(2)",
+        "f_z": "(0.5-rand())*(2)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 0,
+      "starttick": 5,
       "volume": 1.0,
-      "pitch": 1.0
+      "pitch": 1.0,
+      "sound": "pokecube:moves.rocktomb",
+      "soundSource": true,
+      "soundTarget": false,
+      "preset_values": {}
     }
   ]
 }

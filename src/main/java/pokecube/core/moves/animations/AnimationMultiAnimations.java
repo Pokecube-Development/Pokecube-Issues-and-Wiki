@@ -48,21 +48,20 @@ public class AnimationMultiAnimations extends MoveAnimationBase
     public AnimationMultiAnimations(final MoveEntry move)
     {
         final List<AnimationJson> animations = move.root_entry.animation.animations;
-        this.duration = 0;
+        this.values.duration = 0;
         if (animations == null || animations.isEmpty()) return;
         for (final AnimationJson anim : animations)
         {
-            if (!anim.preset.endsWith(":~" + move.name)) anim.preset = anim.preset + ":~" + move.name;
-            final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim.preset);
+            final IMoveAnimation animation = MoveAnimationHelper.getAnimationPreset(anim.preset, anim.preset_values);
             if (animation == null)
             {
                 PokecubeAPI.LOGGER.warn("Warning, unknown animation for preset: {}", anim.preset);
                 continue;
             }
-            final int start = Integer.parseInt(anim.starttick);
-            final int dur = Integer.parseInt(anim.duration);
+            final int start = anim.starttick;
+            final int dur = anim.duration;
             if (anim.applyAfter) this.applicationTick = Math.max(start + dur, this.applicationTick);
-            this.duration = Math.max(this.duration, start + dur);
+            this.values.duration = Math.max(this.values.duration, start + dur);
             final WrappedAnimation wrapped = new WrappedAnimation();
             if (anim.sound != null)
             {

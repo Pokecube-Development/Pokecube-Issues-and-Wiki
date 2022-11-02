@@ -2,49 +2,100 @@
   "name": "hyperspace-fury",
   "animations": [
     {
-      "preset": "cartFunc:atrue:d0.08:pdragon_breath:w1:l8:rtrue:f(0.5-rand())*(6),-3,(0.5-rand())*(6)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 2.0,
+      "pitch": 0.9,
       "sound": "minecraft:entity.illusioner.mirror_move",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 2.0,
-      "pitch": 0.9,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.08,
+        "particle": "dragon_breath",
+        "width": 1.0,
+        "lifetime": 8,
+        "reverse": true,
+        "f_x": "(0.5-rand())*(6)",
+        "f_y": "-3",
+        "f_z": "(0.5-rand())*(6)"
+      }
     },
     {
-      "preset": "cartFunc:atrue:d0.08:pdragon_breath:w1:l14:f(0.5-rand())*(6),5,(0.5-rand())*(6)",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 2.0,
+      "pitch": 0.9,
       "sound": "minecraft:entity.illusioner.mirror_move",
       "soundSource": false,
       "soundTarget": true,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.08,
+        "particle": "dragon_breath",
+        "width": 1.0,
+        "lifetime": 14,
+        "f_x": "(0.5-rand())*(6)",
+        "f_y": "5",
+        "f_z": "(0.5-rand())*(6)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 4,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.1,
+        "particle": "end_rod",
+        "width": 1.0,
+        "lifetime": 14,
+        "f_x": "(0.5-rand())*(4)",
+        "f_y": "5",
+        "f_z": "(0.5-rand())*(4)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.1,
+        "particle": "end_rod",
+        "reverse": true,
+        "width": 1.0,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(4)",
+        "f_y": "-3",
+        "f_z": "(0.5-rand())*(4)"
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
       "volume": 2.0,
-      "pitch": 0.9,
-      "applyAfter": false
-    },
-    {
-      "preset": "cartFunc:atrue:d0.1:pend_rod:w1:l14:f(0.5-rand())*(4),5,(0.5-rand())*(4)",
-      "duration": "5",
-      "starttick": "4",
-      "applyAfter": false
-    },
-    {
-      "preset": "cartFunc:atrue:d0.1:pend_rod:rtrue:w1:l8:f(0.5-rand())*(4),-3,(0.5-rand())*(4)",
-      "duration": "5",
-      "starttick": "0",
-      "applyAfter": false
-    },
-    {
-      "preset": "cartFunc:atrue:d0.07:psmoke:l30:f(0.5-rand())*(2),(0.5-rand())*(10),(0.5-rand())*(2)",
-      "duration": "5",
-      "starttick": "5",
+      "pitch": 2.0,
       "sound": "minecraft:entity.wither.spawn",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 2.0,
-      "pitch": 2.0,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "absolute": true,
+        "density": 0.07,
+        "particle": "smoke",
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(2)",
+        "f_y": "(0.5-rand())*(10)",
+        "f_z": "(0.5-rand())*(2)"
+      }
     }
   ]
 }

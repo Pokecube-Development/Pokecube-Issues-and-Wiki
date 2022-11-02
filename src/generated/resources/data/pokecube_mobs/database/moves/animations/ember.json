@@ -2,19 +2,28 @@
   "name": "ember",
   "animations": [
     {
-      "preset": "flow:pflame:d0.09:w0.5",
-      "duration": "4",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 4,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.ember",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "flame",
+        "density": 0.09,
+        "width": 0.5
+      }
     },
     {
-      "preset": "cartFunc:plava:d1",
-      "duration": "1",
-      "starttick": "4"
+      "preset": "cartFunc",
+      "duration": 1,
+      "starttick": 4,
+      "preset_values": {
+        "particle": "lava",
+        "density": 1.0
+      }
     }
   ]
 }

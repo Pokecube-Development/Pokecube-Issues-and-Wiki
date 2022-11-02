@@ -18,14 +18,14 @@ public class ParticlesOnSource extends ParticlesOnTarget
     @Override
     public void spawnClientEntities(MovePacketInfo info)
     {
-        if (Math.random() > this.density) return;
+        if (Math.random() > this.values.density) return;
         this.initColour(info.attacker.getLevel().getDayTime(), 0, info.move);
         final Vector3 temp = new Vector3().set(info.source);
         final Random rand = ThutCore.newRandom();
         float dw = 0.25f;
         if (info.attacker != null) dw = info.attacker.getBbWidth();
-        final float width = this.width * dw;
+        final float width = this.values.width * dw;
         temp.addTo(rand.nextGaussian() * width, rand.nextGaussian() * width, rand.nextGaussian() * width);
-        PokecubeCore.spawnParticle(info.attacker.getLevel(), this.particle, temp, null, this.rgba);
+        PokecubeCore.spawnParticle(info.attacker.getLevel(), this.values.particle, temp, null, this.values.rgba);
     }
 }

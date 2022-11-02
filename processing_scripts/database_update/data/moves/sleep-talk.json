@@ -1,0 +1,10 @@
+{
+  "name": "sleep-talk",
+  "animations": [
+    {
+      "preset": "cartFunc:pnote:d1:w2:rtrue",
+      "duration": "5",
+      "starttick": "0"
+    }
+  ]
+}

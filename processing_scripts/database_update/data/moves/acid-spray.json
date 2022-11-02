@@ -1,0 +1,15 @@
+{
+  "name": "acid-spray",
+  "animations": [
+    {
+      "preset": "flow:w0.8",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.acidarmor",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.7
+    }
+  ]
+}

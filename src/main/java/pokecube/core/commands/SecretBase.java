@@ -87,24 +87,28 @@ public class SecretBase
             final GlobalPos loc = SecretBase.pendingBaseLocations.remove(player.getUUID());
             final Vector3 pos = new Vector3().set(loc.pos());
             final ResourceKey<Level> type = loc.dimension();
-            if (type == player.getLevel().dimension() && pos.distTo(new Vector3().set(input)) < 16
-                    && player.getLevel().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
+            double distance = pos.distTo(new Vector3().set(input));
+            if (type == player.getLevel().dimension() && distance < 16)
             {
                 final BlockPos base_pos = new BlockPos(input);
                 final BlockState original = pos.getBlockState(player.getLevel());
                 pos.setBlock(player.getLevel(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
-                final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-                ownable.setPlacer(player);
-                final GlobalPos gpos = GlobalPos.of(loc.dimension(), base_pos);
-                tile.last_base = gpos;
-                tile.original = original;
-                SecretBaseDimension.setSecretBasePoint(player, gpos, type == SecretBaseDimension.WORLD_KEY);
-                pos.x = pos.intX();
-                pos.y = pos.intY();
-                pos.z = pos.intZ();
-                final MutableComponent message = TComponent.translatable("pokemob.createbase.confirmed", pos);
-                thut.lib.ChatHelper.sendSystemMessage(player, message);
-                return 0;
+                if (player.getLevel().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
+                {
+                    final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+                    ownable.setPlacer(player);
+                    final GlobalPos gpos = GlobalPos.of(loc.dimension(), base_pos);
+                    tile.last_base = gpos;
+                    tile.original = original;
+                    SecretBaseDimension.setSecretBasePoint(player, gpos, type == SecretBaseDimension.WORLD_KEY);
+                    pos.x = pos.intX();
+                    pos.y = pos.intY();
+                    pos.z = pos.intZ();
+                    final MutableComponent message = TComponent.translatable("pokemob.createbase.confirmed", pos);
+                    thut.lib.ChatHelper.sendSystemMessage(player, message);
+                    return 0;
+                }
+                return 1;
             }
         }
         return 1;

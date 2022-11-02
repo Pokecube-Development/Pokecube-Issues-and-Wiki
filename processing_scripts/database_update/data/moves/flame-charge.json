@@ -1,0 +1,25 @@
+{
+  "name": "flame-charge",
+  "animations": [
+    {
+      "preset": "cartFunc:plava:d2:w1:f0,0,0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.ember",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.2
+    },
+    {
+      "preset": "cartFunc:pcrit:d1:w1:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.dig",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 0.9
+    }
+  ]
+}

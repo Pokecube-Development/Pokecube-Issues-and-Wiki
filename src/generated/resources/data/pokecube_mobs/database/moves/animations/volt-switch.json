@@ -2,24 +2,36 @@
   "name": "volt-switch",
   "animations": [
     {
-      "preset": "powder:pmisc:atrue:d0.05:w0.7:l5",
-      "duration": "5",
-      "starttick": "4",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 4,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.thunderwave",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "particle": "misc",
+        "absolute": true,
+        "density": 0.05,
+        "width": 0.7,
+        "lifetime": 5
+      }
     },
     {
-      "preset": "flow:w0.9:atrue:d0.7",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.8,
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.8
+      "preset_values": {
+        "width": 0.9,
+        "absolute": true,
+        "density": 0.7
+      }
     }
   ]
 }

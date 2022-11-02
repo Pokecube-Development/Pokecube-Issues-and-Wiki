@@ -2,9 +2,15 @@
   "name": "baton-pass",
   "animations": [
     {
-      "preset": "cartFunc:pcloud:d0.5:rtrue:l10",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "particle": "cloud",
+        "density": 0.5,
+        "reverse": true,
+        "lifetime": 10
+      }
     }
   ]
 }

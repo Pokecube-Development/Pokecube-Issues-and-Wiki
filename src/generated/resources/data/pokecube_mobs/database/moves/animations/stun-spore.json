@@ -2,24 +2,33 @@
   "name": "stun-spore",
   "animations": [
     {
-      "preset": "powder:cyellow:l5:atrue",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "powder",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 0.7,
       "sound": "minecraft:block.sand.place",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 0.7
+      "preset_values": {
+        "rgba_string": "yellow",
+        "lifetime": 5,
+        "absolute": true
+      }
     },
     {
-      "preset": "cartFunc:ppowder:l1",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.7,
       "sound": "pokecube:moves.thunderwave",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.7
+      "preset_values": {
+        "particle": "powder",
+        "lifetime": 1
+      }
     }
   ]
 }

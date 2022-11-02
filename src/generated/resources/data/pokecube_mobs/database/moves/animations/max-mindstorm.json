@@ -3,18 +3,24 @@
   "animations": [
     {
       "preset": "beam",
-      "duration": "5",
-      "starttick": "0"
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {}
     },
     {
-      "preset": "flow:pend_rod:w0.3:d0.1",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.0,
       "sound": "pokecube:moves.aurorabeam",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.0
+      "preset_values": {
+        "particle": "end_rod",
+        "width": 0.3,
+        "density": 0.1
+      }
     }
   ]
 }

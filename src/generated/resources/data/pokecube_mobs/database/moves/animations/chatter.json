@@ -2,26 +2,42 @@
   "name": "chatter",
   "animations": [
     {
-      "preset": "flow:pmisc:cwhite:atrue:d0.25:w2",
-      "duration": "5",
-      "starttick": "4",
-      "sound": "pokecube:moves.fly",
-      "soundSource": true,
-      "soundTarget": false,
+      "preset": "flow",
+      "duration": 5,
+      "starttick": 4,
       "volume": 1.0,
       "pitch": 1.5,
-      "applyAfter": false
-    },
-    {
-      "preset": "cartFunc:pnote:rtrue:atrue:d4:f0,0.1,0",
-      "duration": "5",
-      "starttick": "0",
       "sound": "pokecube:moves.fly",
       "soundSource": true,
       "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "misc",
+        "rgba_string": "white",
+        "absolute": true,
+        "density": 0.25,
+        "width": 2.0
+      }
+    },
+    {
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
       "volume": 1.0,
       "pitch": 1.7,
-      "applyAfter": false
+      "sound": "pokecube:moves.fly",
+      "soundSource": true,
+      "soundTarget": false,
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "note",
+        "reverse": true,
+        "absolute": true,
+        "density": 4.0,
+        "f_x": "0",
+        "f_y": "0.1",
+        "f_z": "0"
+      }
     }
   ]
 }

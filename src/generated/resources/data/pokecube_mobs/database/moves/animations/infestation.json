@@ -2,37 +2,67 @@
   "name": "infestation",
   "animations": [
     {
-      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "minecraft:entity.silverfish.ambient",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.4,
-      "applyAfter": true
+      "applyAfter": true,
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "density": 0.7,
+        "lifetime": 8,
+        "rgba_string": "green",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "3",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 3,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "minecraft:entity.silverfish.ambient",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.4,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "density": 0.7,
+        "lifetime": 8,
+        "rgba_string": "green",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:ppowder:atrue:d0.7:l8:cgreen:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "volume": 1.0,
+      "pitch": 1.4,
       "sound": "minecraft:entity.silverfish.ambient",
       "soundSource": false,
       "soundTarget": true,
-      "volume": 1.0,
-      "pitch": 1.4,
-      "applyAfter": false
+      "applyAfter": false,
+      "preset_values": {
+        "particle": "powder",
+        "absolute": true,
+        "density": 0.7,
+        "lifetime": 8,
+        "rgba_string": "green",
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

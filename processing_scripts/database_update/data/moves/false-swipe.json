@@ -1,0 +1,15 @@
+{
+  "name": "false-swipe",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:d1:w1:l5",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.cut",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

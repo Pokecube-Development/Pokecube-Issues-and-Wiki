@@ -2,19 +2,41 @@
   "name": "moonlight",
   "animations": [
     {
-      "preset": "cartFunc:pend_rod:d0.33:w3:rtrue:atrue:l30:f(0.5-rand())*(1),(0.5-rand())*(8),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "0",
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 0,
+      "volume": 1.0,
+      "pitch": 1.2,
       "sound": "pokecube:moves.unknown",
       "soundSource": true,
       "soundTarget": false,
-      "volume": 1.0,
-      "pitch": 1.2
+      "preset_values": {
+        "particle": "end_rod",
+        "density": 0.33,
+        "width": 3.0,
+        "reverse": true,
+        "absolute": true,
+        "lifetime": 30,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(8)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     },
     {
-      "preset": "cartFunc:phappy_villager:d1.5:w0.5:atrue:rtrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
-      "duration": "5",
-      "starttick": "5"
+      "preset": "cartFunc",
+      "duration": 5,
+      "starttick": 5,
+      "preset_values": {
+        "particle": "happy_villager",
+        "density": 1.5,
+        "width": 0.5,
+        "absolute": true,
+        "reverse": true,
+        "lifetime": 8,
+        "f_x": "(0.5-rand())*(1)",
+        "f_y": "(0.5-rand())*(1)",
+        "f_z": "(0.5-rand())*(1)"
+      }
     }
   ]
 }

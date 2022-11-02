@@ -2,9 +2,13 @@
   "name": "fling",
   "animations": [
     {
-      "preset": "throw:w0.3:pmisc",
-      "duration": "5",
-      "starttick": "0"
+      "preset": "throw",
+      "duration": 5,
+      "starttick": 0,
+      "preset_values": {
+        "width": 0.3,
+        "particle": "misc"
+      }
     }
   ]
 }

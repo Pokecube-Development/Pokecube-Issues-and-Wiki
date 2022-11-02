@@ -1,0 +1,25 @@
+{
+  "name": "night-slash",
+  "animations": [
+    {
+      "preset": "cartFunc:psweep_attack:f0,0,0",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "pokecube:moves.slash",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.0
+    },
+    {
+      "preset": "cartFunc:pmisc:cblack:d2:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "sound": "minecraft:entity.evoker.cast_spell",
+      "soundSource": true,
+      "soundTarget": false,
+      "volume": 1.0,
+      "pitch": 1.4
+    }
+  ]
+}

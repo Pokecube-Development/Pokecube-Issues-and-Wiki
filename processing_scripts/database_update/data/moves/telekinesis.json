@@ -1,0 +1,16 @@
+{
+  "name": "telekinesis",
+  "animations": [
+    {
+      "preset": "cartFunc:pmisc:d1:rfalse:atrue:l8:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "0",
+      "applyAfter": true
+    },
+    {
+      "preset": "cartFunc:pwitch:d2:w2.5:atrue:rfalse:l30:f(0.5-rand())*(1),(0.5-rand())*(1),(0.5-rand())*(1)",
+      "duration": "5",
+      "starttick": "4"
+    }
+  ]
+}
