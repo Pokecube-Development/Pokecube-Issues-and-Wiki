@@ -15,7 +15,6 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,7 +24,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
-import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,7 +32,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
@@ -51,7 +48,6 @@ import thut.api.entity.blockentity.world.WorldEntity;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.core.common.network.EntityUpdate;
 import thut.crafts.ThutCrafts;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
@@ -162,15 +158,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void push(final Entity entity)
     {
         if (this.collider == null) this.collider = new BlockEntityUpdater(this);
-        if (!entity.isPushable()) return;
-        try
-        {
-            // this.collider.applyEntityCollision(entity);
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -269,121 +256,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 tile.getShape();
             }
         });
-        final double v = this.getDeltaMovement().lengthSqr();
-        if (v > 1e-5)
-        {
-            final List<Entity> mobs = this.level.getEntities(this, this.getBoundingBox().inflate(Math.sqrt(v) + 0.5));
-            mobs.forEach(m -> this.onEntityCollision(m));
-
-            if (this.getPersistentData().contains("__lift_cache__"))
-            {
-                CompoundTag tag = this.getPersistentData().getCompound("__lift_cache__");
-                int tick = tag.getInt("t");
-                int id = tag.getInt("i");
-                Entity mob = this.level.getEntity(id);
-                if (tickCount - tick < 2 && mob != null)
-                {
-                    Vec3 dr = new Vec3(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z"));
-                    Vec3 v0 = this.getDeltaMovement();
-                    Vec3 r1 = this.position().add(dr).add(v0);
-
-                    if (mob.position().distanceTo(r1) > 0)
-                    {
-                        mob.setPos(r1);
-                        mob.setDeltaMovement(v0);
-                    }
-                }
-            }
-        }
-
     }
 
     public void onEntityCollision(final Entity entityIn)
     {
-        boolean isPassenger = this.passengers.contains(entityIn);
-        if (isPassenger) return;
-
-        final VoxelShape shapeHere = this.collider.buildShape();
-        if (shapeHere.isEmpty()) return;
-
-        Vec3 v0 = this.getDeltaMovement();
-        Vec3 v1 = entityIn.getDeltaMovement();
-        Vec3 dv = v1.add(v0).scale(-1);
-
-        Vec3 r0 = this.position();
-        Vec3 r1 = entityIn.position();
-
-        boolean serverSide = entityIn.getLevel().isClientSide;
-        final boolean isPlayer = entityIn instanceof Player && !(entityIn instanceof Npc);
-        if (isPlayer) serverSide = entityIn instanceof ServerPlayer;
-
-        if (v0.y < 0)
-        {
-            entityIn.setDeltaMovement(v0);
-        }
-        else if (!(serverSide && isPlayer))
-        {
-            boolean valid = false;
-            if (entityIn.getPersistentData().contains("__lift_cache__"))
-            {
-                CompoundTag tag = entityIn.getPersistentData().getCompound("__lift_cache__");
-                int tick = tag.getInt("t");
-                if (tickCount - tick < 5)
-                {
-                    Vec3 dr = new Vec3(tag.getDouble("x"), tag.getDouble("y"), tag.getDouble("z"));
-                    r1 = r0.add(dr).add(v0);
-                    entityIn.setPos(r1);
-                    entityIn.setDeltaMovement(v0);
-                    tag.putInt("t", tickCount);
-                    tag.putInt("i", entityIn.getId());
-                    valid = true;
-                    this.getPersistentData().put("__lift_cache__", tag);
-                }
-            }
-            if (!valid)
-            {
-                AABB box = entityIn.getBoundingBox();
-                AABB boxBefore = entityIn.getBoundingBox().move(dv);
-
-                List<AABB> boxes = shapeHere.toAabbs();
-                for (AABB box2 : boxes)
-                {
-                    AABB intersectA = box2.intersect(box);
-                    AABB intersectB = box2.intersect(boxBefore);
-
-                    boolean intersectsY = intersectA.getYsize() > intersectB.getYsize();
-                    boolean above = (box.minY > box2.minY) || (boxBefore.minY > box2.minY);
-                    boolean intersects = box2.intersects(box) || box2.intersects(boxBefore);
-
-                    if (intersectsY && above && intersects)
-                    {
-                        entityIn.setPos(r1.x, box2.maxY, r1.z);
-                        entityIn.setDeltaMovement(v0);
-                        r1 = entityIn.position();
-                        v1 = entityIn.getDeltaMovement();
-
-                        Vec3 dr = r1.subtract(r0);
-
-                        CompoundTag tag = new CompoundTag();
-                        tag.putInt("t", tickCount);
-                        tag.putDouble("x", dr.x);
-                        tag.putDouble("y", dr.y);
-                        tag.putDouble("z", dr.z);
-
-                        entityIn.getPersistentData().put("__lift_cache__", tag);
-                    }
-                }
-            }
-        }
-        // Player floating tick adjustments
-        if (isPlayer && serverSide)
-        {
-            final ServerPlayer serverplayer = (ServerPlayer) entityIn;
-            // Meed to set floatingTickCount to prevent being kicked
-            serverplayer.connection.aboveGroundVehicleTickCount = 0;
-            serverplayer.connection.aboveGroundTickCount = 0;
-            serverplayer.fallDistance = 0;
-        }
     }
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
@@ -400,10 +276,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (v.lengthSqr() > 0)
         {
             this.move(MoverType.SELF, v);
-        }
-        if (this.tickCount % 60 == 0 && this.isServerWorld())
-        {
-            EntityUpdate.sendEntityUpdate(this);
         }
     }
 
