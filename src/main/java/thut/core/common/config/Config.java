@@ -131,7 +131,7 @@ public class Config
             }
             catch (final Exception e)
             {
-                ThutCore.LOGGER.error("Error updating config value for " + f, e);
+                ThutCore.LOGGER.error("Error updating config value for " + f);
             }
             return changed;
         }
