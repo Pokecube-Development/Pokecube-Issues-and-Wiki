@@ -58,7 +58,7 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.dimension.SecretBaseDimension;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.maths.Vector3;
 import thut.api.util.UnderscoreIgnore;

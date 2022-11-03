@@ -10,8 +10,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import pokecube.legends.init.FeaturesInit;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
+import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
 
 public class DimensionTranserHelper

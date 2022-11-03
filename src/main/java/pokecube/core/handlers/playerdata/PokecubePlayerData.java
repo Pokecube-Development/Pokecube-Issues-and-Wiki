@@ -8,7 +8,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
 import thut.core.common.handlers.PlayerDataHandler.PlayerData;
 
 /**

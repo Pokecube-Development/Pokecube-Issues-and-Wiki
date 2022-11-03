@@ -30,7 +30,7 @@ import pokecube.core.blocks.InteractableTile;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.ThutCaps;
 import thut.api.block.ITickTile;
-import thut.api.entity.ThutTeleporter;
+import thut.api.entity.teleporting.TeleDest;
 import thut.lib.TComponent;
 
 public class SiphonTile extends InteractableTile implements ITickTile
@@ -183,7 +183,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
                 if (user != null && user instanceof ServerPlayer player)
                 {
                     player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.unlink",
-                            new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
+                            new TeleDest().setPos(pos).getInfoName()), true);
                 }
                 return true;
             }
@@ -191,7 +191,7 @@ public class SiphonTile extends InteractableTile implements ITickTile
             if (user != null && user instanceof ServerPlayer player)
             {
                 player.displayClientMessage(TComponent.translatable("block.pokecube_adventures.siphon.link",
-                        new ThutTeleporter.TeleDest().setPos(pos).getInfoName()), true);
+                        new TeleDest().setPos(pos).getInfoName()), true);
             }
             return true;
         }

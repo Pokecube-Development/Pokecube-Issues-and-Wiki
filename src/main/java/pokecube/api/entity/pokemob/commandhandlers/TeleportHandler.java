@@ -23,8 +23,8 @@ import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerData;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
+import thut.api.entity.teleporting.ThutTeleporter;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.lib.TComponent;
 
@@ -201,9 +201,9 @@ public class TeleportHandler extends DefaultHandler
         // Send a teleport event for the using mob, if that fails, do not
         // actually run the teleport.
 
-        final double targetX = d.getLoc().x;
-        final double targetY = d.getLoc().y;
-        final double targetZ = d.getLoc().z;
+        final double targetX = d.getTeleLoc().x;
+        final double targetY = d.getTeleLoc().y;
+        final double targetZ = d.getTeleLoc().z;
         final TeleportEvent event = TeleportEvent.onUseTeleport(pokemob.getEntity(), targetX, targetY, targetZ);
 
         if (!event.isCanceled())

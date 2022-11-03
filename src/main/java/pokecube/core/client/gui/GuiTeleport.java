@@ -19,7 +19,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.network.pokemobs.PacketTeleport;
 import pokecube.core.utils.Resources;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
 
 public class GuiTeleport extends GuiComponent
 {
