@@ -41,6 +41,7 @@ import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.data.effects.PokemobEffects;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -750,6 +751,10 @@ public class Database
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
+        
+        // Also load in the pokemob material effects.
+        PokemobEffects.loadMaterials();
+        
         dt = System.nanoTime() - time;
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 2: {}s", dt / 1e9d);
 

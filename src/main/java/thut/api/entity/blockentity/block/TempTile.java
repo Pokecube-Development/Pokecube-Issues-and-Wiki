@@ -2,9 +2,12 @@ package thut.api.entity.blockentity.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -96,6 +99,72 @@ public class TempTile extends BlockEntity implements ITickTile
         }
         this.shape = ret;
         return ret;
+    }
+
+    public float onVerticalCollide(Entity entity, float distance)
+    {
+        if (entity == this.blockEntity) return distance;
+        if (this.blockEntity == null) return distance;
+        var tileV = this.blockEntity.getDeltaMovement();
+        var entityV = entity.getDeltaMovement();
+
+        var below = level.getBlockEntity(getBlockPos().below());
+        var above = level.getBlockEntity(getBlockPos().above());
+
+        VoxelShape here = this.getShape();
+        if (below instanceof TempTile tile)
+        {
+            var there = tile.getShape();
+            if (here.isEmpty() && !there.isEmpty()) here = there.move(0, -1, 0);
+            else if (!there.isEmpty())
+            {
+                here = Shapes.join(here, there.move(0, -1, 0), BooleanOp.OR);
+            }
+        }
+        if (above instanceof TempTile tile)
+        {
+            var there = tile.getShape();
+            if (here.isEmpty() && !there.isEmpty()) here = there.move(0, -1, 0);
+            else if (!there.isEmpty())
+            {
+                here = Shapes.join(here, there.move(0, -1, 0), BooleanOp.OR);
+            }
+        }
+
+        // Now make sure the mob is on top.
+        if (!here.isEmpty())
+        {
+            double newVy = tileV.y() != 0 ? tileV.y() : entityV.y();
+            // Ensure the mob has same vertical velocity as us.
+            entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
+
+            AABB bounds = here.bounds();
+            var entityR = entity.position();
+            double x = entityR.x();
+            double y = bounds.maxY + this.getBlockPos().getY() + tileV.y();
+            if (y > entity.getBoundingBox().maxY) y = entity.getY() + tileV.y();
+            double z = entityR.z();
+            if (tileV.y() > 0) entity.setPos(x, y, z);
+
+            double d0 = entity.getX();
+            double d1 = entity.getY();
+            double d2 = entity.getZ();
+            entityV = entity.getDeltaMovement();
+
+            entity.xOld = entity.xo = d0 - entityV.x;
+            entity.yOld = entity.yo = d1 - entityV.y;
+            entity.zOld = entity.zo = d2 - entityV.z;
+
+            if (entity instanceof ServerPlayer serverplayer)
+            {
+                // Meed to set floatingTickCount to prevent being kicked
+                serverplayer.connection.aboveGroundVehicleTickCount = 0;
+                serverplayer.connection.aboveGroundTickCount = 0;
+                serverplayer.fallDistance = 0;
+                serverplayer.connection.resetPosition();
+            }
+        }
+        return distance;
     }
 
 }

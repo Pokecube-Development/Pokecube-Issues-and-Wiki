@@ -54,7 +54,6 @@ public class BlockEntityUpdater
         final Vec3 here = this.theEntity.position();
         this.theEntity.setBoundingBox(this.getBoundingBox());
         this.theEntity.setPos(here.x, here.y, here.z);
-//        final Vec3 shifted = this.theEntity.position();
     }
 
     public VoxelShape buildShape()

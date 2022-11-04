@@ -57,8 +57,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.utils.PokecubeSerializer;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
+import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 

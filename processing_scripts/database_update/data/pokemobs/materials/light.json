@@ -1,0 +1,21 @@
+{
+  "material_rules":[
+    {
+      "type": "light",
+      "max_light": 0.5,
+      "actions":[
+        {
+          "type": "despawn"
+        }
+      ]
+    }
+  ],
+  "pokemobs": [
+    "charmander",
+    "zubat",
+    "golbat",
+    "gastly",
+    "haunter",
+    "gengar"
+  ]
+}

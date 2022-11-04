@@ -1,0 +1,48 @@
+{
+  "material_rules":[
+    {
+      "type": "fluid",
+      "fluid": "water",
+      "actions":[
+        {
+          "type": "damage"
+        }
+      ]
+    }
+  ],
+  "pokemobs": [
+    "charmander",
+    "charmeleon",
+    "charizard",
+    "diglett",
+    "dugtrio",
+    "geodude",
+    "graveler",
+    "golem",
+    "magmar",
+    "moltres",
+    "magby",
+    "aron",
+    "lairon",
+    "aggron",
+    "numel",
+    "camerupt",
+    "torkoal",
+    "trapinch",
+    "groudon",
+    "magmortar",
+    "pansear",
+    "simisear",
+    "drilbur",
+    "excadrill",
+    "meltan",
+    "melmetal",
+    "rolycoly",
+    "carkol",
+    "coalossal",
+    "sizzlipede",
+    "centiskorch",
+    "centiskorch-gmax",
+    "stonjourner"
+  ]
+}

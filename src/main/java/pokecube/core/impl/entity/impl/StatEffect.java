@@ -50,6 +50,8 @@ public class StatEffect extends BaseEffect
             PokecubeAPI.logInfo("Stat effect {} of amount {} on {}", stat, this.amount, entity);
         }
 
+        int amt = Math.abs(this.amount);
+
         switch (this.stat)
         {
         case ACCURACY:
@@ -62,17 +64,17 @@ public class StatEffect extends BaseEffect
             if (up)
             {
                 if (entity.hasEffect(atkD)) entity.removeEffect(atkD);
-                entity.addEffect(new MobEffectInstance(atkU, duration, this.amount));
+                entity.addEffect(new MobEffectInstance(atkU, duration, amt));
             }
             else
             {
                 if (entity.hasEffect(atkU)) entity.removeEffect(atkU);
-                entity.addEffect(new MobEffectInstance(atkD, duration, this.amount));
+                entity.addEffect(new MobEffectInstance(atkD, duration, amt));
             }
             break;
         case DEFENSE:
             final MobEffect defU = MobEffects.DAMAGE_RESISTANCE;
-            if (up) entity.addEffect(new MobEffectInstance(defU, duration, this.amount));
+            if (up) entity.addEffect(new MobEffectInstance(defU, duration, amt));
             break;
         case EVASION:
             break;
@@ -88,12 +90,12 @@ public class StatEffect extends BaseEffect
             if (up)
             {
                 if (entity.hasEffect(vitD)) entity.removeEffect(vitD);
-                entity.addEffect(new MobEffectInstance(vitU, duration, this.amount));
+                entity.addEffect(new MobEffectInstance(vitU, duration, amt));
             }
             else
             {
                 if (entity.hasEffect(vitU)) entity.removeEffect(vitU);
-                entity.addEffect(new MobEffectInstance(vitD, duration, this.amount));
+                entity.addEffect(new MobEffectInstance(vitD, duration, amt));
             }
             break;
         default:

@@ -133,10 +133,25 @@ public class TempBlock extends AirBlock implements EntityBlock
     }
 
     @Override
-    public void entityInside(final BlockState state, final Level worldIn, final BlockPos pos, final Entity entityIn)
+    public void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity)
     {
-//        final BlockEntity te = worldIn.getBlockEntity(pos);
-//        if (te instanceof TempTile) ((TempTile) te).onEntityCollision(entityIn);
+        final BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TempTile tile) tile.onVerticalCollide(entity, 0);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float distance)
+    {
+        final BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TempTile tile) distance = tile.onVerticalCollide(entity, distance);
+        super.fallOn(level, state, pos, entity, distance);
+    }
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
+    {
+        final BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TempTile tile) tile.onVerticalCollide(entity, 0);
     }
 
     @Override

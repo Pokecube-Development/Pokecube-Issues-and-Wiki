@@ -90,6 +90,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
+import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -794,6 +795,9 @@ public class PokemobEventsHandler
     {
         final LivingEntity living = evt.getEntity();
         if (living.isRemoved()) return;
+
+        // Have this tick to manage the target's target.
+        FindTargetsTask.onMobTick(living);
 
         // Server side check if still have a rider, sync that.
         if (living instanceof ServerPlayer player)

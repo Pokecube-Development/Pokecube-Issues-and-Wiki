@@ -22,7 +22,7 @@ import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.watch.TeleportsPage.TeleOption;
 import pokecube.core.client.gui.watch.util.ListPage;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
 import thut.lib.TComponent;
 
 public class TeleportsPage extends ListPage<TeleOption>

@@ -23,6 +23,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -57,8 +58,8 @@ import pokecube.legends.spawns.WormholeSpawns.IWormholeWorld;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
+import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
@@ -354,12 +355,13 @@ public class WormholeEntity extends LivingEntity
         this.getPos();
         this.getDir();
 
-        this.yRot = new Random(this.getUUID().getLeastSignificantBits()).nextFloat() * 360;
+        float yRot = (float) Mth.atan2(this.getDir().x, this.getDir().z) * (180F / (float) Math.PI);
+        float xRot = 0;
 
-        this.yHeadRot = this.yRot;
-        this.yHeadRotO = this.yRotO;
-        this.yBodyRot = this.yRot;
-        this.yBodyRotO = this.yRotO;
+        this.xRot = this.xRotO = xRot;
+        this.yRot = this.yRotO = yRot;
+        this.yBodyRot = this.yBodyRotO = yRot;
+        this.yHeadRot = this.yHeadRotO = yRot;
 
         this.setNoGravity(true);
 
@@ -405,8 +407,8 @@ public class WormholeEntity extends LivingEntity
         // Stable wormholes just lose all of their energy.
         if (this.stable) this.energy.extractEnergy(Integer.MAX_VALUE, false);
 
-        final BlockPos anchor = this.getPos().getPos().pos();
-        final Vec3 origin = new Vec3(anchor.getX(), anchor.getY(), anchor.getZ());
+        final Vector3 anchor = this.getPos().getTeleLoc();
+        final Vec3 origin = new Vec3(anchor.x, anchor.y, anchor.z);
         final Vec3 here = this.position();
         final Vec3 diff = origin.subtract(here);
         final Vec3 v = this.getDeltaMovement();
@@ -537,7 +539,16 @@ public class WormholeEntity extends LivingEntity
 
     public Vec3 getDir()
     {
-        if (this.dir == null) this.dir = this.getLookAngle();
+        if (this.dir == null)
+        {
+            this.yRot = new Random(this.getUUID().getLeastSignificantBits()).nextFloat() * 360;
+            this.yRotO = this.yRot;
+            this.yHeadRot = this.yRot;
+            this.yHeadRotO = this.yRotO;
+            this.yBodyRot = this.yRot;
+            this.yBodyRotO = this.yRotO;
+            this.dir = this.getLookAngle();
+        }
         return this.dir;
     }
 
