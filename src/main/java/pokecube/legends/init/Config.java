@@ -37,6 +37,8 @@ public class Config extends ConfigData
     public int respawnLegendDelay = 36000;
     @Configure(category = "general", comment = "Should ores generate. [Default: true]")
     public boolean generateOres = true;
+    @Configure(category = "general", comment = "Arceus will protect these structures.")
+    public List<String> arceus_protected_structures = Lists.newArrayList();
 
     // Meteor adjustments
     @Configure(category = "meteors", comment = "Threshold for meteor explosions to leave lava. [Default: 50]")
@@ -190,6 +192,8 @@ public class Config extends ConfigData
             "pokecube_legends:zamazenta_temple"
         //@formatter:on
         );
+
+        temples.addAll(arceus_protected_structures);
 
         // Some hardcoded values here for now
         this.PROTECTED_STRUCTURES.clear();
