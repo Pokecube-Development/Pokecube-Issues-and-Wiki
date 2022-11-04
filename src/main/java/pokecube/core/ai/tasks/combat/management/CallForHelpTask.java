@@ -34,6 +34,21 @@ public class CallForHelpTask extends CombatTask
         this.target = null;
     }
 
+    private boolean shouldCallForHelp(LivingEntity from)
+    {
+        // No need to get help against null
+        if (from == null || !this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
+            return false;
+
+        // Not social. doesn't do this.
+        if (!this.pokemob.getPokedexEntry().isSocial) return false;
+
+        // If it has not hurt us, don't call for help
+        if (this.entity.getLastHurtByMob() != from) return false;
+
+        return true;
+    }
+
     /**
      * Check if there are any mobs nearby that will help us. <br>
      * <br>
@@ -43,19 +58,11 @@ public class CallForHelpTask extends CombatTask
      */
     protected boolean checkForHelp(final LivingEntity from)
     {
-        // No need to get help against null
-        if (from == null || !this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES))
-            return false;
-
-        // Not social. doesn't do this.
-        if (!this.pokemob.getPokedexEntry().isSocial) return false;
-
         final List<LivingEntity> ret = new ArrayList<>();
 
         // We check for whether it is the same species and, has the same owner
         // (including null) or is on the team.
-        final Predicate<LivingEntity> relationCheck = input ->
-        {
+        final Predicate<LivingEntity> relationCheck = input -> {
             final IPokemob other = PokemobCaps.getPokemobFor(input);
             // No pokemob, no helps.
             if (other == null) return false;
@@ -68,11 +75,10 @@ public class CallForHelpTask extends CombatTask
             return false;
         };
         // Only allow valid guard targets.
-        final Iterable<LivingEntity> pokemobs = this.entity.getBrain().getMemory(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(relationCheck);
+        final Iterable<LivingEntity> pokemobs = this.entity.getBrain()
+                .getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get().findAll(relationCheck);
 
-        pokemobs.forEach(o ->
-        {
+        pokemobs.forEach(o -> {
             if (relationCheck.test(o)) ret.add(o);
         });
 
@@ -93,6 +99,7 @@ public class CallForHelpTask extends CombatTask
     public void run()
     {
         if (this.checked) return;
+        if (!shouldCallForHelp(target)) return;
         this.checked = true;
         if (Math.random() < this.chance) return;
         this.checkForHelp(this.target);
@@ -102,8 +109,8 @@ public class CallForHelpTask extends CombatTask
     public boolean shouldRun()
     {
         this.target = BrainUtils.getAttackTarget(this.entity);
-        return this.target != null && this.entity.getBrain().hasMemoryValue(
-                MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
+        return this.target != null
+                && this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
     }
 
 }
