@@ -616,6 +616,13 @@ def convert_pokedex():
         json.dump(var, file, indent=2)
         file.close()
 
+    for file in os.listdir('./data/pokemobs/materials'):
+        original = f'./data/pokemobs/materials/{file}'
+        newfile = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/materials/{file}'
+        if not os.path.exists(os.path.dirname(newfile)):
+            os.makedirs(os.path.dirname(newfile))
+        shutil.copy(original, newfile)
+
 def make_ability_langs():
     ability_index = utils.get_valid_numbers('ability')
 
