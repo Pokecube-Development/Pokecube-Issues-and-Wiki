@@ -351,14 +351,7 @@ public abstract class PokemobAI extends PokemobEvolves
             entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, 16);
         }
         if (this.swims()) entity.setPathfindingMalus(BlockPathTypes.WATER, 0);
-        if (this.getPokedexEntry().hatedMaterial != null)
-            for (final String material : this.getPokedexEntry().hatedMaterial)
-                if (material.equalsIgnoreCase("water")) entity.setPathfindingMalus(BlockPathTypes.WATER, -1);
-                else if (material.equalsIgnoreCase("fire"))
-        {
-            entity.setPathfindingMalus(BlockPathTypes.DAMAGE_FIRE, -1);
-            entity.setPathfindingMalus(BlockPathTypes.DANGER_FIRE, -1);
-        }
+        this.getPokedexEntry().materialActions.forEach(a -> a.init(entity));
     }
 
     @Override
