@@ -74,7 +74,7 @@ public class ChangeFormHandler extends DefaultHandler
 
             if (gigant && !isDyna)
             {
-                newEntry = Database.getEntry(newEntry.getTrimmedName() + "_gigantamax");
+                newEntry = Database.getEntry(newEntry.getTrimmedName() + "-gmax");
                 if (newEntry == null) gigant = false;
             }
             if (isDyna)
@@ -110,7 +110,7 @@ public class ChangeFormHandler extends DefaultHandler
         PokedexEntry newEntry = entry.isMega() ? pokemob.getMegaBase() : entry;
         if (gigant && !isDyna)
         {
-            newEntry = Database.getEntry(newEntry.getTrimmedName() + "_gigantamax");
+            newEntry = Database.getEntry(newEntry.getTrimmedName() + "-gmax");
             if (newEntry == null) gigant = false;
         }
         if (isDyna || gigant)
