@@ -5,7 +5,7 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.core.moves.damage.TerrainDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
 
-public class DamageAction implements BaseAction
+public class DamageAction implements IEffectAction
 {
     float amount = 1;
     boolean relative = false;

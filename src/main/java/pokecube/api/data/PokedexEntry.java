@@ -51,7 +51,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
-import pokecube.api.data.effects.materials.BaseMaterial;
+import pokecube.api.data.effects.materials.IMaterialAction;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
@@ -954,7 +954,7 @@ public class PokedexEntry
     public boolean hasShiny = true;
     /** Materials which will hurt or make it despawn. */
     @CopyToGender
-    public List<BaseMaterial> materialActions = Lists.newArrayList();
+    public List<IMaterialAction> materialActions = Lists.newArrayList();
     @CopyToGender
     public float height = -1;
     @CopyToGender
