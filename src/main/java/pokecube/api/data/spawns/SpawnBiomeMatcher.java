@@ -1,5 +1,7 @@
 package pokecube.api.data.spawns;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +39,7 @@ import thut.api.terrain.BiomeType;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
 
-public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
+public class SpawnBiomeMatcher
 {
     public static interface StructureMatcher
     {
@@ -154,7 +156,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     matcher.clientBiomes.add(test);
                 }
             }
-            if (matcher.clientBiomes.size() == reg.keySet().size()) matcher.clientBiomes.clear();
+
+            boolean noChildBiomes = matcher._or_children.isEmpty() && matcher._and_children.isEmpty();
+            noChildBiomes = noChildBiomes && matcher._validBiomes.isEmpty();
+            if (noChildBiomes || matcher.clientBiomes.size() == reg.keySet().size()) matcher.clientBiomes.clear();
         }
         catch (Exception e)
         {
@@ -336,7 +341,13 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         // First check children
         if (!this._not_children.isEmpty())
         {
-            boolean any = _not_children.stream().anyMatch(m -> m.checkSubBiome(biome));
+            boolean any = _not_children.stream().anyMatch(m -> {
+                boolean hadAll = m._validSubBiomes.remove(BiomeType.ALL);
+                // If it is set to only include 1 thing, return false here.
+                boolean valid = m.checkSubBiome(biome);
+                if (hadAll) m._validSubBiomes.add(BiomeType.ALL);
+                return valid;
+            });
             if (any) return false;
         }
         boolean or_valid = true;
@@ -781,6 +792,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             {
                 PokecubeAPI.logDebug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
             }
+            this.initFields();
             return;
         }
 
@@ -833,6 +845,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeAPI.logDebug("Invalid Matcher: {} ({})",
                 PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule));
+        this.initFields();
     }
 
     private void preParseSubBiomes(SpawnRule rule)
@@ -851,6 +864,57 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     break;
                 }
                 if (subBiome == null && !BiomeDatabase.isBiomeTag(s)) BiomeType.getBiome(s.trim(), true);
+            }
+        }
+    }
+
+    private boolean valid(Field f)
+    {
+        if (!this._valid) return false;
+        // First check children
+        if (this._not_children.isEmpty())
+        {
+            boolean any = _not_children.stream().anyMatch(m -> m.valid(f));
+            if (any) return false;
+        }
+        boolean or_valid = true;
+        if (!this._or_children.isEmpty())
+        {
+            or_valid = _or_children.stream().anyMatch(m -> m.valid(f));
+        }
+        if (!or_valid) return false;
+        if (!this._and_children.isEmpty())
+        {
+            return _and_children.stream().allMatch(m -> m.valid(f));
+        }
+        if (!this._or_children.isEmpty()) return or_valid;
+        try
+        {
+            return f.getBoolean(this);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void initFields()
+    {
+        for (Field f : this.getClass().getDeclaredFields())
+        {
+            if (Modifier.isFinal(f.getModifiers())) continue;
+            if (Modifier.isStatic(f.getModifiers())) continue;
+            if (Modifier.isTransient(f.getModifiers())) continue;
+            if (f.getType() != boolean.class) continue;
+            if (f.getName().startsWith("_")) continue;
+            try
+            {
+                f.set(this, this.valid(f));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
             }
         }
     }
