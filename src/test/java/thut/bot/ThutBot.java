@@ -108,7 +108,7 @@ public class ThutBot
         logger.addAppender(appender);
         appender.start();
 
-        PermNodes.registerNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        PermNodes.registerBooleanNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
 
         IBotAI.MODULEPACKAGES.add(IBotAI.class.getPackageName());
 
@@ -132,9 +132,9 @@ public class ThutBot
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
-        PermNodes.registerNode(PERMBOT, DefaultPermissionLevel.OP, "Allowed to use base bot commants");
-        PermNodes.registerNode(PERMBOTSUMMON, DefaultPermissionLevel.OP, "Allowed to make a new thutbot");
-        PermNodes.registerNode(PERMBOTKILL, DefaultPermissionLevel.OP, "Allowed to remove a thutbot");
+        PermNodes.registerBooleanNode(PERMBOT, DefaultPermissionLevel.OP, "Allowed to use base bot commants");
+        PermNodes.registerBooleanNode(PERMBOTSUMMON, DefaultPermissionLevel.OP, "Allowed to make a new thutbot");
+        PermNodes.registerBooleanNode(PERMBOTKILL, DefaultPermissionLevel.OP, "Allowed to remove a thutbot");
 
         final LiteralArgumentBuilder<CommandSourceStack> command_base = Commands.literal("thutbot").requires(s -> {
             if (!(s.getEntity() instanceof ServerPlayer player)) return true;

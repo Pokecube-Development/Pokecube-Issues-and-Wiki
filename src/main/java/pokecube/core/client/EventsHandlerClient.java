@@ -285,17 +285,18 @@ public class EventsHandlerClient
         if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), GLFW.GLFW_KEY_F3)
                 && evt.getKey() == GLFW.GLFW_KEY_D)
             GuiInfoMessages.clear();
-
-        if (evt.getKey() == GLFW.GLFW_KEY_F5 && AnimationGui.entry != null
-                && Minecraft.getInstance().screen instanceof AnimationGui)
+        if (evt.getKey() == GLFW.GLFW_KEY_F5)
         {
-            PokedexEntryLoader.updateEntry(AnimationGui.entry);
-            RenderPokemob.reloadModel(AnimationGui.entry);
-        }
-        else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
-        {
-            final IPokemob pokemob = PokemobCaps.getPokemobFor(player.getVehicle());
-            if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
+            if (AnimationGui.entry != null && Minecraft.getInstance().screen instanceof AnimationGui)
+            {
+                PokedexEntryLoader.updateEntry(AnimationGui.entry);
+                RenderPokemob.reloadModel(AnimationGui.entry);
+            }
+            else if (player.getVehicle() != null && Minecraft.getInstance().screen != null)
+            {
+                final IPokemob pokemob = PokemobCaps.getPokemobFor(player.getVehicle());
+                if (pokemob != null) PokedexEntryLoader.updateEntry(pokemob.getPokedexEntry());
+            }
         }
         if (ClientSetupHandler.animateGui.consumeClick() && Minecraft.getInstance().screen == null)
             Minecraft.getInstance().setScreen(new AnimationGui());

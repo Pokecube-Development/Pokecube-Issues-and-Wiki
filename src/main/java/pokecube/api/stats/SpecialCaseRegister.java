@@ -9,8 +9,7 @@ public class SpecialCaseRegister
     public static int countSpawnableTypes(final PokeType type)
     {
         int ret = 0;
-        for (final PokedexEntry e : Database.spawnables)
-            if (type == null || e.isType(type)) ret++;
+        for (final PokedexEntry e : Database.spawnables) if (type == null || e.isType(type)) ret++;
         return ret;
     }
 
@@ -23,18 +22,28 @@ public class SpecialCaseRegister
 
     public static ISpecialSpawnCondition getSpawnCondition(final PokedexEntry entry)
     {
-        if (entry != null && ISpecialSpawnCondition.spawnMap.containsKey(entry)) return ISpecialSpawnCondition.spawnMap
-                .get(entry);
+        if (entry != null && ISpecialSpawnCondition.spawnMap.containsKey(entry))
+            return ISpecialSpawnCondition.spawnMap.get(entry);
         return null;
     }
 
     public static void register(final String name, final ISpecialCaptureCondition condition)
     {
-        if (Database.entryExists(name)) ISpecialCaptureCondition.captureMap.put(Database.getEntry(name), condition);
+        if (Database.entryExists(name))
+        {
+            ISpecialCaptureCondition.captureMap.put(Database.getEntry(name), condition);
+            if (condition instanceof ISpecialSpawnCondition spawn)
+                ISpecialSpawnCondition.spawnMap.put(Database.getEntry(name), spawn);
+        }
     }
 
     public static void register(final String name, final ISpecialSpawnCondition condition)
     {
-        if (Database.entryExists(name)) ISpecialSpawnCondition.spawnMap.put(Database.getEntry(name), condition);
+        if (Database.entryExists(name))
+        {
+            ISpecialSpawnCondition.spawnMap.put(Database.getEntry(name), condition);
+            if (condition instanceof ISpecialCaptureCondition capture)
+                ISpecialCaptureCondition.captureMap.put(Database.getEntry(name), capture);
+        }
     }
 }

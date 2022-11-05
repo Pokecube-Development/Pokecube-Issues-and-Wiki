@@ -18,7 +18,7 @@ public class ReloadMoves
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.reload_moves";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to reload pokecube moves");
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to reload pokecube moves");
         command.then(Commands.literal("reload_moves").requires(Permissions.hasPerm(perm))
                 .executes((ctx) -> ReloadMoves.execute(ctx.getSource())));
     }

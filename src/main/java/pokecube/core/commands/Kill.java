@@ -74,9 +74,9 @@ public class Kill
         final String killAllPerm = "command.pokecube.kill_all";
         final String cullPerm = "command.pokecube.cull";
 
-        PermNodes.registerNode(cullPerm, DefaultPermissionLevel.OP, "Is the player allowed to cull pokemobs");
-        PermNodes.registerNode(killPerm, DefaultPermissionLevel.OP, "Is the player allowed to kill wild pokemobs");
-        PermNodes.registerNode(killAllPerm, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(cullPerm, DefaultPermissionLevel.OP, "Is the player allowed to cull pokemobs");
+        PermNodes.registerBooleanNode(killPerm, DefaultPermissionLevel.OP, "Is the player allowed to kill wild pokemobs");
+        PermNodes.registerBooleanNode(killAllPerm, DefaultPermissionLevel.OP,
                 "Is the player allowed to force all pokemobs to recall");
 
         command.then(Commands.literal("kill").requires(Permissions.hasPerm(killPerm))

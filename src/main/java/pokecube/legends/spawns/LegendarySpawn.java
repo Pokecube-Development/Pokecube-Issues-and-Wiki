@@ -27,6 +27,7 @@ import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.ISpecialSpawnCondition;
 import pokecube.api.stats.ISpecialSpawnCondition.CanSpawn;
+import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -69,8 +70,8 @@ public class LegendarySpawn
 
         final SpawnResult result = !spawn.heldItemChecker.test(stack) ? SpawnResult.WRONGITEM : SpawnResult.FAIL;
 
-        final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
-        final ISpecialCaptureCondition captureCondition = ISpecialCaptureCondition.captureMap.get(entry);
+        final ISpecialSpawnCondition spawnCondition = SpecialCaseRegister.getSpawnCondition(entry);
+        final ISpecialCaptureCondition captureCondition = SpecialCaseRegister.getCaptureCondition(entry);
         if (spawnCondition != null)
         {
             final Vector3 location = new Vector3().set(evt.getPos());
@@ -157,7 +158,7 @@ public class LegendarySpawn
             {
                 match = match1;
                 entry = match1.entry;
-                final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(entry);
+                final ISpecialSpawnCondition spawnCondition = SpecialCaseRegister.getSpawnCondition(entry);
                 if (spawnCondition == null) continue;
                 SpawnContext context = new SpawnContext((ServerPlayer) evt.getEntity(), level, entry, location);
                 if (spawnCondition.canSpawn(context, false).test()) break;
@@ -184,7 +185,7 @@ public class LegendarySpawn
             item:
             if (result == SpawnResult.WRONGITEM)
             {
-                final ISpecialSpawnCondition spawnCondition = ISpecialSpawnCondition.spawnMap.get(match.entry);
+                final ISpecialSpawnCondition spawnCondition = SpecialCaseRegister.getSpawnCondition(match.entry);
                 if (spawnCondition != null)
                 {
                     final CanSpawn test = spawnCondition.canSpawn(context, false);

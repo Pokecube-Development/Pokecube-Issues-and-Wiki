@@ -145,7 +145,7 @@ public class BotPlayer extends ServerPlayer implements Npc
         // Decide if we want to say something back?
         if (!isOrder) return;
 
-        PermNodes.registerNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        PermNodes.registerBooleanNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
         String s1 = "I Am A Bot";
         chat(s1);
 

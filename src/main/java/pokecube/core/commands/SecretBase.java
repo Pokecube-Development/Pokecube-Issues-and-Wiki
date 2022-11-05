@@ -121,11 +121,11 @@ public class SecretBase
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermNodes.registerNode("command.pokebase.other", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode("command.pokebase.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokebase to teleport to an arbitrary base");
-        PermNodes.registerNode("command.pokebase.exit", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode("command.pokebase.exit", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokebase to exit a secret base");
-        PermNodes.registerNode("command.pokebase.create", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode("command.pokebase.create", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use secret power to make a secret base");
         LiteralArgumentBuilder<CommandSourceStack> command;
 
@@ -153,7 +153,7 @@ public class SecretBase
                                         GameProfileArgument.getGameProfiles(ctx, "owner")))));
         commandDispatcher.register(command);
 
-        PermNodes.registerNode("command.pokebase.clean", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode("command.pokebase.clean", DefaultPermissionLevel.ALL,
                 "Temporary cleanup command for removing barrier blocks in secret bases!");
 
         command = Commands.literal("pokebase").then(Commands.argument("clean", StringArgumentType.word())

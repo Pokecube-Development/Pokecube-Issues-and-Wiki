@@ -151,9 +151,9 @@ public class Linker extends Item
     public Linker(final Properties properties)
     {
         super(properties);
-        PermNodes.registerNode(Linker.PERMLINKTRAINER, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(Linker.PERMLINKTRAINER, DefaultPermissionLevel.OP,
                 "Is the player allowed to use the linker item to set a trainer's stationary location");
-        PermNodes.registerNode(Linker.PERMLINKPET, DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(Linker.PERMLINKPET, DefaultPermissionLevel.ALL,
                 "Is the player allowed to use the linker item to set their pokemob's stationary location");
     }
 

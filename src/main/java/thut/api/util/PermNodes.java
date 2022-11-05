@@ -60,10 +60,28 @@ public class PermNodes
         return PermissionAPI.getPermission(player, node);
     }
 
-    public static void registerNode(String name, DefaultPermissionLevel level, String message)
+    public static void registerBooleanNode(String name, DefaultPermissionLevel level, String message)
     {
         PermissionNode<Boolean> node = new PermissionNode<>(ThutCore.MODID, name, PermissionTypes.BOOLEAN,
                 (player, playerUUID, context) -> level.matches(playerUUID));
+        node.setInformation(TComponent.literal(node.getNodeName()), TComponent.literal(message));
+        NODES.put(name, node);
+        NODES.put(node.getNodeName(), node);
+    }
+
+    public static void registerStringNode(String name, DefaultPermissionLevel level, String message, String _default)
+    {
+        PermissionNode<String> node = new PermissionNode<>(ThutCore.MODID, name, PermissionTypes.STRING,
+                (player, playerUUID, context) -> _default);
+        node.setInformation(TComponent.literal(node.getNodeName()), TComponent.literal(message));
+        NODES.put(name, node);
+        NODES.put(node.getNodeName(), node);
+    }
+
+    public static void registerIntegerNode(String name, DefaultPermissionLevel level, String message, Integer _default)
+    {
+        PermissionNode<Integer> node = new PermissionNode<>(ThutCore.MODID, name, PermissionTypes.INTEGER,
+                (player, playerUUID, context) -> _default);
         node.setInformation(TComponent.literal(node.getNodeName()), TComponent.literal(message));
         NODES.put(name, node);
         NODES.put(node.getNodeName(), node);

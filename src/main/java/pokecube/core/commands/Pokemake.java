@@ -296,7 +296,7 @@ public class Pokemake
     {
         final String perm = "command.pokemake";
         // Normal pokemake
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokemake");
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokemake");
 
         LiteralArgumentBuilder<CommandSourceStack> command;
         // Set a permission
@@ -334,7 +334,7 @@ public class Pokemake
         commandDispatcher.register(command);
 
         // Random pokemake
-        PermNodes.registerNode("command.pokemakerand", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode("command.pokemakerand", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokemakerand");
 
         // Set a permission

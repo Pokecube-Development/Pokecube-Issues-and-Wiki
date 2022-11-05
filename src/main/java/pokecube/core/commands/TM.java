@@ -62,7 +62,7 @@ public class TM
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.poketm";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /poketm");
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /poketm");
 
         // Setup with name and permission
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("poketm").requires(cs -> CommandTools.hasPerm(

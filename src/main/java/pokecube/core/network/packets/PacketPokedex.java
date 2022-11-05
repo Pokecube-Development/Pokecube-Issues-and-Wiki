@@ -44,6 +44,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.ISpecialCaptureCondition;
+import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
@@ -610,9 +611,9 @@ public class PacketPokedex extends NBTPacket
             return;
         case CHECKLEGEND:
             entry = Database.getEntry(this.getTag().getString("V"));
-            if (entry != null && ISpecialCaptureCondition.captureMap.containsKey(entry))
+            ISpecialCaptureCondition condition = SpecialCaseRegister.getCaptureCondition(entry);
+            if (condition != null)
             {
-                final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
                 final boolean valid = condition.canCapture(player);
                 if (valid) thut.lib.ChatHelper.sendSystemMessage(player,
                         TComponent.translatable("pokewatch.capture.check.yes", entry.getTranslatedName()));

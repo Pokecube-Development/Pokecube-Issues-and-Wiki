@@ -38,8 +38,8 @@
     {
       "values": {
         "preset": "deserts",
-        "types": "#forge:is_sandy",
-        "and_preset": "overworld"
+        "types": "all",
+        "and_preset": "overworld,dry_areas,sandy_areas"
       }
     },
     {
