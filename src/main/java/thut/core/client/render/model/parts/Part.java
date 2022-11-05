@@ -388,21 +388,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
         if (material != null && !Mesh.debug)
         {
-            // Incase this is being rendered while a new materials set loads in.
-            synchronized (this.materials)
-            {
-                this.materials.forEach(m -> {
-                    if (material.test(m))
-                    {
-                        m.rgbabro[0] = r;
-                        m.rgbabro[1] = g;
-                        m.rgbabro[2] = b;
-                        m.rgbabro[3] = a;
-                        m.rgbabro[4] = this.brightness;
-                        m.rgbabro[5] = this.overlay;
-                    }
-                });
-            }
+            this.materials.forEach(m -> {
+                if (material.test(m))
+                {
+                    m.rgbabro[0] = r;
+                    m.rgbabro[1] = g;
+                    m.rgbabro[2] = b;
+                    m.rgbabro[3] = a;
+                    m.rgbabro[4] = this.brightness;
+                    m.rgbabro[5] = this.overlay;
+                }
+            });
         }
         else
         {

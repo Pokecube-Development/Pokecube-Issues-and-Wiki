@@ -155,12 +155,19 @@ public class Util
                 }
                 colour = new Color(ret.getTextColor() + 0xFF000000);
             }
-            for (final IExtendedModelPart part1 : model.getParts().values())
+            try
             {
-                part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-                part1.setRGBABrO(notColurable, 255, 255, 255, 255, brightness, overlay);
+                for (final IExtendedModelPart part1 : model.getParts().values())
+                {
+                    part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+                    part1.setRGBABrO(notColurable, 255, 255, 255, 255, brightness, overlay);
+                }
+                renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
             }
-            renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
