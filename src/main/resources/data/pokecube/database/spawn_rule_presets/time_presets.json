@@ -6,7 +6,8 @@
         "night": "false",
         "dawn": "false",
         "dusk": "false",
-        "day": "true"
+        "day": "true",
+        "types": "all"
       }
     },
     {
@@ -15,7 +16,8 @@
         "night": "true",
         "dawn": "false",
         "dusk": "false",
-        "day": "false"
+        "day": "false",
+        "types": "all"
       }
     },
     {
@@ -24,7 +26,8 @@
         "night": "false",
         "dawn": "false",
         "dusk": "true",
-        "day": "false"
+        "day": "false",
+        "types": "all"
       }
     },
     {
@@ -33,7 +36,8 @@
         "night": "false",
         "dawn": "true",
         "dusk": "false",
-        "day": "false"
+        "day": "false",
+        "types": "all"
       }
     }
   ]
