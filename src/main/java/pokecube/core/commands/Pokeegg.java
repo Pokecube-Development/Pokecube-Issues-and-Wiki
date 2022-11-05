@@ -101,7 +101,7 @@ public class Pokeegg
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.pokeegg";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokeegg");
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /pokeegg");
 
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokeegg")
                 .requires(cs -> CommandTools.hasPerm(cs, perm));
@@ -139,7 +139,7 @@ public class Pokeegg
 
         // Random Pokeegg
         final String perm2 = "command.pokeeggrand";
-        PermNodes.registerNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to use pokeeggrand");
+        PermNodes.registerBooleanNode(perm2, DefaultPermissionLevel.OP, "Is the player allowed to use pokeeggrand");
 
         // Set a permission
         command = Commands.literal("pokeeggrand").requires(cs -> CommandTools.hasPerm(cs, perm2));

@@ -99,14 +99,14 @@ public class Permissions
 
     public static void register()
     {
-        PermNodes.registerNode(Permissions.CATCHPOKEMOB, DefaultPermissionLevel.ALL, "can catch a mob?");
-        PermNodes.registerNode(Permissions.HATCHPOKEMOB, DefaultPermissionLevel.ALL, "can hatch a mob?");
-        PermNodes.registerNode(Permissions.SENDOUTPOKEMOB, DefaultPermissionLevel.ALL, "can send out a mob?");
+        PermNodes.registerBooleanNode(Permissions.CATCHPOKEMOB, DefaultPermissionLevel.ALL, "can catch a mob?");
+        PermNodes.registerBooleanNode(Permissions.HATCHPOKEMOB, DefaultPermissionLevel.ALL, "can hatch a mob?");
+        PermNodes.registerBooleanNode(Permissions.SENDOUTPOKEMOB, DefaultPermissionLevel.ALL, "can send out a mob?");
 
-        PermNodes.registerNode(Permissions.RIDEPOKEMOB, DefaultPermissionLevel.ALL, "can ride a mob?");
-        PermNodes.registerNode(Permissions.FLYPOKEMOB, DefaultPermissionLevel.ALL, "can fly a mob?");
-        PermNodes.registerNode(Permissions.SURFPOKEMOB, DefaultPermissionLevel.ALL, "can surf a mob?");
-        PermNodes.registerNode(Permissions.DIVEPOKEMOB, DefaultPermissionLevel.ALL, "can dive a mob?");
+        PermNodes.registerBooleanNode(Permissions.RIDEPOKEMOB, DefaultPermissionLevel.ALL, "can ride a mob?");
+        PermNodes.registerBooleanNode(Permissions.FLYPOKEMOB, DefaultPermissionLevel.ALL, "can fly a mob?");
+        PermNodes.registerBooleanNode(Permissions.SURFPOKEMOB, DefaultPermissionLevel.ALL, "can surf a mob?");
+        PermNodes.registerBooleanNode(Permissions.DIVEPOKEMOB, DefaultPermissionLevel.ALL, "can dive a mob?");
 
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -118,14 +118,14 @@ public class Permissions
             final String surfa = Permissions.SURFPOKEMOB + "." + entry.getTrimmedName();
             final String divea = Permissions.DIVEPOKEMOB + "." + entry.getTrimmedName();
 
-            PermNodes.registerNode(catcha, DefaultPermissionLevel.ALL, "can catch a " + entry + "?");
-            PermNodes.registerNode(hatcha, DefaultPermissionLevel.ALL, "can hatch a " + entry + "?");
-            PermNodes.registerNode(senda, DefaultPermissionLevel.ALL, "can send out a " + entry + "?");
+            PermNodes.registerBooleanNode(catcha, DefaultPermissionLevel.ALL, "can catch a " + entry + "?");
+            PermNodes.registerBooleanNode(hatcha, DefaultPermissionLevel.ALL, "can hatch a " + entry + "?");
+            PermNodes.registerBooleanNode(senda, DefaultPermissionLevel.ALL, "can send out a " + entry + "?");
 
-            PermNodes.registerNode(ridea, DefaultPermissionLevel.ALL, "can ride a " + entry + "?");
-            PermNodes.registerNode(flya, DefaultPermissionLevel.ALL, "can fly a " + entry + "?");
-            PermNodes.registerNode(surfa, DefaultPermissionLevel.ALL, "can surf a " + entry + "?");
-            PermNodes.registerNode(divea, DefaultPermissionLevel.ALL, "can dive a " + entry + "?");
+            PermNodes.registerBooleanNode(ridea, DefaultPermissionLevel.ALL, "can ride a " + entry + "?");
+            PermNodes.registerBooleanNode(flya, DefaultPermissionLevel.ALL, "can fly a " + entry + "?");
+            PermNodes.registerBooleanNode(surfa, DefaultPermissionLevel.ALL, "can surf a " + entry + "?");
+            PermNodes.registerBooleanNode(divea, DefaultPermissionLevel.ALL, "can dive a " + entry + "?");
 
             Permissions.CATCHSPECIFIC.put(entry, catcha);
             Permissions.CATCHSPECIFIC.put(entry, hatcha);
@@ -140,7 +140,7 @@ public class Permissions
         for (final String s : MovesUtils.getKnownMoveNames())
         {
             final String move = "move.action." + s;
-            PermNodes.registerNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");
+            PermNodes.registerBooleanNode(move, DefaultPermissionLevel.ALL, "can use " + move + " out of battle?");
         }
     }
 

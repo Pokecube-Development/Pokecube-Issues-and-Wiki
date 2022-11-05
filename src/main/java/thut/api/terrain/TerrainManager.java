@@ -32,7 +32,7 @@ public class TerrainManager
 
     public static void init()
     {
-        PermNodes.registerNode(TerrainManager.EDIT_SUBBIOMES_PERM, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(TerrainManager.EDIT_SUBBIOMES_PERM, DefaultPermissionLevel.OP,
                 "Is the player allowed to edit subbiomes");
     }
 

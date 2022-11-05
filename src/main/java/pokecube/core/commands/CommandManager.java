@@ -14,7 +14,7 @@ public class CommandManager
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.pokecube";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.ALL,
                 "Is the player allowed to use the root pokecube command.");
         final LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokecube")
                 .requires(Permissions.hasPerm(perm));

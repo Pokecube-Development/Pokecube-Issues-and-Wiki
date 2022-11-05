@@ -31,7 +31,7 @@ public class Reset
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.reset";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to reset the starter status of a player");
         command.then(Commands.literal("reset").requires(Permissions.hasPerm(perm))
                 .then(Commands.argument("target_player", EntityArgument.player()).executes(

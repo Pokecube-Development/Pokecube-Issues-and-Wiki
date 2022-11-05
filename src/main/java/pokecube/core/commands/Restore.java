@@ -43,7 +43,7 @@ public class Restore
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.restore";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP,
                 "Is the player allowed use the restore feature to recover mobs");
 
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("restore")

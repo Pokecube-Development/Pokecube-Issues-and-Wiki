@@ -22,7 +22,7 @@ public class CommandGui
     public static String PERMWEARABLESCMD = "wearables.open.other.command";
     static
     {
-        PermNodes.registerNode(CommandGui.PERMWEARABLESCMD, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(CommandGui.PERMWEARABLESCMD, DefaultPermissionLevel.OP,
                 "Whether the player can open the wearables gui of others via the command.");
     }
 
@@ -45,7 +45,7 @@ public class CommandGui
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermNodes.registerNode("command.wearables", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode("command.wearables", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /wearables");
 
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("wearables").requires(cs -> CommandTools

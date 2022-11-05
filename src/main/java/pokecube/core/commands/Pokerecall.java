@@ -116,9 +116,9 @@ public class Pokerecall
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermNodes.registerNode("command.pokerecall", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode("command.pokerecall", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokerecall");
-        PermNodes.registerNode("command.pokerecall.other", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode("command.pokerecall.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokerecall to recall other people's mobs");
 
         final Predicate<CommandSourceStack> op_perm = cs -> CommandTools.hasPerm(cs, "command.pokerecall.other");

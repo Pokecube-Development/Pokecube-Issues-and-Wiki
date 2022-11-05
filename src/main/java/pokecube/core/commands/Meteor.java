@@ -49,7 +49,7 @@ public class Meteor
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.meteor";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /meteor");
+        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /meteor");
         commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm)).then(
                 Commands.argument("power", IntegerArgumentType.integer()).executes((ctx) -> Meteor.execute(ctx
                         .getSource(), IntegerArgumentType.getInteger(ctx, "power")))));
