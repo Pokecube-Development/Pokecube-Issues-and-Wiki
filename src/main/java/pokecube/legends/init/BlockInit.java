@@ -1262,7 +1262,9 @@ public class BlockInit
                 () -> new BlockBase(Material.GLASS, MaterialColor.SNOW, 0.3f, 0.3f, SoundType.GLASS, true));
 
         DISTORTIC_GLOWSTONE = PokecubeLegends.DIMENSIONS_TAB.register("distortic_glowstone",
-                () -> new BlockBase(Material.STONE, MaterialColor.COLOR_ORANGE, 1.5f, 1.5f, SoundType.GLASS, true));
+                () -> new Block(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.COLOR_LIGHT_BLUE)
+                        .strength(1.5f, 1.5f).sound(SoundType.GLASS)
+                        .lightLevel(i -> 10)));
 
         // Woods
         // Aged Blocks
