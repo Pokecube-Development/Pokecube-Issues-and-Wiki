@@ -52,8 +52,8 @@
     {
       "values": {
         "preset": "mesa_forests",
-        "types": "#forge:is_sparse,#minecraft:is_badlands",
-        "and_preset": "overworld"
+        "types": "#forge:is_sparse",
+        "and_preset": "overworld,badlands"
       }
     },
     {

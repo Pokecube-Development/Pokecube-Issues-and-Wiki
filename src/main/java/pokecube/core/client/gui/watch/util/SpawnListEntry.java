@@ -29,7 +29,7 @@ public class SpawnListEntry
         return getGeneralDescription(matcher, "");
     }
 
-    public static List<MutableComponent> getGeneralDescription(final SpawnBiomeMatcher matcher, String indent)
+    private static List<MutableComponent> getGeneralDescription(final SpawnBiomeMatcher matcher, String indent)
     {
         final List<MutableComponent> comps = Lists.newArrayList();
         final List<Component> biomes = Lists.newArrayList();
@@ -43,7 +43,7 @@ public class SpawnListEntry
             biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
             comps.add(TComponent.literal(biomeString));
         }
-        
+
         final List<String> types = Lists.newArrayList();
         if (matcher.clientTypes.size() > 1)
         {
@@ -145,12 +145,10 @@ public class SpawnListEntry
         return comps;
     }
 
-    public static List<FormattedCharSequence> makeDescription(Font font, final SpawnBiomeMatcher matcher,
-            final PokedexEntry entry, final int width)
+    private static List<FormattedCharSequence> makeDescription(Font font, final SpawnBiomeMatcher matcher,
+            final PokedexEntry entry, final int width, boolean includeRate)
     {
         final List<FormattedCharSequence> output = Lists.newArrayList();
-        matcher.reset();
-        matcher.parse();
 
         if (font == null) font = Minecraft.getInstance().font;
 
@@ -197,6 +195,7 @@ public class SpawnListEntry
             }
             output.addAll(font.split(TComponent.literal(msg), width - font.width(ind)));
         }
+
         final boolean day = matcher.day;
         final boolean night = matcher.night;
         final boolean dusk = matcher.dusk;
@@ -207,73 +206,87 @@ public class SpawnListEntry
             output.addAll(font.split(TComponent.literal(ind + I18n.get("pokewatch.spawns.water_optional")), width));
         else output.addAll(font.split(TComponent.literal(ind + I18n.get("pokewatch.spawns.water_only")), width));
         String times = I18n.get("pokewatch.spawns.times");
-        if (day) times = times + " " + I18n.get("pokewatch.spawns.day");
+        int time = 0;
+        if (day)
+        {
+            times = times + " " + I18n.get("pokewatch.spawns.day");
+            time++;
+        }
         if (night)
         {
-            if (day) times = times + ", ";
+            if (time > 0) times = times + ", ";
+            else times = times + " ";
+            time++;
             times = times + I18n.get("pokewatch.spawns.night");
         }
         if (dusk)
         {
-            if (day || night) times = times + ", ";
+            if (time > 0) times = times + ", ";
+            else times = times + " ";
+            time++;
             times = times + I18n.get("pokewatch.spawns.dusk");
         }
         if (dawn)
         {
-            if (day || night || dawn) times = times + ", ";
+            if (time > 0) times = times + ", ";
+            else times = times + " ";
+            time++;
             times = times + I18n.get("pokewatch.spawns.dawn");
         }
         output.addAll(font.split(TComponent.literal(times), width - font.width(ind)));
-        String rate = "";
-        if (matcher.spawnRule.values.containsKey("Local_Rate"))
+        if (includeRate)
         {
-            float val = 0;
-            try
+            String rate = "";
+            if (matcher.spawnRule.values.containsKey("Local_Rate"))
             {
-                val = Float.parseFloat(matcher.spawnRule.values.get("Local_Rate"));
-            }
-            catch (final Exception e)
-            {
-
-            }
-            if (val > 1e-3) val = (int) (val * 1000) / 10f;
-            else if (val != 0)
-            {
-                float denom = 1000f;
-                float numer = 100000f;
-                float val2 = (int) (val * numer) / denom;
-                if ((val * numer) != 0) while (val2 == 0)
+                float val = 0;
+                try
                 {
-                    numer *= 100;
-                    denom *= 100;
-                    val2 = (int) (val * numer) / denom;
+                    val = Float.parseFloat(matcher.spawnRule.values.get("Local_Rate"));
                 }
-                val = val2;
-            }
-            rate = I18n.get("pokewatch.spawns.rate_local", val + "%");
-        }
-        else
-        {
-            float val = 0;
-            try
-            {
-                val = Float.parseFloat(matcher.spawnRule.values.get("rate"));
-            }
-            catch (final Exception e)
-            {
+                catch (final Exception e)
+                {
 
+                }
+                if (val > 1e-3) val = (int) (val * 1000) / 10f;
+                else if (val != 0)
+                {
+                    float denom = 1000f;
+                    float numer = 100000f;
+                    float val2 = (int) (val * numer) / denom;
+                    if ((val * numer) != 0) while (val2 == 0)
+                    {
+                        numer *= 100;
+                        denom *= 100;
+                        val2 = (int) (val * numer) / denom;
+                    }
+                    val = val2;
+                }
+                rate = I18n.get("pokewatch.spawns.rate_local", val + "%");
             }
-            if (val > 10e-4) val = (int) (val * 1000) / 10f;
-            else val = (int) (val * 10000) / 100f;
-
-            if (val == 0) rate = "";
             else
             {
-                final String var = val + "%";
-                rate = ind + I18n.get("pokewatch.spawns.rate_single", var);
+                float val = 0;
+                try
+                {
+                    val = Float.parseFloat(matcher.spawnRule.values.get("rate"));
+                }
+                catch (final Exception e)
+                {
+
+                }
+                if (val > 10e-4) val = (int) (val * 1000) / 10f;
+                else val = (int) (val * 10000) / 100f;
+
+                if (val == 0) rate = "";
+                else
+                {
+                    final String var = val + "%";
+                    rate = ind + I18n.get("pokewatch.spawns.rate_single", var);
+                }
             }
+            if (!rate.isEmpty()) output.add(TComponent.literal(ind + rate).getVisualOrderText());
         }
-        if (!rate.isEmpty()) output.add(TComponent.literal(ind + rate).getVisualOrderText());
         output.add(TComponent.literal("").getVisualOrderText());
         return output;
     }
@@ -284,8 +297,8 @@ public class SpawnListEntry
     final SpawnBiomeMatcher value;
     final WatchPage parent;
     final Font fontRender;
-
-    public final List<FormattedCharSequence> output;
+    final PokedexEntry entry;
+    boolean includeRate = true;
 
     public SpawnListEntry(final WatchPage parent, final Font fontRender, final SpawnBiomeMatcher value,
             final PokedexEntry entry, final int width, final int height, final int yMin)
@@ -296,14 +309,20 @@ public class SpawnListEntry
         this.value = value;
         this.parent = parent;
         this.fontRender = fontRender;
-        output = makeDescription(fontRender, value, entry, width);
+        this.entry = entry;
+    }
+
+    public SpawnListEntry noRate()
+    {
+        includeRate = false;
+        return this;
     }
 
     public List<LineEntry> getLines(final ScrollGui<LineEntry> parent, final IClickListener listener)
     {
         final List<LineEntry> lines = Lists.newArrayList();
         final int textColour = GuiPokeWatch.nightMode ? 0xFFFFFF : 0x333333;
-        for (var s : this.output)
+        for (var s : makeDescription(fontRender, value, entry, width, includeRate))
             lines.add(new LineEntry(parent, 0, 0, this.fontRender, s, textColour).setClickListner(listener));
         return lines;
     }
