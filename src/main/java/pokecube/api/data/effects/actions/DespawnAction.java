@@ -6,6 +6,9 @@ import thut.api.OwnableCaps;
 
 public class DespawnAction implements IEffectAction
 {
+    public DespawnAction()
+    {}
+
     @Override
     public void applyEffect(LivingEntity mob)
     {
@@ -14,8 +17,4 @@ public class DespawnAction implements IEffectAction
         if (ownable != null && ownable.getOwnerId() != null) return;
         mob.discard();
     }
-
-    @Override
-    public void init()
-    {}
 }

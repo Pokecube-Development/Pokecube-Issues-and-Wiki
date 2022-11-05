@@ -6,5 +6,6 @@ public interface IEffectAction
 {
     void applyEffect(LivingEntity mob);
 
-    void init();
+    default void init()
+    {}
 }

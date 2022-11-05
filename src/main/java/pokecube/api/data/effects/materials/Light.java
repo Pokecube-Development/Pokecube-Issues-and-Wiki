@@ -7,6 +7,9 @@ public class Light extends BaseMaterialAction
 {
     float max_light = 0.5f;
 
+    public Light()
+    {}
+
     @Override
     public boolean shouldApply(LivingEntity mob)
     {

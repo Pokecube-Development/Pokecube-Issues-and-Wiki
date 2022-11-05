@@ -11,6 +11,9 @@ public class Fluid extends BaseMaterialAction
 
     public TagKey<net.minecraft.world.level.material.Fluid> _tag = null;
 
+    public Fluid()
+    {}
+
     @Override
     public void init()
     {
