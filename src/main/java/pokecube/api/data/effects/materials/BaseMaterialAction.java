@@ -2,8 +2,7 @@ package pokecube.api.data.effects.materials;
 
 import java.util.List;
 
-import org.apache.commons.compress.utils.Lists;
-
+import com.google.common.collect.Lists;
 import com.google.gson.JsonObject;
 
 import net.minecraft.world.entity.LivingEntity;
