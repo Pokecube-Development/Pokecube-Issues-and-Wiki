@@ -16,6 +16,7 @@ import net.minecraftforge.eventbus.api.Cancelable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
 import pokecube.core.init.Config;
 import pokecube.core.utils.Permissions;
 import thut.api.util.PermNodes;
@@ -74,9 +75,11 @@ public class Kill
         final String killAllPerm = "command.pokecube.kill_all";
         final String cullPerm = "command.pokecube.cull";
 
-        PermNodes.registerBooleanNode(cullPerm, DefaultPermissionLevel.OP, "Is the player allowed to cull pokemobs");
-        PermNodes.registerBooleanNode(killPerm, DefaultPermissionLevel.OP, "Is the player allowed to kill wild pokemobs");
-        PermNodes.registerBooleanNode(killAllPerm, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, cullPerm, DefaultPermissionLevel.OP,
+                "Is the player allowed to cull pokemobs");
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, killPerm, DefaultPermissionLevel.OP,
+                "Is the player allowed to kill wild pokemobs");
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, killAllPerm, DefaultPermissionLevel.OP,
                 "Is the player allowed to force all pokemobs to recall");
 
         command.then(Commands.literal("kill").requires(Permissions.hasPerm(killPerm))

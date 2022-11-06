@@ -120,7 +120,6 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.terrain.TerrainManager;
-import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
@@ -1043,10 +1042,7 @@ public class PokemobEventsHandler
 
         if (rider instanceof ServerPlayer player && rider == pokemob.getOwner())
         {
-            final Config config = PokecubeCore.getConfig();
-            if (config.permsRide && !PermNodes.getBooleanPerm(player, Permissions.RIDEPOKEMOB)) return false;
-            if (config.permsRideSpecific && !PermNodes.getBooleanPerm(player, Permissions.RIDESPECIFIC.get(entry)))
-                return false;
+            if (!Permissions.canRide(pokemob, player)) return false;
         }
         final float scale = pokemob.getSize();
         final Vec3f dims = pokemob.getPokedexEntry().getModelSize();

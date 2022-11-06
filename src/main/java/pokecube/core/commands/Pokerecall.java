@@ -21,6 +21,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
+import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.PCEventsHandler;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
@@ -34,12 +35,11 @@ import thut.lib.TComponent;
 
 public class Pokerecall
 {
-    private static SuggestionProvider<CommandSourceStack> SUGGEST_NAMES = (ctx, sb) ->
-    {
+    private static SuggestionProvider<CommandSourceStack> SUGGEST_NAMES = (ctx, sb) -> {
         final ServerPlayer player = ctx.getSource().getPlayerOrException();
         final Set<String> opts = Sets.newHashSet();
-        final List<Entity> mobs = PokemobTracker.getMobs(player, c -> EventsHandler.validRecall(player, c, null, true,
-                true));
+        final List<Entity> mobs = PokemobTracker.getMobs(player,
+                c -> EventsHandler.validRecall(player, c, null, true, true));
         for (final Entity e : mobs)
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(e);
@@ -59,28 +59,28 @@ public class Pokerecall
         final ServerPlayer player = source.getPlayerOrException();
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
             if (e.getDisplayName().getString().equals(pokemob))
+        {
+            final IPokemob poke = PokemobCaps.getPokemobFor(e);
+            if (poke != null)
             {
-                final IPokemob poke = PokemobCaps.getPokemobFor(e);
-                if (poke != null)
+                poke.onRecall();
+                num++;
+            }
+        }
+            else if (e instanceof EntityPokecubeBase cube)
+        {
+            final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
+            if (mob != null && mob.getDisplayName().getString().equals(pokemob))
+            {
+                final LivingEntity sent = SendOutManager.sendOut(cube, true, false);
+                IPokemob poke;
+                if (sent != null && (poke = PokemobCaps.getPokemobFor(sent)) != null)
                 {
                     poke.onRecall();
                     num++;
                 }
             }
-            else if (e instanceof EntityPokecubeBase cube)
-            {
-                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
-                if (mob != null && mob.getDisplayName().getString().equals(pokemob))
-                {
-                    final LivingEntity sent = SendOutManager.sendOut(cube, true, false);
-                    IPokemob poke;
-                    if (sent != null && (poke = PokemobCaps.getPokemobFor(sent)) != null)
-                    {
-                        poke.onRecall();
-                        num++;
-                    }
-                }
-            }
+        }
         if (num == 0) source.sendSuccess(TComponent.translatable("pokecube.recall.fail"), false);
         else source.sendSuccess(TComponent.translatable("pokecube.recall.success", num), false);
         return 0;
@@ -93,8 +93,8 @@ public class Pokerecall
         for (final Entity e : PCEventsHandler.getOutMobs(player, true))
         {
             IPokemob poke = PokemobCaps.getPokemobFor(e);
-            if (poke != null) if (all || sitting && poke.getLogicState(LogicStates.SITTING) || staying && poke
-                    .getGeneralState(GeneralStates.STAYING))
+            if (poke != null) if (all || sitting && poke.getLogicState(LogicStates.SITTING)
+                    || staying && poke.getGeneralState(GeneralStates.STAYING))
             {
                 poke.onRecall();
                 num++;
@@ -116,38 +116,38 @@ public class Pokerecall
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermNodes.registerBooleanNode("command.pokerecall", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokerecall", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokerecall");
-        PermNodes.registerBooleanNode("command.pokerecall.other", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokerecall.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokerecall to recall other people's mobs");
 
         final Predicate<CommandSourceStack> op_perm = cs -> CommandTools.hasPerm(cs, "command.pokerecall.other");
 
         // Setup with name and permission
-        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokerecall").requires(cs -> CommandTools
-                .hasPerm(cs, "command.pokerecall"));
+        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("pokerecall")
+                .requires(cs -> CommandTools.hasPerm(cs, "command.pokerecall"));
 
         // No target argument version
         command = command.then(Commands.argument("name", StringArgumentType.string()).suggests(Pokerecall.SUGGEST_NAMES)
                 .executes(ctx -> Pokerecall.execute(ctx.getSource(), StringArgumentType.getString(ctx, "name"))));
         // Target argument version
-        command = command.then(Commands.literal("all").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
-                .getSource().getPlayerOrException(), true, true, true)));
-        command = command.then(Commands.literal("sitting").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
-                .getSource().getPlayerOrException(), false, true, false)));
-        command = command.then(Commands.literal("staying").executes(ctx -> Pokerecall.execute(ctx.getSource(), ctx
-                .getSource().getPlayerOrException(), false, false, true)));
+        command = command.then(Commands.literal("all").executes(
+                ctx -> Pokerecall.execute(ctx.getSource(), ctx.getSource().getPlayerOrException(), true, true, true)));
+        command = command.then(Commands.literal("sitting").executes(ctx -> Pokerecall.execute(ctx.getSource(),
+                ctx.getSource().getPlayerOrException(), false, true, false)));
+        command = command.then(Commands.literal("staying").executes(ctx -> Pokerecall.execute(ctx.getSource(),
+                ctx.getSource().getPlayerOrException(), false, false, true)));
 
         // Target with player
-        command = command.then(Commands.literal("all").then(Commands.argument("owner", EntityArgument.player())
-                .requires(op_perm).executes(ctx -> Pokerecall.execute(ctx.getSource(), EntityArgument.getPlayer(ctx,
-                        "owner"), true, true, true))));
-        command = command.then(Commands.literal("sitting").then(Commands.argument("owner", EntityArgument.player())
-                .requires(op_perm).executes(ctx -> Pokerecall.execute(ctx.getSource(), EntityArgument.getPlayer(ctx,
-                        "owner"), false, true, true))));
-        command = command.then(Commands.literal("staying").then(Commands.argument("owner", EntityArgument.player())
-                .requires(op_perm).executes(ctx -> Pokerecall.execute(ctx.getSource(), EntityArgument.getPlayer(ctx,
-                        "owner"), false, false, true))));
+        command = command.then(Commands.literal("all")
+                .then(Commands.argument("owner", EntityArgument.player()).requires(op_perm).executes(ctx -> Pokerecall
+                        .execute(ctx.getSource(), EntityArgument.getPlayer(ctx, "owner"), true, true, true))));
+        command = command.then(Commands.literal("sitting")
+                .then(Commands.argument("owner", EntityArgument.player()).requires(op_perm).executes(ctx -> Pokerecall
+                        .execute(ctx.getSource(), EntityArgument.getPlayer(ctx, "owner"), false, true, true))));
+        command = command.then(Commands.literal("staying")
+                .then(Commands.argument("owner", EntityArgument.player()).requires(op_perm).executes(ctx -> Pokerecall
+                        .execute(ctx.getSource(), EntityArgument.getPlayer(ctx, "owner"), false, false, true))));
         commandDispatcher.register(command);
     }
 }

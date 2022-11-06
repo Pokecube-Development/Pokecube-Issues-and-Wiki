@@ -61,7 +61,7 @@ public class CommonInit
 
             TerrainManager.init();
 
-            PermNodes.registerBooleanNode(CommonInit.SET_SUBBIOME, DefaultPermissionLevel.OP,
+            PermNodes.registerBooleanNode(ThutCore.MODID, CommonInit.SET_SUBBIOME, DefaultPermissionLevel.OP,
                     "Able to set subbiomes via items");
         }
     }

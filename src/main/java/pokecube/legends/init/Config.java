@@ -107,6 +107,7 @@ public class Config extends ConfigData
     public final Set<String> PROTECTED_STRUCTURES = Sets.newHashSet();
 
     public final Map<String, List<PokedexEntry>> STRUCTURE_ENTRIES = Maps.newHashMap();
+    public final Map<String, String> STRUCTURE_PERMS = Maps.newHashMap();
 
     public boolean loaded = false;
 

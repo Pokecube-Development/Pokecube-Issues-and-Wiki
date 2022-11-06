@@ -32,18 +32,31 @@ import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.legends.PokecubeLegends;
+import pokecube.legends.Reference;
 import pokecube.legends.conditions.AbstractCondition;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.terrain.StructureManager;
 import thut.api.terrain.StructureManager.StructureInfo;
+import thut.api.util.PermNodes;
+import thut.api.util.PermNodes.DefaultPermissionLevel;
+import thut.api.util.PermNodes.StringSetPermCache;
 import thut.lib.TComponent;
 
 public class ForgeEventHandlers
 {
     private static final ResourceLocation ZMOVECAP = new ResourceLocation("pokecube_legends:zmove_check");
 
-    private static final ResourceLocation WHILTELISTED = new ResourceLocation("pokecube_legends:arceus_approved");
+    private static final ResourceLocation WHILTELISTED = new ResourceLocation(
+            "pokecube_legends:arceus_approved/arceus_approved");
+
+    private static final String PERM_ARCEUS_APPROVE = "arceus.approval";
+
+    static
+    {
+        PermNodes.registerStringNode(Reference.ID, PERM_ARCEUS_APPROVE, DefaultPermissionLevel.ALL,
+                "Arceus approves removal in these structures.", "");
+    }
 
     public static Supplier<BlockState> DUST = () -> Blocks.AIR.defaultBlockState();
     public static Supplier<BlockState> MOLTEN = () -> Blocks.AIR.defaultBlockState();
@@ -63,6 +76,13 @@ public class ForgeEventHandlers
             if (PokecubeLegends.config.PROTECTED_STRUCTURES.contains(name))
             {
                 if (player == null) return true;
+
+                // Lets see if they have permissions to break this structure.
+                StringSetPermCache cache = PermNodes.getStringCache(PERM_ARCEUS_APPROVE);
+                // Continue incase there is structure overlap that causes
+                // problems.
+                if (cache.contains(player, name)) continue;
+
                 // Now we do some specifc checks for the player, to see if we
                 // might actually allow breaking here.
                 final List<PokedexEntry> valid = PokecubeLegends.config.STRUCTURE_ENTRIES.get(name);
@@ -72,8 +92,7 @@ public class ForgeEventHandlers
                 for (final PokedexEntry entry : valid)
                 {
                     final ISpecialCaptureCondition capt = SpecialCaseRegister.getCaptureCondition(entry);
-                    if (!(capt instanceof AbstractCondition)) continue;
-                    final AbstractCondition condition = (AbstractCondition) capt;
+                    if (!(capt instanceof AbstractCondition condition)) continue;
                     if (condition.canCapture(player, false) && condition.isRelevant(state))
                     {
                         canEdit = true;
@@ -183,8 +202,7 @@ public class ForgeEventHandlers
             if (!set.isAir())
             {
                 int n = 20;
-                Vector3 hit = Vector3.getNextSurfacePoint(level, new Vector3().set(pos), Vector3.secondAxis,
-                        20);
+                Vector3 hit = Vector3.getNextSurfacePoint(level, new Vector3().set(pos), Vector3.secondAxis, 20);
                 while (hit != null && n-- > 0)
                 {
                     hit = Vector3.getNextSurfacePoint(level, new Vector3().set(pos), Vector3.secondAxis, 20);
