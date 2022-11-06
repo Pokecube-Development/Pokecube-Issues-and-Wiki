@@ -95,6 +95,10 @@ public class PermNodes
             try
             {
                 StringSetCache cache = this.cache.get(player);
+                PermissionNode<String> node = PermNodes.getStringNode(key);
+                // This cache set does nothing if it hasn't changed, as the
+                // cache handles that internally.
+                cache.setValue(PermissionAPI.getPermission(player, node));
                 return cache.contains(input);
             }
             catch (Exception e)
