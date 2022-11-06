@@ -355,13 +355,17 @@ public class WormholeEntity extends LivingEntity
         this.getPos();
         this.getDir();
 
-        float yRot = (float) Mth.atan2(this.getDir().x, this.getDir().z) * (180F / (float) Math.PI);
-        float xRot = 0;
+        if (!this.level.isClientSide())
+        {
+            // Only do this rotation server side, let it sync to client.
+            float yRot = (float) Mth.atan2(this.getDir().x, this.getDir().z) * (180F / (float) Math.PI);
+            float xRot = 0;
 
-        this.xRot = this.xRotO = xRot;
-        this.yRot = this.yRotO = yRot;
-        this.yBodyRot = this.yBodyRotO = yRot;
-        this.yHeadRot = this.yHeadRotO = yRot;
+            this.xRot = this.xRotO = xRot;
+            this.yRot = this.yRotO = yRot;
+            this.yBodyRot = this.yBodyRotO = yRot;
+            this.yHeadRot = this.yHeadRotO = yRot;
+        }
 
         this.setNoGravity(true);
 
