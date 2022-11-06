@@ -64,6 +64,20 @@ minecraft {
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
             args '-mixin.config=pokecube.mixins.json', '--username', 'Dev2'
         }
+        client_3 {
+            parent runs.client
+            taskName 'run_client_3'
+
+            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
+            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev3'
+        }
+        client_4 {
+            parent runs.client
+            taskName 'run_client_4'
+
+            environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
+            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev4'
+        }
         test_client {
             parent runs.client
             taskName 'run_test_client'
