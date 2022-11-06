@@ -301,6 +301,7 @@ public class MoveEntry implements IMoveConstants
      */
     public int getPWR(final IPokemob user, final LivingEntity target)
     {
+        if (target == null) return this.power;
         return powerp.getPWR(user, target, this.power);
     }
 
