@@ -18,13 +18,10 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.SpecialCaseRegister;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.utils.Permissions;
-import thut.api.util.PermNodes;
 import thut.lib.TComponent;
 
 public class StatsHandler
@@ -57,7 +54,6 @@ public class StatsHandler
             final PokecubeBehaviour cube = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             cube.onPreCapture(evt);
         }
-        System.out.println(evt.getCaught()+" "+evt.pokecube);
         if (evt.getCaught() == null || evt.pokecube == null) return;
         final PokedexEntry entry = evt.getCaught().getPokedexEntry();
         if (evt.getCaught().getGeneralState(GeneralStates.TAMED)) evt.setResult(Result.DENY);
@@ -71,15 +67,11 @@ public class StatsHandler
             CaptureManager.onCaptureDenied(evt.pokecube);
             return;
         }
-        final Config config = PokecubeCore.getConfig();
+
         // Check permissions
-        if (catcher instanceof ServerPlayer player && (config.permsCapture || config.permsCaptureSpecific))
+        if (catcher instanceof ServerPlayer player)
         {
-            boolean denied = false;
-            if (config.permsCapture && !PermNodes.getBooleanPerm(player, Permissions.CATCHPOKEMOB)) denied = true;
-            if (config.permsCaptureSpecific && !denied
-                    && !PermNodes.getBooleanPerm(player, Permissions.CATCHSPECIFIC.get(entry)))
-                denied = true;
+            boolean denied = !Permissions.canCatch(evt.getCaught(), player);
             if (denied)
             {
                 evt.setCanceled(true);

@@ -33,6 +33,7 @@ import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.ThutBot;
 import thut.bot.ThutBot.BotEntry;
 import thut.bot.entity.ai.IBotAI;
+import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
 
@@ -144,7 +145,7 @@ public class BotPlayer extends ServerPlayer implements Npc
         // Decide if we want to say something back?
         if (!isOrder) return;
 
-        PermNodes.registerBooleanNode(PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
         String s1 = "I Am A Bot";
         chat(s1);
 

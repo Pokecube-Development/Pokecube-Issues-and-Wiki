@@ -20,19 +20,20 @@ import thut.api.maths.Vector3;
 import thut.api.terrain.CapabilityTerrain.DefaultProvider;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
+import thut.core.common.ThutCore;
 import thut.core.common.network.TerrainUpdate;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class TerrainManager
 {
-    public static final String EDIT_SUBBIOMES_PERM = "thutcore.subbiome.can_edit";
+    public static final String EDIT_SUBBIOMES_PERM = "subbiome.can_edit";
 
     public static final ResourceLocation TERRAINCAP = new ResourceLocation("thutcore", "terrain");
     private static TerrainManager terrain;
 
     public static void init()
     {
-        PermNodes.registerBooleanNode(TerrainManager.EDIT_SUBBIOMES_PERM, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(ThutCore.MODID, TerrainManager.EDIT_SUBBIOMES_PERM, DefaultPermissionLevel.OP,
                 "Is the player allowed to edit subbiomes");
     }
 

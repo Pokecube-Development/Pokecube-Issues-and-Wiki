@@ -8,6 +8,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.phys.Vec3;
+import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.SpawnHandler;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
@@ -49,11 +50,12 @@ public class Meteor
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.meteor";
-        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /meteor");
-        commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm)).then(
-                Commands.argument("power", IntegerArgumentType.integer()).executes((ctx) -> Meteor.execute(ctx
-                        .getSource(), IntegerArgumentType.getInteger(ctx, "power")))));
-        commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm)).executes((
-                ctx) -> Meteor.execute(ctx.getSource(), 100)));
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, perm, DefaultPermissionLevel.OP,
+                "Is the player allowed to use /meteor");
+        commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm))
+                .then(Commands.argument("power", IntegerArgumentType.integer()).executes(
+                        (ctx) -> Meteor.execute(ctx.getSource(), IntegerArgumentType.getInteger(ctx, "power")))));
+        commandDispatcher.register(Commands.literal("meteor").requires(cs -> CommandTools.hasPerm(cs, perm))
+                .executes((ctx) -> Meteor.execute(ctx.getSource(), 100)));
     }
 }

@@ -21,7 +21,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.entity.PartEntity;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -29,7 +28,6 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.init.Config;
 import pokecube.core.utils.Permissions;
-import thut.api.util.PermNodes;
 import thut.lib.ChatHelper;
 import thut.lib.TComponent;
 
@@ -100,26 +98,11 @@ public class LogicMountedControl extends LogicBase
         this.canSurf = this.pokemob.canUseSurf();
         this.canDive = this.pokemob.canUseDive();
 
-        final Config config = PokecubeCore.getConfig();
-
         if (rider instanceof ServerPlayer player)
         {
-            final PokedexEntry entry = this.pokemob.getPokedexEntry();
-            if (config.permsFly && this.canFly && !PermNodes.getBooleanPerm(player, Permissions.FLYPOKEMOB))
-                this.canFly = false;
-            if (config.permsFlySpecific && this.canFly
-                    && !PermNodes.getBooleanPerm(player, Permissions.FLYSPECIFIC.get(entry)))
-                this.canFly = false;
-            if (config.permsSurf && this.canSurf && !PermNodes.getBooleanPerm(player, Permissions.SURFPOKEMOB))
-                this.canSurf = false;
-            if (config.permsSurfSpecific && this.canSurf
-                    && !PermNodes.getBooleanPerm(player, Permissions.SURFSPECIFIC.get(entry)))
-                this.canSurf = false;
-            if (config.permsDive && this.canDive && !PermNodes.getBooleanPerm(player, Permissions.DIVEPOKEMOB))
-                this.canDive = false;
-            if (config.permsDiveSpecific && this.canDive
-                    && !PermNodes.getBooleanPerm(player, Permissions.DIVESPECIFIC.get(entry)))
-                this.canDive = false;
+            if (this.canFly && !Permissions.canFly(pokemob, player)) this.canFly = false;
+            if (this.canSurf && !Permissions.canSurf(pokemob, player)) this.canSurf = false;
+            if (this.canDive && !Permissions.canDive(pokemob, player)) this.canDive = false;
         }
         if (this.canFly)
         {

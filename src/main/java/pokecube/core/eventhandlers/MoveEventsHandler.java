@@ -58,7 +58,6 @@ import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
 import pokecube.core.utils.Permissions;
 import thut.api.maths.Vector3;
-import thut.api.util.PermNodes;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 
@@ -358,7 +357,7 @@ public class MoveEventsHandler
         }
         if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof ServerPlayer player)
         {
-            if (!PermNodes.getBooleanPerm(player, Permissions.MOVEWORLDACTION.get(move.name)))
+            if (!Permissions.canUseWorldAction(player, move.name))
             {
                 if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.logInfo("Denied use of " + move.name + " for " + player);

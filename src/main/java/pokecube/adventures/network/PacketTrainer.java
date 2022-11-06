@@ -73,15 +73,15 @@ public class PacketTrainer extends NBTPacket
 
     public static void register()
     {
-        PermNodes.registerBooleanNode(PacketTrainer.EDITSELF, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeAdv.MODID, PacketTrainer.EDITSELF, DefaultPermissionLevel.OP,
                 "Allowed to edit self with trainer editor");
-        PermNodes.registerBooleanNode(PacketTrainer.EDITOTHER, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeAdv.MODID, PacketTrainer.EDITOTHER, DefaultPermissionLevel.OP,
                 "Allowed to edit other player with trainer editor");
-        PermNodes.registerBooleanNode(PacketTrainer.EDITMOB, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeAdv.MODID, PacketTrainer.EDITMOB, DefaultPermissionLevel.OP,
                 "Allowed to edit pokemobs with trainer editor");
-        PermNodes.registerBooleanNode(PacketTrainer.EDITTRAINER, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeAdv.MODID, PacketTrainer.EDITTRAINER, DefaultPermissionLevel.OP,
                 "Allowed to edit trainer with trainer editor");
-        PermNodes.registerBooleanNode(PacketTrainer.SPAWNTRAINER, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeAdv.MODID, PacketTrainer.SPAWNTRAINER, DefaultPermissionLevel.OP,
                 "Allowed to spawn trainer with trainer editor");
     }
 

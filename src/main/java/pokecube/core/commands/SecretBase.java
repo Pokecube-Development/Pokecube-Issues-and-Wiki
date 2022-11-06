@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.world.dimension.SecretBaseDimension;
@@ -121,11 +122,11 @@ public class SecretBase
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermNodes.registerBooleanNode("command.pokebase.other", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokebase to teleport to an arbitrary base");
-        PermNodes.registerBooleanNode("command.pokebase.exit", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.exit", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokebase to exit a secret base");
-        PermNodes.registerBooleanNode("command.pokebase.create", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.create", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use secret power to make a secret base");
         LiteralArgumentBuilder<CommandSourceStack> command;
 
@@ -153,7 +154,7 @@ public class SecretBase
                                         GameProfileArgument.getGameProfiles(ctx, "owner")))));
         commandDispatcher.register(command);
 
-        PermNodes.registerBooleanNode("command.pokebase.clean", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.clean", DefaultPermissionLevel.ALL,
                 "Temporary cleanup command for removing barrier blocks in secret bases!");
 
         command = Commands.literal("pokebase").then(Commands.argument("clean", StringArgumentType.word())

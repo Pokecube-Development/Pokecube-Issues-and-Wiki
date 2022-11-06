@@ -6,6 +6,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import pokecube.api.moves.MoveEntry;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.moves.implementations.MovesAdder;
 import pokecube.core.utils.Permissions;
@@ -18,7 +19,8 @@ public class ReloadMoves
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.reload_moves";
-        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to reload pokecube moves");
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, perm, DefaultPermissionLevel.OP,
+                "Is the player allowed to reload pokecube moves");
         command.then(Commands.literal("reload_moves").requires(Permissions.hasPerm(perm))
                 .executes((ctx) -> ReloadMoves.execute(ctx.getSource())));
     }

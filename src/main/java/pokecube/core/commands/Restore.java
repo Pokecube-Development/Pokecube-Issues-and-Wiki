@@ -28,6 +28,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
+import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Permissions;
@@ -43,7 +44,7 @@ public class Restore
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.restore";
-        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, perm, DefaultPermissionLevel.OP,
                 "Is the player allowed use the restore feature to recover mobs");
 
         final LiteralArgumentBuilder<CommandSourceStack> root = Commands.literal("restore")

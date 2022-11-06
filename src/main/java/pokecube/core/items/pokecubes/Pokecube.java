@@ -53,7 +53,6 @@ import pokecube.core.utils.Permissions;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
-import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
 import thut.core.common.commands.CommandTools;
 import thut.lib.RegHelper;
@@ -403,7 +402,7 @@ public class Pokecube extends Item implements IPokecube
     {
         return true;
     }
-    
+
     @Override
     public EntityPokecubeBase throwPokecube(final Level world, final LivingEntity thrower, final ItemStack cube,
             final Vector3 direction, final float power)
@@ -415,13 +414,10 @@ public class Pokecube extends Item implements IPokecube
         final boolean hasMob = PokecubeManager.isFilled(stack);
         final Config config = PokecubeCore.getConfig();
         // Check permissions
-        if (hasMob && (config.permsSendOut || config.permsSendOutSpecific) && thrower instanceof ServerPlayer player)
+        if (hasMob && thrower instanceof ServerPlayer player)
         {
             final PokedexEntry entry = PokecubeManager.getPokedexEntry(stack);
-            if (config.permsSendOut && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTPOKEMOB)) return null;
-            if (config.permsSendOutSpecific
-                    && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTSPECIFIC.get(entry)))
-                return null;
+            if (!Permissions.canSendOut(entry, player)) return null;
         }
         stack.setCount(1);
         entity = new EntityPokecube(EntityTypes.getPokecube(), world);

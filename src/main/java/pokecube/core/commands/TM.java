@@ -15,6 +15,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import pokecube.core.PokecubeCore;
 import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
 import thut.api.util.PermNodes;
@@ -37,8 +38,8 @@ public class TM
             if (itementity1 != null) itementity1.makeFakeItem();
             serverplayerentity.level.playSound((Player) null, serverplayerentity.getX(), serverplayerentity.getY(),
                     serverplayerentity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
-                    ((serverplayerentity.getRandom().nextFloat() - serverplayerentity.getRandom().nextFloat()) * 0.7F + 1.0F)
-                            * 2.0F);
+                    ((serverplayerentity.getRandom().nextFloat() - serverplayerentity.getRandom().nextFloat()) * 0.7F
+                            + 1.0F) * 2.0F);
             serverplayerentity.inventoryMenu.broadcastChanges();
         }
         else
@@ -62,17 +63,18 @@ public class TM
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
         final String perm = "command.poketm";
-        PermNodes.registerBooleanNode(perm, DefaultPermissionLevel.OP, "Is the player allowed to use /poketm");
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, perm, DefaultPermissionLevel.OP,
+                "Is the player allowed to use /poketm");
 
         // Setup with name and permission
-        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("poketm").requires(cs -> CommandTools.hasPerm(
-                cs, perm));
+        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("poketm")
+                .requires(cs -> CommandTools.hasPerm(cs, perm));
         // No target argument version
-        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TM.SUGGEST_TMS).executes(
-                ctx -> TM.execute(ctx.getSource(), StringArgumentType.getString(ctx, "tm"))));
+        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TM.SUGGEST_TMS)
+                .executes(ctx -> TM.execute(ctx.getSource(), StringArgumentType.getString(ctx, "tm"))));
         // Target argument version
-        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TM.SUGGEST_TMS).then(
-                Commands.argument("player", EntityArgument.player()).executes(ctx -> TM.execute(ctx.getSource(),
+        command = command.then(Commands.argument("tm", StringArgumentType.string()).suggests(TM.SUGGEST_TMS)
+                .then(Commands.argument("player", EntityArgument.player()).executes(ctx -> TM.execute(ctx.getSource(),
                         EntityArgument.getPlayer(ctx, "player"), StringArgumentType.getString(ctx, "tm")))));
         commandDispatcher.register(command);
     }

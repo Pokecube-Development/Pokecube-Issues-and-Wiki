@@ -70,6 +70,7 @@ import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 @Mod(value = "thutbot")
@@ -110,7 +111,8 @@ public class ThutBot
         logger.addAppender(appender);
         appender.start();
 
-        PermNodes.registerBooleanNode(BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        PermNodes.registerBooleanNode(ThutCore.MODID, BotPlayer.PERMBOTORDER, DefaultPermissionLevel.OP,
+                "Allowed to give orders to thutbots");
 
         IBotAI.MODULEPACKAGES.add(IBotAI.class.getPackageName());
 
@@ -134,9 +136,12 @@ public class ThutBot
 
     private static void onCommandRegister(final RegisterCommandsEvent event)
     {
-        PermNodes.registerBooleanNode(PERMBOT, DefaultPermissionLevel.OP, "Allowed to use base bot commants");
-        PermNodes.registerBooleanNode(PERMBOTSUMMON, DefaultPermissionLevel.OP, "Allowed to make a new thutbot");
-        PermNodes.registerBooleanNode(PERMBOTKILL, DefaultPermissionLevel.OP, "Allowed to remove a thutbot");
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOT, DefaultPermissionLevel.OP,
+                "Allowed to use base bot commants");
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTSUMMON, DefaultPermissionLevel.OP,
+                "Allowed to make a new thutbot");
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTKILL, DefaultPermissionLevel.OP,
+                "Allowed to remove a thutbot");
 
         final LiteralArgumentBuilder<CommandSourceStack> command_base = Commands.literal("thutbot").requires(s -> {
             if (!(s.getEntity() instanceof ServerPlayer player)) return true;
