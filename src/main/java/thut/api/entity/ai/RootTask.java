@@ -22,8 +22,7 @@ import thut.api.maths.Vector3;
 
 public class RootTask<E extends LivingEntity> extends Behavior<E>
 {
-    public static Map<MemoryModuleType<?>, MemoryStatus> merge(
-            final Map<MemoryModuleType<?>, MemoryStatus> mems2,
+    public static Map<MemoryModuleType<?>, MemoryStatus> merge(final Map<MemoryModuleType<?>, MemoryStatus> mems2,
             final Map<MemoryModuleType<?>, MemoryStatus> mems3)
     {
         final Map<MemoryModuleType<?>, MemoryStatus> ret = Maps.newHashMap();
@@ -39,9 +38,11 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
     protected final Map<MemoryModuleType<?>, MemoryStatus> neededMems;
 
     private final MemoryModuleType<?>[] neededModules;
-    private final MemoryStatus[]  neededStatus;
+    private final MemoryStatus[] neededStatus;
 
     protected E entity;
+
+    private Random _run_rng;
 
     protected boolean runWhileDead = false;
 
@@ -54,8 +55,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         final List<MemoryModuleType<?>> neededModules = Lists.newArrayList();
         final List<MemoryStatus> neededStatus = Lists.newArrayList();
         neededModules.addAll(neededMems.keySet());
-        for (final MemoryModuleType<?> mod : neededModules)
-            neededStatus.add(neededMems.get(mod));
+        for (final MemoryModuleType<?> mod : neededModules) neededStatus.add(neededMems.get(mod));
         this.neededModules = neededModules.toArray(new MemoryModuleType<?>[neededModules.size()]);
         this.neededStatus = neededStatus.toArray(new MemoryStatus[neededModules.size()]);
     }
@@ -75,8 +75,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         this(null, neededMems, duration);
     }
 
-    public RootTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration,
-            final int maxDuration)
+    public RootTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration, final int maxDuration)
     {
         this(null, neededMems, duration, maxDuration);
     }
@@ -115,8 +114,8 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
     {
         if (!(target.getTarget() instanceof EntityTracker) && target != null)
         {
-            final boolean inRange = target.getTarget().currentPosition().closerThan(this.entity.position(), target
-                    .getCloseEnoughDist());
+            final boolean inRange = target.getTarget().currentPosition().closerThan(this.entity.position(),
+                    target.getCloseEnoughDist());
             if (inRange) return;
         }
         // In this case, we want to wrap it to include throttling information.
@@ -131,8 +130,8 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
     protected final boolean isPaused(final E mobIn)
     {
         if (!this.loadThrottle() || !RootTask.doLoadThrottling) return false;
-        final Random rng = new Random(mobIn.getUUID().hashCode());
-        final int tick = rng.nextInt(RootTask.runRate);
+        if (this._run_rng == null) this._run_rng = new Random(entity.getUUID().hashCode());
+        final int tick = _run_rng.nextInt(RootTask.runRate);
         return mobIn.tickCount % RootTask.runRate != tick;
     }
 
