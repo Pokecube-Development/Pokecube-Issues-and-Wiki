@@ -50,6 +50,7 @@ import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.EntityTools;
 import pokecube.legends.init.EntityInit;
@@ -161,15 +162,21 @@ public class WormholeEntity extends LivingEntity
 
     public static void onTeleport(final EntityTeleportEvent event)
     {
-        final Level world = event.getEntity().level;
+        Entity entity = event.getEntity();
+        final Level world = entity.level;
         if (world.isClientSide()) return;
         if (!(world instanceof ServerLevel)) return;
+
+        final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use")
+                + WormholeEntity.wormholeReUseDelay;
+        final long now = Tracker.instance().getTick();
+
+        if (now < lastTp) return;
 
         final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
         if (holes == null) return;
 
-        final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, event.getEntity())
-                ? WormholeSpawns.teleWormholeChanceWorms
+        final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, entity) ? WormholeSpawns.teleWormholeChanceWorms
                 : WormholeSpawns.teleWormholeChanceNormal;
 
         final RandomSource rand = world.getRandom();
@@ -182,7 +189,7 @@ public class WormholeEntity extends LivingEntity
 
         // If it is a pokemob, check if holding a location linker, if so, use
         // that for destination of the wormhole!
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null)
         {
             ILinkStorage link = null;
@@ -194,7 +201,7 @@ public class WormholeEntity extends LivingEntity
             }
             if (link != null)
             {
-                GlobalPos linked_pos = link.getLinkedPos(event.getEntity());
+                GlobalPos linked_pos = link.getLinkedPos(entity);
                 if (linked_pos != null)
                 {
                     linked_pos = GlobalPos.of(linked_pos.dimension(), linked_pos.pos().above(2));
@@ -439,12 +446,16 @@ public class WormholeEntity extends LivingEntity
         if (!list.isEmpty()) for (Entity entity : list)
         {
             entity = EntityTools.getCoreEntity(entity);
+
+            // These cannot go through a wormhole.
+            if (ItemList.is(WormholeSpawns.SPACE_ANCHORED, entity)) continue;
+
             final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use")
                     + WormholeEntity.wormholeReUseDelay;
             final long now = Tracker.instance().getTick();
             final UUID uuid = entity.getUUID();
             if (now < lastTp || tpd.contains(uuid)) continue;
-            PokecubeAPI.logDebug("Transfering {} through a wormhole!", entity);
+            if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Transfering {} through a wormhole!", entity);
             tpd.add(uuid);
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 

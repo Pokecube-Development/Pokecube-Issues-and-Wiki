@@ -249,9 +249,8 @@ public class PokemobTracker
         if (world instanceof Level level) key = level.dimension();
         final MobEntry[] mobList = tracker.liveMobs.getOrDefault(key, new ArrayList<>()).toArray(new MobEntry[0]);
         int num = 0;
-        for (final MobEntry e : mobList) if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ())
-                && e.pokemob.getEntity().isAlive() && matches.test(e.pokemob))
-            num++;
+        for (final MobEntry e : mobList)
+            if (box.contains(e.getPos().getX(), e.getPos().getY(), e.getPos().getZ()) && matches.test(e.pokemob)) num++;
         return num;
     }
 

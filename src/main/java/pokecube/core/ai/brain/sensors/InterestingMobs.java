@@ -45,7 +45,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (pokemob.getPokedexEntry().isGMax()) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (pokemob.getCombatState(CombatStates.MATEFIGHT)) return true;
-        if (pokemob.getCombatState(CombatStates.BATTLING) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
+        if (pokemob.getCombatState(CombatStates.BATTLING) || BrainUtils.hasAttackTarget(pokemob.getEntity()))
+            return false;
         return true;
     }
 
@@ -88,7 +89,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final AABB mateBox = entityIn.getBoundingBox().inflate(dh, dv, dh);
         final AABB checkBox = entityIn.getBoundingBox().inflate(s, s, s);
         final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> {
-            return hit != entityIn && hit.isAlive();
+            return hit != entityIn;
         });
         list.sort(Comparator.comparingDouble(entityIn::distanceToSqr));
         final Brain<?> brain = entityIn.getBrain();
