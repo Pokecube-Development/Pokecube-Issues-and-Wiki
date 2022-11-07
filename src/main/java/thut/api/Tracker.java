@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
 
+import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
+import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
@@ -36,6 +38,49 @@ public class Tracker
         MinecraftForge.EVENT_BUS.addListener(Tracker::onClientTick);
         MinecraftForge.EVENT_BUS.addListener(Tracker::onServerStart);
         MinecraftForge.EVENT_BUS.addListener(Tracker::onWorldSave);
+    }
+
+    private static long start = System.nanoTime();
+    private static long n = 0;
+    private static long dt = 0;
+    private static Object2LongArrayMap<Class<?>> taskTimes = new Object2LongArrayMap<>();
+    private static Object2IntArrayMap<Class<?>> taskNs = new Object2IntArrayMap<>();
+
+    public static void timerStart()
+    {
+        start = System.nanoTime();
+    }
+
+    public static void timerEnd(Class<?> involved)
+    {
+        long _dt = System.nanoTime() - start;
+        dt += _dt;
+        taskTimes.compute(involved, (key, value) -> {
+            if (value == null) value = _dt;
+            else value += _dt;
+            return value;
+        });
+        taskNs.compute(involved, (key, value) -> {
+            if (value == null) value = 1;
+            else value += 1;
+            return value;
+        });
+        n++;
+        if (n >= 1000000)
+        {
+            double avg = dt / ((double) n);
+            System.out.println("Average time: " + (avg / 1000d) + "us");
+            System.out.println("class\ttime per\ttime total");
+            taskTimes.forEach((clazz, val) -> {
+                double avg2 = val / ((double) taskNs.getInt(clazz));
+                String key = "%s\t%.2f\t%.2f";
+                System.out.println(key.formatted(clazz, (avg2 / 1000d), (val / 1000d)));
+            });
+            taskTimes.clear();
+            taskNs.clear();
+            n = 0;
+            dt = 0;
+        }
     }
 
     long time = 0;

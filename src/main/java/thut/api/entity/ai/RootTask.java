@@ -8,8 +8,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
-import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -186,53 +184,9 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         return false;
     }
 
-    static long start = System.nanoTime();
-    static long n = 0;
-    static long dt = 0;
-    static Object2LongArrayMap<Class<?>> taskTimes = new Object2LongArrayMap<>();
-    static Object2IntArrayMap<Class<?>> taskNs = new Object2IntArrayMap<>();
-
-    static void timerStart()
-    {
-        start = System.nanoTime();
-    }
-
-    static void timerEnd(Class<?> involved)
-    {
-        long _dt = System.nanoTime() - start;
-        dt += _dt;
-        taskTimes.compute(involved, (key, value) -> {
-            if (value == null) value = _dt;
-            else value += _dt;
-            return value;
-        });
-        taskNs.compute(involved, (key, value) -> {
-            if (value == null) value = 1;
-            else value += 1;
-            return value;
-        });
-        n++;
-        if (n >= 1000000)
-        {
-            double avg = dt / ((double) n);
-            System.out.println("Average time: " + (avg / 1000d) + "us");
-            System.out.println("class\ttime per\ttime total");
-            taskTimes.forEach((clazz, val) -> {
-                double avg2 = val / ((double) taskNs.getInt(clazz));
-                String key = "%s\t%.2f\t%.2f";
-                System.out.println(key.formatted(clazz, (avg2 / 1000d), (val / 1000d)));
-            });
-            taskTimes.clear();
-            taskNs.clear();
-            n = 0;
-            dt = 0;
-        }
-    }
-
     @Override
     public boolean hasRequiredMemories(final E mobIn)
     {
-//        timerStart();
         // Default to true, everything below will set false.
         boolean ret = true;
         check:
@@ -281,7 +235,6 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
             }
         }
         this.tempCont = ret;
-//        timerEnd(this.getClass());
         return ret;
     }
 }

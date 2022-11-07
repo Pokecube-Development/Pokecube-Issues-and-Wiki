@@ -1,6 +1,5 @@
 package pokecube.core.ai.tasks.combat;
 
-import java.util.Comparator;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
@@ -31,15 +30,5 @@ public abstract class CombatTask extends TaskBase implements IAICombat
     public CombatTask(final IPokemob pokemob, final Map<MemoryModuleType<?>, MemoryStatus> mems)
     {
         super(pokemob, RootTask.merge(CombatTask.MEMS, mems));
-    }
-
-    @Override
-    protected Comparator<MemoryModuleType<?>> getCheckOrder()
-    {
-        return (a, b) -> {
-            int a1 = a == MemoryModules.ATTACKTARGET.get() ? 1 : 0;
-            int b1 = b == MemoryModules.ATTACKTARGET.get() ? 1 : 0;
-            return Integer.compare(a1, b1);
-        };
     }
 }
