@@ -90,6 +90,12 @@ public class IdleWalkTask extends BaseIdleTask
         this.entry = pokemob.getPokedexEntry();
     }
 
+    @Override
+    protected boolean simpleRun()
+    {
+        return true;
+    }
+
     /** Floating things try to stay their preferedHeight from the ground. */
     private void doFloatingIdle()
     {

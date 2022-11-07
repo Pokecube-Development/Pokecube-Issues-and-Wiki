@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import com.google.common.collect.Maps;
-
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -334,7 +333,7 @@ public class LogicMiscUpdate extends LogicBase
         this.prevID = uuid;
 
         // Here we apply worn/held equipment modifiers
-        final Map<Stats, Float> vals = Maps.newHashMap();
+        final Map<Stats, Float> vals = new Object2FloatOpenHashMap<IPokemob.Stats>();
         for (final EquipmentSlot type : EquipmentSlot.values())
             LogicMiscUpdate.getStatModifiers(type, this.entity.getItemBySlot(type), vals);
         if (this.mods == null) this.mods = this.pokemob.getModifiers().getModifiers(StatModifiers.ARMOUR);
