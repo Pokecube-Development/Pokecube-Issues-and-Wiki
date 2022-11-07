@@ -46,6 +46,12 @@ public class LookAtMob extends RootTask<LivingEntity>
     }
 
     @Override
+    protected boolean simpleRun()
+    {
+        return true;
+    }
+
+    @Override
     protected boolean canTimeOut()
     {
         return true;

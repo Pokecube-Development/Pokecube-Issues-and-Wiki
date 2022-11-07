@@ -120,9 +120,6 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
 
     int priority = 0;
 
-    boolean tempRun = false;
-    boolean tempCont = false;
-
     public TaskBase(final IPokemob pokemob)
     {
         this(pokemob, ImmutableMap.of());
