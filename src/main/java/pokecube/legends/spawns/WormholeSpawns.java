@@ -67,8 +67,7 @@ public class WormholeSpawns implements IWorldTickListener
         {
             final CompoundTag nbt = new CompoundTag();
             final ListTag list = new ListTag();
-            for (final BlockPos pos : this.getWormholes())
-                list.add(NbtUtils.writeBlockPos(pos));
+            for (final BlockPos pos : this.getWormholes()) list.add(NbtUtils.writeBlockPos(pos));
             nbt.put("wormholes", list);
             return nbt;
         }
@@ -78,8 +77,7 @@ public class WormholeSpawns implements IWorldTickListener
         {
             this.getWormholes().clear();
             final ListTag list = nbt.getList("wormholes", 10);
-            for (final Tag tag : list)
-                this.getWormholes().add(NbtUtils.readBlockPos((CompoundTag) tag));
+            for (final Tag tag : list) this.getWormholes().add(NbtUtils.readBlockPos((CompoundTag) tag));
         }
 
         @Override
@@ -108,14 +106,15 @@ public class WormholeSpawns implements IWorldTickListener
 
     static WormholeSpawns INSTANCE = new WormholeSpawns();
 
-    public static double randomWormholeChance   = 0.00001;
+    public static double randomWormholeChance = 0.00001;
     public static double randomWormholeDistance = 64;
-    public static double randomWormholeSpacing  = 128;
+    public static double randomWormholeSpacing = 128;
 
     public static double teleWormholeChanceNormal = 0.01;
-    public static double teleWormholeChanceWorms  = 0.75;
+    public static double teleWormholeChanceWorms = 0.75;
 
     public static final ResourceLocation SPACE_WORMS = new ResourceLocation(Reference.ID, "space_worm");
+    public static final ResourceLocation SPACE_ANCHORED = new ResourceLocation(Reference.ID, "space_anchored");
 
     public static void init()
     {
@@ -182,8 +181,7 @@ public class WormholeSpawns implements IWorldTickListener
         final BlockPos p = WormholeSpawns.getWormholePos(world, v.getPos());
         final Vector3 pos = new Vector3().set(p);
 
-        for (final BlockPos p2 : holes.getWormholes())
-            if (p2.closerThan(pos.getPos(), wormholeSpacing)) return;
+        for (final BlockPos p2 : holes.getWormholes()) if (p2.closerThan(pos.getPos(), wormholeSpacing)) return;
 
         final WormholeEntity wormhole = EntityInit.WORMHOLE.get().create(world);
         pos.moveEntity(wormhole);
