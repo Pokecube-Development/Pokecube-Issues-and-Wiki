@@ -45,18 +45,17 @@ public class PacketLift extends Packet
     }
 
     public static final byte BUTTONFROMTILE = 0;
-    public static final byte BUTTONFROMMOB  = 1;
-    public static final byte SETFLOOR       = 2;
+    public static final byte BUTTONFROMMOB = 1;
+    public static final byte SETFLOOR = 2;
 
-    byte             key   = 0;
-    int              mobId = -1;
+    byte key = 0;
+    int mobId = -1;
     private BlockPos pos;
-    private int      button;
-    private boolean  call;
+    private int button;
+    private boolean call;
 
     public PacketLift()
-    {
-    }
+    {}
 
     public PacketLift(final FriendlyByteBuf buffer)
     {
@@ -83,22 +82,19 @@ public class PacketLift extends Packet
     {
         if (this.pos == null) return;
         BlockEntity tile = player.getCommandSenderWorld().getBlockEntity(this.pos);
-        EntityLift lift = null;
         final Entity mob = player.getCommandSenderWorld().getEntity(this.mobId);
 
         switch (this.key)
         {
         case 0:
         case 1:
-            if (mob instanceof EntityLift && !(tile instanceof ControllerTile))
+            if (mob instanceof EntityLift lift && !(tile instanceof ControllerTile))
             {
-                lift = (EntityLift) mob;
                 final IBlockEntityWorld world = lift.getFakeWorld();
                 tile = world.getTile(this.pos);
             }
-            if (tile instanceof ControllerTile)
+            if (mob instanceof EntityLift lift && tile instanceof ControllerTile te)
             {
-                final ControllerTile te = (ControllerTile) tile;
                 if (lift != null) te.setLift(lift);
                 if (te.getLift() == null) return;
                 te.buttonPress(this.button, this.call);

@@ -263,11 +263,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         this.floor = par1.getInt("floor");
         // Reset this so that it will re-find after loading.
         this.lift = null;
-        if (par1.hasUUID("lift"))
-        {
-            this.liftID = par1.getUUID("lift");
-            System.out.println(liftID);
-        }
+        if (par1.hasUUID("lift")) this.liftID = par1.getUUID("lift");
         this.sides = par1.getByteArray("sides");
         for (final Direction face : Direction.Plane.HORIZONTAL)
             this.callFaces[face.ordinal()] = par1.getBoolean(face + "Call");
@@ -283,7 +279,6 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
             final CompoundTag state = par1.getCompound("state");
             this.copiedState = NbtUtils.readBlockState(state);
         }
-        System.out.println(this.level + " " + par1);
     }
 
     public void sendUpdate(final ServerPlayer player)
@@ -332,11 +327,11 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
     public void setWorldObj(final Level worldIn)
     {
         this.level = worldIn;
-        if (worldIn instanceof IBlockEntityWorld)
+        if (worldIn instanceof IBlockEntityWorld beworld)
         {
             // TODO replace this with something like a built in tag?
-            final IBlockEntity blockEntity = ((IBlockEntityWorld) worldIn).getBlockEntity();
-            if (blockEntity instanceof EntityLift) this.setLift((EntityLift) blockEntity);
+            final IBlockEntity blockEntity = beworld.getBlockEntity();
+            if (blockEntity instanceof EntityLift lift) this.setLift(lift);
         }
     }
 
@@ -364,16 +359,12 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         {
             final BlockEntity t = this.here.getTileEntity(this.level, side);
             this.here.getBlock(this.level, side);
-            if (t instanceof ControllerTile)
+            if (t instanceof ControllerTile te && te.getLift() != null)
             {
-                final ControllerTile te = (ControllerTile) t;
-                if (te.getLift() != null)
-                {
-                    this.setLift(lift = te.getLift());
-                    this.floor = te.floor;
-                    this.setChanged();
-                    break;
-                }
+                this.setLift(lift = te.getLift());
+                this.floor = te.floor;
+                this.setChanged();
+                break;
             }
         }
         if (lift == null) return;
