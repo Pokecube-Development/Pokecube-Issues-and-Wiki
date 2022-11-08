@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "concrete_bucket",
+  "ingredients": [
+    {
+      "item": "concrete:wet_concrete_block"
+    },
+    {
+      "item": "minecraft:bucket"
+    }
+  ],
+  "result": {
+    "item": "concrete:concrete_bucket",
+    "count": 1
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wsw",
+    "w w",
+    "w w"
+  ],
+  "key": {
+    "w": {
+      "tag": "minecraft:planks"
+    },
+    "s": {
+      "item": "minecraft:string"
+    }
+  },
+  "result": {
+    "item": "concrete:formwork",
+    "count": 16
+  }
+}

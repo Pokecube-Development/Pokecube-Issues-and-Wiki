@@ -416,7 +416,12 @@ public class WormholeEntity extends LivingEntity
 
         this.energy.receiveEnergy(WormholeEntity.wormholeEnergyPerTick, false);
         // Stable wormholes just lose all of their energy.
-        if (this.stable) this.energy.extractEnergy(Integer.MAX_VALUE, false);
+        if (this.stable)
+        {
+            this.energy.extractEnergy(Integer.MAX_VALUE, false);
+            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
+            this.timer = 0;
+        }
 
         final Vector3 anchor = this.getPos().getTeleLoc();
         final Vec3 origin = new Vec3(anchor.x, anchor.y, anchor.z);
@@ -427,7 +432,7 @@ public class WormholeEntity extends LivingEntity
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
         // Collapse at full energy
-        if (this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
+        if (!this.stable && this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
         {
             if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;

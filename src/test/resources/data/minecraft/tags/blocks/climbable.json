@@ -1,0 +1,22 @@
+{
+  "replace": false,
+  "values": [
+    "concrete:reinforced_concrete_layer_white",
+    "concrete:reinforced_concrete_layer_orange",
+    "concrete:reinforced_concrete_layer_magenta",
+    "concrete:reinforced_concrete_layer_light_blue",
+    "concrete:reinforced_concrete_layer_yellow",
+    "concrete:reinforced_concrete_layer_lime",
+    "concrete:reinforced_concrete_layer_pink",
+    "concrete:reinforced_concrete_layer_gray",
+    "concrete:reinforced_concrete_layer_light_gray",
+    "concrete:reinforced_concrete_layer_cyan",
+    "concrete:reinforced_concrete_layer_purple",
+    "concrete:reinforced_concrete_layer_blue",
+    "concrete:reinforced_concrete_layer_brown",
+    "concrete:reinforced_concrete_layer_green",
+    "concrete:reinforced_concrete_layer_red",
+    "concrete:reinforced_concrete_layer_black",
+    "concrete:rebar"
+  ]
+}

@@ -97,7 +97,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         if (this.isServerWorld() && !this.consumePower())
         {
             this.setPos(this.position());
-            Vec3 v = this.getDeltaMovement();
+            Vec3 v = this.getV();
             double v2 = v.lengthSqr();
             if (v2 > 0)
             {
@@ -128,7 +128,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
 
         if (!(this.toMoveY || this.toMoveX || this.toMoveZ))
         {
-            Vec3 v = this.getDeltaMovement();
+            Vec3 v = this.getV();
             double v2 = v.lengthSqr();
             if (v2 > 0)
             {
@@ -226,7 +226,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         if (Mth.equal(destY, 0)) destY = 0;
         if (Mth.equal(destZ, 0)) destZ = 0;
 
-        final Vec3 v = this.getDeltaMovement();
+        final Vec3 v = this.getV();
 
         double vx = v.x;
         double vy = v.y;

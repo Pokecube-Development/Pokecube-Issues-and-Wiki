@@ -1,0 +1,320 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "concrete:block/rebar_post",
+        "uvlock": true
+      },
+      "when": {
+        "rusty": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "concrete:block/rebar_post",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "rusty": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "concrete:block/rebar_post",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "rusty": "false"
+      }
+    },
+    {
+      "apply": {
+        "model": "concrete:block/rebar_post_rusty",
+        "uvlock": true
+      },
+      "when": {
+        "rusty": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "concrete:block/rebar_post_rusty",
+        "uvlock": true,
+        "y": 90
+      },
+      "when": {
+        "rusty": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "concrete:block/rebar_post_rusty",
+        "uvlock": true,
+        "x": 90
+      },
+      "when": {
+        "rusty": "true"
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "rusty": "false"
+      },
+      "apply": {
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "north": "true",
+        "rusty": "true"
+      },
+      "apply": {
+        "model": "concrete:block/rebar_side_rusty",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "rusty": "false"
+      },
+      "apply": {
+        "y": 90,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+        "rusty": "true"
+      },
+      "apply": {
+        "y": 90,
+        "model": "concrete:block/rebar_side_rusty",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "rusty": "false"
+      },
+      "apply": {
+        "y": 180,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+        "rusty": "true"
+      },
+      "apply": {
+        "y": 180,
+        "model": "concrete:block/rebar_side_rusty",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "rusty": "false"
+      },
+      "apply": {
+        "y": 270,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+        "rusty": "true"
+      },
+      "apply": {
+        "y": 270,
+        "model": "concrete:block/rebar_side_rusty",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "true",
+        "rusty": "false"
+      },
+      "apply": {
+        "x": 270,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "up": "true",
+        "rusty": "true"
+      },
+      "apply": {
+        "x": 270,
+        "model": "concrete:block/rebar_side_rusty",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "down": "true",
+        "rusty": "false"
+      },
+      "apply": {
+        "x": 90,
+        "model": "concrete:block/rebar_side",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "down": "true",
+        "rusty": "true"
+      },
+      "apply": {
+        "x": 90,
+        "model": "concrete:block/rebar_side_rusty",
+        "uvlock": true
+      }
+    },
+    {
+      "when": {
+        "layers": 1
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_1"
+      }
+    },
+    {
+      "when": {
+        "layers": 2
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_2"
+      }
+    },
+    {
+      "when": {
+        "layers": 3
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_3"
+      }
+    },
+    {
+      "when": {
+        "layers": 4
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_4"
+      }
+    },
+    {
+      "when": {
+        "layers": 5
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_5"
+      }
+    },
+    {
+      "when": {
+        "layers": 6
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_6"
+      }
+    },
+    {
+      "when": {
+        "layers": 7
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_7"
+      }
+    },
+    {
+      "when": {
+        "layers": 8
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_8"
+      }
+    },
+    {
+      "when": {
+        "layers": 9
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_9"
+      }
+    },
+    {
+      "when": {
+        "layers": 10
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_10"
+      }
+    },
+    {
+      "when": {
+        "layers": 11
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_11"
+      }
+    },
+    {
+      "when": {
+        "layers": 12
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_12"
+      }
+    },
+    {
+      "when": {
+        "layers": 13
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_13"
+      }
+    },
+    {
+      "when": {
+        "layers": 14
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_14"
+      }
+    },
+    {
+      "when": {
+        "layers": 15
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_black_15"
+      }
+    },
+    {
+      "when": {
+        "layers": 16
+      },
+      "apply": {
+        "model": "concrete:block/concrete_block_black"
+      }
+    }
+  ]
+}

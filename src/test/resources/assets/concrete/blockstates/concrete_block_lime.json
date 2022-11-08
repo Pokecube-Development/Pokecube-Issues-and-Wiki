@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "": {
+      "texture": "minecraft:block/lime_concrete",
+      "model": "concrete:block/concrete_block_lime"
+    }
+  }
+}

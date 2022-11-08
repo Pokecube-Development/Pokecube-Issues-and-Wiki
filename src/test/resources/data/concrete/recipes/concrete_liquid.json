@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "concrete:cement"
+    },
+    {
+      "item": "concrete:cement"
+    },
+    {
+      "item": "concrete:cement"
+    },
+    {
+      "item": "concrete:cement"
+    },
+    {
+      "item": "concrete:cement"
+    },
+    {
+      "item": "concrete:cement"
+    },
+    {
+      "item": "minecraft:gravel"
+    },
+    {
+      "item": "minecraft:sand"
+    },
+    {
+      "item": "minecraft:water_bucket"
+    }
+  ],
+  "result": {
+    "item": "concrete:wet_concrete_block",
+    "count": 8
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "concrete:dust"
+    },
+    {
+      "item": "concrete:dust_cao"
+    }
+  ],
+  "result": {
+    "item": "concrete:cement",
+    "count": 1
+  }
+}
