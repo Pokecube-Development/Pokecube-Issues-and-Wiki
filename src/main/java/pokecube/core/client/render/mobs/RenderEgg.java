@@ -134,10 +134,10 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     protected RenderType getRenderType(final EntityPokemobEgg entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
-        if (entity.tickCount % 100 == 0)
+        if (model.lastInit == -1)
         {
             this.model = this.makeModel();
-            entity.tickCount++;
+            this.model.lastInit = 0;
         }
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
