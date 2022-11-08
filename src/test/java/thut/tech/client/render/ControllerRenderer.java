@@ -39,14 +39,14 @@ import thut.tech.common.entity.EntityLift;
 public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
 {
 
-    private static final ResourceLocation overlay   = new ResourceLocation("thuttech:textures/blocks/overlay.png");
+    private static final ResourceLocation overlay = new ResourceLocation("thuttech:textures/blocks/overlay.png");
     private static final ResourceLocation overlay_1 = new ResourceLocation("thuttech:textures/blocks/overlay_1.png");
-    private static final ResourceLocation font      = new ResourceLocation("thuttech:textures/blocks/font.png");
+    private static final ResourceLocation font = new ResourceLocation("thuttech:textures/blocks/font.png");
 
     // Buttons for edit mode
-    private static final ResourceLocation call   = new ResourceLocation("thuttech:textures/blocks/overlay_call.png");
-    private static final ResourceLocation disp   = new ResourceLocation("thuttech:textures/blocks/overlay_display.png");
-    private static final ResourceLocation exit   = new ResourceLocation("thuttech:textures/blocks/overlay_exit.png");
+    private static final ResourceLocation call = new ResourceLocation("thuttech:textures/blocks/overlay_call.png");
+    private static final ResourceLocation disp = new ResourceLocation("thuttech:textures/blocks/overlay_display.png");
+    private static final ResourceLocation exit = new ResourceLocation("thuttech:textures/blocks/overlay_exit.png");
     private static final ResourceLocation unlink = new ResourceLocation("thuttech:textures/blocks/overlay_unlink.png");
 
     private static void render(final RenderType type, final PoseStack mat, final MultiBufferSource buff, final float x1,
@@ -73,8 +73,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
             {
                 RenderSystem.enableBlend();
                 RenderSystem.defaultBlendFunc();
-            }, () ->
-            {
+            }, () -> {
                 RenderSystem.disableBlend();
             });
 
@@ -83,9 +82,9 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
     private static RenderType.CompositeState getState(final ResourceLocation texture)
     {
         return RenderType.CompositeState.builder().setShaderState(RenderStateShard.POSITION_COLOR_TEX_SHADER)
-                .setTextureState(new TextureStateShard(texture, false, true)).setTransparencyState(
-                        ControllerRenderer.TRANSP).setWriteMaskState(ControllerRenderer.MASK).createCompositeState(
-                                false);
+                .setTextureState(new TextureStateShard(texture, false, true))
+                .setTransparencyState(ControllerRenderer.TRANSP).setWriteMaskState(ControllerRenderer.MASK)
+                .createCompositeState(false);
     }
 
     public static RenderType makeType(final ResourceLocation tex)
@@ -94,20 +93,19 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
                 ControllerRenderer.getState(tex));
     }
 
-    private static RenderType       NUMBERS   = ControllerRenderer.makeType(ControllerRenderer.font);
+    private static RenderType NUMBERS = ControllerRenderer.makeType(ControllerRenderer.font);
     private static final RenderType OVERLAY_1 = ControllerRenderer.makeType(ControllerRenderer.overlay_1);
-    private static final RenderType OVERLAY   = ControllerRenderer.makeType(ControllerRenderer.overlay);
+    private static final RenderType OVERLAY = ControllerRenderer.makeType(ControllerRenderer.overlay);
 
     // Edit mode buttons
 
-    private static final RenderType CALL   = ControllerRenderer.makeType(ControllerRenderer.call);
-    private static final RenderType DISP   = ControllerRenderer.makeType(ControllerRenderer.disp);
-    private static final RenderType EXIT   = ControllerRenderer.makeType(ControllerRenderer.exit);
+    private static final RenderType CALL = ControllerRenderer.makeType(ControllerRenderer.call);
+    private static final RenderType DISP = ControllerRenderer.makeType(ControllerRenderer.disp);
+    private static final RenderType EXIT = ControllerRenderer.makeType(ControllerRenderer.exit);
     private static final RenderType UNLINK = ControllerRenderer.makeType(ControllerRenderer.unlink);
 
     public ControllerRenderer(final BlockEntityRendererProvider.Context dispatcher)
-    {
-    }
+    {}
 
     public void drawEditOverlay(final PoseStack mat, final MultiBufferSource buff, final ControllerTile monitor,
             final Direction side)
@@ -132,8 +130,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
 
     public void drawFloorNumbers(final PoseStack mat, final MultiBufferSource buffer, final int page)
     {
-        for (int floor = 1; floor <= 16; floor++)
-            this.drawNumber(mat, buffer, floor + page * 16, floor);
+        for (int floor = 1; floor <= 16; floor++) this.drawNumber(mat, buffer, floor + page * 16, floor);
     }
 
     private void drawNumber(final PoseStack mat, final MultiBufferSource buffer, final int number, final int floor)
@@ -276,12 +273,12 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
                     pos, copied, EmptyModelData.INSTANCE);
             for (final RenderType type : RenderType.chunkBufferLayers())
                 if (ItemBlockRenderTypes.canRenderInLayer(copied, type))
-                {
-                    final BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-                    final BakedModel model = blockRenderer.getBlockModel(copied);
-                    blockRenderer.getModelRenderer().tesselateBlock(world, model, copied, pos, mat, buff.getBuffer(
-                            type), false, new Random(), copied.getSeed(randPos), combinedOverlayIn, data);
-                }
+            {
+                final BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
+                final BakedModel model = blockRenderer.getBlockModel(copied);
+                blockRenderer.getModelRenderer().tesselateBlock(world, model, copied, pos, mat, buff.getBuffer(type),
+                        false, new Random(), copied.getSeed(randPos), combinedOverlayIn, data);
+            }
             mat.popPose();
         }
 

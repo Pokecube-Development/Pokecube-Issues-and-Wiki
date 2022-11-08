@@ -582,6 +582,8 @@ public class Config extends ConfigData
     public boolean pokeCenterMusic = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Preloads pokemob models during load. [Default: false]")
     public boolean preloadModels = false;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Preloads pokemob models during load. [Default: false]")
+    public boolean showTargetBox = true;
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Width of the pokemob message GUI. [Default: 150]")
     public int messageWidth = 150;;
@@ -749,7 +751,6 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "Mobs added by other mods are treated as pokemobs as well. [Default: false]")
     public boolean non_vanilla_pokemobs = false;
 
-
     @Configure(category = Config.debug_modes, comment = "Debug output for move use. [Default: false]")
     public boolean debug_moves = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for mob ai. [Default: false]")
@@ -762,8 +763,7 @@ public class Config extends ConfigData
     public boolean debug_spawning = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for uncatogorised things. [Default: false]")
     public boolean debug_misc = false;
-    
-    
+
     public Config()
     {
         super(PokecubeCore.MODID);

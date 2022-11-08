@@ -253,15 +253,24 @@ public class EventsHandlerClient
         }
     }
 
+    private static final ResourceLocation IS_POKECUBE = new ResourceLocation("pokecube:pokecubes");
+
     private static void renderBounds(final RenderLevelStageEvent event)
     {
-        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS) return;
-        ItemStack held;
+        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
         final Player player = Minecraft.getInstance().player;
-        if ((held = player.getMainHandItem()).isEmpty() && (held = player.getOffhandItem()).isEmpty()) return;
-        if (Screen.hasControlDown() && PokecubeItems.getCubeId(held) != null)
+
+        boolean validToShow = true;
+        ItemStack held;
+        if (!(held = player.getMainHandItem()).isEmpty() || (held = player.getOffhandItem()).isEmpty())
         {
-            Entity entity = Tools.getPointedEntity(player, 16, null, 0.75);
+            validToShow = PokecubeItems.is(IS_POKECUBE, held);
+        }
+        if (!validToShow) validToShow = GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null;
+
+        if (validToShow)
+        {
+            Entity entity = Tools.getPointedEntity(player, 16, null, 1);
             if (entity != null)
             {
                 AABB box = entity.getBoundingBox();
