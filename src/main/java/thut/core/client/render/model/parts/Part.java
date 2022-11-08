@@ -389,6 +389,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (material != null && !Mesh.debug)
         {
             this.materials.forEach(m -> {
+                if (m == null) return;
                 if (material.test(m))
                 {
                     m.rgbabro[0] = r;
@@ -403,6 +404,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         else
         {
             shapes.forEach(m -> {
+                if (m == null) return;
                 m.rgbabro[0] = r;
                 m.rgbabro[1] = g;
                 m.rgbabro[2] = b;
