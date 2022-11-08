@@ -7,9 +7,9 @@ public class ConfigHandler extends ConfigData
 {
 
     @Configure(category = "speed")
-    public double LiftSpeedUp      = 0.3;
+    public double LiftSpeedUp = 0.3;
     @Configure(category = "speed")
-    public double LiftSpeedDown    = 0.35;
+    public double LiftSpeedDown = 0.35;
     @Configure(category = "speed")
     public double LiftAcceleration = 0.025;
 
@@ -22,11 +22,11 @@ public class ConfigHandler extends ConfigData
     @Configure(category = "controller")
     public int controllerProduction = 16;
     @Configure(category = "size")
-    public int maxHeight            = 5;
+    public int maxHeight = 5;
     @Configure(category = "size")
-    public int maxRadius            = 2;
+    public int maxRadius = 2;
     @Configure(category = "controller")
-    public int maxLiftEnergy        = 5000000;
+    public int maxLiftEnergy = 5000000;
 
     /**
      * @param MODID
@@ -38,7 +38,6 @@ public class ConfigHandler extends ConfigData
 
     @Override
     public void onUpdated()
-    {
-    }
+    {}
 
 }
