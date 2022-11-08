@@ -252,7 +252,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
             vz = dz;
         }
         else vz *= 0.5;
-        this.setDeltaMovement(vx, vy, vz);
+        this.setV(new Vec3(vx, vy, vz));
     }
 
     public void addSeat(final Vec3f seat)
@@ -284,7 +284,8 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     @Override
     protected boolean checkAccelerationConditions()
     {
-        return this.consumePower();
+        this.consumePower();
+        return true;
     }
 
     private boolean consumePower()

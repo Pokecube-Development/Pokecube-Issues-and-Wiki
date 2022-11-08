@@ -518,20 +518,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.boundMin = pos;
     }
 
-    @Override
-    public void setDeltaMovement(final Vec3 vec)
+    protected void setV(final Vec3 vec)
     {
-        super.setDeltaMovement(vec);
         if (this.isServerWorld())
         {
             this.getEntityData().set(velocity, Optional.of(vec));
         }
-    }
-
-    @Override
-    public void setPosRaw(final double x, final double y, final double z)
-    {
-        super.setPosRaw(x, y, z);
     }
 
     @Override

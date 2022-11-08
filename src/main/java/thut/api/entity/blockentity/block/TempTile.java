@@ -105,7 +105,7 @@ public class TempTile extends BlockEntity implements ITickTile
     {
         if (entity == this.blockEntity) return distance;
         if (this.blockEntity == null) return distance;
-        var tileV = this.blockEntity.getDeltaMovement();
+        var tileV = this.blockEntity.getV();
         var entityV = entity.getDeltaMovement();
 
         var below = level.getBlockEntity(getBlockPos().below());
