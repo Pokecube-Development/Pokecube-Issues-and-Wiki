@@ -143,6 +143,27 @@ public class TempTile extends BlockEntity implements ITickTile
         // Now make sure the mob is on top.
         if (!here.isEmpty())
         {
+            double newVy = tileV.y() != 0 ? tileV.y() : entityV.y();
+            // Ensure the mob has same vertical velocity as us.
+            entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
+
+            AABB bounds = here.bounds();
+            var entityR = entity.position();
+            double x = entityR.x();
+            double y = bounds.maxY + this.getBlockPos().getY() + tileV.y();
+            if (y > entity.getBoundingBox().maxY) y = entity.getY() + tileV.y();
+            double z = entityR.z();
+            if (tileV.y() > 0) entity.setPos(x, y, z);
+
+            double d0 = entity.getX();
+            double d1 = entity.getY();
+            double d2 = entity.getZ();
+            entityV = entity.getDeltaMovement();
+
+            entity.xOld = entity.xo = d0 - entityV.x;
+            entity.yOld = entity.yo = d1 - entityV.y;
+            entity.zOld = entity.zo = d2 - entityV.z;
+
             // Due to how minecraft handles players, this should be applied to
             // the client player instead, and let the server player get the info
             // from there.
@@ -150,30 +171,6 @@ public class TempTile extends BlockEntity implements ITickTile
             {
                 // Meed to set floatingTickCount to prevent being kicked
                 serverplayer.fallDistance = 0;
-                serverplayer.connection.resetPosition();
-            }
-            else
-            {
-                double newVy = tileV.y() != 0 ? tileV.y() : entityV.y();
-                // Ensure the mob has same vertical velocity as us.
-                entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
-
-                AABB bounds = here.bounds();
-                var entityR = entity.position();
-                double x = entityR.x();
-                double y = bounds.maxY + this.getBlockPos().getY() + tileV.y();
-                if (y > entity.getBoundingBox().maxY) y = entity.getY() + tileV.y();
-                double z = entityR.z();
-                if (tileV.y() > 0) entity.setPos(x, y, z);
-
-                double d0 = entity.getX();
-                double d1 = entity.getY();
-                double d2 = entity.getZ();
-                entityV = entity.getDeltaMovement();
-
-                entity.xOld = entity.xo = d0 - entityV.x;
-                entity.yOld = entity.yo = d1 - entityV.y;
-                entity.zOld = entity.zo = d2 - entityV.z;
             }
         }
         return distance;
