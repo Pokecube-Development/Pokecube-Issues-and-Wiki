@@ -6,8 +6,10 @@ license="All rights reserved"
     modId="testmod"
 [[mods]]
     modId="thutbot"
-#[[mods]]
-#    modId="concrete"
+[[mods]]
+    modId="thuttech"
+[[mods]]
+    modId="concrete"
 [[mods]]
     modId="pokecube_wiki"
 [[mods]]

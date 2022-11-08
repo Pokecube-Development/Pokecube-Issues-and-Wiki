@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "concrete:wet_concrete_layer",
+    "concrete:wet_concrete_layer",
+    "concrete:molten_layer",
+    "concrete:molten_block",
+    "concrete:dust_layer",
+    "concrete:dust_block"
+  ]
+}

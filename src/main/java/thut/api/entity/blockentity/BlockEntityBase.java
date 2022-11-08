@@ -1,6 +1,7 @@
 package thut.api.entity.blockentity;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.google.common.collect.ImmutableSet;
@@ -35,10 +36,6 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
-import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
 import thut.api.entity.blockentity.block.TempBlock;
@@ -66,44 +63,49 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         {
             return this.create(world);
         }
-
     }
 
-    private static class VecSer implements EntityDataSerializer<Vec3>
+    private static class VecSer implements EntityDataSerializer<Optional<Vec3>>
     {
         @Override
-        public Vec3 copy(final Vec3 value)
+        public Optional<Vec3> copy(final Optional<Vec3> value)
         {
-            return new Vec3(value.x, value.y, value.z);
+            if (value.isPresent()) return Optional.of(new Vec3(value.get().x, value.get().y, value.get().z));
+            return Optional.empty();
         }
 
         @Override
-        public EntityDataAccessor<Vec3> createAccessor(final int id)
+        public EntityDataAccessor<Optional<Vec3>> createAccessor(final int id)
         {
             return new EntityDataAccessor<>(id, this);
         }
 
         @Override
-        public Vec3 read(final FriendlyByteBuf buf)
+        public Optional<Vec3> read(final FriendlyByteBuf buf)
         {
-            return new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
+            if (!buf.isReadable()) return Optional.empty();
+            return Optional.of(new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()));
         }
 
         @Override
-        public void write(final FriendlyByteBuf buf, final Vec3 value)
+        public void write(final FriendlyByteBuf buf, final Optional<Vec3> opt)
         {
-            buf.writeDouble(value.x);
-            buf.writeDouble(value.y);
-            buf.writeDouble(value.z);
+            if (opt.isPresent())
+            {
+                var value = opt.get();
+                buf.writeDouble(value.x);
+                buf.writeDouble(value.y);
+                buf.writeDouble(value.z);
+            }
         }
     }
 
-    public static final EntityDataSerializer<Vec3> VEC3DSER = new VecSer();
+    public static final EntityDataSerializer<Optional<Vec3>> VEC3DSER = new VecSer();
 
-    static final EntityDataAccessor<Vec3> velocity = SynchedEntityData.<Vec3>defineId(BlockEntityBase.class,
-            BlockEntityBase.VEC3DSER);
-    static final EntityDataAccessor<Vec3> position = SynchedEntityData.<Vec3>defineId(BlockEntityBase.class,
-            BlockEntityBase.VEC3DSER);
+    static final EntityDataAccessor<Optional<Vec3>> velocity = SynchedEntityData
+            .<Optional<Vec3>>defineId(BlockEntityBase.class, BlockEntityBase.VEC3DSER);
+    static final EntityDataAccessor<Optional<Vec3>> position = SynchedEntityData
+            .<Optional<Vec3>>defineId(BlockEntityBase.class, BlockEntityBase.VEC3DSER);
 
     public BlockPos boundMin = BlockPos.ZERO;
     public BlockPos boundMax = BlockPos.ZERO;
@@ -148,6 +150,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (this.originalPos == null) this.originalPos = this.blockPosition();
         return this.originalPos;
+    }
+
+    public Vec3 getV()
+    {
+        return this.getEntityData().get(velocity).orElse(Vec3.ZERO);
     }
 
     /**
@@ -259,8 +266,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     public void onEntityCollision(final Entity entityIn)
-    {
-    }
+    {}
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
@@ -272,7 +278,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public final void doMotion()
     {
-        final Vec3 v = this.getDeltaMovement();
+        final Vec3 v = this.getV();
         if (v.lengthSqr() > 0)
         {
             this.move(MoverType.SELF, v);
@@ -328,12 +334,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public BlockPos getMin()
     {
         return this.boundMin;
-    }
-
-    @Override
-    public Vec3 getDeltaMovement()
-    {
-        return super.getDeltaMovement();
     }
 
     protected double getSpeed(final double pos, final double destPos, final double speed, double speedPos,
@@ -481,7 +481,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     protected void defineSynchedData()
     {
-
+        this.entityData.define(position, Optional.empty());
+        this.entityData.define(velocity, Optional.empty());
     }
 
     /** Will get destroyed next tick. */
@@ -521,6 +522,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void setDeltaMovement(final Vec3 vec)
     {
         super.setDeltaMovement(vec);
+        if (this.isServerWorld())
+        {
+            this.getEntityData().set(velocity, Optional.of(vec));
+        }
     }
 
     @Override
@@ -561,40 +566,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.doMotion();
 
         this.checkCollision();
-    }
-
-    @Override
-    public void onAddedToWorld()
-    {
-        super.onAddedToWorld();
-    }
-
-    @Override
-    public void onRemovedFromWorld()
-    {
-        super.onRemovedFromWorld();
-    }
-
-    @SubscribeEvent
-    public void onTickServer(WorldTickEvent event)
-    {
-        if (!this.isAddedToWorld())
-        {
-            ThutCore.LOGGER.error("Block Entity ticking when not in world!", new IllegalStateException());
-            return;
-        }
-        if (event.phase != Phase.END || event.world != level) return;
-    }
-
-    @SubscribeEvent
-    public void onTickClient(ClientTickEvent event)
-    {
-        if (!this.isAddedToWorld())
-        {
-            ThutCore.LOGGER.error("Block Entity ticking when not in world!", new IllegalStateException());
-            return;
-        }
-        if (event.phase != Phase.END || this.isServerWorld()) return;
     }
 
     @Override

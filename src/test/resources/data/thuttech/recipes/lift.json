@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "thuttech",
+  "pattern": [
+    "xyx",
+    "zxz",
+    "zzz"
+  ],
+  "key": {
+    "x": {
+      "item": "minecraft:iron_ingot"
+    },
+    "y": {
+      "item": "minecraft:redstone"
+    },
+    "z": {
+      "item": "minecraft:stone"
+    }
+  },
+  "result": {
+    "item": "thuttech:lift"
+  }
+}

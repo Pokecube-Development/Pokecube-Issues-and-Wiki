@@ -1,0 +1,12 @@
+{
+   "variants": {
+	   "called=true,current=true,masked=false": { "model": "thuttech:block/controller" },
+	   "called=true,current=false,masked=false": { "model": "thuttech:block/controller" },
+	   "called=false,current=true,masked=false": { "model": "thuttech:block/controller" },
+	   "called=false,current=false,masked=false": { "model": "thuttech:block/controller" },
+	   "called=true,current=true,masked=true": { "model": "thuttech:block/controller_invis" },
+	   "called=true,current=false,masked=true": { "model": "thuttech:block/controller_invis" },
+	   "called=false,current=true,masked=true": { "model": "thuttech:block/controller_invis" },
+	   "called=false,current=false,masked=true": { "model": "thuttech:block/controller_invis" }
+    }
+}

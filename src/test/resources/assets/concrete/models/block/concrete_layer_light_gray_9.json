@@ -1,0 +1,6 @@
+{
+    "parent": "concrete:block/layered_9",
+    "textures": {
+        "texture": "minecraft:block/light_gray_concrete"
+    }
+}

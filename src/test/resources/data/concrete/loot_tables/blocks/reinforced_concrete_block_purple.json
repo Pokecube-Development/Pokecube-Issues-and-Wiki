@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "name": "purple_reinforced_concrete_block",
+      "rolls": 1.0,
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "concrete:reinforced_concrete_block_purple"
+        }
+      ]
+    }
+  ]
+}
