@@ -4,7 +4,6 @@ import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,15 +31,15 @@ import thut.tech.common.TechCore;
 
 public class ControllerBlock extends Block implements EntityBlock
 {
-    public static final BooleanProperty CALLED  = BooleanProperty.create("called");
-    public static final BooleanProperty MASKED  = BooleanProperty.create("masked");
+    public static final BooleanProperty CALLED = BooleanProperty.create("called");
+    public static final BooleanProperty MASKED = BooleanProperty.create("masked");
     public static final BooleanProperty CURRENT = BooleanProperty.create("current");
 
     public ControllerBlock(final Block.Properties props)
     {
         super(props);
-        this.registerDefaultState(this.stateDefinition.any().setValue(ControllerBlock.CALLED, false).setValue(
-                ControllerBlock.MASKED, false).setValue(ControllerBlock.CURRENT, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(ControllerBlock.CALLED, false)
+                .setValue(ControllerBlock.MASKED, false).setValue(ControllerBlock.CURRENT, false));
     }
 
     @Override
@@ -130,10 +129,10 @@ public class ControllerBlock extends Block implements EntityBlock
         final ItemStack heldItem = playerIn.getItemInHand(handIn);
         final Direction side = hit.getDirection();
         final boolean linkerOrStick = heldItem.getItem() == Items.STICK || heldItem.getItem() == TechCore.LINKER.get();
+        var be = worldIn.getBlockEntity(pos);
+        if (!(be instanceof ControllerTile te)) return InteractionResult.PASS;
         if (linkerOrStick && playerIn.isShiftKeyDown())
         {
-            final ControllerTile te = (ControllerTile) worldIn.getBlockEntity(pos);
-            if (te == null) return InteractionResult.PASS;
             if (te.isSideOn(side))
             {
                 te.setSide(side, false);
@@ -142,15 +141,12 @@ public class ControllerBlock extends Block implements EntityBlock
             }
             return InteractionResult.PASS;
         }
-        final ControllerTile te = (ControllerTile) worldIn.getBlockEntity(pos);
-        if (te == null) return InteractionResult.PASS;
-
         if (!linkerOrStick && side == Direction.DOWN)
         {
-            if (heldItem.getItem() instanceof BlockItem)
+            if (heldItem.getItem() instanceof BlockItem block)
             {
                 final BlockPlaceContext context = new BlockPlaceContext(new UseOnContext(playerIn, handIn, hit));
-                te.copiedState = ((BlockItem) heldItem.getItem()).getBlock().getStateForPlacement(context);
+                te.copiedState = block.getBlock().getStateForPlacement(context);
                 worldIn.setBlockAndUpdate(pos, state.setValue(ControllerBlock.MASKED, true));
                 if (!te.getLevel().isClientSide) TileUpdate.sendUpdate(te);
                 return InteractionResult.SUCCESS;
@@ -164,7 +160,7 @@ public class ControllerBlock extends Block implements EntityBlock
                 if (!worldIn.isClientSide)
                 {
                     te.setSide(side, !te.isSideOn(side));
-                    if (worldIn instanceof ServerLevel) te.sendUpdate((ServerPlayer) playerIn);
+                    if (playerIn instanceof ServerPlayer player) te.sendUpdate(player);
                 }
                 return InteractionResult.SUCCESS;
             }
@@ -174,7 +170,7 @@ public class ControllerBlock extends Block implements EntityBlock
             if (!worldIn.isClientSide && !te.isEditMode(side) && !te.isFloorDisplay(side))
             {
                 te.setSidePage(side, (te.getSidePage(side) + 1) % 8);
-                if (playerIn instanceof ServerPlayer) te.sendUpdate((ServerPlayer) playerIn);
+                if (playerIn instanceof ServerPlayer player) te.sendUpdate(player);
                 TileUpdate.sendUpdate(te);
             }
             return InteractionResult.SUCCESS;
@@ -187,7 +183,6 @@ public class ControllerBlock extends Block implements EntityBlock
             return te.doButtonClick(playerIn, side, hitX, hitY, hitZ) ? InteractionResult.SUCCESS
                     : InteractionResult.PASS;
         }
-
         if (playerIn.isShiftKeyDown() && handIn == InteractionHand.MAIN_HAND && playerIn instanceof ServerPlayer)
         {
             final boolean sideOn = !te.isSideOn(side);
@@ -199,8 +194,8 @@ public class ControllerBlock extends Block implements EntityBlock
                 final boolean display = te.isFloorDisplay(side);
                 if (edit) playerIn.sendMessage(new TranslatableComponent("msg.lift.side.edit"), Util.NIL_UUID);
                 else if (call) playerIn.sendMessage(new TranslatableComponent("msg.lift.side.call"), Util.NIL_UUID);
-                else if (display) playerIn.sendMessage(new TranslatableComponent("msg.lift.side.display"),
-                        Util.NIL_UUID);
+                else if (display)
+                    playerIn.sendMessage(new TranslatableComponent("msg.lift.side.display"), Util.NIL_UUID);
                 else
                 {
                     final int page = te.getSidePage(side);
