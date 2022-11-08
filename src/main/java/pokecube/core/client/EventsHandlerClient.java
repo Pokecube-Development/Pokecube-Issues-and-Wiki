@@ -28,6 +28,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -273,13 +274,17 @@ public class EventsHandlerClient
             Entity entity = Tools.getPointedEntity(player, 16, null, 1);
             if (entity != null)
             {
-                AABB box = entity.getBoundingBox();
+                AABB box = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
                 final PoseStack matrix = event.getPoseStack();
+                float f = Minecraft.getInstance().getDeltaFrameTime();
+                double x = Mth.lerp(f, entity.xOld, entity.getX());
+                double y = Mth.lerp(f, entity.yOld, entity.getY());
+                double z = Mth.lerp(f, entity.zOld, entity.getZ());
                 MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                 VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
                 Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
                 matrix.pushPose();
-                matrix.translate(-camera.x, -camera.y, -camera.z);
+                matrix.translate(x - camera.x, y - camera.y, z - camera.z);
                 LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);
                 matrix.popPose();
                 buffer.endBatch(RenderType.LINES);
