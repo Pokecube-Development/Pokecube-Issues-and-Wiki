@@ -70,10 +70,10 @@ public class EntityLift extends BlockEntityBase
 
     public static EntityLift getLiftFromUUID(final UUID liftID, final Level world)
     {
-        if (world instanceof ServerLevel)
+        if (world instanceof ServerLevel level)
         {
-            final Entity e = ((ServerLevel) world).getEntity(liftID);
-            if (e instanceof EntityLift) return (EntityLift) e;
+            final Entity e = level.getEntity(liftID);
+            if (e instanceof EntityLift lift) return lift;
         }
         return LiftTracker.liftMap.get(liftID);
     }
@@ -85,10 +85,6 @@ public class EntityLift extends BlockEntityBase
     private final int[] floors = new int[128];
 
     private final int[] hasFloors = new int[128];
-
-    private final Vector3 velocity = new Vector3();
-
-    private Vec3 motion = new Vec3(0, 0, 0);
 
     EntityDimensions size;
 
@@ -119,10 +115,15 @@ public class EntityLift extends BlockEntityBase
         }
         if (!(this.toMoveX || this.toMoveY || this.toMoveZ)) this.setCalled(false);
 
+        Vec3 v = this.getV();
+        double v_x = v.x;
+        double v_y = v.y;
+        double v_z = v.z;
+
         // Apply damping to velocities if no destination.
-        if (!this.toMoveX) this.velocity.x *= 0.5;
-        if (!this.toMoveZ) this.velocity.z *= 0.5;
-        if (!this.toMoveY) this.velocity.y *= 0.5;
+        if (!this.toMoveX) v_x *= 0.5;
+        if (!this.toMoveY) v_y *= 0.5;
+        if (!this.toMoveZ) v_z *= 0.5;
 
         if (this.getCalled())
         {
@@ -139,13 +140,12 @@ public class EntityLift extends BlockEntityBase
                 {
                     this.setPos(this.getX(), destY, this.getZ());
                     this.toMoveY = false;
-                    this.velocity.y = 0;
+                    v_y = 0;
                 }
                 else
                 {
                     // Otherwise accelerate accordingly.
-                    final double dy = this.getSpeed(this.getY(), destY, this.velocity.y, speedUp, speedDown);
-                    this.velocity.y = (float) dy;
+                    v_y = this.getSpeed(this.getY(), destY, v_y, speedUp, speedDown);
                 }
             }
             if (this.toMoveX)
@@ -155,12 +155,11 @@ public class EntityLift extends BlockEntityBase
                 {
                     this.setPos(destX, this.getY(), this.getZ());
                     this.toMoveX = false;
-                    this.velocity.x = 0;
+                    v_x = 0;
                 }
                 else
                 {
-                    final double dx = this.getSpeed(this.getX(), destX, this.velocity.x, speedHoriz, speedHoriz);
-                    this.velocity.x = (float) dx;
+                    v_x = this.getSpeed(this.getX(), destX, v_x, speedHoriz, speedHoriz);
                 }
             }
             if (this.toMoveZ)
@@ -170,29 +169,15 @@ public class EntityLift extends BlockEntityBase
                 {
                     this.setPos(this.getX(), this.getY(), destZ);
                     this.toMoveZ = false;
-                    this.velocity.z = 0;
+                    v_z = 0;
                 }
                 else
                 {
-                    final double dz = this.getSpeed(this.getZ(), destZ, this.velocity.z, speedHoriz, speedHoriz);
-                    this.velocity.z = (float) dz;
+                    v_z = this.getSpeed(this.getZ(), destZ, v_z, speedHoriz, speedHoriz);
                 }
             }
         }
-        this.setDeltaMovement(this.velocity.x, this.velocity.y, this.velocity.z);
-
-    }
-
-    @Override
-    public Vec3 getDeltaMovement()
-    {
-        return this.motion;
-    }
-
-    @Override
-    public void setDeltaMovement(final Vec3 vec)
-    {
-        this.motion = vec;
+        this.setV(new Vec3(v_x, v_y, v_z));
     }
 
     public void call(final int floor)
@@ -218,7 +203,8 @@ public class EntityLift extends BlockEntityBase
     @Override
     protected boolean checkAccelerationConditions()
     {
-        return this.consumePower();
+        this.consumePower();
+        return true;
     }
 
     private boolean consumePower()
@@ -254,16 +240,6 @@ public class EntityLift extends BlockEntityBase
     {
         return new LiftInteractHandler(this);
     }
-
-    // @Override
-    // public void doMotion()
-    // {
-    // if (!this.toMoveX) this.velocity.x = 0;
-    // if (!this.toMoveY) this.velocity.y = 0;
-    // if (!this.toMoveZ) this.velocity.z = 0;
-    // this.setMotion(this.velocity.x, this.velocity.y, this.velocity.z);
-    // this.move(MoverType.SELF, this.getMotion());
-    // }
 
     public boolean getCalled()
     {
