@@ -101,8 +101,6 @@ public class EntityLift extends BlockEntityBase
 
     public void updateForce()
     {
-        TechCore.config.LiftSpeedUp = 2.0;
-        TechCore.config.LiftAcceleration = 0.1;
         // Refresh these incase config changed.
         this.entityData.set(EntityLift.SPEEDUP, Float.valueOf((float) TechCore.config.LiftSpeedUp));
         this.entityData.set(EntityLift.SPEEDDOWN, Float.valueOf((float) TechCore.config.LiftSpeedDown));
