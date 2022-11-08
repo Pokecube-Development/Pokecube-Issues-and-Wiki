@@ -91,8 +91,15 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public void accelerate()
+    protected Vector3 getForceDirection()
     {
+        updateForce();
+        return F;
+    }
+
+    public void updateForce()
+    {
+        F.clear();
         this.noPhysics = false;
         if (this.isServerWorld() && !this.consumePower())
         {
@@ -117,8 +124,6 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
 
         // debug movement
         final boolean dbug_move = true;
-
-//        this.setPos(this.getX(), 0.5 + (int) this.getY(), this.getZ());
 
         if (dbug_move)
         {
@@ -226,33 +231,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         if (Mth.equal(destY, 0)) destY = 0;
         if (Mth.equal(destZ, 0)) destZ = 0;
 
-        final Vec3 v = this.getV();
-
-        double vx = v.x;
-        double vy = v.y;
-        double vz = v.z;
-
-        if (destY != 0)
-        {
-            final double dy = this.getSpeed(0, destY, vy, this.getSpeedUp(), this.getSpeedDown());
-            vy = dy;
-        }
-        else vy *= 0.5;
-
-        if (destX != 0)
-        {
-            dx = (float) this.getSpeed(0, destX, vx, this.getSpeedHoriz(), this.getSpeedHoriz());
-            vx = dx;
-        }
-        else vx *= 0.5;
-
-        if (destZ != 0)
-        {
-            dz = (float) this.getSpeed(0, destZ, vz, this.getSpeedHoriz(), this.getSpeedHoriz());
-            vz = dz;
-        }
-        else vz *= 0.5;
-        this.setV(new Vec3(vx, vy, vz));
+        F.set(destX, destY, destZ);
     }
 
     public void addSeat(final Vec3f seat)

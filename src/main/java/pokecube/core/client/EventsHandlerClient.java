@@ -28,6 +28,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -252,24 +253,37 @@ public class EventsHandlerClient
         }
     }
 
+    private static final ResourceLocation IS_POKECUBE = new ResourceLocation("pokecube:pokecubes");
+
     private static void renderBounds(final RenderLevelStageEvent event)
     {
-        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS) return;
-        ItemStack held;
+        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
         final Player player = Minecraft.getInstance().player;
-        if ((held = player.getMainHandItem()).isEmpty() && (held = player.getOffhandItem()).isEmpty()) return;
-        if (Screen.hasControlDown() && PokecubeItems.getCubeId(held) != null)
+
+        boolean validToShow = true;
+        ItemStack held;
+        if (!(held = player.getMainHandItem()).isEmpty() || (held = player.getOffhandItem()).isEmpty())
         {
-            Entity entity = Tools.getPointedEntity(player, 16, null, 0.75);
+            validToShow = PokecubeItems.is(IS_POKECUBE, held);
+        }
+        if (!validToShow) validToShow = GuiDisplayPokecubeInfo.instance().getCurrentPokemob() != null;
+
+        if (validToShow)
+        {
+            Entity entity = Tools.getPointedEntity(player, 16, null, 1);
             if (entity != null)
             {
-                AABB box = entity.getBoundingBox();
+                AABB box = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
                 final PoseStack matrix = event.getPoseStack();
+                float f = Minecraft.getInstance().getDeltaFrameTime();
+                double x = Mth.lerp(f, entity.xOld, entity.getX());
+                double y = Mth.lerp(f, entity.yOld, entity.getY());
+                double z = Mth.lerp(f, entity.zOld, entity.getZ());
                 MultiBufferSource.BufferSource buffer = Minecraft.getInstance().renderBuffers().bufferSource();
                 VertexConsumer builder = buffer.getBuffer(RenderType.LINES);
                 Vec3 camera = Minecraft.getInstance().gameRenderer.getMainCamera().getPosition();
                 matrix.pushPose();
-                matrix.translate(-camera.x, -camera.y, -camera.z);
+                matrix.translate(x - camera.x, y - camera.y, z - camera.z);
                 LevelRenderer.renderLineBox(matrix, builder, box, 1.0F, 0.0F, 0.0F, 1.0F);
                 matrix.popPose();
                 buffer.endBatch(RenderType.LINES);

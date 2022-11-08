@@ -28,6 +28,7 @@ import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -638,10 +639,12 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         if (this.getCurrentPokemob() == null) return;
         final Player player = this.minecraft.player;
         final Predicate<Entity> selector = input -> {
-            if (!AITools.validCombatTargets.test(input)) return false;
-            return true;
+            return AITools.validCombatTargets.test(input);
         };
-        Entity target = Tools.getPointedEntity(player, 32, selector.negate(), 1);
+        Entity target = Tools.getPointedEntity(player, 32, selector, 1);
+
+        if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Targets: {}", target);
+
         target = EntityTools.getCoreEntity(target);
         if (target == null && Minecraft.getInstance().crosshairPickEntity != null
                 && selector.test(Minecraft.getInstance().crosshairPickEntity))

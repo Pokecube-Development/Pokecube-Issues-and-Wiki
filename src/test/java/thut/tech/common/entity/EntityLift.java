@@ -18,7 +18,6 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.energy.IEnergyStorage;
 import thut.api.ThutCaps;
@@ -94,8 +93,24 @@ public class EntityLift extends BlockEntityBase
     }
 
     @Override
-    public void accelerate()
+    protected Vector3 getForceDirection()
     {
+        updateForce();
+        return F;
+    }
+
+    public void updateForce()
+    {
+        TechCore.config.LiftSpeedUp = 2.0;
+        TechCore.config.LiftAcceleration = 0.1;
+        // Refresh these incase config changed.
+        this.entityData.set(EntityLift.SPEEDUP, Float.valueOf((float) TechCore.config.LiftSpeedUp));
+        this.entityData.set(EntityLift.SPEEDDOWN, Float.valueOf((float) TechCore.config.LiftSpeedDown));
+        this.entityData.set(EntityLift.SPEEDSIDE, Float.valueOf((float) TechCore.config.LiftSpeedSideways));
+        this.entityData.set(EntityLift.ACCEL, Float.valueOf((float) TechCore.config.LiftAcceleration));
+
+        // Clear force vector
+        F.clear();
         // These elevators shouldn't be able to rotate, set this here incase
         // someone else has tried to rotate it.
         this.setYRot(0);
@@ -103,8 +118,15 @@ public class EntityLift extends BlockEntityBase
         if (this.isServerWorld() && !this.consumePower())
         {
             this.toMoveY = this.toMoveX = this.toMoveZ = false;
-            this.setDestX((float) this.getX());
             this.setCalled(false);
+        }
+
+        if (!this.getCalled())
+        {
+            this.setDestX((float) this.getX());
+            this.setDestY((float) this.getY());
+            this.setDestZ((float) this.getZ());
+            this.toMoveY = this.toMoveX = this.toMoveZ = false;
         }
         else
         {
@@ -113,71 +135,19 @@ public class EntityLift extends BlockEntityBase
             this.toMoveY = this.getDestY() != this.getY();
             this.toMoveZ = this.getDestZ() != this.getZ();
         }
+
         if (!(this.toMoveX || this.toMoveY || this.toMoveZ)) this.setCalled(false);
 
-        Vec3 v = this.getV();
-        double v_x = v.x;
-        double v_y = v.y;
-        double v_z = v.z;
+        double F_x = this.getDestX() - this.getX();
+        double F_y = this.getDestY() - this.getY();
+        double F_z = this.getDestZ() - this.getZ();
 
         // Apply damping to velocities if no destination.
-        if (!this.toMoveX) v_x *= 0.5;
-        if (!this.toMoveY) v_y *= 0.5;
-        if (!this.toMoveZ) v_z *= 0.5;
+        if (!this.toMoveX) F_x = 0;
+        if (!this.toMoveY) F_y = 0;
+        if (!this.toMoveZ) F_z = 0;
 
-        if (this.getCalled())
-        {
-            final double speedDown = this.getSpeedDown();
-            final double speedHoriz = this.getSpeedHoriz();
-            final double speedUp = this.getSpeedUp();
-
-            if (this.toMoveY)
-            {
-                final float destY = this.getDestY();
-                // If Sufficiently close (0,01 blocks) just snap the elevator to
-                // the destination.
-                if (Math.abs(destY - this.getY()) < 0.01)
-                {
-                    this.setPos(this.getX(), destY, this.getZ());
-                    this.toMoveY = false;
-                    v_y = 0;
-                }
-                else
-                {
-                    // Otherwise accelerate accordingly.
-                    v_y = this.getSpeed(this.getY(), destY, v_y, speedUp, speedDown);
-                }
-            }
-            if (this.toMoveX)
-            {
-                final float destX = this.getDestX();
-                if (Math.abs(destX - this.getX()) < 0.01)
-                {
-                    this.setPos(destX, this.getY(), this.getZ());
-                    this.toMoveX = false;
-                    v_x = 0;
-                }
-                else
-                {
-                    v_x = this.getSpeed(this.getX(), destX, v_x, speedHoriz, speedHoriz);
-                }
-            }
-            if (this.toMoveZ)
-            {
-                final float destZ = this.getDestZ();
-                if (Math.abs(destZ - this.getZ()) < 0.01)
-                {
-                    this.setPos(this.getX(), this.getY(), destZ);
-                    this.toMoveZ = false;
-                    v_z = 0;
-                }
-                else
-                {
-                    v_z = this.getSpeed(this.getZ(), destZ, v_z, speedHoriz, speedHoriz);
-                }
-            }
-        }
-        this.setV(new Vec3(v_x, v_y, v_z));
+        F.set(F_x, F_y, F_z);
     }
 
     public void call(final int floor)
