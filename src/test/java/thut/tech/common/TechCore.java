@@ -49,8 +49,8 @@ public class TechCore
 
     static
     {
-        TILEENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Reference.MOD_ID);
-        ENTITY = DeferredRegister.create(ForgeRegistries.ENTITIES, Reference.MOD_ID);
+        TILEENTITY = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MOD_ID);
+        ENTITY = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Reference.MOD_ID);
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 

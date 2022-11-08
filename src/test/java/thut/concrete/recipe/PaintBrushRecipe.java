@@ -134,6 +134,6 @@ public class PaintBrushRecipe extends CustomRecipe
 
     public ItemStack toKeep(final int slot, final ItemStack stackIn, final CraftingContainer inv)
     {
-        return net.minecraftforge.common.ForgeHooks.getContainerItem(stackIn);
+        return net.minecraftforge.common.ForgeHooks.getCraftingRemainingItem(stackIn);
     }
 }

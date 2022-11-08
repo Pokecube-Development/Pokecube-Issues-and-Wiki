@@ -5,12 +5,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.Vector;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,6 +24,7 @@ import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.maths.Vector3;
 import thut.core.common.network.TileUpdate;
+import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 import thut.tech.common.entity.EntityLift;
 import thut.tech.common.network.PacketLift;
@@ -114,7 +113,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         if (!this.isSideOn(side)) return false;
         if (this.isEditMode(side))
         {
-            if (!this.getLevel().isClientSide)
+            if (!this.getLevel().isClientSide && clicker instanceof ServerPlayer player)
             {
                 String message = "msg.callPanel";
                 switch (button)
@@ -122,13 +121,15 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 case 1:
                     this.callFaces[side.ordinal()] = !this.isCallPanel(side);
                     this.floorDisplay[side.ordinal()] = false;
-                    clicker.sendMessage(new TranslatableComponent(message, this.isCallPanel(side)), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable(message, this.isCallPanel(side)));
                     break;
                 case 2:
                     this.floorDisplay[side.ordinal()] = !this.isFloorDisplay(side);
                     this.callFaces[side.ordinal()] = false;
                     message = "msg.floorDisplay";
-                    clicker.sendMessage(new TranslatableComponent(message, this.isFloorDisplay(side)), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player,
+                            TComponent.translatable(message, this.isFloorDisplay(side)));
                     break;
                 case 13:
                     if (this.getLift() != null) this.setLift(null);
@@ -136,7 +137,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 case 16:
                     this.editFace[side.ordinal()] = false;
                     message = "msg.editMode";
-                    clicker.sendMessage(new TranslatableComponent(message, false), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable(message, false));
                     break;
                 }
                 if (clicker instanceof ServerPlayer) this.sendUpdate((ServerPlayer) clicker);

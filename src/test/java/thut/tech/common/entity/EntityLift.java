@@ -20,8 +20,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
+import thut.api.ThutCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInteractHandler;
 import thut.api.maths.Vector3;
@@ -224,7 +224,7 @@ public class EntityLift extends BlockEntityBase
     private boolean consumePower()
     {
         if (!EntityLift.ENERGYUSE || !this.getCalled()) return true;
-        if (this.energy == null) this.energy = this.getCapability(CapabilityEnergy.ENERGY, null).orElse(null);
+        if (this.energy == null) this.energy = this.getCapability(ThutCaps.ENERGY, null).orElse(null);
         if (this.energy == null) return true;
 
         boolean power = false;

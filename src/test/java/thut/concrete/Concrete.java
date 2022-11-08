@@ -1,16 +1,14 @@
 package thut.concrete;
 
 import java.lang.reflect.Array;
-import java.util.List;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import org.apache.commons.compress.utils.Lists;
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -32,17 +30,16 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
-import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.flowing.FlowingBlock;
 import thut.api.block.flowing.SolidBlock;
@@ -72,6 +69,7 @@ public class Concrete
     public static final ResourceLocation FLUID_FLOWING = new ResourceLocation("concrete:block/wet_concrete_white");
     public static final ResourceLocation FLUID_OVERLAY = new ResourceLocation("concrete:block/wet_concrete_white");
 
+    public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, MODID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
@@ -123,9 +121,8 @@ public class Concrete
 
     private static ForgeFlowingFluid.Properties makeProperties()
     {
-        return new ForgeFlowingFluid.Properties(CONCRETE_FLUID, CONCRETE_FLUID_FLOWING,
-                FluidAttributes.builder(FLUID_STILL, FLUID_FLOWING).overlay(FLUID_OVERLAY).color(0xFFAAAAAA))
-                        .bucket(BUCKET).block(CONCRETE_FLUID_BLOCK);
+        return new ForgeFlowingFluid.Properties(CONCRETE_FLUID_TYPE, CONCRETE_FLUID, CONCRETE_FLUID_FLOWING)
+                .bucket(BUCKET).block(CONCRETE_FLUID_BLOCK);
     }
 
     private static Supplier<Block> getWetBlock()
@@ -133,13 +130,49 @@ public class Concrete
         return () -> WET_BLOCK.get();
     }
 
+    public static RegistryObject<FluidType> CONCRETE_FLUID_TYPE = FLUID_TYPES.register("liquid_concrete",
+            () -> new FluidType(FluidType.Properties.create())
+            {
+                @Override
+                public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer)
+                {
+                    consumer.accept(new IClientFluidTypeExtensions()
+                    {
+                        @Override
+                        public ResourceLocation getStillTexture()
+                        {
+                            return FLUID_STILL;
+                        }
+
+                        @Override
+                        public ResourceLocation getFlowingTexture()
+                        {
+                            return FLUID_FLOWING;
+                        }
+
+                        @Nullable
+                        @Override
+                        public ResourceLocation getOverlayTexture()
+                        {
+                            return FLUID_OVERLAY;
+                        }
+
+                        @Override
+                        public int getTintColor()
+                        {
+                            return 0xFFAAAAAA;
+                        }
+                    });
+                }
+            });
+
     public static RegistryObject<FlowingFluid> CONCRETE_FLUID = FLUIDS.register("concrete",
             () -> new ForgeFlowingFluid.Source(makeProperties()));
     public static RegistryObject<FlowingFluid> CONCRETE_FLUID_FLOWING = FLUIDS.register("concrete_flowing",
             () -> new ForgeFlowingFluid.Flowing(makeProperties()));
     public static final RegistryObject<DummyLiquidBlock> CONCRETE_FLUID_BLOCK = BLOCKS.register("concrete_fluid_block",
             () -> new DummyLiquidBlock(CONCRETE_FLUID, getWetBlock(),
-                    Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
+                    Properties.of(Material.WATER).noCollission().strength(100.0F)));
 
     private static final Set<RegistryObject<?>> NOTAB = Sets.newHashSet();
     private static final Set<RegistryObject<?>> NOITEM = Sets.newHashSet();
@@ -160,7 +193,7 @@ public class Concrete
 
     static
     {
-        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, MODID);
         RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Concrete.MODID);
 
         BRUSH_DYE_RECIPE = Concrete.RECIPE_SERIALIZERS.register("paint_brush_dye",
@@ -195,15 +228,15 @@ public class Concrete
         ResourceLocation solid_layer = new ResourceLocation(MODID, "solid_layer");
         ResourceLocation solid_block = new ResourceLocation(MODID, "solid_block");
 
-        regs = LavaBlock.makeLava(BLOCKS, MODID, "molten_layer", "molten_block", layer_props, block_props,
-                solid_layer, solid_block);
+        regs = LavaBlock.makeLava(BLOCKS, MODID, "molten_layer", "molten_block", layer_props, block_props, solid_layer,
+                solid_block);
 
         MOLTEN_LAYER = regs[0];
         MOLTEN_BLOCK = regs[1];
 
         NOITEM.add(MOLTEN_LAYER);
 
-        BlockBehaviour.Properties volc_props = BlockBehaviour.Properties.of(Material.BARRIER).noDrops();
+        BlockBehaviour.Properties volc_props = BlockBehaviour.Properties.of(Material.BARRIER);
         VOLCANO = BLOCKS.register("volcano", () -> new VolcanoBlock(volc_props));
 
         VOLCANO_TYPE = TILES.register("volcano",
@@ -319,18 +352,6 @@ public class Concrete
         }
     }
 
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = MODID, value = Dist.CLIENT)
-    public static class ClientEvents
-    {
-        @SubscribeEvent
-        public static void setupClient(final FMLClientSetupEvent event)
-        {
-            ItemBlockRenderTypes.setRenderLayer(DUST_LAYER.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(MOLTEN_LAYER.get(), RenderType.cutoutMipped());
-            ItemBlockRenderTypes.setRenderLayer(WET_LAYER.get(), RenderType.cutoutMipped());
-        }
-    }
-
     public Concrete()
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -340,6 +361,7 @@ public class Concrete
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         FLUIDS.register(modEventBus);
+        FLUID_TYPES.register(modEventBus);
         TILES.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
     }
@@ -349,19 +371,6 @@ public class Concrete
         event.enqueueWork(() -> {
             DispenserBlock.registerBehavior(BUCKET.get(), ConcreteDispenseBehaviour.INSTANCE);
             DispenserBlock.registerBehavior(WET_BLOCK_ITEM.get(), ConcreteDispenseBehaviour.INSTANCE);
-            initBiomeDict();
-       });
-    }
-
-	@SuppressWarnings("deprecation")
-    private void initBiomeDict() 
-    {
-		List<net.minecraftforge.common.BiomeDictionary.Type> types = Lists.newArrayList();
-         types.add(net.minecraftforge.common.BiomeDictionary.Type.OVERWORLD);
-         types.add(net.minecraftforge.common.BiomeDictionary.Type.HOT);
-         types.add(net.minecraftforge.common.BiomeDictionary.Type.getType("volcano"));
-
-         net.minecraftforge.common.BiomeDictionary.addTypes(VOLCANO_BIOME, types.toArray(new net.minecraftforge.common.BiomeDictionary.Type[0]));
-     
+        });
     }
 }

@@ -2,7 +2,6 @@ package thut.concrete.block;
 
 import java.lang.reflect.Array;
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
@@ -11,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -121,7 +121,7 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random)
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
         // NO OP
     }

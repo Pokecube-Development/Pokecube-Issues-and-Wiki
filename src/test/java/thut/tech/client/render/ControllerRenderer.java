@@ -1,7 +1,6 @@
 package thut.tech.client.render;
 
 import java.awt.Color;
-import java.util.Random;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -13,7 +12,6 @@ import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
@@ -23,14 +21,14 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.model.data.EmptyModelData;
-import net.minecraftforge.client.model.data.IModelData;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
@@ -272,16 +270,13 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
                 world = w.getWorld();
                 randPos = BlockPos.ZERO;
             }
-            final IModelData data = Minecraft.getInstance().getBlockRenderer().getBlockModel(copied).getModelData(world,
-                    pos, copied, EmptyModelData.INSTANCE);
-            for (final RenderType type : RenderType.chunkBufferLayers())
-                if (ItemBlockRenderTypes.canRenderInLayer(copied, type))
-                {
-                    final BlockRenderDispatcher blockRenderer = Minecraft.getInstance().getBlockRenderer();
-                    final BakedModel model = blockRenderer.getBlockModel(copied);
-                    blockRenderer.getModelRenderer().tesselateBlock(world, model, copied, pos, mat, buff.getBuffer(
-                            type), false, new Random(), copied.getSeed(randPos), combinedOverlayIn, data);
-                }
+            BlockRenderDispatcher dispatcher = Minecraft.getInstance().getBlockRenderer();
+            var model = dispatcher.getBlockModel(copied);
+            for (var renderType : model.getRenderTypes(copied, RandomSource.create(copied.getSeed(randPos)),
+                    net.minecraftforge.client.model.data.ModelData.EMPTY))
+                dispatcher.getModelRenderer().tesselateBlock((BlockAndTintGetter) world, model, copied, pos, mat,
+                        buff.getBuffer(renderType), false, RandomSource.create(), copied.getSeed(pos),
+                        OverlayTexture.NO_OVERLAY, net.minecraftforge.client.model.data.ModelData.EMPTY, renderType);
             mat.popPose();
         }
 

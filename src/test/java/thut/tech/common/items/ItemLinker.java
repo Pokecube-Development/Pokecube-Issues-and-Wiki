@@ -2,12 +2,10 @@ package thut.tech.common.items;
 
 import java.util.UUID;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -15,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import thut.lib.TComponent;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
 import thut.tech.common.entity.EntityLift;
@@ -70,25 +69,25 @@ public class ItemLinker extends Item
                 {
                     final ControllerTile te = (ControllerTile) worldIn.getBlockEntity(pos);
                     te.setLift(lift);
-                    int floor = te.getButtonFromClick(face, context.getClickLocation().x, context.getClickLocation().y, context
-                            .getClickLocation().z);
+                    int floor = te.getButtonFromClick(face, context.getClickLocation().x, context.getClickLocation().y,
+                            context.getClickLocation().z);
                     te.setFloor(floor);
                     if (floor >= 64) floor = 64 - floor;
                     final String message = "msg.floorSet";
-                    if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, floor),
-                            Util.NIL_UUID);
+                    if (!worldIn.isClientSide)
+                        thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, floor));
                     return InteractionResult.SUCCESS;
                 }
             }
-            else if (playerIn.isShiftKeyDown() && state.getBlock() == TechCore.LIFTCONTROLLER.get() && face != Direction.UP
-                    && face != Direction.DOWN)
+            else if (playerIn.isShiftKeyDown() && state.getBlock() == TechCore.LIFTCONTROLLER.get()
+                    && face != Direction.UP && face != Direction.DOWN)
             {
                 final ControllerTile te = (ControllerTile) worldIn.getBlockEntity(pos);
                 te.editFace[face.ordinal()] = !te.editFace[face.ordinal()];
                 te.setSidePage(face, 0);
                 final String message = "msg.editMode";
-                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, te.editFace[face
-                        .ordinal()]), Util.NIL_UUID);
+                if (!worldIn.isClientSide) thut.lib.ChatHelper.sendSystemMessage(playerIn,
+                        TComponent.translatable(message, te.editFace[face.ordinal()]));
                 return InteractionResult.SUCCESS;
             }
         }
@@ -104,8 +103,8 @@ public class ItemLinker extends Item
     @Override
     public Component getName(final ItemStack stack)
     {
-        if (stack.hasTag() && stack.getTag().contains("lift")) return new TranslatableComponent(
-                "item.thuttech.linker.linked");
+        if (stack.hasTag() && stack.getTag().contains("lift"))
+            return TComponent.translatable("item.thuttech.linker.linked");
         return super.getName(stack);
     }
 
