@@ -583,7 +583,7 @@ public class Config extends ConfigData
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Preloads pokemob models during load. [Default: false]")
     public boolean preloadModels = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Preloads pokemob models during load. [Default: false]")
-    public boolean showTargetBox = true;
+    public boolean showTargetBox = false;
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Width of the pokemob message GUI. [Default: 150]")
     public int messageWidth = 150;;
