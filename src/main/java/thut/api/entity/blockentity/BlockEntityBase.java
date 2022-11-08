@@ -278,10 +278,30 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public final void doMotion()
     {
-        final Vec3 v = this.getV();
-        if (v.lengthSqr() > 0)
+        if (this.isServerWorld())
         {
-            this.move(MoverType.SELF, v);
+            Vec3 v = this.getV();
+            if (v.lengthSqr() > 0)
+            {
+                this.move(MoverType.SELF, v);
+            }
+            else
+            {
+                this.getEntityData().set(position, Optional.of(this.position()));
+            }
+        }
+        else
+        {
+            Optional<Vec3> rOpt = this.getEntityData().get(position);
+            if (!rOpt.isPresent()) return;
+            Vec3 r_1 = rOpt.get();
+            Vec3 r_0 = this.position();
+            Vec3 v = r_1.subtract(r_0);
+            this.getEntityData().set(velocity, Optional.of(v));
+            if (v.lengthSqr() > 0)
+            {
+                this.move(MoverType.SELF, v);
+            }
         }
     }
 
@@ -523,6 +543,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (this.isServerWorld())
         {
             this.getEntityData().set(velocity, Optional.of(vec));
+            this.getEntityData().set(position, Optional.of(vec.add(this.position())));
         }
     }
 
