@@ -16,6 +16,7 @@ import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.biome.TerrainShaper;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
@@ -174,18 +175,20 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             if (!notLake) biome = BiomeType.LAKE;
             return biome;
         }
-        boolean sky = v.canSeeSky(world);
-        if (sky)
-        {
-            sky = v.findNextSolidBlock(world, Vector3.secondAxisNeg, 16) == null;
-            if (sky) return BiomeType.SKY;
-        }
         // Check nearby villages, and if in one, define as village type.
-        if (world instanceof ServerLevel)
+        if (world instanceof ServerLevel level)
         {
             final BlockPos pos = v.getPos();
-            final ServerLevel server = (ServerLevel) world;
-            if (server.isVillage(pos)) biome = BiomeType.VILLAGE;
+            if (level.isVillage(pos)) biome = BiomeType.VILLAGE;
+        }
+        boolean sky = v.canSeeSky(world);
+        // lastly check for sky, this goes after village checks so you can have
+        // sky villages still be villages.
+        if (sky)
+        {
+            int skyH = 16;
+            sky = v.y >= world.getHeight(Types.WORLD_SURFACE_WG, v.intX(), v.intZ()) + skyH;
+            if (sky) return BiomeType.SKY;
         }
         return biome;
     }
