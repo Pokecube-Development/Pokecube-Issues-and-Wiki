@@ -30,7 +30,7 @@ public class DefaultWaterAction extends DefaultAction
      * This will have the following effects, for water type moves: Extinguish
      * fires if strong: turn lava to obsidian water farmland
      */
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
         if (user.getMoveStats().targettingSelf) return false;

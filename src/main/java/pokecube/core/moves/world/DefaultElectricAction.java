@@ -25,7 +25,7 @@ public class DefaultElectricAction extends DefaultAction
      * This will have the following effects, for "Strong" electric type moves:
      * Melt sand to glass
      */
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         if (move.getPWR() < ELECTRICSTRONG || !PokecubeCore.getConfig().defaultElectricActions) return false;
         // Things below here all actually damage blocks, so check this.

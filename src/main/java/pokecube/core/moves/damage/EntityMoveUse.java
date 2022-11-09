@@ -270,7 +270,7 @@ public class EntityMoveUse extends ThrowableProjectile
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                if (b == null) this.getMove().doWorldAction(userMob, this.end);
+                this.getMove().doWorldAction(userMob, this.end);
                 this.discard();
             }
         }
@@ -582,11 +582,10 @@ public class EntityMoveUse extends ThrowableProjectile
             }
             if (canApply)
             {
-                Battle b = Battle.getBattle(this.getUser());
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                if (b == null) this.getMove().doWorldAction(userMob, this.end);
+                this.getMove().doWorldAction(userMob, this.end);
             }
         }
 

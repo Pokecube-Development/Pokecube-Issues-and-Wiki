@@ -94,15 +94,27 @@ public class MoveEventsHandler
         }
 
         @Override
-        public boolean applyEffect(final IPokemob user, final Vector3 location)
+        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
         {
             if (!this.checked)
             {
                 this.checked = true;
                 this.custom = MoveEventsHandler.customActions.get(this.getMoveName());
             }
-            final boolean customApplied = this.custom != null && this.custom.applyEffect(user, location);
-            return this.wrapped.applyEffect(user, location) || customApplied;
+            final boolean customApplied = this.custom != null && this.custom.applyOutOfCombat(user, location);
+            return this.wrapped.applyOutOfCombat(user, location) || customApplied;
+        }
+
+        @Override
+        public boolean applyInCombat(final IPokemob user, final Vector3 location)
+        {
+            if (!this.checked)
+            {
+                this.checked = true;
+                this.custom = MoveEventsHandler.customActions.get(this.getMoveName());
+            }
+            final boolean customApplied = this.custom != null && this.custom.applyInCombat(user, location);
+            return this.wrapped.applyInCombat(user, location) || customApplied;
         }
 
         @Override
@@ -364,6 +376,7 @@ public class MoveEventsHandler
                 return;
             }
         }
-        action.applyEffect(attacker, location);
+        if (attacker.inCombat()) action.applyInCombat(attacker, location);
+        else action.applyOutOfCombat(attacker, location);
     }
 }

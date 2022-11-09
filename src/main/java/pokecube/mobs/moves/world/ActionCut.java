@@ -16,9 +16,8 @@ public class ActionCut implements IMoveWorldEffect
     }
 
     @Override
-    public boolean applyEffect(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
     {
-        if (user.inCombat()) return false;
         boolean used = false;
         int count = 10;
         final int level = user.getLevel();
