@@ -202,7 +202,9 @@ public class EntityMoveUse extends ThrowableProjectile
         {
             // Put us and our user in here by default.
             this.apply.alreadyHit.add(this.getUUID());
-            this.apply.alreadyHit.add(this.getUser().getUUID());
+            // Only put user in if it is not the target, this allows self moves
+            // to work properly
+            if (this.getUser() != this.getTarget()) this.apply.alreadyHit.add(this.getUser().getUUID());
             this.apply.finished = this::isDone;
             userMob.getMoveStats().addMoveInProgress(userMob, this.apply);
         }
