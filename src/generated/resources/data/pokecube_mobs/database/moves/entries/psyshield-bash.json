@@ -1,0 +1,12 @@
+{
+  "name": "psyshield-bash",
+  "id": 828,
+  "power": 70,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "effect_chance": 100
+}
