@@ -3,6 +3,8 @@
     {
       "and_preset": "sky",
       "entries": [
+        {"key": "swablu","min": 2,"max": 4,"rate": 0.5},
+        {"key": "rufflet","min": 2,"max": 4,"rate": 0.1},
         {"key": "rayquaza","min": 1,"max": 1,"rate": 0.002}
       ]
     },
