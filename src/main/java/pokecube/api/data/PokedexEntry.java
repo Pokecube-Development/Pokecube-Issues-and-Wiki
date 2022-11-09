@@ -1254,6 +1254,14 @@ public class PokedexEntry
         }
     }
 
+    public void addInteractions(List<Interact> interactions)
+    {
+        if (interactions == null) return;
+        interactions.forEach(i -> {
+            if (!_loaded_interactions.contains(i)) _loaded_interactions.add(i);
+        });
+    }
+
     /**
      * Applies various things which needed server to be initialized, such as
      * interactions for tag lists, etc

@@ -275,7 +275,7 @@ public class JsonPokedexEntry
         // This can be the case if the entry was removed earlier.
         if (entry == null) return;
 
-        if (this.interactions != null) entry._loaded_interactions.addAll(this.interactions);
+        if (this.interactions != null) entry.addInteractions(this.interactions);
         if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
         if (this.mega != null) entry.setMega(this.mega);
