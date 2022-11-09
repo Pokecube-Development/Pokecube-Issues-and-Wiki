@@ -18,7 +18,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +27,6 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.ChunkStatus;
-import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.entity.LevelCallback;
 import net.minecraft.world.level.entity.LevelEntityGetter;
@@ -40,7 +38,6 @@ import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
-import net.minecraft.world.level.storage.LevelData;
 import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
@@ -107,12 +104,6 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     public IBlockEntity getBlockEntity()
     {
         return this.mob;
-    }
-
-    @Override
-    public int getBrightness(final LightLayer type, final BlockPos pos)
-    {
-        return this.world.getBrightness(type, pos);
     }
 
     @Override
@@ -239,18 +230,6 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
-    public boolean isClientSide()
-    {
-        return this.world.isClientSide();
-    }
-
-    @Override
-    public int getSeaLevel()
-    {
-        return this.world.getSeaLevel();
-    }
-
-    @Override
     public LevelLightEngine getLightEngine()
     {
         return this.world.getLightEngine();
@@ -278,18 +257,6 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     public float getShade(final Direction p_230487_1_, final boolean p_230487_2_)
     {
         return this.world.getShade(p_230487_1_, p_230487_2_);
-    }
-
-    @Override
-    public LevelData getLevelData()
-    {
-        return this.world.getLevelData();
-    }
-
-    @Override
-    public DimensionType dimensionType()
-    {
-        return this.world.dimensionType();
     }
 
     @Override
