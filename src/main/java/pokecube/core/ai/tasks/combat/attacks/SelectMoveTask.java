@@ -2,7 +2,6 @@ package pokecube.core.ai.tasks.combat.attacks;
 
 import java.util.Random;
 
-import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -10,7 +9,6 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.moves.MovesUtils;
 import thut.api.entity.ai.IAICombat;
@@ -18,7 +16,6 @@ import thut.core.common.ThutCore;
 
 public class SelectMoveTask extends CombatTask implements IAICombat
 {
-    LivingEntity target;
     private int moveIndexCounter = 0;
 
     public SelectMoveTask(final IPokemob mob)
@@ -140,7 +137,8 @@ public class SelectMoveTask extends CombatTask implements IAICombat
         // Should not swap moves if this is set.
         if (this.pokemob.getCombatState(CombatStates.NOMOVESWAP)) return false;
         // Only swap moves during combat.
-        return this.pokemob.getCombatState(CombatStates.BATTLING)
-                && (this.target = BrainUtils.getAttackTarget(this.entity)) != null;
+        if (!this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
+        this.checkAttackTarget();
+        return this.target != null;
     }
 }

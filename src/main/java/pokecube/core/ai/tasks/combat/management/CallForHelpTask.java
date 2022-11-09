@@ -19,8 +19,6 @@ public class CallForHelpTask extends CombatTask
 
     final float chance;
 
-    LivingEntity target = null;
-
     public CallForHelpTask(final IPokemob pokemob, final float chance)
     {
         super(pokemob);
@@ -108,7 +106,7 @@ public class CallForHelpTask extends CombatTask
     @Override
     public boolean shouldRun()
     {
-        this.target = BrainUtils.getAttackTarget(this.entity);
+        this.checkAttackTarget();
         return this.target != null
                 && this.entity.getBrain().hasMemoryValue(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES);
     }
