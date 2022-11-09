@@ -323,8 +323,8 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         this.sidePages[side.get3DDataValue()] = (byte) page;
     }
 
-    /** Sets the worldObj for this tileEntity. */
-    public void setWorldObj(final Level worldIn)
+    @Override
+    public void setLevel(final Level worldIn)
     {
         this.level = worldIn;
         if (worldIn instanceof IBlockEntityWorld beworld)

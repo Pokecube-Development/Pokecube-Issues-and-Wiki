@@ -1,13 +1,22 @@
 package thut.api.entity.blockentity.block;
 
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -21,6 +30,7 @@ import thut.crafts.ThutCrafts;
 
 public class TempTile extends BlockEntity implements ITickTile
 {
+    private static Set<BlockState> NO_INTERACT = Sets.newHashSet();
 
     public BlockEntityBase blockEntity;
 
@@ -78,6 +88,31 @@ public class TempTile extends BlockEntity implements ITickTile
     {
         if (this.blockEntity != null) return this.blockEntity.getFakeWorld().getBlock(this.getBlockPos());
         return null;
+    }
+
+    public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
+            final InteractionHand hand, final BlockHitResult hit)
+    {
+        final BlockState eff = this.getEffectiveState();
+        if (eff != null && !NO_INTERACT.contains(eff) && blockEntity.getFakeWorld() instanceof Level level)
+        {
+            InteractionResult res = InteractionResult.PASS;
+            try
+            {
+                BlockEntity be = this.getEffectiveTile();
+                if (be != null && be.getLevel() == null) be.setLevel(level);
+                res = eff.use(level, player, hand, hit);
+            }
+            catch (Exception e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                NO_INTERACT.add(eff);
+            }
+            if (res != InteractionResult.PASS) return res;
+        }
+        // Otherwise forward the interaction to the block entity;
+        return blockEntity.interactAtFromTile(player, hit.getLocation(), hand);
     }
 
     @Override

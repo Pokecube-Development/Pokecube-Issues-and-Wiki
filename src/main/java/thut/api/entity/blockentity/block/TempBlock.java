@@ -77,12 +77,11 @@ public class TempBlock extends AirBlock implements EntityBlock
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile temp)
         {
-            final Player player = event.getEntity();
-            final InteractionHand hand = event.getHand();
-            InteractionResult result = temp.blockEntity.interact(player, hand);
-            // Otherwise forward the interaction to the block entity;
-            if (result != InteractionResult.PASS && event.getEntity().isShiftKeyDown())
-                result = temp.blockEntity.interactAtFromTile(player, trace.getLocation(), hand);
+            Player player = event.getEntity();
+            BlockPos pos = event.getPos();
+            BlockState state = world.getBlockState(pos);
+            InteractionHand hand = event.getHand();
+            InteractionResult result = temp.use(state, world, pos, player, hand, trace);
             if (result != InteractionResult.PASS)
             {
                 event.setCanceled(true);
@@ -112,17 +111,7 @@ public class TempBlock extends AirBlock implements EntityBlock
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof TempTile temp)
-        {
-            final BlockState eff = temp.getEffectiveState();
-            if (eff != null)
-            {
-                final InteractionResult res = eff.use(world, player, hand, hit);
-                if (res != InteractionResult.PASS) return res;
-            }
-            // Otherwise forward the interaction to the block entity;
-            return temp.blockEntity.interactAtFromTile(player, hit.getLocation(), hand);
-        }
+        if (tile instanceof TempTile temp) return temp.use(state, world, pos, player, hand, hit);
         return InteractionResult.PASS;
     }
 

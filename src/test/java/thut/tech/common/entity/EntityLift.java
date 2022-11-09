@@ -463,7 +463,7 @@ public class EntityLift extends BlockEntityBase
             for (final BlockEntity tile : tileArr) if (tile instanceof ControllerTile controller)
         {
             controller.setLift(this);
-            controller.setWorldObj((Level) this.getFakeWorld());
+            controller.setLevel((Level) this.getFakeWorld());
         }
     }
 

@@ -15,6 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
@@ -29,29 +30,70 @@ import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.entity.EntityTypeTest;
+import net.minecraft.world.level.entity.LevelCallback;
+import net.minecraft.world.level.entity.LevelEntityGetter;
+import net.minecraft.world.level.entity.TransientEntitySectionManager;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.level.storage.LevelData;
+import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.ticks.LevelTickAccess;
 import thut.api.entity.blockentity.IBlockEntity;
 
-public class WorldEntity implements IBlockEntityWorld
+public class WorldEntity extends Level implements IBlockEntityWorld
 {
 
-    final Level              world;
-    IBlockEntity             mob;
-    public boolean           creating;
+    private static class EntityCallbacks implements LevelCallback<Entity>
+    {
+        @Override
+        public void onCreated(Entity p_156930_)
+        {}
+
+        @Override
+        public void onDestroyed(Entity p_156929_)
+        {}
+
+        @Override
+        public void onTickingStart(Entity p_156928_)
+        {}
+
+        @Override
+        public void onTickingEnd(Entity p_156927_)
+        {}
+
+        @Override
+        public void onTrackingStart(Entity p_156926_)
+        {}
+
+        @Override
+        public void onTrackingEnd(Entity p_156925_)
+        {}
+
+        @Override
+        public void onSectionChange(Entity p_223609_)
+        {}
+    }
+
+    private final TransientEntitySectionManager<Entity> entityStorage = new TransientEntitySectionManager<>(
+            Entity.class, new EntityCallbacks());
+    final Level world;
+    IBlockEntity mob;
+    public boolean creating;
     BlockEntityChunkProvider chunks;
 
-    public WorldEntity(final Level world)
+    public WorldEntity(final Level level)
     {
-        this.world = world;
+        super((WritableLevelData) level.getLevelData(), level.dimension(), level.dimensionTypeRegistration(),
+                level.getProfilerSupplier(), level.isClientSide(), level.isDebug(), 0, 1000);
+        this.world = level;
         this.chunks = new BlockEntityChunkProvider(this);
     }
 
@@ -309,8 +351,7 @@ public class WorldEntity implements IBlockEntityWorld
     @Override
     public long nextSubTickCount()
     {
-        // TODO Auto-generated method stub
-        return 0;
+        return world.nextSubTickCount();
     }
 
     @Override
@@ -328,6 +369,94 @@ public class WorldEntity implements IBlockEntityWorld
     @Override
     public void gameEvent(GameEvent p_220404_, Vec3 p_220405_, Context p_220406_)
     {
-       this.world.gameEvent(p_220404_, p_220405_, p_220406_);
+        this.world.gameEvent(p_220404_, p_220405_, p_220406_);
+    }
+
+    public void sendBlockUpdated(BlockPos p_46612_, BlockState p_46613_, BlockState p_46614_, int p_46615_)
+    {
+        world.sendBlockUpdated(p_46612_, p_46613_, p_46614_, p_46615_);
+    }
+
+    @Override
+    public void playSound(Player p_46543_, double p_46544_, double p_46545_, double p_46546_, SoundEvent p_46547_,
+            SoundSource p_46548_, float p_46549_, float p_46550_)
+    {
+        world.playSound(p_46543_, p_46544_, p_46545_, p_46546_, p_46547_, p_46548_, p_46549_, p_46550_);
+    }
+
+    @Override
+    public void playSound(Player p_46551_, Entity p_46552_, SoundEvent p_46553_, SoundSource p_46554_, float p_46555_,
+            float p_46556_)
+    {
+        world.playSound(p_46551_, p_46552_, p_46553_, p_46554_, p_46555_, p_46556_);
+    }
+
+    @Override
+    public String gatherChunkSourceStats()
+    {
+        return world.gatherChunkSourceStats();
+    }
+
+    @Override
+    public Entity getEntity(int p_46492_)
+    {
+        return world.getEntity(p_46492_);
+    }
+
+    @Override
+    public MapItemSavedData getMapData(String p_46650_)
+    {
+        return world.getMapData(p_46650_);
+    }
+
+    @Override
+    public void setMapData(String p_151533_, MapItemSavedData p_151534_)
+    {
+        world.setMapData(p_151533_, p_151534_);
+    }
+
+    @Override
+    public int getFreeMapId()
+    {
+        return world.getFreeMapId();
+    }
+
+    @Override
+    public void destroyBlockProgress(int p_46506_, BlockPos p_46507_, int p_46508_)
+    {
+        world.destroyBlockProgress(p_46506_, p_46507_, p_46508_);
+    }
+
+    @Override
+    public Scoreboard getScoreboard()
+    {
+        return world.getScoreboard();
+    }
+
+    @Override
+    public RecipeManager getRecipeManager()
+    {
+        return world.getRecipeManager();
+    }
+
+    @Override
+    protected LevelEntityGetter<Entity> getEntities()
+    {
+        return entityStorage.getEntityGetter();
+    }
+
+    @Override
+    public void playSeededSound(Player p_220363_, double p_220364_, double p_220365_, double p_220366_,
+            SoundEvent p_220367_, SoundSource p_220368_, float p_220369_, float p_220370_, long p_220371_)
+    {
+        world.playSeededSound(p_220363_, p_220364_, p_220365_, p_220366_, p_220367_, p_220368_, p_220369_, p_220370_,
+                p_220371_);
+    }
+
+    @Override
+    public void playSeededSound(Player p_220372_, Entity p_220373_, SoundEvent p_220374_, SoundSource p_220375_,
+            float p_220376_, float p_220377_, long p_220378_)
+    {
+        world.playSeededSound(p_220372_, p_220373_, p_220374_, p_220375_, p_220376_, p_220377_, p_220378_);
     }
 }

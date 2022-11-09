@@ -901,7 +901,7 @@ public class PokedexEntryLoader
                 }
             }
         }
-        if (!xmlStats.interactions.isEmpty()) entry._loaded_interactions.addAll(xmlStats.interactions);
+        if (!xmlStats.interactions.isEmpty()) entry.addInteractions(xmlStats.interactions);
         if (xmlStats.megaRules != null) entry._loaded_megarules.addAll(xmlStats.megaRules);
     }
 
