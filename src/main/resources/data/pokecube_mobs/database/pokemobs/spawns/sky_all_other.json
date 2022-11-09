@@ -1,7 +1,7 @@
 {
   "rules": [
     {
-      "and_preset": "sky",
+      "and_preset": "sky,all_overworld",
       "entries": [
         {"key": "swablu","min": 2,"max": 4,"rate": 0.5},
         {"key": "rufflet","min": 2,"max": 4,"rate": 0.1},
