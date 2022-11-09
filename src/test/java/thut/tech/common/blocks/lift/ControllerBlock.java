@@ -45,7 +45,6 @@ public class ControllerBlock extends Block implements EntityBlock
     @Override
     public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        // TODO Auto-generated method stub
         return new ControllerTile(pos, state);
     }
 
@@ -131,6 +130,8 @@ public class ControllerBlock extends Block implements EntityBlock
         final boolean linkerOrStick = heldItem.getItem() == Items.STICK || heldItem.getItem() == TechCore.LINKER.get();
         var be = worldIn.getBlockEntity(pos);
         if (!(be instanceof ControllerTile te)) return InteractionResult.PASS;
+        // This happens when sent from client side!
+        if (!be.hasLevel()) be.setLevel(worldIn);
         if (linkerOrStick && playerIn.isShiftKeyDown())
         {
             if (te.isSideOn(side))
