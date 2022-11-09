@@ -457,7 +457,8 @@ public class MoveApplication implements Comparable<MoveApplication>
             {
                 heal = Math.min(max_hp - current_hp, heal);
                 if (PokecubeCore.getConfig().debug_moves)
-                    PokecubeAPI.logInfo("Applying healing for move {} of amount {}", t.move().getName(), heal);
+                    PokecubeAPI.logInfo("Applying healing for move {} of amount {} ({}<-{})", t.move().getName(), heal,
+                            move.root_entry._healing, move.root_entry.getMove().healing);
                 if (heal > 0) moveAppl.getTarget().heal(heal);
             }
         }
