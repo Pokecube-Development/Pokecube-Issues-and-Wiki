@@ -10,6 +10,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.pokemobs.TeleportEvent;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.eventhandlers.EventsHandler;
@@ -41,11 +42,10 @@ public class ActionTeleport implements IMoveWorldEffect
     }
 
     /** Teleport the entity */
-    protected static boolean teleportTo(final LivingEntity toTeleport,  double posX,  double posY,
-             double posZ)
+    protected static boolean teleportTo(final LivingEntity toTeleport, double posX, double posY, double posZ)
     {
         final TeleportEvent event = TeleportEvent.onUseTeleport(toTeleport, posX, posY, posZ);
-        if(event.isCanceled()) return false;
+        if (event.isCanceled()) return false;
 
         posX = event.getTargetX();
         posY = event.getTargetY();
@@ -62,31 +62,28 @@ public class ActionTeleport implements IMoveWorldEffect
             final float var21 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
             final float var22 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
             final float var23 = (toTeleport.getRandom().nextFloat() - 0.5F) * 0.2F;
-            final double var24 = posX + (toTeleport.getX() - posX) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
-                    * toTeleport.getBbWidth() * 2.0D;
-            final double var26 = posY + (toTeleport.getY() - posY) * var19 + toTeleport.getRandom().nextDouble() * toTeleport
-                    .getBbHeight();
-            final double var28 = posZ + (toTeleport.getZ() - posZ) * var19 + (toTeleport.getRandom().nextDouble() - 0.5D)
-                    * toTeleport.getBbWidth() * 2.0D;
+            final double var24 = posX + (toTeleport.getX() - posX) * var19
+                    + (toTeleport.getRandom().nextDouble() - 0.5D) * toTeleport.getBbWidth() * 2.0D;
+            final double var26 = posY + (toTeleport.getY() - posY) * var19
+                    + toTeleport.getRandom().nextDouble() * toTeleport.getBbHeight();
+            final double var28 = posZ + (toTeleport.getZ() - posZ) * var19
+                    + (toTeleport.getRandom().nextDouble() - 0.5D) * toTeleport.getBbWidth() * 2.0D;
             toTeleport.getLevel().addParticle(ParticleTypes.PORTAL, var24, var26, var28, var21, var22, var23);
         }
-        toTeleport.getLevel().playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT,
-                SoundSource.HOSTILE, 1.0F, 1.0F, false);
+        toTeleport.getLevel().playLocalSound(posX, posY, posZ, SoundEvents.ENDERMAN_TELEPORT, SoundSource.HOSTILE, 1.0F,
+                1.0F, false);
         toTeleport.playSound(SoundEvents.ENDERMAN_TELEPORT, 1.0F, 1.0F);
         return true;
     }
 
     public ActionTeleport()
-    {
-    }
+    {}
 
     @Override
-    public boolean applyEffect(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
     {
-        final boolean inCombat = user.inCombat();
-        if (!inCombat && user.getOwner() instanceof ServerPlayer)
+        if (user.getOwner() instanceof ServerPlayer target)
         {
-            final ServerPlayer target = (ServerPlayer) user.getOwner();
             EventsHandler.recallAllPokemobsExcluding(target, null, false);
             try
             {
@@ -97,12 +94,17 @@ public class ActionTeleport implements IMoveWorldEffect
                 PokecubeAPI.LOGGER.error("Error Teleporting " + target, e);
             }
         }
-        else if (inCombat)
-        {
-            BrainUtils.deagro(user.getEntity());
-            if (user.getGeneralState(GeneralStates.TAMED)) user.onRecall();
-            else ActionTeleport.teleportRandomly(user.getEntity());
-        }
+        return true;
+    }
+
+    @Override
+    public boolean applyInCombat(IPokemob user, Vector3 location)
+    {
+        Battle battle = user.getBattle();
+        BrainUtils.deagro(user.getEntity());
+        if (battle != null) battle.removeFromBattle(user.getEntity());
+        if (user.getGeneralState(GeneralStates.TAMED)) user.onRecall();
+        else ActionTeleport.teleportRandomly(user.getEntity());
         return true;
     }
 

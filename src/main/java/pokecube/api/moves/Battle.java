@@ -309,7 +309,7 @@ public class Battle
         this.sortSides();
     }
 
-    private void removeFromBattle(final LivingEntity mob)
+    public void removeFromBattle(final LivingEntity mob)
     {
         if (PokecubeCore.getConfig().debug_moves)
             PokecubeAPI.logInfo("Removing {}({}) from the battle!", mob.getName().getString(), mob.getId());

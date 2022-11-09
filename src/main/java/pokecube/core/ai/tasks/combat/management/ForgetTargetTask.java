@@ -65,8 +65,6 @@ public class ForgetTargetTask extends CombatTask
     }
 
     public static int maxWildBattleDur = 600;
-    /** The target being attacked. */
-    LivingEntity entityTarget;
 
     /** IPokemob version of entityTarget. */
     IPokemob pokemobTarget;
@@ -116,9 +114,9 @@ public class ForgetTargetTask extends CombatTask
                 if (!this.forgotten.get(id).isValid(this.world.getGameTime())) this.forgotten.remove(id);
         }
 
-        boolean deAgro = mate == this.entityTarget;
+        boolean deAgro = mate == this.target;
 
-        final ForgetEntry entry = new ForgetEntry(this.world.getGameTime(), this.entityTarget);
+        final ForgetEntry entry = new ForgetEntry(this.world.getGameTime(), this.target);
         if (this.forgotten.containsKey(entry.mob.getUUID()))
         {
             deAgro = true;
@@ -127,7 +125,7 @@ public class ForgetTargetTask extends CombatTask
         int giveUpTimer = Battle.BATTLE_END_TIMER;
         if (RootTask.doLoadThrottling) giveUpTimer *= RootTask.runRate;
 
-        if (mobB == null && entityTarget.getRemovalReason() == RemovalReason.DISCARDED)
+        if (mobB == null && this.target.getRemovalReason() == RemovalReason.DISCARDED)
         {
             deAgro = true;
         }
@@ -196,7 +194,7 @@ public class ForgetTargetTask extends CombatTask
         {
             // If health is below 0, it fainted, we give some time for other to
             // send out a new mob before we completely deagro.
-            if (this.entityTarget.getHealth() <= 0)
+            if (this.target.getHealth() <= 0)
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("They are Dead!");
                 giveUpTimer /= 2;
@@ -213,7 +211,7 @@ public class ForgetTargetTask extends CombatTask
                         {
                             // Divery agro to it.
                             BrainUtils.initiateCombat(entity, e);
-                            this.entityTarget = e;
+                            this.target = e;
                             return;
                         }
                     }
@@ -228,7 +226,7 @@ public class ForgetTargetTask extends CombatTask
             }
 
             // If our target is us, we should forget it.
-            if (this.entityTarget == this.entity)
+            if (this.target == this.entity)
             {
                 PokecubeAPI.logInfo("Cannot target self.");
                 deAgro = true;
@@ -244,7 +242,7 @@ public class ForgetTargetTask extends CombatTask
             }
 
             // If our target is owner, we should forget it.
-            if (this.entityTarget.getUUID().equals(this.pokemob.getOwnerId()))
+            if (this.target.getUUID().equals(this.pokemob.getOwnerId()))
             {
                 PokecubeAPI.logInfo("Cannot target owner.");
                 deAgro = true;
@@ -270,8 +268,7 @@ public class ForgetTargetTask extends CombatTask
 
                 // If the target is a pokemob, on same team, we shouldn't target
                 // it either, unless it is fighting over a mate
-                if (!PokecubeCore.getConfig().teamsBattleEachOther
-                        && TeamManager.sameTeam(this.entityTarget, this.entity)
+                if (!PokecubeCore.getConfig().teamsBattleEachOther && TeamManager.sameTeam(this.target, this.entity)
                         && !this.pokemob.getCombatState(CombatStates.MATEFIGHT))
                 {
                     if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Cannot target team mates.");
@@ -280,7 +277,7 @@ public class ForgetTargetTask extends CombatTask
                 }
             }
 
-            if (BrainUtils.canSee(this.entity, this.entityTarget)) this.ticksSinceSeen = 0;
+            if (BrainUtils.canSee(this.entity, this.target)) this.ticksSinceSeen = 0;
 
             // If it has been too long since last seen the target, give up.
             if (this.ticksSinceSeen++ > giveUpTimer)
@@ -290,12 +287,11 @@ public class ForgetTargetTask extends CombatTask
                         this.pokemob.getDisplayName().getString());
                 try
                 {
-                    if (this.entityTarget instanceof Player player)
-                        thut.lib.ChatHelper.sendSystemMessage(player, message);
+                    if (this.target instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.target, e);
                 }
                 deAgro = true;
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Not seen for too long.");
@@ -303,19 +299,18 @@ public class ForgetTargetTask extends CombatTask
             }
 
             // Target is too far away, lets forget it.
-            if (this.entity.distanceTo(this.entityTarget) > PokecubeCore.getConfig().chaseDistance)
+            if (this.entity.distanceTo(this.target) > PokecubeCore.getConfig().chaseDistance)
             {
                 // Send deagress message and put mob on cooldown.
                 final Component message = TComponent.translatable("pokemob.deagress.timeout",
                         this.pokemob.getDisplayName().getString());
                 try
                 {
-                    if (this.entityTarget instanceof Player player)
-                        thut.lib.ChatHelper.sendSystemMessage(player, message);
+                    if (this.target instanceof Player player) thut.lib.ChatHelper.sendSystemMessage(player, message);
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.target, e);
                 }
                 deAgro = true;
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Too far from target.");
@@ -333,21 +328,21 @@ public class ForgetTargetTask extends CombatTask
     @Override
     public boolean shouldRun()
     {
-        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
+        final LivingEntity target = this.getAttackTarget();
 
-        if (target != this.entityTarget)
+        if (target != this.target)
         {
             this.battleTime = 0;
             this.ticksSinceSeen = 0;
-            this.entityTarget = target;
-            this.pokemobTarget = PokemobCaps.getPokemobFor(this.entityTarget);
+            this.target = target;
+            this.pokemobTarget = PokemobCaps.getPokemobFor(this.target);
         }
 
-        if (this.entityTarget == null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY))
-            this.entityTarget = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
+        if (this.target == null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY))
+            this.target = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
 
         // Only run if we have a combat target
-        return this.entityTarget != null;
+        return this.target != null;
     }
 
     private void endBattle()
@@ -360,7 +355,7 @@ public class ForgetTargetTask extends CombatTask
             this.pokemobTarget.onSetTarget(null, true);
         }
         BrainUtils.deagro(this.entity, this.mutualDeagro);
-        this.entityTarget = null;
+        this.target = null;
         this.pokemobTarget = null;
         this.battleTime = 0;
         this.ticksSinceSeen = 0;

@@ -67,10 +67,17 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         }
 
         @Override
-        public boolean applyEffect(final IPokemob user, final Vector3 location)
+        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
         {
             // Only applies other action if parent action failed.
-            return this.parent.applyEffect(user, location) || this.other.applyEffect(user, location);
+            return this.parent.applyOutOfCombat(user, location) || this.other.applyOutOfCombat(user, location);
+        }
+        
+        @Override
+        public boolean applyInCombat(IPokemob user, Vector3 location)
+        {
+            // Only applies other action if parent action failed.
+            return this.parent.applyInCombat(user, location) || this.other.applyInCombat(user, location);
         }
 
         @Override
@@ -101,7 +108,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         }
 
         @Override
-        public boolean applyEffect(final IPokemob user, final Vector3 location)
+        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
         {
             return this.recipe.applyEffect(user, location, this.getMoveName());
         }

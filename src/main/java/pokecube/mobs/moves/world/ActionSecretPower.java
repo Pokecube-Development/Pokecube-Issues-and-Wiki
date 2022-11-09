@@ -20,9 +20,8 @@ public class ActionSecretPower implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyEffect(final IPokemob attacker, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob attacker, final Vector3 location)
     {
-        if (attacker.inCombat()) return false;
         if (!(attacker.getOwner() instanceof ServerPlayer player)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");

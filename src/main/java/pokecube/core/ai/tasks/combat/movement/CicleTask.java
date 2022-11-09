@@ -1,12 +1,10 @@
 package pokecube.core.ai.tasks.combat.movement;
 
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.pathfinder.Node;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import thut.api.entity.ai.IAICombat;
@@ -19,7 +17,6 @@ import thut.api.maths.Vector3;
  */
 public class CicleTask extends CombatTask implements IAICombat
 {
-    Entity target;
     Vector3 centre;
     double movementSpeed;
 
@@ -111,9 +108,9 @@ public class CicleTask extends CombatTask implements IAICombat
     public boolean shouldRun()
     {
         if (!TaskBase.canMove(this.pokemob)) return false;
+        this.checkAttackTarget();
         // Has target and is angry.
-        return (this.target = BrainUtils.getAttackTarget(this.entity)) != null
-                && this.pokemob.getCombatState(CombatStates.BATTLING)
+        return this.target != null && this.pokemob.getCombatState(CombatStates.BATTLING)
                 && !this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE);
     }
 }

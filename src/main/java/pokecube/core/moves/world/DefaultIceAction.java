@@ -26,7 +26,7 @@ public class DefaultIceAction extends DefaultAction
      * This will have the following effects, for ice type moves: Place snow
      * Freeze water
      */
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         if (!PokecubeCore.getConfig().defaultIceActions) return false;
 

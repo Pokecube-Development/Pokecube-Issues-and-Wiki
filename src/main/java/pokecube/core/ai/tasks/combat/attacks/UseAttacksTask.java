@@ -36,10 +36,6 @@ import thut.lib.TComponent;
  */
 public class UseAttacksTask extends CombatTask implements IAICombat
 {
-
-    /** The target being attacked. */
-    LivingEntity entityTarget;
-
     /** IPokemob version of entityTarget. */
     IPokemob pokemobTarget;
 
@@ -103,8 +99,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!this.waitingToStart)
         {
             if (!self && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
-                this.setWalkTo(this.entityTarget.position(), this.speed, 0);
-            this.targetLoc.set(this.entityTarget);
+                this.setWalkTo(this.target.position(), this.speed, 0);
+            this.targetLoc.set(this.target);
             this.waitingToStart = true;
             /**
              * Don't want to notify if the pokemob just broke out of a pokecube.
@@ -116,7 +112,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
              * it should.
              */
             if (!previousCaptureAttempt && PokecubeCore.getConfig().pokemobagresswarning
-                    && this.entityTarget instanceof ServerPlayer player && !(this.entityTarget instanceof FakePlayer)
+                    && this.target instanceof ServerPlayer player && !(this.target instanceof FakePlayer)
                     && !this.pokemob.getGeneralState(GeneralStates.TAMED) && player.getLastHurtByMob() != this.entity
                     && player.getLastHurtMob() != this.entity)
             {
@@ -129,7 +125,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                 }
                 catch (final Exception e)
                 {
-                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.entityTarget, e);
+                    PokecubeAPI.LOGGER.log(Level.WARN, "Error with message for " + this.target, e);
                 }
                 this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
             }
@@ -137,15 +133,14 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         }
 
         // Look at the target
-        BehaviorUtils.lookAtEntity(this.entity, this.entityTarget);
+        BehaviorUtils.lookAtEntity(this.entity, this.target);
 
         // No executing move state with no target location.
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove();
 
         double var1 = (this.entity.getBbWidth() + 0.75) * (this.entity.getBbWidth() + 0.75);
         boolean distanced = false;
-        final double dist = this.entity.distanceToSqr(this.entityTarget.getX(), this.entityTarget.getY(),
-                this.entityTarget.getZ());
+        final double dist = this.entity.distanceToSqr(this.target.getX(), this.target.getY(), this.target.getZ());
 
         distanced = this.attack.isRanged(this.pokemob);
         // Check to see if the move is ranged, contact or self.
@@ -165,7 +160,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
 
         // Checks to see if the target is in range.
         if (distanced) inRange = dist < var1;
-        else inRange = MovesUtils.contactAttack(this.pokemob, this.entityTarget);
+        else inRange = MovesUtils.contactAttack(this.pokemob, this.target);
 
         if (self)
         {
@@ -173,13 +168,13 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             this.targetLoc.set(this.entity);
         }
 
-        final boolean canSee = BrainUtils.canSee(this.entity, this.entityTarget);
+        final boolean canSee = BrainUtils.canSee(this.entity, this.target);
 
         // If we have not set a move executing, we update target location. If we
         // have a move executing, we leave the old location to give the target
         // time to dodge needed.
         if (!this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
-            this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getBbHeight() / 2, 0);
+            this.targetLoc.set(this.target).addTo(0, this.target.getBbHeight() / 2, 0);
 
         final boolean isTargetDodging = this.pokemobTarget != null
                 && this.pokemobTarget.getCombatState(CombatStates.DODGING);
@@ -188,7 +183,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // then set target location to where the target is now. This is so that
         // it can use the older postion set above, lowering the accuracy of move
         // use, allowing easier dodging.
-        if (!isTargetDodging) this.targetLoc.set(this.entityTarget).addTo(0, this.entityTarget.getBbHeight() / 2, 0);
+        if (!isTargetDodging) this.targetLoc.set(this.target).addTo(0, this.target.getBbHeight() / 2, 0);
 
         boolean delay = false;
         // Check if the attack should, applying a new delay if this is the
@@ -210,7 +205,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             this.setUseMove();
             if (BrainUtils.getLeapTarget(this.entity) == null && leapDelay-- < 0)
             {
-                BrainUtils.setLeapTarget(this.entity, new EntityTracker(this.entityTarget, false));
+                BrainUtils.setLeapTarget(this.entity, new EntityTracker(this.target, false));
                 this.leapDelay = (int) (PokecubeCore.getConfig().attackCooldown
                         * PokecubeCore.getConfig().attackCooldownContactScale);
             }
@@ -227,7 +222,10 @@ public class UseAttacksTask extends CombatTask implements IAICombat
             final float f = (float) this.targetLoc.distToEntity(this.entity);
             if (this.entity.isAddedToWorld())
             {
-                this.pokemob.executeMove(this.entityTarget, this.targetLoc.copy(), f);
+                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("{} using attack on {} at {}",
+                        this.entity.getDisplayName(), this.target.getDisplayName(), this.targetLoc);
+
+                this.pokemob.executeMove(this.target, this.targetLoc.copy(), f);
                 // Reset executing move and no item use status now that we have
                 // used a move.
                 this.clearUseMove();
@@ -240,7 +238,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         }
         // If there is a target location, and it should path to it, queue a path
         // for the mob.
-        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.entityTarget.position(), this.speed, 0);
+        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.target.position(), this.speed, 0);
     }
 
     @Override
@@ -249,7 +247,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         // If we do have the target, but are not angry, return false.
         if (!this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
-        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
+        final LivingEntity target = this.getAttackTarget();
         // No target, we can't do anything, so return false
         if (target == null) return false;
         // If either us, or target is dead, or about to be so (0 health) return
@@ -257,8 +255,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         if (!target.isAlive() || target.getHealth() <= 0 || this.pokemob.getHealth() <= 0 || !this.entity.isAlive())
             return false;
 
-        if (target != this.entityTarget) this.pokemobTarget = PokemobCaps.getPokemobFor(target);
-        this.entityTarget = target;
+        if (target != this.target) this.pokemobTarget = PokemobCaps.getPokemobFor(target);
+        this.target = target;
 
         return true;
     }
