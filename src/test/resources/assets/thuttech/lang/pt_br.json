@@ -1,0 +1,44 @@
+{
+    "_comment": "Thut's Tech Language Properties",
+    "_comment": "@author Thutmose",
+
+    "_comment": "Blocks",
+    "block.thuttech.controller": "Bloco Controlador do Elevador",
+
+    "_comment": "Items",
+    "item.thuttech.lift": "Elevador",
+    "item.thuttech.linker": "Vinculador de dispositivo (desvinculado)",
+    "item.thuttech.linker.linked": "Vinculador de dispositivo (vinculado)",
+
+    "_comment": "Chat Messages",
+    "msg.liftSet": "Elevador ligado ao Linker",
+    "msg.floorSet": "Defina este Andar para %s",
+    "msg.callPanel": "Definir é o Painel de chamadas para %s",
+    "msg.editMode": "Modo de edição definido para %s",
+    "msg.floorDisplay": "Modo de exibição de piso definido para %s",
+    "msg.lift.killed": "Elevador morto",
+    "msg.lift.owner": "Este elevador é propriedade da %s",
+    "msg.lift.create": "Elevador feito com sucesso.",
+    "msg.lift.fail": "Falha ao criar o elevador.",
+    "msg.lift.setcorner": "Defina o primeiro canto do elevador para %s",
+    "msg.lift.toobig": "Você não pode fazer um elevador tão grande.",
+    "msg.lift.noblock": "Você precisa ter %s blocos de elevador em seu inventário para fazer um elevador deste tamanho.",
+    "msg.lift.reset": "Redefinir a criação do elevador",
+    
+    "msg.lift.side.on": "O lado está LIGADO",
+    "msg.lift.side.off": "Lado está DESLIGADO",
+    "msg.lift.side.page": "Definir como página %s",
+    "msg.lift.side.edit": "Definir para o modo de edição",
+    "msg.lift.side.call": "Definir como painel de chamada",
+    "msg.lift.side.display": "Definir como painel de exibição",
+
+    "msg.linker.reset": "Redefinir o vinculador de dispositivos",
+
+    "_comment": "InfoBook json",
+
+    "ttinfobook.json": "{pages:[\"[\\\"\\\",{\\\"text\\\":\\\"Bem-vindo ao Manual ThutTech.\\\",\\\"color\\\":\\\"dark_green\\\"},{\\\"text\\\":\\\"\\\\n\\\\nAs páginas a seguir descrevem como criar e operar um sistema de elevador.\\\",\\\"color\\\":\\\"none\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Começando\\\",\\\"color\\\":\\\"dark_green\\\"},{\\\"text\\\":\\\"\\\\n\\\\nA primeira coisa que você precisa fazer é criar vários Blocos de Elevador, Dois ou mais Blocos de Controle de Elevador e um Device Linker.\\\",\\\"color\\\":\\\"none\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Para começar, construa a estrutura que você deseja converter no Elevador.\\\\n\\\\nEm seguida, clique com o botão direito do mouse no primeiro canto com o Device Linker, ele deve ser descrito em \\\"},{\\\"text\\\":\\\"red\\\",\\\"color\\\":\\\"red\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Em seguida, esgueire e clique com o botão direito do mouse no outro canto, a caixa vermelha selecionada será convertida no Elevador.\\\\n\\\\nSe você não tiver blocos de elevador suficientes, ele falhará ao criar e informará quantos você precisa.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Próximo Shift-Clique com o botão direito no elevador com o Device Linker. Isso ligará o vinculador ao Elevador.\\\\n\\\\nSe você deseja remover o Elevador, clique com o botão direito do mouse nele e ele será convertido novamente nos blocos dos quais foi feito.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Em seguida coloque os Blocos de Controle.\\\\n\\\\nOs Blocos de Controle precisam ser colocados 2 blocos acima de onde o Elevador deve parar.\\\\n\\\\nClique com o botão direito do mouse na face do bloco em que você deseja botões com o Device Linker.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Clicar com o botão direito novamente com o Linker percorrerá as 4 páginas diferentes de botões.\\\\n\\\\nSe você clicar com o botão direito do mouse no rosto com um bastão, ele ativará e desativará esse rosto.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Blocos de controle que se tocam fisicamente serão vinculados ao mesmo andar.\\\\n\\\\nVocê pode transformar um bloco de controlador em um controlador de chamada clicando com o botão direito do mouse no rosto com um Device Linker desvinculado.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Para realmente vincular o elevador ao bloco, clique com o botão direito do mouse no número que você deseja que esse andar seja com o Device Linker, e esse bloco será atribuído como esse andar.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Para usar, clique com o botão direito do mouse no andar desejado com a mão vazia ou em qualquer item que não seja o Device Linker ou Stick.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"Você também pode colocar baús ou blocos de controle em seu elevador.\\\\n\\\\nSe você colocar um bloco de controlador nele, certifique-se de habilitar o rosto antes de criar o Elevador.\\\"}]\",\"[\\\"\\\",{\\\"text\\\":\\\"O Bloco de Controle é compatível com OpenComputers e possui os seguintes Métodos disponíveis:\\\\n\\\\nsetFloor(number)\\\\ngetFloor(number)\\\\ncallFloor(number)\\\\ncall(X/Y/Z)Value(number)\\\\nget(X/Y/Z)Value()\\\\ngetFloorYValue(number)\\\"}]\"],title:\"ThutTech Manual\",author:Thutmose}",
+
+
+    "_comment": "Misc",
+    "entity.thuttech.lift": "Elevador"
+}
