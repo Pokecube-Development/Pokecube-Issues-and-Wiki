@@ -36,8 +36,8 @@ import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.terrain.BiomeDatabase;
 import thut.api.terrain.BiomeType;
+import thut.api.terrain.NamedVolumes.INamedStructure;
 import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
 
 public class SpawnBiomeMatcher
 {
@@ -64,10 +64,9 @@ public class SpawnBiomeMatcher
         {
             if (!matcher._validStructures.isEmpty())
             {
-                final Set<StructureInfo> set = StructureManager.getFor(((Level) checker.world).dimension(),
-                        checker.location.getPos());
-                for (final StructureInfo i : set)
-                    if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
+                final Set<INamedStructure> set = StructureManager.getFor(((Level) checker.world).dimension(),
+                        checker.location.getPos(), true);
+                for (var i : set) if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
                 return MatchResult.FAIL;
             }
             return MatchResult.PASS;

@@ -1,21 +1,14 @@
 package thut.api.terrain;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.material.Material;
+import thut.api.data.StringTag.StringValue;
 import thut.api.item.ItemList;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
+import thut.core.common.handlers.ConfigHandler;
 
 public class TerrainChecker
 {
@@ -41,13 +34,10 @@ public class TerrainChecker
     public static ResourceLocation LEAVES = new ResourceLocation("minecraft:leaves");
     public static ResourceLocation FLOWERS = new ResourceLocation("minecraft:small_flowers");
 
-    public static List<String> manualStructureSubbiomes = new ArrayList<>();
-
-    public static Map<String, List<TagKey<ConfiguredStructureFeature<?, ?>>>> struct_config_map = Maps.newHashMap();
+    public static final String tagKey = "structure_subbiomes";
 
     public static void initStructMap()
     {
-        TerrainChecker.struct_config_map.clear();
         for (final String s : ThutCore.getConfig().structure_subbiomes)
         {
             final StructInfo info = JsonUtil.gson.fromJson(s, StructInfo.class);
@@ -61,27 +51,8 @@ public class TerrainChecker
             {
                 key = ThutCore.trim(key);
             }
-            ResourceLocation loc = new ResourceLocation(key);
-            TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
-                    .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, loc);
-
-            struct_config_map.compute(info.subbiome, (name, list) -> {
-                if (list == null) list = new ArrayList<>();
-                list.add(tagkey);
-                return list;
-            });
-        }
-        for (final String s : manualStructureSubbiomes)
-        {
-            final StructInfo info = JsonUtil.gson.fromJson(s, StructInfo.class);
-            String key = info.struct.replace("#", "");
-            TagKey<ConfiguredStructureFeature<?, ?>> tagkey = TagKey
-                    .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, new ResourceLocation(key));
-            struct_config_map.compute(info.subbiome, (name, list) -> {
-                if (list == null) list = new ArrayList<>();
-                list.add(tagkey);
-                return list;
-            });
+            var value = new StringValue<String>(key).setValue(info.subbiome);
+            ConfigHandler.STRUCTURE_SUBBIOMES.AddValue(tagKey, value);
         }
     }
 

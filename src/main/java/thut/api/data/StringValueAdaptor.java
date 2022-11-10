@@ -7,11 +7,18 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
+import net.minecraft.resources.ResourceLocation;
 import thut.api.data.StringTag.StringValue;
+import thut.core.common.ThutCore;
 
 public class StringValueAdaptor implements JsonDeserializer<StringValue<?>>
 {
-    public static final StringValueAdaptor INSTANCE = new StringValueAdaptor();
+    final Class<?> type;
+
+    public StringValueAdaptor(Class<?> type)
+    {
+        this.type = type;
+    }
 
     @Override
     public StringValue<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
@@ -29,19 +36,46 @@ public class StringValueAdaptor implements JsonDeserializer<StringValue<?>>
                 name = args[0];
                 value = args[1];
 
-                try
+                if (this.type != null)
                 {
-                    Float var = Float.parseFloat(value);
-                    return new StringValue<>(name).setValue(var);
+                    if (type == Float.class || type == Double.class)
+                    {
+                        try
+                        {
+                            float var = Float.parseFloat(value);
+                            return new StringValue<>(name).setValue(var);
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            e.printStackTrace();
+                        }
+                    }
+                    else if (type == String.class)
+                    {
+                        return new StringValue<>(name).setValue(value);
+                    }
+                    else if (type == ResourceLocation.class)
+                    {
+                        return new StringValue<>(name).setValue(new ResourceLocation(value));
+                    }
+                    else
+                    {
+                        throw new JsonParseException("Error. unsupported sub class type!");
+                    }
                 }
-                catch (NumberFormatException e)
+                else
                 {
-                    e.printStackTrace();
+                    ThutCore.LOGGER.error("Warning, got argument {} when no class set!", value);
+                    return new StringValue<>(name);
                 }
             }
             return new StringValue<>(name);
         }
-        throw new JsonParseException("Error. currently only supports strings here");
+        else
+        {
+
+        }
+        throw new JsonParseException("Error. unsupported format!");
     }
 
 }

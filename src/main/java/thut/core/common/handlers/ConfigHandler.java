@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
 import thut.api.boom.ExplosionCustom;
+import thut.api.data.StringTag;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.maths.Cruncher;
@@ -80,6 +81,9 @@ public class ConfigHandler extends ConfigData
     public boolean debug_data = false;
     @Configure(category = ConfigHandler.DEBUG)
     public boolean debug_models = false;
+
+    public static final StringTag<String> STRUCTURE_SUBBIOMES = new StringTag<>("tags/structure_subbiomes/",
+            String.class, TerrainChecker::initStructMap);
 
     public ConfigHandler()
     {

@@ -35,8 +35,8 @@ import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.maths.Vector3;
+import thut.api.terrain.NamedVolumes.INamedStructure;
 import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
@@ -103,8 +103,8 @@ public class ItemPokedex extends Item
             SpawnHandler.refreshTerrain(new Vector3().set(playerIn), playerIn.getLevel(), true);
             if (PokecubeCore.getConfig().debug_misc)
             {
-                final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
-                for (final StructureInfo i : infos)
+                final Set<INamedStructure> infos = StructureManager.getFor(worldIn.dimension(), pos, false);
+                for (final INamedStructure i : infos)
                     thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.literal(i.getName()));
             }
         }

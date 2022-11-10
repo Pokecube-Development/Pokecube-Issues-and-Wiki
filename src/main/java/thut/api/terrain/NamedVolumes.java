@@ -1,13 +1,18 @@
 package thut.api.terrain;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
@@ -16,18 +21,33 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.terrain.StructureManager.StructureInfo;
 
-public class NamedVolumeManager
+public class NamedVolumes
 {
     public static interface INamedPart
     {
         String getName();
 
         BoundingBox getBounds();
+
+        default boolean is(String name)
+        {
+            return name.equals(this.getName());
+        }
+
+        default Object getWrapped()
+        {
+            return null;
+        }
     }
 
     public static interface INamedStructure
     {
         String getName();
+
+        default boolean is(String name)
+        {
+            return name.equals(this.getName());
+        }
 
         List<INamedPart> getParts();
 
@@ -54,6 +74,11 @@ public class NamedVolumeManager
                     if (insideBox(inflate(p1.getBounds(), distance), pos, forTerrain)) return true;
             }
             return false;
+        }
+
+        default Object getWrapped()
+        {
+            return null;
         }
     }
 
@@ -134,6 +159,18 @@ public class NamedVolumeManager
         }
 
         @Override
+        public boolean is(String name)
+        {
+            if (INamedStructure.super.is(name)) return true;
+            var key = Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY;
+            var tag = TagKey.create(key, new ResourceLocation(name));
+            Registry<ConfiguredStructureFeature<?, ?>> registry = level.registryAccess().registryOrThrow(key);
+            Optional<Holder<ConfiguredStructureFeature<?, ?>>> opt_holder = registry
+                    .getHolder(registry.getId(this.feature));
+            return opt_holder.get().is(tag);
+        }
+
+        @Override
         public BoundingBox getTotalBounds()
         {
             return start.getBoundingBox();
@@ -145,6 +182,12 @@ public class NamedVolumeManager
             if (parts.isEmpty())
                 start.getPieces().forEach(piece -> this.parts.add(new StructurePiecePart(piece, level)));
             return parts;
+        }
+
+        @Override
+        public Object getWrapped()
+        {
+            return feature;
         }
     }
 
@@ -174,6 +217,12 @@ public class NamedVolumeManager
         public BoundingBox getBounds()
         {
             return part.getBoundingBox();
+        }
+
+        @Override
+        public Object getWrapped()
+        {
+            return part;
         }
 
     }
