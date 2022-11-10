@@ -66,11 +66,25 @@ public class ResourceHelper
 
     public static InputStream getStream(Resource r)
     {
-        return r.getInputStream();
+        try
+        {
+            return r.open();
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
     }
 
     public static BufferedReader getReader(Resource r)
     {
-        return new BufferedReader(new InputStreamReader(r.getInputStream(), StandardCharsets.UTF_8));
+        try
+        {
+            return r.openAsReader();
+        }
+        catch (IOException e)
+        {
+            return null;
+        }
     }
 }
