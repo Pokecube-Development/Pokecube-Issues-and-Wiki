@@ -5,15 +5,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import javax.annotation.Nullable;
-
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -43,13 +40,6 @@ public class StructureManager
             this.feature = entry.getKey();
             this.name = name;
             this.start = entry.getValue();
-        }
-
-        public StructureInfo(String name, Structure feature, StructureStart start)
-        {
-            this.feature = feature;
-            this.name = name;
-            this.start = start;
         }
 
         private BoundingBox inflate(final BoundingBox other, final int amt)
@@ -124,15 +114,6 @@ public class StructureManager
         public String getName()
         {
             return name;
-        }
-
-        public boolean matches(@Nullable RegistryAccess reg, String key)
-        {
-            if (reg == null) return key.equals(getName());
-            var regi = reg.registryOrThrow(Registry.STRUCTURE_REGISTRY);
-            var tags = regi.getHolderOrThrow(regi.getResourceKey(feature).get()).tags().toList();
-            for (var tag : tags) if (tag.location().toString().equals(key)) return true;
-            return key.equals(getName());
         }
     }
 

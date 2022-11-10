@@ -72,7 +72,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)
     {
         final BlockHitResult trace = event.getHitVec();
-        if (trace == null) return;
+        if (trace == null || !event.getEntity().isShiftKeyDown()) return;
         final Level world = event.getEntity().getLevel();
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile temp)

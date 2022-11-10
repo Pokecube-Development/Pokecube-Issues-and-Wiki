@@ -129,7 +129,7 @@ public class TempTile extends BlockEntity implements ITickTile
         if (this.blockEntity != null)
         {
             final Vector3 r = new Vector3().set(this.worldPosition);
-            final VoxelShape shape = this.blockEntity.collider.buildShape();
+            final VoxelShape shape = this.blockEntity.getUpdater().buildShape();
             if (!shape.isEmpty()) ret = Shapes.join(Shapes.block(), shape.move(-r.x, -r.y, -r.z), BooleanOp.AND);
         }
         this.shape = ret;
@@ -182,11 +182,15 @@ public class TempTile extends BlockEntity implements ITickTile
             // Ensure the mob has same vertical velocity as us.
             entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
 
-            AABB bounds = here.bounds();
+            AABB bounds = here.bounds().move(this.getBlockPos()).move(tileV);
+            AABB eBounds = entity.getBoundingBox();
+
+            if (bounds.getCenter().y() > eBounds.getCenter().y()) return distance;
+
             var entityR = entity.position();
             double x = entityR.x();
-            double y = bounds.maxY + this.getBlockPos().getY() + tileV.y();
-            if (y > entity.getBoundingBox().maxY) y = entity.getY() + tileV.y();
+            double y = bounds.maxY;
+            if (y > eBounds.maxY) y = entity.getY() + tileV.y();
             double z = entityR.z();
             if (tileV.y() > 0) entity.setPos(x, y, z);
 

@@ -27,6 +27,7 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.entity.LevelCallback;
 import net.minecraft.world.level.entity.LevelEntityGetter;
@@ -44,6 +45,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.ticks.LevelTickAccess;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.core.common.network.EntityUpdate;
 
 public class WorldEntity extends Level implements IBlockEntityWorld
 {
@@ -107,10 +109,23 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
-    public boolean setBlock(final BlockPos pos, final BlockState newState, final int flags)
+    public boolean setBlock(BlockPos pos, BlockState newState, int flags, int recursionsLeft)
     {
         final ChunkAccess c = this.getChunk(pos);
-        return c.setBlockState(pos, newState, (flags & 64) != 0) != null;
+        BlockState old = this.getBlock(pos);
+        boolean set = c.setBlockState(pos, newState, (flags & 64) != 0) != null;
+        if (set)
+        {
+            this.setBlock(pos, newState);
+            if (c instanceof LevelChunk chunk)
+                this.markAndNotifyBlock(pos, chunk, old, newState, flags, recursionsLeft);
+            if (!this.isClientSide())
+            {
+                mob.getUpdater().resetShape();
+                EntityUpdate.sendEntityUpdate((Entity) this.mob);
+            }
+        }
+        return set;
     }
 
     @Override
@@ -273,12 +288,6 @@ public class WorldEntity extends Level implements IBlockEntityWorld
 
     @Override
     public boolean destroyBlock(final BlockPos p_225521_1_, final boolean p_225521_2_, final Entity p_225521_3_)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean setBlock(final BlockPos pos, final BlockState state, final int flags, final int recursionLeft)
     {
         return false;
     }

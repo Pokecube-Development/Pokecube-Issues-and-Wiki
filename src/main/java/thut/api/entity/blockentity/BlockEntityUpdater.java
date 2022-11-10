@@ -57,6 +57,12 @@ public class BlockEntityUpdater
         this.theEntity.setPos(here.x, here.y, here.z);
     }
 
+    public void resetShape()
+    {
+        lastShapePos = Vec3.ZERO;
+        buildShape();
+    }
+
     public VoxelShape buildShape()
     {
         final int sizeX = this.blockEntity.getBlocks().length;
