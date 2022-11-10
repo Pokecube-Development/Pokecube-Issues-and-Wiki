@@ -3,25 +3,25 @@
   "mutations": [
     {
       "geneType": "pokecube:species",
-      "output": "nidoranm",
+      "output": "nidoran-m",
       "options": [
         {
-          "result": "nidoranm"
+          "result": "nidoran-m"
         },
         {
-          "result": "nidoranf"
+          "result": "nidoran-f"
         }
       ]
     },
     {
       "geneType": "pokecube:species",
-      "output": "nidoranf",
+      "output": "nidoran-f",
       "options": [
         {
-          "result": "nidoranm"
+          "result": "nidoran-m"
         },
         {
-          "result": "nidoranf"
+          "result": "nidoran-f"
         }
       ]
     },
