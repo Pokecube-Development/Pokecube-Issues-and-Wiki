@@ -14,7 +14,7 @@ import net.minecraft.world.phys.Vec3;
 public abstract class BlockEntityInteractHandler
 {
     final IBlockEntity blockEntity;
-    final Entity       theEntity;
+    final Entity theEntity;
 
     protected BlockHitResult trace;
 
@@ -32,7 +32,7 @@ public abstract class BlockEntityInteractHandler
     public InteractionResult applyPlayerInteraction(final Player player, final Vec3 vec, final ItemStack stack,
             final InteractionHand hand)
     {
-        return InteractionResult.PASS;
+        return processInitialInteract(player, stack, hand);
     }
 
     public abstract InteractionResult interactInternal(Player player, BlockPos pos, @Nullable ItemStack stack,
