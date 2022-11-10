@@ -1,17 +1,18 @@
 package thut.core.init;
 
+import java.util.List;
 import java.util.Locale;
-import java.util.stream.Stream;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
@@ -25,9 +26,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import thut.api.TickHandler;
 import thut.api.Tracker;
 import thut.api.entity.blockentity.BlockEntityBase;
-import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.level.structures.StructureManager;
+import thut.api.level.structures.StructureStickApplier;
 import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.SubbiomeStickApplier;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
@@ -36,7 +38,6 @@ import thut.core.common.ThutCore;
 import thut.core.common.ThutCore.MobEvents;
 import thut.core.common.network.EntityUpdate;
 import thut.core.common.world.mobs.data.SyncHandler;
-import thut.crafts.ThutCrafts;
 import thut.crafts.entity.EntityCraft;
 import thut.lib.TComponent;
 
@@ -44,6 +45,7 @@ import thut.lib.TComponent;
 public class CommonInit
 {
     public static final String SET_SUBBIOME = "thutcore.subbiome.set";
+    public static final String SET_STRUCTURE = "thutcore.structure.edit";
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = ThutCore.MODID)
     public static class RegistryEvents
@@ -63,6 +65,8 @@ public class CommonInit
 
             PermNodes.registerBooleanNode(ThutCore.MODID, CommonInit.SET_SUBBIOME, DefaultPermissionLevel.OP,
                     "Able to set subbiomes via items");
+            PermNodes.registerBooleanNode(ThutCore.MODID, CommonInit.SET_STRUCTURE, DefaultPermissionLevel.OP,
+                    "Able to set structures via items");
         }
     }
 
@@ -78,197 +82,115 @@ public class CommonInit
         return null;
     }
 
+    public static interface ICustomStickHandler
+    {
+        boolean isItem(final ServerPlayer player, final ItemStack held);
+
+        void apply(ServerPlayer player, ServerLevel level, ItemStack held, BlockPos min, BlockPos max);
+
+        default boolean checkValid(ServerPlayer player, Level level, ItemStack held, BlockPos min, BlockPos max)
+        {
+            return true;
+        }
+
+        String getCornerMessage();
+    }
+
+    public static List<ICustomStickHandler> HANDLERS = Lists.newArrayList();
+
+    static
+    {
+        HANDLERS.add(new SubbiomeStickApplier());
+        HANDLERS.add(new StructureStickApplier());
+    }
+
     protected static boolean isSubbiomeEditor(final ServerPlayer player, final ItemStack held)
     {
         return CommonInit.getSubbiome(player, held) != null;
     }
 
-    private static void trySubbiomeEditor(final PlayerInteractEvent.RightClickBlock evt)
-    {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown()
-                || !CommonInit.isSubbiomeEditor(player, evt.getItemStack()))
-            return;
-        final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
-        final BlockPos pos = evt.getPos();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
-        {
-            final CompoundTag minTag = itemstack.getTag().getCompound("min");
-            final BlockPos min = pos;
-            final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            if (!worldIn.isClientSide)
-            {
-                final BiomeType subbiome = CommonInit.getSubbiome(player, itemstack);
-                final BoundingBox box = BoundingBox.fromCorners(min, max);
-                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxX,
-                        box.maxY, box.maxZ);
-                poses.forEach((p) -> {
-                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
-                });
-                final String message = "msg.subbiome.set";
-                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, subbiome.name));
-            }
-            itemstack.getTag().remove("min");
-            evt.setCanceled(true);
-        }
-        else
-        {
-            if (!itemstack.hasTag()) itemstack.setTag(new CompoundTag());
-            final CompoundTag min = new CompoundTag();
-            new Vector3().set(pos).writeToNBT(min, "");
-            itemstack.getTag().put("min", min);
-            final String message = "msg.subbiome.setcorner";
-            if (!worldIn.isClientSide)
-                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
-            evt.setCanceled(true);
-            itemstack.getTag().putLong("time", Tracker.instance().getTick());
-        }
-    }
-
-    private static void trySubbiomeEditor(final PlayerInteractEvent.RightClickItem evt)
-    {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown()
-                || !CommonInit.isSubbiomeEditor(player, evt.getItemStack()))
-            return;
-        final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
-        final long now = Tracker.instance().getTick();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
-                && itemstack.getTag().getLong("time") != now)
-        {
-            final CompoundTag minTag = itemstack.getTag().getCompound("min");
-            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
-                    .add(playerIn.getLookAngle().scale(2));
-            final BlockPos pos = new BlockPos(loc);
-            final BlockPos min = pos;
-            final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            if (!worldIn.isClientSide)
-            {
-                final BiomeType subbiome = CommonInit.getSubbiome(player, itemstack);
-                final BoundingBox box = BoundingBox.fromCorners(min, max);
-                final Stream<BlockPos> poses = BlockPos.betweenClosedStream(box.minX, box.minY, box.minZ, box.maxX,
-                        box.maxY, box.maxZ);
-                poses.forEach((p) -> {
-                    TerrainManager.getInstance().getTerrain(worldIn, p).setBiome(p, subbiome);
-                });
-                final String message = "msg.subbiome.set";
-                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, subbiome.name));
-            }
-            itemstack.getTag().remove("min");
-        }
-    }
-
-    private static void tryCraftMaker(final PlayerInteractEvent.RightClickBlock evt)
-    {
-        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
-            return;
-        final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
-        final BlockPos pos = evt.getPos();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
-        {
-            final CompoundTag minTag = itemstack.getTag().getCompound("min");
-            BlockPos min = pos;
-            BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            final AABB box = new AABB(min, max);
-            min = new BlockPos(box.minX, box.minY, box.minZ);
-            max = new BlockPos(box.maxX, box.maxY, box.maxZ);
-            final BlockPos mid = min;
-            min = min.subtract(mid);
-            max = max.subtract(mid);
-            final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
-            if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
-            {
-                final String message = "msg.craft.toobig";
-                if (!worldIn.isClientSide)
-                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
-                return;
-            }
-            if (!worldIn.isClientSide)
-            {
-                final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
-                        ThutCrafts.CRAFTTYPE.get());
-                final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
-            }
-            itemstack.getTag().remove("min");
-            evt.setCanceled(true);
-        }
-        else
-        {
-            if (!itemstack.hasTag()) itemstack.setTag(new CompoundTag());
-            final CompoundTag min = new CompoundTag();
-            new Vector3().set(pos).writeToNBT(min, "");
-            itemstack.getTag().put("min", min);
-            final String message = "msg.craft.setcorner";
-            if (!worldIn.isClientSide)
-                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
-            evt.setCanceled(true);
-            itemstack.getTag().putLong("time", Tracker.instance().getTick());
-        }
-    }
-
-    private static void tryCraftMaker(final PlayerInteractEvent.RightClickItem evt)
-    {
-        if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty()
-                || !evt.getPlayer().isShiftKeyDown() || evt.getItemStack().getItem() != ThutCrafts.CRAFTMAKER.get())
-            return;
-        final ItemStack itemstack = evt.getItemStack();
-        final Player playerIn = evt.getPlayer();
-        final Level worldIn = evt.getWorld();
-        final long now = Tracker.instance().getTick();
-        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
-                && itemstack.getTag().getLong("time") != now)
-        {
-            final CompoundTag minTag = itemstack.getTag().getCompound("min");
-            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
-                    .add(playerIn.getLookAngle().scale(2));
-            final BlockPos pos = new BlockPos(loc);
-            BlockPos min = pos;
-            BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
-            final AABB box = new AABB(min, max);
-            min = new BlockPos(box.minX, box.minY, box.minZ);
-            max = new BlockPos(box.maxX, box.maxY, box.maxZ);
-            final BlockPos mid = min;
-            min = min.subtract(mid);
-            max = max.subtract(mid);
-            final int dw = Math.max(max.getX() - min.getX(), max.getZ() - min.getZ());
-            if (max.getY() - min.getY() > 30 || dw > 2 * 20 + 1)
-            {
-                final String message = "msg.craft.toobig";
-                if (!worldIn.isClientSide)
-                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
-                return;
-            }
-            if (!worldIn.isClientSide)
-            {
-                final EntityCraft craft = IBlockEntity.BlockEntityFormer.makeBlockEntity(evt.getWorld(), min, max, mid,
-                        ThutCrafts.CRAFTTYPE.get());
-                final String message = craft != null ? "msg.craft.create" : "msg.craft.fail";
-                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
-            }
-            itemstack.getTag().remove("min");
-        }
-    }
-
     @SubscribeEvent
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        trySubbiomeEditor(evt);
-        tryCraftMaker(evt);
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown())
+            return;
+        final ItemStack itemstack = evt.getItemStack();
+
+        ICustomStickHandler handler = null;
+        for (var h : HANDLERS)
+        {
+            if (h.isItem(player, itemstack))
+            {
+                handler = h;
+                break;
+            }
+        }
+        if (handler == null) return;
+
+        final Player playerIn = evt.getPlayer();
+        final Level worldIn = evt.getWorld();
+        final BlockPos pos = evt.getPos();
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
+        {
+            final CompoundTag minTag = itemstack.getTag().getCompound("min");
+            final BlockPos min = pos;
+            final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
+            if (!handler.checkValid(player, worldIn, itemstack, min, max)) return;
+            if (!worldIn.isClientSide && worldIn instanceof ServerLevel level)
+                handler.apply(player, level, itemstack, min, max);
+            itemstack.getTag().remove("min");
+            evt.setCanceled(true);
+        }
+        else
+        {
+            if (!itemstack.hasTag()) itemstack.setTag(new CompoundTag());
+            final CompoundTag min = new CompoundTag();
+            new Vector3().set(pos).writeToNBT(min, "");
+            itemstack.getTag().put("min", min);
+            final String message = handler.getCornerMessage();
+            if (!worldIn.isClientSide)
+                thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
+            evt.setCanceled(true);
+            itemstack.getTag().putLong("time", Tracker.instance().getTick());
+        }
     }
 
     @SubscribeEvent
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        trySubbiomeEditor(evt);
-        tryCraftMaker(evt);
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown())
+            return;
+        final ItemStack itemstack = evt.getItemStack();
+
+        ICustomStickHandler handler = null;
+        for (var h : HANDLERS)
+        {
+            if (h.isItem(player, itemstack))
+            {
+                handler = h;
+                break;
+            }
+        }
+        if (handler == null) return;
+
+        final Player playerIn = evt.getPlayer();
+        final Level worldIn = evt.getWorld();
+        final long now = Tracker.instance().getTick();
+        if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
+                && itemstack.getTag().getLong("time") != now)
+        {
+            final CompoundTag minTag = itemstack.getTag().getCompound("min");
+            final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
+                    .add(playerIn.getLookAngle().scale(2));
+            final BlockPos pos = new BlockPos(loc);
+            final BlockPos min = pos;
+            final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
+            if (!worldIn.isClientSide && worldIn instanceof ServerLevel level)
+                handler.apply(player, level, itemstack, min, max);
+            itemstack.getTag().remove("min");
+        }
     }
 
     @SubscribeEvent

@@ -47,8 +47,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
-import thut.api.level.structures.StructureManager;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
@@ -144,15 +144,9 @@ public class ClientInit
 
     }
 
-    static BiomeType getSubbiome(final ItemStack held)
+    static boolean isCustomStick(final ItemStack held)
     {
-        if (held.getHoverName().getString().toLowerCase(Locale.ROOT).startsWith("subbiome->"))
-        {
-            final String[] args = held.getHoverName().getString().split("->");
-            if (args.length != 2) return null;
-            return BiomeType.getBiome(args[1].trim());
-        }
-        return null;
+        return held.getHoverName().getString().toLowerCase(Locale.ROOT).contains("->");
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
@@ -198,7 +192,7 @@ public class ClientInit
         if (!(held = player.getMainHandItem()).isEmpty() || !(held = player.getOffhandItem()).isEmpty())
         {
             final Minecraft mc = Minecraft.getInstance();
-            if (ClientInit.getSubbiome(held) != null && held.getTag() != null && held.getTag().contains("min"))
+            if (ClientInit.isCustomStick(held) && held.getTag() != null && held.getTag().contains("min"))
             {
                 final Vec3 projectedView = mc.gameRenderer.getMainCamera().getPosition();
                 Vec3 pointed = new Vec3(projectedView.x, projectedView.y, projectedView.z)

@@ -15,9 +15,9 @@ import thut.core.common.ThutCore;
 
 public class BiomeType
 {
-    private static final Map<Integer, BiomeType> typeMap       = Maps.newHashMap();
+    private static final Map<Integer, BiomeType> typeMap = Maps.newHashMap();
     private static final Map<Integer, BiomeType> typeMapClient = Maps.newHashMap();
-    private static int                           MAXID         = 256;
+    private static int MAXID = 256;
     public static final BiomeType
     //@formatter:off
     NONE  = new BiomeType("none").setNoSave(),
@@ -41,8 +41,7 @@ public class BiomeType
     public static BiomeType getBiome(String name, final boolean generate)
     {
         name = ThutCore.trim(name);
-        for (final BiomeType b : BiomeType.values())
-            if (b.name.equalsIgnoreCase(name)) return b;
+        for (final BiomeType b : BiomeType.values()) if (b.name.equalsIgnoreCase(name)) return b;
         if (generate)
         {
             final BiomeType ret = new BiomeType(name);
@@ -53,8 +52,8 @@ public class BiomeType
 
     public static BiomeType getType(final int id)
     {
-        if (ThutCore.proxy.isClientSide()) return BiomeType.typeMapClient.containsKey(id) ? BiomeType.typeMapClient.get(
-                id) : BiomeType.NONE;
+        if (ThutCore.proxy.isClientSide())
+            return BiomeType.typeMapClient.containsKey(id) ? BiomeType.typeMapClient.get(id) : BiomeType.NONE;
         return BiomeType.typeMap.containsKey(id) ? BiomeType.typeMap.get(id) : BiomeType.NONE;
     }
 
@@ -117,8 +116,7 @@ public class BiomeType
         this.name = name;
         this.readableName = "thutcore.biometype." + name;
         this.id = -1;
-        for (final BiomeType type : BiomeType.typeMap.values())
-            if (type.name.equals(name)) this.id = type.id;
+        for (final BiomeType type : BiomeType.typeMap.values()) if (type.name.equals(name)) this.id = type.id;
         if (this.id == -1) this.id = BiomeType.MAXID++;
         BiomeType.typeMap.put(this.id, this);
         BiomeType.typeMapClient.put(this.id, this);
@@ -166,8 +164,7 @@ public class BiomeType
 
     public boolean anyMatch(final Set<BiomeType> biomes)
     {
-        for (final BiomeType b : biomes)
-            if (this.contains(b)) return true;
+        for (final BiomeType b : biomes) if (this.contains(b)) return true;
         return this == BiomeType.ALL;
     }
 

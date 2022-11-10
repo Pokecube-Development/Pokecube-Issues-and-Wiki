@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -60,6 +61,32 @@ public class StructureManager
         Set<INamedStructure> set = StructureManager.map_by_pos.get(pos);
         if (set == null) StructureManager.map_by_pos.put(pos, set = Sets.newHashSet());
         return set;
+    }
+
+    public static void remove(ResourceKey<Level> dim, BoundingBox b, Predicate<INamedStructure> structure)
+    {
+        for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+        {
+            final ChunkPos p = new ChunkPos(x, z);
+            final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
+            final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
+            if (!forPos.isEmpty()) forPos.removeIf(structure);
+        }
+    }
+
+    public static Set<INamedStructure> getColliding(ResourceKey<Level> dim, BoundingBox b)
+    {
+        final Set<INamedStructure> matches = Sets.newHashSet();
+        for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+        {
+            final ChunkPos p = new ChunkPos(x, z);
+            final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
+            final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
+            forPos.forEach(structure -> {
+                if (b.intersects(structure.getTotalBounds())) matches.add(structure);
+            });
+        }
+        return matches;
     }
 
     public static Set<INamedStructure> getFor(final ResourceKey<Level> dim, final BlockPos loc, boolean forSubbiome)

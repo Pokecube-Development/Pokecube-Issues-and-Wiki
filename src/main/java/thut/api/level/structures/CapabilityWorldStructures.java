@@ -1,6 +1,7 @@
 package thut.api.level.structures;
 
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 
@@ -72,6 +73,9 @@ public class CapabilityWorldStructures implements ICapabilitySerializable<Compou
         BoundingBox bounds;
         List<INamedPart> buildings = Lists.newArrayList();
 
+        private int hash = -1;
+        private String key;
+
         public Structure(CompoundTag tag)
         {
             this.deserializeNBT(tag);
@@ -81,6 +85,35 @@ public class CapabilityWorldStructures implements ICapabilitySerializable<Compou
         {
             this.name = name;
             this.bounds = box;
+        }
+
+        @Override
+        public int hashCode()
+        {
+            if (this.hash == -1) this.toString();
+            return this.hash;
+        }
+
+        @Override
+        public boolean equals(final Object obj)
+        {
+            if (!(obj instanceof INamedStructure)) return false;
+            return obj.toString().equals(this.toString());
+        }
+
+        @Override
+        public String toString()
+        {
+            this.key = this.getName() + " " + this.getTotalBounds();
+            this.hash = this.key.hashCode();
+            return this.key;
+        }
+
+        @SuppressWarnings("deprecation")
+        public void addBuilding(Building b)
+        {
+            this.bounds = this.bounds.encapsulate(b.getBounds());
+            if (!this.buildings.contains(b)) this.buildings.add(b);
         }
 
         @Override
@@ -144,10 +177,29 @@ public class CapabilityWorldStructures implements ICapabilitySerializable<Compou
         this.level = level;
     }
 
-    public void addStructure(Structure structure)
+    public void addStructure(Structure s)
     {
-        this.structures.add(structure);
-        StructureManager.addStructure(level.dimension(), structure);
+        if (!this.structures.contains(s)) this.structures.add(s);
+        StructureManager.addStructure(level.dimension(), s);
+    }
+
+    public void addBuilding(String structure, String building, BoundingBox bounds)
+    {
+        if (building == null) building = "unk_part";
+        Building b = new Building(building, bounds);
+        Set<INamedStructure> intersects = StructureManager.getColliding(level.dimension(), bounds);
+        Structure s = null;
+        if (!intersects.isEmpty())
+        {
+            for (var s2 : intersects) if (s2 instanceof Structure s1 && s2.getName().equals(structure))
+            {
+                s = s1;
+                break;
+            }
+        }
+        if (s == null) s = new Structure(structure, bounds);
+        s.addBuilding(b);
+        addStructure(s);
     }
 
     @Override
@@ -155,9 +207,7 @@ public class CapabilityWorldStructures implements ICapabilitySerializable<Compou
     {
         CompoundTag tag = new CompoundTag();
         ListTag list = new ListTag();
-        this.structures.forEach(b -> {
-            list.add(b.serializeNBT());
-        });
+        this.structures.forEach(b -> list.add(b.serializeNBT()));
         tag.put("structures", list);
         return tag;
     }
@@ -165,7 +215,7 @@ public class CapabilityWorldStructures implements ICapabilitySerializable<Compou
     @Override
     public void deserializeNBT(CompoundTag nbt)
     {
-        ListTag list = nbt.getList("buildings", Tag.TAG_COMPOUND);
+        ListTag list = nbt.getList("structures", Tag.TAG_COMPOUND);
         this.structures.clear();
         list.forEach(tag -> {
             if (tag instanceof CompoundTag comp) this.addStructure(new Structure(comp));

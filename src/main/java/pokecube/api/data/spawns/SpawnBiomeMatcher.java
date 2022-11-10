@@ -21,7 +21,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.material.Material;
@@ -34,45 +33,11 @@ import pokecube.api.data.spawns.SpawnCheck.Weather;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.api.level.structures.StructureManager;
-import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.terrain.BiomeDatabase;
 import thut.api.level.terrain.BiomeType;
 
 public class SpawnBiomeMatcher
 {
-    public static interface StructureMatcher
-    {
-
-        static StructureMatcher or(final StructureMatcher A, final StructureMatcher B)
-        {
-            return new StructureMatcher()
-            {
-                @Override
-                public MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
-                {
-                    final MatchResult resA = A.structuresMatch(matcher, checker);
-                    if (resA == MatchResult.SUCCEED) return resA;
-                    final MatchResult resB = B.structuresMatch(matcher, checker);
-                    if (resB == MatchResult.SUCCEED) return resB;
-                    return resA == MatchResult.FAIL || resB == MatchResult.FAIL ? MatchResult.FAIL : MatchResult.PASS;
-                }
-            };
-        }
-
-        default MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
-        {
-            if (!matcher._validStructures.isEmpty())
-            {
-                final Set<INamedStructure> set = StructureManager.getFor(((Level) checker.world).dimension(),
-                        checker.location.getPos(), true);
-                for (var i : set) if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
-                return MatchResult.FAIL;
-            }
-            return MatchResult.PASS;
-        }
-    }
-
     public static final String TYPES = "types";
     public static final String TYPESBLACKLIST = "typesBlacklist";
 
