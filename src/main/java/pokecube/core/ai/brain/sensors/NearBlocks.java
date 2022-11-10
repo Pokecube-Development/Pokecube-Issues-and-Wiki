@@ -29,8 +29,8 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 
 public class NearBlocks extends Sensor<LivingEntity>
 {

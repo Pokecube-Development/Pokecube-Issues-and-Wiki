@@ -1,4 +1,4 @@
-package thut.api.terrain;
+package thut.api.level.terrain;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.event.entity.EntityEvent;

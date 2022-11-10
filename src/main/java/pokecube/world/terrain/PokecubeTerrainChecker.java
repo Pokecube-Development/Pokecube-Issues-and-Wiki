@@ -18,13 +18,13 @@ import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.GenericJigsawStructure;
+import thut.api.level.structures.StructureManager;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.TerrainChecker;
+import thut.api.level.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainSegment.ISubBiomeChecker;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.NamedVolumes.INamedStructure;
-import thut.api.terrain.StructureManager;
-import thut.api.terrain.TerrainChecker;
-import thut.api.terrain.TerrainSegment;
-import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
 import thut.core.common.handlers.ConfigHandler;
 
 public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeChecker

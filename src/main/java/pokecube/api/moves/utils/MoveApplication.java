@@ -41,8 +41,8 @@ import pokecube.core.moves.MovesUtils.StatDiff;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.utils.EntityTools;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 
 public class MoveApplication implements Comparable<MoveApplication>
 {

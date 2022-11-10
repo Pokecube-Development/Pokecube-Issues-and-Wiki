@@ -1,4 +1,4 @@
-package thut.api.terrain;
+package thut.api.level.terrain;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
@@ -16,8 +16,8 @@ import net.minecraftforge.event.level.ChunkWatchEvent;
 import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import thut.api.level.terrain.CapabilityTerrain.DefaultProvider;
 import thut.api.maths.Vector3;
-import thut.api.terrain.CapabilityTerrain.DefaultProvider;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.ThutCore;
@@ -99,7 +99,7 @@ public class TerrainManager
     }
 
     @SubscribeEvent
-    public static void onCapabilityAttach(final AttachCapabilitiesEvent<LevelChunk> event)
+    public static void onChunkCapabilityAttach(final AttachCapabilitiesEvent<LevelChunk> event)
     {
         if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP)) return;
         final LevelChunk chunk = event.getObject();

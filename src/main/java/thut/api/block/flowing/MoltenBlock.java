@@ -32,7 +32,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.item.ItemList;
-import thut.api.terrain.TerrainChecker;
+import thut.api.level.terrain.TerrainChecker;
 import thut.core.common.ThutCore;
 
 public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterloggedBlock

@@ -16,8 +16,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.api.item.ItemList;
+import thut.api.level.terrain.TerrainChecker;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainChecker;
 import thut.core.common.ThutCore;
 
 public interface IFlowingBlock

@@ -13,11 +13,11 @@ import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import thut.api.ThutCaps;
-import thut.api.terrain.ITerrainAffected;
-import thut.api.terrain.TerrainEffectEvent;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
-import thut.api.terrain.TerrainSegment.ITerrainEffect;
+import thut.api.level.terrain.ITerrainAffected;
+import thut.api.level.terrain.TerrainEffectEvent;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainSegment.ITerrainEffect;
 import thut.core.common.ThutCore;
 
 public class CapabilityTerrainAffected

@@ -15,11 +15,11 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.ITerrainProvider;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.ITerrainProvider;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
 
 public class SpawnCheck
 {

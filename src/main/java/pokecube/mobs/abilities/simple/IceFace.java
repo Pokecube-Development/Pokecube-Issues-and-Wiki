@@ -9,8 +9,8 @@ import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.database.Database;
 import pokecube.core.moves.PokemobTerrainEffects;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 
 @AbilityProvider(name = "ice-face")
 public class IceFace extends Ability

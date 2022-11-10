@@ -61,8 +61,8 @@ import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import thut.api.boom.ExplosionCustom;
+import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 

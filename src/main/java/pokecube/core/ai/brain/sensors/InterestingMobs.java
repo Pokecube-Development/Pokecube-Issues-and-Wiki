@@ -31,7 +31,7 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.RootTask;
-import thut.api.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainManager;
 
 public class InterestingMobs extends Sensor<LivingEntity>
 {

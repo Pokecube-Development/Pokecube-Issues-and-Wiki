@@ -1,4 +1,4 @@
-package thut.api.terrain;
+package thut.api.level.terrain;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

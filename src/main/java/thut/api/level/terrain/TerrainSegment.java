@@ -1,4 +1,4 @@
-package thut.api.terrain;
+package thut.api.level.terrain;
 
 import java.util.Arrays;
 import java.util.Collection;

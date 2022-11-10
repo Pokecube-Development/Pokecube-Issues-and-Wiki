@@ -7,10 +7,10 @@ import com.google.common.base.Predicate;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainSegment.ISubBiomeChecker;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.TerrainSegment;
-import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
 
 public class ConfigTerrainChecker implements ISubBiomeChecker
 {

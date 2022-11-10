@@ -10,7 +10,7 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.ThutCaps;
-import thut.api.terrain.CapabilityTerrain.ITerrainProvider;
+import thut.api.level.terrain.CapabilityTerrain.ITerrainProvider;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;

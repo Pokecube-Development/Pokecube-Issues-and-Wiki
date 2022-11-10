@@ -38,8 +38,8 @@ import pokecube.core.moves.damage.TerrainDamageSource.TerrainType;
 import pokecube.core.network.packets.PacketSyncTerrain;
 import pokecube.core.utils.AITools;
 import thut.api.Tracker;
+import thut.api.level.terrain.TerrainSegment.ITerrainEffect;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainSegment.ITerrainEffect;
 
 public class PokemobTerrainEffects implements ITerrainEffect
 {

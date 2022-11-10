@@ -23,7 +23,7 @@ import pokecube.core.eventhandlers.SpawnEventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
-import thut.api.terrain.BiomeType;
+import thut.api.level.terrain.BiomeType;
 
 public class PostProcessor implements BiConsumer<GenerationContext, List<PoolElementStructurePiece>>
 {

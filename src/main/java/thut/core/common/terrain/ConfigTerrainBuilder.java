@@ -13,8 +13,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.TerrainSegment;
 import thut.lib.RegHelper;
 
 public class ConfigTerrainBuilder

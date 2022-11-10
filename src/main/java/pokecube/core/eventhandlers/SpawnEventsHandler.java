@@ -58,10 +58,10 @@ import pokecube.core.utils.CapHolders;
 import pokecube.core.utils.TimePeriod;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
+import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
 import thut.api.util.JsonUtil;
 
 public class SpawnEventsHandler
