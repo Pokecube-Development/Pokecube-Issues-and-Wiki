@@ -29,6 +29,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
@@ -49,8 +50,8 @@ import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.api.terrain.BiomeType;
+import thut.api.terrain.NamedVolumes.INamedStructure;
 import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
 import thut.api.terrain.TerrainManager;
 import thut.api.terrain.TerrainSegment;
 import thut.core.client.gui.NpcScreen;
@@ -112,15 +113,19 @@ public class ClientInit
         Level level = Minecraft.getInstance().level;
 
         var regi = level.registryAccess().registry(Registry.STRUCTURE_REGISTRY);
-        Set<StructureInfo> structures = StructureManager.getNear(level.dimension(), v.getPos(), 5);
+        Set<INamedStructure> structures = StructureManager.getNear(level.dimension(), v.getPos(), 5, true);
         if (regi.isPresent())
         {
             for (var info : structures)
             {
-                var tags = regi.get().getHolderOrThrow(regi.get().getResourceKey(info.feature).get()).tags().toList();
-                List<ResourceLocation> keys = Lists.newArrayList();
-                for (var tag : tags) if (!tag.toString().contains(":mixin_")) keys.add(tag.location());
-                event.getLeft().add(info.getName() + " " + keys);
+                Object o = info.getWrapped();
+                if (o instanceof Structure feature)
+                {
+                    var tags = regi.get().getHolderOrThrow(regi.get().getResourceKey(feature).get()).tags().toList();
+                    List<ResourceLocation> keys = Lists.newArrayList();
+                    for (var tag : tags) if (!tag.toString().contains(":mixin_")) keys.add(tag.location());
+                    event.getLeft().add(info.getName() + " " + keys);
+                }
             }
         }
         if (Screen.hasAltDown())

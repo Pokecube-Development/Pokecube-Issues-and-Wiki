@@ -1,14 +1,11 @@
 package pokecube.world.terrain;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,11 +20,12 @@ import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.GenericJigsawStructure;
 import thut.api.maths.Vector3;
 import thut.api.terrain.BiomeType;
+import thut.api.terrain.NamedVolumes.INamedStructure;
 import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
 import thut.api.terrain.TerrainChecker;
 import thut.api.terrain.TerrainSegment;
 import thut.api.terrain.TerrainSegment.ISubBiomeChecker;
+import thut.core.common.handlers.ConfigHandler;
 
 public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeChecker
 {
@@ -56,40 +54,47 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         if (!(world instanceof ServerLevel rworld)) return BiomeType.NONE;
         if (caveAdjusted)
         {
-            final Set<StructureInfo> set = StructureManager.getFor(rworld.dimension(), v.getPos());
-            for (final StructureInfo info : set)
+            final Set<INamedStructure> set = StructureManager.getFor(rworld.dimension(), v.getPos(), true);
+            for (var info : set)
             {
                 String name = info.getName();
                 if (!name.contains(":")) name = "minecraft:" + name;
 
                 String subbiome = null;
-                Registry<Structure> registry = world.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
-                Optional<Holder<Structure>> opt_holder = registry.getHolder(registry.getId(info.feature));
-                opt_check:
-                if (!opt_holder.isEmpty())
+                var obj = info.getWrapped();
+                // first manually check structures to see if they define a
+                // subbiome internally, if so, set to that first.
+                if (obj instanceof Structure feature)
                 {
-                    Holder<Structure> holder = opt_holder.get();
-                    if (holder.value() instanceof GenericJigsawStructure config)
+                    var registry = world.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                    var opt_holder = registry.getHolder(registry.getId(feature));
+                    opt_check:
+                    if (!opt_holder.isEmpty())
                     {
-                        if (!config.biome_type.equals("none"))
+                        var holder = opt_holder.get();
+                        if (holder.value() instanceof GenericJigsawStructure config)
                         {
-                            subbiome = config.biome_type;
-                            break opt_check;
-                        }
-                    }
-                    for (var entry : TerrainChecker.struct_config_map.entrySet())
-                    {
-                        String key = entry.getKey();
-                        List<TagKey<Structure>> list = entry.getValue();
-                        boolean matches = list.stream().anyMatch(holder::is);
-                        if (matches)
-                        {
-                            subbiome = key;
-                            break;
+                            if (!config.biome_type.equals("none"))
+                            {
+                                subbiome = config.biome_type;
+                                break opt_check;
+                            }
                         }
                     }
                 }
-                if (subbiome == null && PokecubeCore.getConfig().structs_default_ruins) subbiome = "ruin";
+                // Now we check the tags.
+                var list = ConfigHandler.STRUCTURE_SUBBIOMES.getValues(TerrainChecker.tagKey);
+                for (var value : list)
+                {
+                    var key = value.name;
+                    if (info.is(key))
+                    {
+                        subbiome = value.getValue();
+                        break;
+                    }
+                }
+                if (subbiome == null && obj != null && PokecubeCore.getConfig().structs_default_ruins)
+                    subbiome = "ruin";
                 if (subbiome != null)
                 {
                     final BiomeType biom = BiomeType.getBiome(subbiome, true);

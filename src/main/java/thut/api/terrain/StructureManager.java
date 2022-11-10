@@ -22,6 +22,8 @@ import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraftforge.event.level.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import thut.api.terrain.NamedVolumes.INamedStructure;
+import thut.api.terrain.NamedVolumes.NamedStructureWrapper;
 import thut.core.common.ThutCore;
 
 public class StructureManager
@@ -48,7 +50,7 @@ public class StructureManager
                     .inflatedBy(amt);
         }
 
-        public boolean isNear(final BlockPos pos, final int distance)
+        public boolean isNear(final BlockPos pos, final int distance, boolean forTerrain)
         {
             if (this.start.getPieces().isEmpty()) return false;
             if (!this.inflate(this.start.getBoundingBox(), distance).isInside(pos)) return false;
@@ -60,7 +62,7 @@ public class StructureManager
             return false;
         }
 
-        public boolean isIn(final BlockPos pos)
+        public boolean isIn(final BlockPos pos, boolean forTerrain)
         {
             if (this.start.getPieces().isEmpty()) return false;
             if (!this.start.getBoundingBox().isInside(pos)) return false;
@@ -98,7 +100,7 @@ public class StructureManager
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof StructureInfo)) return false;
+            if (!(obj instanceof INamedStructure)) return false;
             return obj.toString().equals(this.toString());
         }
 
@@ -123,54 +125,45 @@ public class StructureManager
      * world.chunkExists returning true does not mean that you can just go and
      * ask for the chunk...
      */
-    public static Map<GlobalChunkPos, Set<StructureInfo>> map_by_pos = Maps.newHashMap();
+    public static Map<GlobalChunkPos, Set<INamedStructure>> map_by_pos = Maps.newHashMap();
 
-    private static Set<StructureInfo> getOrMake(final GlobalChunkPos pos)
+    private static Set<INamedStructure> getOrMake(final GlobalChunkPos pos)
     {
-        Set<StructureInfo> set = StructureManager.map_by_pos.get(pos);
+        Set<INamedStructure> set = StructureManager.map_by_pos.get(pos);
         if (set == null) StructureManager.map_by_pos.put(pos, set = Sets.newHashSet());
         return set;
     }
 
-    public static Set<StructureInfo> getFor(final ResourceKey<Level> dim, final BlockPos loc)
+    public static Set<INamedStructure> getFor(final ResourceKey<Level> dim, final BlockPos loc, boolean forSubbiome)
     {
         final GlobalChunkPos pos = new GlobalChunkPos(dim, new ChunkPos(loc));
-        final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
+        final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(pos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
-        final Set<StructureInfo> matches = Sets.newHashSet();
-        for (final StructureInfo i : forPos) if (i.isIn(loc)) matches.add(i);
+        final Set<INamedStructure> matches = Sets.newHashSet();
+        for (final INamedStructure i : forPos) if (i.isIn(loc, forSubbiome)) matches.add(i);
         return matches;
     }
 
-    public static Set<StructureInfo> getFor(final ServerLevel dim, final BlockPos loc)
-    {
-        return getFor(dim.dimension(), loc);
-    }
-
-    public static Set<StructureInfo> getNear(final ServerLevel dim, final BlockPos loc, int distance)
-    {
-        return getNear(dim.dimension(), loc, distance);
-    }
-
-    private static Set<StructureInfo> getNearInt(final ResourceKey<Level> dim, final BlockPos loc, final ChunkPos pos,
-            final int distance)
+    private static Set<INamedStructure> getNearInt(final ResourceKey<Level> dim, final BlockPos loc, final ChunkPos pos,
+            final int distance, boolean forSubbiome)
     {
         final GlobalChunkPos gpos = new GlobalChunkPos(dim, pos);
-        final Set<StructureInfo> forPos = StructureManager.map_by_pos.getOrDefault(gpos, Collections.emptySet());
+        final Set<INamedStructure> forPos = StructureManager.map_by_pos.getOrDefault(gpos, Collections.emptySet());
         if (forPos.isEmpty()) return forPos;
-        final Set<StructureInfo> matches = Sets.newHashSet();
-        for (final StructureInfo i : forPos) if (i.isNear(loc, distance)) matches.add(i);
+        final Set<INamedStructure> matches = Sets.newHashSet();
+        for (final INamedStructure i : forPos) if (i.isNear(loc, distance, forSubbiome)) matches.add(i);
         return matches;
     }
 
-    public static Set<StructureInfo> getNear(final ResourceKey<Level> dim, final BlockPos loc, final int distance)
+    public static Set<INamedStructure> getNear(final ResourceKey<Level> dim, final BlockPos loc, final int distance,
+            boolean forSubbiome)
     {
-        final Set<StructureInfo> matches = Sets.newHashSet();
+        final Set<INamedStructure> matches = Sets.newHashSet();
         final ChunkPos origin = new ChunkPos(loc);
         int dr = SectionPos.blockToSectionCoord(distance);
         dr = Math.max(dr, 1);
         for (int x = origin.x - dr; x <= origin.x + dr; x++) for (int z = origin.z - dr; z <= origin.z + dr; z++)
-            matches.addAll(StructureManager.getNearInt(dim, loc, new ChunkPos(x, z), distance));
+            matches.addAll(StructureManager.getNearInt(dim, loc, new ChunkPos(x, z), distance, forSubbiome));
         return matches;
     }
 
@@ -178,14 +171,14 @@ public class StructureManager
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         // The world is null when it is loaded off thread during worldgen!
-        if (!(evt.getLevel() instanceof Level w) || evt.getLevel().isClientSide()) return;
+        if (!(evt.getLevel() instanceof ServerLevel w) || evt.getLevel().isClientSide()) return;
         final ResourceKey<Level> dim = w.dimension();
         var reg = w.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
         for (final Entry<Structure, StructureStart> entry : evt.getChunk().getAllStarts()
                 .entrySet())
         {
             String name = reg.getKey(entry.getKey()).toString();
-            final StructureInfo info = new StructureInfo(name, entry);
+            final NamedStructureWrapper info = new NamedStructureWrapper(w, name, entry);
             if (!info.start.isValid()) continue;
 
             final BoundingBox b = info.start.getBoundingBox();
@@ -199,7 +192,7 @@ public class StructureManager
             {
                 final ChunkPos p = new ChunkPos(x, z);
                 final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<StructureInfo> set = StructureManager.getOrMake(pos);
+                final Set<INamedStructure> set = StructureManager.getOrMake(pos);
                 set.add(info);
             }
         }

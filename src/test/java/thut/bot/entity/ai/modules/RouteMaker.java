@@ -20,8 +20,8 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.phys.Vec3;
 import thut.api.Tracker;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
+import thut.api.terrain.NamedVolumes.INamedStructure;
 import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
 import thut.bot.ThutBot;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
@@ -287,14 +287,11 @@ public class RouteMaker extends AbstractBot
     {
         final ServerLevel world = (ServerLevel) this.player.level;
         int size = 32;
-        final Set<StructureInfo> near = StructureManager.getNear(world.dimension(), next, 0);
-        final ResourceLocation location = target;
-        final var reg = world.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
-        final Structure structure = reg.get(location);
+        final Set<INamedStructure> near = StructureManager.getNear(world.dimension(), next, 0, false);
         infos:
-        for (final StructureInfo i : near) if (i.start.getStructure() == structure)
+        for (final INamedStructure i : near) if (i.is(target.toString()))
         {
-            size = Math.max(i.start.getBoundingBox().getXSpan(), i.start.getBoundingBox().getZSpan());
+            size = Math.max(i.getTotalBounds().getXSpan(), i.getTotalBounds().getZSpan());
             break infos;
         }
         final Node n1 = new Node();
@@ -442,7 +439,7 @@ public class RouteMaker extends AbstractBot
                         BlockPos test_end = end.offset(-i * dir.x, 0, -i * dir.z);
                         player.level.getBlockState(test_end);
                         test_end = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, test_end);
-                        if (StructureManager.getNear(world, test_end, 8).isEmpty())
+                        if (StructureManager.getNear(world.dimension(), test_end, 8, false).isEmpty())
                         {
                             road_maker.end = new Vec3(test_end.getX(), test_end.getY(), test_end.getZ());
                             if (road_maker.next != null) break;
@@ -453,7 +450,7 @@ public class RouteMaker extends AbstractBot
                         BlockPos text_next = next.offset(i * dir.x, 0, i * dir.z);
                         player.level.getBlockState(text_next);
                         text_next = player.level.getHeightmapPos(Types.OCEAN_FLOOR_WG, text_next);
-                        if (StructureManager.getNear(world, text_next, 8).isEmpty())
+                        if (StructureManager.getNear(world.dimension(), text_next, 8, false).isEmpty())
                         {
                             road_maker.next = new Vec3(text_next.getX(), text_next.getY(), text_next.getZ());
                             if (road_maker.end != null) break;
