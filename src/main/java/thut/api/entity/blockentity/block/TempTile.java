@@ -182,11 +182,15 @@ public class TempTile extends BlockEntity implements ITickTile
             // Ensure the mob has same vertical velocity as us.
             entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
 
-            AABB bounds = here.bounds();
+            AABB bounds = here.bounds().move(this.getBlockPos()).move(tileV);
+            AABB eBounds = entity.getBoundingBox();
+
+            if (bounds.getCenter().y() > eBounds.getCenter().y()) return distance;
+
             var entityR = entity.position();
             double x = entityR.x();
-            double y = bounds.maxY + this.getBlockPos().getY() + tileV.y();
-            if (y > entity.getBoundingBox().maxY) y = entity.getY() + tileV.y();
+            double y = bounds.maxY;
+            if (y > eBounds.maxY) y = entity.getY() + tileV.y();
             double z = entityR.z();
             if (tileV.y() > 0) entity.setPos(x, y, z);
 

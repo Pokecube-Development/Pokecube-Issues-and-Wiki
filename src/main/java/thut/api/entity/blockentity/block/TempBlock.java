@@ -27,6 +27,7 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import thut.api.block.ITickTile;
 
@@ -70,6 +71,24 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)
     {
+        final BlockHitResult trace = event.getHitVec();
+        if (trace == null || !event.getEntity().isShiftKeyDown()) return;
+        final Level world = event.getEntity().getLevel();
+        final BlockEntity tile = world.getBlockEntity(event.getPos());
+        if (tile instanceof TempTile temp)
+        {
+            Player player = event.getPlayer();
+            BlockPos pos = event.getPos();
+            BlockState state = world.getBlockState(pos);
+            InteractionHand hand = event.getHand();
+            InteractionResult result = temp.use(state, world, pos, player, hand, trace);
+            if (result != InteractionResult.PASS)
+            {
+                event.setCanceled(true);
+                event.setUseBlock(Result.ALLOW);
+                event.setUseItem(Result.ALLOW);
+            }
+        }
     }
 
     /**

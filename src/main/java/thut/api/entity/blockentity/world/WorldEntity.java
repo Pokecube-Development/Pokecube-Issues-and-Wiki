@@ -103,15 +103,16 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
-    public boolean setBlock(final BlockPos pos, final BlockState newState, final int flags)
+    public boolean setBlock(BlockPos pos, BlockState newState, int flags, int recursionsLeft)
     {
         final ChunkAccess c = this.getChunk(pos);
+        BlockState old = this.getBlock(pos);
         boolean set = c.setBlockState(pos, newState, (flags & 64) != 0) != null;
         if (set)
         {
-            BlockState old = this.getBlock(pos);
             this.setBlock(pos, newState);
-            if (c instanceof LevelChunk chunk) this.markAndNotifyBlock(pos, chunk, old, newState, flags, 512);
+            if (c instanceof LevelChunk chunk)
+                this.markAndNotifyBlock(pos, chunk, old, newState, flags, recursionsLeft);
             if (!this.isClientSide())
             {
                 mob.getUpdater().resetShape();
@@ -119,21 +120,6 @@ public class WorldEntity extends Level implements IBlockEntityWorld
             }
         }
         return set;
-    }
-
-    @Override
-    public void neighborChanged(BlockPos p_46587_, Block p_46588_, BlockPos p_46589_)
-    {
-        // TODO Auto-generated method stub
-        super.neighborChanged(p_46587_, p_46588_, p_46589_);
-    }
-
-    @Override
-    public void markAndNotifyBlock(BlockPos p_46605_, LevelChunk levelchunk, BlockState blockstate, BlockState p_46606_,
-            int p_46607_, int p_46608_)
-    {
-        // TODO Auto-generated method stub
-        super.markAndNotifyBlock(p_46605_, levelchunk, blockstate, p_46606_, p_46607_, p_46608_);
     }
 
     @Override
@@ -296,12 +282,6 @@ public class WorldEntity extends Level implements IBlockEntityWorld
 
     @Override
     public boolean destroyBlock(final BlockPos p_225521_1_, final boolean p_225521_2_, final Entity p_225521_3_)
-    {
-        return false;
-    }
-
-    @Override
-    public boolean setBlock(final BlockPos pos, final BlockState state, final int flags, final int recursionLeft)
     {
         return false;
     }
