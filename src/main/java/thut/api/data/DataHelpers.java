@@ -1,4 +1,4 @@
-package pokecube.core.database.util;
+package thut.api.data;
 
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -7,12 +7,13 @@ import com.google.common.collect.Sets;
 import com.google.common.hash.Hashing;
 
 import net.minecraft.resources.ResourceLocation;
-import pokecube.api.PokecubeAPI;
-import pokecube.core.PokecubeCore;
 import thut.api.util.JsonUtil;
+import thut.core.common.ThutCore;
 
 public class DataHelpers
 {
+    public static boolean DEBUG = false;
+
     public static interface IResourceData
     {
         void reload(AtomicBoolean valid);
@@ -44,7 +45,7 @@ public class DataHelpers
             String ret = JsonUtil.gson.toJson(obj);
             if (!md5s.add(Hashing.goodFastHash(64).hashUnencodedChars(ret).padToLong() + ""))
             {
-                PokecubeAPI.LOGGER.warn("Warning, tried loading identical file for {}, skipping the copy.", l);
+                ThutCore.LOGGER.warn("Warning, tried loading identical file for {}, skipping the copy.", l);
                 return false;
             }
             return true;
@@ -66,7 +67,7 @@ public class DataHelpers
             long time = System.nanoTime();
             t.reload(valid);
             double dt = (System.nanoTime() - time) / 1e6;
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded: {} in {} ms", t.getKey(), dt);
+            if (DEBUG) ThutCore.logInfo("Loaded: {} in {} ms", t.getKey(), dt);
         });
         if (valid.get())
         {
@@ -74,10 +75,9 @@ public class DataHelpers
                 long time = System.nanoTime();
                 t.postReload();
                 double dt = (System.nanoTime() - time) / 1e6;
-                if (PokecubeCore.getConfig().debug_data)
-                    PokecubeAPI.logInfo("Processed: {} in {} ms", t.getKey(), dt);
+                if (DEBUG) ThutCore.logInfo("Processed: {} in {} ms", t.getKey(), dt);
             });
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Reloaded Custom Tags");
+            if (DEBUG) ThutCore.logInfo("Reloaded Custom Tags");
         }
     }
 

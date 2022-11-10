@@ -34,14 +34,15 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.ResourceData;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import thut.api.Tracker;
+import thut.api.data.DataHelpers;
+import thut.api.data.DataHelpers.ResourceData;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.lib.RegHelper;
+import thut.lib.ResourceHelper;
 
 public class ActionNaturePower implements IMoveWorldEffect
 {
@@ -89,7 +90,7 @@ public class ActionNaturePower implements IMoveWorldEffect
                 // trying to remove default behaviour. They can add new things
                 // by
                 // just adding another json file to the correct package.
-                final BufferedReader reader = PackFinder.getReader(r);
+                final BufferedReader reader = ResourceHelper.getReader(r);
                 if (reader == null) throw new FileNotFoundException(l.toString());
 
                 final ConfigChanger temp = JsonUtil.gson.fromJson(reader, ConfigChanger.class);

@@ -17,6 +17,7 @@ import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.IMergeable;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 
 public class PokemobEffects implements IMergeable<PokemobEffects>
 {
@@ -54,7 +55,7 @@ public class PokemobEffects implements IMergeable<PokemobEffects>
         resources.forEach((l, r) -> {
             try
             {
-                final PokemobEffects entry = loadDatabase(PackFinder.getStream(r));
+                final PokemobEffects entry = loadDatabase(ResourceHelper.getStream(r));
                 toLoad.compute(l.getPath(), (key, list) -> {
                     var ret = list;
                     if (ret == null) ret = Lists.newArrayList();

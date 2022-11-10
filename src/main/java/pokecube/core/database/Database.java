@@ -65,15 +65,16 @@ import pokecube.core.database.spawns.SpawnPresets;
 import pokecube.core.database.spawns.SpawnRateMask;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.database.types.CombatTypeLoader;
-import pokecube.core.database.util.DataHelpers;
 import pokecube.core.database.worldgen.StructureSpawnPresetLoader;
 import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.moves.implementations.MovesAdder;
+import thut.api.data.DataHelpers;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.annotation.XmlAttribute;
 import thut.core.xml.bind.annotation.XmlElement;
 import thut.core.xml.bind.annotation.XmlRootElement;
+import thut.lib.ResourceHelper;
 
 public class Database
 {
@@ -564,7 +565,7 @@ public class Database
         resources.forEach((file, resource) -> {
             try
             {
-                final BufferedReader reader = PackFinder.getReader(resource);
+                final BufferedReader reader = ResourceHelper.getReader(resource);
                 if (reader == null) throw new FileNotFoundException(file.toString());
                 final JsonObject database = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 reader.close();
@@ -606,7 +607,7 @@ public class Database
         resources.forEach((file, resource) -> {
             try
             {
-                final BufferedReader reader = PackFinder.getReader(resource);
+                final BufferedReader reader = ResourceHelper.getReader(resource);
                 if (reader == null) throw new FileNotFoundException(file.toString());
                 final StringBuffer sb = new StringBuffer();
                 String str;
@@ -635,7 +636,7 @@ public class Database
             try
             {
                 {
-                    final BufferedReader reader = PackFinder.getReader(resource);
+                    final BufferedReader reader = ResourceHelper.getReader(resource);
                     if (reader == null) throw new FileNotFoundException(file.toString());
                     final XMLStarterItems database = JsonUtil.gson.fromJson(reader, XMLStarterItems.class);
                     reader.close();
