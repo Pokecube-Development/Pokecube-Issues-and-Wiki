@@ -1,15 +1,13 @@
 package thut.api.terrain;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.core.BlockPos.MutableBlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -164,9 +162,8 @@ public class NamedVolumes
             if (INamedStructure.super.is(name)) return true;
             var key = Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY;
             var tag = TagKey.create(key, new ResourceLocation(name));
-            Registry<ConfiguredStructureFeature<?, ?>> registry = level.registryAccess().registryOrThrow(key);
-            Optional<Holder<ConfiguredStructureFeature<?, ?>>> opt_holder = registry
-                    .getHolder(registry.getId(this.feature));
+            var registry = level.registryAccess().registryOrThrow(key);
+            var opt_holder = registry.getHolder(registry.getId(this.feature));
             return opt_holder.get().is(tag);
         }
 
