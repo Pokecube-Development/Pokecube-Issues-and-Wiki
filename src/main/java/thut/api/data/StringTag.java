@@ -1,5 +1,6 @@
-package pokecube.core.database.tags;
+package thut.api.data;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.Reader;
 import java.util.Collections;
@@ -8,6 +9,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.function.Function;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -17,12 +19,10 @@ import com.google.gson.GsonBuilder;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import pokecube.api.PokecubeAPI;
-import pokecube.core.database.resources.PackFinder;
-import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.IResourceData;
+import thut.api.data.DataHelpers.IResourceData;
 import thut.api.util.UnderscoreIgnore;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class StringTag<T> implements IResourceData
 {
@@ -32,6 +32,10 @@ public class StringTag<T> implements IResourceData
         gson = new GsonBuilder().registerTypeAdapter(StringValue.class, StringValueAdaptor.INSTANCE).setPrettyPrinting()
                 .disableHtmlEscaping().setExclusionStrategies(UnderscoreIgnore.INSTANCE).create();
     }
+
+    public static Function<String, Map<ResourceLocation, List<Resource>>> RESOURCE_PROVIDER = name -> Collections
+            .emptyMap();
+    public static Function<Resource, BufferedReader> READER_PROVIDER = ResourceHelper::getReader;
 
     public static class StringValue<T>
     {
@@ -100,13 +104,13 @@ public class StringTag<T> implements IResourceData
                 final String tag = s.replace("#", "");
                 if (checked.contains(tag))
                 {
-                    PokecubeAPI.LOGGER.warn("Warning, Recursive tags list! {}", checked);
+                    ThutCore.LOGGER.warn("Warning, Recursive tags list! {}", checked);
                     continue;
                 }
                 final TagHolder<T> incl = parent.tagsMap.get(tag);
                 if (incl == null)
                 {
-                    PokecubeAPI.LOGGER.warn("Warning, Tag not found for {}", s);
+                    ThutCore.LOGGER.warn("Warning, Tag not found for {}", s);
                     continue;
                 }
                 this._includes.add(incl);
@@ -136,7 +140,7 @@ public class StringTag<T> implements IResourceData
         try
         {
             final String path = new ResourceLocation(this.tagPath).getPath();
-            var resources = PackFinder.getAllJsonResources(path);
+            var resources = RESOURCE_PROVIDER.apply(path);
             this.validLoad = !resources.isEmpty();
             resources.forEach((l, r) -> {
                 if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
@@ -147,7 +151,7 @@ public class StringTag<T> implements IResourceData
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.error("Error reloading tags for {}", this.tagPath);
+            ThutCore.LOGGER.error("Error reloading tags for {}", this.tagPath);
             e.printStackTrace();
         }
         if (this.validLoad) valid.set(true);
@@ -186,7 +190,7 @@ public class StringTag<T> implements IResourceData
             final TagHolder<T> tagged = new TagHolder<T>();
             for (final Resource resource : resources)
             {
-                final Reader reader = PackFinder.getReader(resource);
+                final Reader reader = READER_PROVIDER.apply(resource);
                 @SuppressWarnings("unchecked")
                 final TagHolder<T> temp = gson.fromJson(reader, TagHolder.class);
                 temp.postProcess();
@@ -218,11 +222,11 @@ public class StringTag<T> implements IResourceData
         }
         catch (final FileNotFoundException e)
         {
-            PokecubeAPI.logDebug("No Tag: {}", tagLoc);
+            ThutCore.logDebug("No Tag: {}", tagLoc);
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.error("Error reading tag " + tagLoc, e);
+            ThutCore.LOGGER.error("Error reading tag " + tagLoc, e);
         }
         return false;
     }

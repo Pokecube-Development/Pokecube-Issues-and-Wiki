@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
@@ -337,5 +338,32 @@ public class ThutCore
     public static ConfigHandler getConfig()
     {
         return conf;
+    }
+
+    public static void log(Consumer<Object> logger, Object... args)
+    {
+        String key = args[0].toString();
+        if (args.length == 1) logger.accept(key);
+        else
+        {
+            for (int i = 1; i < args.length; i++)
+            {
+                Object o = args[i];
+                // TODO regex for {} instead to support number formatting like
+                // {:.2f}
+                key = key.replaceFirst("\\{\\}", o == null ? "null" : o.toString());
+            }
+            logger.accept(key);
+        }
+    }
+
+    public static void logInfo(Object... args)
+    {
+        log(LOGGER::info, args);
+    }
+
+    public static void logDebug(Object... args)
+    {
+        log(LOGGER::debug, args);
     }
 }

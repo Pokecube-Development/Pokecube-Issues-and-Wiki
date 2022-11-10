@@ -16,9 +16,10 @@ import pokecube.api.PokecubeAPI;
 import pokecube.core.database.genes.Mutations.Mutation;
 import pokecube.core.database.genes.Mutations.MutationHolder;
 import pokecube.core.database.resources.PackFinder;
-import pokecube.core.database.util.DataHelpers;
-import pokecube.core.database.util.DataHelpers.ResourceData;
+import thut.api.data.DataHelpers;
+import thut.api.data.DataHelpers.ResourceData;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 
 public class MutationHelper extends ResourceData
 {
@@ -63,7 +64,7 @@ public class MutationHelper extends ResourceData
             // wants to edit an existing one, it means they are most likely
             // trying to remove default behaviour. They can add new things by
             // just adding another json file to the correct package.
-            final BufferedReader reader = PackFinder.getReader(r);
+            final BufferedReader reader = ResourceHelper.getReader(r);
             if (reader == null) throw new FileNotFoundException(l.toString());
             try
             {

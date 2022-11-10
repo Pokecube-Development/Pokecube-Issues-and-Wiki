@@ -36,6 +36,7 @@ import pokecube.core.database.resources.PackFinder;
 import pokecube.core.legacy.RegistryChangeFixer;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 
 public class JsonPokedexEntry
         implements Consumer<PokedexEntry>, IMergeable<JsonPokedexEntry>, Comparable<JsonPokedexEntry>
@@ -363,7 +364,7 @@ public class JsonPokedexEntry
         resources.forEach((l, r) -> {
             try
             {
-                final JsonPokedexEntry entry = loadDatabase(PackFinder.getStream(r));
+                final JsonPokedexEntry entry = loadDatabase(ResourceHelper.getStream(r));
                 toLoad.compute(entry.name, (key, list) -> {
                     var ret = list;
                     if (ret == null) ret = Lists.newArrayList();

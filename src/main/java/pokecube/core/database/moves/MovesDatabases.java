@@ -23,6 +23,7 @@ import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 
 public class MovesDatabases
 {
@@ -41,7 +42,7 @@ public class MovesDatabases
         resources.forEach((l, r) -> {
             try
             {
-                final InputStreamReader reader = new InputStreamReader(PackFinder.getStream(r));
+                final InputStreamReader reader = new InputStreamReader(ResourceHelper.getStream(r));
                 Move database = JsonUtil.gson.fromJson(reader, Move.class);
                 reader.close();
 
@@ -63,7 +64,7 @@ public class MovesDatabases
         resources.forEach((l, r) -> {
             try
             {
-                final InputStreamReader reader = new InputStreamReader(PackFinder.getStream(r));
+                final InputStreamReader reader = new InputStreamReader(ResourceHelper.getStream(r));
                 Animation database = JsonUtil.gson.fromJson(reader, Animation.class);
                 reader.close();
 

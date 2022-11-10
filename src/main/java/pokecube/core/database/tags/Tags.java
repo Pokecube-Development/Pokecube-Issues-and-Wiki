@@ -1,6 +1,7 @@
 package pokecube.core.database.tags;
 
 import pokecube.core.database.genes.MutationHelper;
+import thut.api.data.StringTag;
 
 public class Tags
 {

@@ -38,6 +38,7 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 
 public class BerryGenManager
 {
@@ -196,7 +197,7 @@ public class BerryGenManager
             try
             {
                 BerryConfig loaded;
-                final Reader reader = PackFinder.getReader(resource);
+                final Reader reader = ResourceHelper.getReader(resource);
                 if (reader == null) throw new FileNotFoundException(s.toString());
                 loaded = JsonUtil.gson.fromJson(reader, BerryConfig.class);
                 reader.close();

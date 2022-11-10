@@ -47,6 +47,7 @@ import pokecube.core.ai.npc.Schedules;
 import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.database.Database;
+import pokecube.core.database.resources.PackFinder;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.DispenseBehaviors;
 import pokecube.core.handlers.PaintingsHandler;
@@ -71,6 +72,7 @@ import pokecube.core.utils.Permissions;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
 import thut.api.ThutCaps;
+import thut.api.data.StringTag;
 import thut.api.entity.CopyCaps;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
@@ -213,6 +215,8 @@ public class PokecubeCore
     public PokecubeCore()
     {
         PokecubeMod.setLogger(PokecubeAPI.LOGGER);
+
+        StringTag.RESOURCE_PROVIDER = PackFinder::getAllJsonResources;
 
         // Initialize the items and blocks.
         PokecubeItems.init();

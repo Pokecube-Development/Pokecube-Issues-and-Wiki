@@ -63,4 +63,14 @@ public class ResourceHelper
             return false;
         }
     }
+
+    public static InputStream getStream(Resource r)
+    {
+        return r.getInputStream();
+    }
+
+    public static BufferedReader getReader(Resource r)
+    {
+        return new BufferedReader(new InputStreamReader(r.getInputStream(), StandardCharsets.UTF_8));
+    }
 }

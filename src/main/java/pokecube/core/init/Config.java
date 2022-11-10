@@ -38,6 +38,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.api.data.DataHelpers;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -782,6 +783,8 @@ public class Config extends ConfigData
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
+        
+        DataHelpers.DEBUG = this.debug_data;
 
         this.berryStackScale = Math.max(1, this.berryStackScale);
 

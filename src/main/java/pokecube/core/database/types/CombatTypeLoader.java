@@ -15,6 +15,7 @@ import net.minecraft.server.packs.resources.Resource;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.PokeType;
 import pokecube.core.database.resources.PackFinder;
+import thut.lib.ResourceHelper;
 
 public class CombatTypeLoader
 {
@@ -90,7 +91,7 @@ public class CombatTypeLoader
         resources.forEach((s, r) -> {
             try
             {
-                BufferedReader reader = PackFinder.getReader(r);
+                BufferedReader reader = ResourceHelper.getReader(r);
                 CombatTypes types = CombatTypeLoader.gson.fromJson(reader, CombatTypes.class);
                 if (!types.types.isEmpty()) loaded.add(types);
                 reader.close();

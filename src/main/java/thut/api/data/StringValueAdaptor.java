@@ -1,4 +1,4 @@
-package pokecube.core.database.tags;
+package thut.api.data;
 
 import java.lang.reflect.Type;
 
@@ -7,7 +7,7 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
-import pokecube.core.database.tags.StringTag.StringValue;
+import thut.api.data.StringTag.StringValue;
 
 public class StringValueAdaptor implements JsonDeserializer<StringValue<?>>
 {

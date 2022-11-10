@@ -82,30 +82,6 @@ public class PackFinder implements RepositorySource
         return ret;
     }
 
-    public static InputStream getStream(Resource r)
-    {
-        try
-        {
-            return r.open();
-        }
-        catch (IOException e)
-        {
-            return null;
-        }
-    }
-
-    public static BufferedReader getReader(Resource r)
-    {
-        try
-        {
-            return r.openAsReader();
-        }
-        catch (IOException e)
-        {
-            return null;
-        }
-    }
-
     @Nullable
     public static BufferedReader getReader(ResourceLocation l)
     {

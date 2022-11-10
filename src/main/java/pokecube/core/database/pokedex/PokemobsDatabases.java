@@ -19,6 +19,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
+import thut.lib.ResourceHelper;
 
 public class PokemobsDatabases
 {
@@ -44,7 +45,7 @@ public class PokemobsDatabases
                     if (l.getPath().contains("database/pokemobs/pokedex_entries/")) return;
                     if (l.getPath().contains("database/pokemobs/spawns/")) return;
 
-                    final PokemobsJson database = PokemobsDatabases.loadDatabase(PackFinder.getStream(r));
+                    final PokemobsJson database = PokemobsDatabases.loadDatabase(ResourceHelper.getStream(r));
                     if (database != null)
                     {
                         database.pokemon.forEach(e -> e.name = ThutCore.trim(e.name));
