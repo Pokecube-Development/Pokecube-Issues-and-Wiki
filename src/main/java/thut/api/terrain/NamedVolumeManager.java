@@ -8,9 +8,9 @@ import com.google.common.collect.Lists;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
@@ -88,15 +88,14 @@ public class NamedVolumeManager
     {
         List<INamedPart> parts = Lists.newArrayList();
         final String name;
-        public ConfiguredStructureFeature<?, ?> feature;
+        public Structure feature;
         public StructureStart start;
         final ServerLevel level;
 
         private int hash = -1;
         private String key;
 
-        public NamedStructureWrapper(ServerLevel level, String name,
-                Entry<ConfiguredStructureFeature<?, ?>, StructureStart> entry)
+        public NamedStructureWrapper(ServerLevel level, String name, Entry<Structure, StructureStart> entry)
         {
             this.feature = entry.getKey();
             this.name = name;
