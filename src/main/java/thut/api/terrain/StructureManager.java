@@ -9,7 +9,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
@@ -17,8 +16,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import net.minecraftforge.event.level.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -28,97 +25,6 @@ import thut.core.common.ThutCore;
 
 public class StructureManager
 {
-    public static class StructureInfo
-    {
-        private String name = null;
-        public Structure feature;
-        public StructureStart start;
-
-        private int hash = -1;
-        private String key;
-
-        public StructureInfo(String name, final Entry<Structure, StructureStart> entry)
-        {
-            this.feature = entry.getKey();
-            this.name = name;
-            this.start = entry.getValue();
-        }
-
-        private BoundingBox inflate(final BoundingBox other, final int amt)
-        {
-            return new BoundingBox(other.minX(), other.minY(), other.minZ(), other.maxX(), other.maxY(), other.maxZ())
-                    .inflatedBy(amt);
-        }
-
-        public boolean isNear(final BlockPos pos, final int distance, boolean forTerrain)
-        {
-            if (this.start.getPieces().isEmpty()) return false;
-            if (!this.inflate(this.start.getBoundingBox(), distance).isInside(pos)) return false;
-            synchronized (this.start.getPieces())
-            {
-                for (final StructurePiece p1 : this.start.getPieces())
-                    if (this.isIn(this.inflate(p1.getBoundingBox(), distance), pos)) return true;
-            }
-            return false;
-        }
-
-        public boolean isIn(final BlockPos pos, boolean forTerrain)
-        {
-            if (this.start.getPieces().isEmpty()) return false;
-            if (!this.start.getBoundingBox().isInside(pos)) return false;
-            synchronized (this.start.getPieces())
-            {
-                for (final StructurePiece p1 : this.start.getPieces())
-                    if (this.isIn(p1.getBoundingBox(), pos)) return true;
-            }
-            return false;
-        }
-
-        private boolean isIn(final BoundingBox b, BlockPos pos)
-        {
-            final int x1 = pos.getX();
-            final int y1 = pos.getY();
-            final int z1 = pos.getZ();
-            MutableBlockPos mpos = new MutableBlockPos();
-            for (int x = x1; x < x1 + TerrainSegment.GRIDSIZE; x++)
-                for (int y = y1; y < y1 + TerrainSegment.GRIDSIZE; y++)
-                    for (int z = z1; z < z1 + TerrainSegment.GRIDSIZE; z++)
-            {
-                mpos.set(x, y, z);
-                if (b.isInside(mpos)) return true;
-            }
-            return false;
-        }
-
-        @Override
-        public int hashCode()
-        {
-            if (this.hash == -1) this.toString();
-            return this.hash;
-        }
-
-        @Override
-        public boolean equals(final Object obj)
-        {
-            if (!(obj instanceof INamedStructure)) return false;
-            return obj.toString().equals(this.toString());
-        }
-
-        @Override
-        public String toString()
-        {
-            if (this.start.getPieces().isEmpty()) return this.getName();
-            if (this.key == null) this.key = this.getName() + " " + this.start.getBoundingBox();
-            this.hash = this.key.hashCode();
-            return this.key;
-        }
-
-        public String getName()
-        {
-            return name;
-        }
-    }
-
     /**
      * This is a cache of loaded chunks, it is used to prevent thread lock
      * contention when trying to look up a chunk, as it seems that
