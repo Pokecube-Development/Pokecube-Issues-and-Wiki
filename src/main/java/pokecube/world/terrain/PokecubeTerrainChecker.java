@@ -1,6 +1,5 @@
 package pokecube.world.terrain;
 
-import java.util.Optional;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
@@ -72,14 +71,13 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 // subbiome internally, if so, set to that first.
                 if (obj instanceof ConfiguredStructureFeature<?, ?> feature)
                 {
-                    Registry<ConfiguredStructureFeature<?, ?>> registry = world.registryAccess()
+                    var registry = world.registryAccess()
                             .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-                    Optional<Holder<ConfiguredStructureFeature<?, ?>>> opt_holder = registry
-                            .getHolder(registry.getId(feature));
+                    var opt_holder = registry.getHolder(registry.getId(feature));
                     opt_check:
                     if (!opt_holder.isEmpty())
                     {
-                        Holder<ConfiguredStructureFeature<?, ?>> holder = opt_holder.get();
+                        var holder = opt_holder.get();
                         if (holder.value().config instanceof ExpandedJigsawConfiguration config)
                         {
                             if (!config.biome_type.equals("none"))
