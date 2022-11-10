@@ -17,7 +17,6 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
-import thut.api.terrain.StructureManager.StructureInfo;
 
 public class NamedVolumes
 {
@@ -137,7 +136,7 @@ public class NamedVolumes
         @Override
         public boolean equals(final Object obj)
         {
-            if (!(obj instanceof StructureInfo)) return false;
+            if (!(obj instanceof INamedStructure)) return false;
             return obj.toString().equals(this.toString());
         }
 
