@@ -15,9 +15,9 @@ import pokecube.core.moves.PokemobTerrainEffects.EffectType;
 import pokecube.core.moves.PokemobTerrainEffects.EntryEffectType;
 import pokecube.core.network.packets.PacketSyncTerrain;
 import thut.api.Tracker;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 
 public class TerrainMove implements IMove

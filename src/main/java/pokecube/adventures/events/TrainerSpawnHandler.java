@@ -61,8 +61,8 @@ import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.eventhandlers.SpawnEventsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
+import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 

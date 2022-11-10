@@ -41,8 +41,8 @@ import pokecube.core.database.resources.PackFinder;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import pokecube.world.gen.structures.processors.NotRuleProcessor;
+import thut.api.level.terrain.BiomeDatabase;
 import thut.api.maths.Vector3;
-import thut.api.terrain.BiomeDatabase;
 import thut.api.util.JsonUtil;
 import thut.lib.ResourceHelper;
 

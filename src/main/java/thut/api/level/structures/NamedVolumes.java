@@ -1,4 +1,4 @@
-package thut.api.terrain;
+package thut.api.level.structures;
 
 import java.util.List;
 import java.util.Map.Entry;
@@ -17,6 +17,7 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.api.level.terrain.TerrainSegment;
 
 public class NamedVolumes
 {

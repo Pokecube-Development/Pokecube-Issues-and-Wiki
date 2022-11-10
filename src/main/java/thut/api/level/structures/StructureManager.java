@@ -1,4 +1,4 @@
-package thut.api.terrain;
+package thut.api.level.structures;
 
 import java.util.Collections;
 import java.util.Map;
@@ -18,10 +18,14 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.world.ChunkEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import thut.api.terrain.NamedVolumes.INamedStructure;
-import thut.api.terrain.NamedVolumes.NamedStructureWrapper;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.NamedVolumes.NamedStructureWrapper;
+import thut.api.level.terrain.GlobalChunkPos;
+import thut.api.level.terrain.ITerrainProvider;
+import thut.api.level.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
 public class StructureManager
@@ -33,6 +37,23 @@ public class StructureManager
      * ask for the chunk...
      */
     public static Map<GlobalChunkPos, Set<INamedStructure>> map_by_pos = Maps.newHashMap();
+
+    public static void addStructure(ResourceKey<Level> dim, INamedStructure structure)
+    {
+        final BoundingBox b = structure.getTotalBounds();
+        if (b.getXSpan() > 2560 || b.getZSpan() > 2560)
+        {
+            ThutCore.LOGGER.warn("Warning, too big box for {}: {}", structure.getName(), b);
+            return;
+        }
+        for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
+        {
+            final ChunkPos p = new ChunkPos(x, z);
+            final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
+            final Set<INamedStructure> set = StructureManager.getOrMake(pos);
+            set.add(structure);
+        }
+    }
 
     public static Set<INamedStructure> getOrMake(final GlobalChunkPos pos)
     {
@@ -75,6 +96,14 @@ public class StructureManager
     }
 
     @SubscribeEvent
+    public static void onLevelCapabilityAttach(final AttachCapabilitiesEvent<Level> event)
+    {
+        if (!(event.getObject() instanceof ServerLevel level)) return;
+        if (event.getCapabilities().containsKey(TerrainManager.TERRAINCAP)) return;
+        event.addCapability(TerrainManager.TERRAINCAP, new CapabilityWorldStructures(level));
+    }
+
+    @SubscribeEvent
     public static void onChunkLoad(final ChunkEvent.Load evt)
     {
         // The world is null when it is loaded off thread during worldgen!
@@ -88,20 +117,7 @@ public class StructureManager
             final NamedStructureWrapper info = new NamedStructureWrapper(w, name, entry);
             if (!info.start.isValid()) continue;
 
-            final BoundingBox b = info.start.getBoundingBox();
-            if (b.getXSpan() > 2560 || b.getZSpan() > 2560)
-            {
-                ThutCore.LOGGER.warn("Warning, too big box for {}: {}", info.getName(), b);
-                continue;
-            }
-
-            for (int x = b.minX >> 4; x <= b.maxX >> 4; x++) for (int z = b.minZ >> 4; z <= b.maxZ >> 4; z++)
-            {
-                final ChunkPos p = new ChunkPos(x, z);
-                final GlobalChunkPos pos = new GlobalChunkPos(dim, p);
-                final Set<INamedStructure> set = StructureManager.getOrMake(pos);
-                set.add(info);
-            }
+            addStructure(dim, info);
         }
     }
 

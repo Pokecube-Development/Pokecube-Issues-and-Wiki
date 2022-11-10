@@ -34,10 +34,10 @@ import pokecube.api.data.spawns.SpawnCheck.Weather;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.api.terrain.BiomeDatabase;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.NamedVolumes.INamedStructure;
-import thut.api.terrain.StructureManager;
+import thut.api.level.structures.StructureManager;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.terrain.BiomeDatabase;
+import thut.api.level.terrain.BiomeType;
 
 public class SpawnBiomeMatcher
 {

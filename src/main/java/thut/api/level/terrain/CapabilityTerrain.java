@@ -1,4 +1,4 @@
-package thut.api.terrain;
+package thut.api.level.terrain;
 
 import it.unimi.dsi.fastutil.ints.Int2BooleanArrayMap;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
@@ -127,7 +127,7 @@ public class CapabilityTerrain
             // Try to pull it from our array
             TerrainSegment ret = this.segMap.get(chunkY);
             // try to find any cached variants if they exist
-            final TerrainSegment cached = thut.api.terrain.ITerrainProvider
+            final TerrainSegment cached = thut.api.level.terrain.ITerrainProvider
                     .removeCached(((Level) this.chunk.getWorldForge()).dimension(), this.chunk.getPos(), chunkY);
 
             // If not found, make a new one, or use cached

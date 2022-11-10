@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.eventbus.api.Event;
 import thut.api.boom.ExplosionCustom;
-import thut.api.terrain.BiomeType;
+import thut.api.level.terrain.BiomeType;
 
 public class MeteorEvent extends Event
 {

@@ -57,7 +57,7 @@ import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
-import thut.api.terrain.StructureManager;
+import thut.api.level.structures.StructureManager;
 import thut.api.util.PermNodes;
 import thut.core.common.config.Config;
 import thut.core.common.handlers.ConfigHandler;

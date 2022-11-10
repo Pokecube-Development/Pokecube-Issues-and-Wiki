@@ -16,8 +16,9 @@ import thut.api.entity.IMobColourable;
 import thut.api.entity.IMobTexturable;
 import thut.api.entity.IShearable;
 import thut.api.entity.genetics.IMobGenetics;
-import thut.api.terrain.CapabilityTerrain.ITerrainProvider;
-import thut.api.terrain.ITerrainAffected;
+import thut.api.level.structures.CapabilityWorldStructures;
+import thut.api.level.terrain.CapabilityTerrain.ITerrainProvider;
+import thut.api.level.terrain.ITerrainAffected;
 import thut.api.world.mobs.data.DataSync;
 
 public class ThutCaps
@@ -28,6 +29,8 @@ public class ThutCaps
     public static final Capability<ILinkStorage> STORE = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static final Capability<ITerrainProvider> TERRAIN_PROVIDER = CapabilityManager.get(new CapabilityToken<>(){});
+
+    public static final Capability<CapabilityWorldStructures> WORLD_STRUCTURES = CapabilityManager.get(new CapabilityToken<>(){});
 
     public static final Capability<IOwnable> OWNABLE_CAP = CapabilityManager.get(new CapabilityToken<>(){});
 
@@ -71,5 +74,6 @@ public class ThutCaps
         event.register(ITerrainAffected.class);
         event.register(IMobGenetics.class);
         event.register(IMobTexturable.class);
+        event.register(CapabilityWorldStructures.class);
     }
 }
