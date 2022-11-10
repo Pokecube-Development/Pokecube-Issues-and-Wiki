@@ -129,7 +129,7 @@ public class TempTile extends BlockEntity implements ITickTile
         if (this.blockEntity != null)
         {
             final Vector3 r = new Vector3().set(this.worldPosition);
-            final VoxelShape shape = this.blockEntity.collider.buildShape();
+            final VoxelShape shape = this.blockEntity.getUpdater().buildShape();
             if (!shape.isEmpty()) ret = Shapes.join(Shapes.block(), shape.move(-r.x, -r.y, -r.z), BooleanOp.AND);
         }
         this.shape = ret;

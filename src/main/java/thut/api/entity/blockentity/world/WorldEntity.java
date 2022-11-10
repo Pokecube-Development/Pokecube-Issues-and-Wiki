@@ -27,6 +27,7 @@ import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.ChunkSource;
 import net.minecraft.world.level.chunk.ChunkStatus;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.entity.LevelCallback;
 import net.minecraft.world.level.entity.LevelEntityGetter;
@@ -42,6 +43,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.ticks.LevelTickAccess;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.core.common.network.EntityUpdate;
 
 public class WorldEntity extends Level implements IBlockEntityWorld
 {
@@ -104,7 +106,34 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     public boolean setBlock(final BlockPos pos, final BlockState newState, final int flags)
     {
         final ChunkAccess c = this.getChunk(pos);
-        return c.setBlockState(pos, newState, (flags & 64) != 0) != null;
+        boolean set = c.setBlockState(pos, newState, (flags & 64) != 0) != null;
+        if (set)
+        {
+            BlockState old = this.getBlock(pos);
+            this.setBlock(pos, newState);
+            if (c instanceof LevelChunk chunk) this.markAndNotifyBlock(pos, chunk, old, newState, flags, 512);
+            if (!this.isClientSide())
+            {
+                mob.getUpdater().resetShape();
+                EntityUpdate.sendEntityUpdate((Entity) this.mob);
+            }
+        }
+        return set;
+    }
+
+    @Override
+    public void neighborChanged(BlockPos p_46587_, Block p_46588_, BlockPos p_46589_)
+    {
+        // TODO Auto-generated method stub
+        super.neighborChanged(p_46587_, p_46588_, p_46589_);
+    }
+
+    @Override
+    public void markAndNotifyBlock(BlockPos p_46605_, LevelChunk levelchunk, BlockState blockstate, BlockState p_46606_,
+            int p_46607_, int p_46608_)
+    {
+        // TODO Auto-generated method stub
+        super.markAndNotifyBlock(p_46605_, levelchunk, blockstate, p_46606_, p_46607_, p_46608_);
     }
 
     @Override

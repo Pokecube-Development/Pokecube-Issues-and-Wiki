@@ -166,9 +166,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
      */
     @Override
     public void push(final Entity entity)
-    {
-        if (this.collider == null) this.collider = new BlockEntityUpdater(this);
-    }
+    {}
 
     @Override
     /** Applies the given player interaction to this Entity. */
@@ -416,6 +414,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     @Override
+    public BlockEntityUpdater getUpdater()
+    {
+        if (this.collider == null) this.collider = new BlockEntityUpdater(this);
+        return this.collider;
+    }
+
+    @Override
     public BlockPos getMax()
     {
         return this.boundMax;
@@ -464,6 +469,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                     bounds.getDouble("oriy"), bounds.getDouble("oriz"));
         }
         this.readBlocks(nbt);
+        this.getUpdater().resetShape();
     }
 
     public void readBlocks(final CompoundTag nbt)
@@ -512,9 +518,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         AABB box = super.getBoundingBox();
         final BlockPos size = this.getSize();
-        if (this.collider != null && (box.getXsize() != size.getX() + 1 || box.getYsize() != size.getY() + 1
+        if ((box.getXsize() != size.getX() + 1 || box.getYsize() != size.getY() + 1
                 || box.getZsize() != size.getZ() + 1))
-            box = this.collider.getBoundingBox();
+            box = this.getUpdater().getBoundingBox();
         return box;
     }
 
@@ -588,12 +594,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         super.tick();
         if (this.getBlocks() == null) return;
         if (!this.isAddedToWorld()) this.onAddedToWorld();
-        if (this.collider == null) this.collider = new BlockEntityUpdater(this);
-        this.setBoundingBox(this.collider.getBoundingBox());
+        this.setBoundingBox(this.getUpdater().getBoundingBox());
         this.yRot = 0;
         this.xRot = 0;
         this.preColliderTick();
-        this.collider.onUpdate();
+        this.getUpdater().onUpdate();
         this.doMotion();
         this.checkCollision();
     }
