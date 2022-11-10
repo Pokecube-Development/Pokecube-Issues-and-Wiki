@@ -34,7 +34,7 @@ public class StructureManager
      */
     public static Map<GlobalChunkPos, Set<INamedStructure>> map_by_pos = Maps.newHashMap();
 
-    private static Set<INamedStructure> getOrMake(final GlobalChunkPos pos)
+    public static Set<INamedStructure> getOrMake(final GlobalChunkPos pos)
     {
         Set<INamedStructure> set = StructureManager.map_by_pos.get(pos);
         if (set == null) StructureManager.map_by_pos.put(pos, set = Sets.newHashSet());
