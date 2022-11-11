@@ -51,7 +51,7 @@ public class JsonPokedexEntry
         public void accept(PokedexEntry t)
         {
             if (width == -1) width = height;
-            if (length == -1) length = height;
+            if (length == -1) length = width;
 
             t.height = this.height;
             t.width = this.width;
@@ -207,7 +207,7 @@ public class JsonPokedexEntry
     {
         if (remove) return Database.missingno;
         PokedexEntry old = Database.getEntry(this.name);
-        if (old != null && old != Database.missingno)
+        if (old != null && old != Database.missingno && !registered)
         {
             PokecubeAPI.LOGGER.warn("Duplicate entry for {}", this.name);
         }
@@ -216,7 +216,7 @@ public class JsonPokedexEntry
         entry.stock = this.stock;
         entry.base = this.is_default;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
-        if (entry.base)
+        if (entry.base && !registered)
         {
             Database.baseFormes.put(id, entry);
             Database.addEntry(entry);
@@ -399,7 +399,7 @@ public class JsonPokedexEntry
         loaded.sort(null);
 
         // Stage 1, create the pokedex entries
-        if (!registered) for (var load : loaded) load.toPokedexEntry();
+        for (var load : loaded) load.toPokedexEntry();
         // Stage 2 initialise them
         for (var load : loaded) load.initStage2(Database.getEntry(load.name));
 
