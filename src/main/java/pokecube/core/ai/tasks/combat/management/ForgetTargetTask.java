@@ -14,7 +14,6 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Entity.RemovalReason;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
@@ -115,6 +114,7 @@ public class ForgetTargetTask extends CombatTask
         }
 
         boolean deAgro = mate == this.target;
+        boolean exitBattle = false;
 
         final ForgetEntry entry = new ForgetEntry(this.world.getGameTime(), this.target);
         if (this.forgotten.containsKey(entry.mob.getUUID()))
@@ -157,6 +157,7 @@ public class ForgetTargetTask extends CombatTask
             if (bothWild && this.battleTime > ForgetTargetTask.maxWildBattleDur)
             {
                 deAgro = true;
+                exitBattle = true;
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Wild Battle too long.");
                 break agroCheck;
             }
@@ -186,6 +187,7 @@ public class ForgetTargetTask extends CombatTask
         if (mobA.getCombatState(CombatStates.FAINTED))
         {
             giveUpTimer /= 2;
+            exitBattle = true;
             if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("we Fainted.");
         }
 
@@ -222,6 +224,7 @@ public class ForgetTargetTask extends CombatTask
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("We are Dead!");
                 deAgro = true;
+                exitBattle = true;
                 break agroCheck;
             }
 
@@ -238,6 +241,7 @@ public class ForgetTargetTask extends CombatTask
             {
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Not Angry. losing target now.");
                 deAgro = true;
+                exitBattle = true;
                 break agroCheck;
             }
 
@@ -318,11 +322,7 @@ public class ForgetTargetTask extends CombatTask
             }
         }
         // All we do is deagro if needed.
-        if (deAgro)
-        {
-            this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
-            this.endBattle();
-        }
+        if (deAgro) this.doDeAgro(exitBattle);
     }
 
     @Override
@@ -337,27 +337,42 @@ public class ForgetTargetTask extends CombatTask
             this.target = target;
             this.pokemobTarget = PokemobCaps.getPokemobFor(this.target);
         }
-
-        if (this.target == null && this.entity.getBrain().hasMemoryValue(MemoryModuleType.HURT_BY_ENTITY))
-            this.target = this.entity.getBrain().getMemory(MemoryModuleType.HURT_BY_ENTITY).get();
-
         // Only run if we have a combat target
         return this.target != null;
     }
 
-    private void endBattle()
+    private void doDeAgro(boolean exitBattle)
     {
-        this.pokemob.getTargetFinder().clear();
-        this.pokemob.onSetTarget(null, true);
-        if (this.pokemobTarget != null && this.mutualDeagro)
+        // first check if we have another valid target in the battle, if so,
+        // switch over to that one.
+        if (exitBattle)
         {
-            this.pokemobTarget.getTargetFinder().clear();
-            this.pokemobTarget.onSetTarget(null, true);
+            this.pokemob.setAttackCooldown(PokecubeCore.getConfig().pokemobagressticks);
+            this.pokemob.getTargetFinder().clear();
+            this.pokemob.onSetTarget(null, true);
+            if (this.pokemobTarget != null && this.mutualDeagro)
+            {
+                this.pokemobTarget.getTargetFinder().clear();
+                this.pokemobTarget.onSetTarget(null, true);
+            }
+            BrainUtils.deagro(this.entity, this.mutualDeagro);
+            this.target = null;
+            this.pokemobTarget = null;
+            this.battleTime = 0;
+            this.ticksSinceSeen = 0;
         }
-        BrainUtils.deagro(this.entity, this.mutualDeagro);
-        this.target = null;
-        this.pokemobTarget = null;
-        this.battleTime = 0;
-        this.ticksSinceSeen = 0;
+        else
+        {
+            // Clear target finder anyway, to let it reset
+            this.pokemob.getTargetFinder().clear();
+
+            // Clear these as well.
+            BrainUtils.deagro(this.entity, this.mutualDeagro);
+            this.target = null;
+            this.pokemobTarget = null;
+            this.battleTime = 0;
+            this.ticksSinceSeen = 0;
+
+        }
     }
 }

@@ -656,7 +656,6 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
             else pokemob.getMoveStats().targetEnemy = living;
 
             MoveEntry move = pokemob.getSelectedMove();
-            System.out.println(move.name);
             // Check if is valid
             boolean valid = MoveApplicationRegistry.isValidTarget(pokemob, living, move);
 
