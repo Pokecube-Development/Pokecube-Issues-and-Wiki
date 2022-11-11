@@ -18,6 +18,7 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.BaseTask;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.trainers.IHasPokemobs.ITargetWatcher;
 import thut.api.IOwnable;
 import thut.api.OwnableCaps;
@@ -97,7 +98,8 @@ public abstract class BaseAgroTask extends BaseTask implements ITargetWatcher
         {
             if (mob instanceof Player player && this.entity instanceof Villager villager)
             {
-                final int rep = villager.getPlayerReputation(player) + rep_base;
+                int rawRep = TeamManager.sameTeam(player, villager) ? rep_cap : villager.getPlayerReputation(player);
+                int rep = rawRep + rep_base;
                 double s1 = s;
                 if (rep > rep_cap) s1 = 0;
                 else if (rep < rep_base) s1 *= 2;
