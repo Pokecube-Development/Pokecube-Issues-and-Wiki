@@ -134,6 +134,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     BlockPos originalPos = null;
     protected Vector3 F = new Vector3();
+    private Vec3 a = Vec3.ZERO;
+    private Vec3 v = Vec3.ZERO;
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final Level par1World)
     {
@@ -157,7 +159,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public Vec3 getV()
     {
-        return this.getEntityData().get(velocity).orElse(Vec3.ZERO);
+        return v;
+    }
+
+    public Vec3 getA()
+    {
+        return a;
     }
 
     /**
@@ -281,21 +288,24 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (this.isServerWorld())
         {
-            Vec3 v = this.getV().scale(0.8);
-            Vector3 a = this.getForceDirection();
+            Vec3 v = this.getV();
+            Vector3 F = this.getForceDirection();
             // Just cancel velocity in this case.
-            if (a.magSq() < 0.05)
+            if (F.magSq() < 0.05)
             {
-                this.move(MoverType.SELF, a.toVec3d());
+                this.move(MoverType.SELF, F.toVec3d());
                 this.setV(v = Vec3.ZERO);
                 this.getEntityData().set(position, Optional.of(this.position()));
             }
             else
             {
                 double vh = this.getSpeedHoriz();
-                double v_x = getSpeed(this.getX(), this.getX() + a.x, v.x(), vh, vh);
-                double v_y = getSpeed(this.getY(), this.getY() + a.y, v.y(), this.getSpeedUp(), this.getSpeedDown());
-                double v_z = getSpeed(this.getZ(), this.getZ() + a.z, v.z(), vh, vh);
+                double v_x = getSpeed(this.getX(), this.getX() + F.x, v.x(), vh, vh);
+                double v_y = getSpeed(this.getY(), this.getY() + F.y, v.y(), this.getSpeedUp(), this.getSpeedDown());
+                double v_z = getSpeed(this.getZ(), this.getZ() + F.z, v.z(), vh, vh);
+
+                Vec3 v2 = new Vec3(v_x, v_y, v_z);
+                a = v2.subtract(v);
                 this.setV(v = new Vec3(v_x, v_y, v_z));
             }
             if (v.lengthSqr() > 0)
@@ -314,7 +324,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             Vec3 r_1 = rOpt.get();
             Vec3 r_0 = this.position();
             Vec3 v = r_1.subtract(r_0);
-            this.getEntityData().set(velocity, Optional.of(v));
+            a = v.subtract(this.v);
+            this.v = v;
             if (v.lengthSqr() > 0)
             {
                 this.move(MoverType.SELF, v);
@@ -326,11 +337,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (this.isServerWorld())
         {
-            this.getEntityData().set(velocity, Optional.of(vec));
             Vec3 r = this.position();
-            Vec3 v = vec;
-            Vec3 a = F.normalize().scalarMult(this.getAccel()).toVec3d();
-            this.getEntityData().set(position, Optional.of(r.add(v).add(a)));
+            a = vec.subtract(this.v);
+            v = vec;
+            a = F.normalize().scalarMult(this.getAccel()).toVec3d();
+            this.getEntityData().set(position, Optional.of(r.add(v)));
         }
     }
 
@@ -343,16 +354,17 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         final double dr = destPos - pos;
         final float dr_dt2 = this.getAccel();
         final double t_toStop = Math.abs(dr_dt / dr_dt2);
-        final double stop_distance = dr_dt * t_toStop;
+        final double stop_distance = Math.abs(dr_dt * t_toStop);
 
         if (dr > 0)
         {
-            if (dr_dt <= 0)
+            if (dr_dt <= dr_dt2)
             {
                 dr_dt += dr_dt2;
                 return Math.min(dr_dt, speedPos);
             }
-            final boolean tooFast = stop_distance > dr;
+            dr_dt -= 0.1 * dr_dt2;
+            final boolean tooFast = stop_distance > dr + dr_dt2;
             final boolean tooSlow = dr_dt < speedPos;
             if (tooFast) dr_dt -= dr_dt2;
             else if (tooSlow) dr_dt += dr_dt2;
@@ -360,12 +372,13 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         }
         if (dr < 0)
         {
-            if (dr_dt >= 0)
+            if (dr_dt >= -dr_dt2)
             {
                 dr_dt -= dr_dt2;
                 return Math.max(dr_dt, -speedNeg);
             }
-            final boolean tooFast = stop_distance > -dr;
+            dr_dt += 0.1 * dr_dt2;
+            final boolean tooFast = stop_distance > -(dr - dr_dt2);
             final boolean tooSlow = dr_dt > -speedNeg;
             if (tooFast) dr_dt += dr_dt2;
             else if (tooSlow) dr_dt -= dr_dt2;
