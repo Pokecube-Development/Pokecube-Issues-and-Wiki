@@ -311,6 +311,7 @@ public class NpcType
         if (this.defaultTeam != null && mob.level instanceof ServerLevel level)
         {
             var team = level.getScoreboard().getPlayerTeam(defaultTeam);
+            if (team == null) team = level.getScoreboard().addPlayerTeam(defaultTeam);
             if (team != mob.getTeam()) level.getScoreboard().addPlayerToTeam(mob.getScoreboardName(), team);
         }
     }
