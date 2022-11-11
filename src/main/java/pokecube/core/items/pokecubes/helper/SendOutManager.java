@@ -67,6 +67,7 @@ public class SendOutManager
             rAbs.set(r).addTo(pos);
             final long diff = System.nanoTime() - start;
             if (diff > 2e6) break;
+            if (!world.isLoaded(rAbs.getPos())) continue;
             if (!Vector3.isVisibleRange(world, pos, rHat, r.mag())) continue;
             if (SendOutManager.valid(box.move(r.x, r.y, r.z), world)) return rAbs;
         }
