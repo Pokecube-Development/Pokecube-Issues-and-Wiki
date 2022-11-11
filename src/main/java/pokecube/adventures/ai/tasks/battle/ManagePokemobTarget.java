@@ -42,7 +42,6 @@ public class ManagePokemobTarget extends BaseBattleTask
                     && PokemobCaps.getPokemobFor(e) != null);
             if (!alternates.isEmpty()) newTarget = (LivingEntity) alternates.get(0);
         }
-
         // check if pokemob's target is same as trainers.
         if (mobTarget != newTarget && newTarget != null)
         {
