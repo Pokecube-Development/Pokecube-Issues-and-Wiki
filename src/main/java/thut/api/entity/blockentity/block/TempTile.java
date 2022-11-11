@@ -143,26 +143,30 @@ public class TempTile extends BlockEntity implements ITickTile
         var tileV = this.blockEntity.getV();
         var entityV = entity.getDeltaMovement();
 
-        var below = level.getBlockEntity(getBlockPos().below());
+        int n = 1;
+        var below = level.getBlockEntity(getBlockPos().below(n));
         var above = level.getBlockEntity(getBlockPos().above());
 
         VoxelShape here = this.getShape();
-        if (below instanceof TempTile tile)
+
+        while (below instanceof TempTile tile)
         {
             var there = tile.getShape();
-            if (here.isEmpty() && !there.isEmpty()) here = there.move(0, -1, 0);
+            if (here.isEmpty() && !there.isEmpty()) here = there.move(0, -n, 0);
             else if (!there.isEmpty())
             {
-                here = Shapes.join(here, there.move(0, -1, 0), BooleanOp.OR);
+                here = Shapes.join(here, there.move(0, -n, 0), BooleanOp.OR);
             }
+            n++;
+            below = level.getBlockEntity(getBlockPos().below(n));
         }
         if (above instanceof TempTile tile)
         {
             var there = tile.getShape();
-            if (here.isEmpty() && !there.isEmpty()) here = there.move(0, -1, 0);
+            if (here.isEmpty() && !there.isEmpty()) here = there.move(0, 1, 0);
             else if (!there.isEmpty())
             {
-                here = Shapes.join(here, there.move(0, -1, 0), BooleanOp.OR);
+                here = Shapes.join(here, there.move(0, 1, 0), BooleanOp.OR);
             }
         }
 
@@ -182,16 +186,17 @@ public class TempTile extends BlockEntity implements ITickTile
             // Ensure the mob has same vertical velocity as us.
             entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
 
-            AABB bounds = here.bounds().move(this.getBlockPos()).move(tileV);
-            AABB eBounds = entity.getBoundingBox();
-
-            if (bounds.getCenter().y() > eBounds.getCenter().y()) return distance;
+            AABB bounds = here.bounds().move(this.getBlockPos());
+            Player player = entity instanceof Player p ? p : null;
+            // Due to differences in local vs remote player motion, we need to
+            // only adjust by tileV if this is not the local player.
+            if (player == null || !player.isLocalPlayer()) bounds = bounds.move(tileV);
 
             var entityR = entity.position();
             double x = entityR.x();
-            double y = bounds.maxY;
-            if (y > eBounds.maxY) y = entity.getY() + tileV.y();
+            double y = bounds.maxY + tileV.y();
             double z = entityR.z();
+
             if (tileV.y() > 0) entity.setPos(x, y, z);
 
             double d0 = entity.getX();
