@@ -63,6 +63,9 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
     // Used for limiting how often checks for connected controllers are done.
     private int tick = 0;
 
+    // Used to decide the lift really is gone.
+    private int liftForgetTimer = 0;
+
     public ControllerTile(final BlockPos pos, final BlockState state)
     {
         this(TechCore.CONTROLTYPE.get(), pos, state);
@@ -346,7 +349,7 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         if (this.level instanceof IBlockEntityWorld) return;
 
         // Cleanup floor if the lift is gone.
-        if (this.floor > 0 && (lift == null || !lift.isAlive()))
+        if (this.floor > 0 && (lift == null || !lift.isAlive()) && liftForgetTimer > 20)
         {
             this.setLift(null);
             lift = null;
@@ -454,9 +457,15 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
                 return this.lift;
             }
 
-            if (this.lift == null) this.setLift(null);
+            if (this.lift == null)
+            {
+                // Give some time to decide if we want to clear the lift, for
+                // cases where things may load in in funny orders.
+                if (liftForgetTimer++ > 20) this.setLift(null);
+            }
             else
             {
+                liftForgetTimer = 0;
                 this.setLift(this.lift);
                 // Make sure that lift's floor is this one if it doesn't have
                 // one defined.
