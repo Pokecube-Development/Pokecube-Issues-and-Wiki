@@ -546,6 +546,7 @@ public class PokemobEventsHandler
                 final List<VoxelShape> hits = Lists.newArrayList();
                 // Find all voxel shapes in the area
                 BlockPos.betweenClosedStream(biggerBox).forEach(pos -> {
+                    if (!level.isLoaded(pos)) return;
                     final BlockState state = level.getBlockState(pos);
                     final VoxelShape shape = state.getCollisionShape(level, pos);
                     if (!shape.isEmpty()) hits.add(shape.move(pos.getX(), pos.getY(), pos.getZ()));
