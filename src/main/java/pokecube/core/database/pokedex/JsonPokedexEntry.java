@@ -267,6 +267,9 @@ public class JsonPokedexEntry
             entry.type2 = null;
             if (types.size() > 0) entry.type1 = PokeType.getType(types.get(0));
             if (types.size() > 1) entry.type2 = PokeType.getType(types.get(1));
+
+            if (entry.type1 == null) entry.type1 = PokeType.unknown;
+            if (entry.type2 == null) entry.type2 = PokeType.unknown;
         }
         if (this.forme_items != null) entry._forme_items = this.forme_items;
     }
