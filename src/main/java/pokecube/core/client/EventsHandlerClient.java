@@ -262,6 +262,7 @@ public class EventsHandlerClient
         final Player player = Minecraft.getInstance().player;
 
         boolean validToShow = true;
+        var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
         ItemStack held;
         if (!(held = player.getMainHandItem()).isEmpty() || (held = player.getOffhandItem()).isEmpty())
         {
@@ -271,7 +272,7 @@ public class EventsHandlerClient
 
         if (validToShow)
         {
-            Entity entity = Tools.getPointedEntity(player, 16, null, 1);
+            Entity entity = Tools.getPointedEntity(player, 32, selector, 1);
             if (entity != null)
             {
                 AABB box = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());

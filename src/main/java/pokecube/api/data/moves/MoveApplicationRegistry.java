@@ -9,7 +9,9 @@ import java.util.function.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
@@ -98,6 +100,20 @@ public class MoveApplicationRegistry
     public static boolean targetsAllyIfPossible(MoveApplication moveApplication)
     {
         return allyTargetMoves.contains(moveApplication.getName());
+    }
+
+    /**
+     * 
+     * @param user   - mob using the move
+     * @param target - target to test
+     * @param move   - move to use
+     * @return whether the move is a valid target.
+     */
+    public static boolean isValidTarget(IPokemob user, LivingEntity target, MoveEntry move)
+    {
+        MoveApplication test = new MoveApplication(move, user, target);
+        Predicate<MoveApplication> moveTester = MoveApplicationRegistry.getValidator(move);
+        return moveTester.test(test);
     }
 
     public static void preApply(MoveApplication moveApplication)

@@ -95,12 +95,7 @@ public class Battle
 
     public static Battle getBattle(final LivingEntity mob)
     {
-        if (!(mob.getLevel() instanceof ServerLevel level))
-        {
-            PokecubeAPI.LOGGER.error("Error checking for a battle on wrong side!");
-            PokecubeAPI.LOGGER.error(new IllegalAccessError());
-            return null;
-        }
+        if (!(mob.getLevel() instanceof ServerLevel level)) return null;
         final BattleManager manager = BattleManager.managers.get(level.dimension());
         return manager.getFor(mob);
     }

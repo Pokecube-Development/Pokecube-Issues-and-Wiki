@@ -150,9 +150,10 @@ public interface IHasMoves extends IHasStats
     @Nonnull
     default MoveEntry getSelectedMove()
     {
-        if (this.getMoveStats().selectedMove == null)
+        String name = this.getMove(this.getMoveIndex());
+        if (this.getMoveStats().selectedMove == null || !this.getMoveStats().selectedMove.name.equals(name))
         {
-            this.getMoveStats().selectedMove = MovesUtils.getMove(this.getMove(this.getMoveIndex()));
+            this.getMoveStats().selectedMove = MovesUtils.getMove(name);
             if (this.getMoveStats().selectedMove == null)
                 this.getMoveStats().selectedMove = MovesUtils.getMove(IMoveConstants.DEFAULT_MOVE);
         }
