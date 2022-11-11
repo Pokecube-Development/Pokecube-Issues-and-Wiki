@@ -230,10 +230,16 @@ public class StringTag<T> implements IResourceData
 
     public boolean isIn(String tag, String toCheck)
     {
-        return get(tag, toCheck) != null;
+        return getValueHolder(tag, toCheck) != null;
     }
 
     public T get(String tag, String toCheck)
+    {
+        var holder = this.getValueHolder(tag, toCheck);
+        return holder == null ? null : holder.getValue();
+    }
+
+    public StringValue<T> getValueHolder(String tag, String toCheck)
     {
         if (!toCheck.contains(":")) toCheck = "pokecube:" + ThutCore.trim(toCheck);
         if (!tag.contains(":")) tag = "pokecube:" + ThutCore.trim(tag);
@@ -242,7 +248,7 @@ public class StringTag<T> implements IResourceData
         {
             final TagHolder<T> holder = this.tagsMap.get(tag);
             var value = holder.isIn(toCheck);
-            if (value != null) return value.getValue();
+            if (value != null) return value;
         }
         return null;
     }
