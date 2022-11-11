@@ -55,14 +55,12 @@ public class AttackEntityHandler extends DefaultHandler
 
             // Construct a move application for move on self. If this was valid,
             // then we will handle it as "friendly" move processing.
-            MoveApplication test = new MoveApplication(move, pokemob, pokemob.getEntity());
-
-            Predicate<MoveApplication> moveTester = MoveApplicationRegistry.getValidator(move);
-            boolean applySelf = moveTester.test(test);
+            boolean applySelf = MoveApplicationRegistry.isValidTarget(pokemob, pokemob.getEntity(), move);
 
             if (applySelf)
             {
-                test.setTarget(living);
+                Predicate<MoveApplication> moveTester = MoveApplicationRegistry.getValidator(move);
+                MoveApplication test = new MoveApplication(move, pokemob, living);
                 if (moveTester.test(test))
                 {
                     // This case is a use of move on ally, for ally reasons,
