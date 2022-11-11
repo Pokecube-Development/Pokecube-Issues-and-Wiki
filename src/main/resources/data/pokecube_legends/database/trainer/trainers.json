@@ -2,6 +2,7 @@
   "trainers": [
     {
       "type": "rocket",
+      "team": "Team Rocket",
       "pokemon": "tauros,zubat,doduo,venomoth,skarmory,golem,rhydon,rhyperior,purugly,toxicroak,skuntank,yanma,koffing,magnemite,raticate,grimer,golbat,houndoom,arbok,geodude,graveler,drowzee,persian,murkrow,electrode,beedrill",
       "spawns": [
         {
@@ -30,6 +31,7 @@
     },
     {
       "type": "plasma",
+      "team": "Team Plasma",
       "pokemon": "patrat,purrloin,sandile,scraggy,watchog,trubbish,liepard,krokorok,garbodor,krookodile,golbat,grimer,koffing,raticate,muk,seviper,weezing,drapion,pawniard,whirlipede,deino,sneasel,scrafty,scolipede,foongus,zangoose,amoonguss",
       "gender": "Both"
     },
@@ -54,11 +56,13 @@
     },
     {
       "type": "aqua",
+      "team": "Team Aqua",
       "pokemon": "poochyena,carvanha,zubat,wailmer,grimer,psyduck,krabby,seaking,corphish,buizel,basculin,arrokuda",
       "gender": "Both"
     },
     {
       "type": "magma",
+      "team": "Team Magma",
       "pokemon": "poochyena,numel,zubat,baltoy,koffing,houndoom,magcargo,sandslash,bagon,shuppet",
       "gender": "Both"
     },
@@ -89,11 +93,13 @@
     },
     {
       "type": "jessie",
+      "team": "Team Rocket",
       "pokemon": "wobbuffet,morpeko-full-belly,seviper,yanmega,pumpkaboo-average,gourgeist-average,arbok,dustox,mimikyu-disguised,lickitung,frillish",
       "gender": "Female"
     },
     {
       "type": "james",
+      "team": "Team Rocket",
       "pokemon": "mime-jr,carnivine,inkay,cacnea,growlithe,chimecho,weezing,gyarados,victreebel,mareanie,yamask,amoonguss",
       "gender": "Male"
     },
@@ -104,6 +110,7 @@
     },
     {
       "type": "archie",
+      "team": "Team Aqua",
       "pokemon": "mightyena,golbat,sharpedo,crobat,muk,kyogre,sharpedo_mega,walrein,tentacruel",
       "gender": "Male"
     },
@@ -114,11 +121,13 @@
     },
     {
       "type": "maxie",
+      "team": "Team Magma",
       "pokemon": "mightyena,golbat,camerupt,crobat,weezing,groudon,camerupt_mega,swellow,houndoom",
       "gender": "Male"
     },
     {
       "type": "giovanni",
+      "team": "Team Rocket",
       "pokemon": "mewtwo,persian,rhyhorn,nidoqueen,dugtrio,nidoking,rhydon,kangaskhan,gyarados,marowak,exeggutor,arcanine,rhyperior,hippowdon,krookodile,gliscor,garchomp,sandslash,golem,honchkrow,onix,venusaur,blastoise,muk,porygon,poliwrath,electrode,alakazam,gengar",
       "gender": "Male"
     },
