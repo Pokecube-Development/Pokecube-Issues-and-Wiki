@@ -22,6 +22,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.npc.VillagerProfession;
 import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
@@ -174,6 +175,8 @@ public class NpcType
 
     private IInteract interaction = (p, h, mob) -> false;
 
+    public String defaultTeam = null;
+
     public Map<SpawnBiomeMatcher, Float> spawns = Maps.newHashMap();
 
     public NpcType(String string)
@@ -301,5 +304,15 @@ public class NpcType
             }
         }
         return false;
+    }
+
+    public void onAITick(LivingEntity mob)
+    {
+        if (this.defaultTeam != null && mob.level instanceof ServerLevel level)
+        {
+            var team = level.getScoreboard().getPlayerTeam(defaultTeam);
+            if (team == null) team = level.getScoreboard().addPlayerTeam(defaultTeam);
+            if (team != mob.getTeam()) level.getScoreboard().addPlayerToTeam(mob.getScoreboardName(), team);
+        }
     }
 }

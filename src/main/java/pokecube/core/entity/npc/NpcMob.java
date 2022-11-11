@@ -264,6 +264,8 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         super.aiStep();
         if (this.tickCount % 20 != 0) return;
 
+        this.getNpcType().onAITick(this);
+
         if (this.getVillagerData().getProfession() != this.getNpcType().getProfession())
         {
             if (this.getNpcType().getProfession() == VillagerProfession.NONE)
