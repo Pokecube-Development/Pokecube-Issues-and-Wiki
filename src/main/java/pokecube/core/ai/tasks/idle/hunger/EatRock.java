@@ -3,6 +3,8 @@ package pokecube.core.ai.tasks.idle.hunger;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
@@ -44,8 +46,11 @@ public class EatRock extends EatBlockBase
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatRock.checker.test(current)) return EatResult.NOEAT;
 
-        final List<ItemStack> list = Block.getDrops(current, world, block.getPos(), null);
+        List<ItemStack> list = Block.getDrops(current, world, block.getPos(), null);
         if (list.isEmpty()) return EatResult.NOEAT;
+        
+        // Clear immutability if some mod makes an immutable list...
+        list = Lists.newArrayList(list);
 
         final ItemStack first = list.get(0);
         final boolean isOre = ItemList.is(EatRock.ORE, first);
@@ -68,8 +73,8 @@ public class EatRock extends EatBlockBase
         {
             BlockState drop = Blocks.COBBLESTONE.defaultBlockState();
             if (ItemList.is(EatRock.COBBLE, current)) drop = Blocks.GRAVEL.defaultBlockState();
-            if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL) drop = Blocks.AIR
-                    .defaultBlockState();
+            if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL)
+                drop = Blocks.AIR.defaultBlockState();
             // If we are allowed to, we remove the eaten block
             final boolean canEat = MoveEventsHandler.canAffectBlock(pokemob, new Vector3().set(block.getPos()),
                     "nom_nom_nom", false, false);
