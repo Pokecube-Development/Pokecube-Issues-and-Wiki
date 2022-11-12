@@ -119,7 +119,7 @@ public class TempTile extends BlockEntity implements ITickTile
     public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
     {
         final BlockEntity effective = this.getEffectiveTile();
-        if (effective != null) return effective.getCapability(cap, side);
+        if (effective != null && !(effective instanceof TempTile)) return effective.getCapability(cap, side);
         return super.getCapability(cap, side);
     }
 
@@ -143,12 +143,10 @@ public class TempTile extends BlockEntity implements ITickTile
         var tileV = this.blockEntity.getV();
         var entityV = entity.getDeltaMovement();
 
-        int n = 1;
-        var below = level.getBlockEntity(getBlockPos().below(n));
-        var above = level.getBlockEntity(getBlockPos().above());
-
         VoxelShape here = this.getShape();
 
+        int n = 1;
+        var below = level.getBlockEntity(getBlockPos().below(n));
         while (below instanceof TempTile tile)
         {
             var there = tile.getShape();
@@ -159,15 +157,6 @@ public class TempTile extends BlockEntity implements ITickTile
             }
             n++;
             below = level.getBlockEntity(getBlockPos().below(n));
-        }
-        if (above instanceof TempTile tile)
-        {
-            var there = tile.getShape();
-            if (here.isEmpty() && !there.isEmpty()) here = there.move(0, 1, 0);
-            else if (!there.isEmpty())
-            {
-                here = Shapes.join(here, there.move(0, 1, 0), BooleanOp.OR);
-            }
         }
 
         // We run this here, as this calls more often than below. This should
@@ -182,11 +171,14 @@ public class TempTile extends BlockEntity implements ITickTile
         // Now make sure the mob is on top.
         if (!here.isEmpty())
         {
-            double newVy = tileV.y() != 0 ? tileV.y() : entityV.y();
+            double newVy = tileV.y() > 0 ? Math.max(tileV.y(), entityV.y()) : Math.min(tileV.y(), entityV.y());
+            if (tileV.y() == 0) newVy = entityV.y();
+
             // Ensure the mob has same vertical velocity as us.
             entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
 
-            AABB bounds = here.bounds().move(this.getBlockPos());
+            AABB bounds = here.bounds().move(this.getBlockPos()).move(this.blockEntity.getA());
+
             Player player = entity instanceof Player p ? p : null;
             // Due to differences in local vs remote player motion, we need to
             // only adjust by tileV if this is not the local player.
@@ -198,6 +190,8 @@ public class TempTile extends BlockEntity implements ITickTile
             double z = entityR.z();
 
             if (tileV.y() > 0) entity.setPos(x, y, z);
+
+            blockEntity.recentCollides.put(entity, entity.position().subtract(blockEntity.position()));
 
             double d0 = entity.getX();
             double d1 = entity.getY();
@@ -211,11 +205,7 @@ public class TempTile extends BlockEntity implements ITickTile
             // Due to how minecraft handles players, this should be applied to
             // the client player instead, and let the server player get the info
             // from there.
-            if (entity instanceof ServerPlayer serverplayer)
-            {
-                // Meed to set floatingTickCount to prevent being kicked
-                serverplayer.fallDistance = 0;
-            }
+            if (entity instanceof ServerPlayer serverplayer) serverplayer.fallDistance = 0;
         }
         return distance;
     }

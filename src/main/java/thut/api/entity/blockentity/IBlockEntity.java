@@ -2,6 +2,7 @@ package thut.api.entity.blockentity;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import com.google.common.collect.BiMap;
@@ -13,6 +14,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
@@ -32,6 +36,43 @@ import thut.lib.RegHelper;
 
 public interface IBlockEntity
 {
+    static class VecSer implements EntityDataSerializer<Optional<Vec3>>
+    {
+        @Override
+        public Optional<Vec3> copy(final Optional<Vec3> value)
+        {
+            if (value.isPresent()) return Optional.of(new Vec3(value.get().x, value.get().y, value.get().z));
+            return Optional.empty();
+        }
+
+        @Override
+        public EntityDataAccessor<Optional<Vec3>> createAccessor(final int id)
+        {
+            return new EntityDataAccessor<>(id, this);
+        }
+
+        @Override
+        public Optional<Vec3> read(final FriendlyByteBuf buf)
+        {
+            if (!buf.isReadable()) return Optional.empty();
+            return Optional.of(new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()));
+        }
+
+        @Override
+        public void write(final FriendlyByteBuf buf, final Optional<Vec3> opt)
+        {
+            if (opt.isPresent())
+            {
+                var value = opt.get();
+                buf.writeDouble(value.x);
+                buf.writeDouble(value.y);
+                buf.writeDouble(value.z);
+            }
+        }
+    }
+
+    public static final EntityDataSerializer<Optional<Vec3>> VEC3DSER = new VecSer();
+
     public static class BlockEntityFormer
     {
         public static BlockState[][][] checkBlocks(final Level world, final BlockPos min, final BlockPos max,
