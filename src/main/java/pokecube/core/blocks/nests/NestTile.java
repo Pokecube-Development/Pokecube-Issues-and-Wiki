@@ -10,7 +10,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.Container;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
@@ -151,7 +150,10 @@ public class NestTile extends InteractableTile implements ITickTile
         {
             if (player instanceof ServerPlayer sendTo)
             {
-                final Container wrapper = new InvWrapper((IItemHandlerModifiable) handler);
+                final InvWrapper wrapper = new InvWrapper((IItemHandlerModifiable) handler);
+                wrapper.addListener(c -> {
+                    this.getLevel().getChunk(getBlockPos()).setUnsaved(true);
+                });
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
                         (i, p, e) -> ChestMenu.sixRows(i, p, wrapper), TComponent.translatable("block.pokecube.nest"));
                 NetworkHooks.openScreen(sendTo, provider);
