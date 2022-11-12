@@ -54,7 +54,6 @@ import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.ShearableCaps;
-import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.level.structures.StructureManager;
@@ -331,7 +330,7 @@ public class ThutCore
             // for seats
             EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
             // for Vec3ds
-            EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
+            EntityDataSerializers.registerSerializer(IBlockEntity.VEC3DSER);
         });
     }
 

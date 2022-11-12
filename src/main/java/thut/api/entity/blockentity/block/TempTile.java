@@ -205,11 +205,7 @@ public class TempTile extends BlockEntity implements ITickTile
             // Due to how minecraft handles players, this should be applied to
             // the client player instead, and let the server player get the info
             // from there.
-            if (entity instanceof ServerPlayer serverplayer)
-            {
-                // Meed to set floatingTickCount to prevent being kicked
-                serverplayer.fallDistance = 0;
-            }
+            if (entity instanceof ServerPlayer serverplayer) serverplayer.fallDistance = 0;
         }
         return distance;
     }
