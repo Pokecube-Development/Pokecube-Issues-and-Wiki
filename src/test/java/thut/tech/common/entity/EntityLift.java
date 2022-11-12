@@ -101,6 +101,9 @@ public class EntityLift extends BlockEntityBase
 
     public void updateForce()
     {
+//      TechCore.config.LiftAcceleration = 0.025;
+//      TechCore.config.LiftSpeedUp = 0.3;
+//      TechCore.config.LiftSpeedDown = 0.35;
         // Refresh these incase config changed.
         this.entityData.set(EntityLift.SPEEDUP, Float.valueOf((float) TechCore.config.LiftSpeedUp));
         this.entityData.set(EntityLift.SPEEDDOWN, Float.valueOf((float) TechCore.config.LiftSpeedDown));
@@ -287,7 +290,7 @@ public class EntityLift extends BlockEntityBase
     public void onRemovedFromWorld()
     {
         super.onRemovedFromWorld();
-        LiftTracker.liftMap.remove(this.getUUID(), this);
+        LiftTracker.liftMap.remove(this.getUUID());
     }
 
     @Override

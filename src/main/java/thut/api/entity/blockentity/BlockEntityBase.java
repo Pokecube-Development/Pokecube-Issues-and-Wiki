@@ -1,11 +1,13 @@
 package thut.api.entity.blockentity;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -16,6 +18,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -136,6 +139,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     protected Vector3 F = new Vector3();
     private Vec3 a = Vec3.ZERO;
     private Vec3 v = Vec3.ZERO;
+
+    public Map<Entity, Vec3> recentCollides = Maps.newHashMap();
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final Level par1World)
     {
@@ -271,10 +276,54 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 tile.getShape();
             }
         });
+
+        for (var entry : this.recentCollides.entrySet())
+        {
+            var entity = entry.getKey();
+            var pos = entry.getValue();
+            boolean stillHit = entity.getBoundingBox().intersects(this.getBoundingBox());
+
+            if (!stillHit)
+            {
+//                System.out.println(entity.tickCount + " " + entity.getBoundingBox().move(this.getV())
+//                        .intersects(this.getBoundingBox().move(this.getV().reverse())));
+//                if (entity.getBoundingBox().move(this.getV())
+//                        .intersects(this.getBoundingBox().move(this.getV().reverse())))
+                {
+                    var entityR = pos.add(this.position()).add(this.getV());
+                    double x = entityR.x();
+                    double y = entityR.y();
+                    double z = entityR.z();
+                    entity.setPos(x, y, z);
+
+                    double d0 = entity.getX();
+                    double d1 = entity.getY();
+                    double d2 = entity.getZ();
+                    var entityV = entity.getDeltaMovement();
+
+                    entity.xOld = entity.xo = d0 - entityV.x;
+                    entity.yOld = entity.yo = d1 - entityV.y;
+                    entity.zOld = entity.zo = d2 - entityV.z;
+
+                    // Due to how minecraft handles players, this should be applied to
+                    // the client player instead, and let the server player get the info
+                    // from there.
+                    if (entity instanceof ServerPlayer serverplayer)
+                    {
+                        // Meed to set floatingTickCount to prevent being kicked
+                        serverplayer.fallDistance = 0;
+                    }
+                }
+            }
+
+        }
+        recentCollides.clear();
     }
 
     public void onEntityCollision(final Entity entityIn)
-    {}
+    {
+        System.out.println(entityIn);
+    }
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
@@ -341,7 +390,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             a = vec.subtract(this.v);
             v = vec;
             a = F.normalize().scalarMult(this.getAccel()).toVec3d();
-            this.getEntityData().set(position, Optional.of(r.add(v)));
+            this.getEntityData().set(position, Optional.of(r.add(v).add(a)));
         }
     }
 
