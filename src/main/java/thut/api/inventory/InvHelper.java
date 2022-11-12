@@ -20,10 +20,10 @@ public class InvHelper
 {
     public static class ItemCap extends ItemStackHandler implements ICapabilitySerializable<CompoundTag>
     {
-        private final int                        stackSize;
-        private final LazyOptional<IItemHandler> holder     = LazyOptional.of(() -> this);
-        private final ResourceLocation           mask;
-        public Predicate<ItemStack>              stackCheck = (s) -> true;
+        private final int stackSize;
+        private final LazyOptional<IItemHandler> holder = LazyOptional.of(() -> this);
+        private final ResourceLocation mask;
+        public Predicate<ItemStack> stackCheck = (s) -> true;
 
         public ItemCap(final int slotCount, final int stackSize)
         {
