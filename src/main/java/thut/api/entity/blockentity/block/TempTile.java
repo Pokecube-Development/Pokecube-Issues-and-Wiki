@@ -189,9 +189,11 @@ public class TempTile extends BlockEntity implements ITickTile
             double y = bounds.maxY + tileV.y();
             double z = entityR.z();
 
-            if (tileV.y() > 0) entity.setPos(x, y, z);
-
-            blockEntity.recentCollides.put(entity, entity.position().subtract(blockEntity.position()));
+            if (tileV.y() > 0)
+            {
+                entity.setPos(x, y, z);
+                blockEntity.recentCollides.put(entity, entity.position().subtract(blockEntity.position()));
+            }
 
             double d0 = entity.getX();
             double d1 = entity.getY();
