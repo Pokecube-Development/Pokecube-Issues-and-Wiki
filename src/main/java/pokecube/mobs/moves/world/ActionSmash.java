@@ -58,7 +58,7 @@ public class ActionSmash implements IMoveWorldEffect
     @Override
     public String getMoveName()
     {
-        return "rocksmash";
+        return "rock-smash";
     }
 
     private int smashRock(final IPokemob digger, final Vector3 v, final boolean count)
