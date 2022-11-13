@@ -11,6 +11,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.combat.CombatTask;
@@ -76,6 +77,14 @@ public class CicleTask extends CombatTask implements IAICombat
             f = Math.max(f, 0.5f);
             if (here.distTo(end) > f) return;
         }
+
+        // Check if we can see the target, if not, try pathing directly to it.
+        if (!BrainUtils.canSee(entity, target))
+        {
+            this.setWalkTo(this.target, this.movementSpeed, 0);
+            return;
+        }
+
         MoveEntry attack = this.pokemob.getSelectedMove();
 
         final Vector3 here = new Vector3().set(this.entity);

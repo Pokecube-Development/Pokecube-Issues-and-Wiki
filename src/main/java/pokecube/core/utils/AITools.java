@@ -202,6 +202,8 @@ public class AITools
 
     public static boolean shouldBeAbleToAgro(final LivingEntity entity, final Entity target)
     {
+        // If target is null, can't agro.
+        if (target == null) return false;
         // Never target self
         if (target == entity) return false;
         // Never target blacklisted things
