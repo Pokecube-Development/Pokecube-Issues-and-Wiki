@@ -34,12 +34,13 @@ public class ManagePokemobTarget extends BaseBattleTask
         final LivingEntity mobTarget = BrainUtils.getAttackTarget(mob.getEntity());
         LivingEntity newTarget = this.target;
         final IPokemob target = PokemobCaps.getPokemobFor(mobTarget);
+
         // Try to send our mob after the target's nearest mob instead.
         if (target == null)
         {
             newTarget = this.target;
-            final List<Entity> alternates = PokemobTracker.getMobs(this.target, e -> e.distanceToSqr(this.entity) < 64
-                    && PokemobCaps.getPokemobFor(e) != null);
+            final List<Entity> alternates = PokemobTracker.getMobs(this.target,
+                    e -> e.distanceToSqr(this.entity) < 64 && PokemobCaps.getPokemobFor(e) != null);
             if (!alternates.isEmpty()) newTarget = (LivingEntity) alternates.get(0);
         }
         // check if pokemob's target is same as trainers.
@@ -53,12 +54,10 @@ public class ManagePokemobTarget extends BaseBattleTask
                 mob.getEntity().getBrain().setMemory(MemoryModules.WALK_TARGET, walk);
             }
         }
-
     }
 
     @Override
-    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn,
-            final long gameTimeIn)
+    protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         return super.checkExtraStartConditions(worldIn, entityIn);
     }
@@ -66,7 +65,6 @@ public class ManagePokemobTarget extends BaseBattleTask
     @Override
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
     {
-        if (!super.checkExtraStartConditions(worldIn, owner)) return false;
-        return this.trainer.getOutMob() != null;
+        return super.checkExtraStartConditions(worldIn, owner);
     }
 }

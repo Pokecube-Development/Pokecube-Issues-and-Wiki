@@ -34,6 +34,7 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
+import pokecube.core.utils.AITools;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
@@ -251,17 +252,46 @@ public abstract class PokemobMoves extends PokemobStats
         this.dataSync.set(this.params.ALLYTARGETIDDW, Integer.valueOf(id));
     }
 
+    private void setNoBattle(int ownerOffset)
+    {
+        // Enemy always empty when not in battle
+        this.setTargetID(-1);
+
+        // Ally is either us, or owner when not in battle.
+        int allyIndex = this.getMoveStats().allyIndex % 2;
+        if (allyIndex < 0) allyIndex = ownerOffset;
+
+        if (allyIndex == 1)
+        {
+            this.setAllyID(this.getOwner().id);
+        }
+        else this.setAllyID(this.getEntity().id);
+
+        this.dataSync().set(this.params.ENEMYNUMDW, 0);
+        this.dataSync().set(this.params.ALLYNUMDW, 1);
+    }
+
     @Override
     public void updateBattleInfo()
     {
-
+        LivingEntity owner = this.getOwner();
         // Only process battle stuff server side.
         battle_check:
         if (!entity.getLevel().isClientSide())
         {
             Battle b = Battle.getBattle(entity);
-            this.setBattle(b);
 
+            // If we have no battle, but owner does, we join owner's battle
+            if (b == null && owner != null)
+            {
+                b = Battle.getBattle(owner);
+                if (b != null)
+                {
+                    var mobs = b.getEnemies(owner);
+                    if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.get(0));
+                }
+            }
+            this.setBattle(b);
             if (b == null && this.inCombat())
             {
                 LivingEntity target = entity.getTarget();
@@ -270,54 +300,71 @@ public abstract class PokemobMoves extends PokemobStats
                 b = Battle.getBattle(entity);
                 this.setBattle(b);
             }
-
             this.setCombatState(CombatStates.BATTLING, b != null);
 
-            int ownerOffset = this.getOwner() != null ? 1 : 0;
+            int ownerOffset = owner != null ? 1 : 0;
 
+            // No battle case
             if (b == null)
             {
-                // Enemy always empty when not in battle
-                this.setTargetID(-1);
-
-                // Ally is either us, or owner when not in battle.
-                int allyIndex = this.getMoveStats().allyIndex % 2;
-                if (allyIndex < 0) allyIndex = ownerOffset;
-
-                if (allyIndex == 1)
-                {
-                    this.setAllyID(this.getOwner().id);
-                }
-                else this.setAllyID(this.getEntity().id);
-
-                this.dataSync().set(this.params.ENEMYNUMDW, 0);
-                this.dataSync().set(this.params.ALLYNUMDW, 1);
+                setNoBattle(ownerOffset);
                 break battle_check;
             }
 
-            List<LivingEntity> mobs = b.getEnemies(entity);
+            // Battle case
+
+            // Handle the enemies lists first, as if there are none, we can end
+            // early.
+
+            List<LivingEntity> mobs = Lists.newArrayList(b.getEnemies(entity));
+
+            // Ensure that the mobs are valid targets.
+            mobs.removeIf(target -> !AITools.shouldBeAbleToAgro(entity, target));
+
+            // If no enemies, lets just end the battle.
+            if (mobs.isEmpty())
+            {
+                b.removeFromBattle(entity);
+                setNoBattle(ownerOffset);
+                this.setCombatState(CombatStates.BATTLING, false);
+                break battle_check;
+            }
+
+            // Now ensure target index is in range.
             int targetIndex = this.getMoveStats().enemyIndex;
             if (targetIndex < 0) targetIndex = mobs.size() - 1;
 
-            LivingEntity target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
+            // Update the appropriate number of mobs.
             this.dataSync().set(this.params.ENEMYNUMDW, mobs.size());
-            this.setTargetID(target == null ? -1 : target.id);
-            if (target != BrainUtils.getAttackTarget(entity)) BrainUtils.setAttackTarget(entity, target);
-            mobs = b.getAllies(entity);
-            this.dataSync().set(this.params.ALLYNUMDW, mobs.size());
 
+            // And set the target.
+            LivingEntity target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
+            this.setTargetID(target == null ? -1 : target.id);
+
+            // Then also sync attack target in brain.
+            if (target != BrainUtils.getAttackTarget(entity)) BrainUtils.setAttackTarget(entity, target);
+
+            // Allies are simple
+
+            mobs = b.getAllies(entity);
+            // Update how many allies we have
+            this.dataSync().set(this.params.ALLYNUMDW, mobs.size());
+            // Get the number for modulo, as we also include owner here if
+            // present.
             int allyN = mobs.size() + ownerOffset;
 
             int allyIndex = (allyN != 0) ? this.getMoveStats().allyIndex % allyN : 0;
+            // If less than 0, wrap
             if (allyIndex < 0) allyIndex = mobs.size();
+            // If max suze, and have owner, we set it as owner
             if (allyIndex == mobs.size() && ownerOffset > 0)
             {
                 // Ally is owner
-                if (this.getOwner() != null) this.setAllyID(this.getOwner().id);
+                if (owner != null) this.setAllyID(owner.id);
             }
+            // Otherwise if in bounds, set ally.
             else if (mobs.size() > 0)
             {
-
                 this.setAllyID(mobs.get(allyIndex).id);
             }
             break battle_check;
@@ -329,7 +376,7 @@ public abstract class PokemobMoves extends PokemobStats
         this.getMoveStats().targetAlly = target instanceof LivingEntity living ? living : null;
 
         // Only owned mobs process beyond here.
-        if (this.getOwner() == null) return;
+        if (owner == null) return;
 
         // Ensure indeces are in range
         int num = this.getAllyNumber() + 1;
