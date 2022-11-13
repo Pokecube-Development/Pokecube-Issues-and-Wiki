@@ -71,7 +71,6 @@ public class LookAtMob extends RootTask<LivingEntity>
 
         final Optional<LivingEntity> found = brain.getMemory(MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES).get()
                 .findClosest(this.matcher.and(mob -> mob.distanceToSqr(entityIn) <= this.distance_squared));
-
         found.ifPresent((mob) ->
         {
             brain.setMemory(MemoryModuleType.LOOK_TARGET, new EntityTracker(mob, true));
