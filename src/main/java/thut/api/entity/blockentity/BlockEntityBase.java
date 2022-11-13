@@ -4,10 +4,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -35,8 +37,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
@@ -64,6 +64,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         {
             return this.create(world);
         }
+    }
+
+    public static record RelativeEntityPos(Entity entity, AtomicInteger lastSeen, Vector3f relativePos)
+    {
     }
 
     static final EntityDataAccessor<Optional<Vec3>> velocity = SynchedEntityData
@@ -101,7 +105,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     private Vec3 a = Vec3.ZERO;
     private Vec3 v = Vec3.ZERO;
 
-    public Map<Entity, Vec3> recentCollides = Maps.newHashMap();
+    public Map<Entity, RelativeEntityPos> recentCollides = Maps.newHashMap();
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final Level par1World)
     {
@@ -234,48 +238,66 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             if (te instanceof TempTile tile)
             {
                 tile.blockEntity = this;
-                tile.getShape();
+                tile.getShape(false);
             }
         });
+
+        List<Entity> stale = Lists.newArrayList();
+
+        var tileV = this.getV();
+        var usBounds = this.getBoundingBox().inflate(Math.abs(tileV.x()), Math.abs(tileV.y()), Math.abs(tileV.z()));
 
         for (var entry : this.recentCollides.entrySet())
         {
             var entity = entry.getKey();
-            var pos = entry.getValue();
-            boolean stillHit = entity.getBoundingBox().intersects(this.getBoundingBox());
+            var entityV = entity.getDeltaMovement();
+            var pos = entry.getValue().relativePos;
+            boolean stillHit = entity.getBoundingBox().intersects(usBounds);
 
-            if (!stillHit)
+            boolean valid = stillHit;// || entity.distanceToSqr(this) < 64;
+            valid = valid && entry.getValue().lastSeen().get() >= tickCount;
+            if (!valid) stale.add(entity);
+
+            if (valid) entry.getValue().lastSeen.set(this.tickCount + 10);
+
+            if (valid && tileV.y() != 0)
             {
-                var entityR = pos.add(this.position()).add(this.getV());
-                double x = entityR.x();
+                double newVy = tileV.y() > 0 ? Math.max(tileV.y(), entityV.y()) : Math.min(tileV.y(), entityV.y());
+
+                // Ensure the mob has same vertical velocity as us.
+                entity.setDeltaMovement(entityV.x(), newVy, entityV.z());
+
+                var entityR = this.position().add(pos.x(), pos.y(), pos.z());
+
+                if (newVy > 0) entityR = entityR.add(0, newVy, 0);
+
+                var entityO = this.position().subtract(xo, yo, zo);
+                double x = entity.getX();
                 double y = entityR.y();
-                double z = entityR.z();
+                double z = entity.getZ();
+
                 entity.setPos(x, y, z);
+                entityO = entity.position().subtract(entityO);
+                entity.yo = entity.yOld = entityO.y();
 
-                double d0 = entity.getX();
-                double d1 = entity.getY();
-                double d2 = entity.getZ();
-                var entityV = entity.getDeltaMovement();
-
-                entity.xOld = entity.xo = d0 - entityV.x;
-                entity.yOld = entity.yo = d1 - entityV.y;
-                entity.zOld = entity.zo = d2 - entityV.z;
+                entity.onGround = true;
+                entity.fallDistance = 0;
+                entity.verticalCollision = true;
+                entity.verticalCollisionBelow = tileV.y() > 0;
 
                 // Due to how minecraft handles players, this should be applied
-                // to
-                // the client player instead, and let the server player get the
-                // info
-                // from there.
+                // to the client player instead, and let the server player get
+                // the info from there.
                 if (entity instanceof ServerPlayer serverplayer)
                 {
                     // Meed to set floatingTickCount to prevent being kicked
-                    serverplayer.fallDistance = 0;
                     serverplayer.connection.aboveGroundVehicleTickCount = 0;
                     serverplayer.connection.aboveGroundTickCount = 0;
                 }
             }
         }
-        recentCollides.clear();
+        // Remove stale entries
+        stale.forEach(recentCollides::remove);
     }
 
     public void onEntityCollision(final Entity entityIn)
@@ -456,12 +478,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         return this.tiles;
     }
 
-    @OnlyIn(Dist.CLIENT)
-    @Override
-    public boolean shouldRenderAtSqrDistance(final double distance)
-    {
-        return true;
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    @Override
+//    public boolean shouldRenderAtSqrDistance(final double distance)
+//    {
+//        return true;
+//    }
 
     abstract protected void onGridAlign();
 

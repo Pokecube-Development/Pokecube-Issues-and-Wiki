@@ -31,9 +31,9 @@ public class TechCore
     public final static PacketHandler packets = new PacketHandler(new ResourceLocation(Reference.MOD_ID, "comms"),
             Reference.NETVERSION);
 
-    public static final DeferredRegister<Item>               ITEMS;
-    public static final DeferredRegister<Block>              BLOCKS;
-    public static final DeferredRegister<EntityType<?>>      ENTITY;
+    public static final DeferredRegister<Item> ITEMS;
+    public static final DeferredRegister<Block> BLOCKS;
+    public static final DeferredRegister<EntityType<?>> ENTITY;
     public static final DeferredRegister<BlockEntityType<?>> TILEENTITY;
 
     public static final RegistryObject<Block> LIFTCONTROLLER;
@@ -56,17 +56,17 @@ public class TechCore
 
         LIFTTYPE = TechCore.ENTITY.register("lift", () -> new EntityLift.BlockEntityType<>(EntityLift::new));
 
-        CONTROLTYPE = TechCore.TILEENTITY.register("controller", () -> BlockEntityType.Builder.of(ControllerTile::new,
-                TechCore.LIFTCONTROLLER.get()).build(null));
-        LIFTCONTROLLER = TechCore.BLOCKS.register("controller", () -> new ControllerBlock(Block.Properties.of(
-                Material.METAL).strength(3.5f).dynamicShape().noOcclusion()));
+        CONTROLTYPE = TechCore.TILEENTITY.register("controller",
+                () -> BlockEntityType.Builder.of(ControllerTile::new, TechCore.LIFTCONTROLLER.get()).build(null));
+        LIFTCONTROLLER = TechCore.BLOCKS.register("controller", () -> new ControllerBlock(
+                Block.Properties.of(Material.METAL).strength(3.5f).dynamicShape().noOcclusion()));
 
         LIFT = TechCore.ITEMS.register("lift", () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
         LINKER = TechCore.ITEMS.register("linker", () -> new ItemLinker(new Item.Properties().tab(ThutCore.THUTITEMS)));
 
         for (final RegistryObject<Block> reg : TechCore.BLOCKS.getEntries())
-            TechCore.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties().tab(
-                    ThutCore.THUTITEMS)));
+            TechCore.ITEMS.register(reg.getId().getPath(),
+                    () -> new BlockItem(reg.get(), new Item.Properties().tab(ThutCore.THUTITEMS)));
     }
 
     public TechCore()
