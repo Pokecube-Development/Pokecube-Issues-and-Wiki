@@ -10,9 +10,11 @@ import com.google.common.collect.Lists;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.core.Direction;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
 import thut.api.ThutCaps;
 import thut.api.world.mobs.data.Data;
 import thut.api.world.mobs.data.DataSync;
@@ -21,8 +23,10 @@ import thut.core.common.world.mobs.data.types.Data_Byte;
 import thut.core.common.world.mobs.data.types.Data_Float;
 import thut.core.common.world.mobs.data.types.Data_Int;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
+import thut.core.common.world.mobs.data.types.Data_Seat;
 import thut.core.common.world.mobs.data.types.Data_String;
 import thut.core.common.world.mobs.data.types.Data_UUID;
+import thut.core.common.world.mobs.data.types.Data_Vec3;
 
 public class DataSync_Impl implements DataSync, ICapabilityProvider
 {
@@ -36,11 +40,27 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         DataSync_Impl.addMapping(Data_String.class);
         DataSync_Impl.addMapping(Data_UUID.class);
         DataSync_Impl.addMapping(Data_ItemStack.class);
+        DataSync_Impl.addMapping(Data_Vec3.class);
+        DataSync_Impl.addMapping(Data_Seat.class);
     }
 
     public static void addMapping(final Class<? extends Data<?>> dataType)
     {
         DataSync_Impl.REGISTRY.put(DataSync_Impl.REGISTRY.size(), dataType);
+    }
+
+    /**
+     * Used to check if a data sync is already registered for this mob.
+     * 
+     * @param event
+     * @return
+     */
+    public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
+    {
+        for (final ICapabilityProvider provider : event.getCapabilities().values())
+            if (provider.getCapability(ThutCaps.DATASYNC).isPresent())
+                return provider.getCapability(ThutCaps.DATASYNC).orElse(null);
+        return null;
     }
 
     @SuppressWarnings("deprecation")

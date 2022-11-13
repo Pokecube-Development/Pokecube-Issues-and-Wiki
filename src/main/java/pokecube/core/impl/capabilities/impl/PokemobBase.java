@@ -50,7 +50,6 @@ public abstract class PokemobBase implements IPokemob
 {
     public static class DataParameters
     {
-
         public final int[] FLAVOURS = new int[5];
 
         public int HELDITEMDW;

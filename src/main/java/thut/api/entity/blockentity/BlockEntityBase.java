@@ -16,8 +16,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -37,16 +35,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import thut.api.ThutCaps;
 import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
 import thut.api.entity.blockentity.world.IBlockEntityWorld;
 import thut.api.entity.blockentity.world.WorldEntity;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import thut.api.world.mobs.data.DataSync;
 import thut.core.common.ThutCore;
+import thut.core.common.world.mobs.data.DataSync_Impl;
+import thut.core.common.world.mobs.data.PacketDataSync;
+import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
@@ -66,14 +72,27 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         }
     }
 
+    public static void setup()
+    {
+        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST, BlockEntityBase::attachMobs);
+    }
+
+    public static final ResourceLocation DATASCAP = new ResourceLocation(ThutCore.MODID, "data");
+
+    private static void attachMobs(final AttachCapabilitiesEvent<Entity> event)
+    {
+        if (!(event.getObject() instanceof BlockEntityBase)) return;
+        DataSync data = DataSync_Impl.getData(event);
+        if (data == null)
+        {
+            data = new DataSync_Impl();
+            event.addCapability(DATASCAP, (DataSync_Impl) data);
+        }
+    }
+
     public static record RelativeEntityPos(Entity entity, AtomicInteger lastSeen, Vector3f relativePos)
     {
     }
-
-    static final EntityDataAccessor<Optional<Vec3>> velocity = SynchedEntityData
-            .<Optional<Vec3>>defineId(BlockEntityBase.class, BlockEntityBase.VEC3DSER);
-    static final EntityDataAccessor<Optional<Vec3>> position = SynchedEntityData
-            .<Optional<Vec3>>defineId(BlockEntityBase.class, BlockEntityBase.VEC3DSER);
 
     public BlockPos boundMin = BlockPos.ZERO;
     public BlockPos boundMax = BlockPos.ZERO;
@@ -105,6 +124,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     private Vec3 a = Vec3.ZERO;
     private Vec3 v = Vec3.ZERO;
 
+    protected final DataSync dataSync;
+    private final int POS;
+
     public Map<Entity, RelativeEntityPos> recentCollides = Maps.newHashMap();
 
     public BlockEntityBase(final EntityType<? extends BlockEntityBase> type, final Level par1World)
@@ -113,6 +135,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.noCulling = true;
         this.invulnerableTime = 0;
         this.noPhysics = true;
+        dataSync = this.getCapability(ThutCaps.DATASYNC).orElse(null);
+        POS = dataSync.register(new Data_Vec3().setRealtime(), Optional.empty());
     }
 
     protected Vector3 getForceDirection()
@@ -322,7 +346,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             {
                 this.move(MoverType.SELF, F.toVec3d());
                 this.setV(v = Vec3.ZERO);
-                this.getEntityData().set(position, Optional.of(this.position()));
+                this.dataSync.set(POS, Optional.of(this.position()));
             }
             else
             {
@@ -341,12 +365,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             }
             else
             {
-                this.getEntityData().set(position, Optional.of(this.position()));
+                this.dataSync.set(POS, Optional.of(this.position()));
             }
         }
         else
         {
-            Optional<Vec3> rOpt = this.getEntityData().get(position);
+            Optional<Vec3> rOpt = this.dataSync.get(POS);
             if (!rOpt.isPresent()) return;
             Vec3 r_1 = rOpt.get();
             Vec3 r_0 = this.position();
@@ -368,7 +392,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             a = vec.subtract(this.v);
             v = vec;
             a = F.normalize().scalarMult(this.getAccel()).toVec3d();
-            this.getEntityData().set(position, Optional.of(r.add(v).add(a)));
+            this.dataSync.set(POS, Optional.of(r.add(v).add(a)));
         }
     }
 
@@ -478,12 +502,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         return this.tiles;
     }
 
-//    @OnlyIn(Dist.CLIENT)
-//    @Override
-//    public boolean shouldRenderAtSqrDistance(final double distance)
-//    {
-//        return true;
-//    }
+    @Override
+    public boolean shouldRenderAtSqrDistance(final double distance)
+    {
+        return true;
+    }
 
     abstract protected void onGridAlign();
 
@@ -582,8 +605,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     protected void defineSynchedData()
     {
-        this.entityData.define(position, Optional.empty());
-        this.entityData.define(velocity, Optional.empty());
+        // NO-OP here.
     }
 
     /** Will get destroyed next tick. */
@@ -644,6 +666,9 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         this.getUpdater().onUpdate();
         this.doMotion();
         this.checkCollision();
+
+        // Now manually sync stuff as this is not a LivingEntity.
+        if (this.isServerWorld()) PacketDataSync.sync(this, dataSync, this.getId(), false);
     }
 
     @Override

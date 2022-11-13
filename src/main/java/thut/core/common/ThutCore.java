@@ -15,7 +15,6 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -45,8 +44,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistries.Keys;
-import net.minecraftforge.registries.RegistryObject;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.ThutCaps;
@@ -54,8 +51,8 @@ import thut.api.Tracker;
 import thut.api.block.flowing.functions.LootLayerFunction;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
-import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.ShearableCaps;
+import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.level.structures.StructureManager;
@@ -184,13 +181,6 @@ public class ThutCore
                 .create(ForgeRegistries.PARTICLE_TYPES, ThutCore.MODID);
         public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
                 ThutCore.MODID);
-        public static final DeferredRegister<EntityDataSerializer<?>> DATA_SERS = DeferredRegister
-                .create(Keys.ENTITY_DATA_SERIALIZERS, ThutCore.MODID);
-
-        public static final RegistryObject<EntityDataSerializer<?>> SEATS = DATA_SERS.register("seats",
-                () -> IMultiplePassengerEntity.SEATSERIALIZER);
-        public static final RegistryObject<EntityDataSerializer<?>> VEC3D = DATA_SERS.register("vec3d",
-                () -> IBlockEntity.VEC3DSER);
 
         @SubscribeEvent
         public static void registerCapabilities(final RegisterCapabilitiesEvent event)
@@ -274,7 +264,6 @@ public class ThutCore
         RegistryEvents.RECIPETYPE.register(modEventBus);
         RegistryEvents.MENUS.register(modEventBus);
         RegistryEvents.PARTICLES.register(modEventBus);
-        RegistryEvents.DATA_SERS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested
         // in
@@ -332,6 +321,7 @@ public class ThutCore
         BreedableCaps.setup();
         AnimatedCaps.setup();
         CopyCaps.setup();
+        BlockEntityBase.setup();
 
         ThutCore.proxy.setup(event);
     }

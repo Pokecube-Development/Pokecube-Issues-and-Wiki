@@ -7,8 +7,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -33,6 +31,7 @@ import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
 import thut.api.maths.vecmath.Mat3f;
 import thut.api.maths.vecmath.Vec3f;
+import thut.core.common.world.mobs.data.types.Data_Seat;
 
 public abstract class PokemobRidable extends PokemobHasParts
         implements IMultiplePassengerEntity, PlayerRideableJumping, Saddleable
@@ -41,6 +40,9 @@ public abstract class PokemobRidable extends PokemobHasParts
     public PokemobRidable(final EntityType<? extends TamableAnimal> type, final Level worldIn)
     {
         super(type, worldIn);
+        // Define the seats
+        for (int i = 0; i < SEAT.length; i++)
+            SEAT[i] = this.pokemobCap.dataSync().register(new Data_Seat().setRealtime(), new Seat(new Vec3f(), null));
     }
 
     @Override
@@ -129,25 +131,11 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     // ========== IMultipassenger stuff below here ==============
-    @SuppressWarnings("unchecked")
-    static final EntityDataAccessor<Seat>[] SEAT = new EntityDataAccessor[10];
+    final Integer[] SEAT = new Integer[10];
 
     private boolean init = false;
     private String lastPose = "";
     protected int seatCount = 0;
-
-    static
-    {
-        for (int i = 0; i < PokemobRidable.SEAT.length; i++) PokemobRidable.SEAT[i] = SynchedEntityData
-                .<Seat>defineId(PokemobRidable.class, IMultiplePassengerEntity.SEATSERIALIZER);
-    }
-
-    @Override
-    protected void defineSynchedData()
-    {
-        super.defineSynchedData();
-        for (int i = 0; i < 10; i++) this.entityData.define(PokemobRidable.SEAT[i], new Seat(new Vec3f(), null));
-    }
 
     @Override
     public Entity getPassenger(final Vec3f seatl)
@@ -197,7 +185,7 @@ public abstract class PokemobRidable extends PokemobHasParts
         if (!old.equals(id))
         {
             toSet = new Seat(toSet.seat, id);
-            this.entityData.set(PokemobRidable.SEAT[index], toSet);
+            this.pokemobCap.dataSync().set(SEAT[index], toSet);
         }
     }
 
@@ -242,7 +230,7 @@ public abstract class PokemobRidable extends PokemobHasParts
                 seat.z = (float) (part.__pos__.z + part.__ride__.z) * size;
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
-                this.entityData.set(PokemobRidable.SEAT[index], newSeat);
+                this.pokemobCap.dataSync().set(SEAT[index], newSeat);
             }
         }
         else
@@ -261,7 +249,7 @@ public abstract class PokemobRidable extends PokemobHasParts
                 seat.z *= dz;
                 final Seat newSeat = (Seat) this.getSeat(index).clone();
                 newSeat.seat = seat;
-                this.entityData.set(PokemobRidable.SEAT[index], newSeat);
+                this.pokemobCap.dataSync().set(SEAT[index], newSeat);
             }
         }
     }
@@ -294,7 +282,7 @@ public abstract class PokemobRidable extends PokemobHasParts
 
     Seat getSeat(final int index)
     {
-        return this.entityData.get(PokemobRidable.SEAT[index]);
+        return this.pokemobCap.dataSync().get(SEAT[index]);
     }
 
     @Override
