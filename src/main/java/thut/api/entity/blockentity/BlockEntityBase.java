@@ -279,8 +279,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     }
 
     public void onEntityCollision(final Entity entityIn)
-    {
-    }
+    {}
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
