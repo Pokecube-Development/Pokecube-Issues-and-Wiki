@@ -102,7 +102,6 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
-import thut.api.ThutCaps;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -220,7 +219,7 @@ public class TrainerEventHandler
 
         if (mob instanceof TrainerBase) event.addCapability(TrainerEventHandler.TRADESCAP, new DefaultTrades());
 
-        DataSync data = TrainerEventHandler.getData(event);
+        DataSync data = DataSync_Impl.getData(event);
         if (data == null)
         {
             data = new DataSync_Impl();
@@ -257,14 +256,6 @@ public class TrainerEventHandler
             PokecubeAPI.LOGGER.error(e);
             return ItemStack.EMPTY;
         }
-    }
-
-    public static DataSync getData(final AttachCapabilitiesEvent<Entity> event)
-    {
-        for (final ICapabilityProvider provider : event.getCapabilities().values())
-            if (provider.getCapability(ThutCaps.DATASYNC).isPresent())
-                return provider.getCapability(ThutCaps.DATASYNC).orElse(null);
-        return null;
     }
 
     private static boolean hasCap(final AttachCapabilitiesEvent<Entity> event)

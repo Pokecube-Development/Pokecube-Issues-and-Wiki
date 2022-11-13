@@ -39,7 +39,7 @@ public class PlayerPokemobs extends DefaultPokemobs
         if (event.getCapabilities().containsKey(TrainerEventHandler.POKEMOBSCAP)) return;
         final IHasPokemobs mobs = PlayerPokemobs.PLAYERPOKEMOBS.apply((Player) event.getObject());
         event.addCapability(TrainerEventHandler.POKEMOBSCAP, mobs);
-        DataSync data = TrainerEventHandler.getData(event);
+        DataSync data = DataSync_Impl.getData(event);
         if (data == null)
         {
             data = new DataSync_Impl();

@@ -3,11 +3,10 @@ package thut.api.entity;
 import java.util.List;
 import java.util.UUID;
 
+import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import thut.api.maths.vecmath.Mat3f;
@@ -38,8 +37,8 @@ public interface IMultiplePassengerEntity
                 v = (Vec3f) v.clone();
                 transform.transform(v);
             }
-            passenger.setPos(entity.getX() + v.x, entity.getY() + passenger.getMyRidingOffset() + v.y, entity
-                    .getZ() + v.z);
+            passenger.setPos(entity.getX() + v.x, entity.getY() + passenger.getMyRidingOffset() + v.y,
+                    entity.getZ() + v.z);
         }
     }
 
@@ -58,7 +57,7 @@ public interface IMultiplePassengerEntity
 
         private UUID entityId;
 
-        public Seat(final FriendlyByteBuf buf)
+        public Seat(final ByteBuf buf)
         {
             this.seat = new Vec3f(buf.readFloat(), buf.readFloat(), buf.readFloat());
             this.setEntityId(new UUID(buf.readLong(), buf.readLong()));
@@ -93,8 +92,7 @@ public interface IMultiplePassengerEntity
         }
 
         /**
-         * @param entityId
-         *            the entityId to set
+         * @param entityId the entityId to set
          */
         public void setEntityId(final UUID entityId)
         {
@@ -107,7 +105,7 @@ public interface IMultiplePassengerEntity
             return this.seat + " " + this.getEntityId();
         }
 
-        public void writeToBuf(final FriendlyByteBuf buf)
+        public void writeToBuf(final ByteBuf buf)
         {
             buf.writeFloat(this.seat.x);
             buf.writeFloat(this.seat.y);
@@ -123,33 +121,6 @@ public interface IMultiplePassengerEntity
             tag.putByteArray("v", buffer.array());
         }
     }
-
-    public static final EntityDataSerializer<Seat> SEATSERIALIZER = new EntityDataSerializer<Seat>()
-    {
-        @Override
-        public Seat copy(final Seat value)
-        {
-            return new Seat((Vec3f) value.seat.clone(), value.getEntityId());
-        }
-
-        @Override
-        public EntityDataAccessor<Seat> createAccessor(final int id)
-        {
-            return new EntityDataAccessor<>(id, this);
-        }
-
-        @Override
-        public Seat read(final FriendlyByteBuf buf)
-        {
-            return new Seat(buf);
-        }
-
-        @Override
-        public void write(final FriendlyByteBuf buf, final Seat value)
-        {
-            value.writeToBuf(buf);
-        }
-    };
 
     /**
      * Gets the passenger for a seat, if this returns null, it may attempt to
@@ -183,8 +154,8 @@ public interface IMultiplePassengerEntity
     float getPrevYaw();
 
     /**
-     * Gets the seated location of this passenger, used for properly
-     * translating onto the seat.
+     * Gets the seated location of this passenger, used for properly translating
+     * onto the seat.
      *
      * @param passenger
      * @return
