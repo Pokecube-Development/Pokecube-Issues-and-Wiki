@@ -270,13 +270,16 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
         var tileV = this.getV();
         var usBounds = this.getBoundingBox().inflate(Math.abs(tileV.x()), Math.abs(tileV.y()), Math.abs(tileV.z()));
+        usBounds = usBounds.expandTowards(0, this.getSpeedUp(), 0);
 
         for (var entry : this.recentCollides.entrySet())
         {
             var entity = entry.getKey();
             var entityV = entity.getDeltaMovement();
             var pos = entry.getValue().relativePos;
-            boolean stillHit = entity.getBoundingBox().intersects(usBounds);
+            var eBounds = entity.getBoundingBox().inflate(Math.abs(entityV.x()), Math.abs(entityV.y()),
+                    Math.abs(entityV.z()));
+            boolean stillHit = eBounds.intersects(usBounds);
 
             boolean valid = stillHit;// || entity.distanceToSqr(this) < 64;
             valid = valid && entry.getValue().lastSeen().get() >= tickCount;
