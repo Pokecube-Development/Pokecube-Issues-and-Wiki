@@ -97,7 +97,10 @@ public class Battle
     {
         if (!(mob.getLevel() instanceof ServerLevel level)) return null;
         final BattleManager manager = BattleManager.managers.get(level.dimension());
-        return manager.getFor(mob);
+        var b = manager.getFor(mob);
+        // Prevents trying to add things to an ended battle.
+        if (b != null && b.ended) b = null;
+        return b;
     }
 
     public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
@@ -428,14 +431,19 @@ public class Battle
         final LivingEntity main1 = this.side1.values().iterator().next();
         final LivingEntity main2 = this.side2.values().iterator().next();
 
-        for (final LivingEntity mob1 : this.side1.values())
+        // Copy these over in-case the act of initiating combat draws in other
+        // opponents.
+        List<LivingEntity> mobs = Lists.newArrayList(this.side1.values());
+
+        for (final LivingEntity mob1 : mobs)
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob1);
             if (!(mob1 instanceof Mob mob)) continue;
             BrainUtils.initiateCombat(mob, main2);
             if (poke != null && poke.getAbility() != null) poke.getAbility().startCombat(poke);
         }
-        for (final LivingEntity mob2 : this.side2.values())
+        mobs = Lists.newArrayList(this.side2.values());
+        for (final LivingEntity mob2 : mobs)
         {
             final IPokemob poke = PokemobCaps.getPokemobFor(mob2);
             // This was already handled
