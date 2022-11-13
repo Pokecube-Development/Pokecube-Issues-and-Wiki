@@ -66,6 +66,9 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos();
             final IBlockEntity blockEntity = entity;
 
+            var v = entity.getV();
+            mat.translate(v.x(), v.y(), v.z());
+
             final int xMin = Mth.floor(blockEntity.getMin().getX());
             final int xMax = Mth.floor(blockEntity.getMax().getX());
             final int zMin = Mth.floor(blockEntity.getMin().getZ());
@@ -78,9 +81,8 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             mat.mulPose(Vector3f.YN.rotationDegrees(180.0F));
             mat.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
             mat.mulPose(Vector3f.XP.rotationDegrees(180.0F));
-            if (entity instanceof IMultiplePassengerEntity)
+            if (entity instanceof IMultiplePassengerEntity multi)
             {
-                final IMultiplePassengerEntity multi = (IMultiplePassengerEntity) entity;
                 final float yaw = -(multi.getPrevYaw() + (multi.getYaw() - multi.getPrevYaw()) * partialTicks);
                 final float pitch = -(multi.getPrevPitch() + (multi.getPitch() - multi.getPrevPitch()) * partialTicks);
                 mat.mulPose(new Quaternion(0, yaw, pitch, true));

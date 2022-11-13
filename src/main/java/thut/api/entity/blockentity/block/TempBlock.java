@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
@@ -123,10 +125,7 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     @Override
     public void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity)
-    {
-        final BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof TempTile tile) tile.onVerticalCollide(entity, 0);
-    }
+    {}
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float distance)
@@ -144,11 +143,26 @@ public class TempBlock extends AirBlock implements EntityBlock
     }
 
     @Override
+    public float getFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity)
+    {
+        final BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TempTile tile && tile.getEffectiveState() != null)
+            return tile.getEffectiveState().getBlock().getFriction(state, level, pos, entity);
+        return super.getFriction(state, level, pos, entity);
+    }
+
+    @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter worldIn, final BlockPos pos,
             final CollisionContext context)
     {
         final BlockEntity te = worldIn.getBlockEntity(pos);
-        if (te instanceof TempTile temp) return temp.getShape();
+        if (te instanceof TempTile temp)
+        {
+            boolean notForcedBox = true;
+            if (context instanceof EntityCollisionContext c && c.getEntity() != null)
+                notForcedBox = temp.blockEntity == null || temp.blockEntity.recentCollides.containsKey(c.getEntity());
+            return temp.getShape(notForcedBox);
+        }
         return Shapes.empty();
     }
 }
