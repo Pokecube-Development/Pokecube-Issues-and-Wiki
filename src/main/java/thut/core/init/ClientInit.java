@@ -35,6 +35,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.EntityViewRenderEvent.CameraSetup;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
@@ -55,6 +56,7 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.core.client.gui.NpcScreen;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
@@ -99,6 +101,17 @@ public class ClientInit
         Minecraft.getInstance().particleEngine.register(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
         Minecraft.getInstance().particleEngine.register(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
         Minecraft.getInstance().particleEngine.register(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
+    }
+
+    @SubscribeEvent
+    public static void onRenderSetup(CameraSetup event)
+    {
+//        Tracker.timerEnd("render time", 5000);
+        Mesh.windowScale = (float) Math.sqrt(Minecraft.getInstance().getWindow().getScreenHeight()
+                * Minecraft.getInstance().getWindow().getScreenWidth() * 1e-3f);
+        Mesh.verts = 0;
+        Mesh.modelCullThreshold = ThutCore.getConfig().modelCullThreshold;
+//        Tracker.timerStart();
     }
 
     @SubscribeEvent
