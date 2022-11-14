@@ -106,7 +106,6 @@ public class TempTile extends BlockEntity implements ITickTile
             }
             catch (Exception e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 NO_INTERACT.add(eff);
             }

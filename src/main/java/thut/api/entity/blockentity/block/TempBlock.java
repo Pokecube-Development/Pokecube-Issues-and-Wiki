@@ -47,6 +47,9 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
     {
+        BlockEntity be = reader.getBlockEntity(pos);
+        if (be instanceof TempTile temp && temp.getEffectiveState() != null)
+            return temp.getEffectiveState().isRedstoneConductor(reader, pos);
         return false;
     }
 
@@ -125,13 +128,25 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     @Override
     public void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity)
-    {}
+    {
+        final BlockEntity be = level.getBlockEntity(pos);
+        if (be instanceof TempTile temp && temp.getEffectiveState() != null)
+            temp.getEffectiveState().entityInside(level, pos, entity);
+    }
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float distance)
     {
         final BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof TempTile tile) distance = tile.onVerticalCollide(entity, distance);
+        if (te instanceof TempTile tile)
+        {
+            distance = tile.onVerticalCollide(entity, distance);
+            if (tile.getEffectiveState() != null)
+            {
+                tile.getEffectiveState().getBlock().stepOn(level, pos, state, entity);
+                return;
+            }
+        }
         super.fallOn(level, state, pos, entity, distance);
     }
 
@@ -139,7 +154,11 @@ public class TempBlock extends AirBlock implements EntityBlock
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
     {
         final BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof TempTile tile) tile.onVerticalCollide(entity, 0);
+        if (te instanceof TempTile tile)
+        {
+            tile.onVerticalCollide(entity, 0);
+            if (tile.getEffectiveState() != null) tile.getEffectiveState().getBlock().stepOn(level, pos, state, entity);
+        }
     }
 
     @Override
@@ -158,10 +177,31 @@ public class TempBlock extends AirBlock implements EntityBlock
         final BlockEntity te = worldIn.getBlockEntity(pos);
         if (te instanceof TempTile temp)
         {
-            boolean notForcedBox = true;
+            // Default to true for collision, for fast moving things that have
+            // not collided with us yet.
+            boolean forCollision = true;
+
+            // Now check if it should be modified.
             if (context instanceof EntityCollisionContext c && c.getEntity() != null)
-                notForcedBox = temp.blockEntity == null || temp.blockEntity.recentCollides.containsKey(c.getEntity());
-            return temp.getShape(notForcedBox);
+            {
+                boolean collider = false;
+
+                forCollision = temp.blockEntity == null
+                        || (collider = temp.blockEntity.recentCollides.containsKey(c.getEntity()));
+
+                // If it has already collided, we need to check if it
+                // intersects our bounds, if not, we are not colliding, so
+                // report full box for interaction purposes.
+                if (collider)
+                {
+                    VoxelShape base = temp.getShape(false);
+                    if (!base.isEmpty())
+                    {
+                        forCollision = base.bounds().intersects(c.getEntity().getBoundingBox());
+                    }
+                }
+            }
+            return temp.getShape(forCollision);
         }
         return Shapes.empty();
     }

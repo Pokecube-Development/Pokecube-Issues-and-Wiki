@@ -296,7 +296,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
                 var entityR = this.position().add(pos.x(), pos.y(), pos.z());
 
-                if (newVy > 0) entityR = entityR.add(0, newVy, 0);
+                if (newVy > 0) entityR = entityR.add(0, 0, 0);
 
                 var entityO = this.position().subtract(xo, yo, zo);
                 double x = entity.getX();
