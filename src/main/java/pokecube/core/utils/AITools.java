@@ -31,6 +31,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
+import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 import thut.api.item.ItemList;
@@ -90,6 +91,8 @@ public class AITools
             }
             // Confirm is not an egg or a pokecube as well
             if (core instanceof EntityPokemobEgg) return false;
+            // Confirm is not an egg or a pokecube as well
+            if (core instanceof EntityPokecubeBase) return false;
             return core instanceof Mob;
         }
     }
@@ -114,6 +117,8 @@ public class AITools
             }
             // Confirm is not an egg or a pokecube as well
             if (core instanceof EntityPokemobEgg) return false;
+            // Confirm is not an egg or a pokecube as well
+            if (core instanceof EntityPokecubeBase) return false;
             return core instanceof Mob;
         }
     }

@@ -7,6 +7,7 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.moves.LoadedMove.PreProcessor;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.api.moves.utils.IMoveConstants;
@@ -44,8 +45,12 @@ public class Transform implements PostMoveUse, PreProcessor
     {
         MoveApplication packet = t.move();
         if (packet.canceled || packet.failed) return;
+
+        if (packet.getTarget() != packet.getUser().getMoveStats().targetEnemy) return;
+
         IPokemob attacker = packet.getUser();
         LivingEntity attacked = packet.getTarget();
+
         if (attacked instanceof LivingEntity && attacked != attacker.getTransformedTo())
             attacker.setTransformedTo(attacked);
     }
@@ -55,8 +60,10 @@ public class Transform implements PostMoveUse, PreProcessor
     {
         if (t.getUser().getTransformedTo() != null)
         {
+            IPokemob mob = PokemobCaps.getPokemobFor(t.getUser().getTransformedTo());
             // Re-direct to default move if this is the case.
-            t.setMove(MoveEntry.get(IMoveConstants.DEFAULT_MOVE));
+            if (mob == null) t.setMove(MoveEntry.get(IMoveConstants.DEFAULT_MOVE));
+            else t.failed = true;
         }
     }
 }

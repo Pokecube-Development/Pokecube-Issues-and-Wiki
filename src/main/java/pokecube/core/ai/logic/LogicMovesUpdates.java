@@ -17,6 +17,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.items.IPokemobUseable;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.core.ai.brain.BrainUtils;
@@ -104,6 +105,11 @@ public class LogicMovesUpdates extends LogicBase
                 if (!moves.isEmpty()) move = moves.get(ThutCore.newRandom().nextInt(moves.size()));
                 this.pokemob.learn(move);
             }
+
+            // Revert transform if not in battle or breeding.
+            if (this.pokemob.getTransformedTo() != null && !this.pokemob.getGeneralState(GeneralStates.MATING)
+                    && Battle.getBattle(entity) == null)
+                this.pokemob.setTransformedTo(null);
         }
 
         // Run tasks that can be on server or client.
@@ -116,11 +122,6 @@ public class LogicMovesUpdates extends LogicBase
         // Only reduce cooldown if the pokemob does not currently have a
         // move being fired.
         if (num > 0 && this.pokemob.getMoveStats().movesInProgress.isEmpty()) this.pokemob.setAttackCooldown(num - 1);
-
-        // Revert transform if not in battle or breeding.
-        if (this.pokemob.getTransformedTo() != null && !this.pokemob.getGeneralState(GeneralStates.MATING)
-                && !BrainUtils.hasAttackTarget(this.entity))
-            this.pokemob.setTransformedTo(null);
 
         // Update abilities.
         if (this.pokemob.getAbility() != null && this.entity.isEffectiveAi())
