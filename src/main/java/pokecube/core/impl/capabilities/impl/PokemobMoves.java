@@ -166,11 +166,7 @@ public abstract class PokemobMoves extends PokemobStats
     public String[] getMoves()
     {
         final IPokemob transformed = PokemobCaps.getPokemobFor(this.getTransformedTo());
-        if (transformed != null && transformed.getTransformedTo() == null)
-        {
-            final IPokemob to = transformed;
-            if (to != this) return to.getMoves();
-        }
+        if (transformed != null) return this.getMoveStats().transformedMoves;
         return super.getMoves();
     }
 
@@ -535,13 +531,11 @@ public abstract class PokemobMoves extends PokemobStats
         if (!this.getEntity().level.isClientSide())
         {
             final CompoundTag tag = new CompoundTag();
-            if (to != null) to.addAdditionalSaveData(tag);
+            if (to != null) to.saveWithoutId(tag);
             this.setCopiedNBT(tag);
         }
         final LivingEntity old = this.getCopiedMob();
-
         this.setCopiedID(id == -1 ? null : RegHelper.getKey(to));
-
         this.getCopy().onBaseTick(this.getEntity().level, this.getEntity());
         if (to != old && !this.getEntity().level.isClientSide())
             CapabilitySync.sendUpdate(this.getEntity(), PokemobMoves.TO_SYNC);

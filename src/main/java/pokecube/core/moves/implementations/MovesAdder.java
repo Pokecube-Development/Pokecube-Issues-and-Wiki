@@ -172,7 +172,9 @@ public class MovesAdder implements IMoveConstants
                                         {
                                             field.set(move, thing);
                                             applied = true;
-                                            break;
+                                            // We don't break here, as quite
+                                            // often we can have multiple things
+                                            // which match, such as Transform
                                         }
                                     }
                                     if (applied)

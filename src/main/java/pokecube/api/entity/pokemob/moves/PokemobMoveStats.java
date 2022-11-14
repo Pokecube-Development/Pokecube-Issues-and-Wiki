@@ -108,6 +108,9 @@ public class PokemobMoveStats
     public LivingEntity targetEnemy = null;
     public LivingEntity targetAlly = null;
 
+    // Moves for the transformed mob
+    public String[] transformedMoves = moves;
+
     public void reset()
     {
         for (final Field f : this.getClass().getFields()) try
