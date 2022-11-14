@@ -7,7 +7,11 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,9 +27,12 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import pokecube.api.data.Pokedex;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerBlock;
@@ -34,9 +41,9 @@ import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.network.packets.PacketDataSync;
 import pokecube.core.network.packets.PacketPokedex;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.StructureManager;
 import thut.api.maths.Vector3;
-import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
@@ -98,16 +105,41 @@ public class ItemPokedex extends Item
         final BlockPos pos = context.getClickedPos();
         final Vector3 hit = new Vector3().set(pos);
         final Block block = hit.getBlockState(worldIn).getBlock();
-        if (!worldIn.isClientSide)
+        if (!worldIn.isClientSide && playerIn instanceof ServerPlayer player && worldIn instanceof ServerLevel level)
         {
-            SpawnHandler.refreshTerrain(new Vector3().set(playerIn), playerIn.getLevel(), true);
+            SpawnHandler.refreshTerrain(new Vector3().set(player), player.getLevel(), true);
+
+            // Debug option to see if structures are in an area, for testing
+            // datapacks/configs.
             if (PokecubeCore.getConfig().debug_misc)
             {
-                final Set<StructureInfo> infos = StructureManager.getFor(worldIn.dimension(), pos);
-                for (final StructureInfo i : infos)
-                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.literal(i.getName()));
+                final Set<INamedStructure> infos = StructureManager.getFor(level.dimension(), pos, false);
+                for (final INamedStructure i : infos)
+                {
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(i.getName()));
+                    BlockPos.betweenClosedStream(i.getTotalBounds()).forEach(p -> {
+                        Packet<?> packet = new ClientboundLevelParticlesPacket(ParticleTypes.HAPPY_VILLAGER, true,
+                                p.getX() + 0.5, p.getY() + 0.5, p.getZ() + 0.5, 0, 0, 0, 0, 1);
+                        player.connection.send(packet);
+                    });
+                }
+            }
+
+            // Debug option for checking what can spawn in an area, for testing
+            // datapacks/configs.
+            if (PokecubeCore.getConfig().debug_spawning)
+            {
+                Vector3 v = new Vector3().set(pos);
+                SpawnCheck checker = new SpawnCheck(v, level);
+                for (final PokedexEntry e : Database.spawnables)
+                    if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null)
+                {
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal(e.getTrimmedName()));
+                }
             }
         }
+
+        // Assign as a teleport location when used on a pokecenter.
         if (block instanceof HealerBlock)
         {
             final GlobalPos loc = GlobalPos.of(worldIn.dimension(), playerIn.blockPosition());

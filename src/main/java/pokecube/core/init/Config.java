@@ -38,6 +38,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.PokecubeSerializer;
+import thut.api.data.DataHelpers;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 
@@ -582,6 +583,8 @@ public class Config extends ConfigData
     public boolean pokeCenterMusic = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Preloads pokemob models during load. [Default: false]")
     public boolean preloadModels = false;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Preloads pokemob models during load. [Default: false]")
+    public boolean showTargetBox = false;
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Width of the pokemob message GUI. [Default: 150]")
     public int messageWidth = 150;;
@@ -749,7 +752,6 @@ public class Config extends ConfigData
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "Mobs added by other mods are treated as pokemobs as well. [Default: false]")
     public boolean non_vanilla_pokemobs = false;
 
-
     @Configure(category = Config.debug_modes, comment = "Debug output for move use. [Default: false]")
     public boolean debug_moves = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for mob ai. [Default: false]")
@@ -762,8 +764,7 @@ public class Config extends ConfigData
     public boolean debug_spawning = false;
     @Configure(category = Config.debug_modes, comment = "Debug output for uncatogorised things. [Default: false]")
     public boolean debug_misc = false;
-    
-    
+
     public Config()
     {
         super(PokecubeCore.MODID);
@@ -782,6 +783,8 @@ public class Config extends ConfigData
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
+        
+        DataHelpers.DEBUG = this.debug_data;
 
         this.berryStackScale = Math.max(1, this.berryStackScale);
 

@@ -23,7 +23,8 @@ public class CommonProxy implements Proxy
 {
     static
     {
-        PermNodes.registerNode(NBTEdit.MODID, DefaultPermissionLevel.OP, "Allowed to use nbt edit commands.");
+        PermNodes.registerBooleanNode(NBTEdit.MODID, NBTEdit.MODID, DefaultPermissionLevel.OP,
+                "Allowed to use nbt edit commands.");
     }
 
     public boolean checkPermission(final CommandSourceStack cs)

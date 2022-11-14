@@ -27,7 +27,7 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyEffect(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
     {
         if (user.inCombat()) return false;
         final LivingEntity owner = user.getOwner();

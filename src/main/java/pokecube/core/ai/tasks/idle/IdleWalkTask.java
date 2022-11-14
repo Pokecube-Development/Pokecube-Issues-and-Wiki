@@ -15,15 +15,15 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.init.Config;
+import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
 /**
@@ -88,6 +88,12 @@ public class IdleWalkTask extends BaseIdleTask
     {
         super(pokemob, IdleWalkTask._getMems());
         this.entry = pokemob.getPokedexEntry();
+    }
+
+    @Override
+    protected boolean simpleRun()
+    {
+        return true;
     }
 
     /** Floating things try to stay their preferedHeight from the ground. */

@@ -36,6 +36,7 @@ import pokecube.core.database.resources.PackFinder;
 import pokecube.core.legacy.RegistryChangeFixer;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 
 public class JsonPokedexEntry
         implements Consumer<PokedexEntry>, IMergeable<JsonPokedexEntry>, Comparable<JsonPokedexEntry>
@@ -50,7 +51,7 @@ public class JsonPokedexEntry
         public void accept(PokedexEntry t)
         {
             if (width == -1) width = height;
-            if (length == -1) length = height;
+            if (length == -1) length = width;
 
             t.height = this.height;
             t.width = this.width;
@@ -206,7 +207,7 @@ public class JsonPokedexEntry
     {
         if (remove) return Database.missingno;
         PokedexEntry old = Database.getEntry(this.name);
-        if (old != null && old != Database.missingno)
+        if (old != null && old != Database.missingno && !registered)
         {
             PokecubeAPI.LOGGER.warn("Duplicate entry for {}", this.name);
         }
@@ -215,7 +216,7 @@ public class JsonPokedexEntry
         entry.stock = this.stock;
         entry.base = this.is_default;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
-        if (entry.base)
+        if (entry.base && !registered)
         {
             Database.baseFormes.put(id, entry);
             Database.addEntry(entry);
@@ -266,6 +267,9 @@ public class JsonPokedexEntry
             entry.type2 = null;
             if (types.size() > 0) entry.type1 = PokeType.getType(types.get(0));
             if (types.size() > 1) entry.type2 = PokeType.getType(types.get(1));
+
+            if (entry.type1 == null) entry.type1 = PokeType.unknown;
+            if (entry.type2 == null) entry.type2 = PokeType.unknown;
         }
         if (this.forme_items != null) entry._forme_items = this.forme_items;
     }
@@ -275,7 +279,7 @@ public class JsonPokedexEntry
         // This can be the case if the entry was removed earlier.
         if (entry == null) return;
 
-        if (this.interactions != null) entry._loaded_interactions.addAll(this.interactions);
+        if (this.interactions != null) entry.addInteractions(this.interactions);
         if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
         if (this.mega != null) entry.setMega(this.mega);
@@ -363,7 +367,7 @@ public class JsonPokedexEntry
         resources.forEach((l, r) -> {
             try
             {
-                final JsonPokedexEntry entry = loadDatabase(PackFinder.getStream(r));
+                final JsonPokedexEntry entry = loadDatabase(ResourceHelper.getStream(r));
                 toLoad.compute(entry.name, (key, list) -> {
                     var ret = list;
                     if (ret == null) ret = Lists.newArrayList();
@@ -398,7 +402,7 @@ public class JsonPokedexEntry
         loaded.sort(null);
 
         // Stage 1, create the pokedex entries
-        if (!registered) for (var load : loaded) load.toPokedexEntry();
+        for (var load : loaded) load.toPokedexEntry();
         // Stage 2 initialise them
         for (var load : loaded) load.initStage2(Database.getEntry(load.name));
 

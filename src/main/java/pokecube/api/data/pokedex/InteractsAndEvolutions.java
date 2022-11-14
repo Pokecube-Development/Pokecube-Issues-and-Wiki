@@ -22,6 +22,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class InteractsAndEvolutions
@@ -93,6 +94,21 @@ public class InteractsAndEvolutions
         public Boolean isTag = false;
         public Drop key;
         public Action action;
+
+        private String _ser_cache;
+
+        @Override
+        public boolean equals(Object obj)
+        {
+            if (obj == this) return true;
+            if (obj instanceof Interact a)
+            {
+                if (this._ser_cache == null) this._ser_cache = JsonUtil.gson.toJson(this);
+                if (a._ser_cache == null) a._ser_cache = JsonUtil.gson.toJson(this);
+                return this._ser_cache.equals(a._ser_cache);
+            }
+            return false;
+        }
     }
 
     public static class Action

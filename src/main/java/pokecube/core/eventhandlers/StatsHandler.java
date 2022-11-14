@@ -17,13 +17,11 @@ import pokecube.api.events.pokemobs.combat.KillEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.stats.ISpecialCaptureCondition;
-import pokecube.core.PokecubeCore;
+import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.PokecubeItems;
-import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.utils.Permissions;
-import thut.api.util.PermNodes;
 import thut.lib.TComponent;
 
 public class StatsHandler
@@ -56,7 +54,7 @@ public class StatsHandler
             final PokecubeBehaviour cube = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             cube.onPreCapture(evt);
         }
-        if (evt.getCaught() == null || !(evt.pokecube == null)) return;
+        if (evt.getCaught() == null || evt.pokecube == null) return;
         final PokedexEntry entry = evt.getCaught().getPokedexEntry();
         if (evt.getCaught().getGeneralState(GeneralStates.TAMED)) evt.setResult(Result.DENY);
         if (evt.getCaught().getGeneralState(GeneralStates.DENYCAPTURE)) evt.setResult(Result.DENY);
@@ -69,28 +67,25 @@ public class StatsHandler
             CaptureManager.onCaptureDenied(evt.pokecube);
             return;
         }
-        final Config config = PokecubeCore.getConfig();
+
         // Check permissions
-        if (catcher instanceof ServerPlayer player && (config.permsCapture || config.permsCaptureSpecific))
+        if (catcher instanceof ServerPlayer player)
         {
-            boolean denied = false;
-            if (config.permsCapture && !PermNodes.getBooleanPerm(player, Permissions.CATCHPOKEMOB)) denied = true;
-            if (config.permsCaptureSpecific && !denied
-                    && !PermNodes.getBooleanPerm(player, Permissions.CATCHSPECIFIC.get(entry)))
-                denied = true;
+            boolean denied = !Permissions.canCatch(evt.getCaught(), player);
             if (denied)
             {
                 evt.setCanceled(true);
+                evt.setResult(Result.DENY);
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 CaptureManager.onCaptureDenied(evt.pokecube);
                 return;
             }
         }
 
-        if (ISpecialCaptureCondition.captureMap.containsKey(entry))
+        final ISpecialCaptureCondition condition = SpecialCaseRegister.getCaptureCondition(entry);
+        if (condition != null)
         {
             boolean deny = true;
-            final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
             try
             {
                 deny = !condition.canCapture(catcher, evt.getCaught());
@@ -103,6 +98,7 @@ public class StatsHandler
             if (deny)
             {
                 evt.setCanceled(true);
+                evt.setResult(Result.DENY);
                 if (catcher instanceof Player player)
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
                 condition.onCaptureFail(catcher, evt.getCaught());

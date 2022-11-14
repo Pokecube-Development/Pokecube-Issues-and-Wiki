@@ -1,0 +1,132 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "layers": 16
+      },
+      "apply": {
+        "model": "concrete:block/concrete_block_lime"
+      }
+    },
+    {
+      "when": {
+        "layers": 1
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_1"
+      }
+    },
+    {
+      "when": {
+        "layers": 2
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_2"
+      }
+    },
+    {
+      "when": {
+        "layers": 3
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_3"
+      }
+    },
+    {
+      "when": {
+        "layers": 4
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_4"
+      }
+    },
+    {
+      "when": {
+        "layers": 5
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_5"
+      }
+    },
+    {
+      "when": {
+        "layers": 6
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_6"
+      }
+    },
+    {
+      "when": {
+        "layers": 7
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_7"
+      }
+    },
+    {
+      "when": {
+        "layers": 8
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_8"
+      }
+    },
+    {
+      "when": {
+        "layers": 9
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_9"
+      }
+    },
+    {
+      "when": {
+        "layers": 10
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_10"
+      }
+    },
+    {
+      "when": {
+        "layers": 11
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_11"
+      }
+    },
+    {
+      "when": {
+        "layers": 12
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_12"
+      }
+    },
+    {
+      "when": {
+        "layers": 13
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_13"
+      }
+    },
+    {
+      "when": {
+        "layers": 14
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_14"
+      }
+    },
+    {
+      "when": {
+        "layers": 15
+      },
+      "apply": {
+        "model": "concrete:block/concrete_layer_lime_15"
+      }
+    }
+  ]
+}

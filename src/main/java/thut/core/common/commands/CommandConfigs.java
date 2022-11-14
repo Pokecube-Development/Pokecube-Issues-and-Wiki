@@ -209,7 +209,7 @@ public class CommandConfigs
         String name = "";
         name = prefix;
         final String perm1 = "command." + name + ".check";
-        PermNodes.registerNode(perm1, DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(ThutCore.MODID, perm1, DefaultPermissionLevel.ALL,
                 "Is the player allowed to check configs for " + data.MODID);
 
         LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal(name)
@@ -220,7 +220,7 @@ public class CommandConfigs
         commandDispatcher.register(command);
 
         final String perm2 = "command." + name + ".set";
-        PermNodes.registerNode(perm2, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(ThutCore.MODID, perm2, DefaultPermissionLevel.OP,
                 "Is the player allowed to set configs for " + data.MODID);
 
         command = Commands.literal(name)

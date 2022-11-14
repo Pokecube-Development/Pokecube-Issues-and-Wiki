@@ -7,6 +7,7 @@ import java.util.function.BiFunction;
 import org.objectweb.asm.Type;
 
 import com.google.common.collect.Maps;
+import com.google.gson.JsonObject;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
@@ -28,10 +29,10 @@ import net.minecraftforge.fml.loading.moddiscovery.ModFile;
 import net.minecraftforge.forgespi.language.ModFileScanData.AnnotationData;
 import pokecube.api.moves.utils.IMoveAnimation;
 import pokecube.core.moves.PokemobTerrainEffects;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
+import thut.api.level.terrain.CapabilityTerrain.ITerrainProvider;
 import thut.api.maths.Vector3;
-import thut.api.terrain.CapabilityTerrain.ITerrainProvider;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
 import thut.lib.CompatParser.ClassFinder;
 
 public class MoveAnimationHelper
@@ -75,16 +76,15 @@ public class MoveAnimationHelper
 
     private static MoveAnimationHelper instance;
 
-    public static IMoveAnimation getAnimationPreset(final String anim)
+    public static IMoveAnimation getAnimationPreset(final String preset, JsonObject values)
     {
         IMoveAnimation animation = null;
-        if (anim == null || anim.isEmpty()) return animation;
-        final String preset = anim.split(":")[0];
+        if (preset == null || preset.isEmpty()) return animation;
         final Class<? extends MoveAnimationBase> presetClass = MoveAnimationHelper.presets.get(preset);
         if (presetClass != null) try
         {
             animation = presetClass.getConstructor().newInstance();
-            ((MoveAnimationBase) animation).init(anim);
+            ((MoveAnimationBase) animation).init(values);
         }
         catch (final Exception e)
         {

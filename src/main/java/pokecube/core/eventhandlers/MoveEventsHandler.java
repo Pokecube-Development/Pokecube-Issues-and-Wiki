@@ -58,7 +58,6 @@ import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
 import pokecube.core.utils.Permissions;
 import thut.api.maths.Vector3;
-import thut.api.util.PermNodes;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 
@@ -95,15 +94,27 @@ public class MoveEventsHandler
         }
 
         @Override
-        public boolean applyEffect(final IPokemob user, final Vector3 location)
+        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
         {
             if (!this.checked)
             {
                 this.checked = true;
                 this.custom = MoveEventsHandler.customActions.get(this.getMoveName());
             }
-            final boolean customApplied = this.custom != null && this.custom.applyEffect(user, location);
-            return this.wrapped.applyEffect(user, location) || customApplied;
+            final boolean customApplied = this.custom != null && this.custom.applyOutOfCombat(user, location);
+            return this.wrapped.applyOutOfCombat(user, location) || customApplied;
+        }
+
+        @Override
+        public boolean applyInCombat(final IPokemob user, final Vector3 location)
+        {
+            if (!this.checked)
+            {
+                this.checked = true;
+                this.custom = MoveEventsHandler.customActions.get(this.getMoveName());
+            }
+            final boolean customApplied = this.custom != null && this.custom.applyInCombat(user, location);
+            return this.wrapped.applyInCombat(user, location) || customApplied;
         }
 
         @Override
@@ -358,13 +369,14 @@ public class MoveEventsHandler
         }
         if (PokecubeCore.getConfig().permsMoveAction && attacker.getOwner() instanceof ServerPlayer player)
         {
-            if (!PermNodes.getBooleanPerm(player, Permissions.MOVEWORLDACTION.get(move.name)))
+            if (!Permissions.canUseWorldAction(player, move.name))
             {
                 if (PokecubeCore.getConfig().debug_moves)
                     PokecubeAPI.logInfo("Denied use of " + move.name + " for " + player);
                 return;
             }
         }
-        action.applyEffect(attacker, location);
+        if (attacker.inCombat()) action.applyInCombat(attacker, location);
+        else action.applyOutOfCombat(attacker, location);
     }
 }

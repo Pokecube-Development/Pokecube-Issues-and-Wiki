@@ -66,7 +66,7 @@ public class Count
     public static void register(final LiteralArgumentBuilder<CommandSourceStack> command)
     {
         final String perm = "command.pokecube.count";
-        PermNodes.registerNode(perm, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, perm, DefaultPermissionLevel.OP,
                 "Is the player allowed to check the number of pokemobs in the world");
         command.then(Commands.literal("count").requires(Permissions.hasPerm(perm))
                 .executes((ctx) -> Count.execute(ctx.getSource())));

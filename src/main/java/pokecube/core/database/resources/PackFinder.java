@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -113,16 +111,6 @@ public class PackFinder implements RepositorySource
         time_getting_1 += (end - start);
 
         return ret;
-    }
-
-    public static InputStream getStream(Resource r)
-    {
-        return r.getInputStream();
-    }
-
-    public static BufferedReader getReader(Resource r)
-    {
-        return new BufferedReader(new InputStreamReader(r.getInputStream(), StandardCharsets.UTF_8));
     }
 
     @Nullable

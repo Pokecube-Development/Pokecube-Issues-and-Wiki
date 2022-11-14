@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "concrete:block/concrete_fluid" }
+  }
+}

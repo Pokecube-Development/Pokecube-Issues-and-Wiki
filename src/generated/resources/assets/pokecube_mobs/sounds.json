@@ -1,4 +1,25 @@
 {
+  "mobs.missingno": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.missingno",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/rattata",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/rattata",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/rattata",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "mobs.bulbasaur": {
     "category": "hostile",
     "subtitle": "entity.pokecube.bulbasaur",
@@ -14221,17 +14242,17 @@
     "subtitle": "entity.pokecube.meowstic-male",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/meowstic-male",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/meowstic-male",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/meowstic-male",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16237,17 +16258,17 @@
     "subtitle": "entity.pokecube.minior-meteor",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/minior",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/minior",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/minior",
+        "name": "pokecube_mobs:mobs/rattata",
         "volume": 1.0,
         "pitch": 1.0
       }

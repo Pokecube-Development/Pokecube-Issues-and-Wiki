@@ -92,9 +92,11 @@ public class MoveEntry implements IMoveConstants
         legacyMoveNames.remove(move.legacy_name);
     }
 
+    public static boolean reloading = false;
+
     public static void addMove(MoveEntry move)
     {
-        if (movesNames.containsKey(move.name)) PokecubeAPI.LOGGER.warn(
+        if (!reloading && movesNames.containsKey(move.name)) PokecubeAPI.LOGGER.warn(
                 "Warning, adding duplicate entry for {}, this will replace the previous one, call removeMove first if this was intentional!",
                 move.name);
         movesNames.put(move.name, move);
@@ -113,7 +115,7 @@ public class MoveEntry implements IMoveConstants
 
     public final String name;
     public PokeType type;
-    
+
     private final String legacy_name;
 
     /** Distance, contact, etc. */
@@ -126,7 +128,6 @@ public class MoveEntry implements IMoveConstants
 
     public int crit;
 
-    private boolean multiTarget = false;
     private boolean canHitNonTarget = true;
 
     public boolean ohko = false;
@@ -190,32 +191,19 @@ public class MoveEntry implements IMoveConstants
         return valid;
     }
 
-    public boolean isMultiTarget()
-    {
-        if (this.root_entry != null) return this.root_entry._multi_target;
-        return this.multiTarget;
-    }
-
-    public boolean notInterceptable()
-    {
-        if (this.root_entry != null) return this.root_entry._interceptable;
-        return false;
-    }
-
     public boolean canHitNonTarget()
     {
         return this.canHitNonTarget;
     }
 
-    public void setCanHitNonTarget(final boolean b)
-    {
-        this.canHitNonTarget = b;
-    }
-
     public boolean isAoE()
     {
-        // TODO AoE
-        return false;
+        return this.root_entry._aoe;
+    }
+
+    public boolean isMultiTarget()
+    {
+        return this.root_entry._multi_target;
     }
 
     /**
@@ -313,6 +301,7 @@ public class MoveEntry implements IMoveConstants
      */
     public int getPWR(final IPokemob user, final LivingEntity target)
     {
+        if (target == null) return this.power;
         return powerp.getPWR(user, target, this.power);
     }
 

@@ -6,8 +6,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import com.google.common.collect.Maps;
-
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -28,6 +27,7 @@ import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -37,7 +37,6 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -334,7 +333,7 @@ public class LogicMiscUpdate extends LogicBase
         this.prevID = uuid;
 
         // Here we apply worn/held equipment modifiers
-        final Map<Stats, Float> vals = Maps.newHashMap();
+        final Map<Stats, Float> vals = new Object2FloatOpenHashMap<IPokemob.Stats>();
         for (final EquipmentSlot type : EquipmentSlot.values())
             LogicMiscUpdate.getStatModifiers(type, this.entity.getItemBySlot(type), vals);
         if (this.mods == null) this.mods = this.pokemob.getModifiers().getModifiers(StatModifiers.ARMOUR);

@@ -78,7 +78,8 @@ public class CaptureManager
 
         if (hitten != null)
         {
-            if (capturePre.isCanceled() || capturePre.getResult() == Result.DENY)
+            if (capturePre.getResult() == Result.DENY) return;
+            if (capturePre.isCanceled())
             {
                 if (cube.getTilt() == 5) cube.setTime(10);
                 else cube.setTime(20 * cube.getTilt() + 5);

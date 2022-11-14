@@ -6,8 +6,8 @@ package pokecube.core.client.gui;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
-import com.google.common.base.Predicate;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -28,9 +28,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.MoveApplicationRegistry;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.commandhandlers.AttackEntityHandler;
@@ -42,7 +46,6 @@ import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.api.moves.utils.IMoveNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -644,22 +647,55 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         if (this.indexPokemob >= this.pokemobsCache.length) this.indexPokemob = 0;
     }
 
+    public Predicate<Entity> getAttackSelector()
+    {
+        final IPokemob pokemob = this.getCurrentPokemob();
+        if (pokemob == null) return AITools.validCombatTargets;
+        final Player player = this.minecraft.player;
+        return input -> {
+
+            // First check basic rules for targets.
+            if (!(input instanceof LivingEntity living)) return false;
+            if (!(AITools.validCombatTargets.test(living))) return false;
+            // Next see if this should count as a battle target.
+            boolean sameTeam = TeamManager.sameTeam(input, player);
+
+            // Cache the old target
+            var oldMob = sameTeam ? pokemob.getMoveStats().targetAlly : pokemob.getMoveStats().targetEnemy;
+
+            // Temporarily set the target to the input
+            if (sameTeam) pokemob.getMoveStats().targetAlly = living;
+            else pokemob.getMoveStats().targetEnemy = living;
+
+            MoveEntry move = pokemob.getSelectedMove();
+            // Check if is valid
+            boolean valid = MoveApplicationRegistry.isValidTarget(pokemob, living, move);
+
+            // Reset target to cached value
+            if (sameTeam) pokemob.getMoveStats().targetAlly = oldMob;
+            else pokemob.getMoveStats().targetEnemy = oldMob;
+
+            // Return valid.
+            return valid;
+        };
+    }
+
     /** Identifies target of attack, and sends the packet with info to server */
     public void pokemobAttack()
     {
-        if (this.getCurrentPokemob() == null) return;
+        final IPokemob pokemob = this.getCurrentPokemob();
+        if (pokemob == null) return;
         final Player player = this.minecraft.player;
-        final Predicate<Entity> selector = input -> {
-            if (!AITools.validCombatTargets.test(input)) return false;
-            return true;
-        };
-        Entity target = Tools.getPointedEntity(player, 32, selector.negate(), 1);
+        var selector = getAttackSelector();
+        Entity target = Tools.getPointedEntity(player, 32, selector, 1);
+
+        if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Targets: {}", target);
+
         target = EntityTools.getCoreEntity(target);
         if (target == null && Minecraft.getInstance().crosshairPickEntity != null
                 && selector.test(Minecraft.getInstance().crosshairPickEntity))
             target = Minecraft.getInstance().crosshairPickEntity;
         final Vector3 targetLocation = Tools.getPointedLocation(player, 32);
-        final IPokemob pokemob = this.getCurrentPokemob();
         if (pokemob != null)
         {
             if (pokemob.getMove(pokemob.getMoveIndex()) == null) return;

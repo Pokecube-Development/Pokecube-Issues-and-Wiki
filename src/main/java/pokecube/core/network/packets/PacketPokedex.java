@@ -36,7 +36,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
-import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -44,11 +43,11 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.stats.ISpecialCaptureCondition;
+import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.GuiPokedex;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.rewards.XMLRewardsHandler;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
@@ -58,7 +57,7 @@ import pokecube.core.handlers.PokedexInspector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.dimension.SecretBaseDimension;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.api.maths.Vector3;
 import thut.api.util.UnderscoreIgnore;
@@ -319,7 +318,6 @@ public class PacketPokedex extends NBTPacket
         }
         message.getTag().put("no_breed", no_breed);
         if (!evo_rules.isEmpty()) message.getTag().put("evo_rules", evo_rules);
-
         PacketPokedex.ASSEMBLER.sendTo(message, target);
     }
 
@@ -379,8 +377,12 @@ public class PacketPokedex extends NBTPacket
             PacketPokedex.selectedMob.clear();
             data = this.getTag().getCompound("V");
             num = data.getInt("n");
-            for (int i = 0; i < num; i++) PacketPokedex.selectedMob
-                    .add(PacketPokedex.gson.fromJson(data.getString("" + i), SpawnBiomeMatcher.class).setClient());
+            for (int i = 0; i < num; i++)
+            {
+                String value = data.getString("" + i);
+                var matcher = PacketPokedex.gson.fromJson(value, SpawnBiomeMatcher.class).setClient();
+                PacketPokedex.selectedMob.add(matcher);
+            }
             return;
         case BREEDLIST:
             data = this.getTag().getCompound("V");
@@ -496,13 +498,10 @@ public class PacketPokedex extends NBTPacket
             if (entry.getSpawnData() != null)
                 for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
             {
-                SpawnEntry sentry = entry.getSpawnData().matchers.get(matcher);
                 String serialised = PacketPokedex.serialize(matcher);
                 // This is null in the case that the spawn is not valid.
                 if (serialised == null) continue;
-                matcher.spawnRule.values.put(PokedexEntryLoader.RATE, sentry.rate + "");
                 spawns.putString("" + n, serialised);
-                matcher.spawnRule.values.remove(PokedexEntryLoader.RATE);
                 n++;
             }
             spawns.putInt("n", n);
@@ -611,9 +610,9 @@ public class PacketPokedex extends NBTPacket
             return;
         case CHECKLEGEND:
             entry = Database.getEntry(this.getTag().getString("V"));
-            if (entry != null && ISpecialCaptureCondition.captureMap.containsKey(entry))
+            ISpecialCaptureCondition condition = SpecialCaseRegister.getCaptureCondition(entry);
+            if (condition != null)
             {
-                final ISpecialCaptureCondition condition = ISpecialCaptureCondition.captureMap.get(entry);
                 final boolean valid = condition.canCapture(player);
                 if (valid) thut.lib.ChatHelper.sendSystemMessage(player,
                         TComponent.translatable("pokewatch.capture.check.yes", entry.getTranslatedName()));

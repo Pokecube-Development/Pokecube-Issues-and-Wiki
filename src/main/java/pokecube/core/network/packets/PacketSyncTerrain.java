@@ -8,8 +8,8 @@ import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.moves.animations.MoveAnimationHelper;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 import thut.core.common.network.Packet;
 
 public class PacketSyncTerrain extends Packet

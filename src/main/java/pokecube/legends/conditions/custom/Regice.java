@@ -16,7 +16,7 @@ import thut.api.maths.Vector3;
 
 public class Regice extends AbstractRegiCondition
 {
-    private static final ResourceLocation VALID = new ResourceLocation(Reference.ID, "regice");
+    private static final ResourceLocation VALID = new ResourceLocation(Reference.ID, "arceus_approved/regice");
 
     public Regice()
     {

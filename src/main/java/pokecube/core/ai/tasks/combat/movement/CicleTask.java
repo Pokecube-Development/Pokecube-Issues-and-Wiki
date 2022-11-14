@@ -1,12 +1,18 @@
 package pokecube.core.ai.tasks.combat.movement;
 
-import net.minecraft.world.entity.Entity;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
+import net.minecraft.world.entity.ai.memory.MemoryModuleType;
+import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.pathfinder.Node;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import thut.api.entity.ai.IAICombat;
@@ -19,13 +25,19 @@ import thut.api.maths.Vector3;
  */
 public class CicleTask extends CombatTask implements IAICombat
 {
-    Entity target;
+    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
+
+    static
+    {
+        CicleTask.MEMS.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
+    }
+
     Vector3 centre;
     double movementSpeed;
 
     public CicleTask(final IPokemob mob)
     {
-        super(mob);
+        super(mob, CicleTask.MEMS);
         this.centre = null;
         this.movementSpeed = 1.5f;
     }
@@ -65,6 +77,14 @@ public class CicleTask extends CombatTask implements IAICombat
             f = Math.max(f, 0.5f);
             if (here.distTo(end) > f) return;
         }
+
+        // Check if we can see the target, if not, try pathing directly to it.
+        if (!BrainUtils.canSee(entity, target))
+        {
+            this.setWalkTo(this.target, this.movementSpeed, 0);
+            return;
+        }
+
         MoveEntry attack = this.pokemob.getSelectedMove();
 
         final Vector3 here = new Vector3().set(this.entity);
@@ -111,9 +131,9 @@ public class CicleTask extends CombatTask implements IAICombat
     public boolean shouldRun()
     {
         if (!TaskBase.canMove(this.pokemob)) return false;
+        this.checkAttackTarget();
         // Has target and is angry.
-        return (this.target = BrainUtils.getAttackTarget(this.entity)) != null
-                && this.pokemob.getCombatState(CombatStates.BATTLING)
+        return this.target != null && this.pokemob.getCombatState(CombatStates.BATTLING)
                 && !this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE);
     }
 }

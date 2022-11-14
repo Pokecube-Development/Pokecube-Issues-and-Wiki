@@ -198,6 +198,94 @@ def convert_old_move_name(old):
     print(f'error converting old name for {old}')
     return None
 
+def convert_animation(move_name, old_animation):
+
+    # Start with the preset type.
+    preset = old_animation['preset']
+    if ':' in preset or not 'preset_values' in old_animation:
+        new_animation = {}
+        # We need to convert to new format
+        args = preset.split(':')
+        name = args[0]
+        new_animation['preset'] = name
+
+        if 'duration' in old_animation:
+            new_animation['duration'] = int(old_animation['duration'])
+        if 'starttick' in old_animation:
+            new_animation['starttick'] = int(old_animation['starttick'])
+
+        if 'volume' in old_animation:
+            new_animation['volume'] = old_animation['volume']
+        if 'pitch' in old_animation:
+            new_animation['pitch'] = old_animation['pitch']
+
+        if 'sound' in old_animation:
+            new_animation['sound'] = old_animation['sound']
+        if 'soundSource' in old_animation:
+            new_animation['soundSource'] = old_animation['soundSource']
+        if 'soundTarget' in old_animation:
+            new_animation['soundTarget'] = old_animation['soundTarget']
+
+        if 'applyAfter' in old_animation:
+            new_animation['applyAfter'] = old_animation['applyAfter']
+
+        values = {}
+        for i in range(1,len(args)):
+            arg = args[i]
+            # Old system first character was what was going on.
+            t = arg[0]
+            val = arg[1:len(arg)]
+
+            try:
+                # Now to handle the things.
+                if t == 'p':
+                    values['particle'] = val
+                elif t == 'a':
+                    values['absolute'] = val == 'true'
+                elif t == 'd':
+                    values['density'] = float(val)
+                elif t == 'w':
+                    values['width'] = float(val)
+                elif t == 'l':
+                    values['lifetime'] = int(val)
+                elif t == 'r':
+                    values['reverse'] = val == 'true'
+                elif t == 'c':
+                    values['rgba_string'] = val
+                elif t == 'f':
+                    # This one depends strongly on the old preset.
+                    if name == 'cartFunc':
+                        sub_args = val.split(',')
+                        values['f_x'] = sub_args[0]
+                        values['f_y'] = sub_args[1]
+                        values['f_z'] = sub_args[2]
+                        pass
+                    elif name == 'cylFunc':
+                        sub_args = val.split(',')
+                        values['f_radial'] = sub_args[0]
+                        values['f_phi'] = sub_args[1]
+                        pass
+                    elif name == 'sphFunc':
+                        sub_args = val.split(',')
+                        values['f_radial'] = sub_args[0]
+                        values['f_theta'] = sub_args[1]
+                        values['f_phi'] = sub_args[2]
+                        pass
+                    elif name == 'flow':
+                        values['flat'] = True
+                        values['angle'] = float(val)
+                    else:
+                        print(f'unknown f key for preset {name} {preset} for {move_name}')
+                else:
+                    print(f'unknown key {t} for preset {name} {preset} for {move_name}')
+            except Exception as err:
+                print(f'error with key {t} {val} ({arg}) for preset {name} {preset} for {move_name}')
+                print(err)
+        new_animation['preset_values'] = values
+        return new_animation
+    return old_animation
+
+
 def convert_moves():
 
     old_moves = './old/moves/moves.json'
@@ -209,15 +297,12 @@ def convert_moves():
     for var in old_moves["moves"]:
         moves_dex[var["name"]] = var
 
-    old_animations = './old/moves/moves_anims.json'
-    file = open(old_animations, 'r')
-    data = file.read()
-    file.close()
-    old_animations = json.loads(data)
-
     anims_dex = {}
-    for var in old_animations["moves"]:
-        anims_dex[var["name"]] = var
+    for filename in os.listdir('./data/moves/animations/'):
+        file = open(f'./data/moves/animations/{filename}', 'r')
+        data = file.read()
+        data =  json.loads(data)
+        anims_dex[data['name']] = data['animations']
 
     lang_files = {}
     lang_desc = {}
@@ -228,7 +313,6 @@ def convert_moves():
     d_moves = []
 
     move_entries = []
-
 
     # Dump each move, and collect langs and tags
     for name, index in index_map.items():
@@ -318,18 +402,16 @@ def convert_moves():
         new_name = convert_old_move_name(name)
         if new_name is not None:
             file = f'../../src/generated/resources/data/pokecube_mobs/database/moves/animations/{new_name}.json'
-            value["name"] = new_name
-
+            output = {"name":new_name, "animations":value}
             anims = []
-            for var in value["animations"]:
+            for var in output["animations"]:
                 var["preset"] = var["preset"].split(":~")[0]
-                anims.append(var)
-            value["animations"] = anims
-
+                anims.append(convert_animation(new_name, var))
+            output["animations"] = anims
             if not os.path.exists(os.path.dirname(file)):
                 os.makedirs(os.path.dirname(file))
             file = open(file, 'w', encoding='utf-8')
-            json.dump(value, file, indent=2, ensure_ascii=False)
+            json.dump(output, file, indent=2, ensure_ascii=False)
             file.close()
         else:
             print(f'unknown animation: {name}')

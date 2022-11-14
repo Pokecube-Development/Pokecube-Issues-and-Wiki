@@ -33,10 +33,10 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.world.terrain.PokecubeTerrainChecker;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
-import thut.api.terrain.TerrainManager;
+import thut.api.level.structures.StructureManager;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.TerrainManager;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.BotAI;
 import thut.core.common.ThutCore;
@@ -338,7 +338,7 @@ public class RoadBuilder extends AbstractBot
             if (y < this.player.level.getSeaLevel() - 2) y = this.player.level.getSeaLevel() + 2;
             y = Math.max(y, this.player.level.getSeaLevel());
             BlockPos pos = v.atY(y);
-            if (!StructureManager.getNear(player.level.dimension(), pos, 5).isEmpty())
+            if (!StructureManager.getNear(player.level.dimension(), pos, 5, false).isEmpty())
             {
                 fixedPoints.set(i);
             }
@@ -533,7 +533,7 @@ public class RoadBuilder extends AbstractBot
                 pos = new BlockPos(vec);
 
                 // If too close to a structure, skip point
-                final Set<StructureInfo> inside = StructureManager.getNear(level.dimension(), pos, 2);
+                final Set<INamedStructure> inside = StructureManager.getNear(level.dimension(), pos, 2, false);
                 if (!inside.isEmpty()) continue;
 
                 // check if we need this edge at all

@@ -90,6 +90,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.logic.Logic;
+import pokecube.core.ai.tasks.combat.management.FindTargetsTask;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
@@ -116,10 +117,9 @@ import thut.api.entity.event.CopyUpdateEvent;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.item.ItemList;
+import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
-import thut.api.terrain.TerrainManager;
-import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
@@ -546,6 +546,7 @@ public class PokemobEventsHandler
                 final List<VoxelShape> hits = Lists.newArrayList();
                 // Find all voxel shapes in the area
                 BlockPos.betweenClosedStream(biggerBox).forEach(pos -> {
+                    if (!level.isLoaded(pos)) return;
                     final BlockState state = level.getBlockState(pos);
                     final VoxelShape shape = state.getCollisionShape(level, pos);
                     if (!shape.isEmpty()) hits.add(shape.move(pos.getX(), pos.getY(), pos.getZ()));
@@ -795,6 +796,9 @@ public class PokemobEventsHandler
         final LivingEntity living = evt.getEntityLiving();
         if (living.isRemoved()) return;
 
+        // Have this tick to manage the target's target.
+        FindTargetsTask.onMobTick(living);
+
         // Server side check if still have a rider, sync that.
         if (living instanceof ServerPlayer player)
         {
@@ -1039,10 +1043,7 @@ public class PokemobEventsHandler
 
         if (rider instanceof ServerPlayer player && rider == pokemob.getOwner())
         {
-            final Config config = PokecubeCore.getConfig();
-            if (config.permsRide && !PermNodes.getBooleanPerm(player, Permissions.RIDEPOKEMOB)) return false;
-            if (config.permsRideSpecific && !PermNodes.getBooleanPerm(player, Permissions.RIDESPECIFIC.get(entry)))
-                return false;
+            if (!Permissions.canRide(pokemob, player)) return false;
         }
         final float scale = pokemob.getSize();
         final Vec3f dims = pokemob.getPokedexEntry().getModelSize();

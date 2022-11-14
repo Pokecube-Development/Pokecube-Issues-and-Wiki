@@ -93,7 +93,7 @@ public class DefaultFireAction extends DefaultAction
      * flamable blocks Melt snow If strong, melt obsidian to lava If none of the
      * above, attempt to cook items nearby
      */
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
         final Level world = user.getEntity().getLevel();

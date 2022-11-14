@@ -2,7 +2,6 @@ package pokecube.core.ai.tasks.combat.movement;
 
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.behavior.PositionTracker;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -116,7 +115,7 @@ public class DodgeTask extends CombatTask implements IAICombat
         // We are still preparing to dodge
         if (this.dodgeCooldown-- >= 0) return true;
 
-        final LivingEntity target = BrainUtils.getAttackTarget(this.entity);
+        this.checkAttackTarget();
         // Only dodge if there is an attack target.
         if (target == null) return false;
 

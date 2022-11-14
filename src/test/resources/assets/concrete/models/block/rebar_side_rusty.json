@@ -1,0 +1,50 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "texture": "concrete:block/rebar_rusty",
+        "inside": "concrete:block/rebar_rusty",
+        "particle": "concrete:block/rebar_rusty"
+    },
+    "elements": [
+        {   "from": [ 9, 9, 0 ],
+            "to": [ 11, 11, 5 ],
+            "faces": {
+                "down":  { "texture": "#texture" },
+                "up":    { "texture": "#texture" },
+                "north": { "texture": "#texture" },
+                "west":  { "texture": "#texture" },
+                "east":  { "texture": "#texture" }
+            }
+        },
+        {   "from": [ 5, 5, 0 ],
+            "to": [ 7, 7, 5 ],
+            "faces": {
+                "down":  { "texture": "#texture" },
+                "up":    { "texture": "#texture" },
+                "north": { "texture": "#texture" },
+                "west":  { "texture": "#texture" },
+                "east":  { "texture": "#texture" }
+            }
+        },
+        {   "from": [ 9, 5, 0 ],
+            "to": [ 11, 7, 5 ],
+            "faces": {
+                "down":  { "texture": "#texture" },
+                "up":    { "texture": "#texture" },
+                "north": { "texture": "#texture" },
+                "west":  { "texture": "#texture" },
+                "east":  { "texture": "#texture" }
+            }
+        },
+        {   "from": [ 5, 9, 0 ],
+            "to": [ 7, 11, 5 ],
+            "faces": {
+                "down":  { "texture": "#texture" },
+                "up":    { "texture": "#texture" },
+                "north": { "texture": "#texture" },
+                "west":  { "texture": "#texture" },
+                "east":  { "texture": "#texture" }
+            }
+        }
+    ]
+}

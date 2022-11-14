@@ -53,7 +53,8 @@ public class Spawns extends ListPage<LineEntry>
                 this.font.lineHeight, offsetX, offsetY);
         for (final SpawnBiomeMatcher matcher : PacketPokedex.selectedMob)
         {
-            final SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 100, height, offsetY);
+            final SpawnListEntry entry = new SpawnListEntry(this, this.font, matcher, null, 100, height, offsetY)
+                    .noRate();
             entry.getLines(this.list, null).forEach(c -> this.list.addEntry(c));
         }
 

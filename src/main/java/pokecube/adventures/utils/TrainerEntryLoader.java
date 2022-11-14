@@ -47,6 +47,7 @@ public class TrainerEntryLoader
         Held held;
         Held reward;
         Boolean replace;
+        String team;
 
         List<SpawnRule> spawns = Lists.newArrayList();
         List<String> tags = Lists.newArrayList();
@@ -123,6 +124,7 @@ public class TrainerEntryLoader
             type.spawns.clear();
             type.pokemon.clear();
             type.wornItems.clear();
+            type.defaultTeam = entry.team;
             final byte male = 1;
             final byte female = 2;
             type.tradeTemplate = entry.tradeTemplate;

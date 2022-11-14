@@ -1,0 +1,6 @@
+{
+    "parent": "concrete:block/layered_10",
+    "textures": {
+        "texture": "minecraft:block/magenta_concrete"
+    }
+}

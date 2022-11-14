@@ -26,9 +26,8 @@ public class ActionSmash implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyEffect(final IPokemob user, final Vector3 location)
+    public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
     {
-        if (user.inCombat()) return false;
         boolean used = false;
         int count = 10;
         int level = user.getLevel();
@@ -59,7 +58,7 @@ public class ActionSmash implements IMoveWorldEffect
     @Override
     public String getMoveName()
     {
-        return "rocksmash";
+        return "rock-smash";
     }
 
     private int smashRock(final IPokemob digger, final Vector3 v, final boolean count)

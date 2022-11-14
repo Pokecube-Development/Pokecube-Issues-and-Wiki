@@ -51,7 +51,6 @@ import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
-import pokecube.core.init.Config;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.utils.Permissions;
 import thut.api.IOwnable;
@@ -60,7 +59,6 @@ import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.api.maths.Vector3;
-import thut.api.util.PermNodes;
 import thut.core.common.ThutCore;
 import thut.core.common.genetics.DefaultGenetics;
 import thut.lib.TComponent;
@@ -214,15 +212,8 @@ public class ItemPokemobEgg extends Item
     public static void tryImprint(final IPokemob mob)
     {
         final LivingEntity owner = ItemPokemobEgg.imprintOwner(mob);
-        final Config config = PokecubeCore.getConfig();
         // Check permissions
-        if (owner instanceof ServerPlayer player && (config.permsHatch || config.permsHatchSpecific))
-        {
-            final PokedexEntry entry = mob.getPokedexEntry();
-            if (config.permsHatch && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTPOKEMOB)) return;
-            if (config.permsHatchSpecific && !PermNodes.getBooleanPerm(player, Permissions.SENDOUTSPECIFIC.get(entry)))
-                return;
-        }
+        if (owner instanceof ServerPlayer player) if (!Permissions.canHatch(mob, player)) return;
         if (owner != null)
         {
             mob.setOwner(owner.getUUID());

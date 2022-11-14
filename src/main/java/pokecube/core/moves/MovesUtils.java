@@ -38,6 +38,7 @@ import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.stats.DefaultModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
@@ -60,8 +61,8 @@ import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import thut.api.boom.ExplosionCustom;
+import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -709,35 +710,52 @@ public class MovesUtils implements IMoveConstants
 
         Predicate<MoveApplication> target_test = MoveApplicationRegistry.getValidator(move);
         Mob mob = user;
+        Level level = mob.level;
         Battle battle = Battle.getBattle(mob);
-
-        List<LivingEntity> targets = Lists.newArrayList();
 
         if (battle != null)
         {
-            targets.addAll(battle.getAllies(mob));
-            if (pokemob.getOwner() != null) targets.add(pokemob.getOwner());
-            targets.addAll(battle.getEnemies(mob));
+            List<LivingEntity> targets = Lists.newArrayList();
+            
+            List<LivingEntity> options = Lists.newArrayList();
+            // Actual target first.
+            options.add(target);
+            // Then targetted enemy
+            options.add(pokemob.getMoveStats().targetEnemy);
+            // Then targetted ally
+            options.add(pokemob.getMoveStats().targetAlly);
+            // Then all enemies
+            options.addAll(battle.getEnemies(mob));
+            // Then all allies
+            options.addAll(battle.getAllies(mob));
+
+            // Now ensure no null entries or duplicates in the actual list.
+            for (var e : options) if (e != null && !targets.contains(e)) targets.add(e);
+
             // If we are in battle, lets deal with that here.
-            targets.forEach(s -> {
+            for (var s : targets)
+            {
                 apply.setTarget(s);
                 if (target_test.test(apply))
                 {
-                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s))) return;
+                    if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s))) continue;
                     // In this case, we had selected a new target from the
                     // battle, so we want to change our end for when the move is
                     // fired.
-                    if (s != target) end.set(s);
-                    final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end).setTarget(s)
-                            .build();
+                    Vector3 use = new Vector3(end);
+                    if (s != target) use.set(s);
+
+                    final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, use);
                     if (GZMoveManager.zmoves_map.containsValue(move.name))
                         pokemob.setCombatState(CombatStates.USEDZMOVE, true);
 
                     if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Queuing move: {} used by {} on {}",
                             move.name, user.getDisplayName().getString(), s.getDisplayName().getString());
                     MoveQueuer.queueMove(moveUse);
+
+                    if (!move.isMultiTarget()) break;
                 }
-            });
+            }
         }
         else
         {
@@ -747,7 +765,6 @@ public class MovesUtils implements IMoveConstants
 
             apply_test:
             {
-                targets.add(mob);
                 if (target != null)
                 {
                     apply.setTarget(target);
@@ -755,8 +772,7 @@ public class MovesUtils implements IMoveConstants
                     {
                         if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)))
                             break apply_test;
-                        final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end)
-                                .setTarget(target).build();
+                        final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                         if (GZMoveManager.zmoves_map.containsValue(move.name))
                             pokemob.setCombatState(CombatStates.USEDZMOVE, true);
                         MoveQueuer.queueMove(moveUse);
@@ -768,8 +784,8 @@ public class MovesUtils implements IMoveConstants
                 {
                     if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)))
                         break apply_test;
-                    final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end)
-                            .setTarget(target).build();
+                    if (mob != target) end.set(mob);
+                    final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                     if (GZMoveManager.zmoves_map.containsValue(move.name))
                         pokemob.setCombatState(CombatStates.USEDZMOVE, true);
                     MoveQueuer.queueMove(moveUse);
@@ -780,7 +796,7 @@ public class MovesUtils implements IMoveConstants
                 {
                     if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, null)))
                         break apply_test;
-                    final EntityMoveUse moveUse = EntityMoveUse.Builder.make(user, move, start).setEnd(end).build();
+                    final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
                     if (GZMoveManager.zmoves_map.containsValue(move.name))
                         pokemob.setCombatState(CombatStates.USEDZMOVE, true);
                     MoveQueuer.queueMove(moveUse);

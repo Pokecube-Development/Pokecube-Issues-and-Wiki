@@ -1,5 +1,7 @@
 package pokecube.api.data.spawns;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +21,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.material.Material;
@@ -32,46 +33,11 @@ import pokecube.api.data.spawns.SpawnCheck.Weather;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
-import thut.api.terrain.BiomeDatabase;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.StructureManager;
-import thut.api.terrain.StructureManager.StructureInfo;
+import thut.api.level.terrain.BiomeDatabase;
+import thut.api.level.terrain.BiomeType;
 
-public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
+public class SpawnBiomeMatcher
 {
-    public static interface StructureMatcher
-    {
-
-        static StructureMatcher or(final StructureMatcher A, final StructureMatcher B)
-        {
-            return new StructureMatcher()
-            {
-                @Override
-                public MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
-                {
-                    final MatchResult resA = A.structuresMatch(matcher, checker);
-                    if (resA == MatchResult.SUCCEED) return resA;
-                    final MatchResult resB = B.structuresMatch(matcher, checker);
-                    if (resB == MatchResult.SUCCEED) return resB;
-                    return resA == MatchResult.FAIL || resB == MatchResult.FAIL ? MatchResult.FAIL : MatchResult.PASS;
-                }
-            };
-        }
-
-        default MatchResult structuresMatch(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
-        {
-            if (!matcher._validStructures.isEmpty())
-            {
-                final Set<StructureInfo> set = StructureManager.getFor(((Level) checker.world).dimension(),
-                        checker.location.getPos());
-                for (final StructureInfo i : set)
-                    if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
-                return MatchResult.FAIL;
-            }
-            return MatchResult.PASS;
-        }
-    }
-
     public static final String TYPES = "types";
     public static final String TYPESBLACKLIST = "typesBlacklist";
 
@@ -154,7 +120,10 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     matcher.clientBiomes.add(test);
                 }
             }
-            if (matcher.clientBiomes.size() == reg.keySet().size()) matcher.clientBiomes.clear();
+
+            boolean noChildBiomes = matcher._or_children.isEmpty() && matcher._and_children.isEmpty();
+            noChildBiomes = noChildBiomes && matcher._validBiomes.isEmpty();
+            if (noChildBiomes || matcher.clientBiomes.size() == reg.keySet().size()) matcher.clientBiomes.clear();
         }
         catch (Exception e)
         {
@@ -336,7 +305,13 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
         // First check children
         if (!this._not_children.isEmpty())
         {
-            boolean any = _not_children.stream().anyMatch(m -> m.checkSubBiome(biome));
+            boolean any = _not_children.stream().anyMatch(m -> {
+                boolean hadAll = m._validSubBiomes.remove(BiomeType.ALL);
+                // If it is set to only include 1 thing, return false here.
+                boolean valid = m.checkSubBiome(biome);
+                if (hadAll) m._validSubBiomes.add(BiomeType.ALL);
+                return valid;
+            });
             if (any) return false;
         }
         boolean or_valid = true;
@@ -781,6 +756,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
             {
                 PokecubeAPI.logDebug("Invalid Matcher: {}", PacketPokedex.gson.toJson(spawnRule));
             }
+            this.initFields();
             return;
         }
 
@@ -833,6 +809,7 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
 
         if (!this._valid && SpawnBiomeMatcher.loadedIn) PokecubeAPI.logDebug("Invalid Matcher: {} ({})",
                 PacketPokedex.gson.toJson(spawnRule), PacketPokedex.gson.toJson(this.spawnRule));
+        this.initFields();
     }
 
     private void preParseSubBiomes(SpawnRule rule)
@@ -851,6 +828,57 @@ public class SpawnBiomeMatcher // implements Predicate<SpawnCheck>
                     break;
                 }
                 if (subBiome == null && !BiomeDatabase.isBiomeTag(s)) BiomeType.getBiome(s.trim(), true);
+            }
+        }
+    }
+
+    private boolean valid(Field f)
+    {
+        if (!this._valid) return false;
+        // First check children
+        if (this._not_children.isEmpty())
+        {
+            boolean any = _not_children.stream().anyMatch(m -> m.valid(f));
+            if (any) return false;
+        }
+        boolean or_valid = true;
+        if (!this._or_children.isEmpty())
+        {
+            or_valid = _or_children.stream().anyMatch(m -> m.valid(f));
+        }
+        if (!or_valid) return false;
+        if (!this._and_children.isEmpty())
+        {
+            return _and_children.stream().allMatch(m -> m.valid(f));
+        }
+        if (!this._or_children.isEmpty()) return or_valid;
+        try
+        {
+            return f.getBoolean(this);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private void initFields()
+    {
+        for (Field f : this.getClass().getDeclaredFields())
+        {
+            if (Modifier.isFinal(f.getModifiers())) continue;
+            if (Modifier.isStatic(f.getModifiers())) continue;
+            if (Modifier.isTransient(f.getModifiers())) continue;
+            if (f.getType() != boolean.class) continue;
+            if (f.getName().startsWith("_")) continue;
+            try
+            {
+                f.set(this, this.valid(f));
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
             }
         }
     }

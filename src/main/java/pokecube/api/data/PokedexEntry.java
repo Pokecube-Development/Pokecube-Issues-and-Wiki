@@ -51,6 +51,7 @@ import net.minecraftforge.fml.ModLoadingContext;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
+import pokecube.api.data.effects.materials.IMaterialAction;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
@@ -86,11 +87,11 @@ import pokecube.core.utils.TimePeriod;
 import thut.api.Tracker;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
+import thut.api.level.terrain.BiomeType;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
-import thut.api.terrain.BiomeType;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
@@ -953,7 +954,7 @@ public class PokedexEntry
     public boolean hasShiny = true;
     /** Materials which will hurt or make it despawn. */
     @CopyToGender
-    public String[] hatedMaterial;
+    public List<IMaterialAction> materialActions = Lists.newArrayList();
     @CopyToGender
     public float height = -1;
     @CopyToGender
@@ -1251,6 +1252,14 @@ public class PokedexEntry
                     PokecubeAPI.logInfo("Added Mega: " + this + " -> " + formeEntry);
             }
         }
+    }
+
+    public void addInteractions(List<Interact> interactions)
+    {
+        if (interactions == null) return;
+        interactions.forEach(i -> {
+            if (!_loaded_interactions.contains(i)) _loaded_interactions.add(i);
+        });
     }
 
     /**

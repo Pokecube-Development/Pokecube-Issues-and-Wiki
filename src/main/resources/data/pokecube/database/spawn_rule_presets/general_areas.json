@@ -29,6 +29,12 @@
     },
     {
       "values": {
+        "preset": "sandy_areas",
+        "types": "#forge:is_sandy,all"
+      }
+    },
+    {
+      "values": {
         "preset": "snowy_areas",
         "types": "#forge:is_snowy,all"
       }

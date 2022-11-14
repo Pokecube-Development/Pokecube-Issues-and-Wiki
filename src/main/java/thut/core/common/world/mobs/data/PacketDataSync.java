@@ -26,7 +26,7 @@ public class PacketDataSync extends Packet
         packet.data = list;
         packet.id = entity_id;
         ThutCore.packets.sendToTracking(packet, tracked);
-        if (tracked instanceof ServerPlayer) ThutCore.packets.sendTo(packet, (ServerPlayer) tracked);
+        if (tracked instanceof ServerPlayer player) ThutCore.packets.sendTo(packet, player);
     }
 
     public static void sync(final ServerPlayer syncTo, final DataSync data, final int entity_id, final boolean all)

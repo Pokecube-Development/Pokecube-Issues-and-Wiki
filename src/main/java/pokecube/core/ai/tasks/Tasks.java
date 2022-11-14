@@ -18,9 +18,9 @@ import net.minecraft.world.entity.ai.sensing.SensorType;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.pokemobs.InitAIEvent.Init;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
@@ -281,7 +281,8 @@ public class Tasks
                 Pair.of(new LookAtMob(MobCategory.CREATURE, 8.0F),1),
                 Pair.of(new LookAtMob(MobCategory.WATER_CREATURE, 8.0F), 1),
                 Pair.of(new LookAtMob(MobCategory.MONSTER, 8.0F), 1),
-                Pair.of(new BlankTask(30, 60), 2)
+                Pair.of(new LookAtMob(e->e instanceof Mob, 8.0F), 1),
+                Pair.of(new BlankTask(10, 20), 2)
                 )));
     }
 
@@ -291,7 +292,7 @@ public class Tasks
                 ImmutableList.of(
                 Pair.of(new LookAtMob(EntityType.VILLAGER,8.0F), 2),
                 Pair.of(new LookAtMob(EntityType.PLAYER, 8.0F), 2),
-                Pair.of(new BlankTask(30, 60),8)
+                Pair.of(new BlankTask(10, 20),8)
                 )));
     }
     //@formatter:on

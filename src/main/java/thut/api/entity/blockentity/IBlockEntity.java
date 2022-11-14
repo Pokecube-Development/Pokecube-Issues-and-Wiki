@@ -253,6 +253,8 @@ public interface IBlockEntity
 
     BlockEntityInteractHandler getInteractor();
 
+    BlockEntityUpdater getUpdater();
+
     BlockPos getMax();
 
     BlockPos getMin();

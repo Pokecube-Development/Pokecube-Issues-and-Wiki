@@ -19,19 +19,19 @@ import thut.wearables.network.PacketGui;
 
 public class CommandGui
 {
-    public static String PERMWEARABLESCMD = "wearables.open.other.command";
+    public static String PERMWEARABLESCMD = "open.other.command";
     static
     {
-        PermNodes.registerNode(CommandGui.PERMWEARABLESCMD, DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(ThutWearables.MODID, CommandGui.PERMWEARABLESCMD, DefaultPermissionLevel.OP,
                 "Whether the player can open the wearables gui of others via the command.");
     }
 
-    public static int execute(final CommandSourceStack commandSource, final LivingEntity target) throws CommandRuntimeException,
-            CommandSyntaxException
+    public static int execute(final CommandSourceStack commandSource, final LivingEntity target)
+            throws CommandRuntimeException, CommandSyntaxException
     {
         final ServerPlayer user = commandSource.getPlayerOrException();
-        if (!PermNodes.getBooleanPerm(user, CommandGui.PERMWEARABLESCMD)) throw new CommandRuntimeException(
-                TComponent.translatable("wearables.command.fail.noperms"));
+        if (!PermNodes.getBooleanPerm(user, CommandGui.PERMWEARABLESCMD))
+            throw new CommandRuntimeException(TComponent.translatable("wearables.command.fail.noperms"));
         if (target == null) ThutWearables.packets.sendTo(new MouseOverPacket(), user);
         else
         {
@@ -45,16 +45,18 @@ public class CommandGui
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermNodes.registerNode("command.wearables", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(ThutWearables.MODID,
+                "command.wearables", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /wearables");
 
-        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("wearables").requires(cs -> CommandTools
-                .hasPerm(cs, "command.wearables")).then(Commands.argument("player", EntityArgument.player()).executes(
-                        ctx -> CommandGui.execute(ctx.getSource(), EntityArgument.getPlayer(ctx, "player"))));
+        LiteralArgumentBuilder<CommandSourceStack> command = Commands.literal("wearables")
+                .requires(cs -> CommandTools.hasPerm(cs, "command.wearables"))
+                .then(Commands.argument("player", EntityArgument.player())
+                        .executes(ctx -> CommandGui.execute(ctx.getSource(), EntityArgument.getPlayer(ctx, "player"))));
         commandDispatcher.register(command);
 
-        command = Commands.literal("wearables").requires(cs -> CommandTools.hasPerm(cs, "command.wearables")).executes(
-                ctx -> CommandGui.execute(ctx.getSource(), null));
+        command = Commands.literal("wearables").requires(cs -> CommandTools.hasPerm(cs, "command.wearables"))
+                .executes(ctx -> CommandGui.execute(ctx.getSource(), null));
         commandDispatcher.register(command);
     }
 

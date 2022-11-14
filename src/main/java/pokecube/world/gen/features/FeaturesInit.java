@@ -29,7 +29,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.features.register.PlacedFeatureHolder;
-import thut.api.terrain.BiomeDatabase;
+import thut.api.level.terrain.BiomeDatabase;
 import thut.core.common.ThutCore;
 
 public class FeaturesInit

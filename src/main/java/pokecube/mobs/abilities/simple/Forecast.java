@@ -7,8 +7,8 @@ import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.moves.PokemobTerrainEffects;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 
 @AbilityProvider(name = "forcast")
 public class Forecast extends Ability

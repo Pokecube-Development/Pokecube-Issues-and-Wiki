@@ -23,15 +23,15 @@ import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.AABB;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.RootTask;
-import thut.api.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainManager;
 
 public class InterestingMobs extends Sensor<LivingEntity>
 {
@@ -45,7 +45,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (pokemob.getPokedexEntry().isGMax()) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (pokemob.getCombatState(CombatStates.MATEFIGHT)) return true;
-        if (pokemob.getCombatState(CombatStates.BATTLING) || BrainUtils.hasAttackTarget(pokemob.getEntity())) return false;
+        if (pokemob.getCombatState(CombatStates.BATTLING) || BrainUtils.hasAttackTarget(pokemob.getEntity()))
+            return false;
         return true;
     }
 
@@ -88,7 +89,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final AABB mateBox = entityIn.getBoundingBox().inflate(dh, dv, dh);
         final AABB checkBox = entityIn.getBoundingBox().inflate(s, s, s);
         final List<Entity> list = worldIn.getEntitiesOfClass(Entity.class, checkBox, (hit) -> {
-            return hit != entityIn && hit.isAlive();
+            return hit != entityIn;
         });
         list.sort(Comparator.comparingDouble(entityIn::distanceToSqr));
         final Brain<?> brain = entityIn.getBrain();

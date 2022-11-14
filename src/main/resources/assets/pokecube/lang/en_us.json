@@ -1,6 +1,11 @@
 {
     "_comment": "Pokécube translation",
 
+
+    "_comment": "#Mount Messages",
+
+    "pokemob.fly.disabled": "Arceus §chas prevented§r %1$s §cfrom flying while ridden here!",
+
     "_comment": "#Move Messages",
 
     "pokemob.status.curse.user": "%1$s §cwas hurt by the curse",

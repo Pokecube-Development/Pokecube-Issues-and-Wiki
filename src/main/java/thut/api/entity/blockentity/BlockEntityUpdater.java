@@ -27,6 +27,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import thut.core.common.ThutCore;
 
 public class BlockEntityUpdater
 {
@@ -54,7 +55,12 @@ public class BlockEntityUpdater
         final Vec3 here = this.theEntity.position();
         this.theEntity.setBoundingBox(this.getBoundingBox());
         this.theEntity.setPos(here.x, here.y, here.z);
-//        final Vec3 shifted = this.theEntity.position();
+    }
+
+    public void resetShape()
+    {
+        lastShapePos = Vec3.ZERO;
+        buildShape();
     }
 
     public VoxelShape buildShape()
@@ -366,17 +372,16 @@ public class BlockEntityUpdater
             // TODO rotate here by entity rotation.
             final BlockEntity tile = this.blockEntity.getTiles()[i][j][k];
             if (tile != null) tile.setLevel(world);
-            if (tile instanceof TickingBlockEntity)
+            if (tile instanceof TickingBlockEntity tick)
             {
                 if (this.erroredSet.contains(tile) || !BlockEntityUpdater.isWhitelisted(tile)) continue;
                 try
                 {
-                    ((TickingBlockEntity) tile).tick();
+                    tick.tick();
                 }
                 catch (final Throwable e)
                 {
-                    e.printStackTrace();
-                    System.err.println("Error with Tile Entity " + tile);
+                    ThutCore.LOGGER.error("Error with Tile Entity " + tile, e);
                     this.erroredSet.add(tile);
                     if (BlockEntityUpdater.autoBlacklist && BlockEntityType.getKey(tile.getType()) != null)
                         IBlockEntity.TEBLACKLIST.add(BlockEntityType.getKey(tile.getType()).toString());

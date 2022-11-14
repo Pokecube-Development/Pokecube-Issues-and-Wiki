@@ -6,6 +6,7 @@ import java.util.UUID;
 import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -16,8 +17,8 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
@@ -121,20 +122,27 @@ public class FollowOwnerTask extends TaskBase
     }
 
     @Override
+    protected boolean shouldNotRun(Mob mobIn)
+    {
+        return this.pokemob.getOwner() == null;
+    }
+
+    @Override
     public boolean shouldRun()
     {
         if (!this.pokemob.isRoutineEnabled(AIRoutine.FOLLOW)) return false;
         if (!TaskBase.canMove(this.pokemob)) return false;
+        if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
         final LivingEntity LivingEntity = this.pokemob.getOwner();
-        this.petPathfinder = this.entity.getNavigation();
         // Nothing to follow
         if (LivingEntity == null) return false;
-        else if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
-        else if (this.pathing && this.entity.distanceToSqr(LivingEntity) > this.maxDist * this.maxDist) return true;
-        else if (this.entity.distanceToSqr(LivingEntity) < this.minDist * this.minDist) return false;
-        else if (new Vector3().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist) return false;
+        double dr2 = this.entity.distanceToSqr(LivingEntity);
+        if (this.pathing && dr2 > this.maxDist * this.maxDist) return true;
+        if (dr2 < this.minDist * this.minDist) return false;
+        if (new Vector3().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist) return false;
+        this.petPathfinder = this.entity.getNavigation();
         // Follow owner.
-        else return true;
+        return true;
     }
 
 }

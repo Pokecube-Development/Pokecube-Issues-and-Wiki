@@ -6,7 +6,7 @@ import net.minecraft.world.entity.Entity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.core.PokecubeCore;
 import thut.core.common.network.Packet;
 

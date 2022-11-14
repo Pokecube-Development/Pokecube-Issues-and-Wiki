@@ -37,8 +37,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.boom.ShadowMaskChecker.ResistProvider;
 import thut.api.item.ItemList;
+import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 import thut.core.common.ThutCore;
 
 public class ExplosionCustom extends Explosion

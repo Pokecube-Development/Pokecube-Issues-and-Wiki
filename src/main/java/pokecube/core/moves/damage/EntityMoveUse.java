@@ -1,12 +1,10 @@
 package pokecube.core.moves.damage;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -32,6 +30,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.extensions.IForgeBlockEntity;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.network.NetworkHooks;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.Battle;
@@ -47,46 +46,6 @@ import thut.api.maths.Vector3;
 
 public class EntityMoveUse extends ThrowableProjectile
 {
-    public static class Builder
-    {
-        public static Builder make(final Mob user, final MoveEntry move, final Vector3 start)
-        {
-            return new Builder(user, move, start);
-        }
-
-        EntityMoveUse toMake;
-
-        protected Builder(final Mob user, final MoveEntry move, final Vector3 start)
-        {
-            this.toMake = new EntityMoveUse(EntityTypes.getMove(), user.level);
-            this.toMake.setUser(user).setMove(move).setStart(start).setEnd(start);
-        }
-
-        public Builder setStartTick(final int tick)
-        {
-            this.toMake.setStartTick(tick);
-            return this;
-        }
-
-        public Builder setTarget(final LivingEntity target)
-        {
-            if (target != null) this.toMake.setTarget(target);
-            return this;
-        }
-
-        public Builder setEnd(final Vector3 end)
-        {
-            if (end != null) this.toMake.setEnd(end);
-            return this;
-        }
-
-        public EntityMoveUse build()
-        {
-            this.toMake.init();
-            return this.toMake;
-        }
-    }
-
     static final EntityDataAccessor<String> MOVENAME;
     static final EntityDataAccessor<Float> ENDX;
     static final EntityDataAccessor<Float> ENDY;
@@ -116,6 +75,18 @@ public class EntityMoveUse extends ThrowableProjectile
         APPLYTICK = SynchedEntityData.<Integer>defineId(EntityMoveUse.class, EntityDataSerializers.INT);
     }
 
+    public static EntityMoveUse create(Level level, MoveApplication apply, Vector3 endpoint)
+    {
+        var entity = new EntityMoveUse(EntityTypes.getMove(), level);
+        entity.apply = apply.copyForMoveUse();
+        entity.setStart(new Vector3(apply.getUser().getEntity()));
+        entity.setMove(apply.getMove());
+        entity.setUser(apply.getUser().getEntity());
+        entity.setTarget(apply.getTarget());
+        entity.setEnd(endpoint);
+        return entity;
+    }
+
     Vector3 end = new Vector3();
     Vector3 start = new Vector3();
 
@@ -129,6 +100,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     MoveEntry move = null;
 
+    boolean finished = false;
     boolean applied = false;
     boolean onSelf = false;
     boolean contact = false;
@@ -139,8 +111,6 @@ public class EntityMoveUse extends ThrowableProjectile
 
     double dist = 0;
 
-    final Set<UUID> alreadyHit = Sets.newHashSet();
-
     private final Vector3 size = new Vector3();
 
     private MoveApplication apply;
@@ -149,7 +119,7 @@ public class EntityMoveUse extends ThrowableProjectile
         LivingEntity living = EntityTools.getCoreLiving(e);
         if (living == null) return false;
         final UUID targetID = living.getUUID();
-        return !this.alreadyHit.contains(targetID);
+        return !this.apply.alreadyHit.contains(targetID);
     };
 
     public EntityMoveUse(final EntityType<EntityMoveUse> type, final Level worldIn)
@@ -158,7 +128,7 @@ public class EntityMoveUse extends ThrowableProjectile
         this.noCulling = true;
     }
 
-    protected void init()
+    protected void init(MoveApplication apply)
     {
         if (this.init) return;
         if (this.initTimer-- < 0)
@@ -170,6 +140,13 @@ public class EntityMoveUse extends ThrowableProjectile
             return;
         }
 
+        if (apply != null)
+        {
+            this.setMove(apply.getMove());
+            this.setUser(apply.getUser().getEntity());
+            this.setTarget(apply.getTarget());
+        }
+
         // This should initialise these values on the client side correctly.
         this.getStart();
         this.getEnd();
@@ -179,8 +156,20 @@ public class EntityMoveUse extends ThrowableProjectile
 
         if (this.getUser() == null) return;
 
+        IPokemob userMob = PokemobCaps.getPokemobFor(this.getUser());
+        if (userMob == null)
+        {
+            this.discard();
+            return;
+        }
+
+        if (this.apply == null)
+        {
+            this.apply = new MoveApplication(getMove(), userMob, this.getTarget());
+        }
+
         this.size.clear();
-        this.contact = move.isContact(PokemobCaps.getPokemobFor(getUser()));
+        this.contact = move.isContact(userMob);
         float s = 0;
         if (this.move.isAoE())
         {
@@ -194,6 +183,10 @@ public class EntityMoveUse extends ThrowableProjectile
             final float height = this.getUser().getBbHeight() + s;
             this.size.set(width, height, width);
         }
+        else
+        {
+            this.size.set(0.75);
+        }
         if (this.move.customSize != null) this.size.set(this.move.customSize);
 
         this.init = true;
@@ -205,13 +198,16 @@ public class EntityMoveUse extends ThrowableProjectile
 
         this.here.set(this);
 
-        // Put us and our user in here by default.
-        this.alreadyHit.add(this.getUUID());
-
-        IPokemob userMob = PokemobCaps.getPokemobFor(this.getUser());
-        apply = new MoveApplication(getMove(), userMob, this.getTarget());
-        apply.finished = this::isDone;
-        userMob.getMoveStats().addMoveInProgress(userMob, apply);
+        if (!this.getUser().getLevel().isClientSide())
+        {
+            // Put us and our user in here by default.
+            this.apply.alreadyHit.add(this.getUUID());
+            // Only put user in if it is not the target, this allows self moves
+            // to work properly
+            if (this.getUser() != this.getTarget()) this.apply.alreadyHit.add(this.getUser().getUUID());
+            this.apply.finished = this::isDone;
+            userMob.getMoveStats().addMoveInProgress(userMob, this.apply);
+        }
     }
 
     @Override
@@ -243,7 +239,7 @@ public class EntityMoveUse extends ThrowableProjectile
         final Entity targ = this.getTarget();
         final UUID targId = targ == null ? null : targ.getUUID();
 
-        this.alreadyHit.add(targetID);
+        this.apply.alreadyHit.add(targetID);
 
         // Only hit multipart entities once
         // Only can hit our valid target!
@@ -268,14 +264,15 @@ public class EntityMoveUse extends ThrowableProjectile
 
             final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
+            this.applied = true;
 
             // Don't penetrate through blocking mobs, so end the move here.
             if (living.isBlocking() && !this.getMove().isAoE())
             {
-                this.applied = true;
+                this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                if (b == null) this.getMove().doWorldAction(userMob, this.end);
+                this.getMove().doWorldAction(userMob, this.end);
                 this.discard();
             }
         }
@@ -353,7 +350,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
     public boolean isDone()
     {
-        return this.applied || this.isRemoved() || this.getUser() == null || !this.getUser().isAlive();
+        return this.finished || this.isRemoved() || this.getUser() == null || !this.getUser().isAlive();
     }
 
     @Override
@@ -456,7 +453,6 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         this.user = user;
         this.getEntityData().set(EntityMoveUse.USER, user.getId());
-        this.alreadyHit.add(this.user.getUUID());
         if (this.init) this.refreshDimensions();
         return this;
     }
@@ -464,7 +460,7 @@ public class EntityMoveUse extends ThrowableProjectile
     @Override
     public void tick()
     {
-        this.init();
+        this.init(this.apply);
         if (!this.init) return;
 
         final int start = this.getStartTick() - 1;
@@ -481,6 +477,11 @@ public class EntityMoveUse extends ThrowableProjectile
         if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
             this.discard();
+            if (!this.applied && PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+            {
+                PokecubeAPI.logInfo("A: Attack {} by {} terminated without applying!", this.getMove().getName(),
+                        user.getDisplayName().getString());
+            }
             return;
         }
 
@@ -565,7 +566,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         for (final Entity e : hits) if (e instanceof LivingEntity living) this.doMoveUse(living);
 
-        if (this.getMove() != null && userMob != null && !this.applied && !this.level.isClientSide)
+        if (this.getMove() != null && userMob != null && !this.finished && !this.level.isClientSide)
         {
             boolean canApply = age == 0;
             this.getEnd();
@@ -583,15 +584,22 @@ public class EntityMoveUse extends ThrowableProjectile
             }
             if (canApply)
             {
-                Battle b = Battle.getBattle(this.getUser());
-                this.applied = true;
+                this.finished = true;
                 // We only apply this to do block effects, not for damage. For
                 // damage. we use the call above to doMoveUse(entity)
-                if (b == null) this.getMove().doWorldAction(userMob, this.end);
+                this.getMove().doWorldAction(userMob, this.end);
             }
         }
 
-        if (this.isDone()) this.remove(RemovalReason.DISCARDED);
+        if (this.isDone())
+        {
+            this.remove(RemovalReason.DISCARDED);
+            if (!this.applied && PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+            {
+                PokecubeAPI.logInfo("B: Attack {} by {} terminated without applying!", this.getMove().getName(),
+                        user.getDisplayName().getString());
+            }
+        }
     }
 
     @Override

@@ -23,6 +23,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -48,6 +49,7 @@ import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.EventsHandler;
 import pokecube.core.utils.EntityTools;
 import pokecube.legends.init.EntityInit;
@@ -56,8 +58,8 @@ import pokecube.legends.spawns.WormholeSpawns.IWormholeWorld;
 import thut.api.LinkableCaps.ILinkStorage;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
+import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
@@ -159,15 +161,21 @@ public class WormholeEntity extends LivingEntity
 
     public static void onTeleport(final EntityTeleportEvent event)
     {
-        final Level world = event.getEntity().level;
+        Entity entity = event.getEntity();
+        final Level world = entity.level;
         if (world.isClientSide()) return;
         if (!(world instanceof ServerLevel)) return;
+
+        final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use")
+                + WormholeEntity.wormholeReUseDelay;
+        final long now = Tracker.instance().getTick();
+
+        if (now < lastTp) return;
 
         final IWormholeWorld holes = world.getCapability(WormholeSpawns.WORMHOLES_CAP).orElse(null);
         if (holes == null) return;
 
-        final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, event.getEntity())
-                ? WormholeSpawns.teleWormholeChanceWorms
+        final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, entity) ? WormholeSpawns.teleWormholeChanceWorms
                 : WormholeSpawns.teleWormholeChanceNormal;
 
         final Random rand = world.getRandom();
@@ -180,7 +188,7 @@ public class WormholeEntity extends LivingEntity
 
         // If it is a pokemob, check if holding a location linker, if so, use
         // that for destination of the wormhole!
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob != null)
         {
             ILinkStorage link = null;
@@ -192,7 +200,7 @@ public class WormholeEntity extends LivingEntity
             }
             if (link != null)
             {
-                GlobalPos linked_pos = link.getLinkedPos(event.getEntity());
+                GlobalPos linked_pos = link.getLinkedPos(entity);
                 if (linked_pos != null)
                 {
                     linked_pos = GlobalPos.of(linked_pos.dimension(), linked_pos.pos().above(2));
@@ -353,12 +361,17 @@ public class WormholeEntity extends LivingEntity
         this.getPos();
         this.getDir();
 
-        this.yRot = new Random(this.getUUID().getLeastSignificantBits()).nextFloat() * 360;
+        if (!this.level.isClientSide())
+        {
+            // Only do this rotation server side, let it sync to client.
+            float yRot = (float) Mth.atan2(this.getDir().x, this.getDir().z) * (180F / (float) Math.PI);
+            float xRot = 0;
 
-        this.yHeadRot = this.yRot;
-        this.yHeadRotO = this.yRotO;
-        this.yBodyRot = this.yRot;
-        this.yBodyRotO = this.yRotO;
+            this.xRot = this.xRotO = xRot;
+            this.yRot = this.yRotO = yRot;
+            this.yBodyRot = this.yBodyRotO = yRot;
+            this.yHeadRot = this.yHeadRotO = yRot;
+        }
 
         this.setNoGravity(true);
 
@@ -402,10 +415,15 @@ public class WormholeEntity extends LivingEntity
 
         this.energy.receiveEnergy(WormholeEntity.wormholeEnergyPerTick, false);
         // Stable wormholes just lose all of their energy.
-        if (this.stable) this.energy.extractEnergy(Integer.MAX_VALUE, false);
+        if (this.stable)
+        {
+            this.energy.extractEnergy(Integer.MAX_VALUE, false);
+            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
+            this.timer = 0;
+        }
 
-        final BlockPos anchor = this.getPos().getPos().pos();
-        final Vec3 origin = new Vec3(anchor.getX(), anchor.getY(), anchor.getZ());
+        final Vector3 anchor = this.getPos().getTeleLoc();
+        final Vec3 origin = new Vec3(anchor.x, anchor.y, anchor.z);
         final Vec3 here = this.position();
         final Vec3 diff = origin.subtract(here);
         final Vec3 v = this.getDeltaMovement();
@@ -413,7 +431,7 @@ public class WormholeEntity extends LivingEntity
         this.setDeltaMovement(v.x + diff.x * s, v.y + diff.y * s, v.z + diff.z * s);
 
         // Collapse at full energy
-        if (this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
+        if (!this.stable && this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
         {
             if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;
@@ -432,12 +450,16 @@ public class WormholeEntity extends LivingEntity
         if (!list.isEmpty()) for (Entity entity : list)
         {
             entity = EntityTools.getCoreEntity(entity);
+
+            // These cannot go through a wormhole.
+            if (ItemList.is(WormholeSpawns.SPACE_ANCHORED, entity)) continue;
+
             final long lastTp = entity.getPersistentData().getLong("pokecube_legends:uwh_use")
                     + WormholeEntity.wormholeReUseDelay;
             final long now = Tracker.instance().getTick();
             final UUID uuid = entity.getUUID();
             if (now < lastTp || tpd.contains(uuid)) continue;
-            PokecubeAPI.logDebug("Transfering {} through a wormhole!", entity);
+            if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Transfering {} through a wormhole!", entity);
             tpd.add(uuid);
             entity.getPersistentData().putLong("pokecube_legends:uwh_use", now);
 
@@ -536,7 +558,16 @@ public class WormholeEntity extends LivingEntity
 
     public Vec3 getDir()
     {
-        if (this.dir == null) this.dir = this.getLookAngle();
+        if (this.dir == null)
+        {
+            this.yRot = new Random(this.getUUID().getLeastSignificantBits()).nextFloat() * 360;
+            this.yRotO = this.yRot;
+            this.yHeadRot = this.yRot;
+            this.yHeadRotO = this.yRotO;
+            this.yBodyRot = this.yRot;
+            this.yBodyRotO = this.yRotO;
+            this.dir = this.getLookAngle();
+        }
         return this.dir;
     }
 

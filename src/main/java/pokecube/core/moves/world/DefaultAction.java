@@ -15,7 +15,7 @@ public class DefaultAction  implements IMoveWorldEffect
     }
     
     @Override
-    public boolean applyEffect(IPokemob user, Vector3 location)
+    public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         return false;
     }

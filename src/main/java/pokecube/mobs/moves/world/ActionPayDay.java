@@ -21,9 +21,8 @@ public class ActionPayDay implements IMoveWorldEffect
     {}
 
     @Override
-    public boolean applyEffect(final IPokemob user, final Vector3 location)
+    public boolean applyInCombat(final IPokemob user, final Vector3 location)
     {
-        if (!user.inCombat()) return false;
         final LivingEntity poke = user.getEntity();
         final LootTable loottable = poke.getLevel().getServer().getLootTables().get(ActionPayDay.lootTable);
         final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.getLevel())

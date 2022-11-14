@@ -3,11 +3,15 @@ package pokecube.api.moves.utils;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Sets;
 
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -37,8 +41,8 @@ import pokecube.core.moves.MovesUtils.StatDiff;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.utils.EntityTools;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 
 public class MoveApplication implements Comparable<MoveApplication>
 {
@@ -453,7 +457,8 @@ public class MoveApplication implements Comparable<MoveApplication>
             {
                 heal = Math.min(max_hp - current_hp, heal);
                 if (PokecubeCore.getConfig().debug_moves)
-                    PokecubeAPI.logInfo("Applying healing for move {} of amount {}", t.move().getName(), heal);
+                    PokecubeAPI.logInfo("Applying healing for move {} of amount {} ({}<-{})", t.move().getName(), heal,
+                            move.root_entry._healing, move.root_entry.getMove().healing);
                 if (heal > 0) moveAppl.getTarget().heal(heal);
             }
         }
@@ -638,6 +643,12 @@ public class MoveApplication implements Comparable<MoveApplication>
      */
     public Map<String, Object> customFlags = new HashMap<>();
 
+    /**
+     * Collection of UUIDs of mobs this has already applied to. This is used by
+     * the EntityMoveUse to decide what mobs to hit.
+     */
+    public Set<UUID> alreadyHit = Sets.newHashSet();
+
     public MoveApplication(MoveEntry move, IPokemob user, LivingEntity target)
     {
         this.setTarget(target);
@@ -803,5 +814,13 @@ public class MoveApplication implements Comparable<MoveApplication>
     public boolean isFinished()
     {
         return finished.get();
+    }
+
+    public MoveApplication copyForMoveUse()
+    {
+        var copy = new MoveApplication(getMove(), getUser(), getTarget());
+        // Ensure they all share the same already hit set.
+        copy.alreadyHit = this.alreadyHit;
+        return copy;
     }
 }

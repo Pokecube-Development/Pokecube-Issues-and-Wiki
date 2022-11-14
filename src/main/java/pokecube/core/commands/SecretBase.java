@@ -27,13 +27,14 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
+import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
@@ -87,24 +88,28 @@ public class SecretBase
             final GlobalPos loc = SecretBase.pendingBaseLocations.remove(player.getUUID());
             final Vector3 pos = new Vector3().set(loc.pos());
             final ResourceKey<Level> type = loc.dimension();
-            if (type == player.getLevel().dimension() && pos.distTo(new Vector3().set(input)) < 16
-                    && player.getLevel().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
+            double distance = pos.distTo(new Vector3().set(input));
+            if (type == player.getLevel().dimension() && distance < 16)
             {
                 final BlockPos base_pos = new BlockPos(input);
                 final BlockState original = pos.getBlockState(player.getLevel());
                 pos.setBlock(player.getLevel(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
-                final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
-                ownable.setPlacer(player);
-                final GlobalPos gpos = GlobalPos.of(loc.dimension(), base_pos);
-                tile.last_base = gpos;
-                tile.original = original;
-                SecretBaseDimension.setSecretBasePoint(player, gpos, type == SecretBaseDimension.WORLD_KEY);
-                pos.x = pos.intX();
-                pos.y = pos.intY();
-                pos.z = pos.intZ();
-                final MutableComponent message = TComponent.translatable("pokemob.createbase.confirmed", pos);
-                thut.lib.ChatHelper.sendSystemMessage(player, message);
-                return 0;
+                if (player.getLevel().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
+                {
+                    final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
+                    ownable.setPlacer(player);
+                    final GlobalPos gpos = GlobalPos.of(loc.dimension(), base_pos);
+                    tile.last_base = gpos;
+                    tile.original = original;
+                    SecretBaseDimension.setSecretBasePoint(player, gpos, type == SecretBaseDimension.WORLD_KEY);
+                    pos.x = pos.intX();
+                    pos.y = pos.intY();
+                    pos.z = pos.intZ();
+                    final MutableComponent message = TComponent.translatable("pokemob.createbase.confirmed", pos);
+                    thut.lib.ChatHelper.sendSystemMessage(player, message);
+                    return 0;
+                }
+                return 1;
             }
         }
         return 1;
@@ -117,11 +122,11 @@ public class SecretBase
 
     public static void register(final CommandDispatcher<CommandSourceStack> commandDispatcher)
     {
-        PermNodes.registerNode("command.pokebase.other", DefaultPermissionLevel.OP,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.other", DefaultPermissionLevel.OP,
                 "Is the player allowed to use /pokebase to teleport to an arbitrary base");
-        PermNodes.registerNode("command.pokebase.exit", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.exit", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use /pokebase to exit a secret base");
-        PermNodes.registerNode("command.pokebase.create", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.create", DefaultPermissionLevel.ALL,
                 "Is the player allowed to use secret power to make a secret base");
         LiteralArgumentBuilder<CommandSourceStack> command;
 
@@ -149,7 +154,7 @@ public class SecretBase
                                         GameProfileArgument.getGameProfiles(ctx, "owner")))));
         commandDispatcher.register(command);
 
-        PermNodes.registerNode("command.pokebase.clean", DefaultPermissionLevel.ALL,
+        PermNodes.registerBooleanNode(PokecubeCore.MODID, "command.pokebase.clean", DefaultPermissionLevel.ALL,
                 "Temporary cleanup command for removing barrier blocks in secret bases!");
 
         command = Commands.literal("pokebase").then(Commands.argument("clean", StringArgumentType.word())

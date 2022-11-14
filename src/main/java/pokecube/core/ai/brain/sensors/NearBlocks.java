@@ -23,14 +23,14 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.moves.utils.IMoveConstants.AIRoutine;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
-import thut.api.terrain.TerrainManager;
 
 public class NearBlocks extends Sensor<LivingEntity>
 {

@@ -20,6 +20,7 @@ import net.minecraft.world.entity.ai.behavior.Behavior;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.level.Level;
+import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.RootTask;
@@ -84,6 +85,7 @@ public abstract class MixinMobEntity extends LivingEntity
         {
             this.ticked_default_ai = this.brain.getMemory(MemoryModules.DUMMY.get()).get();
             this.checked_for_ai = true;
+            BrainUtils.removeMatchingTasks(this.brain, s -> s instanceof DummySetTask);
         }
         if (!this.ticked_default_ai)
         {

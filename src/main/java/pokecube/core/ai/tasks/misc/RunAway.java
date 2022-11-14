@@ -26,6 +26,12 @@ public class RunAway extends RootTask<PathfinderMob>
     }
 
     @Override
+    protected boolean simpleRun()
+    {
+        return true;
+    }
+
+    @Override
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final PathfinderMob owner)
     {
         final Entity entity = owner.getBrain().getMemory(this.badMemory).get();

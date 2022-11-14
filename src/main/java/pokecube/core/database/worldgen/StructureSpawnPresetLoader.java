@@ -15,6 +15,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 import thut.api.util.JsonUtil;
+import thut.lib.ResourceHelper;
 
 public class StructureSpawnPresetLoader
 {
@@ -35,7 +36,7 @@ public class StructureSpawnPresetLoader
             JsonObject loaded;
             try
             {
-                final BufferedReader reader = PackFinder.getReader(resource);
+                final BufferedReader reader = ResourceHelper.getReader(resource);
                 if (reader == null) throw new FileNotFoundException(file.toString());
                 loaded = JsonUtil.gson.fromJson(reader, JsonObject.class);
                 reader.close();

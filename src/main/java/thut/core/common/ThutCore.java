@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +15,6 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
-import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -51,12 +51,11 @@ import thut.api.Tracker;
 import thut.api.block.flowing.functions.LootLayerFunction;
 import thut.api.entity.BreedableCaps;
 import thut.api.entity.CopyCaps;
-import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
-import thut.api.terrain.StructureManager;
+import thut.api.level.structures.StructureManager;
 import thut.api.util.PermNodes;
 import thut.core.common.config.Config;
 import thut.core.common.handlers.ConfigHandler;
@@ -322,20 +321,40 @@ public class ThutCore
         BreedableCaps.setup();
         AnimatedCaps.setup();
         CopyCaps.setup();
+        BlockEntityBase.setup();
 
         ThutCore.proxy.setup(event);
-
-        event.enqueueWork(() -> {
-            // Register the mob serializers
-            // for seats
-            EntityDataSerializers.registerSerializer(IMultiplePassengerEntity.SEATSERIALIZER);
-            // for Vec3ds
-            EntityDataSerializers.registerSerializer(BlockEntityBase.VEC3DSER);
-        });
     }
 
     public static ConfigHandler getConfig()
     {
         return conf;
+    }
+
+    public static void log(Consumer<Object> logger, Object... args)
+    {
+        String key = args[0].toString();
+        if (args.length == 1) logger.accept(key);
+        else
+        {
+            for (int i = 1; i < args.length; i++)
+            {
+                Object o = args[i];
+                // TODO regex for {} instead to support number formatting like
+                // {:.2f}
+                key = key.replaceFirst("\\{\\}", o == null ? "null" : o.toString());
+            }
+            logger.accept(key);
+        }
+    }
+
+    public static void logInfo(Object... args)
+    {
+        log(LOGGER::info, args);
+    }
+
+    public static void logDebug(Object... args)
+    {
+        log(LOGGER::debug, args);
     }
 }

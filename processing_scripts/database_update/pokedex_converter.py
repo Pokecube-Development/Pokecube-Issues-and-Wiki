@@ -155,11 +155,11 @@ class PokedexEntry:
             if stat.effort!=0:
                 self.evs[name] = stat.effort
 
-    # Initialises the array of types
+    # Initialises the array of _types
     def init_types(self, forme):
         self.types = []
-        for type in forme.types:
-            name = type.type.name
+        for _type in forme.types:
+            name = _type.type.name
             name = name.replace('-', '_')
             if not name in self.types:
                 self.types.append(name)
@@ -273,14 +273,14 @@ class PokemonSpecies:
                 # We need to handle this to the older model added?
                 continue
 
-            # Add custom moves if assigned
+            # Now replace things with custom overrides.
             if entry.name in overrides:
-                if 'moves' in overrides[entry.name]:
-                    entry.__dict__['moves'] = overrides[entry.name]['moves']
-                if 'sizes' in overrides[entry.name]:
-                    entry.size = overrides[entry.name]['sizes']
-                if 'forme_items' in overrides[entry.name]:
-                    entry.forme_items = overrides[entry.name]['forme_items']
+                var = overrides[entry.name]
+                for var_key, var_val in var.items():
+                    if (isinstance(var_val, list) or isinstance(var_val, map)) and len(var_val) == 0:
+                        var_val = None
+                    if var_val is not None:
+                        entry.__dict__[var_key] = var_val
 
             # Check if we need to convert anything over from old ones
             old_name = find_old_name(forme.name, species, old_pokedex)
@@ -334,12 +334,12 @@ class PokemonSpecies:
                         # Process any changes needed, like for arceus,silvally,etc
                         process_model(entry, key, model)
 
-                        types = ''
-                        for type in form.types:
-                            types = types + ' '+ type.type.name
-                        types = types.strip().replace(' ', ',')
-                        if len(types) > 0:
-                            model['types'] = types
+                        _types = ''
+                        for _type in form.types:
+                            _types = _types + ' '+ _type.type.name
+                        _types = _types.strip().replace(' ', ',')
+                        if len(_types) > 0:
+                            model['types'] = _types
 
                         if form.is_default:
                             entry.model = model
@@ -364,6 +364,18 @@ class PokemonSpecies:
                     print(f'no stats for {entry.name}??')
             else:
                 print(f'"{entry.name}" : "",')
+
+            # Now delete things from custom overrides.
+            if entry.name in overrides:
+                var = overrides[entry.name]
+                for var_key, var_val in var.items():
+                    if (isinstance(var_val, list) or isinstance(var_val, dict)) and len(var_val) == 0:
+                        var_val = None
+                    if var_val is None and var_key in entry.__dict__:
+                        print(f'deleting {var_key} for {entry.name}')
+                        del entry.__dict__[var_key]
+                    elif var_val is not None:
+                        entry.__dict__[var_key] = var_val
 
             # Print an error if we think it should have had moves, but has none
             if(not '-gmax' in entry.name and (not 'moves' in entry.__dict__ or not 'level_up' in entry.moves)):
@@ -443,7 +455,7 @@ def convert_tags():
         json.dump(json_obj, file, indent=2)
         file.close()
 
-def load_overrides(override_file, overrides, key):
+def load_overrides(override_file, overrides):
     override = f'./data/pokemobs/{override_file}.json'
     file = open(override, 'r')
     data = file.read()
@@ -453,7 +465,10 @@ def load_overrides(override_file, overrides, key):
         name = entry['name']
         if not name in overrides:
             overrides[name] = {}
-        overrides[name][key] = entry[key]
+        for key, value in entry.items():
+            if key == 'name':
+                continue
+            overrides[name][key] = value
 
 def convert_pokedex():
 
@@ -468,9 +483,10 @@ def convert_pokedex():
 
     overrides = {}
 
-    load_overrides('custom_movesets', overrides, 'moves')
-    load_overrides('custom_sizes', overrides, 'sizes')
-    load_overrides('custom_forme_changes', overrides, 'forme_items')
+    load_overrides('custom_movesets', overrides)
+    load_overrides('custom_sizes', overrides)
+    load_overrides('custom_forme_changes', overrides)
+    load_overrides('custom_misc', overrides)
 
     tables = './data/pokemobs/loot_tables.json'
     file = open(tables, 'r')
@@ -599,6 +615,13 @@ def convert_pokedex():
         file = open(file, 'w')
         json.dump(var, file, indent=2)
         file.close()
+
+    for file in os.listdir('./data/pokemobs/materials'):
+        original = f'./data/pokemobs/materials/{file}'
+        newfile = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/materials/{file}'
+        if not os.path.exists(os.path.dirname(newfile)):
+            os.makedirs(os.path.dirname(newfile))
+        shutil.copy(original, newfile)
 
 def make_ability_langs():
     ability_index = utils.get_valid_numbers('ability')

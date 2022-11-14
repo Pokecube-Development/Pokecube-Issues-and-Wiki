@@ -5,8 +5,8 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.HealProvider;
 import pokecube.core.moves.PokemobTerrainEffects;
-import thut.api.terrain.TerrainManager;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainManager;
+import thut.api.level.terrain.TerrainSegment;
 
 @MoveProvider(name = "synthesis")
 public class Synthesis implements HealProvider

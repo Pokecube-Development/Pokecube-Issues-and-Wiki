@@ -17,7 +17,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -27,13 +26,11 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.IRunnable;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.init.Config;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.utils.Permissions;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.maths.Vector3;
-import thut.api.util.PermNodes;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 
@@ -70,6 +67,7 @@ public class SendOutManager
             rAbs.set(r).addTo(pos);
             final long diff = System.nanoTime() - start;
             if (diff > 2e6) break;
+            if (!world.isLoaded(rAbs.getPos())) continue;
             if (!Vector3.isVisibleRange(world, pos, rHat, r.mag())) continue;
             if (SendOutManager.valid(box.move(r.x, r.y, r.z), world)) return rAbs;
         }
@@ -96,7 +94,6 @@ public class SendOutManager
         if (mob == null) return null;
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
-        final Config config = PokecubeCore.getConfig();
 
         // Next check some conditions for whether the sendout can occur.
 
@@ -105,14 +102,11 @@ public class SendOutManager
         final boolean isPlayers = cube.shootingEntity instanceof ServerPlayer
                 && !(cube.shootingEntity instanceof FakePlayer);
         final ServerPlayer user = isPlayers ? (ServerPlayer) cube.shootingEntity : null;
-        final boolean checkPerms = config.permsSendOut && isPlayers;
+        final boolean checkPerms = isPlayers && hasPokemob;
         boolean hasPerms = true;
 
         // Check permissions
-        if (checkPerms)
-        {
-            hasPerms = PermNodes.getBooleanPerm(user, Permissions.SENDOUTPOKEMOB);
-        }
+        if (checkPerms) hasPerms = Permissions.canSendOut(pokemob.getPokedexEntry(), user, false, true);
 
         // No mob or no perms?, then just refund the item and exit
         if (!hasMob || !hasPerms)
@@ -159,10 +153,9 @@ public class SendOutManager
         if (hasPokemob)
         {
             // Check permissions
-            if (config.permsSendOutSpecific && isPlayers)
+            if (isPlayers)
             {
-                final PokedexEntry entry = pokemob.getPokedexEntry();
-                final boolean denied = !PermNodes.getBooleanPerm(user, Permissions.SENDOUTSPECIFIC.get(entry));
+                final boolean denied = !Permissions.canSendOut(pokemob.getPokedexEntry(), user);
                 if (denied)
                 {
                     Tools.giveItem(user, cube.getItem());

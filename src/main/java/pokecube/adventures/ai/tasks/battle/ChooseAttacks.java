@@ -26,7 +26,7 @@ public class ChooseAttacks extends BaseBattleTask
     private int getPower(final String move, final IPokemob user, final LivingEntity target)
     {
         final MoveEntry attack = MovesUtils.getMove(move);
-        if (attack == null) return 0;
+        if (attack == null || target == null) return 0;
         int pwr = attack.getPWR(user, target);
         final IPokemob mob = PokemobCaps.getPokemobFor(target);
         if (mob != null) pwr *= Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());

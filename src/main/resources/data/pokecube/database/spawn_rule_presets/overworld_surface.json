@@ -38,8 +38,8 @@
     {
       "values": {
         "preset": "deserts",
-        "types": "#forge:is_sandy",
-        "and_preset": "overworld"
+        "types": "all",
+        "and_preset": "overworld,dry_areas,sandy_areas"
       }
     },
     {
@@ -52,8 +52,8 @@
     {
       "values": {
         "preset": "mesa_forests",
-        "types": "#forge:is_sparse,#minecraft:is_badlands",
-        "and_preset": "overworld"
+        "types": "#forge:is_sparse",
+        "and_preset": "overworld,badlands"
       }
     },
     {
@@ -121,7 +121,7 @@
     {
       "values": {
         "preset": "beach_ground",
-        "types": "#minecraft:is_beach",
+        "types": "#pokecube_world:is_beach",
         "and_preset": "overworld"
       }
     },

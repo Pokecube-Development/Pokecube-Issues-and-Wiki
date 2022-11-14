@@ -1,0 +1,31 @@
+{
+  "rules": [
+    {
+      "and_preset": "volcanoes",
+      "entries": [
+        
+        {"key": "slugma","min": 4,"max": 8,"rate": 1.0},
+        
+        {"key": "torkoal","min": 2,"max": 4,"rate": 0.3},
+        {"key": "numel","min": 2,"max": 4,"rate": 0.3},
+        
+        {"key": "rolycoly","min": 2,"max": 4,"rate": 0.2},
+        {"key": "spoink","min": 2,"max": 4,"rate": 0.2},
+        {"key": "spinda","min": 2,"max": 4,"rate": 0.2},
+        {"key": "magmar","min": 2,"max": 4,"rate": 0.2},
+        
+        {"key": "duraludon","min": 2,"max": 4,"rate": 0.1},
+        {"key": "turtonator","min": 2,"max": 4,"rate": 0.1},
+        
+        {"key": "skarmory","min": 2,"max": 4,"rate": 0.05},
+        {"key": "mawile","min": 2,"max": 4,"rate": 0.05},
+        {"key": "larvesta","min": 2,"max": 4,"rate": 0.05},
+        
+        {"key": "moltres","min": 1,"max": 1,"rate": 0.01},
+        {"key": "entei","min": 1,"max": 1,"rate": 0.01},
+        {"key": "heatran","min": 1,"max": 1,"rate": 0.01},
+        {"key": "volcanion","min": 1,"max": 1,"rate": 0.01}
+      ]
+    }
+  ]
+}

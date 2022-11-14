@@ -111,28 +111,24 @@ public class GuiPokedex extends Screen
         if (button == 1)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 1);
-            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
         else if (button == 2)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 1);
-            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
         else if (button == 3)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getNext(GuiPokedex.pokedexEntry, 10);
-            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
         else if (button == 4)
         {
             GuiPokedex.pokedexEntry = Pokedex.getInstance().getPrevious(GuiPokedex.pokedexEntry, 10);
-            this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
             this.initList();
             PacketPokedex.updateWatchEntry(GuiPokedex.pokedexEntry);
         }
@@ -174,9 +170,11 @@ public class GuiPokedex extends Screen
         MutableComponent page;
 
         page = TComponent.translatable("entity.pokecube." + GuiPokedex.pokedexEntry.getTrimmedName() + ".dexDesc");
+        this.pokemobTextField.setValue(I18n.get(GuiPokedex.pokedexEntry.getUnlocalizedName()));
         var list = Lists.newArrayList(this.font.split(page, 100));
         list.add(TComponent.literal("").getVisualOrderText());
-        page = pokedexEntry.getDescription(this.pokemob.getCustomHolder());
+        var holder = this.pokemob != null ? this.pokemob.getCustomHolder() : null;
+        page = pokedexEntry.getDescription(holder);
         list.addAll(this.font.split(page, 100));
 
         final IClickListener listen = new IClickListener()

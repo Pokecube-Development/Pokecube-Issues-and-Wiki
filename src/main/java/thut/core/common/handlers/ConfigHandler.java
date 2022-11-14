@@ -7,11 +7,12 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.resources.ResourceLocation;
 import thut.api.boom.ExplosionCustom;
+import thut.api.data.StringTag;
 import thut.api.entity.blockentity.BlockEntityUpdater;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.api.level.terrain.TerrainChecker;
+import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Cruncher;
-import thut.api.terrain.TerrainChecker;
-import thut.api.terrain.TerrainSegment;
 import thut.core.common.ThutCore;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
@@ -33,7 +34,6 @@ public class ConfigHandler extends ConfigData
     public List<String> structure_subbiomes = Lists.newArrayList(
     //@formatter:off pokecube_world:meteorites
             "{\"struct\":\"#pokecube_world:village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"#pokecube_world:town\",\"subbiome\":\"village\"}",
             "{\"struct\":\"#pokecube_world:town\",\"subbiome\":\"village\"}",
             "{\"struct\":\"#minecraft:village\",\"subbiome\":\"village\"}",
             "{\"struct\":\"#minecraft:on_ocean_explorer_maps\",\"subbiome\":\"monument\"}"
@@ -81,6 +81,9 @@ public class ConfigHandler extends ConfigData
     public boolean debug_data = false;
     @Configure(category = ConfigHandler.DEBUG)
     public boolean debug_models = false;
+
+    public static final StringTag<String> STRUCTURE_SUBBIOMES = new StringTag<>("tags/structure_subbiomes/",
+            String.class, TerrainChecker::initStructMap);
 
     public ConfigHandler()
     {

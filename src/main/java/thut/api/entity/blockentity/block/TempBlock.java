@@ -7,6 +7,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AirBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
@@ -23,6 +24,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.EntityCollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
@@ -72,17 +74,16 @@ public class TempBlock extends AirBlock implements EntityBlock
     private void onPlayerInteract(final PlayerInteractEvent.RightClickBlock event)
     {
         final BlockHitResult trace = event.getHitVec();
-        if (trace == null) return;
-        final Level world = event.getPlayer().getLevel();
+        if (trace == null || !event.getEntity().isShiftKeyDown()) return;
+        final Level world = event.getEntity().getLevel();
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile temp)
         {
-            final Player player = event.getPlayer();
-            final InteractionHand hand = event.getHand();
-            InteractionResult result = temp.blockEntity.interact(player, hand);
-            // Otherwise forward the interaction to the block entity;
-            if (result != InteractionResult.PASS && event.getPlayer().isShiftKeyDown())
-                result = temp.blockEntity.interactAtFromTile(player, trace.getLocation(), hand);
+            Player player = event.getPlayer();
+            BlockPos pos = event.getPos();
+            BlockState state = world.getBlockState(pos);
+            InteractionHand hand = event.getHand();
+            InteractionResult result = temp.use(state, world, pos, player, hand, trace);
             if (result != InteractionResult.PASS)
             {
                 event.setCanceled(true);
@@ -112,17 +113,7 @@ public class TempBlock extends AirBlock implements EntityBlock
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof TempTile temp)
-        {
-            final BlockState eff = temp.getEffectiveState();
-            if (eff != null)
-            {
-                final InteractionResult res = eff.use(world, player, hand, hit);
-                if (res != InteractionResult.PASS) return res;
-            }
-            // Otherwise forward the interaction to the block entity;
-            return temp.blockEntity.interactAtFromTile(player, hit.getLocation(), hand);
-        }
+        if (tile instanceof TempTile temp) return temp.use(state, world, pos, player, hand, hit);
         return InteractionResult.PASS;
     }
 
@@ -133,10 +124,31 @@ public class TempBlock extends AirBlock implements EntityBlock
     }
 
     @Override
-    public void entityInside(final BlockState state, final Level worldIn, final BlockPos pos, final Entity entityIn)
+    public void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity)
+    {}
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float distance)
     {
-//        final BlockEntity te = worldIn.getBlockEntity(pos);
-//        if (te instanceof TempTile) ((TempTile) te).onEntityCollision(entityIn);
+        final BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TempTile tile) distance = tile.onVerticalCollide(entity, distance);
+        super.fallOn(level, state, pos, entity, distance);
+    }
+
+    @Override
+    public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity)
+    {
+        final BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TempTile tile) tile.onVerticalCollide(entity, 0);
+    }
+
+    @Override
+    public float getFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity)
+    {
+        final BlockEntity te = level.getBlockEntity(pos);
+        if (te instanceof TempTile tile && tile.getEffectiveState() != null)
+            return tile.getEffectiveState().getBlock().getFriction(state, level, pos, entity);
+        return super.getFriction(state, level, pos, entity);
     }
 
     @Override
@@ -144,7 +156,13 @@ public class TempBlock extends AirBlock implements EntityBlock
             final CollisionContext context)
     {
         final BlockEntity te = worldIn.getBlockEntity(pos);
-        if (te instanceof TempTile temp) return temp.getShape();
+        if (te instanceof TempTile temp)
+        {
+            boolean notForcedBox = true;
+            if (context instanceof EntityCollisionContext c && c.getEntity() != null)
+                notForcedBox = temp.blockEntity == null || temp.blockEntity.recentCollides.containsKey(c.getEntity());
+            return temp.getShape(notForcedBox);
+        }
         return Shapes.empty();
     }
 }

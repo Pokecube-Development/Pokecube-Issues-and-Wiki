@@ -20,8 +20,8 @@ import net.minecraftforge.energy.IEnergyStorage;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.core.blocks.InteractableTile;
 import thut.api.Tracker;
-import thut.api.entity.ThutTeleporter;
-import thut.api.entity.ThutTeleporter.TeleDest;
+import thut.api.entity.teleporting.TeleDest;
+import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
 
 public class WarpPadTile extends InteractableTile implements IEnergyStorage

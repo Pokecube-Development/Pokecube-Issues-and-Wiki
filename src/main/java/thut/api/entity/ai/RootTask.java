@@ -1,8 +1,8 @@
 package thut.api.entity.ai;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
@@ -22,8 +22,7 @@ import thut.api.maths.Vector3;
 
 public class RootTask<E extends LivingEntity> extends Behavior<E>
 {
-    public static Map<MemoryModuleType<?>, MemoryStatus> merge(
-            final Map<MemoryModuleType<?>, MemoryStatus> mems2,
+    public static Map<MemoryModuleType<?>, MemoryStatus> merge(final Map<MemoryModuleType<?>, MemoryStatus> mems2,
             final Map<MemoryModuleType<?>, MemoryStatus> mems3)
     {
         final Map<MemoryModuleType<?>, MemoryStatus> ret = Maps.newHashMap();
@@ -32,18 +31,29 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         return ImmutableMap.copyOf(ret);
     }
 
+    public static record MemoryRequriment(MemoryModuleType<?> memory, MemoryStatus status)
+    {
+    }
+
     public static boolean doLoadThrottling = false;
 
     public static int runRate = 10;
 
+    public static Comparator<MemoryModuleType<?>> _NO_ORDER = (a, b) -> 0;
+
     protected final Map<MemoryModuleType<?>, MemoryStatus> neededMems;
 
-    private final MemoryModuleType<?>[] neededModules;
-    private final MemoryStatus[]  neededStatus;
+    private final MemoryRequriment[] memoryRequirements;
 
     protected E entity;
 
     protected boolean runWhileDead = false;
+    // This is a minimum run rate when load balancing is enabled, or for tasks
+    // that autothrottle, 1 means every tick.
+    protected int _run_rate = 10;
+
+    protected boolean tempRun = false;
+    protected boolean tempCont = false;
 
     public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration,
             final int maxDuration)
@@ -51,13 +61,8 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         super(neededMems, duration, maxDuration);
         this.entity = entity;
         this.neededMems = neededMems;
-        final List<MemoryModuleType<?>> neededModules = Lists.newArrayList();
-        final List<MemoryStatus> neededStatus = Lists.newArrayList();
-        neededModules.addAll(neededMems.keySet());
-        for (final MemoryModuleType<?> mod : neededModules)
-            neededStatus.add(neededMems.get(mod));
-        this.neededModules = neededModules.toArray(new MemoryModuleType<?>[neededModules.size()]);
-        this.neededStatus = neededStatus.toArray(new MemoryStatus[neededModules.size()]);
+        memoryRequirements = new MemoryRequriment[neededMems.size()];
+        initMems(memoryRequirements, neededMems);
     }
 
     public RootTask(final E entity, final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration)
@@ -75,8 +80,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         this(null, neededMems, duration);
     }
 
-    public RootTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration,
-            final int maxDuration)
+    public RootTask(final Map<MemoryModuleType<?>, MemoryStatus> neededMems, final int duration, final int maxDuration)
     {
         this(null, neededMems, duration, maxDuration);
     }
@@ -86,9 +90,28 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         this(null, neededMems, 60);
     }
 
-    protected boolean canTimeOut()
+    protected Comparator<MemoryModuleType<?>> getCheckOrder()
     {
-        return false;
+        return _NO_ORDER;
+    }
+
+    protected void initMems(MemoryRequriment[] reqs, final Map<MemoryModuleType<?>, MemoryStatus> neededMems)
+    {
+        final List<MemoryModuleType<?>> neededModules = Lists.newArrayList();
+        neededModules.addAll(neededMems.keySet());
+        neededModules.sort(getCheckOrder());
+        for (int i = 0; i < neededModules.size(); i++)
+        {
+            var mem = neededModules.get(i);
+            var status = neededMems.get(mem);
+            reqs[i] = new MemoryRequriment(mem, status);
+        }
+    }
+
+    protected boolean runTick(final E mobIn)
+    {
+        int rate = Math.max(runRate, _run_rate);
+        return mobIn.tickCount % rate == mobIn.id % rate;
     }
 
     protected void setWalkTo(final Vector3 pos, final double speed, final int dist)
@@ -115,8 +138,8 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
     {
         if (!(target.getTarget() instanceof EntityTracker) && target != null)
         {
-            final boolean inRange = target.getTarget().currentPosition().closerThan(this.entity.position(), target
-                    .getCloseEnoughDist());
+            final boolean inRange = target.getTarget().currentPosition().closerThan(this.entity.position(),
+                    target.getCloseEnoughDist());
             if (inRange) return;
         }
         // In this case, we want to wrap it to include throttling information.
@@ -131,14 +154,7 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
     protected final boolean isPaused(final E mobIn)
     {
         if (!this.loadThrottle() || !RootTask.doLoadThrottling) return false;
-        final Random rng = new Random(mobIn.getUUID().hashCode());
-        final int tick = rng.nextInt(RootTask.runRate);
-        return mobIn.tickCount % RootTask.runRate != tick;
-    }
-
-    public boolean loadThrottle()
-    {
-        return false;
+        return !runTick(mobIn);
     }
 
     @Override
@@ -148,18 +164,77 @@ public class RootTask<E extends LivingEntity> extends Behavior<E>
         return super.timedOut(gameTime);
     }
 
+    public boolean loadThrottle()
+    {
+        return false;
+    }
+
+    protected boolean canTimeOut()
+    {
+        return false;
+    }
+
+    protected boolean simpleRun()
+    {
+        return false;
+    }
+
+    protected boolean shouldNotRun(final E mobIn)
+    {
+        return false;
+    }
+
     @Override
     public boolean hasRequiredMemories(final E mobIn)
     {
-        this.entity = mobIn;
-        // If we are paused, return early here.
-        if (this.isPaused(mobIn)) return false;
-        final Brain<?> brain = mobIn.getBrain();
-        for (int i = 0; i < this.neededStatus.length; i++)
-            if (!brain.checkMemory(this.neededModules[i], this.neededStatus[i])) return false;
-        // Dead mobs don't have AI!
-        if (!this.runWhileDead && !mobIn.isAlive()) return false;
-        // Otherwise continue;
-        return true;
+        // Default to true, everything below will set false.
+        boolean ret = true;
+        check:
+        {
+            this.entity = mobIn;
+
+            // if we are a "simple" check, we only run every so often, as we
+            // will run everything immediately.
+            if (this.simpleRun() && !this.runTick(mobIn))
+            {
+                ret = false;
+                break check;
+            }
+
+            // This means it has a simpler check for if not to run, so we do
+            // that instead of below.
+            if (this.shouldNotRun(mobIn))
+            {
+                ret = false;
+                break check;
+            }
+
+            // If we are paused, return early here.
+            if (this.isPaused(mobIn))
+            {
+                ret = this.tempCont;
+                break check;
+            }
+
+            final Brain<?> brain = mobIn.getBrain();
+            // Check memories, this loop takes 50% of the time to run as the
+            // vanilla way, so we do it like this.
+            for (var mem : this.memoryRequirements)
+            {
+                if (!brain.checkMemory(mem.memory(), mem.status()))
+                {
+                    ret = false;
+                    break check;
+                }
+            }
+            // Dead mobs don't have AI!
+            if (!this.runWhileDead && !mobIn.isAlive())
+            {
+                ret = false;
+                break check;
+            }
+        }
+        this.tempCont = ret;
+        return ret;
     }
 }

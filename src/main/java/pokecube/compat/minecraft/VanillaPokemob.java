@@ -20,6 +20,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry.InteractionLogic.Interaction;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.TagNames;
 import pokecube.core.impl.capabilities.impl.PokemobSaves;

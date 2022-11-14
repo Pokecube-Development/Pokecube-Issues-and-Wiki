@@ -26,7 +26,7 @@ import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.terrain.PokecubeTerrainChecker;
-import thut.api.terrain.TerrainSegment;
+import thut.api.level.terrain.TerrainSegment;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID)
 public class SetupHandler
