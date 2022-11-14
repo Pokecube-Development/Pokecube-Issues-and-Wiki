@@ -43,19 +43,19 @@ public class Tracker
     private static long start = System.nanoTime();
     private static long n = 0;
     private static long dt = 0;
-    private static Object2LongArrayMap<Class<?>> taskTimes = new Object2LongArrayMap<>();
-    private static Object2IntArrayMap<Class<?>> taskNs = new Object2IntArrayMap<>();
+    private static Object2LongArrayMap<String> taskCounts = new Object2LongArrayMap<>();
+    private static Object2IntArrayMap<String> taskNs = new Object2IntArrayMap<>();
 
     public static void timerStart()
     {
         start = System.nanoTime();
     }
 
-    public static void timerEnd(Class<?> involved)
+    public static void timerEnd(String involved, int reportRate)
     {
         long _dt = System.nanoTime() - start;
         dt += _dt;
-        taskTimes.compute(involved, (key, value) -> {
+        taskCounts.compute(involved, (key, value) -> {
             if (value == null) value = _dt;
             else value += _dt;
             return value;
@@ -66,17 +66,17 @@ public class Tracker
             return value;
         });
         n++;
-        if (n >= 1000000)
+        if (n >= reportRate)
         {
             double avg = dt / ((double) n);
-            System.out.println("Average time: " + (avg / 1000d) + "us");
-            System.out.println("class\ttime per\ttime total");
-            taskTimes.forEach((clazz, val) -> {
+            System.out.println("Average time: %.2f us".formatted((avg / 1000d)));
+            System.out.println("key\ttime per\ttime total");
+            taskCounts.forEach((clazz, val) -> {
                 double avg2 = val / ((double) taskNs.getInt(clazz));
                 String key = "%s\t%.2f\t%.2f";
                 System.out.println(key.formatted(clazz, (avg2 / 1000d), (val / 1000d)));
             });
-            taskTimes.clear();
+            taskCounts.clear();
             taskNs.clear();
             n = 0;
             dt = 0;

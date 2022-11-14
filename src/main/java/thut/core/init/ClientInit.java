@@ -41,6 +41,7 @@ import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.ViewportEvent.ComputeCameraAngles;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -55,6 +56,7 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.core.client.gui.NpcScreen;
+import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
@@ -95,6 +97,17 @@ public class ClientInit
     {
         ClientInit.line(builder, positionMatrix, start.x(), start.y(), start.z(), end.x(), end.y(), end.z(), r, g, b,
                 a);
+    }
+
+    @SubscribeEvent
+    public static void onRenderSetup(ComputeCameraAngles event)
+    {
+//        Tracker.timerEnd("render time", 5000);
+        Mesh.windowScale = (float) Math.sqrt(Minecraft.getInstance().getWindow().getScreenHeight()
+                * Minecraft.getInstance().getWindow().getScreenWidth() * 1e-3f);
+        Mesh.verts = 0;
+        Mesh.modelCullThreshold = ThutCore.getConfig().modelCullThreshold;
+//        Tracker.timerStart();
     }
 
     @SubscribeEvent
