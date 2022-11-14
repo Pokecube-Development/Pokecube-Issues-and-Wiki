@@ -153,8 +153,6 @@ public class MoveEntry implements IMoveConstants
 
     private IMoveAnimation animation;
 
-    private boolean self_move;
-
     public TypeProvider typer = user -> this.type;
     public PowerProvider powerp = (user, target, power) -> power;
     public CategoryProvider categoryProvider = user -> this.getAttackCategory();
@@ -170,7 +168,6 @@ public class MoveEntry implements IMoveConstants
     {
         boolean contact = Tags.MOVE.isIn("contact-moves", this.getName());
         boolean ranged = Tags.MOVE.isIn("ranged-moves", this.getName());
-        self_move = root_entry._target_type.equals("user");
         this.ohko = root_entry._ohko;
         this.attackCategory = contact ? ContactCategory.CONTACT
                 : ranged ? ContactCategory.RANGED : ContactCategory.OTHER;
@@ -349,16 +346,6 @@ public class MoveEntry implements IMoveConstants
     public String getName()
     {
         return this.name;
-    }
-
-    /**
-     * @return Does this move targer the user, not for general use in combat,
-     *         use only for things like move actions!
-     */
-    @Deprecated
-    public boolean isSelfMove()
-    {
-        return this.self_move;
     }
 
     public boolean isRanged(IPokemob user)

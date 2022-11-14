@@ -9,9 +9,10 @@ import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
-import pokecube.api.moves.utils.IMoveAnimation;
+import pokecube.api.moves.MoveEntry.CategoryProvider;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 
@@ -19,26 +20,8 @@ import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 @MoveProvider(name = "transform")
 public class Transform implements PostMoveUse, PreProcessor
 {
-
-    public static class Animation implements IMoveAnimation
-    {
-        @Override
-        public int getApplicationTick()
-        {
-            return 0;
-        }
-
-        @Override
-        public int getDuration()
-        {
-            return 0;
-        }
-
-        @Override
-        public void setDuration(final int arg0)
-        {}
-
-    }
+    CategoryProvider categoryProvider = user -> user.getTransformedTo() == null ? ContactCategory.RANGED
+            : ContactCategory.CONTACT;
 
     @Override
     public void applyPostMove(Damage t)
@@ -58,6 +41,7 @@ public class Transform implements PostMoveUse, PreProcessor
     @Override
     public void preProcess(MoveApplication t)
     {
+        t.getMove().categoryProvider = this.categoryProvider;
         if (t.getUser().getTransformedTo() != null)
         {
             IPokemob mob = PokemobCaps.getPokemobFor(t.getUser().getTransformedTo());
