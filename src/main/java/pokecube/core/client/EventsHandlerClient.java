@@ -45,6 +45,7 @@ import net.minecraftforge.client.event.InputEvent.Key;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
+import net.minecraftforge.client.event.ScreenEvent.MouseScrolled;
 import net.minecraftforge.client.event.ScreenEvent.Render;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
@@ -106,6 +107,9 @@ public class EventsHandlerClient
         // This one handles allowing the player to interact with mobs which are
         // larger than the vanilla hitboxes.
         MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseInput);
+
+        // This one handles scrolling the message display while in chat.
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, EventsHandlerClient::onMouseScroll);
 
         // Here we handle the various keybindings for the mod
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onKeyInput);
@@ -235,6 +239,13 @@ public class EventsHandlerClient
                 break hands;
             }
         }
+    }
+
+    private static void onMouseScroll(MouseScrolled.Pre event)
+    {
+        if (!GuiInfoMessages.fullDisplay()) return;
+        if (event.getScrollDelta() > 0) GuiInfoMessages.offset++;
+        if (event.getScrollDelta() < 0) GuiInfoMessages.offset--;
     }
 
     private static void onLeftClickEmpty(final LeftClickEmpty event)

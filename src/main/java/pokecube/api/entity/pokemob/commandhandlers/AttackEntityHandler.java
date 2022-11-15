@@ -11,10 +11,10 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.combat.CommandAttackEvent;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.lib.TComponent;
@@ -80,7 +80,7 @@ public class AttackEntityHandler extends DefaultHandler
                     target.getDisplayName(), TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));
             if (this.fromOwner()) pokemob.displayMessageToOwner(mess);
             if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Starting Combat");
-            BrainUtils.initiateCombat(pokemob.getEntity(), living);
+            Battle.createOrAddToBattle(pokemob.getEntity(), living);
         }
         else if (PokecubeCore.getConfig().debug_commands)
             PokecubeAPI.LOGGER.warn("Command to Attack {} for {} was denied event: {}, no move: {}, not-yet: {}",

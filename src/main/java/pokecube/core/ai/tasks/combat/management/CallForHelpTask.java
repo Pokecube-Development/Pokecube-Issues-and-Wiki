@@ -10,6 +10,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
 
@@ -80,15 +81,15 @@ public class CallForHelpTask extends CombatTask
             if (relationCheck.test(o)) ret.add(o);
         });
 
-        for (final LivingEntity mob : ret)
+        for (final LivingEntity living : ret)
         {
-            if (!(mob instanceof Mob)) continue;
+            if (!(living instanceof Mob mob)) continue;
             // Only agress mobs that can see you are really under attack.
             if (!mob.hasLineOfSight(this.entity)) continue;
             // Only agress if not currently in combat.
             if (BrainUtils.hasAttackTarget(mob)) continue;
             // Make all valid ones agress the target.
-            BrainUtils.initiateCombat((Mob) mob, from);
+            Battle.createOrAddToBattle(mob, from);
         }
         return false;
     }
