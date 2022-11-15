@@ -11,6 +11,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
+import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.utils.PokemobTracker;
@@ -47,7 +48,7 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (mobTarget != newTarget && newTarget != null)
         {
             final boolean canSee = BrainUtils.canSee(mob.getEntity(), newTarget);
-            if (canSee) BrainUtils.initiateCombat(mob.getEntity(), newTarget);
+            if (canSee) Battle.createOrAddToBattle(mob.getEntity(), newTarget);
             else
             {
                 final WalkTarget walk = new WalkTarget(new EntityTracker(newTarget, false), 1.5f, 0);

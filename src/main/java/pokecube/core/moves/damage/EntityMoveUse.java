@@ -246,6 +246,7 @@ public class EntityMoveUse extends ThrowableProjectile
         if (targId != null && !attack.canHitNonTarget() && !targId.equals(targetID)) return;
         if (!this.level.isClientSide)
         {
+            final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             Battle b = Battle.getBattle(user);
             // Initiate battle in here if the target was not the intended
             // target.
@@ -253,7 +254,8 @@ public class EntityMoveUse extends ThrowableProjectile
             {
                 boolean newCombat = target instanceof Mob mob && BrainUtils.getAttackTarget(mob) != user;
                 if (b != null && b.getEnemies(user).contains(target)) newCombat = false;
-                if (target instanceof Mob mob && newCombat) BrainUtils.initiateCombat(mob, user);
+                if (b == null && userMob.getMoveStats().targetAlly == target) newCombat = false;
+                if (target instanceof Mob mob && newCombat) Battle.createOrAddToBattle(mob, user);
             }
 
             if (target.getLastHurtByMob() != user)
@@ -262,7 +264,6 @@ public class EntityMoveUse extends ThrowableProjectile
                 user.setLastHurtByMob(target);
             }
 
-            final IPokemob userMob = PokemobCaps.getPokemobFor(user);
             MovesUtils.doAttack(attack.name, userMob, target);
             this.applied = true;
 

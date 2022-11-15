@@ -45,9 +45,9 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.utils.AITools;
@@ -211,7 +211,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             {
                 final LivingEntity sent = SendOutManager.sendOut(this, true);
                 if (sent instanceof Mob mob && hit.getEntity() instanceof LivingEntity living)
-                    BrainUtils.initiateCombat(mob, living);
+                    Battle.createOrAddToBattle(mob, living);
             }
             else CaptureManager.captureAttempt(this, hitEntity);
             break;

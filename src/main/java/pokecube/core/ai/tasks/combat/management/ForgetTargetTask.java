@@ -212,7 +212,7 @@ public class ForgetTargetTask extends CombatTask
                         if (e.isAlive())
                         {
                             // Divery agro to it.
-                            BrainUtils.initiateCombat(entity, e);
+                            Battle.createOrAddToBattle(entity, e);
                             this.target = e;
                             return;
                         }

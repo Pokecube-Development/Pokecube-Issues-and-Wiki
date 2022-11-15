@@ -68,12 +68,12 @@ import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.SpawnEvent.Variance;
+import pokecube.api.moves.Battle;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
@@ -550,7 +550,7 @@ public class PokedexEntry
             if (consumeInput) held.shrink(1);
             if (held.isEmpty()) player.getInventory().setItem(player.getInventory().selected, result);
             else if (!player.getInventory().add(result)) player.drop(result, false);
-            if (player != pokemob.getOwner()) BrainUtils.initiateCombat(entity, player);
+            if (player != pokemob.getOwner()) Battle.createOrAddToBattle(entity, player);
             return true;
         }
 

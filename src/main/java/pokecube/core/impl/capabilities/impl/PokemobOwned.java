@@ -37,6 +37,7 @@ import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.combat.MoveMessageEvent;
+import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -343,7 +344,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             final IPokemob targetMob = PokemobCaps.getPokemobFor(targ);
             if (targetMob != null)
             {
-                BrainUtils.initiateCombat(targetMob.getEntity(), this.getOwner());
+                Battle.createOrAddToBattle(targetMob.getEntity(), this.getOwner());
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Swapping agro to cowardly owner!");
             }
             else targ.setLastHurtByMob(this.getOwner());

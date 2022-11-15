@@ -84,6 +84,7 @@ import pokecube.api.events.pokemobs.InteractEvent;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 import pokecube.api.events.pokemobs.combat.KillEvent;
 import pokecube.api.items.IPokemobUseable;
+import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -1006,7 +1007,7 @@ public class PokemobEventsHandler
             // If the target has an owner, divert agro over to that, as the
             // owner has now lost the fight, or should send out a new mob.
             if (targetOwner instanceof Player player && attacker.getOwner() != targetOwner)
-                BrainUtils.initiateCombat(pokemob, player);
+                Battle.createOrAddToBattle(pokemob, player);
 
             if (attacker.getPokedexEntry().isFood(attackedMob.getPokedexEntry())
                     && attacker.getCombatState(CombatStates.HUNTING))

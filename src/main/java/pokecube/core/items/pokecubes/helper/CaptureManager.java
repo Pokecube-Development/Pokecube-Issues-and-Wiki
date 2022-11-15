@@ -25,11 +25,11 @@ import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.api.items.IPokecube;
+import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.init.Sounds;
 import pokecube.core.items.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -163,7 +163,7 @@ public class CaptureManager
             }
         }
         if (living instanceof Mob mob && cube.shootingEntity != null)
-            BrainUtils.initiateCombat(mob, cube.shootingEntity);
+            Battle.createOrAddToBattle(mob, cube.shootingEntity);
     }
 
     public static boolean captureSucceed(final EntityPokecubeBase cube)
