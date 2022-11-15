@@ -140,6 +140,7 @@ public class TrainerEventHandler
             if (!t.isEmpty()) return;
 
             final RandomSource rand = this.mob.getRandom();
+            rand.setSeed(this.mob.getUUID().getLeastSignificantBits());
             final String type = this.mob.getNpcType() == NpcType.byType("professor") ? "professor" : "merchant";
 
             TrainerTrades trades = TypeTrainer.tradesMap.get(type);
