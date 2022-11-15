@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.entity.FurnaceBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
@@ -196,6 +197,12 @@ public class DefaultFireAction extends DefaultAction
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isValid(IPokemob user)
+    {
+        return move.getType(user) == PokeType.getType("fire");
     }
 
 }

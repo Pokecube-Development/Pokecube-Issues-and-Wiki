@@ -5,7 +5,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import thut.api.maths.Vector3;
 
-public class DefaultAction  implements IMoveWorldEffect
+public class DefaultAction implements IMoveWorldEffect
 {
     MoveEntry move;
 
@@ -13,7 +13,7 @@ public class DefaultAction  implements IMoveWorldEffect
     {
         this.move = move;
     }
-    
+
     @Override
     public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
@@ -25,4 +25,10 @@ public class DefaultAction  implements IMoveWorldEffect
     {
         return this.move.name;
     }
+
+    public boolean isValid(IPokemob user)
+    {
+        return false;
+    }
+
 }
