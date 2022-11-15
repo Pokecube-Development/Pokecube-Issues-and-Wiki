@@ -55,46 +55,6 @@ public class PokemobMoveRecipeParser implements IRecipeParser
 
     }
 
-    private static class WrappedRecipeMove implements IMoveWorldEffect
-    {
-        public IMoveWorldEffect parent;
-        public IMoveWorldEffect other;
-
-        public WrappedRecipeMove(final IMoveWorldEffect parent, final IMoveWorldEffect other)
-        {
-            this.parent = parent;
-            this.other = other;
-        }
-
-        @Override
-        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
-        {
-            // Only applies other action if parent action failed.
-            return this.parent.applyOutOfCombat(user, location) || this.other.applyOutOfCombat(user, location);
-        }
-        
-        @Override
-        public boolean applyInCombat(IPokemob user, Vector3 location)
-        {
-            // Only applies other action if parent action failed.
-            return this.parent.applyInCombat(user, location) || this.other.applyInCombat(user, location);
-        }
-
-        @Override
-        public String getMoveName()
-        {
-            return this.parent.getMoveName();
-        }
-
-        @Override
-        public void init()
-        {
-            this.parent.init();
-            this.other.init();
-        }
-
-    }
-
     public static class RecipeAction implements IMoveWorldEffect
     {
         public final String name;
@@ -148,21 +108,6 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         }
     }
 
-    public static void addOrMergeActions(IMoveWorldEffect action)
-    {
-        if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))
-        {
-            final IMoveWorldEffect prev = MoveEventsHandler.customActions.get(action.getMoveName());
-            if (prev instanceof WrappedRecipeMove edit)
-            {
-                edit.other = action;
-                action = prev;
-            }
-            else action = new WrappedRecipeMove(MoveEventsHandler.customActions.get(action.getMoveName()), action);
-        }
-        MoveEventsHandler.customActions.put(action.getMoveName(), action);
-    }
-
     public PokemobMoveRecipeParser()
     {}
 
@@ -173,7 +118,7 @@ public class PokemobMoveRecipeParser implements IRecipeParser
         final MoveRecipe recipe = MoveRecipes.SERIALIZER.get()
                 .fromJson(new ResourceLocation("pokecube:move_recipe_" + RecipeMove.uid++), json);
         final RecipeMove loaded = new RecipeMove(recipe);
-        for (final IMoveWorldEffect action : loaded.actions) PokemobMoveRecipeParser.addOrMergeActions(action);
+        for (final IMoveWorldEffect action : loaded.actions) MoveEventsHandler.addOrMergeActions(action);
     }
 
     @Override

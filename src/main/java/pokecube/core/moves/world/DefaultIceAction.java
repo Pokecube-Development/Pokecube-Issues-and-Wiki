@@ -8,6 +8,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.UseContext;
@@ -45,6 +46,12 @@ public class DefaultIceAction extends DefaultAction
         }
         final InteractionResult result = context.getItemInHand().useOn(context);
         return result == InteractionResult.SUCCESS;
+    }
+
+    @Override
+    public boolean isValid(IPokemob user)
+    {
+        return move.getType(user) == PokeType.getType("ice") && move.isContact(user) && move.power > 0;
     }
 
 }

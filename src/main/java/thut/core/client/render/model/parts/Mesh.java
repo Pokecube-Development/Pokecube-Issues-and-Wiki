@@ -21,7 +21,6 @@ public abstract class Mesh
 
     public static float windowScale = 1;
     public static int verts = 0;
-    public static double maxVerts = 1e5;
     public static double modelCullThreshold = 0;
 
     private static final float inv_255 = 1 / 255f;
@@ -161,11 +160,6 @@ public abstract class Mesh
 
         // Initialize a "default" material for us
         this.material = new Material("auto:" + this.name);
-    }
-
-    public void scale(float scale)
-    {
-        for (Vertex v : this.vertices) v.scale(scale);
     }
 
     private final Vector3f dummy3 = new Vector3f();

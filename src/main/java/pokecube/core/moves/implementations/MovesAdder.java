@@ -1,9 +1,11 @@
 package pokecube.core.moves.implementations;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 import org.objectweb.asm.Type;
 
@@ -23,9 +25,14 @@ import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
+import pokecube.core.eventhandlers.MoveEventsHandler.WrappedAction;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.templates.D_Move_Damage;
+import pokecube.core.moves.world.DefaultElectricAction;
+import pokecube.core.moves.world.DefaultFireAction;
+import pokecube.core.moves.world.DefaultIceAction;
+import pokecube.core.moves.world.DefaultWaterAction;
 import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.CompatParser.ClassFinder;
 
@@ -34,9 +41,15 @@ public class MovesAdder implements IMoveConstants
     public static Set<Package> worldActionPackages = Sets.newHashSet();
     public static Set<Package> moveRegistryPackages = Sets.newHashSet();
 
+    public static List<Function<MoveEntry, IMoveWorldEffect>> defaultWorldEffects = new ArrayList<>();
+
     static
     {
         moveRegistryPackages.add(D_Move_Damage.class.getPackage());
+        defaultWorldEffects.add(DefaultWaterAction::new);
+        defaultWorldEffects.add(DefaultIceAction::new);
+        defaultWorldEffects.add(DefaultElectricAction::new);
+        defaultWorldEffects.add(DefaultFireAction::new);
     }
 
     public static void setupMoveAnimations()
@@ -50,6 +63,18 @@ public class MovesAdder implements IMoveConstants
                     PokecubeAPI.logInfo(move.name + ": animations: " + move.root_entry.animation.animations);
                 move.setAnimation(new AnimationMultiAnimations(move));
                 continue;
+            }
+            // Now register auto-generated actions for moves which were not
+            // manually defined.
+            if (!MoveEventsHandler.hasAction(move))
+            {
+                IMoveWorldEffect combined = null;
+                for (var func : defaultWorldEffects)
+                {
+                    if (combined == null) combined = func.apply(move);
+                    else combined = new WrappedAction(combined, func.apply(move));
+                }
+                MoveEventsHandler.addOrMergeActions(combined);
             }
         }
     }

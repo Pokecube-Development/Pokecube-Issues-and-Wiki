@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -54,6 +55,7 @@ import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
+import thut.lib.TComponent;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
@@ -757,5 +759,17 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         final CompoundTag tag = new CompoundTag();
         this.addAdditionalSaveData(tag);
         data.writeNbt(tag);
+    }
+
+    @Override
+    public boolean hasCustomName()
+    {
+        return true;
+    }
+
+    @Override
+    public Component getCustomName()
+    {
+        return TComponent.literal("%s at %s".formatted(this.getClass(), this.position()));
     }
 }

@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import thut.api.maths.Vector3;
@@ -50,6 +51,12 @@ public class DefaultElectricAction extends DefaultAction
             return true;
         }
         return false;
+    }
+
+    @Override
+    public boolean isValid(IPokemob user)
+    {
+        return move.getType(user) == PokeType.getType("electric");
     }
 
 }

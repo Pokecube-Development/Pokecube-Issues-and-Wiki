@@ -82,13 +82,13 @@ public class MoveEventsHandler
         }
     }
 
-    public static class ActionWrapper implements IMoveWorldEffect
+    private static class Action implements IMoveWorldEffect
     {
         final IMoveWorldEffect wrapped;
         private IMoveWorldEffect custom;
         private boolean checked = false;
 
-        public ActionWrapper(final IMoveWorldEffect wrapped)
+        public Action(final IMoveWorldEffect wrapped)
         {
             this.wrapped = wrapped;
         }
@@ -129,6 +129,60 @@ public class MoveEventsHandler
             this.wrapped.init();
             if (this.custom != null) this.custom.init();
         }
+    }
+
+    public static class WrappedAction implements IMoveWorldEffect
+    {
+        public IMoveWorldEffect parent;
+        public IMoveWorldEffect other;
+
+        public WrappedAction(final IMoveWorldEffect parent, final IMoveWorldEffect other)
+        {
+            this.parent = parent;
+            this.other = other;
+        }
+
+        @Override
+        public boolean applyOutOfCombat(final IPokemob user, final Vector3 location)
+        {
+            // Only applies other action if parent action failed.
+            return this.parent.applyOutOfCombat(user, location) || this.other.applyOutOfCombat(user, location);
+        }
+
+        @Override
+        public boolean applyInCombat(IPokemob user, Vector3 location)
+        {
+            // Only applies other action if parent action failed.
+            return this.parent.applyInCombat(user, location) || this.other.applyInCombat(user, location);
+        }
+
+        @Override
+        public String getMoveName()
+        {
+            return this.parent.getMoveName();
+        }
+
+        @Override
+        public void init()
+        {
+            this.parent.init();
+            this.other.init();
+        }
+    }
+
+    public static void addOrMergeActions(IMoveWorldEffect action)
+    {
+        if (MoveEventsHandler.customActions.containsKey(action.getMoveName()))
+        {
+            final IMoveWorldEffect prev = MoveEventsHandler.customActions.get(action.getMoveName());
+            if (prev instanceof WrappedAction edit)
+            {
+                edit.other = action;
+                action = prev;
+            }
+            else action = new WrappedAction(MoveEventsHandler.customActions.get(action.getMoveName()), action);
+        }
+        MoveEventsHandler.customActions.put(action.getMoveName(), action);
     }
 
     public static final Map<String, IMoveWorldEffect> customActions = Maps.newHashMap();
@@ -212,8 +266,13 @@ public class MoveEventsHandler
 
     public static void register(IMoveWorldEffect move)
     {
-        if (!(move instanceof ActionWrapper)) move = new ActionWrapper(move);
+        if (!(move instanceof Action)) move = new Action(move);
         MoveEventsHandler.actionMap.put(move.getMoveName(), move);
+    }
+
+    public static boolean hasAction(MoveEntry move)
+    {
+        return actionMap.containsKey(move.getName());
     }
 
     private static Map<String, IMoveWorldEffect> actionMap = Maps.newHashMap();
