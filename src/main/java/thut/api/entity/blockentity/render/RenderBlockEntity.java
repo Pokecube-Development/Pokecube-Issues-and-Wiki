@@ -67,7 +67,7 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
             final IBlockEntity blockEntity = entity;
 
             var v = entity.getV();
-            mat.translate(v.x(), v.y(), v.z());
+            if (v.y() > 0) mat.translate(v.x(), v.y(), v.z());
 
             final int xMin = Mth.floor(blockEntity.getMin().getX());
             final int xMax = Mth.floor(blockEntity.getMax().getX());
