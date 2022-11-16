@@ -286,7 +286,8 @@ public class TypeTrainer extends NpcType
                 if (this.max < this.min) this.max = this.min;
                 sell.setCount(this.min + rand.nextInt(1 + this.max - this.min));
             }
-            final MerchantOffer ret = new MerchantOffer(buy1, buy2, sell, this._uses, this._maxUses, this._exp,
+            int maxUse = this._maxUses == Integer.MAX_VALUE ? 100000 : this._maxUses;
+            final MerchantOffer ret = new MerchantOffer(buy1, buy2, sell, this._uses, maxUse, this._exp,
                     this._multiplier, this._demand);
             return ret;
         }
