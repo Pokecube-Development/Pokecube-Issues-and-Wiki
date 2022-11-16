@@ -529,54 +529,14 @@ public class PokemobEventsHandler
         {
             Mob toPush = pokemob != null ? pokemob.getEntity() : null;
 
-            // Check if a player riding something, if so, compute a larger
-            // hitbox and try to push out of the wall
+            // Check if a player riding something, if so, reduce the damage, but
+            // still make it happen to notify the player they need to leave the
+            // wall.
             pokemob = PokemobCaps.getPokemobFor(evt.getEntity().getVehicle());
             final boolean playerRiding = evt.getEntity() instanceof Player && pokemob != null;
             if (playerRiding) toPush = pokemob.getEntity();
 
-            if (toPush != null)
-            {
-                evt.setCanceled(true);
-                final AABB oldBox = evt.getEntity().getBoundingBox();
-                final AABB newBox = toPush.getBoundingBox();
-
-                // Take the larger of the boxes, collide off that.
-                final AABB biggerBox = oldBox.minmax(newBox);
-
-                final List<VoxelShape> hits = Lists.newArrayList();
-                // Find all voxel shapes in the area
-                BlockPos.betweenClosedStream(biggerBox).forEach(pos -> {
-                    if (!level.isLoaded(pos)) return;
-                    final BlockState state = level.getBlockState(pos);
-                    final VoxelShape shape = state.getCollisionShape(level, pos);
-                    if (!shape.isEmpty()) hits.add(shape.move(pos.getX(), pos.getY(), pos.getZ()));
-                });
-
-                // If there were any voxel shapes, then check if we need to
-                // collidedw
-                if (hits.size() > 0)
-                {
-                    VoxelShape total = Shapes.empty();
-                    // Merge the found shapes into a single one
-                    for (final VoxelShape s : hits) total = Shapes.joinUnoptimized(total, s, BooleanOp.OR);
-                    final List<AABB> aabbs = Lists.newArrayList();
-                    // Convert to colliding AABBs
-                    BlockEntityUpdater.fill(aabbs, biggerBox, total);
-                    // Push off the AABBS if needed
-                    final boolean col = BlockEntityUpdater.applyEntityCollision(toPush, biggerBox, aabbs, Vec3.ZERO);
-
-                    // This gives us an indication if if we did actually
-                    // collide, if this occured, then we need to do some extra
-                    // processing to make sure that we fit properly
-                    if (col)
-                    {
-                        Vector3 v = new Vector3().set(toPush);
-                        v = SendOutManager.getFreeSpot(toPush, level, v, false);
-                        if (v != null) v.moveEntity(toPush);
-                    }
-                }
-            }
+            if (toPush != null) evt.setAmount(0.1f);
         }
     }
 

@@ -262,7 +262,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             if (isReplaceable && block.getBlock() != ThutCrafts.CRAFTBLOCK.get())
             {
                 final boolean flag = world.getFluidState(p).getType() == Fluids.WATER;
-                if (!air) world.destroyBlock(p, true);
                 world.setBlockAndUpdate(p,
                         ThutCrafts.CRAFTBLOCK.get().defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
             }
@@ -404,7 +403,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             a = vec.subtract(this.v);
             v = vec;
             a = F.normalize().scalarMult(this.getAccel()).toVec3d();
-            this.dataSync.set(POS, Optional.of(r.add(v).add(a)));
+            this.dataSync.set(POS, Optional.of(r.add(v)));// .add(a)
             this.setDeltaMovement(v);
         }
     }
