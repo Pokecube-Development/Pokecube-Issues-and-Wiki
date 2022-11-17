@@ -139,7 +139,7 @@ public class LogicMountedControl extends LogicBase
         if (rider == null)
         {
             stepHeightAttribute.removeModifier(UID);
-            if (this.wasRiding && this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))
+            if (this.wasRiding)
             {
                 if (noGrav && !level.isClientSide()) this.entity.setNoGravity(false);
                 this.wasRiding = false;
