@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import pokecube.api.PokecubeAPI;
@@ -22,6 +23,11 @@ public class GuiInfoMessages
 
     static long time = 0;
     static public int offset = 0;
+
+    public static boolean fullDisplay()
+    {
+        return Minecraft.getInstance().screen instanceof ChatScreen;
+    }
 
     public static void addMessage(final Component message)
     {
@@ -93,8 +99,7 @@ public class GuiInfoMessages
         y = h;
         event.getMat().translate(0, -texH * 7, 0);
         int num = -1;
-        // TODO decide in chat?
-        final boolean inChat = false;
+        final boolean inChat = fullDisplay();
 
         if (inChat)
         {

@@ -11,28 +11,31 @@
         { "key": "croagunk", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "donphan", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "drifblim", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "eternatus", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "gengar", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "gigalith", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "grimmsnarl", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "heracross", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "indeedee-male", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "indeedee-female", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "lunala", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "meowstic-male", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "meowstic-female", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "naganadel", "min": 1, "max": 1, "rate": 0.5 },
         { "key": "phanpy", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "poipole", "min": 1, "max": 3, "rate": 0.15 },
         { "key": "riolu", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "roggenrola", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "rookidee", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "salamence", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "seismitoad", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "thundurus-therian", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "vikavolt", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "wobbuffet", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "xerneas", "min": 1, "max": 1, "rate": 0.01 }
+        
+        { "key": "indeedee-male", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "indeedee-female", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "meowstic-male", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "meowstic-female", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "poipole", "min": 1, "max": 3, "rate": 0.15 },
+        
+        { "key": "lunala", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "eternatus", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "thundurus-therian", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "xerneas", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
@@ -96,7 +99,8 @@
         { "key": "torracat", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "turtonator", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "typhlosion", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "volcanion", "min": 1, "max": 3, "rate": 0.5 }
+        
+        { "key": "volcanion", "min": 1, "max": 3, "rate": 0.002 }
       ]
     },
     {
@@ -109,18 +113,14 @@
         { "key": "gengar", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "glameow", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "grimer", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "grimer-alola", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "guzzlord", "min": 1, "max": 1, "rate": 0.5 },
         { "key": "haunter", "min": 1, "max": 1, "rate": 0.5 },
         { "key": "houndoom", "min": 1, "max": 1, "rate": 0.5 },
-        { "key": "houndoom-mega", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "hydreigon", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "litwick", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "malamar", "min": 1, "max": 3, "rate": 0.01 },
         { "key": "mawile", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "mimikyu-disguised", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "muk", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "muk-alola", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "murkrow", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "salandit", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sigilyph", "min": 1, "max": 3, "rate": 0.5 },
@@ -130,11 +130,18 @@
         { "key": "toxel", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "trubbish", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "weezing", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "weezing-galar", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "xurkitree", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "yveltal", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "zubat", "min": 2, "max": 5, "rate": 0.5 },
-        { "key": "zweilous", "min": 1, "max": 3, "rate": 0.25 }
+        
+        { "key": "grimer-alola", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "weezing-galar", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "muk-alola", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "zweilous", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "houndoom-mega", "min": 1, "max": 1, "rate": 0.01 },
+        { "key": "malamar", "min": 1, "max": 3, "rate": 0.01 },
+        
+        { "key": "yveltal", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
@@ -143,14 +150,16 @@
         { "key": "carbink", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "cryogonal", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "diancie", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "glastrier", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "polteageist", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sableye", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sableye_mega", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sinistea", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "spiritomb", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "starmie", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "xerneas", "min": 1, "max": 1, "rate": 0.01 }
+        
+        { "key": "glastrier", "min": 1, "max": 1, "rate": 0.005 },
+        
+        { "key": "xerneas", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
@@ -169,8 +178,6 @@
         { "key": "duskull", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "gastly", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "gengar", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "giratina-altered", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "giratina-origin", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "haunter", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "lampent", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "litwick", "min": 1, "max": 3, "rate": 0.5 },
@@ -183,10 +190,14 @@
         { "key": "sandygast", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "shuppet", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sinistea", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "spectrier", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "yamask", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "spiritomb", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "trevenant", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "yamask", "min": 1, "max": 3, "rate": 0.5 }
+        
+        { "key": "spectrier", "min": 1, "max": 3, "rate": 0.005 },
+        
+        { "key": "giratina-altered", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "giratina-origin", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
@@ -203,7 +214,6 @@
         { "key": "darumaka-galar", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "duskull", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "ekans", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "entei", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "gastly", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "gothita", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "gothitelle", "min": 1, "max": 3, "rate": 0.5 },
@@ -231,9 +241,11 @@
         { "key": "torracat", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "turtonator", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "typhlosion", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "volcanion", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "yveltal", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "zapdos", "min": 1, "max": 1, "rate": 0.01 }
+        
+        { "key": "volcanion", "min": 1, "max": 3, "rate": 0.002 },
+        { "key": "yveltal", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "entei", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "zapdos", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
@@ -276,30 +288,33 @@
         { "key": "dedenne", "min": 1, "max": 5, "rate": 0.5 },
         { "key": "dottler", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "electabuzz", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "electivire", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "falinks", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "girafarig", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "heliolisk", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "jirachi", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "jolteon", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "joltik", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "lunatone", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "meowth", "min": 1, "max": 5, "rate": 0.5 },
         { "key": "minior-meteor", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "minun", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "moltres", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "mothim", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "ninetales", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "ninjask", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "pikachu", "min": 1, "max": 5, "rate": 0.5 },
         { "key": "plusle", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "raikou", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "ribombee", "min": 1, "max": 5, "rate": 0.5 },
         { "key": "shuckle", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sunflora", "min": 1, "max": 3, "rate": 0.5 },
+        
+        { "key": "electivire", "min": 1, "max": 3, "rate": 0.25 },
+        
         { "key": "vespiquen", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "zapdos", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "zeraora", "min": 1, "max": 1, "rate": 0.01 }
+        { "key": "ninetales", "min": 1, "max": 1, "rate": 0.01 },
+        
+        { "key": "raikou", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "moltres", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "zapdos", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "zeraora", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "jirachi", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
@@ -325,20 +340,17 @@
     {
       "and_preset": "is_jungle",
       "entries": [
-        { "key": "bellossom", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "bellsprout", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "bounsweet", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "budew", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "bunnelby", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "carnivine", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "celebi", "min": 1, "max": 3, "rate": 0.01 },
         { "key": "celesteela", "min": 1, "max": 2, "rate": 0.5 },
         { "key": "cherubi", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "cottonee", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "deerling", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "dhelmise", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "exeggutor", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "exeggutor-alola", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "gloom", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "hoppip", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "nincada", "min": 1, "max": 3, "rate": 0.5 },
@@ -357,34 +369,40 @@
         { "key": "tangrowth", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "tropius", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "tsareena", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "victreebel", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "vileplume", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "weepinbell", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "wormadam-plant", "min": 1, "max": 3, "rate": 0.5 }
+        { "key": "wormadam-plant", "min": 1, "max": 3, "rate": 0.5 },
+        
+        { "key": "bellossom", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "exeggutor-alola", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "victreebel", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "celebi", "min": 1, "max": 3, "rate": 0.002 }
       ]
     },
     {
       "and_preset": "is_meteorite",
       "entries": [
-        { "key": "arceus", "min": 1, "max": 1, "rate": 0.005 },
         { "key": "beheeyem", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "clefable", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "clefairy", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "cleffa", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "deoxys-normal", "min": 1, "max": 3, "rate": 0.01 },
-        { "key": "dialga", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "dusknoir", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "elgyem", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "eternatus", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "giratina-altered", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "jirachi", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "kyurem", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "lunatone", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "palkia", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "solrock", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "starmie", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "staryu", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "unown", "min": 1, "max": 5, "rate": 0.5 }
+        { "key": "unown", "min": 1, "max": 5, "rate": 0.5 },
+        { "key": "dusknoir", "min": 1, "max": 1, "rate": 0.01 },
+        
+        { "key": "kyurem", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "palkia", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "arceus", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "dialga", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "eternatus", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "deoxys-normal", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "giratina-altered", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "jirachi", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
@@ -392,18 +410,9 @@
       "entries": [
         { "key": "absol", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "aerodactyl", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "aggron", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "altaria", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "cubone", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "geodude", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "gliscor", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "gogoat", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "golem", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "graveler", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "groudon", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "groudon-primal", "min": 1, "max": 1, "rate": 0.005 },
-        { "key": "grumpig", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "jirachi", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "lairon", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "larvitar", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "machamp", "min": 1, "max": 3, "rate": 0.5 },
@@ -413,9 +422,22 @@
         { "key": "skiddo", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "snorlax", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "swablu", "min": 1, "max": 3, "rate": 0.5 },
+        
+        { "key": "geodude", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "tyranitar", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "ursaring", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "zapdos", "min": 1, "max": 1, "rate": 0.01 }
+        { "key": "grumpig", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "aggron", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "gogoat", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "golem", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "altaria", "min": 1, "max": 3, "rate": 0.01 },
+        
+        { "key": "zapdos", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "groudon", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "jirachi", "min": 1, "max": 1, "rate": 0.002 },
+        
+        { "key": "groudon-primal", "min": 1, "max": 1, "rate": 0.0005 }
       ]
     },
     {
@@ -423,35 +445,38 @@
       "entries": [
         { "key": "carvanha", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "clamperl", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "cloyster", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "corsola", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "dewgong", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "goldeen", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "gorebyss", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "gyarados", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "kyogre", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "kyogre-primal", "min": 1, "max": 1, "rate": 0.005 },
         { "key": "lanturn", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "lapras", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "magikarp", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "mantine", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "octillery", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "palkia", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "palkia-origin", "min": 1, "max": 1, "rate": 0.005 },
         { "key": "pelipper", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "seaking", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sealeo", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "seel", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sharpedo", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "shellder", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "starmie", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "staryu", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "tentacool", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "tentacruel", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "wailmer", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "wailord", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "walrein", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "wingull", "min": 1, "max": 3, "rate": 0.5 }
+        { "key": "wingull", "min": 1, "max": 3, "rate": 0.5 },
+        
+        { "key": "cloyster", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "starmie", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "tentacruel", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "wailord", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "kyogre", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "palkia", "min": 1, "max": 1, "rate": 0.002 },
+        
+        { "key": "kyogre-primal", "min": 1, "max": 1, "rate": 0.0005 },
+        { "key": "palkia-origin", "min": 1, "max": 1, "rate": 0.0005 }
       ]
     },
     {
@@ -471,57 +496,51 @@
         { "key": "trubbish", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "weezing", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "weezing-galar", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "yveltal", "min": 1, "max": 1, "rate": 0.01 }
+        
+        { "key": "yveltal", "min": 1, "max": 1, "rate": 0.002 }
       ]
     },
     {
       "or_preset": "is_river,is_ultraspace_river_water",
       "entries": [
         { "key": "blastoise", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "croconaw", "min": 1, "max": 3, "rate": 0.35 },
-        { "key": "feraligatr", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "goldeen", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "latias", "min": 1, "max": 3, "rate": 0.01 },
-        { "key": "latios", "min": 1, "max": 3, "rate": 0.01 },
         { "key": "magikarp", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "milotic", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "politoed", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "poliwhirl", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "poliwrath", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "seaking", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "slowbro", "min": 1, "max": 3, "rate": 0.35 },
-        { "key": "slowking", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "slowpoke", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "squirtle", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "totodile", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "wartortle", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "whiscash", "min": 1, "max": 3, "rate": 0.5 }
+        { "key": "whiscash", "min": 1, "max": 3, "rate": 0.5 },
+        
+        { "key": "croconaw", "min": 1, "max": 3, "rate": 0.35 },
+        { "key": "slowbro", "min": 1, "max": 3, "rate": 0.35 },
+        
+        { "key": "milotic", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "feraligatr", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "slowking", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "latias", "min": 1, "max": 2, "rate": 0.005 },
+        { "key": "latios", "min": 1, "max": 2, "rate": 0.005 }
       ]
     },
     {
       "and_preset": "is_snowy",
       "entries": [
-        { "key": "abomasnow", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "avalugg", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "articuno", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "beartic", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "castform", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "castform-snowy", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "cryogonal", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "darmanitan-standard", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "delibird", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "eiscue-ice", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "eiscue-noice", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "empoleon", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "forretress", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "froslass", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "glaceon", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "glalie", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "glastrier", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "mamoswine", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "piloswine", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "piplup", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "prinplup", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "sandslash-alola", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "sealeo", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "smoochum", "min": 1, "max": 3, "rate": 0.5 },
@@ -529,10 +548,24 @@
         { "key": "snover", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "spheal", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "swinub", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "regice", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "vanillish", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "vanilluxe", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "vulpix-alola", "min": 1, "max": 3, "rate": 0.25 }
+        
+        { "key": "beartic", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "eiscue-noice", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "empoleon", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "piloswine", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "piplup", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "prinplup", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "abomasnow", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "castform-snowy", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "vulpix-alola", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "glastrier", "min": 1, "max": 3, "rate": 0.005 },
+        
+        { "key": "articuno", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "regice", "min": 1, "max": 1, "rate": 0.002 }
+        
       ]
     },
     {
@@ -540,58 +573,66 @@
       "entries": [
         { "key": "blacephalon", "min": 1, "max": 5, "rate": 0.5 },
         { "key": "buzzwole", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "cosmoem", "min": 1, "max": 1, "rate": 0.05 },
-        { "key": "cosmog", "min": 1, "max": 1, "rate": 0.15 },
-        { "key": "dialga", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "dialga-origin", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "enamorus-therian", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "ho-oh", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "kartana", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "kyurem", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "landorus-therian", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "lugia", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "lunala", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "mew", "min": 1, "max": 3, "rate": 0.01 },
-        { "key": "mewtwo", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "mewtwo-mega-x", "min": 1, "max": 1, "rate": 0.005 },
-        { "key": "mewtwo-mega-y", "min": 1, "max": 1, "rate": 0.005 },
-        { "key": "necrozma", "min": 1, "max": 3, "rate": 0.01 },
         { "key": "nihilego", "min": 1, "max": 5, "rate": 0.5 },
         { "key": "poipole", "min": 1, "max": 5, "rate": 0.5 },
-        { "key": "rayquaza", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "rayquaza-mega", "min": 1, "max": 1, "rate": 0.005 },
-        { "key": "reshiram", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "solgaleo", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "thundurus-therian", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "tornadus-therian", "min": 1, "max": 1, "rate": 0.01 },
+        
+        { "key": "cosmog", "min": 1, "max": 1, "rate": 0.15 },
+        
+        { "key": "cosmoem", "min": 1, "max": 1, "rate": 0.05 },
+        
         { "key": "unown", "min": 1, "max": 5, "rate": 0.01 },
-        { "key": "zekrom", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "zygarde-10", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "zygarde-complete", "min": 1, "max": 1, "rate": 0.005 },
-        { "key": "zygarde-50", "min": 1, "max": 1, "rate": 0.01 }
+        
+        { "key": "lugia", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "lunala", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "kyurem", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "landorus-therian", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "dialga", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "dialga-origin", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "enamorus-therian", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "ho-oh", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "mewtwo", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "necrozma", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "rayquaza", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "reshiram", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "solgaleo", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "thundurus-therian", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "tornadus-therian", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "zekrom", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "zygarde-10", "min": 1, "max": 1, "rate": 0.002 },
+        { "key": "zygarde-50", "min": 1, "max": 1, "rate": 0.002 },
+        
+        { "key": "mew", "min": 1, "max": 1, "rate": 0.001 },
+        
+        { "key": "rayquaza-mega", "min": 1, "max": 1, "rate": 0.0005 },
+        { "key": "mewtwo-mega-x", "min": 1, "max": 1, "rate": 0.0005 },
+        { "key": "mewtwo-mega-y", "min": 1, "max": 1, "rate": 0.0005 },
+        { "key": "zygarde-complete", "min": 1, "max": 1, "rate": 0.0005 }
       ]
     },
     {
       "and_preset": "is_underground",
       "entries": [
-        { "key": "crobat", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "diglett", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "dugtrio", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "dugtrio-alola", "min": 1, "max": 3, "rate": 0.25 },
-        { "key": "exploud", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "golbat", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "loudred", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "lunatone", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "nosepass", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "onix", "min": 1, "max": 5, "rate": 0.5 },
-        { "key": "regice", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "regirock", "min": 1, "max": 1, "rate": 0.01 },
-        { "key": "registeel", "min": 1, "max": 1, "rate": 0.01 },
         { "key": "solrock", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "steelix", "min": 1, "max": 1, "rate": 0.25 },
         { "key": "wobbuffet", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "wynaut", "min": 1, "max": 3, "rate": 0.5 },
-        { "key": "zubat", "min": 1, "max": 3, "rate": 0.5 }
+        { "key": "zubat", "min": 1, "max": 3, "rate": 0.5 },
+        
+        { "key": "steelix", "min": 1, "max": 1, "rate": 0.25 },
+        { "key": "crobat", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "exploud", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "dugtrio", "min": 1, "max": 3, "rate": 0.25 },
+        { "key": "dugtrio-alola", "min": 1, "max": 3, "rate": 0.25 },
+        
+        { "key": "regice", "min": 1, "max": 1, "rate": 0.005 },
+        { "key": "regirock", "min": 1, "max": 1, "rate": 0.005 },
+        { "key": "registeel", "min": 1, "max": 1, "rate": 0.005 }
       ]
     }
   ]

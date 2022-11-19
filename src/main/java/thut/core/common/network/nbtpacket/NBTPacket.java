@@ -13,6 +13,10 @@ public abstract class NBTPacket extends Packet
     public NBTPacket()
     {
         this.assembler = PacketAssembly.ASSEMBLERS.get(this.getClass());
+        if (assembler == null)
+        {
+            throw new IllegalStateException("Unregistered packet class: " + this.getClass());
+        }
     }
 
     public NBTPacket(final CompoundTag tag)

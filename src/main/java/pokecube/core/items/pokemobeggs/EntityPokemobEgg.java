@@ -23,8 +23,8 @@ import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.EggEvent;
+import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.brain.BrainUtils;
 import thut.api.maths.Vector3;
 
 /** @author Manchou */
@@ -66,7 +66,7 @@ public class EntityPokemobEgg extends AgeableMob
             final ItemStack itemstack = this.getMainHandItem();
             final int i = itemstack.getCount();
             if (this.mother != null && this.mother.getOwner() != player)
-                BrainUtils.initiateCombat(this.mother.getEntity(), player);
+                Battle.createOrAddToBattle(this.mother.getEntity(), player);
             if (i <= 0 || player.getInventory().add(itemstack))
             {
                 player.take(this, i);
@@ -162,7 +162,7 @@ public class EntityPokemobEgg extends AgeableMob
         final ItemStack itemstack = this.getMainHandItem();
         final int i = itemstack.getCount();
         if (this.mother != null && this.mother.getOwner() != player)
-            BrainUtils.initiateCombat(this.mother.getEntity(), player);
+            Battle.createOrAddToBattle(this.mother.getEntity(), player);
         if (i <= 0 || player.getInventory().add(itemstack))
         {
             player.take(this, i);

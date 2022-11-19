@@ -113,19 +113,6 @@ minecraft {
                 MainMods { sources sourceSets.main }
             }
         }
-        data = {
-            workingDirectory project.file('run')
-            //property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            properties 'mixin.env.remapRefMap': 'true'
-            property 'mixin.env.refMapRemappingFile', "${project.projectDir}/build/createSrgToMcp/output.srg"
-            property 'forge.logging.console.level', 'debug'
-            args '--mod', 'pokecube', '--all', '--output', file('src/generated/resources/'), '--existing', sourceSets.main.resources.srcDirs[0]
-            mods {
-                pokecube {
-                    source sourceSets.main
-                }
-            }
-        }
     }
 }
 

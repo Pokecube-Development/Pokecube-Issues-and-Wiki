@@ -154,6 +154,16 @@ public class WorldTickManager
     {
         if (event.world instanceof ServerLevel)
         {
+            // Uncomment to produce server lag for testing.
+//            if (event.world.getRandom().nextDouble() > 0.9)
+//            {
+//                long start = System.nanoTime();
+//                int wait = event.world.getRandom().nextInt(1000000, 100000000);
+//                while (System.nanoTime() < start + wait)
+//                {}
+//                System.out.println("FORCED LAGGED: " + (wait / 1e9d));
+//            }
+
             final ResourceKey<Level> key = event.world.dimension();
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)

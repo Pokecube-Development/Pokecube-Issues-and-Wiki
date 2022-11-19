@@ -17,6 +17,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.moves.Battle;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
@@ -102,7 +103,7 @@ public class MateTask extends BaseIdleTask
 
         // This fight should end when one gets below half health, which would
         // then be invalid for the next selection round of mating targets.
-        BrainUtils.initiateCombat(this.mobA, this.mobB);
+        Battle.createOrAddToBattle(this.mobA, this.mobB);
 
         this.startSpot = new WalkTarget(this.entity.position(), 1, 0);
     }

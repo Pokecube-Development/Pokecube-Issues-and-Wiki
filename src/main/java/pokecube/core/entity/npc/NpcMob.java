@@ -93,6 +93,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     {
         super(type, world);
         this.setPersistenceRequired();
+        this.setCustomNameVisible(true);
         this.location = new Vector3();
     }
 

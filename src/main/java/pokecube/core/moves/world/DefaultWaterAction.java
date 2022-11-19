@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
+import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.MoveEventsHandler;
@@ -99,6 +100,12 @@ public class DefaultWaterAction extends DefaultAction
         if (prev.canBeReplaced(context))
             world.setBlockAndUpdate(prevPos, Blocks.WATER.defaultBlockState().setValue(LiquidBlock.LEVEL, 2));
         return applied;
+    }
+
+    @Override
+    public boolean isValid(IPokemob user)
+    {
+        return move.getType(user) == PokeType.getType("water");
     }
 
 }

@@ -697,8 +697,8 @@ public class MovesUtils implements IMoveConstants
         return ret;
     }
 
-    public static void useMove(@Nonnull final MoveEntry move, @Nonnull final Mob user,
-            @Nullable final LivingEntity target, @Nonnull final Vector3 start, @Nonnull final Vector3 end)
+    public static void useMove(@Nonnull MoveEntry move, @Nonnull Mob user, @Nullable LivingEntity target,
+            @Nonnull final Vector3 start, @Nonnull final Vector3 end)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(user);
         if (pokemob == null) return;
@@ -707,6 +707,9 @@ public class MovesUtils implements IMoveConstants
         // Pre-apply to run any special pre-processing needed for changing move
         // targets, etc.
         MoveApplicationRegistry.preApply(apply);
+        move = apply.getMove();
+        user = apply.getUser().getEntity();
+        target = apply.getTarget();
 
         Predicate<MoveApplication> target_test = MoveApplicationRegistry.getValidator(move);
         Mob mob = user;
@@ -716,7 +719,7 @@ public class MovesUtils implements IMoveConstants
         if (battle != null)
         {
             List<LivingEntity> targets = Lists.newArrayList();
-            
+
             List<LivingEntity> options = Lists.newArrayList();
             // Actual target first.
             options.add(target);

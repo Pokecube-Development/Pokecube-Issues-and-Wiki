@@ -54,6 +54,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector4 rotations = new Vector4();
     public Vertex scale = new Vertex(1, 1, 1);
 
+    private float ds = 1;
+    public float ds0 = 1;
+    public float ds1 = 1;
+
     Vector3 min = new Vector3();
     Vector3 max = new Vector3();
 
@@ -244,6 +248,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
+            s.scale = ds * ds1;
             // Render each Shape
             s.renderShape(mat, buffer, this.texturer);
         }
@@ -284,6 +289,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final String s : this.order)
         {
             final IExtendedModelPart o = this.parts.get(s);
+            if (o instanceof Part p) p.ds = p.ds0 * this.ds;
             o.renderOnly(mat, buffer, groupNames);
         }
     }
@@ -369,6 +375,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preScale.x = (float) scale.x;
         this.preScale.y = (float) scale.y;
         this.preScale.z = (float) scale.z;
+        ds0 = ds = (float) scale.mag();
     }
 
     @Override

@@ -8,12 +8,14 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.items.IPokemobUseable;
@@ -74,6 +76,10 @@ public class LogicMovesUpdates extends LogicBase
         super.tick(world);
         this.v.set(this.entity);
 
+        // Set this first, to ensure it is cleaned up properly, it will be reset
+        // later down if needed.
+        this.pokemob.getMoveStats().transformedMoves = this.pokemob.getMoveStats().moves;
+
         // Run tasks that only should go on server side.
         if (!world.isClientSide)
         {
@@ -106,10 +112,39 @@ public class LogicMovesUpdates extends LogicBase
                 this.pokemob.learn(move);
             }
 
+            // Server side if transformed checks
+
+            LivingEntity transformed = this.pokemob.getTransformedTo();
+
             // Revert transform if not in battle or breeding.
-            if (this.pokemob.getTransformedTo() != null && !this.pokemob.getGeneralState(GeneralStates.MATING)
-                    && Battle.getBattle(entity) == null)
-                this.pokemob.setTransformedTo(null);
+            if (transformed != null)
+            {
+                // If we are not mating, and we are not in battle, transform
+                // back.
+                if (!(this.pokemob.getGeneralState(GeneralStates.MATING) || Battle.getBattle(entity) != null))
+                {
+                    this.pokemob.setTransformedTo(null);
+                }
+                // Otherwise set the move stats to the correct moves.
+                else
+                {
+                    IPokemob toMob = PokemobCaps.getPokemobFor(transformed);
+                    // This side has the appropriate caps for keeping the moves
+                    // lists, so we sync this over.
+                    if (toMob != null) this.pokemob.getMoveStats().transformedMoves = toMob.getMoves();
+                }
+            }
+        }
+        // client side only checks
+        else
+        {
+
+            LivingEntity transformed = this.pokemob.getTransformedTo();
+            IPokemob toMob = PokemobCaps.getPokemobFor(transformed);
+            // This side has the appropriate caps for keeping the moves
+            // lists, so we sync this over.
+            if (toMob != null) this.pokemob.getMoveStats().transformedMoves = toMob.getMoves();
+            
         }
 
         // Run tasks that can be on server or client.

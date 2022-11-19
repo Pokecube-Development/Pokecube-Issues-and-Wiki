@@ -106,7 +106,6 @@ public class TempTile extends BlockEntity implements ITickTile
             }
             catch (Exception e)
             {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 NO_INTERACT.add(eff);
             }
@@ -155,7 +154,7 @@ public class TempTile extends BlockEntity implements ITickTile
         if (this.blockEntity == null) return distance;
         this.blockEntity.recentCollides.computeIfAbsent(entity, (e) -> {
             var v = new RelativeEntityPos(e, new AtomicInteger(), new Vector3f());
-            v.lastSeen().set(this.blockEntity.tickCount + 10);
+            v.lastSeen().set(this.blockEntity.tickCount + 20);
             float dx = (float) (entity.getX() - this.blockEntity.getX());
             float dy = (float) (entity.getY() - this.blockEntity.getY());
             float dz = (float) (entity.getZ() - this.blockEntity.getZ());

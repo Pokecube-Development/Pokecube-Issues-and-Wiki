@@ -15,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -54,6 +55,7 @@ import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.common.world.mobs.data.types.Data_Vec3;
 import thut.crafts.ThutCrafts;
+import thut.lib.TComponent;
 
 public abstract class BlockEntityBase extends Entity implements IEntityAdditionalSpawnData, IBlockEntity
 {
@@ -62,13 +64,19 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         public BlockEntityType(final EntityType.EntityFactory<T> factory)
         {
             super(factory, MobCategory.MISC, true, false, true, true, ImmutableSet.of(),
-                    new EntityDimensions(1, 1, true), 64, 1);
+                    new EntityDimensions(1, 1, true), 64, 1, e -> true, e -> 64, e -> 1, null);
         }
 
         @Override
         public T customClientSpawn(final SpawnEntity packet, final Level world)
         {
             return this.create(world);
+        }
+
+        @Override
+        public boolean isBlockDangerous(BlockState p_20631_)
+        {
+            return false;
         }
     }
 
@@ -153,7 +161,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     public Vec3 getV()
     {
-        return v;
+        return this.getDeltaMovement();
     }
 
     public Vec3 getA()
@@ -254,7 +262,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             if (isReplaceable && block.getBlock() != ThutCrafts.CRAFTBLOCK.get())
             {
                 final boolean flag = world.getFluidState(p).getType() == Fluids.WATER;
-                if (!air) world.destroyBlock(p, true);
                 world.setBlockAndUpdate(p,
                         ThutCrafts.CRAFTBLOCK.get().defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
             }
@@ -270,7 +277,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
         var tileV = this.getV();
         var usBounds = this.getBoundingBox().inflate(Math.abs(tileV.x()), Math.abs(tileV.y()), Math.abs(tileV.z()));
-        usBounds = usBounds.expandTowards(0, this.getSpeedUp(), 0);
+        usBounds = usBounds.inflate(0, Math.max(10, this.getSpeedUp()), 0);
 
         for (var entry : this.recentCollides.entrySet())
         {
@@ -285,7 +292,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             valid = valid && entry.getValue().lastSeen().get() >= tickCount;
             if (!valid) stale.add(entity);
 
-            if (valid) entry.getValue().lastSeen.set(this.tickCount + 10);
+            if (valid) entry.getValue().lastSeen.set(this.tickCount + 20);
 
             if (valid && tileV.y() != 0)
             {
@@ -296,7 +303,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
                 var entityR = this.position().add(pos.x(), pos.y(), pos.z());
 
-                if (newVy > 0) entityR = entityR.add(0, newVy, 0);
+                double dvy = newVy > 0 ? newVy : 0;
+                entityR = entityR.add(0, dvy, 0);
 
                 var entityO = this.position().subtract(xo, yo, zo);
                 double x = entity.getX();
@@ -395,7 +403,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             a = vec.subtract(this.v);
             v = vec;
             a = F.normalize().scalarMult(this.getAccel()).toVec3d();
-            this.dataSync.set(POS, Optional.of(r.add(v).add(a)));
+            this.dataSync.set(POS, Optional.of(r.add(v)));// .add(a)
+            this.setDeltaMovement(v);
         }
     }
 
@@ -754,5 +763,17 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         final CompoundTag tag = new CompoundTag();
         this.addAdditionalSaveData(tag);
         data.writeNbt(tag);
+    }
+
+    @Override
+    public boolean hasCustomName()
+    {
+        return true;
+    }
+
+    @Override
+    public Component getCustomName()
+    {
+        return TComponent.literal("%s at %s".formatted(this.getClass(), this.position()));
     }
 }
