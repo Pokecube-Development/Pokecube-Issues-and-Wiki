@@ -162,7 +162,7 @@ public class WorldTickManager
 //                int wait = event.level.getRandom().nextInt(1000000, 100000000);
 //                while (System.nanoTime() < start + wait)
 //                {}
-//                System.out.println("Delayed: " + (wait / 1e9d));
+//                System.out.println("FORCED LAGGED: " + (wait / 1e9d));
 //            }
             
             final ResourceKey<Level> key = event.level.dimension();

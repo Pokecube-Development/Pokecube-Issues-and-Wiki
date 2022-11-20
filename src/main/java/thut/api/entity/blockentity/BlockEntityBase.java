@@ -262,7 +262,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             if (isReplaceable && block.getBlock() != ThutCrafts.CRAFTBLOCK.get())
             {
                 final boolean flag = world.getFluidState(p).getType() == Fluids.WATER;
-                if (!air) world.destroyBlock(p, true);
                 world.setBlockAndUpdate(p,
                         ThutCrafts.CRAFTBLOCK.get().defaultBlockState().setValue(TempBlock.WATERLOGGED, flag));
             }
@@ -278,7 +277,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
         var tileV = this.getV();
         var usBounds = this.getBoundingBox().inflate(Math.abs(tileV.x()), Math.abs(tileV.y()), Math.abs(tileV.z()));
-        usBounds = usBounds.inflate(0, this.getSpeedUp(), 0);
+        usBounds = usBounds.inflate(0, Math.max(10, this.getSpeedUp()), 0);
 
         for (var entry : this.recentCollides.entrySet())
         {
@@ -293,7 +292,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             valid = valid && entry.getValue().lastSeen().get() >= tickCount;
             if (!valid) stale.add(entity);
 
-            if (valid) entry.getValue().lastSeen.set(this.tickCount + 10);
+            if (valid) entry.getValue().lastSeen.set(this.tickCount + 20);
 
             if (valid && tileV.y() != 0)
             {
@@ -404,7 +403,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             a = vec.subtract(this.v);
             v = vec;
             a = F.normalize().scalarMult(this.getAccel()).toVec3d();
-            this.dataSync.set(POS, Optional.of(r.add(v).add(a)));
+            this.dataSync.set(POS, Optional.of(r.add(v)));// .add(a)
             this.setDeltaMovement(v);
         }
     }
