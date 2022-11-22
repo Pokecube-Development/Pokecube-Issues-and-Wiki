@@ -48,7 +48,8 @@ public class TempBlock extends AirBlock implements EntityBlock
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
     {
         BlockEntity be = reader.getBlockEntity(pos);
-        if (be instanceof TempTile temp && temp.getEffectiveState() != null)
+        if (be instanceof TempTile temp && temp.getEffectiveState() != null
+                && temp.getEffectiveState().getBlock() != state.getBlock())
             return temp.getEffectiveState().isRedstoneConductor(reader, pos);
         return false;
     }
@@ -130,7 +131,8 @@ public class TempBlock extends AirBlock implements EntityBlock
     public void entityInside(final BlockState state, final Level level, final BlockPos pos, final Entity entity)
     {
         final BlockEntity be = level.getBlockEntity(pos);
-        if (be instanceof TempTile temp && temp.getEffectiveState() != null)
+        if (be instanceof TempTile temp && temp.getEffectiveState() != null
+                && temp.getEffectiveState().getBlock() != state.getBlock())
             temp.getEffectiveState().entityInside(level, pos, entity);
     }
 
@@ -141,7 +143,7 @@ public class TempBlock extends AirBlock implements EntityBlock
         if (te instanceof TempTile tile)
         {
             distance = tile.onVerticalCollide(entity, distance);
-            if (tile.getEffectiveState() != null)
+            if (tile.getEffectiveState() != null && tile.getEffectiveState().getBlock() != state.getBlock())
             {
                 tile.getEffectiveState().getBlock().stepOn(level, pos, state, entity);
                 return;
@@ -157,7 +159,8 @@ public class TempBlock extends AirBlock implements EntityBlock
         if (te instanceof TempTile tile)
         {
             tile.onVerticalCollide(entity, 0);
-            if (tile.getEffectiveState() != null) tile.getEffectiveState().getBlock().stepOn(level, pos, state, entity);
+            if (tile.getEffectiveState() != null && tile.getEffectiveState().getBlock() != state.getBlock())
+                tile.getEffectiveState().getBlock().stepOn(level, pos, state, entity);
         }
     }
 
@@ -165,7 +168,8 @@ public class TempBlock extends AirBlock implements EntityBlock
     public float getFriction(BlockState state, LevelReader level, BlockPos pos, Entity entity)
     {
         final BlockEntity te = level.getBlockEntity(pos);
-        if (te instanceof TempTile tile && tile.getEffectiveState() != null)
+        if (te instanceof TempTile tile && tile.getEffectiveState() != null
+                && tile.getEffectiveState().getBlock() != state.getBlock())
             return tile.getEffectiveState().getBlock().getFriction(state, level, pos, entity);
         return super.getFriction(state, level, pos, entity);
     }
