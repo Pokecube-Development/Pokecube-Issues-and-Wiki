@@ -447,7 +447,7 @@
       "name": "arceus",
       "preset": "entry_based",
       "options": {
-        "entries": "dialga,palkia,giratina"
+        "entries": "dialga,palkia,giratina-altered"
       },
       "spawn": {
         "key": {
