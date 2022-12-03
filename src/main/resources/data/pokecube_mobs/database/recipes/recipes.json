@@ -12,8 +12,8 @@
       ],
       "move": {
         "moves": [
-          "rocksmash",
-          "brickbreak"
+          "rock-smash",
+          "brick-break"
         ]
       },
       "hungerCost": 50
@@ -54,10 +54,11 @@
       ],
       "move": {
         "moves": [
+          "wood-hammer",
           "crabhammer",
-          "dragonhammer",
-          "hammerarm",
-		  "icehammer"
+          "dragon-hammer",
+          "hammer-arm",
+		  "ice-hammer"
         ]
       },
       "hungerCost": 120
@@ -74,8 +75,8 @@
       ],
       "move": {
         "moves": [
-          "rocksmash",
-          "brickbreak"
+          "rock-smash",
+          "brick-break"
         ]
       },
       "hungerCost": 50
@@ -92,8 +93,8 @@
       ],
       "move": {
         "moves": [
-          "rocksmash",
-          "brickbreak"
+          "rock-smash",
+          "brick-break"
         ]
       },
       "hungerCost": 50
@@ -134,10 +135,11 @@
       ],
       "move": {
         "moves": [
+          "wood-hammer",
           "crabhammer",
-          "dragonhammer",
-          "hammerarm",
-		  "icehammer"
+          "dragon-hammer",
+          "hammer-arm",
+		  "ice-hammer"
         ]
       },
       "hungerCost": 120
@@ -178,10 +180,11 @@
       ],
       "move": {
         "moves": [
+          "wood-hammer",
           "crabhammer",
-          "dragonhammer",
-          "hammerarm",
-		  "icehammer"
+          "dragon-hammer",
+          "hammer-arm",
+		  "ice-hammer"
         ]
       },
       "hungerCost": 120
@@ -222,10 +225,11 @@
       ],
       "move": {
         "moves": [
+          "wood-hammer",
           "crabhammer",
-          "dragonhammer",
-          "hammerarm",
-		  "icehammer"
+          "dragon-hammer",
+          "hammer-arm",
+		  "ice-hammer"
         ]
       },
       "hungerCost": 120
@@ -266,10 +270,11 @@
       ],
       "move": {
         "moves": [
+          "wood-hammer",
           "crabhammer",
-          "dragonhammer",
-          "hammerarm",
-		  "icehammer"
+          "dragon-hammer",
+          "hammer-arm",
+		  "ice-hammer"
         ]
       },
       "hungerCost": 120
@@ -310,10 +315,11 @@
       ],
       "move": {
         "moves": [
+          "wood-hammer",
           "crabhammer",
-          "dragonhammer",
-          "hammerarm",
-		  "icehammer"
+          "dragon-hammer",
+          "hammer-arm",
+		  "ice-hammer"
         ]
       },
       "hungerCost": 120
@@ -443,9 +449,9 @@
       ],
       "move": {
         "moves": [
-          "flashcannon",
-          "magneticflux",
-		  "zapcannon"
+          "flash-cannon",
+          "magnetic-flux",
+		  "zap-cannon"
         ]
       },
       "hungerCost": 210
@@ -462,9 +468,9 @@
       ],
       "move": {
         "moves": [
-          "powdersnow",
-          "icywind",
-		  "blizard"
+          "powder-snow",
+          "icy-wind",
+		  "blizzard"
         ]
       },
       "hungerCost": 110
@@ -481,8 +487,8 @@
       ],
       "move": {
         "moves": [
-          "mudshot",
-          "mudslap"
+          "mud-shot",
+          "mud-slap"
         ]
       },
       "hungerCost": 85

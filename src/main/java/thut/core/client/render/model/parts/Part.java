@@ -248,7 +248,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
-            s.scale = ds * ds1;
+            s.scale = ds / ds1;
             // Render each Shape
             s.renderShape(mat, buffer, this.texturer);
         }
