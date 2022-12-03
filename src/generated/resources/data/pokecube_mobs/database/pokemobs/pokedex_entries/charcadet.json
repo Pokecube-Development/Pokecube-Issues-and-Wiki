@@ -1,0 +1,134 @@
+{
+  "name": "charcadet",
+  "id": 1003,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.6,
+    "width": 0.2
+  },
+  "mass": 10.5,
+  "is_default": true,
+  "capture_rate": 90,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 40,
+    "attack": 50,
+    "defense": 40,
+    "special_attack": 50,
+    "special_defense": 40,
+    "speed": 35
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "flash-fire",
+      "flame-body"
+    ],
+    "hidden": [
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+		  "ember",
+		  "astonish"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "clear-smog"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "lava-plume"
+        ]
+      }
+    ],
+    "misc": [
+	  "take-down",
+	"flamethrower",
+	"fire-spin",
+	"night-shade",
+	"confuse-ray",
+	"fire-blast",
+	"substitute",
+	"protect",
+	"endure",
+	"sleep-talk",
+	"sunny-day",
+	"heat-wave",
+	"will-o-wisp",
+	"facade",
+	"helping-hand",
+	"overheat",
+	"flare-blitz",
+	"flame-charge",
+	"tera-blast"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "armarouge",
+	  "evoMoves": "psyshock",
+      "item": {
+        "values": {
+          "id": "minecraft:netherite_chestplace"
+        }
+      }
+    },
+	{
+      "name": "ceruledge",
+	  "evoMoves": "shadow-claw",
+      "item": {
+        "values": {
+          "id": "minecraft:netherite_chestplace"
+        }
+      }
+    }
+  ],
+  "loot_table": "pokecube:entities/pig_1"
+}

@@ -1,0 +1,151 @@
+{
+  "name": "sprigatito",
+  "id": 906,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 4.1,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 40,
+    "attack": 61,
+    "defense": 54,
+    "special_attack": 45,
+    "special_defense": 45,
+    "speed": 65
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+	  "protean"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+		  "tail-whip",
+		  "leafage"
+        ]
+      },
+	  {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+	  {
+        "L": 10,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+	  {
+        "L": 13,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+	  {
+        "L": 15,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+	  {
+        "L": 17,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+	  {
+        "L": 21,
+        "moves": [
+          "u-turn"
+        ]
+      },
+	  {
+        "L": 25,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+	  {
+        "L": 28,
+        "moves": [
+          "slash"
+        ]
+      },
+	  {
+        "L": 32,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+	  {
+        "L": 36,
+        "moves": [
+          "play-rough"
+        ]
+      }
+    ],
+    "misc": [
+		"take-down",
+		"solar-beam",
+		"agility",
+		"swift",
+		"rest",
+		"substitute",
+		"protect",
+		"mud-slap",
+		"giga-drain",
+		"endure",
+		"charm",
+		"sleep-talk",
+		"facade",
+		"taunt",
+		"helping-hand",
+		"fake-tears",
+		"bullet-seed",
+		"magical-leaf",
+		"u-turn",
+		"seed-bomb",
+		"energy-ball",
+		"nasty-plot",
+		"shadow-claw",
+		"leaf-storm",
+		"grass-knot",
+		"acrobatics",
+		"grass-pledge",
+		"disarming-voice",
+		"grassy-terrain",
+		"play-rough",
+		"tera-blast",
+		"trailblaze"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "floragato",
+      "level": 16,
+      "evoMoves": ""
+    }
+  ],
+  "loot_table": "pokecube:entities/money_cat_small"
+}

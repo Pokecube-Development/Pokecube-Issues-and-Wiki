@@ -1,0 +1,168 @@
+{
+  "name": "lokix",
+  "id": 921,
+  "stock": true,
+  "base_experience": 50,
+  "size": {
+    "height": 1
+  },
+  "mass": 17.5,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 0,
+  "growth_rate": "medium-fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 71,
+    "attack": 102,
+    "defense": 78,
+    "special_attack": 52,
+    "special_defense": 55,
+    "speed": 92
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "bug",
+	"dark"
+  ],
+  "abilities": {
+    "normal": [
+      "swarm"
+    ],
+    "hidden": [
+	  "tinted-lens"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "low-kick",
+		  "detect"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "struggle-bug"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "throat-chop"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "first-impression"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 53,
+        "moves": [
+          "axe-kick"
+        ]
+      }
+    ],
+    "misc": [
+     "swords-dance",
+	"take-down",
+	"low-kick",
+	"agility",
+	"leech-life",
+	"rest",
+	"substitute",
+	"thief",
+	"reversal",
+	"protect",
+	"scary-face",
+	"endure",
+	"sleep-talk",
+	"rain-dance",
+	"sunny-day",
+	"facade",
+	"taunt",
+	"brick-break",
+	"aerial-ace",
+	"u-turn",
+	"fling",
+	"dark-pulse",
+	"x-scissor",
+	"bug-buzz",
+	"giga-impact",
+	"low-sweep",
+	"struggle-bug",
+	"tera-blast",
+	"pounce",
+	"trailblaze"
+    ]
+  },
+  "loot_table": "minecraft:entities/spider"
+}

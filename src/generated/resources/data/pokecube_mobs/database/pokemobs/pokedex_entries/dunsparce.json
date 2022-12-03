@@ -268,5 +268,15 @@
       "dual-wingbeat"
     ]
   },
+    "evolutions": [
+    {
+      "name": "dudunsparce-two-segment-form",
+      "evoMoves": "hyper-drill"
+    },
+	{
+      "name": "dudunsparce-three-segment-form",
+      "evoMoves": "hyper-drill"
+    }
+  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

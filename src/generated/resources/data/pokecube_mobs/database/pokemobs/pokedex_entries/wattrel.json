@@ -1,0 +1,148 @@
+{
+  "name": "wattrel",
+  "id": 957,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 3.6,
+  "is_default": true,
+  "capture_rate": 180,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 40,
+    "attack": 40,
+    "defense": 35,
+    "special_attack": 55,
+    "special_defense": 40,
+    "speed": 70
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "flying",
+	"electric"
+  ],
+  "abilities": {
+    "normal": [
+      "wind-power",
+	  "volt-absorb"
+    ],
+    "hidden": [
+	  "competitive"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+		  "peck"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "pluck"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "dual-wingbeat"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "volt-switch"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "discharge"
+        ]
+      }
+    ],
+    "misc": [
+     "fly",
+	"take-down",
+	"thunderbolt",
+	"thunder-wave",
+	"thunder",
+	"agility",
+	"swift",
+	"rest",
+	"substitute",
+	"protect",
+	"endure",
+	"sleep-talk",
+	"facade",
+	"air-cutter",
+	"aerial-ace",
+	"tailwind",
+	"u-turn",
+	"air-slash",
+	"brave-bird",
+	"charge-beam",
+	"electro-ball",
+	"acrobatics",
+	"volt-switch",
+	"wild-charge",
+	"hurricane",
+	"eerie-impulse",
+	"electric-terrain",
+	"tera-blast"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "kilowattrel",
+      "level": 25,
+	  "evoMoves": "electro-ball"
+    }
+  ],
+  "loot_table": "pokecube:entities/chicken_3"
+}

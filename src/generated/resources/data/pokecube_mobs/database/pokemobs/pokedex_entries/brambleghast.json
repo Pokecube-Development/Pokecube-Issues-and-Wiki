@@ -1,0 +1,169 @@
+{
+  "name": "brambleghast",
+  "id": 975,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 1.2
+  },
+  "mass": 6,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-fast",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 55,
+    "attack": 115,
+    "defense": 70,
+    "special_attack": 80,
+    "special_defense": 70,
+    "speed": 90
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "grass",
+	"ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "wind-rider"
+    ],
+    "hidden": [
+	  "infiltrator"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "defense-curl",
+		  "rollout",
+		  "astonish"
+        ]
+      },
+	  {
+        "L": 5,
+        "moves": [
+          "absorb"
+        ]
+      },
+	  {
+        "L": 9,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+	  {
+        "L": 13,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+	  {
+        "L": 17,
+        "moves": [
+          "infestation"
+        ]
+      },
+	  {
+        "L": 21,
+        "moves": [
+          "hex"
+        ]
+      },
+	  {
+        "L": 25,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+	  {
+        "L": 29,
+        "moves": [
+          "disable"
+        ]
+      },
+	  {
+        "L": 35,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+	  {
+        "L": 40,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+	  {
+        "L": 45,
+        "moves": [
+          "curse"
+        ]
+      },
+	  {
+        "L": 50,
+        "moves": [
+          "pain-split"
+        ]
+      },
+	  {
+        "L": 55,
+        "moves": [
+          "power-whip"
+        ]
+      }
+    ],
+    "misc": [
+      "hyper-beam",
+	"solar-beam",
+	"night-shade",
+	"confuse-ray",
+	"rest",
+	"substitute",
+	"thief",
+	"protect",
+	"scary-face",
+	"spikes",
+	"giga-drain",
+	"endure",
+	"sleep-talk",
+	"shadow-ball",
+	"facade",
+	"bullet-seed",
+	"seed-bomb",
+	"energy-ball",
+	"giga-impact",
+	"leaf-storm",
+	"grass-knot",
+	"hex",
+	"phantom-force",
+	"grassy-terrain",
+	"tera-blast",
+	"pounce",
+	"trailblaze",
+	"gimmighoul",
+	"take-down",
+	"night-shade",
+	"confuse-ray",
+	"light-screen",
+	"reflect",
+	"rest",
+	"substitute",
+	"thief",
+	"protect",
+	"endure",
+	"sleep-talk",
+	"shadow-ball",
+	"power-gem",
+	"nasty-plot",
+	"hex",
+	"tera-blast"
+    ]
+  },
+  "loot_table": "pokecube:entities/sand_desert"
+}

@@ -1,0 +1,155 @@
+{
+  "name": "bramblin",
+  "id": 974,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 0.6
+  },
+  "mass": 0.6,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium-fast",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 40,
+    "attack": 65,
+    "defense": 30,
+    "special_attack": 45,
+    "special_defense": 35,
+    "speed": 60
+  },
+  "evs": {
+    "attack": 1
+  },
+  "types": [
+    "grass",
+	"ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "wind-rider"
+    ],
+    "hidden": [
+	  "infiltrator"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "defense-curl",
+		  "rollout",
+		  "astonish"
+        ]
+      },
+	  {
+        "L": 5,
+        "moves": [
+          "absorb"
+        ]
+      },
+	  {
+        "L": 9,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+	  {
+        "L": 13,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+	  {
+        "L": 17,
+        "moves": [
+          "infestation"
+        ]
+      },
+	  {
+        "L": 21,
+        "moves": [
+          "hex"
+        ]
+      },
+	  {
+        "L": 25,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+	  {
+        "L": 29,
+        "moves": [
+          "disable"
+        ]
+      },
+	  {
+        "L": 35,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+	  {
+        "L": 40,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+	  {
+        "L": 45,
+        "moves": [
+          "curse"
+        ]
+      },
+	  {
+        "L": 50,
+        "moves": [
+          "pain-split"
+        ]
+      },
+	  {
+        "L": 55,
+        "moves": [
+          "power-whip"
+        ]
+      }
+    ],
+    "misc": [
+    "solar-beam",
+	"night-shade",
+	"confuse-ray",
+	"rest",
+	"substitute",
+	"thief",
+	"protect",
+	"scary-face",
+	"spikes",
+	"giga-drain",
+	"endure",
+	"sleep-talk",
+	"shadow-ball",
+	"facade",
+	"bullet-seed",
+	"seed-bomb",
+	"energy-ball",
+	"leaf-storm",
+	"grass-knot",
+	"hex",
+	"phantom-force",
+	"grassy-terrain",
+	"tera-blast",
+	"pounce",
+	"trailblaze"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "brambleghast"
+    }
+  ],
+  "loot_table": "pokecube:entities/sand_desert"
+}

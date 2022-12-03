@@ -1,0 +1,164 @@
+{
+  "name": "framigo",
+  "id": 961,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 1.6
+  },
+  "mass": 37,
+  "is_default": true,
+  "capture_rate": 100,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 82,
+    "attack": 115,
+    "defense": 74,
+    "special_attack": 75,
+    "special_defense": 64,
+    "speed": 90
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "flying",
+	"fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "scrappy",
+	  "tangled-feet"
+    ],
+    "hidden": [
+	  "costar"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "peck",
+		  "copycat"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "detect"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "low-kick"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "mega-kick"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "wide-guard"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "throat-chop"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "brave-bird"
+        ]
+      }
+    ],
+    "misc": [
+	"swords-dance",
+	"fly",
+	"take-down",
+	"hyper-beam",
+	"low-kick",
+	"agility",
+	"rest",
+	"substitute",
+	"thief",
+	"reversal",
+	"protect",
+	"endure",
+	"sleep-talk",
+	"facade",
+	"taunt",
+	"air-cutter",
+	"aerial-ace",
+	"bulk-up",
+	"water-pulse",
+	"tailwind",
+	"u-turn",
+	"close-combat",
+	"fling",
+	"air-slash",
+	"brave-bird",
+	"giga-impact",
+	"low-sweep",
+	"acrobatics",
+	"hurricane",
+	"liquidation",
+	"tera-blast",
+	"pounce",
+	"chilling-water"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_3"
+}

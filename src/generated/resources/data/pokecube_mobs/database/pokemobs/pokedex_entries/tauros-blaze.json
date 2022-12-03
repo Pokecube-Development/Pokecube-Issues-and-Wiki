@@ -1,0 +1,168 @@
+{
+  "name": "tauros-blaze",
+  "id": 128,
+  "stock": true,
+  "base_experience": 172,
+  "size": {
+    "height": 1.4,
+    "width": 1.0,
+    "length": 1.4
+  },
+  "mass": 85,
+  "is_default": false,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 75,
+    "attack": 110,
+    "defense": 105,
+    "special_attack": 30,
+    "special_defense": 70,
+    "speed": 100
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "fighting",
+	"fire"
+  ],
+  "abilities": {
+    "normal": [
+      "intimidate",
+      "anger-point"
+    ],
+    "hidden": [
+      "cud-chew"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+		  "tail-whip"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "double-kick"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "assurance"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "raging-bull"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "close-combat"
+        ]
+      }
+    ],
+    "misc": [
+    "body-slam",
+	"take-down",
+	"flamethrower",
+	"hyper-beam",
+	"fire-spin",
+	"earthquake",
+	"dig",
+	"fire-blast",
+	"rest",
+	"rock-slide",
+	"substitute",
+	"thief",
+	"reversal",
+	"protect",
+	"scary-face",
+	"outrage",
+	"sandstorm",
+	"endure",
+	"sleep-talk",
+	"rain-dance",
+	"sunny-day",
+	"will-o-wisp",
+	"facade",
+	"overheat",
+	"rock-tomb",
+	"bulk-up",
+	"close-combat",
+	"flare-blitz",
+	"giga-impact",
+	"zen-headbutt",
+	"iron-head",
+	"stone-edge",
+	"flame-charge",
+	"bulldoze",
+	"wild-charge",
+	"drill-run",
+	"smart-strike",
+	"stomping-tantrum",
+	"body-press",
+	"tera-blast",
+	"trailblaze"
+    ]
+  },
+  "loot_table": "pokecube:entities/cow_1"
+}

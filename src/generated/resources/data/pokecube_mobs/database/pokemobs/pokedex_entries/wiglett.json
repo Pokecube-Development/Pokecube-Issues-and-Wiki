@@ -1,0 +1,140 @@
+{
+  "name": "wiglett",
+  "id": 929,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 1.2
+  },
+  "mass": 1.8,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium-fast",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 10,
+    "attack": 55,
+    "defense": 25,
+    "special_attack": 35,
+    "special_defense": 25,
+    "speed": 95
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "gooey",
+	  "rattled"
+    ],
+    "hidden": [
+	  "sand-veil"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "sand-attack",
+		  "water-gun"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "wrap"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "slam",
+		  "water-pulse"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "throat-chop"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "liquidation"
+        ]
+      }
+    ],
+    "misc": [
+     "take-down",
+	"hydro-pump",
+	"surf",
+	"ice-beam",
+	"blizzard",
+	"dig",
+	"agility",
+	"swift",
+	"rest",
+	"substitute",
+	"protect",
+	"mud-slap",
+	"sandstorm",
+	"endure",
+	"sleep-talk",
+	"rain-dance",
+	"facade",
+	"helping-hand",
+	"mud-shot",
+	"water-pulse",
+	"earth-power",
+	"foul-play",
+	"bulldoze",
+	"stomping-tantrum",
+	"liquidation",
+	"tera-blast",
+	"chilling-water"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "wugtrio",
+      "level": 26
+    }
+  ],
+  "loot_table": "pokecube:entities/cobble_1"
+}

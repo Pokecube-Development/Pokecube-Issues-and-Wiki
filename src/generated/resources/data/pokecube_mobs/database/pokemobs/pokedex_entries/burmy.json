@@ -74,30 +74,42 @@
   "model": {
     "key": "burmy-plant",
     "tex": "burmy-plant",
-    "model": "burmy",
-    "anim": "burmy",
-    "types": "bug"
+    "model": "burmy-plant",
+    "anim": "burmy-plant"
   },
   "models": [
     {
       "key": "burmy-sandy",
       "tex": "burmy-sandy",
-      "model": "burmy",
-      "anim": "burmy",
-      "types": "bug"
+      "model": "burmy-sandy",
+      "anim": "burmy-sandy"
     },
     {
       "key": "burmy-trash",
       "tex": "burmy-trash",
-      "model": "burmy",
-      "anim": "burmy",
-      "types": "bug"
+      "model": "burmy-trash",
+      "anim": "burmy-trash"
     }
   ],
   "evolutions": [
     {
       "name": "wormadam-plant",
       "level": 20,
+	  "form_from": "burmy-plant",
+      "sexe": "female",
+      "evoMoves": "quiver-dance"
+    },
+	{
+      "name": "wormadam-sandy",
+      "level": 20,
+	  "form_from": "burmy-sandy",
+      "sexe": "female",
+      "evoMoves": "quiver-dance"
+    },
+	{
+      "name": "wormadam-trash",
+      "level": 20,
+	  "form_from": "burmy-trash",
       "sexe": "female",
       "evoMoves": "quiver-dance"
     },

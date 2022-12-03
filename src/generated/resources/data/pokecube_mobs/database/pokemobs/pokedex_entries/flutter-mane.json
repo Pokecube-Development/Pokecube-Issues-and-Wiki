@@ -1,0 +1,169 @@
+{
+  "name": "flutter-mane",
+  "id": 983,
+  "stock": true,
+  "base_experience": 87,
+  "size": {
+    "height": 1.4
+  },
+  "mass": 4.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 55,
+    "defense": 55,
+    "special_attack": 135,
+    "special_defense": 135,
+    "speed": 135
+  },
+  "evs": {
+    "special_defense": 1,
+	"special_attack": 1,
+	"speed": 1
+  },
+  "types": [
+    "ghost",
+	"fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "protosynthesis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "confuse-ray",
+          "spite",
+		  "astonish"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "mean-look"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "wish"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dazzling-gleam"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "shadown-ball"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "mystical-fire"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "power-gem"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "psyshock"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "perish-song"
+        ]
+      }
+    ],
+    "misc": [
+    "psybeam",
+	"hyper-beam",
+	"thunderbolt",
+	"thunder-wave",
+	"thunder",
+	"night-shade",
+	"confuse-ray",
+	"swift",
+	"rest",
+	"substitute",
+	"protect",
+	"icy-wind",
+	"endure",
+	"charm",
+	"sleep-talk",
+	"sunny-day",
+	"shadow-ball",
+	"taunt",
+	"helping-hand",
+	"imprison",
+	"hyper-voice",
+	"fake-tears",
+	"magical-leaf",
+	"calm-mind",
+	"dark-pulse",
+	"power-gem",
+	"energy-ball",
+	"giga-impact",
+	"trick-room",
+	"charge-beam",
+	"psyshock",
+	"stored-power",
+	"hex",
+	"phantom-force",
+	"disarming-voice",
+	"draining-kiss",
+	"misty-terrain",
+	"dazzling-gleam",
+	"tera-blast"
+    ]
+  },
+  "loot_table": "pokecube:entities/enderpearls_1"
+}

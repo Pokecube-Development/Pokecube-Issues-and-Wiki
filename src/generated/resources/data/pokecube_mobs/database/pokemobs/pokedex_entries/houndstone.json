@@ -1,0 +1,160 @@
+{
+  "name": "houndstone",
+  "id": 925,
+  "stock": true,
+  "base_experience": 50,
+  "size": {
+    "height": 2
+  },
+  "mass": 15.0,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 72,
+    "attack": 101,
+    "defense": 100,
+    "special_attack": 50,
+    "special_defense": 97,
+    "speed": 68
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "sand-rush"
+    ],
+    "hidden": [
+	  "fluffy"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+		  "growl"
+        ]
+      },
+	  {
+        "L": 3,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "rest"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "double-team"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+	"hyper-beam",
+	"dig",
+	"night-shade",
+	"confuse-ray",
+	"rest",
+	"substitute",
+	"thief",
+	"protect",
+	"scary-face",
+	"mud-slap",
+	"sandstorm",
+	"endure",
+	"charm",
+	"sleep-talk",
+	"rain-dance",
+	"sunny-day",
+	"crunch",
+	"shadow-ball",
+	"will-o-wisp",
+	"facade",
+	"helping-hand",
+	"trick",
+	"mud-shot",
+	"giga-impact",
+	"thunder-fang",
+	"ice-fang",
+	"fire-fang",
+	"hex",
+	"bulldoze",
+	"snarl",
+	"phantom-force",
+	"play-rough",
+	"psychic-fangs",
+	"stomping-tantrum",
+	"body-press",
+	"tera-blast"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
+}

@@ -1,0 +1,172 @@
+{
+  "name": "chien-pao",
+  "id": 995,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 1,
+    "width": 0.5,
+    "length": 1.9
+  },
+  "mass": 152.2,
+  "is_default": true,
+  "capture_rate": 6,
+  "base_happiness": ,,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 80,
+    "attack": 120,
+    "defense": 80,
+    "special_attack": 90,
+    "special_defense": 65,
+    "speed": 135
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "dark",
+	"ice"
+  ],
+  "abilities": {
+    "normal": [
+      "sword-of-ruin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "spite",
+		  "powder-snow",
+		  "mean-look"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "mist",
+		  "haze"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "ice-shard"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "snowscape"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "icicle-crash"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "ruination"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "sacred-sword"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "throat-chop"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "sheer-cold"
+        ]
+      }
+    ],
+    "misc": [
+    "swords-dance",
+	"take-down",
+	"blizzard",
+	"hyper-beam",
+	"rest",
+	"substitute",
+	"protect",
+	"scary-face",
+	"icy-wind",
+	"endure",
+	"false-swipe",
+	"sleep-talk",
+	"rain-dance",
+	"crunch",
+	"facade",
+	"taunt",
+	"brick-break",
+	"aerial-ace",
+	"dark-pulse",
+	"giga-impact",
+	"avalanche",
+	"ice-fang",
+	"hex",
+	"acrobatics",
+	"snarl",
+	"psychic-fangs",
+	"tera-blast",
+	"ice-spinner",
+	"snowscape"
+    ]
+  },
+  "loot_table": "pokecube:entities/cobble_1"
+}

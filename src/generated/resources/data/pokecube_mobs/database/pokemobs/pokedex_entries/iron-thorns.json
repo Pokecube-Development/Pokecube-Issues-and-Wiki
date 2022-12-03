@@ -1,0 +1,187 @@
+{
+  "name": "iron-thorns",
+  "id": 991,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 1.6,
+    "width": 0.7
+  },
+  "mass": 303.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 100,
+    "attack": 134,
+    "defense": 110,
+    "special_attack": 70,
+    "special_defense": 84,
+    "speed": 70
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "rock",
+    "electric"
+  ],
+  "abilities": {
+    "normal": [
+      "quark-drive"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "rock-throw",
+          "sandstorm",
+          "iron-defense",
+          "thunder-fang",
+          "ice-fang",
+          "fire-fang"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rock-tomb"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "sandstorm"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "wild-charge"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "pin-missile"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "giga-impact"
+        ]
+      }
+    ],
+    "misc": [
+     "fire-punch",
+	"ice-punch",
+	"thunder-punch",
+	"swords-dance",
+	"body-slam",
+	"take-down",
+	"flamethrower",
+	"ice-beam",
+	"blizzard",
+	"hyper-beam",
+	"low-kick",
+	"thunderbolt",
+	"thunder-wave",
+	"thunder",
+	"earthquake",
+	"dig",
+	"fire-blast",
+	"rest",
+	"rock-slide",
+	"substitute",
+	"protect",
+	"scary-face",
+	"spikes",
+	"sandstorm",
+	"endure",
+	"metal-claw",
+	"rain-dance",
+	"sunny-day",
+	"crunch",
+	"facade",
+	"taunt",
+	"brick-break",
+	"rock-tomb",
+	"iron-defense",
+	"dragon-claw",
+	"dragon-dance",
+	"rock-blast",
+	"fling",
+	"power-gem",
+	"focus-blast",
+	"earth-power",
+	"giga-impact",
+	"thunder-fang",
+	"ice-fang",
+	"fire-fang",
+	"iron-head",
+	"stone-edge",
+	"stealth-rock",
+	"charge-beam",
+	"heavy-slam",
+	"electro-ball",
+	"volt-switch",
+	"bulldoze",
+	"dragon-tail",
+	"wild-charge",
+	"snarl",
+	"eerie-impulse",
+	"electric-terrain",
+	"stomping-tantrum",
+	"body-press",
+	"tera-blast"
+    ]
+  },
+  "loot_table": "pokecube:entities/stone_gold"
+}

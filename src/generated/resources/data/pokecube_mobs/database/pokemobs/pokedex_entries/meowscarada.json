@@ -1,0 +1,192 @@
+{
+  "name": "meowscarada",
+  "id": 908,
+  "stock": true,
+  "base_experience": 62,
+  "size": {
+    "height": 1.5
+  },
+  "mass": 31.2,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 76,
+    "attack": 110,
+    "defense": 70,
+    "special_attack": 81,
+    "special_defense": 70,
+    "speed": 123
+  },
+  "evs": {
+    "speed": 3
+  },
+  "types": [
+    "grass",
+	"dark"
+  ],
+  "abilities": {
+    "normal": [
+      "overgrow"
+    ],
+    "hidden": [
+	"protean"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+		  "tail-whip",
+		  "leafage"
+        ]
+      },
+	  {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+	  {
+        "L": 10,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+	  {
+        "L": 13,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+	  {
+        "L": 15,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+	  {
+        "L": 20,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+	  {
+        "L": 24,
+        "moves": [
+          "u-turn"
+        ]
+      },
+	  {
+        "L": 29,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+	  {
+        "L": 33,
+        "moves": [
+          "slash"
+        ]
+      },
+	  {
+        "L": 38,
+        "moves": [
+          "night-slash"
+        ]
+      },
+	  {
+        "L": 42,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+	  {
+        "L": 47,
+        "moves": [
+          "play-rough"
+        ]
+      },
+	  {
+        "L": 52,
+        "moves": [
+          "knock-off"
+        ]
+      },
+	  {
+        "L": 58,
+        "moves": [
+          "grassy-terrain"
+        ]
+      },
+	  {
+        "L": 64,
+        "moves": [
+          "leaf-storm"
+        ]
+      }
+    ],
+    "misc": [
+        "thunder-punch",
+		"take-down",
+		"hyper-beam",
+		"low-kick",
+		"double-team",
+		"solar-beam",
+		"agility",
+		"swift",
+		"rest",
+		"substitute",
+		"thief",
+		"protect",
+		"mud-slap",
+		"spikes",
+		"giga-drain",
+		"endure",
+		"charm",
+		"sleep-talk",
+		"shadow-ball",
+		"facade",
+		"taunt",
+		"helping-hand",
+		"trick",
+		"brick-break",
+		"skill-swap",
+		"fake-tears",
+		"bullet-seed",
+		"aerial-ace",
+		"frenzy-plant",
+		"magical-leaf",
+		"u-turn",
+		"fling",
+		"toxic-spikes",
+		"aura-sphere",
+		"dark-pulse",
+		"seed-bomb",
+		"power-gem",
+		"energy-ball",
+		"giga-impact",
+		"nasty-plot",
+		"shadow-claw",
+		"trick-room",
+		"leaf-storm",
+		"grass-knot",
+		"low-sweep",
+		"foul-play",
+		"acrobatics",
+		"grass-pledge",
+		"disarming-voice",
+		"grassy-terrain",
+		"play-rough",
+		"pollen-puff",
+		"tera-blast",
+		"trailblaze",
+		"chilling-water"
+    ]
+  },
+  "loot_table": "pokecube:entities/money_cat_small"
+}

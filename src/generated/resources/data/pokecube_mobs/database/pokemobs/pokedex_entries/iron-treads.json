@@ -1,0 +1,188 @@
+{
+  "name": "iron-treads",
+  "id": 986,
+  "stock": true,
+  "base_experience": 175,
+  "size": {
+    "height": 0.9
+  },
+  "mass": 240.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 90,
+    "attack": 112,
+    "defense": 120,
+    "special_attack": 72,
+    "special_defense": 70,
+    "speed": 106
+  },
+  "evs": {
+    "defense": 3
+  },
+  "types": [
+    "ground",
+	"steel"
+  ],
+  "abilities": {
+    "normal": [
+      "quark-drive"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "horn-attack",
+		  "defense-curl",
+		  "rollout",
+		  "electric-terrain"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bulldoze"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "iron-head"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "stomping-tantrum"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "wild-charge"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "endeavor"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "megahorn"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "steel-roller"
+        ]
+      }
+    ],
+    "misc": [
+     "body-slam",
+	"take-down",
+	"hyper-beam",
+	"thunder",
+	"earthquake",
+	"rest",
+	"rock-slide",
+	"substitute",
+	"protect",
+	"scary-face",
+	"mud-slap",
+	"sandstorm",
+	"facade",
+	"rock-tomb",
+	"iron-defense",
+	"mud-shot",
+	"earth-power",
+	"giga-impact",
+	"thunder-fang",
+	"ice-fang",
+	"zen-headbutt",
+	"flash-cannon",
+	"iron-head",
+	"stone-edge",
+	"stealth-rock",
+	"heavy-slam",
+	"electro-ball",
+	"volt-switch",
+	"bulldoze",
+	"wild-charge",
+	"electric-terrain",
+	"smart-strike",
+	"stomping-tantrum",
+	"body-press",
+	"steel-beam",
+	"tera-blast",
+	"ice-spinner"
+    ]
+  },
+  "interactions": [
+    {
+      "male": false,
+      "female": true,
+      "cooldown": 50,
+      "variance": 100,
+      "baseHunger": 100,
+      "isTag": false,
+      "key": {
+        "values": {
+          "id": "minecraft:bucket"
+        }
+      },
+      "action": {
+        "values": {
+          "type": "item"
+        },
+        "drops": [
+          {
+            "values": {
+              "id": "minecraft:milk_bucket",
+              "n": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "loot_table": "pokecube:entities/iron_2"
+}

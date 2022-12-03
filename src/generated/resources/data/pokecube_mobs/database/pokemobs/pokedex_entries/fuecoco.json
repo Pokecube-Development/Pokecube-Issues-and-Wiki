@@ -1,0 +1,146 @@
+{
+  "name": "fuecoco",
+  "id": 909,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 9.8,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 67,
+    "attack": 45,
+    "defense": 59,
+    "special_attack": 63,
+    "special_defense": 43,
+    "speed": 36
+  },
+  "evs": {
+    "hp": 1
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+	  "unaware"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+		  "leer",
+		  "ember"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "round"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "fire-blast"
+        ]
+      }
+    ],
+    "misc": [
+		"body-slam",
+		"take-down",
+		"flamethrower",
+		"fire-spin",
+		"dig",
+		"fire-blast",
+		"rest",
+		"substitute",
+		"protect",
+		"mud-slap",
+		"outrage",
+		"endure",
+		"sleep-talk",
+		"encore",
+		"sunny-day",
+		"crunch",
+		"heat-wave",
+		"will-o-wisp",
+		"facade",
+		"helping-hand",
+		"hyper-voice",
+		"overheat",
+		"flare-blitz",
+		"seed-bomb",
+		"thunder-fang",
+		"fire-fang",
+		"zen-headbutt",
+		"flame-charge",
+		"fire-pledge",
+		"snarl",
+		"disarming-voice",
+		"stomping-tantrum",
+		"tera-blast"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "crocalor",
+      "level": 16,
+      "evoMoves": ""
+    }
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
+}

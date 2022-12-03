@@ -1,0 +1,169 @@
+{
+  "name": "armarouge",
+  "id": 1004,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 1.5
+  },
+  "mass": 85,
+  "is_default": true,
+  "capture_rate": 25,
+  "base_happiness": 20,
+  "growth_rate": "slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 85,
+    "attack": 60,
+    "defense": 100,
+    "special_attack": 125,
+    "special_defense": 80,
+    "speed": 75
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "fire",
+	"psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "flash-fire"
+    ],
+    "hidden": [
+	  "weak-armor"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+		  "ember",
+		  "mystical-fire",
+		  "astonish",
+		  "wide-guard"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "clear-smog"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "fire-spin"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "night-shade"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "flame-charde"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "calm-mind"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "ally-switch"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "expanding-force"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "armor-cannon"
+        ]
+      }
+    ],
+    "misc": [
+	"take-down",
+	"flamethrower",
+	"psybeam",
+	"solar-beam",
+	"fire-spin",
+	"psychic",
+	"night-shade",
+	"confuse-ray",
+	"light-screen",
+	"reflect",
+	"fire-blast",
+	"rest",
+	"substitute",
+	"protect",
+	"endure",
+	"sleep-talk",
+	"sunny-day",
+	"shadow-ball",
+	"heat-wave",
+	"will-o-wisp",
+	"facade",
+	"taunt",
+	"helping-hand",
+	"trick",
+	"overheat",
+	"iron-defense",
+	"calm-mind",
+	"fling",
+	"flare-blitz",
+	"aura-sphere",
+	"dark-pulse",
+	"dragon-pulse",
+	"focus-blast",
+	"energy-ball",
+	"flash-cannon",
+	"trick-room",
+	"psyshock",
+	"flame-charge",
+	"acid-spray",
+	"stored-power",
+	"psychic-terrain",
+	"tera-blast"
+    ]
+  },
+  "loot_table": "pokecube:entities/coal_rabbit_2"
+}

@@ -1,0 +1,154 @@
+{
+  "name": "scovillain",
+  "id": 939,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 0.9
+  },
+  "mass": 15,
+  "is_default": true,
+  "capture_rate": 75,
+  "base_happiness": 50,
+  "growth_rate": "medium-fast",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 65,
+    "attack": 108,
+    "defense": 65,
+    "special_attack": 108,
+    "special_defense": 65,
+    "speed": 75
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "grass",
+	"fire"
+  ],
+  "abilities": {
+    "normal": [
+      "chlorophyll",
+	  "insomnia"
+    ],
+    "hidden": [
+	  "moody"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "leer",
+		  "fire-fang",
+		  "leafage"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "razor-leaf"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "sunny-day"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "zen-headbutt"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "solar-beam",
+		  "overheat"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+		"flamethrower",
+		"hyper-beam",
+		"solar-beam",
+		"fire-blast",
+		"rest",
+		"substitute",
+		"thief",
+		"protect",
+		"scary-face",
+		"sandstorm",
+		"giga-drain",
+		"endure",
+		"sleep-talk",
+		"sunny-day",
+		"crunch",
+		"will-o-wisp",
+		"facade",
+		"helping-hand",
+		"overheat",
+		"bullet-seed",
+		"magical-leaf",
+		"seed-bomb",
+		"energy-ball",
+		"giga-impact",
+		"fire-fang",
+		"zen-headbutt",
+		"leaf-storm",
+		"grass-knot",
+		"grassy-terrain",
+		"stomping-tantrum",
+		"tera-blast",
+		"trailblaze"
+    ]
+  },
+  "loot_table": "pokecube:entities/wheat_seeds_2"
+}
