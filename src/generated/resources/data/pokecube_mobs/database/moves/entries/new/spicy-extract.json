@@ -1,0 +1,12 @@
+{
+  "name": "spicy-extract",
+  "power": 0,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 0,
+  "target": "all-opponents",
+  "damage_class": "other",
+  "move_category": "damage",
+  "effect_text_extend": "Spicy Extract raises the target's Attack and lowers the target's Defense, each by two stages. It bypasses accuracy checks to always hit, unless the target is in the semi-invulnerable turn of a move such as Dig or Fly."
+}

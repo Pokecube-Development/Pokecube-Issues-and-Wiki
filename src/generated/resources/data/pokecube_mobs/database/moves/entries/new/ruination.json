@@ -1,0 +1,12 @@
+{
+  "name": "ruination",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 90,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "move_category": "damage",
+  "effect_text_extend": "Ruination deals damage equal to 50% of the opponent's remaining HP. It always deals at least 1 HP of damage."
+}

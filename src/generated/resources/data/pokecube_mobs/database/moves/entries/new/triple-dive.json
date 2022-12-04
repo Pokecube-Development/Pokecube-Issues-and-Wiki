@@ -1,0 +1,12 @@
+{
+  "name": "triple-dive",
+  "power": 30,
+  "pp": 10,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 95,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Triple Dive inflicts damage, hitting the target three times per use."
+}

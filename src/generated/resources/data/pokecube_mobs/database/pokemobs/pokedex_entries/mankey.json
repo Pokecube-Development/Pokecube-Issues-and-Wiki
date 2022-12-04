@@ -253,14 +253,6 @@
       "name": "primeape",
       "level": 28,
       "evoMoves": "rage"
-    },
-	{
-      "name": "annihilape",
-      "level": 28
-	  "location": {
-        "and_preset": "spooky"
-      },
-      "evoMoves": "shadown-punch"
     }
   ],
   "loot_table": "pokecube:entities/pig_1"

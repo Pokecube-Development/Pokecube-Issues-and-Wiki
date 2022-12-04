@@ -1,0 +1,13 @@
+{
+  "name": "combat-torque",
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Combat Torque inflicts damage and has a 30% chance of paralyzing the target.",
+  "effect_chance": 30
+}

@@ -1,0 +1,12 @@
+{
+  "name": "tera-blast",
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "move_category": "damage",
+  "effect_text_extend": "Tera Blast deals damage. If the user's Attack stat is higher than its Special Attack stat, Tera Blast becomes a physical move; otherwise, it remains a special move."
+}

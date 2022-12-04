@@ -1,0 +1,12 @@
+{
+  "name": "raging-bull",
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Raging Bull removes Light Screen, Reflect, and Aurora Veil from the target's side of the field (even if it targets an ally), then inflicts damage. It fails if the target is immune to Raging Bull, if Raging Bull misses, or if the target is protected from Raging Bull."
+}
