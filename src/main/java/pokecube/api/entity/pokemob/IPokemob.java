@@ -177,6 +177,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             else return this.loaded_from.getTypes(baseEntry);
         }
 
+        public List<String> getAbilities(PokedexEntry baseEntry)
+        {
+            if (this.loaded_from != null) return this.loaded_from.getAbilities(baseEntry);
+            return baseEntry.abilities;
+        }
+
         public void setEntry(PokedexEntry entry)
         {
             this._entry = entry;
