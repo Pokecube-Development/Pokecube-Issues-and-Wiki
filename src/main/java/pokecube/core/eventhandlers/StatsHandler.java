@@ -19,7 +19,7 @@ import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.stats.ISpecialCaptureCondition;
 import pokecube.api.stats.SpecialCaseRegister;
 import pokecube.core.PokecubeItems;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.utils.Permissions;
 import thut.lib.TComponent;

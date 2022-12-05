@@ -1,4 +1,4 @@
-package pokecube.core.items.pokecubes;
+package pokecube.core.entity.pokecubes;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -31,6 +31,7 @@ import pokecube.api.utils.Tools;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.init.EntityTypes;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
 import pokecube.core.network.packets.PacketPokecube;
@@ -87,7 +88,7 @@ public class EntityPokecube extends EntityPokecubeBase
             // If reset key does not match, invalidate the entry.
             if (s.resetKey != resetKey)
             {
-                map.remove(in.getStringUUID());
+                this.map.remove(in.getStringUUID());
                 return false;
             }
             // If this is the case, then this mob is not re-battleable.
@@ -244,14 +245,14 @@ public class EntityPokecube extends EntityPokecubeBase
                     CollectList collected = PokecubePlayerDataHandler.getCustomDataValue(name, "loot_pokecubes");
                     collected.validate(this, resetKey);
                     ItemStack loot = ItemStack.EMPTY;
+                    boolean did = false;
                     if (!this.lootStacks.isEmpty())
                     {
                         loot = this.lootStacks.get(ThutCore.newRandom().nextInt(this.lootStacks.size()));
                         if (!loot.isEmpty())
                         {
-                            PacketPokecube.sendMessage(player, this.getId(),
-                                    Tracker.instance().getTick() + this.resetTime);
                             Tools.giveItem(player, loot.copy());
+                            did = true;
                         }
                     }
                     else if (this.lootTable != null)
@@ -262,8 +263,10 @@ public class EntityPokecube extends EntityPokecubeBase
                         for (final ItemStack itemstack : loottable
                                 .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
                             if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
-                        PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick() + this.resetTime);
+                        did = true;
                     }
+                    if (did)
+                        PacketPokecube.sendMessage(player, this.getId(), Tracker.instance().getTick() + this.resetTime);
                     return InteractionResult.SUCCESS;
                 }
                 Tools.giveItem(player, this.getItem());
@@ -288,7 +291,7 @@ public class EntityPokecube extends EntityPokecubeBase
             for (int i = 0; i < ListNBT.size(); i++) this.addLoot(LootEntry.createFromNBT(ListNBT.getCompound(i)));
         }
         final String lootTable = nbt.getString("lootTable");
-        if (!lootTable.isEmpty()) this.lootTable = new ResourceLocation(lootTable);
+        if (!lootTable.isBlank()) this.lootTable = new ResourceLocation(lootTable);
     }
 
     public void shoot(final Vector3 direction, final float velocity)
@@ -372,7 +375,7 @@ public class EntityPokecube extends EntityPokecubeBase
             entry.writeToNBT(CompoundNBT);
             ListNBT.add(CompoundNBT);
         }
-        if (!this.loot.isEmpty()) nbt.put("loot", ListNBT);
+        nbt.put("loot", ListNBT);
         if (this.lootTable != null) nbt.putString("lootTable", this.lootTable.toString());
         else nbt.putString("lootTable", "");
     }
