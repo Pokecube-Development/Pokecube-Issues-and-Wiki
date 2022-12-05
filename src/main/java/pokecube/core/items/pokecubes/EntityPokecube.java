@@ -1,8 +1,10 @@
 package pokecube.core.items.pokecubes;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -22,9 +24,12 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
+import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.utils.Tools;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
+import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -40,24 +45,102 @@ public class EntityPokecube extends EntityPokecubeBase
     {
         static CollectEntry createFromNBT(final CompoundTag nbt)
         {
-            final String player = nbt.getString("player");
-            final long time = nbt.getLong("time");
-            return new CollectEntry(player, time);
+            String player = nbt.getString("id");
+            long time = nbt.getLong("time");
+            short resetKey = nbt.getShort("resetKey");
+            return new CollectEntry(player, time, resetKey);
         }
 
-        final String player;
-        final long time;
+        final String id;
+        long time;
+        final short resetKey;
 
-        public CollectEntry(final String player, final long time)
+        public CollectEntry(String player, long time, short resetKey)
         {
-            this.player = player;
+            this.id = player;
             this.time = time;
+            this.resetKey = resetKey;
         }
 
         void writeToNBT(final CompoundTag nbt)
         {
-            nbt.putString("player", this.player);
+            nbt.putString("id", this.id);
             nbt.putLong("time", this.time);
+            nbt.putShort("resetKey", this.resetKey);
+        }
+    }
+
+    public static class CollectList implements INBTSerializable<CompoundTag>
+    {
+        private final Map<String, CollectEntry> map = Maps.newHashMap();
+
+        public void clear()
+        {
+            this.map.clear();
+        }
+
+        public boolean isValid(final Entity in, final long resetTime, short resetKey)
+        {
+            if (in == null) return false;
+            if (!this.map.containsKey(in.getStringUUID())) return false;
+            final var s = this.map.get(in.getStringUUID());
+            // If reset key does not match, invalidate the entry.
+            if (s.resetKey != resetKey)
+            {
+                map.remove(in.getStringUUID());
+                return false;
+            }
+            // If this is the case, then this mob is not re-battleable.
+            if (resetTime <= 0) return true;
+            // Otherwise check the diff.
+            final long diff = Tracker.instance().getTick() - s.time;
+            if (diff > resetTime) return false;
+            return true;
+        }
+
+        public void validate(final Entity in, short key)
+        {
+            if (in == null) return;
+            final var s = this.map.getOrDefault(in.getStringUUID(), new CollectEntry(in.getStringUUID(), 0, key));
+            s.time = Tracker.instance().getTick();
+            this.map.put(in.getStringUUID(), s);
+        }
+
+        private void load(final ListTag list)
+        {
+            this.clear();
+            for (int i = 0; i < list.size(); i++)
+            {
+                final CollectEntry d = CollectEntry.createFromNBT(list.getCompound(i));
+                if (d.id.isEmpty()) continue;
+                this.map.put(d.id, d);
+            }
+        }
+
+        private ListTag save()
+        {
+            final ListTag list = new ListTag();
+            for (final CollectEntry entry : this.map.values())
+            {
+                final CompoundTag CompoundNBT = new CompoundTag();
+                entry.writeToNBT(CompoundNBT);
+                list.add(CompoundNBT);
+            }
+            return list;
+        }
+
+        @Override
+        public CompoundTag serializeNBT()
+        {
+            CompoundTag tag = new CompoundTag();
+            tag.put("list", this.save());
+            return tag;
+        }
+
+        @Override
+        public void deserializeNBT(CompoundTag nbt)
+        {
+            this.load(nbt.getList("list", 10));
         }
     }
 
@@ -89,10 +172,16 @@ public class EntityPokecube extends EntityPokecubeBase
 
     }
 
+    static
+    {
+        PokecubePlayerCustomData.registerDataType("loot_pokecubes", CollectList::new);
+    }
+
     public long reset = 0;
     public long resetTime = 0;
 
-    public ArrayList<CollectEntry> players = Lists.newArrayList();
+    public short resetKey = 0;
+
     public ArrayList<LootEntry> loot = Lists.newArrayList();
     public ArrayList<ItemStack> lootStacks = Lists.newArrayList();
 
@@ -109,22 +198,10 @@ public class EntityPokecube extends EntityPokecubeBase
 
     public boolean cannotCollect(final Entity e)
     {
-        if (e == null) return false;
+        if (e == null || !(e instanceof Player)) return false;
         final String name = e.getStringUUID();
-        for (final CollectEntry s : this.players) if (s.player.equals(name))
-        {
-            if (this.resetTime > 0)
-            {
-                final long diff = Tracker.instance().getTick() - s.time;
-                if (diff > this.resetTime)
-                {
-                    this.players.remove(s);
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+        CollectList collected = PokecubePlayerDataHandler.getCustomDataValue(name, "loot_pokecubes");
+        return collected.isValid(this, resetTime, resetKey);
     }
 
     @Override
@@ -163,7 +240,9 @@ public class EntityPokecube extends EntityPokecubeBase
                 if (this.isLoot)
                 {
                     if (this.cannotCollect(player)) return InteractionResult.FAIL;
-                    this.players.add(new CollectEntry(player.getStringUUID(), Tracker.instance().getTick()));
+                    final String name = player.getStringUUID();
+                    CollectList collected = PokecubePlayerDataHandler.getCustomDataValue(name, "loot_pokecubes");
+                    collected.validate(this, resetKey);
                     ItemStack loot = ItemStack.EMPTY;
                     if (!this.lootStacks.isEmpty())
                     {
@@ -201,15 +280,8 @@ public class EntityPokecube extends EntityPokecubeBase
         this.isLoot = nbt.getBoolean("isLoot");
         this.setReleasing(nbt.getBoolean("releasing"));
         if (nbt.contains("resetTime")) this.resetTime = nbt.getLong("resetTime");
-        this.players.clear();
         this.loot.clear();
         this.lootStacks.clear();
-        if (nbt.contains("players", 9))
-        {
-            final ListTag ListNBT = nbt.getList("players", 10);
-            for (int i = 0; i < ListNBT.size(); i++)
-                this.players.add(CollectEntry.createFromNBT(ListNBT.getCompound(i)));
-        }
         if (nbt.contains("loot", 9))
         {
             final ListTag ListNBT = nbt.getList("loot", 10);
@@ -294,14 +366,6 @@ public class EntityPokecube extends EntityPokecubeBase
         nbt.putBoolean("isLoot", this.isLoot);
         if (this.isReleasing()) nbt.putBoolean("releasing", true);
         ListTag ListNBT = new ListTag();
-        for (final CollectEntry entry : this.players)
-        {
-            final CompoundTag CompoundNBT = new CompoundTag();
-            entry.writeToNBT(CompoundNBT);
-            ListNBT.add(CompoundNBT);
-        }
-        if (!this.players.isEmpty()) nbt.put("players", ListNBT);
-        ListNBT = new ListTag();
         for (final LootEntry entry : this.loot)
         {
             final CompoundTag CompoundNBT = new CompoundTag();
