@@ -8,6 +8,6 @@
   "target": "selected-pokemon",
   "damage_class": "physical",
   "move_category": "damage",
-  "crit_rate": 4.17,
+  "default_crit": 4.17,
   "effect_text_extend": "The user slashes at the target after kowtowing to make the target let down its guard. This attack never misses."
 }

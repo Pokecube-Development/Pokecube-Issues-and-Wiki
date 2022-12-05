@@ -488,9 +488,13 @@ public class Tools
             return 0;
         case "slow-then-very-fast":
             return 0;
+        case "erratic":
+            return 0;
         case "fast":
             return 1;
         case "medium_fast":
+            return 1;
+        case "medium-fast":
             return 1;
         case "medium":
             return 2;
@@ -503,6 +507,8 @@ public class Tools
         case "fast_then_very_slow":
             return 5;
         case "fast-then-very-slow":
+            return 5;
+        case "fluctuating":
             return 5;
         }
 

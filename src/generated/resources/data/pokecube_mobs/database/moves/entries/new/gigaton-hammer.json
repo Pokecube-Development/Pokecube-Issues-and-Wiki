@@ -8,6 +8,6 @@
   "target": "selected-pokemon",
   "damage_class": "physical",
   "move_category": "damage",
-  "crit_rate": 4.17,
+  "default_crit": 4.17,
   "effect_text_extend": "The user swings its whole body around to attack with its huge hammer. This move can't be used twice in a row."
 }

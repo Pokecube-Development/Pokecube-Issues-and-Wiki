@@ -8,6 +8,6 @@
   "target": "selected-pokemon",
   "damage_class": "physical",
   "move_category": "damage",
-  "crit_rate": 4.17,
+  "default_crit": 4.17,
   "effect_text_extend": "The user summons a torrent around its fist and punches at blinding speed. This move always goes first."
 }

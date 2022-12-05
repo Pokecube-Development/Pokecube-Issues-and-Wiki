@@ -8,6 +8,6 @@
   "target": "selected-pokemon",
   "damage_class": "physical",
   "move_category": "damage",
-  "crit_rate": 4.17,
+  "default_crit": 4.17,
   "effect_text_extend": "The user discharges all the electricity from its body to perform a high-damage attack. After using this move, the user will no longer be Electric type."
 }

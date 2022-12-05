@@ -8,6 +8,6 @@
   "target": "allys",
   "damage_class": "physical",
   "move_category": "damage",
-  "crit_rate": 4.17,
+  "default_crit": 4.17,
   "effect_text_extend": "The user attacks to avenge its allies. The more defeated allies there are in the user's party, the greater the move's power."
 }

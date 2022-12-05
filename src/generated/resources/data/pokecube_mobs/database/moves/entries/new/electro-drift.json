@@ -8,7 +8,7 @@
   "target": "selected-pokemon",
   "damage_class": "special",
   "move_category": "damage",
-  "crit_rate": 4.17,
+  "default_crit": 4.17,
   "effect_text_extend": "The user races forward at ultrafast speeds, piercing its target with futuristic electricity. This move's power is boosted more than usual if it's a supereffective hit.",
   "effect_chance": 50
 }
