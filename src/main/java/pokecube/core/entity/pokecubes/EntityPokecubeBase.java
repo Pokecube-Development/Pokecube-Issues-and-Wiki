@@ -246,7 +246,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     @Override
     public boolean isPushable()
     {
-        return !this.isReleasing();
+        return !this.isReleasing() && !isLoot;
     }
 
     @Override
