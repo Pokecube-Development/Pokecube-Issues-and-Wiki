@@ -91,6 +91,7 @@
         {"key": "piplup","min": 1,"max": 2,"rate": 0.01},
         {"key": "popplio","min": 1,"max": 2,"rate": 0.01},
         {"key": "sobble","min": 1,"max": 2,"rate": 0.01},
+		{"key": "quaxly","min": 1,"max": 2,"rate": 0.01},
 
         {"key": "latios","min": 2,"max": 2,"rate": 0.005},
         {"key": "latias","min": 2,"max": 2,"rate": 0.005}

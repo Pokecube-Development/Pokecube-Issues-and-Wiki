@@ -9,6 +9,7 @@
         {"key": "oricorio-pau","min": 5,"max": 10,"rate": 0.7},
         {"key": "oricorio-pom-pom","min": 5,"max": 10,"rate": 0.7},
         {"key": "oricorio-sensu","min": 5,"max": 10,"rate": 0.7},
+		{"key": "sprigatito","min": 1,"max": 2,"rate": 0.01},
         
         {"key": "deerling","min": 2,"max": 4,"rate": 0.11, "variant": "deerling_sp"},
         

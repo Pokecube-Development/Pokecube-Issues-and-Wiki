@@ -32,7 +32,6 @@
         
         { "key": "poipole", "min": 1, "max": 3, "rate": 0.15 },
         
-        { "key": "lunala", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "eternatus", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "thundurus-therian", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "xerneas", "min": 1, "max": 1, "rate": 0.002 }
@@ -372,6 +371,15 @@
         { "key": "vileplume", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "weepinbell", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "wormadam-plant", "min": 1, "max": 3, "rate": 0.5 },
+		{ "key": "bulbasaur", "min": 1, "max": 2, "rate": 0.05 },
+        { "key": "chikorita", "min": 1, "max": 2, "rate": 0.05 },
+        { "key": "treecko", "min": 1, "max": 2, "rate": 0.05 },
+        { "key": "turtwig", "min": 1, "max": 2, "rate": 0.05 },
+        { "key": "snivy", "min": 1, "max": 2, "rate": 0.05 },
+        { "key": "chespin", "min": 1, "max": 2, "rate": 0.05 },
+        { "key": "rowlet", "min": 1, "max": 2, "rate": 0.05 },
+        { "key": "grookey", "min": 1, "max": 2, "rate": 0.05 },
+		{ "key": "sprigatito", "min": 1, "max": 2, "rate": 0.05 },
         
         { "key": "bellossom", "min": 1, "max": 3, "rate": 0.25 },
         { "key": "exeggutor-alola", "min": 1, "max": 3, "rate": 0.25 },
@@ -577,14 +585,11 @@
         { "key": "nihilego", "min": 1, "max": 5, "rate": 0.5 },
         { "key": "poipole", "min": 1, "max": 5, "rate": 0.5 },
         
-        { "key": "cosmog", "min": 1, "max": 1, "rate": 0.15 },
-        
-        { "key": "cosmoem", "min": 1, "max": 1, "rate": 0.05 },
+        { "key": "cosmog", "min": 1, "max": 1, "rate": 0.05 },
         
         { "key": "unown", "min": 1, "max": 5, "rate": 0.01 },
         
         { "key": "lugia", "min": 1, "max": 1, "rate": 0.002 },
-        { "key": "lunala", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "kyurem", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "landorus-therian", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "dialga", "min": 1, "max": 1, "rate": 0.002 },
@@ -595,7 +600,6 @@
         { "key": "necrozma", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "rayquaza", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "reshiram", "min": 1, "max": 1, "rate": 0.002 },
-        { "key": "solgaleo", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "thundurus-therian", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "tornadus-therian", "min": 1, "max": 1, "rate": 0.002 },
         { "key": "zekrom", "min": 1, "max": 1, "rate": 0.002 },

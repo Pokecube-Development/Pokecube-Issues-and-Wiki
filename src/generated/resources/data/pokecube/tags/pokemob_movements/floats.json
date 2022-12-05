@@ -59,6 +59,7 @@
     "pokecube:palkia",
     "pokecube:cresselia",
     "pokecube:darkrai",
+	  "pokecube:victini",
     "pokecube:munna",
     "pokecube:musharna",
     "pokecube:yamask",
@@ -98,7 +99,7 @@
     "pokecube:phantump",
     "pokecube:diancie",
     "pokecube:diancie-mega",
-    "pokecube:hoopa_confined",
+    "pokecube:hoopa",
     "pokecube:hoopa-unbound",
     "pokecube:comfey",
     "pokecube:minior",
@@ -115,6 +116,7 @@
     "pokecube:milcery",
     "pokecube:dreepy",
     "pokecube:drakloak",
-    "pokecube:calyrex"
+    "pokecube:calyrex",
+	  "pokecube:miraidon"
   ]
 }
