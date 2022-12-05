@@ -1,0 +1,177 @@
+{
+  "name": "skeledirge",
+  "id": 911,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 1.6
+  },
+  "mass": 326.5,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 104,
+    "attack": 75,
+    "defense": 100,
+    "special_attack": 110,
+    "special_defense": 76,
+    "speed": 66
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "fire",
+	"ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+      "unaware"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+		  "leer",
+		  "ember"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "round"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+	  {
+        "L": 42,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+	  {
+        "L": 47,
+        "moves": [
+          "will-o-wisp",
+		  "hex"
+        ]
+      },
+	  {
+        "L": 58,
+        "moves": [
+          "fire-blast"
+        ]
+      },
+	  {
+        "L": 64,
+        "moves": [
+          "overheat"
+        ]
+      }
+    ],
+    "misc": [
+		"body-slam",
+		"take-down",
+		"flamethrower",
+		"hyper-beam",
+		"solar-beam",
+		"fire-spin",
+		"earthquake",
+		"dig",
+		"night-shade",
+		"fire-blast",
+		"rest",
+		"substitute",
+		"protect",
+		"scary-face",
+		"mud-slap",
+		"outrage",
+		"endure",
+		"sleep-talk",
+		"encore",
+		"sunny-day",
+		"crunch",
+		"shadow-ball",
+		"heat-wave",
+		"will-o-wisp",
+		"facade",
+		"helping-hand",
+		"imprison",
+		"hyper-voice",
+		"blast-burn",
+		"overheat",
+		"flare-blitz",
+		"seed-bomb",
+		"earth-power",
+		"giga-impact",
+		"shadow-claw",
+		"thunder-fang",
+		"fire-fang",
+		"zen-headbutt",
+		"flame-charge",
+		"hex",
+		"fire-pledge",
+		"snarl",
+		"disarming-voice",
+		"stomping-tantrum",
+		"tera-blast"
+    ]
+  },
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
+}

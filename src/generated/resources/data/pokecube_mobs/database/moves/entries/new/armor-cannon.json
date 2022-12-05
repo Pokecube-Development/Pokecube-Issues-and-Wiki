@@ -1,0 +1,12 @@
+{
+  "name": "armor-cannon",
+  "power": 120,
+  "pp": 5,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "move_category": "damage",
+  "effect_text_extend": "Armor Cannon deals damage and lowers the user's Defense and Special Defense stats by one stage each."
+}

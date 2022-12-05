@@ -1,0 +1,157 @@
+{
+  "name": "crocalor",
+  "id": 910,
+  "stock": true,
+  "base_experience": 70,
+  "size": {
+    "height": 1
+  },
+  "mass": 30.7,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 62,
+  "stats": {
+    "hp": 81,
+    "attack": 55,
+    "defense": 78,
+    "special_attack": 90,
+    "special_defense": 58,
+    "speed": 49
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "blaze"
+    ],
+    "hidden": [
+	  "unaware"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+		  "leer",
+		  "ember"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "round"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+	  {
+        "L": 42,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+	  {
+        "L": 47,
+        "moves": [
+          "fire-blast"
+        ]
+      }
+    ],
+    "misc": [
+		"body-slam",
+		"take-down",
+		"flamethrower",
+		"fire-spin",
+		"dig",
+		"fire-blast",
+		"rest",
+		"substitute",
+		"protect",
+		"mud-slap",
+		"outrage",
+		"endure",
+		"sleep-talk",
+		"sunny-day",
+		"crunch",
+		"heat-wave",
+		"will-o-wisp",
+		"facade",
+		"helping-hand",
+		"hyper-voice",
+		"overheat",
+		"flare-blitz",
+		"seed-bomb",
+		"thunder-fang",
+		"fire-fang",
+		"zen-headbutt",
+		"flame-charge",
+		"fire-pledge",
+		"snarl",
+		"disarming-voice",
+		"stomping-tantrum",
+		"tera-blast"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "skeledirge",
+      "level": 36,
+      "evoMoves": "torch-song"
+    }
+  ],
+  "loot_table": "pokecube:entities/blaze_rabbit_1"
+}

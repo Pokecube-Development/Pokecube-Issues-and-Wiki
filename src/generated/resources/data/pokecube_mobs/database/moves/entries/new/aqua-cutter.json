@@ -1,0 +1,12 @@
+{
+  "name": "aqua-cutter",
+  "power": 70,
+  "pp": 20,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Aqua Cutter inflicts damage and has an increased critical hit ratio. If used by a Pokémon with Sharpness, its power is increased by 50%."
+}

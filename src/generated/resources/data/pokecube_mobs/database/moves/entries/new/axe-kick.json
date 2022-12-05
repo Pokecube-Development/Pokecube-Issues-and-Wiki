@@ -1,0 +1,12 @@
+{
+  "name": "axe-kick",
+  "power": 120,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 90,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Axe Kick inflicts damage and has a 30% chance of confusing the target. If it misses, the user takes crash damage equal to half of its maximum HP. The user will also take crash damage if this move is used on a protected target, or the target is immune to this move."
+}

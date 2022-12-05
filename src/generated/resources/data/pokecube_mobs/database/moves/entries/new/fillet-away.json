@@ -1,0 +1,15 @@
+{
+  "name": "fillet-away",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 101,
+  "target": "user",
+  "damage_class": "status",
+  "move_category": "net-good-stats",
+  "stat_chance": 2,
+  "healing": -25,
+  "effect_text_extend": "The user sharply boosts its Attack, Sp. Atk, and Speed stats by using its own HP.",
+  "effect_chance": 10
+}

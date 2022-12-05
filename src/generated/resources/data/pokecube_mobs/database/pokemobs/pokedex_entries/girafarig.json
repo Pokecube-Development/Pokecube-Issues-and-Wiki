@@ -216,7 +216,8 @@
       "dazzling-gleam",
       "psychic-terrain",
       "psychic-fangs",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "twin-beam"
     ]
   },
   "male_model": {
@@ -231,5 +232,11 @@
     "model": "girafarig_female",
     "anim": "girafarig_female"
   },
+  "evolutions": [
+    {
+      "name": "farigiraf",
+      "move": "twin-beam"
+    }
+  ],
   "loot_table": "pokecube:entities/ender_cow_1"
 }

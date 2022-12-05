@@ -1,0 +1,13 @@
+{
+  "name": "doodle",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "other",
+  "move_category": "unique",
+  "ailment": "none",
+  "effect_text_extend": "The user captures the very essence of the target in a sketch. This changes the Abilities of the user and its ally Pokémon to that of the target."
+}

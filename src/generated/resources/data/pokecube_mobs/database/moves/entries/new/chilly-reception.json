@@ -1,0 +1,12 @@
+{
+  "name": "chilly-reception",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "ice",
+  "accuracy": 0,
+  "target": "all-pokemon",
+  "damage_class": "special",
+  "move_category": "damage",
+  "effect_text_extend": "Chilly Reception creates snow on the battlefield and switches the user out. Snow instigated by this move lasts five turns."
+}
