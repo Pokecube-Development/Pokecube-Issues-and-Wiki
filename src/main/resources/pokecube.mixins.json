@@ -12,6 +12,7 @@
     "brain.MixinVilagerBrainUpdate",
     "brain.MixinMobEntity",
     "entity.ICapabilityCache",
+    "entity.BeeHiveFix",
     "features.LessJungleBushInStructuresMixin",
     "features.NoBasaltColumnsInStructuresMixin",
     "features.NoDeltasInStructuresMixin",
