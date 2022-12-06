@@ -1,0 +1,12 @@
+{
+  "name": "shed-tail",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "other",
+  "move_category": "damage",
+  "effect_text_extend": "Shed Tail creates a substitute by using half of the user's maximum HP (rounded up), then switches the user out. The Pokémon that switches in will then have the substitute."
+}

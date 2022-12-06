@@ -1,0 +1,12 @@
+{
+  "name": "revival-blessing",
+  "power": 0,
+  "pp": 1,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 0,
+  "target": "user",
+  "damage_class": "other",
+  "move_category": "damage",
+  "effect_text_extend": "Revival Blessing allows the player to select a fainted Pokémon in the party, the selected Pokémon will be revived, and half of its maximum HP will be restored. Revival Blessing will fail if there are no fainted Pokémon in the party."
+}

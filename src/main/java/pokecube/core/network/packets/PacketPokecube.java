@@ -5,7 +5,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.core.PokecubeCore;
-import pokecube.core.items.pokecubes.EntityPokecube;
+import pokecube.core.entity.pokecubes.EntityPokecube;
 import thut.core.common.network.Packet;
 
 public class PacketPokecube extends Packet

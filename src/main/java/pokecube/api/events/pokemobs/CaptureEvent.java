@@ -5,7 +5,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokecubes.PokecubeManager;
 
 @Cancelable

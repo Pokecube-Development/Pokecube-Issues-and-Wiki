@@ -1,0 +1,12 @@
+{
+  "name": "rage-fist",
+  "power": 50,
+  "pp": 10,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Rage Fist inflicts damage. Its power increases by 50 each time the user was hit during a battle (including times the user hit itself in confusion), up to a maximum of 350 (after 6 hits), with each strike from a multi-strike move counting as one hit. Switching out or fainting does not reset the hit counter."
+}

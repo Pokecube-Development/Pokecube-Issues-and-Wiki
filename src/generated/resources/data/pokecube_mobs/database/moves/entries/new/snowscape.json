@@ -1,0 +1,12 @@
+{
+  "name": "snowscape",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "ice",
+  "accuracy": 0,
+  "target": "all-pokemon",
+  "damage_class": "other",
+  "move_category": "damage",
+  "effect_text_extend": "When Snowscape is used, a snowstorm will begin on the field. This effect will last for 5 turns. This clears any other type of weather."
+}

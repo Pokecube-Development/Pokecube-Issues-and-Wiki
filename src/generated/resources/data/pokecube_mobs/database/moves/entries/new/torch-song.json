@@ -1,0 +1,12 @@
+{
+  "name": "torch-song",
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "move_category": "damage",
+  "effect_text_extend": "Torch Song inflicts damage and raises the user's Special Attack by one stage. Pokémon with the Ability Soundproof or Flash Fire are immune to this move."
+}

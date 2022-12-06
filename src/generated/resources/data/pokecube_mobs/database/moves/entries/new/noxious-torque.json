@@ -1,0 +1,14 @@
+{
+  "name": "noxious-torque",
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "This move is only used by a Starmobile. It may Poison the opponent",
+  "effect_chance": 30
+}

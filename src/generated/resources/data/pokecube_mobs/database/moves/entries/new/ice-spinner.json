@@ -1,0 +1,13 @@
+{
+  "name": "ice-spinner",
+  "power": 80,
+  "pp": 15,
+  "priority": 0,
+  "type": "ice",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user covers its feet in thin ice and twirls around, slamming into the target. This move's spinning motion also destroys the terrain."
+}

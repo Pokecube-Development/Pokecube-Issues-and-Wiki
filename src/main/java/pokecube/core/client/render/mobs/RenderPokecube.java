@@ -21,8 +21,8 @@ import net.minecraft.world.item.ItemStack;
 import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
+import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.items.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.Tracker;
 

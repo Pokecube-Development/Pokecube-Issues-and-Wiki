@@ -1,0 +1,12 @@
+{
+  "name": "population-bomb",
+  "power": 20,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 90,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Population Bomb inflicts damage, hitting the target up to ten times per use."
+}

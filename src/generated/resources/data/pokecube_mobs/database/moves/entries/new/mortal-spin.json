@@ -1,0 +1,15 @@
+{
+  "name": "mortal-spin",
+  "power": 30,
+  "pp": 15,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "ailment": "poison",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user performs a spin attack that can also eliminate the effects of such moves as Bind, Wrap, and Leech Seed. This also poisons opposing Pokémon.",
+  "effect_chance": 100
+}

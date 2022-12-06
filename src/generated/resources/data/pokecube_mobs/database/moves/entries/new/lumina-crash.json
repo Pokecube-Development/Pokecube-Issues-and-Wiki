@@ -1,0 +1,13 @@
+{
+  "name": "lumina-crash",
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user attacks by unleashing a peculiar light that even affects the mind. This also harshly lowers the target's Sp. Def stat."
+}

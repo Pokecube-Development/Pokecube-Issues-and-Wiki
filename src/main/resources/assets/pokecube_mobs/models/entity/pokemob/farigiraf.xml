@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model name="">
+  <phase name="global" scale="0.45"/>
+  <metadata head="neck:neck1:neck2:neck3:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <customTex default="farigiraf">
+   <part name="Eye" tex="farigiraf-eyeextra"/>
+   <animation diffs="0.535,0" part="Eye" trigger="random:0.005:25"/>
+   <part name="Head" tex="farigiraf-eyebase"/>
+   <animation diffs="0.535,0" part="Head" trigger="random:0.005:25"/>
+  </customTex>
+  <phase type="sitting-1">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,17,0" startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg4_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg3_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="mouth_a">
+    <component length="10" name="1" rotChange="1,0,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="mouth_b">
+    <component length="10" name="1" rotChange="-1,0,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="1,0,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="sitting-2">
+   <part name="body">
+    <component length="1" name="1" posOffset="0,17,0" startKey="0"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg4">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg4_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="leg3">
+    <component length="1" name="1" rotOffset="-30,0,0" startKey="0"/>
+   </part>
+   <part name="leg3_1">
+    <component length="1" name="1" rotOffset="110,0,0" startKey="0"/>
+   </part>
+   <part name="mouth_a">
+    <component length="10" name="1" rotOffset="25,0,0" startKey="0"/>
+   </part>
+   <part name="mouth_b">
+    <component length="10" name="1" rotOffset="-15,0,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="idle">
+   <part name="mouth_a">
+    <component length="10" name="1" rotChange="1,0,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0" startKey="10"/>
+   </part>
+   <part name="mouth_b">
+    <component length="10" name="1" rotChange="-1,0,0" rotOffset="6,0,0" startKey="0"/>
+    <component length="10" name="2" rotChange="1,0,0" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="0,0,5" startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="0,0,-5" startKey="0"/>
+   </part>
+   <part name="body">
+    <component length="10" name="1" posChange="0,0.2,0" startKey="0"/>
+    <component length="10" name="2" posChange="0,-0.2,0" startKey="10"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="leg1">
+    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
+   </part>
+   <part name="leg1_1">
+    <component length="10" name="1" rotChange="-25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-25,0,0," startKey="10"/>
+   </part> 
+   <part name="leg4">
+    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
+   </part>
+   <part name="leg4_1">
+    <component length="10" name="1" rotChange="25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="25,0,0," startKey="10"/>
+   </part> 
+   <part name="leg2">
+    <component length="10" name="1" rotChange="20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="20,0,0," startKey="10"/>
+   </part>
+   <part name="leg2_1">
+    <component length="10" name="1" rotChange="25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="-50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="25,0,0," startKey="10"/>
+   </part>
+   <part name="leg3">
+    <component length="10" name="1" rotChange="-20,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="40,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-20,0,0," startKey="10"/>
+   </part>
+   <part name="leg3_1">
+    <component length="10" name="1" rotChange="-25,0,0," startKey="0"/>
+	<component length="10" name="2" rotChange="50,0,0," startKey="5"/>
+	<component length="10" name="3" rotChange="-25,0,0," startKey="10"/>
+   </part>
+  </phase>
+  <subanim name="sitting-1" base="sitting"/>
+  <subanim name="sitting-2" base="sitting"/>
+ </model>
+</ModelAnimator>

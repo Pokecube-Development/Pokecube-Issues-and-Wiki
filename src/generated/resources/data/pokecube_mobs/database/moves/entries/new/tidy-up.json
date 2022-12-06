@@ -1,0 +1,12 @@
+{
+  "name": "tidy-up",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 0,
+  "target": "user",
+  "damage_class": "other",
+  "move_category": "damage",
+  "effect_text_extend": "Tidy Up raises the user's Attack stat and Speed stat by one stage each. It also clears away substitutes, Spikes, Toxic Spikes, Stealth Rock, and Sticky Web on both the user's and target's side of the field. The user's stats will still be raised even if there are no traps or substitutes to remove."
+}

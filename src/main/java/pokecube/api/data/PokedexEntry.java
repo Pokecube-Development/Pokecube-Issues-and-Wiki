@@ -1506,7 +1506,9 @@ public class PokedexEntry
 
     public Ability getAbility(final int number, final IPokemob pokemob)
     {
-        if (number < this.abilities.size()) return AbilityManager.getAbility(this.abilities.get(number));
+        List<String> abilities = this.abilities;
+        if (pokemob.getCustomHolder() != null) abilities = pokemob.getCustomHolder().getAbilities(this);
+        if (number < abilities.size()) return AbilityManager.getAbility(abilities.get(number));
         if (number == 2) return this.getHiddenAbility(pokemob);
         return null;
     }

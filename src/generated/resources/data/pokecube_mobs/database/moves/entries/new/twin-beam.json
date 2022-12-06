@@ -1,0 +1,12 @@
+{
+  "name": "twin-beam",
+  "power": 40,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "move_category": "damage",
+  "effect_text_extend": "Twin Beam inflicts damage, hitting the target twice per use."
+}

@@ -43,6 +43,8 @@ import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.idle.HungerTask;
+import pokecube.core.entity.pokecubes.EntityPokecube;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Config;

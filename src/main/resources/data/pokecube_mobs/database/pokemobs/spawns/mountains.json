@@ -83,6 +83,7 @@
         {"key": "torkoal","min": 2,"max": 4,"rate": 0.3},
         {"key": "skorupi","min": 2,"max": 4,"rate": 0.3},
         {"key": "numel","min": 2,"max": 4,"rate": 0.3},
+		{"key": "fuecoco","min": 1,"max": 2,"rate": 0.01},
         
         {"key": "salandit","min": 4,"max": 8,"rate": 0.1}
       ]

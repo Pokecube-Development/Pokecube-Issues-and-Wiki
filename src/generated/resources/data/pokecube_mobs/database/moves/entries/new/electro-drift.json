@@ -1,0 +1,14 @@
+{
+  "name": "electro-drift",
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user races forward at ultrafast speeds, piercing its target with futuristic electricity. This move's power is boosted more than usual if it's a supereffective hit.",
+  "effect_chance": 50
+}

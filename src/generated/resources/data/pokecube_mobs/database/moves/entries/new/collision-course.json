@@ -1,0 +1,12 @@
+{
+  "name": "collision-course",
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Collision Course inflicts damage. If the move is super effective on the target, its damage is increased by 30%."
+}

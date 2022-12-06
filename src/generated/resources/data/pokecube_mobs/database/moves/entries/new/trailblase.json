@@ -1,0 +1,12 @@
+{
+  "name": "trailblase",
+  "power": 50,
+  "pp": 20,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Trailblaze inflicts damage and raises the user's Speed by one stage."
+}

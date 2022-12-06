@@ -1,0 +1,13 @@
+{
+  "name": "make-it-rain",
+  "power": 120,
+  "pp": 5,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "special",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user attacks by throwing out a mass of coins. This also lowers the user's Sp. Atk stat. Money is earned after the battle."
+}

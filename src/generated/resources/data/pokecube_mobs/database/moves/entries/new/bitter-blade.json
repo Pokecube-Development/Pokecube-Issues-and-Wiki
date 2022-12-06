@@ -1,0 +1,12 @@
+{
+  "name": "bitter-blade",
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Bitter Blades inflicts damage, and it restores the user's HP by half of the damage dealt. If used by a Pokémon with Sharpness, its power is increased by 50%."
+}

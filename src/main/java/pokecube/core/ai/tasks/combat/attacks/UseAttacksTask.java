@@ -18,7 +18,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.tasks.combat.CombatTask;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
 import thut.api.Tracker;
 import thut.api.entity.ai.IAICombat;

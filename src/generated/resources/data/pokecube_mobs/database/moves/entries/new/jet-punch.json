@@ -1,0 +1,13 @@
+{
+  "name": "jet-punch",
+  "power": 60,
+  "pp": 15,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user summons a torrent around its fist and punches at blinding speed. This move always goes first."
+}

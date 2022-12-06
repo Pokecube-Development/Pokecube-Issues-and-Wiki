@@ -23,6 +23,7 @@ import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.adventures.Config;
@@ -50,8 +51,10 @@ import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.npc.Activities;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
+import pokecube.core.handlers.playerdata.PokecubePlayerCustomData;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
@@ -71,30 +74,33 @@ public class CapabilityHasPokemobs
         {
             public static DefeatEntry createFromNBT(final CompoundTag nbt)
             {
-                final String defeater = nbt.getString("name");
-                final long time = nbt.getLong("time");
-                return new DefeatEntry(defeater, time);
+                String defeater = nbt.getString("name");
+                long time = nbt.getLong("time");
+                short resetKey = nbt.getShort("resetKey");
+                return new DefeatEntry(defeater, time, resetKey);
             }
 
             final String id;
+            short resetKey = 0;
             long time;
 
-            public DefeatEntry(final String defeater, final long time)
+            public DefeatEntry(final String id, final long time, short resetKey)
             {
-                this.id = defeater;
+                this.id = id;
                 this.time = time;
+                this.resetKey = resetKey;
             }
 
             @Override
             public int compareTo(final DefeatEntry o)
             {
-                return this.id.compareTo(o.id);
+                return this.id.compareTo(o.id) + Short.compare(resetKey, o.resetKey);
             }
 
             @Override
             public boolean equals(final Object other)
             {
-                if (other instanceof DefeatEntry entry) return entry.id.equals(this.id);
+                if (other instanceof DefeatEntry entry) return entry.id.equals(this.id) && resetKey == entry.resetKey;
                 return false;
             }
 
@@ -108,10 +114,11 @@ public class CapabilityHasPokemobs
             {
                 nbt.putString("name", this.id);
                 nbt.putLong("time", this.time);
+                nbt.putShort("resetKey", resetKey);
             }
         }
 
-        public static class DefeatList
+        public static class DefeatList implements INBTSerializable<CompoundTag>
         {
             private final Map<String, DefeatEntry> map = Maps.newHashMap();
 
@@ -120,23 +127,29 @@ public class CapabilityHasPokemobs
                 this.map.clear();
             }
 
-            public boolean isValid(final Entity in, final long resetTime)
+            public boolean isValid(final Entity in, final long resetTime, short resetKey)
             {
                 if (in == null) return false;
                 if (!this.map.containsKey(in.getStringUUID())) return false;
+                final var s = this.map.get(in.getStringUUID());
+                // If reset key does not match, invalidate the entry.
+                if (s.resetKey != resetKey)
+                {
+                    map.remove(in.getStringUUID());
+                    return false;
+                }
                 // If this is the case, then this mob is not re-battleable.
                 if (resetTime <= 0) return true;
-                final DefeatEntry s = this.map.get(in.getStringUUID());
                 // Otherwise check the diff.
                 final long diff = Tracker.instance().getTick() - s.time;
                 if (diff > resetTime) return false;
                 return true;
             }
 
-            public void validate(final Entity in)
+            public void validate(final Entity in, short key)
             {
                 if (in == null) return;
-                final DefeatEntry s = this.map.getOrDefault(in.getStringUUID(), new DefeatEntry(in.getStringUUID(), 0));
+                final var s = this.map.getOrDefault(in.getStringUUID(), new DefeatEntry(in.getStringUUID(), 0, key));
                 s.time = Tracker.instance().getTick();
                 this.map.put(in.getStringUUID(), s);
             }
@@ -163,6 +176,26 @@ public class CapabilityHasPokemobs
                 }
                 return list;
             }
+
+            @Override
+            public CompoundTag serializeNBT()
+            {
+                CompoundTag tag = new CompoundTag();
+                tag.put("list", this.save());
+                return tag;
+            }
+
+            @Override
+            public void deserializeNBT(CompoundTag nbt)
+            {
+                this.load(nbt.getList("list", 10));
+            }
+        }
+
+        static
+        {
+            PokecubePlayerCustomData.registerDataType("npcs_defeated", DefeatList::new);
+            PokecubePlayerCustomData.registerDataType("npcs_defeated_by", DefeatList::new);
         }
 
         private final LazyOptional<IHasPokemobs> cap_holder = LazyOptional.of(() -> this);
@@ -170,8 +203,11 @@ public class CapabilityHasPokemobs
         public long resetTimeLose = 0;
         public long resetTimeWin = 0;
         public int friendlyCooldown = 0;
-        public DefeatList defeated = new DefeatList();
-        public DefeatList defeatedBy = new DefeatList();
+
+        @Deprecated // These will be removed later, left in for now
+        private DefeatList defeated = new DefeatList();
+        @Deprecated // These will be removed later, left in for now
+        private DefeatList defeatedBy = new DefeatList();
 
         // Should the client be notified of the defeat via a packet?
         public boolean notifyDefeat = false;
@@ -192,6 +228,7 @@ public class CapabilityHasPokemobs
         private long cooldown = 0;
         private int sight = -1;
         private TypeTrainer type;
+        private short defeatResetKey = 0;
         private UUID outID;
         private boolean canMegaEvolve = false;
         private IPokemob outMob;
@@ -270,19 +307,21 @@ public class CapabilityHasPokemobs
             this.sight = nbt.contains("sight") ? nbt.getInt("sight") : -1;
             if (nbt.contains("battleCD")) this.battleCooldown = nbt.getInt("battleCD");
             if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
-
-            this.defeated.clear();
-            this.defeatedBy.clear();
+            this.defeatResetKey = nbt.getShort("defeatResetKey");
             if (nbt.contains("resetTime")) this.resetTimeLose = nbt.getLong("resetTime");
             if (nbt.contains("resetTimeWin")) this.resetTimeWin = nbt.getLong("resetTimeWin");
+            // Load these for legacy support
             if (nbt.contains("defeated", 9))
             {
                 final ListTag list = nbt.getList("defeated", 10);
+                this.defeated.clear();
                 this.defeated.load(list);
             }
+            // Load these for legacy support
             if (nbt.contains("defeatedBy", 9))
             {
                 final ListTag list = nbt.getList("defeatedBy", 10);
+                this.defeatedBy.clear();
                 this.defeatedBy.load(list);
             }
             this.notifyDefeat = nbt.getBoolean("notifyDefeat");
@@ -404,12 +443,26 @@ public class CapabilityHasPokemobs
 
         public boolean defeated(final Entity e)
         {
-            return this.defeated.isValid(e, this.resetTimeWin);
+            boolean defeated = this.defeated.isValid(e, this.resetTimeWin, this.defeatResetKey);
+            if (e instanceof Player player)
+            {
+                DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(e.getStringUUID(),
+                        "npcs_defeated_by");
+                defeated = defeated || defeatedList.isValid(this.user, resetTimeLose, this.defeatResetKey);
+            }
+            return defeated;
         }
 
         public boolean defeatedBy(final Entity e)
         {
-            return this.defeatedBy.isValid(e, this.resetTimeLose);
+            boolean defeated = this.defeatedBy.isValid(e, this.resetTimeWin, this.defeatResetKey);
+            if (e instanceof Player player)
+            {
+                DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(e.getStringUUID(),
+                        "npcs_defeated");
+                defeated = defeated || defeatedList.isValid(this.user, resetTimeLose, this.defeatResetKey);
+            }
+            return defeated;
         }
 
         public void init(final LivingEntity user, final IHasNPCAIStates aiStates, final IHasMessages messages,
@@ -474,8 +527,12 @@ public class CapabilityHasPokemobs
             // Only store for players
             if (lost instanceof Player)
             {
-                this.defeated.validate(lost);
-
+                if (lost instanceof Player player)
+                {
+                    DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(lost.getStringUUID(),
+                            "npcs_defeated_by");
+                    defeatedList.validate(this.user, defeatResetKey);
+                }
                 // If available, we will increase reputation out of pity
                 if (this.user instanceof Villager villager)
                     villager.getGossips().add(lost.getUUID(), GossipType.MINOR_POSITIVE, 10);
@@ -513,8 +570,10 @@ public class CapabilityHasPokemobs
             // Only store for players
             if (won instanceof Player player)
             {
+                DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(won.getStringUUID(),
+                        "npcs_defeated");
+                defeatedList.validate(this.user, defeatResetKey);
 
-                this.defeatedBy.validate(won);
                 if (this.rewards.getRewards() != null)
                 {
                     this.rewards.giveReward(player, this.user);
@@ -553,6 +612,7 @@ public class CapabilityHasPokemobs
         {
             this.defeated.clear();
             this.defeatedBy.clear();
+            this.defeatResetKey++;
         }
 
         @Override
@@ -584,12 +644,13 @@ public class CapabilityHasPokemobs
             if (this.getType() != null) nbt.putString("type", this.getType().getName());
             nbt.putLong("nextBattle", this.getCooldown());
             nbt.putByte("gender", this.getGender());
-
-            if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
-            nbt.putInt("battleCD", this.battleCooldown);
+            // Save these for legacy support.
             nbt.put("defeated", this.defeated.save());
             nbt.put("defeatedBy", this.defeatedBy.save());
+            if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
+            nbt.putInt("battleCD", this.battleCooldown);
             nbt.putBoolean("notifyDefeat", this.notifyDefeat);
+            nbt.putShort("defeatResetKey", defeatResetKey);
             nbt.putLong("resetTime", this.resetTimeLose);
             nbt.putLong("resetTimeWin", this.resetTimeWin);
             if (this.sight != -1) nbt.putInt("sight", this.sight);

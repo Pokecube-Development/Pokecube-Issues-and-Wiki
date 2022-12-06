@@ -31,7 +31,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.PokecubeCore;
-import pokecube.core.items.pokecubes.EntityPokecubeBase;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.IPokedamage;
 import thut.api.item.ItemList;

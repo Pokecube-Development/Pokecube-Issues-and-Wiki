@@ -1,0 +1,12 @@
+{
+  "name": "salt-cure",
+  "power": 40,
+  "pp": 15,
+  "priority": 0,
+  "type": "rock",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Salt Cure inflicts 1/8 of the target's maximum HP as damage per turn in addition to the damage dealt when it is used. If a Steel or Water type is affected by Salt Cure, the amount of damage per turn is doubled."
+}

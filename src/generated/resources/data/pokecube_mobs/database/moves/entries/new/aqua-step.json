@@ -1,0 +1,12 @@
+{
+  "name": "aqua-step",
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Aqua Step inflicts damage and raises the user's Speed by one stage if the move is successful."
+}

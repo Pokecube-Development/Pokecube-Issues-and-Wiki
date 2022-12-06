@@ -221,6 +221,24 @@
       "model": {
         "key": "genesect-shock"
       }
+    },
+	{
+      "item": "minecraft:lapis_lazuli",
+      "model": {
+        "key": "genesect-douse"
+      }
+    },
+	{
+      "item": "minecraft:blaze_rod",
+      "model": {
+        "key": "genesect-burn"
+      }
+    },
+	{
+      "item": "minecraft:iron_block",
+      "model": {
+        "key": "genesect-chill"
+      }
     }
   ],
   "model": {
@@ -234,29 +252,29 @@
     {
       "key": "genesect-douse",
       "tex": "genesect",
-      "model": "genesect",
-      "anim": "genesect",
+      "model": "genesect-douse",
+      "anim": "genesect-douse",
       "types": "bug,steel"
     },
     {
       "key": "genesect-shock",
       "tex": "genesect",
-      "model": "genesect",
-      "anim": "genesect",
+      "model": "genesect-shock",
+      "anim": "genesect-shock",
       "types": "bug,steel"
     },
     {
       "key": "genesect-burn",
       "tex": "genesect",
-      "model": "genesect",
-      "anim": "genesect",
+      "model": "genesect-burn",
+      "anim": "genesect-burn",
       "types": "bug,steel"
     },
     {
       "key": "genesect-chill",
       "tex": "genesect",
-      "model": "genesect",
-      "anim": "genesect",
+      "model": "genesect-chill",
+      "anim": "genesect-chill",
       "types": "bug,steel"
     }
   ]

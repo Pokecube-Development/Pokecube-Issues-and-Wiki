@@ -1,0 +1,12 @@
+{
+  "name": "comeuppance",
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "user",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "effect_text_extend": "Comeuppance returns 1.5 times the damage dealt by the foe's last attack. Unlike Counter or Mirror Coat, Comeuppance does not require specifically physical or special damage sources and Comeuppance does not have decreased priority; if the user acts before it is hit by an opponent's damaging move, Comeuppance will fail. The move also fails if the user's substitute is hit instead. In battles involving multiple Pokémon, Comeuppance will hit the last opponent that dealt damage to the user, even if that opponent is not adjacent to the user; Comeuppance cannot affect ally Pokémon."
+}

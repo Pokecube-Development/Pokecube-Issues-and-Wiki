@@ -1,0 +1,13 @@
+{
+  "name": "double-shock",
+  "power": 120,
+  "pp": 5,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user discharges all the electricity from its body to perform a high-damage attack. After using this move, the user will no longer be Electric type."
+}

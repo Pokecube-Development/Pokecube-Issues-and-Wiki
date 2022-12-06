@@ -1,0 +1,176 @@
+{
+  "name": "quaquaval",
+  "id": 914,
+  "stock": true,
+  "base_experience": 64,
+  "size": {
+    "height": 1.8
+  },
+  "mass": 61.9,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 30,
+  "stats": {
+    "hp": 85,
+    "attack": 120,
+    "defense": 80,
+    "special_attack": 85,
+    "special_defense": 75,
+    "speed": 85
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "water",
+	"fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "torrent"
+    ],
+    "hidden": [
+	  "moxie"
+	]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+		  "growl",
+		  "water-gun",
+		  "double-hit"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "low-sweep",
+		  "water-pulse"
+        ]
+      },
+	  {
+        "L": 21,
+        "moves": [
+          "aqua-cutter"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "mega-kick"
+        ]
+      },
+      {
+        "L": 43,
+        "moves": [
+          "acrobatics"
+        ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "liquidation"
+        ]
+      },
+	  {
+        "L": 52,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+	  {
+        "L": 58,
+        "moves": [
+          "close-combat"
+        ]
+      },
+	  {
+        "L": 64,
+        "moves": [
+          "wave-crash"
+        ]
+      }
+    ],
+    "misc": [
+    "swords-dance",
+	"take-down",
+	"hydro-pump",
+	"surf",
+	"hyper-beam",
+	"agility",
+	"swift",
+	"rest",
+	"substitute",
+	"reversal",
+	"protect",
+	"icy-wind",
+	"endure",
+	"sleep-talk",
+	"baton-pass",
+	"encore",
+	"rain-dance",
+	"facade",
+	"taunt",
+	"helping-hand",
+	"brick-break",
+	"hydro-cannon",
+	"air-cutter",
+	"aerial-ace",
+	"bulk-up",
+	"water-pulse",
+	"u-turn",
+	"close-combat",
+	"low-kick",
+	"fling",
+	"air-slash",
+	"brave-bird",
+	"giga-impact",
+	"low-sweep",
+	"acrobatics",
+	"water-pledge",
+	"hurricane",
+	"disarming-voice",
+	"misty-terrain",
+	"liquidation",
+	"tera-blast",
+	"ice-spinner",
+	"chilling-water"
+    ]
+  },
+  "loot_table": "pokecube:entities/chicken_1"
+}

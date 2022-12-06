@@ -1,0 +1,13 @@
+{
+  "name": "hyper-drill",
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user spins the pointed part of its body at high speed to pierce the target. This attack can hit a target using a move such as Protect or Detect."
+}

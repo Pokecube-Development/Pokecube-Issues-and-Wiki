@@ -1,0 +1,13 @@
+{
+  "name": "gigaton-hammer",
+  "power": 160,
+  "pp": 5,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user swings its whole body around to attack with its huge hammer. This move can't be used twice in a row."
+}

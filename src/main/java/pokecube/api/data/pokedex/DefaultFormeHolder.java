@@ -40,6 +40,9 @@ public class DefaultFormeHolder
     // If this is not null, then pokemob's base type will be overriden with
     // this.
     public String types = null;
+    // If this is not null, then the pokemob's ability will be defaulted to
+    // this, instead of what is in the pokedex entry.
+    public String ability = null;
 
     public String key = null;
     // These three allow specific models/textures for evos
@@ -59,6 +62,7 @@ public class DefaultFormeHolder
     private final List<FormeHolder> _matches = Lists.newArrayList();
 
     private List<PokeType> _types = Lists.newArrayList();
+    private List<String> _abilities = Lists.newArrayList();
 
     @Override
     public boolean equals(final Object obj)
@@ -85,6 +89,23 @@ public class DefaultFormeHolder
             }
         }
         return _types;
+    }
+
+    public List<String> getAbilities(PokedexEntry baseEntry)
+    {
+        if (_abilities.isEmpty())
+        {
+            if (ability == null)
+            {
+                _abilities.addAll(baseEntry.abilities);
+            }
+            else
+            {
+                String[] abilities = this.ability.split(",");
+                for (var a : abilities) this._abilities.add(a);
+            }
+        }
+        return _abilities;
     }
 
     public FormeHolder getForme(final PokedexEntry baseEntry)

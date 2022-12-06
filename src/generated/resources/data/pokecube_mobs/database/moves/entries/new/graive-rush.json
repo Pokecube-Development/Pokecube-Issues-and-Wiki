@@ -1,0 +1,13 @@
+{
+  "name": "graive-rush",
+  "power": 120,
+  "pp": 5,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user throws its entire body into a reckless charge. Attacks from opposing Pokémon during the next turn cannot miss and will inflict double damage."
+}

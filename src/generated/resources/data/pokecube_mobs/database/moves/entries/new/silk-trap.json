@@ -1,0 +1,12 @@
+{
+  "name": "silk-trap",
+  "power": 0,
+  "pp": 10,
+  "priority": 4,
+  "type": "bug",
+  "accuracy": 0,
+  "target": "user",
+  "damage_class": "other",
+  "move_category": "damage",
+  "effect_text_extend": "Silk Trap protects the user from any moves except status moves for that turn. Additionally, if Silk Trap blocks an attack that would make contact with the user, the attacker's Speed stat is lowered by one stage."
+}

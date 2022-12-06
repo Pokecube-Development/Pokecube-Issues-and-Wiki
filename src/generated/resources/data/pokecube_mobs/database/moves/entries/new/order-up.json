@@ -1,0 +1,13 @@
+{
+  "name": "order-up",
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical",
+  "move_category": "damage",
+  "default_crit": 4.17,
+  "effect_text_extend": "The user attacks with elegant poise. If the user has a Tatsugiri in its mouth, this move boosts one of the user's stats based on the Tatsugiri's form."
+}
