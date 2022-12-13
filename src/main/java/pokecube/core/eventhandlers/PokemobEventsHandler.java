@@ -3,18 +3,21 @@ package pokecube.core.eventhandlers;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerBossEvent;
@@ -383,6 +386,8 @@ public class PokemobEventsHandler
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBreakSpeed);
     }
 
+    public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();
+
     /**
      * Here we will check if it was a bee, added from a bee-hive, and if so, we
      * will increment the honey level as needed.
@@ -396,6 +401,9 @@ public class PokemobEventsHandler
 
         // We only want to run this from execution thread.
         if (!mob.getServer().isSameThread() || !(mob.level instanceof ServerLevel world)) return;
+
+        // This gets set by the mixin in pokecube.mixin.entity.BeeHiveFix
+        if (!BEE_RELEASE_TICK.contains(world.dimension())) return;
 
         final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
         // Not a valid inhabitor of things, so return.
@@ -413,7 +421,13 @@ public class PokemobEventsHandler
                 old.put(s, tag.get(s));
             }
             mob.load(old);
+            // Some cases we end up with this occuring, so let's deal with it
+            Entity oldEntity = world.getEntity(mob.getUUID());
+            if (oldEntity != null) oldEntity.remove(RemovalReason.DISCARDED);
         }
+        // If it didn't have a fix tag, it definitely was not a bee being
+        // removed from a hive, regardless of what the release tick said.
+        else return;
 
         // No Home spot, so definitely not leaving home
         if (inhabitor.getHome() == null) return;
@@ -421,27 +435,7 @@ public class PokemobEventsHandler
         final GlobalPos pos = inhabitor.getHome();
         // not same dimension, not a bee leaving hive
         if (pos.dimension() != world.dimension()) return;
-
         // This will indicate if the tile did actually cause the spawn.
-        boolean fromHive = false;
-        int n = 0;
-        Class<?> c = null;
-        // Check the stack to see if tile resulted in our spawn, if not, then we
-        // are not from it either!
-        for (final StackTraceElement element : Thread.currentThread().getStackTrace())
-        {
-            try
-            {
-                c = Class.forName(element.getClassName());
-                fromHive = BlockEntity.class.isAssignableFrom(c);
-            }
-            catch (final ClassNotFoundException e)
-            {
-                // NOOP, why would this happen anyway?
-                PokecubeAPI.LOGGER.error("Error with class for {}??", element.getClassName());
-            }
-            if (fromHive || n++ > 100) break;
-        }
         // not loaded, definitely not a bee leaving hive
         if (!world.isPositionEntityTicking(pos.pos())) return;
         final BlockEntity tile = world.getBlockEntity(pos.pos());
@@ -450,6 +444,7 @@ public class PokemobEventsHandler
         final IInhabitable habitat = tile.getCapability(CapabilityInhabitable.CAPABILITY).orElse(null);
         // Not a habitat, so not going to be a bee leaving a hive
         if (habitat == null) return;
+
         // from here down, schedule for end of tick, incase things happen
         // related to block placement, etc
         habitat.onExitHabitat(mob);
