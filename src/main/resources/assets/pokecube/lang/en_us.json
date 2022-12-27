@@ -10,7 +10,7 @@
     "gamerule.pokecube:pokemobs_explode": "Allow Pokémob explosions",
     "gamerule.pokecube:pokemob_cull_distance": "Wild Pokémob cull distance",
     "gamerule.pokecube:pokemob_cull": "Cull wild Pokémobs",
-    "gamerule.pokecube:pokemob_despawn_distance": "Wild Pokémobs despawn distance",
+    "gamerule.pokecube:pokemob_despawn_distance": "Wild Pokémob despawn distance",
     "gamerule.pokecube:pokemob_despawn": "Despawn wild Pokémobs",
     "gamerule.pokecube:pokemob_spawn": "Spawn wild Pokémobs",
 
