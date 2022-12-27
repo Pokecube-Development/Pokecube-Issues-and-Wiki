@@ -2,7 +2,7 @@
     "_comment": "Pokécube translation",
     "_comment": "#Mount Messages",
 
-    "pokemob.fly.disabled": "Arceus §chas prevented§r %1$s §cfrom flying while ridden here!",
+    "pokemob.fly.disabled": "Arceus §chas prevented§r %1$s §cfrom flying while ridding Pokémobs here!",
 
     "_comment": "Gamerules",
     "gamerule.pokecube:pokemobs_affect_blocks": "Allow destructive Pokémob actions",
