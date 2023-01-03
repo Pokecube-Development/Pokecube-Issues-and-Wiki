@@ -29,6 +29,8 @@ public abstract class PokemobSided extends PokemobBase
 
         String texName = entry.texturePath + entry.getTrimmedName();
 
+        if (!texName.contains(":")) texName = entry.getModId() + ":" + texName;
+
         if (this.getCustomHolder() != null && this.getCustomHolder().texture != null)
             texName = this.getCustomHolder().texture.toString();
         texName = texName.replace(".png", "");
@@ -69,6 +71,9 @@ public abstract class PokemobSided extends PokemobBase
                 final int maxNum = this.entry.textureDetails.length * this.entry.textureDetails[0].length;
                 final ResourceLocation[] tex = new ResourceLocation[maxNum];
                 String base = this.getPokedexEntry().texturePath + texture.getPath();
+
+                if (!base.contains(":")) base = entry.getModId() + ":" + base;
+                
                 if (base.endsWith(".png")) base = base.substring(0, base.length() - 4);
                 for (int i = 0; i < maxNum; i++)
                 {

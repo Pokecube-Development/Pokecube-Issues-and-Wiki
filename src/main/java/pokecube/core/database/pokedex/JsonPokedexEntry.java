@@ -308,6 +308,8 @@ public class JsonPokedexEntry
             String anim = this.anim_path;
             if (anim == null) anim = model;
             entry.texturePath = tex;
+            entry.modelPath = model;
+            
             entry.model = new ResourceLocation(this.modid, model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(this.modid, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(this.modid, anim + entry.getTrimmedName() + ".xml");
