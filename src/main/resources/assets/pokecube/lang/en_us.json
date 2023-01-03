@@ -1,13 +1,24 @@
 {
     "_comment": "Pokécube translation",
-
-
     "_comment": "#Mount Messages",
 
-    "pokemob.fly.disabled": "Arceus §chas prevented§r %1$s §cfrom flying while ridden here!",
+    "pokemob.fly.disabled": "Arceus §chas prevented§r %1$s §cfrom flying while ridding Pokémobs here!",
+
+    "_comment": "Gamerules",
+    "gamerule.pokecube:pokemobs_affect_blocks": "Allow destructive Pokémob actions",
+    "gamerule.pokecube:pokemobs_drop_loot": "Drop Pokémob loot",
+    "gamerule.pokecube:pokemobs_explode": "Allow Pokémob explosions",
+    "gamerule.pokecube:pokemob_cull_distance": "Wild Pokémob cull distance",
+    "gamerule.pokecube:pokemob_cull": "Cull wild Pokémobs",
+    "gamerule.pokecube:pokemob_despawn_distance": "Wild Pokémob despawn distance",
+    "gamerule.pokecube:pokemob_despawn": "Despawn wild Pokémobs",
+    "gamerule.pokecube:pokemob_spawn": "Spawn wild Pokémobs",
+
+    "gamerule.pokecube:pokemob_despawn_distance.description": "Idle wild Pokémobs will despawn gradually if further than this distance from a player. Used to refresh Pokémobs \"Despawn wild Pokémobs\" must be on",
+    "gamerule.pokecube:pokemob_cull_distance.description": "Idle wild Pokémobs will despawn instantly if further than this distance from a player. \"Cull wild Pokémobs\" must be on",
+    "gamerule.pokecube:pokemobs_drop_loot.description": "Controls resource drops from Pokémobs, including experience orbs",
 
     "_comment": "#Move Messages",
-
     "pokemob.status.curse.user": "%1$s §cwas hurt by the curse",
     "pokemob.status.flinch.user": "%1$s §cflinched",
     "pokemob.status.confuse.add.user": "%1$s §cis confused",
@@ -33,10 +44,10 @@
     "pokemob.move.not.very.effective.target": "§aIt's not very effective!",
     "pokemob.move.doesnt.affect.target": "§aIt doesn't affect§r %1$s!",
     "pokemob.move.critical.hit.target": "§cCritical hit!",
-    
+
     "pokemob.move.used.user": "%1$s §aused §c%2$s!",
     "pokemob.move.used.target": "%1$s §cenemy used §6%2$s!",
-    
+
     "pokemob.move.stat.fail.user": "§cBut it failed",
     "pokemob.move.stat.rise1.user": "%1$s's §6%2$s §arose",
     "pokemob.move.stat.rise2.user": "%1$s's §6%2$s §asharply rose",
@@ -44,7 +55,7 @@
     "pokemob.move.stat.fall1.user": "%1$s's §6%2$s §cfell",
     "pokemob.move.stat.fall2.user": "%1$s's §6%2$s §charshly fell",
     "pokemob.move.stat.fall3.user": "%1$s's §6%2$s §cdrastically fell",
-    
+
     "pokemob.move.stat.fail.target": "§aBut it failed",
     "pokemob.move.stat.rise1.target": "%1$s's §6%2$s §crose",
     "pokemob.move.stat.rise2.target": "%1$s's §6%2$s §csharply rose",
@@ -98,7 +109,7 @@
 
 
     "_comment": "Key Bindings",
-    
+
     "key.pokemob.next": "Next Pokémob",
     "key.pokemob.prev": "Previous Pokémob",
     "key.pokemob.move.next": "Next Move",
@@ -119,7 +130,7 @@
     "key.pokemob.arrangegui": "Arrange Gui",
     "key.pokemob.animategui": "Open Animation Gui",
     "key.pokemob.gzmove": "Z/G-max Moves",
-    
+
     "_comment": "Pokemob Types",
 
     "type.normal": "normal",
@@ -140,7 +151,7 @@
     "type.dragon": "dragon",
     "type.dark": "dark",
     "type.fairy": "fairy",
-    
+
     "_comment": "Pokewatch Stuff",
 
     "pokewatch.button.home": "Home",
@@ -217,21 +228,21 @@
     "pokewatch.ability": "AB: %s",
     "pokewatch.size": "Size: %s",
     "pokewatch.nature": "Nature: %s",
-    
+
     "_comment": "Shared Gui Things",
 
     "pokecube.gui.delete.start.desc": "Enable Deleting",
     "pokecube.gui.delete.confirm.desc": "Confirm Delete",
     "pokecube.gui.move.up.desc": "Move Up",
     "pokecube.gui.move.down.desc": "Move Down",
-    
+
     "pokecube.route.info.dist.formaterror": "§cError with distance format!",
     "pokecube.route.info.time.formaterror": "§cTime period is in ticks!",
     "pokecube.route.info.time.formatinfo": "§cError, Wrong format; Correct time format is: (startick endtick)",
     "pokecube.route.info.pos.formatinfo": "§cError, Wrong format; Correct location format is: (x y z)",
-    
+
     "pokecube.route.info.incomplete": "§cError, requires all three boxes to be filled out correctly!",
-    
+
     "_comment": "Pokemob Gui",
 
     "pokemob.stance.guard": "Guarding",
@@ -240,16 +251,16 @@
     "pokemob.stance.follow": "Following",
     "pokemob.stance.sit": "Sitting",
     "pokemob.stance.no_sit": "Not Sitting",
-    
+
     "pokemob.route.btn.desc": "Apply changes",
     "pokemob.route.updated": "Guard location updated",
-    
+
     "pokemob.route.location.tooltip": "Coordinates for this location (x y z)",
     "pokemob.route.timeperiod.tooltip": "Time Period (start end) in ticks",
     "pokemob.route.variation.tooltip": "Maximum allowed distance from this location",
-    
+
     "pokemob.bar.value": "Hunger: %s",
-    
+
     "pokemob.gui.sit": "Sitting",
     "pokemob.gui.stay": "Staying",
     "pokemob.gui.guard": "Guarding",
@@ -266,15 +277,15 @@
     "pokemob.gui.storage.desc": "Storage Settings",
     "pokemob.gui.routes.desc": "Routes Settings",
     "pokemob.gui.ai.desc": "AI Settings",
-    
+
     "pokemob.gui.slot.storage.off_hand": "Offhand Slot, Place a book with custom instructions here!",
-    
+
     "pokemob.gui.slot.saddle": "Saddle Slot",
     "pokemob.gui.slot.held_item": "Held Item Slot",
     "pokemob.gui.slot.off_hand": "Offhand Slot",
     "pokemob.gui.slot.food_misc": "Food/Other Items Slots",
     "pokemob.gui.nickname": "Edit Nickname",
-    
+
     "pokemob.gui.ai.gather.desc": "Enable item gathering",
     "pokemob.gui.ai.beeai.desc": "Enable Beehives",
     "pokemob.gui.ai.antai.desc": "Enable Ant Nests",
@@ -286,7 +297,7 @@
     "pokemob.gui.ai.agressive.desc": "Enable combat",
     "pokemob.gui.ai.airborne.desc": "Enable flying/floating",
     "pokemob.gui.ai.usedoors.desc": "Enable opening doors",
-    
+
     "pokemob.gui.ai.gather": "Gather",
     "pokemob.gui.ai.beeai": "Bee AI",
     "pokemob.gui.ai.antai": "Ant AI",
@@ -298,13 +309,13 @@
     "pokemob.gui.ai.agressive": "Combat",
     "pokemob.gui.ai.airborne": "Airborne",
     "pokemob.gui.ai.usedoors": "Doors",
-    
+
     "pokemob.gui.storage.berry": "Berry inventory location",
     "pokemob.gui.storage.storage": "Item dropoff inventory location",
     "pokemob.gui.storage.storageFace": "Item dropoff inventory face",
     "pokemob.gui.storage.empty": "Item pickup inventory location",
     "pokemob.gui.storage.emptyFace": "Item pickup inventory face",
-    
+
     "_comment": "Pokedex Description",
 
     "pokemob.description.type": "%1$s is a %2$s Pokémob.",
@@ -324,9 +335,9 @@
     "pokemob.description.evolve.move": "-  And knows %1$s.",
     "pokemob.description.evolve.locations": "-  In %1$s.",
     "pokemob.description.evolve.from": "%1$s evolves from %2$s.",
-    
+
     "_comment": "Pokedex Messages/Info",
-    
+
     "pokedex.setteleport": "Pokécenter set as a teleport location.",
     "pokedex.locationinfo1": "There are %1$s Registered Spawns.",
     "pokedex.locationinfo2": "There are %1$s Registered Pokémobs.",
@@ -344,7 +355,7 @@
     "pokedex.inspect.rocksmashTM": "§aCongratulations, you have recieved a Rock Smash TM from the inspection of your Pokédex.",
     "pokedex.inspect.mastercube": "§aCongratulations, you have recieved a Mastercube from the inspection of your Pokédex.",
     "pokedex.inspect.shinycharm": "§aCongratulations, you have recieved a Shiny Charm from the inspection of your Pokédex.",
-    
+
     "_comment": "Pokemob Combat Related",
 
     "pokemob.teleport.invalid": "§cYou cannot teleport there!",
@@ -366,7 +377,7 @@
     "pokecube.sendout.fail.noperms.general": "§cNothing to recall.",
     "pokecube.sendout.fail..noperms.specific": "%1$s §arecalled.",
     "pokecube.sendout.fail.cancelled": "%1$s §arecalled.",
-   
+
     "pokecube.caught": "%1$s §ahas been caught!",
     "pokecube.missed": "%1$s §cbroke out!",
     "pokecube.denied": "§cThe Pokémob refuses to enter the cube!",
@@ -418,7 +429,7 @@
     "pokemob.megaevolve.success": "%1$s §aMega-evolved into %2$s",
     "pokemob.megaevolve.revert": "%1$s §aReverted to %2$s",
     "pokemob.megaevolve.failed": "%1$s §cfailed to Mega Evolve.",
-    
+
     "pokemob.dynamax.command.evolve": "§aYou tell %1$s to Dynamax!",
     "pokemob.dynamax.command.revert": "§aYou tell %1$s to revert!",
     "pokemob.dynamax.timeout.revert": "%1$s §ahas begun to revert!",
@@ -461,7 +472,7 @@
     "gui.pokemob.accept": "Accept",
     "gui.pokemob.deny": "Deny",
     "gui.pokemob.teleport": "Teleports",
-    
+
     "pokecube.mega.noring": "§cYou are not wearing anything that will allow §6%1$s §cto mega evolve!",
 
     "pokecube.professor.deny": "Professor: §cYou have already recieved a Pokémob",
@@ -640,7 +651,7 @@
 
     "container.pokecube.generic_barrel": "Barrel",
     "container.pokecube.generic_bookshelf": "Bookshelf",
-    
+
     "_comment": "Items",
     "item.pokecube.pokedex": "Pokédex",
     "item.pokecube.pokewatch": "PokéWatch",
@@ -661,7 +672,7 @@
     "pokecube.filled.par": "%1$s (PAR)",
     "pokecube.filled.psn": "%1$s (PSN)",
     "pokecube.filled.slp": "%1$s (SLP)",
-    
+
     "_comment": "Item Tooltips",
 
     "item.berry.istree.desc": "§2§l[Tree]",
@@ -677,7 +688,7 @@
     "item.pokecube.berry_null.desc": "§oJust a Berry, Pokémobs might eat it.",
 
     "_comment": "Pokecube Tooltips",
-    
+
     "pokecube.tooltip.level": "Level: %1$s",
     "pokecube.tooltip.health": "HP: %1$s/%2$s",
     "pokecube.tooltip.xp": "XP: %1$s/%2$s",
@@ -693,14 +704,14 @@
     "item.pokecube.leaves": "Leaves",
 
     "_comment": "Vitamin Tooltips",
-    
+
     "pokecube.tooltip.hpup": "§7Increases HP of a Pokémob",
     "pokecube.tooltip.protein": "§7Increases ATT of a Pokémob",
     "pokecube.tooltip.iron": "§7Increases DEF of a Pokémob",
     "pokecube.tooltip.calcium": "§7Increases ATTSP of a Pokémob",
     "pokecube.tooltip.zinc": "§7Increases DEFSP of a Pokémob",
     "pokecube.tooltip.carbos": "§7Increases VIT of a Pokémob",
-    
+
     "_comment": "Mob Internal Names",
 
     "entity.pokecube.egg": "Pokémob Egg",
@@ -710,14 +721,14 @@
     "entity.pokecube.cube": "Pokécube",
     "entity.pokecube.pokecube": "Pokécube",
     "pkmn.missingno": "MissingNo.",
-    
+
     "_comment": "Named NPCs",
-    
+
     "pokecube.none.named": "%s",
     "pokecube.professor.named": "Professor %s",
     "pokecube.healer.named": "Nurse %s",
     "pokecube.trader.named": "Merchant %s",
-    
+
     "_comment": "Item Groups",
 
     "itemGroup.pokecube_items": "Pokécube Items",
@@ -759,6 +770,6 @@
     "pokecube.meteor.spawned": "Spawned meteor with power of %2$s.",
 
     "_comment": "Misc",
-    
+
     "biome.pokecube.secret_base": "Secret Base"
 }

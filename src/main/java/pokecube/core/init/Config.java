@@ -133,7 +133,7 @@ public class Config extends ConfigData
                         GameRules.BooleanValue.create(true));
                 POKEMOBS_EXPLODE = GameRules.register("pokecube:pokemobs_explode", Category.MOBS,
                         GameRules.BooleanValue.create(true));
-                POKEMOBS_DROP_ITEMS = GameRules.register("pokecube:pokemobs_drop_loot", Category.MOBS,
+                POKEMOBS_DROP_ITEMS = GameRules.register("pokecube:pokemobs_drop_loot", Category.DROPS,
                         GameRules.BooleanValue.create(true));
             });
         }
@@ -289,7 +289,7 @@ public class Config extends ConfigData
     public int breedingDelay = 4000;
     @Configure(category = Config.mobAI, comment = "Maximum time for eggs to hatch, the average number is about half this. [Default: 10000]")
     public int eggHatchTime = 10000;
-    @Configure(category = Config.mobAI, comment = "If despawn is enabled, when mobs exceed cullDistance, and are within aiDisableDistance, they will vanish after this many ticks if no player get back in range. [Default: 2000]")
+    @Configure(category = Config.mobAI, comment = "If \"Despawn wild Pokémobs\" (pokemob_despawn) gamerule is true, when mobs exceed the \"Wild Pokémobs despawn distance\" (pokemob_despawn_distance) gamerule, they will vanish after this many ticks if no player get back in range. [Default: 2000]")
     public int despawnTimer = 2000;
     @Configure(category = Config.mobAI, comment = "Wild pokemobs may agro to the player if they get closer than this distance. This applies to pokemobs tagged as #pokecube:aggressive [Default: 3]")
     public int aggressiveAggroRadius = 3;
