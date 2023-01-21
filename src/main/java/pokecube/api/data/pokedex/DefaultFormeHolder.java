@@ -168,11 +168,12 @@ public class DefaultFormeHolder
                 c.material = ThutCore.trim(c.material);
                 this._matsMap_.put(c.material, c);
             }
-            String tex = PokedexEntry.TEXTUREPATH;
-            String model = PokedexEntry.MODELPATH;
+            String model = baseEntry.modelPath;
 
             String modid = baseEntry.getModId();
             if (modid == null) modid = "pokecube_mobs";
+            if (!baseEntry.texturePath.contains(":")) baseEntry.texturePath = modid + ":" + baseEntry.texturePath;
+            String tex = baseEntry.texturePath;
 
             ResourceLocation texl = this.tex != null ? PokecubeItems.toResource(tex + this.tex, modid) : null;
             ResourceLocation modell = this.model != null ? PokecubeItems.toResource(model + this.model, modid) : null;

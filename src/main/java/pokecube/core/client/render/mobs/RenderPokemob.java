@@ -292,6 +292,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             boolean noUpdate = this.wrapper != null && this.wrapper.lastInit > Tracker.instance().getTick()
                     && this.wrapper.lastInit - Tracker.instance().getTick() < 100;
             if (noUpdate) return;
+            if (ThutCore.conf.debug_models) PokecubeAPI.logDebug("Reloaded model for " + entry);
             RenderPokemob.holders.put(this.entry, this);
             this.toRun.clear();
             this.toRunNames.clear();
@@ -482,7 +483,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
-            if (ThutCore.conf.debug_models) PokecubeAPI.logDebug("Reloaded model for " + entry);
         }
         if (holder.wrapper != null && !holder.wrapper.isLoaded())
         {
