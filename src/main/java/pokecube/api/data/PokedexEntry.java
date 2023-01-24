@@ -1090,6 +1090,8 @@ public class PokedexEntry
 
     @CopyToGender
     public String texturePath = PokedexEntry.TEXTUREPATH;
+    @CopyToGender
+    public String modelPath = PokedexEntry.MODELPATH;
 
     @CopyToGender
     public PokeType type1;

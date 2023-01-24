@@ -609,12 +609,14 @@ public class PokecubeMobs
     @SubscribeEvent
     public void RegisterPokemobsEvent(final RegisterPokemobsEvent.Register event)
     {
-        final String tex = PokedexEntry.TEXTUREPATH;
-        final String model = PokedexEntry.MODELPATH;
         final String modid = PokecubeMobs.MODID;
         Database.getSortedFormes().forEach(entry -> {
             if (!modid.equals(entry.getModId())) return;
-            entry.texturePath = modid + ":" + tex;
+            String tex = entry.texturePath;
+            String model = entry.modelPath;
+            entry.texturePath = tex;
+            if (!tex.contains(":")) entry.texturePath = modid + ":" + tex;
+            else tex = tex.split(":")[1];
             entry.model = new ResourceLocation(modid, model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(modid, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(modid, model + entry.getTrimmedName() + ".xml");

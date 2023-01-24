@@ -11,6 +11,7 @@
     "pokecube:magikarp",
     "pokecube:mew",
     "pokecube:wooper",
+    "pokecube:wooper_paldea",
     "pokecube:quagsire",
     "pokecube:wobbuffet",
     "pokecube:cleffa",
@@ -24,6 +25,7 @@
     "pokecube:cosmog",
     "pokecube:komala",
     "pokecube:audino",
-	"pokecube:tarountula"
+    "pokecube:tarountula",
+    "pokecube:lechonk"
   ]
 }
