@@ -88,23 +88,8 @@ public class NamedVolumes
 
     private static boolean insideBox(final BoundingBox b, BlockPos pos, boolean forTerrain)
     {
-        if (!forTerrain) return b.isInside(pos);
-        final int x1 = pos.getX();
-        final int y1 = pos.getY();
-        final int z1 = pos.getZ();
-        MutableBlockPos mpos = new MutableBlockPos();
-        int s = TerrainSegment.GRIDSIZE;
-        int sy = TerrainSegment.YSHIFT;
-        int sz = TerrainSegment.ZSHIFT;
-        for (int i = 0; i < TerrainSegment.TOTAL; i++)
-        {
-            int x = x1 + i & s;
-            int y = y1 + (i / sy) & s;
-            int z = z1 + (i / sz) & s;
-            mpos.set(x, y, z);
-            if (b.isInside(mpos)) return true;
-        }
-        return false;
+        // TODO decide if we want to do something special for terrain checks?
+        return b.isInside(pos);
     }
 
     public static class NamedStructureWrapper implements INamedStructure
