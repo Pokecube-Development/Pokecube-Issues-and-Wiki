@@ -117,6 +117,8 @@ import thut.api.entity.CopyCaps;
 import thut.api.entity.ShearableCaps;
 import thut.api.inventory.InvHelper.ItemCap;
 import thut.api.item.ItemList;
+import thut.api.level.structures.StructureManager;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
@@ -465,6 +467,7 @@ public class EventsHandler
         boolean isSpawnPresetDebug = evt.getItemStack().getDisplayName().getString().contains("spawn_preset_debug");
         boolean isEvoLocDebug = evt.getItemStack().getDisplayName().getString().contains("evolution_location_debug");
         boolean isSubbiomeDebug = evt.getItemStack().getDisplayName().getString().contains("subbiome_debug");
+        boolean isStructureDebug = evt.getItemStack().getDisplayName().getString().contains("structure_debug");
 
         Vector3 v = new Vector3().set(player);
         if (isSpawnPresetDebug)
@@ -510,6 +513,12 @@ public class EventsHandler
             TerrainSegment seg = TerrainManager.getInstance().getTerrainForEntity(player);
             BiomeType type = seg.getBiome(v);
             thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("SubBiome Type: " + type.name));
+        }
+        if (isStructureDebug) 
+        {
+
+            final Set<INamedStructure> set = StructureManager.getFor(level.dimension(), v.getPos(), true);
+            System.out.println(set);
         }
     }
 
