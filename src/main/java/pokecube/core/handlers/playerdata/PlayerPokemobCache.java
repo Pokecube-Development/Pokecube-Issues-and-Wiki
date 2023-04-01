@@ -10,7 +10,6 @@ import com.google.common.collect.Sets;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
@@ -29,12 +28,12 @@ public class PlayerPokemobCache extends PlayerData
         final ItemStack stack = PokecubeManager.pokemobToItem(mob);
         final MinecraftServer server = ThutCore.proxy.getServer();
         // Schedule this to run at some point, as it takes a while.
-        server.execute(() -> PlayerPokemobCache.UpdateCache(stack, false, false));
+        server.execute(() -> PlayerPokemobCache.UpdateCacheImpl(stack, false, false));
     }
 
     public static void UpdateCache(final ItemStack stack, final boolean pc, final boolean deleted)
     {
-        if (!(PokecubeCore.proxy.getWorld() instanceof ServerLevel)) return;
+        if (!PokecubeCore.proxy.isServerSide()) return;
         final MinecraftServer server = ThutCore.proxy.getServer();
         server.execute(() -> PlayerPokemobCache.UpdateCacheImpl(stack, pc, deleted));
     }

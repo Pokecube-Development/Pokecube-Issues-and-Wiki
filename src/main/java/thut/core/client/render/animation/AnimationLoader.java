@@ -139,6 +139,7 @@ public class AnimationLoader
             { -30, 70 };
 
             if (file.model.customTex != null) file.model.customTex.init();
+            if (renderer != null) renderer.getAnimations().clear();
 
             Vector5 noRotation = new Vector5();
 
