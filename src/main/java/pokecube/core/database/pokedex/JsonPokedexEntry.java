@@ -396,7 +396,14 @@ public class JsonPokedexEntry
                 if (e == null) e = e1;
                 else
                 {
-                    e = e.mergeFrom(e1);
+                    if (e.compareTo(e1) > 0)
+                    {
+                        e = e.mergeFrom(e1);
+                    }
+                    else
+                    {
+                        e = e1.mergeFrom(e);
+                    }
                 }
             }
             loaded.add(e);
