@@ -21,6 +21,7 @@ import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
@@ -81,6 +82,12 @@ public class InteractsAndEvolutions
             }
 
             return super.equals(obj);
+        }
+        
+        @Override
+        public String toString()
+        {
+            return PokedexEntryLoader.gson.toJson(this);
         }
     }
 

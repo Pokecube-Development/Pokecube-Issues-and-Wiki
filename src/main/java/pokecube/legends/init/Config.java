@@ -95,7 +95,7 @@ public class Config extends ConfigData
     public double teleWormholeChanceWorms = 0.75;
     @Configure(category = "wormholes", comment = "Wormholes will not link to these worlds.")
     public List<String> wormhole_destination_blacklist = Lists.newArrayList("pokecube:secret_base",
-            "compactmachines:compact_world", "minecraft:the_end", "minecraft:the_nether");
+            "compactmachines:compact_world", "dimdungeons:build_dimension", "minecraft:the_end", "minecraft:the_nether");
     @Configure(category = "wormholes", comment = "Wormholes will not link to these worlds.")
     public List<String> wormhole_destination_weights = Lists.newArrayList("pokecube_legends:ultraspace->90",
             "pokecube_world:overworld->5", "minecraft:overworld->5", "pokecube_legends:distorted_world->5");

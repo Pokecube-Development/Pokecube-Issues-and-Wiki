@@ -718,6 +718,7 @@
     "entity.pokecube.npc": "Npc",
     "entity.pokecube.npc.pokecube_adventures.healer": "Healer",
     "entity.pokecube.npc.pokecube_adventures.professor": "Professor",
+    "entity.pokecube.npc.pokecube_adventures.trader": "Merchant",
     "entity.pokecube.cube": "Pokécube",
     "entity.pokecube.pokecube": "Pokécube",
     "pkmn.missingno": "MissingNo.",
