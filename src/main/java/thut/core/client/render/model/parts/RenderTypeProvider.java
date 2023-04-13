@@ -3,8 +3,10 @@ package thut.core.client.render.model.parts;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.resources.ResourceLocation;
 
 public interface RenderTypeProvider
@@ -33,8 +35,22 @@ public interface RenderTypeProvider
 
             builder.setTransparencyState(Material.DEFAULTTRANSP);
 
-            RenderStateShard.ShaderStateShard shard = Material.SHADERS.getOrDefault(material.shader,
-                    RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
+            RenderStateShard.ShaderStateShard shard = Material.SHADERS.get(material.shader);
+            if (shard == null)
+            {
+                ShaderInstance shader = Minecraft.getInstance().gameRenderer.getShader(material.shader);
+                if (shader == null)
+                {
+                    Material.SHADERS.put(material.shader,
+                            shard = RenderStateShard.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER);
+                }
+                else
+                {
+                    shard = new RenderStateShard.ShaderStateShard(
+                            () -> Minecraft.getInstance().gameRenderer.getShader(material.shader));
+                    Material.SHADERS.put(material.shader, shard);
+                }
+            }
 
             builder.setShaderState(shard);
 
