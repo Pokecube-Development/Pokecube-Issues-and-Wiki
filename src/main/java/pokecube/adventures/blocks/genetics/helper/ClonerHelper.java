@@ -22,6 +22,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.events.GeneEditEvent;
 import pokecube.api.events.GeneEditEvent.EditType;
 import pokecube.api.utils.TagNames;
+import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene.SpeciesInfo;
@@ -157,7 +158,8 @@ public class ClonerHelper
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.warn("Error locating selectors for " + stack + " " + stack.getTag(), e);
+                if (PokecubeCore.getConfig().debug_misc)
+                    PokecubeAPI.LOGGER.warn("Error locating selectors for " + stack + " " + stack.getTag(), e);
             }
         }
         return ret;
@@ -180,7 +182,8 @@ public class ClonerHelper
             }
             catch (final Exception e)
             {
-                PokecubeAPI.LOGGER.warn("Error checking index for " + stack + " " + stack.getTag(), e);
+                if (PokecubeCore.getConfig().debug_misc)
+                    PokecubeAPI.LOGGER.warn("Error checking index for " + stack + " " + stack.getTag(), e);
             }
         }
         return -1;

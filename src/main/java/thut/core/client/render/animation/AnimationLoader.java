@@ -139,6 +139,8 @@ public class AnimationLoader
             { -30, 70 };
 
             if (file.model.customTex != null) file.model.customTex.init();
+            if (renderer != null) renderer.getAnimations().clear();
+            model.initBuiltInAnimations(renderer);
 
             Vector5 noRotation = new Vector5();
 
@@ -323,6 +325,17 @@ public class AnimationLoader
 
                 // Initialize based on existing anims
                 animator.init(allAnims);
+                for (final Animation anim : allAnims)
+                {
+                    if (!renderer.getAnimations().containsKey(anim.name))
+                    {
+                        List<Animation> anims = Lists.newArrayList();
+                        renderer.getAnimations().put(anim.name, anims);
+                        anims.add(anim);
+                    }
+                }
+
+                // And if this added any new animations, update renderer
 
                 // Add the worn offsets
                 animator.parseWornOffsets(wornOffsets);
