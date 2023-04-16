@@ -147,7 +147,7 @@ public class BBModel extends BaseModel
                     if (rotations != null)
                     {
                         List<AnimationComponent> rotComps = new ArrayList<>();
-                        System.out.println(part_name);
+//                        System.out.println(part_name);
 
                         // Pre-compute the offsets
                         for (int i = 0; i < rotations.size(); i++)
@@ -166,7 +166,7 @@ public class BBModel extends BaseModel
                                     double x = (double) p.x, y = (double) p.y, z = (double) p.z;
                                     comp.rotOffset[0] = -x;
                                     comp.rotOffset[1] = -y;
-                                    comp.rotOffset[2] = -z;
+                                    comp.rotOffset[2] = z;
                                 }
                                 catch (Exception e)
                                 {
@@ -174,17 +174,35 @@ public class BBModel extends BaseModel
                                 }
                             }
                         }
-                        // Now compute differences
+                        
+                        // Now compute differences for rot changes
                         for (int i = 1; i < rotations.size() + 1; i++)
                         {
-                            var next_comp = i < rotations.size() ? rotComps.get(i) : rotComps.get(0);
+                            var next_comp = i < rotations.size() ? rotComps.get(i)
+                                    : i - 2 < 0 ? rotComps.get(0) : rotComps.get(i - 2);
                             var here_comp = rotComps.get(i - 1);
                             here_comp.rotChange[0] = next_comp.rotOffset[0] - here_comp.rotOffset[0];
                             here_comp.rotChange[1] = next_comp.rotOffset[1] - here_comp.rotOffset[1];
                             here_comp.rotChange[2] = next_comp.rotOffset[2] - here_comp.rotOffset[2];
+
                             here_comp.length = next_comp.startKey - here_comp.startKey;
 
-                            System.out.println(Arrays.toString(here_comp.rotChange));
+                            if (here_comp.rotChange[0] != 0 || here_comp.rotChange[1] != 0
+                                    || here_comp.rotChange[2] != 0)
+                            {
+                                if (here_comp.length < 0) here_comp.length = -here_comp.length;
+
+                            }
+//                            System.out.println(Arrays.toString(here_comp.rotChange) + " " + here_comp.length);
+                        }
+                        
+                        // And then clear the offset for the not-first-components
+                        for (int i = 1; i < rotations.size(); i++)
+                        {
+                            var comp = rotComps.get(i);
+                            comp.rotOffset[0] = 0;
+                            comp.rotOffset[1] = 0;
+                            comp.rotOffset[2] = 0;
                         }
 
                         comps.addAll(rotComps);
@@ -199,7 +217,7 @@ public class BBModel extends BaseModel
                         IAnimator animator = new KeyframeAnimator(rotComps);
                         anmation.sets.put(part_name, animator);
 
-                        System.out.println(animator.getLength() + " " + rotations.size());
+//                        System.out.println(animator.getLength() + " " + rotations.size());
                     }
                 }
             }
