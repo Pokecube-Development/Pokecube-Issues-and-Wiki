@@ -84,8 +84,8 @@ public class BBModelPart extends Part
         if (b.getRotation() != null)
         {
             float x = b.getRotation()[0];
-            float y = b.getRotation()[2];
-            float z = -b.getRotation()[1];
+            float y = -b.getRotation()[2];
+            float z = b.getRotation()[1];
             Quaternion quat = new Quaternion(x, y, z, true);
             final Vector4 rotations = new Vector4(quat);
             part.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
@@ -96,7 +96,7 @@ public class BBModelPart extends Part
         offsets[2] /= 16;
 
         float[] use = offsets.clone();
-        use[0] = -offsets[0];
+        use[0] = offsets[0];
         use[1] = -offsets[2];
         use[2] = offsets[1];
 
