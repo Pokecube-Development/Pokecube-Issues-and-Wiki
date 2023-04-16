@@ -34,10 +34,13 @@ public interface IModel
         return IModel.emptyAnims;
     }
 
+    default void initBuiltInAnimations(IModelRenderer<?> renderer)
+    {}
+
     Set<String> getHeadParts();
 
     Map<String, IExtendedModelPart> getParts();
-    
+
     List<String> getRenderOrder();
 
     default void setAnimationHolder(final IAnimationHolder holder)
@@ -59,8 +62,8 @@ public interface IModel
     }
 
     /**
-     * @return Whether this model actually exists, if this returns false,
-     *         things will often look for a different extension.
+     * @return Whether this model actually exists, if this returns false, things
+     *         will often look for a different extension.
      */
     boolean isValid();
 
@@ -95,7 +98,6 @@ public interface IModel
         material.transluscent = mat.transluscent;
         material.cull = mat.cull;
         material.shader = mat.shader;
-        for (final IExtendedModelPart part : this.getParts().values())
-            part.updateMaterial(mat, material);
+        for (final IExtendedModelPart part : this.getParts().values()) part.updateMaterial(mat, material);
     }
 }
