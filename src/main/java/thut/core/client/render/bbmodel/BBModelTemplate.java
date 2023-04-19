@@ -31,6 +31,7 @@ public class BBModelTemplate
     public List<Element> elements = new ArrayList<>();
     public List<JsonGroup> outliner = new ArrayList<>();
     public List<Texture> textures = new ArrayList<>();
+    public List<BBAnimation> animations = new ArrayList<>();
     public Resolution resolution = new Resolution();
 
     public Map<String, Object> _by_uuid = new HashMap<>();
@@ -119,7 +120,7 @@ public class BBModelTemplate
                 mid_offset[i] = -mid - size / 2;
             }
 
-            if (b.faces.down != null)
+            if (b.faces.down != null && b.faces.down.texture != null)
             {
                 // y low face, so y is from[1]
                 BBModelFace face = new BBModelFace();
@@ -132,7 +133,7 @@ public class BBModelTemplate
                 face.uvs = b.faces.down.uv;
                 if (face.isValid()) faces[Direction.DOWN.ordinal()] = face;
             }
-            if (b.faces.up != null)
+            if (b.faces.up != null && b.faces.up.texture != null)
             {
                 // y high face, so y is to[1]
                 BBModelFace face = new BBModelFace();
@@ -145,7 +146,7 @@ public class BBModelTemplate
                 face.uvs = b.faces.up.uv;
                 if (face.isValid()) faces[Direction.UP.ordinal()] = face;
             }
-            if (b.faces.west != null)
+            if (b.faces.west != null && b.faces.west.texture != null)
             {
                 // x low face, so x is from[0]
                 BBModelFace face = new BBModelFace();
@@ -158,7 +159,7 @@ public class BBModelTemplate
                 face.uvs = b.faces.west.uv;
                 if (face.isValid()) faces[Direction.WEST.ordinal()] = face;
             }
-            if (b.faces.east != null)
+            if (b.faces.east != null && b.faces.east.texture != null)
             {
                 // x high face, so x is to[0]
                 BBModelFace face = new BBModelFace();
@@ -171,7 +172,7 @@ public class BBModelTemplate
                 face.uvs = b.faces.east.uv;
                 if (face.isValid()) faces[Direction.EAST.ordinal()] = face;
             }
-            if (b.faces.north != null)
+            if (b.faces.north != null && b.faces.north.texture != null)
             {
                 // z low face, so z is from[2]
                 BBModelFace face = new BBModelFace();
@@ -184,7 +185,7 @@ public class BBModelTemplate
                 face.uvs = b.faces.north.uv;
                 if (face.isValid()) faces[Direction.NORTH.ordinal()] = face;
             }
-            if (b.faces.south != null)
+            if (b.faces.south != null && b.faces.south.texture != null)
             {
                 // z high face, so z is to[2]
                 BBModelFace face = new BBModelFace();
@@ -207,7 +208,7 @@ public class BBModelTemplate
             {
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[1];
-                float z = -b.getRotation()[2];
+                float z = b.getRotation()[2];
                 quat = new Quaternion(x, y, z, true);
             }
 
@@ -306,7 +307,7 @@ public class BBModelTemplate
     public static class JsonFace
     {
         public float[] uv;
-        public int texture;
+        public Integer texture;
         public int rotation = 0;
     }
 
@@ -397,13 +398,19 @@ public class BBModelTemplate
             public List<BBKeyFrame> keyframes = new ArrayList<>();
         }
 
-        public static class BBKeyFrame
+        public static class BBKeyFrame implements Comparable<BBKeyFrame>
         {
             public String channel;
             public String uuid;
             public String interpolation;
             public double time;
             public List<BBDataPoint> data_points = new ArrayList<>();
+
+            @Override
+            public int compareTo(BBKeyFrame o)
+            {
+                return Double.compare(time, o.time);
+            }
         }
 
         public static class BBDataPoint
