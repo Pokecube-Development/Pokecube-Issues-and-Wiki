@@ -1,5 +1,6 @@
 package thut.core.client.render.texturing;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class TextureHelper implements IPartTexturer
     private static class TexState
     {
         Map<String, double[]> infoStates = new Object2ObjectOpenHashMap<>();
-        Set<RandomState> randomStates = Sets.newHashSet();
+        List<RandomState> randomStates = new ArrayList<>();
         Sequence sequence = null;
         // TODO way to handle cheaning this up.
         Map<Integer, RandomState> running = new Object2ObjectOpenHashMap<>();
@@ -86,6 +87,9 @@ public class TextureHelper implements IPartTexturer
                 }
                 return true;
             }
+            // Randomise the order of this before checking, as they use the same
+            // RNG for the seed, this makes it more fair that one will match.
+            Collections.shuffle(this.randomStates);
             for (final RandomState state : this.randomStates)
             {
                 if (state.apply(toFill, mob))
