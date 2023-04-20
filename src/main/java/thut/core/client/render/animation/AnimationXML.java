@@ -103,6 +103,8 @@ public class AnimationXML
         public boolean cull = true;
         @XmlAttribute(name = "shader")
         public String shader = "";
+        @XmlAttribute(name = "tex")
+        public String tex = "";
     }
 
     @XmlRootElement(name = "merges")

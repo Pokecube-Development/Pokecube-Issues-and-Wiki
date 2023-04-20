@@ -307,7 +307,7 @@ public class BBModelTemplate
     public static class JsonFace
     {
         public float[] uv;
-        public Integer texture;
+        public Integer texture = 0;
         public int rotation = 0;
     }
 
