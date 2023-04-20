@@ -110,6 +110,10 @@
 
     "_comment": "Key Bindings",
 
+    "key.categories.pokecube": "Pokecube",
+
+    "key.nbt.edit": "Open NBT Editor",
+    "key.trainer.edit": "Open Trainer/Pokemob Editor",
     "key.pokemob.next": "Next Pokémob",
     "key.pokemob.prev": "Previous Pokémob",
     "key.pokemob.move.next": "Next Move",
@@ -129,7 +133,11 @@
     "key.pokemob.speed.down": "Ride Speed Down",
     "key.pokemob.arrangegui": "Arrange Gui",
     "key.pokemob.animategui": "Open Animation Gui",
-    "key.pokemob.gzmove": "Z/G-max Moves",
+    "key.pokemob.gzmove": "Z/G-Max Moves",
+    "key.pokemob.ally.next": "Next Ally",
+    "key.pokemob.ally.prev": "Previous Ally",
+    "key.pokemob.target.next": "Next Target",
+    "key.pokemob.target.prev": "Previous Target",
 
     "_comment": "Pokemob Types",
 

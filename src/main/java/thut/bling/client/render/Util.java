@@ -21,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.ModelHolder;
 import thut.bling.ThutBling;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -116,10 +118,14 @@ public class Util
         return buff.getBuffer(Util.getType(loc, alpha));
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static Predicate<Material> IS_OVERLAY = m -> (m.name.contains("_overlay")
+            || m.tex != null && m.tex.getPath().contains("_overlay"));
+
     public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
             int overlay)
     {
-        renderModel(mat, buff, stack, model, brightness, overlay, m -> false);
+        renderModel(mat, buff, stack, model, brightness, overlay, IS_OVERLAY);
     }
 
     public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
@@ -179,6 +185,19 @@ public class Util
         ResourceLocation tex0 = null;
         ItemStack gem = ItemStack.EMPTY;
         Color colour;
+
+        if (stack.hasTag() && stack.getTag().contains("gemTag"))
+        {
+            gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
+            @SuppressWarnings("deprecation")
+            final ResourceLocation sprite = Minecraft.getInstance().getItemRenderer().getItemModelShaper()
+                    .getItemModel(gem).getParticleIcon().getName();
+            final String namespace = sprite.getNamespace();
+            final String val = "textures/" + sprite.getPath();
+            tex0 = new ResourceLocation(namespace, val + ".png");
+        }
+        else tex0 = null;
+
         if (stack.getItem() instanceof DyeableLeatherItem dyed)
         {
             colour = new Color(dyed.getColor(stack) + 0xFF000000);
@@ -193,18 +212,6 @@ public class Util
             }
             colour = new Color(ret.getTextColor() + 0xFF000000);
         }
-
-        if (stack.hasTag() && stack.getTag().contains("gemTag"))
-        {
-            gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
-            @SuppressWarnings("deprecation")
-            final ResourceLocation sprite = Minecraft.getInstance().getItemRenderer().getItemModelShaper()
-                    .getItemModel(gem).getParticleIcon().getName();
-            final String namespace = sprite.getNamespace();
-            final String val = "textures/" + sprite.getPath();
-            tex0 = new ResourceLocation(namespace, val + ".png");
-        }
-        else tex0 = null;
 
         Map<Material, ResourceLocation> toReset = Maps.newHashMap();
         List<Material> toClear = new ArrayList<>();
