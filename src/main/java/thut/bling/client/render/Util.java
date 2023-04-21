@@ -131,7 +131,7 @@ public class Util
     public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
             int overlay, Predicate<Material> notColurable)
     {
-        renderModel(mat, buff, stack, "main", "gem", model, brightness, overlay, IS_OVERLAY);
+        renderModel(mat, buff, stack, "main", "gem", model, brightness, overlay, notColurable);
     }
 
     public static void renderModel(final PoseStack mat, final MultiBufferSource buff, final ItemStack stack,
