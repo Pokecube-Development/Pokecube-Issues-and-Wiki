@@ -9,6 +9,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.math.Quaternion;
 
+import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBModelBox;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
@@ -75,7 +76,7 @@ public class BBModelPart extends Part
     {
         BBModelPart part = new BBModelPart(name);
         part.index = index;
-        shapes.forEach(part::addShape);
+        part.setShapes(shapes);
         float[] offsets = b.getOrigin().clone();
         for (int i = 0; i < 3; i++)
         {
@@ -141,6 +142,8 @@ public class BBModelPart extends Part
             }
             materials.put(material, Lists.newArrayList(order, verts, tex));
         }
+
+        if (materials.isEmpty()) PokecubeAPI.logDebug("No parts for " + t.name + " " + b.name);
 
         materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);
