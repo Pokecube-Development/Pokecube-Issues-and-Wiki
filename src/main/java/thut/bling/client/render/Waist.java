@@ -35,6 +35,6 @@ public class Waist
             mat.scale(1.15f, 1.15f, 1.15f);
         }
         else mat.translate(0, -0.55, 0);
-        Util.renderModel(mat, buff, stack, model, brightness, overlay, notColourable);
+        Util.renderModel(mat, buff, stack, model, brightness, overlay, IS_OVERLAY);
     }
 }

@@ -131,7 +131,7 @@ public class Util
     public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
             int overlay, Predicate<Material> notColurable)
     {
-        renderModel(mat, buff, stack, "main", "gem", model, brightness, overlay, notColurable);
+        renderModel(mat, buff, stack, "main", "gem", model, brightness, overlay, IS_OVERLAY);
     }
 
     public static void renderModel(final PoseStack mat, final MultiBufferSource buff, final ItemStack stack,
@@ -142,7 +142,7 @@ public class Util
         if (!model.isLoaded() || !model.isValid()) return;
         if (model.getParts().containsKey("gem"))
         {
-            Util.renderStandardModelWithGem(mat, buff, stack, colorpart, itempart, model, brightness, overlay);
+            Util.renderStandardModelWithGem(mat, buff, stack, colorpart, itempart, model, brightness, overlay, IS_OVERLAY);
         }
         else
         {
@@ -179,7 +179,7 @@ public class Util
 
     public static void renderStandardModelWithGem(final PoseStack mat, final MultiBufferSource buff,
             final ItemStack stack, final String colorpart, final String itempart, final IModel model,
-            final int brightness, final int overlay)
+            final int brightness, final int overlay, Predicate<Material> notColurable)
     {
         if (!(model instanceof IModelCustom renderable)) return;
         ResourceLocation tex0 = null;
@@ -224,9 +224,13 @@ public class Util
                 else toClear.add(m);
                 m.tex = tex0;
             }
-            // Overlay texture is the fixed one, the rest can be
-            // recoloured.
-            if (!isGem) part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+
+            // Overlay texture is the fixed one, the rest can be recoloured.
+            if (!isGem)
+            {
+                part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+                part.setRGBABrO(notColurable, 255, 255, 255, 255, brightness, overlay);
+            }
             else part.setRGBABrO(255, 255, 255, 255, brightness, overlay);
         }
         renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));

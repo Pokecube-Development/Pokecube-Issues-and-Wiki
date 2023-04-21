@@ -95,7 +95,7 @@ public class Client
             {
                 if (slot != EnumWearable.HAT) return;
                 super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                Hat.renderHat(mat, buff, wearer, stack, this.model, brightness, overlay);
+                Hat.renderHat(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
             }
         });
     }
