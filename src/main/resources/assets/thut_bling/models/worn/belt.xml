@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="1.1" offset="0,-0.4,0" rotation="x:-90,y:0"/>
+  <phase name="global" scale="1.15" offset="0,-0.4,0" rotation="x:-90,y:0"/>
   <material name="belt" meshs="belt" tex="textures/worn/belt.png"/>
+  <material name="belt_buckles" meshs="belt_buckles" tex="textures/worn/belt_buckles.png"/>
+  <material name="belt_strap" meshs="belt_strap" tex="textures/worn/belt_strap.png"/>
   <material name="belt_overlay" meshs="belt_overlay" tex="textures/worn/belt_overlay.png"/>
   <material name="gem" meshs="gem" tex="textures/blank.png"/>
  </model>
