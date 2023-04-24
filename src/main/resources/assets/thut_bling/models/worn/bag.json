@@ -1,16 +1,16 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"back": "pokecube_adventures:worn/bag_back",
-		"back_overlay": "pokecube_adventures:worn/bag_back_overlay",
-		"particle": "pokecube_adventures:worn/bag_bottom",
-		"bottom": "pokecube_adventures:worn/bag_bottom",
-		"front": "pokecube_adventures:worn/bag_front",
-		"front_overlay": "pokecube_adventures:worn/bag_front_overlay",
-		"side": "pokecube_adventures:worn/bag_side",
-		"side_overlay": "pokecube_adventures:worn/bag_side_overlay",
-		"top": "pokecube_adventures:worn/bag_top",
-		"top_overlay": "pokecube_adventures:worn/bag_top_overlay"
+		"back": "thut_bling:worn/bag_back",
+		"back_overlay": "thut_bling:worn/bag_back_overlay",
+		"particle": "thut_bling:worn/bag_bottom",
+		"bottom": "thut_bling:worn/bag_bottom",
+		"front": "thut_bling:worn/bag_front",
+		"front_overlay": "thut_bling:worn/bag_front_overlay",
+		"side": "thut_bling:worn/bag_side",
+		"side_overlay": "thut_bling:worn/bag_side_overlay",
+		"top": "thut_bling:worn/bag_top",
+		"top_overlay": "thut_bling:worn/bag_top_overlay"
 	},
 	"elements": [
 		{
