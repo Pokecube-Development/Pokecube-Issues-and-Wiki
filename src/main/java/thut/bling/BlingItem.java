@@ -176,7 +176,8 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     public int getColor(ItemStack stack)
     {
         CompoundTag compoundtag = stack.getTagElement("display");
+
         return compoundtag != null && compoundtag.contains("color", 99) ? compoundtag.getInt("color")
-                : this.slot == EnumWearable.NECK ? 0xFFFFFF : 0xA06540;
+                : this.slot == EnumWearable.NECK ? 0xFFFFFF : this.slot == EnumWearable.EYE ? 0x0C0C0C : 0xA06540;
     }
 }

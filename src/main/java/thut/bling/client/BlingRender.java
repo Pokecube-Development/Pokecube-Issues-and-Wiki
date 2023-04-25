@@ -36,7 +36,7 @@ public class BlingRender extends BlingRenderBase
                     holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/earring"));
                     break;
                 case EYE:
-                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/shades"));
+                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/sun_glasses"));
                     break;
                 case FINGER:
                     holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ring"));
