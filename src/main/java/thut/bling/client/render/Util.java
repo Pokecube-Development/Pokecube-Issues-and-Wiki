@@ -149,17 +149,17 @@ public class Util
             Color colour;
             if (stack.getItem() instanceof DyeableLeatherItem dyed)
             {
-                colour = new Color(dyed.getColor(stack) + 0xFF000000);
+                colour = new Color(dyed.getColor(stack) + 0xFFFFFF);
             }
             else
             {
-                DyeColor ret = DyeColor.GRAY;
+                DyeColor ret = DyeColor.BROWN;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                colour = new Color(ret.getTextColor() + 0xFF000000);
+                colour = new Color(ret.getTextColor() + 0xFFFFFF);
             }
             try
             {
@@ -200,17 +200,17 @@ public class Util
 
         if (stack.getItem() instanceof DyeableLeatherItem dyed)
         {
-            colour = new Color(dyed.getColor(stack) + 0xFF000000);
+            colour = new Color(dyed.getColor(stack) + 0xFFFFFF);
         }
         else
         {
-            DyeColor ret = DyeColor.YELLOW;
+            DyeColor ret = DyeColor.BROWN;
             if (stack.hasTag() && stack.getTag().contains("dyeColour"))
             {
                 final int damage = stack.getTag().getInt("dyeColour");
                 ret = DyeColor.byId(damage);
             }
-            colour = new Color(ret.getTextColor() + 0xFF000000);
+            colour = new Color(ret.getTextColor() + 0xFFFFFF);
         }
 
         Map<Material, ResourceLocation> toReset = Maps.newHashMap();
