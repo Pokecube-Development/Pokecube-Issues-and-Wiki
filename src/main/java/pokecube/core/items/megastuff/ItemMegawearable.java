@@ -69,7 +69,8 @@ public class ItemMegawearable extends Item implements DyeableLeatherItem
         if (name.equals("tiara")) return 0x3c44aa;
         if (name.equals("earring")) return 0xFED83D;
         if (name.equals("ring")) return 0xFED83D;
+        if (name.equals("glasses")) return 0x282828;
         if (name.equals("ankletzinnia")) return 0x169c9c;
-        return 10511680;
+        return 0xA06540;
     }
 }
