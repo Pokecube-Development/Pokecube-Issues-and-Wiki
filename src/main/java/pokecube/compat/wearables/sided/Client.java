@@ -87,7 +87,7 @@ public class Client
                 Waist.renderWaist(mat, buff, wearer, stack, this.model, brightness, overlay, IS_KEYSTONE);
             }
         });
-        Client.renderers.put("hat", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/hat"))
+        Client.renderers.put("hat", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_hat"))
         {
             @OnlyIn(Dist.CLIENT)
             @Override

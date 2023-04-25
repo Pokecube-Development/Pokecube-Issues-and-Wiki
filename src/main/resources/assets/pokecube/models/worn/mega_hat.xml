@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="1.13" offset="0,-0.25,0" rotation="x:-90,y:0"/>
+  <material name="hat_back" meshs="hat_back" tex="textures/worn/mega_hat_back.png"/>
+  <material name="hat_back_shape" meshs="hat_back_shape" tex="textures/worn/mega_hat_back_shape.png"/>
+  <material name="hat_back_overlay" meshs="hat_back_overlay" tex="textures/worn/mega_hat_back_overlay.png"/>
+  <material name="hat_front" meshs="hat_front" tex="textures/worn/mega_hat_front.png"/>
+  <material name="hat_front_shape" meshs="hat_front_shape" tex="textures/worn/mega_hat_front_shape.png"/>
+  <material name="hat_front_overlay" meshs="hat_front_overlay" tex="textures/worn/mega_hat_front_overlay.png"/>
+  <material name="hat_side" meshs="hat_side" tex="textures/worn/mega_hat_side.png"/>
+  <material name="hat_side_shape" meshs="hat_side_shape" tex="textures/worn/mega_hat_side_shape.png"/>
+  <material name="hat_side_overlay" meshs="hat_side_overlay" tex="textures/blank.png"/>
+  <material name="hat_top" meshs="hat_top" tex="textures/worn/mega_hat_top.png"/>
+  <material name="hat_top_shape" meshs="hat_top_shape" tex="textures/worn/mega_hat_top_shape.png"/>
+  <material name="hat_top_overlay" meshs="hat_top_overlay" tex="textures/blank.png"/>
+  <material name="hat_lip" meshs="hat_lip" tex="textures/worn/mega_hat_lip.png"/>
+  <material name="hat_lip_overlay" meshs="hat_lip_overlay" tex="textures/worn/mega_hat_lip_overlay.png"/>
+  <material name="gem" meshs="gem" tex="textures/blank.png"/>
+ </model>
+</ModelAnimator>

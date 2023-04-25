@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator>
- <model>
-  <phase name="global" scale="0.285,0.285,0.285" offset="0.0,0.51,0.0" rotation="y:-90,z:180,x:-90"/>
-  <customTex default="textures/worn/hat2.png">
-   <part name="stone" tex="textures/worn/hat.png"/>
-  </customTex>
- </model>
-</ModelAnimator>
