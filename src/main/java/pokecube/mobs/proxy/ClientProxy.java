@@ -66,7 +66,7 @@ public class ClientProxy
                 });
         // a Pendant
         Client.renderers.put("pendant",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megapendant"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_pendant"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override
@@ -97,7 +97,7 @@ public class ClientProxy
                 });
         // Glasses
         Client.renderers.put("glasses",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaglasses"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_glasses"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override

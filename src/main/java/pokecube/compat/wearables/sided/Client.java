@@ -74,7 +74,7 @@ public class Client
                 Finger.renderFinger(mat, buff, wearer, stack, this.model, brightness, overlay, IS_KEYSTONE);
             }
         });
-        Client.renderers.put("belt", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megabelt"))
+        Client.renderers.put("belt", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_belt"))
         {
             @OnlyIn(Dist.CLIENT)
             @Override
