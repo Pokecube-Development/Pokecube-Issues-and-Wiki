@@ -82,7 +82,7 @@ public class ClientProxy
                 });
         // Earrings
         Client.renderers.put("earring",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaearring"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_earring"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override
