@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.5,0.5,1.0" offset="0.0,0.0,-0.06" rotation="z:180"/>
-  <customTex default="textures/worn/megabelt.png">
-   <part name="watch_overlay" tex="textures/worn/watch.png"/>
-  </customTex>
+  <phase name="global" scale="1.17" offset="0,-0.13,-0.05" rotation="x:-90,y:0"/>
+  <material name="bracelet" meshs="bracelet" tex="textures/worn/bracelet.png"/>
+  <material name="bracelet_overlay" meshs="bracelet_overlay" tex="textures/worn/bracelet_overlay.png"/>
+  <material name="pokewatch_overlay" meshs="pokewatch_overlay" tex="textures/worn/pokewatch_overlay.png"/>
  </model>
 </ModelAnimator>
