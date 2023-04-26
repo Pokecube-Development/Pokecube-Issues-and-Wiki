@@ -52,7 +52,7 @@ public class ClientProxy
 
         // Mega Anklet like one worn by Zinnia
         Client.renderers.put("ankletzinnia",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaankletzinnia"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_anklet_zinnia"))
                 {
                     @Override
                     public void renderWearable(final PoseStack mat, final MultiBufferSource buff,
