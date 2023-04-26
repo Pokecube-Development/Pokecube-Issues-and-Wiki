@@ -60,7 +60,7 @@ public class Client
                 Wrist.renderWrist(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
             }
         });
-        Client.renderers.put("ring", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaring"))
+        Client.renderers.put("ring", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_ring"))
         {
             @OnlyIn(Dist.CLIENT)
             @Override
