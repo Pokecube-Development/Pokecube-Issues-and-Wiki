@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:item/mega_ankletzinnia"
+    "layer0": "pokecube:item/mega_anklet_zinnia",
+    "layer1": "pokecube:item/mega_anklet_zinnia_overlay"
   }
 }
