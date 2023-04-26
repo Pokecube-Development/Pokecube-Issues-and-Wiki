@@ -29,7 +29,7 @@ public class Hat
     {
         if (!wearer.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
         {
-            mat.scale(1.15f, 1.15f, 1.15f);
+            mat.scale(1.2f, 1.2f, 1.2f);
         }
 
         Util.renderModel(mat, buff, stack, model, brightness, overlay, notColurable);
