@@ -2,13 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "group": "thut_bling:bling",
   "pattern": [
-    " L ",
-    "L L",
-    " L "
+    " R ",
+    "R R",
+    " G "
   ],
   "key": {
-    "L": {
+    "G": {
       "tag": "forge:nuggets/gold"
+    },
+    "R": {
+      "item": "minecraft:rabbit_hide"
     }
   },
   "result": {
