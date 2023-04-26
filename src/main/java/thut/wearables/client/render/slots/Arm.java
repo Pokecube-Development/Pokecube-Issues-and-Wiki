@@ -59,8 +59,8 @@ public class Arm
                 mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
             if (thin)
             {
-                mat.translate(0.025f, 0, 0);
-                mat.scale(0.75f, 1, 1);
+                mat.translate(0, 0, 0);
+                mat.scale(0.85f, 1, 1);
             }
             render = true;
             break;
@@ -97,8 +97,8 @@ public class Arm
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
                 if (thin)
                 {
-                    mat.translate(-0.025f, 0, 0);
-                    mat.scale(0.75f, 1, 1);
+                    mat.translate(0, 0, 0);
+                    mat.scale(0.85f, 1, 1);
                 }
                 render = true;
                 break;
