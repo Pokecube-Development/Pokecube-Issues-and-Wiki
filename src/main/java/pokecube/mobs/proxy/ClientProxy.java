@@ -36,7 +36,7 @@ public class ClientProxy
         // Tiara like worn by Lisia, but rotated to be centered on head instead
         // of at angle.
         Client.renderers.put("tiara",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_tiara"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override

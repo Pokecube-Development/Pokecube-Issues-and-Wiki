@@ -28,7 +28,6 @@ public class Waist
     public static void renderWaist(PoseStack mat, MultiBufferSource buff, LivingEntity wearer, ItemStack stack,
             IModel model, int brightness, int overlay, Predicate<Material> notColourable)
     {
-
         if (!wearer.getItemBySlot(EquipmentSlot.LEGS).isEmpty())
         {
             mat.translate(0, -0.55, 0);
