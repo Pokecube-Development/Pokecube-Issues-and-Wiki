@@ -47,20 +47,19 @@ public class Client
 
     public static void initWearables(final RegisterMiscItems event)
     {
-        Client.renderers.put("pokewatch",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/pokewatch"))
-                {
-                    @OnlyIn(Dist.CLIENT)
-                    @Override
-                    public void renderWearable(final PoseStack mat, final MultiBufferSource buff,
-                            final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
-                            final float partialTicks, final int brightness, final int overlay)
-                    {
-                        if (slot != EnumWearable.WRIST) return;
-                        super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                        Wrist.renderWrist(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
-                    }
-                });
+        Client.renderers.put("pokewatch", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/pokewatch"))
+        {
+            @OnlyIn(Dist.CLIENT)
+            @Override
+            public void renderWearable(final PoseStack mat, final MultiBufferSource buff,
+                    final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
+            {
+                if (slot != EnumWearable.WRIST) return;
+                super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+                Wrist.renderWrist(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
+            }
+        });
         Client.renderers.put("ring", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaring"))
         {
             @OnlyIn(Dist.CLIENT)

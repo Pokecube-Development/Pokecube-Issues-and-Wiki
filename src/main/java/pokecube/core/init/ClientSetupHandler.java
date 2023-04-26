@@ -313,6 +313,11 @@ public class ClientSetupHandler
         }
 
         event.getItemColors().register((stack, tintIndex) -> {
+            if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
+            return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
+        }, PokecubeItems.POKEWATCH.get());
+
+        event.getItemColors().register((stack, tintIndex) -> {
             String moveName = ItemTM.getMoveFromStack(stack);
             if (moveName == null) return 0xFFFFFFFF;
             var move = MovesUtils.getMove(moveName);
