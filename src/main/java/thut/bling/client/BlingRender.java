@@ -1,6 +1,9 @@
 package thut.bling.client;
 
+import com.google.common.collect.Maps;
+import java.util.Map;
 import net.minecraft.resources.ResourceLocation;
+import pokecube.compat.wearables.sided.Common;
 import thut.api.ModelHolder;
 import thut.bling.ThutBling;
 import thut.bling.client.render.Util;
@@ -12,11 +15,15 @@ public class BlingRender extends BlingRenderBase
 {
     public static final BlingRender INSTANCE = new BlingRender();
 
+    public static Map<String, Common.WearablesRenderer> renderers = Maps.newHashMap();
+
     @Override
     protected void initModels()
     {
         boolean reload = Util.shouldReloadModel();
         if (!reload && !this.defaultModels.isEmpty()) return;
+        if (!reload && !this.backpackModels.isEmpty()) return;
+
         for (final EnumWearable slot : EnumWearable.values())
         {
             IModel model = this.defaultModels.get(slot);
@@ -30,8 +37,13 @@ public class BlingRender extends BlingRenderBase
                     holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/anklet"));
                     break;
                 case BACK:
-                    holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag"));
-                    break;
+                    this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag"),
+                            ModelFactory.create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag"))));
+                    this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag_ender_vanilla"),
+                            ModelFactory.create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag"))));
+                    this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag_ender_large"),
+                            ModelFactory.create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag_large"))));
+                    continue;
                 case EAR:
                     holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/earring"));
                     break;
