@@ -216,6 +216,7 @@ public class ItemInit
     public static final RegistryObject<Item> QUALOT_POKEPUFF;
     public static final RegistryObject<Item> RAWST_POKEPUFF;
     public static final RegistryObject<Item> ROWAP_POKEPUFF;
+    public static final RegistryObject<Item> SITRUS_POKEPUFF;
     public static final RegistryObject<Item> TAMATO_POKEPUFF;
 
     // Signs
@@ -546,6 +547,8 @@ public class ItemInit
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.DAMAGE_BOOST_POKEPUFF, 16));
         RAWST_POKEPUFF = PokecubeLegends.ITEMS.register("rawst_pokepuff", () -> new ItemBase("rawst_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
+        SITRUS_POKEPUFF = PokecubeLegends.ITEMS.register("sitrus_pokepuff", () -> new ItemBase("sitrus_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         TAMATO_POKEPUFF = PokecubeLegends.ITEMS.register("tamato_pokepuff", () -> new ItemBase("tamato_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
     }
