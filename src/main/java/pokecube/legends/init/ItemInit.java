@@ -198,24 +198,25 @@ public class ItemInit
     public static final RegistryObject<Item> TEMPORAL_BAMBOO;
 
     // Foods
-    public static final RegistryObject<Item> LUM_POKEPUFF;
-    public static final RegistryObject<Item> TAMATO_POKEPUFF;
-    public static final RegistryObject<Item> ORAN_POKEPUFF;
-    public static final RegistryObject<Item> CHESTO_POKEPUFF;
-    public static final RegistryObject<Item> PECHA_POKEPUFF;
-    public static final RegistryObject<Item> PINAP_POKEPUFF;
-    public static final RegistryObject<Item> RAWST_POKEPUFF;
     public static final RegistryObject<Item> ASPEAR_POKEPUFF;
-    public static final RegistryObject<Item> ENIGMA_POKEPUFF;
-    public static final RegistryObject<Item> QUALOT_POKEPUFF;
-    public static final RegistryObject<Item> ROWAP_POKEPUFF;
-    public static final RegistryObject<Item> NANAB_POKEPUFF;
-    public static final RegistryObject<Item> CORNN_POKEPUFF;
     public static final RegistryObject<Item> CHERI_POKEPUFF;
-    public static final RegistryObject<Item> KELPSY_POKEPUFF;
+    public static final RegistryObject<Item> CHESTO_POKEPUFF;
+    public static final RegistryObject<Item> CORNN_POKEPUFF;
+    public static final RegistryObject<Item> ENIGMA_POKEPUFF;
     public static final RegistryObject<Item> HONDEW_POKEPUFF;
-    public static final RegistryObject<Item> POMEG_POKEPUFF;
+    public static final RegistryObject<Item> KELPSY_POKEPUFF;
+    public static final RegistryObject<Item> LEPPA_POKEPUFF;
+    public static final RegistryObject<Item> LUM_POKEPUFF;
+    public static final RegistryObject<Item> NANAB_POKEPUFF;
+    public static final RegistryObject<Item> ORAN_POKEPUFF;
+    public static final RegistryObject<Item> PECHA_POKEPUFF;
     public static final RegistryObject<Item> PERSIM_POKEPUFF;
+    public static final RegistryObject<Item> PINAP_POKEPUFF;
+    public static final RegistryObject<Item> POMEG_POKEPUFF;
+    public static final RegistryObject<Item> QUALOT_POKEPUFF;
+    public static final RegistryObject<Item> RAWST_POKEPUFF;
+    public static final RegistryObject<Item> ROWAP_POKEPUFF;
+    public static final RegistryObject<Item> TAMATO_POKEPUFF;
 
     // Signs
     public static final RegistryObject<Item> AGED_SIGN;
@@ -529,8 +530,10 @@ public class ItemInit
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.ABSORPTION_POKEPUFF, 16));
         KELPSY_POKEPUFF = PokecubeLegends.ITEMS.register("kelpsy_pokepuff", () -> new ItemBase("kelpsy_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HERO_WEAKNESS_POKEPUFF, 16));
-        LUM_POKEPUFF = PokecubeLegends.ITEMS.register("lum_pokepuff",
-                () -> new ItemBase("lum_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HEAL_POKEPUFF, 16));
+        LEPPA_POKEPUFF = PokecubeLegends.ITEMS.register("leppa_pokepuff", () -> new ItemBase("leppa_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FOOD_POKEPUFF, 16));
+        LUM_POKEPUFF = PokecubeLegends.ITEMS.register("lum_pokepuff", () -> new ItemBase("lum_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HEAL_POKEPUFF, 16));
         NANAB_POKEPUFF = PokecubeLegends.ITEMS.register("nanab_pokepuff", () -> new ItemBase("nanab_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.LUCK_POKEPUFF, 16));
         ORAN_POKEPUFF = PokecubeLegends.ITEMS.register("oran_pokepuff", () -> new ItemBase("oran_pokepuff",
