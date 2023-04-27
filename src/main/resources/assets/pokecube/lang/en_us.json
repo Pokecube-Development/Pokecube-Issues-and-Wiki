@@ -9,10 +9,10 @@
     "gamerule.pokecube:pokemobs_drop_loot": "Drop Pokémob loot",
     "gamerule.pokecube:pokemobs_explode": "Allow Pokémob explosions",
     "gamerule.pokecube:pokemob_cull_distance": "Wild Pokémob cull distance",
-    "gamerule.pokecube:pokemob_cull": "Cull wild Pokémobs",
+    "gamerule.pokecube:pokemobs_cull": "Cull wild Pokémobs",
     "gamerule.pokecube:pokemob_despawn_distance": "Wild Pokémob despawn distance",
-    "gamerule.pokecube:pokemob_despawn": "Despawn wild Pokémobs",
-    "gamerule.pokecube:pokemob_spawn": "Spawn wild Pokémobs",
+    "gamerule.pokecube:pokemobs_despawn": "Despawn wild Pokémobs",
+    "gamerule.pokecube:pokemobs_spawn": "Spawn wild Pokémobs",
 
     "gamerule.pokecube:pokemob_despawn_distance.description": "Idle wild Pokémobs will despawn gradually if further than this distance from a player. Used to refresh Pokémobs \"Despawn wild Pokémobs\" must be on",
     "gamerule.pokecube:pokemob_cull_distance.description": "Idle wild Pokémobs will despawn instantly if further than this distance from a player. \"Cull wild Pokémobs\" must be on",
