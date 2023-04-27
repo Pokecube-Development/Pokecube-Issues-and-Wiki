@@ -154,5 +154,11 @@
 	"trailblaze"
     ]
   },
+  "evolutions": [
+    {
+      "name": "dachsbun",
+      "level": 26
+    }
+  ],
   "loot_table": "pokecube:entities/bread"
 }

@@ -150,5 +150,11 @@
 	"chilling-water"
     ]
   },
+  "evolutions": [
+    {
+      "name": "clodsire",
+	  "evoMoves": "amnesia"
+    }
+  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }
