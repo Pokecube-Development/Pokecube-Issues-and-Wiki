@@ -1,0 +1,175 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"back_overlay": "thut_bling:worn/ender_bag_back_overlay",
+		"bottom_overlay": "thut_bling:worn/ender_bag_bottom_overlay",
+		"front": "thut_bling:worn/ender_bag_front",
+		"particle": "thut_bling:worn/ender_bag_front_overlay",
+		"front_overlay": "thut_bling:worn/ender_bag_front_overlay",
+		"side": "thut_bling:worn/ender_bag_side",
+		"side_overlay": "thut_bling:worn/ender_bag_side_overlay",
+		"straps_overlay": "thut_bling:worn/ender_bag_straps_overlay",
+		"top": "thut_bling:worn/ender_bag_top",
+		"top_overlay": "thut_bling:worn/ender_bag_top_overlay"
+	},
+	"elements": [
+		{
+			"name": "ender_bag",
+			"from": [4, 0, 5],
+			"to": [12, 10, 11],
+			"faces": {
+				"east": {"uv": [11, 6, 5, 16], "texture": "#side"},
+				"south": {"uv": [4, 6, 12, 16], "texture": "#front"},
+				"west": {"uv": [5, 6, 11, 16], "texture": "#side"},
+				"up": {"uv": [4, 5, 12, 11], "texture": "#top"}
+			}
+		},
+		{
+			"name": "left_pocket",
+			"from": [2, 0, 5],
+			"to": [4, 6, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3, 3, 7.5]},
+			"faces": {
+				"west": {"uv": [5, 10, 10, 16], "texture": "#side"}
+			}
+		},
+		{
+			"name": "right_pocket",
+			"from": [12, 0, 5],
+			"to": [14, 6, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13, 3, 7.5]},
+			"faces": {
+				"east": {"uv": [10, 10, 5, 16], "texture": "#side"}
+			}
+		},
+		{
+			"name": "ender_bag",
+			"from": [4, 0, 5],
+			"to": [12, 10, 11],
+			"faces": {
+				"north": {"uv": [4, 6, 12, 16], "texture": "#back_overlay"},
+				"east": {"uv": [11, 6, 5, 16], "texture": "#side_overlay"},
+				"south": {"uv": [4, 6, 12, 16], "texture": "#front_overlay"},
+				"west": {"uv": [5, 6, 11, 16], "texture": "#side_overlay"},
+				"up": {"uv": [4, 5, 12, 11], "texture": "#top_overlay"},
+				"down": {"uv": [4, 5, 12, 11], "texture": "#bottom_overlay"}
+			}
+		},
+		{
+			"name": "front_pocket",
+			"from": [5, 0, 11],
+			"to": [11, 6, 12],
+			"faces": {
+				"east": {"uv": [11, 10, 12, 16], "texture": "#side_overlay"},
+				"south": {"uv": [5, 10, 11, 16], "texture": "#front_overlay"},
+				"west": {"uv": [11, 10, 12, 16], "texture": "#side_overlay"},
+				"up": {"uv": [5, 11, 11, 12], "texture": "#top_overlay"},
+				"down": {"uv": [5, 4, 11, 5], "texture": "#bottom_overlay"}
+			}
+		},
+		{
+			"name": "left_pocket",
+			"from": [2, 0, 5],
+			"to": [4, 6, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [3, 3, 7.5]},
+			"faces": {
+				"north": {"uv": [12, 10, 14, 16], "texture": "#back_overlay"},
+				"south": {"uv": [2, 10, 4, 16], "texture": "#front_overlay"},
+				"west": {"uv": [5, 10, 10, 16], "texture": "#side_overlay"},
+				"up": {"uv": [2, 5, 4, 10], "texture": "#top_overlay"},
+				"down": {"uv": [4, 6, 2, 11], "texture": "#bottom_overlay"}
+			}
+		},
+		{
+			"name": "right_pocket",
+			"from": [12, 0, 5],
+			"to": [14, 6, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [13, 3, 7.5]},
+			"faces": {
+				"north": {"uv": [2, 10, 4, 16], "texture": "#back_overlay"},
+				"east": {"uv": [10, 10, 5, 16], "texture": "#side_overlay"},
+				"south": {"uv": [12, 10, 14, 16], "texture": "#front_overlay"},
+				"up": {"uv": [12, 5, 14, 10], "texture": "#top_overlay"},
+				"down": {"uv": [14, 6, 12, 11], "texture": "#bottom_overlay"}
+			}
+		},
+		{
+			"name": "strap_back",
+			"from": [4, 0, 0],
+			"to": [12, 10, 0],
+			"faces": {
+				"north": {"uv": [4, 6, 12, 16], "texture": "#straps_overlay"}
+			}
+		},
+		{
+			"name": "strap_top",
+			"from": [4, 10, 0],
+			"to": [12, 10, 5],
+			"faces": {
+				"up": {"uv": [4, 0, 12, 5], "texture": "#top_overlay"}
+			}
+		},
+		{
+			"name": "strap_left",
+			"from": [3.9, 0, 0],
+			"to": [4.9, 10, 5],
+			"faces": {
+				"north": {"uv": [11, 6, 12, 16], "texture": "#straps_overlay"},
+				"west": {"uv": [0, 6, 5, 16], "texture": "#side_overlay"}
+			}
+		},
+		{
+			"name": "strap_right",
+			"from": [11.1, 0, 0],
+			"to": [12.1, 10, 5],
+			"faces": {
+				"north": {"uv": [4, 6, 5, 16], "texture": "#straps_overlay"},
+				"east": {"uv": [5, 6, 0, 16], "texture": "#side_overlay"}
+			}
+		},
+		{
+			"name": "handle",
+			"from": [5, 10, 8],
+			"to": [11, 12, 8],
+			"faces": {
+				"south": {"uv": [5, 4, 11, 6], "texture": "#front_overlay"}
+			}
+		}
+	],
+	"groups": [
+		{
+			"name": "main",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [
+				0,
+				{
+					"name": "pockets",
+					"origin": [0, 0, 0],
+					"color": 0,
+					"children": [1, 2]
+				}
+			]
+		},
+		{
+			"name": "overlay",
+			"origin": [0, 0, 0],
+			"color": 0,
+			"children": [
+				3,
+				{
+					"name": "pockets",
+					"origin": [0, 0, 0],
+					"color": 0,
+					"children": [4, 5, 6]
+				},
+				{
+					"name": "straps",
+					"origin": [0, 0, 0],
+					"color": 0,
+					"children": [7, 8, 9, 10, 11]
+				}
+			]
+		}
+	]
+}

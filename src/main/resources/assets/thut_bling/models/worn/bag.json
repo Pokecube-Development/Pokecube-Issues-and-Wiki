@@ -1,16 +1,16 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"back": "pokecube_adventures:worn/bag_back",
-		"back_overlay": "pokecube_adventures:worn/bag_back_overlay",
-		"particle": "pokecube_adventures:worn/bag_bottom",
-		"bottom": "pokecube_adventures:worn/bag_bottom",
-		"front": "pokecube_adventures:worn/bag_front",
-		"front_overlay": "pokecube_adventures:worn/bag_front_overlay",
-		"side": "pokecube_adventures:worn/bag_side",
-		"side_overlay": "pokecube_adventures:worn/bag_side_overlay",
-		"top": "pokecube_adventures:worn/bag_top",
-		"top_overlay": "pokecube_adventures:worn/bag_top_overlay"
+		"back": "thut_bling:worn/bag_back",
+		"back_overlay": "thut_bling:worn/bag_back_overlay",
+		"particle": "thut_bling:worn/bag_bottom",
+		"bottom": "thut_bling:worn/bag_bottom",
+		"front": "thut_bling:worn/bag_front",
+		"front_overlay": "thut_bling:worn/bag_front_overlay",
+		"side": "thut_bling:worn/bag_side",
+		"side_overlay": "thut_bling:worn/bag_side_overlay",
+		"top": "thut_bling:worn/bag_top",
+		"top_overlay": "thut_bling:worn/bag_top_overlay"
 	},
 	"elements": [
 		{
@@ -69,7 +69,6 @@
 			"from": [4, 0, 5],
 			"to": [12, 10, 11],
 			"faces": {
-				"north": {"uv": [0.5, 6, 2.5, 11], "texture": "#missing"},
 				"east": {"uv": [11, 6, 5, 16], "texture": "#side_overlay"},
 				"south": {"uv": [4, 6, 12, 16], "texture": "#front_overlay"},
 				"west": {"uv": [5, 6, 11, 16], "texture": "#side_overlay"},
@@ -81,7 +80,6 @@
 			"from": [5, 0, 11],
 			"to": [11, 5, 12],
 			"faces": {
-				"north": {"uv": [0, 0, 0, 0], "texture": "#missing"},
 				"east": {"uv": [11, 11, 12, 16], "texture": "#side_overlay"},
 				"south": {"uv": [5, 11, 11, 16], "texture": "#front_overlay"},
 				"west": {"uv": [11, 11, 12, 16], "texture": "#side_overlay"},
@@ -95,7 +93,6 @@
 			"rotation": {"angle": 0, "axis": "y", "origin": [3, 3, 7.5]},
 			"faces": {
 				"north": {"uv": [12, 10, 14, 16], "texture": "#back_overlay"},
-				"east": {"uv": [0, 0, 0, 0], "texture": "#missing"},
 				"south": {"uv": [2, 10, 4, 16], "texture": "#front_overlay"},
 				"west": {"uv": [5, 10, 10, 16], "texture": "#side_overlay"},
 				"up": {"uv": [2, 5, 4, 10], "texture": "#top_overlay"}
@@ -110,7 +107,6 @@
 				"north": {"uv": [2, 10, 4, 16], "texture": "#back_overlay"},
 				"east": {"uv": [10, 10, 5, 16], "texture": "#side_overlay"},
 				"south": {"uv": [12, 10, 14, 16], "texture": "#front_overlay"},
-				"west": {"uv": [0, 0, 0, 0], "texture": "#missing"},
 				"up": {"uv": [12, 5, 14, 10], "texture": "#top_overlay"}
 			}
 		},

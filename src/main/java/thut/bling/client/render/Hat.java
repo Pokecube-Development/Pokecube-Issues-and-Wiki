@@ -5,8 +5,12 @@ import java.util.function.Predicate;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Wearable;
+import pokecube.compat.wearables.sided.Client;
+import thut.bling.BlingItem;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.parts.Material;
 
@@ -23,6 +27,11 @@ public class Hat
             final ItemStack stack, final IModel model, final int brightness, final int overlay,
             Predicate<Material> notColurable)
     {
+        if (!wearer.getItemBySlot(EquipmentSlot.HEAD).isEmpty())
+        {
+            mat.scale(1.22f, 1.22f, 1.22f);
+        }
+
         Util.renderModel(mat, buff, stack, model, brightness, overlay, notColurable);
     }
 }

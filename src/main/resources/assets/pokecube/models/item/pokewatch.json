@@ -1,6 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "pokecube:item/pokewatch"
+		"layer0": "pokecube:item/pokewatch",
+		"layer1": "pokecube:item/pokewatch_overlay"
 	}
 }

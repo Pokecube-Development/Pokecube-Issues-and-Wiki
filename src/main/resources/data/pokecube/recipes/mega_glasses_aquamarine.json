@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube:mega_bling",
+  "pattern": [
+    "G G",
+    "BRB",
+    "   "
+  ],
+  "key": {
+    "R": {
+      "item": "pokecube:megastone"
+    },
+    "B": {
+      "item": "pokecube_legends:aquamarine_shard"
+    },
+    "G": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "result": {
+    "item": "pokecube:mega_glasses"
+  }
+}

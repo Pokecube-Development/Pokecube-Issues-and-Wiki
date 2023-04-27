@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.125" offset="0.0,0.5,-0.1" rotation="x:-90"/>
-  <customTex default="textures/worn/band.png"/>
+  <phase name="global" scale="0.5" offset="0,0.08,-0.1"/>
+  <material name="earring" meshs="earring" tex="textures/worn/earring.png"/>
+  <material name="earring_overlay" meshs="earring_overlay" tex="textures/worn/earring_overlay.png"/>
+  <material name="gem" meshs="gem" tex="textures/blank.png"/>
  </model>
 </ModelAnimator>

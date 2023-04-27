@@ -12,7 +12,6 @@ import thut.core.client.render.model.parts.Material;
 
 public class Neck
 {
-
     public static void renderNeck(final PoseStack mat, final MultiBufferSource buff, final LivingEntity wearer,
             final ItemStack stack, final IModel model, final int brightness, final int overlay)
     {

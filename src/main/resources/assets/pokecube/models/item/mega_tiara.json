@@ -1,6 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:item/mega_tiara"
+    "layer0": "pokecube:item/mega_tiara",
+    "layer1": "pokecube:item/mega_tiara_overlay"
   }
 }

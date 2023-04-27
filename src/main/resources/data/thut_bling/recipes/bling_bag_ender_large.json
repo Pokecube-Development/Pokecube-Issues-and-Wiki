@@ -4,14 +4,17 @@
   "pattern": [
     "SLS",
     "LCL",
-    " L "
+    "LEL"
   ],
   "key": {
     "S": {
       "tag": "forge:string"
     },
-    "C": {
+    "E": {
       "item": "thut_bling:bling_bag_ender_vanilla"
+    },
+    "C": {
+      "tag": "forge:chests/ender"
     },
     "L": {
       "tag": "forge:leather"

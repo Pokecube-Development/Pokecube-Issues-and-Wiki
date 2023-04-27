@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "thut_bling:item/eye"
+		"layer0": "thut_bling:item/sun_glasses"
 	},
 	"display": {
 		"thirdperson_righthand": {
