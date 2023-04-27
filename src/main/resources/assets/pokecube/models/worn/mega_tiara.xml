@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="1.14" offset="0,0.1,0" rotation="x:-90,y:0"/>
+  <material name="tiara_back" meshs="tiara_back" tex="textures/worn/mega_tiara_back.png"/>
+  <material name="tiara_back_overlay" meshs="tiara_back_overlay" tex="textures/worn/mega_tiara_back_overlay.png"/>
+  <material name="tiara_front" meshs="tiara_front" tex="textures/worn/mega_tiara_front.png"/>
+  <material name="tiara_front_overlay" meshs="tiara_front_overlay" tex="textures/worn/mega_tiara_front_overlay.png"/>
+  <material name="tiara_side" meshs="tiara_side" tex="textures/worn/mega_tiara_side.png"/>
+  <material name="tiara_side_overlay" meshs="tiara_side_overlay" tex="textures/worn/mega_tiara_side_overlay.png"/>
+ </model>
+</ModelAnimator>

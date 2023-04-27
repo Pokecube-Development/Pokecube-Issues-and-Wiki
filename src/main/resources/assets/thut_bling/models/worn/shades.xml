@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator>
- <model>
-  <phase name="global" scale="1.0, 1.0, 1.0" offset="0.0,0.0,0.0" rotation="x:180"/>
-  <customTex default="textures/worn/glasses.png"/>
-  <material name="lenses" meshs="lenses" transluscent="true" shader=""/>
- </model>
-</ModelAnimator>

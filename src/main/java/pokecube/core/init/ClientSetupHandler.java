@@ -107,50 +107,50 @@ public class ClientSetupHandler
         int unk = InputConstants.UNKNOWN.getValue();
 
         nextMob = new KeyMapping("key.pokemob.next", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_RIGHT,
-                "Pokecube");
+                "key.categories.pokecube");
         previousMob = new KeyMapping("key.pokemob.prev", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_LEFT,
-                "Pokecube");
+                "key.categories.pokecube");
         nextMove = new KeyMapping("key.pokemob.move.next", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_DOWN,
-                "Pokecube");
+                "key.categories.pokecube");
         previousMove = new KeyMapping("key.pokemob.move.prev", KeyConflictContext.IN_GAME, Type.KEYSYM,
-                GLFW.GLFW_KEY_UP, "Pokecube");
+                GLFW.GLFW_KEY_UP, "key.categories.pokecube");
         mobBack = new KeyMapping("key.pokemob.recall", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_R,
-                "Pokecube");
+                "key.categories.pokecube");
         mobAttack = new KeyMapping("key.pokemob.attack", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_G,
-                "Pokecube");
+                "key.categories.pokecube");
         mobStance = new KeyMapping("key.pokemob.stance", KeyConflictContext.IN_GAME, Type.KEYSYM,
-                GLFW.GLFW_KEY_BACKSLASH, "Pokecube");
+                GLFW.GLFW_KEY_BACKSLASH, "key.categories.pokecube");
         mobMegavolve = new KeyMapping("key.pokemob.megaevolve", KeyConflictContext.IN_GAME, Type.KEYSYM,
-                GLFW.GLFW_KEY_M, "Pokecube");
+                GLFW.GLFW_KEY_M, "key.categories.pokecube");
         noEvolve = new KeyMapping("key.pokemob.b", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_B,
-                "Pokecube");
+                "key.categories.pokecube");
 
-        mobMove1 = new KeyMapping("key.pokemob.move.1", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
-        mobMove2 = new KeyMapping("key.pokemob.move.2", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
-        mobMove3 = new KeyMapping("key.pokemob.move.3", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
-        mobMove4 = new KeyMapping("key.pokemob.move.4", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+        mobMove1 = new KeyMapping("key.pokemob.move.1", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "key.categories.pokecube");
+        mobMove2 = new KeyMapping("key.pokemob.move.2", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "key.categories.pokecube");
+        mobMove3 = new KeyMapping("key.pokemob.move.3", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "key.categories.pokecube");
+        mobMove4 = new KeyMapping("key.pokemob.move.4", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "key.categories.pokecube");
 
         mobUp = new KeyMapping("key.pokemob.up", KeyConflictContext.IN_GAME, Type.KEYSYM, GLFW.GLFW_KEY_SPACE,
-                "Pokecube");
+                "key.categories.pokecube");
         mobDown = new KeyMapping("key.pokemob.down", KeyConflictContext.IN_GAME, Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_CONTROL, "Pokecube");
+                GLFW.GLFW_KEY_LEFT_CONTROL, "key.categories.pokecube");
         throttleUp = new KeyMapping("key.pokemob.speed.up", KeyConflictContext.IN_GAME, Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT_BRACKET, "Pokecube");
+                GLFW.GLFW_KEY_LEFT_BRACKET, "key.categories.pokecube");
         throttleDown = new KeyMapping("key.pokemob.speed.down", KeyConflictContext.IN_GAME, Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT_BRACKET, "Pokecube");
-        arrangeGui = new KeyMapping("key.pokemob.arrangegui", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
-        animateGui = new KeyMapping("key.pokemob.animategui", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
-        gzmove = new KeyMapping("key.pokemob.gzmove", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "Pokecube");
+                GLFW.GLFW_KEY_RIGHT_BRACKET, "key.categories.pokecube");
+        arrangeGui = new KeyMapping("key.pokemob.arrangegui", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "key.categories.pokecube");
+        animateGui = new KeyMapping("key.pokemob.animategui", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "key.categories.pokecube");
+        gzmove = new KeyMapping("key.pokemob.gzmove", KeyConflictContext.IN_GAME, Type.KEYSYM, unk, "key.categories.pokecube");
 
         nextTarget = new KeyMapping("key.pokemob.target.next", KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
-                Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, "Pokecube");
+                Type.KEYSYM, GLFW.GLFW_KEY_RIGHT, "key.categories.pokecube");
         previousTarget = new KeyMapping("key.pokemob.target.prev", KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
-                Type.KEYSYM, GLFW.GLFW_KEY_LEFT, "Pokecube");
+                Type.KEYSYM, GLFW.GLFW_KEY_LEFT, "key.categories.pokecube");
 
         nextAlly = new KeyMapping("key.pokemob.ally.next", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
-                GLFW.GLFW_KEY_RIGHT, "Pokecube");
+                GLFW.GLFW_KEY_RIGHT, "key.categories.pokecube");
         previousAlly = new KeyMapping("key.pokemob.ally.prev", KeyConflictContext.IN_GAME, KeyModifier.ALT, Type.KEYSYM,
-                GLFW.GLFW_KEY_LEFT, "Pokecube");
+                GLFW.GLFW_KEY_LEFT, "key.categories.pokecube");
     }
 
     @SubscribeEvent
@@ -200,8 +200,8 @@ public class ClientSetupHandler
         registerKey(ClientSetupHandler.nextAlly, event);
         registerKey(ClientSetupHandler.previousAlly, event);
 
-        ClientProxy.NBTEditKey = new KeyMapping("NBTEdit Shortcut", InputConstants.UNKNOWN.getValue(),
-                "key.categories.misc");
+        ClientProxy.NBTEditKey = new KeyMapping("key.nbt.edit", InputConstants.UNKNOWN.getValue(),
+                "key.categories.pokecube");
         event.register(ClientProxy.NBTEditKey);
     }
 
@@ -298,6 +298,11 @@ public class ClientSetupHandler
                 return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
             }, i);
         }
+
+        event.register((stack, tintIndex) -> {
+            if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
+            return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
+        }, PokecubeItems.POKEWATCH.get());
 
         event.register((stack, tintIndex) -> {
             String moveName = ItemTM.getMoveFromStack(stack);

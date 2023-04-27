@@ -1,0 +1,145 @@
+{
+  "name": "finizen",
+  "id": 933,
+  "stock": true,
+  "base_experience": 40,
+  "size": {
+    "height": 0.9,
+    "width": 0.6,
+    "length": 1.3
+  },
+  "mass": 60.2,
+  "is_default": true,
+  "capture_rate": 200,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 70,
+    "attack": 45,
+    "defense": 40,
+    "special_attack": 45,
+    "special_defense": 40,
+    "speed": 75
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "water"
+  ],
+  "abilities": {
+    "normal": [
+      "water-veil"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "supersonic",
+		  "water-gun"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "astonish"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+	  {
+        "L": 13,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+	  {
+        "L": 17,
+        "moves": [
+          "double-hit"
+        ]
+      },
+	  {
+        "L": 21,
+        "moves": [
+          "dive"
+        ]
+      },
+	  {
+        "L": 25,
+        "moves": [
+          "charm"
+        ]
+      },
+	  {
+        "L": 29,
+        "moves": [
+          "acrobatics"
+        ]
+      },
+	  {
+        "L": 34,
+        "moves": [
+          "encore"
+        ]
+      },
+	  {
+        "L": 39,
+        "moves": [
+          "aqua-tail"
+        ]
+      },
+	  {
+        "L": 44,
+        "moves": [
+          "mist"
+        ]
+      },
+	  {
+        "L": 50,
+        "moves": [
+          "hydro-pum"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+	"take-down",
+	"hydro-pump",
+	"surf",
+	"ice-beam",
+	"blizzard",
+	"agility",
+	"waterfall",
+	"swift",
+	"rest",
+	"substitute",
+	"protect",
+	"icy-wind",
+	"endure",
+	"charm",
+	"sleep-talk",
+	"encore",
+	"rain-dance",
+	"facade",
+	"helping-hand",
+	"water-pulse",
+	"fling",
+	"zen-headbutt",
+	"acrobatics",
+	"disarming-voice",
+	"draining-kiss",
+	"liquidation",
+	"tera-blast",
+	"chilling-water"
+    ]
+  },
+  "loot_table": "pokecube:entities/fish_1"
+}

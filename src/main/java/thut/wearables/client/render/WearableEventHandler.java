@@ -82,8 +82,7 @@ public class WearableEventHandler
         @SubscribeEvent
         public static void registerKeys(RegisterKeyMappingsEvent event)
         {
-            WearableEventHandler.toggleGui = new KeyMapping("Toggle Wearables Gui", InputConstants.UNKNOWN.getValue(),
-                    "Wearables");
+            WearableEventHandler.toggleGui = new KeyMapping("key.wearables.toggle_gui", InputConstants.UNKNOWN.getValue(), "key.categories.wearables");
             event.register(WearableEventHandler.toggleGui);
 
             final Map<Integer, Integer> defaults = Maps.newHashMap();
@@ -98,14 +97,14 @@ public class WearableEventHandler
                 final EnumWearable slot = EnumWearable.getWearable(i);
                 final int subIndex = EnumWearable.getSubIndex(i);
                 String name = "Activate ";
-                if (slot.slots == 1) name = name + " " + slot;
-                else name = name + " " + slot + " " + subIndex;
+                if (slot.slots == 1) name = name + " " + slot + " Wearable";
+                else name = name + " " + slot + " " + subIndex + " Wearable";
 
                 final boolean defaulted = defaults.containsKey(i);
                 final int key = defaulted ? defaults.get(i) : InputConstants.UNKNOWN.getValue();
                 if (defaulted) WearableEventHandler.keys[i] = new KeyMapping(name, KeyConflictContext.IN_GAME,
-                        KeyModifier.CONTROL, InputConstants.Type.KEYSYM.getOrCreate(key), "Wearables");
-                else WearableEventHandler.keys[i] = new KeyMapping(name, key, "Wearables");
+                        KeyModifier.CONTROL, InputConstants.Type.KEYSYM.getOrCreate(key), "key.categories.wearables");
+                else WearableEventHandler.keys[i] = new KeyMapping(name, key, "key.categories.wearables");
                 event.register(WearableEventHandler.keys[i]);
             }
         }

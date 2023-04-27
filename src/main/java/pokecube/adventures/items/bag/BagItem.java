@@ -42,6 +42,6 @@ public class BagItem extends Item implements DyeableLeatherItem
     public int getColor(ItemStack stack)
     {
         CompoundTag compoundtag = stack.getTagElement("display");
-        return compoundtag != null && compoundtag.contains("color", 99) ? compoundtag.getInt("color") : 0xB02E26;
+        return compoundtag != null && compoundtag.contains("color", 99) ? compoundtag.getInt("color") : 0xFFB02E26;
     }
 }

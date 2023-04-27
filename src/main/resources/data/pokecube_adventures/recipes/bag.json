@@ -2,16 +2,19 @@
   "type": "minecraft:crafting_shaped",
   "group": "pokecube:bag",
   "pattern": [
-    "WWW",
-    "WPW",
-    "WWW"
+    "SLS",
+    "LCL",
+    " L "
   ],
   "key": {
-    "P": {
+    "S": {
+      "tag": "forge:string"
+    },
+    "C": {
       "item": "pokecube:pc_top"
     },
-    "W": {
-      "tag": "minecraft:wool"
+    "L": {
+      "tag": "forge:leather"
     }
   },
   "result": {

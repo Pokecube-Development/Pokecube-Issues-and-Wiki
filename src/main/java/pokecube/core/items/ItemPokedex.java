@@ -8,6 +8,7 @@ import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
@@ -19,6 +20,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -50,7 +52,7 @@ import thut.core.common.network.TerrainUpdate;
 import thut.lib.TComponent;
 
 /** @author Manchou */
-public class ItemPokedex extends Item
+public class ItemPokedex extends Item implements DyeableLeatherItem
 {
     public final boolean watch;
 
@@ -188,4 +190,10 @@ public class ItemPokedex extends Item
         }
     }
 
+    @Override
+    public int getColor(ItemStack stack)
+    {
+        CompoundTag compoundtag = stack.getTagElement("display");
+        return compoundtag != null && compoundtag.contains("color", 99) ? compoundtag.getInt("color") : 0xFFB02E26;
+    }
 }

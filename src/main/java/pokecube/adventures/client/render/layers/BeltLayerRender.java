@@ -47,30 +47,47 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
 
         mat.pushPose();
         theModel.body.translateAndRotate(mat);
-        mat.translate(0, 0.7, -.125);
+        mat.translate(0, 0.785, -.125);
         mat.mulPose(Vector3f.XP.rotationDegrees(180));
         mat.mulPose(Vector3f.YP.rotationDegrees(180));
-        mat.scale(0.25f, 0.25f, 0.25f);
+        mat.scale(0.6f, 0.6f, 0.6f);
 
         float scale = 0.3f;
         float[][] offsets =
         {
-                { -1.5f, 0, 0 },
-                { -2.5f, 0, 0 },
-                { -3.0f, 0, 0.5f },
+                // 1st slot, front left
+                { -0.95f, 0, 0 },
+                // 2nd slot, front right
+                { 0.95f, 0, 0 },
 
-                { 1.5f, 0, 0 },
-                { 2.5f, 0, 0 },
-                { 3.0f, 0, 0.5f } };
+                // 3rd slot, side left
+                { -1.5f, 0, 0.7f },
+                // 4th slot, side right
+                { 1.5f, 0, 0.7f },
+
+                // 5th slot, back left
+                { -0.95f, 0, 1.4f },
+                // 6th slot, back right
+                { 0.95f, 0, 1.4f }
+        };
+
         float[][] rotates =
         {
-                { 0, 0, 0 },
-                { 0, 0, 0 },
-                { 0, 90, 0 },
+                // 1st slot, front left
+                { -20, 0, 0 },
+                // 2nd slot, front right
+                { -20, 0, 0 },
 
-                { 0, 0, 0 },
-                { 0, 0, 0 },
-                { 0, -90, 0 } };
+                // 3rd slot, side left
+                { 90, -70, 90 },
+                // 4th slot, side right
+                { -90, -70, -90 },
+
+                // 5th slot, back left
+                { 20, 180, 0 },
+                // 6th slot, back right
+                { 20, 180, 0 }
+        };
 
         int n = trainer.getMaxPokemobCount();
         for (int i = 0; i < n; i++)

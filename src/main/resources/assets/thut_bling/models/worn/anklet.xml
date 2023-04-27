@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.25, 0.25, 0.425" offset="0.0,0.0,-0.15" rotation="x:-90"/>
-  <customTex default="textures/worn/belt.png"/>
+  <phase name="global" scale="1.17" offset="0,-0.25,-0.05" rotation="x:-90,y:0"/>
+  <material name="anklet" meshs="anklet" tex="textures/worn/anklet.png"/>
+  <material name="anklet_overlay" meshs="anklet_overlay" tex="textures/worn/anklet_overlay.png"/>
+  <material name="gem" meshs="gem" tex="textures/blank.png"/>
  </model>
 </ModelAnimator>

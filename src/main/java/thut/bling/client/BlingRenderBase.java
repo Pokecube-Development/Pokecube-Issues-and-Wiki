@@ -1,10 +1,8 @@
 package thut.bling.client;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-
+import java.util.Map;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
@@ -27,12 +25,17 @@ public abstract class BlingRenderBase
 {
 
     Map<EnumWearable, IModel> defaultModels = Maps.newHashMap();
+    Map<ResourceLocation, IModel> backpackModels = Maps.newHashMap();
 
     protected IModel getModel(final EnumWearable slot, final ItemStack stack)
     {
         IModel imodel = Util.getCustomModel(stack);
         if (imodel != null) return imodel;
+
+        if (slot != EnumWearable.BACK)
         imodel = this.defaultModels.get(slot);
+        else imodel = this.backpackModels.get(RegHelper.getKey(stack));
+
         return imodel;
     }
 

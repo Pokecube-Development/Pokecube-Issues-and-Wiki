@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.55" offset="0,-0.05,0" rotation="x:-90,y:90"/>
-  <customTex default="textures/worn/band.png"/>
+  <phase name="global" scale="1.15" offset="0,-0.99,0" rotation="x:-90,y:0"/>
+  <material name="necklace" meshs="necklace" tex="textures/worn/necklace.png"/>
+  <material name="necklace_back" meshs="necklace_back" tex="textures/worn/necklace_back.png"/>
+  <material name="necklace_top" meshs="necklace_top" tex="textures/worn/necklace_top.png"/>
+  <material name="necklace_overlay" meshs="necklace_overlay" tex="textures/worn/necklace_overlay.png"/>
+  <material name="gem" meshs="gem" tex="textures/blank.png"/>
  </model>
 </ModelAnimator>

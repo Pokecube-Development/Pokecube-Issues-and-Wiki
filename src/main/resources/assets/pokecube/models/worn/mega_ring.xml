@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="0.5" offset="0.06,0.045,-0.38" rotation="x:-90,y:0"/>
+  <material name="ring" meshs="ring" tex="textures/worn/mega_ring.png"/>
+  <material name="ring_overlay" meshs="ring_overlay" tex="textures/worn/mega_ring_overlay.png"/>
+  <material name="gem" meshs="gem" tex="textures/blank.png"/>
+ </model>
+</ModelAnimator>

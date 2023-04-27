@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="1.14" offset="0,-0.05,0" rotation="x:-90,y:0"/>
+  <material name="glasses_front" meshs="glasses_front" tex="textures/worn/mega_sun_glasses_front.png" transluscent="true" shader=""/>
+  <material name="glasses_front_overlay" meshs="glasses_front_overlay" tex="textures/worn/mega_sun_glasses_front_overlay.png"/>
+  <material name="glasses_side" meshs="glasses_side" tex="textures/worn/mega_sun_glasses_side.png"/>
+  <material name="glasses_side_overlay" meshs="glasses_side_overlay" tex="textures/worn/mega_sun_glasses_side_overlay.png"/>
+  <material name="gem" meshs="gem" tex="textures/blank.png"/>
+ </model>
+</ModelAnimator>

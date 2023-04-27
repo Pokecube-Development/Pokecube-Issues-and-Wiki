@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "thut_bling:bling",
+  "pattern": [
+    "SRS",
+    "L L",
+    " L "
+  ],
+  "key": {
+    "S": {
+      "tag": "forge:string"
+    },
+    "L": {
+      "tag": "forge:nuggets/gold"
+    },
+    "R": {
+      "item": "minecraft:rabbit_hide"
+    }
+  },
+  "result": {
+    "item": "thut_bling:bling_ear"
+  }
+}

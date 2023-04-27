@@ -248,8 +248,8 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void registetKeys(final RegisterKeyMappingsEvent event)
     {
-        ClientSetupHandler.trainerEditKey = new KeyMapping("EditTrainer", InputConstants.UNKNOWN.getValue(),
-                "Pokecube");
+        ClientSetupHandler.trainerEditKey = new KeyMapping("key.trainer.edit", InputConstants.UNKNOWN.getValue(),
+                "key.categories.pokecube");
         event.register(ClientSetupHandler.trainerEditKey);
     }
 

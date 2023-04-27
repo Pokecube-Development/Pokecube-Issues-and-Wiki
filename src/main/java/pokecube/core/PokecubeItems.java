@@ -208,14 +208,12 @@ public class PokecubeItems extends ItemList
     {
         // Items
         POKEDEX = PokecubeCore.ITEMS.register("pokedex",
-                () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS), false));
+                () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1), false));
         POKEWATCH = PokecubeCore.ITEMS.register("pokewatch",
-                () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS), true));
-        BERRYJUICE = PokecubeCore.ITEMS
-                .register("berryjuice",
-                        () -> new Item(new Properties()
-                                .food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build())
-                                .tab(PokecubeItems.TAB_ITEMS)));
+                () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1), true));
+        BERRYJUICE = PokecubeCore.ITEMS.register("berryjuice",
+                () -> new Item(new Properties().food(new FoodProperties.Builder().nutrition(4)
+                        .saturationMod(0.3F).build()).tab(PokecubeItems.TAB_ITEMS)));
         EGG = PokecubeCore.ITEMS.register("pokemobegg",
                 () -> new ItemPokemobEgg(new Properties().tab(PokecubeItems.TAB_ITEMS)));
         CANDY = PokecubeCore.ITEMS.register("candy",

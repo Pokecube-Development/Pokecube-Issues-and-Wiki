@@ -65,11 +65,11 @@ public class ItemMegawearable extends Item implements DyeableLeatherItem
     {
         CompoundTag compoundtag = stack.getTagElement("display");
         if (compoundtag != null && compoundtag.contains("color", 99)) return compoundtag.getInt("color");
-        if (name.equals("pendant")) return 0xFED83D;
-        if (name.equals("tiara")) return 0x3c44aa;
-        if (name.equals("earring")) return 0xFED83D;
-        if (name.equals("ring")) return 0xFED83D;
-        if (name.equals("ankletzinnia")) return 0x169c9c;
-        return 10511680;
+        if (name.equals("pendant")) return 0xFFFFFFFF;
+        if (name.equals("tiara")) return 0xFF3c44aa;
+        if (name.equals("earring")) return 0xFFB02E26;
+        if (name.equals("glasses")) return 0xFF282828;
+        if (name.equals("ankletzinnia")) return 0xFF169c9c;
+        return 0xFFA06540;
     }
 }
