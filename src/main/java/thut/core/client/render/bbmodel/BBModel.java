@@ -3,7 +3,6 @@ package thut.core.client.render.bbmodel;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -83,7 +82,6 @@ public class BBModel extends BaseModel
             animation.name = anim.name.replace(".", "");
             animation.loops = true;
             builtin_anims.add(animation.name);
-            System.out.println(animation.name);
 
             Map<String, List<AnimationComponent>> components = new HashMap<>();
 
@@ -147,7 +145,6 @@ public class BBModel extends BaseModel
                     if (rotations != null)
                     {
                         List<AnimationComponent> rotComps = new ArrayList<>();
-//                        System.out.println(part_name);
 
                         // Pre-compute the offsets
                         for (int i = 0; i < rotations.size(); i++)
@@ -193,7 +190,6 @@ public class BBModel extends BaseModel
                                 if (here_comp.length < 0) here_comp.length = -here_comp.length;
 
                             }
-//                            System.out.println(Arrays.toString(here_comp.rotChange) + " " + here_comp.length);
                         }
                         
                         // And then clear the offset for the not-first-components
@@ -216,8 +212,6 @@ public class BBModel extends BaseModel
                         anims.add(anmation);
                         IAnimator animator = new KeyframeAnimator(rotComps);
                         anmation.sets.put(part_name, animator);
-
-//                        System.out.println(animator.getLength() + " " + rotations.size());
                     }
                 }
             }

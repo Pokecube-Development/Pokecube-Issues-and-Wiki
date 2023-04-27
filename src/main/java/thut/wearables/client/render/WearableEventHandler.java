@@ -1,6 +1,7 @@
 package thut.wearables.client.render;
 
 import java.lang.reflect.Field;
+import java.util.Locale;
 import java.util.Map;
 
 import org.lwjgl.glfw.GLFW;
@@ -82,7 +83,7 @@ public class WearableEventHandler
 
     public WearableEventHandler()
     {
-        this.toggleGui = new KeyMapping("Toggle Wearables Gui", InputConstants.UNKNOWN.getValue(), "Wearables");
+        this.toggleGui = new KeyMapping("key.wearables.toggle_gui", InputConstants.UNKNOWN.getValue(), "key.categories.wearables");
         ClientRegistry.registerKeyBinding(this.toggleGui);
 
         final Map<Integer, Integer> defaults = Maps.newHashMap();
@@ -96,15 +97,15 @@ public class WearableEventHandler
         {
             final EnumWearable slot = EnumWearable.getWearable(i);
             final int subIndex = EnumWearable.getSubIndex(i);
-            String name = "Activate ";
-            if (slot.slots == 1) name = name + " " + slot;
-            else name = name + " " + slot + " " + subIndex;
+            String name = "Activate";
+            if (slot.slots == 1) name = name + " " + slot + " Wearable";
+            else name = name + " " + slot + " " + subIndex + " Wearable";
 
             final boolean defaulted = defaults.containsKey(i);
             final int key = defaulted ? defaults.get(i) : InputConstants.UNKNOWN.getValue();
             if (defaulted) this.keys[i] = new KeyMapping(name, KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
-                    InputConstants.Type.KEYSYM.getOrCreate(key), "Wearables");
-            else this.keys[i] = new KeyMapping(name, key, "Wearables");
+                    InputConstants.Type.KEYSYM.getOrCreate(key), "key.categories.wearables");
+            else this.keys[i] = new KeyMapping(name, key, "key.categories.wearables");
             ClientRegistry.registerKeyBinding(this.keys[i]);
         }
     }

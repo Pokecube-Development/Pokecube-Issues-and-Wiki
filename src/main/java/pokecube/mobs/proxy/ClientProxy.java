@@ -36,7 +36,7 @@ public class ClientProxy
         // Tiara like worn by Lisia, but rotated to be centered on head instead
         // of at angle.
         Client.renderers.put("tiara",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megatiara"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_tiara"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override
@@ -52,7 +52,7 @@ public class ClientProxy
 
         // Mega Anklet like one worn by Zinnia
         Client.renderers.put("ankletzinnia",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaankletzinnia"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_anklet_zinnia"))
                 {
                     @Override
                     public void renderWearable(final PoseStack mat, final MultiBufferSource buff,
@@ -66,7 +66,7 @@ public class ClientProxy
                 });
         // a Pendant
         Client.renderers.put("pendant",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megapendant"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_pendant"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override
@@ -82,7 +82,7 @@ public class ClientProxy
                 });
         // Earrings
         Client.renderers.put("earring",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaearring"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_earring"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override
@@ -97,7 +97,7 @@ public class ClientProxy
                 });
         // Glasses
         Client.renderers.put("glasses",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaglasses"))
+                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_glasses"))
                 {
                     @OnlyIn(Dist.CLIENT)
                     @Override

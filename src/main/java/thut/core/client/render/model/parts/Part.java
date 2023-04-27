@@ -130,16 +130,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setShapes(final List<Mesh> shapes)
     {
         this.shapes.clear();
-        this.shapes.addAll(shapes);
-        for (final Mesh shape : shapes)
-        {
-            if (shape.material == null) continue;
-            if (this.matcache.add(shape.material))
-            {
-                this.materials.add(shape.material);
-                this.namedMaterials.put(shape.material.name, shape.material);
-            }
-        }
+        for (final Mesh shape : shapes) this.addShape(shape);
     }
 
     @Override
@@ -439,7 +430,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         {
             if (mesh.name == null) mesh.name = this.getName();
             if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name) || mat.meshs.contains(mesh.name))
+            {
+                if (mesh.material != null)
+                {
+                    this.matcache.remove(mesh.material);
+                    this.materials.remove(mesh.material);
+                    this.namedMaterials.remove(mesh.material.name);
+                }
                 mesh.setMaterial(material);
+            }
         }
         for (final Material m : this.materials) if (m.name.equals(mat.name))
         {

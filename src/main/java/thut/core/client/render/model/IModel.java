@@ -9,7 +9,9 @@ import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import pokecube.api.PokecubeAPI;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -98,6 +100,18 @@ public interface IModel
         material.transluscent = mat.transluscent;
         material.cull = mat.cull;
         material.shader = mat.shader;
+        if (!mat.tex.isBlank())
+        {
+            try
+            {
+                material.texture = mat.tex;
+                material.tex = new ResourceLocation(mat.tex);
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error(e);
+            }
+        }
         for (final IExtendedModelPart part : this.getParts().values()) part.updateMaterial(mat, material);
     }
 }

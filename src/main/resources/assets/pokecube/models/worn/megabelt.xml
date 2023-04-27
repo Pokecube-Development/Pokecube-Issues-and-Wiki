@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ModelAnimator>
- <model>
-  <phase name="global" scale=".95" offset="0.0,0.0,0.0"/>
-  <customTex default="textures/worn/megabelt.png">
-   <part name="keystone" tex="textures/worn/keystone.png"/>
-  </customTex>
- </model>
-</ModelAnimator>

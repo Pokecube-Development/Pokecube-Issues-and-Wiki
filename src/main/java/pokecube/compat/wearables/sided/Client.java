@@ -37,29 +37,30 @@ public class Client
     public static Map<String, WearablesRenderer> renderers = Maps.newHashMap();
 
     @OnlyIn(Dist.CLIENT)
-    public static Predicate<Material> IS_KEYSTONE = m -> (m.name.contains("stone")
-            || m.tex != null && m.tex.getPath().contains("stone"));
+    public static Predicate<Material> IS_KEYSTONE = m -> (m.name.contains("keystone")
+            || m.tex != null && m.tex.getPath().contains("keystone")
+            || m.tex.getPath().contains("_overlay")
+            || m.tex != null && m.tex.getPath().contains("_overlay"));
     @OnlyIn(Dist.CLIENT)
     public static Predicate<Material> IS_OVERLAY = m -> (m.name.contains("_overlay")
             || m.tex != null && m.tex.getPath().contains("_overlay"));
 
     public static void initWearables(final RegisterMiscItems event)
     {
-        Client.renderers.put("pokewatch",
-                new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/pokewatch"))
-                {
-                    @OnlyIn(Dist.CLIENT)
-                    @Override
-                    public void renderWearable(final PoseStack mat, final MultiBufferSource buff,
-                            final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
-                            final float partialTicks, final int brightness, final int overlay)
-                    {
-                        if (slot != EnumWearable.WRIST) return;
-                        super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                        Wrist.renderWrist(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
-                    }
-                });
-        Client.renderers.put("ring", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megaring"))
+        Client.renderers.put("pokewatch", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/pokewatch"))
+        {
+            @OnlyIn(Dist.CLIENT)
+            @Override
+            public void renderWearable(final PoseStack mat, final MultiBufferSource buff,
+                    final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
+                    final int brightness, final int overlay)
+            {
+                if (slot != EnumWearable.WRIST) return;
+                super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+                Wrist.renderWrist(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
+            }
+        });
+        Client.renderers.put("ring", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_ring"))
         {
             @OnlyIn(Dist.CLIENT)
             @Override
@@ -72,7 +73,7 @@ public class Client
                 Finger.renderFinger(mat, buff, wearer, stack, this.model, brightness, overlay, IS_KEYSTONE);
             }
         });
-        Client.renderers.put("belt", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/megabelt"))
+        Client.renderers.put("belt", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_belt"))
         {
             @OnlyIn(Dist.CLIENT)
             @Override
@@ -85,7 +86,7 @@ public class Client
                 Waist.renderWaist(mat, buff, wearer, stack, this.model, brightness, overlay, IS_KEYSTONE);
             }
         });
-        Client.renderers.put("hat", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/hat"))
+        Client.renderers.put("hat", new WearablesRenderer(new ResourceLocation(PokecubeMod.ID, "models/worn/mega_hat"))
         {
             @OnlyIn(Dist.CLIENT)
             @Override
@@ -95,7 +96,7 @@ public class Client
             {
                 if (slot != EnumWearable.HAT) return;
                 super.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
-                Hat.renderHat(mat, buff, wearer, stack, this.model, brightness, overlay);
+                Hat.renderHat(mat, buff, wearer, stack, this.model, brightness, overlay, IS_OVERLAY);
             }
         });
     }

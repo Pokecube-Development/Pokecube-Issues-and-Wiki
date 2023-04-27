@@ -139,8 +139,11 @@ public class AnimationLoader
             { -30, 70 };
 
             if (file.model.customTex != null) file.model.customTex.init();
-            if (renderer != null) renderer.getAnimations().clear();
-            model.initBuiltInAnimations(renderer);
+            if (renderer != null)
+            {
+                renderer.getAnimations().clear();
+                model.initBuiltInAnimations(renderer);
+            }
 
             Vector5 noRotation = new Vector5();
 
@@ -229,8 +232,23 @@ public class AnimationLoader
                 wornOffsets.put(w_ident, new WornOffsets(w_parent, w_offset, w_scale, w_angles));
             }
 
+            CustomTex texs = file.model.customTex;
+            if (texs == null)
+            {
+                texs = new CustomTex();
+                if (holder.texture != null) texs.defaults = holder.texture.toString();
+            }
+
             // Handle materials
-            for (final Mat mat : file.model.materials) model.updateMaterial(mat);
+            for (final Mat mat : file.model.materials)
+            {
+                model.updateMaterial(mat);
+                if (mat.tex.isBlank()) continue;
+                TexPart part = new TexPart();
+                part.name = mat.name;
+                part.tex = mat.tex;
+                texs.parts.add(part);
+            }
 
             if (renderer != null) synchronized (renderer)
             {
@@ -247,18 +265,10 @@ public class AnimationLoader
                 if (animHolder != null) animHolder.clean();
 
                 // Handle customTextures
-                if (file.model.customTex != null)
-                {
-                    texturer.init(file.model.customTex);
-                    if (file.model.customTex.defaults != null) holder.texture = new ResourceLocation(
-                            holder.texture.toString().replace(holder.name, file.model.customTex.defaults));
-                }
-                else
-                {
-                    CustomTex tex = new CustomTex();
-                    tex.defaults = holder.texture.toString();
-                    texturer.init(tex);
-                }
+                texturer.init(texs);
+                if (texs.defaults != null) holder.texture = new ResourceLocation(
+                        holder.texture.toString().replace(holder.name, texs.defaults));
+                texturer.init(texs);
 
                 // Apply texture phases (ie texture animations)
                 for (Phase p : texPhases) texturer.applyTexturePhase(p);
@@ -358,51 +368,48 @@ public class AnimationLoader
             else
             {
                 // Handle customTextures
-                if (file.model.customTex != null)
-                    if (file.model.customTex.defaults != null) holder.texture = holder.texture != null
-                            ? new ResourceLocation(
-                                    holder.texture.toString().replace(holder.name, file.model.customTex.defaults))
-                            : new ResourceLocation(holder.model.getNamespace(), file.model.customTex.defaults);
+                if (texs.defaults != null) holder.texture = holder.texture != null
+                        ? new ResourceLocation(holder.texture.toString().replace(holder.name, texs.defaults))
+                        : new ResourceLocation(holder.model.getNamespace(), texs.defaults);
 
                 for (IExtendedModelPart p : model.getParts().values())
                 {
                     // Handle customTextures
-                    if (file.model.customTex != null)
+                    if (texs.defaults != null) holder.texture = holder.texture != null
+                            ? new ResourceLocation(holder.texture.toString().replace(holder.name, texs.defaults))
+                            : new ResourceLocation(holder.model.getNamespace(), texs.defaults);
+                    List<String> matNames = Lists.newArrayList();
+                    for (TexPart part : texs.parts)
                     {
-                        if (file.model.customTex.defaults != null) holder.texture = holder.texture != null
-                                ? new ResourceLocation(
-                                        holder.texture.toString().replace(holder.name, file.model.customTex.defaults))
-                                : new ResourceLocation(holder.model.getNamespace(), file.model.customTex.defaults);
-                        List<String> matNames = Lists.newArrayList();
-                        for (TexPart part : file.model.customTex.parts)
+
+                        ResourceLocation tex = part.tex.contains(":") ? new ResourceLocation(part.tex)
+                                : new ResourceLocation(holder.model.getNamespace(), part.tex);
+                        if (p.getName().equals(part.name))
                         {
-                            ResourceLocation tex = new ResourceLocation(holder.model.getNamespace(), part.tex);
-                            if (p.getName().equals(part.name))
+                            for (Material m3 : p.getMaterials())
                             {
-                                for (Material m3 : p.getMaterials())
-                                {
-                                    m3.tex = tex;
-                                    matNames.add(m3.name);
-                                }
-                            }
-                            else
-                            {
-                                // In this case, we convert to a Material
-                                Material m = new Material(part.name);
-                                m.tex = tex;
-                                Mat m2 = new Mat();
-                                m2.name = part.name;
-                                p.updateMaterial(m2, m);
-                                matNames.add(part.name);
+                                m3.tex = tex;
+                                matNames.add(m3.name);
                             }
                         }
-                        // Now do the same for the base material
-                        if (file.model.customTex.defaults != null) for (Material m : p.getMaterials())
+                        else
                         {
-                            if (matNames.contains(m.name)) continue;
-                            m.tex = holder.texture;
+                            // In this case, we convert to a Material
+                            Material m = new Material(part.name);
+                            m.tex = tex;
+                            Mat m2 = new Mat();
+                            m2.name = part.name;
+                            p.updateMaterial(m2, m);
+                            matNames.add(part.name);
                         }
                     }
+                    // Now do the same for the base material
+                    if (texs.defaults != null) for (Material m : p.getMaterials())
+                    {
+                        if (matNames.contains(m.name)) continue;
+                        m.tex = holder.texture;
+                    }
+
                     if (p.getParent() == null)
                     {
                         p.setPreScale(scale);

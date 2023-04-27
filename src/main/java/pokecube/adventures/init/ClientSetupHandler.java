@@ -250,8 +250,8 @@ public class ClientSetupHandler
         ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
 
-        ClientSetupHandler.trainerEditKey = new KeyMapping("EditTrainer", InputConstants.UNKNOWN.getValue(),
-                "Pokecube");
+        ClientSetupHandler.trainerEditKey = new KeyMapping("key.trainer.edit", InputConstants.UNKNOWN.getValue(),
+                "key.categories.pokecube");
         ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
     }
 

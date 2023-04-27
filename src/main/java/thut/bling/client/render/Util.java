@@ -21,6 +21,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.ModelHolder;
 import thut.bling.ThutBling;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -116,10 +118,14 @@ public class Util
         return buff.getBuffer(Util.getType(loc, alpha));
     }
 
+    @OnlyIn(Dist.CLIENT)
+    public static Predicate<Material> IS_OVERLAY = m -> (m.name.contains("_overlay")
+            || m.tex != null && m.tex.getPath().contains("_overlay"));
+
     public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
             int overlay)
     {
-        renderModel(mat, buff, stack, model, brightness, overlay, m -> false);
+        renderModel(mat, buff, stack, model, brightness, overlay, IS_OVERLAY);
     }
 
     public static void renderModel(PoseStack mat, MultiBufferSource buff, ItemStack stack, IModel model, int brightness,
@@ -136,24 +142,24 @@ public class Util
         if (!model.isLoaded() || !model.isValid()) return;
         if (model.getParts().containsKey("gem"))
         {
-            Util.renderStandardModelWithGem(mat, buff, stack, colorpart, itempart, model, brightness, overlay);
+            Util.renderStandardModelWithGem(mat, buff, stack, colorpart, itempart, model, brightness, overlay, IS_OVERLAY);
         }
         else
         {
             Color colour;
             if (stack.getItem() instanceof DyeableLeatherItem dyed)
             {
-                colour = new Color(dyed.getColor(stack) + 0xFF000000);
+                colour = new Color(dyed.getColor(stack));
             }
             else
             {
-                DyeColor ret = DyeColor.GRAY;
+                DyeColor ret = DyeColor.BROWN;
                 if (stack.hasTag() && stack.getTag().contains("dyeColour"))
                 {
                     final int damage = stack.getTag().getInt("dyeColour");
                     ret = DyeColor.byId(damage);
                 }
-                colour = new Color(ret.getTextColor() + 0xFF000000);
+                colour = new Color(ret.getTextColor());
             }
             try
             {
@@ -173,26 +179,12 @@ public class Util
 
     public static void renderStandardModelWithGem(final PoseStack mat, final MultiBufferSource buff,
             final ItemStack stack, final String colorpart, final String itempart, final IModel model,
-            final int brightness, final int overlay)
+            final int brightness, final int overlay, Predicate<Material> notColurable)
     {
         if (!(model instanceof IModelCustom renderable)) return;
         ResourceLocation tex0 = null;
         ItemStack gem = ItemStack.EMPTY;
         Color colour;
-        if (stack.getItem() instanceof DyeableLeatherItem dyed)
-        {
-            colour = new Color(dyed.getColor(stack) + 0xFF000000);
-        }
-        else
-        {
-            DyeColor ret = DyeColor.YELLOW;
-            if (stack.hasTag() && stack.getTag().contains("dyeColour"))
-            {
-                final int damage = stack.getTag().getInt("dyeColour");
-                ret = DyeColor.byId(damage);
-            }
-            colour = new Color(ret.getTextColor() + 0xFF000000);
-        }
 
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
@@ -206,6 +198,21 @@ public class Util
         }
         else tex0 = null;
 
+        if (stack.getItem() instanceof DyeableLeatherItem dyed)
+        {
+            colour = new Color(dyed.getColor(stack));
+        }
+        else
+        {
+            DyeColor ret = DyeColor.BROWN;
+            if (stack.hasTag() && stack.getTag().contains("dyeColour"))
+            {
+                final int damage = stack.getTag().getInt("dyeColour");
+                ret = DyeColor.byId(damage);
+            }
+            colour = new Color(ret.getTextColor());
+        }
+
         Map<Material, ResourceLocation> toReset = Maps.newHashMap();
         List<Material> toClear = new ArrayList<>();
         for (final IExtendedModelPart part : model.getParts().values())
@@ -217,9 +224,13 @@ public class Util
                 else toClear.add(m);
                 m.tex = tex0;
             }
-            // Overlay texture is the fixed one, the rest can be
-            // recoloured.
-            if (!isGem) part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+
+            // Overlay texture is the fixed one, the rest can be recoloured.
+            if (!isGem)
+            {
+                part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
+                part.setRGBABrO(notColurable, 255, 255, 255, 255, brightness, overlay);
+            }
             else part.setRGBABrO(255, 255, 255, 255, brightness, overlay);
         }
         renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));

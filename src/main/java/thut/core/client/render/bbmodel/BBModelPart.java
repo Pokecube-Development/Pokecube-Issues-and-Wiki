@@ -5,12 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.math.Quaternion;
 
+import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
-import thut.core.client.render.bbmodel.BBModelTemplate.BBModelBox;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
 import thut.core.client.render.bbmodel.BBModelTemplate.IBBPart;
 import thut.core.client.render.bbmodel.BBModelTemplate.JsonGroup;
@@ -20,6 +19,7 @@ import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.TextureCoordinate;
+import thut.core.client.render.x3d.X3dMesh;
 import thut.core.common.ThutCore;
 
 public class BBModelPart extends Part
@@ -75,7 +75,7 @@ public class BBModelPart extends Part
     {
         BBModelPart part = new BBModelPart(name);
         part.index = index;
-        shapes.forEach(part::addShape);
+        part.setShapes(shapes);
         float[] offsets = b.getOrigin().clone();
         for (int i = 0; i < 3; i++)
         {
@@ -108,41 +108,16 @@ public class BBModelPart extends Part
     {
         List<Mesh> shapes = new ArrayList<>();
 
-        Map<String, List<List<Object>>> materials = Maps.newHashMap();
+        Map<String, List<List<Object>>> quads_materials = Maps.newHashMap();
+        Map<String, List<List<Object>>> tris_materials = Maps.newHashMap();
 
-        BBModelBox box = new BBModelBox(t, b);
+        b.toMeshs(t, quads_materials, tris_materials);
 
-        boolean bedrock = t.meta.model_format.equals("bedrock");
-        for (var face : box.faces)
-        {
-            if (face == null) continue;
-            List<Object> order = Lists.newArrayList();
-            List<Object> verts = Lists.newArrayList();
-            List<Object> tex = Lists.newArrayList();
-            String material = t.textures.get(face.texture).name;
-            if (materials.containsKey(material))
-            {
-                List<List<Object>> lists = materials.get(material);
-                order = lists.get(0);
-                verts = lists.get(1);
-                tex = lists.get(2);
-            }
-            for (int i = 0; i < 4; i++)
-            {
-                int index = i;
-                if (bedrock) index = 3 - i;
+        if (quads_materials.isEmpty() && tris_materials.isEmpty())
+            PokecubeAPI.logDebug("No parts for " + t.name + " " + b.name);
+        Map<String, Material> mats = Maps.newHashMap();
 
-                Integer o = order.size();
-                Vertex v = face.points[index];
-                var tx = face.tex[index];
-                order.add(o);
-                verts.add(v);
-                tex.add(tx);
-            }
-            materials.put(material, Lists.newArrayList(order, verts, tex));
-        }
-
-        materials.forEach((key, lists) -> {
+        quads_materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
@@ -150,9 +125,23 @@ public class BBModelPart extends Part
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = new Material(m.name);
+            mats.put(m.name, mat);
             m.setMaterial(mat);
             shapes.add(m);
         });
+        
+        tris_materials.forEach((key, lists) -> {
+            List<Object> order = lists.get(0);
+            List<Object> verts = lists.get(1);
+            List<Object> tex = lists.get(2);
+            Mesh m = new X3dMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]), null,
+                    tex.toArray(new TextureCoordinate[0]));
+            m.name = ThutCore.trim(key);
+            Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            m.setMaterial(mat);
+            shapes.add(m);
+        });
+
         return shapes;
     }
 
