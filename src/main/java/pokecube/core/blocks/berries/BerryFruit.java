@@ -42,8 +42,7 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape LEPPA_BERRY = Shapes.or(
-      Block.box(7, 15.5, 7, 9, 16, 9),
-      Block.box(6, 10.5, 6, 10, 15.5, 10))
+      Block.box(5, 7, 5, 11, 15, 11))
       .optimize();
 
     private static final VoxelShape ORAN_BERRY = Shapes.or(
