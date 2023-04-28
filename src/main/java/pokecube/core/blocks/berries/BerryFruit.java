@@ -12,6 +12,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BarrierBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BushBlock;
@@ -46,8 +47,8 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape ORAN_BERRY = Shapes.or(
-      Block.box(7, 15.5, 7, 9, 16, 9),
-      Block.box(5.5, 10.5, 5.5, 10.5, 15.5, 10.5))
+      Block.box(4, 7, 4, 12, 15, 12),
+      Block.box(6, 15, 6, 10, 16, 10))
       .optimize();
 
     private static final VoxelShape LUM_BERRY = Shapes.or(
@@ -192,6 +193,8 @@ public class BerryFruit extends BushBlock
             return world.getBlockState(posBelow).getValue(BerryCrop.AGE) == 7;
         else if (state.getBlock() == this && world.getBlockState(posAbove).getBlock() instanceof BerryLeaf)
             return world.getBlockState(posAbove).getBlock() instanceof BerryLeaf;
+        else if (state.getBlock() == this && world.getBlockState(posAbove).getBlock() instanceof BarrierBlock)
+            return world.getBlockState(posAbove).getBlock() instanceof BarrierBlock;
         else return false;
 
 //        return this.mayPlaceOn(world.getBlockState(posBelow), world, posBelow);
