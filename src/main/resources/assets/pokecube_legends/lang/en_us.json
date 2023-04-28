@@ -1177,6 +1177,7 @@
     "legends.chesto_pokepuff.tooltip": "Increases %1$s[Dark type] §rdamage",
     "legends.nanab_pokepuff.tooltip": "Increases %1$s[Fairy type] §rdamage",
     "legends.hondew_pokepuff.tooltip": "Increases %1$s[Normal type] §rdamage",
+    "legends.null_pokepuff.tooltip": "§o§7Just a Pokepuff",
 
     "_comment43": "Spawner Item Tooltips",
     "legends.kubfu_spawn.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kubfu",

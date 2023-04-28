@@ -101,7 +101,7 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             final TooltipFlag advanced)
     {
         Component info = null;
-        if (advanced.isAdvanced()) tooltip.add(TComponent.literal("ID: " + this.type.index));
+        if (advanced.isAdvanced()) tooltip.add(TComponent.literal("ID: " + this.type.index).withStyle(ChatFormatting.GRAY));
         tooltip.add(TComponent.translatable("item.pokecube.berry.desc"));
         final String berryName = this.type.name;
         info = TComponent.translatable("item.pokecube.berry_" + berryName + ".desc");
