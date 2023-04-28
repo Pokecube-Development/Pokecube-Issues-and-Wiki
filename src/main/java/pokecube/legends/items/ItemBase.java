@@ -71,7 +71,8 @@ public class ItemBase extends Item
     {
         if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_block_id + ".tooltip");
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_block_id + ".tooltip", ChatFormatting.GOLD,
+                ChatFormatting.BOLD, ChatFormatting.RESET).translateEscapes();
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(TComponent.translatable(message));
     }
