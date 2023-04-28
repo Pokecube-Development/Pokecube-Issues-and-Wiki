@@ -41,7 +41,7 @@ public class FoodInit
         GLOWING_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
                 .effect(new MobEffectInstance(MobEffects.GLOWING, 400, 0), 1.0F).alwaysEat().build();
         HEAL_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
-                .effect(new MobEffectInstance(MobEffects.HEAL, 100, 1), 1.0F).alwaysEat().build();
+                .effect(new MobEffectInstance(MobEffects.HEAL, 5, 1), 1.0F).alwaysEat().build();
         HERO_POISON_POKEPUFF = (new FoodProperties.Builder()).nutrition(4).saturationMod(0.3F)
                 .effect(new MobEffectInstance(MobEffects.HERO_OF_THE_VILLAGE, 100, 0), 1.0F)
                 .effect(new MobEffectInstance(MobEffects.POISON, 2400, 4), 1.0F).build();
