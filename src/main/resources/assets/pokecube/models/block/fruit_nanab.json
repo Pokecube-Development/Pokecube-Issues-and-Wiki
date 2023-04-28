@@ -8,12 +8,12 @@
 	"elements": [
 		{
 			"name": "stem",
-			"from": [5, 15, 10],
-			"to": [11, 16, 10],
+			"from": [2, 15, 10],
+			"to": [14, 16, 10],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 14, 10]},
 			"faces": {
-				"north": {"uv": [13, 11, 7, 12], "texture": "#nanab"},
-				"south": {"uv": [13, 11, 7, 12], "texture": "#nanab"}
+				"north": {"uv": [16, 11, 4, 12], "texture": "#nanab"},
+				"south": {"uv": [16, 11, 4, 12], "texture": "#nanab"}
 			}
 		},
 		{
