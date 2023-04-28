@@ -39,10 +39,19 @@ public class BBModelTemplate
     public Resolution resolution = new Resolution();
 
     public Map<String, Object> _by_uuid = new HashMap<>();
+    public Map<String, List<String>> _unique_meshs = new HashMap<>();
 
     public void init()
     {
-        elements.forEach(e -> _by_uuid.put(e.uuid, e));
+        elements.forEach(e -> {
+            _by_uuid.put(e.uuid, e);
+            if (e.type.equals("mesh")) e.faces.forEach((key, json) -> {
+                MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
+                _unique_meshs.computeIfAbsent(key, var -> {
+                    return face.vertices;
+                });
+            });
+        });
         textures.forEach(e -> _by_uuid.put(e.uuid, e));
         outliner.forEach(e -> e.init(this));
     }
@@ -302,7 +311,7 @@ public class BBModelTemplate
             float[] mid_offset = new float[]
             { 0, 0, 0 };
 
-            for (int i = 0; i < 3; i++) origin_offset[i] = -b.origin[i];
+            for (int i = 0; i < 3; i++) origin_offset[i] = b.origin[i];
 
             Quaternion quat = new Quaternion(0, 0, 0, true);
 
@@ -320,17 +329,19 @@ public class BBModelTemplate
 
             boolean bedrock = template.meta.model_format.equals("bedrock");
             Map<String, Vertex> verts = Maps.newHashMap();
-            // Same vertex transformations as used in BBCubeElement
+
             b.vertices.forEach((key, array) -> {
                 Vertex v = new Vertex(array[0], array[1], array[2]);
                 // This should be a point on a box with a corner at 0,0,0.
                 Vector3f vec = new Vector3f(v.x, v.y, v.z);
 
+                // - z() as we use the negative of it below!
+                if (bedrock) vec.add(-origin.x(), origin.y(), -origin.z());
+                else vec.add(origin.x(), origin.y(), -origin.z());
+
                 // We need to translate to rotation point, then rotate, then
                 // translate back.
-                vec.add(origin);
                 vec.transform(quat);
-                vec.sub(origin);
 
                 // Now translate to where it should be
                 vec.add(shift);
@@ -341,18 +352,33 @@ public class BBModelTemplate
             });
 
             b.faces.forEach((key, json) -> {
-                // We don't care about key here, as it is just unique for this
-                // box, not the entire mesh.
                 MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
                 BBModelQuad quad = new BBModelQuad();
+
+                // TODO find the real fix for this.
+                // To test this, uncomment the same = true; line after the loop
+                // that checks it
+                List<String> map_order = template._unique_meshs.computeIfAbsent(key, var -> {
+                    return face.vertices;
+                });
+
+                boolean same = true;
+                for (int i = 0; i < map_order.size() && same; i++)
+                {
+                    same = map_order.get(i).equals(face.vertices.get(i));
+                }
+//                same = true;
+
                 for (int j = 0; j < face.vertices.size(); j++)
                 {
-                    String vert_key = face.vertices.get(j);
+                    int i = same ? j : face.vertices.size() - j - 1;
+                    String vert_key = same ? face.vertices.get(i) : map_order.get(i);
                     Vertex v = verts.get(vert_key);
                     float[] uv = face.uv.get(vert_key);
                     quad.points[j] = v;
                     quad.tex[j] = new TextureCoordinate(uv[0] / us, uv[1] / vs);
                 }
+
                 if (face.vertices.size() == 4) this.quads.add(quad);
                 else if (face.vertices.size() == 3) this.tris.add(quad);
                 else
@@ -510,7 +536,6 @@ public class BBModelTemplate
             }
             else if (this.type.equals("mesh"))
             {
-                for (int i = 0; i < 3; i++) this.origin[i] -= origin[i];
                 vertices.forEach((s, vert) -> {
                     for (int i = 0; i < 3; i++)
                     {
