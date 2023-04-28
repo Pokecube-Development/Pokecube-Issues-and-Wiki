@@ -155,9 +155,9 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             if (weight <= -30) info = TComponent.translatable(tooltips);
 
             if (info != null) tooltip.add(info);
-
-            if (advanced.isAdvanced()) tooltip.add(TComponent.literal("ID: " + this.type.index).withStyle(ChatFormatting.DARK_GRAY));
         }
+
+        if (advanced.isAdvanced()) tooltip.add(TComponent.literal("ID: " + this.type.index).withStyle(ChatFormatting.DARK_GRAY));
     }
 
     @Override
