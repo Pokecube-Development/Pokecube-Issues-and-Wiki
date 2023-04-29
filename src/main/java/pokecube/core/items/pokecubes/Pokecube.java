@@ -183,7 +183,7 @@ public class Pokecube extends Item implements IPokecube
         else
         {
             final ResourceLocation name = RegHelper.getKey(item.getItem());
-            list.add(TComponent.translatable("item.pokecube." + name.getPath() + ".desc"));
+            list.add(TComponent.translatable("item.pokecube." + name.getPath() + ".desc".translateEscapes()));
         }
 
         if (item.hasTag())
