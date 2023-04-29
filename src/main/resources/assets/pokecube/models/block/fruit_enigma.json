@@ -1,11 +1,38 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube:block/enigma_fruit_overlay",
 		"particle": "pokecube:block/enigma_fruit",
-		"enigma": "pokecube:block/enigma_fruit"
+		"enigma": "pokecube:block/enigma_fruit",
+		"overlay": "pokecube:block/enigma_fruit_overlay"
 	},
 	"elements": [
+		{
+			"name": "stem_overlay",
+			"from": [5.8, 11.8, 5.8],
+			"to": [10.2, 16.2, 10.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [6, 6, 10, 10], "texture": "#overlay"},
+				"east": {"uv": [6, 6, 10, 10], "texture": "#overlay"},
+				"south": {"uv": [6, 6, 10, 10], "texture": "#overlay"},
+				"west": {"uv": [6, 6, 10, 10], "texture": "#overlay"},
+				"up": {"uv": [6, 6, 10, 10], "rotation": 270, "texture": "#overlay"}
+			}
+		},
+		{
+			"name": "fruit_overlay",
+			"from": [4.8, 1.8, 4.8],
+			"to": [11.2, 12.2, 11.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 12, 8]},
+			"faces": {
+				"north": {"uv": [6, 0, 0, 10], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 6, 10], "texture": "#overlay"},
+				"south": {"uv": [6, 0, 0, 10], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 6, 10], "texture": "#overlay"},
+				"up": {"uv": [6, 0, 12, 6], "texture": "#overlay"},
+				"down": {"uv": [0, 10, 6, 16], "rotation": 180, "texture": "#overlay"}
+			}
+		},
 		{
 			"name": "stem",
 			"from": [6, 12, 6],
@@ -20,19 +47,6 @@
 			}
 		},
 		{
-			"name": "stem_overlay",
-			"from": [5.8, 11.8, 5.8],
-			"to": [10.2, 16.2, 10.2],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
-			"faces": {
-				"north": {"uv": [6, 6, 10, 10], "texture": "#1"},
-				"east": {"uv": [6, 6, 10, 10], "texture": "#1"},
-				"south": {"uv": [6, 6, 10, 10], "texture": "#1"},
-				"west": {"uv": [6, 6, 10, 10], "texture": "#1"},
-				"up": {"uv": [6, 6, 10, 10], "rotation": 270, "texture": "#1"}
-			}
-		},
-		{
 			"name": "fruit",
 			"from": [5, 2, 5],
 			"to": [11, 12, 11],
@@ -44,20 +58,6 @@
 				"west": {"uv": [0, 0, 6, 10], "texture": "#enigma"},
 				"up": {"uv": [6, 0, 12, 6], "texture": "#enigma"},
 				"down": {"uv": [0, 10, 6, 16], "rotation": 180, "texture": "#enigma"}
-			}
-		},
-		{
-			"name": "fruit_overlay",
-			"from": [4.8, 1.8, 4.8],
-			"to": [11.2, 12.2, 11.2],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 12, 8]},
-			"faces": {
-				"north": {"uv": [6, 0, 0, 10], "texture": "#1"},
-				"east": {"uv": [0, 0, 6, 10], "texture": "#1"},
-				"south": {"uv": [6, 0, 0, 10], "texture": "#1"},
-				"west": {"uv": [0, 0, 6, 10], "texture": "#1"},
-				"up": {"uv": [6, 0, 12, 6], "texture": "#1"},
-				"down": {"uv": [0, 10, 6, 16], "rotation": 180, "texture": "#1"}
 			}
 		}
 	],

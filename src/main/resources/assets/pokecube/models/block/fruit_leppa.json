@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube:block/leppa_fruit_overlay",
 		"particle": "pokecube:block/leppa_fruit",
-		"leppa": "pokecube:block/leppa_fruit"
+		"leppa": "pokecube:block/leppa_fruit",
+		"overlay": "pokecube:block/leppa_fruit_overlay"
 	},
 	"elements": [
 		{
@@ -26,12 +26,12 @@
 			"to": [11.2, 15.2, 11.2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [7, 15.5, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 6, 8], "texture": "#1"},
-				"east": {"uv": [0, 0, 6, 8], "texture": "#1"},
-				"south": {"uv": [0, 0, 6, 8], "texture": "#1"},
-				"west": {"uv": [0, 0, 6, 8], "texture": "#1"},
-				"up": {"uv": [6, 0, 12, 6], "texture": "#1"},
-				"down": {"uv": [6, 6, 12, 12], "texture": "#1"}
+				"north": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"south": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"up": {"uv": [6, 0, 12, 6], "texture": "#overlay"},
+				"down": {"uv": [6, 6, 12, 12], "texture": "#overlay"}
 			}
 		},
 		{

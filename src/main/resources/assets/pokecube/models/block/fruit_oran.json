@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube:block/oran_fruit_overlay",
 		"particle": "pokecube:block/oran_fruit",
-		"oran": "pokecube:block/oran_fruit"
+		"oran": "pokecube:block/oran_fruit",
+		"overlay": "pokecube:block/oran_fruit_overlay"
 	},
 	"elements": [
 		{
@@ -26,12 +26,12 @@
 			"to": [12.2, 15.2, 12.2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 8]},
 			"faces": {
-				"north": {"uv": [0, 0, 8, 8], "texture": "#1"},
-				"east": {"uv": [0, 0, 8, 8], "texture": "#1"},
-				"south": {"uv": [0, 0, 8, 8], "texture": "#1"},
-				"west": {"uv": [0, 0, 8, 8], "texture": "#1"},
-				"up": {"uv": [8, 0, 16, 8], "texture": "#1"},
-				"down": {"uv": [0, 8, 8, 16], "texture": "#1"}
+				"north": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"south": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"up": {"uv": [8, 0, 16, 8], "texture": "#overlay"},
+				"down": {"uv": [0, 8, 8, 16], "texture": "#overlay"}
 			}
 		},
 		{
@@ -53,11 +53,11 @@
 			"to": [10.2, 16.2, 10.2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
-				"north": {"uv": [8, 8, 12, 9], "texture": "#1"},
-				"east": {"uv": [8, 8, 12, 9], "texture": "#1"},
-				"south": {"uv": [8, 8, 12, 9], "texture": "#1"},
-				"west": {"uv": [8, 8, 12, 9], "texture": "#1"},
-				"up": {"uv": [8, 8, 12, 12], "texture": "#1"}
+				"north": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"east": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"south": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"west": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"up": {"uv": [8, 8, 12, 12], "texture": "#overlay"}
 			}
 		}
 	]

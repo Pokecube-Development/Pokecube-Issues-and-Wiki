@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube:block/sitrus_fruit_overlay",
 		"particle": "pokecube:block/sitrus_fruit",
-		"sitrus": "pokecube:block/sitrus_fruit"
+		"sitrus": "pokecube:block/sitrus_fruit",
+		"overlay": "pokecube:block/sitrus_fruit_overlay"
 	},
 	"elements": [
 		{
@@ -45,12 +45,11 @@
 			"to": [10.2, 15.2, 10.2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [1, 0, 5, 2], "texture": "#1"},
-				"east": {"uv": [1, 0, 5, 2], "texture": "#1"},
-				"south": {"uv": [1, 0, 5, 2], "texture": "#1"},
-				"west": {"uv": [1, 0, 5, 2], "texture": "#1"},
-				"up": {"uv": [1, 9, 5, 13], "rotation": 180, "texture": "#1"},
-				"down": {"uv": [0, 0, 0, 0], "texture": "#1"}
+				"north": {"uv": [1, 0, 5, 2], "texture": "#overlay"},
+				"east": {"uv": [1, 0, 5, 2], "texture": "#overlay"},
+				"south": {"uv": [1, 0, 5, 2], "texture": "#overlay"},
+				"west": {"uv": [1, 0, 5, 2], "texture": "#overlay"},
+				"up": {"uv": [1, 9, 5, 13], "rotation": 180, "texture": "#overlay"}
 			}
 		},
 		{
@@ -73,12 +72,12 @@
 			"to": [11.2, 13.2, 11.2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [0, 2, 6, 7], "texture": "#1"},
-				"east": {"uv": [0, 2, 6, 7], "texture": "#1"},
-				"south": {"uv": [0, 2, 6, 7], "texture": "#1"},
-				"west": {"uv": [0, 2, 6, 7], "texture": "#1"},
-				"up": {"uv": [0, 8, 6, 14], "rotation": 180, "texture": "#1"},
-				"down": {"uv": [7, 0, 13, 6], "rotation": 180, "texture": "#1"}
+				"north": {"uv": [0, 2, 6, 7], "texture": "#overlay"},
+				"east": {"uv": [0, 2, 6, 7], "texture": "#overlay"},
+				"south": {"uv": [0, 2, 6, 7], "texture": "#overlay"},
+				"west": {"uv": [0, 2, 6, 7], "texture": "#overlay"},
+				"up": {"uv": [0, 8, 6, 14], "rotation": 180, "texture": "#overlay"},
+				"down": {"uv": [7, 0, 13, 6], "rotation": 180, "texture": "#overlay"}
 			}
 		},
 		{
