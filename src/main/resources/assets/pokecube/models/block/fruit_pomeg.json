@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "pokecube:block/pomeg_fruit_overlay",
 		"particle": "pokecube:block/pomeg_fruit",
-		"pomeg": "pokecube:block/pomeg_fruit"
+		"pomeg": "pokecube:block/pomeg_fruit",
+		"overlay": "pokecube:block/pomeg_fruit_overlay"
 	},
 	"elements": [
 		{
@@ -45,12 +45,12 @@
 			"to": [10.2, 14.2, 10.2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
-				"north": {"uv": [1, 0, 5, 1], "texture": "#1"},
-				"east": {"uv": [1, 0, 5, 1], "texture": "#1"},
-				"south": {"uv": [5, 0, 1, 1], "texture": "#1"},
-				"west": {"uv": [5, 0, 1, 1], "texture": "#1"},
-				"up": {"uv": [7, 2, 11, 6], "texture": "#1"},
-				"down": {"uv": [0, 0, 0, 0], "texture": "#1"}
+				"north": {"uv": [1, 0, 5, 1], "texture": "#overlay"},
+				"east": {"uv": [1, 0, 5, 1], "texture": "#overlay"},
+				"south": {"uv": [5, 0, 1, 1], "texture": "#overlay"},
+				"west": {"uv": [5, 0, 1, 1], "texture": "#overlay"},
+				"up": {"uv": [7, 2, 11, 6], "texture": "#overlay"},
+				"down": {"uv": [0, 0, 0, 0], "texture": "#overlay"}
 			}
 		},
 		{
@@ -73,12 +73,12 @@
 			"to": [11.2, 13.2, 11.2],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
-				"north": {"uv": [0, 1, 6, 7], "texture": "#1"},
-				"east": {"uv": [0, 1, 6, 7], "texture": "#1"},
-				"south": {"uv": [0, 1, 6, 7], "texture": "#1"},
-				"west": {"uv": [0, 1, 6, 7], "texture": "#1"},
-				"up": {"uv": [6, 1, 12, 7], "texture": "#1"},
-				"down": {"uv": [0, 7, 6, 13], "texture": "#1"}
+				"north": {"uv": [0, 1, 6, 7], "texture": "#overlay"},
+				"east": {"uv": [0, 1, 6, 7], "texture": "#overlay"},
+				"south": {"uv": [0, 1, 6, 7], "texture": "#overlay"},
+				"west": {"uv": [0, 1, 6, 7], "texture": "#overlay"},
+				"up": {"uv": [6, 1, 12, 7], "texture": "#overlay"},
+				"down": {"uv": [0, 7, 6, 13], "texture": "#overlay"}
 			}
 		},
 		{
