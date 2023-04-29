@@ -399,6 +399,7 @@ public class BBModelTemplate
         public float[] origin;
         public float[] rotation;
         public int color;
+        public boolean box_uv = false;
         public float inflate = 0.0f;
         public Map<String, JsonObject> faces;
         public Map<String, float[]> vertices;

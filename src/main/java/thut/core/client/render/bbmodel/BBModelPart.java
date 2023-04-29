@@ -126,10 +126,11 @@ public class BBModelPart extends Part
             m.name = ThutCore.trim(key);
             Material mat = new Material(m.name);
             mats.put(m.name, mat);
+            if (b.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);
         });
-        
+
         tris_materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
@@ -138,6 +139,7 @@ public class BBModelPart extends Part
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            if (b.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);
         });
