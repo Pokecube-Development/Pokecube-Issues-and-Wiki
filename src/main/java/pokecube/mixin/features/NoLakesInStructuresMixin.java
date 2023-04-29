@@ -13,6 +13,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfi
 import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
+import thut.lib.RegHelper;
 
 @SuppressWarnings("deprecation")
 @Mixin(net.minecraft.world.level.levelgen.feature.LakeFeature.class)
@@ -29,7 +30,7 @@ public class NoLakesInStructuresMixin
         }
 
         Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
-                .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
         StructureManager structureFeatureManager = accessor.getStructureManager();
 
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry

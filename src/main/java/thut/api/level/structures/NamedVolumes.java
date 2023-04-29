@@ -6,8 +6,6 @@ import java.util.Map.Entry;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockPos.MutableBlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -17,7 +15,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
-import thut.api.level.terrain.TerrainSegment;
+import thut.lib.RegHelper;
 
 public class NamedVolumes
 {
@@ -144,7 +142,7 @@ public class NamedVolumes
         public boolean is(String name)
         {
             if (INamedStructure.super.is(name)) return true;
-            var key = Registry.STRUCTURE_REGISTRY;
+            var key = RegHelper.STRUCTURE_REGISTRY;
             var tag = TagKey.create(key, new ResourceLocation(name));
             var registry = level.registryAccess().registryOrThrow(key);
             var opt_holder = registry.getHolder(registry.getId(this.feature));

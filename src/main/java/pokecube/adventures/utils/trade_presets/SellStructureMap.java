@@ -4,7 +4,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -22,6 +21,7 @@ import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
 import thut.api.util.JsonUtil;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 @TradePresetAn(key = "sellExplorationMap")
@@ -61,7 +61,7 @@ public class SellStructureMap implements TradePreset
             ItemStack output = ItemStack.EMPTY;
             try
             {
-                TagKey<Structure> key = TagKey.create(Registry.STRUCTURE_REGISTRY, loc);
+                TagKey<Structure> key = TagKey.create(RegHelper.STRUCTURE_REGISTRY, loc);
                 // Vanilla one uses 100 and true.
                 BlockPos blockpos = serverlevel.findNearestMapStructure(key, entity.blockPosition(), 100, newOnly);
                 if (blockpos != null)

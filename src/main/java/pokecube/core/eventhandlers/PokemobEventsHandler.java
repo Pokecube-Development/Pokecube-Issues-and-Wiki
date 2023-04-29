@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -126,6 +125,7 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class PokemobEventsHandler
@@ -903,7 +903,7 @@ public class PokemobEventsHandler
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            PokemobEventsHandler.DYETAGS.put(colour, TagKey.create(Registry.ITEM_REGISTRY, tag));
+            PokemobEventsHandler.DYETAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
         }
         return PokemobEventsHandler.DYETAGS;
     }

@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -17,11 +16,12 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.PointedDripstoneConfiguration;
 import pokecube.legends.Reference;
 import pokecube.legends.worldgen.utils.AquamarineUtils;
+import thut.lib.RegHelper;
 
 public class AquamarineCrystalFeature extends Feature<PointedDripstoneConfiguration>
 {
    // Block Tag
-   public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(Registry.BLOCK_REGISTRY,new ResourceLocation(Reference.ID, "base_stone_ultraspace"));
+   public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(RegHelper.BLOCK_REGISTRY,new ResourceLocation(Reference.ID, "base_stone_ultraspace"));
    
    public AquamarineCrystalFeature(final Codec<PointedDripstoneConfiguration> config)
    {

@@ -5,7 +5,6 @@ import java.util.Optional;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -28,12 +27,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
+import thut.lib.RegHelper;
 
 public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         implements BonemealableBlock, SimpleWaterloggedBlock
 {
     // Tag
-    public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(Registry.BLOCK_REGISTRY,
+    public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "big_contaminated_dripleaf_placeable"));
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected static final VoxelShape NORTH_SHAPE = Block.box(4.0D, 0.0D, 8.0D, 12.0D, 16.0D, 16.0D);

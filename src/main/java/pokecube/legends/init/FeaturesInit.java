@@ -1,11 +1,11 @@
 package pokecube.legends.init;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.IEventBus;
 import pokecube.legends.Reference;
+import thut.lib.RegHelper;
 
 public class FeaturesInit
 {
@@ -16,10 +16,10 @@ public class FeaturesInit
     private static final ResourceLocation IDLOC_DISTO = new ResourceLocation(FeaturesInit.ID_DISTO);
 
     // Dimensions
-    public static final ResourceKey<Level> ULTRASPACE_KEY = ResourceKey.create(Registry.DIMENSION_REGISTRY,
+    public static final ResourceKey<Level> ULTRASPACE_KEY = ResourceKey.create(RegHelper.DIMENSION_REGISTRY,
             FeaturesInit.IDLOC_ULTRA);
 
-    public static final ResourceKey<Level> DISTORTEDWORLD_KEY = ResourceKey.create(Registry.DIMENSION_REGISTRY,
+    public static final ResourceKey<Level> DISTORTEDWORLD_KEY = ResourceKey.create(RegHelper.DIMENSION_REGISTRY,
             FeaturesInit.IDLOC_DISTO);
 
     public static void init(IEventBus bus)

@@ -60,6 +60,7 @@ import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class SecretBaseDimension
@@ -205,7 +206,7 @@ public class SecretBaseDimension
     {
         public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((p_208215_) -> {
             return commonCodec(p_208215_)
-                    .and(RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter((p_208210_) ->
+                    .and(RegistryOps.retrieveRegistry(RegHelper.BIOME_REGISTRY).forGetter((p_208210_) ->
                     {
                         return p_208210_.registry;
                     })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
@@ -328,9 +329,9 @@ public class SecretBaseDimension
 
     private static final ResourceLocation IDLOC = new ResourceLocation(SecretBaseDimension.ID);
 
-    public static final ResourceKey<Level> WORLD_KEY = ResourceKey.create(Registry.DIMENSION_REGISTRY,
+    public static final ResourceKey<Level> WORLD_KEY = ResourceKey.create(RegHelper.DIMENSION_REGISTRY,
             SecretBaseDimension.IDLOC);
-    public static final ResourceKey<Biome> BIOME_KEY = ResourceKey.create(Registry.BIOME_REGISTRY,
+    public static final ResourceKey<Biome> BIOME_KEY = ResourceKey.create(RegHelper.BIOME_REGISTRY,
             SecretBaseDimension.IDLOC);
 
     public static final double WORLDSIZE = 2 * 2999984;

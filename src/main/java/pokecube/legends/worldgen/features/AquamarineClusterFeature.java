@@ -7,7 +7,6 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
@@ -27,11 +26,12 @@ import net.minecraft.world.level.levelgen.feature.configurations.DripstoneCluste
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.utils.AquamarineUtils;
+import thut.lib.RegHelper;
 
 public class AquamarineClusterFeature extends Feature<DripstoneClusterConfiguration>
 {
     // Block Tag
-    public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(Registry.BLOCK_REGISTRY,
+    public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "base_stone_ultraspace"));
 
     public AquamarineClusterFeature(final Codec<DripstoneClusterConfiguration> config)

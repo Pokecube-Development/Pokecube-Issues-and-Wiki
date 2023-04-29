@@ -1,7 +1,9 @@
 package thut.bling.client;
 
-import com.google.common.collect.Maps;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 import net.minecraft.resources.ResourceLocation;
 import pokecube.compat.wearables.sided.Common;
 import thut.api.ModelHolder;

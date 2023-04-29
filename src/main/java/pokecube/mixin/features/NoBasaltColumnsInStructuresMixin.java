@@ -17,6 +17,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.api.PokecubeAPI;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
+import thut.lib.RegHelper;
 
 @Mixin(BasaltColumnsFeature.class)
 public class NoBasaltColumnsInStructuresMixin
@@ -41,7 +42,7 @@ public class NoBasaltColumnsInStructuresMixin
         }
 
         Registry<Structure> configuredStructureFeatureRegistry = levelAccessor.registryAccess()
-                .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
         StructureManager structureFeatureManager = accessor.getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_BASALT))

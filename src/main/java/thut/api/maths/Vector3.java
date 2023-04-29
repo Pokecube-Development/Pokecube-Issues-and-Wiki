@@ -1086,8 +1086,8 @@ public class Vector3
         // No need to run this if we are already the same biome...
         if (old == biome) return;
 
-        ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, RegHelper.getKey(biome));
-        Registry<Biome> registry = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+        ResourceKey<Biome> key = ResourceKey.create(RegHelper.BIOME_REGISTRY, RegHelper.getKey(biome));
+        Registry<Biome> registry = level.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY);
         Reference<Biome> holder = Holder.Reference.createStandAlone(registry, key);
         holder.bind(key, biome);
 

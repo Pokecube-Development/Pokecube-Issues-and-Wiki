@@ -1,6 +1,5 @@
 package pokecube.world;
 
-import net.minecraft.core.Registry;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
@@ -17,6 +16,7 @@ import pokecube.world.gen.features.trees.foliage.FoliagePlacerTypes;
 import pokecube.world.gen.features.trees.trunks.TrunkPlacerTypes;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.PokecubeStructureProcessors;
+import thut.lib.RegHelper;
 
 public class PokecubeWorld
 {
@@ -31,13 +31,13 @@ public class PokecubeWorld
 
     static
     {
-        POOL_ELEMENT_TYPES = DeferredRegister.create(Registry.STRUCTURE_POOL_ELEMENT_REGISTRY, PokecubeCore.MODID);
-        STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(Registry.STRUCTURE_PROCESSOR_REGISTRY, PokecubeCore.MODID);
-        CONFIGURED_FEATURES = DeferredRegister.create(Registry.CONFIGURED_FEATURE_REGISTRY, PokecubeCore.MODID);
-        STRUCTURE_TYPES = DeferredRegister.create(Registry.STRUCTURE_TYPE_REGISTRY, PokecubeCore.MODID);
-        PLACED_FEATURES = DeferredRegister.create(Registry.PLACED_FEATURE_REGISTRY, PokecubeCore.MODID);
-        FOLIAGE_PLACERS = DeferredRegister.create(Registry.FOLIAGE_PLACER_TYPE_REGISTRY, PokecubeCore.MODID);
-        TRUNK_PLACERS = DeferredRegister.create(Registry.TRUNK_PLACER_TYPE_REGISTRY, PokecubeCore.MODID);
+        POOL_ELEMENT_TYPES = DeferredRegister.create(RegHelper.STRUCTURE_POOL_ELEMENT_REGISTRY, PokecubeCore.MODID);
+        STRUCTURE_PROCESSOR_TYPES = DeferredRegister.create(RegHelper.STRUCTURE_PROCESSOR_REGISTRY, PokecubeCore.MODID);
+        CONFIGURED_FEATURES = DeferredRegister.create(RegHelper.CONFIGURED_FEATURE_REGISTRY, PokecubeCore.MODID);
+        STRUCTURE_TYPES = DeferredRegister.create(RegHelper.STRUCTURE_TYPE_REGISTRY, PokecubeCore.MODID);
+        PLACED_FEATURES = DeferredRegister.create(RegHelper.PLACED_FEATURE_REGISTRY, PokecubeCore.MODID);
+        FOLIAGE_PLACERS = DeferredRegister.create(RegHelper.FOLIAGE_PLACER_TYPE_REGISTRY, PokecubeCore.MODID);
+        TRUNK_PLACERS = DeferredRegister.create(RegHelper.TRUNK_PLACER_TYPE_REGISTRY, PokecubeCore.MODID);
     }
 
     public static void init(final IEventBus bus)

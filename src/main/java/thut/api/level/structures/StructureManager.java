@@ -10,7 +10,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +27,7 @@ import thut.api.level.terrain.GlobalChunkPos;
 import thut.api.level.terrain.ITerrainProvider;
 import thut.api.level.terrain.TerrainManager;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class StructureManager
 {
@@ -136,7 +136,7 @@ public class StructureManager
         // The world is null when it is loaded off thread during worldgen!
         if (!(evt.getLevel() instanceof ServerLevel w) || evt.getLevel().isClientSide()) return;
         final ResourceKey<Level> dim = w.dimension();
-        var reg = w.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+        var reg = w.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
         for (final Entry<Structure, StructureStart> entry : evt.getChunk().getAllStarts()
                 .entrySet())
         {

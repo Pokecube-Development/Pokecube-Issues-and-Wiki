@@ -8,7 +8,6 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -26,11 +25,12 @@ import net.minecraft.world.phys.Vec3;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.utils.AquamarineUtils;
+import thut.lib.RegHelper;
 
 public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguration>
 {
    // Block Tag
-   public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(Registry.BLOCK_REGISTRY,new ResourceLocation(Reference.ID, "base_stone_ultraspace"));
+   public static final TagKey<Block> BASE_STONE_ULTRASPACE = TagKey.create(RegHelper.BLOCK_REGISTRY,new ResourceLocation(Reference.ID, "base_stone_ultraspace"));
    
    public LargeUnrefinedAquamarine(final Codec<LargeDripstoneConfiguration> config)
    {

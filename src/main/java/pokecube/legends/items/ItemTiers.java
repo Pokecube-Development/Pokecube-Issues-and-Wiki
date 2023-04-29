@@ -2,7 +2,6 @@ package pokecube.legends.items;
 
 import java.util.List;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
@@ -12,10 +11,11 @@ import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.ForgeTier;
 import net.minecraftforge.common.TierSortingRegistry;
 import pokecube.legends.init.ItemInit;
+import thut.lib.RegHelper;
 
 public class ItemTiers
 {
-    public static final TagKey<Block> RAINBOW_WING_TAG = TagKey.create(Registry.BLOCK_REGISTRY,
+    public static final TagKey<Block> RAINBOW_WING_TAG = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation("pokecube_legends:needs_rainbow_wing_tool"));
 
     public static final Tier RAINBOW_WING = TierSortingRegistry.registerTier(

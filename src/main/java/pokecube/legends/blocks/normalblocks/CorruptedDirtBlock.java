@@ -1,7 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
@@ -13,11 +12,12 @@ import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
+import thut.lib.RegHelper;
 
 public class CorruptedDirtBlock extends Block implements BonemealableBlock
 {
     // Tag
-    public static final TagKey<Block> CORRUPTED_GRASS_SPREADABLE = TagKey.create(Registry.BLOCK_REGISTRY,
+    public static final TagKey<Block> CORRUPTED_GRASS_SPREADABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "corrupted_grass_spreadable"));
 
     public CorruptedDirtBlock(final Properties properties)

@@ -1,8 +1,10 @@
 package thut.bling.client;
 
+import java.util.Map;
+
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import java.util.Map;
+
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;

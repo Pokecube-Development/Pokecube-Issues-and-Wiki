@@ -21,7 +21,6 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
@@ -60,6 +59,7 @@ import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientInit
@@ -125,7 +125,7 @@ public class ClientInit
         event.getLeft().add("");
         Level level = Minecraft.getInstance().level;
 
-        var regi = level.registryAccess().registry(Registry.STRUCTURE_REGISTRY);
+        var regi = level.registryAccess().registry(RegHelper.STRUCTURE_REGISTRY);
         Set<INamedStructure> structures = StructureManager.getNear(level.dimension(), v.getPos(), 5, true);
         if (regi.isPresent())
         {

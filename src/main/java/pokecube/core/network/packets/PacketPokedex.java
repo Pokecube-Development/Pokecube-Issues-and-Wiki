@@ -16,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -64,6 +63,7 @@ import thut.api.util.UnderscoreIgnore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class PacketPokedex extends NBTPacket
@@ -204,8 +204,8 @@ public class PacketPokedex extends NBTPacket
         BlockPos testPos = searcher.getNext(pos, step);
 
         ResourceLocation resourcelocation1 = new ResourceLocation("pokecube_world:meteorites");
-        var registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
-        var key = TagKey.create(Registry.STRUCTURE_REGISTRY, resourcelocation1);
+        var registry = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
+        var key = TagKey.create(RegHelper.STRUCTURE_REGISTRY, resourcelocation1);
         HolderSet<Structure> holderset = HolderSet.direct(registry.getOrCreateTag(key).stream().toList());
 
         long time = System.nanoTime();

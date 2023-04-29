@@ -2,6 +2,7 @@ package pokecube.core.items;
 
 import java.util.List;
 import java.util.function.Predicate;
+
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;

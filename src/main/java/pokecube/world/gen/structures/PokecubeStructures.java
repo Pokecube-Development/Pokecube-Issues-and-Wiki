@@ -1,7 +1,6 @@
 package pokecube.world.gen.structures;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -18,6 +17,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.PokecubeWorld;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
+import thut.lib.RegHelper;
 
 public class PokecubeStructures
 {
@@ -48,7 +48,7 @@ public class PokecubeStructures
             {
                 serverWorld.getServer().execute(() -> {
                     final ResourceLocation location = new ResourceLocation("pokecube_world:starting_town");
-                    TagKey<Structure> tagkey = TagKey.create(Registry.STRUCTURE_REGISTRY, location);
+                    TagKey<Structure> tagkey = TagKey.create(RegHelper.STRUCTURE_REGISTRY, location);
                     serverWorld.findNearestMapStructure(tagkey, BlockPos.ZERO, 5, false);
                 });
             }

@@ -1,8 +1,8 @@
 package pokecube.legends.init;
 
 import java.util.function.Predicate;
-
 import java.util.stream.Stream;
+
 import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.particle.LavaParticle;
 import net.minecraft.client.particle.SmokeParticle;

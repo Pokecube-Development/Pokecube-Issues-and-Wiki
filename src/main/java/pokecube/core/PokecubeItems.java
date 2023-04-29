@@ -20,7 +20,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -494,7 +493,7 @@ public class PokecubeItems extends ItemList
 
     public static ItemStack getStack(final ResourceLocation loc, final boolean stacktrace)
     {
-        final TagKey<Item> tag = TagKey.create(Registry.ITEM_REGISTRY, loc);
+        final TagKey<Item> tag = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
         if (tag != null)
         {
             List<Item> items = ForgeRegistries.ITEMS.tags().getTag(tag).stream().toList();
@@ -759,7 +758,7 @@ public class PokecubeItems extends ItemList
     {
         if (name == null) return false;
         final ResourceLocation loc = PokecubeItems.toPokecubeResource(name);
-        final TagKey<Item> old = TagKey.create(Registry.ITEM_REGISTRY, loc);
+        final TagKey<Item> old = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
         final Item item = ForgeRegistries.ITEMS.getValue(loc);
         return old != null || ItemList.pendingTags.containsKey(loc) || item != null;
     }

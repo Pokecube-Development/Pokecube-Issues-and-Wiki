@@ -38,6 +38,7 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.lib.RegHelper;
 import thut.lib.ResourceHelper;
 
 public class BerryGenManager
@@ -92,7 +93,7 @@ public class BerryGenManager
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
 
     public static final ProcessorRule REPLACEABLEONLY = new ProcessorRule(AlwaysTrueTest.INSTANCE,
-            new TagMatchTest(TagKey.create(Registry.BLOCK_REGISTRY, BerryGenManager.REPLACETAG)),
+            new TagMatchTest(TagKey.create(RegHelper.BLOCK_REGISTRY, BerryGenManager.REPLACETAG)),
             Blocks.STRUCTURE_VOID.defaultBlockState());
 
     private static Map<Integer, TreeProvider> trees = Maps.newHashMap();

@@ -15,6 +15,7 @@ import net.minecraft.world.level.levelgen.feature.foliageplacers.BushFoliagePlac
 import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
+import thut.lib.RegHelper;
 
 @Mixin(TreeFeature.class)
 public class LessJungleBushInStructuresMixin
@@ -32,7 +33,7 @@ public class LessJungleBushInStructuresMixin
             if (context.random().nextFloat() < 0.85f)
             {
                 Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
-                        .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                        .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
                 StructureManager structureManager = ((WorldGenRegionAccessor) context.level()).getStructureManager();
 
                 for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry

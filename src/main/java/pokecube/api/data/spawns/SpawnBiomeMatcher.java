@@ -18,7 +18,6 @@ import com.mojang.serialization.JsonOps;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryCodecs;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.RegistryOps;
@@ -39,6 +38,7 @@ import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.level.terrain.BiomeDatabase;
 import thut.api.level.terrain.BiomeType;
+import thut.lib.RegHelper;
 
 public class SpawnBiomeMatcher
 {
@@ -114,10 +114,10 @@ public class SpawnBiomeMatcher
         clearClientValues(matcher);
         try
         {
-            var reg = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(Registry.BIOME_REGISTRY);
+            var reg = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY);
             for (final ResourceLocation test : reg.keySet())
             {
-                var holder = reg.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, test));
+                var holder = reg.getHolderOrThrow(ResourceKey.create(RegHelper.BIOME_REGISTRY, test));
                 final boolean valid = matcher.checkBiome(holder);
                 if (valid)
                 {
@@ -639,7 +639,7 @@ public class SpawnBiomeMatcher
             {
                 if (BiomeDatabase.isBiomeTag(s))
                 {
-                    TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
+                    TagKey<Biome> tag = TagKey.create(RegHelper.BIOME_REGISTRY,
                             new ResourceLocation(s.replace("#", "")));
                     this._validBiomes.add(tag);
                     continue;
@@ -656,7 +656,7 @@ public class SpawnBiomeMatcher
             {
                 if (BiomeDatabase.isBiomeTag(s))
                 {
-                    TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
+                    TagKey<Biome> tag = TagKey.create(RegHelper.BIOME_REGISTRY,
                             new ResourceLocation(s.replace("#", "")));
                     this._blackListBiomes.add(tag);
                     continue;
@@ -733,7 +733,7 @@ public class SpawnBiomeMatcher
                 var arr = spawnRule.biomes;
                 var server = ServerLifecycleHooks.getCurrentServer();
                 RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, server.registryAccess());
-                var output = RegistryCodecs.homogeneousList(Registry.BIOME_REGISTRY).parse(ops, arr);
+                var output = RegistryCodecs.homogeneousList(RegHelper.BIOME_REGISTRY).parse(ops, arr);
                 this._biomeHolderset = output.result().get();
             }
             catch (Exception e)

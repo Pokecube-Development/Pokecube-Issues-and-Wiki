@@ -16,7 +16,6 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -201,7 +200,7 @@ public class ActionNaturePower implements IMoveWorldEffect
                 _biome_ = new ResourceLocation(biome);
                 required.forEach(s -> _required_.add(new ResourceLocation(s)));
             }
-            ResourceKey<Biome> KEY = ResourceKey.create(Registry.BIOME_REGISTRY, _biome_);
+            ResourceKey<Biome> KEY = ResourceKey.create(RegHelper.BIOME_REGISTRY, _biome_);
             final PointChecker checker = new PointChecker(world, new Vector3().set(pos), _predicate_);
             checker.checkPoints();
             if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Checking for " + _biome_);
@@ -363,7 +362,7 @@ public class ActionNaturePower implements IMoveWorldEffect
         if (checker.blocks.size() > 1)
         {
             final Set<ChunkAccess> affected = Sets.newHashSet();
-            final Biome biome = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(key);
+            final Biome biome = world.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY).get(key);
             final ServerLevel sWorld = (ServerLevel) world;
             sWorld.getServer().getPlayerList();
             // This needs to use the chunk manager and send the chunkto watching

@@ -7,7 +7,6 @@ import java.util.function.Supplier;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -25,6 +24,7 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import thut.lib.RegHelper;
 
 public class RecipeDye extends CustomRecipe
 {
@@ -47,7 +47,7 @@ public class RecipeDye extends CustomRecipe
         if (RecipeDye.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            RecipeDye.DYETAGS.put(colour, TagKey.create(Registry.ITEM_REGISTRY, tag));
+            RecipeDye.DYETAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
         }
         return RecipeDye.DYETAGS;
     }

@@ -14,6 +14,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.SpringConfigura
 import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
+import thut.lib.RegHelper;
 
 @Mixin(SpringFeature.class)
 public class NoFluidFallsInStructuresMixin
@@ -25,7 +26,7 @@ public class NoFluidFallsInStructuresMixin
     {
         if (!(context.level() instanceof WorldGenRegionAccessor accessor)) return;
         Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
-                .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
         StructureManager structureFeatureManager = accessor.getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_FLUIDFALLS))

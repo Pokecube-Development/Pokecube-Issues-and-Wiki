@@ -14,6 +14,7 @@ import net.minecraft.world.level.levelgen.feature.configurations.DeltaFeatureCon
 import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
+import thut.lib.RegHelper;
 
 @Mixin(DeltaFeature.class)
 public class NoDeltasInStructuresMixin
@@ -29,7 +30,7 @@ public class NoDeltasInStructuresMixin
         }
 
         Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
-                .registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
         StructureManager structureFeatureManager = accessor.getStructureManager();
         for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_BASALT))

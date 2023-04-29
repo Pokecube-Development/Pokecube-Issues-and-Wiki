@@ -8,7 +8,6 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockSource;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.dispenser.DispenseItemBehavior;
 import net.minecraft.resources.ResourceLocation;
@@ -45,7 +44,7 @@ public class DispenseBehaviourInteract implements DispenseItemBehavior
 
     public static void registerBehavior(final ResourceLocation tag)
     {
-        TagKey<Item> itemtag = TagKey.create(Registry.ITEM_REGISTRY, tag);
+        TagKey<Item> itemtag = TagKey.create(RegHelper.ITEM_REGISTRY, tag);
         List<Item> items = ForgeRegistries.ITEMS.tags().getTag(itemtag).stream().toList();
         for (final Item item : items) DispenseBehaviourInteract.registerBehavior(new ItemStack(item));
     }

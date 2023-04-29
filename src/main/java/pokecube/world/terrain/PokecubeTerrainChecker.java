@@ -4,7 +4,6 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
@@ -18,14 +17,15 @@ import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.GenericJigsawStructure;
-import thut.api.level.structures.StructureManager;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainChecker;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.level.terrain.TerrainSegment.ISubBiomeChecker;
 import thut.api.maths.Vector3;
 import thut.core.common.handlers.ConfigHandler;
+import thut.lib.RegHelper;
 
 public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeChecker
 {
@@ -66,7 +66,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 // subbiome internally, if so, set to that first.
                 if (obj instanceof Structure feature)
                 {
-                    var registry = world.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+                    var registry = world.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
                     var opt_holder = registry.getHolder(registry.getId(feature));
                     opt_check:
                     if (!opt_holder.isEmpty())

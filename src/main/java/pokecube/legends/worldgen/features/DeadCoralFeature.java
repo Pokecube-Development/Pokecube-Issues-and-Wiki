@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
@@ -20,15 +19,16 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraftforge.registries.ForgeRegistries;
+import thut.lib.RegHelper;
 
 public abstract class DeadCoralFeature extends Feature<NoneFeatureConfiguration>
 {
     // Tags
-    public final static TagKey<Block> DEAD_CORAL_BLOCKS = TagKey.create(Registry.BLOCK_REGISTRY,
+    public final static TagKey<Block> DEAD_CORAL_BLOCKS = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation("forge", "dead_coral_blocks"));
-    public final static TagKey<Block> DEAD_CORALS = TagKey.create(Registry.BLOCK_REGISTRY,
+    public final static TagKey<Block> DEAD_CORALS = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation("forge", "dead_corals"));
-    public final static TagKey<Block> DEAD_WALL_CORALS = TagKey.create(Registry.BLOCK_REGISTRY,
+    public final static TagKey<Block> DEAD_WALL_CORALS = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation("forge", "dead_wall_corals"));
 
     private Block getRandom(TagKey<Block> key, RandomSource rand)
