@@ -266,8 +266,7 @@ public class AnimationLoader
 
                 // Handle customTextures
                 texturer.init(texs);
-                if (texs.defaults != null) holder.texture = new ResourceLocation(
-                        holder.texture.toString().replace(holder.name, texs.defaults));
+                if (texs.defaults != null) holder.texture = new ResourceLocation(texs.defaults);
                 texturer.init(texs);
 
                 // Apply texture phases (ie texture animations)
