@@ -2,54 +2,94 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"particle": "pokecube:block/hondew_fruit",
-		"hondew": "pokecube:block/hondew_fruit"
+		"hondew": "pokecube:block/hondew_fruit",
+		"overlay": "pokecube:block/hondew_fruit_overlay"
 	},
 	"elements": [
 		{
 			"name": "stem",
-			"from": [5.5, 15, 8],
-			"to": [7.5, 16, 8],
+			"from": [5, 14, 8],
+			"to": [7, 16, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [8, 0, 10, 1], "texture": "#hondew"},
-				"south": {"uv": [5, 0, 7, 1], "texture": "#hondew"}
+				"north": {"uv": [7, 10, 9, 12], "texture": "#hondew"},
+				"south": {"uv": [7, 10, 9, 12], "texture": "#hondew"}
 			}
 		},
 		{
 			"name": "stem",
-			"from": [8.5, 15, 8],
-			"to": [10.5, 16, 8],
+			"from": [9, 14, 8],
+			"to": [11, 16, 8],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [5, 0, 7, 1], "texture": "#hondew"},
-				"south": {"uv": [8, 0, 10, 1], "texture": "#hondew"}
+				"north": {"uv": [10, 10, 12, 12], "texture": "#hondew"},
+				"south": {"uv": [10, 10, 12, 12], "texture": "#hondew"}
 			}
 		},
 		{
 			"name": "stem",
-			"from": [7.5, 15, 7.5],
-			"to": [8.5, 16, 8.5],
+			"from": [7, 14, 7],
+			"to": [9, 16, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [7, 0, 8, 1], "texture": "#hondew"},
-				"east": {"uv": [7, 0, 8, 1], "texture": "#hondew"},
-				"south": {"uv": [7, 0, 8, 1], "texture": "#hondew"},
-				"west": {"uv": [7, 0, 8, 1], "texture": "#hondew"},
-				"up": {"uv": [5, 7, 6, 8], "rotation": 180, "texture": "#hondew"}
+				"north": {"uv": [7, 7, 9, 9], "texture": "#hondew"},
+				"east": {"uv": [7, 7, 9, 9], "texture": "#hondew"},
+				"south": {"uv": [7, 7, 9, 9], "texture": "#hondew"},
+				"west": {"uv": [7, 7, 9, 9], "texture": "#hondew"},
+				"up": {"uv": [7, 7, 9, 9], "rotation": 180, "texture": "#hondew"}
+			}
+		},
+		{
+			"name": "stem_overlay",
+			"from": [6.8, 13.8, 6.8],
+			"to": [9.2, 16.2, 9.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"east": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"south": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"west": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"up": {"uv": [7, 7, 9, 9], "rotation": 180, "texture": "#overlay"}
 			}
 		},
 		{
 			"name": "fruit",
-			"from": [5.5, 9, 5.5],
-			"to": [10.5, 15, 10.5],
+			"from": [5, 5, 5],
+			"to": [11, 14, 11],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [5, 1, 10, 7], "texture": "#hondew"},
-				"east": {"uv": [5, 1, 10, 7], "texture": "#hondew"},
-				"south": {"uv": [10, 1, 5, 7], "texture": "#hondew"},
-				"west": {"uv": [10, 1, 5, 7], "texture": "#hondew"},
-				"up": {"uv": [0, 0, 5, 5], "rotation": 180, "texture": "#hondew"},
-				"down": {"uv": [0, 5, 5, 10], "rotation": 270, "texture": "#hondew"}
+				"north": {"uv": [0, 0, 6, 9], "texture": "#hondew"},
+				"east": {"uv": [0, 0, 6, 9], "texture": "#hondew"},
+				"south": {"uv": [0, 0, 6, 9], "texture": "#hondew"},
+				"west": {"uv": [0, 0, 6, 9], "texture": "#hondew"},
+				"up": {"uv": [0, 10, 6, 16], "rotation": 180, "texture": "#hondew"},
+				"down": {"uv": [7, 0, 13, 6], "rotation": 270, "texture": "#hondew"}
+			}
+		},
+		{
+			"name": "fruit_overlay",
+			"from": [4.8, 4.8, 4.8],
+			"to": [11.2, 14.2, 11.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 6, 9], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 6, 9], "texture": "#overlay"},
+				"south": {"uv": [0, 0, 6, 9], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 6, 9], "texture": "#overlay"},
+				"up": {"uv": [0, 10, 6, 16], "rotation": 180, "texture": "#overlay"},
+				"down": {"uv": [7, 0, 13, 6], "rotation": 270, "texture": "#overlay"}
+			}
+		},
+		{
+			"name": "fruit_spots",
+			"from": [4.6, 4.6, 4.6],
+			"to": [11.4, 14.4, 11.4],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [10, 7, 16, 16], "texture": "#overlay"},
+				"east": {"uv": [10, 7, 16, 16], "texture": "#overlay"},
+				"south": {"uv": [10, 7, 16, 16], "texture": "#overlay"},
+				"west": {"uv": [10, 7, 16, 16], "texture": "#overlay"}
 			}
 		}
 	]
