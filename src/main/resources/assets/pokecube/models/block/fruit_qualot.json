@@ -10,7 +10,7 @@
 			"name": "stem",
 			"from": [8, 13, 6],
 			"to": [8, 16, 10],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 13, 8]},
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 13, 8], "rescale": true},
 			"faces": {
 				"east": {"uv": [0, 11, 4, 14], "texture": "#qualot"},
 				"west": {"uv": [0, 11, 4, 14], "texture": "#qualot"}
@@ -20,10 +20,37 @@
 			"name": "stem",
 			"from": [6, 13, 8],
 			"to": [10, 16, 8],
-			"rotation": {"angle": 45, "axis": "y", "origin": [8, 13, 8]},
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 13, 8], "rescale": true},
 			"faces": {
 				"north": {"uv": [0, 11, 4, 14], "texture": "#qualot"},
 				"south": {"uv": [0, 11, 4, 14], "texture": "#qualot"}
+			}
+		},
+		{
+			"name": "stem",
+			"from": [7, 13, 7],
+			"to": [9, 16, 9],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [1, 11, 3, 14], "texture": "#qualot"},
+				"east": {"uv": [1, 11, 3, 14], "texture": "#qualot"},
+				"south": {"uv": [1, 11, 3, 14], "texture": "#qualot"},
+				"west": {"uv": [1, 11, 3, 14], "texture": "#qualot"},
+				"up": {"uv": [1, 11, 3, 13], "rotation": 180, "texture": "#qualot"}
+			}
+		},
+		{
+			"name": "stem_overlay",
+			"from": [6.8, 12.8, 6.8],
+			"to": [9.2, 16.2, 9.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [1, 11, 3, 14], "texture": "#overlay"},
+				"east": {"uv": [1, 11, 3, 14], "texture": "#overlay"},
+				"south": {"uv": [1, 11, 3, 14], "texture": "#overlay"},
+				"west": {"uv": [1, 11, 3, 14], "texture": "#overlay"},
+				"up": {"uv": [1, 11, 3, 13], "rotation": 180, "texture": "#overlay"},
+				"down": {"uv": [0, 0, 0, 0], "texture": "#overlay"}
 			}
 		},
 		{
