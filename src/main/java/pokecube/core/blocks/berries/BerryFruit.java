@@ -34,8 +34,7 @@ public class BerryFruit extends BushBlock
 
     // Precise selection box @formatter:off
     private static final VoxelShape PECHA_BERRY = Shapes.or(
-      Block.box(5, 10, 6, 11, 15, 10),
-      Block.box(6, 7.6, 6, 10, 10, 10))
+      Block.box(5, 7.6, 5, 11, 15, 11))
       .optimize();
 
     private static final VoxelShape ASPEAR_BERRY = Shapes.or(
