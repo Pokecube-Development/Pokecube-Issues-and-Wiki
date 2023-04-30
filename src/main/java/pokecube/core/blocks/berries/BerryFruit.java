@@ -79,6 +79,7 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape QUALOT_BERRY = Shapes.or(
+      Block.box(7, 13, 7, 9, 16, 9),
       Block.box(6, 12, 6, 10, 13, 10),
       Block.box(5, 4, 5, 11, 12, 11),
       Block.box(6, 3, 6, 10, 4, 10))

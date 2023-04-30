@@ -34,6 +34,26 @@
 		},
 		{
 			"name": "leaves",
+			"from": [8, 5, 5],
+			"to": [8, 7, 11],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 6, 8]},
+			"faces": {
+				"east": {"uv": [6, 7, 12, 9], "texture": "#missing"},
+				"west": {"uv": [6, 7, 12, 9], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "leaves",
+			"from": [5, 5, 8],
+			"to": [11, 7, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 6, 8]},
+			"faces": {
+				"north": {"uv": [6, 7, 12, 9], "texture": "#missing"},
+				"south": {"uv": [6, 7, 12, 9], "texture": "#missing"}
+			}
+		},
+		{
+			"name": "leaves",
 			"from": [8, 15, 6],
 			"to": [13, 15, 10],
 			"rotation": {"angle": -22.5, "axis": "z", "origin": [11, 15, 8]},
