@@ -2,64 +2,93 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"particle": "pokecube:block/grepa_fruit",
-		"grepa": "pokecube:block/grepa_fruit"
+		"grepa": "pokecube:block/grepa_fruit",
+		"overlay": "pokecube:block/grepa_fruit_overlay"
 	},
 	"elements": [
 		{
+			"name": "leaves",
+			"from": [8, 16.35, 5],
+			"to": [14, 16.35, 10],
+			"rotation": {"angle": -45, "axis": "z", "origin": [9, 16, 8]},
+			"faces": {
+				"up": {"uv": [7, 10, 13, 15], "texture": "#grepa"},
+				"down": {"uv": [7, 10, 13, 15], "texture": "#grepa"}
+			}
+		},
+		{
 			"name": "stem",
-			"from": [7.5, 15, 7.5],
-			"to": [8.5, 16, 8.5],
+			"from": [7, 14, 7],
+			"to": [9, 16, 9],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [7, 0, 8, 1], "texture": "#grepa"},
-				"east": {"uv": [7, 0, 8, 1], "texture": "#grepa"},
-				"south": {"uv": [7, 0, 8, 1], "texture": "#grepa"},
-				"west": {"uv": [7, 0, 8, 1], "texture": "#grepa"},
-				"up": {"uv": [5, 6, 6, 7], "texture": "#grepa", "cullface": "up"}
+				"north": {"uv": [7, 7, 9, 9], "texture": "#grepa"},
+				"east": {"uv": [7, 7, 9, 9], "texture": "#grepa"},
+				"south": {"uv": [7, 7, 9, 9], "texture": "#grepa"},
+				"west": {"uv": [7, 7, 9, 9], "texture": "#grepa"},
+				"up": {"uv": [7, 7, 9, 9], "texture": "#grepa", "cullface": "up"}
+			}
+		},
+		{
+			"name": "stem_overlay",
+			"from": [6.8, 13.8, 6.8],
+			"to": [9.2, 16.2, 9.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"east": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"south": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"west": {"uv": [7, 7, 9, 9], "texture": "#overlay"},
+				"up": {"uv": [7, 7, 9, 9], "texture": "#overlay", "cullface": "up"},
+				"down": {"uv": [0, 0, 0, 0], "texture": "#overlay"}
 			}
 		},
 		{
 			"name": "fruit",
-			"from": [5.5, 10, 5.5],
-			"to": [10.5, 15, 10.5],
+			"from": [5, 8, 5],
+			"to": [11, 14, 11],
 			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
-				"north": {"uv": [5, 1, 10, 6], "texture": "#grepa"},
-				"east": {"uv": [5, 1, 10, 6], "texture": "#grepa"},
-				"south": {"uv": [10, 1, 5, 6], "texture": "#grepa"},
-				"west": {"uv": [10, 1, 5, 6], "texture": "#grepa"},
-				"up": {"uv": [0, 0, 5, 5], "texture": "#grepa"},
-				"down": {"uv": [0, 5, 5, 10], "texture": "#grepa"}
+				"north": {"uv": [0, 0, 6, 6], "texture": "#grepa"},
+				"east": {"uv": [0, 0, 6, 6], "texture": "#grepa"},
+				"south": {"uv": [6, 0, 0, 6], "texture": "#grepa"},
+				"west": {"uv": [6, 0, 0, 6], "texture": "#grepa"},
+				"up": {"uv": [7, 0, 13, 6], "texture": "#grepa"},
+				"down": {"uv": [0, 7, 6, 13], "texture": "#grepa"}
+			}
+		},
+		{
+			"name": "fruit_overlay",
+			"from": [4.8, 7.8, 4.8],
+			"to": [11.2, 14.2, 11.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 6, 6], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 6, 6], "texture": "#overlay"},
+				"south": {"uv": [6, 0, 0, 6], "texture": "#overlay"},
+				"west": {"uv": [6, 0, 0, 6], "texture": "#overlay"},
+				"up": {"uv": [7, 0, 13, 6], "texture": "#overlay"},
+				"down": {"uv": [0, 7, 6, 13], "texture": "#overlay"}
 			}
 		},
 		{
 			"name": "leaves",
-			"from": [8, 5, 5],
-			"to": [8, 7, 11],
+			"from": [8, 6, 5],
+			"to": [8, 8, 11],
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 6, 8]},
 			"faces": {
-				"east": {"uv": [6, 7, 12, 9], "texture": "#missing"},
-				"west": {"uv": [6, 7, 12, 9], "texture": "#missing"}
+				"east": {"uv": [0, 14, 6, 16], "texture": "#grepa"},
+				"west": {"uv": [0, 14, 6, 16], "texture": "#grepa"}
 			}
 		},
 		{
 			"name": "leaves",
-			"from": [5, 5, 8],
-			"to": [11, 7, 8],
+			"from": [5, 6, 8],
+			"to": [11, 8, 8],
 			"rotation": {"angle": 45, "axis": "y", "origin": [8, 6, 8]},
 			"faces": {
-				"north": {"uv": [6, 7, 12, 9], "texture": "#missing"},
-				"south": {"uv": [6, 7, 12, 9], "texture": "#missing"}
-			}
-		},
-		{
-			"name": "leaves",
-			"from": [8, 15, 6],
-			"to": [13, 15, 10],
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [11, 15, 8]},
-			"faces": {
-				"up": {"uv": [10, 0, 15, 4], "texture": "#grepa"},
-				"down": {"uv": [10, 0, 15, 4], "texture": "#grepa"}
+				"north": {"uv": [0, 14, 6, 16], "texture": "#grepa"},
+				"south": {"uv": [0, 14, 6, 16], "texture": "#grepa"}
 			}
 		}
 	]
