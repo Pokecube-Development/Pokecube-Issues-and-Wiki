@@ -40,10 +40,10 @@
       {
         "L": 1,
         "moves": [
-          "roar"
-		  "leer",
-		  "twister",
-		  "aqua-jet"
+          "roar",
+          "leer",
+          "twister",
+          "aqua-jet"
         ]
       },
 	  {

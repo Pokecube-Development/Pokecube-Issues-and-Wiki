@@ -63,7 +63,7 @@ public class Material
     public float shininess;
     public float alpha = 1;
     public boolean transluscent = false;
-    public boolean cull = true;
+    public boolean cull = false;
     public boolean flat = true;
     public int[] rgbabro = new int[6];
 

@@ -36,7 +36,7 @@ public interface IModel
         return IModel.emptyAnims;
     }
 
-    default void initBuiltInAnimations(IModelRenderer<?> renderer)
+    default void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
     {}
 
     Set<String> getHeadParts();

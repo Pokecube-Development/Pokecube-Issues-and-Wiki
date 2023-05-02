@@ -50,7 +50,7 @@ public class BBModelPart extends Part
                 allShapes.addAll(shapes);
             }
         }
-        BBModelPart root = make(allShapes, nextName(names, group), group, -1, parentOffsets);
+        BBModelPart root = make(t, allShapes, nextName(names, group), group, -1, parentOffsets);
         ours.add(root);
         parts.add(root);
         // then handle groups
@@ -71,7 +71,8 @@ public class BBModelPart extends Part
         children.addAll(ours);
     }
 
-    private static BBModelPart make(List<Mesh> shapes, String name, IBBPart b, int index, float[] parentOffsets)
+    private static BBModelPart make(BBModelTemplate template, List<Mesh> shapes, String name, IBBPart b, int index,
+            float[] parentOffsets)
     {
         BBModelPart part = new BBModelPart(name);
         part.index = index;
@@ -91,9 +92,9 @@ public class BBModelPart extends Part
             part.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
         }
 
-        offsets[0] /= 16;
-        offsets[1] /= 16;
-        offsets[2] /= 16;
+        offsets[0] /= 16.0f;
+        offsets[1] /= 16.0f;
+        offsets[2] /= 16.0f;
 
         float[] use = offsets.clone();
         use[0] = offsets[0];
@@ -126,10 +127,11 @@ public class BBModelPart extends Part
             m.name = ThutCore.trim(key);
             Material mat = new Material(m.name);
             mats.put(m.name, mat);
+            if (b.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);
         });
-        
+
         tris_materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
@@ -138,6 +140,7 @@ public class BBModelPart extends Part
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            if (b.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);
         });

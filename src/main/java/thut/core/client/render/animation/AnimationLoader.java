@@ -2,6 +2,7 @@ package thut.core.client.render.animation;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -12,7 +13,6 @@ import javax.xml.namespace.QName;
 
 import org.w3c.dom.Node;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
@@ -139,11 +139,6 @@ public class AnimationLoader
             { -30, 70 };
 
             if (file.model.customTex != null) file.model.customTex.init();
-            if (renderer != null)
-            {
-                renderer.getAnimations().clear();
-                model.initBuiltInAnimations(renderer);
-            }
 
             Vector5 noRotation = new Vector5();
 
@@ -158,11 +153,17 @@ public class AnimationLoader
             final Set<String> dye = Sets.newHashSet();
 
             // Loaded animations
-            final List<Animation> tblAnims = Lists.newArrayList();
+            final List<Animation> tblAnims = new ArrayList<>();
             final Map<String, String> mergedAnimations = new Object2ObjectOpenHashMap<>();
             final Map<String, WornOffsets> wornOffsets = new Object2ObjectOpenHashMap<>();
             final Map<String, List<Vector5>> phaseList = new Object2ObjectOpenHashMap<>();
-            List<Phase> texPhases = Lists.newArrayList();
+            List<Phase> texPhases = new ArrayList<>();
+
+            if (renderer != null)
+            {
+                renderer.getAnimations().clear();
+                model.initBuiltInAnimations(renderer, tblAnims);
+            }
 
             final Metadata meta = file.model.metadata;
             if (meta != null)
@@ -189,6 +190,7 @@ public class AnimationLoader
                     offset = AnimationLoader.getVector3(phase.values.get(new QName("offset")), offset);
                     scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
                     rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), null, rotation);
+//                    System.out.println(rotation);
                 }
                 else if (name.equals("textures")) texPhases.add(phase);
                 else if (AnimationRegistry.animations.containsKey(name))
@@ -266,8 +268,7 @@ public class AnimationLoader
 
                 // Handle customTextures
                 texturer.init(texs);
-                if (texs.defaults != null) holder.texture = new ResourceLocation(
-                        holder.texture.toString().replace(holder.name, texs.defaults));
+                if (texs.defaults != null) holder.texture = new ResourceLocation(texs.defaults);
                 texturer.init(texs);
 
                 // Apply texture phases (ie texture animations)
@@ -289,16 +290,22 @@ public class AnimationLoader
                 for (final Animation anim : tblAnims)
                 {
                     List<Animation> anims = renderer.getAnimations().get(anim.name);
-                    if (anims == null) renderer.getAnimations().put(anim.name, anims = Lists.newArrayList());
+                    if (anims == null) renderer.getAnimations().put(anim.name, anims = new ArrayList<>());
                     anims.add(anim);
                 }
                 for (final String from : mergedAnimations.keySet())
                 {
                     if (!renderer.getAnimations().containsKey(from)) continue;
-                    final String to = mergedAnimations.get(from);
-                    if (!renderer.getAnimations().containsKey(to)) continue;
-                    final List<Animation> fromSet = Lists.newArrayList();
-                    final List<Animation> toSet = renderer.getAnimations().get(to);
+                    List<Animation> fromSet = new ArrayList<>();
+                    String to = mergedAnimations.get(from);
+                    List<Animation> toSet = null;
+                    // In this case, we make an empty animation
+                    if (!renderer.getAnimations().containsKey(to))
+                    {
+                        toSet = new ArrayList<>();
+                        renderer.getAnimations().put(to, toSet);
+                    }
+                    else toSet = renderer.getAnimations().get(to);
                     for (final Animation anim : renderer.getAnimations().get(from))
                     {
                         final Animation newAnim = new Animation();
@@ -314,7 +321,7 @@ public class AnimationLoader
                 }
 
                 // Finalize animation initialization
-                final List<Animation> allAnims = Lists.newArrayList();
+                final List<Animation> allAnims = new ArrayList<>();
                 // Process the animations
                 for (final List<Animation> anims : renderer.getAnimations().values())
                 {
@@ -339,7 +346,7 @@ public class AnimationLoader
                 {
                     if (!renderer.getAnimations().containsKey(anim.name))
                     {
-                        List<Animation> anims = Lists.newArrayList();
+                        List<Animation> anims = new ArrayList<>();
                         renderer.getAnimations().put(anim.name, anims);
                         anims.add(anim);
                     }
@@ -378,7 +385,7 @@ public class AnimationLoader
                     if (texs.defaults != null) holder.texture = holder.texture != null
                             ? new ResourceLocation(holder.texture.toString().replace(holder.name, texs.defaults))
                             : new ResourceLocation(holder.model.getNamespace(), texs.defaults);
-                    List<String> matNames = Lists.newArrayList();
+                    List<String> matNames = new ArrayList<>();
                     for (TexPart part : texs.parts)
                     {
 

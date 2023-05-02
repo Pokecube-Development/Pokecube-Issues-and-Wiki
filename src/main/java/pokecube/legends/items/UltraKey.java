@@ -41,7 +41,7 @@ public class UltraKey extends ItemBase
             final TooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip",
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_block_id + ".tooltip",
                 ChatFormatting.LIGHT_PURPLE, PokecubeLegends.config.ultraKeyConsumeAmount);
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(TComponent.translatable(message));

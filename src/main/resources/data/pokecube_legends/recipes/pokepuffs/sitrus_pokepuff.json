@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:pokepuff",
+  "pattern": [
+    "BBB",
+    "PCP",
+    "SOS"
+  ],
+  "key": {
+    "C": {
+      "item": "minecraft:milk_bucket"
+    },
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "P": {
+      "tag": "forge:crops/wheat"
+    },
+    "O": {
+      "item": "minecraft:bowl"
+    },
+    "B": {
+      "item": "pokecube:berry_sitrus"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:sitrus_pokepuff",
+    "count": 3
+  }
+}

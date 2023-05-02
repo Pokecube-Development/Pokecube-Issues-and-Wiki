@@ -2,34 +2,62 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"particle": "pokecube:block/oran_fruit",
-		"oran": "pokecube:block/oran_fruit"
+		"oran": "pokecube:block/oran_fruit",
+		"overlay": "pokecube:block/oran_fruit_overlay"
 	},
 	"elements": [
 		{
 			"name": "fruit",
-			"from": [5.5, 10.5, 5.5],
-			"to": [10.5, 15.5, 10.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"from": [4, 7, 4],
+			"to": [12, 15, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 8]},
 			"faces": {
-				"north": {"uv": [5, 0, 10, 5], "texture": "#oran"},
-				"east": {"uv": [5, 0, 10, 5], "texture": "#oran"},
-				"south": {"uv": [10, 0, 5, 5], "texture": "#oran"},
-				"west": {"uv": [10, 0, 5, 5], "texture": "#oran"},
-				"up": {"uv": [0, 0, 5, 5], "texture": "#oran"},
-				"down": {"uv": [0, 5, 5, 10], "texture": "#oran"}
+				"north": {"uv": [0, 0, 8, 8], "texture": "#oran"},
+				"east": {"uv": [0, 0, 8, 8], "texture": "#oran"},
+				"south": {"uv": [0, 0, 8, 8], "texture": "#oran"},
+				"west": {"uv": [0, 0, 8, 8], "texture": "#oran"},
+				"up": {"uv": [8, 0, 16, 8], "texture": "#oran"},
+				"down": {"uv": [0, 8, 8, 16], "texture": "#oran"}
+			}
+		},
+		{
+			"name": "fruit_overlay",
+			"from": [3.8, 6.8, 3.8],
+			"to": [12.2, 15.2, 12.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 11, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"south": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 8, 8], "texture": "#overlay"},
+				"up": {"uv": [8, 0, 16, 8], "texture": "#overlay"},
+				"down": {"uv": [0, 8, 8, 16], "texture": "#overlay"}
 			}
 		},
 		{
 			"name": "stem",
-			"from": [7, 15.5, 7],
-			"to": [9, 16, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"from": [6, 15, 6],
+			"to": [10, 16, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
 			"faces": {
-				"north": {"uv": [5, 6.5, 7, 7], "texture": "#oran"},
-				"east": {"uv": [5, 6.5, 7, 7], "texture": "#oran"},
-				"south": {"uv": [5, 6.5, 7, 7], "texture": "#oran"},
-				"west": {"uv": [5, 6.5, 7, 7], "texture": "#oran"},
-				"up": {"uv": [5, 5, 7, 7], "texture": "#oran"}
+				"north": {"uv": [8, 8, 12, 9], "texture": "#oran"},
+				"east": {"uv": [8, 8, 12, 9], "texture": "#oran"},
+				"south": {"uv": [8, 8, 12, 9], "texture": "#oran"},
+				"west": {"uv": [8, 8, 12, 9], "texture": "#oran"},
+				"up": {"uv": [8, 8, 12, 12], "texture": "#oran"}
+			}
+		},
+		{
+			"name": "stem_overlay",
+			"from": [5.8, 14.8, 5.8],
+			"to": [10.2, 16.2, 10.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
+			"faces": {
+				"north": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"east": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"south": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"west": {"uv": [8, 8, 12, 9], "texture": "#overlay"},
+				"up": {"uv": [8, 8, 12, 12], "texture": "#overlay"}
 			}
 		}
 	]
