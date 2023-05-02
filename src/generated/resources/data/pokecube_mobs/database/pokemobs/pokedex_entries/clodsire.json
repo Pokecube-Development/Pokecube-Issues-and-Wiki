@@ -8,11 +8,11 @@
     "width": 0.8,
     "length": 1.8
   },
-  "mass": 223,
+  "mass": 223.0,
   "is_default": true,
   "capture_rate": 90,
   "base_happiness": 50,
-  "growth_rate": "medium-fast",
+  "growth_rate": "medium",
   "gender_rate": 127,
   "stats": {
     "hp": 130,
@@ -41,16 +41,46 @@
   "moves": {
     "level_up": [
       {
-        "L": 1,
+        "L": 16,
         "moves": [
-          "tail-whilp",
-		  "poison-sting"
+          "slam"
         ]
       },
       {
-        "L": 4,
+        "L": 1,
         "moves": [
-          "toxic-spikes"
+          "tail-whip",
+          "poison-sting"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "toxic"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "amnesia"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "megahorn"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "yawn"
         ]
       },
       {
@@ -66,15 +96,9 @@
         ]
       },
       {
-        "L": 16,
+        "L": 4,
         "moves": [
-          "slam"
-        ]
-      },
-      {
-        "L": 21,
-        "moves": [
-          "yawn"
+          "toxic-spikes"
         ]
       },
       {
@@ -88,73 +112,55 @@
         "moves": [
           "sludge-wave"
         ]
-      },
-      {
-        "L": 36,
-        "moves": [
-          "megahorn"
-        ]
-      },
-      {
-        "L": 40,
-        "moves": [
-          "toxic"
-        ]
-      },
-      {
-        "L": 48,
-        "moves": [
-          "earthquake"
-        ]
       }
     ],
     "misc": [
-	  "body-slam",
-	"take-down",
-	"hydro-pump",
-	"surf",
-	"hyper-beam",
-	"low-kick",
-	"earthquake",
-	"dig",
-	"waterfall",
-	"amnesia",
-	"rest",
-	"rock-slide",
-	"substitute",
-	"protect",
-	"sludge-bomb",
-	"mud-slap",
-	"spikes",
-	"sandstorm",
-	"endure",
-	"sleep-talk",
-	"rain-dance",
-	"facade",
-	"helping-hand",
-	"rock-tomb",
-	"mud-shot",
-	"poison-tail",
-	"water-pulse",
-	"toxic-spikes",
-	"poison-jab",
-	"earth-power",
-	"giga-impact",
-	"zen-headbutt",
-	"gunk-shot",
-	"iron-head",
-	"stone-edge",
-	"stealth-rock",
-	"venoshock",
-	"heavy-slam",
-	"acid-spray",
-	"bulldoze",
-	"stomping-tantrum",
-	"liquidation",
-	"body-press",
-	"tera-blast",
-	"trailblaze",
-	"chilling-water"
+      "body-slam",
+      "take-down",
+      "hydro-pump",
+      "surf",
+      "hyper-beam",
+      "low-kick",
+      "earthquake",
+      "dig",
+      "waterfall",
+      "amnesia",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "spikes",
+      "sandstorm",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "facade",
+      "helping-hand",
+      "rock-tomb",
+      "mud-shot",
+      "poison-tail",
+      "water-pulse",
+      "toxic-spikes",
+      "poison-jab",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "gunk-shot",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "venoshock",
+      "heavy-slam",
+      "acid-spray",
+      "bulldoze",
+      "stomping-tantrum",
+      "liquidation",
+      "body-press",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/slimeballs_1"

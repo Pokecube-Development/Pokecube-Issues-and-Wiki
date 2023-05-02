@@ -1,8 +1,8 @@
 {
   "name": "grafaiai",
-  "id": 969,
+  "id": 945,
   "stock": true,
-  "base_experience": 60,
+  "base_experience": 170,
   "size": {
     "height": 0.7
   },
@@ -21,7 +21,7 @@
     "speed": 110
   },
   "evs": {
-    "speed": 1
+    "speed": 2
   },
   "types": [
     "poison",
@@ -33,8 +33,8 @@
       "poison-touch"
     ],
     "hidden": [
-	  "prankster"
-	]
+      "prankster"
+    ]
   },
   "moves": {
     "level_up": [
@@ -42,13 +42,7 @@
         "L": 1,
         "moves": [
           "scratch",
-		  "leer"
-        ]
-      },
-      {
-        "L": 5,
-        "moves": [
-          "acid-spray"
+          "leer"
         ]
       },
       {
@@ -58,15 +52,15 @@
         ]
       },
       {
-        "L": 11,
+        "L": 21,
         "moves": [
-          "switcheroo"
+          "slash"
         ]
       },
       {
-        "L": 14,
+        "L": 40,
         "moves": [
-          "poison-fang"
+          "substitute"
         ]
       },
       {
@@ -76,9 +70,21 @@
         ]
       },
       {
-        "L": 21,
+        "L": 37,
         "moves": [
-          "slash"
+          "taunt"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "poison-fang"
         ]
       },
       {
@@ -94,21 +100,9 @@
         ]
       },
       {
-        "L": 37,
+        "L": 11,
         "moves": [
-          "taunt"
-        ]
-      },
-      {
-        "L": 40,
-        "moves": [
-          "substitute"
-        ]
-      },
-      {
-        "L": 45,
-        "moves": [
-          "knock-off"
+          "switcheroo"
         ]
       },
       {
@@ -116,48 +110,60 @@
         "moves": [
           "gunk-shot"
         ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "doodle"
+        ]
       }
     ],
     "misc": [
-    "swords-dance",
-	"take-down",
-	"low-kick",
-	"dig",
-	"metronome",
-	"rest",
-	"substitute",
-	"thief",
-	"protect",
-	"scary-face",
-	"sludge-bomb",
-	"mud-slap",
-	"endure",
-	"sleep-talk",
-	"baton-pass",
-	"encore",
-	"rain-dance",
-	"sunny-day",
-	"facade",
-	"taunt",
-	"helping-hand",
-	"mud-shot",
-	"poison-tail",
-	"u-turn",
-	"fling",
-	"poison-jab",
-	"x-scissor",
-	"giga-impact",
-	"nasty-plot",
-	"shadow-claw",
-	"gunk-shot",
-	"venoshock",
-	"low-sweep",
-	"acid-spray",
-	"foul-play",
-	"acrobatics",
-	"tera-blast",
-	"pounce",
-	"trailblaze"
+      "swords-dance",
+      "take-down",
+      "low-kick",
+      "dig",
+      "metronome",
+      "rest",
+      "substitute",
+      "thief",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "endure",
+      "sleep-talk",
+      "baton-pass",
+      "encore",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "mud-shot",
+      "poison-tail",
+      "u-turn",
+      "fling",
+      "poison-jab",
+      "x-scissor",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "venoshock",
+      "low-sweep",
+      "acid-spray",
+      "foul-play",
+      "acrobatics",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/dye_2"

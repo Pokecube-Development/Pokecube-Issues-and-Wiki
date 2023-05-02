@@ -253,5 +253,11 @@
       }
     }
   ],
+  "evolutions": [
+    {
+      "name": "obstagoon",
+      "level": 35
+    }
+  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

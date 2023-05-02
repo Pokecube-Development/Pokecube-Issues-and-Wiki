@@ -288,5 +288,11 @@
       "chilling-water"
     ]
   },
+  "evolutions": [
+    {
+      "name": "dudunsparce",
+      "move": "hyper-drill"
+    }
+  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

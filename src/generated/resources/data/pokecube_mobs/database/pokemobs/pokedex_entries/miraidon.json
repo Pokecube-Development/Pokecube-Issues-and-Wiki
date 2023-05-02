@@ -1,17 +1,17 @@
 {
   "name": "miraidon",
-  "id": 999,
+  "id": 1008,
   "stock": true,
-  "base_experience": 60,
+  "base_experience": 335,
   "size": {
     "height": 3.5
   },
-  "mass": 240,
+  "mass": 240.0,
   "is_default": true,
   "capture_rate": 3,
   "base_happiness": 0,
   "growth_rate": "slow",
-  "gender_rate": 127,
+  "gender_rate": 255,
   "stats": {
     "hp": 100,
     "attack": 85,
@@ -25,81 +25,30 @@
   },
   "types": [
     "electric",
-	"dragon"
+    "dragon"
   ],
   "abilities": {
     "normal": [
+      "hadron-engine"
+    ],
+    "hidden": [
       "hadron-engine"
     ]
   },
   "moves": {
     "level_up": [
       {
+        "L": 98,
+        "moves": [
+          "hyper-beam"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "thunder-shock",
-		  "dragon-breath",
-		  "electric-terrain"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "shock-wave"
-        ]
-      },
-      {
-        "L": 14,
-        "moves": [
-          "charge"
-        ]
-      },
-      {
-        "L": 21,
-        "moves": [
-          "parabolic-charge"
-        ]
-      },
-      {
-        "L": 28,
-        "moves": [
-          "discharge"
-        ]
-      },
-      {
-        "L": 35,
-        "moves": [
-          "agility"
-        ]
-      },
-      {
-        "L": 42,
-        "moves": [
-          "dragon-pulse"
-        ]
-      },
-      {
-        "L": 56,
-        "moves": [
-          "electro-drift"
-        ]
-      },
-      {
-        "L": 63,
-        "moves": [
-          "metal-sound"
-        ]
-      },
-      {
-        "L": 70,
-        "moves": [
-          "mirror-coat"
-        ]
-      },
-      {
-        "L": 77,
-        "moves": [
-          "outrage"
+          "dragon-breath",
+          "electric-terrain"
         ]
       },
       {
@@ -109,65 +58,118 @@
         ]
       },
       {
+        "L": 35,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "mirror-coat"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
         "L": 91,
         "moves": [
           "overheat"
         ]
       },
       {
-        "L": 98,
+        "L": 63,
         "moves": [
-          "hyper-beam"
+          "metal-sound"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "shock-wave"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "parabolic-charge"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "electro-drift"
         ]
       }
     ],
     "misc": [
-	   "swords-dance",
-	"body-slam",
-	"take-down",
-	"hyper-beam",
-	"solar-beam",
-	"thunderbolt",
-	"thunder-wave",
-	"thunder",
-	"agility",
-	"confuse-ray",
-	"light-screen",
-	"reflect",
-	"rest",
-	"substitute",
-	"protect",
-	"scary-face",
-	"outrage",
-	"endure",
-	"sleep-talk",
-	"crunch",
-	"facade",
-	"taunt",
-	"helping-hand",
-	"overheat",
-	"dragon-claw",
-	"calm-mind",
-	"u-turn",
-	"dragon-pulse",
-	"power-gem",
-	"giga-impact",
-	"zen-headbutt",
-	"flash-cannon",
-	"draco-meteor",
-	"charge-beam",
-	"heavy-slam",
-	"electro-ball",
-	"acrobatics",
-	"volt-switch",
-	"dragon-tail",
-	"wild-charge",
-	"snarl",
-	"eerie-impulse",
-	"electric-terrain",
-	"dazzling-gleam",
-	"tera-blast"
+      "swords-dance",
+      "body-slam",
+      "take-down",
+      "hyper-beam",
+      "solar-beam",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "agility",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "crunch",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "overheat",
+      "dragon-claw",
+      "calm-mind",
+      "u-turn",
+      "dragon-pulse",
+      "power-gem",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "draco-meteor",
+      "charge-beam",
+      "heavy-slam",
+      "electro-ball",
+      "acrobatics",
+      "volt-switch",
+      "dragon-tail",
+      "wild-charge",
+      "snarl",
+      "eerie-impulse",
+      "electric-terrain",
+      "dazzling-gleam",
+      "tera-blast"
     ]
-  },
-  "loot_table": "pokecube:entities/cobble_1"
+  }
 }

@@ -1,17 +1,17 @@
 {
   "name": "maschiff",
-  "id": 972,
+  "id": 942,
   "stock": true,
-  "base_experience": 64,
+  "base_experience": 68,
   "size": {
     "height": 0.5
   },
-  "mass": 16,
+  "mass": 16.0,
   "is_default": true,
   "capture_rate": 150,
   "base_happiness": 50,
   "growth_rate": "medium-slow",
-  "gender_rate": 30,
+  "gender_rate": 127,
   "stats": {
     "hp": 60,
     "attack": 78,
@@ -29,38 +29,32 @@
   "abilities": {
     "normal": [
       "intimidate",
-	  "run-away"
+      "run-away"
     ],
     "hidden": [
-	  "stakeout"
-	]
+      "stakeout"
+    ]
   },
   "moves": {
     "level_up": [
       {
+        "L": 22,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "tackle",
-		  "leer",
-		  "scary-face"
+          "leer",
+          "scary-face"
         ]
       },
       {
-        "L": 4,
+        "L": 49,
         "moves": [
-          "lick"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "snarl"
-        ]
-      },
-      {
-        "L": 10,
-        "moves": [
-          "hone-claws"
+          "double-edge"
         ]
       },
       {
@@ -76,27 +70,9 @@
         ]
       },
       {
-        "L": 22,
+        "L": 4,
         "moves": [
-          "headbutt"
-        ]
-      },
-      {
-        "L": 26,
-        "moves": [
-          "payback"
-        ]
-      },
-      {
-        "L": 31,
-        "moves": [
-          "crunch"
-        ]
-      },
-      {
-        "L": 35,
-        "moves": [
-          "swagger"
+          "lick"
         ]
       },
       {
@@ -106,48 +82,81 @@
         ]
       },
       {
+        "L": 35,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "snarl"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "jaw-lock"
         ]
-      },
-      {
-        "L": 49,
-        "moves": [
-          "double-edge"
-        ]
       }
     ],
     "misc": [
-     "body-slam",
-	"take-down",
-	"dig",
-	"rest",
-	"substitute",
-	"thief",
-	"reversal",
-	"protect",
-	"scary-face",
-	"endure",
-	"charm",
-	"sleep-talk",
-	"rain-dance",
-	"sunny-day",
-	"crunch",
-	"facade",
-	"taunt",
-	"helping-hand",
-	"fake-tears",
-	"dark-pulse",
-	"thunder-fang",
-	"ice-fang",
-	"fire-fang",
-	"snarl",
-	"play-rough",
-	"psychic-fangs",
-	"tera-blast",
-	"trailblaze"
+      "body-slam",
+      "take-down",
+      "dig",
+      "rest",
+      "substitute",
+      "thief",
+      "reversal",
+      "protect",
+      "scary-face",
+      "destiny-bond",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "endeavor",
+      "fake-tears",
+      "dark-pulse",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "retaliate",
+      "snarl",
+      "play-rough",
+      "psychic-fangs",
+      "tera-blast",
+      "trailblaze"
     ]
   },
+  "evolutions": [
+    {
+      "name": "mabosstiff",
+      "level": 30
+    }
+  ],
   "loot_table": "pokecube:entities/coal_rabbit_1"
 }
