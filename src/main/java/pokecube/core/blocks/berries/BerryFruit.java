@@ -12,7 +12,6 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BarrierBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BushBlock;
@@ -187,8 +186,6 @@ public class BerryFruit extends BushBlock
             return world.getBlockState(posBelow).getValue(BerryCrop.AGE) == 7;
         else if (state.getBlock() == this && world.getBlockState(posAbove).getBlock() instanceof BerryLeaf)
             return world.getBlockState(posAbove).getBlock() instanceof BerryLeaf;
-        else if (state.getBlock() == this && world.getBlockState(posAbove).getBlock() instanceof BarrierBlock)
-            return world.getBlockState(posAbove).getBlock() instanceof BarrierBlock;
         else return false;
 
 //        return this.mayPlaceOn(world.getBlockState(posBelow), world, posBelow);
