@@ -97,15 +97,23 @@ public class PokedexEntryLoader
                 if (Modifier.isTransient(field.getModifiers())) continue;
                 var theirs = field.get(other);
 
-                if (theirs != null)
+                if (theirs != null && theirs != field.get(this))
                 {
                     if (ClassUtils.isPrimitiveOrWrapper(theirs.getClass()) && theirs == field.get(def)) continue;
-                    field.set(this, theirs);
+                    if (!ClassUtils.isPrimitiveOrWrapper(theirs.getClass()) && theirs.equals(field.get(def))) continue;
+                    field.set(this, field.get(other));
                 }
             }
             catch (final Exception e)
             {
-                e.printStackTrace();
+                try
+                {
+                    field.set(this, field.get(other));
+                }
+                catch (Exception e2)
+                {
+                    PokecubeAPI.LOGGER.error("Cannot merge field {}, {}", field.getName(), e);
+                }
             }
         }
     }
