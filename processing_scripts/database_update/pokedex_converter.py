@@ -620,7 +620,7 @@ def convert_pokedex():
         file.close()
 
         # And also make the advancements
-        make_advancments(var["name"])
+        make_advancments(var["name"], advancements_dir)
 
         # Now lets make a template file which will remove each entry.
         file = f'../../example_datapacks/_removal_template_/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
