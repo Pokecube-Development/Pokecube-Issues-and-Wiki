@@ -1,9 +1,12 @@
 package thut.api.entity;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
+
+import org.nfunk.jep.JEP;
 
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.animation.Animation;
@@ -69,6 +72,67 @@ public interface IAnimated
         }
     }
 
+    public static class MolangVars
+    {
+        public static final Map<String, String> MOLANG_MAP = new HashMap<>();
+        public static final Map<String, Double> JEP_VARS = new HashMap<>();
+
+        static
+        {
+            MOLANG_MAP.put("query.anim_time", "(t/20)");
+            MOLANG_MAP.put("query.ground_speed", "l");
+            MOLANG_MAP.put("query.health", "health");
+            MOLANG_MAP.put("query.max_health", "max_health");
+            MOLANG_MAP.put("query.is_in_water", "is_in_water");
+            MOLANG_MAP.put("query.is_in_water_or_rain", "is_in_water_or_rain");
+            MOLANG_MAP.put("query.is_on_fire", "is_on_fire");
+            MOLANG_MAP.put("query.is_on_fire", "is_on_fire");
+            MOLANG_MAP.put("query.on_fire_time", "on_fire_time");
+            MOLANG_MAP.put("query.is_on_ground", "is_on_ground");
+            MOLANG_MAP.put("query.yaw_speed", "yaw_speed");
+
+            JEP_VARS.put("t", 0.);
+            JEP_VARS.put("l", 0.);
+            JEP_VARS.put("health", 20.);
+            JEP_VARS.put("max_health", 20.);
+            JEP_VARS.put("is_in_water", 0.);
+            JEP_VARS.put("is_in_water_or_rain", 0.);
+            JEP_VARS.put("is_on_fire", 0.);
+            JEP_VARS.put("on_fire_time", 0.);
+            JEP_VARS.put("is_on_ground", 1.);
+            JEP_VARS.put("yaw_speed", 0.);
+        }
+
+        public double t = 0;
+        public double l = 0;
+
+        public double health = 20;
+        public double max_health = 20;
+
+        public double is_in_water = 0;
+        public double is_in_water_or_rain = 0;
+
+        public double is_on_fire = 0;
+        public double on_fire_time = 0;
+
+        public double is_on_ground = 1;
+        public double yaw_speed = 0;
+
+        public void updateJEP(JEP jep)
+        {
+            jep.setVarValue("t", t);
+            jep.setVarValue("l", l);
+            jep.setVarValue("health", health);
+            jep.setVarValue("max_health", max_health);
+            jep.setVarValue("is_in_water", is_in_water);
+            jep.setVarValue("is_in_water_or_rain", is_in_water_or_rain);
+            jep.setVarValue("is_on_fire", is_on_fire);
+            jep.setVarValue("on_fire_time", on_fire_time);
+            jep.setVarValue("is_on_ground", is_on_ground);
+            jep.setVarValue("yaw_speed", yaw_speed);
+        }
+    }
+
     public static interface IAnimationHolder
     {
         /** should clear the ticks animations were run on */
@@ -121,6 +185,35 @@ public interface IAnimated
         @Nonnull
         HeadInfo getHeadInfo();
 
+        @Nonnull
+        MolangVars getMolangVars();
+
         void initAnimations(Map<String, List<Animation>> map, String _default);
+
+        default void initHeadInfoAndMolangs(Entity entityIn, final float limbSwing, final float limbSwingAmount,
+                final float ageInTicks, final float netHeadYaw, final float headPitch)
+        {
+            HeadInfo info = this.getHeadInfo();
+            MolangVars molangs = this.getMolangVars();
+            if (!info.fixed)
+            {
+                info.headPitch = headPitch;
+                info.headYaw = netHeadYaw;
+            }
+            info.currentTick = entityIn.tickCount;
+            info.lastTick = entityIn.tickCount;
+
+            final float limbSpeedFactor = 3f;
+            molangs.l = limbSpeedFactor * limbSwing;
+            molangs.t = ageInTicks;
+
+            molangs.is_on_ground = entityIn.isOnGround() ? 1 : 0;
+            molangs.is_in_water = entityIn.isInWater() ? 1 : 0;
+            molangs.is_on_fire = entityIn.isOnFire() ? 1 : 0;
+
+            molangs.yaw_speed = entityIn.yRot - entityIn.yRotO;
+
+            molangs.on_fire_time = entityIn.getRemainingFireTicks();
+        }
     }
 }

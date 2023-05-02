@@ -1,5 +1,7 @@
 package thut.api.entity.animation;
 
+import org.nfunk.jep.JEP;
+
 public class AnimationComponent
 {
     public double[] posChange = new double[3];
@@ -16,4 +18,10 @@ public class AnimationComponent
     public boolean hidden = false;
     public boolean limbBased = false;
     public String identifier = "";
+
+    public JEP[] _rotFunctions = new JEP[3];
+    public JEP[] _posFunctions = new JEP[3];
+    public JEP[] _scaleFunctions = new JEP[3];
+    
+    public boolean _foundNoJEP = false;
 }

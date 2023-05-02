@@ -6,10 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.compress.utils.Lists;
+import org.nfunk.jep.JEP;
 
 import it.unimi.dsi.fastutil.doubles.Double2ObjectArrayMap;
+import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBDataPoint;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBKeyFrame;
@@ -17,8 +20,40 @@ import thut.core.common.ThutCore;
 
 public class AnimationConversion
 {
-    private static class XMLAnimationSegment extends AnimationComponent
+    private static final float deg_to_rads = (float) (Math.PI / 180f);
+
+    public static String convertMolangToJEP(String molang)
     {
+        String jep = molang;
+
+        jep = jep.replaceAll("math.", "");// We do not need "math."
+
+        // We take radians for these, not degreees.
+        jep = jep.replace("sin(", "sin(%.4f * ".formatted(deg_to_rads));
+        jep = jep.replace("cos(", "sin(%.4f * ".formatted(deg_to_rads));
+        jep = jep.replace("tan(", "sin(%.4f * ".formatted(deg_to_rads));
+
+        MolangVars.MOLANG_MAP.put("query.anim_time", "(t/20)");
+        for (var entry : MolangVars.MOLANG_MAP.entrySet())
+        {
+            jep = jep.replace(entry.getKey(), entry.getValue());
+        }
+
+        if (jep.contains("query.") || jep.contains("q."))
+        {
+            ThutCore.LOGGER.error("Error with molang to jep conversion, was not complete! " + molang + " " + jep);
+            jep = "0";
+        }
+
+        return jep;
+    }
+
+    public static class XMLAnimationSegment extends AnimationComponent
+    {
+        public String rotFuncs = "";
+        public String scaleFuncs = "";
+        public String posFuncs = "";
+
         public XMLAnimationSegment(int length, int start_time)
         {
             this.length = length;
@@ -26,7 +61,7 @@ public class AnimationConversion
         }
     }
 
-    private static class BBModelAnimationSegment
+    public static class BBModelAnimationSegment
     {
         final int time;
         boolean is_bedrock = false;
@@ -50,7 +85,7 @@ public class AnimationConversion
 
             BBDataPoint data = points.get(0);
 
-            Object x = 0, y = 0, z = 0;
+            Object x = data.x, y = data.y, z = data.z;
             try
             {
                 if (data.x instanceof Double || data.x instanceof Integer)
@@ -61,6 +96,11 @@ public class AnimationConversion
                 {
                     x = Double.parseDouble((String) data.x);
                 }
+            }
+            catch (Exception e)
+            {}
+            try
+            {
                 if (data.y instanceof Double || data.y instanceof Integer)
                 {
                     y = (double) data.y;
@@ -69,6 +109,11 @@ public class AnimationConversion
                 {
                     y = Double.parseDouble((String) data.y);
                 }
+            }
+            catch (Exception e)
+            {}
+            try
+            {
                 if (data.z instanceof Double || data.z instanceof Integer)
                 {
                     z = (double) data.z;
@@ -102,7 +147,7 @@ public class AnimationConversion
             }
         }
 
-        private boolean setDoubles(double[] _to, Object[] _from)
+        private boolean setDoubles(double[] _to, Object[] _from, JEP[] jeps)
         {
             boolean allValid = true;
             for (int i = 0; i < 3; i++)
@@ -110,6 +155,17 @@ public class AnimationConversion
                 if (_from[i] instanceof Double)
                 {
                     _to[i] = (double) _from[i];
+                }
+                else if (_from[i] instanceof String func)
+                {
+                    func = convertMolangToJEP(func);
+                    jeps[i] = new JEP();
+                    jeps[i].addStandardFunctions();
+                    jeps[i].addStandardConstants();
+                    for (var entry : MolangVars.JEP_VARS.entrySet())
+                        if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
+                    jeps[i].parseExpression(func);
+                    allValid = false;
                 }
                 else
                 {
@@ -119,7 +175,7 @@ public class AnimationConversion
             return allValid;
         }
 
-        public boolean setDiff(double[] _arr, Object[] _pos, Object[] _neg)
+        public boolean setDiff(double[] _arr, Object[] _pos, Object[] _neg, JEP[] jeps)
         {
             boolean allValid = true;
             for (int i = 0; i < 3; i++)
@@ -128,6 +184,17 @@ public class AnimationConversion
                 {
                     _arr[i] = (double) _pos[i] - (double) _neg[i];
                     if (Math.abs(_arr[i]) < 1e-4) _arr[i] = 0;
+                }
+                else if (_pos[i] instanceof String func)
+                {
+                    func = convertMolangToJEP(func);
+                    jeps[i] = new JEP();
+                    jeps[i].addStandardFunctions();
+                    jeps[i].addStandardConstants();
+                    for (var entry : MolangVars.JEP_VARS.entrySet())
+                        if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
+                    jeps[i].parseExpression(func);
+                    allValid = false;
                 }
                 else
                 {
@@ -149,13 +216,13 @@ public class AnimationConversion
             boolean all_not_func = true;
             if (first_frame == this)
             {
-                all_not_func = this.setDoubles(segment.posOffset, positions) & all_not_func;
-                all_not_func = this.setDoubles(segment.rotOffset, rotations) & all_not_func;
-                all_not_func = this.setDoubles(segment.scaleOffset, scales) & all_not_func;
+                all_not_func = this.setDoubles(segment.posOffset, positions, segment._posFunctions) & all_not_func;
+                all_not_func = this.setDoubles(segment.rotOffset, rotations, segment._rotFunctions) & all_not_func;
+                all_not_func = this.setDoubles(segment.scaleOffset, scales, segment._scaleFunctions) & all_not_func;
 
                 segment.posOffset[0] = -segment.posOffset[0] * 1 / 16f;
-                segment.posOffset[1] = -segment.posOffset[1] * 2 / 16f;
-                segment.posOffset[2] = +segment.posOffset[2] * 0.5f / 16f;
+                segment.posOffset[1] = -segment.posOffset[1] * 1 / 16f;
+                segment.posOffset[2] = +segment.posOffset[2] * 1 / 16f;
 
                 if (is_bedrock) segment.posOffset[0] *= -1;
 
@@ -173,18 +240,19 @@ public class AnimationConversion
 
             if (next_frame != first_frame)
             {
-                all_not_func = this.setDiff(segment.posChange, this.positions, next_frame.positions) & all_not_func;
-                all_not_func = this.setDiff(segment.rotChange, this.rotations, next_frame.rotations) & all_not_func;
-                all_not_func = this.setDiff(segment.scaleChange, this.scales, next_frame.scales) & all_not_func;
-//                System.out.println("   s:" + segment.startKey + " l:" + segment.length + " r:"
-//                        + Arrays.toString(segment.rotOffset) + " r:" + Arrays.toString(segment.rotChange) + " r:"
-//                        + Arrays.toString(this.rotations) + " r:" + Arrays.toString(next_frame.rotations));
+                all_not_func = this.setDiff(segment.posChange, this.positions, next_frame.positions,
+                        segment._posFunctions) & all_not_func;
+                all_not_func = this.setDiff(segment.rotChange, this.rotations, next_frame.rotations,
+                        segment._rotFunctions) & all_not_func;
+                all_not_func = this.setDiff(segment.scaleChange, this.scales, next_frame.scales,
+                        segment._scaleFunctions) & all_not_func;
+
                 segment.rotChange[0] = -segment.rotChange[0];
                 segment.rotChange[1] = -segment.rotChange[1];
-                
+
                 segment.posChange[0] = -segment.posChange[0] * 1 / 16f;
-                segment.posChange[1] = -segment.posChange[1] * 2 / 16f;
-                segment.posChange[2] = +segment.posChange[2] * 0.5f / 16f;
+                segment.posChange[1] = -segment.posChange[1] * 1 / 16f;
+                segment.posChange[2] = +segment.posChange[2] * 1 / 16f;
 
                 if (is_bedrock) segment.posChange[0] *= -1;
 
@@ -197,6 +265,8 @@ public class AnimationConversion
                 }
             }
 
+            if (!all_not_func)
+            {}
             // We are not printing, so we don't need the "clear if not defined"
             // section
 
@@ -280,7 +350,7 @@ public class AnimationConversion
             {
                 var part = entry.getKey();
                 List<AnimationComponent> list = entry.getValue();
-                var animator = new KeyframeAnimator(list);
+                IAnimator animator = new KeyframeAnimator(list);
                 if (anmation.sets.containsKey(part))
                 {
                     ThutCore.LOGGER.warn("Unsupported double part for animation " + animation.name + " " + part);
