@@ -101,16 +101,23 @@
       }
     ],
     "misc": [
+      "tackle",
       "body-slam",
+      "take-down",
+      "tail-whip",
+      "bite",
+      "counter",
       "dig",
       "defense-curl",
       "amnesia",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "snore",
       "protect",
       "belly-drum",
+      "mud-slap",
       "endure",
       "rollout",
       "attract",
@@ -118,6 +125,9 @@
       "iron-tail",
       "crunch",
       "uproar",
+      "stockpile",
+      "spit-up",
+      "swallow",
       "facade",
       "hyper-voice",
       "bullet-seed",
@@ -130,7 +140,11 @@
       "seed-bomb",
       "round",
       "tail-slap",
-      "brutal-swing"
+      "belch",
+      "brutal-swing",
+      "stuff-cheeks",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

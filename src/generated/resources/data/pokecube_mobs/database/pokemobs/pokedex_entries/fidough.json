@@ -1,8 +1,8 @@
 {
   "name": "fidough",
-  "id": 970,
+  "id": 926,
   "stock": true,
-  "base_experience": 64,
+  "base_experience": 62,
   "size": {
     "height": 0.3
   },
@@ -11,7 +11,7 @@
   "capture_rate": 190,
   "base_happiness": 50,
   "growth_rate": "medium-slow",
-  "gender_rate": 30,
+  "gender_rate": 127,
   "stats": {
     "hp": 37,
     "attack": 55,
@@ -31,8 +31,8 @@
       "own-tempo"
     ],
     "hidden": [
-	  "klutz"
-	]
+      "klutz"
+    ]
   },
   "moves": {
     "level_up": [
@@ -40,61 +40,7 @@
         "L": 1,
         "moves": [
           "tackle",
-		  "growl"
-        ]
-      },
-      {
-        "L": 3,
-        "moves": [
-          "lick"
-        ]
-      },
-      {
-        "L": 6,
-        "moves": [
-          "tail-whip"
-        ]
-      },
-      {
-        "L": 8,
-        "moves": [
-          "covet"
-        ]
-      },
-      {
-        "L": 11,
-        "moves": [
-          "bite"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "baby-doll-eyes"
-        ]
-      },
-      {
-        "L": 18,
-        "moves": [
-          "play-rough"
-        ]
-      },
-      {
-        "L": 22,
-        "moves": [
-          "work-up"
-        ]
-      },
-      {
-        "L": 26,
-        "moves": [
-          "baton-pass"
-        ]
-      },
-      {
-        "L": 30,
-        "moves": [
-          "roar"
+          "growl"
         ]
       },
       {
@@ -104,9 +50,39 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "roar"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "lick"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "charm"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "baton-pass"
         ]
       },
       {
@@ -116,42 +92,71 @@
         ]
       },
       {
+        "L": 8,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
         "L": 45,
         "moves": [
           "last-resort"
         ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "baby-doll-eyes"
+        ]
       }
     ],
     "misc": [
-     "body-slam",
-	"take-down",
-	"dig",
-	"agility",
-	"rest",
-	"substitute",
-	"protect",
-	"mud-slap",
-	"endure",
-	"charm",
-	"sleep-talk",
-	"baton-pass",
-	"rain-dance",
-	"sunny-day",
-	"crunch",
-	"facade",
-	"helping-hand",
-	"mud-shot",
-	"thunder-fang",
-	"ice-fang",
-	"fire-fang",
-	"snarl",
-	"misty-terrain",
-	"play-rough",
-	"dazzling-gleam",
-	"psychic-fangs",
-	"stomping-tantrum",
-	"tera-blast",
-	"trailblaze"
+      "body-slam",
+      "take-down",
+      "dig",
+      "agility",
+      "rest",
+      "substitute",
+      "protect",
+      "mud-slap",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "baton-pass",
+      "sweet-scent",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "facade",
+      "helping-hand",
+      "wish",
+      "yawn",
+      "howl",
+      "mud-shot",
+      "copycat",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "snarl",
+      "misty-terrain",
+      "play-rough",
+      "dazzling-gleam",
+      "psychic-fangs",
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

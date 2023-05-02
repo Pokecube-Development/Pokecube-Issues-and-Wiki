@@ -47,8 +47,11 @@ import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.AnimatedCaps;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.IAnimated;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.IAnimated.MolangVars;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -120,6 +123,7 @@ public class LogicMiscUpdate extends LogicBase
     UUID prevID = null;
 
     final IAnimated animated;
+    final IAnimationHolder holder;
 
     public LogicMiscUpdate(final IPokemob pokemob)
     {
@@ -127,6 +131,7 @@ public class LogicMiscUpdate extends LogicBase
         this.lastCache = this.entity.blockPosition();
 
         animated = AnimatedCaps.getAnimated(this.entity);
+        holder = this.entity.getCapability(ThutCaps.ANIMCAP).orElse(null);
     }
 
     private void checkAIStates(UUID ownerID)
@@ -376,6 +381,18 @@ public class LogicMiscUpdate extends LogicBase
             final ResourceLocation id = PokecubeItems.getCubeId(pokecube);
             final PokecubeBehaviour behaviour = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
+        }
+        else if (holder != null)
+        {
+            // Update molang things for stuff that is slow to read.
+            float health = this.pokemob.getHealth();
+            final float max = this.pokemob.getMaxHealth();
+            MolangVars molangs = holder.getMolangVars();
+
+            molangs.health = health;
+            molangs.max_health = max;
+
+            molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
         }
 
         for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);

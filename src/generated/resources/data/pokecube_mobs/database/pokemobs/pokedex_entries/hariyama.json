@@ -73,6 +73,13 @@
         ]
       },
       {
+        "L": 30,
+        "moves": [
+          "detect",
+          "smelling-salts"
+        ]
+      },
+      {
         "L": 42,
         "moves": [
           "endure"
@@ -81,7 +88,8 @@
       {
         "L": 22,
         "moves": [
-          "vital-throw"
+          "vital-throw",
+          "bulk-up"
         ]
       },
       {
@@ -91,21 +99,16 @@
         ]
       },
       {
-        "L": 30,
+        "L": 38,
         "moves": [
-          "smelling-salts"
+          "focus-punch",
+          "wake-up-slap"
         ]
       },
       {
         "L": 19,
         "moves": [
           "knock-off"
-        ]
-      },
-      {
-        "L": 38,
-        "moves": [
-          "wake-up-slap"
         ]
       },
       {
@@ -125,6 +128,12 @@
         "moves": [
           "heavy-slam"
         ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "headlong-rush"
+        ]
       }
     ],
     "misc": [
@@ -138,6 +147,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "surf",
       "hyper-beam",
@@ -152,12 +162,15 @@
       "double-team",
       "focus-energy",
       "metronome",
+      "swift",
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "reversal",
       "protect",
+      "scary-face",
       "belly-drum",
       "mud-slap",
       "endure",
@@ -177,6 +190,7 @@
       "facade",
       "focus-punch",
       "smelling-salts",
+      "taunt",
       "helping-hand",
       "role-play",
       "superpower",
@@ -186,6 +200,7 @@
       "arm-thrust",
       "rock-tomb",
       "bulk-up",
+      "mud-shot",
       "wake-up-slap",
       "brine",
       "natural-gift",
@@ -194,9 +209,11 @@
       "fling",
       "force-palm",
       "poison-jab",
+      "drain-punch",
       "vacuum-wave",
       "focus-blast",
       "giga-impact",
+      "zen-headbutt",
       "rock-climb",
       "iron-head",
       "stone-edge",
@@ -211,7 +228,10 @@
       "confide",
       "power-up-punch",
       "throat-chop",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "minecraft:entities/cow_2"

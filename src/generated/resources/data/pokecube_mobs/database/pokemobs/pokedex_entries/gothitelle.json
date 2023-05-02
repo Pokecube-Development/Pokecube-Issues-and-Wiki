@@ -44,7 +44,8 @@
           "pound",
           "confusion",
           "tickle",
-          "play-nice"
+          "play-nice",
+          "pound"
         ]
       },
       {
@@ -136,6 +137,7 @@
     "misc": [
       "pound",
       "double-slap",
+      "body-slam",
       "psybeam",
       "hyper-beam",
       "thunderbolt",
@@ -143,9 +145,12 @@
       "toxic",
       "confusion",
       "psychic",
+      "hypnosis",
       "double-team",
       "light-screen",
       "reflect",
+      "metronome",
+      "swift",
       "dream-eater",
       "flash",
       "rest",
@@ -199,6 +204,7 @@
       "heal-block",
       "guard-swap",
       "dark-pulse",
+      "focus-blast",
       "energy-ball",
       "giga-impact",
       "nasty-plot",
@@ -218,7 +224,9 @@
       "confide",
       "power-up-punch",
       "laser-focus",
-      "expanding-force"
+      "psychic-terrain",
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_3"

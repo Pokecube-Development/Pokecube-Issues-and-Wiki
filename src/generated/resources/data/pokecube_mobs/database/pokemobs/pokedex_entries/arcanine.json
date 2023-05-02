@@ -48,7 +48,6 @@
           "bite",
           "roar",
           "ember",
-          "flamethrower",
           "agility",
           "flame-wheel",
           "reversal",
@@ -62,6 +61,12 @@
           "retaliate",
           "play-rough",
           "burn-up"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "flamethrower"
         ]
       },
       {
@@ -110,6 +115,7 @@
       "mud-slap",
       "outrage",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -133,6 +139,7 @@
       "overheat",
       "odor-sleuth",
       "aerial-ace",
+      "howl",
       "covet",
       "natural-gift",
       "close-combat",
@@ -155,7 +162,8 @@
       "confide",
       "laser-focus",
       "psychic-fangs",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "interactions": [

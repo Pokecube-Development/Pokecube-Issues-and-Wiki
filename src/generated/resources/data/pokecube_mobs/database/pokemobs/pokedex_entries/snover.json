@@ -112,6 +112,8 @@
       "swords-dance",
       "stomp",
       "headbutt",
+      "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "mist",
@@ -148,6 +150,7 @@
       "shadow-ball",
       "hail",
       "facade",
+      "helping-hand",
       "role-play",
       "ingrain",
       "secret-power",
@@ -163,13 +166,20 @@
       "energy-ball",
       "avalanche",
       "ice-shard",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "wood-hammer",
       "round",
       "frost-breath",
       "confide",
-      "grassy-glide"
+      "leafage",
+      "grassy-glide",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "evolutions": [

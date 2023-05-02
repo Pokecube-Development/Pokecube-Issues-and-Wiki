@@ -114,6 +114,8 @@
     "misc": [
       "wing-attack",
       "fly",
+      "body-slam",
+      "take-down",
       "double-edge",
       "growl",
       "supersonic",
@@ -126,8 +128,10 @@
       "hyper-beam",
       "toxic",
       "agility",
+      "quick-attack",
       "mimic",
       "double-team",
+      "waterfall",
       "swift",
       "sky-attack",
       "rest",
@@ -154,6 +158,7 @@
       "swallow",
       "hail",
       "facade",
+      "helping-hand",
       "knock-off",
       "secret-power",
       "weather-ball",
@@ -183,10 +188,14 @@
       "echoed-voice",
       "scald",
       "sky-drop",
+      "acrobatics",
       "hurricane",
       "confide",
       "liquidation",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2"

@@ -118,6 +118,7 @@
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "roar",
       "hydro-pump",
@@ -159,6 +160,7 @@
       "uproar",
       "hail",
       "facade",
+      "helping-hand",
       "brick-break",
       "secret-power",
       "dive",
@@ -184,7 +186,9 @@
       "bulldoze",
       "confide",
       "origin-pulse",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "spawn_rules": [

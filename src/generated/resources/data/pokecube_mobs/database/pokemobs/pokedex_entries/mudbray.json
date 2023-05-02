@@ -134,10 +134,12 @@
       "double-kick",
       "mega-kick",
       "body-slam",
+      "take-down",
       "double-edge",
       "roar",
       "low-kick",
       "counter",
+      "strength",
       "earthquake",
       "fissure",
       "toxic",
@@ -158,6 +160,8 @@
       "frustration",
       "magnitude",
       "hidden-power",
+      "sunny-day",
+      "rock-smash",
       "facade",
       "superpower",
       "endeavor",
@@ -170,6 +174,7 @@
       "earth-power",
       "mud-bomb",
       "iron-head",
+      "stone-edge",
       "stealth-rock",
       "smack-down",
       "heavy-slam",
@@ -179,7 +184,8 @@
       "rototiller",
       "confide",
       "high-horsepower",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
   "evolutions": [

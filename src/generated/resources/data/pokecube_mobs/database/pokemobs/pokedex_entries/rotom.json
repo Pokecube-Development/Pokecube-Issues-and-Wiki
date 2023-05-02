@@ -96,6 +96,7 @@
       "thunder-wave",
       "thunder",
       "toxic",
+      "night-shade",
       "double-team",
       "confuse-ray",
       "light-screen",
@@ -154,7 +155,8 @@
       "eerie-impulse",
       "electric-terrain",
       "rising-voltage",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
   "forme_items": [

@@ -70,6 +70,13 @@
         ]
       },
       {
+        "L": 30,
+        "moves": [
+          "focus-energy",
+          "laser-focus"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "crunch"
@@ -82,12 +89,6 @@
         ]
       },
       {
-        "L": 30,
-        "moves": [
-          "laser-focus"
-        ]
-      },
-      {
         "L": 42,
         "moves": [
           "liquidation"
@@ -95,7 +96,14 @@
       }
     ],
     "misc": [
+      "fury-attack",
+      "take-down",
       "thrash",
+      "double-edge",
+      "bite",
+      "hydro-pump",
+      "surf",
+      "peck",
       "agility",
       "focus-energy",
       "waterfall",
@@ -115,19 +123,23 @@
       "brick-break",
       "dive",
       "bounce",
+      "water-pulse",
       "acupressure",
       "close-combat",
       "assurance",
       "poison-jab",
       "night-slash",
       "ice-fang",
+      "aqua-jet",
       "round",
       "scald",
       "drill-run",
       "throat-chop",
       "psychic-fangs",
       "liquidation",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

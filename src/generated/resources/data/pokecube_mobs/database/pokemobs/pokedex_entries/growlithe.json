@@ -187,9 +187,11 @@
       "curse",
       "reversal",
       "protect",
+      "scary-face",
       "mud-slap",
       "outrage",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -216,6 +218,7 @@
       "natural-gift",
       "close-combat",
       "flare-blitz",
+      "thunder-fang",
       "fire-fang",
       "captivate",
       "flame-burst",
@@ -228,7 +231,9 @@
       "play-rough",
       "confide",
       "burn-up",
-      "psychic-fangs"
+      "psychic-fangs",
+      "raging-fury",
+      "tera-blast"
     ]
   },
   "evolutions": [

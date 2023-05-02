@@ -127,13 +127,21 @@
         "moves": [
           "volt-switch"
         ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "wildbolt-storm"
+        ]
       }
     ],
     "misc": [
       "thunder-punch",
       "fly",
       "body-slam",
+      "take-down",
       "thrash",
+      "leer",
       "bite",
       "hyper-beam",
       "strength",
@@ -161,6 +169,7 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "crunch",
       "rock-smash",
       "uproar",
@@ -189,6 +198,7 @@
       "focus-blast",
       "giga-impact",
       "nasty-plot",
+      "zen-headbutt",
       "flash-cannon",
       "defog",
       "discharge",
@@ -201,15 +211,19 @@
       "round",
       "sky-drop",
       "incinerate",
+      "acrobatics",
       "volt-switch",
       "electroweb",
       "wild-charge",
+      "snarl",
       "confide",
       "eerie-impulse",
+      "electric-terrain",
       "smart-strike",
       "brutal-swing",
       "rising-voltage",
-      "lash-out"
+      "lash-out",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

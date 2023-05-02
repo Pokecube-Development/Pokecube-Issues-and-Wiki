@@ -293,6 +293,12 @@
       "expanding-force"
     ]
   },
+  "evolutions": [
+    {
+      "name": "mr-rime",
+      "level": 42
+    }
+  ],
   "old_name": "mr_mime",
   "loot_table": "pokecube:entities/rabbit_2"
 }

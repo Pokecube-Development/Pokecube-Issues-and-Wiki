@@ -119,17 +119,21 @@
     "misc": [
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
       "leer",
       "bite",
       "roar",
       "hyper-beam",
       "strength",
+      "thunder-shock",
       "thunderbolt",
       "thunder-wave",
       "thunder",
       "toxic",
       "agility",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "swift",
       "flash",
@@ -151,6 +155,7 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "crunch",
       "facade",
       "charge",
@@ -181,7 +186,9 @@
       "laser-focus",
       "throat-chop",
       "psychic-fangs",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "male_model": {

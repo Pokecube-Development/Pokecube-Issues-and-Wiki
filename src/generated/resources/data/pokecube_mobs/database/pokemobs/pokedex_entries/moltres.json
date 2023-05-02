@@ -108,6 +108,12 @@
         ]
       },
       {
+        "L": 65,
+        "moves": [
+          "overheat"
+        ]
+      },
+      {
         "L": 85,
         "moves": [
           "roost"
@@ -140,6 +146,7 @@
     ],
     "misc": [
       "razor-wind",
+      "gust",
       "wing-attack",
       "whirlwind",
       "fly",
@@ -188,6 +195,7 @@
       "heat-wave",
       "will-o-wisp",
       "facade",
+      "helping-hand",
       "secret-power",
       "weather-ball",
       "air-cutter",
@@ -208,6 +216,7 @@
       "round",
       "sky-drop",
       "incinerate",
+      "acrobatics",
       "hurricane",
       "confide",
       "mystical-fire",
@@ -215,7 +224,8 @@
       "burn-up",
       "burning-jealousy",
       "dual-wingbeat",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

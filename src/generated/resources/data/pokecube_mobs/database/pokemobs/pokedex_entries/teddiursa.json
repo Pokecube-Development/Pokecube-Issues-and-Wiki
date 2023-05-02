@@ -71,7 +71,8 @@
       {
         "L": 29,
         "moves": [
-          "slash"
+          "slash",
+          "play-rough"
         ]
       },
       {
@@ -90,6 +91,12 @@
         "L": 22,
         "moves": [
           "sweet-scent"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "payback"
         ]
       },
       {
@@ -115,6 +122,7 @@
       "double-edge",
       "leer",
       "roar",
+      "low-kick",
       "counter",
       "seismic-toss",
       "strength",
@@ -163,6 +171,7 @@
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "superpower",
       "brick-break",
       "yawn",
@@ -180,6 +189,7 @@
       "last-resort",
       "night-slash",
       "seed-bomb",
+      "avalanche",
       "shadow-claw",
       "gunk-shot",
       "captivate",
@@ -193,7 +203,9 @@
       "play-nice",
       "confide",
       "baby-doll-eyes",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

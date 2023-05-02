@@ -78,7 +78,8 @@
       {
         "L": 51,
         "moves": [
-          "recover"
+          "recover",
+          "icicle-crash"
         ]
       },
       {
@@ -152,6 +153,7 @@
       "curse",
       "powder-snow",
       "protect",
+      "scary-face",
       "icy-wind",
       "endure",
       "swagger",
@@ -192,7 +194,11 @@
       "confide",
       "high-horsepower",
       "stomping-tantrum",
-      "body-press"
+      "body-press",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/both_ice"

@@ -43,12 +43,14 @@
         "moves": [
           "pound",
           "growl",
+          "water-gun",
           "quick-attack",
           "haze",
           "bubble",
           "role-play",
           "night-slash",
-          "mat-block"
+          "mat-block",
+          "pound"
         ]
       },
       {
@@ -84,7 +86,8 @@
       {
         "L": 33,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "aerial-ace"
         ]
       },
       {
@@ -121,7 +124,9 @@
     "misc": [
       "pound",
       "ice-punch",
+      "swords-dance",
       "cut",
+      "take-down",
       "growl",
       "hydro-pump",
       "surf",
@@ -138,6 +143,7 @@
       "haze",
       "lick",
       "waterfall",
+      "swift",
       "bubble",
       "rest",
       "rock-slide",
@@ -147,8 +153,11 @@
       "spite",
       "protect",
       "feint-attack",
+      "mud-slap",
       "spikes",
       "icy-wind",
+      "endure",
+      "false-swipe",
       "swagger",
       "attract",
       "sleep-talk",
@@ -159,7 +168,9 @@
       "rock-smash",
       "facade",
       "taunt",
+      "helping-hand",
       "role-play",
+      "brick-break",
       "snatch",
       "secret-power",
       "dive",
@@ -168,9 +179,11 @@
       "extrasensory",
       "aerial-ace",
       "bounce",
+      "mud-shot",
       "water-pulse",
       "u-turn",
       "fling",
+      "toxic-spikes",
       "dark-pulse",
       "night-slash",
       "giga-impact",
@@ -178,6 +191,7 @@
       "gunk-shot",
       "grass-knot",
       "smack-down",
+      "low-sweep",
       "round",
       "echoed-voice",
       "scald",
@@ -188,7 +202,12 @@
       "confide",
       "water-shuriken",
       "power-up-punch",
-      "brutal-swing"
+      "brutal-swing",
+      "liquidation",
+      "tera-blast",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "mega_rules": [

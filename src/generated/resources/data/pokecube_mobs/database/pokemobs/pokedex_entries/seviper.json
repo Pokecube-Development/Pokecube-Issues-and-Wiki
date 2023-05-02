@@ -82,6 +82,13 @@
         ]
       },
       {
+        "L": 46,
+        "moves": [
+          "sludge-bomb",
+          "wring-out"
+        ]
+      },
+      {
         "L": 39,
         "moves": [
           "crunch"
@@ -103,12 +110,6 @@
         "L": 11,
         "moves": [
           "feint"
-        ]
-      },
-      {
-        "L": 46,
-        "moves": [
-          "wring-out"
         ]
       },
       {
@@ -160,9 +161,11 @@
       "headbutt",
       "body-slam",
       "wrap",
+      "take-down",
       "double-edge",
       "bite",
       "flamethrower",
+      "hyper-beam",
       "strength",
       "earthquake",
       "dig",
@@ -178,6 +181,7 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "protect",
       "scary-face",
       "sludge-bomb",
@@ -201,6 +205,8 @@
       "swallow",
       "facade",
       "taunt",
+      "helping-hand",
+      "brick-break",
       "knock-off",
       "snatch",
       "secret-power",
@@ -218,23 +224,37 @@
       "dark-pulse",
       "night-slash",
       "aqua-tail",
+      "seed-bomb",
       "x-scissor",
       "switcheroo",
+      "giga-impact",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "zen-headbutt",
+      "gunk-shot",
+      "iron-head",
       "captivate",
       "venoshock",
       "sludge-wave",
       "coil",
+      "acid-spray",
       "round",
       "retaliate",
       "final-gambit",
       "bulldoze",
       "dragon-tail",
+      "snarl",
       "belch",
       "confide",
       "venom-drench",
       "infestation",
       "throat-chop",
-      "brutal-swing"
+      "brutal-swing",
+      "psychic-fangs",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/leather"

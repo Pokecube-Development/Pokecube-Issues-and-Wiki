@@ -1,12 +1,12 @@
 {
   "name": "koraidon",
-  "id": 998,
+  "id": 1007,
   "stock": true,
-  "base_experience": 60,
+  "base_experience": 335,
   "size": {
     "height": 2.5
   },
-  "mass": 303,
+  "mass": 303.0,
   "is_default": true,
   "capture_rate": 3,
   "base_happiness": 0,
@@ -25,74 +25,22 @@
   },
   "types": [
     "fighting",
-	"dragon"
+    "dragon"
   ],
   "abilities": {
     "normal": [
+      "orichalcum-pulse"
+    ],
+    "hidden": [
       "orichalcum-pulse"
     ]
   },
   "moves": {
     "level_up": [
       {
-        "L": 1,
-        "moves": [
-          "sunny-day",
-		  "breaking-swipe"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "rock-smash"
-        ]
-      },
-      {
-        "L": 14,
-        "moves": [
-          "ancient-power"
-        ]
-      },
-      {
-        "L": 21,
-        "moves": [
-          "drain-punch"
-        ]
-      },
-      {
-        "L": 28,
-        "moves": [
-          "brick-break"
-        ]
-      },
-      {
-        "L": 35,
-        "moves": [
-          "agility"
-        ]
-      },
-      {
-        "L": 42,
-        "moves": [
-          "dragon-claw"
-        ]
-      },
-      {
         "L": 49,
         "moves": [
           "flamethrower"
-        ]
-      },
-      {
-        "L": 56,
-        "moves": [
-          "collision-course"
-        ]
-      },
-      {
-        "L": 63,
-        "moves": [
-          "screech"
         ]
       },
       {
@@ -102,9 +50,52 @@
         ]
       },
       {
+        "L": 35,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
         "L": 77,
         "moves": [
           "outrage"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "sunny-day",
+          "breaking-swipe"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "ancient-power"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "rock-smash"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "brick-break"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "dragon-claw"
         ]
       },
       {
@@ -120,70 +111,81 @@
         ]
       },
       {
+        "L": 21,
+        "moves": [
+          "drain-punch"
+        ]
+      },
+      {
         "L": 98,
         "moves": [
           "giga-impact"
         ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "collision-course"
+        ]
       }
     ],
     "misc": [
-	 "swords-dance",
-	"body-slam",
-	"take-down",
-	"flamethrower",
-	"hyper-beam",
-	"low-kick",
-	"solar-beam",
-	"fire-spin",
-	"dig",
-	"agility",
-	"fire-blast",
-	"rest",
-	"substitute",
-	"reversal",
-	"protect",
-	"scary-face",
-	"mud-slap",
-	"outrage",
-	"endure",
-	"sleep-talk",
-	"sunny-day",
-	"crunch",
-	"heat-wave",
-	"facade",
-	"taunt",
-	"helping-hand",
-	"brick-break",
-	"overheat",
-	"dragon-claw",
-	"bulk-up",
-	"mud-shot",
-	"u-turn",
-	"close-combat",
-	"flare-blitz",
-	"dragon-pulse",
-	"drain-punch",
-	"focus-blast",
-	"giga-impact",
-	"shadow-claw",
-	"thunder-fang",
-	"ice-fang",
-	"fire-fang",
-	"zen-headbutt",
-	"draco-meteor",
-	"iron-head",
-	"heavy-slam",
-	"flame-charge",
-	"low-sweep",
-	"acrobatics",
-	"bulldoze",
-	"dragon-tail",
-	"wild-charge",
-	"snarl",
-	"stomping-tantrum",
-	"body-press",
-	"tera-blast"
+      "swords-dance",
+      "body-slam",
+      "take-down",
+      "flamethrower",
+      "hyper-beam",
+      "low-kick",
+      "solar-beam",
+      "fire-spin",
+      "dig",
+      "agility",
+      "fire-blast",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "sunny-day",
+      "crunch",
+      "heat-wave",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "overheat",
+      "dragon-claw",
+      "bulk-up",
+      "mud-shot",
+      "u-turn",
+      "close-combat",
+      "flare-blitz",
+      "dragon-pulse",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "zen-headbutt",
+      "draco-meteor",
+      "iron-head",
+      "heavy-slam",
+      "flame-charge",
+      "low-sweep",
+      "acrobatics",
+      "bulldoze",
+      "dragon-tail",
+      "wild-charge",
+      "snarl",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast"
     ]
-  },
-  "loot_table": "pokecube:entities/cobble_1"
+  }
 }

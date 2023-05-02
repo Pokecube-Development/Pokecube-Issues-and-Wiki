@@ -68,6 +68,13 @@
         ]
       },
       {
+        "L": 88,
+        "moves": [
+          "outrage",
+          "eternabeam"
+        ]
+      },
+      {
         "L": 64,
         "moves": [
           "cosmic-power"
@@ -102,34 +109,39 @@
         "moves": [
           "dynamax-cannon"
         ]
-      },
-      {
-        "L": 88,
-        "moves": [
-          "eternabeam"
-        ]
       }
     ],
     "misc": [
       "fly",
+      "body-slam",
+      "take-down",
       "flamethrower",
       "hyper-beam",
       "solar-beam",
+      "fire-spin",
+      "toxic",
       "agility",
       "screech",
+      "recover",
+      "confuse-ray",
       "light-screen",
       "reflect",
+      "fire-blast",
       "rest",
       "substitute",
       "snore",
       "protect",
       "scary-face",
       "sludge-bomb",
+      "outrage",
       "endure",
       "sleep-talk",
+      "rain-dance",
+      "sunny-day",
       "shadow-ball",
       "facade",
       "cosmic-power",
+      "poison-tail",
       "dragon-dance",
       "payback",
       "assurance",
@@ -140,13 +152,17 @@
       "flash-cannon",
       "draco-meteor",
       "cross-poison",
+      "gunk-shot",
       "venoshock",
       "sludge-wave",
       "round",
+      "dragon-tail",
       "mystical-fire",
       "venom-drench",
       "brutal-swing",
-      "meteor-beam"
+      "dynamax-cannon",
+      "meteor-beam",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/generic_legend"

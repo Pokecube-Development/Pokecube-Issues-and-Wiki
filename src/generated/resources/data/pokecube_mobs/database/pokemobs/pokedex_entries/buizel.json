@@ -39,19 +39,28 @@
       {
         "L": 35,
         "moves": [
-          "razor-wind"
+          "razor-wind",
+          "liquidation"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "sonic-boom"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bite",
+          "pursuit"
         ]
       },
       {
         "L": 4,
         "moves": [
           "growl"
-        ]
-      },
-      {
-        "L": 1,
-        "moves": [
-          "sonic-boom"
         ]
       },
       {
@@ -85,12 +94,6 @@
         ]
       },
       {
-        "L": 18,
-        "moves": [
-          "pursuit"
-        ]
-      },
-      {
         "L": 31,
         "moves": [
           "whirlpool"
@@ -99,7 +102,8 @@
       {
         "L": 7,
         "moves": [
-          "water-sport"
+          "water-sport",
+          "soak"
         ]
       },
       {
@@ -119,6 +123,12 @@
         "moves": [
           "double-hit"
         ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "wave-crash"
+        ]
       }
     ],
     "misc": [
@@ -126,6 +136,7 @@
       "ice-punch",
       "razor-wind",
       "headbutt",
+      "take-down",
       "growl",
       "sonic-boom",
       "water-gun",
@@ -133,6 +144,7 @@
       "surf",
       "ice-beam",
       "blizzard",
+      "low-kick",
       "strength",
       "dig",
       "toxic",
@@ -145,6 +157,7 @@
       "rest",
       "slash",
       "substitute",
+      "thief",
       "snore",
       "protect",
       "mud-slap",
@@ -161,11 +174,13 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "crunch",
       "rock-smash",
       "whirlpool",
       "hail",
       "facade",
       "focus-punch",
+      "taunt",
       "helping-hand",
       "brick-break",
       "secret-power",
@@ -177,20 +192,27 @@
       "water-pulse",
       "brine",
       "natural-gift",
+      "fling",
       "me-first",
       "aqua-ring",
       "aqua-tail",
       "switcheroo",
+      "ice-fang",
       "captivate",
       "aqua-jet",
       "double-hit",
       "soak",
+      "low-sweep",
       "round",
       "echoed-voice",
       "scald",
       "tail-slap",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "liquidation",
+      "tera-blast",
+      "ice-spinner",
+      "chilling-water"
     ]
   },
   "evolutions": [

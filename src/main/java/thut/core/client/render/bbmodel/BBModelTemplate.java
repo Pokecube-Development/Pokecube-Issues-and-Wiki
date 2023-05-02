@@ -306,13 +306,6 @@ public class BBModelTemplate
             float us = template.resolution.width;
             float vs = template.resolution.height;
 
-            float[] origin_offset = new float[]
-            { 0, 0, 0 };
-            float[] mid_offset = new float[]
-            { 0, 0, 0 };
-
-            for (int i = 0; i < 3; i++) origin_offset[i] = b.origin[i];
-
             Quaternion quat = new Quaternion(0, 0, 0, true);
 
             if (b.getRotation() != null)
@@ -324,34 +317,35 @@ public class BBModelTemplate
                 quat.set(q.i(), q.j(), q.k(), q.r());
             }
 
-            Vector3f origin = new Vector3f(origin_offset);
-            Vector3f shift = new Vector3f(mid_offset);
+            Vector3f origin = new Vector3f(b.origin);
 
             boolean bedrock = template.meta.model_format.equals("bedrock");
+
             Map<String, Vertex> verts = Maps.newHashMap();
 
-            b.vertices.forEach((key, array) -> {
-                Vertex v = new Vertex(array[0], array[1], array[2]);
-                // This should be a point on a box with a corner at 0,0,0.
-                Vector3f vec = new Vector3f(v.x, v.y, v.z);
+            for (var entry : b.vertices.entrySet())
+            {
+                var key = entry.getKey();
+                var array = entry.getValue();
 
-                // - z() as we use the negative of it below!
-                if (bedrock) vec.add(-origin.x(), origin.y(), -origin.z());
-                else vec.add(origin.x(), origin.y(), -origin.z());
+                Vertex v = new Vertex(0, 0, 0);
+                // This should be a point on a box with a corner at 0,0,0.
+                Vector3f vec = new Vector3f(array);
 
                 // We need to translate to rotation point, then rotate, then
                 // translate back.
                 vec.transform(quat);
-
-                // Now translate to where it should be
-                vec.add(shift);
+                vec.add(origin);
 
                 if (bedrock) v.set(-vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                 else v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                 verts.put(key, v);
-            });
+            }
 
-            b.faces.forEach((key, json) -> {
+            for (var entry : b.faces.entrySet())
+            {
+                var key = entry.getKey();
+                var json = entry.getValue();
                 MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
                 BBModelQuad quad = new BBModelQuad();
 
@@ -367,7 +361,6 @@ public class BBModelTemplate
                 {
                     same = map_order.get(i).equals(face.vertices.get(i));
                 }
-//                same = true;
 
                 for (int j = 0; j < face.vertices.size(); j++)
                 {
@@ -385,7 +378,7 @@ public class BBModelTemplate
                 {
                     ThutCore.LOGGER.error("Unsupported vertex count: " + face.vertices.size());
                 }
-            });
+            }
         }
     }
 
@@ -400,13 +393,16 @@ public class BBModelTemplate
         public float[] rotation;
         public int color;
         public boolean box_uv = false;
+        public boolean visibility = true;
         public float inflate = 0.0f;
         public Map<String, JsonObject> faces;
         public Map<String, float[]> vertices;
+        public JsonGroup _parent = null;
 
         public void toMeshs(BBModelTemplate t, Map<String, List<List<Object>>> quads_materials,
                 Map<String, List<List<Object>>> tris_materials)
         {
+            if (!this.visibility) return;
             if (this.type.equals("cube"))
             {
                 BBCubeElement box = new BBCubeElement(t, this);
@@ -537,12 +533,7 @@ public class BBModelTemplate
             }
             else if (this.type.equals("mesh"))
             {
-                vertices.forEach((s, vert) -> {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        vert[i] -= origin[i];
-                    }
-                });
+                for (int i = 0; i < 3; i++) this.origin[i] -= origin[i];
             }
         }
     }
@@ -590,6 +581,7 @@ public class BBModelTemplate
                 {
                     Element b = (Element) template._by_uuid.get(o);
                     if (b.name.equals("cube")) b.name = this.name;
+                    b._parent = this;
                     b.shift(this.origin);
                     newChildren.add(b);
                     _empty = false;

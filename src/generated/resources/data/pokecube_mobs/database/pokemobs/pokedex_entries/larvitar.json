@@ -118,6 +118,12 @@
         ]
       },
       {
+        "L": 24,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
         "L": 14,
         "moves": [
           "chip-away"
@@ -133,12 +139,15 @@
     "misc": [
       "stomp",
       "headbutt",
+      "tackle",
       "body-slam",
+      "take-down",
       "thrash",
       "double-edge",
       "leer",
       "bite",
       "hyper-beam",
+      "rock-throw",
       "earthquake",
       "dig",
       "toxic",
@@ -176,6 +185,7 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "superpower",
       "brick-break",
       "secret-power",
@@ -183,13 +193,16 @@
       "sand-tomb",
       "muddy-water",
       "iron-defense",
+      "mud-shot",
       "dragon-dance",
+      "rock-blast",
       "natural-gift",
       "payback",
       "assurance",
       "rock-polish",
       "dark-pulse",
       "earth-power",
+      "giga-impact",
       "iron-head",
       "stone-edge",
       "captivate",
@@ -202,7 +215,8 @@
       "snarl",
       "confide",
       "power-up-punch",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
   "evolutions": [

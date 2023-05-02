@@ -144,6 +144,8 @@
       "body-slam",
       "double-edge",
       "growl",
+      "psybeam",
+      "hyper-beam",
       "thunderbolt",
       "thunder-wave",
       "toxic",
@@ -153,9 +155,11 @@
       "teleport",
       "mimic",
       "double-team",
+      "confuse-ray",
       "defense-curl",
       "light-screen",
       "reflect",
+      "metronome",
       "swift",
       "dream-eater",
       "flash",
@@ -222,8 +226,11 @@
       "misty-terrain",
       "confide",
       "dazzling-gleam",
+      "psychic-terrain",
+      "life-dew",
       "expanding-force",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast"
     ]
   },
   "evolutions": [

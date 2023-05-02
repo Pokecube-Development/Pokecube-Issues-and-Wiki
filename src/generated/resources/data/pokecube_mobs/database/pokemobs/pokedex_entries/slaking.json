@@ -43,7 +43,14 @@
           "slack-off",
           "hammer-arm",
           "fling",
-          "punishment"
+          "punishment",
+          "sucker-punch"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "mega-kick"
         ]
       },
       {
@@ -85,7 +92,8 @@
       {
         "L": 27,
         "moves": [
-          "chip-away"
+          "chip-away",
+          "throat-chop"
         ]
       }
     ],
@@ -99,6 +107,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "roar",
       "flamethrower",
@@ -111,23 +120,31 @@
       "strength",
       "solar-beam",
       "thunderbolt",
+      "thunder-wave",
       "thunder",
       "earthquake",
+      "dig",
       "toxic",
       "mimic",
       "double-team",
+      "metronome",
       "fire-blast",
       "amnesia",
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "flail",
+      "reversal",
       "protect",
+      "scary-face",
       "feint-attack",
       "mud-slap",
       "icy-wind",
+      "outrage",
       "endure",
+      "false-swipe",
       "swagger",
       "fury-cutter",
       "attract",
@@ -136,6 +153,7 @@
       "frustration",
       "dynamic-punch",
       "encore",
+      "metal-claw",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -144,14 +162,17 @@
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "brick-break",
       "yawn",
       "secret-power",
       "slack-off",
+      "hyper-voice",
       "rock-tomb",
       "aerial-ace",
       "block",
       "bulk-up",
+      "mud-shot",
       "covet",
       "shock-wave",
       "water-pulse",
@@ -160,14 +181,20 @@
       "fling",
       "punishment",
       "sucker-punch",
+      "poison-jab",
+      "seed-bomb",
+      "x-scissor",
+      "drain-punch",
       "focus-blast",
       "giga-impact",
       "shadow-claw",
+      "zen-headbutt",
       "rock-climb",
       "gunk-shot",
       "captivate",
       "hone-claws",
       "smack-down",
+      "heavy-slam",
       "low-sweep",
       "after-you",
       "round",
@@ -177,9 +204,16 @@
       "retaliate",
       "bulldoze",
       "work-up",
+      "wild-charge",
+      "play-rough",
       "confide",
       "power-up-punch",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "pounce",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "interactions": [

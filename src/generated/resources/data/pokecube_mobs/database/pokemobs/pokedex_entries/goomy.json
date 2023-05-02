@@ -110,6 +110,8 @@
     "misc": [
       "tackle",
       "body-slam",
+      "take-down",
+      "water-gun",
       "counter",
       "absorb",
       "thunderbolt",
@@ -128,6 +130,7 @@
       "sludge-bomb",
       "outrage",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -152,7 +155,9 @@
       "confide",
       "infestation",
       "life-dew",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

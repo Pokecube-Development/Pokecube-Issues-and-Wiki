@@ -41,6 +41,13 @@
         ]
       },
       {
+        "L": 14,
+        "moves": [
+          "headbutt",
+          "feint-attack"
+        ]
+      },
+      {
         "L": 30,
         "moves": [
           "counter"
@@ -56,12 +63,6 @@
         "L": 33,
         "moves": [
           "flail"
-        ]
-      },
-      {
-        "L": 14,
-        "moves": [
-          "feint-attack"
         ]
       },
       {
@@ -85,7 +86,8 @@
       {
         "L": 25,
         "moves": [
-          "chip-away"
+          "chip-away",
+          "throat-chop"
         ]
       },
       {
@@ -105,6 +107,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "flamethrower",
       "ice-beam",
@@ -118,12 +121,14 @@
       "toxic",
       "mimic",
       "double-team",
+      "metronome",
       "fire-blast",
       "amnesia",
       "rest",
       "rock-slide",
       "slash",
       "substitute",
+      "thief",
       "snore",
       "curse",
       "flail",
@@ -132,6 +137,7 @@
       "mud-slap",
       "icy-wind",
       "endure",
+      "false-swipe",
       "swagger",
       "fury-cutter",
       "attract",
@@ -141,6 +147,7 @@
       "dynamic-punch",
       "encore",
       "pursuit",
+      "metal-claw",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -148,6 +155,7 @@
       "rock-smash",
       "facade",
       "focus-punch",
+      "helping-hand",
       "brick-break",
       "yawn",
       "secret-power",
@@ -157,6 +165,7 @@
       "tickle",
       "aerial-ace",
       "bulk-up",
+      "mud-shot",
       "covet",
       "shock-wave",
       "water-pulse",
@@ -164,8 +173,12 @@
       "natural-gift",
       "fling",
       "sucker-punch",
+      "poison-jab",
       "night-slash",
+      "seed-bomb",
+      "x-scissor",
       "shadow-claw",
+      "zen-headbutt",
       "gunk-shot",
       "captivate",
       "hone-claws",
@@ -177,7 +190,9 @@
       "work-up",
       "play-rough",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

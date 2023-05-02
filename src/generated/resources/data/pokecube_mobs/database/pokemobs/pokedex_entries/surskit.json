@@ -45,6 +45,13 @@
         ]
       },
       {
+        "L": 1,
+        "moves": [
+          "water-gun",
+          "bubble"
+        ]
+      },
+      {
         "L": 17,
         "moves": [
           "bubble-beam"
@@ -63,12 +70,6 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "bubble"
-        ]
-      },
-      {
         "L": 35,
         "moves": [
           "baton-pass"
@@ -83,7 +84,8 @@
       {
         "L": 14,
         "moves": [
-          "water-sport"
+          "water-sport",
+          "soak"
         ]
       },
       {
@@ -100,9 +102,11 @@
       }
     ],
     "misc": [
+      "take-down",
       "double-edge",
       "mist",
       "hydro-pump",
+      "surf",
       "ice-beam",
       "blizzard",
       "psybeam",
@@ -115,7 +119,9 @@
       "mimic",
       "double-team",
       "haze",
+      "waterfall",
       "swift",
+      "leech-life",
       "bubble",
       "flash",
       "rest",
@@ -142,25 +148,31 @@
       "psych-up",
       "shadow-ball",
       "facade",
+      "helping-hand",
       "secret-power",
       "signal-beam",
       "mud-shot",
       "water-sport",
       "water-pulse",
       "natural-gift",
+      "bug-buzz",
       "captivate",
       "bug-bite",
       "aqua-jet",
       "power-split",
       "round",
       "scald",
+      "acrobatics",
       "struggle-bug",
       "sticky-web",
       "fell-stinger",
       "confide",
       "infestation",
       "lunge",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "pounce",
+      "chilling-water"
     ]
   },
   "evolutions": [

@@ -60,9 +60,10 @@
         ]
       },
       {
-        "L": 24,
+        "L": 60,
         "moves": [
-          "focus-energy"
+          "focus-energy",
+          "laser-focus"
         ]
       },
       {
@@ -108,12 +109,6 @@
         ]
       },
       {
-        "L": 60,
-        "moves": [
-          "laser-focus"
-        ]
-      },
-      {
         "L": 66,
         "moves": [
           "dragon-energy"
@@ -122,11 +117,17 @@
     ],
     "misc": [
       "body-slam",
+      "take-down",
+      "thrash",
+      "bite",
       "hyper-beam",
+      "earthquake",
       "light-screen",
       "reflect",
       "focus-energy",
       "self-destruct",
+      "swift",
+      "explosion",
       "rest",
       "substitute",
       "snore",
@@ -135,18 +136,26 @@
       "outrage",
       "endure",
       "sleep-talk",
+      "dragon-breath",
+      "twister",
       "crunch",
+      "ancient-power",
       "facade",
       "dragon-claw",
       "dragon-dance",
+      "hammer-arm",
       "dragon-pulse",
+      "earth-power",
       "giga-impact",
       "thunder-fang",
+      "ice-fang",
       "fire-fang",
       "draco-meteor",
       "round",
       "breaking-swipe",
-      "scale-shot"
+      "scale-shot",
+      "dragon-energy",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

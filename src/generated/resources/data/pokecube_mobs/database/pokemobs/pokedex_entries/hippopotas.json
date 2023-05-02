@@ -157,6 +157,7 @@
       "spit-up",
       "swallow",
       "facade",
+      "helping-hand",
       "superpower",
       "revenge",
       "yawn",
@@ -170,6 +171,10 @@
       "water-pulse",
       "natural-gift",
       "earth-power",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "stone-edge",
       "captivate",
       "stealth-rock",
       "round",
@@ -177,7 +182,9 @@
       "confide",
       "high-horsepower",
       "stomping-tantrum",
-      "scorching-sands"
+      "body-press",
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "evolutions": [

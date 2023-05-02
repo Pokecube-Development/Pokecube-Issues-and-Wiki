@@ -49,7 +49,8 @@
           "charm",
           "covet",
           "copycat",
-          "disarming-voice"
+          "disarming-voice",
+          "pound"
         ]
       },
       {
@@ -187,6 +188,7 @@
       "metronome",
       "egg-bomb",
       "fire-blast",
+      "swift",
       "soft-boiled",
       "dream-eater",
       "flash",
@@ -194,9 +196,11 @@
       "rock-slide",
       "tri-attack",
       "substitute",
+      "thief",
       "snore",
       "curse",
       "protect",
+      "sweet-kiss",
       "mud-slap",
       "zap-cannon",
       "icy-wind",
@@ -224,6 +228,7 @@
       "facade",
       "focus-punch",
       "helping-hand",
+      "trick",
       "recycle",
       "brick-break",
       "endeavor",
@@ -242,6 +247,7 @@
       "healing-wish",
       "natural-gift",
       "fling",
+      "copycat",
       "last-resort",
       "drain-punch",
       "focus-blast",
@@ -265,11 +271,18 @@
       "bulldoze",
       "work-up",
       "wild-charge",
+      "disarming-voice",
       "confide",
+      "electric-terrain",
       "dazzling-gleam",
       "power-up-punch",
       "laser-focus",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "life-dew",
+      "tera-blast",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "held_table": "pokecube:entities/lucky_oval",

@@ -87,6 +87,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "tail-whip",
       "surf",
@@ -149,6 +150,7 @@
       "captivate",
       "grass-knot",
       "charge-beam",
+      "electro-ball",
       "round",
       "echoed-voice",
       "bestow",
@@ -157,8 +159,12 @@
       "wild-charge",
       "disarming-voice",
       "play-rough",
+      "play-nice",
       "confide",
-      "electric-terrain"
+      "electric-terrain",
+      "nuzzle",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

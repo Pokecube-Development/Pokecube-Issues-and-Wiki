@@ -92,15 +92,16 @@
         ]
       },
       {
-        "L": 17,
+        "L": 13,
         "moves": [
-          "water-pulse"
+          "wish",
+          "lucky-chant"
         ]
       },
       {
-        "L": 13,
+        "L": 17,
         "moves": [
-          "lucky-chant"
+          "water-pulse"
         ]
       },
       {
@@ -112,7 +113,8 @@
       {
         "L": 37,
         "moves": [
-          "captivate"
+          "captivate",
+          "baby-doll-eyes"
         ]
       },
       {
@@ -192,7 +194,9 @@
       "heart-stamp",
       "draining-kiss",
       "confide",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "snowscape"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

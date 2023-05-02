@@ -73,7 +73,8 @@
       {
         "L": 35,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "torment"
         ]
       },
       {
@@ -91,13 +92,15 @@
       {
         "L": 20,
         "moves": [
-          "odor-sleuth"
+          "odor-sleuth",
+          "incinerate"
         ]
       },
       {
         "L": 41,
         "moves": [
-          "embargo"
+          "embargo",
+          "comeuppance"
         ]
       },
       {
@@ -116,6 +119,7 @@
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -126,6 +130,7 @@
       "counter",
       "strength",
       "solar-beam",
+      "fire-spin",
       "toxic",
       "mimic",
       "double-team",
@@ -140,8 +145,10 @@
       "nightmare",
       "snore",
       "curse",
+      "reversal",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
       "mud-slap",
@@ -154,6 +161,7 @@
       "frustration",
       "iron-tail",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "crunch",
       "shadow-ball",
@@ -165,6 +173,7 @@
       "will-o-wisp",
       "facade",
       "taunt",
+      "helping-hand",
       "role-play",
       "snatch",
       "secret-power",
@@ -172,10 +181,12 @@
       "overheat",
       "odor-sleuth",
       "howl",
+      "mud-shot",
       "natural-gift",
       "payback",
       "embargo",
       "sucker-punch",
+      "flare-blitz",
       "dark-pulse",
       "giga-impact",
       "nasty-plot",
@@ -191,7 +202,10 @@
       "snarl",
       "confide",
       "laser-focus",
-      "throat-chop"
+      "throat-chop",
+      "psychic-fangs",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "mega_rules": [

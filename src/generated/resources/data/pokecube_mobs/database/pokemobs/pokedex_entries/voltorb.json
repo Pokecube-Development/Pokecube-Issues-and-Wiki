@@ -47,14 +47,8 @@
       {
         "L": 4,
         "moves": [
-          "sonic-boom"
-        ]
-      },
-      {
-        "L": 9,
-        "moves": [
-          "thunder-shock",
-          "spark"
+          "sonic-boom",
+          "thunder-shock"
         ]
       },
       {
@@ -97,6 +91,12 @@
         "L": 11,
         "moves": [
           "rollout"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "spark"
         ]
       },
       {
@@ -147,10 +147,12 @@
       "tackle",
       "take-down",
       "sonic-boom",
+      "thunder-shock",
       "thunderbolt",
       "thunder-wave",
       "thunder",
       "toxic",
+      "agility",
       "rage",
       "teleport",
       "mimic",
@@ -184,8 +186,11 @@
       "facade",
       "charge",
       "taunt",
+      "helping-hand",
       "magic-coat",
+      "recycle",
       "secret-power",
+      "metal-sound",
       "signal-beam",
       "shock-wave",
       "gyro-ball",
@@ -200,7 +205,9 @@
       "volt-switch",
       "wild-charge",
       "confide",
-      "eerie-impulse"
+      "eerie-impulse",
+      "electric-terrain",
+      "tera-blast"
     ]
   },
   "evolutions": [

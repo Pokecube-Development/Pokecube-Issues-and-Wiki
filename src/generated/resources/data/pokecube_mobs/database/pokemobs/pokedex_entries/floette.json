@@ -63,27 +63,29 @@
         ]
       },
       {
+        "L": 10,
+        "moves": [
+          "safeguard",
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "synthesis",
+          "aromatherapy"
+        ]
+      },
+      {
         "L": 20,
         "moves": [
           "wish"
         ]
       },
       {
-        "L": 38,
-        "moves": [
-          "aromatherapy"
-        ]
-      },
-      {
         "L": 25,
         "moves": [
           "magical-leaf"
-        ]
-      },
-      {
-        "L": 10,
-        "moves": [
-          "lucky-chant"
         ]
       },
       {
@@ -120,12 +122,17 @@
       "toxic",
       "psychic",
       "double-team",
+      "light-screen",
+      "metronome",
+      "swift",
       "flash",
       "rest",
       "substitute",
       "snore",
       "protect",
       "giga-drain",
+      "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -133,6 +140,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "synthesis",
       "hidden-power",
       "rain-dance",
@@ -140,9 +148,11 @@
       "facade",
       "nature-power",
       "helping-hand",
+      "trick",
       "wish",
       "magic-coat",
       "endeavor",
+      "skill-swap",
       "secret-power",
       "aromatherapy",
       "covet",
@@ -156,14 +166,32 @@
       "after-you",
       "round",
       "echoed-voice",
+      "stored-power",
       "ally-switch",
       "petal-blizzard",
+      "disarming-voice",
+      "draining-kiss",
       "grassy-terrain",
       "misty-terrain",
       "fairy-wind",
       "moonblast",
       "confide",
-      "dazzling-gleam"
+      "dazzling-gleam",
+      "pollen-puff",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
+    ]
+  },
+  "dye": {
+    "base": "red",
+    "shiny": "red",
+    "dyes": [
+      "red",
+      "yellow",
+      "orange",
+      "blue",
+      "white"
     ]
   },
   "model": {

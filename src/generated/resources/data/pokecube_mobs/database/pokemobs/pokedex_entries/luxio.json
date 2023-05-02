@@ -121,15 +121,18 @@
     "misc": [
       "headbutt",
       "tackle",
+      "take-down",
       "leer",
       "bite",
       "roar",
       "strength",
+      "thunder-shock",
       "thunderbolt",
       "thunder-wave",
       "thunder",
       "toxic",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "swift",
       "flash",
@@ -151,6 +154,7 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "crunch",
       "facade",
       "charge",
@@ -175,8 +179,11 @@
       "play-rough",
       "confide",
       "eerie-impulse",
+      "electric-terrain",
       "psychic-fangs",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

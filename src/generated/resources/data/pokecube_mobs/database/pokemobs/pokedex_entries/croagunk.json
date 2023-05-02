@@ -45,6 +45,12 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "low-kick"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "toxic",
@@ -142,6 +148,7 @@
       "thunder-punch",
       "mega-kick",
       "headbutt",
+      "take-down",
       "poison-sting",
       "low-kick",
       "counter",
@@ -158,8 +165,10 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
       "mud-slap",
@@ -197,8 +206,10 @@
       "secret-power",
       "astonish",
       "rock-tomb",
+      "aerial-ace",
       "bulk-up",
       "bounce",
+      "mud-shot",
       "wake-up-slap",
       "natural-gift",
       "feint",
@@ -217,6 +228,7 @@
       "focus-blast",
       "nasty-plot",
       "bullet-punch",
+      "shadow-claw",
       "mud-bomb",
       "rock-climb",
       "gunk-shot",
@@ -224,6 +236,7 @@
       "venoshock",
       "sludge-wave",
       "low-sweep",
+      "acid-spray",
       "foul-play",
       "round",
       "quick-guard",
@@ -236,7 +249,9 @@
       "venom-drench",
       "power-up-punch",
       "lash-out",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

@@ -129,6 +129,12 @@
         "moves": [
           "baby-doll-eyes"
         ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "snowscape"
+        ]
       }
     ],
     "misc": [
@@ -137,8 +143,11 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
+      "double-edge",
       "tail-whip",
       "bite",
+      "growl",
       "roar",
       "ice-beam",
       "blizzard",
@@ -182,9 +191,12 @@
       "fake-tears",
       "signal-beam",
       "icicle-spear",
+      "mud-shot",
       "covet",
+      "calm-mind",
       "water-pulse",
       "natural-gift",
+      "copycat",
       "last-resort",
       "aqua-tail",
       "giga-impact",
@@ -198,11 +210,15 @@
       "retaliate",
       "frost-breath",
       "work-up",
+      "freeze-dry",
       "confide",
       "baby-doll-eyes",
       "laser-focus",
       "aurora-veil",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

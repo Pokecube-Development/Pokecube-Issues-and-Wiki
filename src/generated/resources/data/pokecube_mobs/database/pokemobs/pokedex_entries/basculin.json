@@ -134,6 +134,12 @@
         "moves": [
           "final-gambit"
         ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "wave-crash"
+        ]
       }
     ],
     "misc": [
@@ -149,7 +155,9 @@
       "hydro-pump",
       "surf",
       "ice-beam",
+      "blizzard",
       "bubble-beam",
+      "hyper-beam",
       "toxic",
       "agility",
       "rage",
@@ -186,9 +194,11 @@
       "muddy-water",
       "bounce",
       "mud-shot",
+      "water-pulse",
       "brine",
       "assurance",
       "aqua-tail",
+      "giga-impact",
       "ice-fang",
       "zen-headbutt",
       "aqua-jet",
@@ -202,7 +212,10 @@
       "psychic-fangs",
       "liquidation",
       "scale-shot",
-      "flip-turn"
+      "flip-turn",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "model": {

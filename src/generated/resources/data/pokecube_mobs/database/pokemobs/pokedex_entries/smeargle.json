@@ -49,5 +49,9 @@
       "sketch"
     ]
   },
+  "dye": {
+    "base": "green",
+    "shiny": "red"
+  },
   "loot_table": "pokecube:entities/rabbit_1"
 }

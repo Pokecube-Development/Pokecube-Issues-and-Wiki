@@ -86,6 +86,13 @@
         ]
       },
       {
+        "L": 74,
+        "moves": [
+          "overheat",
+          "burn-up"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "lava-plume"
@@ -102,12 +109,6 @@
         "moves": [
           "inferno"
         ]
-      },
-      {
-        "L": 74,
-        "moves": [
-          "burn-up"
-        ]
       }
     ],
     "misc": [
@@ -119,6 +120,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "roar",
@@ -130,6 +132,7 @@
       "seismic-toss",
       "strength",
       "solar-beam",
+      "fire-spin",
       "earthquake",
       "dig",
       "toxic",
@@ -146,6 +149,7 @@
       "flame-wheel",
       "snore",
       "curse",
+      "reversal",
       "protect",
       "mud-slap",
       "detect",
@@ -161,12 +165,14 @@
       "iron-tail",
       "hidden-power",
       "sunny-day",
+      "shadow-ball",
       "rock-smash",
       "heat-wave",
       "will-o-wisp",
       "facade",
       "focus-punch",
       "nature-power",
+      "helping-hand",
       "brick-break",
       "eruption",
       "secret-power",
@@ -178,11 +184,15 @@
       "gyro-ball",
       "natural-gift",
       "fling",
+      "flare-blitz",
       "focus-blast",
       "giga-impact",
       "shadow-claw",
+      "fire-fang",
+      "zen-headbutt",
       "rock-climb",
       "lava-plume",
+      "iron-head",
       "captivate",
       "flame-charge",
       "round",
@@ -192,12 +202,14 @@
       "bulldoze",
       "work-up",
       "wild-charge",
+      "play-rough",
       "confide",
       "power-up-punch",
       "laser-focus",
       "throat-chop",
       "burn-up",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/coal_3"

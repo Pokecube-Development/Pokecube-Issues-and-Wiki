@@ -68,6 +68,13 @@
         ]
       },
       {
+        "L": 55,
+        "moves": [
+          "stone-edge",
+          "burn-up"
+        ]
+      },
+      {
         "L": 35,
         "moves": [
           "stealth-rock"
@@ -90,18 +97,16 @@
         "moves": [
           "heat-crash"
         ]
-      },
-      {
-        "L": 55,
-        "moves": [
-          "burn-up"
-        ]
       }
     ],
     "misc": [
+      "tackle",
+      "body-slam",
+      "take-down",
       "flamethrower",
       "fire-spin",
       "dig",
+      "smokescreen",
       "reflect",
       "self-destruct",
       "fire-blast",
@@ -110,11 +115,15 @@
       "substitute",
       "snore",
       "protect",
+      "mud-slap",
       "spikes",
       "sandstorm",
       "endure",
       "attract",
       "sleep-talk",
+      "rapid-spin",
+      "sunny-day",
+      "ancient-power",
       "heat-wave",
       "will-o-wisp",
       "facade",
@@ -125,18 +134,24 @@
       "rock-blast",
       "gyro-ball",
       "flare-blitz",
+      "rock-polish",
+      "power-gem",
       "iron-head",
       "stone-edge",
       "stealth-rock",
+      "smack-down",
       "heavy-slam",
       "flame-charge",
       "round",
       "scald",
+      "incinerate",
+      "bulldoze",
       "heat-crash",
       "high-horsepower",
       "body-press",
       "meteor-beam",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "evolutions": [

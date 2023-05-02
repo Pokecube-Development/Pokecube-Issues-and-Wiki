@@ -82,7 +82,8 @@
       {
         "L": 19,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "power-trip"
         ]
       },
       {
@@ -112,7 +113,8 @@
       {
         "L": 16,
         "moves": [
-          "needle-arm"
+          "needle-arm",
+          "bullet-seed"
         ]
       },
       {
@@ -142,6 +144,7 @@
       "sand-attack",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "poison-sting",
       "pin-missile",
@@ -155,16 +158,20 @@
       "leech-seed",
       "growth",
       "solar-beam",
+      "dig",
       "toxic",
       "mimic",
       "double-team",
+      "swift",
       "flash",
       "rest",
       "substitute",
+      "thief",
       "snore",
       "cotton-spore",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "mud-slap",
       "spikes",
@@ -179,13 +186,16 @@
       "return",
       "frustration",
       "dynamic-punch",
+      "encore",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "facade",
       "focus-punch",
       "smelling-salts",
       "nature-power",
+      "helping-hand",
       "role-play",
       "ingrain",
       "brick-break",
@@ -201,6 +211,7 @@
       "fling",
       "worry-seed",
       "sucker-punch",
+      "toxic-spikes",
       "poison-jab",
       "dark-pulse",
       "seed-bomb",
@@ -208,15 +219,21 @@
       "energy-ball",
       "switcheroo",
       "nasty-plot",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "venoshock",
+      "foul-play",
       "round",
+      "bulldoze",
       "belch",
       "rototiller",
       "fell-stinger",
+      "grassy-terrain",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

@@ -41,7 +41,8 @@
         "L": 1,
         "moves": [
           "pound",
-          "growl"
+          "growl",
+          "pound"
         ]
       },
       {
@@ -100,12 +101,18 @@
       }
     ],
     "misc": [
+      "bind",
+      "take-down",
+      "growl",
       "mist",
+      "water-gun",
+      "hydro-pump",
       "surf",
       "double-team",
       "light-screen",
       "haze",
       "reflect",
+      "waterfall",
       "swift",
       "rest",
       "substitute",
@@ -124,15 +131,21 @@
       "muddy-water",
       "bounce",
       "mud-shot",
+      "water-pulse",
       "u-turn",
+      "sucker-punch",
       "aqua-ring",
       "ice-shard",
       "aqua-jet",
+      "soak",
       "round",
       "water-pledge",
       "work-up",
       "fell-stinger",
-      "liquidation"
+      "liquidation",
+      "tearful-look",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

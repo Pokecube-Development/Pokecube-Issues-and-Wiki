@@ -132,10 +132,15 @@
       "sand-attack",
       "tackle",
       "body-slam",
+      "take-down",
+      "double-edge",
       "tail-whip",
+      "bite",
+      "growl",
       "hyper-beam",
       "dig",
       "toxic",
+      "psychic",
       "quick-attack",
       "double-team",
       "light-screen",
@@ -174,6 +179,7 @@
       "covet",
       "magical-leaf",
       "calm-mind",
+      "copycat",
       "last-resort",
       "giga-impact",
       "psyshock",
@@ -194,7 +200,9 @@
       "dazzling-gleam",
       "baby-doll-eyes",
       "laser-focus",
-      "misty-explosion"
+      "misty-explosion",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

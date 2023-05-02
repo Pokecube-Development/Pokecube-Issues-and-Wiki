@@ -88,13 +88,15 @@
       {
         "L": 25,
         "moves": [
-          "revenge"
+          "revenge",
+          "aerial-ace"
         ]
       },
       {
         "L": 11,
         "moves": [
-          "water-sport"
+          "water-sport",
+          "soak"
         ]
       },
       {
@@ -132,6 +134,7 @@
       "swords-dance",
       "cut",
       "tackle",
+      "take-down",
       "tail-whip",
       "water-gun",
       "hydro-pump",
@@ -144,12 +147,15 @@
       "double-team",
       "focus-energy",
       "waterfall",
+      "swift",
       "rest",
       "substitute",
+      "thief",
       "snore",
       "protect",
       "icy-wind",
       "detect",
+      "endure",
       "false-swipe",
       "swagger",
       "fury-cutter",
@@ -167,6 +173,7 @@
       "taunt",
       "helping-hand",
       "revenge",
+      "knock-off",
       "secret-power",
       "dive",
       "aerial-ace",
@@ -182,6 +189,7 @@
       "aqua-tail",
       "air-slash",
       "x-scissor",
+      "avalanche",
       "grass-knot",
       "aqua-jet",
       "round",
@@ -191,7 +199,12 @@
       "work-up",
       "sacred-sword",
       "razor-shell",
-      "confide"
+      "confide",
+      "liquidation",
+      "tera-blast",
+      "snowscape",
+      "chilling-water",
+      "aqua-cutter"
     ]
   },
   "evolutions": [

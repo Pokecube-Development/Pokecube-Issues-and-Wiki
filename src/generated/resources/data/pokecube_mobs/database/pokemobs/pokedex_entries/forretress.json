@@ -65,13 +65,21 @@
       {
         "L": 20,
         "moves": [
-          "bide"
+          "bide",
+          "rollout"
         ]
       },
       {
         "L": 36,
         "moves": [
           "explosion"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "curse",
+          "natural-gift"
         ]
       },
       {
@@ -99,12 +107,6 @@
         ]
       },
       {
-        "L": 23,
-        "moves": [
-          "natural-gift"
-        ]
-      },
-      {
         "L": 32,
         "moves": [
           "payback"
@@ -129,6 +131,7 @@
       "strength",
       "solar-beam",
       "string-shot",
+      "thunder-wave",
       "earthquake",
       "dig",
       "toxic",
@@ -139,12 +142,14 @@
       "reflect",
       "bide",
       "self-destruct",
+      "swift",
       "explosion",
       "rest",
       "rock-slide",
       "substitute",
       "snore",
       "curse",
+      "reversal",
       "protect",
       "spikes",
       "zap-cannon",
@@ -161,14 +166,17 @@
       "rapid-spin",
       "sweet-scent",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "rock-smash",
       "facade",
+      "helping-hand",
       "secret-power",
       "rock-tomb",
       "signal-beam",
       "iron-defense",
       "block",
+      "rock-blast",
       "gravity",
       "gyro-ball",
       "natural-gift",
@@ -176,9 +184,15 @@
       "toxic-spikes",
       "magnet-rise",
       "rock-polish",
+      "poison-jab",
+      "seed-bomb",
+      "bug-buzz",
+      "earth-power",
       "giga-impact",
       "mirror-shot",
       "flash-cannon",
+      "iron-head",
+      "stone-edge",
       "captivate",
       "stealth-rock",
       "bug-bite",
@@ -193,7 +207,13 @@
       "bulldoze",
       "drill-run",
       "confide",
-      "laser-focus"
+      "laser-focus",
+      "smart-strike",
+      "body-press",
+      "steel-beam",
+      "tera-blast",
+      "ice-spinner",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/creeper_iron_ore"

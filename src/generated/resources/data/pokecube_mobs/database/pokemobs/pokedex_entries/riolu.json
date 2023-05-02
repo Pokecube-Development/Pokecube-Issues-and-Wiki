@@ -61,7 +61,8 @@
       {
         "L": 24,
         "moves": [
-          "screech"
+          "screech",
+          "vacuum-wave"
         ]
       },
       {
@@ -138,6 +139,7 @@
       "swords-dance",
       "mega-kick",
       "headbutt",
+      "take-down",
       "bite",
       "roar",
       "low-kick",
@@ -170,6 +172,7 @@
       "return",
       "frustration",
       "iron-tail",
+      "metal-claw",
       "hidden-power",
       "cross-chop",
       "rain-dance",
@@ -188,11 +191,13 @@
       "meteor-mash",
       "rock-tomb",
       "sky-uppercut",
+      "aerial-ace",
       "iron-defense",
       "howl",
       "bulk-up",
       "natural-gift",
       "feint",
+      "close-combat",
       "payback",
       "fling",
       "copycat",
@@ -209,6 +214,7 @@
       "captivate",
       "low-sweep",
       "round",
+      "quick-guard",
       "circle-throw",
       "retaliate",
       "final-gambit",
@@ -218,7 +224,9 @@
       "confide",
       "power-up-punch",
       "laser-focus",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

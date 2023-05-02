@@ -123,7 +123,7 @@
         {
           "type": "item",
           "name": "pokecube_legends:oran_pokepuff",
-          "weight": 40
+          "weight": 10
         },
         {
           "type": "item",
@@ -193,6 +193,31 @@
         {
           "type": "item",
           "name": "pokecube_legends:nanab_pokepuff",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:null_pokepuff",
+          "weight": 50
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:sitrus_pokepuff",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:leppa_pokepuff",
+          "weight": 50
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:jaboca_pokepuff",
+          "weight": 40
+        },
+        {
+          "type": "item",
+          "name": "pokecube_legends:grepa_pokepuff",
           "weight": 40
         },
         {

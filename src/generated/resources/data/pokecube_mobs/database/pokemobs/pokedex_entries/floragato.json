@@ -2,7 +2,7 @@
   "name": "floragato",
   "id": 907,
   "stock": true,
-  "base_experience": 62,
+  "base_experience": 144,
   "size": {
     "height": 0.9
   },
@@ -11,7 +11,7 @@
   "capture_rate": 45,
   "base_happiness": 50,
   "growth_rate": "medium-slow",
-  "gender_rate": 62,
+  "gender_rate": 30,
   "stats": {
     "hp": 61,
     "attack": 80,
@@ -31,8 +31,8 @@
       "overgrow"
     ],
     "hidden": [
-	  "protean"
-	]
+      "protean"
+    ]
   },
   "moves": {
     "level_up": [
@@ -40,115 +40,115 @@
         "L": 1,
         "moves": [
           "scratch",
-		  "tail-whip",
-		  "leafage"
+          "tail-whip",
+          "leafage"
         ]
       },
-	  {
+      {
         "L": 7,
         "moves": [
           "bite"
         ]
       },
-	  {
-        "L": 10,
-        "moves": [
-          "hone-claws"
-        ]
-      },
-	  {
-        "L": 13,
-        "moves": [
-          "magical-leaf"
-        ]
-      },
-	  {
+      {
         "L": 15,
         "moves": [
           "quick-attack"
         ]
       },
-	  {
-        "L": 20,
-        "moves": [
-          "seed-bomb"
-        ]
-      },
-	  {
-        "L": 24,
-        "moves": [
-          "u-turn"
-        ]
-      },
-	  {
-        "L": 28,
-        "moves": [
-          "worry-seed"
-        ]
-      },
-	  {
+      {
         "L": 33,
         "moves": [
           "slash"
         ]
       },
-	  {
+      {
+        "L": 13,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
         "L": 38,
         "moves": [
           "energy-ball"
         ]
       },
-	  {
-        "L": 42,
-        "moves": [
-          "play-rough"
-        ]
-      },
-	  {
+      {
         "L": 46,
         "moves": [
           "leaf-storm"
         ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "play-rough"
+        ]
       }
     ],
     "misc": [
-		"thunder-punch",
-		"take-down",
-		"low-kick",
-		"solar-beam",
-		"agility",
-		"swift",
-		"rest",
-		"substitute",
-		"protect",
-		"mud-slap",
-		"giga-drain",
-		"endure",
-		"charm",
-		"sleep-talk",
-		"facade",
-		"taunt",
-		"helping-hand",
-		"fake-tears",
-		"bullet-seed",
-		"aerial-ace",
-		"magical-leaf",
-		"u-turn",
-		"fling",
-		"seed-bomb",
-		"energy-ball",
-		"nasty-plot",
-		"shadow-claw",
-		"leaf-storm",
-		"grass-knot",
-		"low-sweep",
-		"acrobatics",
-		"grass-pledge",
-		"disarming-voice",
-		"grassy-terrain",
-		"play-rough",
-		"tera-blast",
-		"trailblaze"
+      "thunder-punch",
+      "take-down",
+      "low-kick",
+      "solar-beam",
+      "agility",
+      "swift",
+      "rest",
+      "substitute",
+      "protect",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "fake-tears",
+      "bullet-seed",
+      "aerial-ace",
+      "magical-leaf",
+      "u-turn",
+      "fling",
+      "seed-bomb",
+      "energy-ball",
+      "nasty-plot",
+      "shadow-claw",
+      "leaf-storm",
+      "grass-knot",
+      "low-sweep",
+      "acrobatics",
+      "grass-pledge",
+      "disarming-voice",
+      "grassy-terrain",
+      "play-rough",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

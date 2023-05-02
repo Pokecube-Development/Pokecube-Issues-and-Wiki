@@ -57,7 +57,8 @@
           "iron-defense",
           "avalanche",
           "icicle-crash",
-          "glacial-lance"
+          "glacial-lance",
+          "pound"
         ]
       },
       {
@@ -99,7 +100,8 @@
       {
         "L": 40,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "grassy-terrain"
         ]
       },
       {
@@ -130,11 +132,24 @@
     "misc": [
       "pay-day",
       "swords-dance",
+      "stomp",
+      "double-kick",
+      "tackle",
       "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "tail-whip",
+      "mist",
       "ice-beam",
       "blizzard",
+      "psybeam",
       "hyper-beam",
+      "mega-drain",
+      "leech-seed",
+      "growth",
       "solar-beam",
+      "confusion",
       "psychic",
       "agility",
       "light-screen",
@@ -161,6 +176,7 @@
       "future-sight",
       "uproar",
       "hail",
+      "torment",
       "facade",
       "taunt",
       "helping-hand",
@@ -168,6 +184,7 @@
       "superpower",
       "skill-swap",
       "imprison",
+      "aromatherapy",
       "bullet-seed",
       "icicle-spear",
       "iron-defense",
@@ -194,8 +211,10 @@
       "round",
       "stored-power",
       "ally-switch",
+      "heal-pulse",
       "bulldoze",
       "snarl",
+      "icicle-crash",
       "draining-kiss",
       "grassy-terrain",
       "high-horsepower",
@@ -207,8 +226,13 @@
       "smart-strike",
       "stomping-tantrum",
       "body-press",
+      "life-dew",
       "expanding-force",
-      "lash-out"
+      "lash-out",
+      "glacial-lance",
+      "tera-blast",
+      "snowscape",
+      "trailblaze"
     ]
   },
   "old_name": "calyrex_ice_rider"

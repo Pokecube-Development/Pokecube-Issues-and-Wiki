@@ -94,7 +94,8 @@
       {
         "L": 39,
         "moves": [
-          "signal-beam"
+          "signal-beam",
+          "dazzling-gleam"
         ]
       },
       {
@@ -134,6 +135,7 @@
       "thunderbolt",
       "thunder-wave",
       "thunder",
+      "dig",
       "toxic",
       "agility",
       "mimic",
@@ -163,9 +165,11 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "flatter",
       "facade",
       "charge",
+      "helping-hand",
       "secret-power",
       "odor-sleuth",
       "signal-beam",
@@ -180,13 +184,21 @@
       "after-you",
       "round",
       "echoed-voice",
+      "volt-switch",
       "electroweb",
       "wild-charge",
       "cotton-guard",
       "confide",
       "eerie-impulse",
-      "electric-terrain"
+      "electric-terrain",
+      "dazzling-gleam",
+      "tera-blast",
+      "trailblaze"
     ]
+  },
+  "dye": {
+    "base": "yellow",
+    "shiny": "pink"
   },
   "interactions": [
     {

@@ -85,7 +85,8 @@
       {
         "L": 12,
         "moves": [
-          "magnitude"
+          "magnitude",
+          "bulldoze"
         ]
       },
       {
@@ -109,7 +110,8 @@
       {
         "L": 15,
         "moves": [
-          "flame-burst"
+          "flame-burst",
+          "incinerate"
         ]
       }
     ],
@@ -126,6 +128,7 @@
       "hyper-beam",
       "strength",
       "solar-beam",
+      "fire-spin",
       "earthquake",
       "fissure",
       "dig",
@@ -144,9 +147,11 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "mud-slap",
       "sandstorm",
       "endure",
+      "charm",
       "rollout",
       "swagger",
       "attract",
@@ -155,21 +160,26 @@
       "frustration",
       "magnitude",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "rock-smash",
       "heat-wave",
       "will-o-wisp",
       "facade",
       "nature-power",
+      "helping-hand",
       "yawn",
       "eruption",
       "secret-power",
       "overheat",
       "rock-tomb",
+      "mud-shot",
       "natural-gift",
+      "flare-blitz",
       "rock-polish",
       "earth-power",
       "giga-impact",
+      "zen-headbutt",
       "flash-cannon",
       "lava-plume",
       "iron-head",
@@ -177,6 +187,7 @@
       "captivate",
       "stealth-rock",
       "flame-burst",
+      "heavy-slam",
       "flame-charge",
       "after-you",
       "round",
@@ -184,7 +195,10 @@
       "incinerate",
       "bulldoze",
       "confide",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "mega_rules": [

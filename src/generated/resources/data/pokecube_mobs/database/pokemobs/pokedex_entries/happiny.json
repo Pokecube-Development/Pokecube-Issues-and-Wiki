@@ -43,7 +43,8 @@
         "moves": [
           "pound",
           "minimize",
-          "charm"
+          "charm",
+          "pound"
         ]
       },
       {
@@ -81,6 +82,7 @@
     "misc": [
       "pound",
       "headbutt",
+      "take-down",
       "flamethrower",
       "counter",
       "seismic-toss",
@@ -89,6 +91,7 @@
       "toxic",
       "psychic",
       "double-team",
+      "defense-curl",
       "light-screen",
       "metronome",
       "fire-blast",
@@ -145,7 +148,10 @@
       "stored-power",
       "incinerate",
       "work-up",
-      "confide"
+      "disarming-voice",
+      "confide",
+      "tera-blast",
+      "snowscape"
     ]
   },
   "evolutions": [

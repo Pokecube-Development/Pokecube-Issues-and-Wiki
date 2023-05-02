@@ -91,7 +91,8 @@
       {
         "L": 24,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "roost"
         ]
       },
       {
@@ -140,11 +141,13 @@
     "misc": [
       "cut",
       "gust",
+      "take-down",
       "poison-sting",
       "pin-missile",
       "hyper-beam",
       "string-shot",
       "toxic",
+      "agility",
       "screech",
       "double-team",
       "confuse-ray",
@@ -158,8 +161,10 @@
       "snore",
       "reversal",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "mud-slap",
+      "spikes",
       "destiny-bond",
       "endure",
       "swagger",
@@ -176,6 +181,8 @@
       "beat-up",
       "uproar",
       "facade",
+      "taunt",
+      "helping-hand",
       "revenge",
       "endeavor",
       "secret-power",
@@ -210,11 +217,16 @@
       "quash",
       "acrobatics",
       "struggle-bug",
+      "hurricane",
       "fell-stinger",
       "confide",
+      "aromatic-mist",
       "infestation",
       "laser-focus",
-      "dual-wingbeat"
+      "pollen-puff",
+      "dual-wingbeat",
+      "tera-blast",
+      "pounce"
     ]
   },
   "interactions": [

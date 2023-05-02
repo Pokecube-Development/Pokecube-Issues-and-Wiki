@@ -47,13 +47,21 @@
           "harden",
           "haze",
           "poison-gas",
-          "moonblast"
+          "moonblast",
+          "pound"
         ]
       },
       {
         "L": 12,
         "moves": [
           "disable"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "toxic",
+          "fling"
         ]
       },
       {
@@ -105,12 +113,6 @@
         ]
       },
       {
-        "L": 26,
-        "moves": [
-          "fling"
-        ]
-      },
-      {
         "L": 40,
         "moves": [
           "gunk-shot"
@@ -141,19 +143,25 @@
       "ice-punch",
       "thunder-punch",
       "headbutt",
+      "body-slam",
+      "take-down",
       "bite",
       "disable",
       "flamethrower",
       "hyper-beam",
       "mega-drain",
+      "thunderbolt",
+      "thunder",
       "dig",
       "toxic",
       "screech",
       "double-team",
       "harden",
       "minimize",
+      "metronome",
       "self-destruct",
       "fire-blast",
+      "swift",
       "poison-gas",
       "acid-armor",
       "explosion",
@@ -164,8 +172,12 @@
       "snore",
       "spite",
       "protect",
+      "scary-face",
       "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
       "giga-drain",
+      "endure",
       "swagger",
       "attract",
       "sleep-talk",
@@ -186,9 +198,11 @@
       "recycle",
       "brick-break",
       "knock-off",
+      "imprison",
       "poison-fang",
       "rock-tomb",
       "block",
+      "mud-shot",
       "shock-wave",
       "payback",
       "embargo",
@@ -197,8 +211,10 @@
       "rock-polish",
       "poison-jab",
       "dark-pulse",
+      "drain-punch",
       "focus-blast",
       "giga-impact",
+      "zen-headbutt",
       "gunk-shot",
       "stone-edge",
       "venoshock",
@@ -206,13 +222,15 @@
       "acid-spray",
       "foul-play",
       "round",
+      "hex",
       "quash",
       "snarl",
       "belch",
       "confide",
       "venom-drench",
       "infestation",
-      "brutal-swing"
+      "brutal-swing",
+      "tera-blast"
     ]
   },
   "old_name": "muk_alola",

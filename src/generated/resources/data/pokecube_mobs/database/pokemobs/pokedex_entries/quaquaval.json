@@ -2,7 +2,7 @@
   "name": "quaquaval",
   "id": 914,
   "stock": true,
-  "base_experience": 64,
+  "base_experience": 265,
   "size": {
     "height": 1.8
   },
@@ -25,68 +25,22 @@
   },
   "types": [
     "water",
-	"fighting"
+    "fighting"
   ],
   "abilities": {
     "normal": [
       "torrent"
     ],
     "hidden": [
-	  "moxie"
-	]
+      "moxie"
+    ]
   },
   "moves": {
     "level_up": [
       {
-        "L": 1,
-        "moves": [
-          "pound",
-		  "growl",
-		  "water-gun",
-		  "double-hit"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "work-up"
-        ]
-      },
-      {
         "L": 10,
         "moves": [
           "wing-attack"
-        ]
-      },
-      {
-        "L": 13,
-        "moves": [
-          "aqua-jet"
-        ]
-      },
-      {
-        "L": 17,
-        "moves": [
-          "low-sweep",
-		  "water-pulse"
-        ]
-      },
-	  {
-        "L": 21,
-        "moves": [
-          "aqua-cutter"
-        ]
-      },
-      {
-        "L": 27,
-        "moves": [
-          "air-slash"
-        ]
-      },
-      {
-        "L": 32,
-        "moves": [
-          "focus-energy"
         ]
       },
       {
@@ -96,9 +50,61 @@
         ]
       },
       {
+        "L": 1,
+        "moves": [
+          "growl",
+          "water-gun",
+          "double-hit",
+          "pound"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "water-pulse",
+          "low-sweep"
+        ]
+      },
+      {
+        "L": 58,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "acrobatics"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "work-up"
         ]
       },
       {
@@ -107,69 +113,70 @@
           "liquidation"
         ]
       },
-	  {
-        "L": 52,
-        "moves": [
-          "feather-dance"
-        ]
-      },
-	  {
-        "L": 58,
-        "moves": [
-          "close-combat"
-        ]
-      },
-	  {
+      {
         "L": 64,
         "moves": [
           "wave-crash"
         ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "aqua-step"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "aqua-cutter"
+        ]
       }
     ],
     "misc": [
-    "swords-dance",
-	"take-down",
-	"hydro-pump",
-	"surf",
-	"hyper-beam",
-	"agility",
-	"swift",
-	"rest",
-	"substitute",
-	"reversal",
-	"protect",
-	"icy-wind",
-	"endure",
-	"sleep-talk",
-	"baton-pass",
-	"encore",
-	"rain-dance",
-	"facade",
-	"taunt",
-	"helping-hand",
-	"brick-break",
-	"hydro-cannon",
-	"air-cutter",
-	"aerial-ace",
-	"bulk-up",
-	"water-pulse",
-	"u-turn",
-	"close-combat",
-	"low-kick",
-	"fling",
-	"air-slash",
-	"brave-bird",
-	"giga-impact",
-	"low-sweep",
-	"acrobatics",
-	"water-pledge",
-	"hurricane",
-	"disarming-voice",
-	"misty-terrain",
-	"liquidation",
-	"tera-blast",
-	"ice-spinner",
-	"chilling-water"
+      "swords-dance",
+      "take-down",
+      "hydro-pump",
+      "surf",
+      "hyper-beam",
+      "low-kick",
+      "counter",
+      "agility",
+      "swift",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "icy-wind",
+      "endure",
+      "sleep-talk",
+      "baton-pass",
+      "encore",
+      "rain-dance",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "hydro-cannon",
+      "air-cutter",
+      "aerial-ace",
+      "bulk-up",
+      "water-pulse",
+      "u-turn",
+      "close-combat",
+      "fling",
+      "air-slash",
+      "brave-bird",
+      "giga-impact",
+      "low-sweep",
+      "acrobatics",
+      "water-pledge",
+      "hurricane",
+      "disarming-voice",
+      "misty-terrain",
+      "liquidation",
+      "tera-blast",
+      "ice-spinner",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

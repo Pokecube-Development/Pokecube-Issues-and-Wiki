@@ -139,6 +139,7 @@
       "thunder-wave",
       "thunder",
       "toxic",
+      "agility",
       "rage",
       "teleport",
       "mimic",
@@ -158,6 +159,7 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "zap-cannon",
       "endure",
       "rollout",
@@ -173,6 +175,7 @@
       "facade",
       "charge",
       "taunt",
+      "helping-hand",
       "magic-coat",
       "secret-power",
       "signal-beam",
@@ -192,7 +195,9 @@
       "wild-charge",
       "confide",
       "eerie-impulse",
-      "magnetic-flux"
+      "magnetic-flux",
+      "electric-terrain",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/redstone_creeper_2"

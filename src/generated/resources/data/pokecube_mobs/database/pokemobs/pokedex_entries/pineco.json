@@ -59,7 +59,8 @@
       {
         "L": 20,
         "moves": [
-          "bide"
+          "bide",
+          "rollout"
         ]
       },
       {
@@ -72,6 +73,13 @@
         "L": 34,
         "moves": [
           "explosion"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "curse",
+          "natural-gift"
         ]
       },
       {
@@ -96,12 +104,6 @@
         "L": 42,
         "moves": [
           "gyro-ball"
-        ]
-      },
-      {
-        "L": 23,
-        "moves": [
-          "natural-gift"
         ]
       },
       {
@@ -146,6 +148,7 @@
       "snore",
       "curse",
       "flail",
+      "reversal",
       "protect",
       "spikes",
       "sandstorm",
@@ -161,20 +164,26 @@
       "rapid-spin",
       "sweet-scent",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "rock-smash",
       "facade",
+      "helping-hand",
       "revenge",
       "secret-power",
       "rock-tomb",
       "sand-tomb",
       "iron-defense",
+      "rock-blast",
       "gravity",
       "gyro-ball",
       "natural-gift",
       "payback",
       "power-trick",
       "toxic-spikes",
+      "poison-jab",
+      "seed-bomb",
+      "bug-buzz",
       "captivate",
       "stealth-rock",
       "bug-bite",
@@ -183,7 +192,10 @@
       "struggle-bug",
       "bulldoze",
       "drill-run",
-      "confide"
+      "confide",
+      "tera-blast",
+      "ice-spinner",
+      "pounce"
     ]
   },
   "evolutions": [

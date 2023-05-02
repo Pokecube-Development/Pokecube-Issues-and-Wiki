@@ -30,7 +30,8 @@
   ],
   "abilities": {
     "normal": [
-      "steadfast"
+      "steadfast",
+      "sharpness"
     ],
     "hidden": [
       "justified"
@@ -64,9 +65,11 @@
           "close-combat",
           "night-slash",
           "stored-power",
+          "sacred-sword",
           "disarming-voice",
           "draining-kiss",
-          "life-dew"
+          "life-dew",
+          "aqua-cutter"
         ]
       },
       {
@@ -146,7 +149,10 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "leer",
+      "growl",
+      "psybeam",
       "hyper-beam",
       "low-kick",
       "strength",
@@ -156,8 +162,12 @@
       "toxic",
       "confusion",
       "psychic",
+      "hypnosis",
+      "agility",
       "teleport",
+      "night-shade",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "reflect",
       "swift",
@@ -231,6 +241,7 @@
       "focus-blast",
       "energy-ball",
       "giga-impact",
+      "shadow-claw",
       "psycho-cut",
       "zen-headbutt",
       "trick-room",
@@ -250,10 +261,12 @@
       "quick-guard",
       "ally-switch",
       "heal-pulse",
+      "hex",
       "retaliate",
       "bulldoze",
       "work-up",
       "dual-chop",
+      "disarming-voice",
       "draining-kiss",
       "misty-terrain",
       "confide",
@@ -262,9 +275,12 @@
       "solar-blade",
       "laser-focus",
       "throat-chop",
+      "psychic-terrain",
+      "life-dew",
       "expanding-force",
       "coaching",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast"
     ]
   },
   "mega_rules": [

@@ -18,6 +18,7 @@ import net.minecraftforge.common.util.LazyOptional;
 import thut.api.ThutCaps;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.IAnimated.MolangVars;
 
 public class CapabilityAnimation
 {
@@ -43,6 +44,7 @@ public class CapabilityAnimation
         boolean fixed = false;
 
         HeadInfo head = new HeadInfo();
+        MolangVars molangs = new MolangVars();
 
         boolean init = false;
 
@@ -204,6 +206,12 @@ public class CapabilityAnimation
         public void overridePlaying(final String anim)
         {
             this.playing = anim;
+        }
+
+        @Override
+        public MolangVars getMolangVars()
+        {
+            return molangs;
         }
     }
 }

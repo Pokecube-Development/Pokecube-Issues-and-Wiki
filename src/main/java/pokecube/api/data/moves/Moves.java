@@ -27,11 +27,11 @@ public class Moves
         public int min_hits = -1;
         public int max_hits = -1;
         public String type;
-        public String ailment;
+        public String ailment = "none";
         public int accuracy;
         public String target;
         public String damage_class;
-        public String move_category;
+        public String move_category = "damage";
         public int flinch_chance;
         public int crit_rate;
         public String effect_text_extend;

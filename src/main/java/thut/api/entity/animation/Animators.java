@@ -1,5 +1,6 @@
 package thut.api.entity.animation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.nfunk.jep.JEP;
@@ -8,6 +9,7 @@ import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.IAnimated.MolangVars;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.IExtendedModelPart;
@@ -32,18 +34,125 @@ public class Animators
         void setHidden(boolean hidden);
     }
 
+    public static class MixedAnimator implements IAnimator
+    {
+        List<IAnimator> anims = new ArrayList<>();
+        int length = -1;
+        boolean limbBased = false;
+
+        public MixedAnimator(List<IAnimator> anims)
+        {
+            this.anims.addAll(anims);
+            for (var anim : anims)
+            {
+                length = Math.max(length, anim.getLength());
+                limbBased |= anim.hasLimbBased();
+            }
+        }
+
+        @Override
+        public boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
+                float limbSwing, int tick)
+        {
+            boolean animated = false;
+            for (var anim : anims)
+                animated = anim.animate(animation, holder, part, partialTick, limbSwing, tick) | animated;
+            return animated;
+        }
+
+        @Override
+        public int getLength()
+        {
+            return length;
+        }
+
+        @Override
+        public boolean hasLimbBased()
+        {
+            return limbBased;
+        }
+
+        @Override
+        public void setLimbBased()
+        {
+            for (var anim : anims) anim.setLimbBased();
+        }
+
+        @Override
+        public void setHidden(boolean hidden)
+        {
+            for (var anim : anims) anim.setHidden(hidden);
+        }
+    }
+
     private static final Vector4 _rot = new Vector4();
 
     public static class KeyframeAnimator implements IAnimator
     {
+        float[] dr = new float[3];
+        float[] ds = new float[3];
+        float[] dx = new float[3];
+
+        private int[] colours =
+        { -1, -1, -1, -1 };
+
         public final List<AnimationComponent> components;
         private int length = -1;
         private boolean limbBased;
+        private boolean hidden = false;
 
         public KeyframeAnimator(List<AnimationComponent> components)
         {
             this.components = components;
-            this.initLength();
+            this.length = -1;
+            this.limbBased = false;
+            for (final AnimationComponent component : components)
+            {
+                this.length = Math.max(this.length, component.startKey + component.length);
+                this.limbBased = this.limbBased || component.limbBased;
+            }
+        }
+
+        public boolean animateJEP(Animation animation, AnimationComponent component, IExtendedModelPart part,
+                MolangVars molangs)
+        {
+            if (component._foundNoJEP) return false;
+            if (hidden)
+            {
+                part.setHidden(true);
+                return true;
+            }
+            if (colours[0] != -1)
+            {
+                part.setRGBABrO(null, colours[0], colours[1], colours[2], colours[3], Integer.MIN_VALUE, -1);
+            }
+            int modifies = 0;
+            for (int i = 0; i < 3; i++)
+            {
+                dr[i] = 0;
+                ds[i] = 1;
+                dx[i] = 0;
+                if (component._rotFunctions[i] != null)
+                {
+                    molangs.updateJEP(component._rotFunctions[i]);
+                    dr[i] = (float) component._rotFunctions[i].getValue();
+                    modifies++;
+                }
+                if (component._scaleFunctions[i] != null)
+                {
+                    molangs.updateJEP(component._scaleFunctions[i]);
+                    ds[i] = (float) component._scaleFunctions[i].getValue();
+                    modifies++;
+                }
+                if (component._posFunctions[i] != null)
+                {
+                    molangs.updateJEP(component._posFunctions[i]);
+                    dx[i] = (float) component._posFunctions[i].getValue() / 16f;
+                    modifies++;
+                }
+            }
+            component._foundNoJEP = modifies == 0;
+            return !component._foundNoJEP;
         }
 
         @Override
@@ -58,10 +167,17 @@ public class Animators
             float time1 = aniTick;
             float time2 = 0;
             int animationLength = animation.getLength();
+            MolangVars molangs = holder.getMolangVars();
             animationLength = Math.max(1, animationLength);
+            
             final float limbSpeedFactor = 3f;
             time1 = (time1 + partialTick) % animationLength;
             time2 = limbSwing * limbSpeedFactor % animationLength;
+
+            time1 = (float) (molangs.t % animationLength);
+            time2 = (float) (molangs.l % animationLength);
+            
+            
             aniTick = (int) time1;
 
             for (final AnimationComponent component : components)
@@ -70,6 +186,20 @@ public class Animators
                 if (component.limbBased) aniTick = (int) time2;
                 if (time >= component.startKey)
                 {
+                    // Start by checking JEP components to the animation
+                    boolean jepAnimated = animateJEP(animation, component, part, molangs);
+                    if (jepAnimated)
+                    {
+                        rx += dr[0];
+                        ry += dr[1];
+                        rz += dr[2];
+
+                        temp.addTo(dx[0], dx[1], dx[2]);
+
+                        sx *= ds[0];
+                        sy *= ds[1];
+                        sz *= ds[2];
+                    }
                     animated = true;
                     float componentTimer = time - component.startKey;
                     if (componentTimer > component.length) componentTimer = component.length;
@@ -110,17 +240,6 @@ public class Animators
             return this.length;
         }
 
-        private void initLength()
-        {
-            this.length = -1;
-            this.limbBased = false;
-            for (final AnimationComponent component : components)
-            {
-                this.length = Math.max(this.length, component.startKey + component.length);
-                this.limbBased = this.limbBased || component.limbBased;
-            }
-        }
-
         @Override
         public boolean hasLimbBased()
         {
@@ -136,6 +255,7 @@ public class Animators
         @Override
         public void setHidden(boolean hidden)
         {
+            this.hidden = hidden;
             for (final AnimationComponent component : components) component.hidden = hidden;
         }
     }

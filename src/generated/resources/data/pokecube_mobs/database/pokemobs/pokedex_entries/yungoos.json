@@ -113,7 +113,8 @@
       {
         "L": 7,
         "moves": [
-          "pursuit"
+          "pursuit",
+          "payback"
         ]
       },
       {
@@ -131,7 +132,8 @@
       {
         "L": 13,
         "moves": [
-          "odor-sleuth"
+          "odor-sleuth",
+          "work-up"
         ]
       }
     ],
@@ -143,6 +145,7 @@
       "leer",
       "bite",
       "earthquake",
+      "dig",
       "toxic",
       "double-team",
       "bide",
@@ -152,10 +155,12 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "protect",
       "scary-face",
       "mud-slap",
       "sandstorm",
+      "endure",
       "swagger",
       "attract",
       "sleep-talk",
@@ -164,28 +169,40 @@
       "pursuit",
       "iron-tail",
       "hidden-power",
+      "rain-dance",
+      "sunny-day",
       "crunch",
       "uproar",
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "revenge",
       "yawn",
       "endeavor",
       "odor-sleuth",
       "rock-tomb",
+      "mud-shot",
       "shock-wave",
       "u-turn",
       "payback",
       "last-resort",
+      "seed-bomb",
       "thunder-fang",
       "ice-fang",
       "fire-fang",
+      "zen-headbutt",
       "round",
       "echoed-voice",
+      "bulldoze",
       "work-up",
+      "wild-charge",
       "confide",
-      "stomping-tantrum"
+      "psychic-fangs",
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "evolutions": [

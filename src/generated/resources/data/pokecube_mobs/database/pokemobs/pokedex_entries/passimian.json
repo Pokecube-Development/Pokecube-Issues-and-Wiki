@@ -132,11 +132,13 @@
       "mega-punch",
       "mega-kick",
       "tackle",
+      "body-slam",
       "take-down",
       "thrash",
       "double-edge",
       "leer",
       "hyper-beam",
+      "low-kick",
       "counter",
       "seismic-toss",
       "earthquake",
@@ -158,6 +160,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "baton-pass",
       "iron-tail",
       "vital-throw",
       "hidden-power",
@@ -209,7 +212,10 @@
       "confide",
       "laser-focus",
       "brutal-swing",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "interactions": [

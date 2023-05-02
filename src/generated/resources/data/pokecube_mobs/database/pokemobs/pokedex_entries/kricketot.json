@@ -39,6 +39,7 @@
       {
         "L": 1,
         "moves": [
+          "tackle",
           "growl",
           "bide"
         ]
@@ -65,7 +66,8 @@
       "uproar",
       "endeavor",
       "bug-bite",
-      "struggle-bug"
+      "struggle-bug",
+      "tera-blast"
     ]
   },
   "evolutions": [
