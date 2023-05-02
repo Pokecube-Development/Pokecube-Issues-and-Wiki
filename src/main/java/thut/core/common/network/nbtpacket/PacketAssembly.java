@@ -38,7 +38,10 @@ public final class PacketAssembly<T extends NBTPacket>
             final Factory<K> factory, final PacketHandler handler)
     {
         final PacketAssembly<K> assembler = new PacketAssembly<>(factory, handler);
-        PacketAssembly.ASSEMBLERS.put(clazz, assembler);
+        synchronized (ASSEMBLERS)
+        {
+            PacketAssembly.ASSEMBLERS.put(clazz, assembler);
+        }
         return assembler;
     }
 
