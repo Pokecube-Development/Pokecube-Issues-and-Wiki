@@ -10,6 +10,20 @@ import os
 from glob import glob
 import shutil
 
+entry_generate_dir = '../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/'
+materials_generate_dir = '../../src/generated/resources/data/pokecube_mobs/database/pokemobs/materials/'
+ability_lang_generate_dir = '../../src/generated/resources/assets/pokecube_abilities/lang/'
+mob_lang_generate_dir = '../../src/generated/resources/assets/pokecube_mobs/lang/'
+tag_generate_dir = '../../src/generated/resources/data/pokecube/tags/entity_types/'
+advancements_dir = '../../src/generated/resources/data/pokecube_mobs/advancements/'
+
+entry_generate_dir = './new/pokemobs/pokedex_entries/'
+materials_generate_dir = './new/pokemobs/materials/'
+ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
+mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
+tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
+advancements_dir = './new/advancements/'
+
 MEGA_SUFFIX = [
     '-mega',
     '-mega-x',
@@ -574,7 +588,7 @@ def convert_pokedex():
         dex.append(var)
 
     # Construct and output the default pokecube:pokemob tag
-    file = f'../../src/generated/resources/data/pokecube/tags/entity_types/pokemob.json'
+    file = f'{tag_generate_dir}pokemob.json'
     var = {"replace": False,"values":pokemob_tag_names}
     if not os.path.exists(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))
@@ -584,7 +598,7 @@ def convert_pokedex():
 
     for key, dict in lang_files.items():
         # Output a lang file for the entries
-        file = f'../../src/generated/resources/assets/pokecube_mobs/lang/{key}'
+        file = f'{mob_lang_generate_dir}{key}'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         try:
@@ -597,7 +611,7 @@ def convert_pokedex():
 
     for var in dex:
         # Output each entry into the appropriate database location
-        file = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
+        file = f'{entry_generate_dir}{var["name"]}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 
@@ -619,7 +633,7 @@ def convert_pokedex():
 
     for file in os.listdir('./data/pokemobs/materials'):
         original = f'./data/pokemobs/materials/{file}'
-        newfile = f'../../src/generated/resources/data/pokecube_mobs/database/pokemobs/materials/{file}'
+        newfile = f'{materials_generate_dir}{file}'
         if not os.path.exists(os.path.dirname(newfile)):
             os.makedirs(os.path.dirname(newfile))
         shutil.copy(original, newfile)
@@ -643,7 +657,7 @@ def make_ability_langs():
 
     for key, dict in lang_files.items():
         # Output a lang file for the entries
-        file = f'../../src/generated/resources/assets/pokecube_abilities/lang/{key}'
+        file = f'{ability_lang_generate_dir}{key}'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         try:
