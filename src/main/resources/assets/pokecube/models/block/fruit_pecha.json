@@ -2,55 +2,111 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"particle": "pokecube:block/pecha_fruit",
-		"pecha": "pokecube:block/pecha_fruit"
+		"pecha": "pokecube:block/pecha_fruit",
+		"overlay": "pokecube:block/pecha_fruit_overlay"
 	},
 	"render_type": "cutout_mipped",
 	"elements": [
 		{
-			"name": "fruit",
-			"from": [5.5, 12, 6.5],
-			"to": [10.5, 16, 9.5],
-			"rotation": {"angle": 0, "axis": "z", "origin": [8, 15.5, 8]},
+			"name": "stem",
+			"from": [7, 15, 8],
+			"to": [9, 16, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 16, 8]},
 			"faces": {
-				"north": {"uv": [5, 0, 10, 4], "texture": "#pecha"},
-				"east": {"uv": [0, 6, 3, 10], "texture": "#pecha"},
-				"south": {"uv": [10, 0, 5, 4], "texture": "#pecha"},
-				"west": {"uv": [3, 6, 0, 10], "texture": "#pecha"},
-				"up": {"uv": [0, 0, 5, 3], "rotation": 180, "texture": "#pecha"},
-				"down": {"uv": [0, 3, 5, 6], "rotation": 180, "texture": "#pecha"}
+				"north": {"uv": [7, 13, 9, 14], "texture": "#pecha"},
+				"south": {"uv": [7, 13, 9, 14], "texture": "#pecha"}
+			}
+		},
+		{
+			"name": "stem",
+			"from": [7, 15, 8],
+			"to": [9, 16, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 16, 8]},
+			"faces": {
+				"north": {"uv": [7, 13, 9, 14], "texture": "#pecha"},
+				"south": {"uv": [7, 13, 9, 14], "texture": "#pecha"}
 			}
 		},
 		{
 			"name": "fruit",
-			"from": [6, 10.5, 6.5],
-			"to": [10, 12, 9.5],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15.5, 8]},
+			"from": [5, 10, 6],
+			"to": [11, 15, 10],
+			"rotation": {"angle": 0, "axis": "z", "origin": [8, 15, 8]},
 			"faces": {
-				"north": {"uv": [5.5, 4, 9.5, 5.5], "texture": "#pecha"},
-				"east": {"uv": [0, 10, 3, 11.5], "texture": "#pecha"},
-				"south": {"uv": [9.5, 4, 5.5, 5.5], "texture": "#pecha"},
-				"west": {"uv": [3, 10, 0, 11.5], "texture": "#pecha"},
-				"down": {"uv": [0.5, 3, 4.5, 6], "texture": "#pecha"}
+				"north": {"uv": [5, 0, 11, 5], "texture": "#pecha"},
+				"east": {"uv": [0, 0, 4, 5], "texture": "#pecha"},
+				"south": {"uv": [5, 0, 11, 5], "texture": "#pecha"},
+				"west": {"uv": [0, 0, 4, 5], "texture": "#pecha"},
+				"up": {"uv": [0, 8, 6, 12], "rotation": 180, "texture": "#pecha"},
+				"down": {"uv": [7, 8, 13, 12], "rotation": 180, "texture": "#pecha"}
+			}
+		},
+		{
+			"name": "fruit_overlay",
+			"from": [4.8, 9.8, 5.8],
+			"to": [11.2, 15.2, 10.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 15, 8]},
+			"faces": {
+				"north": {"uv": [5, 0, 11, 5], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 4, 5], "texture": "#overlay"},
+				"south": {"uv": [5, 0, 11, 5], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 4, 5], "texture": "#overlay"},
+				"up": {"uv": [0, 8, 6, 12], "rotation": 180, "texture": "#overlay"},
+				"down": {"uv": [7, 8, 13, 12], "rotation": 180, "texture": "#overlay"}
+			}
+		},
+		{
+			"name": "fruit",
+			"from": [6, 7.6, 6],
+			"to": [10, 10, 10],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 10, 8]},
+			"faces": {
+				"north": {"uv": [6, 5, 10, 7], "texture": "#pecha"},
+				"east": {"uv": [0, 5, 4, 7], "texture": "#pecha"},
+				"south": {"uv": [6, 5, 10, 7], "texture": "#pecha"},
+				"west": {"uv": [0, 5, 4, 7], "texture": "#pecha"},
+				"down": {"uv": [8, 8, 12, 12], "texture": "#pecha"}
+			}
+		},
+		{
+			"name": "fruit_overlay",
+			"from": [5.8, 7.4, 5.8],
+			"to": [10.2, 9.8, 10.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 10, 8]},
+			"faces": {
+				"north": {"uv": [6, 5, 10, 7], "texture": "#overlay"},
+				"east": {"uv": [0, 5, 4, 7], "texture": "#overlay"},
+				"south": {"uv": [6, 5, 10, 7], "texture": "#overlay"},
+				"west": {"uv": [0, 5, 4, 7], "texture": "#overlay"},
+				"down": {"uv": [8, 8, 12, 12], "texture": "#overlay"}
 			}
 		},
 		{
 			"name": "leaves",
-			"from": [7.5, 16, 6],
-			"to": [13.5, 16.01, 10],
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [10.5, 16.005, 8]},
+			"from": [7, 15, 6],
+			"to": [13, 15, 10],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [11, 15, 8]},
 			"faces": {
-				"up": {"uv": [10, 4, 16, 8], "rotation": 180, "texture": "#pecha"},
-				"down": {"uv": [10, 0, 16, 4], "texture": "#pecha"}
+				"north": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"east": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"south": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"west": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"up": {"uv": [6, 16, 0, 12], "rotation": 180, "texture": "#pecha"},
+				"down": {"uv": [6, 16, 0, 12], "rotation": 180, "texture": "#pecha"}
 			}
 		},
 		{
 			"name": "leaves",
-			"from": [2.5, 16, 6],
-			"to": [8.5, 16.01, 10],
-			"rotation": {"angle": 22.5, "axis": "z", "origin": [5.5, 16.005, 8]},
+			"from": [3, 15, 6],
+			"to": [9, 15, 10],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [5, 15, 8]},
 			"faces": {
-				"up": {"uv": [10, 0, 16, 4], "rotation": 180, "texture": "#pecha"},
-				"down": {"uv": [10, 4, 16, 8], "texture": "#pecha"}
+				"north": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"east": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"south": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"west": {"uv": [0, 0, 0, 0], "texture": "#pecha"},
+				"up": {"uv": [0, 12, 6, 16], "rotation": 180, "texture": "#pecha"},
+				"down": {"uv": [0, 12, 6, 16], "rotation": 180, "texture": "#pecha"}
 			}
 		}
 	]

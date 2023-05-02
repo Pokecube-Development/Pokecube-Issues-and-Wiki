@@ -15,9 +15,9 @@
     "wearables.gui.button.open":"Open Wearables",
     "wearables.gui.button.close":"Close Wearables",
 
-    "wearables.keyuse.left": "Left Keybind: §6[§r%s§6]",
-    "wearables.keyuse.right": "Right Keybind: §6[§r%s§6]",
-    "wearables.keyuse.single": "Keybind: §6[§r%s§6]",
+    "wearables.keyuse.left": "§7Left Keybind: §6[§r§7%s§6]",
+    "wearables.keyuse.right": "§7Right Keybind: §6[§r§7%s§6]",
+    "wearables.keyuse.single": "§7Keybind: §6[§r§7%s§6]",
 
     "key.categories.wearables": "Wearables",
     "key.wearables.activate": "Activate ",

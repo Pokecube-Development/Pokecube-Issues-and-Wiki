@@ -2,55 +2,77 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"particle": "pokecube:block/leppa_fruit",
-		"leppa": "pokecube:block/leppa_fruit"
+		"leppa": "pokecube:block/leppa_fruit",
+		"overlay": "pokecube:block/leppa_fruit_overlay"
 	},
 	"render_type": "cutout_mipped",
 	"elements": [
 		{
-			"name": "stem",
-			"from": [7, 15.5, 7],
-			"to": [9, 16, 9],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
-			"faces": {
-				"north": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
-				"east": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
-				"south": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
-				"west": {"uv": [4, 6.5, 6, 7], "texture": "#leppa"},
-				"up": {"uv": [4, 5, 6, 7], "rotation": 180, "texture": "#leppa"}
-			}
-		},
-		{
 			"name": "fruit",
-			"from": [6, 10.5, 6],
-			"to": [10, 15.5, 10],
-			"rotation": {"angle": 0, "axis": "y", "origin": [8, 16, 8]},
+			"from": [5, 7, 5],
+			"to": [11, 15, 11],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 15.5, 8]},
 			"faces": {
-				"north": {"uv": [4, 0, 8, 5], "texture": "#leppa"},
-				"east": {"uv": [4, 0, 8, 5], "texture": "#leppa"},
-				"south": {"uv": [8, 0, 4, 5], "texture": "#leppa"},
-				"west": {"uv": [8, 0, 4, 5], "texture": "#leppa"},
-				"up": {"uv": [0, 0, 4, 4], "texture": "#leppa"},
-				"down": {"uv": [0, 4, 4, 8], "texture": "#leppa"}
+				"north": {"uv": [0, 0, 6, 8], "texture": "#leppa"},
+				"east": {"uv": [0, 0, 6, 8], "texture": "#leppa"},
+				"south": {"uv": [6, 0, 0, 8], "texture": "#leppa"},
+				"west": {"uv": [6, 0, 0, 8], "texture": "#leppa"},
+				"up": {"uv": [6, 0, 12, 6], "texture": "#leppa"},
+				"down": {"uv": [6, 6, 12, 12], "texture": "#leppa"}
+			}
+		},
+		{
+			"name": "overlay",
+			"from": [4.8, 6.8, 4.8],
+			"to": [11.2, 15.2, 11.2],
+			"rotation": {"angle": 0, "axis": "y", "origin": [7, 15.5, 8]},
+			"faces": {
+				"north": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"east": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"south": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"west": {"uv": [0, 0, 6, 8], "texture": "#overlay"},
+				"up": {"uv": [6, 0, 12, 6], "texture": "#overlay"},
+				"down": {"uv": [6, 6, 12, 12], "texture": "#overlay"}
 			}
 		},
 		{
 			"name": "leaves",
-			"from": [7.5, 15.5, 6.5],
-			"to": [14.5, 15.5, 9.5],
-			"rotation": {"angle": -22.5, "axis": "z", "origin": [10, 15.5, 8]},
+			"from": [7, 15.35, 6],
+			"to": [14, 15.35, 10],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [11, 15, 8]},
 			"faces": {
-				"up": {"uv": [8, 0, 15, 3], "texture": "#leppa"},
-				"down": {"uv": [8, 0, 15, 3], "texture": "#leppa"}
+				"up": {"uv": [16, 7, 12, 0], "rotation": 270, "texture": "#leppa"},
+				"down": {"uv": [16, 7, 12, 0], "rotation": 270, "texture": "#leppa"}
 			}
 		},
 		{
 			"name": "leaves",
-			"from": [1.5, 15.5, 6.5],
-			"to": [8.5, 15.5, 9.5],
-			"rotation": {"angle": 22.5, "axis": "z", "origin": [6, 15.5, 8]},
+			"from": [2, 15.35, 6],
+			"to": [9, 15.35, 10],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [5, 15, 8]},
 			"faces": {
-				"up": {"uv": [8, 3, 15, 6], "texture": "#leppa"},
-				"down": {"uv": [8, 3, 15, 6], "texture": "#leppa"}
+				"up": {"uv": [12, 0, 16, 7], "rotation": 270, "texture": "#leppa"},
+				"down": {"uv": [12, 0, 16, 7], "rotation": 270, "texture": "#leppa"}
+			}
+		},
+		{
+			"name": "stem",
+			"from": [5, 15, 8],
+			"to": [11, 17, 8],
+			"rotation": {"angle": -45, "axis": "y", "origin": [8, 15, 8]},
+			"faces": {
+				"north": {"uv": [6, 12, 12, 14], "texture": "#leppa"},
+				"south": {"uv": [6, 12, 12, 14], "texture": "#leppa"}
+			}
+		},
+		{
+			"name": "stem",
+			"from": [5, 15, 8],
+			"to": [11, 17, 8],
+			"rotation": {"angle": 45, "axis": "y", "origin": [8, 15, 8]},
+			"faces": {
+				"north": {"uv": [6, 12, 12, 14], "texture": "#leppa"},
+				"south": {"uv": [6, 12, 12, 14], "texture": "#leppa"}
 			}
 		}
 	]

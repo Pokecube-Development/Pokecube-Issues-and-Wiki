@@ -3,6 +3,7 @@ package thut.wearables.client.render;
 import java.lang.reflect.Field;
 import java.util.Map;
 
+import net.minecraft.ChatFormatting;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
@@ -147,14 +148,14 @@ public class WearableEventHandler
             switch (slot.slots)
             {
             case 2:
-                message = I18n.get("wearables.keyuse.left", key);
+                message = I18n.get("wearables.keyuse.left", key.formatted(ChatFormatting.GRAY));
                 evt.getToolTip().add(TComponent.literal(message));
-                key = WearableEventHandler.keys[slot.index + 1].getTranslatedKeyMessage().getString();
+                key = WearableEventHandler.keys[slot.index + 1].getTranslatedKeyMessage().getString().formatted(ChatFormatting.GRAY);
                 message = I18n.get("wearables.keyuse.right", key);
                 evt.getToolTip().add(TComponent.literal(message));
                 break;
             default:
-                message = I18n.get("wearables.keyuse.single", key);
+                message = I18n.get("wearables.keyuse.single", key.formatted(ChatFormatting.GRAY));
                 evt.getToolTip().add(TComponent.literal(message));
                 break;
             }

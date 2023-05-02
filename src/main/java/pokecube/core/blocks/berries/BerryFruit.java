@@ -33,8 +33,7 @@ public class BerryFruit extends BushBlock
 
     // Precise selection box @formatter:off
     private static final VoxelShape PECHA_BERRY = Shapes.or(
-      Block.box(5.5, 12, 6.5, 10.5, 16, 9.5),
-      Block.box(6, 10.5, 6.5, 10, 12, 9.5))
+      Block.box(5, 7.6, 5, 11, 15, 11))
       .optimize();
 
     private static final VoxelShape ASPEAR_BERRY = Shapes.or(
@@ -42,13 +41,12 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape LEPPA_BERRY = Shapes.or(
-      Block.box(7, 15.5, 7, 9, 16, 9),
-      Block.box(6, 10.5, 6, 10, 15.5, 10))
+      Block.box(5, 7, 5, 11, 15, 11))
       .optimize();
 
     private static final VoxelShape ORAN_BERRY = Shapes.or(
-      Block.box(7, 15.5, 7, 9, 16, 9),
-      Block.box(5.5, 10.5, 5.5, 10.5, 15.5, 10.5))
+      Block.box(4, 7, 4, 12, 15, 12),
+      Block.box(6, 15, 6, 10, 16, 10))
       .optimize();
 
     private static final VoxelShape LUM_BERRY = Shapes.or(
@@ -56,13 +54,12 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape SITRUS_BERRY = Shapes.or(
-      Block.box(7, 15.5, 7, 9, 16, 9),
-      Block.box(6, 13.5, 6, 10, 15.5, 10),
-      Block.box(5.5, 9.5, 5.5, 10.5, 13.5, 10.5))
+      Block.box(6, 13, 6, 10, 15, 10),
+      Block.box(5, 8, 5, 11, 13, 11))
       .optimize();
 
     private static final VoxelShape NANAB_BERRY = Shapes.or(
-      Block.box(4, 7.6, 4, 12, 16, 12))
+      Block.box(2, 1.6, 2, 14, 16, 14))
       .optimize();
 
     private static final VoxelShape PINAP_BERRY = Shapes.or(
@@ -70,44 +67,40 @@ public class BerryFruit extends BushBlock
       .optimize();
 
     private static final VoxelShape POMEG_BERRY = Shapes.or(
-      Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
-      Block.box(6, 14, 6, 10, 15, 10),
-      Block.box(5.5, 10, 5.5, 10.5, 14, 10.5),
-      Block.box(6, 9, 6, 10, 10, 10))
+      Block.box(6, 13, 6, 10, 14, 10),
+      Block.box(5, 7, 5, 11, 13, 11))
       .optimize();
 
     private static final VoxelShape KELPSY_BERRY = Shapes.or(
-      Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
-      Block.box(6.5, 7, 6.5, 9.5, 15, 9.5),
-      Block.box(7.5, 6, 7.5, 8.5, 7, 8.5))
+      Block.box(7, 14, 7, 9, 16, 9),
+      Block.box(6, 2, 6, 10, 14, 10),
+      Block.box(7, 0, 7, 9, 2, 9))
       .optimize();
 
     private static final VoxelShape QUALOT_BERRY = Shapes.or(
-      Block.box(7.5, 14.5, 7.5, 8.5, 16, 8.5),
-      Block.box(6, 13.5, 6, 10, 14.5, 10),
-      Block.box(5.5, 8.5, 5.5, 10.5, 13.5, 10.5),
-      Block.box(6, 7.5, 6, 10, 8.5, 10))
+      Block.box(7, 13, 7, 9, 16, 9),
+      Block.box(6, 12, 6, 10, 13, 10),
+      Block.box(5, 4, 5, 11, 12, 11),
+      Block.box(6, 3, 6, 10, 4, 10))
       .optimize();
 
     private static final VoxelShape HONDEW_BERRY = Shapes.or(
-      Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
-      Block.box(5.5, 9, 5.5, 10.5, 15, 10.5))
+      Block.box(7, 14, 7, 9, 16, 9),
+      Block.box(5, 5, 5, 11, 14, 11))
       .optimize();
 
     private static final VoxelShape GREPA_BERRY = Shapes.or(
-      Block.box(7.5, 15, 7.5, 8.5, 16, 8.5),
-      Block.box(5.5, 10, 5.5, 10.5, 15, 10.5))
+      Block.box(7, 14, 7, 9, 16, 9),
+      Block.box(5, 8, 5, 11, 14, 11))
       .optimize();
 
     private static final VoxelShape TAMATO_BERRY = Shapes.or(
-      Block.box(6, 11.5, 6, 10, 15.5, 10),
-      Block.box(7, 15.5, 7, 9, 16, 9))
+      Block.box(5, 9, 5, 11, 15, 11))
       .optimize();
 
     private static final VoxelShape ENIGMA_BERRY = Shapes.or(
-      Block.box(7, 14, 7, 9, 16, 9),
-      Block.box(6.5, 13, 6.5, 9.5, 14, 9.5),
-      Block.box(6, 7, 6, 10, 13, 10))
+      Block.box(6, 12, 6, 10, 16, 10),
+      Block.box(5, 2, 5, 11, 12, 11))
       .optimize();
 
     private static final VoxelShape ROWAP_BERRY = Shapes.or(
