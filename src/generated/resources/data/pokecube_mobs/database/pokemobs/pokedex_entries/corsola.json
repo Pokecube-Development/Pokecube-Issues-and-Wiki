@@ -246,5 +246,11 @@
       "meteor-beam"
     ]
   },
+  "evolutions": [
+    {
+      "name": "cursola",
+      "level": 38
+    }
+  ],
   "loot_table": "pokecube:entities/fish_2"
 }

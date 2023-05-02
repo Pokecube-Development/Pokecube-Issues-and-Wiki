@@ -86,9 +86,17 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "role-play",
+          "embargo"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
-          "knock-off"
+          "knock-off",
+          "astonish"
         ]
       },
       {
@@ -101,12 +109,6 @@
         "L": 42,
         "moves": [
           "snatch"
-        ]
-      },
-      {
-        "L": 34,
-        "moves": [
-          "embargo"
         ]
       },
       {
@@ -139,6 +141,7 @@
       "body-slam",
       "double-edge",
       "disable",
+      "psybeam",
       "thunderbolt",
       "thunder-wave",
       "thunder",
@@ -149,6 +152,7 @@
       "screech",
       "double-team",
       "confuse-ray",
+      "metronome",
       "dream-eater",
       "flash",
       "rest",
@@ -159,6 +163,7 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "foresight",
       "destiny-bond",
@@ -170,6 +175,7 @@
       "return",
       "frustration",
       "pain-split",
+      "encore",
       "pursuit",
       "hidden-power",
       "rain-dance",
@@ -180,6 +186,7 @@
       "will-o-wisp",
       "facade",
       "taunt",
+      "helping-hand",
       "trick",
       "role-play",
       "magic-coat",
@@ -197,6 +204,7 @@
       "embargo",
       "sucker-punch",
       "dark-pulse",
+      "nasty-plot",
       "shadow-sneak",
       "trick-room",
       "gunk-shot",
@@ -211,7 +219,9 @@
       "hex",
       "phantom-force",
       "confide",
-      "dazzling-gleam"
+      "dazzling-gleam",
+      "tera-blast",
+      "pounce"
     ]
   },
   "evolutions": [

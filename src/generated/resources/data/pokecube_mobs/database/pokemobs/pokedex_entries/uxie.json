@@ -92,6 +92,12 @@
         "moves": [
           "extrasensory"
         ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "mystical-power"
+        ]
       }
     ],
     "misc": [
@@ -99,6 +105,7 @@
       "ice-punch",
       "thunder-punch",
       "headbutt",
+      "psybeam",
       "hyper-beam",
       "solar-beam",
       "thunderbolt",
@@ -108,6 +115,7 @@
       "confusion",
       "psychic",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "reflect",
       "metronome",
@@ -185,7 +193,8 @@
       "dazzling-gleam",
       "power-up-punch",
       "laser-focus",
-      "expanding-force"
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

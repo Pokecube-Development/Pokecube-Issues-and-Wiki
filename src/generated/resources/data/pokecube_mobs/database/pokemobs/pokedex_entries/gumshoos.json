@@ -45,7 +45,8 @@
           "sand-attack",
           "tackle",
           "leer",
-          "pursuit"
+          "pursuit",
+          "payback"
         ]
       },
       {
@@ -117,7 +118,8 @@
       {
         "L": 13,
         "moves": [
-          "odor-sleuth"
+          "odor-sleuth",
+          "work-up"
         ]
       }
     ],
@@ -127,12 +129,15 @@
       "thunder-punch",
       "sand-attack",
       "tackle",
+      "body-slam",
       "take-down",
       "thrash",
       "leer",
       "bite",
       "roar",
+      "hyper-beam",
       "earthquake",
+      "dig",
       "toxic",
       "double-team",
       "bide",
@@ -142,10 +147,12 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "protect",
       "scary-face",
       "mud-slap",
       "sandstorm",
+      "endure",
       "swagger",
       "attract",
       "sleep-talk",
@@ -154,30 +161,45 @@
       "pursuit",
       "iron-tail",
       "hidden-power",
+      "rain-dance",
+      "sunny-day",
       "crunch",
       "uproar",
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "yawn",
       "endeavor",
       "odor-sleuth",
       "rock-tomb",
       "block",
+      "mud-shot",
       "shock-wave",
       "u-turn",
       "payback",
       "fling",
       "last-resort",
+      "seed-bomb",
+      "giga-impact",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
       "zen-headbutt",
       "iron-head",
+      "low-sweep",
       "round",
       "echoed-voice",
       "bulldoze",
       "work-up",
+      "wild-charge",
       "dual-chop",
       "confide",
-      "stomping-tantrum"
+      "psychic-fangs",
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "interactions": [

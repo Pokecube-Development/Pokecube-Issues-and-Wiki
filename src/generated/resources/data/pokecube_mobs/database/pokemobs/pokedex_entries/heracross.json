@@ -145,6 +145,7 @@
       "tackle",
       "body-slam",
       "take-down",
+      "thrash",
       "double-edge",
       "pin-missile",
       "leer",
@@ -205,6 +206,7 @@
       "assurance",
       "fling",
       "night-slash",
+      "bug-buzz",
       "vacuum-wave",
       "focus-blast",
       "giga-impact",
@@ -225,7 +227,10 @@
       "throat-chop",
       "smart-strike",
       "brutal-swing",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "male_model": {

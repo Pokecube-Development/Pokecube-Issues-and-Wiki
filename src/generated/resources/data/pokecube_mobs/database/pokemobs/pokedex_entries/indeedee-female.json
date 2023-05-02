@@ -71,19 +71,14 @@
       {
         "L": 30,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "healing-wish"
         ]
       },
       {
         "L": 40,
         "moves": [
           "calm-mind"
-        ]
-      },
-      {
-        "L": 55,
-        "moves": [
-          "healing-wish"
         ]
       },
       {
@@ -114,6 +109,9 @@
     ],
     "misc": [
       "pay-day",
+      "body-slam",
+      "take-down",
+      "psybeam",
       "psychic",
       "light-screen",
       "reflect",
@@ -124,6 +122,7 @@
       "snore",
       "protect",
       "endure",
+      "charm",
       "attract",
       "sleep-talk",
       "safeguard",
@@ -133,29 +132,36 @@
       "future-sight",
       "fake-out",
       "facade",
+      "follow-me",
       "helping-hand",
       "trick",
+      "skill-swap",
       "imprison",
       "hyper-voice",
       "magical-leaf",
       "calm-mind",
+      "healing-wish",
       "psycho-shift",
       "guard-swap",
       "drain-punch",
       "energy-ball",
       "zen-headbutt",
+      "guard-split",
       "psyshock",
       "round",
       "stored-power",
       "ally-switch",
       "heal-pulse",
+      "disarming-voice",
       "draining-kiss",
       "play-rough",
+      "play-nice",
       "mystical-fire",
       "dazzling-gleam",
       "psychic-terrain",
       "expanding-force",
-      "terrain-pulse"
+      "terrain-pulse",
+      "tera-blast"
     ]
   },
   "old_name": "indeedee_female",

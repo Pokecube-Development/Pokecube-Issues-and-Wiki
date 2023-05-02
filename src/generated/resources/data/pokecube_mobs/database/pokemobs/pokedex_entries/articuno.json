@@ -77,9 +77,16 @@
         ]
       },
       {
+        "L": 60,
+        "moves": [
+          "haze"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
-          "reflect"
+          "reflect",
+          "snowscape"
         ]
       },
       {
@@ -170,6 +177,7 @@
       "rage",
       "mimic",
       "double-team",
+      "light-screen",
       "reflect",
       "bide",
       "swift",
@@ -199,6 +207,7 @@
       "rock-smash",
       "hail",
       "facade",
+      "helping-hand",
       "secret-power",
       "weather-ball",
       "air-cutter",
@@ -228,7 +237,10 @@
       "laser-focus",
       "aurora-veil",
       "triple-axel",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape"
     ]
   },
   "spawn_rules": [

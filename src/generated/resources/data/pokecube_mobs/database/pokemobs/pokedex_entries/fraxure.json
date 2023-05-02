@@ -61,6 +61,13 @@
         ]
       },
       {
+        "L": 33,
+        "moves": [
+          "focus-energy",
+          "laser-focus"
+        ]
+      },
+      {
         "L": 20,
         "moves": [
           "slash"
@@ -122,9 +129,9 @@
         ]
       },
       {
-        "L": 33,
+        "L": 30,
         "moves": [
-          "laser-focus"
+          "breaking-swipe"
         ]
       }
     ],
@@ -133,8 +140,11 @@
       "guillotine",
       "swords-dance",
       "cut",
+      "take-down",
       "leer",
+      "bite",
       "roar",
+      "surf",
       "low-kick",
       "strength",
       "dragon-rage",
@@ -167,6 +177,7 @@
       "facade",
       "taunt",
       "superpower",
+      "brick-break",
       "endeavor",
       "secret-power",
       "rock-tomb",
@@ -184,15 +195,20 @@
       "giga-impact",
       "shadow-claw",
       "draco-meteor",
+      "iron-head",
       "hone-claws",
       "round",
       "incinerate",
+      "bulldoze",
       "dragon-tail",
       "dual-chop",
+      "snarl",
       "confide",
       "stomping-tantrum",
       "breaking-swipe",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

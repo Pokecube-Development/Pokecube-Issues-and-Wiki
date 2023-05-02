@@ -63,7 +63,10 @@
       "stun-spore",
       "string-shot",
       "bug-bite",
-      "rage-powder"
+      "rage-powder",
+      "struggle-bug",
+      "tera-blast",
+      "pounce"
     ]
   },
   "evolutions": [

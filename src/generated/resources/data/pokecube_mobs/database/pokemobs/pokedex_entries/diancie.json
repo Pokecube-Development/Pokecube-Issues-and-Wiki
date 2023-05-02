@@ -133,6 +133,8 @@
     ],
     "misc": [
       "tackle",
+      "body-slam",
+      "take-down",
       "hyper-beam",
       "rock-throw",
       "toxic",
@@ -142,6 +144,7 @@
       "light-screen",
       "reflect",
       "metronome",
+      "swift",
       "amnesia",
       "flash",
       "explosion",
@@ -152,6 +155,7 @@
       "snore",
       "flail",
       "protect",
+      "spikes",
       "sandstorm",
       "endure",
       "charm",
@@ -164,6 +168,7 @@
       "baton-pass",
       "encore",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "psych-up",
       "ancient-power",
@@ -189,6 +194,7 @@
       "power-gem",
       "earth-power",
       "giga-impact",
+      "flash-cannon",
       "trick-room",
       "stone-edge",
       "stealth-rock",
@@ -201,6 +207,7 @@
       "round",
       "stored-power",
       "ally-switch",
+      "bulldoze",
       "draining-kiss",
       "play-rough",
       "moonblast",
@@ -211,7 +218,9 @@
       "body-press",
       "meteor-beam",
       "misty-explosion",
-      "terrain-pulse"
+      "terrain-pulse",
+      "tera-blast",
+      "snowscape"
     ]
   },
   "spawn_rules": [

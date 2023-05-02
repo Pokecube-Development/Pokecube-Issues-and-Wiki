@@ -40,7 +40,15 @@
       {
         "L": 41,
         "moves": [
-          "razor-wind"
+          "razor-wind",
+          "liquidation"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bite",
+          "pursuit"
         ]
       },
       {
@@ -51,7 +59,8 @@
           "quick-attack",
           "crunch",
           "water-sport",
-          "ice-fang"
+          "ice-fang",
+          "soak"
         ]
       },
       {
@@ -79,12 +88,6 @@
         ]
       },
       {
-        "L": 18,
-        "moves": [
-          "pursuit"
-        ]
-      },
-      {
         "L": 35,
         "moves": [
           "whirlpool"
@@ -107,12 +110,20 @@
         "moves": [
           "double-hit"
         ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "wave-crash"
+        ]
       }
     ],
     "misc": [
       "ice-punch",
       "razor-wind",
       "headbutt",
+      "body-slam",
+      "take-down",
       "growl",
       "roar",
       "sonic-boom",
@@ -129,12 +140,15 @@
       "agility",
       "quick-attack",
       "double-team",
+      "metronome",
       "waterfall",
       "swift",
       "rest",
       "substitute",
+      "thief",
       "snore",
       "protect",
+      "scary-face",
       "mud-slap",
       "icy-wind",
       "endure",
@@ -143,6 +157,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "baton-pass",
       "pursuit",
       "iron-tail",
       "hidden-power",
@@ -166,6 +181,7 @@
       "brine",
       "natural-gift",
       "payback",
+      "fling",
       "aqua-tail",
       "focus-blast",
       "giga-impact",
@@ -173,12 +189,17 @@
       "captivate",
       "aqua-jet",
       "double-hit",
+      "low-sweep",
       "round",
       "echoed-voice",
       "scald",
+      "snarl",
       "confide",
       "power-up-punch",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "ice-spinner",
+      "chilling-water"
     ]
   },
   "interactions": [

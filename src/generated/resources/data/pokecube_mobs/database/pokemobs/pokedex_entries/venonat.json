@@ -103,7 +103,8 @@
       {
         "L": 25,
         "moves": [
-          "signal-beam"
+          "signal-beam",
+          "bug-buzz"
         ]
       },
       {
@@ -132,9 +133,11 @@
       "psychic",
       "agility",
       "rage",
+      "night-shade",
       "mimic",
       "screech",
       "double-team",
+      "confuse-ray",
       "reflect",
       "bide",
       "swift",
@@ -168,15 +171,20 @@
       "signal-beam",
       "natural-gift",
       "toxic-spikes",
+      "bug-buzz",
+      "energy-ball",
       "zen-headbutt",
       "captivate",
       "bug-bite",
       "venoshock",
       "rage-powder",
+      "acid-spray",
       "round",
       "struggle-bug",
       "confide",
-      "infestation"
+      "infestation",
+      "tera-blast",
+      "pounce"
     ]
   },
   "evolutions": [

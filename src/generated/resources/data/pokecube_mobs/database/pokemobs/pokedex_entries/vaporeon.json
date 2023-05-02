@@ -211,9 +211,11 @@
       "signal-beam",
       "muddy-water",
       "covet",
+      "calm-mind",
       "water-pulse",
       "brine",
       "natural-gift",
+      "copycat",
       "last-resort",
       "aqua-ring",
       "aqua-tail",
@@ -229,7 +231,10 @@
       "baby-doll-eyes",
       "laser-focus",
       "liquidation",
-      "flip-turn"
+      "flip-turn",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

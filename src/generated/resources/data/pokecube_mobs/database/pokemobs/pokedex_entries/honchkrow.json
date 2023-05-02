@@ -76,18 +76,22 @@
       {
         "L": 65,
         "moves": [
-          "quash"
+          "quash",
+          "comeuppance"
         ]
       }
     ],
     "misc": [
       "wing-attack",
       "fly",
+      "take-down",
       "hyper-beam",
       "thunder-wave",
       "toxic",
       "psychic",
+      "night-shade",
       "double-team",
+      "confuse-ray",
       "haze",
       "swift",
       "dream-eater",
@@ -98,6 +102,7 @@
       "snore",
       "spite",
       "protect",
+      "scary-face",
       "mud-slap",
       "icy-wind",
       "endure",
@@ -119,6 +124,7 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "superpower",
       "snatch",
       "secret-power",
@@ -130,11 +136,14 @@
       "natural-gift",
       "pluck",
       "tailwind",
+      "u-turn",
       "payback",
       "embargo",
       "sucker-punch",
       "dark-pulse",
       "night-slash",
+      "air-slash",
+      "brave-bird",
       "giga-impact",
       "nasty-plot",
       "defog",
@@ -142,11 +151,16 @@
       "ominous-wind",
       "foul-play",
       "round",
+      "hex",
       "incinerate",
       "quash",
+      "acrobatics",
       "retaliate",
+      "hurricane",
       "snarl",
-      "confide"
+      "confide",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2"

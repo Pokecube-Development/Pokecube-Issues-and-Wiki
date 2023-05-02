@@ -75,6 +75,13 @@
         ]
       },
       {
+        "L": 28,
+        "moves": [
+          "detect",
+          "smelling-salts"
+        ]
+      },
+      {
         "L": 37,
         "moves": [
           "endure"
@@ -83,7 +90,8 @@
       {
         "L": 22,
         "moves": [
-          "vital-throw"
+          "vital-throw",
+          "bulk-up"
         ]
       },
       {
@@ -93,9 +101,10 @@
         ]
       },
       {
-        "L": 28,
+        "L": 34,
         "moves": [
-          "smelling-salts"
+          "focus-punch",
+          "wake-up-slap"
         ]
       },
       {
@@ -108,12 +117,6 @@
         "L": 7,
         "moves": [
           "arm-thrust"
-        ]
-      },
-      {
-        "L": 34,
-        "moves": [
-          "wake-up-slap"
         ]
       },
       {
@@ -146,6 +149,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "surf",
       "low-kick",
@@ -159,9 +163,11 @@
       "double-team",
       "focus-energy",
       "metronome",
+      "swift",
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "reversal",
       "protect",
@@ -188,6 +194,7 @@
       "facade",
       "focus-punch",
       "smelling-salts",
+      "taunt",
       "helping-hand",
       "role-play",
       "superpower",
@@ -198,6 +205,7 @@
       "arm-thrust",
       "rock-tomb",
       "bulk-up",
+      "mud-shot",
       "wake-up-slap",
       "natural-gift",
       "feint",
@@ -205,10 +213,13 @@
       "fling",
       "force-palm",
       "poison-jab",
+      "drain-punch",
       "vacuum-wave",
       "focus-blast",
       "bullet-punch",
+      "zen-headbutt",
       "rock-climb",
+      "stone-edge",
       "captivate",
       "wide-guard",
       "smack-down",
@@ -220,7 +231,11 @@
       "bulldoze",
       "work-up",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

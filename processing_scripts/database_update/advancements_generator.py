@@ -95,11 +95,11 @@ f'''{{
 }}
 '''
 
-def make_advancments(mob):
+def make_advancments(mob, advancements_dir):
     if mob == 'missingno':
       return
 
-    file = f'../../src/generated/resources/data/pokecube_mobs/advancements/capture/get_first_pokemob.json'
+    file = f'{advancements_dir}capture/get_first_pokemob.json'
     if not os.path.exists(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))
     if not os.path.exists(file):
@@ -111,14 +111,14 @@ def make_advancments(mob):
     parents = {'capture': 'get_first_pokemob'}
 
     for key, value in keys.items():
-        file = f'../../src/generated/resources/data/pokecube_mobs/advancements/{key}/root.json'
+        file = f'{advancements_dir}{key}/root.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         if not os.path.exists(file):
             file = open(file, 'w')
             file.write(_make_root(value))
             file.close()
-        file = f'../../src/generated/resources/data/pokecube_mobs/advancements/{key}/{value}_{mob}.json'
+        file = f'{advancements_dir}{key}/{value}_{mob}.json'
         file = open(file, 'w')
         parent = parents[key] if key in parents else None
         file.write(_make_advancement(mob, key, value, parent))

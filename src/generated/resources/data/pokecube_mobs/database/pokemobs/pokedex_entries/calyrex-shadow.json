@@ -57,7 +57,8 @@
           "shadow-ball",
           "nasty-plot",
           "hex",
-          "astral-barrage"
+          "astral-barrage",
+          "pound"
         ]
       },
       {
@@ -99,7 +100,9 @@
       {
         "L": 40,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "grassy-terrain",
+          "psychic-terrain"
         ]
       },
       {
@@ -129,12 +132,28 @@
     ],
     "misc": [
       "pay-day",
+      "stomp",
+      "double-kick",
+      "tackle",
       "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "tail-whip",
+      "disable",
+      "psybeam",
       "hyper-beam",
+      "mega-drain",
+      "leech-seed",
+      "growth",
       "solar-beam",
+      "confusion",
       "psychic",
       "agility",
+      "night-shade",
+      "confuse-ray",
       "light-screen",
+      "haze",
       "reflect",
       "metronome",
       "swift",
@@ -187,6 +206,7 @@
       "round",
       "stored-power",
       "ally-switch",
+      "heal-pulse",
       "hex",
       "bulldoze",
       "snarl",
@@ -198,8 +218,11 @@
       "psychic-terrain",
       "speed-swap",
       "stomping-tantrum",
+      "life-dew",
       "expanding-force",
-      "lash-out"
+      "lash-out",
+      "astral-barrage",
+      "tera-blast"
     ]
   },
   "old_name": "calyrex_shadow_rider"

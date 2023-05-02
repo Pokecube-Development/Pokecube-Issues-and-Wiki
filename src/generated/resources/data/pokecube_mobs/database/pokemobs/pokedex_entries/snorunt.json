@@ -97,7 +97,8 @@
       {
         "L": 50,
         "moves": [
-          "hail"
+          "hail",
+          "weather-ball"
         ]
       },
       {
@@ -117,11 +118,18 @@
         "moves": [
           "frost-breath"
         ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "snowscape"
+        ]
       }
     ],
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -156,7 +164,9 @@
       "shadow-ball",
       "hail",
       "facade",
+      "helping-hand",
       "secret-power",
+      "astonish",
       "weather-ball",
       "fake-tears",
       "block",
@@ -171,7 +181,12 @@
       "hex",
       "frost-breath",
       "icicle-crash",
-      "confide"
+      "confide",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "evolutions": [

@@ -58,8 +58,7 @@
           "iron-defense",
           "toxic-spikes",
           "ice-shard",
-          "shell-smash",
-          "razor-shell"
+          "shell-smash"
         ]
       },
       {
@@ -81,6 +80,12 @@
         ]
       },
       {
+        "L": 5,
+        "moves": [
+          "razor-shell"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "icicle-crash"
@@ -90,6 +95,7 @@
     "misc": [
       "headbutt",
       "tackle",
+      "body-slam",
       "take-down",
       "double-edge",
       "pin-missile",
@@ -114,6 +120,7 @@
       "reflect",
       "bide",
       "self-destruct",
+      "waterfall",
       "clamp",
       "swift",
       "spike-cannon",
@@ -124,6 +131,7 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "spikes",
       "icy-wind",
       "endure",
@@ -138,6 +146,7 @@
       "hail",
       "torment",
       "facade",
+      "helping-hand",
       "secret-power",
       "dive",
       "weather-ball",
@@ -154,16 +163,22 @@
       "poison-jab",
       "giga-impact",
       "avalanche",
+      "ice-shard",
       "captivate",
       "round",
       "shell-smash",
       "frost-breath",
+      "drill-run",
       "razor-shell",
       "icicle-crash",
       "confide",
       "smart-strike",
       "liquidation",
-      "steel-roller"
+      "steel-roller",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/shulker_pearls_2"

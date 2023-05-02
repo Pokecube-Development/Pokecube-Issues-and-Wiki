@@ -168,6 +168,7 @@
       "whirlpool",
       "hail",
       "facade",
+      "helping-hand",
       "secret-power",
       "dragon-dance",
       "shock-wave",
@@ -178,6 +179,7 @@
       "dragon-rush",
       "giga-impact",
       "draco-meteor",
+      "iron-head",
       "captivate",
       "round",
       "incinerate",
@@ -185,7 +187,9 @@
       "confide",
       "brutal-swing",
       "breaking-swipe",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

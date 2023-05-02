@@ -45,10 +45,18 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "slam",
+          "dizzy-punch"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "leer",
           "bubble",
+          "protect",
           "pursuit",
           "rock-smash"
         ]
@@ -57,12 +65,6 @@
         "L": 17,
         "moves": [
           "bubble-beam"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "dizzy-punch"
         ]
       },
       {
@@ -75,6 +77,13 @@
         "L": 45,
         "moves": [
           "dynamic-punch"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "brick-break",
+          "power-up-punch"
         ]
       },
       {
@@ -96,12 +105,6 @@
         ]
       },
       {
-        "L": 22,
-        "moves": [
-          "power-up-punch"
-        ]
-      },
-      {
         "L": 37,
         "moves": [
           "ice-hammer"
@@ -111,13 +114,19 @@
     "misc": [
       "ice-punch",
       "thunder-punch",
+      "body-slam",
+      "take-down",
       "leer",
       "ice-beam",
       "blizzard",
       "bubble-beam",
+      "hyper-beam",
       "earthquake",
+      "dig",
       "toxic",
       "double-team",
+      "swift",
+      "amnesia",
       "bubble",
       "dizzy-punch",
       "rest",
@@ -127,7 +136,10 @@
       "snore",
       "reversal",
       "protect",
+      "scary-face",
+      "mud-slap",
       "icy-wind",
+      "endure",
       "swagger",
       "attract",
       "sleep-talk",
@@ -142,6 +154,7 @@
       "hail",
       "facade",
       "focus-punch",
+      "helping-hand",
       "superpower",
       "brick-break",
       "endeavor",
@@ -149,6 +162,7 @@
       "iron-defense",
       "block",
       "bulk-up",
+      "mud-shot",
       "close-combat",
       "payback",
       "fling",
@@ -157,6 +171,7 @@
       "giga-impact",
       "avalanche",
       "zen-headbutt",
+      "gunk-shot",
       "iron-head",
       "stone-edge",
       "round",
@@ -168,7 +183,14 @@
       "confide",
       "power-up-punch",
       "ice-hammer",
-      "brutal-swing"
+      "brutal-swing",
+      "stomping-tantrum",
+      "liquidation",
+      "body-press",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

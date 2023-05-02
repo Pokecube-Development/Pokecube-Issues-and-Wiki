@@ -98,6 +98,7 @@
       "slam",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "tail-whip",
       "sing",
@@ -165,7 +166,8 @@
       "work-up",
       "draining-kiss",
       "confide",
-      "brutal-swing"
+      "brutal-swing",
+      "tera-blast"
     ]
   },
   "evolutions": [

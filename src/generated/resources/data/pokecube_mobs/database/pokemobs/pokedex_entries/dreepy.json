@@ -49,8 +49,10 @@
       }
     ],
     "misc": [
+      "bite",
       "disable",
       "thunder-wave",
+      "quick-attack",
       "double-team",
       "confuse-ray",
       "swift",
@@ -66,10 +68,13 @@
       "facade",
       "helping-hand",
       "grudge",
+      "astonish",
       "sucker-punch",
       "draco-meteor",
       "round",
-      "dragon-tail"
+      "dragon-tail",
+      "infestation",
+      "tera-blast"
     ]
   },
   "evolutions": [

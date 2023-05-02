@@ -161,6 +161,7 @@
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "ember",
       "flamethrower",
@@ -191,6 +192,7 @@
       "protect",
       "sludge-bomb",
       "mud-slap",
+      "sandstorm",
       "endure",
       "rollout",
       "swagger",
@@ -208,6 +210,7 @@
       "will-o-wisp",
       "facade",
       "nature-power",
+      "helping-hand",
       "superpower",
       "yawn",
       "eruption",
@@ -218,13 +221,16 @@
       "iron-defense",
       "gyro-ball",
       "natural-gift",
+      "flare-blitz",
       "earth-power",
       "giga-impact",
+      "zen-headbutt",
       "lava-plume",
       "stone-edge",
       "captivate",
       "stealth-rock",
       "flame-burst",
+      "heavy-slam",
       "flame-charge",
       "after-you",
       "round",
@@ -238,7 +244,8 @@
       "stomping-tantrum",
       "body-press",
       "burning-jealousy",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/turtleshells_1"

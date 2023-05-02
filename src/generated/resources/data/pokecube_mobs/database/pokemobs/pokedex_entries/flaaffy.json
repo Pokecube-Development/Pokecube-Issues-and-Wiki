@@ -85,7 +85,8 @@
       {
         "L": 47,
         "moves": [
-          "signal-beam"
+          "signal-beam",
+          "dazzling-gleam"
         ]
       },
       {
@@ -116,6 +117,7 @@
     "misc": [
       "mega-punch",
       "fire-punch",
+      "ice-punch",
       "thunder-punch",
       "mega-kick",
       "headbutt",
@@ -124,6 +126,7 @@
       "take-down",
       "double-edge",
       "growl",
+      "low-kick",
       "counter",
       "seismic-toss",
       "strength",
@@ -131,12 +134,15 @@
       "thunderbolt",
       "thunder-wave",
       "thunder",
+      "dig",
       "toxic",
+      "agility",
       "mimic",
       "double-team",
       "confuse-ray",
       "defense-curl",
       "light-screen",
+      "reflect",
       "swift",
       "flash",
       "rest",
@@ -158,10 +164,12 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "rock-smash",
       "facade",
       "focus-punch",
       "charge",
+      "helping-hand",
       "brick-break",
       "secret-power",
       "signal-beam",
@@ -182,8 +190,17 @@
       "wild-charge",
       "cotton-guard",
       "confide",
-      "power-up-punch"
+      "eerie-impulse",
+      "electric-terrain",
+      "dazzling-gleam",
+      "power-up-punch",
+      "tera-blast",
+      "trailblaze"
     ]
+  },
+  "dye": {
+    "base": "white",
+    "shiny": "white"
   },
   "interactions": [
     {

@@ -146,6 +146,7 @@
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "rest",
       "substitute",
       "thief",
@@ -153,6 +154,7 @@
       "protect",
       "spikes",
       "lock-on",
+      "sandstorm",
       "endure",
       "swagger",
       "attract",
@@ -183,6 +185,7 @@
       "mirror-shot",
       "flash-cannon",
       "defog",
+      "trick-room",
       "psyshock",
       "magic-room",
       "foul-play",
@@ -196,7 +199,8 @@
       "fairy-lock",
       "confide",
       "dazzling-gleam",
-      "steel-beam"
+      "steel-beam",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

@@ -49,7 +49,8 @@
           "tackle",
           "tail-whip",
           "water-gun",
-          "water-sport"
+          "water-sport",
+          "soak"
         ]
       },
       {
@@ -79,7 +80,8 @@
       {
         "L": 29,
         "moves": [
-          "revenge"
+          "revenge",
+          "aerial-ace"
         ]
       },
       {
@@ -117,6 +119,7 @@
       "swords-dance",
       "cut",
       "tackle",
+      "take-down",
       "tail-whip",
       "water-gun",
       "hydro-pump",
@@ -128,11 +131,14 @@
       "double-team",
       "focus-energy",
       "waterfall",
+      "swift",
       "rest",
       "substitute",
+      "thief",
       "snore",
       "protect",
       "icy-wind",
+      "endure",
       "false-swipe",
       "swagger",
       "fury-cutter",
@@ -150,6 +156,7 @@
       "taunt",
       "helping-hand",
       "revenge",
+      "brick-break",
       "secret-power",
       "dive",
       "aerial-ace",
@@ -158,7 +165,9 @@
       "water-pulse",
       "fling",
       "aqua-tail",
+      "air-slash",
       "x-scissor",
+      "avalanche",
       "grass-knot",
       "aqua-jet",
       "round",
@@ -167,7 +176,11 @@
       "water-pledge",
       "work-up",
       "razor-shell",
-      "confide"
+      "confide",
+      "liquidation",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "interactions": [

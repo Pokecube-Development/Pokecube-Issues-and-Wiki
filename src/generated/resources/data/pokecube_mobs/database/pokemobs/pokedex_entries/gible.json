@@ -112,6 +112,7 @@
       }
     ],
     "misc": [
+      "swords-dance",
       "cut",
       "sand-attack",
       "headbutt",
@@ -120,6 +121,7 @@
       "take-down",
       "thrash",
       "double-edge",
+      "bite",
       "roar",
       "flamethrower",
       "strength",
@@ -141,6 +143,7 @@
       "outrage",
       "sandstorm",
       "endure",
+      "false-swipe",
       "swagger",
       "fury-cutter",
       "attract",
@@ -156,6 +159,7 @@
       "sunny-day",
       "rock-smash",
       "facade",
+      "helping-hand",
       "secret-power",
       "rock-tomb",
       "sand-tomb",
@@ -167,6 +171,8 @@
       "dragon-rush",
       "earth-power",
       "shadow-claw",
+      "thunder-fang",
+      "fire-fang",
       "rock-climb",
       "draco-meteor",
       "iron-head",
@@ -177,9 +183,11 @@
       "round",
       "incinerate",
       "bulldoze",
+      "dragon-tail",
       "confide",
       "scale-shot",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "male_model": {

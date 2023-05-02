@@ -89,10 +89,21 @@
       }
     ],
     "misc": [
+      "swords-dance",
+      "double-kick",
       "mega-kick",
+      "headbutt",
+      "tackle",
+      "take-down",
+      "double-edge",
+      "growl",
+      "ember",
       "flamethrower",
       "low-kick",
+      "counter",
+      "fire-spin",
       "agility",
+      "quick-attack",
       "focus-energy",
       "fire-blast",
       "swift",
@@ -109,6 +120,7 @@
       "heat-wave",
       "facade",
       "taunt",
+      "helping-hand",
       "blaze-kick",
       "overheat",
       "bulk-up",
@@ -120,12 +132,15 @@
       "fire-fang",
       "gunk-shot",
       "electro-ball",
+      "flame-charge",
       "low-sweep",
       "round",
       "ally-switch",
       "acrobatics",
       "fire-pledge",
-      "work-up"
+      "work-up",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

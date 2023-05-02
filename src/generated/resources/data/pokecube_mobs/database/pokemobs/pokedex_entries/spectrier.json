@@ -116,9 +116,21 @@
       }
     ],
     "misc": [
+      "stomp",
+      "double-kick",
+      "tackle",
       "body-slam",
+      "take-down",
+      "thrash",
+      "double-edge",
+      "tail-whip",
+      "disable",
       "hyper-beam",
+      "psychic",
       "agility",
+      "night-shade",
+      "confuse-ray",
+      "haze",
       "swift",
       "rest",
       "substitute",
@@ -147,8 +159,10 @@
       "bulldoze",
       "snarl",
       "phantom-force",
+      "draining-kiss",
       "stomping-tantrum",
-      "lash-out"
+      "lash-out",
+      "tera-blast"
     ]
   },
   "forme_items": [

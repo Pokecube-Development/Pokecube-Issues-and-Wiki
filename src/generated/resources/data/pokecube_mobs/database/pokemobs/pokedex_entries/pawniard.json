@@ -137,6 +137,7 @@
       {
         "L": 50,
         "moves": [
+          "retaliate",
           "laser-focus"
         ]
       }
@@ -147,6 +148,7 @@
       "swords-dance",
       "cut",
       "headbutt",
+      "take-down",
       "leer",
       "low-kick",
       "thunder-wave",
@@ -202,10 +204,13 @@
       "poison-jab",
       "dark-pulse",
       "night-slash",
+      "air-slash",
       "x-scissor",
       "shadow-claw",
       "psycho-cut",
+      "flash-cannon",
       "iron-head",
+      "stone-edge",
       "stealth-rock",
       "grass-knot",
       "hone-claws",
@@ -219,7 +224,8 @@
       "confide",
       "power-up-punch",
       "steel-beam",
-      "lash-out"
+      "lash-out",
+      "tera-blast"
     ]
   },
   "evolutions": [

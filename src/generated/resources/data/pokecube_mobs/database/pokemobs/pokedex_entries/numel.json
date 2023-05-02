@@ -96,7 +96,8 @@
       {
         "L": 12,
         "moves": [
-          "magnitude"
+          "magnitude",
+          "bulldoze"
         ]
       },
       {
@@ -120,7 +121,8 @@
       {
         "L": 15,
         "moves": [
-          "flame-burst"
+          "flame-burst",
+          "incinerate"
         ]
       }
     ],
@@ -136,6 +138,7 @@
       "flamethrower",
       "strength",
       "growth",
+      "fire-spin",
       "earthquake",
       "dig",
       "toxic",
@@ -155,6 +158,7 @@
       "mud-slap",
       "sandstorm",
       "endure",
+      "charm",
       "rollout",
       "swagger",
       "attract",
@@ -163,6 +167,7 @@
       "frustration",
       "magnitude",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "ancient-power",
       "rock-smash",
@@ -173,16 +178,22 @@
       "will-o-wisp",
       "facade",
       "nature-power",
+      "helping-hand",
       "yawn",
       "secret-power",
       "overheat",
       "rock-tomb",
       "howl",
+      "mud-shot",
       "natural-gift",
+      "flare-blitz",
       "earth-power",
       "mud-bomb",
+      "zen-headbutt",
+      "flash-cannon",
       "lava-plume",
       "iron-head",
+      "stone-edge",
       "captivate",
       "stealth-rock",
       "flame-burst",
@@ -193,7 +204,11 @@
       "echoed-voice",
       "incinerate",
       "bulldoze",
-      "confide"
+      "confide",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "interactions": [

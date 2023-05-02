@@ -111,6 +111,7 @@
     ],
     "misc": [
       "swords-dance",
+      "take-down",
       "growth",
       "razor-leaf",
       "solar-beam",
@@ -158,9 +159,12 @@
       "bug-bite",
       "round",
       "dual-chop",
+      "grassy-terrain",
       "confide",
       "leafage",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

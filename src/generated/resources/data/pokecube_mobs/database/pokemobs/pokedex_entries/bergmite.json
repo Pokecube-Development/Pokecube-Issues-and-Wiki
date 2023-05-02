@@ -133,6 +133,7 @@
     ],
     "misc": [
       "tackle",
+      "body-slam",
       "take-down",
       "double-edge",
       "bite",
@@ -185,9 +186,14 @@
       "stone-edge",
       "after-you",
       "round",
+      "bulldoze",
       "frost-breath",
       "confide",
-      "aurora-veil"
+      "aurora-veil",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "evolutions": [

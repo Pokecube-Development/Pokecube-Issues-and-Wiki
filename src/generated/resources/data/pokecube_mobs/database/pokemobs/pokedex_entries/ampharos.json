@@ -96,7 +96,8 @@
       {
         "L": 51,
         "moves": [
-          "signal-beam"
+          "signal-beam",
+          "dazzling-gleam"
         ]
       },
       {
@@ -127,6 +128,7 @@
     "misc": [
       "mega-punch",
       "fire-punch",
+      "ice-punch",
       "thunder-punch",
       "mega-kick",
       "headbutt",
@@ -136,6 +138,7 @@
       "double-edge",
       "growl",
       "hyper-beam",
+      "low-kick",
       "counter",
       "seismic-toss",
       "strength",
@@ -143,12 +146,15 @@
       "thunderbolt",
       "thunder-wave",
       "thunder",
+      "dig",
       "toxic",
+      "agility",
       "mimic",
       "double-team",
       "confuse-ray",
       "defense-curl",
       "light-screen",
+      "reflect",
       "swift",
       "flash",
       "rest",
@@ -171,10 +177,12 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "rock-smash",
       "facade",
       "focus-punch",
       "charge",
+      "helping-hand",
       "brick-break",
       "secret-power",
       "signal-beam",
@@ -196,15 +204,22 @@
       "echoed-voice",
       "volt-switch",
       "bulldoze",
+      "dragon-tail",
       "electroweb",
       "wild-charge",
       "cotton-guard",
       "ion-deluge",
       "confide",
+      "eerie-impulse",
       "magnetic-flux",
+      "electric-terrain",
+      "dazzling-gleam",
       "power-up-punch",
       "laser-focus",
-      "brutal-swing"
+      "brutal-swing",
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "mega_rules": [

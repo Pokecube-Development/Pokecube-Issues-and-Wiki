@@ -100,6 +100,7 @@
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "leer",
       "roar",
       "flamethrower",
@@ -121,12 +122,14 @@
       "protect",
       "scary-face",
       "mud-slap",
+      "sandstorm",
       "endure",
       "swagger",
       "attract",
       "sleep-talk",
       "return",
       "frustration",
+      "metal-claw",
       "hidden-power",
       "sunny-day",
       "crunch",
@@ -144,10 +147,13 @@
       "rock-tomb",
       "metal-sound",
       "iron-defense",
+      "rock-blast",
       "natural-gift",
       "payback",
+      "flare-blitz",
       "dark-pulse",
       "dragon-pulse",
+      "power-gem",
       "earth-power",
       "giga-impact",
       "fire-fang",
@@ -172,7 +178,9 @@
       "steel-beam",
       "steel-roller",
       "burning-jealousy",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "pounce"
     ]
   },
   "spawn_rules": [

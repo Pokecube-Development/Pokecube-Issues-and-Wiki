@@ -114,6 +114,7 @@
       {
         "L": 50,
         "moves": [
+          "retaliate",
           "laser-focus"
         ]
       }
@@ -123,6 +124,7 @@
       "guillotine",
       "swords-dance",
       "cut",
+      "take-down",
       "leer",
       "hyper-beam",
       "low-kick",
@@ -136,6 +138,7 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "spite",
       "protect",
       "scary-face",
@@ -183,6 +186,7 @@
       "giga-impact",
       "shadow-claw",
       "psycho-cut",
+      "flash-cannon",
       "iron-head",
       "stone-edge",
       "stealth-rock",
@@ -199,15 +203,9 @@
       "laser-focus",
       "throat-chop",
       "steel-beam",
-      "lash-out"
+      "lash-out",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "kingambit",
-	  "evoMoves": "kowtow-cleave",
-	  "item_preset": "pokecube_mobs:leader_chest"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

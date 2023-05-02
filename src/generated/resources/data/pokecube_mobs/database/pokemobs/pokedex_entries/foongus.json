@@ -167,11 +167,14 @@
       "ingrain",
       "secret-power",
       "astonish",
+      "bullet-seed",
+      "magical-leaf",
       "payback",
       "gastro-acid",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
+      "leaf-storm",
       "grass-knot",
       "venoshock",
       "rage-powder",
@@ -179,8 +182,10 @@
       "after-you",
       "round",
       "clear-smog",
+      "grassy-terrain",
       "confide",
-      "pollen-puff"
+      "pollen-puff",
+      "tera-blast"
     ]
   },
   "evolutions": [

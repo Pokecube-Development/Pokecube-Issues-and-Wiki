@@ -11,7 +11,7 @@
   "capture_rate": 45,
   "base_happiness": 50,
   "growth_rate": "medium-slow",
-  "gender_rate": 62,
+  "gender_rate": 30,
   "stats": {
     "hp": 40,
     "attack": 61,
@@ -31,8 +31,8 @@
       "overgrow"
     ],
     "hidden": [
-	  "protean"
-	]
+      "protean"
+    ]
   },
   "moves": {
     "level_up": [
@@ -40,65 +40,65 @@
         "L": 1,
         "moves": [
           "scratch",
-		  "tail-whip",
-		  "leafage"
+          "tail-whip",
+          "leafage"
         ]
       },
-	  {
+      {
         "L": 7,
         "moves": [
           "bite"
         ]
       },
-	  {
-        "L": 10,
-        "moves": [
-          "hone-claws"
-        ]
-      },
-	  {
-        "L": 13,
-        "moves": [
-          "magical-leaf"
-        ]
-      },
-	  {
+      {
         "L": 15,
         "moves": [
           "quick-attack"
         ]
       },
-	  {
-        "L": 17,
-        "moves": [
-          "seed-bomb"
-        ]
-      },
-	  {
-        "L": 21,
-        "moves": [
-          "u-turn"
-        ]
-      },
-	  {
-        "L": 25,
-        "moves": [
-          "worry-seed"
-        ]
-      },
-	  {
+      {
         "L": 28,
         "moves": [
           "slash"
         ]
       },
-	  {
+      {
+        "L": 13,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "worry-seed"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
         "L": 32,
         "moves": [
           "energy-ball"
         ]
       },
-	  {
+      {
+        "L": 10,
+        "moves": [
+          "hone-claws"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "play-rough"
@@ -106,45 +106,49 @@
       }
     ],
     "misc": [
-		"take-down",
-		"solar-beam",
-		"agility",
-		"swift",
-		"rest",
-		"substitute",
-		"protect",
-		"mud-slap",
-		"giga-drain",
-		"endure",
-		"charm",
-		"sleep-talk",
-		"facade",
-		"taunt",
-		"helping-hand",
-		"fake-tears",
-		"bullet-seed",
-		"magical-leaf",
-		"u-turn",
-		"seed-bomb",
-		"energy-ball",
-		"nasty-plot",
-		"shadow-claw",
-		"leaf-storm",
-		"grass-knot",
-		"acrobatics",
-		"grass-pledge",
-		"disarming-voice",
-		"grassy-terrain",
-		"play-rough",
-		"tera-blast",
-		"trailblaze"
+      "take-down",
+      "leech-seed",
+      "solar-beam",
+      "agility",
+      "swift",
+      "rest",
+      "substitute",
+      "protect",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "fake-tears",
+      "bullet-seed",
+      "magical-leaf",
+      "u-turn",
+      "copycat",
+      "sucker-punch",
+      "seed-bomb",
+      "energy-ball",
+      "nasty-plot",
+      "shadow-claw",
+      "leaf-storm",
+      "grass-knot",
+      "ally-switch",
+      "acrobatics",
+      "grass-pledge",
+      "petal-blizzard",
+      "disarming-voice",
+      "grassy-terrain",
+      "play-rough",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [
     {
       "name": "floragato",
-      "level": 16,
-      "evoMoves": ""
+      "level": 16
     }
   ],
   "loot_table": "pokecube:entities/money_cat_small"

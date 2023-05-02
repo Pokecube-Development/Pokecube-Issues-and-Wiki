@@ -64,6 +64,7 @@
       "swift",
       "snore",
       "mud-slap",
+      "sleep-talk",
       "sweet-scent",
       "endeavor",
       "air-cutter",
@@ -71,7 +72,9 @@
       "bug-buzz",
       "bug-bite",
       "ominous-wind",
-      "dual-wingbeat"
+      "struggle-bug",
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "interactions": [

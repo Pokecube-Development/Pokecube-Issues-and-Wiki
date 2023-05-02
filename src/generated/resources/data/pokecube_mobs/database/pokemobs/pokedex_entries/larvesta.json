@@ -120,6 +120,7 @@
       }
     ],
     "misc": [
+      "body-slam",
       "take-down",
       "thrash",
       "double-edge",
@@ -128,6 +129,7 @@
       "absorb",
       "solar-beam",
       "string-shot",
+      "fire-spin",
       "toxic",
       "psychic",
       "screech",
@@ -174,7 +176,10 @@
       "struggle-bug",
       "wild-charge",
       "confide",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "evolutions": [

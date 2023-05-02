@@ -42,7 +42,9 @@
         "moves": [
           "pound",
           "growl",
-          "bubble"
+          "water-gun",
+          "bubble",
+          "pound"
         ]
       },
       {
@@ -115,7 +117,9 @@
     "misc": [
       "pound",
       "ice-punch",
+      "swords-dance",
       "cut",
+      "take-down",
       "growl",
       "hydro-pump",
       "surf",
@@ -130,6 +134,7 @@
       "smokescreen",
       "lick",
       "waterfall",
+      "swift",
       "bubble",
       "rest",
       "rock-slide",
@@ -138,7 +143,11 @@
       "snore",
       "spite",
       "protect",
+      "mud-slap",
+      "spikes",
       "icy-wind",
+      "endure",
+      "false-swipe",
       "swagger",
       "attract",
       "sleep-talk",
@@ -149,6 +158,7 @@
       "rock-smash",
       "facade",
       "taunt",
+      "helping-hand",
       "role-play",
       "snatch",
       "secret-power",
@@ -156,9 +166,11 @@
       "rock-tomb",
       "aerial-ace",
       "bounce",
+      "mud-shot",
       "water-pulse",
       "u-turn",
       "fling",
+      "toxic-spikes",
       "dark-pulse",
       "gunk-shot",
       "grass-knot",
@@ -170,7 +182,12 @@
       "water-pledge",
       "work-up",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "liquidation",
+      "tera-blast",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "evolutions": [

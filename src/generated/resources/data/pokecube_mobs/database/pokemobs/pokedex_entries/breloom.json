@@ -51,7 +51,10 @@
           "tackle",
           "absorb",
           "leech-seed",
-          "stun-spore"
+          "growth",
+          "poison-powder",
+          "stun-spore",
+          "toxic"
         ]
       },
       {
@@ -69,7 +72,8 @@
       {
         "L": 33,
         "moves": [
-          "mind-reader"
+          "mind-reader",
+          "worry-seed"
         ]
       },
       {
@@ -85,8 +89,15 @@
         ]
       },
       {
+        "L": 55,
+        "moves": [
+          "focus-punch"
+        ]
+      },
+      {
         "L": 39,
         "moves": [
+          "brick-break",
           "sky-uppercut"
         ]
       },
@@ -118,8 +129,10 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "hyper-beam",
+      "low-kick",
       "counter",
       "seismic-toss",
       "strength",
@@ -128,21 +141,25 @@
       "leech-seed",
       "solar-beam",
       "stun-spore",
+      "dig",
       "toxic",
       "mimic",
       "double-team",
+      "swift",
       "flash",
       "rest",
       "rock-slide",
       "substitute",
       "mind-reader",
       "snore",
+      "reversal",
       "protect",
       "mach-punch",
       "sludge-bomb",
       "mud-slap",
       "giga-drain",
       "endure",
+      "charm",
       "false-swipe",
       "swagger",
       "fury-cutter",
@@ -155,6 +172,7 @@
       "iron-tail",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "rock-smash",
       "facade",
@@ -164,21 +182,30 @@
       "brick-break",
       "snatch",
       "secret-power",
+      "fake-tears",
       "rock-tomb",
       "sky-uppercut",
       "bullet-seed",
+      "aerial-ace",
       "bulk-up",
+      "mud-shot",
+      "magical-leaf",
       "natural-gift",
       "feint",
+      "close-combat",
       "fling",
       "worry-seed",
       "force-palm",
+      "poison-jab",
       "seed-bomb",
       "drain-punch",
       "vacuum-wave",
       "focus-blast",
       "energy-ball",
       "giga-impact",
+      "zen-headbutt",
+      "leaf-storm",
+      "gunk-shot",
       "stone-edge",
       "captivate",
       "grass-knot",
@@ -186,10 +213,14 @@
       "low-sweep",
       "round",
       "retaliate",
+      "bulldoze",
       "work-up",
+      "grassy-terrain",
       "confide",
       "power-up-punch",
-      "laser-focus"
+      "laser-focus",
+      "tera-blast",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/both_shrooms_2"

@@ -2,7 +2,7 @@
   "name": "quaxwell",
   "id": 913,
   "stock": true,
-  "base_experience": 64,
+  "base_experience": 144,
   "size": {
     "height": 1.2
   },
@@ -31,26 +31,11 @@
       "torrent"
     ],
     "hidden": [
-	  "moxie"
-	]
+      "moxie"
+    ]
   },
   "moves": {
     "level_up": [
-      {
-        "L": 1,
-        "moves": [
-          "pound",
-		  "growl",
-		  "water-gun",
-		  "double-hit"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "work-up"
-        ]
-      },
       {
         "L": 10,
         "moves": [
@@ -58,33 +43,12 @@
         ]
       },
       {
-        "L": 13,
+        "L": 1,
         "moves": [
-          "aqua-jet"
-        ]
-      },
-      {
-        "L": 17,
-        "moves": [
-          "water-pulse"
-        ]
-      },
-	  {
-        "L": 19,
-        "moves": [
-          "low-sweep"
-        ]
-      },
-      {
-        "L": 23,
-        "moves": [
-          "aqua-cutter"
-        ]
-      },
-      {
-        "L": 27,
-        "moves": [
-          "air-slash"
+          "growl",
+          "water-gun",
+          "double-hit",
+          "pound"
         ]
       },
       {
@@ -94,9 +58,45 @@
         ]
       },
       {
+        "L": 48,
+        "moves": [
+          "feather-dance"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "air-slash"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "low-sweep"
+        ]
+      },
+      {
         "L": 38,
         "moves": [
           "acrobatics"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "work-up"
         ]
       },
       {
@@ -105,47 +105,47 @@
           "liquidation"
         ]
       },
-	  {
-        "L": 48,
+      {
+        "L": 23,
         "moves": [
-          "feather-dance"
+          "aqua-cutter"
         ]
       }
     ],
     "misc": [
-		"take-down",
-		"hydro-pump",
-		"surf",
-		"low-kick",
-		"swift",
-		"rest",
-		"protect",
-		"endure",
-		"baton-pass",
-		"encore",
-		"rain-dance",
-		"facade",
-		"helping-hand",
-		"air-cutter",
-		"aerial-ace",
-		"water-pulse",
-		"air-slash",
-		"brave-bird",
-		"low-sweep",
-		"acrobatics",
-		"water-pledge",
-		"disarming-voice",
-		"misty-terrain",
-		"liquidation",
-		"tera-blast",
-		"chilling-water"
+      "take-down",
+      "hydro-pump",
+      "surf",
+      "low-kick",
+      "swift",
+      "rest",
+      "protect",
+      "endure",
+      "baton-pass",
+      "encore",
+      "rain-dance",
+      "facade",
+      "helping-hand",
+      "air-cutter",
+      "aerial-ace",
+      "water-pulse",
+      "air-slash",
+      "brave-bird",
+      "low-sweep",
+      "acrobatics",
+      "water-pledge",
+      "disarming-voice",
+      "misty-terrain",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [
     {
       "name": "quaquaval",
       "level": 36,
-	  "evoMoves": "aqua-step"
+      "evoMoves": "aqua-step"
     }
   ],
   "loot_table": "pokecube:entities/chicken_1"

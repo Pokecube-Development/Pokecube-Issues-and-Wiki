@@ -102,6 +102,11 @@
     "misc": [
       "fly",
       "sand-attack",
+      "fury-attack",
+      "take-down",
+      "leer",
+      "peck",
+      "drill-peck",
       "agility",
       "focus-energy",
       "swift",
@@ -115,6 +120,7 @@
       "protect",
       "scary-face",
       "endure",
+      "swagger",
       "attract",
       "sleep-talk",
       "rock-smash",
@@ -122,7 +128,10 @@
       "taunt",
       "revenge",
       "fake-tears",
+      "air-cutter",
+      "aerial-ace",
       "roost",
+      "pluck",
       "tailwind",
       "u-turn",
       "payback",
@@ -131,10 +140,13 @@
       "brave-bird",
       "nasty-plot",
       "defog",
+      "hone-claws",
       "round",
       "retaliate",
       "work-up",
-      "dual-wingbeat"
+      "power-trip",
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "evolutions": [

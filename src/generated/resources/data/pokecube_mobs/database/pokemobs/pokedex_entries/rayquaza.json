@@ -129,6 +129,7 @@
       "bind",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "roar",
       "flamethrower",
@@ -178,6 +179,7 @@
       "whirlpool",
       "uproar",
       "facade",
+      "helping-hand",
       "brick-break",
       "secret-power",
       "dive",
@@ -194,6 +196,7 @@
       "gyro-ball",
       "natural-gift",
       "tailwind",
+      "u-turn",
       "fling",
       "aqua-tail",
       "air-slash",
@@ -208,6 +211,7 @@
       "draco-meteor",
       "iron-head",
       "stone-edge",
+      "stealth-rock",
       "hone-claws",
       "round",
       "echoed-voice",
@@ -215,13 +219,15 @@
       "incinerate",
       "bulldoze",
       "dragon-tail",
+      "wild-charge",
       "hurricane",
       "confide",
       "dragon-ascent",
       "brutal-swing",
       "breaking-swipe",
       "scale-shot",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

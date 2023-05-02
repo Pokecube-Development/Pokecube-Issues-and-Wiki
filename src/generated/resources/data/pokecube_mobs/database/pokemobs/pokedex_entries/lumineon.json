@@ -44,7 +44,8 @@
           "gust",
           "water-gun",
           "attract",
-          "soak"
+          "soak",
+          "pound"
         ]
       },
       {
@@ -68,7 +69,8 @@
       {
         "L": 59,
         "moves": [
-          "silver-wind"
+          "silver-wind",
+          "tailwind"
         ]
       },
       {
@@ -105,28 +107,36 @@
     "misc": [
       "pound",
       "gust",
+      "take-down",
       "water-gun",
+      "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
+      "psybeam",
       "hyper-beam",
       "toxic",
+      "agility",
       "double-team",
+      "confuse-ray",
       "waterfall",
       "swift",
       "flash",
       "rest",
       "substitute",
+      "thief",
       "snore",
       "protect",
       "icy-wind",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
       "return",
       "frustration",
       "safeguard",
+      "encore",
       "hidden-power",
       "twister",
       "rain-dance",
@@ -134,6 +144,7 @@
       "whirlpool",
       "hail",
       "facade",
+      "helping-hand",
       "secret-power",
       "dive",
       "air-cutter",
@@ -148,6 +159,7 @@
       "payback",
       "aqua-ring",
       "aqua-tail",
+      "air-slash",
       "giga-impact",
       "defog",
       "captivate",
@@ -155,7 +167,11 @@
       "soak",
       "round",
       "scald",
-      "confide"
+      "acrobatics",
+      "confide",
+      "dazzling-gleam",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "female_model": {

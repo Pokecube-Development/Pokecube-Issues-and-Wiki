@@ -1,8 +1,8 @@
 {
   "name": "finizen",
-  "id": 933,
+  "id": 963,
   "stock": true,
-  "base_experience": 40,
+  "base_experience": 63,
   "size": {
     "height": 0.9,
     "width": 0.6,
@@ -31,6 +31,9 @@
   "abilities": {
     "normal": [
       "water-veil"
+    ],
+    "hidden": [
+      "water-veil"
     ]
   },
   "moves": {
@@ -39,7 +42,43 @@
         "L": 1,
         "moves": [
           "supersonic",
-		  "water-gun"
+          "water-gun"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "mist"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "dive"
         ]
       },
       {
@@ -49,97 +88,72 @@
         ]
       },
       {
-        "L": 10,
-        "moves": [
-          "focus-energy"
-        ]
-      },
-	  {
-        "L": 13,
-        "moves": [
-          "aqua-jet"
-        ]
-      },
-	  {
-        "L": 17,
-        "moves": [
-          "double-hit"
-        ]
-      },
-	  {
-        "L": 21,
-        "moves": [
-          "dive"
-        ]
-      },
-	  {
-        "L": 25,
-        "moves": [
-          "charm"
-        ]
-      },
-	  {
-        "L": 29,
-        "moves": [
-          "acrobatics"
-        ]
-      },
-	  {
-        "L": 34,
-        "moves": [
-          "encore"
-        ]
-      },
-	  {
         "L": 39,
         "moves": [
           "aqua-tail"
         ]
       },
-	  {
-        "L": 44,
+      {
+        "L": 13,
         "moves": [
-          "mist"
+          "aqua-jet"
         ]
       },
-	  {
-        "L": 50,
+      {
+        "L": 17,
         "moves": [
-          "hydro-pum"
+          "double-hit"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "acrobatics"
         ]
       }
     ],
     "misc": [
       "body-slam",
-	"take-down",
-	"hydro-pump",
-	"surf",
-	"ice-beam",
-	"blizzard",
-	"agility",
-	"waterfall",
-	"swift",
-	"rest",
-	"substitute",
-	"protect",
-	"icy-wind",
-	"endure",
-	"charm",
-	"sleep-talk",
-	"encore",
-	"rain-dance",
-	"facade",
-	"helping-hand",
-	"water-pulse",
-	"fling",
-	"zen-headbutt",
-	"acrobatics",
-	"disarming-voice",
-	"draining-kiss",
-	"liquidation",
-	"tera-blast",
-	"chilling-water"
+      "take-down",
+      "hydro-pump",
+      "surf",
+      "ice-beam",
+      "blizzard",
+      "counter",
+      "agility",
+      "haze",
+      "waterfall",
+      "swift",
+      "rest",
+      "substitute",
+      "protect",
+      "icy-wind",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "encore",
+      "rain-dance",
+      "facade",
+      "helping-hand",
+      "tickle",
+      "bounce",
+      "water-pulse",
+      "fling",
+      "zen-headbutt",
+      "acrobatics",
+      "disarming-voice",
+      "draining-kiss",
+      "boomburst",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
+  "evolutions": [
+    {
+      "name": "palafin",
+      "level": 38
+    }
+  ],
   "loot_table": "pokecube:entities/fish_1"
 }

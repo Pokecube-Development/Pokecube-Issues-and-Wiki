@@ -38,16 +38,17 @@
   "moves": {
     "level_up": [
       {
-        "L": 37,
+        "L": 1,
         "moves": [
-          "double-edge"
+          "tackle",
+          "absorb",
+          "growth"
         ]
       },
       {
-        "L": 1,
+        "L": 37,
         "moves": [
-          "absorb",
-          "growth"
+          "double-edge"
         ]
       },
       {
@@ -132,6 +133,7 @@
     "misc": [
       "swords-dance",
       "cut",
+      "take-down",
       "double-edge",
       "absorb",
       "mega-drain",
@@ -164,6 +166,7 @@
       "morning-sun",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "uproar",
       "facade",
@@ -174,17 +177,21 @@
       "secret-power",
       "grass-whistle",
       "bullet-seed",
+      "magical-leaf",
       "natural-gift",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
       "earth-power",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "after-you",
       "round",
       "grassy-terrain",
-      "confide"
+      "confide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

@@ -41,7 +41,8 @@
           "pound",
           "mega-drain",
           "growth",
-          "confusion"
+          "confusion",
+          "pound"
         ]
       },
       {
@@ -83,7 +84,9 @@
       {
         "L": 40,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "grassy-terrain",
+          "psychic-terrain"
         ]
       },
       {
@@ -113,8 +116,14 @@
     ],
     "misc": [
       "pay-day",
+      "take-down",
+      "psybeam",
       "hyper-beam",
+      "mega-drain",
+      "leech-seed",
+      "growth",
       "solar-beam",
+      "confusion",
       "psychic",
       "agility",
       "light-screen",
@@ -126,6 +135,7 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "giga-drain",
       "endure",
       "sleep-talk",
@@ -140,6 +150,7 @@
       "skill-swap",
       "imprison",
       "bullet-seed",
+      "mud-shot",
       "magical-leaf",
       "calm-mind",
       "power-swap",
@@ -157,13 +168,18 @@
       "round",
       "stored-power",
       "ally-switch",
+      "heal-pulse",
+      "snarl",
       "draining-kiss",
       "grassy-terrain",
       "solar-blade",
       "pollen-puff",
       "psychic-terrain",
       "speed-swap",
-      "expanding-force"
+      "body-press",
+      "life-dew",
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

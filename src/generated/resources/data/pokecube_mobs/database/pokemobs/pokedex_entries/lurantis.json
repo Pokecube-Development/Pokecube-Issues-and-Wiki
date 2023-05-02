@@ -101,6 +101,7 @@
     ],
     "misc": [
       "swords-dance",
+      "take-down",
       "hyper-beam",
       "growth",
       "razor-leaf",
@@ -113,6 +114,7 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "giga-drain",
       "endure",
       "false-swipe",
@@ -126,6 +128,7 @@
       "sweet-scent",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "facade",
       "nature-power",
@@ -163,7 +166,10 @@
       "solar-blade",
       "leafage",
       "laser-focus",
-      "grassy-glide"
+      "pollen-puff",
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_2"
