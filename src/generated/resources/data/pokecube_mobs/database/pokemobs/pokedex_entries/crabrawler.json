@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 25,
+        "moves": [
+          "slam",
+          "dizzy-punch"
+        ]
+      },
+      {
         "L": 9,
         "moves": [
           "leer"
@@ -46,19 +53,14 @@
       {
         "L": 17,
         "moves": [
-          "bubble-beam"
+          "bubble-beam",
+          "protect"
         ]
       },
       {
         "L": 1,
         "moves": [
           "bubble"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "dizzy-punch"
         ]
       },
       {
@@ -92,6 +94,13 @@
         ]
       },
       {
+        "L": 22,
+        "moves": [
+          "brick-break",
+          "power-up-punch"
+        ]
+      },
+      {
         "L": 42,
         "moves": [
           "iron-defense"
@@ -108,22 +117,20 @@
         "moves": [
           "payback"
         ]
-      },
-      {
-        "L": 22,
-        "moves": [
-          "power-up-punch"
-        ]
       }
     ],
     "misc": [
       "ice-punch",
       "thunder-punch",
+      "body-slam",
+      "take-down",
       "leer",
       "bubble-beam",
       "earthquake",
+      "dig",
       "toxic",
       "double-team",
+      "swift",
       "amnesia",
       "bubble",
       "dizzy-punch",
@@ -135,6 +142,8 @@
       "snore",
       "reversal",
       "protect",
+      "mud-slap",
+      "endure",
       "swagger",
       "attract",
       "sleep-talk",
@@ -148,18 +157,21 @@
       "rock-smash",
       "facade",
       "focus-punch",
+      "helping-hand",
       "superpower",
       "brick-break",
       "endeavor",
       "rock-tomb",
       "iron-defense",
       "bulk-up",
+      "mud-shot",
       "close-combat",
       "payback",
       "fling",
       "drain-punch",
       "focus-blast",
       "zen-headbutt",
+      "gunk-shot",
       "iron-head",
       "stone-edge",
       "wide-guard",
@@ -171,7 +183,11 @@
       "dual-chop",
       "confide",
       "power-up-punch",
-      "brutal-swing"
+      "brutal-swing",
+      "stomping-tantrum",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

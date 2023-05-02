@@ -132,6 +132,9 @@
     "misc": [
       "mega-punch",
       "mega-kick",
+      "body-slam",
+      "take-down",
+      "psybeam",
       "hyper-beam",
       "thunderbolt",
       "thunder",
@@ -142,6 +145,7 @@
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "dream-eater",
       "rest",
       "rock-slide",
@@ -149,6 +153,7 @@
       "snore",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "endure",
       "swagger",
@@ -173,8 +178,10 @@
       "brick-break",
       "yawn",
       "knock-off",
+      "skill-swap",
       "imprison",
       "snatch",
+      "hyper-voice",
       "extrasensory",
       "block",
       "covet",
@@ -208,7 +215,10 @@
       "instruct",
       "brutal-swing",
       "expanding-force",
-      "terrain-pulse"
+      "terrain-pulse",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "interactions": [

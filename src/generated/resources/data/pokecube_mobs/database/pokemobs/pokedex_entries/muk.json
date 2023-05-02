@@ -46,7 +46,8 @@
           "haze",
           "poison-gas",
           "mud-slap",
-          "moonblast"
+          "moonblast",
+          "pound"
         ]
       },
       {
@@ -56,9 +57,10 @@
         ]
       },
       {
-        "L": 36,
+        "L": 26,
         "moves": [
-          "toxic"
+          "toxic",
+          "fling"
         ]
       },
       {
@@ -98,14 +100,9 @@
         ]
       },
       {
-        "L": 26,
-        "moves": [
-          "fling"
-        ]
-      },
-      {
         "L": 18,
         "moves": [
+          "mud-shot",
           "mud-bomb"
         ]
       },
@@ -141,6 +138,7 @@
       "thunder-punch",
       "headbutt",
       "body-slam",
+      "take-down",
       "disable",
       "flamethrower",
       "hyper-beam",
@@ -156,10 +154,13 @@
       "double-team",
       "harden",
       "minimize",
+      "confuse-ray",
       "bide",
+      "metronome",
       "self-destruct",
       "sludge",
       "fire-blast",
+      "swift",
       "poison-gas",
       "acid-armor",
       "explosion",
@@ -170,9 +171,11 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "mud-slap",
       "zap-cannon",
+      "sandstorm",
       "giga-drain",
       "endure",
       "swagger",
@@ -194,29 +197,37 @@
       "taunt",
       "helping-hand",
       "brick-break",
+      "imprison",
       "secret-power",
       "rock-tomb",
       "block",
+      "mud-shot",
       "shock-wave",
       "natural-gift",
       "payback",
       "fling",
+      "toxic-spikes",
       "poison-jab",
       "dark-pulse",
+      "drain-punch",
       "focus-blast",
       "giga-impact",
       "mud-bomb",
+      "zen-headbutt",
       "gunk-shot",
       "captivate",
       "venoshock",
       "sludge-wave",
+      "acid-spray",
       "round",
+      "hex",
       "incinerate",
       "belch",
       "confide",
       "venom-drench",
       "infestation",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/slimeballs_2"

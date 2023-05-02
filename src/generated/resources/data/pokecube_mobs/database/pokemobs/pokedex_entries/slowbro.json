@@ -148,6 +148,7 @@
       "surf",
       "ice-beam",
       "blizzard",
+      "psybeam",
       "bubble-beam",
       "hyper-beam",
       "submission",
@@ -169,7 +170,9 @@
       "light-screen",
       "reflect",
       "bide",
+      "metronome",
       "fire-blast",
+      "waterfall",
       "swift",
       "skull-bash",
       "amnesia",
@@ -207,6 +210,7 @@
       "hail",
       "facade",
       "focus-punch",
+      "helping-hand",
       "trick",
       "magic-coat",
       "recycle",
@@ -256,7 +260,10 @@
       "psychic-terrain",
       "liquidation",
       "body-press",
-      "expanding-force"
+      "expanding-force",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "mega_rules": [

@@ -61,6 +61,13 @@
         ]
       },
       {
+        "L": 60,
+        "moves": [
+          "double-team",
+          "mind-reader"
+        ]
+      },
+      {
         "L": 40,
         "moves": [
           "recover"
@@ -76,12 +83,6 @@
         "L": 50,
         "moves": [
           "dream-eater"
-        ]
-      },
-      {
-        "L": 60,
-        "moves": [
-          "mind-reader"
         ]
       },
       {
@@ -128,13 +129,20 @@
       }
     ],
     "misc": [
+      "gust",
       "fly",
+      "take-down",
+      "psybeam",
       "hyper-beam",
+      "confusion",
       "psychic",
+      "hypnosis",
       "agility",
+      "recover",
       "light-screen",
       "reflect",
       "swift",
+      "dream-eater",
       "rest",
       "substitute",
       "snore",
@@ -143,13 +151,20 @@
       "endure",
       "steel-wing",
       "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "ancient-power",
       "shadow-ball",
       "future-sight",
       "facade",
+      "helping-hand",
+      "trick",
       "skill-swap",
       "imprison",
       "hyper-voice",
+      "air-cutter",
       "calm-mind",
+      "tailwind",
       "u-turn",
       "power-swap",
       "guard-swap",
@@ -164,7 +179,10 @@
       "ally-switch",
       "hurricane",
       "expanding-force",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "freezing-glare",
+      "tera-blast",
+      "snowscape"
     ]
   },
   "spawn_rules": [

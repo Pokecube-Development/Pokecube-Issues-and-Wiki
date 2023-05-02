@@ -42,7 +42,8 @@
       {
         "L": 0,
         "moves": [
-          "gust"
+          "gust",
+          "air-slash"
         ]
       },
       {
@@ -141,10 +142,13 @@
       "toxic",
       "confusion",
       "psychic",
+      "agility",
       "rage",
       "teleport",
+      "night-shade",
       "mimic",
       "double-team",
+      "confuse-ray",
       "reflect",
       "bide",
       "swift",
@@ -167,6 +171,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "baton-pass",
       "sweet-scent",
       "hidden-power",
       "twister",
@@ -183,6 +188,8 @@
       "natural-gift",
       "tailwind",
       "u-turn",
+      "toxic-spikes",
+      "air-slash",
       "bug-buzz",
       "energy-ball",
       "giga-impact",
@@ -193,11 +200,14 @@
       "ominous-wind",
       "venoshock",
       "quiver-dance",
+      "acid-spray",
       "round",
       "acrobatics",
       "struggle-bug",
       "confide",
-      "infestation"
+      "infestation",
+      "tera-blast",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/spider_eye"

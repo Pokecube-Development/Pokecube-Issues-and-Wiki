@@ -83,7 +83,8 @@
       {
         "L": 12,
         "moves": [
-          "pursuit"
+          "pursuit",
+          "metal-claw"
         ]
       },
       {
@@ -95,7 +96,8 @@
       {
         "L": 22,
         "moves": [
-          "revenge"
+          "revenge",
+          "power-trip"
         ]
       },
       {
@@ -113,7 +115,8 @@
       {
         "L": 33,
         "moves": [
-          "embargo"
+          "embargo",
+          "switcheroo"
         ]
       },
       {
@@ -141,13 +144,16 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "roar",
       "disable",
       "flamethrower",
+      "surf",
       "ice-beam",
       "blizzard",
+      "hyper-beam",
       "low-kick",
       "counter",
       "seismic-toss",
@@ -158,6 +164,7 @@
       "thunder",
       "dig",
       "toxic",
+      "agility",
       "quick-attack",
       "mimic",
       "double-team",
@@ -173,6 +180,7 @@
       "snore",
       "curse",
       "flail",
+      "reversal",
       "protect",
       "belly-drum",
       "mud-slap",
@@ -189,6 +197,7 @@
       "return",
       "frustration",
       "dynamic-punch",
+      "baton-pass",
       "pursuit",
       "iron-tail",
       "metal-claw",
@@ -200,6 +209,7 @@
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "revenge",
       "brick-break",
       "knock-off",
@@ -217,15 +227,22 @@
       "embargo",
       "fling",
       "last-resort",
+      "aura-sphere",
       "poison-jab",
       "night-slash",
+      "seed-bomb",
       "x-scissor",
       "focus-blast",
+      "giga-impact",
       "shadow-claw",
+      "zen-headbutt",
       "rock-climb",
+      "gunk-shot",
       "captivate",
+      "grass-knot",
       "double-hit",
       "hone-claws",
+      "low-sweep",
       "round",
       "quick-guard",
       "incinerate",
@@ -234,7 +251,8 @@
       "work-up",
       "confide",
       "power-up-punch",
-      "throat-chop"
+      "throat-chop",
+      "tera-blast"
     ]
   },
   "interactions": [

@@ -49,6 +49,7 @@
       "rest",
       "substitute",
       "snore",
+      "powder-snow",
       "protect",
       "icy-wind",
       "endure",
@@ -60,8 +61,11 @@
       "bug-buzz",
       "bug-bite",
       "round",
+      "struggle-bug",
       "fairy-wind",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "pounce"
     ]
   },
   "evolutions": [

@@ -63,9 +63,11 @@
           "ember",
           "rage",
           "protect",
+          "roost",
           "thunder-fang",
           "fire-fang",
-          "dragon-tail"
+          "dragon-tail",
+          "dual-wingbeat"
         ]
       },
       {
@@ -122,6 +124,7 @@
       "fly",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -131,6 +134,7 @@
       "hydro-pump",
       "hyper-beam",
       "strength",
+      "fire-spin",
       "earthquake",
       "toxic",
       "rage",
@@ -167,6 +171,7 @@
       "rock-smash",
       "heat-wave",
       "facade",
+      "helping-hand",
       "brick-break",
       "secret-power",
       "hyper-voice",
@@ -189,6 +194,7 @@
       "zen-headbutt",
       "defog",
       "draco-meteor",
+      "iron-head",
       "stone-edge",
       "captivate",
       "ominous-wind",
@@ -201,8 +207,10 @@
       "confide",
       "laser-focus",
       "brutal-swing",
+      "psychic-fangs",
       "breaking-swipe",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "mega_rules": [

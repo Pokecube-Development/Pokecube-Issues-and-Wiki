@@ -64,8 +64,8 @@
           "rock-smash",
           "helping-hand",
           "copycat",
-          "force-palm",
           "dark-pulse",
+          "vacuum-wave",
           "nasty-plot",
           "final-gambit",
           "laser-focus",
@@ -121,6 +121,12 @@
         ]
       },
       {
+        "L": 20,
+        "moves": [
+          "force-palm"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
           "aura-sphere"
@@ -164,6 +170,8 @@
       "swords-dance",
       "mega-kick",
       "headbutt",
+      "body-slam",
+      "take-down",
       "roar",
       "hyper-beam",
       "low-kick",
@@ -178,6 +186,7 @@
       "screech",
       "double-team",
       "focus-energy",
+      "metronome",
       "swift",
       "rest",
       "rock-slide",
@@ -214,8 +223,10 @@
       "brick-break",
       "secret-power",
       "blaze-kick",
+      "meteor-mash",
       "rock-tomb",
       "metal-sound",
+      "aerial-ace",
       "iron-defense",
       "bulk-up",
       "calm-mind",
@@ -226,6 +237,7 @@
       "payback",
       "fling",
       "me-first",
+      "copycat",
       "magnet-rise",
       "force-palm",
       "aura-sphere",
@@ -249,15 +261,19 @@
       "quick-guard",
       "heal-pulse",
       "retaliate",
+      "final-gambit",
       "bulldoze",
       "work-up",
       "dual-chop",
       "confide",
       "power-up-punch",
       "laser-focus",
+      "life-dew",
       "steel-beam",
       "terrain-pulse",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "mega_rules": [

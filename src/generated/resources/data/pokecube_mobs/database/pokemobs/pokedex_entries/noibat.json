@@ -140,6 +140,7 @@
       "whirlwind",
       "fly",
       "tackle",
+      "take-down",
       "bite",
       "supersonic",
       "absorb",
@@ -182,6 +183,7 @@
       "hyper-voice",
       "air-cutter",
       "aerial-ace",
+      "dragon-claw",
       "water-pulse",
       "roost",
       "tailwind",
@@ -201,7 +203,8 @@
       "wild-charge",
       "hurricane",
       "confide",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "evolutions": [

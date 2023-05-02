@@ -48,11 +48,11 @@
           "stun-spore",
           "sleep-powder",
           "giga-drain",
+          "charm",
           "synthesis",
           "sunny-day",
           "helping-hand",
           "aromatherapy",
-          "magical-leaf",
           "energy-ball",
           "leaf-storm",
           "entrainment",
@@ -72,6 +72,12 @@
         ]
       },
       {
+        "L": 5,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
         "L": 28,
         "moves": [
           "quiver-dance"
@@ -88,10 +94,13 @@
       "swords-dance",
       "cut",
       "hyper-beam",
+      "absorb",
       "mega-drain",
       "leech-seed",
       "growth",
       "solar-beam",
+      "stun-spore",
+      "sleep-powder",
       "petal-dance",
       "toxic",
       "double-team",
@@ -122,6 +131,7 @@
       "role-play",
       "secret-power",
       "teeter-dance",
+      "bullet-seed",
       "covet",
       "magical-leaf",
       "leaf-blade",
@@ -132,6 +142,7 @@
       "leaf-storm",
       "grass-knot",
       "quiver-dance",
+      "entrainment",
       "after-you",
       "round",
       "petal-blizzard",
@@ -140,7 +151,9 @@
       "solar-blade",
       "laser-focus",
       "pollen-puff",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/leaves"

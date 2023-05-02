@@ -220,6 +220,7 @@
       "flare-blitz",
       "dragon-pulse",
       "dragon-rush",
+      "focus-blast",
       "shadow-claw",
       "fire-fang",
       "captivate",
@@ -235,7 +236,8 @@
       "dragon-tail",
       "work-up",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast"
     ]
   },
   "evolutions": [

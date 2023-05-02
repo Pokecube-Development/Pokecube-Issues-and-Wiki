@@ -40,6 +40,7 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "pound"
         ]
       },
@@ -82,7 +83,8 @@
       {
         "L": 49,
         "moves": [
-          "silver-wind"
+          "silver-wind",
+          "tailwind"
         ]
       },
       {
@@ -125,7 +127,9 @@
     "misc": [
       "pound",
       "gust",
+      "take-down",
       "water-gun",
+      "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
@@ -141,6 +145,7 @@
       "splash",
       "rest",
       "substitute",
+      "thief",
       "snore",
       "flail",
       "protect",
@@ -162,6 +167,7 @@
       "hail",
       "facade",
       "nature-power",
+      "helping-hand",
       "secret-power",
       "dive",
       "air-cutter",
@@ -183,7 +189,11 @@
       "soak",
       "round",
       "scald",
-      "confide"
+      "acrobatics",
+      "confide",
+      "dazzling-gleam",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "female_model": {

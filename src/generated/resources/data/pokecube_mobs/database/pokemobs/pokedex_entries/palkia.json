@@ -117,6 +117,7 @@
       "cut",
       "headbutt",
       "body-slam",
+      "take-down",
       "roar",
       "flamethrower",
       "hydro-pump",
@@ -132,6 +133,7 @@
       "toxic",
       "double-team",
       "fire-blast",
+      "waterfall",
       "swift",
       "rest",
       "rock-slide",
@@ -141,6 +143,7 @@
       "protect",
       "scary-face",
       "mud-slap",
+      "icy-wind",
       "outrage",
       "sandstorm",
       "endure",
@@ -162,6 +165,7 @@
       "hail",
       "facade",
       "focus-punch",
+      "trick",
       "brick-break",
       "secret-power",
       "dive",
@@ -204,7 +208,10 @@
       "body-press",
       "breaking-swipe",
       "scale-shot",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "forme_items": [

@@ -106,6 +106,8 @@
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -129,6 +131,7 @@
       "protect",
       "sludge-bomb",
       "mud-slap",
+      "spikes",
       "icy-wind",
       "sandstorm",
       "endure",
@@ -144,7 +147,9 @@
       "rock-smash",
       "whirlpool",
       "hail",
+      "memento",
       "facade",
+      "helping-hand",
       "secret-power",
       "dive",
       "mud-sport",
@@ -154,6 +159,7 @@
       "muddy-water",
       "block",
       "mud-shot",
+      "rock-blast",
       "water-pulse",
       "brine",
       "natural-gift",
@@ -162,6 +168,7 @@
       "mud-bomb",
       "stone-edge",
       "captivate",
+      "stealth-rock",
       "sludge-wave",
       "round",
       "scald",
@@ -169,7 +176,11 @@
       "confide",
       "infestation",
       "stomping-tantrum",
-      "skitter-smack"
+      "liquidation",
+      "skitter-smack",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "model": {

@@ -187,10 +187,12 @@
       "fire-blast",
       "waterfall",
       "skull-bash",
+      "splash",
       "rest",
       "substitute",
       "snore",
       "curse",
+      "flail",
       "spite",
       "protect",
       "scary-face",
@@ -209,6 +211,7 @@
       "hidden-power",
       "twister",
       "rain-dance",
+      "sunny-day",
       "crunch",
       "rock-smash",
       "whirlpool",
@@ -217,6 +220,7 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "secret-power",
       "dive",
       "muddy-water",
@@ -245,7 +249,9 @@
       "confide",
       "brutal-swing",
       "scale-shot",
-      "lash-out"
+      "lash-out",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "mega_rules": [

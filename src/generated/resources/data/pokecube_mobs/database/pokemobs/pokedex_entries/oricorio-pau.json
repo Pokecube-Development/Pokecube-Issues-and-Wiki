@@ -37,13 +37,15 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "pound"
         ]
       },
       {
         "L": 23,
         "moves": [
-          "double-slap"
+          "double-slap",
+          "acrobatics"
         ]
       },
       {
@@ -74,6 +76,13 @@
         "L": 16,
         "moves": [
           "baton-pass"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "flatter",
+          "captivate"
         ]
       },
       {
@@ -113,12 +122,6 @@
         ]
       },
       {
-        "L": 33,
-        "moves": [
-          "captivate"
-        ]
-      },
-      {
         "L": 50,
         "moves": [
           "hurricane"
@@ -136,19 +139,24 @@
       "double-slap",
       "swords-dance",
       "fly",
+      "take-down",
       "growl",
       "peck",
       "toxic",
       "agility",
       "double-team",
       "mirror-move",
+      "swift",
       "sky-attack",
       "rest",
       "substitute",
       "snore",
+      "reversal",
       "protect",
       "icy-wind",
       "sandstorm",
+      "endure",
+      "charm",
       "swagger",
       "steel-wing",
       "attract",
@@ -158,6 +166,8 @@
       "safeguard",
       "baton-pass",
       "hidden-power",
+      "rain-dance",
+      "sunny-day",
       "facade",
       "taunt",
       "helping-hand",
@@ -176,13 +186,16 @@
       "air-slash",
       "defog",
       "captivate",
+      "quiver-dance",
       "round",
       "quash",
       "acrobatics",
       "work-up",
       "hurricane",
       "confide",
-      "revelation-dance"
+      "revelation-dance",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "old_name": "oricorio_pau",

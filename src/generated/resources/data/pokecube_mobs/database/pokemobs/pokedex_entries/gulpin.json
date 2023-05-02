@@ -40,6 +40,7 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "pound"
         ]
       },
@@ -74,6 +75,13 @@
         ]
       },
       {
+        "L": 44,
+        "moves": [
+          "pain-split",
+          "wring-out"
+        ]
+      },
+      {
         "L": 20,
         "moves": [
           "encore"
@@ -91,12 +99,6 @@
         "L": 5,
         "moves": [
           "yawn"
-        ]
-      },
-      {
-        "L": 44,
-        "moves": [
-          "wring-out"
         ]
       },
       {
@@ -129,13 +131,16 @@
       "fire-punch",
       "ice-punch",
       "thunder-punch",
+      "swords-dance",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "ice-beam",
       "counter",
       "strength",
       "solar-beam",
+      "thunder-wave",
       "toxic",
       "mimic",
       "double-team",
@@ -150,6 +155,7 @@
       "explosion",
       "rest",
       "substitute",
+      "thief",
       "nightmare",
       "snore",
       "curse",
@@ -177,15 +183,20 @@
       "spit-up",
       "swallow",
       "facade",
+      "helping-hand",
       "yawn",
       "snatch",
       "secret-power",
       "bullet-seed",
+      "mud-shot",
       "shock-wave",
       "water-pulse",
       "natural-gift",
+      "fling",
       "wring-out",
       "gastro-acid",
+      "toxic-spikes",
+      "poison-jab",
       "seed-bomb",
       "gunk-shot",
       "captivate",
@@ -193,11 +204,14 @@
       "sludge-wave",
       "acid-spray",
       "round",
+      "clear-smog",
       "belch",
       "confide",
       "venom-drench",
       "infestation",
-      "power-up-punch"
+      "power-up-punch",
+      "stuff-cheeks",
+      "tera-blast"
     ]
   },
   "evolutions": [

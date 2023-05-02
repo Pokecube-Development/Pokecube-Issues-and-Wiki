@@ -121,6 +121,7 @@
       "mega-drain",
       "growth",
       "solar-beam",
+      "stun-spore",
       "toxic",
       "double-team",
       "bide",
@@ -130,6 +131,7 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
       "giga-drain",
@@ -149,12 +151,15 @@
       "ingrain",
       "secret-power",
       "astonish",
+      "bullet-seed",
+      "magical-leaf",
       "payback",
       "gastro-acid",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
       "giga-impact",
+      "leaf-storm",
       "grass-knot",
       "venoshock",
       "rage-powder",
@@ -166,7 +171,8 @@
       "grassy-terrain",
       "confide",
       "pollen-puff",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/both_shrooms_2"

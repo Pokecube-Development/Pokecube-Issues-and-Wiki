@@ -62,6 +62,13 @@
         ]
       },
       {
+        "L": 33,
+        "moves": [
+          "focus-energy",
+          "laser-focus"
+        ]
+      },
+      {
         "L": 20,
         "moves": [
           "slash"
@@ -117,9 +124,9 @@
         ]
       },
       {
-        "L": 33,
+        "L": 30,
         "moves": [
-          "laser-focus"
+          "breaking-swipe"
         ]
       }
     ],
@@ -128,7 +135,10 @@
       "guillotine",
       "swords-dance",
       "cut",
+      "body-slam",
+      "take-down",
       "leer",
+      "bite",
       "roar",
       "surf",
       "hyper-beam",
@@ -187,8 +197,10 @@
       "shadow-claw",
       "psycho-cut",
       "draco-meteor",
+      "iron-head",
       "grass-knot",
       "hone-claws",
+      "low-sweep",
       "round",
       "incinerate",
       "bulldoze",
@@ -200,7 +212,9 @@
       "brutal-swing",
       "stomping-tantrum",
       "breaking-swipe",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/bones"

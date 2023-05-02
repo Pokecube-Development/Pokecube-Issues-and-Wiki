@@ -124,6 +124,7 @@
       "fly",
       "headbutt",
       "body-slam",
+      "take-down",
       "roar",
       "hyper-beam",
       "strength",
@@ -134,6 +135,7 @@
       "toxic",
       "psychic",
       "double-team",
+      "confuse-ray",
       "swift",
       "dream-eater",
       "rest",
@@ -209,7 +211,8 @@
       "brutal-swing",
       "breaking-swipe",
       "poltergeist",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "forme_items": [

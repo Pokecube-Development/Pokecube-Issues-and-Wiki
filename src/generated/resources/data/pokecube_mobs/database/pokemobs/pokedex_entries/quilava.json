@@ -101,6 +101,13 @@
         ]
       },
       {
+        "L": 68,
+        "moves": [
+          "overheat",
+          "burn-up"
+        ]
+      },
+      {
         "L": 42,
         "moves": [
           "lava-plume"
@@ -117,12 +124,6 @@
         "moves": [
           "inferno"
         ]
-      },
-      {
-        "L": 68,
-        "moves": [
-          "burn-up"
-        ]
       }
     ],
     "misc": [
@@ -130,12 +131,14 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "roar",
       "ember",
       "flamethrower",
       "strength",
+      "fire-spin",
       "dig",
       "toxic",
       "quick-attack",
@@ -150,6 +153,7 @@
       "flame-wheel",
       "snore",
       "curse",
+      "reversal",
       "protect",
       "mud-slap",
       "detect",
@@ -177,7 +181,11 @@
       "aerial-ace",
       "covet",
       "natural-gift",
+      "flare-blitz",
+      "fire-fang",
+      "zen-headbutt",
       "lava-plume",
+      "iron-head",
       "captivate",
       "flame-charge",
       "round",
@@ -186,8 +194,10 @@
       "fire-pledge",
       "work-up",
       "wild-charge",
+      "play-rough",
       "confide",
-      "burn-up"
+      "burn-up",
+      "tera-blast"
     ]
   },
   "evolutions": [

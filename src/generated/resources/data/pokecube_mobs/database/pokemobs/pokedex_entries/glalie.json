@@ -94,7 +94,8 @@
       {
         "L": 54,
         "moves": [
-          "hail"
+          "hail",
+          "weather-ball"
         ]
       },
       {
@@ -108,11 +109,18 @@
         "moves": [
           "freeze-dry"
         ]
+      },
+      {
+        "L": 47,
+        "moves": [
+          "snowscape"
+        ]
       }
     ],
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -154,7 +162,9 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "secret-power",
+      "astonish",
       "weather-ball",
       "fake-tears",
       "signal-beam",
@@ -172,6 +182,7 @@
       "ice-fang",
       "iron-head",
       "captivate",
+      "foul-play",
       "round",
       "hex",
       "bulldoze",
@@ -179,7 +190,12 @@
       "freeze-dry",
       "confide",
       "laser-focus",
-      "steel-roller"
+      "steel-roller",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "mega_rules": [

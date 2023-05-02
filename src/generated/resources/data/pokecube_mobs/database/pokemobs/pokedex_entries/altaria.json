@@ -186,7 +186,9 @@
       "rock-smash",
       "uproar",
       "heat-wave",
+      "will-o-wisp",
       "facade",
+      "helping-hand",
       "refresh",
       "secret-power",
       "hyper-voice",
@@ -201,6 +203,7 @@
       "tailwind",
       "power-swap",
       "dragon-pulse",
+      "brave-bird",
       "giga-impact",
       "defog",
       "draco-meteor",
@@ -211,6 +214,7 @@
       "round",
       "echoed-voice",
       "incinerate",
+      "acrobatics",
       "bulldoze",
       "cotton-guard",
       "hurricane",
@@ -220,7 +224,10 @@
       "confide",
       "dazzling-gleam",
       "breaking-swipe",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "snowscape",
+      "trailblaze"
     ]
   },
   "mega_rules": [

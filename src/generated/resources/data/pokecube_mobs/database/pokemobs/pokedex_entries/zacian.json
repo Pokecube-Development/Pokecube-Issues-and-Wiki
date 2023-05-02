@@ -83,26 +83,32 @@
         ]
       },
       {
-        "L": 66,
+        "L": 44,
         "moves": [
-          "moonblast"
+          "noble-roar",
+          "laser-focus"
         ]
       },
       {
-        "L": 44,
+        "L": 66,
         "moves": [
-          "laser-focus"
+          "moonblast"
         ]
       }
     ],
     "misc": [
       "swords-dance",
+      "body-slam",
+      "take-down",
+      "bite",
       "hyper-beam",
       "dig",
       "agility",
+      "quick-attack",
       "focus-energy",
       "swift",
       "rest",
+      "slash",
       "substitute",
       "snore",
       "reversal",
@@ -112,6 +118,7 @@
       "false-swipe",
       "sleep-talk",
       "iron-tail",
+      "metal-claw",
       "crunch",
       "facade",
       "helping-hand",
@@ -119,8 +126,11 @@
       "brick-break",
       "imprison",
       "hyper-voice",
+      "iron-defense",
+      "howl",
       "close-combat",
       "assurance",
+      "poison-jab",
       "air-slash",
       "focus-blast",
       "giga-impact",
@@ -128,18 +138,26 @@
       "ice-fang",
       "fire-fang",
       "psycho-cut",
+      "flash-cannon",
       "iron-head",
       "round",
+      "quick-guard",
       "retaliate",
       "work-up",
       "wild-charge",
+      "sacred-sword",
       "tail-slap",
       "snarl",
+      "misty-terrain",
       "play-rough",
+      "moonblast",
+      "dazzling-gleam",
       "solar-blade",
       "brutal-swing",
       "psychic-fangs",
-      "steel-beam"
+      "steel-beam",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "forme_items": [

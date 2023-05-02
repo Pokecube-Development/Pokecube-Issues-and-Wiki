@@ -50,7 +50,8 @@
           "healing-wish",
           "stored-power",
           "misty-terrain",
-          "moonblast"
+          "moonblast",
+          "mystical-fire"
         ]
       },
       {
@@ -149,6 +150,7 @@
       "body-slam",
       "double-edge",
       "growl",
+      "psybeam",
       "hyper-beam",
       "thunderbolt",
       "thunder-wave",
@@ -157,11 +159,14 @@
       "psychic",
       "hypnosis",
       "teleport",
+      "night-shade",
       "mimic",
       "double-team",
+      "confuse-ray",
       "defense-curl",
       "light-screen",
       "reflect",
+      "metronome",
       "swift",
       "dream-eater",
       "flash",
@@ -213,6 +218,7 @@
       "fling",
       "power-swap",
       "guard-swap",
+      "aura-sphere",
       "focus-blast",
       "energy-ball",
       "giga-impact",
@@ -239,9 +245,11 @@
       "dazzling-gleam",
       "laser-focus",
       "psychic-terrain",
+      "life-dew",
       "expanding-force",
       "misty-explosion",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast"
     ]
   },
   "mega_rules": [

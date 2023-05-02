@@ -135,6 +135,8 @@
     ],
     "misc": [
       "tackle",
+      "body-slam",
+      "take-down",
       "supersonic",
       "sonic-boom",
       "hyper-beam",
@@ -145,6 +147,7 @@
       "toxic",
       "screech",
       "double-team",
+      "confuse-ray",
       "barrier",
       "light-screen",
       "reflect",
@@ -159,6 +162,7 @@
       "protect",
       "zap-cannon",
       "lock-on",
+      "sandstorm",
       "endure",
       "rollout",
       "swagger",
@@ -172,6 +176,7 @@
       "mirror-coat",
       "psych-up",
       "facade",
+      "helping-hand",
       "magic-coat",
       "recycle",
       "secret-power",
@@ -198,12 +203,14 @@
       "electroweb",
       "wild-charge",
       "confide",
+      "eerie-impulse",
       "magnetic-flux",
       "electric-terrain",
       "body-press",
       "steel-beam",
       "steel-roller",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/iron_redstone_3"

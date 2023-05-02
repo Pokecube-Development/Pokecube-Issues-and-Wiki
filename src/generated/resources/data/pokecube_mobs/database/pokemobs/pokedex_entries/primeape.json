@@ -60,7 +60,8 @@
       {
         "L": 35,
         "moves": [
-          "thrash"
+          "thrash",
+          "rage-fist"
         ]
       },
       {
@@ -185,8 +186,10 @@
       "thief",
       "snore",
       "curse",
+      "reversal",
       "spite",
       "protect",
+      "scary-face",
       "mud-slap",
       "detect",
       "outrage",
@@ -197,6 +200,7 @@
       "return",
       "frustration",
       "dynamic-punch",
+      "encore",
       "pursuit",
       "iron-tail",
       "hidden-power",
@@ -228,13 +232,16 @@
       "punishment",
       "poison-jab",
       "seed-bomb",
+      "drain-punch",
       "vacuum-wave",
       "focus-blast",
       "giga-impact",
+      "shadow-claw",
       "rock-climb",
       "gunk-shot",
       "stone-edge",
       "captivate",
+      "stealth-rock",
       "hone-claws",
       "smack-down",
       "low-sweep",
@@ -248,7 +255,8 @@
       "confide",
       "power-up-punch",
       "throat-chop",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
   "interactions": [

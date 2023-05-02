@@ -136,6 +136,7 @@
       "uproar",
       "heat-wave",
       "facade",
+      "helping-hand",
       "endeavor",
       "secret-power",
       "air-cutter",
@@ -146,6 +147,7 @@
       "tailwind",
       "u-turn",
       "close-combat",
+      "air-slash",
       "brave-bird",
       "giga-impact",
       "defog",
@@ -153,11 +155,15 @@
       "ominous-wind",
       "round",
       "echoed-voice",
+      "acrobatics",
       "retaliate",
       "final-gambit",
+      "struggle-bug",
       "work-up",
+      "hurricane",
       "confide",
-      "laser-focus"
+      "laser-focus",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/chicken_3"

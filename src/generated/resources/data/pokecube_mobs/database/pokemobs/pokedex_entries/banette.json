@@ -79,6 +79,13 @@
         ]
       },
       {
+        "L": 34,
+        "moves": [
+          "role-play",
+          "embargo"
+        ]
+      },
+      {
         "L": 52,
         "moves": [
           "grudge"
@@ -88,12 +95,6 @@
         "L": 46,
         "moves": [
           "snatch"
-        ]
-      },
-      {
-        "L": 34,
-        "moves": [
-          "embargo"
         ]
       },
       {
@@ -116,9 +117,11 @@
       }
     ],
     "misc": [
+      "swords-dance",
       "headbutt",
       "body-slam",
       "double-edge",
+      "psybeam",
       "hyper-beam",
       "thunderbolt",
       "thunder-wave",
@@ -129,6 +132,7 @@
       "mimic",
       "screech",
       "double-team",
+      "confuse-ray",
       "metronome",
       "dream-eater",
       "flash",
@@ -140,6 +144,7 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "mud-slap",
       "icy-wind",
@@ -150,6 +155,7 @@
       "return",
       "frustration",
       "pain-split",
+      "encore",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -159,11 +165,13 @@
       "will-o-wisp",
       "facade",
       "taunt",
+      "helping-hand",
       "trick",
       "role-play",
       "magic-coat",
       "knock-off",
       "skill-swap",
+      "imprison",
       "grudge",
       "snatch",
       "secret-power",
@@ -176,6 +184,7 @@
       "sucker-punch",
       "dark-pulse",
       "giga-impact",
+      "nasty-plot",
       "shadow-claw",
       "shadow-sneak",
       "trick-room",
@@ -193,7 +202,10 @@
       "confide",
       "dazzling-gleam",
       "infestation",
-      "throat-chop"
+      "throat-chop",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "mega_rules": [

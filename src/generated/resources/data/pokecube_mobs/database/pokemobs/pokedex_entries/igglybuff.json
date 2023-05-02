@@ -48,7 +48,8 @@
         "L": 1,
         "moves": [
           "sing",
-          "charm"
+          "charm",
+          "pound"
         ]
       },
       {
@@ -88,8 +89,10 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "sing",
+      "disable",
       "flamethrower",
       "counter",
       "seismic-toss",
@@ -105,6 +108,7 @@
       "light-screen",
       "reflect",
       "fire-blast",
+      "swift",
       "dream-eater",
       "flash",
       "rest",
@@ -132,6 +136,7 @@
       "frustration",
       "safeguard",
       "pain-split",
+      "encore",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -166,10 +171,14 @@
       "incinerate",
       "work-up",
       "wild-charge",
+      "disarming-voice",
       "draining-kiss",
       "misty-terrain",
       "play-rough",
-      "confide"
+      "confide",
+      "dazzling-gleam",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

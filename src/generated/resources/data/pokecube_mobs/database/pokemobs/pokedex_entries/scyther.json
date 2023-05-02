@@ -174,6 +174,7 @@
       "curse",
       "reversal",
       "protect",
+      "scary-face",
       "detect",
       "endure",
       "false-swipe",
@@ -192,9 +193,11 @@
       "sunny-day",
       "rock-smash",
       "facade",
+      "helping-hand",
       "brick-break",
       "knock-off",
       "secret-power",
+      "air-cutter",
       "silver-wind",
       "aerial-ace",
       "roost",
@@ -202,6 +205,7 @@
       "feint",
       "tailwind",
       "u-turn",
+      "close-combat",
       "assurance",
       "night-slash",
       "air-slash",
@@ -223,7 +227,10 @@
       "confide",
       "laser-focus",
       "brutal-swing",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "evolutions": [

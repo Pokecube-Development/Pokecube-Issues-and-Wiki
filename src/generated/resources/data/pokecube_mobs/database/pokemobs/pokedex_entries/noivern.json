@@ -138,6 +138,8 @@
       "whirlwind",
       "fly",
       "tackle",
+      "body-slam",
+      "take-down",
       "bite",
       "supersonic",
       "flamethrower",
@@ -159,6 +161,7 @@
       "thief",
       "snore",
       "protect",
+      "scary-face",
       "outrage",
       "endure",
       "swagger",
@@ -202,12 +205,14 @@
       "round",
       "echoed-voice",
       "acrobatics",
+      "dragon-tail",
       "wild-charge",
       "hurricane",
       "boomburst",
       "confide",
       "laser-focus",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "interactions": [

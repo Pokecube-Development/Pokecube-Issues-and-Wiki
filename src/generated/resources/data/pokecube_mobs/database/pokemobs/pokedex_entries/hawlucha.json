@@ -68,6 +68,7 @@
         "L": 24,
         "moves": [
           "submission",
+          "brick-break",
           "fling"
         ]
       },
@@ -144,6 +145,9 @@
       "fly",
       "mega-kick",
       "tackle",
+      "body-slam",
+      "take-down",
+      "hyper-beam",
       "low-kick",
       "strength",
       "dig",
@@ -156,6 +160,7 @@
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "reversal",
       "protect",
@@ -231,7 +236,9 @@
       "throat-chop",
       "body-press",
       "coaching",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

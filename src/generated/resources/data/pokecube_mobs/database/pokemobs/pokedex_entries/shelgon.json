@@ -116,6 +116,7 @@
       "cut",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -124,6 +125,7 @@
       "flamethrower",
       "hydro-pump",
       "strength",
+      "fire-spin",
       "toxic",
       "rage",
       "mimic",
@@ -155,6 +157,7 @@
       "crunch",
       "rock-smash",
       "facade",
+      "helping-hand",
       "brick-break",
       "secret-power",
       "hyper-voice",
@@ -166,14 +169,18 @@
       "natural-gift",
       "dragon-pulse",
       "shadow-claw",
+      "thunder-fang",
       "fire-fang",
       "zen-headbutt",
       "draco-meteor",
+      "iron-head",
       "captivate",
       "hone-claws",
       "round",
       "incinerate",
-      "confide"
+      "dragon-tail",
+      "confide",
+      "tera-blast"
     ]
   },
   "evolutions": [

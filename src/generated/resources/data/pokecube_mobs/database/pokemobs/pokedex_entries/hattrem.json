@@ -61,7 +61,8 @@
       {
         "L": 15,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "aromatic-mist"
         ]
       },
       {
@@ -96,9 +97,14 @@
       }
     ],
     "misc": [
+      "psybeam",
       "thunder-wave",
+      "confusion",
       "psychic",
       "light-screen",
+      "reflect",
+      "metronome",
+      "swift",
       "rest",
       "substitute",
       "snore",
@@ -112,20 +118,30 @@
       "baton-pass",
       "facade",
       "helping-hand",
+      "trick",
       "skill-swap",
       "imprison",
       "magical-leaf",
       "calm-mind",
+      "healing-wish",
       "dark-pulse",
+      "trick-room",
       "psyshock",
       "round",
       "stored-power",
+      "heal-pulse",
+      "disarming-voice",
       "draining-kiss",
+      "misty-terrain",
       "play-rough",
+      "play-nice",
       "mystical-fire",
       "dazzling-gleam",
+      "psychic-terrain",
       "brutal-swing",
-      "expanding-force"
+      "life-dew",
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "evolutions": [

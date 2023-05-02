@@ -68,6 +68,12 @@
         ]
       },
       {
+        "L": 42,
+        "moves": [
+          "lock-on"
+        ]
+      },
+      {
         "L": 12,
         "moves": [
           "rollout"
@@ -77,6 +83,12 @@
         "L": 65,
         "moves": [
           "pain-split"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "trick"
         ]
       },
       {
@@ -128,6 +140,12 @@
         ]
       },
       {
+        "L": 24,
+        "moves": [
+          "magnetic-flux"
+        ]
+      },
+      {
         "L": 49,
         "moves": [
           "fleur-cannon"
@@ -135,6 +153,8 @@
       }
     ],
     "misc": [
+      "body-slam",
+      "take-down",
       "sonic-boom",
       "ice-beam",
       "psybeam",
@@ -143,12 +163,15 @@
       "solar-beam",
       "thunderbolt",
       "thunder-wave",
+      "psychic",
       "agility",
       "double-team",
+      "confuse-ray",
       "defense-curl",
       "light-screen",
       "reflect",
       "self-destruct",
+      "swift",
       "explosion",
       "rest",
       "tri-attack",
@@ -156,9 +179,13 @@
       "mind-reader",
       "snore",
       "protect",
+      "spikes",
+      "zap-cannon",
       "endure",
+      "rollout",
       "false-swipe",
       "swagger",
+      "sleep-talk",
       "heal-bell",
       "return",
       "frustration",
@@ -166,10 +193,13 @@
       "baton-pass",
       "encore",
       "hidden-power",
+      "sunny-day",
       "shadow-ball",
+      "facade",
       "helping-hand",
       "trick",
       "brick-break",
+      "skill-swap",
       "imprison",
       "signal-beam",
       "iron-defense",
@@ -195,6 +225,8 @@
       "iron-head",
       "grass-knot",
       "charge-beam",
+      "psyshock",
+      "heavy-slam",
       "synchronoise",
       "electro-ball",
       "after-you",
@@ -204,8 +236,11 @@
       "shift-gear",
       "volt-switch",
       "electroweb",
+      "disarming-voice",
       "draining-kiss",
       "crafty-shield",
+      "misty-terrain",
+      "play-rough",
       "confide",
       "eerie-impulse",
       "dazzling-gleam",
@@ -214,7 +249,10 @@
       "fleur-cannon",
       "steel-beam",
       "steel-roller",
-      "misty-explosion"
+      "misty-explosion",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape"
     ]
   },
   "spawn_rules": [

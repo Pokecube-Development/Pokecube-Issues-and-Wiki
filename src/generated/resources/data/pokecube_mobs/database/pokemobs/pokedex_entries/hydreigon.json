@@ -130,7 +130,9 @@
       "fly",
       "slam",
       "headbutt",
+      "tackle",
       "body-slam",
+      "take-down",
       "bite",
       "roar",
       "flamethrower",
@@ -208,7 +210,9 @@
       "defog",
       "draco-meteor",
       "stone-edge",
+      "stealth-rock",
       "charge-beam",
+      "double-hit",
       "round",
       "echoed-voice",
       "incinerate",
@@ -220,9 +224,11 @@
       "confide",
       "throat-chop",
       "brutal-swing",
+      "stomping-tantrum",
       "breaking-swipe",
       "scale-shot",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/pig_3"

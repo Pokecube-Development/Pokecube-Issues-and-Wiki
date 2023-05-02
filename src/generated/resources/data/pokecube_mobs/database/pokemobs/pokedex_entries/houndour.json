@@ -72,7 +72,8 @@
       {
         "L": 32,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "torment"
         ]
       },
       {
@@ -90,7 +91,8 @@
       {
         "L": 20,
         "moves": [
-          "odor-sleuth"
+          "odor-sleuth",
+          "incinerate"
         ]
       },
       {
@@ -102,7 +104,8 @@
       {
         "L": 37,
         "moves": [
-          "embargo"
+          "embargo",
+          "comeuppance"
         ]
       },
       {
@@ -133,6 +136,7 @@
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "bite",
@@ -160,6 +164,7 @@
       "reversal",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
       "mud-slap",
@@ -174,6 +179,7 @@
       "pursuit",
       "iron-tail",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "crunch",
       "shadow-ball",
@@ -185,6 +191,7 @@
       "will-o-wisp",
       "facade",
       "taunt",
+      "helping-hand",
       "role-play",
       "snatch",
       "secret-power",
@@ -192,12 +199,14 @@
       "overheat",
       "odor-sleuth",
       "howl",
+      "mud-shot",
       "natural-gift",
       "feint",
       "payback",
       "embargo",
       "punishment",
       "sucker-punch",
+      "flare-blitz",
       "dark-pulse",
       "nasty-plot",
       "thunder-fang",
@@ -210,7 +219,10 @@
       "retaliate",
       "inferno",
       "snarl",
-      "confide"
+      "confide",
+      "psychic-fangs",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

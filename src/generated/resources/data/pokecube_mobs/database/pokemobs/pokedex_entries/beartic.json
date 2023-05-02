@@ -123,6 +123,12 @@
         "moves": [
           "play-nice"
         ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "snowscape"
+        ]
       }
     ],
     "misc": [
@@ -131,6 +137,8 @@
       "swords-dance",
       "cut",
       "mega-kick",
+      "body-slam",
+      "take-down",
       "thrash",
       "growl",
       "roar",
@@ -140,6 +148,7 @@
       "hyper-beam",
       "low-kick",
       "strength",
+      "earthquake",
       "dig",
       "toxic",
       "double-team",
@@ -149,11 +158,14 @@
       "rock-slide",
       "slash",
       "substitute",
+      "thief",
       "snore",
       "flail",
+      "reversal",
       "powder-snow",
       "protect",
       "scary-face",
+      "mud-slap",
       "icy-wind",
       "endure",
       "charm",
@@ -163,8 +175,10 @@
       "return",
       "frustration",
       "encore",
+      "metal-claw",
       "hidden-power",
       "rain-dance",
+      "crunch",
       "rock-smash",
       "hail",
       "facade",
@@ -179,11 +193,14 @@
       "aerial-ace",
       "icicle-spear",
       "bulk-up",
+      "mud-shot",
       "covet",
       "water-pulse",
       "brine",
+      "close-combat",
       "assurance",
       "fling",
+      "x-scissor",
       "focus-blast",
       "giga-impact",
       "avalanche",
@@ -198,6 +215,7 @@
       "echoed-voice",
       "bulldoze",
       "frost-breath",
+      "snarl",
       "icicle-crash",
       "play-rough",
       "play-nice",
@@ -205,7 +223,11 @@
       "power-up-punch",
       "throat-chop",
       "liquidation",
-      "body-press"
+      "body-press",
+      "tera-blast",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "interactions": [

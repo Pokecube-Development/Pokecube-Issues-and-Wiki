@@ -46,7 +46,8 @@
           "water-sport",
           "healing-wish",
           "wide-guard",
-          "play-nice"
+          "play-nice",
+          "pound"
         ]
       },
       {
@@ -125,11 +126,14 @@
     "misc": [
       "pound",
       "double-slap",
+      "body-slam",
+      "take-down",
       "mist",
       "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
+      "hyper-beam",
       "toxic",
       "psychic",
       "double-team",
@@ -148,6 +152,7 @@
       "frustration",
       "safeguard",
       "pain-split",
+      "baton-pass",
       "hidden-power",
       "rain-dance",
       "mirror-coat",
@@ -160,6 +165,7 @@
       "wish",
       "magic-coat",
       "knock-off",
+      "skill-swap",
       "refresh",
       "secret-power",
       "dive",
@@ -172,15 +178,23 @@
       "healing-wish",
       "brine",
       "aqua-ring",
+      "giga-impact",
+      "zen-headbutt",
       "aqua-jet",
       "wide-guard",
       "soak",
       "round",
       "scald",
       "heal-pulse",
+      "acrobatics",
+      "misty-terrain",
+      "play-rough",
       "play-nice",
       "confide",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

@@ -62,27 +62,29 @@
         ]
       },
       {
+        "L": 10,
+        "moves": [
+          "safeguard",
+          "lucky-chant"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "synthesis",
+          "aromatherapy"
+        ]
+      },
+      {
         "L": 20,
         "moves": [
           "wish"
         ]
       },
       {
-        "L": 33,
-        "moves": [
-          "aromatherapy"
-        ]
-      },
-      {
         "L": 22,
         "moves": [
           "magical-leaf"
-        ]
-      },
-      {
-        "L": 10,
-        "moves": [
-          "lucky-chant"
         ]
       },
       {
@@ -125,12 +127,16 @@
       "toxic",
       "psychic",
       "double-team",
+      "light-screen",
+      "swift",
       "flash",
       "rest",
       "substitute",
       "snore",
       "protect",
       "giga-drain",
+      "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -138,6 +144,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "synthesis",
       "hidden-power",
       "rain-dance",
@@ -164,15 +171,33 @@
       "after-you",
       "round",
       "echoed-voice",
+      "stored-power",
       "ally-switch",
       "petal-blizzard",
+      "disarming-voice",
+      "draining-kiss",
       "grassy-terrain",
       "misty-terrain",
       "fairy-wind",
       "moonblast",
       "confide",
       "dazzling-gleam",
-      "tearful-look"
+      "pollen-puff",
+      "tearful-look",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
+    ]
+  },
+  "dye": {
+    "base": "red",
+    "shiny": "red",
+    "dyes": [
+      "red",
+      "yellow",
+      "orange",
+      "blue",
+      "white"
     ]
   },
   "model": {

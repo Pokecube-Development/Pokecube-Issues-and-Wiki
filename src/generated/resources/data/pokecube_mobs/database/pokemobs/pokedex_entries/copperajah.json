@@ -107,9 +107,14 @@
       }
     ],
     "misc": [
+      "stomp",
       "mega-kick",
+      "tackle",
       "body-slam",
+      "take-down",
+      "growl",
       "hyper-beam",
+      "strength",
       "earthquake",
       "dig",
       "screech",
@@ -120,9 +125,12 @@
       "protect",
       "scary-face",
       "outrage",
+      "sandstorm",
       "endure",
+      "rollout",
       "attract",
       "sleep-talk",
+      "rock-smash",
       "facade",
       "taunt",
       "superpower",
@@ -154,7 +162,8 @@
       "stomping-tantrum",
       "body-press",
       "steel-beam",
-      "steel-roller"
+      "steel-roller",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/terracota_2"

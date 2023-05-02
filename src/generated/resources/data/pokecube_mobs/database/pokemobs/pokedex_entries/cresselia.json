@@ -87,9 +87,21 @@
         ]
       },
       {
+        "L": 24,
+        "moves": [
+          "ally-switch"
+        ]
+      },
+      {
         "L": 99,
         "moves": [
           "moonblast"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "lunar-blessing"
         ]
       }
     ],
@@ -97,14 +109,18 @@
       "body-slam",
       "mist",
       "ice-beam",
+      "psybeam",
       "aurora-beam",
       "hyper-beam",
       "solar-beam",
+      "thunderbolt",
       "thunder-wave",
+      "thunder",
       "toxic",
       "confusion",
       "psychic",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "reflect",
       "swift",
@@ -115,6 +131,7 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "mud-slap",
       "icy-wind",
       "endure",
@@ -146,6 +163,7 @@
       "psycho-shift",
       "power-swap",
       "guard-swap",
+      "power-gem",
       "energy-ball",
       "giga-impact",
       "psycho-cut",
@@ -163,7 +181,10 @@
       "ally-switch",
       "moonblast",
       "confide",
-      "expanding-force"
+      "dazzling-gleam",
+      "psychic-terrain",
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

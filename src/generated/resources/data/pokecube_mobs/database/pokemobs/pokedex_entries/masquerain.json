@@ -48,13 +48,15 @@
         "L": 1,
         "moves": [
           "whirlwind",
+          "water-gun",
           "quick-attack",
           "bubble",
           "sweet-scent",
           "water-sport",
           "bug-buzz",
           "ominous-wind",
-          "quiver-dance"
+          "quiver-dance",
+          "soak"
         ]
       },
       {
@@ -71,33 +73,41 @@
         ]
       },
       {
-        "L": 32,
+        "L": 38,
         "moves": [
-          "silver-wind"
+          "giga-drain",
+          "air-slash"
         ]
       },
       {
-        "L": 38,
+        "L": 32,
         "moves": [
-          "air-slash"
+          "silver-wind"
         ]
       }
     ],
     "misc": [
       "gust",
       "whirlwind",
+      "take-down",
       "double-edge",
+      "hydro-pump",
+      "surf",
       "ice-beam",
       "blizzard",
+      "psybeam",
       "hyper-beam",
       "solar-beam",
       "stun-spore",
       "string-shot",
       "toxic",
+      "agility",
       "quick-attack",
       "mimic",
       "double-team",
+      "waterfall",
       "swift",
+      "leech-life",
       "bubble",
       "flash",
       "rest",
@@ -116,6 +126,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "baton-pass",
       "sweet-scent",
       "hidden-power",
       "twister",
@@ -124,11 +135,13 @@
       "psych-up",
       "shadow-ball",
       "facade",
+      "helping-hand",
       "secret-power",
       "air-cutter",
       "silver-wind",
       "signal-beam",
       "aerial-ace",
+      "mud-shot",
       "water-sport",
       "water-pulse",
       "roost",
@@ -144,12 +157,18 @@
       "bug-bite",
       "ominous-wind",
       "quiver-dance",
+      "foul-play",
       "round",
       "scald",
+      "acrobatics",
       "struggle-bug",
+      "hurricane",
       "confide",
       "infestation",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "pounce",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/lilypad"

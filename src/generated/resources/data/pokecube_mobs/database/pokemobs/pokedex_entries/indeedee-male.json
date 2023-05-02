@@ -65,7 +65,8 @@
       {
         "L": 30,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "healing-wish"
         ]
       },
       {
@@ -114,6 +115,9 @@
     ],
     "misc": [
       "pay-day",
+      "body-slam",
+      "take-down",
+      "psybeam",
       "psychic",
       "metronome",
       "swift",
@@ -133,29 +137,36 @@
       "facade",
       "helping-hand",
       "trick",
+      "skill-swap",
       "imprison",
       "hyper-voice",
       "extrasensory",
       "magical-leaf",
       "calm-mind",
       "power-swap",
+      "last-resort",
       "drain-punch",
       "energy-ball",
       "zen-headbutt",
       "trick-room",
+      "power-split",
       "wonder-room",
       "psyshock",
       "magic-room",
+      "after-you",
       "round",
       "stored-power",
       "ally-switch",
+      "disarming-voice",
       "draining-kiss",
       "play-rough",
+      "play-nice",
       "mystical-fire",
       "dazzling-gleam",
       "psychic-terrain",
       "expanding-force",
-      "terrain-pulse"
+      "terrain-pulse",
+      "tera-blast"
     ]
   },
   "old_name": "indeedee",

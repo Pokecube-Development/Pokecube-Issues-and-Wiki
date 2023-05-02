@@ -90,7 +90,8 @@
       {
         "L": 15,
         "moves": [
-          "natural-gift"
+          "natural-gift",
+          "bulldoze"
         ]
       },
       {
@@ -114,6 +115,7 @@
       "strength",
       "earthquake",
       "fissure",
+      "dig",
       "toxic",
       "mimic",
       "double-team",
@@ -122,6 +124,7 @@
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "curse",
       "flail",
@@ -136,12 +139,15 @@
       "sleep-talk",
       "return",
       "frustration",
+      "encore",
       "iron-tail",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "ancient-power",
       "rock-smash",
       "facade",
+      "helping-hand",
       "superpower",
       "knock-off",
       "endeavor",
@@ -149,12 +155,15 @@
       "hyper-voice",
       "odor-sleuth",
       "rock-tomb",
+      "mud-shot",
       "natural-gift",
       "last-resort",
       "seed-bomb",
       "earth-power",
       "ice-shard",
       "gunk-shot",
+      "iron-head",
+      "stone-edge",
       "captivate",
       "stealth-rock",
       "head-smash",
@@ -164,7 +173,10 @@
       "bulldoze",
       "play-rough",
       "confide",
-      "high-horsepower"
+      "high-horsepower",
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

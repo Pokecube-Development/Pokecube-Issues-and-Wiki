@@ -119,10 +119,12 @@
       "double-kick",
       "mega-kick",
       "body-slam",
+      "take-down",
       "roar",
       "hyper-beam",
       "low-kick",
       "counter",
+      "strength",
       "earthquake",
       "toxic",
       "double-team",
@@ -142,6 +144,8 @@
       "return",
       "frustration",
       "hidden-power",
+      "sunny-day",
+      "rock-smash",
       "facade",
       "superpower",
       "revenge",
@@ -157,6 +161,7 @@
       "earth-power",
       "giga-impact",
       "iron-head",
+      "stone-edge",
       "stealth-rock",
       "heavy-slam",
       "low-sweep",
@@ -167,7 +172,8 @@
       "high-horsepower",
       "stomping-tantrum",
       "body-press",
-      "lash-out"
+      "lash-out",
+      "tera-blast"
     ]
   },
   "interactions": [

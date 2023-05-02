@@ -48,6 +48,12 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "low-kick"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "toxic",
@@ -135,6 +141,7 @@
       "cut",
       "mega-kick",
       "headbutt",
+      "take-down",
       "poison-sting",
       "hyper-beam",
       "low-kick",
@@ -150,8 +157,10 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
       "mud-slap",
@@ -185,9 +194,12 @@
       "secret-power",
       "astonish",
       "rock-tomb",
+      "aerial-ace",
       "bulk-up",
       "bounce",
+      "mud-shot",
       "natural-gift",
+      "close-combat",
       "payback",
       "assurance",
       "embargo",
@@ -201,6 +213,7 @@
       "focus-blast",
       "giga-impact",
       "nasty-plot",
+      "shadow-claw",
       "mud-bomb",
       "rock-climb",
       "cross-poison",
@@ -210,6 +223,7 @@
       "venoshock",
       "sludge-wave",
       "low-sweep",
+      "acid-spray",
       "foul-play",
       "round",
       "retaliate",
@@ -223,7 +237,9 @@
       "throat-chop",
       "lash-out",
       "corrosive-gas",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "male_model": {

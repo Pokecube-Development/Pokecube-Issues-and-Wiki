@@ -39,6 +39,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 5,
+        "moves": [
+          "gust",
+          "pursuit"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "wing-attack"
@@ -73,12 +80,6 @@
         "L": 41,
         "moves": [
           "mean-look"
-        ]
-      },
-      {
-        "L": 5,
-        "moves": [
-          "pursuit"
         ]
       },
       {
@@ -128,7 +129,9 @@
       "wing-attack",
       "whirlwind",
       "fly",
+      "take-down",
       "double-edge",
+      "hyper-beam",
       "peck",
       "drill-peck",
       "thunder-wave",
@@ -153,6 +156,7 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "mud-slap",
       "perish-song",
@@ -190,6 +194,7 @@
       "natural-gift",
       "pluck",
       "tailwind",
+      "u-turn",
       "payback",
       "assurance",
       "embargo",
@@ -197,16 +202,23 @@
       "punishment",
       "sucker-punch",
       "dark-pulse",
+      "air-slash",
       "brave-bird",
+      "giga-impact",
+      "nasty-plot",
       "defog",
       "captivate",
       "ominous-wind",
       "foul-play",
       "round",
+      "hex",
       "quash",
+      "acrobatics",
       "retaliate",
+      "hurricane",
       "snarl",
-      "confide"
+      "confide",
+      "tera-blast"
     ]
   },
   "evolutions": [

@@ -41,9 +41,11 @@
         "L": 1,
         "moves": [
           "pound",
+          "tackle",
           "absorb",
           "growth",
-          "flower-shield"
+          "flower-shield",
+          "pound"
         ]
       },
       {
@@ -141,6 +143,7 @@
       "pound",
       "swords-dance",
       "cut",
+      "take-down",
       "double-edge",
       "hyper-beam",
       "absorb",
@@ -169,9 +172,11 @@
       "return",
       "frustration",
       "safeguard",
+      "encore",
       "sweet-scent",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "uproar",
       "facade",
@@ -182,6 +187,7 @@
       "secret-power",
       "grass-whistle",
       "bullet-seed",
+      "magical-leaf",
       "natural-gift",
       "worry-seed",
       "seed-bomb",
@@ -195,7 +201,11 @@
       "round",
       "petal-blizzard",
       "flower-shield",
-      "confide"
+      "grassy-terrain",
+      "confide",
+      "dazzling-gleam",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/leaves"

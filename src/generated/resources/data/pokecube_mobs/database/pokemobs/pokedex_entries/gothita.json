@@ -40,6 +40,7 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "pound"
         ]
       },
@@ -151,9 +152,11 @@
       "toxic",
       "confusion",
       "psychic",
+      "hypnosis",
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "dream-eater",
       "flash",
       "rest",
@@ -191,6 +194,7 @@
       "magic-coat",
       "recycle",
       "skill-swap",
+      "imprison",
       "snatch",
       "secret-power",
       "fake-tears",
@@ -225,7 +229,9 @@
       "heal-pulse",
       "play-nice",
       "confide",
-      "expanding-force"
+      "psychic-terrain",
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "evolutions": [

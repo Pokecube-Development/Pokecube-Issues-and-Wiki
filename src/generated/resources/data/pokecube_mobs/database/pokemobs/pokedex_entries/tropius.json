@@ -75,6 +75,13 @@
         ]
       },
       {
+        "L": 46,
+        "moves": [
+          "outrage",
+          "bestow"
+        ]
+      },
+      {
         "L": 6,
         "moves": [
           "sweet-scent"
@@ -95,19 +102,14 @@
       {
         "L": 30,
         "moves": [
-          "natural-gift"
+          "natural-gift",
+          "wide-guard"
         ]
       },
       {
         "L": 36,
         "moves": [
           "air-slash"
-        ]
-      },
-      {
-        "L": 46,
-        "moves": [
-          "bestow"
         ]
       },
       {
@@ -128,6 +130,7 @@
       "stomp",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "roar",
@@ -163,10 +166,12 @@
       "synthesis",
       "hidden-power",
       "twister",
+      "rain-dance",
       "sunny-day",
       "rock-smash",
       "facade",
       "nature-power",
+      "helping-hand",
       "secret-power",
       "air-cutter",
       "silver-wind",
@@ -178,12 +183,14 @@
       "roost",
       "natural-gift",
       "tailwind",
+      "u-turn",
       "worry-seed",
       "seed-bomb",
       "air-slash",
       "dragon-pulse",
       "energy-ball",
       "giga-impact",
+      "zen-headbutt",
       "defog",
       "leaf-storm",
       "captivate",
@@ -192,11 +199,17 @@
       "round",
       "bestow",
       "bulldoze",
+      "dragon-tail",
       "leaf-tornado",
+      "hurricane",
+      "grassy-terrain",
       "confide",
       "dragon-hammer",
       "brutal-swing",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "interactions": [

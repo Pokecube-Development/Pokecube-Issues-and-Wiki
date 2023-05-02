@@ -136,6 +136,8 @@
       "whirlwind",
       "fly",
       "fury-attack",
+      "body-slam",
+      "take-down",
       "thrash",
       "leer",
       "peck",
@@ -164,9 +166,11 @@
       "rock-smash",
       "heat-wave",
       "facade",
+      "helping-hand",
       "superpower",
       "secret-power",
       "crush-claw",
+      "air-cutter",
       "rock-tomb",
       "aerial-ace",
       "bulk-up",
@@ -184,11 +188,13 @@
       "hone-claws",
       "round",
       "sky-drop",
+      "acrobatics",
       "retaliate",
       "work-up",
       "hurricane",
       "confide",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "evolutions": [

@@ -132,6 +132,7 @@
     ],
     "misc": [
       "scratch",
+      "swords-dance",
       "cut",
       "sand-attack",
       "headbutt",
@@ -165,6 +166,7 @@
       "mud-slap",
       "sandstorm",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -182,6 +184,8 @@
       "rock-tomb",
       "sand-tomb",
       "aerial-ace",
+      "mud-shot",
+      "rock-blast",
       "natural-gift",
       "assurance",
       "sucker-punch",
@@ -195,6 +199,7 @@
       "stealth-rock",
       "hone-claws",
       "sludge-wave",
+      "foul-play",
       "round",
       "echoed-voice",
       "ally-switch",
@@ -204,7 +209,8 @@
       "confide",
       "high-horsepower",
       "stomping-tantrum",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/dirt_1"

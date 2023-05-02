@@ -113,6 +113,8 @@
     "misc": [
       "bind",
       "headbutt",
+      "body-slam",
+      "take-down",
       "thrash",
       "acid",
       "thunderbolt",
@@ -127,8 +129,10 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "zap-cannon",
       "giga-drain",
+      "endure",
       "swagger",
       "spark",
       "attract",
@@ -149,9 +153,11 @@
       "gastro-acid",
       "magnet-rise",
       "aqua-tail",
+      "thunder-fang",
       "flash-cannon",
       "discharge",
       "charge-beam",
+      "electro-ball",
       "coil",
       "acid-spray",
       "round",
@@ -159,7 +165,10 @@
       "volt-switch",
       "wild-charge",
       "confide",
-      "throat-chop"
+      "eerie-impulse",
+      "electric-terrain",
+      "throat-chop",
+      "tera-blast"
     ]
   },
   "evolutions": [
