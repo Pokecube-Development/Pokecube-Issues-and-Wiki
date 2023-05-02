@@ -133,9 +133,10 @@ class animation_segment:
             all_not_func = self.set_doubles(segment.scaleOffset, self.scales) & all_not_func
 
             # These coordinates are flipped for some reason.
-            segment.posOffset[0] = -segment.posOffset[0] * 1 / 16
-            segment.posOffset[1] = -segment.posOffset[1] * 2 / 16
-            segment.posOffset[2] = +segment.posOffset[2] * 0.5 / 16
+            old = [x for x in segment.posOffset]
+            segment.posOffset[0] = -old[0] * 1 / 16
+            segment.posOffset[1] = -old[2] * 1 / 16
+            segment.posOffset[2] = +old[1] * 1 / 16
 
             if self.is_bedrock:
                 segment.posOffset[0] *= -1
@@ -159,9 +160,10 @@ class animation_segment:
             segment.rotChange[0] = -segment.rotChange[0]
             segment.rotChange[1] = -segment.rotChange[1]
 
-            segment.posChange[0] = -segment.posChange[0] * 1 / 16
-            segment.posChange[1] = -segment.posChange[1] * 2 / 16
-            segment.posChange[2] = +segment.posChange[2] * 0.5 / 16
+            old = [x for x in segment.posChange]
+            segment.posChange[0] = -old[0] * 1 / 16
+            segment.posChange[1] = -old[2] * 1 / 16
+            segment.posChange[2] = +old[1] * 1 / 16
 
             if (self.has_scale):
                 segment.scaleChange[0] = segment.scaleChange[0]
