@@ -110,7 +110,9 @@
     "grubbin",
     "blipbug",
     "dottler",
-    "orbeetle"
+    "orbeetle",
+    "spidops",
+    "tarountula"
   ],
   "pokecube:entities/chicken_1": [
     "pidgey",
@@ -146,7 +148,10 @@
     "rookidee",
     "corvisquire",
     "corviknight",
-    "cramorant"
+    "cramorant",
+    "quaquaval",
+    "quaxly",
+    "quaxwell"
   ],
   "pokecube:entities/chicken_2": [
     "pidgeotto",
@@ -391,7 +396,10 @@
     "darumaka",
     "salandit",
     "sizzlipede",
-    "centiskorch"
+    "centiskorch",
+    "fuecoco",
+    "skeledirge",
+    "crocalor"
   ],
   "pokecube:entities/blaze_rabbit_2": [
     "ninetales",
@@ -438,11 +446,14 @@
     "meowth",
     "meowth-alola",
     "meowth-galar",
-    "perrserker"
+    "perrserker",
+    "sprigatito",
+    "floragato"
   ],
   "pokecube:entities/money_cat_big": [
     "persian",
-    "persian-alola"
+    "persian-alola",
+    "meowscarada"
   ],
   "pokecube:entities/pig_1": [
     "mankey",
@@ -459,7 +470,8 @@
     "phanpy",
     "munchlax",
     "deino",
-    "jangmo-o"
+    "jangmo-o",
+    "lechonk"
   ],
   "pokecube:entities/slimeballs_1": [
     "poliwag",
@@ -471,7 +483,9 @@
     "shellos",
     "tympole",
     "solosis",
-    "goomy"
+    "goomy",
+    "wooper-paldea",
+    "clodsire"
   ],
   "pokecube:entities/slimeballs_2": [
     "poliwhirl",
@@ -572,7 +586,8 @@
     "bonsly",
     "roggenrola",
     "dwebble",
-    "stonjourner"
+    "stonjourner",
+    "klawf"
   ],
   "pokecube:entities/redstone_1": [
     "geodude-alola",
@@ -705,7 +720,8 @@
     "grapploct",
     "pincurchin",
     "eiscue-ice",
-    "eiscue-noice"
+    "eiscue-noice",
+    "finizen"
   ],
   "pokecube:entities/shulker_pearls_1": [
     "shellder",
@@ -903,7 +919,8 @@
   ],
   "pokecube:entities/ender_cow_1": [
     "girafarig",
-    "spectrier"
+    "spectrier",
+    "farigiraf"
   ],
   "pokecube:entities/creeper_iron_ore": [
     "forretress"
@@ -1094,7 +1111,8 @@
     "cryogonal",
     "bergmite",
     "avalugg",
-    "glastrier"
+    "glastrier",
+    "cetoddle"
   ],
   "pokecube:entities/shellseed_1": [
     "shelgon",
@@ -1104,7 +1122,8 @@
   ],
   "pokecube:entities/iron_seeds_2": [
     "salamence",
-    "ferrothorn"
+    "ferrothorn",
+    "roaring-moon"
   ],
   "pokecube:entities/iron_pearls_1": [
     "beldum"
@@ -1221,7 +1240,8 @@
   ],
   "pokecube:entities/coal_rabbit_1": [
     "fennekin",
-    "litten"
+    "litten",
+    "maschiff"
   ],
   "pokecube:entities/blaze_stick_rabbit_2": [
     "delphox"
@@ -1275,5 +1295,12 @@
   ],
   "pokecube:entities/terracota_2": [
     "copperajah"
+  ],
+  "pokecube:entities/dye_2": [
+    "grafaiai"
+  ],
+  "pokecube:entities/bread": [
+    "dachsbun",
+    "fidough"
   ]
 }

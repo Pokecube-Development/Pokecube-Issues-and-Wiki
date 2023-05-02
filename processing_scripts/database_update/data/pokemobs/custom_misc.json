@@ -1,98 +1,118 @@
 [
   {
-    "name": "burmy",
-    "evolutions": [
+    "name":"burmy",
+    "evolutions":[
       {
-        "name": "wormadam-plant",
-        "level": 20,
-      "form_from": "burmy-plant",
-        "sexe": "female",
-        "evoMoves": "quiver-dance"
-      },
-    {
-        "name": "wormadam-sandy",
-        "level": 20,
-      "form_from": "burmy-sandy",
-        "sexe": "female",
-        "evoMoves": "quiver-dance"
-      },
-    {
-        "name": "wormadam-trash",
-        "level": 20,
-      "form_from": "burmy-trash",
-        "sexe": "female",
-        "evoMoves": "quiver-dance"
+        "name":"wormadam-plant",
+        "level":20,
+        "form_from":"burmy-plant",
+        "sexe":"female",
+        "evoMoves":"quiver-dance"
       },
       {
-        "name": "mothim",
-        "level": 20,
-        "sexe": "male",
-        "evoMoves": "quiver-dance"
+        "name":"wormadam-sandy",
+        "level":20,
+        "form_from":"burmy-sandy",
+        "sexe":"female",
+        "evoMoves":"quiver-dance"
+      },
+      {
+        "name":"wormadam-trash",
+        "level":20,
+        "form_from":"burmy-trash",
+        "sexe":"female",
+        "evoMoves":"quiver-dance"
+      },
+      {
+        "name":"mothim",
+        "level":20,
+        "sexe":"male",
+        "evoMoves":"quiver-dance"
       }
     ]
   },
   {
-    "name": "espurr",
-    "evolutions": [
-        {
-          "name": "meowstic-male",
-          "sexe": "male",
-          "level": 25
-        },
-            {
-          "name": "meowstic-female",
-          "sexe": "female",
-          "level": 25
-        }
-      ]
+    "name":"wooper-paldea",
+    "evolutions":[
+      {
+        "name":"clodsire",
+        "level":20,
+        "evoMoves":"amnesia"
+      }
+    ]
   },
   {
-    "name": "meowstic-male",
-    "gender_rate": 0,
-    "interactions": [],
-    "male_model": [],
-    "female_model": []
+    "name":"espurr",
+    "evolutions":[
+      {
+        "name":"meowstic-male",
+        "sexe":"male",
+        "level":25
+      },
+      {
+        "name":"meowstic-female",
+        "sexe":"female",
+        "level":25
+      }
+    ]
   },
   {
-    "name": "meowstic-female",
-    "gender_rate": 254,
-    "interactions": [
-        {
-          "male": false,
-          "female": true,
-          "cooldown": 50,
-          "variance": 100,
-          "baseHunger": 100,
-          "isTag": false,
-          "key": {
-            "values": {
-              "id": "minecraft:bucket"
-            }
-          },
-          "action": {
-            "values": {
-              "type": "item"
-            },
-            "drops": [
-              {
-                "values": {
-                  "id": "minecraft:milk_bucket",
-                  "n": "1"
-                }
-              }
-            ]
+    "name":"meowstic-male",
+    "gender_rate":0,
+    "interactions":[
+      
+    ],
+    "male_model":[
+      
+    ],
+    "female_model":[
+      
+    ]
+  },
+  {
+    "name":"meowstic-female",
+    "gender_rate":254,
+    "interactions":[
+      {
+        "male":false,
+        "female":true,
+        "cooldown":50,
+        "variance":100,
+        "baseHunger":100,
+        "isTag":false,
+        "key":{
+          "values":{
+            "id":"minecraft:bucket"
           }
+        },
+        "action":{
+          "values":{
+            "type":"item"
+          },
+          "drops":[
+            {
+              "values":{
+                "id":"minecraft:milk_bucket",
+                "n":"1"
+              }
+            }
+          ]
         }
-      ]
+      }
+    ]
   },
   {
-    "name": "indeedee-male",
-    "gender_rate": 0,
-    "interactions": []
+    "name":"indeedee-male",
+    "gender_rate":0,
+    "interactions":[
+      
+    ]
   },
   {
-    "name": "indeedee-female",
-    "gender_rate": 254,
-    "interactions": []
+    "name":"indeedee-female",
+    "gender_rate":254,
+    "interactions":[
+      
+    ]
   }
 ]

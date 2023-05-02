@@ -78,7 +78,27 @@
     "forme_items": [
       {
         "item": "minecraft:redstone",
-        "model": { "key": "genesect-shock" }
+        "model": {
+          "key": "genesect-shock"
+        }
+      },
+    {
+        "item": "minecraft:lapis_lazuli",
+        "model": {
+          "key": "genesect-douse"
+        }
+      },
+    {
+        "item": "minecraft:blaze_rod",
+        "model": {
+          "key": "genesect-burn"
+        }
+      },
+    {
+        "item": "minecraft:iron_block",
+        "model": {
+          "key": "genesect-chill"
+        }
       }
     ]
   },

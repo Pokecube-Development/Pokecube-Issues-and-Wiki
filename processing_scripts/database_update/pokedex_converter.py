@@ -24,6 +24,9 @@ mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
 tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
 advancements_dir = './new/advancements/'
 
+WARN_NO_EXP = False
+WARN_NO_OLD_ENTRY = False
+
 MEGA_SUFFIX = [
     '-mega',
     '-mega-x',
@@ -40,6 +43,9 @@ GMAX_SUFFIX = [
 NO_SHINY = [
     'vivillon'
 ]
+
+base_exp_fixes = json.load(open('./data/pokemobs/fix_base_exp.json', 'r'))
+evo_moves = json.load(open('./data/pokemobs/evo_moves.json', 'r'))
 
 def no_shiny(name):
     for suf in NO_SHINY:
@@ -60,6 +66,7 @@ def is_gmax(name):
     return False
 
 index_map = get_pokemon_index()
+evo_chains = utils.load_evo_chains()
 
 # This class is a mirror of the json data structure that pokecube uses for loading
 class PokedexEntry:
@@ -88,6 +95,7 @@ class PokedexEntry:
                     print(f'unknown evo: {name}')
                 else:
                     evo['forme'] = new_name
+        added_evos = []
         if 'evolutions' in self.__dict__:
             for evo in self.evolutions:
                 name = evo['name']
@@ -96,6 +104,7 @@ class PokedexEntry:
                     print(f'unknown evo: {name}')
                 else:
                     evo['name'] = new_name
+                added_evos.append(new_name)
                 if 'evoMoves' in evo:
                     args = evo['evoMoves'].split(',')
                     moves = []
@@ -109,7 +118,46 @@ class PokedexEntry:
                 if 'move' in evo:
                     move = evo['move']
                     evo['move'] = convert_old_move_name(move)
-        return
+        
+
+        if self.name in evo_chains:
+            evos = evo_chains[self.name]
+            no_evos = False
+            if not 'evolutions' in self.__dict__:
+                self.evolutions = []
+                no_evos = True
+
+            for item in evos:
+                evo_to = item['name']
+                evo_details = item['evolution_details']
+                if len(evo_details) == 0:
+                    continue
+                # We only process first one, if you need to do more, manually add
+                # the first one is the "normal" evolution, further ones
+                # are region specific, with no details in the file as to which region...
+                evo_details = evo_details[0]
+
+                if not evo_to in added_evos and no_evos:
+                    valid = False
+                    new_evo = {}
+                    new_evo['name'] = evo_to
+                    if evo_details["min_level"] is not None:
+                        new_evo["level"] = evo_details["min_level"]
+                        valid = True
+                    if evo_details["known_move"] is not None and "/api/v2/move/" in evo_details["known_move"]["url"]:
+                        new_evo["move"] = evo_details["known_move"]["name"]
+                        valid = True
+
+                    if evo_to in evo_moves:
+                        new_evo["evoMoves"] = evo_moves[evo_to]
+
+                    if valid:
+                        self.evolutions.append(new_evo)
+                    else:
+                        print(f"Unable to auto-generate evolution to {evo_to} for {self.name}")
+            if len(self.evolutions) == 0:
+                del self.evolutions
+                    
 
     # Basic set of initialising, covering names, happiness, etc
     def init_simple(self, forme, species):
@@ -124,6 +172,11 @@ class PokedexEntry:
         if no_shiny(self.name):
             self.no_shiny = True
         self.base_experience = forme.base_experience
+        if self.base_experience is None:
+            if self.name in base_exp_fixes:
+                self.base_experience = base_exp_fixes[self.name]
+            elif WARN_NO_EXP:
+                print("Error, no base exp for "+self.name)
 
         # These values are reported as 10x the value in the games for some reason.
         self.size = {'height': forme.height/10.0}
@@ -376,7 +429,7 @@ class PokemonSpecies:
                         entry.evolutions = stats['evolutions']
                 else:
                     print(f'no stats for {entry.name}??')
-            else:
+            elif WARN_NO_OLD_ENTRY:
                 print(f'"{entry.name}" : "",')
 
             # Now delete things from custom overrides.
