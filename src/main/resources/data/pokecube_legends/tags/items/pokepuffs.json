@@ -6,10 +6,14 @@
     "#pokecube_legends:pokepuffs/chesto_pokepuff",
     "#pokecube_legends:pokepuffs/cornn_pokepuff",
     "#pokecube_legends:pokepuffs/enigma_pokepuff",
+    "#pokecube_legends:pokepuffs/grepa_pokepuff",
     "#pokecube_legends:pokepuffs/hondew_pokepuff",
+    "#pokecube_legends:pokepuffs/jaboca_pokepuff",
     "#pokecube_legends:pokepuffs/kelpsy_pokepuff",
+    "#pokecube_legends:pokepuffs/leppa_pokepuff",
     "#pokecube_legends:pokepuffs/lum_pokepuff",
     "#pokecube_legends:pokepuffs/nanab_pokepuff",
+    "#pokecube_legends:pokepuffs/null_pokepuff",
     "#pokecube_legends:pokepuffs/oran_pokepuff",
     "#pokecube_legends:pokepuffs/pecha_pokepuff",
     "#pokecube_legends:pokepuffs/persim_pokepuff",
@@ -18,6 +22,7 @@
     "#pokecube_legends:pokepuffs/qualot_pokepuff",
     "#pokecube_legends:pokepuffs/rawst_pokepuff",
     "#pokecube_legends:pokepuffs/rowap_pokepuff",
+    "#pokecube_legends:pokepuffs/sitrus_pokepuff",
     "#pokecube_legends:pokepuffs/tamato_pokepuff"
   ]
 }

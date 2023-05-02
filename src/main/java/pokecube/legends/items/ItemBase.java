@@ -19,7 +19,7 @@ import thut.lib.TComponent;
 
 public class ItemBase extends Item
 {
-    String tooltipname;
+    String tooltip_block_id;
     boolean hasTooltip = false;
     boolean hasShiny = false;
 
@@ -28,7 +28,7 @@ public class ItemBase extends Item
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
         this.hasTooltip = true;
-        this.tooltipname = name;
+        this.tooltip_block_id = name;
     }
 
     // No Info
@@ -41,7 +41,7 @@ public class ItemBase extends Item
             final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
-        this.tooltipname = name;
+        this.tooltip_block_id = name;
         this.hasTooltip = true;
     }
 
@@ -71,8 +71,8 @@ public class ItemBase extends Item
     {
         if (!this.hasTooltip) return;
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", ChatFormatting.GOLD,
-                ChatFormatting.BOLD, ChatFormatting.RESET);
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_block_id + ".tooltip", ChatFormatting.GOLD,
+                ChatFormatting.BOLD, ChatFormatting.RESET).translateEscapes();
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(TComponent.translatable(message));
     }

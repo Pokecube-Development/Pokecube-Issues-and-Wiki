@@ -2,8 +2,8 @@
 	"variants": { 
 		"": 
 		[ 
-			{ "model": "pokecube:block/fruit_pecha"},
-			{"model": "pokecube:block/fruit_pecha", "y": 180}
+			{ "model": "pokecube:block/fruit_pecha" },
+			{ "model": "pokecube:block/fruit_pecha", "y": 90 }
 		] 
 	} 
 }

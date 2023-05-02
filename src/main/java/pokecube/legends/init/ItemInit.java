@@ -198,24 +198,29 @@ public class ItemInit
     public static final RegistryObject<Item> TEMPORAL_BAMBOO;
 
     // Foods
-    public static final RegistryObject<Item> LUM_POKEPUFF;
-    public static final RegistryObject<Item> TAMATO_POKEPUFF;
-    public static final RegistryObject<Item> ORAN_POKEPUFF;
-    public static final RegistryObject<Item> CHESTO_POKEPUFF;
-    public static final RegistryObject<Item> PECHA_POKEPUFF;
-    public static final RegistryObject<Item> PINAP_POKEPUFF;
-    public static final RegistryObject<Item> RAWST_POKEPUFF;
     public static final RegistryObject<Item> ASPEAR_POKEPUFF;
-    public static final RegistryObject<Item> ENIGMA_POKEPUFF;
-    public static final RegistryObject<Item> QUALOT_POKEPUFF;
-    public static final RegistryObject<Item> ROWAP_POKEPUFF;
-    public static final RegistryObject<Item> NANAB_POKEPUFF;
-    public static final RegistryObject<Item> CORNN_POKEPUFF;
     public static final RegistryObject<Item> CHERI_POKEPUFF;
-    public static final RegistryObject<Item> KELPSY_POKEPUFF;
+    public static final RegistryObject<Item> CHESTO_POKEPUFF;
+    public static final RegistryObject<Item> CORNN_POKEPUFF;
+    public static final RegistryObject<Item> ENIGMA_POKEPUFF;
+    public static final RegistryObject<Item> GREPA_POKEPUFF;
     public static final RegistryObject<Item> HONDEW_POKEPUFF;
-    public static final RegistryObject<Item> POMEG_POKEPUFF;
+    public static final RegistryObject<Item> JABOCA_POKEPUFF;
+    public static final RegistryObject<Item> KELPSY_POKEPUFF;
+    public static final RegistryObject<Item> LEPPA_POKEPUFF;
+    public static final RegistryObject<Item> LUM_POKEPUFF;
+    public static final RegistryObject<Item> NANAB_POKEPUFF;
+    public static final RegistryObject<Item> NULL_POKEPUFF;
+    public static final RegistryObject<Item> ORAN_POKEPUFF;
+    public static final RegistryObject<Item> PECHA_POKEPUFF;
     public static final RegistryObject<Item> PERSIM_POKEPUFF;
+    public static final RegistryObject<Item> PINAP_POKEPUFF;
+    public static final RegistryObject<Item> POMEG_POKEPUFF;
+    public static final RegistryObject<Item> QUALOT_POKEPUFF;
+    public static final RegistryObject<Item> RAWST_POKEPUFF;
+    public static final RegistryObject<Item> ROWAP_POKEPUFF;
+    public static final RegistryObject<Item> SITRUS_POKEPUFF;
+    public static final RegistryObject<Item> TAMATO_POKEPUFF;
 
     // Signs
     public static final RegistryObject<Item> AGED_SIGN;
@@ -343,9 +348,9 @@ public class ItemInit
                 () -> new ItemBase("static_wing", PokecubeLegends.TAB_LEGENDS, 1));
 
         ICE_CARROT = PokecubeLegends.ITEMS.register("ice_carrot",
-                () -> new ItemBase("ice_carrot", PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.ICE_CARROT, 1));
+                () -> new ItemBase("ice_carrot", PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.ICE_CARROT, 16));
         SHADOW_CARROT = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot",
-                PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.SHADOW_CARROT, 1));
+                PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.SHADOW_CARROT, 16));
 
         // Misc
         AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute",
@@ -513,36 +518,46 @@ public class ItemInit
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         CORNN_POKEPUFF = PokecubeLegends.ITEMS.register("cornn_pokepuff", () -> new ItemBase("cornn_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.GLOWING_POKEPUFF, 16));
-        HONDEW_POKEPUFF = PokecubeLegends.ITEMS.register("hondew_pokepuff", () -> new ItemBase("hondew_pokepuff",
-                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.JUMP_POKEPUFF, 16));
-        PERSIM_POKEPUFF = PokecubeLegends.ITEMS.register("persim_pokepuff", () -> new ItemBase("persim_pokepuff",
-                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
-        POMEG_POKEPUFF = PokecubeLegends.ITEMS.register("pomeg_pokepuff", () -> new ItemBase("pomeg_pokepuff",
-                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HERO_POISON_POKEPUFF, 16));
-        ROWAP_POKEPUFF = PokecubeLegends.ITEMS.register("rowap_pokepuff", () -> new ItemBase("rowap_pokepuff",
-                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.DAMAGE_BOOST_POKEPUFF, 16));
         CHERI_POKEPUFF = PokecubeLegends.ITEMS.register("cheri_pokepuff", () -> new ItemBase("cheri_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         CHESTO_POKEPUFF = PokecubeLegends.ITEMS.register("chesto_pokepuff", () -> new ItemBase("chesto_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         ENIGMA_POKEPUFF = PokecubeLegends.ITEMS.register("enigma_pokepuff", () -> new ItemBase("enigma_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.ABSORPTION_POKEPUFF, 16));
+        GREPA_POKEPUFF = PokecubeLegends.ITEMS.register("grepa_pokepuff", () -> new ItemBase("grepa_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.WEAKNESS_LUCK_POKEPUFF, 16));
+        HONDEW_POKEPUFF = PokecubeLegends.ITEMS.register("hondew_pokepuff", () -> new ItemBase("hondew_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.JUMP_POKEPUFF, 16));
+        JABOCA_POKEPUFF = PokecubeLegends.ITEMS.register("jaboca_pokepuff", () -> new ItemBase("jaboca_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.DAMAGE_BOOST_POKEPUFF, 16));
         KELPSY_POKEPUFF = PokecubeLegends.ITEMS.register("kelpsy_pokepuff", () -> new ItemBase("kelpsy_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HERO_WEAKNESS_POKEPUFF, 16));
-        LUM_POKEPUFF = PokecubeLegends.ITEMS.register("lum_pokepuff",
-                () -> new ItemBase("lum_pokepuff", PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HEAL_POKEPUFF, 16));
+        LEPPA_POKEPUFF = PokecubeLegends.ITEMS.register("leppa_pokepuff", () -> new ItemBase("leppa_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FOOD_POKEPUFF, 16));
+        LUM_POKEPUFF = PokecubeLegends.ITEMS.register("lum_pokepuff", () -> new ItemBase("lum_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HEAL_POKEPUFF, 16));
         NANAB_POKEPUFF = PokecubeLegends.ITEMS.register("nanab_pokepuff", () -> new ItemBase("nanab_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.LUCK_POKEPUFF, 16));
+        NULL_POKEPUFF = PokecubeLegends.ITEMS.register("null_pokepuff", () -> new ItemBase("null_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.NULL_POKEPUFF, 16));
         ORAN_POKEPUFF = PokecubeLegends.ITEMS.register("oran_pokepuff", () -> new ItemBase("oran_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HEAL_POKEPUFF, 16));
         PECHA_POKEPUFF = PokecubeLegends.ITEMS.register("pecha_pokepuff", () -> new ItemBase("pecha_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
+        PERSIM_POKEPUFF = PokecubeLegends.ITEMS.register("persim_pokepuff", () -> new ItemBase("persim_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         PINAP_POKEPUFF = PokecubeLegends.ITEMS.register("pinap_pokepuff", () -> new ItemBase("pinap_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.LUCK_DAMAGE_RESIST_POKEPUFF, 16));
+        POMEG_POKEPUFF = PokecubeLegends.ITEMS.register("pomeg_pokepuff", () -> new ItemBase("pomeg_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.HERO_POISON_POKEPUFF, 16));
         QUALOT_POKEPUFF = PokecubeLegends.ITEMS.register("qualot_pokepuff", () -> new ItemBase("qualot_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.DAMAGE_BOOST_POKEPUFF, 16));
         RAWST_POKEPUFF = PokecubeLegends.ITEMS.register("rawst_pokepuff", () -> new ItemBase("rawst_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
+        ROWAP_POKEPUFF = PokecubeLegends.ITEMS.register("rowap_pokepuff", () -> new ItemBase("rowap_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.DAMAGE_BOOST_POKEPUFF, 16));
+        SITRUS_POKEPUFF = PokecubeLegends.ITEMS.register("sitrus_pokepuff", () -> new ItemBase("sitrus_pokepuff",
+                PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.REGEN_POKEPUFF, 16));
         TAMATO_POKEPUFF = PokecubeLegends.ITEMS.register("tamato_pokepuff", () -> new ItemBase("tamato_pokepuff",
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
     }
