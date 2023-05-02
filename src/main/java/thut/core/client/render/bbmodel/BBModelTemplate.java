@@ -122,15 +122,15 @@ public class BBModelTemplate
             float[] mid_offset = new float[]
             { 0, 0, 0 };
 
-            float f = 1 + b.inflate;
+            float f = b.inflate;
 
             for (int i = 0; i < 3; i++)
             {
-                float size = (b.to[i] - b.from[i]) * f;
-                float mid = -(b.to[i] + b.from[i]) * f / 2;
+                float size = (b.to[i] - b.from[i]) + 2 * f;
+                float mid = (b.to[i] + b.from[i]) / 2;
                 origin_offset[i] = -b.origin[i] + b.from[i];
                 to[i] = size;
-                mid_offset[i] = -mid - size / 2;
+                mid_offset[i] = mid - size / 2;
             }
 
             CubeFace up = null, down = null, east = null, west = null, north = null, south = null;
@@ -255,8 +255,6 @@ public class BBModelTemplate
             Vector3f origin = new Vector3f(origin_offset);
             Vector3f shift = new Vector3f(mid_offset);
 
-            boolean bedrock = template.meta.model_format.equals("bedrock");
-
             int[][] tex_order =
             {
                     { 0, 1 },
@@ -285,8 +283,7 @@ public class BBModelTemplate
                     // Now translate to where it should be
                     vec.add(shift);
 
-                    if (bedrock) v.set(-vec.x() / 16, -vec.z() / 16, vec.y() / 16);
-                    else v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
+                    v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                     int i = (index + face.rotation / 90) % 4;
                     int u0 = tex_order[i][0];
                     int v0 = tex_order[i][1];
@@ -319,8 +316,6 @@ public class BBModelTemplate
 
             Vector3f origin = new Vector3f(b.origin);
 
-            boolean bedrock = template.meta.model_format.equals("bedrock");
-
             Map<String, Vertex> verts = Maps.newHashMap();
 
             for (var entry : b.vertices.entrySet())
@@ -337,8 +332,7 @@ public class BBModelTemplate
                 vec.transform(quat);
                 vec.add(origin);
 
-                if (bedrock) v.set(-vec.x() / 16, -vec.z() / 16, vec.y() / 16);
-                else v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
+                v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                 verts.put(key, v);
             }
 
@@ -406,7 +400,6 @@ public class BBModelTemplate
             if (this.type.equals("cube"))
             {
                 BBCubeElement box = new BBCubeElement(t, this);
-                boolean bedrock = t.meta.model_format.equals("bedrock");
                 for (var face : box.quads)
                 {
                     if (face == null) continue;
@@ -424,8 +417,6 @@ public class BBModelTemplate
                     for (int i = 0; i < 4; i++)
                     {
                         int index = i;
-                        if (bedrock) index = 3 - i;
-
                         Integer o = order.size();
                         Vertex v = face.points[index];
                         var tx = face.tex[index];
@@ -439,7 +430,6 @@ public class BBModelTemplate
             else if (this.type.equals("mesh"))
             {
                 BBMeshElement box = new BBMeshElement(t, this);
-                boolean bedrock = t.meta.model_format.equals("bedrock");
                 for (var face : box.quads)
                 {
                     if (face == null) continue;
@@ -457,8 +447,6 @@ public class BBModelTemplate
                     for (int i = 0; i < 4; i++)
                     {
                         int index = i;
-                        if (bedrock) index = 3 - i;
-
                         Integer o = order.size();
                         Vertex v = face.points[index];
                         var tx = face.tex[index];
@@ -485,8 +473,6 @@ public class BBModelTemplate
                     for (int i = 0; i < 3; i++)
                     {
                         int index = i;
-                        if (bedrock) index = 2 - i;
-
                         Integer o = order.size();
                         Vertex v = face.points[index];
                         var tx = face.tex[index];
