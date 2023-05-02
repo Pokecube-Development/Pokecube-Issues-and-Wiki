@@ -26,7 +26,7 @@ def _process_arceus_silvally(entry, key, model):
 PROCESSORS = {
     'arceus': _process_arceus_silvally,
     'silvally': _process_arceus_silvally,
-    'burmy': _process_tex_only,
+    # 'burmy': _process_tex_only,
     'genesect': _process_no_custom,
     'furfrou': _process_no_custom,
     'flabebe': _process_no_custom,
