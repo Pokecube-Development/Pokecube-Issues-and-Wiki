@@ -220,9 +220,11 @@ public class AnimationConversion
                 all_not_func = this.setDoubles(segment.rotOffset, rotations, segment._rotFunctions) & all_not_func;
                 all_not_func = this.setDoubles(segment.scaleOffset, scales, segment._scaleFunctions) & all_not_func;
 
-                segment.posOffset[0] = -segment.posOffset[0] * 1 / 16f;
-                segment.posOffset[1] = -segment.posOffset[1] * 1 / 16f;
-                segment.posOffset[2] = +segment.posOffset[2] * 1 / 16f;
+                var old = segment.posOffset.clone();
+                
+                segment.posOffset[0] = -old[0] * 1 / 16f;
+                segment.posOffset[1] = -old[2] * 1 / 16f;
+                segment.posOffset[2] = +old[1] * 1 / 16f;
 
                 if (is_bedrock) segment.posOffset[0] *= -1;
 
@@ -249,10 +251,12 @@ public class AnimationConversion
 
                 segment.rotChange[0] = -segment.rotChange[0];
                 segment.rotChange[1] = -segment.rotChange[1];
+                
+                var old = segment.posChange.clone();
 
-                segment.posChange[0] = -segment.posChange[0] * 1 / 16f;
-                segment.posChange[1] = -segment.posChange[1] * 1 / 16f;
-                segment.posChange[2] = +segment.posChange[2] * 1 / 16f;
+                segment.posChange[0] = -old[0] * 1 / 16f;
+                segment.posChange[1] = -old[2] * 1 / 16f;
+                segment.posChange[2] = +old[1] * 1 / 16f;
 
                 if (is_bedrock) segment.posChange[0] *= -1;
 
