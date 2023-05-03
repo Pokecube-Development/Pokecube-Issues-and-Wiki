@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tarountula"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tarountula"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tarountula": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tarountula"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

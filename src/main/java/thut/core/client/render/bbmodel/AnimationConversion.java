@@ -50,6 +50,11 @@ public class AnimationConversion
 
     public static class XMLAnimationSegment extends AnimationComponent
     {
+        private static float[] _posFuncScales =
+        { -1 / 16f, -1 / 16f, 1 / 16f };
+        private static float[] _rotFuncScales =
+        { -1, -1, 1 };
+
         public String rotFuncs = "";
         public String scaleFuncs = "";
         public String posFuncs = "";
@@ -58,13 +63,14 @@ public class AnimationConversion
         {
             this.length = length;
             this.startKey = start_time;
+            this._posFuncScale = _posFuncScales;
+            this._rotFuncScale = _rotFuncScales;
         }
     }
 
     public static class BBModelAnimationSegment
     {
         final int time;
-        boolean is_bedrock = false;
         boolean has_scale = false;
         Object[] rotations =
         { 0, 0, 0 };
@@ -221,12 +227,10 @@ public class AnimationConversion
                 all_not_func = this.setDoubles(segment.scaleOffset, scales, segment._scaleFunctions) & all_not_func;
 
                 var old = segment.posOffset.clone();
-                
+
                 segment.posOffset[0] = -old[0] * 1 / 16f;
                 segment.posOffset[1] = -old[2] * 1 / 16f;
                 segment.posOffset[2] = +old[1] * 1 / 16f;
-
-                if (is_bedrock) segment.posOffset[0] *= -1;
 
                 segment.rotOffset[0] = -segment.rotOffset[0];
                 segment.rotOffset[1] = -segment.rotOffset[1];
@@ -251,26 +255,21 @@ public class AnimationConversion
 
                 segment.rotChange[0] = -segment.rotChange[0];
                 segment.rotChange[1] = -segment.rotChange[1];
-                
+
                 var old = segment.posChange.clone();
 
                 segment.posChange[0] = -old[0] * 1 / 16f;
                 segment.posChange[1] = -old[2] * 1 / 16f;
                 segment.posChange[2] = +old[1] * 1 / 16f;
-
-                if (is_bedrock) segment.posChange[0] *= -1;
-
-                if (has_scale)
-                {
-                    segment.scaleChange[0] = segment.scaleChange[0];
-                    segment.scaleChange[1] = segment.scaleChange[1];
-                    segment.scaleChange[2] = segment.scaleChange[2];
-                    if (segment.scaleChange[0] <= 0) segment.hidden = true;
-                }
             }
 
             if (!all_not_func)
-            {}
+            {
+                var old = segment._posFunctions.clone();
+                segment._posFunctions[0] = old[0];
+                segment._posFunctions[1] = old[2];
+                segment._posFunctions[2] = old[1];
+            }
             // We are not printing, so we don't need the "clear if not defined"
             // section
 
@@ -281,7 +280,6 @@ public class AnimationConversion
     public static Map<String, List<Animation>> make_animations(BBModelTemplate template)
     {
         Map<String, List<Animation>> map = new HashMap<>();
-        boolean bedrock = template.meta.model_format.equals("bedrock");
         for (var animation : template.animations)
         {
             Map<String, List<AnimationComponent>> parts = new HashMap<>();
@@ -300,7 +298,6 @@ public class AnimationConversion
                         List<BBModelAnimationSegment> frames_list = frames_map.getOrDefault(part.name, null);
                         if (frames_list == null) frames_map.put(part.name, frames_list = Lists.newArrayList());
                         frames_list.add(f);
-                        f.is_bedrock = bedrock;
                         return f;
                     });
                     frame.process(keyframe);

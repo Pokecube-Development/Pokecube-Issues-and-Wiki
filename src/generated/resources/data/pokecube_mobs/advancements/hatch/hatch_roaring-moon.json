@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.roaring-moon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.roaring-moon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_roaring-moon": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "roaring-moon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

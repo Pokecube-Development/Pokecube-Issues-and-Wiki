@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.maschiff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.maschiff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_maschiff": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "maschiff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

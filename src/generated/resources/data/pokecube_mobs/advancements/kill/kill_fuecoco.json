@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.fuecoco"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fuecoco"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_fuecoco": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "fuecoco"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

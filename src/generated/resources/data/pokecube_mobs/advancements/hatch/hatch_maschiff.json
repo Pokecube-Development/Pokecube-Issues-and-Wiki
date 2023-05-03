@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.maschiff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.maschiff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_maschiff": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "maschiff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

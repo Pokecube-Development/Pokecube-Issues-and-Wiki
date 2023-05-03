@@ -1,8 +1,10 @@
 package thut.api.entity;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -90,6 +92,9 @@ public interface IAnimated
             MOLANG_MAP.put("query.on_fire_time", "on_fire_time");
             MOLANG_MAP.put("query.is_on_ground", "is_on_ground");
             MOLANG_MAP.put("query.yaw_speed", "yaw_speed");
+            
+            Set<String> vars = new HashSet<>(MOLANG_MAP.keySet());
+            for(String s: vars) MOLANG_MAP.put(s.replace("query.", "q."), MOLANG_MAP.get(s));
 
             JEP_VARS.put("t", 0.);
             JEP_VARS.put("l", 0.);

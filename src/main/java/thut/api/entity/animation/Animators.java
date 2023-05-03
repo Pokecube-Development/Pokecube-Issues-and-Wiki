@@ -135,19 +135,19 @@ public class Animators
                 if (component._rotFunctions[i] != null)
                 {
                     molangs.updateJEP(component._rotFunctions[i]);
-                    dr[i] = (float) component._rotFunctions[i].getValue();
+                    dr[i] = (float) component._rotFunctions[i].getValue() * component._rotFuncScale[i];
                     modifies++;
                 }
                 if (component._scaleFunctions[i] != null)
                 {
                     molangs.updateJEP(component._scaleFunctions[i]);
-                    ds[i] = (float) component._scaleFunctions[i].getValue();
+                    ds[i] = (float) component._scaleFunctions[i].getValue() * component._scaleFuncScale[i];
                     modifies++;
                 }
                 if (component._posFunctions[i] != null)
                 {
                     molangs.updateJEP(component._posFunctions[i]);
-                    dx[i] = (float) component._posFunctions[i].getValue() / 16f;
+                    dx[i] = (float) component._posFunctions[i].getValue() * component._posFuncScale[i];
                     modifies++;
                 }
             }
