@@ -13607,6 +13607,27 @@
       }
     ]
   },
+  "mobs.meloetta-pirouette": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.meloetta",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/meloetta",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/meloetta",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/meloetta",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
   "mobs.meloetta-aria": {
     "category": "hostile",
     "subtitle": "entity.pokecube.meloetta-aria",
@@ -15576,6 +15597,69 @@
       },
       {
         "name": "pokecube_mobs:mobs/oricorio-baile",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.oricorio-pau": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oricorio-pau",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oricorio-pau",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/oricorio-pau",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/oricorio-pau",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.oricorio-pom-pom": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oricorio-pom-pom",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oricorio-pom-pom",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/oricorio-pom-pom",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/oricorio-pom-pom",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.oricorio-sensu": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.oricorio-sensu",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/oricorio-sensu",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/oricorio-sensu",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/oricorio-sensu",
         "volume": 1.0,
         "pitch": 1.0
       }
