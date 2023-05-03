@@ -46,21 +46,20 @@ public class Clamp extends PostfixMathCommand
     public void run(Stack inStack) throws ParseException
     {
         this.checkStack(inStack);// check the stack
-        final Object value = inStack.pop();
-        final Object min = inStack.pop();
         final Object max = inStack.pop();
+        final Object min = inStack.pop();
+        final Object value = inStack.pop();
+
+        Object result = value;
 
         if (gt(value, max))
         {
-            inStack.push(max);
+            result = max;
         }
         else if (lt(value, min))
         {
-            inStack.push(min);
+            result = min;
         }
-        else
-        {
-            inStack.push(value);
-        }
+        inStack.push(result);
     }
 }
