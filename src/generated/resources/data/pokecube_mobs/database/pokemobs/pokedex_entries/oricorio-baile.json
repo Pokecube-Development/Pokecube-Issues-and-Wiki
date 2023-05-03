@@ -6,7 +6,6 @@
   "size": {
     "height": 0.6
   },
-  "sound": "oricorio-baile",
   "mass": 3.4,
   "is_default": true,
   "capture_rate": 45,
@@ -199,5 +198,6 @@
       "trailblaze"
     ]
   },
+  "sound": "oricorio-baile",
   "old_name": "oricorio_baile"
 }
