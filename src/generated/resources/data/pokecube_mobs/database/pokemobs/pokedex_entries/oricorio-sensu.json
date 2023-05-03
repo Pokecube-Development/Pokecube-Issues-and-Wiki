@@ -7,7 +7,6 @@
     "height": 0.6
   },
   "mass": 3.4,
-  "sound": "oricorio-sensu",
   "is_default": false,
   "capture_rate": 45,
   "base_happiness": 70,
@@ -199,6 +198,7 @@
       "trailblaze"
     ]
   },
+  "sound": "oricorio-sensu",
   "old_name": "oricorio_sensu",
   "loot_table": "pokecube:entities/oranberry"
 }
