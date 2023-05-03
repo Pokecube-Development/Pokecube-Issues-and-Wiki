@@ -198,6 +198,7 @@
       "trailblaze"
     ]
   },
+  "sound": "oricorio-pau",
   "old_name": "oricorio_pau",
   "loot_table": "pokecube:entities/oranberry"
 }

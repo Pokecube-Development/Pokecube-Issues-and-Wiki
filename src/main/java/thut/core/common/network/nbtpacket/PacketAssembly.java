@@ -38,7 +38,10 @@ public final class PacketAssembly<T extends NBTPacket>
             final Factory<K> factory, final PacketHandler handler)
     {
         final PacketAssembly<K> assembler = new PacketAssembly<>(factory, handler);
-        PacketAssembly.ASSEMBLERS.put(clazz, assembler);
+        synchronized (ASSEMBLERS)
+        {
+            PacketAssembly.ASSEMBLERS.put(clazz, assembler);
+        }
         return assembler;
     }
 
@@ -176,8 +179,8 @@ public final class PacketAssembly<T extends NBTPacket>
 
             try
             {
-                final DataInputStream dis = new DataInputStream(new BufferedInputStream(new GZIPInputStream(
-                        new ByteArrayInputStream(tmp))));
+                final DataInputStream dis = new DataInputStream(
+                        new BufferedInputStream(new GZIPInputStream(new ByteArrayInputStream(tmp))));
                 final CompoundTag tag = NbtIo.read(dis, NbtAccounter.UNLIMITED);
                 dis.close();
                 return tag;
