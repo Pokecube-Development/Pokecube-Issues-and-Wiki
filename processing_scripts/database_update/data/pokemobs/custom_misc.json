@@ -1,5 +1,21 @@
 [
   {
+    "name":"oricorio-pom-pom",
+    "sound": "oricorio-pom-pom"
+  },
+  {
+    "name":"oricorio-sensu",
+    "sound": "oricorio-sensu"
+  },
+  {
+    "name":"oricorio-baile",
+    "sound": "oricorio-baile"
+  },
+  {
+    "name":"oricorio-pau",
+    "sound": "oricorio-pau"
+  },
+  {
     "name":"burmy",
     "evolutions":[
       {
