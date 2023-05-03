@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.farigiraf"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.farigiraf"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_farigiraf": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "farigiraf"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

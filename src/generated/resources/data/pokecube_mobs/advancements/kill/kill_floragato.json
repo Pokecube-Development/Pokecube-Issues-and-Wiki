@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.floragato"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floragato"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_floragato": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "floragato"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

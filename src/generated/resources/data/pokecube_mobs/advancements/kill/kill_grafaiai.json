@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.grafaiai"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.grafaiai"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_grafaiai": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "grafaiai"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}
