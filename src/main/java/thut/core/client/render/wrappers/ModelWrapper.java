@@ -260,11 +260,11 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (!this.isLoaded()) return;
         this.setEntity(entityIn);
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
-        holder.preRun();
+        holder.preRunAll();
         this.renderer.setAnimationHolder(holder);
         if (this.renderer.getAnimationChanger() != null) this.renderer.setAnimation(entityIn, partialTickTime);
         this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
-        holder.postRun();
+        holder.postRunAll();
     }
 
     @Override

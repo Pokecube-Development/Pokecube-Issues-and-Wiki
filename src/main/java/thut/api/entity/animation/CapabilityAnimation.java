@@ -8,7 +8,7 @@ import java.util.UUID;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -32,9 +32,8 @@ public class CapabilityAnimation
 
         List<Animation> playingList = DefaultImpl.EMPTY;
 
-        Object2IntOpenHashMap<UUID> non_static = new Object2IntOpenHashMap<>();
-
-        List<Animation> keys = Lists.newArrayList();
+        Object2FloatOpenHashMap<UUID> non_static = new Object2FloatOpenHashMap<>();
+        Object2FloatOpenHashMap<UUID> start_times = new Object2FloatOpenHashMap<>();
 
         public String _default = "idle";
 
@@ -48,11 +47,15 @@ public class CapabilityAnimation
 
         boolean init = false;
 
+        float _ageInTicks;
+
         @Override
         public void clean()
         {
             this.pending = _default;
             this.playing = _default;
+            this.non_static.clear();
+            this.start_times.clear();
             this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
         }
 
@@ -80,15 +83,25 @@ public class CapabilityAnimation
         @Override
         public List<Animation> getPlaying()
         {
-            if (this.keys.isEmpty() && !this.pending.isEmpty())
+            List<Animation> playing = this.anims.getOrDefault(this.playing, EMPTY);
+            if (this.playingList != playing)
             {
-                this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
-                this.playing = this.pending;
+                this.playingList = playing;
                 this.non_static.clear();
                 for (final Animation a : this.playingList) if (a.getLength() > 0)
                 {
                     this.non_static.put(a._uuid, 0);
-                    this.keys.add(a);
+                    this.start_times.removeFloat(a._uuid);
+                }
+            }
+            if (non_static.isEmpty() && !this.pending.isEmpty())
+            {
+                this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
+                this.playing = this.pending;
+                for (final Animation a : this.playingList) if (a.getLength() > 0)
+                {
+                    this.non_static.put(a._uuid, 0);
+                    this.start_times.removeFloat(a._uuid);
                 }
             }
             return this.playingList;
@@ -118,12 +131,7 @@ public class CapabilityAnimation
         @Override
         public void setStep(final Animation animation, final float step)
         {
-            // Only reset if we have a pending animation.
-            final int l = animation.getLength();
-            final boolean finished = l != 0 && step > l || animation.hasLimbBased;
-            if (finished && (!animation.loops || !this.pending.equals(this.playing)))
-                this.non_static.put(animation._uuid, 0);
-            else this.non_static.put(animation._uuid, l != 0 ? l : 10);
+            this.non_static.put(animation._uuid, step);
         }
 
         @Override
@@ -133,23 +141,49 @@ public class CapabilityAnimation
         }
 
         @Override
-        public void preRun()
+        public void preRunAll()
+        {}
+
+        @Override
+        public void postRunAll()
+        {}
+
+        @Override
+        public void initHeadInfoAndMolangs(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
+                float netHeadYaw, float headPitch)
         {
-            this.non_static.replaceAll((a, i) -> 0);
+            IAnimationHolder.super.initHeadInfoAndMolangs(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
+                    headPitch);
+            this._ageInTicks = ageInTicks;
         }
 
         @Override
-        public void postRun()
+        public void preRunAnim(Animation animation)
         {
-            this.keys.removeIf(a -> {
-                final int i = this.non_static.getInt(a._uuid);
-                if (i <= 0)
+            this.non_static.put(animation._uuid, 0);
+            float t_0 = this.start_times.getOrDefault(animation._uuid, this._ageInTicks);
+            this.start_times.put(animation._uuid, t_0);
+            this.getMolangVars().startTimer(t_0);
+        }
+
+        @Override
+        public void postRunAnim(Animation animation)
+        {
+            float i = this.non_static.getFloat(animation._uuid);
+            if (this.pending != this.playing)
+            {
+                if (i >= animation.length)
                 {
-                    this.non_static.removeInt(a._uuid);
-                    return true;
+                    this.non_static.removeFloat(animation._uuid);
                 }
-                return false;
-            });
+            }
+            else
+            {
+                if (i >= animation.length && animation.loops || animation.hasLimbBased)
+                {
+                    this.non_static.removeFloat(animation._uuid);
+                }
+            }
         }
 
         @Override

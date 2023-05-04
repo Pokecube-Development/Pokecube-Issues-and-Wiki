@@ -112,6 +112,8 @@ public class AnimationXML
     {
         @XmlAttribute(name = "merge")
         public String merge;
+        @XmlAttribute(name = "limbs")
+        public String limbs;
     }
 
     @XmlRootElement(name = "subanim")

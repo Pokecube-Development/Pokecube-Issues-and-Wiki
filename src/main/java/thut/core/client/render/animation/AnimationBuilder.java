@@ -17,7 +17,7 @@ import com.google.common.collect.Maps;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animation.IPartRenamer;
 import thut.api.entity.animation.AnimationComponent;
-import thut.api.entity.animation.Animators.FunctionAnimation;
+import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationXML.Component;
@@ -81,29 +81,21 @@ public class AnimationBuilder
                 }
             }
 
-            outer:
             for (final String partName : partNames)
             {
                 final ArrayList<AnimationComponent> set = Lists.newArrayList();
                 for (final Component component : part.components)
                 {
-                    if (!(component.rotFuncs.isBlank() && component.posFuncs.isBlank()
-                            && component.scaleFuncs.isBlank()))
-                    {
-                        JEP[] rots = new JEP[3];
-                        JEP[] pos = new JEP[3];
-                        JEP[] scale = new JEP[3];
-
-                        if (!component.rotFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.rotFuncs);
-                        if (!component.posFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.posFuncs);
-                        if (!component.scaleFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.scaleFuncs);
-
-                        FunctionAnimation anim = new FunctionAnimation(rots, pos, scale);
-                        anim.setHidden(component.hidden);
-                        ret.sets.put(partName, anim);
-                        continue outer;
-                    }
                     final AnimationComponent comp = new AnimationComponent();
+
+                    JEP[] rots = comp._rotFunctions;
+                    JEP[] pos = comp._posFunctions;
+                    JEP[] scale = comp._scaleFunctions;
+
+                    if (!component.rotFuncs.isBlank()) Animators.fillJEPs(rots, component.rotFuncs);
+                    if (!component.posFuncs.isBlank()) Animators.fillJEPs(pos, component.posFuncs);
+                    if (!component.scaleFuncs.isBlank()) Animators.fillJEPs(scale, component.scaleFuncs);
+
                     if (component.name != null) comp.name = component.name;
                     if (component.rotChange != null)
                     {

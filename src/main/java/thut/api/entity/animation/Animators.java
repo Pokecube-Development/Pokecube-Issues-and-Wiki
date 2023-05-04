@@ -2,7 +2,6 @@ package thut.api.entity.animation;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,6 +10,7 @@ import java.util.Set;
 
 import org.nfunk.jep.JEP;
 
+import com.google.common.collect.Lists;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
@@ -19,6 +19,7 @@ import thut.api.entity.IAnimated.MolangVars;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.core.client.render.model.IExtendedModelPart;
+import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
 
 public class Animators
@@ -40,54 +41,54 @@ public class Animators
         void setHidden(boolean hidden);
     }
 
-    public static class MixedAnimator implements IAnimator
+    public static void fillJEPs(JEP[] jeps, String _funcs)
     {
-        List<IAnimator> anims = new ArrayList<>();
-        int length = -1;
-        boolean limbBased = false;
-
-        public MixedAnimator(List<IAnimator> anims)
+        String[] funcs = _funcs.split(",");
+        func:
+        for (String s : funcs)
         {
-            this.anims.addAll(anims);
-            for (var anim : anims)
+            String[] args = s.split(":");
+            int i;
+            switch (args[0])
             {
-                length = Math.max(length, anim.getLength());
-                limbBased |= anim.hasLimbBased();
+            case ("x"):
+                i = 0;
+                break;
+            case ("y"):
+                i = 1;
+                break;
+            case ("z"):
+                i = 2;
+                break;
+            case ("rx"):
+                i = 0;
+                break;
+            case ("ry"):
+                i = 1;
+                break;
+            case ("rz"):
+                i = 2;
+                break;
+            case ("dx"):
+                i = 0;
+                break;
+            case ("dy"):
+                i = 1;
+                break;
+            case ("dz"):
+                i = 2;
+                break;
+            default:
+                ThutCore.LOGGER.error("Malformed function animation {}", s);
+                continue func;
             }
-        }
-
-        @Override
-        public boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
-                float limbSwing, int tick)
-        {
-            boolean animated = false;
-            for (var anim : anims)
-                animated = anim.animate(animation, holder, part, partialTick, limbSwing, tick) | animated;
-            return animated;
-        }
-
-        @Override
-        public int getLength()
-        {
-            return length;
-        }
-
-        @Override
-        public boolean hasLimbBased()
-        {
-            return limbBased;
-        }
-
-        @Override
-        public void setLimbBased()
-        {
-            for (var anim : anims) anim.setLimbBased();
-        }
-
-        @Override
-        public void setHidden(boolean hidden)
-        {
-            for (var anim : anims) anim.setHidden(hidden);
+            var func = args[1];
+            jeps[i] = new JEP();
+            jeps[i].addStandardFunctions();
+            jeps[i].addStandardConstants();
+            for (var entry : MolangVars.JEP_VARS.entrySet())
+                if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
+            jeps[i].parseExpression(func);
         }
     }
 
@@ -97,15 +98,25 @@ public class Animators
     {
         private static final AnimationComponent DEFAULTS = new AnimationComponent();
 
+        private static record AnimChannel(String channel, List<AnimationComponent> components, int length)
+        {
+        };
+
         float[] dr = new float[3];
         float[] ds = new float[3];
         float[] dx = new float[3];
 
         public final List<AnimationComponent> components;
-        private Map<String, List<AnimationComponent>> by_channel = new HashMap<>();
+        public final List<AnimChannel> channels = new ArrayList<>();
+        Map<String, AnimChannel> channel_map = new HashMap<>();
         private int length = -1;
         private boolean limbBased;
         private boolean hidden = false;
+
+        public KeyframeAnimator(AnimationComponent component)
+        {
+            this(Lists.newArrayList(component), false);
+        }
 
         public KeyframeAnimator(List<AnimationComponent> components)
         {
@@ -117,6 +128,7 @@ public class Animators
             this.components = components;
             this.length = -1;
             this.limbBased = false;
+            Map<String, List<AnimationComponent>> by_channel = new HashMap<>();
             for (final AnimationComponent component : components)
             {
                 this.length = Math.max(this.length, component.startKey + component.length);
@@ -159,6 +171,17 @@ public class Animators
                 }
             }
 
+            for (var entry : by_channel.entrySet())
+            {
+                String key = entry.getKey();
+                var list = entry.getValue();
+                int len = 1;
+                for (var comp : list) len = Math.max(len, comp.startKey + comp.length);
+                AnimChannel channel = new AnimChannel(key, list, len);
+                this.channels.add(channel);
+                this.channel_map.put(key, channel);
+            }
+
             if (!preComputed) for (var entry : by_channel.entrySet())
             {
                 var list = entry.getValue();
@@ -177,11 +200,20 @@ public class Animators
 
         }
 
-        private AnimationComponent getNext(float time1, float time2, String channel)
+        private AnimationComponent getNext(float time1, float time2, boolean loops, String channel)
         {
-            var components = by_channel.getOrDefault(channel, Collections.emptyList());
+            var animChannel = channel_map.getOrDefault(channel, null);
+            if (animChannel == null) return null;
+            var components = animChannel.components();
             if (components.isEmpty()) return null;
             int n = components.size();
+
+            if (loops)
+            {
+                time1 %= animChannel.length();
+                time2 %= animChannel.length();
+            }
+
             // Now we run through the components per channel
             AnimationComponent component = components.get(n - 1);
             for (int i = 0; i < n - 1; i++)
@@ -250,19 +282,14 @@ public class Animators
             float px = 0, py = 0, pz = 0;
             float rx = 0, ry = 0, rz = 0;
             float sx = 1, sy = 1, sz = 1;
-            int aniTick = tick;
-            float time1 = aniTick;
-            float time2 = 0;
-            int animationLength = animation.getLength();
+            float time1;
+            float time2;
             MolangVars molangs = holder.getMolangVars();
-            animationLength = Math.max(1, animationLength);
 
-            final float limbSpeedFactor = 3f;
-            time1 = (time1 + partialTick) % animationLength;
-            time2 = limbSwing * limbSpeedFactor % animationLength;
+            time1 = (float) molangs.getAnimTime();
+            time2 = (float) molangs.l;
 
-            time1 = (float) (molangs.t % animationLength);
-            time2 = (float) (molangs.l % animationLength);
+            int aniTick = (int) Math.ceil(time1);
 
 //            molangs.t = time1 = 1.f * 20f;
 
@@ -274,6 +301,8 @@ public class Animators
             // Marker for if any were hidden
             boolean any_hidden = false;
 
+            boolean limb = part instanceof Part p && p.isOverridenLimb;
+
             Set<String> used = new HashSet<>();
             // Now we run through the components per channel
 
@@ -281,11 +310,16 @@ public class Animators
             // Rotation set
             rots:
             {
-                AnimationComponent component = getNext(time1, time2, channel);
+                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break rots;
                 animated = true;
-                final float time = component.limbBased ? time2 : time1;
-                if (component.limbBased) aniTick = (int) time2;
+                float time = component.limbBased || limb ? time2 : time1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+                if (animation.loops)
+                {
+                    var animChannel = channel_map.getOrDefault(channel, null);
+                    time %= animChannel.length();
+                }
 
                 any_hidden |= component.hidden;
                 used.add(channel);
@@ -306,11 +340,15 @@ public class Animators
             // Position set
             pos:
             {
-                AnimationComponent component = getNext(time1, time2, channel);
+                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break pos;
-                animated = true;
-                final float time = component.limbBased ? time2 : time1;
-                if (component.limbBased) aniTick = (int) time2;
+                float time = component.limbBased || limb ? time2 : time1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+                if (animation.loops)
+                {
+                    var animChannel = channel_map.getOrDefault(channel, null);
+                    time %= animChannel.length();
+                }
 
                 any_hidden |= component.hidden;
                 used.add(channel);
@@ -331,11 +369,15 @@ public class Animators
             // scale set
             scales:
             {
-                AnimationComponent component = getNext(time1, time2, channel);
+                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break scales;
-                animated = true;
-                final float time = component.limbBased ? time2 : time1;
-                if (component.limbBased) aniTick = (int) time2;
+                float time = component.limbBased || limb ? time2 : time1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+                if (animation.loops)
+                {
+                    var animChannel = channel_map.getOrDefault(channel, null);
+                    time %= animChannel.length();
+                }
 
                 any_hidden |= component.hidden;
                 used.add(channel);
@@ -355,7 +397,7 @@ public class Animators
 
             // Apply hidden like this so last hidden state is kept
             part.setHidden(any_hidden);
-            holder.setStep(animation, aniTick + 2);
+            holder.setStep(animation, aniTick);
             if (animated)
             {
                 temp.set(px, py, pz);
@@ -372,8 +414,6 @@ public class Animators
                 rz += dr[2];
 
                 temp.addTo(dx[0], dx[1], dx[2]);
-
-//                if (part.getName().equals("head")) rz = 0;
 
                 sx *= ds[0];
                 sy *= ds[1];
@@ -413,189 +453,6 @@ public class Animators
         {
             this.hidden = hidden;
             for (final AnimationComponent component : components) component.hidden = hidden;
-        }
-    }
-
-    public static class FunctionAnimation implements IAnimator
-    {
-
-        public static void fillJEPs(JEP[] jeps, String _funcs)
-        {
-            String[] funcs = _funcs.split(",");
-            func:
-            for (String s : funcs)
-            {
-                String[] args = s.split(":");
-                int i;
-                switch (args[0])
-                {
-                case ("x"):
-                    i = 0;
-                    break;
-                case ("y"):
-                    i = 1;
-                    break;
-                case ("z"):
-                    i = 2;
-                    break;
-                case ("rx"):
-                    i = 0;
-                    break;
-                case ("ry"):
-                    i = 1;
-                    break;
-                case ("rz"):
-                    i = 2;
-                    break;
-                case ("dx"):
-                    i = 0;
-                    break;
-                case ("dy"):
-                    i = 1;
-                    break;
-                case ("dz"):
-                    i = 2;
-                    break;
-                default:
-                    ThutCore.LOGGER.error("Malformed function animation {}", s);
-                    continue func;
-                }
-                jeps[i] = new JEP();
-                jeps[i].addStandardFunctions();
-                jeps[i].addStandardConstants();
-                jeps[i].addVariable("t", 0);
-                jeps[i].addVariable("l", 0);
-                jeps[i].parseExpression(args[1]);
-            }
-        }
-
-        public static FunctionAnimation makeRotationTest(String rotations)
-        {
-            JEP[] rots = new JEP[3];
-            FunctionAnimation.fillJEPs(rots, rotations);
-            return new FunctionAnimation(rots);
-        }
-
-        public static FunctionAnimation makeOffsetTest(String offsets)
-        {
-            JEP[] offs = new JEP[3];
-            FunctionAnimation.fillJEPs(offs, offsets);
-            return new FunctionAnimation(new JEP[3], offs);
-        }
-
-        public JEP[] rotFunctions;
-        public JEP[] posFunctions;
-        public JEP[] scaleFunctions;
-
-        private boolean hidden;
-        private boolean limbBased;
-
-        float[] dr = new float[3];
-        float[] ds = new float[3];
-        float[] dx = new float[3];
-
-        private int[] colours =
-        { -1, -1, -1, -1 };
-
-        public FunctionAnimation(JEP[] rotFunctions)
-        {
-            this.rotFunctions = rotFunctions;
-            this.posFunctions = new JEP[3];
-            this.scaleFunctions = new JEP[3];
-        }
-
-        public FunctionAnimation(JEP[] rotFunctions, JEP[] posFunctions)
-        {
-            this.rotFunctions = rotFunctions;
-            this.posFunctions = posFunctions;
-            this.scaleFunctions = new JEP[3];
-        }
-
-        public FunctionAnimation(JEP[] rotFunctions, JEP[] posFunctions, JEP[] scaleFunctions)
-        {
-            this.rotFunctions = rotFunctions;
-            this.posFunctions = posFunctions;
-            this.scaleFunctions = scaleFunctions;
-        }
-
-        @Override
-        public boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
-                float limbSwing, int tick)
-        {
-            if (hidden)
-            {
-                part.setHidden(true);
-                return true;
-            }
-            int aniTick = tick;
-            float time1 = aniTick;
-            float time2 = 0;
-            final float limbSpeedFactor = 3f;
-            time1 = (time1 + partialTick);
-            time2 = limbSwing * limbSpeedFactor;
-            aniTick = (int) time1;
-
-            final Vector3 temp = animation._shift.clear();
-            if (colours[0] != -1)
-            {
-                part.setRGBABrO(null, colours[0], colours[1], colours[2], colours[3], Integer.MIN_VALUE, -1);
-            }
-            for (int i = 0; i < 3; i++)
-            {
-                dr[i] = 0;
-                ds[i] = 1;
-                dx[i] = 0;
-                if (rotFunctions[i] != null)
-                {
-                    rotFunctions[i].setVarValue("t", time1);
-                    rotFunctions[i].setVarValue("l", time2);
-                    dr[i] = (float) rotFunctions[i].getValue();
-                }
-                if (scaleFunctions[i] != null)
-                {
-                    scaleFunctions[i].setVarValue("t", time1);
-                    scaleFunctions[i].setVarValue("l", time2);
-                    ds[i] = (float) scaleFunctions[i].getValue();
-                }
-                if (posFunctions[i] != null)
-                {
-                    posFunctions[i].setVarValue("t", time1);
-                    posFunctions[i].setVarValue("l", time2);
-                    dx[i] = (float) posFunctions[i].getValue() / 16f;
-                }
-            }
-            part.setPreTranslations(temp.set(dx));
-            part.setPreScale(temp.set(ds));
-            final Quaternion quat = new Quaternion(0, 0, 0, 1);
-            if (dr[2] != 0) quat.mul(Vector3f.YN.rotationDegrees(dr[2]));
-            if (dr[0] != 0) quat.mul(Vector3f.XP.rotationDegrees(dr[0]));
-            if (dr[1] != 0) quat.mul(Vector3f.ZP.rotationDegrees(dr[1]));
-            part.setPreRotations(_rot.set(quat));
-            return true;
-        }
-
-        @Override
-        public int getLength()
-        {
-            return 0;
-        }
-
-        @Override
-        public boolean hasLimbBased()
-        {
-            return limbBased;
-        }
-
-        @Override
-        public void setLimbBased()
-        {
-            limbBased = true;
-        }
-
-        @Override
-        public void setHidden(boolean hidden)
-        {
-            this.hidden = hidden;
         }
     }
 }

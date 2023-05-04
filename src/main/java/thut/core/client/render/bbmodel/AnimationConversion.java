@@ -13,11 +13,12 @@ import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBDataPoint;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBKeyFrame;
+import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
 
 public class AnimationConversion
 {
-    public static String convertMolangToJEP(String molang)
+    public static String convertMolangToJEP(String molang, boolean forcedLimbs)
     {
         String jep = molang;
 
@@ -28,7 +29,11 @@ public class AnimationConversion
         jep = jep.replace("cos(", "cos_deg(");
         jep = jep.replace("tan(", "tan_deg(");
 
-        MolangVars.MOLANG_MAP.put("query.anim_time", "(t/20)");
+        if (forcedLimbs)
+        {
+            jep = jep.replace("anim_time", "ground_speed");
+        }
+
         for (var entry : MolangVars.MOLANG_MAP.entrySet())
         {
             jep = jep.replace(entry.getKey(), entry.getValue());
@@ -67,6 +72,7 @@ public class AnimationConversion
     {
         final int time;
         boolean has_scale = false;
+        boolean forcedLimbs = false;
         Object[] rotations =
         { null, null, null };
         Object[] positions =
@@ -75,9 +81,10 @@ public class AnimationConversion
         { null, null, null };
         String channel = "";
 
-        public BBModelAnimationSegment(double time)
+        public BBModelAnimationSegment(double time, boolean forcedLimbs)
         {
             this.time = (int) (time * 20);
+            this.forcedLimbs = forcedLimbs;
         }
 
         public void process(BBKeyFrame keyframe)
@@ -161,7 +168,7 @@ public class AnimationConversion
                 }
                 else if (_from[i] instanceof String func)
                 {
-                    func = convertMolangToJEP(func);
+                    func = convertMolangToJEP(func, forcedLimbs);
                     jeps[i] = new JEP();
                     jeps[i].addStandardFunctions();
                     jeps[i].addStandardConstants();
@@ -190,7 +197,7 @@ public class AnimationConversion
                 }
                 else if (_pos[i] instanceof String func)
                 {
-                    func = convertMolangToJEP(func);
+                    func = convertMolangToJEP(func, forcedLimbs);
                     jeps[i] = new JEP();
                     jeps[i].addStandardFunctions();
                     jeps[i].addStandardConstants();
@@ -215,6 +222,8 @@ public class AnimationConversion
             if (first_frame == next_frame) start = 0;
 
             XMLAnimationSegment segment = new XMLAnimationSegment(length, start);
+
+            segment.limbBased = this.forcedLimbs;
 
             boolean all_not_func = true;
 
@@ -282,7 +291,7 @@ public class AnimationConversion
         }
     }
 
-    public static Map<String, List<Animation>> make_animations(BBModelTemplate template)
+    public static Map<String, List<Animation>> make_animations(BBModelTemplate template, BBModel bbModel)
     {
         Map<String, List<Animation>> map = new HashMap<>();
         for (var animation : template.animations)
@@ -297,8 +306,9 @@ public class AnimationConversion
                 part.keyframes.sort(null);
                 for (var keyframe : part.keyframes)
                 {
+                    boolean limb = bbModel.getParts().get(part.name) instanceof Part p && p.isOverridenLimb;
                     double time = keyframe.time;
-                    var frame = new BBModelAnimationSegment(time);
+                    var frame = new BBModelAnimationSegment(time, limb);
                     frame.process(keyframe);
                     Map<String, List<BBModelAnimationSegment>> part_frames_map = frames_map.get(part.name);
                     if (part_frames_map == null) frames_map.put(part.name, part_frames_map = new HashMap<>());
@@ -348,10 +358,13 @@ public class AnimationConversion
             // Now here we differ from python a bit more, there it dumps as XML,
             // here we make into animation directly.
 
-            var name = animation.name;
+            var name = animation.name.replace("animation." + template.name + ".", "");
+            name = ThutCore.trim(name);
             Animation anmation = new Animation();
-            anmation.name = name.replace(".", "");
+            anmation.name = name;
+
             anmation.loops = animation.loop.equals("loop");
+            if (animation.name.contains("faint")) anmation.loops = false;
 
             List<Animation> anims = map.computeIfAbsent(animation.name, (k) -> {
                 return new ArrayList<>();

@@ -69,7 +69,7 @@ public class BBModel extends BaseModel
     @Override
     public void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
     {
-        var loaded = AnimationConversion.make_animations(this.template);
+        var loaded = AnimationConversion.make_animations(this.template, this);
         this.builtin_anims.clear();
         for (var entry : loaded.entrySet())
         {
