@@ -411,4 +411,11 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         // TODO see what we need to do for this for wearables support later.
         return this.order;
     }
+
+    @Override
+    public void setOpacityScale(float scale)
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

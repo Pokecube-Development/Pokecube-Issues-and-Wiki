@@ -23,6 +23,7 @@ public class AnimationConversion
         String jep = molang;
 
         jep = jep.replaceAll("math.", "");// We do not need "math."
+        jep = jep.replaceAll("Math.", "");// We do not need "math."
 
         // We take radians for these, not degreees.
         jep = jep.replace("sin(", "sin_deg(");

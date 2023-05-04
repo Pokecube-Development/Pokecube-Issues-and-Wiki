@@ -14,6 +14,7 @@ import org.nfunk.jep.JEP;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animation.IPartRenamer;
 import thut.api.entity.animation.AnimationComponent;
@@ -29,8 +30,9 @@ public class AnimationBuilder
 {
     private static void addTo(final Animation animation, final int priority, final String part, final IAnimator parts)
     {
-        if (animation.sets.containsKey(part) && animation.priority > priority)
-            ThutCore.LOGGER.warn("Already have " + part + ", Skipping.");
+        boolean conflicts = animation.sets.containsKey(part);
+        conflicts = conflicts && animation.sets.get(part).conflicts(parts);
+        if (conflicts && animation.priority > priority) ThutCore.LOGGER.warn("Already have " + part + ", Skipping.");
         else animation.sets.put(part, parts);
     }
 
@@ -95,6 +97,16 @@ public class AnimationBuilder
                     if (!component.rotFuncs.isBlank()) Animators.fillJEPs(rots, component.rotFuncs);
                     if (!component.posFuncs.isBlank()) Animators.fillJEPs(pos, component.posFuncs);
                     if (!component.scaleFuncs.isBlank()) Animators.fillJEPs(scale, component.scaleFuncs);
+                    if (!component.opacFuncs.isBlank())
+                    {
+                        var func = component.opacFuncs;
+                        comp._opacFunction = new JEP();
+                        comp._opacFunction.addStandardFunctions();
+                        comp._opacFunction.addStandardConstants();
+                        for (var entry : MolangVars.JEP_VARS.entrySet()) if (func.contains(entry.getKey()))
+                            comp._opacFunction.addVariable(entry.getKey(), entry.getValue());
+                        comp._opacFunction.parseExpression(func);
+                    }
 
                     if (component.name != null) comp.name = component.name;
                     if (component.rotChange != null)

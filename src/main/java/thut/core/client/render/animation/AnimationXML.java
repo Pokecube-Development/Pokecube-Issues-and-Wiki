@@ -31,7 +31,7 @@ public class AnimationXML
         @XmlAttribute(name = "opacityChange")
         public double opacityChange = 0.0D;
         @XmlAttribute(name = "opacityOffset")
-        public double opacityOffset = 0.0D;
+        public double opacityOffset = 1.0D;
         @XmlAttribute(name = "opacFuncs")
         public String opacFuncs = "";
 
@@ -52,7 +52,7 @@ public class AnimationXML
         @XmlAttribute(name = "scaleChange")
         public String scaleChange = "0,0,0";
         @XmlAttribute(name = "scaleOffset")
-        public String scaleOffset = "0,0,0";
+        public String scaleOffset = "1,1,1";
         @XmlAttribute(name = "scaleFuncs")
         public String scaleFuncs = "";
 

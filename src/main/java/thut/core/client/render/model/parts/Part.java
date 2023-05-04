@@ -57,6 +57,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private float ds = 1;
     public float ds0 = 1;
     public float ds1 = 1;
+    
+    public float opacity = 1;
 
     Vector3 min = new Vector3();
     Vector3 max = new Vector3();
@@ -313,6 +315,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.set(offset);
         this.postTrans.clear();
+        this.opacity = 1;
         this.hidden = false;
     }
 
@@ -397,7 +400,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                     m.rgbabro[0] = r;
                     m.rgbabro[1] = g;
                     m.rgbabro[2] = b;
-                    m.rgbabro[3] = a;
+                    m.rgbabro[3] = (int) (a * this.opacity);
                     m.rgbabro[4] = this.brightness;
                     m.rgbabro[5] = this.overlay;
                 }
@@ -410,7 +413,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 m.rgbabro[0] = r;
                 m.rgbabro[1] = g;
                 m.rgbabro[2] = b;
-                m.rgbabro[3] = a;
+                m.rgbabro[3] = (int) (a * this.opacity);
                 m.rgbabro[4] = this.brightness;
                 m.rgbabro[5] = this.overlay;
             });
@@ -502,5 +505,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public boolean isDisabled()
     {
         return disabled;
+    }
+    
+    @Override
+    public void setOpacityScale(float scale)
+    {
+        this.opacity = scale;
     }
 }
