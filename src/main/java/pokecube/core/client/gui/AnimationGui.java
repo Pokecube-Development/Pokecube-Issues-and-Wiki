@@ -556,7 +556,6 @@ public class AnimationGui extends Screen
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
             this.renderHolder.wrapper.lastInit = Long.MIN_VALUE;
-            this.renderHolder.init();
         }));
         dy += 20;
         this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, bg, b -> {

@@ -100,7 +100,7 @@ public class AnimationXML
         @XmlAttribute(name = "smooth")
         public boolean smooth = false;
         @XmlAttribute(name = "cull")
-        public boolean cull = true;
+        public boolean cull = false;
         @XmlAttribute(name = "shader")
         public String shader = "";
         @XmlAttribute(name = "tex")
