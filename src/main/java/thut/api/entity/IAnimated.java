@@ -123,10 +123,10 @@ public interface IAnimated
         public double is_on_ground = 1;
         public double yaw_speed = 0;
 
-        public void updateJEP(JEP jep)
+        public void updateJEP(JEP jep, double anim_time, double walk_time)
         {
-            jep.setVarValue("t", t);
-            jep.setVarValue("l", l);
+            jep.setVarValue("t", anim_time);
+            jep.setVarValue("l", walk_time);
             jep.setVarValue("health", health);
             jep.setVarValue("max_health", max_health);
             jep.setVarValue("is_in_water", is_in_water);

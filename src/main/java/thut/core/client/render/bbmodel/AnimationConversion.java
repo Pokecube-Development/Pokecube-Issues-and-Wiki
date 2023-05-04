@@ -215,10 +215,17 @@ public class AnimationConversion
             return allValid;
         }
 
-        public XMLAnimationSegment toXML(BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame)
+        public XMLAnimationSegment toXML(BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame,
+                double max_length)
         {
             int start = this.time;
             int length = next_frame.time - this.time;
+
+            if (max_length > 0)
+            {
+                max_length *= 20;
+                length = (int) Math.min(max_length - start, length);
+            }
 
             if (first_frame == next_frame) start = 0;
 
@@ -339,7 +346,7 @@ public class AnimationConversion
                         if (frames.size() == 1)
                         {
                             var frame = frames.get(0);
-                            xml_parts.add(frame.toXML(frame, frame));
+                            xml_parts.add(frame.toXML(frame, frame, animation.length));
                         }
                         else
                         {
@@ -348,7 +355,7 @@ public class AnimationConversion
                             {
                                 var next_frame = frames.get(i + 1);
                                 var frame = frames.get(i);
-                                var xml = frame.toXML(first_frame, next_frame);
+                                var xml = frame.toXML(first_frame, next_frame, animation.length);
                                 xml_parts.add(xml);
                             }
                         }

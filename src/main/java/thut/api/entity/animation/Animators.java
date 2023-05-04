@@ -240,53 +240,12 @@ public class Animators
             return component;
         }
 
-        public boolean animateJEP(Animation animation, AnimationComponent component, IExtendedModelPart part,
-                MolangVars molangs, String channel)
-        {
-            if (component._foundNoJEP) return false;
-            if (hidden)
-            {
-                part.setHidden(true);
-                return true;
-            }
-            int modifies = 0;
-            for (int i = 0; i < 3; i++)
-            {
-                switch (channel)
-                {
-                case "rotation":
-                    if (component._rotFunctions[i] != null)
-                    {
-                        molangs.updateJEP(component._rotFunctions[i]);
-                        dr[i] = (float) component._rotFunctions[i].getValue() * component._rotFuncScale[i];
-                        modifies++;
-                    }
-                    break;
-                case "position":
-                    if (component._posFunctions[i] != null)
-                    {
-                        molangs.updateJEP(component._posFunctions[i]);
-                        dx[i] = (float) component._posFunctions[i].getValue() * component._posFuncScale[i];
-                        modifies++;
-                    }
-                    break;
-                case "scale":
-                    if (component._scaleFunctions[i] != null)
-                    {
-                        molangs.updateJEP(component._scaleFunctions[i]);
-                        ds[i] = (float) component._scaleFunctions[i].getValue() * component._scaleFuncScale[i];
-                        modifies++;
-                    }
-                    break;
-                }
-            }
-            return modifies > 0;
-        }
-
         @Override
         public boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
                 float limbSwing, int tick)
         {
+            if (this.hidden) return false;
+
             boolean animated = false;
             final Vector3 temp = animation._shift.clear();
 
@@ -303,12 +262,14 @@ public class Animators
 
             int aniTick = (int) Math.ceil(time1);
 
-//            molangs.t = time1 = 1.f * 20f;
+//            molangs.t = time1 = 1.9f * 20f;
 
             // First clear these
             dr[0] = dr[1] = dr[2] = 0;
             dx[0] = dx[1] = dx[2] = 0;
             ds[0] = ds[1] = ds[2] = 1;
+
+//            System.out.println(animation.loops);
 
             // Marker for if any were hidden
             boolean any_hidden = false;
@@ -325,19 +286,36 @@ public class Animators
                 AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break rots;
                 animated = true;
-                float time = component.limbBased || limb ? time2 : time1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+                var animChannel = channel_map.getOrDefault(channel, null);
+
+                float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    var animChannel = channel_map.getOrDefault(channel, null);
-                    time %= animChannel.length();
+                    int l = animChannel.length();
+                    if (l > 1)
+                    {
+                        t1 = time1 % l;
+                        t2 = time2 % l;
+                    }
                 }
+                else
+                {
+                    t1 = Math.min(time1, animChannel.length());
+                    t2 = Math.min(time2, animChannel.length());
+                }
+                float time = component.limbBased || limb ? t2 : t1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
                 used.add(channel);
 
                 // Start by checking JEP components to the animation
-                animateJEP(animation, component, part, molangs, channel);
+                for (int i = 0; i < 3; i++) if (component._rotFunctions[i] != null)
+                {
+                    molangs.updateJEP(component._rotFunctions[i], t1, t2);
+                    dr[i] = (float) component._rotFunctions[i].getValue() * component._rotFuncScale[i];
+                }
+
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
                 final int length = component.length == 0 ? 1 : component.length;
@@ -355,19 +333,36 @@ public class Animators
                 AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break pos;
                 animated = true;
-                float time = component.limbBased || limb ? time2 : time1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+                var animChannel = channel_map.getOrDefault(channel, null);
+
+                float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    var animChannel = channel_map.getOrDefault(channel, null);
-                    time %= animChannel.length();
+                    int l = animChannel.length();
+                    if (l > 1)
+                    {
+                        t1 = time1 % l;
+                        t2 = time2 % l;
+                    }
                 }
+                else
+                {
+                    t1 = Math.min(time1, animChannel.length());
+                    t2 = Math.min(time2, animChannel.length());
+                }
+                float time = component.limbBased || limb ? t2 : t1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
                 used.add(channel);
 
                 // Start by checking JEP components to the animation
-                animateJEP(animation, component, part, molangs, channel);
+                for (int i = 0; i < 3; i++) if (component._posFunctions[i] != null)
+                {
+                    molangs.updateJEP(component._posFunctions[i], t1, t2);
+                    dx[i] = (float) component._posFunctions[i].getValue() * component._posFuncScale[i];
+                }
+
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
                 final int length = component.length == 0 ? 1 : component.length;
@@ -376,6 +371,13 @@ public class Animators
                 px += component.posChange[0] * ratio + component.posOffset[0];
                 py += component.posChange[1] * ratio + component.posOffset[1];
                 pz += component.posChange[2] * ratio + component.posOffset[2];
+
+//              if (part.getName().equals("torso"))// leg_front_right
+//              {
+//                  System.out.println(part.getName() + " " + time);
+//                  System.out.println(used);
+//                  System.out.println(temp + " " + Arrays.toString(dx) + " " + rx + " " + ry + " " + rz);
+//              }
             }
 
             channel = "scale";
@@ -385,19 +387,36 @@ public class Animators
                 AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break scales;
                 animated = true;
-                float time = component.limbBased || limb ? time2 : time1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+                var animChannel = channel_map.getOrDefault(channel, null);
+
+                float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    var animChannel = channel_map.getOrDefault(channel, null);
-                    time %= animChannel.length();
+                    int l = animChannel.length();
+                    if (l > 1)
+                    {
+                        t1 = time1 % l;
+                        t2 = time2 % l;
+                    }
                 }
+                else
+                {
+                    t1 = Math.min(time1, animChannel.length());
+                    t2 = Math.min(time2, animChannel.length());
+                }
+                float time = component.limbBased || limb ? t2 : t1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
                 used.add(channel);
 
                 // Start by checking JEP components to the animation
-                animateJEP(animation, component, part, molangs, channel);
+                for (int i = 0; i < 3; i++) if (component._scaleFunctions[i] != null)
+                {
+                    molangs.updateJEP(component._scaleFunctions[i], t1, t2);
+                    ds[i] = (float) component._scaleFunctions[i].getValue() * component._scaleFuncScale[i];
+                }
+
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
                 final int length = component.length == 0 ? 1 : component.length;
@@ -415,28 +434,45 @@ public class Animators
                 AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break opacity;
                 animated = true;
+                var animChannel = channel_map.getOrDefault(channel, null);
+
+                float t1 = time1, t2 = time2;
+                if (animation.loops)
+                {
+                    int l = animChannel.length();
+                    if (l > 1)
+                    {
+                        t1 = time1 % l;
+                        t2 = time2 % l;
+                    }
+                }
+                else
+                {
+                    t1 = Math.min(time1, animChannel.length());
+                    t2 = Math.min(time2, animChannel.length());
+                }
+                float time = component.limbBased || limb ? t2 : t1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+
+                any_hidden |= component.hidden;
+                used.add(channel);
+
                 any_hidden |= component.hidden;
                 if (component._opacFunction != null)
                 {
-                    molangs.updateJEP(component._opacFunction);
+                    molangs.updateJEP(component._opacFunction, t1, t2);
                     alpha_scale *= component._opacFunction.getValue();
                 }
-                float time = component.limbBased || limb ? time2 : time1;
-                aniTick = Math.max(aniTick, (int) Math.ceil(time));
-                if (animation.loops)
-                {
-                    var animChannel = channel_map.getOrDefault(channel, null);
-                    time %= animChannel.length();
-                }
+
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
                 final int length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
-                
+
                 alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
             }
-            
-            if(any_hidden) System.out.println(part.getName() + " " + time1);
+
+            if (any_hidden) System.out.println(part.getName() + " " + time1);
 
             // Apply hidden like this so last hidden state is kept
             part.setHidden(any_hidden);
