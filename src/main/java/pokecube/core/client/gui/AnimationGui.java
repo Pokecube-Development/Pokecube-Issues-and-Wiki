@@ -669,8 +669,10 @@ public class AnimationGui extends Screen
     }
 
     @Override
-    public boolean mouseDragged(final double x, final double y, final int m, final double dx, final double dy)
+    public boolean mouseDragged(final double x, final double y, final int m, double dx, double dy)
     {
+        if (Screen.hasShiftDown()) dy = 0;
+        if (Screen.hasControlDown()) dx = 0;
         // left click
         if (m == 0)
         {
@@ -682,6 +684,13 @@ public class AnimationGui extends Screen
         {
             this.xHeadRenderAngle -= dx;
             this.yHeadRenderAngle += dy;
+        }
+        if (m == 2)
+        {
+            this.xRenderAngle = 90 * (((int) (this.xRenderAngle % 360)) / 90);
+            this.yRenderAngle = 0;
+            this.xHeadRenderAngle = 0;
+            this.yHeadRenderAngle = 0;
         }
         return super.mouseDragged(x, y, m, dx, dy);
     }
