@@ -1,7 +1,13 @@
 package thut.api.entity.animation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.nfunk.jep.JEP;
 
@@ -89,19 +95,24 @@ public class Animators
 
     public static class KeyframeAnimator implements IAnimator
     {
+        private static final AnimationComponent DEFAULTS = new AnimationComponent();
+
         float[] dr = new float[3];
         float[] ds = new float[3];
         float[] dx = new float[3];
 
-        private int[] colours =
-        { -1, -1, -1, -1 };
-
         public final List<AnimationComponent> components;
+        private Map<String, List<AnimationComponent>> by_channel = new HashMap<>();
         private int length = -1;
         private boolean limbBased;
         private boolean hidden = false;
 
         public KeyframeAnimator(List<AnimationComponent> components)
+        {
+            this(components, false);
+        }
+
+        public KeyframeAnimator(List<AnimationComponent> components, boolean preComputed)
         {
             this.components = components;
             this.length = -1;
@@ -110,11 +121,84 @@ public class Animators
             {
                 this.length = Math.max(this.length, component.startKey + component.length);
                 this.limbBased = this.limbBased || component.limbBased;
+
+                // Set anything close enough to 0 to 0. This fixes -0.0 != 0.0
+                // in the below equals check
+                for (int i = 0; i < 3; i++)
+                {
+                    if (Math.abs(component.posChange[i]) < 1e-5) component.posChange[i] = 0;
+                    if (Math.abs(component.posOffset[i]) < 1e-5) component.posOffset[i] = 0;
+                    if (Math.abs(component.rotChange[i]) < 1e-5) component.rotChange[i] = 0;
+                    if (Math.abs(component.rotOffset[i]) < 1e-5) component.rotOffset[i] = 0;
+                }
+
+                boolean position_channel = !Arrays.equals(component.posChange, DEFAULTS.posChange);
+                position_channel |= !Arrays.equals(component.posOffset, DEFAULTS.posOffset);
+                position_channel |= !Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
+
+                boolean rotation_channel = !Arrays.equals(component.rotChange, DEFAULTS.rotChange);
+                rotation_channel |= !Arrays.equals(component.rotOffset, DEFAULTS.rotOffset);
+                rotation_channel |= !Arrays.equals(component._rotFunctions, DEFAULTS._rotFunctions);
+
+                boolean scale_channel = !Arrays.equals(component.scaleChange, DEFAULTS.scaleChange);
+                scale_channel |= !Arrays.equals(component.scaleOffset, DEFAULTS.scaleOffset);
+                scale_channel |= !Arrays.equals(component._scaleFunctions, DEFAULTS._scaleFunctions);
+
+                if (position_channel) component._valid_channels.add("position");
+                if (rotation_channel) component._valid_channels.add("rotation");
+                if (scale_channel) component._valid_channels.add("scale");
+
+                component._foundNoJEP = Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
+                component._foundNoJEP &= Arrays.equals(component._rotFunctions, DEFAULTS._rotFunctions);
+                component._foundNoJEP &= Arrays.equals(component._scaleFunctions, DEFAULTS._scaleFunctions);
+
+                for (String channel : component._valid_channels)
+                {
+                    var list = by_channel.computeIfAbsent(channel, c -> new ArrayList<>());
+                    list.add(component);
+                }
             }
+
+            if (!preComputed) for (var entry : by_channel.entrySet())
+            {
+                var list = entry.getValue();
+                AnimationComponent prev = list.get(0);
+                for (int i = 1; i < list.size(); i++)
+                {
+                    AnimationComponent here = list.get(i);
+                    for (int j = 0; j < 3; j++)
+                    {
+                        here.posOffset[j] += prev.posOffset[j] + prev.posChange[j];
+                        here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
+                    }
+                    prev = here;
+                }
+            }
+
+        }
+
+        private AnimationComponent getNext(float time1, float time2, String channel)
+        {
+            var components = by_channel.getOrDefault(channel, Collections.emptyList());
+            if (components.isEmpty()) return null;
+            int n = components.size();
+            // Now we run through the components per channel
+            AnimationComponent component = components.get(n - 1);
+            for (int i = 0; i < n - 1; i++)
+            {
+                var tmp = components.get(i + 1);
+                final float time = component.limbBased ? time2 : time1;
+                if (tmp.startKey > time)
+                {
+                    component = components.get(i);
+                    break;
+                }
+            }
+            return component;
         }
 
         public boolean animateJEP(Animation animation, AnimationComponent component, IExtendedModelPart part,
-                MolangVars molangs)
+                MolangVars molangs, String channel)
         {
             if (component._foundNoJEP) return false;
             if (hidden)
@@ -122,37 +206,38 @@ public class Animators
                 part.setHidden(true);
                 return true;
             }
-            if (colours[0] != -1)
-            {
-                part.setRGBABrO(null, colours[0], colours[1], colours[2], colours[3], Integer.MIN_VALUE, -1);
-            }
             int modifies = 0;
             for (int i = 0; i < 3; i++)
             {
-                dr[i] = 0;
-                ds[i] = 1;
-                dx[i] = 0;
-                if (component._rotFunctions[i] != null)
+                switch (channel)
                 {
-                    molangs.updateJEP(component._rotFunctions[i]);
-                    dr[i] = (float) component._rotFunctions[i].getValue() * component._rotFuncScale[i];
-                    modifies++;
-                }
-                if (component._scaleFunctions[i] != null)
-                {
-                    molangs.updateJEP(component._scaleFunctions[i]);
-                    ds[i] = (float) component._scaleFunctions[i].getValue() * component._scaleFuncScale[i];
-                    modifies++;
-                }
-                if (component._posFunctions[i] != null)
-                {
-                    molangs.updateJEP(component._posFunctions[i]);
-                    dx[i] = (float) component._posFunctions[i].getValue() * component._posFuncScale[i];
-                    modifies++;
+                case "rotation":
+                    if (component._rotFunctions[i] != null)
+                    {
+                        molangs.updateJEP(component._rotFunctions[i]);
+                        dr[i] = (float) component._rotFunctions[i].getValue() * component._rotFuncScale[i];
+                        modifies++;
+                    }
+                    break;
+                case "position":
+                    if (component._posFunctions[i] != null)
+                    {
+                        molangs.updateJEP(component._posFunctions[i]);
+                        dx[i] = (float) component._posFunctions[i].getValue() * component._posFuncScale[i];
+                        modifies++;
+                    }
+                    break;
+                case "scale":
+                    if (component._scaleFunctions[i] != null)
+                    {
+                        molangs.updateJEP(component._scaleFunctions[i]);
+                        ds[i] = (float) component._scaleFunctions[i].getValue() * component._scaleFuncScale[i];
+                        modifies++;
+                    }
+                    break;
                 }
             }
-            component._foundNoJEP = modifies == 0;
-            return !component._foundNoJEP;
+            return modifies > 0;
         }
 
         @Override
@@ -161,6 +246,8 @@ public class Animators
         {
             boolean animated = false;
             final Vector3 temp = animation._shift.clear();
+
+            float px = 0, py = 0, pz = 0;
             float rx = 0, ry = 0, rz = 0;
             float sx = 1, sy = 1, sz = 1;
             int aniTick = tick;
@@ -169,60 +256,128 @@ public class Animators
             int animationLength = animation.getLength();
             MolangVars molangs = holder.getMolangVars();
             animationLength = Math.max(1, animationLength);
-            
+
             final float limbSpeedFactor = 3f;
             time1 = (time1 + partialTick) % animationLength;
             time2 = limbSwing * limbSpeedFactor % animationLength;
 
             time1 = (float) (molangs.t % animationLength);
             time2 = (float) (molangs.l % animationLength);
-            
-            
-            aniTick = (int) time1;
 
-            for (final AnimationComponent component : components)
+//            molangs.t = time1 = 1.f * 20f;
+
+            // First clear these
+            dr[0] = dr[1] = dr[2] = 0;
+            dx[0] = dx[1] = dx[2] = 0;
+            ds[0] = ds[1] = ds[2] = 1;
+
+            // Marker for if any were hidden
+            boolean any_hidden = false;
+
+            Set<String> used = new HashSet<>();
+            // Now we run through the components per channel
+
+            String channel = "rotation";
+            // Rotation set
+            rots:
             {
+                AnimationComponent component = getNext(time1, time2, channel);
+                if (component == null) break rots;
+                animated = true;
                 final float time = component.limbBased ? time2 : time1;
                 if (component.limbBased) aniTick = (int) time2;
-                if (time >= component.startKey)
-                {
-                    // Start by checking JEP components to the animation
-                    boolean jepAnimated = animateJEP(animation, component, part, molangs);
-                    if (jepAnimated)
-                    {
-                        rx += dr[0];
-                        ry += dr[1];
-                        rz += dr[2];
 
-                        temp.addTo(dx[0], dx[1], dx[2]);
+                any_hidden |= component.hidden;
+                used.add(channel);
 
-                        sx *= ds[0];
-                        sy *= ds[1];
-                        sz *= ds[2];
-                    }
-                    animated = true;
-                    float componentTimer = time - component.startKey;
-                    if (componentTimer > component.length) componentTimer = component.length;
-                    final int length = component.length == 0 ? 1 : component.length;
-                    final float ratio = componentTimer / length;
-                    temp.addTo(component.posChange[0] * ratio + component.posOffset[0],
-                            component.posChange[1] * ratio + component.posOffset[1],
-                            component.posChange[2] * ratio + component.posOffset[2]);
-                    rx += (float) (component.rotChange[0] * ratio + component.rotOffset[0]);
-                    ry += (float) (component.rotChange[1] * ratio + component.rotOffset[1]);
-                    rz += (float) (component.rotChange[2] * ratio + component.rotOffset[2]);
+                // Start by checking JEP components to the animation
+                animateJEP(animation, component, part, molangs, channel);
+                float componentTimer = time - component.startKey;
+                if (componentTimer > component.length) componentTimer = component.length;
+                final int length = component.length == 0 ? 1 : component.length;
+                final float ratio = componentTimer / length;
 
-                    sx += (float) (component.scaleChange[0] * ratio + component.scaleOffset[0]);
-                    sy += (float) (component.scaleChange[1] * ratio + component.scaleOffset[1]);
-                    sz += (float) (component.scaleChange[2] * ratio + component.scaleOffset[2]);
-
-                    // Apply hidden like this so last hidden state is kept
-                    part.setHidden(component.hidden);
-                }
+                rx += component.rotChange[0] * ratio + component.rotOffset[0];
+                ry += component.rotChange[1] * ratio + component.rotOffset[1];
+                rz += component.rotChange[2] * ratio + component.rotOffset[2];
             }
+
+            channel = "position";
+            // Position set
+            pos:
+            {
+                AnimationComponent component = getNext(time1, time2, channel);
+                if (component == null) break pos;
+                animated = true;
+                final float time = component.limbBased ? time2 : time1;
+                if (component.limbBased) aniTick = (int) time2;
+
+                any_hidden |= component.hidden;
+                used.add(channel);
+
+                // Start by checking JEP components to the animation
+                animateJEP(animation, component, part, molangs, channel);
+                float componentTimer = time - component.startKey;
+                if (componentTimer > component.length) componentTimer = component.length;
+                final int length = component.length == 0 ? 1 : component.length;
+                final float ratio = componentTimer / length;
+
+                px += component.posChange[0] * ratio + component.posOffset[0];
+                py += component.posChange[1] * ratio + component.posOffset[1];
+                pz += component.posChange[2] * ratio + component.posOffset[2];
+            }
+
+            channel = "scale";
+            // scale set
+            scales:
+            {
+                AnimationComponent component = getNext(time1, time2, channel);
+                if (component == null) break scales;
+                animated = true;
+                final float time = component.limbBased ? time2 : time1;
+                if (component.limbBased) aniTick = (int) time2;
+
+                any_hidden |= component.hidden;
+                used.add(channel);
+
+                // Start by checking JEP components to the animation
+                animateJEP(animation, component, part, molangs, channel);
+                float componentTimer = time - component.startKey;
+                if (componentTimer > component.length) componentTimer = component.length;
+                final int length = component.length == 0 ? 1 : component.length;
+                final float ratio = componentTimer / length;
+
+                sx += component.scaleChange[0] * ratio + component.scaleOffset[0];
+                sy += component.scaleChange[1] * ratio + component.scaleOffset[1];
+                sz += component.scaleChange[2] * ratio + component.scaleOffset[2];
+
+            }
+
+            // Apply hidden like this so last hidden state is kept
+            part.setHidden(any_hidden);
             holder.setStep(animation, aniTick + 2);
             if (animated)
             {
+                temp.set(px, py, pz);
+
+//                if (part.getName().equals("torso"))// leg_front_right
+//                {
+//                    System.out.println(part.getName() + " " + time1);
+//                    System.out.println(used);
+//                    System.out.println(temp + " " + Arrays.toString(dx) + " " + rx + " " + ry + " " + rz);
+//                }
+
+                rx += dr[0];
+                ry += dr[1];
+                rz += dr[2];
+
+                temp.addTo(dx[0], dx[1], dx[2]);
+
+//                if (part.getName().equals("head")) rz = 0;
+
+                sx *= ds[0];
+                sy *= ds[1];
+                sz *= ds[2];
                 part.setPreTranslations(temp);
                 part.setPreScale(temp.set(sx, sy, sz));
                 final Quaternion quat = new Quaternion(0, 0, 0, 1);
@@ -231,6 +386,7 @@ public class Animators
                 if (ry != 0) quat.mul(Vector3f.ZP.rotationDegrees(ry));
                 part.setPreRotations(_rot.set(quat));
             }
+
             return animated;
         }
 
