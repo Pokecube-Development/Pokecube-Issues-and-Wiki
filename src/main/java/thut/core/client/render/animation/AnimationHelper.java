@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.world.entity.Entity;
@@ -33,11 +32,10 @@ public class AnimationHelper
         return animator.animate(animation, animate, part, partialTick, limbSwing, tick);
     }
 
-    public static boolean doAnimation(List<Animation> list, final Entity entity, final IExtendedModelPart part,
-            float partialTick, float limbSwing)
+    public static boolean doAnimation(List<Animation> list, IAnimationHolder holder, final Entity entity,
+            final IExtendedModelPart part, float partialTick, float limbSwing)
     {
         boolean animate = false;
-        final IAnimationHolder holder = part.getAnimationHolder();
         if (holder != null)
         {
             if (!entity.canUpdate())
@@ -45,7 +43,6 @@ public class AnimationHelper
                 partialTick = 0;
                 limbSwing = 0;
             }
-            list = Lists.newArrayList(holder.getPlaying());
             for (final Animation animation : list)
             {
                 holder.preRunAnim(animation);
