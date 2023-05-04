@@ -310,8 +310,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
 
         parent.resetToInit();
         final boolean anim = renderer.getAnimations().containsKey(currentPhase);
-        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent,
-                partialTick, limbSwing))
+        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase),
+                renderer.getAnimationHolder(), entity, parent, partialTick, limbSwing))
         {}
         if (this.isHead(parent.getName()))
         {
