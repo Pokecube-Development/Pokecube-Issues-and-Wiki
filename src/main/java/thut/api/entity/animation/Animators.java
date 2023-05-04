@@ -11,6 +11,7 @@ import java.util.Set;
 import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
@@ -39,6 +40,11 @@ public class Animators
         void setLimbBased();
 
         void setHidden(boolean hidden);
+
+        default boolean conflicts(IAnimator other)
+        {
+            return true;
+        }
     }
 
     public static void fillJEPs(JEP[] jeps, String _funcs)
@@ -156,9 +162,14 @@ public class Animators
                 scale_channel |= !Arrays.equals(component.scaleOffset, DEFAULTS.scaleOffset);
                 scale_channel |= !Arrays.equals(component._scaleFunctions, DEFAULTS._scaleFunctions);
 
+                boolean opac_channel = component._opacFunction != null;
+                opac_channel |= component.opacityChange != DEFAULTS.opacityChange;
+                opac_channel |= component.opacityOffset != DEFAULTS.opacityOffset;
+
                 if (position_channel) component._valid_channels.add("position");
                 if (rotation_channel) component._valid_channels.add("rotation");
                 if (scale_channel) component._valid_channels.add("scale");
+                if (opac_channel) component._valid_channels.add("opacity");
 
                 component._foundNoJEP = Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
                 component._foundNoJEP &= Arrays.equals(component._rotFunctions, DEFAULTS._rotFunctions);
@@ -282,6 +293,7 @@ public class Animators
             float px = 0, py = 0, pz = 0;
             float rx = 0, ry = 0, rz = 0;
             float sx = 1, sy = 1, sz = 1;
+            float alpha_scale = 1.0f;
             float time1;
             float time2;
             MolangVars molangs = holder.getMolangVars();
@@ -342,6 +354,7 @@ public class Animators
             {
                 AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break pos;
+                animated = true;
                 float time = component.limbBased || limb ? time2 : time1;
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
                 if (animation.loops)
@@ -371,6 +384,7 @@ public class Animators
             {
                 AnimationComponent component = getNext(time1, time2, animation.loops, channel);
                 if (component == null) break scales;
+                animated = true;
                 float time = component.limbBased || limb ? time2 : time1;
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
                 if (animation.loops)
@@ -389,14 +403,44 @@ public class Animators
                 final int length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
-                sx += component.scaleChange[0] * ratio + component.scaleOffset[0];
-                sy += component.scaleChange[1] * ratio + component.scaleOffset[1];
-                sz += component.scaleChange[2] * ratio + component.scaleOffset[2];
-
+                sx *= component.scaleChange[0] * ratio + component.scaleOffset[0];
+                sy *= component.scaleChange[1] * ratio + component.scaleOffset[1];
+                sz *= component.scaleChange[2] * ratio + component.scaleOffset[2];
             }
+
+            channel = "opacity";
+            // scale set
+            opacity:
+            {
+                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
+                if (component == null) break opacity;
+                animated = true;
+                any_hidden |= component.hidden;
+                if (component._opacFunction != null)
+                {
+                    molangs.updateJEP(component._opacFunction);
+                    alpha_scale *= component._opacFunction.getValue();
+                }
+                float time = component.limbBased || limb ? time2 : time1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+                if (animation.loops)
+                {
+                    var animChannel = channel_map.getOrDefault(channel, null);
+                    time %= animChannel.length();
+                }
+                float componentTimer = time - component.startKey;
+                if (componentTimer > component.length) componentTimer = component.length;
+                final int length = component.length == 0 ? 1 : component.length;
+                final float ratio = componentTimer / length;
+                
+                alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
+            }
+            
+            if(any_hidden) System.out.println(part.getName() + " " + time1);
 
             // Apply hidden like this so last hidden state is kept
             part.setHidden(any_hidden);
+            part.setOpacityScale(alpha_scale);
             holder.setStep(animation, aniTick);
             if (animated)
             {
@@ -453,6 +497,18 @@ public class Animators
         {
             this.hidden = hidden;
             for (final AnimationComponent component : components) component.hidden = hidden;
+        }
+
+        @Override
+        public boolean conflicts(IAnimator other)
+        {
+            if (other instanceof KeyframeAnimator anim)
+            {
+                Set<String> our_channels = this.channel_map.keySet();
+                Set<String> other_channels = anim.channel_map.keySet();
+                return Sets.intersection(our_channels, other_channels).isEmpty();
+            }
+            return IAnimator.super.conflicts(other);
         }
     }
 }

@@ -16,10 +16,13 @@ public class AnimationComponent
     public double[] rotChange = new double[3];
     public double[] scaleChange = new double[3];
     public double opacityChange = 0.0D;
+
     public double[] posOffset = new double[3];
     public double[] rotOffset = new double[3];
-    public double[] scaleOffset = new double[3];
-    public double opacityOffset = 0.0D;
+    public double[] scaleOffset =
+    { 1, 1, 1 };
+    public double opacityOffset = 1.0D;
+
     public String name = "";
     public int length = 0;
     public int startKey = 0;
@@ -30,6 +33,7 @@ public class AnimationComponent
     public JEP[] _rotFunctions = new JEP[3];
     public JEP[] _posFunctions = new JEP[3];
     public JEP[] _scaleFunctions = new JEP[3];
+    public JEP _opacFunction = null;
 
     public float[] _rotFuncScale = unity_scale;
     public float[] _posFuncScale = pixel_scale;

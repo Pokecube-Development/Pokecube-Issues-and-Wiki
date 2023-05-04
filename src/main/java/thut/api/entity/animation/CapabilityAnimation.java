@@ -83,6 +83,12 @@ public class CapabilityAnimation
         @Override
         public List<Animation> getPlaying()
         {
+            if (pending.equals("none"))
+            {
+                non_static.clear();
+                return EMPTY;
+            }
+
             List<Animation> playing = this.anims.getOrDefault(this.playing, EMPTY);
             if (this.playingList != playing)
             {

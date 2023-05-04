@@ -95,7 +95,8 @@ public interface IModelRenderer<T extends Entity>
         {
             final List<Animation> anim = this.getAnimations(entity, phase);
             if (getAnimations() != null) holder.initAnimations(getAnimations(), IModelRenderer.DEFAULTPHASE);
-            if (anim != null && !anim.isEmpty()) holder.setPendingAnimations(anim, phase);
+            if (anim != null && !anim.isEmpty() || (anim != null && phase.equals("none")))
+                holder.setPendingAnimations(anim, phase);
         }
     }
 
