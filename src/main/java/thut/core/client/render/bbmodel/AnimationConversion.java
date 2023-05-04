@@ -5,14 +5,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.compress.utils.Lists;
 import org.nfunk.jep.JEP;
 
-import it.unimi.dsi.fastutil.doubles.Double2ObjectArrayMap;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
-import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBDataPoint;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBKeyFrame;
@@ -20,8 +17,6 @@ import thut.core.common.ThutCore;
 
 public class AnimationConversion
 {
-    private static final float deg_to_rads = (float) (Math.PI / 180f);
-
     public static String convertMolangToJEP(String molang)
     {
         String jep = molang;
@@ -29,9 +24,9 @@ public class AnimationConversion
         jep = jep.replaceAll("math.", "");// We do not need "math."
 
         // We take radians for these, not degreees.
-        jep = jep.replace("sin(", "sin(%.4f * ".formatted(deg_to_rads));
-        jep = jep.replace("cos(", "sin(%.4f * ".formatted(deg_to_rads));
-        jep = jep.replace("tan(", "sin(%.4f * ".formatted(deg_to_rads));
+        jep = jep.replace("sin(", "sin_deg(");
+        jep = jep.replace("cos(", "cos_deg(");
+        jep = jep.replace("tan(", "tan_deg(");
 
         MolangVars.MOLANG_MAP.put("query.anim_time", "(t/20)");
         for (var entry : MolangVars.MOLANG_MAP.entrySet())
@@ -73,11 +68,12 @@ public class AnimationConversion
         final int time;
         boolean has_scale = false;
         Object[] rotations =
-        { 0, 0, 0 };
+        { null, null, null };
         Object[] positions =
-        { 0, 0, 0 };
+        { null, null, null };
         Object[] scales =
-        { 0, 0, 0 };
+        { null, null, null };
+        String channel = "";
 
         public BBModelAnimationSegment(double time)
         {
@@ -131,6 +127,7 @@ public class AnimationConversion
             }
             catch (Exception e)
             {}
+            this.channel = channel;
 
             switch (channel)
             {
@@ -220,7 +217,8 @@ public class AnimationConversion
             XMLAnimationSegment segment = new XMLAnimationSegment(length, start);
 
             boolean all_not_func = true;
-            if (first_frame == this)
+
+            // Scoped for var old below
             {
                 all_not_func = this.setDoubles(segment.posOffset, positions, segment._posFunctions) & all_not_func;
                 all_not_func = this.setDoubles(segment.rotOffset, rotations, segment._rotFunctions) & all_not_func;
@@ -232,8 +230,11 @@ public class AnimationConversion
                 segment.posOffset[1] = -old[2] * 1 / 16f;
                 segment.posOffset[2] = +old[1] * 1 / 16f;
 
-                segment.rotOffset[0] = -segment.rotOffset[0];
-                segment.rotOffset[1] = -segment.rotOffset[1];
+                old = segment.rotOffset.clone();
+
+                segment.rotOffset[0] = -old[0];
+                segment.rotOffset[1] = -old[1];
+                segment.rotOffset[2] = +old[2];
 
                 if (has_scale)
                 {
@@ -253,14 +254,17 @@ public class AnimationConversion
                 all_not_func = this.setDiff(segment.scaleChange, this.scales, next_frame.scales,
                         segment._scaleFunctions) & all_not_func;
 
-                segment.rotChange[0] = -segment.rotChange[0];
-                segment.rotChange[1] = -segment.rotChange[1];
-
                 var old = segment.posChange.clone();
 
-                segment.posChange[0] = -old[0] * 1 / 16f;
-                segment.posChange[1] = -old[2] * 1 / 16f;
-                segment.posChange[2] = +old[1] * 1 / 16f;
+                segment.posChange[0] = +old[0] * 1 / 16f;
+                segment.posChange[1] = +old[2] * 1 / 16f;
+                segment.posChange[2] = -old[1] * 1 / 16f;
+
+                old = segment.rotChange.clone();
+
+                segment.rotChange[0] = +old[0];
+                segment.rotChange[1] = +old[1];
+                segment.rotChange[2] = -old[2];
             }
 
             if (!all_not_func)
@@ -272,6 +276,7 @@ public class AnimationConversion
             }
             // We are not printing, so we don't need the "clear if not defined"
             // section
+            segment._valid_channels.add(channel);
 
             return segment;
         }
@@ -286,50 +291,55 @@ public class AnimationConversion
             for (var entry : animation.animators.entrySet())
             {
                 var part = entry.getValue();
-                Map<Double, BBModelAnimationSegment> segments = new Double2ObjectArrayMap<>();
-                Map<String, List<BBModelAnimationSegment>> frames_map = new HashMap<>();
+
+                Map<String, Map<String, List<BBModelAnimationSegment>>> frames_map = new HashMap<>();
                 // This puts them in correct order before this loop!
                 part.keyframes.sort(null);
                 for (var keyframe : part.keyframes)
                 {
                     double time = keyframe.time;
-                    var frame = segments.computeIfAbsent(time, t -> {
-                        var f = new BBModelAnimationSegment(t);
-                        List<BBModelAnimationSegment> frames_list = frames_map.getOrDefault(part.name, null);
-                        if (frames_list == null) frames_map.put(part.name, frames_list = Lists.newArrayList());
-                        frames_list.add(f);
-                        return f;
-                    });
+                    var frame = new BBModelAnimationSegment(time);
                     frame.process(keyframe);
+                    Map<String, List<BBModelAnimationSegment>> part_frames_map = frames_map.get(part.name);
+                    if (part_frames_map == null) frames_map.put(part.name, part_frames_map = new HashMap<>());
+
+                    List<BBModelAnimationSegment> frames_list = part_frames_map.get(keyframe.channel);
+                    if (frames_list == null) part_frames_map.put(keyframe.channel, frames_list = new ArrayList<>());
+                    frames_list.add(frame);
                 }
+
                 for (var entry_frames : frames_map.entrySet())
                 {
-                    var frames = entry_frames.getValue();
+                    var part_frames_map = entry_frames.getValue();
                     List<AnimationComponent> xml_parts = new ArrayList<>();
                     var _part_name = entry_frames.getKey();
-//                    System.out.println(_part_name);
-                    if (parts.containsKey(_part_name))
+
+                    for (var entry_list : part_frames_map.entrySet())
                     {
-                        xml_parts = parts.get(_part_name);
-                    }
-                    else
-                    {
-                        parts.put(_part_name, xml_parts);
-                    }
-                    if (frames.size() == 1)
-                    {
-                        var frame = frames.get(0);
-                        xml_parts.add(frame.toXML(frame, frame));
-                    }
-                    else
-                    {
-                        var first_frame = frames.get(0);
-                        for (int i = 0; i < frames.size() - 1; i++)
+                        var frames = entry_list.getValue();
+                        if (parts.containsKey(_part_name))
                         {
-                            var next_frame = frames.get(i + 1);
-                            var frame = frames.get(i);
-                            var xml = frame.toXML(first_frame, next_frame);
-                            xml_parts.add(xml);
+                            xml_parts = parts.get(_part_name);
+                        }
+                        else
+                        {
+                            parts.put(_part_name, xml_parts);
+                        }
+                        if (frames.size() == 1)
+                        {
+                            var frame = frames.get(0);
+                            xml_parts.add(frame.toXML(frame, frame));
+                        }
+                        else
+                        {
+                            var first_frame = frames.get(0);
+                            for (int i = 0; i < frames.size() - 1; i++)
+                            {
+                                var next_frame = frames.get(i + 1);
+                                var frame = frames.get(i);
+                                var xml = frame.toXML(first_frame, next_frame);
+                                xml_parts.add(xml);
+                            }
                         }
                     }
                 }
@@ -351,7 +361,7 @@ public class AnimationConversion
             {
                 var part = entry.getKey();
                 List<AnimationComponent> list = entry.getValue();
-                IAnimator animator = new KeyframeAnimator(list);
+                KeyframeAnimator animator = new KeyframeAnimator(list, true);
                 if (anmation.sets.containsKey(part))
                 {
                     ThutCore.LOGGER.warn("Unsupported double part for animation " + animation.name + " " + part);

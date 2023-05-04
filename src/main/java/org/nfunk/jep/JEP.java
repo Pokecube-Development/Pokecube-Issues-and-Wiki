@@ -24,6 +24,7 @@ import org.nfunk.jep.function.Ceil;
 import org.nfunk.jep.function.Clamp;
 import org.nfunk.jep.function.ComplexPFMC;
 import org.nfunk.jep.function.Cosine;
+import org.nfunk.jep.function.CosineDeg;
 import org.nfunk.jep.function.CosineH;
 import org.nfunk.jep.function.Exp;
 import org.nfunk.jep.function.Floor;
@@ -36,12 +37,14 @@ import org.nfunk.jep.function.Polar;
 import org.nfunk.jep.function.PostfixMathCommandI;
 import org.nfunk.jep.function.Real;
 import org.nfunk.jep.function.Sine;
+import org.nfunk.jep.function.SineDeg;
 import org.nfunk.jep.function.SineH;
 import org.nfunk.jep.function.SquareRoot;
 import org.nfunk.jep.function.Str;
 import org.nfunk.jep.function.Sum;
 import org.nfunk.jep.function.TanH;
 import org.nfunk.jep.function.Tangent;
+import org.nfunk.jep.function.TangentDeg;
 import org.nfunk.jep.type.Complex;
 import org.nfunk.jep.type.DoubleNumberFactory;
 import org.nfunk.jep.type.NumberFactory;
@@ -103,6 +106,9 @@ public class JEP
 
     /** OperatorSet */
     protected OperatorSet opSet;
+
+    /** Last expression we parsed */
+    public String last_parsed = "";
 
     /**
      * Creates a new JEP instance with the default settings.
@@ -281,6 +287,9 @@ public class JEP
         this.funTab.put("floor", new Floor());
 
         this.funTab.put("clamp", new Clamp());
+        this.funTab.put("sin_deg", new SineDeg());
+        this.funTab.put("cos_deg", new CosineDeg());
+        this.funTab.put("tan_deg", new TangentDeg());
 
         this.funTab.put("rand", new org.nfunk.jep.function.Random());
         this.funTab.put("guassian", new org.nfunk.jep.function.Guassian());
@@ -641,6 +650,7 @@ public class JEP
             // try parsing
             this.errorList.removeAllElements();
             this.topNode = this.parser.parseStream(reader, this);
+            this.last_parsed = expression_in;
         }
         catch (final Throwable e)
         {

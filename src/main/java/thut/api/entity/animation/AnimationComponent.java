@@ -1,5 +1,8 @@
 package thut.api.entity.animation;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.nfunk.jep.JEP;
 
 public class AnimationComponent
@@ -33,4 +36,6 @@ public class AnimationComponent
     public float[] _scaleFuncScale = unity_scale;
 
     public boolean _foundNoJEP = false;
+
+    public Set<String> _valid_channels = new HashSet<>();
 }
