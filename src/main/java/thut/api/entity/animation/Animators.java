@@ -197,18 +197,20 @@ public class Animators
             {
                 var list = entry.getValue();
                 AnimationComponent prev = list.get(0);
+                boolean position = entry.getKey().equals("position");
+                boolean rotation = entry.getKey().equals("rotation");
+
                 for (int i = 1; i < list.size(); i++)
                 {
                     AnimationComponent here = list.get(i);
-                    for (int j = 0; j < 3; j++)
+                    for (int j = 0; j < 3 && (position || rotation); j++)
                     {
-                        here.posOffset[j] += prev.posOffset[j] + prev.posChange[j];
-                        here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
+                        if (position) here.posOffset[j] += prev.posOffset[j] + prev.posChange[j];
+                        if (rotation) here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
                     }
                     prev = here;
                 }
             }
-
         }
 
         private AnimationComponent getNext(float time1, float time2, boolean loops, String channel)
@@ -482,7 +484,7 @@ public class Animators
             {
                 temp.set(px, py, pz);
 
-//                if (part.getName().equals("torso"))// leg_front_right
+//                if (part.getName().equals("body"))// leg_front_right
 //                {
 //                    System.out.println(part.getName() + " " + time1);
 //                    System.out.println(used);
