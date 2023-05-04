@@ -92,9 +92,9 @@ public interface IAnimated
             MOLANG_MAP.put("query.on_fire_time", "on_fire_time");
             MOLANG_MAP.put("query.is_on_ground", "is_on_ground");
             MOLANG_MAP.put("query.yaw_speed", "yaw_speed");
-            
+
             Set<String> vars = new HashSet<>(MOLANG_MAP.keySet());
-            for(String s: vars) MOLANG_MAP.put(s.replace("query.", "q."), MOLANG_MAP.get(s));
+            for (String s : vars) MOLANG_MAP.put(s.replace("query.", "q."), MOLANG_MAP.get(s));
 
             JEP_VARS.put("t", 0.);
             JEP_VARS.put("l", 0.);
@@ -135,6 +135,18 @@ public interface IAnimated
             jep.setVarValue("on_fire_time", on_fire_time);
             jep.setVarValue("is_on_ground", is_on_ground);
             jep.setVarValue("yaw_speed", yaw_speed);
+        }
+
+        protected double t_0 = 0;
+
+        public void startTimer(float timer)
+        {
+            t_0 = timer;
+        }
+
+        public double getAnimTime()
+        {
+            return t - t_0;
         }
     }
 
@@ -177,9 +189,13 @@ public interface IAnimated
          */
         String getAnimation(Entity entityIn);
 
-        void preRun();
+        void preRunAll();
 
-        void postRun();
+        void postRunAll();
+
+        void preRunAnim(Animation animation);
+
+        void postRunAnim(Animation animation);
 
         boolean isFixed();
 

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
+import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -47,8 +48,13 @@ import pokecube.core.database.Database;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
+import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
-import thut.api.entity.animation.Animators.FunctionAnimation;
+import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators;
+import thut.api.entity.animation.Animators.IAnimator;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
+import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
@@ -110,6 +116,22 @@ public class AnimationGui extends Screen
         }
         if (ret != null) ret.setCopiedMob(realMob.getCopiedMob());
         return ret;
+    }
+
+    public static IAnimator makeRotationTest(String rotations)
+    {
+        AnimationComponent comp = new AnimationComponent();
+        JEP[] rots = comp._rotFunctions;
+        Animators.fillJEPs(rots, rotations);
+        return new KeyframeAnimator(comp);
+    }
+
+    public static IAnimator makeOffsetTest(String offsets)
+    {
+        AnimationComponent comp = new AnimationComponent();
+        JEP[] offs = comp._posFunctions;
+        Animators.fillJEPs(offs, offsets);
+        return new KeyframeAnimator(comp);
     }
 
     public static String mob = "";
@@ -339,8 +361,6 @@ public class AnimationGui extends Screen
             if (this.renderHolder != null)
             {
                 this.renderHolder.overrideAnim = true;
-                this.renderHolder.anim = ThutCore.trim(this.anim.getValue());
-
                 if (this.testAnimation.startsWith("f::")) try
                 {
                     String[] args = testAnimation.split("::");
@@ -349,10 +369,10 @@ public class AnimationGui extends Screen
                     String function = args[2];
                     this.renderHolder.anim = "test_anim";
 
-                    FunctionAnimation animation;
+                    IAnimator animation;
 
-                    if (function.startsWith("d")) animation = FunctionAnimation.makeOffsetTest(function);
-                    else animation = FunctionAnimation.makeRotationTest(function);
+                    if (function.startsWith("d")) animation = makeOffsetTest(function);
+                    else animation = makeRotationTest(function);
 
                     Animation anim = new Animation();
                     anim.sets.put(part, animation);
@@ -414,6 +434,7 @@ public class AnimationGui extends Screen
         this.forme.setValue(AnimationGui.mob);
         this.dyeColour.setValue(AnimationGui.entry.defaultSpecial + "");
         this.anim.setValue("idle");
+
         this.anim.maxLength = 999;
         this.addRenderableWidget(this.anim);
         this.addRenderableWidget(this.state_g);
@@ -651,6 +672,11 @@ public class AnimationGui extends Screen
         });
 
         this.onUpdated();
+
+        if (this.renderHolder != null)
+        {
+            this.anim.setValue(this.renderHolder.anim);
+        }
     }
 
     @Override
@@ -662,6 +688,24 @@ public class AnimationGui extends Screen
             {
                 this.onUpdated();
                 break;
+            }
+        }
+        if ((code == GLFW.GLFW_KEY_ENTER || code == GLFW.GLFW_KEY_KP_ENTER) && anim.isFocused()
+                && this.toRender != null)
+        {
+            final Mob entity = this.toRender.getEntity();
+            IAnimationHolder holder = AnimationHelper.getHolder(entity);
+            holder.clean();
+            if (anim.getValue().isBlank()) testAnimation = "";
+            else
+            {
+                testAnimation = anim.getValue();
+            }
+            if (this.renderHolder != null)
+            {
+                this.renderHolder.overrideAnim = true;
+                this.renderHolder.anim = ThutCore.trim(this.testAnimation);
+                holder.overridePlaying(this.renderHolder.anim);
             }
         }
         if (code == GLFW.GLFW_KEY_ENTER || code == GLFW.GLFW_KEY_KP_ENTER) this.onUpdated();

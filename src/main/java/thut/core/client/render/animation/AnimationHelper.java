@@ -47,8 +47,12 @@ public class AnimationHelper
             }
             list = Lists.newArrayList(holder.getPlaying());
             for (final Animation animation : list)
+            {
+                holder.preRunAnim(animation);
                 animate = AnimationHelper.animate(animation, holder, part, partialTick, limbSwing, entity.tickCount)
                         || animate;
+                holder.postRunAnim(animation);
+            }
         }
         return animate;
     }

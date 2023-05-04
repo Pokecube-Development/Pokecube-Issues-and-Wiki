@@ -6,7 +6,8 @@ import java.util.Locale;
 import org.nfunk.jep.JEP;
 
 import thut.api.entity.animation.Animation;
-import thut.api.entity.animation.Animators.FunctionAnimation;
+import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
@@ -29,7 +30,8 @@ public class SnakeMovement extends Animation
         {
             final String s = parts.get(i);
 
-            JEP[] rots = new JEP[3];
+            AnimationComponent comp = new AnimationComponent();
+            JEP[] rots = comp._rotFunctions;
             rots[axis] = new JEP();
             rots[axis].addStandardFunctions();
             rots[axis].addStandardConstants();
@@ -38,7 +40,7 @@ public class SnakeMovement extends Animation
             {
                 String exp = String.format(Locale.ROOT, phase, maxAngle, duration, dphi * i);
                 rots[axis].parseExpression(exp);
-                this.sets.put(s, new FunctionAnimation(rots));
+                this.sets.put(s, new KeyframeAnimator(comp));
                 continue;
             }
             catch (Exception e)

@@ -23,9 +23,9 @@ public class Animation
         void convertToIdents(String[] names);
     }
 
-    private UUID id;
+    private UUID id = UUID.randomUUID();;
 
-    public UUID _uuid = UUID.randomUUID();
+    public UUID _uuid = id;
 
     public String name = "";
     public String identifier = "";

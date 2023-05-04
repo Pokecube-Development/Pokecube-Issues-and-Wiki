@@ -64,6 +64,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public int brightness = 15728640;
     public int overlay = 655360;
 
+    // Set this true to mark animations for this as limb based if they are
+    // normal keyframes
+    public boolean isOverridenLimb = false;
+
     private boolean hidden = false;
     private boolean disabled = false;
 
