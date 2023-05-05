@@ -3,6 +3,7 @@ package pokecube.core.ai.logic;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -41,8 +42,10 @@ import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
@@ -256,6 +259,12 @@ public class LogicMiscUpdate extends LogicBase
             final boolean tameSitting = animal.isOrderedToSit();
             if (tameSitting != sitting) this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
         }
+
+        // Check egg guarding
+        boolean guardingEgg = pokemob.getGeneralState(GeneralStates.GUARDEGG);
+        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
+        boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
+        if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
     }
 
     private void checkEvolution()

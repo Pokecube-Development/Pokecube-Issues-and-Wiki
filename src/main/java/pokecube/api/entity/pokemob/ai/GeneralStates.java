@@ -21,7 +21,9 @@ public enum GeneralStates
     /** Pokemon is executing idle pathfinding. */
     IDLE(1 << 8, false),
     /** Pokemob is exiting pokecube */
-    EXITINGCUBE(1 << 9);
+    EXITINGCUBE(1 << 9),
+    /** Is the pokemob currently trying to guard and egg */
+    GUARDEGG(1 << 10, false);
 
     final int     mask;
     final boolean persist;
