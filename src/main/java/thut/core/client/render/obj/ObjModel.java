@@ -353,4 +353,16 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     {
         return order;
     }
+
+    @Override
+    public void setTexturerRaw(IPartTexturer texturer)
+    {
+        // We do nothing here, as raw does not filter to sub parts.
+    }
+
+    @Override
+    public void setAnimationChangerRaw(IAnimationChanger changer)
+    {
+        // We do nothing here, as raw does not filter to sub parts.
+    }
 }

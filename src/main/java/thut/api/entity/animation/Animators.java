@@ -3,6 +3,7 @@ package thut.api.entity.animation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -14,7 +15,6 @@ import com.google.common.collect.Sets;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
-import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.maths.Vector3;
@@ -104,6 +104,23 @@ public class Animators
     {
         private static final AnimationComponent DEFAULTS = new AnimationComponent();
 
+        public static enum CHANNEL
+        {
+            POS("position"), ROT("rotation"), SCALE("scale"), OPACITY("opacity");
+
+            private final String name;
+
+            private CHANNEL(String name)
+            {
+                this.name = name;
+            }
+
+            public String getName()
+            {
+                return name;
+            }
+        }
+
         private static record AnimChannel(String channel, List<AnimationComponent> components, int length)
         {
         };
@@ -114,7 +131,7 @@ public class Animators
 
         public final List<AnimationComponent> components;
         public final List<AnimChannel> channels = new ArrayList<>();
-        Map<String, AnimChannel> channel_map = new Object2ObjectArrayMap<>();
+        private final Set<CHANNEL> channelSet = new HashSet<>();
         private int length = -1;
         private boolean limbBased;
         private boolean hidden = false;
@@ -182,15 +199,19 @@ public class Animators
                 }
             }
 
-            for (var entry : by_channel.entrySet())
+            for (var channelEnum : CHANNEL.values())
             {
-                String key = entry.getKey();
-                var list = entry.getValue();
-                int len = 1;
-                for (var comp : list) len = Math.max(len, comp.startKey + comp.length);
-                AnimChannel channel = new AnimChannel(key, list, len);
-                this.channels.add(channel);
-                this.channel_map.put(key, channel);
+                String key = channelEnum.getName();
+                var list = by_channel.get(key);
+                if (list != null)
+                {
+                    int len = 1;
+                    for (var comp : list) len = Math.max(len, comp.startKey + comp.length);
+                    AnimChannel channel = new AnimChannel(key, list, len);
+                    this.channels.add(channel);
+                    this.channelSet.add(channelEnum);
+                }
+                else this.channels.add(null);
             }
 
             if (!preComputed) for (var entry : by_channel.entrySet())
@@ -280,11 +301,11 @@ public class Animators
 
             // Now we run through the components per channel
 
-            String channel = "rotation";
+            CHANNEL channel = CHANNEL.ROT;
             // Rotation set
             rots:
             {
-                var animChannel = channel_map.getOrDefault(channel, null);
+                var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break rots;
                 AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break rots;
@@ -327,11 +348,11 @@ public class Animators
                 rz += component.rotChange[2] * ratio + component.rotOffset[2];
             }
 
-            channel = "position";
+            channel = CHANNEL.POS;
             // Position set
             pos:
             {
-                var animChannel = channel_map.getOrDefault(channel, null);
+                var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break pos;
                 AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break pos;
@@ -381,11 +402,11 @@ public class Animators
 //              }
             }
 
-            channel = "scale";
+            channel = CHANNEL.SCALE;
             // scale set
             scales:
             {
-                var animChannel = channel_map.getOrDefault(channel, null);
+                var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break scales;
                 AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break scales;
@@ -428,11 +449,11 @@ public class Animators
                 sz *= component.scaleChange[2] * ratio + component.scaleOffset[2];
             }
 
-            channel = "opacity";
+            channel = CHANNEL.OPACITY;
             // scale set
             opacity:
             {
-                var animChannel = channel_map.getOrDefault(channel, null);
+                var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break opacity;
                 AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break opacity;
@@ -538,8 +559,8 @@ public class Animators
         {
             if (other instanceof KeyframeAnimator anim)
             {
-                Set<String> our_channels = this.channel_map.keySet();
-                Set<String> other_channels = anim.channel_map.keySet();
+                Set<CHANNEL> our_channels = this.channelSet;
+                Set<CHANNEL> other_channels = anim.channelSet;
                 return Sets.intersection(our_channels, other_channels).isEmpty();
             }
             return IAnimator.super.conflicts(other);

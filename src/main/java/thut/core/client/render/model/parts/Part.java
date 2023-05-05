@@ -322,9 +322,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void setAnimationChanger(final IAnimationChanger changer)
     {
-        this.changer = changer;
+        this.setAnimationChangerRaw(changer);
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
+    }
+    
+    @Override
+    public void setAnimationChangerRaw(IAnimationChanger changer)
+    {
+        this.changer = changer;
     }
 
     @Override
@@ -423,9 +429,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void setTexturer(final IPartTexturer texturer)
     {
-        this.texturer = texturer;
+        this.setTexturerRaw(texturer);
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
+    }
+    
+    @Override
+    public void setTexturerRaw(IPartTexturer texturer)
+    {
+        this.texturer = texturer;
     }
 
     @Override

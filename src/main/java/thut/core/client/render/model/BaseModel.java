@@ -238,16 +238,44 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public void setAnimationChanger(final IAnimationChanger changer)
     {
         if (this.getRenderOrder().isEmpty()) return;
-        for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
+        if (animOrder.isEmpty())
+        {
+            for (var part : this.getParts().values())
+            {
+                animOrder.add(part);
+                addChildrenToOrder(part);
+            }
+        }
+        for (var part : animOrder)
+            if (part instanceof IRetexturableModel tex) tex.setAnimationChangerRaw(changer);
     }
 
     @Override
     public void setTexturer(final IPartTexturer texturer)
     {
         if (this.getRenderOrder().isEmpty()) return;
-        for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
+        if (animOrder.isEmpty())
+        {
+            for (var part : this.getParts().values())
+            {
+                animOrder.add(part);
+                addChildrenToOrder(part);
+            }
+        }
+        for (var part : animOrder)
+            if (part instanceof IRetexturableModel tex) tex.setTexturerRaw(texturer);
+    }
+    
+    @Override
+    public void setTexturerRaw(IPartTexturer texturer)
+    {
+        // We do nothing here, as raw does not filter to sub parts.
+    }
+    
+    @Override
+    public void setAnimationChangerRaw(IAnimationChanger changer)
+    {
+        // We do nothing here, as raw does not filter to sub parts.
     }
 
     private void addChildrenToOrder(IExtendedModelPart part)

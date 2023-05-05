@@ -4,7 +4,17 @@ import thut.core.client.render.animation.IAnimationChanger;
 
 public interface IRetexturableModel
 {
-    void setAnimationChanger(IAnimationChanger changer);
+    default void setAnimationChanger(IAnimationChanger changer)
+    {
+        setAnimationChangerRaw(changer);
+    }
 
-    void setTexturer(IPartTexturer texturer);
+    void setAnimationChangerRaw(IAnimationChanger changer);
+
+    default void setTexturer(IPartTexturer texturer)
+    {
+        setTexturerRaw(texturer);
+    }
+
+    void setTexturerRaw(IPartTexturer texturer);
 }

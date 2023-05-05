@@ -319,13 +319,13 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
+    public void setAnimationChangerRaw(IAnimationChanger changer)
     {
         this.changer = changer;
     }
 
     @Override
-    public void setTexturer(final IPartTexturer texturer)
+    public void setTexturerRaw(IPartTexturer texturer)
     {
         this.texturer = texturer;
     }
