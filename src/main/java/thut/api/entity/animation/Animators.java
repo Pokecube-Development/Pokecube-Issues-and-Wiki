@@ -3,7 +3,6 @@ package thut.api.entity.animation;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +14,7 @@ import com.google.common.collect.Sets;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
+import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.maths.Vector3;
@@ -114,7 +114,7 @@ public class Animators
 
         public final List<AnimationComponent> components;
         public final List<AnimChannel> channels = new ArrayList<>();
-        Map<String, AnimChannel> channel_map = new HashMap<>();
+        Map<String, AnimChannel> channel_map = new Object2ObjectArrayMap<>();
         private int length = -1;
         private boolean limbBased;
         private boolean hidden = false;
@@ -213,10 +213,8 @@ public class Animators
             }
         }
 
-        private AnimationComponent getNext(float time1, float time2, boolean loops, String channel)
+        private AnimationComponent getNext(float time1, float time2, boolean loops, AnimChannel animChannel)
         {
-            var animChannel = channel_map.getOrDefault(channel, null);
-            if (animChannel == null) return null;
             var components = animChannel.components();
             if (components.isEmpty()) return null;
             int n = components.size();
@@ -264,6 +262,8 @@ public class Animators
 
             int aniTick = (int) Math.ceil(time1);
 
+            boolean wasHidden = part.isHidden();
+
 //            molangs.t = time1 = 1.9f * 20f;
 
             // First clear these
@@ -278,17 +278,17 @@ public class Animators
 
             boolean limb = part instanceof Part p && p.isOverridenLimb;
 
-            Set<String> used = new HashSet<>();
             // Now we run through the components per channel
 
             String channel = "rotation";
             // Rotation set
             rots:
             {
-                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
+                var animChannel = channel_map.getOrDefault(channel, null);
+                if (animChannel == null) break rots;
+                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break rots;
                 animated = true;
-                var animChannel = channel_map.getOrDefault(channel, null);
 
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
@@ -309,7 +309,6 @@ public class Animators
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
-                used.add(channel);
 
                 // Start by checking JEP components to the animation
                 for (int i = 0; i < 3; i++) if (component._rotFunctions[i] != null)
@@ -332,10 +331,11 @@ public class Animators
             // Position set
             pos:
             {
-                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
+                var animChannel = channel_map.getOrDefault(channel, null);
+                if (animChannel == null) break pos;
+                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break pos;
                 animated = true;
-                var animChannel = channel_map.getOrDefault(channel, null);
 
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
@@ -356,7 +356,6 @@ public class Animators
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
-                used.add(channel);
 
                 // Start by checking JEP components to the animation
                 for (int i = 0; i < 3; i++) if (component._posFunctions[i] != null)
@@ -386,10 +385,11 @@ public class Animators
             // scale set
             scales:
             {
-                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
+                var animChannel = channel_map.getOrDefault(channel, null);
+                if (animChannel == null) break scales;
+                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break scales;
                 animated = true;
-                var animChannel = channel_map.getOrDefault(channel, null);
 
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
@@ -410,7 +410,6 @@ public class Animators
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
-                used.add(channel);
 
                 // Start by checking JEP components to the animation
                 for (int i = 0; i < 3; i++) if (component._scaleFunctions[i] != null)
@@ -433,10 +432,11 @@ public class Animators
             // scale set
             opacity:
             {
-                AnimationComponent component = getNext(time1, time2, animation.loops, channel);
+                var animChannel = channel_map.getOrDefault(channel, null);
+                if (animChannel == null) break opacity;
+                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
                 if (component == null) break opacity;
                 animated = true;
-                var animChannel = channel_map.getOrDefault(channel, null);
 
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
@@ -457,9 +457,6 @@ public class Animators
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
-                used.add(channel);
-
-                any_hidden |= component.hidden;
                 if (component._opacFunction != null)
                 {
                     molangs.updateJEP(component._opacFunction, t1, t2);
@@ -477,7 +474,7 @@ public class Animators
             if (any_hidden) System.out.println(part.getName() + " " + time1);
 
             // Apply hidden like this so last hidden state is kept
-            part.setHidden(any_hidden);
+            if (wasHidden != any_hidden) part.setHidden(any_hidden);
             part.setOpacityScale(alpha_scale);
             holder.setStep(animation, aniTick);
             if (animated)
@@ -487,7 +484,6 @@ public class Animators
 //                if (part.getName().equals("body"))// leg_front_right
 //                {
 //                    System.out.println(part.getName() + " " + time1);
-//                    System.out.println(used);
 //                    System.out.println(temp + " " + Arrays.toString(dx) + " " + rx + " " + ry + " " + rz);
 //                }
 
