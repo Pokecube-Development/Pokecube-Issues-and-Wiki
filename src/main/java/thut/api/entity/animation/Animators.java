@@ -12,13 +12,10 @@ import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
@@ -97,8 +94,6 @@ public class Animators
             jeps[i].parseExpression(func);
         }
     }
-
-    private static final Vector4 _rot = new Vector4();
 
     public static class KeyframeAnimator implements IAnimator
     {
@@ -393,13 +388,6 @@ public class Animators
                 px += component.posChange[0] * ratio + component.posOffset[0];
                 py += component.posChange[1] * ratio + component.posOffset[1];
                 pz += component.posChange[2] * ratio + component.posOffset[2];
-
-//              if (part.getName().equals("torso"))// leg_front_right
-//              {
-//                  System.out.println(part.getName() + " " + time);
-//                  System.out.println(used);
-//                  System.out.println(temp + " " + Arrays.toString(dx) + " " + rx + " " + ry + " " + rz);
-//              }
             }
 
             channel = CHANNEL.SCALE;
@@ -492,6 +480,8 @@ public class Animators
                 alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
             }
 
+//            any_hidden = part.getName().contains("hair");
+
             // Apply hidden like this so last hidden state is kept
             if (wasHidden != any_hidden) part.setHidden(any_hidden);
             part.setOpacityScale(alpha_scale);
@@ -499,12 +489,6 @@ public class Animators
             if (animated)
             {
                 temp.set(px, py, pz);
-
-//                if (part.getName().equals("body"))// leg_front_right
-//                {
-//                    System.out.println(part.getName() + " " + time1);
-//                    System.out.println(temp + " " + Arrays.toString(dx) + " " + rx + " " + ry + " " + rz);
-//                }
 
                 rx += dr[0];
                 ry += dr[1];
@@ -517,11 +501,7 @@ public class Animators
                 sz *= ds[2];
                 part.setPreTranslations(temp);
                 part.setPreScale(temp.set(sx, sy, sz));
-                final Quaternion quat = new Quaternion(0, 0, 0, 1);
-                if (rz != 0) quat.mul(Vector3f.YN.rotationDegrees(rz));
-                if (rx != 0) quat.mul(Vector3f.XP.rotationDegrees(rx));
-                if (ry != 0) quat.mul(Vector3f.ZP.rotationDegrees(ry));
-                part.setPreRotations(_rot.set(quat));
+                part.setAnimAngles(rx, ry, rz);
             }
 
             return animated;
