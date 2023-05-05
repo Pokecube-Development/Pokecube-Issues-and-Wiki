@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
@@ -85,9 +86,12 @@ public class BBModelPart extends Part
         if (b.getRotation() != null)
         {
             float x = b.getRotation()[0];
-            float y = -b.getRotation()[2];
-            float z = b.getRotation()[1];
-            Quaternion quat = new Quaternion(x, y, z, true);
+            float y = b.getRotation()[1];
+            float z = b.getRotation()[2];
+            Quaternion quat = new Quaternion(0, 0, 0, 1);
+            if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
+            if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
+            if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
             final Vector4 rotations = new Vector4(quat);
             part.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
         }
@@ -153,6 +157,22 @@ public class BBModelPart extends Part
     public BBModelPart(String name)
     {
         super(name + "");
+    }
+
+    @Override
+    public void setPreRotations(Vector4 angles)
+    {
+        this.preRot.mul(angles, rotations);
+    }
+
+    @Override
+    public void setAnimAngles(float rx, float ry, float rz)
+    {
+        _quat.set(0, 0, 0, 1);
+        if (rz != 0) _quat.mul(Vector3f.YN.rotationDegrees(rz));
+        if (ry != 0) _quat.mul(Vector3f.ZP.rotationDegrees(ry));
+        if (rx != 0) _quat.mul(Vector3f.XP.rotationDegrees(rx));
+        this.setPreRotations(_rot.set(_quat));
     }
 
     @Override

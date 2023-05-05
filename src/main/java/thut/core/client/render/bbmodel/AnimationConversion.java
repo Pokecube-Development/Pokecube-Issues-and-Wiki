@@ -51,9 +51,13 @@ public class AnimationConversion
 
     public static class XMLAnimationSegment extends AnimationComponent
     {
-        private static float[] _posFuncScales =
+        static float[] _posFuncScales =
         { -1 / 16f, -1 / 16f, 1 / 16f };
-        private static float[] _rotFuncScales =
+        static float[] _rotFuncScales =
+        { -1, -1, 1 };
+        static float[] _posFuncScales_m =
+        { -1 / 16f, -1 / 16f, 1 / 16f };
+        static float[] _rotFuncScales_m =
         { -1, -1, 1 };
 
         public String rotFuncs = "";
@@ -135,6 +139,11 @@ public class AnimationConversion
             }
             catch (Exception e)
             {}
+
+            if (x instanceof String s && s.isBlank()) x = null;
+            if (y instanceof String s && s.isBlank()) y = null;
+            if (z instanceof String s && s.isBlank()) z = null;
+
             this.channel = channel;
 
             switch (channel)
@@ -302,6 +311,7 @@ public class AnimationConversion
     public static Map<String, List<Animation>> make_animations(BBModelTemplate template, BBModel bbModel)
     {
         Map<String, List<Animation>> map = new HashMap<>();
+
         for (var animation : template.animations)
         {
             Map<String, List<AnimationComponent>> parts = new HashMap<>();
@@ -346,7 +356,8 @@ public class AnimationConversion
                         if (frames.size() == 1)
                         {
                             var frame = frames.get(0);
-                            xml_parts.add(frame.toXML(frame, frame, animation.length));
+                            var xml = frame.toXML(frame, frame, animation.length);
+                            xml_parts.add(xml);
                         }
                         else
                         {

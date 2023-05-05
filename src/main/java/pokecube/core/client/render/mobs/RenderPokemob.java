@@ -480,6 +480,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             holder = temp;
         }
+        if (holder.failTimer > 50) holder = MISSNGNO;
+
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
@@ -487,7 +489,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.wrapper != null && !holder.wrapper.isLoaded())
         {
             if (!holder.wrapper.isLoaded() && holder.wrapper.lastInit < Tracker.instance().getTick()) holder.init();
-            if (holder.failTimer++ < 100) return;
+            holder.failTimer++;
+            return;
         }
         // This gives time for the model to actually finish loading in.
         if (holder.loadTimer-- > 0) return;
