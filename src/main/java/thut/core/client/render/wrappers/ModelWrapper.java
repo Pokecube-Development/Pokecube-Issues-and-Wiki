@@ -171,8 +171,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         this.imodel.getParts().forEach((partName, part) -> {
             if (animChanger != null) animChanger.isPartHidden(partName, entityIn, false);
-            if (part instanceof IRetexturableModel tex) tex.setTexturer(texer);
         });
+        if (this.imodel instanceof IRetexturableModel m) m.setTexturer(texer);
     }
 
     @Override
