@@ -492,8 +492,6 @@ public class Animators
                 alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
             }
 
-            if (any_hidden) System.out.println(part.getName() + " " + time1);
-
             // Apply hidden like this so last hidden state is kept
             if (wasHidden != any_hidden) part.setHidden(any_hidden);
             part.setOpacityScale(alpha_scale);
