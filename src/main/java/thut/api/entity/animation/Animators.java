@@ -235,22 +235,20 @@ public class Animators
             if (components.isEmpty()) return null;
             int n = components.size();
 
-            if (loops)
-            {
-                time1 %= animChannel.length();
-                time2 %= animChannel.length();
-            }
-
             // Now we run through the components per channel
             AnimationComponent component = components.get(n - 1);
+            float time = component.limbBased ? time2 : time1;
+            if (time < component.startKey) component = null; // Not started yet
             for (int i = 0; i < n - 1; i++)
+
             {
-                var tmp = components.get(i + 1);
-                final float time = component.limbBased ? time2 : time1;
-                if (tmp.startKey > time)
+                var next = components.get(i + 1);
+                var here = components.get(i);
+                time = next.limbBased ? time2 : time1;
+                // Here has started, and not next started yet
+                if (time >= here.startKey && next.startKey > time)
                 {
-                    component = components.get(i);
-                    break;
+                    return here;
                 }
             }
             return component;
@@ -302,10 +300,6 @@ public class Animators
             {
                 var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break rots;
-                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
-                if (component == null) break rots;
-                animated = true;
-
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
@@ -321,6 +315,9 @@ public class Animators
                     t1 = Math.min(time1, animChannel.length());
                     t2 = Math.min(time2, animChannel.length());
                 }
+                AnimationComponent component = getNext(t1, t2, animation.loops, animChannel);
+                if (component == null) break rots;
+                animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
@@ -349,10 +346,6 @@ public class Animators
             {
                 var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break pos;
-                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
-                if (component == null) break pos;
-                animated = true;
-
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
@@ -368,6 +361,9 @@ public class Animators
                     t1 = Math.min(time1, animChannel.length());
                     t2 = Math.min(time2, animChannel.length());
                 }
+                AnimationComponent component = getNext(t1, t2, animation.loops, animChannel);
+                if (component == null) break pos;
+                animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
@@ -396,10 +392,6 @@ public class Animators
             {
                 var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break scales;
-                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
-                if (component == null) break scales;
-                animated = true;
-
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
@@ -415,6 +407,9 @@ public class Animators
                     t1 = Math.min(time1, animChannel.length());
                     t2 = Math.min(time2, animChannel.length());
                 }
+                AnimationComponent component = getNext(t1, t2, animation.loops, animChannel);
+                if (component == null) break scales;
+                animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
@@ -435,6 +430,9 @@ public class Animators
                 sx *= component.scaleChange[0] * ratio + component.scaleOffset[0];
                 sy *= component.scaleChange[1] * ratio + component.scaleOffset[1];
                 sz *= component.scaleChange[2] * ratio + component.scaleOffset[2];
+//                if (part.getName().equals("eyeleft"))
+//                    System.out.println(sx + " " + sy + " " + sz + " " + (component.startKey + " " + t1) + " "
+//                            + Arrays.toString(component.scaleChange) + " " + Arrays.toString(component.scaleOffset));
             }
 
             channel = CHANNEL.OPACITY;
@@ -443,10 +441,6 @@ public class Animators
             {
                 var animChannel = channels.get(channel.ordinal());
                 if (animChannel == null) break opacity;
-                AnimationComponent component = getNext(time1, time2, animation.loops, animChannel);
-                if (component == null) break opacity;
-                animated = true;
-
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
@@ -462,10 +456,14 @@ public class Animators
                     t1 = Math.min(time1, animChannel.length());
                     t2 = Math.min(time2, animChannel.length());
                 }
+                AnimationComponent component = getNext(t1, t2, animation.loops, animChannel);
+                if (component == null) break opacity;
+                animated = true;
                 float time = component.limbBased || limb ? t2 : t1;
                 aniTick = Math.max(aniTick, (int) Math.ceil(time));
 
                 any_hidden |= component.hidden;
+
                 if (component._opacFunction != null)
                 {
                     molangs.updateJEP(component._opacFunction, t1, t2);

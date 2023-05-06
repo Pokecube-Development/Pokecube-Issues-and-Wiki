@@ -13,6 +13,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -54,10 +56,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector4 rotations = new Vector4();
     public Vertex scale = new Vertex(1, 1, 1);
 
+    protected Quaternion _quat = new Quaternion(0, 0, 0, 1);
+    protected Vector4 _rot = new Vector4();
+
     private float ds = 1;
     public float ds0 = 1;
     public float ds1 = 1;
-    
+
     public float opacity = 1;
 
     Vector3 min = new Vector3();
@@ -226,9 +231,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
         mat.pushPose();
 
-        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         // Translate of offset for rotation.
         mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         // // Apply PreOffset-Rotations.
         this.preRot.glRotate(mat);
         // Translate by post-PreOffset amount.
@@ -326,7 +331,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
     }
-    
+
     @Override
     public void setAnimationChangerRaw(IAnimationChanger changer)
     {
@@ -371,6 +376,16 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setPreRotations(Vector4 angles)
     {
         this.preRot.mul(rotations, angles);
+    }
+
+    @Override
+    public void setAnimAngles(float rx, float ry, float rz)
+    {
+        _quat.set(0, 0, 0, 1);
+        if (rz != 0) _quat.mul(Vector3f.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(Vector3f.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(Vector3f.ZP.rotationDegrees(ry));
+        this.setPreRotations(_rot.set(_quat));
     }
 
     @Override
@@ -433,7 +448,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
     }
-    
+
     @Override
     public void setTexturerRaw(IPartTexturer texturer)
     {
@@ -518,7 +533,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     {
         return disabled;
     }
-    
+
     @Override
     public void setOpacityScale(float scale)
     {

@@ -157,6 +157,9 @@ public interface IExtendedModelPart extends IModelCustom
         return Sets.newHashSet();
     }
 
+    default void setAnimAngles(float rx, float ry, float rz)
+    {}
+
     void setAnimationHolder(IAnimationHolder holder);
 
     IAnimationHolder getAnimationHolder();
@@ -172,7 +175,7 @@ public interface IExtendedModelPart extends IModelCustom
     void setPreScale(Vector3 scale);
 
     void setPreTranslations(Vector3 translations);
-    
+
     void setOpacityScale(float scale);
 
     /**

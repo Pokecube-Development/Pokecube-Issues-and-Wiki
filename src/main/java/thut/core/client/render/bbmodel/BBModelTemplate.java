@@ -242,14 +242,16 @@ public class BBModelTemplate
             float us = template.resolution.width;
             float vs = template.resolution.height;
 
-            Quaternion quat = new Quaternion(0, 0, 0, true);
+            Quaternion quat = new Quaternion(0, 0, 0, 1);
 
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[1];
                 float z = b.getRotation()[2];
-                quat = new Quaternion(x, y, z, true);
+                if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
+                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
+                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(origin_offset);
@@ -303,15 +305,16 @@ public class BBModelTemplate
             float us = template.resolution.width;
             float vs = template.resolution.height;
 
-            Quaternion quat = new Quaternion(0, 0, 0, true);
+            Quaternion quat = new Quaternion(0, 0, 0, 1);
 
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[1];
                 float z = b.getRotation()[2];
-                Quaternion q = new Quaternion(x, y, z, true);
-                quat.set(q.i(), q.j(), q.k(), q.r());
+                if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
+                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
+                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(b.origin);

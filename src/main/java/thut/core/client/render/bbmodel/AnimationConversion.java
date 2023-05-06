@@ -160,8 +160,8 @@ public class AnimationConversion
                 break;
             case "scale":
                 this.scales[0] = x;
-                this.scales[1] = y;
-                this.scales[2] = z;
+                this.scales[1] = z;
+                this.scales[2] = y;
                 has_scale = true;
                 break;
             }
@@ -291,6 +291,13 @@ public class AnimationConversion
                 segment.rotChange[0] = +old[0];
                 segment.rotChange[1] = +old[1];
                 segment.rotChange[2] = -old[2];
+
+                if (has_scale)
+                {
+                    segment.scaleChange[0] = segment.scaleChange[0];
+                    segment.scaleChange[1] = segment.scaleChange[1];
+                    segment.scaleChange[2] = -segment.scaleChange[2];
+                }
             }
 
             if (!all_not_func)
