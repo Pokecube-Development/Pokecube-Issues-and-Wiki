@@ -222,7 +222,10 @@ public interface IHasStats extends IHasEntry
      */
     default double getWeight()
     {
-        return this.getSize() * this.getSize() * this.getSize() * this.getPokedexEntry().mass;
+        double mass = this.getPokedexEntry().mass;
+        if (((IPokemob) this).getCustomHolder() != null)
+            mass = ((IPokemob) this).getCustomHolder().getMass(this.getPokedexEntry());
+        return this.getSize() * this.getSize() * this.getSize() * mass;
     }
 
     /**

@@ -1,0 +1,20 @@
+[
+    {
+      "name":"maushold",
+      "model": {
+        "key": "maushold",
+        "tex": "maushold",
+        "model": "maushold",
+        "anim": "maushold"
+      },
+      "models": [
+        {
+          "key": "maushold-family-of-three",
+          "tex": "maushold-family-of-three",
+          "model": "maushold-family-of-three",
+          "anim": "maushold-family-of-three",
+          "mass": 2.8
+        }
+      ]
+    }
+]

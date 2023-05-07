@@ -43,6 +43,13 @@ public class DefaultFormeHolder
     // If this is not null, then the pokemob's ability will be defaulted to
     // this, instead of what is in the pokedex entry.
     public String ability = null;
+    // As of gen 9, we have many cosmetic forms that also change mass, so we
+    // inclide this here, if this is not -1, we will then apply it.
+    public double mass = -1;
+    // A scaling factor for the forme, for ones which also have different sizes
+    // (like dundunsparce 3-segments)
+    public double[] scale =
+    { 1, 1, 1 };
 
     public String key = null;
     // These three allow specific models/textures for evos
