@@ -420,7 +420,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                             .setShaderState(RenderStateShard.POSITION_COLOR_SHADER).createCompositeState(false));
 
             final VertexConsumer builder = buffer.getBuffer(effectType);
-            final Matrix4f pos = mat.last().pose();
+            var pos = mat.last().pose();
 
             mat.pushPose();
             GlStateManager._enableDepthTest();

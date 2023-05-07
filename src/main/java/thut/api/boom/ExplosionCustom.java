@@ -8,7 +8,6 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -40,6 +39,7 @@ import thut.api.item.ItemList;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class ExplosionCustom extends Explosion
 {
@@ -147,7 +147,7 @@ public class ExplosionCustom extends Explosion
         public DefaultBreaker(ServerLevel level)
         {
             this.level = level;
-            list = level.registryAccess().registryOrThrow(Registry.PROCESSOR_LIST_REGISTRY).get(DAMAGE_LIST);
+            list = level.registryAccess().registryOrThrow(RegHelper.PROCESSOR_LIST_REGISTRY).get(DAMAGE_LIST);
             settings = new StructurePlaceSettings();
         }
 

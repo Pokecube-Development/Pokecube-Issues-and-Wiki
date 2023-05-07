@@ -13,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.appender.FileAppender;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
@@ -71,6 +70,7 @@ import thut.core.common.terrain.CapabilityTerrainAffected;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.init.RegistryObjects;
 import thut.crafts.ThutCrafts;
+import thut.lib.RegHelper;
 
 @Mod(ThutCore.MODID)
 public class ThutCore
@@ -174,9 +174,9 @@ public class ThutCore
     public static class RegistryEvents
     {
         public static final DeferredRegister<RecipeType<?>> RECIPETYPE = DeferredRegister
-                .create(Registry.RECIPE_TYPE_REGISTRY, ThutCore.MODID);
+                .create(RegHelper.RECIPE_TYPE_REGISTRY, ThutCore.MODID);
         public static final DeferredRegister<LootItemFunctionType> LOOTTYPE = DeferredRegister
-                .create(Registry.LOOT_FUNCTION_REGISTRY, ThutCore.MODID);
+                .create(RegHelper.LOOT_FUNCTION_REGISTRY, ThutCore.MODID);
         public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister
                 .create(ForgeRegistries.PARTICLE_TYPES, ThutCore.MODID);
         public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES,

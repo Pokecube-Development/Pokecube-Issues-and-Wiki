@@ -60,6 +60,7 @@ import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.pieces.ExpandedPoolElementStructurePiece;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class ExpandedJigsawPacement
 {
@@ -106,7 +107,7 @@ public class ExpandedJigsawPacement
         LevelHeightAccessor levelheightaccessor = context.heightAccessor();
         Predicate<Holder<Biome>> predicate = context.validBiome();
 
-        Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(Registry.TEMPLATE_POOL_REGISTRY);
+        Registry<StructureTemplatePool> registry = registryaccess.registryOrThrow(RegHelper.TEMPLATE_POOL_REGISTRY);
         Rotation rotation = Rotation.getRandom(worldgenrandom);
 
         StructureTemplatePool root_pool = config.startPool.value();

@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +29,7 @@ public class ItemList extends Items
 
     public static boolean is(final ResourceLocation tag, final EntityType<?> type)
     {
-        var tagkey = E_TAGS.computeIfAbsent(tag, l -> TagKey.create(Registry.ENTITY_TYPE_REGISTRY, l));
+        var tagkey = E_TAGS.computeIfAbsent(tag, l -> TagKey.create(RegHelper.ENTITY_TYPE_REGISTRY, l));
         final boolean tagged = type.is(tagkey);
         if (!tagged) return RegHelper.getKey(type).equals(tag);
         return tagged;

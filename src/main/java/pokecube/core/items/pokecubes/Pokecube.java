@@ -10,7 +10,6 @@ import com.google.common.collect.Lists;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -75,7 +74,7 @@ public class Pokecube extends Item implements IPokecube
     {
         if (var.startsWith("#"))
         {
-            TagKey<EntityType<?>> tag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY,
+            TagKey<EntityType<?>> tag = TagKey.create(RegHelper.ENTITY_TYPE_REGISTRY,
                     new ResourceLocation(var.replace("#", "")));
             _blacklist.add(e -> e.getType().is(tag));
         }

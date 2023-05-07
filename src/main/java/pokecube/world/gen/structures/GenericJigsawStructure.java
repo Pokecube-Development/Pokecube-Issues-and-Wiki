@@ -11,7 +11,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -29,6 +28,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.utils.PokecubeSerializer;
 import pokecube.world.gen.structures.GenericJigsawStructure.AvoidanceSettings.AvoidanceEntry;
 import pokecube.world.gen.structures.utils.ExpandedJigsawPacement;
+import thut.lib.RegHelper;
 
 public class GenericJigsawStructure extends Structure
 {
@@ -45,7 +45,7 @@ public class GenericJigsawStructure extends Structure
                 Codec.STRING.fieldOf("spawn_blacklist").orElse("").forGetter(s -> s._spawn_blacklist),
                 Codec.STRING.fieldOf("biome_type").orElse("none").forGetter(s -> s.biome_type),
                 Heightmap.Types.CODEC.fieldOf("height_type").orElse(Heightmap.Types.WORLD_SURFACE_WG).forGetter(structure -> structure.height_type),
-                ResourceKey.codec(Registry.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid").orElse(new ArrayList<>()).forGetter(config -> config.structures_to_avoid),
+                ResourceKey.codec(RegHelper.STRUCTURE_SET_REGISTRY).listOf().fieldOf("structures_to_avoid").orElse(new ArrayList<>()).forGetter(config -> config.structures_to_avoid),
                 Codec.INT.fieldOf("avoid_range").orElse(4).forGetter(s -> s.avoid_range),
                 Codec.INT.fieldOf("biome_room").orElse(2).forGetter(s -> s.biome_room), 
                 AvoidanceSettings.CODEC.fieldOf("avoidances").orElse(AvoidanceSettings.DEFAULT).forGetter(s -> s.avoidances)
@@ -288,7 +288,7 @@ public class GenericJigsawStructure extends Structure
             {
                 // Skip if the key is null, this generally means the listed
                 // structure to avoid was removed via a datapack!
-                set = context.registryAccess().registryOrThrow(Registry.STRUCTURE_SET_REGISTRY).getHolderOrThrow(key);
+                set = context.registryAccess().registryOrThrow(RegHelper.STRUCTURE_SET_REGISTRY).getHolderOrThrow(key);
             }
             catch (Exception e)
             {

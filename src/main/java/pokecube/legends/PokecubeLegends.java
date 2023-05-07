@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.mojang.serialization.Codec;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
@@ -86,6 +85,7 @@ import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.block.flowing.FlowingBlock;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 @Mod(value = Reference.ID)
@@ -117,17 +117,17 @@ public class PokecubeLegends
 
     // Features, etc
     public static final DeferredRegister<ConfiguredFeature<?, ?>> CONFIGURED_FEATURES = DeferredRegister
-            .create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
+            .create(RegHelper.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
     public static final DeferredRegister<PlacedFeature> PLACED_FEATURES = DeferredRegister
-            .create(Registry.PLACED_FEATURE_REGISTRY, Reference.ID);
+            .create(RegHelper.PLACED_FEATURE_REGISTRY, Reference.ID);
     public static final DeferredRegister<Codec<? extends RuleSource>> SURFACE_RULES = DeferredRegister
-            .create(Registry.RULE_REGISTRY, Reference.ID);
+            .create(RegHelper.RULE_REGISTRY, Reference.ID);
 
     // Recipes
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZER = DeferredRegister
             .create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.ID);
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPE = DeferredRegister
-            .create(Registry.RECIPE_TYPE_REGISTRY, Reference.ID);
+            .create(RegHelper.RECIPE_TYPE_REGISTRY, Reference.ID);
 
     /** Packs Textures,Tags,etc... */
     public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
