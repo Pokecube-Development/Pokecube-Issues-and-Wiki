@@ -247,8 +247,8 @@ public class BBModelTemplate
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
-                float y = b.getRotation()[1];
-                float z = b.getRotation()[2];
+                float y = b.getRotation()[2];
+                float z = b.getRotation()[1];
                 if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
                 if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
                 if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
@@ -310,8 +310,8 @@ public class BBModelTemplate
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
-                float y = b.getRotation()[1];
-                float z = b.getRotation()[2];
+                float y = b.getRotation()[2];
+                float z = b.getRotation()[1];
                 if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
                 if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
                 if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
