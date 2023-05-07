@@ -3,8 +3,6 @@ package thut.core.client.render.animation.prefab;
 import java.util.ArrayList;
 import java.util.Locale;
 
-import org.nfunk.jep.JEP;
-
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
@@ -31,15 +29,11 @@ public class SnakeMovement extends Animation
             final String s = parts.get(i);
 
             AnimationComponent comp = new AnimationComponent();
-            JEP[] rots = comp._rotFunctions;
-            rots[axis] = new JEP();
-            rots[axis].addStandardFunctions();
-            rots[axis].addStandardConstants();
-            rots[axis].addVariable("t", 0);
+            String[] rots = comp._rotFunctions;
             try
             {
                 String exp = String.format(Locale.ROOT, phase, maxAngle, duration, dphi * i);
-                rots[axis].parseExpression(exp);
+                rots[axis] = exp;
                 this.sets.put(s, new KeyframeAnimator(comp));
                 continue;
             }

@@ -605,6 +605,7 @@ public class LogicMiscUpdate extends LogicBase
         case FALL_FLYING:
             if (!moving) anims.add("floating");
             anims.add("flying");
+            if (moving) anims.add("floating");
             break;
         case SLEEPING:
             anims.add("sleeping");

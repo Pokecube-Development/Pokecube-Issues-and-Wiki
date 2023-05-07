@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.nfunk.jep.JEP;
-
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
@@ -54,10 +52,6 @@ public class AnimationConversion
         static float[] _posFuncScales =
         { -1 / 16f, -1 / 16f, 1 / 16f };
         static float[] _rotFuncScales =
-        { -1, -1, 1 };
-        static float[] _posFuncScales_m =
-        { -1 / 16f, -1 / 16f, 1 / 16f };
-        static float[] _rotFuncScales_m =
         { -1, -1, 1 };
 
         public String rotFuncs = "";
@@ -167,7 +161,7 @@ public class AnimationConversion
             }
         }
 
-        private boolean setDoubles(double[] _to, Object[] _from, JEP[] jeps)
+        private boolean setDoubles(double[] _to, Object[] _from, String[] jeps)
         {
             boolean allValid = true;
             for (int i = 0; i < 3; i++)
@@ -179,12 +173,7 @@ public class AnimationConversion
                 else if (_from[i] instanceof String func)
                 {
                     func = convertMolangToJEP(func, forcedLimbs);
-                    jeps[i] = new JEP();
-                    jeps[i].addStandardFunctions();
-                    jeps[i].addStandardConstants();
-                    for (var entry : MolangVars.JEP_VARS.entrySet())
-                        if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
-                    jeps[i].parseExpression(func);
+                    jeps[i] = func;
                     allValid = false;
                 }
                 else
@@ -195,7 +184,7 @@ public class AnimationConversion
             return allValid;
         }
 
-        public boolean setDiff(double[] _arr, Object[] _pos, Object[] _neg, JEP[] jeps)
+        public boolean setDiff(double[] _arr, Object[] _pos, Object[] _neg, String[] jeps)
         {
             boolean allValid = true;
             for (int i = 0; i < 3; i++)
@@ -208,12 +197,7 @@ public class AnimationConversion
                 else if (_pos[i] instanceof String func)
                 {
                     func = convertMolangToJEP(func, forcedLimbs);
-                    jeps[i] = new JEP();
-                    jeps[i].addStandardFunctions();
-                    jeps[i].addStandardConstants();
-                    for (var entry : MolangVars.JEP_VARS.entrySet())
-                        if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
-                    jeps[i].parseExpression(func);
+                    jeps[i] = func;
                     allValid = false;
                 }
                 else
@@ -306,6 +290,7 @@ public class AnimationConversion
                 segment._posFunctions[0] = old[0];
                 segment._posFunctions[1] = old[2];
                 segment._posFunctions[2] = old[1];
+                segment._needJEPInit = true;
             }
             // We are not printing, so we don't need the "clear if not defined"
             // section
@@ -369,13 +354,17 @@ public class AnimationConversion
                         else
                         {
                             var first_frame = frames.get(0);
+                            var last_frame = first_frame;
                             for (int i = 0; i < frames.size() - 1; i++)
                             {
                                 var next_frame = frames.get(i + 1);
                                 var frame = frames.get(i);
                                 var xml = frame.toXML(first_frame, next_frame, animation.length);
                                 xml_parts.add(xml);
+                                last_frame = next_frame;
                             }
+                            var xml = last_frame.toXML(first_frame, first_frame, animation.length);
+                            if (xml._needJEPInit) xml_parts.add(xml);
                         }
                     }
                 }
@@ -400,7 +389,7 @@ public class AnimationConversion
             {
                 var part = entry.getKey();
                 List<AnimationComponent> list = entry.getValue();
-                KeyframeAnimator animator = new KeyframeAnimator(list, true);
+                KeyframeAnimator animator = new KeyframeAnimator(list, true, (int) (animation.length * 20));
                 if (anmation.sets.containsKey(part))
                 {
                     ThutCore.LOGGER.warn("Unsupported double part for animation " + animation.name + " " + part);

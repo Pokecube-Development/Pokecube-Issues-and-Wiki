@@ -9,12 +9,9 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
-import org.nfunk.jep.JEP;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animation.IPartRenamer;
 import thut.api.entity.animation.AnimationComponent;
@@ -90,9 +87,9 @@ public class AnimationBuilder
                 {
                     final AnimationComponent comp = new AnimationComponent();
 
-                    JEP[] rots = comp._rotFunctions;
-                    JEP[] pos = comp._posFunctions;
-                    JEP[] scale = comp._scaleFunctions;
+                    String[] rots = comp._rotFunctions;
+                    String[] pos = comp._posFunctions;
+                    String[] scale = comp._scaleFunctions;
 
                     if (!component.rotFuncs.isBlank()) Animators.fillJEPs(rots, component.rotFuncs);
                     if (!component.posFuncs.isBlank()) Animators.fillJEPs(pos, component.posFuncs);
@@ -100,12 +97,7 @@ public class AnimationBuilder
                     if (!component.opacFuncs.isBlank())
                     {
                         var func = component.opacFuncs;
-                        comp._opacFunction = new JEP();
-                        comp._opacFunction.addStandardFunctions();
-                        comp._opacFunction.addStandardConstants();
-                        for (var entry : MolangVars.JEP_VARS.entrySet()) if (func.contains(entry.getKey()))
-                            comp._opacFunction.addVariable(entry.getKey(), entry.getValue());
-                        comp._opacFunction.parseExpression(func);
+                        comp._opacFunction = func;
                     }
 
                     if (component.name != null) comp.name = component.name;
