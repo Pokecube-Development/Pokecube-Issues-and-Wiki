@@ -2,6 +2,7 @@ package thut.core.client.render.model;
 
 import java.io.FileNotFoundException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -11,7 +12,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ReferenceOpenHashSet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -73,7 +73,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     private final List<IExtendedModelPart> animOrder = Lists.newArrayList();
     protected Map<String, Material> mats = new Object2ObjectOpenHashMap<>();
 
-    Set<String> heads = new ReferenceOpenHashSet<>();
+    Set<String> heads = new HashSet<>();
     public String name;
     protected boolean valid = true;
     protected boolean loaded = false;
@@ -164,11 +164,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         return this.parts;
     }
 
-    private boolean isHead(final String partName)
-    {
-        return this.getHeadParts().contains(partName);
-    }
-
     @Override
     public boolean isValid()
     {
@@ -246,8 +241,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 addChildrenToOrder(part);
             }
         }
-        for (var part : animOrder)
-            if (part instanceof IRetexturableModel tex) tex.setAnimationChangerRaw(changer);
+        for (var part : animOrder) if (part instanceof IRetexturableModel tex) tex.setAnimationChangerRaw(changer);
     }
 
     @Override
@@ -262,16 +256,15 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 addChildrenToOrder(part);
             }
         }
-        for (var part : animOrder)
-            if (part instanceof IRetexturableModel tex) tex.setTexturerRaw(texturer);
+        for (var part : animOrder) if (part instanceof IRetexturableModel tex) tex.setTexturerRaw(texturer);
     }
-    
+
     @Override
     public void setTexturerRaw(IPartTexturer texturer)
     {
         // We do nothing here, as raw does not filter to sub parts.
     }
-    
+
     @Override
     public void setAnimationChangerRaw(IAnimationChanger changer)
     {
@@ -280,6 +273,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
     private void addChildrenToOrder(IExtendedModelPart part)
     {
+        part.setHeadPart(this.getHeadParts().contains(part.getName()));
         for (var child : part.getSubParts().values())
         {
             animOrder.add(child);
@@ -299,22 +293,22 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 addChildrenToOrder(part);
             }
         }
-        
+
         for (var part : animOrder)
             this.updatePart(entity, renderer, playingAnims, currentPhase, partialTicks, part, holder, limbSwing);
     }
 
     private void updatePart(final Entity entity, final IModelRenderer<?> renderer, List<Animation> anims,
-            final String currentPhase, final float partialTick, final IExtendedModelPart parent,
-            IAnimationHolder holder, final float limbSwing)
+            final String currentPhase, final float partialTick, final IExtendedModelPart part, IAnimationHolder holder,
+            final float limbSwing)
     {
         if (this.getRenderOrder().isEmpty()) return;
-        if (parent == null) return;
+        if (part == null) return;
 
-        parent.resetToInit();
+        part.resetToInit();
         boolean anim = !anims.isEmpty();
-        if (anim) AnimationHelper.doAnimation(anims, holder, entity, parent, partialTick, limbSwing);
-        if (this.isHead(parent.getName()))
+        if (anim) AnimationHelper.doAnimation(anims, holder, entity, part, partialTick, limbSwing);
+        if (part.isHeadPart())
         {
             HeadInfo info = holder.getHeadInfo();
             float ang;
@@ -340,7 +334,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
             final Vector4 combined = new Vector4();
             combined.mul(dir.toQuaternion(), dir2.toQuaternion());
-            parent.setPostRotations(combined);
+            part.setPostRotations(combined);
         }
     }
 }

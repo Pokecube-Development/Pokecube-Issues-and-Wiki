@@ -122,6 +122,16 @@ public interface IExtendedModelPart extends IModelCustom
 
     void resetToInit();
 
+    default void setHeadPart(final boolean isHead)
+    {
+
+    }
+
+    default boolean isHeadPart()
+    {
+        return false;
+    }
+
     default void setHidden(final boolean hidden)
     {
 

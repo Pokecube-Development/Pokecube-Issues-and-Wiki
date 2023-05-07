@@ -77,6 +77,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
     private boolean hidden = false;
     private boolean disabled = false;
+    private boolean isHead = false;
 
     private final List<Material> materials = Lists.newArrayList();
     private final Map<String, Material> namedMaterials = new Object2ObjectOpenHashMap<>();
@@ -538,5 +539,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setOpacityScale(float scale)
     {
         this.opacity = scale;
+    }
+
+    @Override
+    public void setHeadPart(final boolean isHead)
+    {
+        this.isHead = isHead;
+    }
+
+    @Override
+    public boolean isHeadPart()
+    {
+        return isHead;
     }
 }
