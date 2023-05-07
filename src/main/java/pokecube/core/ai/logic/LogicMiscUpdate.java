@@ -568,11 +568,18 @@ public class LogicMiscUpdate extends LogicBase
         if (next != old) this.entity.setPose(next);
     }
 
+    private void addAnimation(List<String> anims, String key, boolean isRidden)
+    {
+        if (isRidden) anims.add("ridden_" + key);
+        anims.add(key);
+    }
+
     private void checkAnimationStates()
     {
         if (animated == null) return;
         final List<String> anims = animated.getChoices();
         anims.clear();
+        boolean isRidden = entity.getPassengers().size() > 0;
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed;
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
@@ -580,21 +587,24 @@ public class LogicMiscUpdate extends LogicBase
         final boolean moving = walkspeed > stationary;
         final Pose pose = this.entity.getPose();
         final boolean walking = this.floatTimer < 2 && moving;
-        if (pose == Pose.DYING) anims.add("dead");
+        if (pose == Pose.DYING) addAnimation(anims, "dead", isRidden);
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();
             MoveEntry move = this.pokemob.getSelectedMove();
             if (index < 4)
             {
-                if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT) anims.add("attack_contact");
-                if (move.getAttackCategory(pokemob) == ContactCategory.RANGED) anims.add("attack_ranged");
+                if (move != null) addAnimation(anims, "attack_" + move.name, isRidden);
+                if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)
+                    addAnimation(anims, "attack_contact", isRidden);
+                if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
+                    addAnimation(anims, "attack_ranged", isRidden);
             }
         }
         for (final LogicStates state : LogicStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
-            if (this.pokemob.getLogicState(state)) anims.add(anim);
+            if (this.pokemob.getLogicState(state)) addAnimation(anims, anim, isRidden);
         }
         switch (pose)
         {
@@ -603,29 +613,29 @@ public class LogicMiscUpdate extends LogicBase
         case CROUCHING:
             break;
         case FALL_FLYING:
-            if (!moving) anims.add("floating");
-            anims.add("flying");
-            if (moving) anims.add("floating");
+            if (!moving) addAnimation(anims, "floating", isRidden);
+            addAnimation(anims, "flying", isRidden);
+            if (moving) addAnimation(anims, "floating", isRidden);
             break;
         case SLEEPING:
-            anims.add("sleeping");
+            addAnimation(anims, "sleeping", isRidden);
             break;
         case SPIN_ATTACK:
             break;
         case STANDING:
             break;
         case SWIMMING:
-            anims.add("swimming");
+            addAnimation(anims, "swimming", isRidden);
             break;
         default:
             break;
         }
-        if (this.entity.isSprinting()) anims.add("sprinting");
-        if (walking) anims.add("walking");
+        if (this.entity.isSprinting()) addAnimation(anims, "sprinting", isRidden);
+        if (walking) addAnimation(anims, "walking", isRidden);
         for (final CombatStates state : CombatStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
-            if (this.pokemob.getCombatState(state)) anims.add(anim);
+            if (this.pokemob.getCombatState(state)) addAnimation(anims, anim, isRidden);
         }
     }
 }

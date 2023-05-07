@@ -213,12 +213,10 @@ public class AnimationConversion
         {
             int start = this.time;
             int length = next_frame.time - this.time;
+            max_length *= 20;
 
-            if (max_length > 0)
-            {
-                max_length *= 20;
-                length = (int) Math.min(max_length - start, length);
-            }
+            if (length <= 0) length = (int) max_length;
+            length = (int) Math.min(max_length - start, length);
 
             if (first_frame == next_frame) start = 0;
 
@@ -291,6 +289,8 @@ public class AnimationConversion
                 segment._posFunctions[1] = old[2];
                 segment._posFunctions[2] = old[1];
                 segment._needJEPInit = true;
+
+                if (length == 0 && max_length <= 0) segment.length = Integer.MAX_VALUE;
             }
             // We are not printing, so we don't need the "clear if not defined"
             // section

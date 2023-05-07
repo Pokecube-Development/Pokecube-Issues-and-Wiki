@@ -358,6 +358,7 @@ public class BBModelTemplate
                 {
                     same = map_order.get(i).equals(face.vertices.get(i));
                 }
+                b._mirrored = !same;
 
                 for (int j = 0; j < face.vertices.size(); j++)
                 {
@@ -395,6 +396,7 @@ public class BBModelTemplate
         public Map<String, JsonObject> faces;
         public Map<String, float[]> vertices;
         public JsonGroup _parent = null;
+        public boolean _mirrored = false;
 
         public void toMeshs(BBModelTemplate t, Map<String, List<List<Object>>> quads_materials,
                 Map<String, List<List<Object>>> tris_materials)
