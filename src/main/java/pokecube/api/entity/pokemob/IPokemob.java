@@ -107,6 +107,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         }
 
         private List<PokeType> _types = Lists.newArrayList();
+        public double _mass = -1;
 
         public ResourceLocation getIcon(final boolean male, final boolean shiny, final PokedexEntry base)
         {
@@ -186,6 +187,15 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public void setEntry(PokedexEntry entry)
         {
             this._entry = entry;
+        }
+
+        public double getMass(PokedexEntry baseEntry)
+        {
+            if (this.loaded_from == null || this.loaded_from.mass < 0)
+            {
+                return baseEntry.mass;
+            }
+            else return this.loaded_from.mass;
         }
     }
 
