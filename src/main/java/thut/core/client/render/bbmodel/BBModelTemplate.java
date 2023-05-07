@@ -39,17 +39,14 @@ public class BBModelTemplate
     public Resolution resolution = new Resolution();
 
     public Map<String, Object> _by_uuid = new HashMap<>();
-    public Map<String, List<String>> _unique_meshs = new HashMap<>();
+    public Map<String, List<Element>> _unique_mesh_owners = new HashMap<>();
 
     public void init()
     {
         elements.forEach(e -> {
             _by_uuid.put(e.uuid, e);
             if (e.type.equals("mesh")) e.faces.forEach((key, json) -> {
-                MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
-                _unique_meshs.computeIfAbsent(key, var -> {
-                    return face.vertices;
-                });
+                _unique_mesh_owners.computeIfAbsent(key, var -> new ArrayList<>()).add(e);
             });
         });
         textures.forEach(e -> _by_uuid.put(e.uuid, e));
@@ -300,6 +297,26 @@ public class BBModelTemplate
         List<BBModelQuad> quads = Lists.newArrayList();
         List<BBModelQuad> tris = Lists.newArrayList();
 
+        private boolean brokenQuad(MeshFace face, Map<String, Vertex> verts)
+        {
+            if (face.vertices.size() != 4) return false;
+            Vertex tmp1 = new Vertex(0, 0);
+            Vertex tmp2 = new Vertex(0, 0);
+            Vertex tmp3 = new Vertex(0, 0);
+            var vert = verts.get(face.vertices.get(0));
+            var next = verts.get(face.vertices.get((1)));
+            var crnr = verts.get(face.vertices.get((2)));
+            var prev = verts.get(face.vertices.get((3)));
+
+            tmp1.sub(next, vert);
+            tmp2.sub(prev, vert);
+            tmp3.sub(crnr, vert);
+
+            double d1 = tmp1.angle(tmp2);
+            double d2 = tmp1.angle(tmp3);
+            return d2 > d1;
+        }
+
         public BBMeshElement(BBModelTemplate template, Element b)
         {
             float us = template.resolution.width;
@@ -346,19 +363,21 @@ public class BBModelTemplate
                 MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
                 BBModelQuad quad = new BBModelQuad();
 
-                // TODO find the real fix for this.
-                // To test this, uncomment the same = true; line after the loop
-                // that checks it
-                List<String> map_order = template._unique_meshs.computeIfAbsent(key, var -> {
-                    return face.vertices;
-                });
+                var map_order = face.vertices;
+                boolean same = !brokenQuad(face, verts);
 
-                boolean same = true;
-                for (int i = 0; i < map_order.size() && same; i++)
+                if (!same)
                 {
-                    same = map_order.get(i).equals(face.vertices.get(i));
+                    var other_meshs = template._unique_mesh_owners.get(key);
+                    if (other_meshs.size() > 1)
+                    {
+                        var other_b = other_meshs.get(0) == b ? other_meshs.get(1) : other_meshs.get(0);
+                        MeshFace face_2 = JsonUtil.gson.fromJson(other_b.faces.get(key), MeshFace.class);
+                        map_order = face_2.vertices;
+                    }
+                    else
+                    {}
                 }
-                b._mirrored = !same;
 
                 for (int j = 0; j < face.vertices.size(); j++)
                 {
@@ -396,7 +415,6 @@ public class BBModelTemplate
         public Map<String, JsonObject> faces;
         public Map<String, float[]> vertices;
         public JsonGroup _parent = null;
-        public boolean _mirrored = false;
 
         public void toMeshs(BBModelTemplate t, Map<String, List<List<Object>>> quads_materials,
                 Map<String, List<List<Object>>> tris_materials)
