@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.lwjgl.glfw.GLFW;
-import org.nfunk.jep.JEP;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -121,7 +120,7 @@ public class AnimationGui extends Screen
     public static IAnimator makeRotationTest(String rotations)
     {
         AnimationComponent comp = new AnimationComponent();
-        JEP[] rots = comp._rotFunctions;
+        String[] rots = comp._rotFunctions;
         Animators.fillJEPs(rots, rotations);
         return new KeyframeAnimator(comp);
     }
@@ -129,7 +128,7 @@ public class AnimationGui extends Screen
     public static IAnimator makeOffsetTest(String offsets)
     {
         AnimationComponent comp = new AnimationComponent();
-        JEP[] offs = comp._posFunctions;
+        String[] offs = comp._posFunctions;
         Animators.fillJEPs(offs, offsets);
         return new KeyframeAnimator(comp);
     }

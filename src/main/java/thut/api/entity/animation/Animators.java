@@ -44,7 +44,7 @@ public class Animators
         }
     }
 
-    public static void fillJEPs(JEP[] jeps, String _funcs)
+    public static void fillJEPs(String[] jeps, String _funcs)
     {
         String[] funcs = _funcs.split(",");
         func:
@@ -86,12 +86,7 @@ public class Animators
                 continue func;
             }
             var func = args[1];
-            jeps[i] = new JEP();
-            jeps[i].addStandardFunctions();
-            jeps[i].addStandardConstants();
-            for (var entry : MolangVars.JEP_VARS.entrySet())
-                if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
-            jeps[i].parseExpression(func);
+            jeps[i] = func;
         }
     }
 
@@ -133,15 +128,15 @@ public class Animators
 
         public KeyframeAnimator(AnimationComponent component)
         {
-            this(Lists.newArrayList(component), false);
+            this(Lists.newArrayList(component), false, -1);
         }
 
         public KeyframeAnimator(List<AnimationComponent> components)
         {
-            this(components, false);
+            this(components, false, -1);
         }
 
-        public KeyframeAnimator(List<AnimationComponent> components, boolean preComputed)
+        public KeyframeAnimator(List<AnimationComponent> components, boolean preComputed, int baseLength)
         {
             this.components = components;
             this.length = -1;
@@ -183,9 +178,9 @@ public class Animators
                 if (scale_channel) component._valid_channels.add("scale");
                 if (opac_channel) component._valid_channels.add("opacity");
 
-                component._foundNoJEP = Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
-                component._foundNoJEP &= Arrays.equals(component._rotFunctions, DEFAULTS._rotFunctions);
-                component._foundNoJEP &= Arrays.equals(component._scaleFunctions, DEFAULTS._scaleFunctions);
+                component._needJEPInit = !Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
+                component._needJEPInit |= !Arrays.equals(component._rotFunctions, DEFAULTS._rotFunctions);
+                component._needJEPInit |= !Arrays.equals(component._scaleFunctions, DEFAULTS._scaleFunctions);
 
                 for (String channel : component._valid_channels)
                 {
@@ -202,7 +197,7 @@ public class Animators
                 {
                     int len = 1;
                     for (var comp : list) len = Math.max(len, comp.startKey + comp.length);
-                    AnimChannel channel = new AnimChannel(key, list, len);
+                    AnimChannel channel = new AnimChannel(key, list, this.length);
                     this.channels.add(channel);
                     this.channelSet.add(channelEnum);
                 }
@@ -248,9 +243,58 @@ public class Animators
                 // Here has started, and not next started yet
                 if (time >= here.startKey && next.startKey > time)
                 {
-                    return here;
+                    component = here;
+                    break;
                 }
             }
+            if (component != null && component._needJEPInit)
+            {
+                component._needJEPInit = false;
+                String func = component._opacFunction;
+                if (func != null)
+                {
+                    component._opacJEP = new JEP();
+                    component._opacJEP.addStandardFunctions();
+                    component._opacJEP.addStandardConstants();
+                    for (var entry : MolangVars.JEP_VARS.entrySet()) if (func.contains(entry.getKey()))
+                        component._opacJEP.addVariable(entry.getKey(), entry.getValue());
+                    component._opacJEP.parseExpression(func);
+                }
+                for (int i = 0; i < 3; i++)
+                {
+                    func = component._posFunctions[i];
+                    if (func != null)
+                    {
+                        component._posJEPs[i] = new JEP();
+                        component._posJEPs[i].addStandardFunctions();
+                        component._posJEPs[i].addStandardConstants();
+                        for (var entry : MolangVars.JEP_VARS.entrySet()) if (func.contains(entry.getKey()))
+                            component._posJEPs[i].addVariable(entry.getKey(), entry.getValue());
+                        component._posJEPs[i].parseExpression(func);
+                    }
+                    func = component._rotFunctions[i];
+                    if (func != null)
+                    {
+                        component._rotJEPs[i] = new JEP();
+                        component._rotJEPs[i].addStandardFunctions();
+                        component._rotJEPs[i].addStandardConstants();
+                        for (var entry : MolangVars.JEP_VARS.entrySet()) if (func.contains(entry.getKey()))
+                            component._rotJEPs[i].addVariable(entry.getKey(), entry.getValue());
+                        component._rotJEPs[i].parseExpression(func);
+                    }
+                    func = component._scaleFunctions[i];
+                    if (func != null)
+                    {
+                        component._scaleJEPs[i] = new JEP();
+                        component._scaleJEPs[i].addStandardFunctions();
+                        component._scaleJEPs[i].addStandardConstants();
+                        for (var entry : MolangVars.JEP_VARS.entrySet()) if (func.contains(entry.getKey()))
+                            component._scaleJEPs[i].addVariable(entry.getKey(), entry.getValue());
+                        component._scaleJEPs[i].parseExpression(func);
+                    }
+                }
+            }
+
             return component;
         }
 
@@ -278,14 +322,10 @@ public class Animators
 
             boolean wasHidden = part.isHidden();
 
-//            molangs.t = time1 = 1.9f * 20f;
-
             // First clear these
             dr[0] = dr[1] = dr[2] = 0;
             dx[0] = dx[1] = dx[2] = 0;
             ds[0] = ds[1] = ds[2] = 1;
-
-//            System.out.println(animation.loops);
 
             // Marker for if any were hidden
             boolean any_hidden = false;
@@ -324,11 +364,14 @@ public class Animators
                 any_hidden |= component.hidden;
 
                 // Start by checking JEP components to the animation
-                for (int i = 0; i < 3; i++) if (component._rotFunctions[i] != null)
+                for (int i = 0; i < 3; i++) if (component._rotJEPs[i] != null)
                 {
-                    molangs.updateJEP(component._rotFunctions[i], t1, t2);
-                    dr[i] = (float) component._rotFunctions[i].getValue() * component._rotFuncScale[i];
+                    molangs.updateJEP(component._rotJEPs[i], t1, t2);
+                    dr[i] = (float) component._rotJEPs[i].getValue() * component._rotFuncScale[i];
                 }
+//                if (part.getName().equals("smogright2"))
+//                    System.out.println(Arrays.toString(dr) + " " + Arrays.toString(component._rotFunctions) + " "
+//                            + Arrays.toString(component.rotChange) + " " + Arrays.toString(component.rotOffset));
 
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
@@ -370,10 +413,10 @@ public class Animators
                 any_hidden |= component.hidden;
 
                 // Start by checking JEP components to the animation
-                for (int i = 0; i < 3; i++) if (component._posFunctions[i] != null)
+                for (int i = 0; i < 3; i++) if (component._posJEPs[i] != null)
                 {
-                    molangs.updateJEP(component._posFunctions[i], t1, t2);
-                    dx[i] = (float) component._posFunctions[i].getValue() * component._posFuncScale[i];
+                    molangs.updateJEP(component._posJEPs[i], t1, t2);
+                    dx[i] = (float) component._posJEPs[i].getValue() * component._posFuncScale[i];
                 }
 
                 float componentTimer = time - component.startKey;
@@ -416,10 +459,10 @@ public class Animators
                 any_hidden |= component.hidden;
 
                 // Start by checking JEP components to the animation
-                for (int i = 0; i < 3; i++) if (component._scaleFunctions[i] != null)
+                for (int i = 0; i < 3; i++) if (component._scaleJEPs[i] != null)
                 {
-                    molangs.updateJEP(component._scaleFunctions[i], t1, t2);
-                    ds[i] = (float) component._scaleFunctions[i].getValue() * component._scaleFuncScale[i];
+                    molangs.updateJEP(component._scaleJEPs[i], t1, t2);
+                    ds[i] = (float) component._scaleJEPs[i].getValue() * component._scaleFuncScale[i];
                 }
 
                 float componentTimer = time - component.startKey;
@@ -430,9 +473,6 @@ public class Animators
                 sx *= component.scaleChange[0] * ratio + component.scaleOffset[0];
                 sy *= component.scaleChange[1] * ratio + component.scaleOffset[1];
                 sz *= component.scaleChange[2] * ratio + component.scaleOffset[2];
-//                if (part.getName().equals("eyeleft"))
-//                    System.out.println(sx + " " + sy + " " + sz + " " + (component.startKey + " " + t1) + " "
-//                            + Arrays.toString(component.scaleChange) + " " + Arrays.toString(component.scaleOffset));
             }
 
             channel = CHANNEL.OPACITY;
@@ -464,10 +504,10 @@ public class Animators
 
                 any_hidden |= component.hidden;
 
-                if (component._opacFunction != null)
+                if (component._opacJEP != null)
                 {
-                    molangs.updateJEP(component._opacFunction, t1, t2);
-                    alpha_scale *= component._opacFunction.getValue();
+                    molangs.updateJEP(component._opacJEP, t1, t2);
+                    alpha_scale *= component._opacJEP.getValue();
                 }
 
                 float componentTimer = time - component.startKey;
@@ -477,8 +517,6 @@ public class Animators
 
                 alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
             }
-
-//            any_hidden = part.getName().contains("hair");
 
             // Apply hidden like this so last hidden state is kept
             if (wasHidden != any_hidden) part.setHidden(any_hidden);

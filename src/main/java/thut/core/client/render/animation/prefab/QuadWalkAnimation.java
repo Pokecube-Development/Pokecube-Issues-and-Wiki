@@ -4,8 +4,6 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import org.nfunk.jep.JEP;
-
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
 import thut.api.entity.animation.Animators;
@@ -83,7 +81,7 @@ public class QuadWalkAnimation extends Animation
             try
             {
                 AnimationComponent comp = new AnimationComponent();
-                JEP[] rots = comp._rotFunctions;
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase1, legAngle, duration);
                 Animators.fillJEPs(rots, exp);
                 this.sets.put(s, new KeyframeAnimator(comp));
@@ -99,7 +97,7 @@ public class QuadWalkAnimation extends Animation
             try
             {
                 AnimationComponent comp = new AnimationComponent();
-                JEP[] rots = comp._rotFunctions;
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase2, legAngle, duration);
                 Animators.fillJEPs(rots, exp);
                 this.sets.put(s, new KeyframeAnimator(comp));
@@ -115,7 +113,7 @@ public class QuadWalkAnimation extends Animation
             try
             {
                 AnimationComponent comp = new AnimationComponent();
-                JEP[] rots = comp._rotFunctions;
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase3, legAngle, duration);
                 Animators.fillJEPs(rots, exp);
                 this.sets.put(s, new KeyframeAnimator(comp));
@@ -131,7 +129,7 @@ public class QuadWalkAnimation extends Animation
             try
             {
                 AnimationComponent comp = new AnimationComponent();
-                JEP[] rots = comp._rotFunctions;
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase4, legAngle, duration);
                 Animators.fillJEPs(rots, exp);
                 this.sets.put(s, new KeyframeAnimator(comp));
