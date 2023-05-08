@@ -7,6 +7,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
 
 import org.nfunk.jep.JEP;
 
@@ -22,6 +25,37 @@ import thut.core.common.ThutCore;
 
 public class Animators
 {
+
+    // This matches <number> * <number>, where <number> is a floating point value
+    // There can also be spaces between 
+    private static final Pattern multiply_pattern = Pattern
+            .compile("([-]*[\\d]+[.]?[\\d]*)\\s*\\*\\s*([-]*[\\d]+[.]?[\\d]*)");
+
+    // this matches <number> + <number>
+    // The (?<![*.\\-0-9])(?<![\*/]\s*) prevents it matching * in front
+    // the (?!\*) pevents it matching * after
+    private static final Pattern add_pattern = Pattern
+            .compile("(?<![*.\\-0-9])(?<![\\*/]\\s*)([-]*[\\d]+[.]?[\\d]*)\\s*\\+\\s*([-]*[\\d]+[.]?[\\d]*)(?!\\*)");
+
+    private static final Pattern subtract_pattern = Pattern
+            .compile("(?<![*.\\-0-9])(?<![\\*/]\\s*)([-]*[\\d]+[.]?[\\d]*)\\s*\\-\\s*([-]*[\\d]+[.]?[\\d]*)(?!\\*)");
+
+    private static final Function<MatchResult, String> multiply = (m) -> {
+        String var = m.group(1);
+        String var_2 = m.group(2);
+        return "" + Float.parseFloat(var) * Float.parseFloat(var_2);
+    };
+    private static final Function<MatchResult, String> add = (m) -> {
+        String var = m.group(1);
+        String var_2 = m.group(2);
+        return "" + (Float.parseFloat(var) + Float.parseFloat(var_2));
+    };
+    private static final Function<MatchResult, String> subtract = (m) -> {
+        String var = m.group(1);
+        String var_2 = m.group(2);
+        return "" + (Float.parseFloat(var) - Float.parseFloat(var_2));
+    };
+
     public static interface IAnimator
     {
         boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
@@ -224,6 +258,36 @@ public class Animators
             }
         }
 
+        private String cleanFunc(String func)
+        {
+            if (func == null) return func;
+            var m = multiply_pattern.matcher(func);
+            String new_func = func.replace(" ", "").replace("\n", "");
+            // Multiplications first
+            while (m.find())
+            {
+                new_func = m.replaceAll(multiply);
+                m = multiply_pattern.matcher(new_func);
+            }
+            // Then additions
+            m = add_pattern.matcher(new_func);
+            while (m.find())
+            {
+                new_func = m.replaceAll(add);
+                m = add_pattern.matcher(new_func);
+            }
+            // Then additions
+            m = subtract_pattern.matcher(new_func);
+            while (m.find())
+            {
+                new_func = m.replaceAll(subtract);
+                m = subtract_pattern.matcher(new_func);
+            }
+            // finally subtractions
+            System.out.println(func+"->"+new_func);
+            return new_func;
+        }
+
         private AnimationComponent getNext(float time1, float time2, boolean loops, AnimChannel animChannel)
         {
             var components = animChannel.components();
@@ -250,7 +314,7 @@ public class Animators
             if (component != null && component._needJEPInit)
             {
                 component._needJEPInit = false;
-                String func = component._opacFunction;
+                String func = cleanFunc(component._opacFunction);
                 if (func != null)
                 {
                     component._opacJEP = new JEP();
@@ -262,7 +326,7 @@ public class Animators
                 }
                 for (int i = 0; i < 3; i++)
                 {
-                    func = component._posFunctions[i];
+                    func = cleanFunc(component._posFunctions[i]);
                     if (func != null)
                     {
                         component._posJEPs[i] = new JEP();
@@ -272,7 +336,7 @@ public class Animators
                             component._posJEPs[i].addVariable(entry.getKey(), entry.getValue());
                         component._posJEPs[i].parseExpression(func);
                     }
-                    func = component._rotFunctions[i];
+                    func = cleanFunc(component._rotFunctions[i]);
                     if (func != null)
                     {
                         component._rotJEPs[i] = new JEP();
@@ -282,7 +346,7 @@ public class Animators
                             component._rotJEPs[i].addVariable(entry.getKey(), entry.getValue());
                         component._rotJEPs[i].parseExpression(func);
                     }
-                    func = component._scaleFunctions[i];
+                    func = cleanFunc(component._scaleFunctions[i]);
                     if (func != null)
                     {
                         component._scaleJEPs[i] = new JEP();
