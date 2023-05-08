@@ -625,7 +625,9 @@ public class LogicMiscUpdate extends LogicBase
         case STANDING:
             break;
         case SWIMMING:
+            if (!moving) addAnimation(anims, "in_water", isRidden);
             addAnimation(anims, "swimming", isRidden);
+            if (moving) addAnimation(anims, "in_water", isRidden);
             break;
         default:
             break;
