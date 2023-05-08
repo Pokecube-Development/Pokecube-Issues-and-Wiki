@@ -15,6 +15,7 @@ import org.apache.logging.log4j.core.appender.FileAppender;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -342,6 +343,7 @@ public class ThutCore
                 Object o = args[i];
                 // TODO regex for {} instead to support number formatting like
                 // {:.2f}
+                if(o instanceof Component c) o = c.getString();
                 key = key.replaceFirst("\\{\\}", o == null ? "null" : o.toString());
             }
             logger.accept(key);

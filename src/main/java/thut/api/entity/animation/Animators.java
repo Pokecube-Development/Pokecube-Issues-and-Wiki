@@ -25,6 +25,37 @@ import thut.core.common.ThutCore;
 
 public class Animators
 {
+
+    // This matches <number> * <number>, where <number> is a floating point value
+    // There can also be spaces between 
+    private static final Pattern multiply_pattern = Pattern
+            .compile("([-]*[\\d]+[.]?[\\d]*)\\s*\\*\\s*([-]*[\\d]+[.]?[\\d]*)");
+
+    // this matches <number> + <number>
+    // The (?<![*.\\-0-9])(?<![\*/]\s*) prevents it matching * in front
+    // the (?!\*) pevents it matching * after
+    private static final Pattern add_pattern = Pattern
+            .compile("(?<![*.\\-0-9])(?<![\\*/]\\s*)([-]*[\\d]+[.]?[\\d]*)\\s*\\+\\s*([-]*[\\d]+[.]?[\\d]*)(?!\\*)");
+
+    private static final Pattern subtract_pattern = Pattern
+            .compile("(?<![*.\\-0-9])(?<![\\*/]\\s*)([-]*[\\d]+[.]?[\\d]*)\\s*\\-\\s*([-]*[\\d]+[.]?[\\d]*)(?!\\*)");
+
+    private static final Function<MatchResult, String> multiply = (m) -> {
+        String var = m.group(1);
+        String var_2 = m.group(2);
+        return "" + Float.parseFloat(var) * Float.parseFloat(var_2);
+    };
+    private static final Function<MatchResult, String> add = (m) -> {
+        String var = m.group(1);
+        String var_2 = m.group(2);
+        return "" + (Float.parseFloat(var) + Float.parseFloat(var_2));
+    };
+    private static final Function<MatchResult, String> subtract = (m) -> {
+        String var = m.group(1);
+        String var_2 = m.group(2);
+        return "" + (Float.parseFloat(var) - Float.parseFloat(var_2));
+    };
+
     public static interface IAnimator
     {
         boolean animate(Animation animation, IAnimationHolder holder, IExtendedModelPart part, float partialTick,
@@ -227,36 +258,11 @@ public class Animators
             }
         }
 
-        private static final Pattern multiply_pattern = Pattern
-                .compile("([-\\d]+[.]?[-\\d]*)[ ]*\\*[ ]*([-\\d]+[.]?[-\\d]*)");
-
-        private static final Pattern add_pattern = Pattern
-                .compile("(?<![*.-\\d])(?<![\\*/]\\s*)([-\\d]+[.]?[\\d]*)\\s*\\+\\s*([-\\d]+[.]?[\\d]*)");
-
-        private static final Pattern subtract_pattern = Pattern
-                .compile("(?<![*.-\\d])(?<![\\*/]\\s*)([-\\d]+[.]?[\\d]*)\\s*\\-\\s*([-\\d]+[.]?[\\d]*)");
-
-        private static final Function<MatchResult, String> multiply = (m) -> {
-            String var = m.group(1);
-            String var_2 = m.group(2);
-            return "" + Float.parseFloat(var) * Float.parseFloat(var_2);
-        };
-        private static final Function<MatchResult, String> add = (m) -> {
-            String var = m.group(1);
-            String var_2 = m.group(2);
-            return "" + (Float.parseFloat(var) + Float.parseFloat(var_2));
-        };
-        private static final Function<MatchResult, String> subtract = (m) -> {
-            String var = m.group(1);
-            String var_2 = m.group(2);
-            return "" + (Float.parseFloat(var) - Float.parseFloat(var_2));
-        };
-
         private String cleanFunc(String func)
         {
             if (func == null) return func;
             var m = multiply_pattern.matcher(func);
-            String new_func = func;
+            String new_func = func.replace(" ", "").replace("\n", "");
             // Multiplications first
             while (m.find())
             {
@@ -278,6 +284,7 @@ public class Animators
                 m = subtract_pattern.matcher(new_func);
             }
             // finally subtractions
+            System.out.println(func+"->"+new_func);
             return new_func;
         }
 
