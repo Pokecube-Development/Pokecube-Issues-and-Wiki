@@ -8,6 +8,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -55,6 +57,15 @@ public class RegistryChangeFixer
             });
         }
 
+        // Remap the sounds.
+        if (event.getKey().equals(Keys.SOUND_EVENTS))
+        {
+            List<Mapping<SoundEvent>> mappings = event.getAllMappings(Keys.SOUND_EVENTS);
+            mappings.forEach(m -> {
+                if (m.getKey().getPath().startsWith("mobs.")) m.remap(SoundEvents.PIG_AMBIENT);
+            });
+        }
+
         // Remap the entity types
         if (event.getKey().equals(Keys.ENTITY_TYPES))
         {
@@ -73,6 +84,11 @@ public class RegistryChangeFixer
                 {
                     PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.getKey(), Database.formeToEntry.get(m.getKey()));
                     m.remap(Database.formeToEntry.get(m.getKey()).getEntityType());
+                }
+                else
+                {
+                    PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.getKey(), Database.missingno);
+                    m.remap(Database.missingno.getEntityType());
                 }
             });
         }
