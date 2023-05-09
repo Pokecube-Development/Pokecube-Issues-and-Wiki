@@ -750,6 +750,7 @@ public class PokemobEventsHandler
     private static void onMobTick(final LivingTickEvent evt)
     {
         final LivingEntity living = evt.getEntity();
+        
         if (living.isRemoved()) return;
 
         // Have this tick to manage the target's target.

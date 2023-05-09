@@ -587,7 +587,6 @@ public class LogicMiscUpdate extends LogicBase
         {
             transients.add("blink");
         }
-
         boolean isRidden = entity.getPassengers().size() > 0;
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed;
@@ -596,7 +595,7 @@ public class LogicMiscUpdate extends LogicBase
         final boolean moving = walkspeed > stationary;
         final Pose pose = this.entity.getPose();
         final boolean walking = this.floatTimer < 2 && moving;
-        if (pose == Pose.DYING) addAnimation(anims, "dead", isRidden);
+        if (pose == Pose.DYING || entity.deathTime > 0) addAnimation(anims, "dead", isRidden);
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();
@@ -648,5 +647,13 @@ public class LogicMiscUpdate extends LogicBase
             final String anim = ThutCore.trim(state.toString());
             if (this.pokemob.getCombatState(state)) addAnimation(anims, anim, isRidden);
         }
+    }
+
+    @Override
+    public boolean shouldRun()
+    {
+        // The base class only runs if the mob is not dead, we need to run while
+        // dead to also handle animation setting.
+        return true;
     }
 }
