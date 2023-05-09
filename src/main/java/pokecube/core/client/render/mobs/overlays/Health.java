@@ -151,7 +151,7 @@ public class Health
         final Camera viewer = renderManager.camera;
         final UUID viewerID = viewer.getEntity().getUUID();
 
-        final boolean background = config.drawBackground && entity.hasLineOfSight(viewer.getEntity());
+        final boolean background = config.drawBackground;
         VertexConsumer buffer;
         Matrix4f pos;
 

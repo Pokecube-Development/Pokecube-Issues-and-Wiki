@@ -25,6 +25,20 @@ public interface IAnimated
      */
     List<String> getChoices();
 
+    /**
+     * List of non-looping animations to run during an existing animation.
+     * 
+     * @return
+     */
+    List<String> transientAnimations();
+
+    /**
+     * The thing we animate for, for mobs, this is the Entity itself.
+     * 
+     * @return
+     */
+    Object getContext();
+
     public static class HeadInfo
     {
         public static final HeadInfo DUMMY = new HeadInfo();
@@ -163,6 +177,8 @@ public interface IAnimated
         String getPendingAnimations();
 
         List<Animation> getPlaying();
+
+        void setContext(IAnimated context);
 
         /**
          * This is the animation about to be run.

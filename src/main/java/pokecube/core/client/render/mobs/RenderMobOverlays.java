@@ -1,13 +1,10 @@
 package pokecube.core.client.render.mobs;
 
-import com.google.common.collect.ImmutableMap;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -19,7 +16,6 @@ import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.client.render.mobs.overlays.ExitCube;
 import pokecube.core.client.render.mobs.overlays.Health;
 import pokecube.core.client.render.mobs.overlays.Status;
-import pokecube.core.client.render.mobs.overlays.Utils;
 
 public class RenderMobOverlays
 {
@@ -35,13 +31,13 @@ public class RenderMobOverlays
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null && event.getEntity().canUpdate())
         {
-            var bufferIn = event.getMultiBufferSource();
-            if (bufferIn instanceof BufferSource b && !(b.fixedBuffers instanceof ImmutableMap))
-            {
-                b.fixedBuffers.computeIfAbsent(Evolution.EFFECT, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
-                b.fixedBuffers.computeIfAbsent(Health.BACKGROUND, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
-                b.fixedBuffers.computeIfAbsent(Health.TYPE, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
-            }
+//            var bufferIn = event.getMultiBufferSource();
+//            if (bufferIn instanceof BufferSource b && (b.fixedBuffers instanceof ImmutableMap))
+//            { This seems to mess things up trying to do it this way, so need to find a different way.
+//                b.fixedBuffers.computeIfAbsent(Evolution.EFFECT, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
+//                b.fixedBuffers.computeIfAbsent(Health.BACKGROUND, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
+//                b.fixedBuffers.computeIfAbsent(Health.TYPE, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
+//            }
             
             final PoseStack mat = event.getPoseStack();
             Evolution.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
