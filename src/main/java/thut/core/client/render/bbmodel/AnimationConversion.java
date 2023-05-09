@@ -290,7 +290,7 @@ public class AnimationConversion
                 segment._posFunctions[2] = old[1];
                 segment._needJEPInit = true;
 
-                if (length == 0) segment.length = Integer.MAX_VALUE;
+                if (length == 0 && max_length <= 0) segment.length = Integer.MAX_VALUE;
             }
             // We are not printing, so we don't need the "clear if not defined"
             // section
