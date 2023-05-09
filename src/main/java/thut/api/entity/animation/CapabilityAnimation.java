@@ -82,7 +82,7 @@ public class CapabilityAnimation
         @Override
         public void initAnimations(Map<String, List<Animation>> map, String _default)
         {
-            if (init) return;
+            if (map.size() == this.anims.size()) return;
             map.forEach((s, l) -> anims.computeIfAbsent(s, s2 -> Lists.newArrayList(l)));
             this._default = _default;
             init = true;
@@ -107,6 +107,7 @@ public class CapabilityAnimation
                 non_static.clear();
                 return EMPTY;
             }
+            if (!this.anims.containsKey(this.playing)) this.playing = _default;
 
             List<Animation> playing = this.anims.getOrDefault(this.playing, EMPTY);
             if (this.playingList != playing)
@@ -164,7 +165,7 @@ public class CapabilityAnimation
                 var transients = context.transientAnimations();
                 synchronized (transients)
                 {
-                    if (!transients.isEmpty())
+                    if (!transients.isEmpty() && this.playingList != EMPTY)
                     {
                         for (var anim : transients)
                         {

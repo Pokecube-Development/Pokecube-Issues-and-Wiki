@@ -10,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -17,9 +18,12 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Pose;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder.TexColours;
@@ -149,6 +153,10 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         private Vector3 offset = new Vector3();;
         private Vector3 scale = new Vector3();
         PokedexEntry entry;
+
+        boolean checkedAnims = false;
+        boolean hasSleepAnim = false;
+        boolean hasDeathAnim = false;
 
         public boolean reload = false;
         public boolean overrideAnim = false;
@@ -298,6 +306,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             this.toRunNames.clear();
             this.parts.clear();
             this.initModel(new ModelWrapper<>(this, this));
+            this.checkedAnims = false;
             this.wrapper.lastInit = Tracker.instance().getTick() + 50;
         }
 
@@ -436,6 +445,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     }
 
     final Holder holder;
+    Holder activeHolder = null;
 
     @SuppressWarnings(
     { "unchecked", "rawtypes" })
@@ -502,6 +512,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         this.model = holder.wrapper;
         this.shadowRadius = entity.getBbWidth();
+        this.activeHolder = holder;
 
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
@@ -554,5 +565,77 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         if (holder.getTexturer() == null) return texture;
         final ResourceLocation tex = holder.getTexturer().getTexture("", texture);
         return tex == null ? texture : tex;
+    }
+
+    private static float sleepDirectionToRotation(Direction bedDir)
+    {
+        switch (bedDir)
+        {
+        case SOUTH:
+            return 90.0F;
+        case WEST:
+            return 0.0F;
+        case NORTH:
+            return 270.0F;
+        case EAST:
+            return 180.0F;
+        default:
+            return 0.0F;
+        }
+    }
+
+    @Override
+    protected void setupRotations(Mob entity, PoseStack stack, float ageInTicks, float rotationYaw, float partialTicks)
+    {
+        // See super implementation for default stuff.
+        Pose pose = entity.getPose();
+        boolean sleeping = pose == Pose.SLEEPING;
+
+        if (!activeHolder.checkedAnims)
+        {
+            activeHolder.checkedAnims = true;
+            activeHolder.hasSleepAnim = this.activeHolder.hasAnimation("sleeping", entity);
+            activeHolder.hasDeathAnim = this.activeHolder.hasAnimation("dead", entity);
+        }
+
+        if (!sleeping)
+        {
+            stack.mulPose(Vector3f.YP.rotationDegrees(180.0F - rotationYaw));
+        }
+
+        if (this.isShaking(entity))
+        {
+            rotationYaw += (float) (Math.cos((double) entity.tickCount * 3.25D) * Math.PI * (double) 0.4F);
+        }
+        if (entity.deathTime > 0)
+        {
+            if (activeHolder.hasDeathAnim) return;
+            float f = ((float) entity.deathTime + rotationYaw - 1.0F) / 20.0F * 1.6F;
+            f = Mth.sqrt(f);
+            if (f > 1.0F)
+            {
+                f = 1.0F;
+            }
+            stack.mulPose(Vector3f.ZP.rotationDegrees(f * this.getFlipDegrees(entity)));
+        }
+        else if (entity.isAutoSpinAttack())
+        {
+            stack.mulPose(Vector3f.XP.rotationDegrees(-90.0F - entity.getXRot()));
+            stack.mulPose(Vector3f.YP.rotationDegrees(((float) entity.tickCount + partialTicks) * -75.0F));
+        }
+        else if (sleeping)
+        {
+            if (activeHolder.hasSleepAnim) return;
+            Direction direction = entity.getBedOrientation();
+            float f1 = direction != null ? sleepDirectionToRotation(direction) : rotationYaw;
+            stack.mulPose(Vector3f.YP.rotationDegrees(f1));
+            stack.mulPose(Vector3f.ZP.rotationDegrees(this.getFlipDegrees(entity)));
+            stack.mulPose(Vector3f.YP.rotationDegrees(270.0F));
+        }
+        else if (isEntityUpsideDown(entity))
+        {
+            stack.translate(0.0D, (double) (entity.getBbHeight() + 0.1F), 0.0D);
+            stack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+        }
     }
 }
