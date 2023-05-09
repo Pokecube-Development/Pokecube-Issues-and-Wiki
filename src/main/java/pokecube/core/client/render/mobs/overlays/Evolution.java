@@ -35,7 +35,7 @@ public class Evolution
             });
 
     private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    private static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
+    public static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
             Mode.QUADS, 256, false, true,
             RenderType.CompositeState.builder().setShaderState(RenderType.POSITION_COLOR_SHADER)
                     .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))

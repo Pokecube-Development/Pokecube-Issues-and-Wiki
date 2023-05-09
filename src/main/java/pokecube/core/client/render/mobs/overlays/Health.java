@@ -54,8 +54,8 @@ public class Health
 {
     static List<LivingEntity> renderedEntities = new ArrayList<>();
 
-    private static final RenderType TYPE = RenderType.text(Resources.GUI_BATTLE);
-    private static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
+    public static final RenderType TYPE = RenderType.text(Resources.GUI_BATTLE);
+    public static final RenderType BACKGROUND = RenderType.textSeeThrough(Resources.GUI_BATTLE);
 
     public static BiFunction<LivingEntity, Entity, Boolean> RENDER_HEALTH = (entity, viewPoint) -> {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
