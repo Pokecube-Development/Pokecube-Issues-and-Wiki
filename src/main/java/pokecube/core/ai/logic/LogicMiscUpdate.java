@@ -577,8 +577,17 @@ public class LogicMiscUpdate extends LogicBase
     private void checkAnimationStates()
     {
         if (animated == null) return;
-        final List<String> anims = animated.getChoices();
+        List<String> anims = animated.getChoices();
+        List<String> transients = animated.transientAnimations();
         anims.clear();
+
+        // Add in some transients which might occur
+        float blink_rate = 0.5f;
+        if (entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
+        {
+            transients.add("blink");
+        }
+
         boolean isRidden = entity.getPassengers().size() > 0;
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed;
@@ -594,11 +603,11 @@ public class LogicMiscUpdate extends LogicBase
             MoveEntry move = this.pokemob.getSelectedMove();
             if (index < 4)
             {
-                if (move != null) addAnimation(anims, "attack_" + move.name, isRidden);
+                if (move != null) addAnimation(transients, "attack_" + move.name, isRidden);
                 if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)
-                    addAnimation(anims, "attack_contact", isRidden);
+                    addAnimation(transients, "attack_contact", isRidden);
                 if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
-                    addAnimation(anims, "attack_ranged", isRidden);
+                    addAnimation(transients, "attack_ranged", isRidden);
             }
         }
         for (final LogicStates state : LogicStates.values())

@@ -1,8 +1,10 @@
 package thut.api.entity.animation;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
@@ -16,6 +18,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import thut.api.ThutCaps;
+import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
@@ -31,6 +34,7 @@ public class CapabilityAnimation
         Map<String, List<Animation>> anims = Maps.newHashMap();
 
         List<Animation> playingList = DefaultImpl.EMPTY;
+        Set<Animation> transients = new HashSet<>();
 
         Object2FloatOpenHashMap<UUID> non_static = new Object2FloatOpenHashMap<>();
         Object2FloatOpenHashMap<UUID> start_times = new Object2FloatOpenHashMap<>();
@@ -49,6 +53,8 @@ public class CapabilityAnimation
 
         float _ageInTicks;
 
+        IAnimated context;
+
         @Override
         public void clean()
         {
@@ -56,6 +62,8 @@ public class CapabilityAnimation
             this.playing = _default;
             this.non_static.clear();
             this.start_times.clear();
+            if (this.playingList != DefaultImpl.EMPTY && !transients.isEmpty()) this.playingList.removeAll(transients);
+            this.transients.clear();
             this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
         }
 
@@ -80,6 +88,17 @@ public class CapabilityAnimation
             init = true;
         }
 
+        private void initPlayingList()
+        {
+            this.non_static.clear();
+            this.start_times.clear();
+            for (final Animation a : this.playingList) if (a.getLength() > 0)
+            {
+                this.non_static.put(a._uuid, 0);
+                this.start_times.removeFloat(a._uuid);
+            }
+        }
+
         @Override
         public List<Animation> getPlaying()
         {
@@ -93,22 +112,13 @@ public class CapabilityAnimation
             if (this.playingList != playing)
             {
                 this.playingList = playing;
-                this.non_static.clear();
-                for (final Animation a : this.playingList) if (a.getLength() > 0)
-                {
-                    this.non_static.put(a._uuid, 0);
-                    this.start_times.removeFloat(a._uuid);
-                }
+                initPlayingList();
             }
             if (non_static.isEmpty() && !this.pending.isEmpty())
             {
                 this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
                 this.playing = this.pending;
-                for (final Animation a : this.playingList) if (a.getLength() > 0)
-                {
-                    this.non_static.put(a._uuid, 0);
-                    this.start_times.removeFloat(a._uuid);
-                }
+                initPlayingList();
             }
             return this.playingList;
         }
@@ -148,7 +158,32 @@ public class CapabilityAnimation
 
         @Override
         public void preRunAll()
-        {}
+        {
+            if (context != null)
+            {
+                var transients = context.transientAnimations();
+                synchronized (transients)
+                {
+                    if (!transients.isEmpty())
+                    {
+                        for (var anim : transients)
+                        {
+                            if (this.anims.containsKey(anim))
+                            {
+                                this.transients.addAll(anims.get(anim));
+                            }
+                        }
+                        for (Animation a : this.transients)
+                        {
+                            this.playingList.add(0, a);
+                            this.non_static.put(a._uuid, 0);
+                            this.start_times.removeFloat(a._uuid);
+                        }
+                    }
+                    transients.clear();
+                }
+            }
+        }
 
         @Override
         public void postRunAll()
@@ -181,13 +216,18 @@ public class CapabilityAnimation
                 if (i >= animation.length)
                 {
                     this.non_static.removeFloat(animation._uuid);
+                    if (this.transients.contains(animation)) this.playingList.remove(animation);
+                    this.transients.remove(animation);
                 }
             }
             else
             {
-                if (i >= animation.length && animation.loops || animation.hasLimbBased)
+                boolean loops = !this.transients.contains(animation) && (animation.loops || animation.hasLimbBased);
+                if (i >= animation.length && !loops)
                 {
                     this.non_static.removeFloat(animation._uuid);
+                    if (this.transients.contains(animation)) this.playingList.remove(animation);
+                    this.transients.remove(animation);
                 }
             }
         }
@@ -252,6 +292,12 @@ public class CapabilityAnimation
         public MolangVars getMolangVars()
         {
             return molangs;
+        }
+
+        @Override
+        public void setContext(IAnimated context)
+        {
+            this.context = context;
         }
     }
 }

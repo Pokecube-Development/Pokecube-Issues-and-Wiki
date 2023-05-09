@@ -46,9 +46,9 @@ public class AnimationHelper
             for (final Animation animation : list)
             {
                 holder.preRunAnim(animation);
-                animate = AnimationHelper.animate(animation, holder, part, partialTick, limbSwing, entity.tickCount)
-                        || animate;
+                animate = AnimationHelper.animate(animation, holder, part, partialTick, limbSwing, entity.tickCount);
                 holder.postRunAnim(animation);
+                if(animate) break;
             }
         }
         return animate;
