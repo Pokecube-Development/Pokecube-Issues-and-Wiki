@@ -413,7 +413,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void setOpacityScale(float scale)
+    public void setColorScales(float r, float g, float b, float a)
     {
         // TODO Auto-generated method stub
         

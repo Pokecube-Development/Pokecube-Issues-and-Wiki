@@ -26,19 +26,23 @@ import thut.core.common.ThutCore;
 public class Animators
 {
 
-    // This matches <number> * <number>, where <number> is a floating point value
-    // There can also be spaces between 
+    // This matches <number> * <number>, where <number> is a floating point
+    // value
+    // ([-]*[0-9]+[.]?[0-9]*) matches floating point number
+    // There can also be spaces between
     private static final Pattern multiply_pattern = Pattern
-            .compile("([-]*[\\d]+[.]?[\\d]*)\\s*\\*\\s*([-]*[\\d]+[.]?[\\d]*)");
+            .compile("([-]*[0-9]+[.]?[0-9]*)\\s*\\*\\s*([-]*[0-9]+[.]?[0-9]*)");
 
     // this matches <number> + <number>
-    // The (?<![*.\\-0-9])(?<![\*/]\s*) prevents it matching * in front
+    // The (?<![*.\\-0-9])(?<![*/]\s*) prevents it matching * in front
+    // ([-]*[0-9]+[.]?[0-9]*)\s*\+\s*([-]*[0-9]+[.]?[0-9]*) matches floating
+    // point numbers with a + between
     // the (?!\*) pevents it matching * after
     private static final Pattern add_pattern = Pattern
-            .compile("(?<![*.\\-0-9])(?<![\\*/]\\s*)([-]*[\\d]+[.]?[\\d]*)\\s*\\+\\s*([-]*[\\d]+[.]?[\\d]*)(?!\\*)");
+            .compile("(?<![*.\\-0-9])(?<![*/]\\s*)([-]*[0-9]+[.]?[0-9]*)\\s*\\+\\s*([-]*[0-9]+[.]?[0-9]*)(?![*.0-9])");
 
     private static final Pattern subtract_pattern = Pattern
-            .compile("(?<![*.\\-0-9])(?<![\\*/]\\s*)([-]*[\\d]+[.]?[\\d]*)\\s*\\-\\s*([-]*[\\d]+[.]?[\\d]*)(?!\\*)");
+            .compile("(?<![*.\\-0-9])(?<![*/]\\s*)([-]*[0-9]+[.]?[0-9]*)\\s*\\-\\s*([-]*[0-9]+[.]?[0-9]*)(?![*.0-9])");
 
     private static final Function<MatchResult, String> multiply = (m) -> {
         String var = m.group(1);
@@ -80,7 +84,7 @@ public class Animators
 
     public static void fillJEPs(String[] jeps, String _funcs)
     {
-        String[] funcs = _funcs.split(",");
+        String[] funcs = _funcs.split("::");
         func:
         for (String s : funcs)
         {
@@ -95,6 +99,15 @@ public class Animators
                 i = 1;
                 break;
             case ("z"):
+                i = 2;
+                break;
+            case ("r"):
+                i = 0;
+                break;
+            case ("g"):
+                i = 1;
+                break;
+            case ("b"):
                 i = 2;
                 break;
             case ("rx"):
@@ -130,7 +143,7 @@ public class Animators
 
         public static enum CHANNEL
         {
-            POS("position"), ROT("rotation"), SCALE("scale"), OPACITY("opacity");
+            POS("position"), ROT("rotation"), SCALE("scale"), OPACITY("opacity"), COLOUR("colour");
 
             private final String name;
 
@@ -151,6 +164,7 @@ public class Animators
 
         float[] dr = new float[3];
         float[] ds = new float[3];
+        float[] dc = new float[3];
         float[] dx = new float[3];
 
         public final List<AnimationComponent> components;
@@ -203,6 +217,10 @@ public class Animators
                 scale_channel |= !Arrays.equals(component.scaleOffset, DEFAULTS.scaleOffset);
                 scale_channel |= !Arrays.equals(component._scaleFunctions, DEFAULTS._scaleFunctions);
 
+                boolean colour_channel = !Arrays.equals(component.colChange, DEFAULTS.colChange);
+                colour_channel |= !Arrays.equals(component.colOffset, DEFAULTS.colOffset);
+                colour_channel |= !Arrays.equals(component._colFunctions, DEFAULTS._colFunctions);
+
                 boolean opac_channel = component._opacFunction != null;
                 opac_channel |= component.opacityChange != DEFAULTS.opacityChange;
                 opac_channel |= component.opacityOffset != DEFAULTS.opacityOffset;
@@ -211,9 +229,12 @@ public class Animators
                 if (rotation_channel) component._valid_channels.add("rotation");
                 if (scale_channel) component._valid_channels.add("scale");
                 if (opac_channel) component._valid_channels.add("opacity");
+                if (colour_channel) component._valid_channels.add("colour");
 
-                component._needJEPInit = !Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
+                component._needJEPInit = component._opacFunction != DEFAULTS._opacFunction;
+                component._needJEPInit |= !Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
                 component._needJEPInit |= !Arrays.equals(component._rotFunctions, DEFAULTS._rotFunctions);
+                component._needJEPInit |= !Arrays.equals(component._colFunctions, DEFAULTS._colFunctions);
                 component._needJEPInit |= !Arrays.equals(component._scaleFunctions, DEFAULTS._scaleFunctions);
 
                 for (String channel : component._valid_channels)
@@ -276,15 +297,13 @@ public class Animators
                 new_func = m.replaceAll(add);
                 m = add_pattern.matcher(new_func);
             }
-            // Then additions
+            // finally subtractions
             m = subtract_pattern.matcher(new_func);
             while (m.find())
             {
                 new_func = m.replaceAll(subtract);
                 m = subtract_pattern.matcher(new_func);
             }
-            // finally subtractions
-            System.out.println(func+"->"+new_func);
             return new_func;
         }
 
@@ -346,6 +365,16 @@ public class Animators
                             component._rotJEPs[i].addVariable(entry.getKey(), entry.getValue());
                         component._rotJEPs[i].parseExpression(func);
                     }
+                    func = cleanFunc(component._colFunctions[i]);
+                    if (func != null)
+                    {
+                        component._colJEPs[i] = new JEP();
+                        component._colJEPs[i].addStandardFunctions();
+                        component._colJEPs[i].addStandardConstants();
+                        for (var entry : MolangVars.JEP_VARS.entrySet()) if (func.contains(entry.getKey()))
+                            component._colJEPs[i].addVariable(entry.getKey(), entry.getValue());
+                        component._colJEPs[i].parseExpression(func);
+                    }
                     func = cleanFunc(component._scaleFunctions[i]);
                     if (func != null)
                     {
@@ -374,7 +403,7 @@ public class Animators
             float px = 0, py = 0, pz = 0;
             float rx = 0, ry = 0, rz = 0;
             float sx = 1, sy = 1, sz = 1;
-            float alpha_scale = 1.0f;
+            float alpha_scale = 1.0f, red_scale = 1.0f, blue_scale = 1.0f, green_scale = 1.0f;
             float time1;
             float time2;
             MolangVars molangs = holder.getMolangVars();
@@ -390,6 +419,7 @@ public class Animators
             dr[0] = dr[1] = dr[2] = 0;
             dx[0] = dx[1] = dx[2] = 0;
             ds[0] = ds[1] = ds[2] = 1;
+            dc[0] = dc[1] = dc[2] = 1;
 
             // Marker for if any were hidden
             boolean any_hidden = false;
@@ -433,9 +463,6 @@ public class Animators
                     molangs.updateJEP(component._rotJEPs[i], t1, t2);
                     dr[i] = (float) component._rotJEPs[i].getValue() * component._rotFuncScale[i];
                 }
-//                if (part.getName().equals("smogright2"))
-//                    System.out.println(Arrays.toString(dr) + " " + Arrays.toString(component._rotFunctions) + " "
-//                            + Arrays.toString(component.rotChange) + " " + Arrays.toString(component.rotOffset));
 
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
@@ -526,7 +553,7 @@ public class Animators
                 for (int i = 0; i < 3; i++) if (component._scaleJEPs[i] != null)
                 {
                     molangs.updateJEP(component._scaleJEPs[i], t1, t2);
-                    ds[i] = (float) component._scaleJEPs[i].getValue() * component._scaleFuncScale[i];
+                    ds[i] = (float) component._scaleJEPs[i].getValue();
                 }
 
                 float componentTimer = time - component.startKey;
@@ -582,9 +609,59 @@ public class Animators
                 alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
             }
 
+            channel = CHANNEL.COLOUR;
+
+            colour:
+            {
+                var animChannel = channels.get(channel.ordinal());
+                if (animChannel == null) break colour;
+                float t1 = time1, t2 = time2;
+                if (animation.loops)
+                {
+                    int l = animChannel.length();
+                    if (l > 1)
+                    {
+                        t1 = time1 % l;
+                        t2 = time2 % l;
+                    }
+                }
+                else
+                {
+                    t1 = Math.min(time1, animChannel.length());
+                    t2 = Math.min(time2, animChannel.length());
+                }
+                AnimationComponent component = getNext(t1, t2, animation.loops, animChannel);
+                if (component == null) break colour;
+                animated = true;
+                float time = component.limbBased || limb ? t2 : t1;
+                aniTick = Math.max(aniTick, (int) Math.ceil(time));
+
+                any_hidden |= component.hidden;
+
+                // Start by checking JEP components to the animation
+                for (int i = 0; i < 3; i++) if (component._colJEPs[i] != null)
+                {
+                    molangs.updateJEP(component._colJEPs[i], t1, t2);
+                    dc[i] = (float) component._colJEPs[i].getValue();
+                }
+
+                float componentTimer = time - component.startKey;
+                if (componentTimer > component.length) componentTimer = component.length;
+                final int length = component.length == 0 ? 1 : component.length;
+                final float ratio = componentTimer / length;
+
+                red_scale *= component.colChange[0] * ratio + component.colOffset[0];
+                green_scale *= component.colChange[1] * ratio + component.colOffset[1];
+                blue_scale *= component.colChange[2] * ratio + component.colOffset[2];
+                
+                red_scale *= dc[0];
+                green_scale *= dc[1];
+                blue_scale *= dc[2];
+            }
+
             // Apply hidden like this so last hidden state is kept
             if (wasHidden != any_hidden) part.setHidden(any_hidden);
-            part.setOpacityScale(alpha_scale);
+            part.setColorScales(red_scale, green_scale, blue_scale, alpha_scale);
             holder.setStep(animation, aniTick);
             if (animated)
             {
@@ -599,6 +676,7 @@ public class Animators
                 sx *= ds[0];
                 sy *= ds[1];
                 sz *= ds[2];
+
                 part.setPreTranslations(temp);
                 part.setPreScale(temp.set(sx, sy, sz));
                 part.setAnimAngles(rx, ry, rz);
