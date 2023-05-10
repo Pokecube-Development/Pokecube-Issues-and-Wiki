@@ -155,7 +155,7 @@ public class AnimationLoader
 
             // Loaded animations
             final List<Animation> animations = new ArrayList<>();
-            final Map<String, String> mergedAnimations = new Object2ObjectOpenHashMap<>();
+            final Map<String, List<String>> mergedAnimations = new Object2ObjectOpenHashMap<>();
             final Map<String, WornOffsets> wornOffsets = new Object2ObjectOpenHashMap<>();
             final Map<String, List<Vector5>> phaseList = new Object2ObjectOpenHashMap<>();
             List<Phase> texPhases = new ArrayList<>();
@@ -215,7 +215,10 @@ public class AnimationLoader
             for (final Merge merge : file.model.merges)
             {
                 final String[] merges = merge.merge.split("->");
-                mergedAnimations.put(ThutCore.trim(merges[0]), ThutCore.trim(merges[1]));
+                String key = ThutCore.trim(merges[0]);
+                List<String> toList = mergedAnimations.get(key);
+                if (toList == null) mergedAnimations.put(key, toList = new ArrayList<>());
+                toList.add(ThutCore.trim(merges[1]));
                 if (merge.limbs != null)
                 {
                     for (String s : merge.limbs.split(":"))
@@ -306,28 +309,30 @@ public class AnimationLoader
                 for (final String from : mergedAnimations.keySet())
                 {
                     if (!renderer.getAnimations().containsKey(from)) continue;
-                    List<Animation> fromSet = new ArrayList<>();
-                    String to = mergedAnimations.get(from);
-                    List<Animation> toSet = null;
-                    // In this case, we make an empty animation
-                    if (!renderer.getAnimations().containsKey(to))
+                    for (String to : mergedAnimations.get(from))
                     {
-                        toSet = new ArrayList<>();
-                        renderer.getAnimations().put(to, toSet);
+                        List<Animation> fromSet = new ArrayList<>();
+                        List<Animation> toSet = null;
+                        // In this case, we make an empty animation
+                        if (!renderer.getAnimations().containsKey(to))
+                        {
+                            toSet = new ArrayList<>();
+                            renderer.getAnimations().put(to, toSet);
+                        }
+                        else toSet = renderer.getAnimations().get(to);
+                        for (final Animation anim : renderer.getAnimations().get(from))
+                        {
+                            final Animation newAnim = new Animation();
+                            newAnim.identifier = anim.identifier;
+                            newAnim.name = to;
+                            newAnim.loops = anim.loops;
+                            newAnim.priority = 20;
+                            newAnim.length = -1;
+                            for (final String s : anim.sets.keySet()) newAnim.sets.put(s, anim.sets.get(s));
+                            fromSet.add(newAnim);
+                        }
+                        toSet.addAll(fromSet);
                     }
-                    else toSet = renderer.getAnimations().get(to);
-                    for (final Animation anim : renderer.getAnimations().get(from))
-                    {
-                        final Animation newAnim = new Animation();
-                        newAnim.identifier = anim.identifier;
-                        newAnim.name = to;
-                        newAnim.loops = anim.loops;
-                        newAnim.priority = 20;
-                        newAnim.length = -1;
-                        for (final String s : anim.sets.keySet()) newAnim.sets.put(s, anim.sets.get(s));
-                        fromSet.add(newAnim);
-                    }
-                    toSet.addAll(fromSet);
                 }
 
                 // Finalize animation initialization
