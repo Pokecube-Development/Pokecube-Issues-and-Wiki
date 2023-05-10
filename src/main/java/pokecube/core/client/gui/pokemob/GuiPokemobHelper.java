@@ -29,6 +29,7 @@ import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
+import thut.api.AnimatedCaps;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
@@ -141,7 +142,10 @@ public class GuiPokemobHelper
         // Disable the face culling that occurs if too far away
         double bak = ThutCore.getConfig().modelCullThreshold;
         ThutCore.getConfig().modelCullThreshold = -1;
-        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, mat, irendertypebuffer$impl,
+        var animated = AnimatedCaps.getAnimated(pokemob.getEntity());
+        animated.getChoices().clear();
+        animated.getChoices().add("gui_render");
+        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 0F, mat, irendertypebuffer$impl,
                 15728880);
         // Re-enable the face culling that occurs if too far away
         ThutCore.getConfig().modelCullThreshold = bak;
