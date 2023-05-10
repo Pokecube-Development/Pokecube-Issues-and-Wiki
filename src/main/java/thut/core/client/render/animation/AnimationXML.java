@@ -49,6 +49,13 @@ public class AnimationXML
         @XmlAttribute(name = "rotFuncs")
         public String rotFuncs = "";
 
+        @XmlAttribute(name = "colChange")
+        public String colChange = "0,0,0";
+        @XmlAttribute(name = "colOffset")
+        public String colOffset = "1,1,1";
+        @XmlAttribute(name = "colFuncs")
+        public String colFuncs = "";
+
         @XmlAttribute(name = "scaleChange")
         public String scaleChange = "0,0,0";
         @XmlAttribute(name = "scaleOffset")

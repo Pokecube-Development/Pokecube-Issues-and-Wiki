@@ -89,10 +89,12 @@ public class AnimationBuilder
 
                     String[] rots = comp._rotFunctions;
                     String[] pos = comp._posFunctions;
+                    String[] col = comp._colFunctions;
                     String[] scale = comp._scaleFunctions;
 
                     if (!component.rotFuncs.isBlank()) Animators.fillJEPs(rots, component.rotFuncs);
                     if (!component.posFuncs.isBlank()) Animators.fillJEPs(pos, component.posFuncs);
+                    if (!component.colFuncs.isBlank()) Animators.fillJEPs(col, component.colFuncs);
                     if (!component.scaleFuncs.isBlank()) Animators.fillJEPs(scale, component.scaleFuncs);
                     if (!component.opacFuncs.isBlank())
                     {
@@ -115,6 +117,13 @@ public class AnimationBuilder
                         comp.posChange[1] = Double.parseDouble(vals[1]);
                         comp.posChange[2] = Double.parseDouble(vals[2]);
                     }
+                    if (component.colChange != null)
+                    {
+                        final String[] vals = component.colChange.split(",");
+                        comp.colChange[0] = Double.parseDouble(vals[0]);
+                        comp.colChange[1] = Double.parseDouble(vals[1]);
+                        comp.colChange[2] = Double.parseDouble(vals[2]);
+                    }
                     if (component.scaleChange != null)
                     {
                         final String[] vals = component.scaleChange.split(",");
@@ -135,6 +144,13 @@ public class AnimationBuilder
                         comp.posOffset[0] = Double.parseDouble(vals[0]);
                         comp.posOffset[1] = Double.parseDouble(vals[1]);
                         comp.posOffset[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.colOffset != null)
+                    {
+                        final String[] vals = component.colOffset.split(",");
+                        comp.colOffset[0] = Double.parseDouble(vals[0]);
+                        comp.colOffset[1] = Double.parseDouble(vals[1]);
+                        comp.colOffset[2] = Double.parseDouble(vals[2]);
                     }
                     if (component.scaleOffset != null)
                     {

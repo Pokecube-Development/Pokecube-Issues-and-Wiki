@@ -186,7 +186,7 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setPreTranslations(Vector3 translations);
 
-    void setOpacityScale(float scale);
+    void setColorScales(float r, float g, float b, float a);
 
     /**
      * Sets the colour for this part

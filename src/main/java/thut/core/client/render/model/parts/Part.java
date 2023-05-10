@@ -63,7 +63,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public float ds0 = 1;
     public float ds1 = 1;
 
-    public float opacity = 1;
+    public float[] colour_scales =
+    { 1f, 1f, 1f, 1f };
 
     Vector3 min = new Vector3();
     Vector3 max = new Vector3();
@@ -321,7 +322,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.set(offset);
         this.postTrans.clear();
-        this.opacity = 1;
+        this.colour_scales[0] = 1;
+        this.colour_scales[1] = 1;
+        this.colour_scales[2] = 1;
+        this.colour_scales[3] = 1;
         this.hidden = false;
     }
 
@@ -419,10 +423,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 if (m == null) return;
                 if (material.test(m))
                 {
-                    m.rgbabro[0] = r;
-                    m.rgbabro[1] = g;
-                    m.rgbabro[2] = b;
-                    m.rgbabro[3] = (int) (a * this.opacity);
+                    m.rgbabro[0] = (int) (r * this.colour_scales[0]);
+                    m.rgbabro[1] = (int) (g * this.colour_scales[1]);
+                    m.rgbabro[2] = (int) (b * this.colour_scales[2]);
+                    m.rgbabro[3] = (int) (a * this.colour_scales[3]);
                     m.rgbabro[4] = this.brightness;
                     m.rgbabro[5] = this.overlay;
                 }
@@ -432,10 +436,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         {
             shapes.forEach(m -> {
                 if (m == null) return;
-                m.rgbabro[0] = r;
-                m.rgbabro[1] = g;
-                m.rgbabro[2] = b;
-                m.rgbabro[3] = (int) (a * this.opacity);
+                m.rgbabro[0] = (int) (r * this.colour_scales[0]);
+                m.rgbabro[1] = (int) (g * this.colour_scales[1]);
+                m.rgbabro[2] = (int) (b * this.colour_scales[2]);
+                m.rgbabro[3] = (int) (a * this.colour_scales[3]);
                 m.rgbabro[4] = this.brightness;
                 m.rgbabro[5] = this.overlay;
             });
@@ -536,9 +540,17 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
-    public void setOpacityScale(float scale)
+    public void setColorScales(float r, float g, float b, float a)
     {
-        this.opacity = scale;
+        r = Math.max(0, Math.min(r, 1));
+        g = Math.max(0, Math.min(g, 1));
+        b = Math.max(0, Math.min(b, 1));
+        a = Math.max(0, Math.min(a, 1));
+
+        this.colour_scales[0] = r;
+        this.colour_scales[1] = g;
+        this.colour_scales[2] = b;
+        this.colour_scales[3] = a;
     }
 
     @Override

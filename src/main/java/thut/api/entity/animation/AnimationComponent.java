@@ -15,10 +15,13 @@ public class AnimationComponent
     public double[] posChange = new double[3];
     public double[] rotChange = new double[3];
     public double[] scaleChange = new double[3];
+    public double[] colChange = new double[3];
     public double opacityChange = 0.0D;
 
     public double[] posOffset = new double[3];
     public double[] rotOffset = new double[3];
+    public double[] colOffset =
+    { 1, 1, 1 };
     public double[] scaleOffset =
     { 1, 1, 1 };
     public double opacityOffset = 1.0D;
@@ -32,17 +35,18 @@ public class AnimationComponent
 
     public JEP[] _rotJEPs = new JEP[3];
     public JEP[] _posJEPs = new JEP[3];
+    public JEP[] _colJEPs = new JEP[3];
     public JEP[] _scaleJEPs = new JEP[3];
     public JEP _opacJEP = null;
 
     public String[] _rotFunctions = new String[3];
     public String[] _posFunctions = new String[3];
+    public String[] _colFunctions = new String[3];
     public String[] _scaleFunctions = new String[3];
     public String _opacFunction = null;
 
     public float[] _rotFuncScale = unity_scale;
     public float[] _posFuncScale = pixel_scale;
-    public float[] _scaleFuncScale = unity_scale;
 
     public boolean _needJEPInit = false;
 
