@@ -244,21 +244,6 @@ public class Animators
                 }
             }
 
-            for (var channelEnum : CHANNEL.values())
-            {
-                String key = channelEnum.getName();
-                var list = by_channel.get(key);
-                if (list != null)
-                {
-                    int len = 1;
-                    for (var comp : list) len = Math.max(len, comp.startKey + comp.length);
-                    AnimChannel channel = new AnimChannel(key, list, this.length);
-                    this.channels.add(channel);
-                    this.channelSet.add(channelEnum);
-                }
-                else this.channels.add(null);
-            }
-
             if (!preComputed) for (var entry : by_channel.entrySet())
             {
                 var list = entry.getValue();
@@ -274,8 +259,32 @@ public class Animators
                         if (position) here.posOffset[j] += prev.posOffset[j] + prev.posChange[j];
                         if (rotation) here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
                     }
+                    here.startKey = prev.startKey + prev.length;
                     prev = here;
                 }
+            }
+
+            for (var channelEnum : CHANNEL.values())
+            {
+                String key = channelEnum.getName();
+                var list = by_channel.get(key);
+                if (list != null)
+                {
+                    int len = 1;
+                    for (var comp : list) len = Math.max(len, comp.startKey + comp.length);
+                    AnimChannel channel = new AnimChannel(key, list, len);
+                    this.channels.add(channel);
+                    this.channelSet.add(channelEnum);
+                }
+                else this.channels.add(null);
+            }
+
+            // lastly compute length, as the loop above could have changed
+            // things
+            for (final AnimationComponent component : components)
+            {
+                this.length = Math.max(this.length, component.startKey + component.length);
+                this.limbBased = this.limbBased || component.limbBased;
             }
         }
 
@@ -653,7 +662,7 @@ public class Animators
                 red_scale *= component.colChange[0] * ratio + component.colOffset[0];
                 green_scale *= component.colChange[1] * ratio + component.colOffset[1];
                 blue_scale *= component.colChange[2] * ratio + component.colOffset[2];
-                
+
                 red_scale *= dc[0];
                 green_scale *= dc[1];
                 blue_scale *= dc[2];
