@@ -29,7 +29,7 @@ public class AnimationBuilder
     {
         boolean conflicts = animation.sets.containsKey(part);
         conflicts = conflicts && animation.sets.get(part).conflicts(parts);
-        if (conflicts && animation.priority > priority) ThutCore.LOGGER.warn("Already have " + part + ", Skipping.");
+        if (conflicts && animation.priority > priority) ThutCore.LOGGER.debug("Already have " + part + ", Skipping.");
         else animation.sets.put(part, parts);
     }
 
@@ -196,7 +196,8 @@ public class AnimationBuilder
         final Map<Integer, List<Animation>> splitAnims = Maps.newHashMap();
         for (final Animation anim : oldList) AnimationBuilder.splitAnimation(anim, splitAnims);
         list.clear();
-        for (final List<Animation> split : splitAnims.values()) list.add(AnimationBuilder.mergeAnimations(split));
+//        for (final List<Animation> split : splitAnims.values()) 
+        list.add(AnimationBuilder.mergeAnimations(oldList));
     }
 
     private static void splitAnimation(final Animation animIn, final Map<Integer, List<Animation>> fill)
