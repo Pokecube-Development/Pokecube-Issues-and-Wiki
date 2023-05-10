@@ -690,6 +690,8 @@ public class JEP
                 this.errorList.addElement(e.getMessage());
             }
         }
+        // Finally try to get the default value to force init of some stuff.
+        this.getValueAsObject();
     }
 
     /**
