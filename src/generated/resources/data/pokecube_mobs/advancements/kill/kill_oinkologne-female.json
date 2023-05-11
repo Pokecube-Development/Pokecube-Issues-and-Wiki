@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.oinkologne-female"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oinkologne-female"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_oinkologne-female": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "oinkologne-female"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

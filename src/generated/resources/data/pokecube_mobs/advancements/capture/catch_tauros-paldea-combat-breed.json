@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-combat-breed"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-combat-breed"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_tauros-paldea-combat-breed": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "tauros-paldea-combat-breed"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

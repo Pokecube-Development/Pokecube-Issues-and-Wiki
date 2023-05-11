@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.toedscool"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toedscool"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_toedscool": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "toedscool"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -2,7 +2,7 @@
   "name": "avalugg-hisui",
   "id": 713,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 180,
   "size": {
     "height": 1.4
   },

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-blaze-breed"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tauros-paldea-blaze-breed"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tauros-paldea-blaze-breed": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tauros-paldea-blaze-breed"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

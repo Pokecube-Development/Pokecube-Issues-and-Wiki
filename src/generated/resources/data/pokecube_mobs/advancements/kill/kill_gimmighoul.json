@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gimmighoul": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gimmighoul"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

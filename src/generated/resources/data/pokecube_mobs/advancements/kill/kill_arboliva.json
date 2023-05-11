@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.arboliva"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arboliva"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_arboliva": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "arboliva"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

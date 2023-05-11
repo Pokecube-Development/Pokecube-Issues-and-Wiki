@@ -2,7 +2,7 @@
   "name": "typhlosion-hisui",
   "id": 157,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 240,
   "size": {
     "height": 1.6,
     "width": 0.9

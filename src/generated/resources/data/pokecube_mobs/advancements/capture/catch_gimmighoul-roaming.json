@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul-roaming"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul-roaming"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_gimmighoul-roaming": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "gimmighoul-roaming"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

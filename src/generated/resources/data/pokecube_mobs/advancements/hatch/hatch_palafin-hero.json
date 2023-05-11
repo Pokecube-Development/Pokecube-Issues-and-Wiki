@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-hero"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.palafin-hero"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_palafin-hero": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "palafin-hero"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

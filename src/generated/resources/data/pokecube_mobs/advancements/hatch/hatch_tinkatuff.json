@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tinkatuff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tinkatuff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tinkatuff": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tinkatuff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

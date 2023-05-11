@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.flamigo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flamigo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_flamigo": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "flamigo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

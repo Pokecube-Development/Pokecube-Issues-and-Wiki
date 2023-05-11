@@ -1,0 +1,171 @@
+{
+  "name": "iron-leaves",
+  "id": 1010,
+  "stock": true,
+  "base_experience": 295,
+  "size": {
+    "height": 1.5
+  },
+  "mass": 125.0,
+  "is_default": true,
+  "capture_rate": 5,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 90,
+    "attack": 130,
+    "defense": 88,
+    "special_attack": 70,
+    "special_defense": 108,
+    "speed": 104
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "quark-drive"
+    ],
+    "hidden": [
+      "quark-drive"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 35,
+        "moves": [
+          "swords-dance"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "leer",
+          "quick-attack",
+          "helping-hand",
+          "work-up"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "megahorn"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "imprison"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "magical-leaf"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "ally-switch"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "retaliate"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "sacred-sword"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "solar-blade"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "psyblade"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "take-down",
+      "hyper-beam",
+      "solar-beam",
+      "agility",
+      "swift",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "scary-face",
+      "giga-drain",
+      "endure",
+      "false-swipe",
+      "sleep-talk",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "imprison",
+      "aerial-ace",
+      "iron-defense",
+      "magical-leaf",
+      "calm-mind",
+      "close-combat",
+      "air-slash",
+      "x-scissor",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "leaf-storm",
+      "grass-knot",
+      "quash",
+      "wild-charge",
+      "grassy-terrain",
+      "electric-terrain",
+      "psychic-terrain",
+      "smart-strike",
+      "tera-blast",
+      "trailblaze"
+    ]
+  }
+}

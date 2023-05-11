@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-stretchy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-stretchy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tatsugiri-stretchy": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tatsugiri-stretchy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

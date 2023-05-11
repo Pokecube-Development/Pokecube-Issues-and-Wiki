@@ -2,7 +2,7 @@
   "name": "goodra-hisui",
   "id": 706,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 270,
   "size": {
     "height": 1.7,
     "width": 1.0,

@@ -2,7 +2,7 @@
   "name": "zorua-hisui",
   "id": 570,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 66,
   "size": {
     "height": 0.7
   },

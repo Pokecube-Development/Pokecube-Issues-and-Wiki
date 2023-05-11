@@ -1,0 +1,151 @@
+{
+  "name": "brambleghast",
+  "id": 947,
+  "stock": true,
+  "base_experience": 168,
+  "size": {
+    "height": 1.2
+  },
+  "mass": 6.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 115,
+    "defense": 70,
+    "special_attack": 80,
+    "special_defense": 70,
+    "speed": 90
+  },
+  "evs": {
+    "attack": 2
+  },
+  "types": [
+    "grass",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "wind-rider"
+    ],
+    "hidden": [
+      "infiltrator"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 29,
+        "moves": [
+          "disable"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "defense-curl",
+          "rollout",
+          "astonish"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "curse"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "pain-split"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "rapid-spin"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "hex"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "phantom-force"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "infestation"
+        ]
+      }
+    ],
+    "misc": [
+      "hyper-beam",
+      "solar-beam",
+      "night-shade",
+      "confuse-ray",
+      "rest",
+      "substitute",
+      "thief",
+      "protect",
+      "scary-face",
+      "spikes",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "shadow-ball",
+      "facade",
+      "bullet-seed",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "leaf-storm",
+      "grass-knot",
+      "hex",
+      "phantom-force",
+      "grassy-terrain",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
+    ]
+  }
+}

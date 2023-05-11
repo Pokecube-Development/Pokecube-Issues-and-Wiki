@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.brute-bonnet"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.brute-bonnet"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_brute-bonnet": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "brute-bonnet"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

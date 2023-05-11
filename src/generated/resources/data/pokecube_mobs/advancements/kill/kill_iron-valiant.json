@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-valiant"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-valiant"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_iron-valiant": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "iron-valiant"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

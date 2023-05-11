@@ -2,7 +2,7 @@
   "name": "wyrdeer",
   "id": 899,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 263,
   "size": {
     "height": 1.8,
     "width": 1.0

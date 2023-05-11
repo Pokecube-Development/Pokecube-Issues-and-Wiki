@@ -2,7 +2,7 @@
   "name": "growlithe-hisui",
   "id": 58,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 70,
   "size": {
     "height": 0.8
   },

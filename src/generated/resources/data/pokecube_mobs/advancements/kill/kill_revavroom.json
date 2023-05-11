@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.revavroom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.revavroom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_revavroom": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "revavroom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.flittle"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flittle"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_flittle": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "flittle"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

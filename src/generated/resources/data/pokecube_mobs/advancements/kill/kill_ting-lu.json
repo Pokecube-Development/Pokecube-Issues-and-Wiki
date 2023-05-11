@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ting-lu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ting-lu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ting-lu": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ting-lu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

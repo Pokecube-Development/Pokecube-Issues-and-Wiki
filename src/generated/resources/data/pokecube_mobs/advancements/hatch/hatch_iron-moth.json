@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-moth"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-moth"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_iron-moth": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "iron-moth"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

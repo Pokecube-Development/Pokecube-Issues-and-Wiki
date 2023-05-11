@@ -1,0 +1,161 @@
+{
+  "name": "oinkologne-female",
+  "id": 916,
+  "stock": true,
+  "base_experience": 171,
+  "size": {
+    "height": 1.0
+  },
+  "mass": 120.0,
+  "is_default": false,
+  "capture_rate": 100,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 0,
+  "stats": {
+    "hp": 115,
+    "attack": 90,
+    "defense": 70,
+    "special_attack": 59,
+    "special_defense": 90,
+    "speed": 65
+  },
+  "evs": {
+    "hp": 2
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "aroma-veil",
+      "gluttony"
+    ],
+    "hidden": [
+      "thick-fat"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 17,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 39,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "uproar"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "yawn"
+        ]
+      },
+      {
+        "L": 9,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "work-up"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "belch"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "disarming-voice"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "hyper-beam",
+      "dig",
+      "rest",
+      "substitute",
+      "thief",
+      "protect",
+      "mud-slap",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "helping-hand",
+      "hyper-voice",
+      "bullet-seed",
+      "mud-shot",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "iron-head",
+      "bulldoze",
+      "disarming-voice",
+      "play-rough",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
+    ]
+  }
+}

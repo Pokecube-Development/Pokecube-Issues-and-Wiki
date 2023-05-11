@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.scovillain"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scovillain"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_scovillain": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "scovillain"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

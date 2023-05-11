@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.chi-yu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.chi-yu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_chi-yu": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "chi-yu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

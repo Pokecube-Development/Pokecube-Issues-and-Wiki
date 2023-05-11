@@ -307,6 +307,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             this.parts.clear();
             this.initModel(new ModelWrapper<>(this, this));
             this.checkedAnims = false;
+            this.failTimer = 0;
             this.wrapper.lastInit = Tracker.instance().getTick() + 50;
         }
 

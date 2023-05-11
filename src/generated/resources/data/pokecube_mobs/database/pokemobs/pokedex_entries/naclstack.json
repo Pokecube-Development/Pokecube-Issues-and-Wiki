@@ -1,0 +1,166 @@
+{
+  "name": "naclstack",
+  "id": 933,
+  "stock": true,
+  "base_experience": 124,
+  "size": {
+    "height": 0.6
+  },
+  "mass": 105.0,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 60,
+    "defense": 100,
+    "special_attack": 35,
+    "special_defense": 65,
+    "speed": 35
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "purifying-salt",
+      "sturdy"
+    ],
+    "hidden": [
+      "clear-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 34,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 51,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "heavy-slam"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "salt-cure"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "hyper-beam",
+      "earthquake",
+      "dig",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "protect",
+      "sandstorm",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "helping-hand",
+      "iron-defense",
+      "mud-shot",
+      "power-gem",
+      "earth-power",
+      "giga-impact",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "heavy-slam",
+      "bulldoze",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "garganacl",
+      "level": 38
+    }
+  ]
+}

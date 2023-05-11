@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.glimmora"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.glimmora"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_glimmora": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "glimmora"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}
