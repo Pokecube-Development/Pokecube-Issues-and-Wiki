@@ -123,9 +123,10 @@ public class BBModelTemplate
 
             for (int i = 0; i < 3; i++)
             {
-                float size = (b.to[i] - b.from[i]) + 2 * f;
+                float size = (b.to[i] - b.from[i]);
+                size = size + 2 * f;
                 float mid = (b.to[i] + b.from[i]) / 2;
-                origin_offset[i] = -b.origin[i] + b.from[i];
+                origin_offset[i] = -b.origin[i] + b.from[i] - f;
                 to[i] = size;
                 mid_offset[i] = mid - size / 2;
             }
