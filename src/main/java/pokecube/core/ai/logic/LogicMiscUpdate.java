@@ -580,13 +580,6 @@ public class LogicMiscUpdate extends LogicBase
         List<String> anims = animated.getChoices();
         List<String> transients = animated.transientAnimations();
         anims.clear();
-
-        // Add in some transients which might occur
-        float blink_rate = 0.5f;
-        if (entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
-        {
-            transients.add("blink");
-        }
         boolean isRidden = entity.getPassengers().size() > 0;
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed;
@@ -595,19 +588,11 @@ public class LogicMiscUpdate extends LogicBase
         final boolean moving = walkspeed > stationary;
         final Pose pose = this.entity.getPose();
         final boolean walking = this.floatTimer < 2 && moving;
-        if (pose == Pose.DYING || entity.deathTime > 0) addAnimation(anims, "dead", isRidden);
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+        boolean noBlink = false;
+        if (pose == Pose.DYING || entity.deathTime > 0)
         {
-            final int index = this.pokemob.getMoveIndex();
-            MoveEntry move = this.pokemob.getSelectedMove();
-            if (index < 4)
-            {
-                if (move != null) addAnimation(transients, "attack_" + move.name, isRidden);
-                if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)
-                    addAnimation(transients, "attack_contact", isRidden);
-                if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
-                    addAnimation(transients, "attack_ranged", isRidden);
-            }
+            addAnimation(anims, "dead", isRidden);
+            noBlink = true;
         }
         for (final LogicStates state : LogicStates.values())
         {
@@ -626,6 +611,7 @@ public class LogicMiscUpdate extends LogicBase
             if (moving) addAnimation(anims, "floating", isRidden);
             break;
         case SLEEPING:
+            noBlink = true;
             addAnimation(anims, "sleeping", isRidden);
             break;
         case SPIN_ATTACK:
@@ -646,6 +632,26 @@ public class LogicMiscUpdate extends LogicBase
         {
             final String anim = ThutCore.trim(state.toString());
             if (this.pokemob.getCombatState(state)) addAnimation(anims, anim, isRidden);
+        }
+
+        // Add in some transients which might occur
+        float blink_rate = 0.5f;
+        if (!noBlink && entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
+        {
+            transients.add("blink");
+        }
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+        {
+            final int index = this.pokemob.getMoveIndex();
+            MoveEntry move = this.pokemob.getSelectedMove();
+            if (index < 4)
+            {
+                if (move != null) addAnimation(transients, "attack_" + move.name, isRidden);
+                if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)
+                    addAnimation(transients, "attack_contact", isRidden);
+                if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
+                    addAnimation(transients, "attack_ranged", isRidden);
+            }
         }
     }
 
