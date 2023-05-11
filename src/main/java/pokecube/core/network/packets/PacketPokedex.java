@@ -178,6 +178,103 @@ public class PacketPokedex extends NBTPacket
         TeleportHandler.swapTeleports(PokecubeCore.proxy.getPlayer().getStringUUID(), index1, index2);
     }
 
+    public static void sendLocalSpawnsPacket(final ServerPlayer player)
+    {
+        int n = 0;
+        PokedexEntry entry;
+        final CompoundTag spawns = new CompoundTag();
+
+        Map<PokedexEntry, Float> rates;
+        ArrayList<PokedexEntry> names = new ArrayList<>();
+        float total = 0;
+        ServerLevel level = player.getLevel();
+        Vector3 pos = new Vector3().set(player);
+        SpawnCheck checker = new SpawnCheck(pos, level);
+
+        rates = Maps.newHashMap();
+        names = new ArrayList<>();
+        final boolean repelled = SpawnHandler.getNoSpawnReason(level, pos.getPos()) != ForbidReason.NONE;
+        for (final PokedexEntry e : Database.spawnables)
+            if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
+        final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();
+        for (final PokedexEntry e : names)
+        {
+            SpawnContext scontext = new SpawnContext(player, e);
+            final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(scontext, checker, false);
+            if (matcher == null) continue;
+            float val = e.getSpawnData().getWeight(scontext, checker, true);
+            final float min = e.getSpawnData().getMin(matcher);
+            final float num = min + (e.getSpawnData().getMax(matcher) - min) / 2;
+            val *= num;
+            matchers.put(e, matcher);
+            total += val;
+            rates.put(e, val);
+        }
+        if (total != 0) for (final PokedexEntry e : names)
+        {
+            final float val = rates.get(e) / total;
+            rates.put(e, val);
+        }
+
+        SpawnContext base = new SpawnContext(player, Database.missingno);
+        SpawnContext context = SpawnHandler.getSpawnForLoc(base);
+        if (context != null && context.entry() != null) rates.put(context.entry(), 1f);
+
+        var packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
+        for (final PokedexEntry e : names)
+        {
+            final SpawnBiomeMatcher matcher = matchers.get(e);
+            matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
+            String match = PacketPokedex.serialize(matcher);
+            if (match == null)
+            {
+                System.out.println("Error with " + e);
+                continue;
+            }
+            spawns.putString("e" + n, e.getName());
+            spawns.putString("" + n, match);
+            n++;
+        }
+        packet.getTag().put("V", spawns);
+        packet.getTag().putBoolean("R", repelled);
+        entry = Database.getEntry(PokecubePlayerDataHandler.getCustomDataTag(player).getString("WEntry"));
+        if (entry != null) packet.getTag().putString("E", entry.getName());
+        PacketPokedex.ASSEMBLER.sendTo(packet, player);
+    }
+
+    public static void sendMobPacket(final ServerPlayer player, CompoundTag tag)
+    {
+        int n = 0;
+        final CompoundTag spawns = new CompoundTag();
+        var entry = Database.getEntry(tag.getString("V"));
+        var packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
+        if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
+        {
+            String serialised = PacketPokedex.serialize(matcher);
+            // This is null in the case that the spawn is not valid.
+            if (serialised == null) continue;
+            spawns.putString("" + n, serialised);
+            n++;
+        }
+        spawns.putInt("n", n);
+        packet.getTag().put("V", spawns);
+        PacketPokedex.ASSEMBLER.sendTo(packet, player);
+        packet = new PacketPokedex(PacketPokedex.BREEDLIST);
+        final CompoundTag breedable = new CompoundTag();
+        packet.getTag().putString("e", entry.getTrimmedName());
+        breedable.putString("0", entry.getTrimmedName());
+        n = 1;
+        for (final PokedexEntry e : entry.getRelated())
+        {
+            if (!e.breeds) continue;
+            breedable.putString("" + n, e.getTrimmedName());
+            n++;
+        }
+        breedable.putInt("n", n);
+        packet.getTag().put("V", breedable);
+        PacketPokedex.ASSEMBLER.sendTo(packet, player);
+    }
+
     public static void sendSecretBaseInfoPacket(final ServerPlayer player, final boolean watch)
     {
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.BASERADAR);
@@ -448,9 +545,7 @@ public class PacketPokedex extends NBTPacket
         SpawnBiomeMatcher.populateClientValues(matcher);
         // If no biomes or subbiomes, just throw null string, usually means this
         // spawn is not possible due to settings, etc.
-        if (!matcher._valid || matcher.clientBiomes.isEmpty() && matcher.clientTypes.isEmpty()
-                && matcher.clientStructures.isEmpty())
-            return null;
+        if (!matcher._valid || matcher.clientStuff.isEmpty()) return null;
         // Then serialise it
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards
@@ -465,20 +560,8 @@ public class PacketPokedex extends NBTPacket
         // Declair some stuff before the switch;
         IPokemob pokemob;
         Entity mob;
-        PacketPokedex packet;
-        Map<PokedexEntry, Float> rates;
-        Vector3 pos;
-        SpawnCheck checker;
-        ArrayList<PokedexEntry> names = new ArrayList<>();
-        float total = 0;
-        int n = 0;
         PokedexEntry entry;
-        final CompoundTag spawns = new CompoundTag();
-
         ServerLevel level = player.getLevel();
-
-        pos = new Vector3().set(player);
-        checker = new SpawnCheck(pos, level);
 
         switch (this.message)
         {
@@ -492,80 +575,10 @@ public class PacketPokedex extends NBTPacket
             PokecubePlayerDataHandler.getCustomDataTag(player).putString("WEntry", this.getTag().getString("V"));
             return;
         case REQUESTMOB:
-            entry = Database.getEntry(this.getTag().getString("V"));
-            packet = new PacketPokedex(PacketPokedex.REQUESTMOB);
-            if (entry.getSpawnData() != null)
-                for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
-            {
-                String serialised = PacketPokedex.serialize(matcher);
-                // This is null in the case that the spawn is not valid.
-                if (serialised == null) continue;
-                spawns.putString("" + n, serialised);
-                n++;
-            }
-            spawns.putInt("n", n);
-            packet.getTag().put("V", spawns);
-            PacketPokedex.ASSEMBLER.sendTo(packet, player);
-            packet = new PacketPokedex(PacketPokedex.BREEDLIST);
-            final CompoundTag breedable = new CompoundTag();
-            packet.getTag().putString("e", entry.getTrimmedName());
-            breedable.putString("0", entry.getTrimmedName());
-            n = 1;
-            for (final PokedexEntry e : entry.getRelated())
-            {
-                if (!e.breeds) continue;
-                breedable.putString("" + n, e.getTrimmedName());
-                n++;
-            }
-            breedable.putInt("n", n);
-            packet.getTag().put("V", breedable);
-            PacketPokedex.ASSEMBLER.sendTo(packet, player);
+            sendMobPacket(player, this.getTag());
             return;
         case REQUESTLOC:
-            rates = Maps.newHashMap();
-            names = new ArrayList<>();
-            final boolean repelled = SpawnHandler.getNoSpawnReason(level, pos.getPos()) != ForbidReason.NONE;
-            for (final PokedexEntry e : Database.spawnables)
-                if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null) names.add(e);
-            final Map<PokedexEntry, SpawnBiomeMatcher> matchers = Maps.newHashMap();
-            for (final PokedexEntry e : names)
-            {
-                SpawnContext scontext = new SpawnContext(player, e);
-                final SpawnBiomeMatcher matcher = e.getSpawnData().getMatcher(scontext, checker, false);
-                matchers.put(e, matcher);
-                float val = e.getSpawnData().getWeight(scontext, checker, true);
-                final float min = e.getSpawnData().getMin(matcher);
-                final float num = min + (e.getSpawnData().getMax(matcher) - min) / 2;
-                val *= num;
-                total += val;
-                rates.put(e, val);
-            }
-            if (total != 0) for (final PokedexEntry e : names)
-            {
-                final float val = rates.get(e) / total;
-                rates.put(e, val);
-            }
-
-            SpawnContext base = new SpawnContext(player, Database.missingno);
-            SpawnContext context = SpawnHandler.getSpawnForLoc(base);
-            if (context != null && context.entry() != null) rates.put(context.entry(), 1f);
-
-            packet = new PacketPokedex(PacketPokedex.REQUESTLOC);
-            for (final PokedexEntry e : names)
-            {
-                final SpawnBiomeMatcher matcher = matchers.get(e);
-                matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
-                String match = PacketPokedex.serialize(matcher);
-                if (match == null) continue;
-                spawns.putString("e" + n, e.getName());
-                spawns.putString("" + n, match);
-                n++;
-            }
-            packet.getTag().put("V", spawns);
-            packet.getTag().putBoolean("R", repelled);
-            entry = Database.getEntry(PokecubePlayerDataHandler.getCustomDataTag(player).getString("WEntry"));
-            if (entry != null) packet.getTag().putString("E", entry.getName());
-            PacketPokedex.ASSEMBLER.sendTo(packet, player);
+            sendLocalSpawnsPacket(player);
             return;
         case REORDER:
             final int index1 = this.getTag().getInt("1");

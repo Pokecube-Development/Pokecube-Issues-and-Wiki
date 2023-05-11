@@ -109,44 +109,91 @@ public class SpawnBiomeMatcher
         NONEMATCHER = SpawnBiomeMatcher.get(rule);
     }
 
+    public static class ClientValues
+    {
+        // Would use a record, but gson doesn't know how to deal with records
+        // yet...
+        List<ResourceLocation> clientBiomes = new ArrayList<>();
+        List<String> clientTypes = new ArrayList<>();
+        List<String> clientStructures = new ArrayList<>();
+
+        public ClientValues()
+        {}
+
+        public boolean valid()
+        {
+            return !(clientBiomes.isEmpty() && clientTypes.isEmpty() && clientStructures.isEmpty());
+        }
+
+        public List<String> clientTypes()
+        {
+            return clientTypes;
+        }
+
+        public List<ResourceLocation> clientBiomes()
+        {
+            return clientBiomes;
+        }
+
+        public List<String> clientStructures()
+        {
+            return clientStructures;
+        }
+    }
+
     public static void populateClientValues(SpawnBiomeMatcher matcher)
     {
         clearClientValues(matcher);
-        try
-        {
-            var reg = ServerLifecycleHooks.getCurrentServer().registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY);
-            for (final ResourceLocation test : reg.keySet())
-            {
-                var holder = reg.getHolderOrThrow(ResourceKey.create(RegHelper.BIOME_REGISTRY, test));
-                final boolean valid = matcher.checkBiome(holder);
-                if (valid)
-                {
-                    matcher.clientBiomes.add(test);
-                }
-            }
+        var ors = new ArrayList<>(matcher._or_children);
+        matcher._or_children.clear();
 
-            boolean noChildBiomes = matcher._or_children.isEmpty() && matcher._and_children.isEmpty();
-            noChildBiomes = noChildBiomes && matcher._validBiomes.isEmpty();
-            if (noChildBiomes || matcher.clientBiomes.size() == reg.keySet().size()) matcher.clientBiomes.clear();
-        }
-        catch (Exception e)
+        Map<SpawnBiomeMatcher, ClientValues> values = Maps.newHashMap();
+        values.put(matcher, new ClientValues());
+        for (var v : ors) values.put(v, new ClientValues());
+
+        for (var entry : values.entrySet())
         {
-            PokecubeAPI.LOGGER.error("Error attempting to read biomes for a spawnBiomeMatcher to send to client!");
-            PokecubeAPI.LOGGER.error(e);
+            var m = entry.getKey();
+            var s = entry.getValue();
+            try
+            {
+                var reg = ServerLifecycleHooks.getCurrentServer().registryAccess()
+                        .registryOrThrow(RegHelper.BIOME_REGISTRY);
+
+                for (final ResourceLocation test : reg.keySet())
+                {
+                    var holder = reg.getHolderOrThrow(ResourceKey.create(RegHelper.BIOME_REGISTRY, test));
+                    final boolean valid = m.checkBiome(holder);
+                    if (valid)
+                    {
+                        s.clientBiomes.add(test);
+                    }
+                }
+
+                boolean noChildBiomes = m._or_children.isEmpty() && m._and_children.isEmpty();
+                noChildBiomes = noChildBiomes && m._validBiomes.isEmpty();
+                if (noChildBiomes || s.clientBiomes.size() == reg.keySet().size()) s.clientBiomes.clear();
+            }
+            catch (Exception e)
+            {
+                PokecubeAPI.LOGGER.error("Error attempting to read biomes for a spawnBiomeMatcher to send to client!");
+                PokecubeAPI.LOGGER.error(e);
+            }
+            for (var type : BiomeType.values())
+            {
+                if (m.checkSubBiome(type)) s.clientTypes.add(type.name);
+            }
+            if (s.clientTypes.size() == BiomeType.values().size()) s.clientTypes.clear();
+            s.clientStructures.addAll(matcher._validStructures);
+            if (s.valid()) matcher.clientStuff.add(s);
         }
-        for (var type : BiomeType.values())
-        {
-            if (matcher.checkSubBiome(type)) matcher.clientTypes.add(type.name);
-        }
-        if (matcher.clientTypes.size() == BiomeType.values().size()) matcher.clientTypes.clear();
-        matcher.clientStructures.addAll(matcher._validStructures);
+        matcher._or_children.addAll(ors);
     }
 
     public static void clearClientValues(SpawnBiomeMatcher matcher)
     {
-        matcher.clientBiomes.clear();
-        matcher.clientTypes.clear();
-        matcher.clientStructures.clear();
+        matcher.clientStuff.clear();
+        if (matcher._or_children == null) matcher._or_children = new ArrayList<>();
     }
 
     public static Set<TagKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
@@ -210,9 +257,7 @@ public class SpawnBiomeMatcher
 
     public Set<TerrainType> _validTerrain = ALL_TERRAIN;
 
-    public List<ResourceLocation> clientBiomes = new ArrayList<>();
-    public List<String> clientTypes = new ArrayList<>();
-    public List<String> clientStructures = new ArrayList<>();
+    public List<ClientValues> clientStuff = new ArrayList<>();
 
     /**
      * Do not call this, use the static method instead!
