@@ -284,6 +284,9 @@ public class PokecubeCore
         ItemGenerator.compostables(event);
         ItemGenerator.flammables(event);
 
+        // Register all of the types to the animation holder set.
+        typeMap.keySet().forEach(CopyCaps::register);
+
         event.enqueueWork(() -> {
             DispenseBehaviors.registerDefaults();
             ItemInit.postInit();
