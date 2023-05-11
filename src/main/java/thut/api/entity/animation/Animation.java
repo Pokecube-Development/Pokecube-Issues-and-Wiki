@@ -38,6 +38,7 @@ public class Animation
     public int priority = 10;
 
     public boolean loops = true;
+    public boolean holdWhenDone = false;
 
     public boolean hasLimbBased = false;
 

@@ -223,8 +223,9 @@ public class CapabilityAnimation
             }
             else
             {
-                boolean loops = !this.transients.contains(animation) && (animation.loops || animation.hasLimbBased);
-                if (i >= animation.length && !loops)
+                boolean dontCleanup = this.transients.contains(animation)
+                        || (animation.loops || animation.hasLimbBased || animation.holdWhenDone);
+                if (i >= animation.length && !dontCleanup)
                 {
                     this.non_static.removeFloat(animation._uuid);
                     if (this.transients.contains(animation)) this.playingList.remove(animation);

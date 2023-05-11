@@ -181,10 +181,12 @@ public class AnimationBuilder
     {
         if (list.isEmpty()) return null;
         final Animation newAnim = new Animation();
-        newAnim.name = list.get(0).name;
-        newAnim.identifier = list.get(0).identifier;
-        newAnim.loops = list.get(0).loops;
-        newAnim.priority = list.get(0).priority;
+        var old = list.get(0);
+        newAnim.name = old.name;
+        newAnim.identifier =old.identifier;
+        newAnim.loops = old.loops;
+        newAnim.priority = old.priority;
+        newAnim.holdWhenDone = old.holdWhenDone;
         for (final Animation anim : list) for (final String part : anim.sets.keySet())
             AnimationBuilder.addTo(newAnim, anim.priority, part, anim.sets.get(part));
         return newAnim;
@@ -196,7 +198,6 @@ public class AnimationBuilder
         final Map<Integer, List<Animation>> splitAnims = Maps.newHashMap();
         for (final Animation anim : oldList) AnimationBuilder.splitAnimation(anim, splitAnims);
         list.clear();
-//        for (final List<Animation> split : splitAnims.values()) 
         list.add(AnimationBuilder.mergeAnimations(oldList));
     }
 
@@ -218,6 +219,7 @@ public class AnimationBuilder
             newAnim.identifier = animIn.identifier;
             newAnim.loops = animIn.loops;
             newAnim.priority = animIn.priority;
+            newAnim.holdWhenDone = animIn.holdWhenDone;
             newAnim.sets.put(key, comps);
             anims.add(newAnim);
         }
