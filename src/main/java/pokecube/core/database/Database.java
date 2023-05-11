@@ -27,8 +27,6 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.Pack.Position;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ReloadableResourceManager;
 import net.minecraft.server.packs.resources.Resource;
@@ -752,10 +750,10 @@ public class Database
         // Load these first, as they do some checks for full data loading, and
         // they also don't rely on anything else, they just do string based tags
         DataHelpers.onResourcesReloaded();
-        
+
         // Also load in the pokemob material effects.
         PokemobEffects.loadMaterials();
-        
+
         dt = System.nanoTime() - time;
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 2: {}s", dt / 1e9d);
 
@@ -877,14 +875,8 @@ public class Database
     public static void loadCustomPacks(final boolean applyToManager)
     {
         Database.customPacks.clear();
-        final PackFinder finder = new PackFinder(
-                (name, component, bool, supplier, metadata, position, source, hidden) ->
-                {
-                    return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, Position.TOP,
-                            source, hidden);
-                });
-
-        List<PackResources> packs = applyToManager ? finder.allPacks : finder.folderPacks;
+        List<PackResources> packs = applyToManager ? PackFinder.DEFAULT_FINDER.allPacks
+                : PackFinder.DEFAULT_FINDER.folderPacks;
         for (final PackResources info : packs) try
         {
             // This initialises the info, for the caching system.

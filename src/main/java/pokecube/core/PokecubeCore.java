@@ -9,6 +9,7 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -26,6 +27,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -108,6 +110,15 @@ public class PokecubeCore
 
             // Now we can initialise some of the custom items.
             ItemInit.init();
+        }
+
+        @SubscribeEvent
+        public static void registerPacks(AddPackFindersEvent event)
+        {
+            if (event.getPackType() == PackType.SERVER_DATA)
+            {
+                event.addRepositorySource(PackFinder.DEFAULT_FINDER);
+            }
         }
     }
 
