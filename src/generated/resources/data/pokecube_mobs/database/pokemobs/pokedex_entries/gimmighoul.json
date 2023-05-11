@@ -1,0 +1,66 @@
+{
+  "name": "gimmighoul",
+  "id": 999,
+  "stock": true,
+  "base_experience": 60,
+  "size": {
+    "height": 0.3
+  },
+  "mass": 5.0,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 45,
+    "attack": 30,
+    "defense": 70,
+    "special_attack": 75,
+    "special_defense": 70,
+    "speed": 10
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "rattled"
+    ],
+    "hidden": [
+      "rattled"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "astonish"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+      "night-shade",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "rest",
+      "substitute",
+      "thief",
+      "protect",
+      "endure",
+      "sleep-talk",
+      "shadow-ball",
+      "power-gem",
+      "nasty-plot",
+      "hex",
+      "tera-blast"
+    ]
+  }
+}

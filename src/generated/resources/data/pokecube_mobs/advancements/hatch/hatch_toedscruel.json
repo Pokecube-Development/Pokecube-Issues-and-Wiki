@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.toedscruel"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toedscruel"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_toedscruel": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "toedscruel"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

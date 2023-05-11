@@ -1,0 +1,191 @@
+{
+  "name": "iron-valiant",
+  "id": 1006,
+  "stock": true,
+  "base_experience": 295,
+  "size": {
+    "height": 1.4
+  },
+  "mass": 35.0,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 74,
+    "attack": 130,
+    "defense": 90,
+    "special_attack": 120,
+    "special_defense": 60,
+    "speed": 116
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "fairy",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "quark-drive"
+    ],
+    "hidden": [
+      "quark-drive"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "disable",
+          "double-team",
+          "fury-cutter",
+          "shadow-sneak"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "hypnosis"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "destiny-bond"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "leaf-blade"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "feint"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "close-combat"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "night-slash"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "psycho-cut"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "wide-guard",
+          "quick-guard"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dazzling-gleam"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "spirit-break"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "psybeam",
+      "hyper-beam",
+      "low-kick",
+      "thunderbolt",
+      "thunder-wave",
+      "psychic",
+      "agility",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "metronome",
+      "swift",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "icy-wind",
+      "endure",
+      "false-swipe",
+      "sleep-talk",
+      "encore",
+      "shadow-ball",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "brick-break",
+      "skill-swap",
+      "imprison",
+      "hyper-voice",
+      "aerial-ace",
+      "magical-leaf",
+      "calm-mind",
+      "close-combat",
+      "fling",
+      "aura-sphere",
+      "poison-jab",
+      "x-scissor",
+      "drain-punch",
+      "focus-blast",
+      "energy-ball",
+      "giga-impact",
+      "shadow-claw",
+      "zen-headbutt",
+      "trick-room",
+      "grass-knot",
+      "charge-beam",
+      "psyshock",
+      "stored-power",
+      "hex",
+      "misty-terrain",
+      "electric-terrain",
+      "dazzling-gleam",
+      "psychic-terrain",
+      "liquidation",
+      "tera-blast"
+    ]
+  }
+}

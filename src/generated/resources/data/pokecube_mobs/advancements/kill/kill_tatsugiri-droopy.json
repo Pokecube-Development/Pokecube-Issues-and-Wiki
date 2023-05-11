@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-droopy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-droopy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tatsugiri-droopy": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tatsugiri-droopy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

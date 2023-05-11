@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.wiglett"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wiglett"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_wiglett": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "wiglett"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

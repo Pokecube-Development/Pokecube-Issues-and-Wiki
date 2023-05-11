@@ -2,7 +2,7 @@
   "name": "qwilfish-hisui",
   "id": 211,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 88,
   "size": {
     "height": 0.5
   },

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-blue-plumage"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-blue-plumage"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_squawkabilly-blue-plumage": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "squawkabilly-blue-plumage"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

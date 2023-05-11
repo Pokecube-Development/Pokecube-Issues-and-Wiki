@@ -2,7 +2,7 @@
   "name": "sneasler",
   "id": 903,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 102,
   "size": {
     "height": 1.3,
     "width": 0.6

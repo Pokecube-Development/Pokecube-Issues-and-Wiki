@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dondozo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dondozo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dondozo": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dondozo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

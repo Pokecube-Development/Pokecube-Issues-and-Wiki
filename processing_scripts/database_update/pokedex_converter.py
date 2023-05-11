@@ -17,14 +17,14 @@ mob_lang_generate_dir = '../../src/generated/resources/assets/pokecube_mobs/lang
 tag_generate_dir = '../../src/generated/resources/data/pokecube/tags/entity_types/'
 advancements_dir = '../../src/generated/resources/data/pokecube_mobs/advancements/'
 
-entry_generate_dir = './new/pokemobs/pokedex_entries/'
-materials_generate_dir = './new/pokemobs/materials/'
-ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
-mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
-tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
-advancements_dir = './new/advancements/'
+# entry_generate_dir = './new/pokemobs/pokedex_entries/'
+# materials_generate_dir = './new/pokemobs/materials/'
+# ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
+# mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
+# tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
+# advancements_dir = './new/advancements/'
 
-WARN_NO_EXP = False
+WARN_NO_EXP = True
 WARN_NO_OLD_ENTRY = False
 
 MEGA_SUFFIX = [

@@ -1,0 +1,169 @@
+{
+  "name": "slither-wing",
+  "id": 988,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 3.2
+  },
+  "mass": 92.0,
+  "is_default": true,
+  "capture_rate": 30,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 85,
+    "attack": 135,
+    "defense": 79,
+    "special_attack": 85,
+    "special_defense": 105,
+    "speed": 81
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "bug",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "protosynthesis"
+    ],
+    "hidden": [
+      "protosynthesis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "gust",
+          "ember",
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "whirlwind"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "stomp"
+        ]
+      },
+      {
+        "L": 91,
+        "moves": [
+          "thrash"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "poison-powder",
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "leech-life"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "morning-sun"
+        ]
+      },
+      {
+        "L": 49,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "low-sweep"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "first-impression"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "lunge"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "dual-wingbeat"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "hyper-beam",
+      "low-kick",
+      "earthquake",
+      "leech-life",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "brick-break",
+      "aerial-ace",
+      "bulk-up",
+      "u-turn",
+      "close-combat",
+      "flare-blitz",
+      "bug-buzz",
+      "giga-impact",
+      "zen-headbutt",
+      "heavy-slam",
+      "flame-charge",
+      "low-sweep",
+      "acrobatics",
+      "wild-charge",
+      "hurricane",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "trailblaze"
+    ]
+  }
+}

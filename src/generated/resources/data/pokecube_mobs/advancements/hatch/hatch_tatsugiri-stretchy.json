@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-stretchy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-stretchy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tatsugiri-stretchy": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tatsugiri-stretchy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,155 @@
+{
+  "name": "walking-wake",
+  "id": 1009,
+  "stock": true,
+  "base_experience": 295,
+  "size": {
+    "height": 3.5
+  },
+  "mass": 280.0,
+  "is_default": true,
+  "capture_rate": 5,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 99,
+    "attack": 83,
+    "defense": 91,
+    "special_attack": 125,
+    "special_defense": 83,
+    "speed": 109
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "water",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "protosynthesis"
+    ],
+    "hidden": [
+      "protosynthesis"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 0,
+        "moves": [
+          "leer",
+          "roar",
+          "twister",
+          "aqua-jet"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "flamethrower"
+        ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "hydro-pump"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "outrage"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "water-pulse"
+        ]
+      },
+      {
+        "L": 63,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "dragon-rush"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "noble-roar"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "breaking-swipe"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "hydro-steam"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "flamethrower",
+      "hydro-pump",
+      "surf",
+      "hyper-beam",
+      "low-kick",
+      "agility",
+      "waterfall",
+      "swift",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "fake-out",
+      "facade",
+      "dragon-claw",
+      "mud-shot",
+      "dragon-dance",
+      "water-pulse",
+      "dragon-pulse",
+      "giga-impact",
+      "fire-fang",
+      "draco-meteor",
+      "hone-claws",
+      "hurricane",
+      "snarl",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
+    ]
+  }
+}

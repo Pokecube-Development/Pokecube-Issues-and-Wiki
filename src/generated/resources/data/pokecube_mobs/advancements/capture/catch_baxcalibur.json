@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.baxcalibur"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.baxcalibur"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_baxcalibur": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "baxcalibur"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

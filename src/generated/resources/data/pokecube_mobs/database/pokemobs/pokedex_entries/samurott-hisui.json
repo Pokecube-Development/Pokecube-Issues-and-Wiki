@@ -2,7 +2,7 @@
   "name": "samurott-hisui",
   "id": 503,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 238,
   "size": {
     "height": 1.5,
     "width": 1.2

@@ -1,0 +1,179 @@
+{
+  "name": "wo-chien",
+  "id": 1001,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 1.5
+  },
+  "mass": 74.2,
+  "is_default": true,
+  "capture_rate": 6,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 85,
+    "attack": 85,
+    "defense": 100,
+    "special_attack": 95,
+    "special_defense": 135,
+    "speed": 70
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "dark",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "tablets-of-ruin"
+    ],
+    "hidden": [
+      "tablets-of-ruin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "absorb",
+          "spite",
+          "mean-look"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "poison-powder",
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "ingrain"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "tickle"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "foul-play"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "grassy-terrain"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "ruination"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "hyper-beam",
+      "solar-beam",
+      "light-screen",
+      "reflect",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "mud-slap",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "taunt",
+      "bullet-seed",
+      "mud-shot",
+      "magical-leaf",
+      "dark-pulse",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "leaf-storm",
+      "grass-knot",
+      "foul-play",
+      "hex",
+      "snarl",
+      "grassy-terrain",
+      "pollen-puff",
+      "body-press",
+      "tera-blast",
+      "trailblaze"
+    ]
+  }
+}

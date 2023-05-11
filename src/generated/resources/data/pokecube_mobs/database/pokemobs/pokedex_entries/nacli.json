@@ -1,0 +1,160 @@
+{
+  "name": "nacli",
+  "id": 932,
+  "stock": true,
+  "base_experience": 56,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 16.0,
+  "is_default": true,
+  "capture_rate": 255,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 55,
+    "attack": 55,
+    "defense": 75,
+    "special_attack": 35,
+    "special_defense": 35,
+    "speed": 25
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "rock"
+  ],
+  "abilities": {
+    "normal": [
+      "purifying-salt",
+      "sturdy"
+    ],
+    "hidden": [
+      "clear-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 16,
+        "moves": [
+          "headbutt"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "harden"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "rock-throw"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "earthquake"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "rock-slide"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "iron-defense"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "stone-edge"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "stealth-rock"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "heavy-slam"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "earthquake",
+      "fissure",
+      "dig",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "curse",
+      "protect",
+      "sandstorm",
+      "endure",
+      "sleep-talk",
+      "rain-dance",
+      "sunny-day",
+      "ancient-power",
+      "facade",
+      "helping-hand",
+      "iron-defense",
+      "mud-shot",
+      "power-gem",
+      "earth-power",
+      "zen-headbutt",
+      "flash-cannon",
+      "iron-head",
+      "stone-edge",
+      "stealth-rock",
+      "heavy-slam",
+      "bulldoze",
+      "stomping-tantrum",
+      "tera-blast"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "naclstack",
+      "level": 24
+    }
+  ]
+}

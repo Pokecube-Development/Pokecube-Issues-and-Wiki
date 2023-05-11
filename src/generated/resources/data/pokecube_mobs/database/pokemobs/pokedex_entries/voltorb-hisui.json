@@ -2,7 +2,7 @@
   "name": "voltorb-hisui",
   "id": 100,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 66,
   "size": {
     "height": 0.5
   },

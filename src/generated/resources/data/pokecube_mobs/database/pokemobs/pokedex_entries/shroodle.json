@@ -1,0 +1,169 @@
+{
+  "name": "shroodle",
+  "id": 944,
+  "stock": true,
+  "base_experience": 58,
+  "size": {
+    "height": 0.2
+  },
+  "mass": 0.7,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 65,
+    "defense": 35,
+    "special_attack": 40,
+    "special_defense": 35,
+    "speed": 75
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "poison",
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "unburden",
+      "pickpocket"
+    ],
+    "hidden": [
+      "prankster"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "bite",
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "flatter"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "taunt"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "knock-off"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "u-turn"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "switcheroo"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "gunk-shot"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "acid-spray"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "take-down",
+      "dig",
+      "toxic",
+      "metronome",
+      "rest",
+      "super-fang",
+      "substitute",
+      "thief",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "endure",
+      "swagger",
+      "sleep-talk",
+      "baton-pass",
+      "encore",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "mud-shot",
+      "u-turn",
+      "fling",
+      "copycat",
+      "poison-jab",
+      "nasty-plot",
+      "cross-poison",
+      "gunk-shot",
+      "venoshock",
+      "acid-spray",
+      "foul-play",
+      "acrobatics",
+      "parting-shot",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "grafaiai",
+      "level": 28
+    }
+  ]
+}

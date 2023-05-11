@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-moth"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-moth"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_iron-moth": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "iron-moth"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

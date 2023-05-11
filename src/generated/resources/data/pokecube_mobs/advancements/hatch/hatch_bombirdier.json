@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.bombirdier"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.bombirdier"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_bombirdier": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "bombirdier"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

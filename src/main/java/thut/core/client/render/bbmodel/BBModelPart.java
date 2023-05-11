@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
-import com.mojang.math.Quaternion;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3f;
 
 import pokecube.api.PokecubeAPI;
@@ -88,12 +88,7 @@ public class BBModelPart extends Part
             float x = b.getRotation()[0];
             float y = b.getRotation()[1];
             float z = b.getRotation()[2];
-            Quaternion quat = new Quaternion(0, 0, 0, 1);
-            if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
-            if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
-            if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
-            final Vector4 rotations = new Vector4(quat);
-            part.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
+            part.rotations.set(x, y, z, 1);
         }
 
         offsets[0] /= 16.0f;
@@ -153,6 +148,7 @@ public class BBModelPart extends Part
     }
 
     public int index = 0;
+    private float rx = 0, ry = 0, rz = 0;
 
     public BBModelPart(String name)
     {
@@ -166,13 +162,45 @@ public class BBModelPart extends Part
     }
 
     @Override
+    public void resetToInit()
+    {
+        super.resetToInit();
+        rx = ry = rz = 0;
+    }
+
+    @Override
     public void setAnimAngles(float rx, float ry, float rz)
     {
-        _quat.set(0, 0, 0, 1);
-        if (rz != 0) _quat.mul(Vector3f.YN.rotationDegrees(rz));
-        if (ry != 0) _quat.mul(Vector3f.ZP.rotationDegrees(ry));
-        if (rx != 0) _quat.mul(Vector3f.XP.rotationDegrees(rx));
-        this.setPreRotations(_rot.set(_quat));
+        this.rx = rx;
+        this.ry = ry;
+        this.rz = rz;
+    }
+
+    @Override
+    public void preRender(PoseStack mat)
+    {
+        if (this.getParent() != null) getParent().preRender(mat);
+
+        mat.pushPose();
+
+        // Translate of offset for rotation.
+        mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
+
+        float rx = this.rx + rotations.x;
+        float ry = this.ry + rotations.y;
+        float rz = this.rz + rotations.z;
+
+        if (rz != 0) mat.mulPose(Vector3f.YN.rotationDegrees(rz));
+        if (ry != 0) mat.mulPose(Vector3f.ZP.rotationDegrees(ry));
+        if (rx != 0) mat.mulPose(Vector3f.XP.rotationDegrees(rx));
+
+        // Translate by post-PreOffset amount.
+        mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
+        // Apply postRotation
+        this.postRot.glRotate(mat);
+        // Scale
+        mat.scale(this.scale.x, this.scale.y, this.scale.z);
     }
 
     @Override

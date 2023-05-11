@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.garganacl"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.garganacl"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_garganacl": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "garganacl"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

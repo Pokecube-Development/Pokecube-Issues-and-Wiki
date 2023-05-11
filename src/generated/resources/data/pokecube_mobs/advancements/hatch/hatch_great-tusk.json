@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.great-tusk"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.great-tusk"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_great-tusk": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "great-tusk"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

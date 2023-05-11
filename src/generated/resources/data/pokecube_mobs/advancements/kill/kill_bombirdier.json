@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.bombirdier"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.bombirdier"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_bombirdier": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "bombirdier"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

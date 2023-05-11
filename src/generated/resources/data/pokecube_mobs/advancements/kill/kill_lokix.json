@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.lokix"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.lokix"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_lokix": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "lokix"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

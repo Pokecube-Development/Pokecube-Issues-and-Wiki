@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.orthworm"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.orthworm"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_orthworm": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "orthworm"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

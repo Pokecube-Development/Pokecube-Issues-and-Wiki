@@ -1,0 +1,186 @@
+{
+  "name": "toedscool",
+  "id": 948,
+  "stock": true,
+  "base_experience": 67,
+  "size": {
+    "height": 0.9
+  },
+  "mass": 33.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "medium-slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 40,
+    "attack": 40,
+    "defense": 35,
+    "special_attack": 50,
+    "special_defense": 100,
+    "speed": 70
+  },
+  "evs": {
+    "special_defense": 1
+  },
+  "types": [
+    "ground",
+    "grass"
+  ],
+  "abilities": {
+    "normal": [
+      "mycelium-might"
+    ],
+    "hidden": [
+      "mycelium-might"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 15,
+        "moves": [
+          "tackle"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "wrap",
+          "mud-slap"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "supersonic"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "poison-powder",
+          "stun-spore"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "screech"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "spore"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "seed-bomb"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "hex"
+        ]
+      }
+    ],
+    "misc": [
+      "leech-seed",
+      "solar-beam",
+      "toxic",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "swift",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "mud-slap",
+      "spikes",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "rapid-spin",
+      "rain-dance",
+      "mirror-coat",
+      "taunt",
+      "knock-off",
+      "tickle",
+      "bullet-seed",
+      "mud-shot",
+      "magical-leaf",
+      "acupressure",
+      "toxic-spikes",
+      "seed-bomb",
+      "energy-ball",
+      "earth-power",
+      "flash-cannon",
+      "trick-room",
+      "leaf-storm",
+      "grass-knot",
+      "venoshock",
+      "rage-powder",
+      "acid-spray",
+      "foul-play",
+      "hex",
+      "grassy-terrain",
+      "dazzling-gleam",
+      "tera-blast",
+      "trailblaze"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "toedscruel",
+      "level": 30
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.mabosstiff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mabosstiff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_mabosstiff": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "mabosstiff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

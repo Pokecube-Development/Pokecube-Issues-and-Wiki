@@ -2,7 +2,7 @@
   "name": "decidueye-hisui",
   "id": 724,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 239,
   "size": {
     "height": 1.6,
     "width": 0.9

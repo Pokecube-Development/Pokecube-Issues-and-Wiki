@@ -2,7 +2,7 @@
   "name": "ursaluna",
   "id": 901,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 275,
   "size": {
     "height": 2.4,
     "width": 1.5

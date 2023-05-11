@@ -2,7 +2,7 @@
   "name": "arcanine-hisui",
   "id": 59,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 194,
   "size": {
     "height": 2.0,
     "width": 1.0,

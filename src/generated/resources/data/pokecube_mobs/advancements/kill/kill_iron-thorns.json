@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-thorns"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-thorns"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_iron-thorns": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "iron-thorns"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

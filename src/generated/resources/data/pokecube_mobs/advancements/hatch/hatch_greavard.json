@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.greavard"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.greavard"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_greavard": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "greavard"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

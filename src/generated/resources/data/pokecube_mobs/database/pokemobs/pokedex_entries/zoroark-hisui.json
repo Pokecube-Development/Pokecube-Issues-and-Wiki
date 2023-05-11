@@ -2,7 +2,7 @@
   "name": "zoroark-hisui",
   "id": 571,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 179,
   "size": {
     "height": 1.6,
     "width": 0.9

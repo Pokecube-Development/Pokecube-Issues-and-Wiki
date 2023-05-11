@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.sandy-shocks"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.sandy-shocks"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_sandy-shocks": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "sandy-shocks"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

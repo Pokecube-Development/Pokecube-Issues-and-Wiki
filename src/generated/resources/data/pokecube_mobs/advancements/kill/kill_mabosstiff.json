@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.mabosstiff"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.mabosstiff"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_mabosstiff": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "mabosstiff"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}
