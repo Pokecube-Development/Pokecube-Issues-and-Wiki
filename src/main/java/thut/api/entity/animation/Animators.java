@@ -254,15 +254,18 @@ public class Animators
                 for (int i = 1; i < list.size(); i++)
                 {
                     AnimationComponent here = list.get(i);
-                    if (!preComputed) for (int j = 0; j < 3 && (position || rotation); j++)
+                    if (!preComputed)
                     {
-                        if (position) here.posOffset[j] += prev.posOffset[j] + prev.posChange[j];
-                        if (rotation) here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
+                        for (int j = 0; j < 3 && (position || rotation); j++)
+                        {
+                            if (position) here.posOffset[j] += prev.posOffset[j] + prev.posChange[j];
+                            if (rotation) here.rotOffset[j] += prev.rotOffset[j] + prev.rotChange[j];
+                        }
+                        here.startKey = prev.startKey + prev.length;
                     }
-                    here.startKey = prev.startKey + prev.length;
                     prev = here;
                 }
-                prev.length = Math.max(baseLength - prev.startKey, prev.length);
+                if (!preComputed) prev.length = Math.max(baseLength - prev.startKey, prev.length);
             }
 
             for (var channelEnum : CHANNEL.values())
