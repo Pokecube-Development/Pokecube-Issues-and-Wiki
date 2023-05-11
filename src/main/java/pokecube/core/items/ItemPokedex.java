@@ -184,6 +184,7 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
             TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z), splayer);
             PacketDataSync.syncData(player, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket(splayer, this.watch);
+            PacketPokedex.sendLocalSpawnsPacket(splayer);
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);
             PacketPokedex.sendOpenPacket(splayer, mob, this.watch);
