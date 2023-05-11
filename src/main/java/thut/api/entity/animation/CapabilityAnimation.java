@@ -176,6 +176,7 @@ public class CapabilityAnimation
                         }
                         for (Animation a : this.transients)
                         {
+                            if (this.playingList.contains(a)) continue;
                             this.playingList.add(0, a);
                             this.non_static.put(a._uuid, 0);
                             this.start_times.removeFloat(a._uuid);

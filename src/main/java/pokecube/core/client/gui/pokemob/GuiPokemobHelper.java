@@ -142,11 +142,13 @@ public class GuiPokemobHelper
         // Disable the face culling that occurs if too far away
         double bak = ThutCore.getConfig().modelCullThreshold;
         ThutCore.getConfig().modelCullThreshold = -1;
-        var animated = AnimatedCaps.getAnimated(pokemob.getEntity());
-        animated.getChoices().clear();
-        animated.getChoices().add("gui_render");
-        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 0F, mat, irendertypebuffer$impl,
-                15728880);
+        if (!pokemob.getEntity().isAddedToWorld())
+        {
+            var animated = AnimatedCaps.getAnimated(pokemob.getEntity());
+            animated.getChoices().clear();
+            animated.getChoices().add("gui_render");
+        }
+        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 0F, mat, irendertypebuffer$impl, 15728880);
         // Re-enable the face culling that occurs if too far away
         ThutCore.getConfig().modelCullThreshold = bak;
         RenderMobOverlays.enabled = true;
