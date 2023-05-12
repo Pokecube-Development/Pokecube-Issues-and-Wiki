@@ -111,13 +111,21 @@
         "moves": [
           "air-slash"
         ]
+      },
+      {
+        "L": 77,
+        "moves": [
+          "bleakwind-storm"
+        ]
       }
     ],
     "misc": [
       "gust",
       "fly",
       "body-slam",
+      "take-down",
       "thrash",
+      "leer",
       "bite",
       "hyper-beam",
       "strength",
@@ -125,14 +133,17 @@
       "psychic",
       "agility",
       "double-team",
+      "metronome",
       "rest",
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "protect",
       "scary-face",
       "sludge-bomb",
       "icy-wind",
+      "sandstorm",
       "endure",
       "swagger",
       "attract",
@@ -142,6 +153,7 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "crunch",
       "rock-smash",
       "uproar",
@@ -185,7 +197,10 @@
       "hurricane",
       "confide",
       "brutal-swing",
-      "lash-out"
+      "lash-out",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "interactions": [

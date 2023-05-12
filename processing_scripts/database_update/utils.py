@@ -76,3 +76,38 @@ def get_move(number):
 
 def url_to_id(var):
     return int(var.url.split('/')[-2])
+
+def load_evo_chains():
+    evo_chain_dir = './.cache/api-data/data/api/v2/evolution-chain/'
+    evos = {}
+
+    def process_chain(chain, depth=0):
+        species = chain['species']["name"]
+        evos_to = []
+        if species in evos:
+            evos_to = evos[species]
+        else:
+            evos[species] = evos_to
+        for evo in chain['evolves_to']:
+            details = {}
+            details['name'] = evo['species']["name"]
+            details['evolution_details'] = evo['evolution_details']
+            evos_to.append(details)
+            process_chain(evo, depth + 1)
+
+    for sub_dir in os.listdir(evo_chain_dir):
+        if 'index' in sub_dir:
+            continue
+        file = open(evo_chain_dir + sub_dir + "/index.json", 'r')
+        values = json.load(file)
+        chain = values['chain']
+        file.close()
+        process_chain(chain)
+
+    return evos
+
+if __name__ == "__main__":
+    evos = load_evo_chains()
+    for key, value in evos.items():
+        print(key)
+        [print(" ",x['name']) for x in value]

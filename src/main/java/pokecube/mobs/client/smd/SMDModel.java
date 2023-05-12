@@ -319,13 +319,13 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
+    public void setAnimationChangerRaw(IAnimationChanger changer)
     {
         this.changer = changer;
     }
 
     @Override
-    public void setTexturer(final IPartTexturer texturer)
+    public void setTexturerRaw(IPartTexturer texturer)
     {
         this.texturer = texturer;
     }
@@ -410,5 +410,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     {
         // TODO see what we need to do for this for wearables support later.
         return this.order;
+    }
+
+    @Override
+    public void setColorScales(float r, float g, float b, float a)
+    {
+        // TODO Auto-generated method stub
+        
     }
 }

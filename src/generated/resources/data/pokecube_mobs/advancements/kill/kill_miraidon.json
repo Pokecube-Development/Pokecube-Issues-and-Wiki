@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.miraidon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.miraidon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_miraidon": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "miraidon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

@@ -99,12 +99,14 @@
       }
     ],
     "misc": [
+      "take-down",
       "razor-leaf",
       "solar-beam",
       "toxic",
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "splash",
       "rest",
       "substitute",
@@ -131,6 +133,7 @@
       "endeavor",
       "teeter-dance",
       "grass-whistle",
+      "bullet-seed",
       "bounce",
       "covet",
       "magical-leaf",
@@ -140,15 +143,19 @@
       "seed-bomb",
       "energy-ball",
       "zen-headbutt",
+      "leaf-storm",
       "grass-knot",
       "round",
       "draining-kiss",
+      "grassy-terrain",
       "play-rough",
       "play-nice",
       "confide",
       "aromatic-mist",
       "dazzling-gleam",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

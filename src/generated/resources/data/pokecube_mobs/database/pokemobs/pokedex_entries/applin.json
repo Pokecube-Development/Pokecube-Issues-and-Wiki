@@ -47,13 +47,17 @@
       }
     ],
     "misc": [
+      "withdraw",
       "defense-curl",
       "rollout",
       "attract",
       "recycle",
+      "astonish",
       "sucker-punch",
       "draco-meteor",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "pounce"
     ]
   },
   "evolutions": [

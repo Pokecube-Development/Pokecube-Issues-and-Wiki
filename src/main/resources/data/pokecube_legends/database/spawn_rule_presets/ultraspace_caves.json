@@ -4,7 +4,7 @@
       "values": {
         "preset": "ultraspace_caves",
         "or_preset": "underground,cave_subbiome",
-        "and_preset": "#pokecube_legends:can_spawn/is_ultraspace"
+        "types": "#pokecube_legends:can_spawn/is_underground,all"
       }
     }
   ]

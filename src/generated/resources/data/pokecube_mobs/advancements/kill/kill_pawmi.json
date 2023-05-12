@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.pawmi"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.pawmi"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_pawmi": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "pawmi"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

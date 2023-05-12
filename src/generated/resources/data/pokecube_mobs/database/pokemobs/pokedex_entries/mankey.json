@@ -180,6 +180,7 @@
       "reversal",
       "spite",
       "protect",
+      "scary-face",
       "mud-slap",
       "foresight",
       "detect",
@@ -227,10 +228,13 @@
       "poison-jab",
       "night-slash",
       "seed-bomb",
+      "drain-punch",
       "vacuum-wave",
       "focus-blast",
+      "shadow-claw",
       "rock-climb",
       "gunk-shot",
+      "stone-edge",
       "captivate",
       "hone-claws",
       "smack-down",
@@ -245,7 +249,8 @@
       "confide",
       "power-up-punch",
       "power-trip",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
   "evolutions": [

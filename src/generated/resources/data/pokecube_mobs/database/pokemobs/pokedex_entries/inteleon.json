@@ -45,7 +45,8 @@
           "bind",
           "growl",
           "water-gun",
-          "acrobatics"
+          "acrobatics",
+          "pound"
         ]
       },
       {
@@ -105,6 +106,10 @@
     ],
     "misc": [
       "swords-dance",
+      "bind",
+      "take-down",
+      "growl",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -131,27 +136,36 @@
       "shadow-ball",
       "whirlpool",
       "facade",
+      "taunt",
       "dive",
       "hydro-cannon",
       "weather-ball",
+      "air-cutter",
       "muddy-water",
       "icicle-spear",
       "bounce",
       "mud-shot",
+      "water-pulse",
       "u-turn",
       "fling",
+      "sucker-punch",
       "dark-pulse",
       "air-slash",
       "giga-impact",
+      "soak",
       "round",
       "scald",
       "acrobatics",
       "water-pledge",
       "work-up",
       "liquidation",
+      "tearful-look",
       "snipe-shot",
       "breaking-swipe",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_3"

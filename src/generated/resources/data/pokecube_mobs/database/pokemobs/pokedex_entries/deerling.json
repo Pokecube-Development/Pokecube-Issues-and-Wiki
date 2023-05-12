@@ -47,7 +47,8 @@
       {
         "L": 24,
         "moves": [
-          "jump-kick"
+          "jump-kick",
+          "zen-headbutt"
         ]
       },
       {
@@ -96,7 +97,8 @@
       {
         "L": 16,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "bullet-seed"
         ]
       },
       {
@@ -130,12 +132,14 @@
       "sand-attack",
       "headbutt",
       "tackle",
+      "body-slam",
       "take-down",
       "double-edge",
       "growl",
       "leech-seed",
       "solar-beam",
       "thunder-wave",
+      "dig",
       "toxic",
       "agility",
       "double-team",
@@ -147,6 +151,7 @@
       "protect",
       "feint-attack",
       "giga-drain",
+      "endure",
       "charm",
       "swagger",
       "attract",
@@ -162,25 +167,35 @@
       "shadow-ball",
       "facade",
       "nature-power",
+      "helping-hand",
       "secret-power",
       "camouflage",
       "aromatherapy",
       "fake-tears",
       "odor-sleuth",
       "grass-whistle",
+      "bullet-seed",
       "bounce",
+      "magical-leaf",
       "natural-gift",
       "last-resort",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
+      "zen-headbutt",
+      "leaf-storm",
       "grass-knot",
       "round",
       "echoed-voice",
       "retaliate",
+      "bulldoze",
       "work-up",
       "wild-charge",
-      "confide"
+      "grassy-terrain",
+      "play-rough",
+      "confide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "model": {

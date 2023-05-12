@@ -41,7 +41,8 @@
         "L": 1,
         "moves": [
           "pound",
-          "poison-gas"
+          "poison-gas",
+          "pound"
         ]
       },
       {
@@ -51,9 +52,10 @@
         ]
       },
       {
-        "L": 36,
+        "L": 26,
         "moves": [
-          "toxic"
+          "toxic",
+          "fling"
         ]
       },
       {
@@ -105,14 +107,9 @@
         ]
       },
       {
-        "L": 26,
-        "moves": [
-          "fling"
-        ]
-      },
-      {
         "L": 18,
         "moves": [
+          "mud-shot",
           "mud-bomb"
         ]
       },
@@ -142,6 +139,7 @@
       "thunder-punch",
       "headbutt",
       "body-slam",
+      "take-down",
       "disable",
       "flamethrower",
       "strength",
@@ -156,8 +154,10 @@
       "double-team",
       "harden",
       "minimize",
+      "confuse-ray",
       "haze",
       "bide",
+      "metronome",
       "self-destruct",
       "lick",
       "sludge",
@@ -176,6 +176,7 @@
       "sludge-bomb",
       "mud-slap",
       "zap-cannon",
+      "sandstorm",
       "giga-drain",
       "endure",
       "swagger",
@@ -202,24 +203,29 @@
       "secret-power",
       "rock-tomb",
       "shadow-punch",
+      "mud-shot",
       "shock-wave",
       "natural-gift",
       "payback",
       "fling",
       "poison-jab",
+      "drain-punch",
       "shadow-sneak",
       "mud-bomb",
+      "zen-headbutt",
       "gunk-shot",
       "captivate",
       "venoshock",
       "sludge-wave",
       "acid-spray",
       "round",
+      "hex",
       "incinerate",
       "belch",
       "confide",
       "infestation",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast"
     ]
   },
   "evolutions": [

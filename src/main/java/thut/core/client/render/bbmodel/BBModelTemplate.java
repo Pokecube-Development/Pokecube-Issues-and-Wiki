@@ -39,17 +39,14 @@ public class BBModelTemplate
     public Resolution resolution = new Resolution();
 
     public Map<String, Object> _by_uuid = new HashMap<>();
-    public Map<String, List<String>> _unique_meshs = new HashMap<>();
+    public Map<String, List<Element>> _unique_mesh_owners = new HashMap<>();
 
     public void init()
     {
         elements.forEach(e -> {
             _by_uuid.put(e.uuid, e);
             if (e.type.equals("mesh")) e.faces.forEach((key, json) -> {
-                MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
-                _unique_meshs.computeIfAbsent(key, var -> {
-                    return face.vertices;
-                });
+                _unique_mesh_owners.computeIfAbsent(key, var -> new ArrayList<>()).add(e);
             });
         });
         textures.forEach(e -> _by_uuid.put(e.uuid, e));
@@ -122,15 +119,16 @@ public class BBModelTemplate
             float[] mid_offset = new float[]
             { 0, 0, 0 };
 
-            float f = 1 + b.inflate;
+            float f = b.inflate;
 
             for (int i = 0; i < 3; i++)
             {
-                float size = (b.to[i] - b.from[i]) * f;
-                float mid = -(b.to[i] + b.from[i]) * f / 2;
-                origin_offset[i] = -b.origin[i] + b.from[i];
+                float size = (b.to[i] - b.from[i]);
+                size = size + 2 * f;
+                float mid = (b.to[i] + b.from[i]) / 2;
+                origin_offset[i] = -b.origin[i] + b.from[i] - f;
                 to[i] = size;
-                mid_offset[i] = -mid - size / 2;
+                mid_offset[i] = mid - size / 2;
             }
 
             CubeFace up = null, down = null, east = null, west = null, north = null, south = null;
@@ -242,20 +240,20 @@ public class BBModelTemplate
             float us = template.resolution.width;
             float vs = template.resolution.height;
 
-            Quaternion quat = new Quaternion(0, 0, 0, true);
+            Quaternion quat = new Quaternion(0, 0, 0, 1);
 
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
-                float y = b.getRotation()[1];
-                float z = b.getRotation()[2];
-                quat = new Quaternion(x, y, z, true);
+                float y = b.getRotation()[2];
+                float z = b.getRotation()[1];
+                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(Vector3f.YP.rotationDegrees(z));
+                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(origin_offset);
             Vector3f shift = new Vector3f(mid_offset);
-
-            boolean bedrock = template.meta.model_format.equals("bedrock");
 
             int[][] tex_order =
             {
@@ -285,8 +283,7 @@ public class BBModelTemplate
                     // Now translate to where it should be
                     vec.add(shift);
 
-                    if (bedrock) v.set(-vec.x() / 16, -vec.z() / 16, vec.y() / 16);
-                    else v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
+                    v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                     int i = (index + face.rotation / 90) % 4;
                     int u0 = tex_order[i][0];
                     int v0 = tex_order[i][1];
@@ -301,73 +298,87 @@ public class BBModelTemplate
         List<BBModelQuad> quads = Lists.newArrayList();
         List<BBModelQuad> tris = Lists.newArrayList();
 
+        private boolean brokenQuad(MeshFace face, Map<String, Vertex> verts)
+        {
+            if (face.vertices.size() != 4) return false;
+            Vertex tmp1 = new Vertex(0, 0);
+            Vertex tmp2 = new Vertex(0, 0);
+            Vertex tmp3 = new Vertex(0, 0);
+            var vert = verts.get(face.vertices.get(0));
+            var next = verts.get(face.vertices.get((1)));
+            var crnr = verts.get(face.vertices.get((2)));
+            var prev = verts.get(face.vertices.get((3)));
+
+            tmp1.sub(next, vert);
+            tmp2.sub(prev, vert);
+            tmp3.sub(crnr, vert);
+
+            double d1 = tmp1.angle(tmp2);
+            double d2 = tmp1.angle(tmp3);
+            return d2 > d1;
+        }
+
         public BBMeshElement(BBModelTemplate template, Element b)
         {
             float us = template.resolution.width;
             float vs = template.resolution.height;
 
-            float[] origin_offset = new float[]
-            { 0, 0, 0 };
-            float[] mid_offset = new float[]
-            { 0, 0, 0 };
-
-            for (int i = 0; i < 3; i++) origin_offset[i] = b.origin[i];
-
-            Quaternion quat = new Quaternion(0, 0, 0, true);
+            Quaternion quat = new Quaternion(0, 0, 0, 1);
 
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
-                float y = b.getRotation()[1];
-                float z = b.getRotation()[2];
-                Quaternion q = new Quaternion(x, y, z, true);
-                quat.set(q.i(), q.j(), q.k(), q.r());
+                float y = b.getRotation()[2];
+                float z = b.getRotation()[1];
+                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
+                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
             }
 
-            Vector3f origin = new Vector3f(origin_offset);
-            Vector3f shift = new Vector3f(mid_offset);
+            Vector3f origin = new Vector3f(b.origin);
 
-            boolean bedrock = template.meta.model_format.equals("bedrock");
             Map<String, Vertex> verts = Maps.newHashMap();
 
-            b.vertices.forEach((key, array) -> {
-                Vertex v = new Vertex(array[0], array[1], array[2]);
-                // This should be a point on a box with a corner at 0,0,0.
-                Vector3f vec = new Vector3f(v.x, v.y, v.z);
+            for (var entry : b.vertices.entrySet())
+            {
+                var key = entry.getKey();
+                var array = entry.getValue();
 
-                // - z() as we use the negative of it below!
-                if (bedrock) vec.add(-origin.x(), origin.y(), -origin.z());
-                else vec.add(origin.x(), origin.y(), -origin.z());
+                Vertex v = new Vertex(0, 0, 0);
+                // This should be a point on a box with a corner at 0,0,0.
+                Vector3f vec = new Vector3f(array);
 
                 // We need to translate to rotation point, then rotate, then
                 // translate back.
                 vec.transform(quat);
+                vec.add(origin);
 
-                // Now translate to where it should be
-                vec.add(shift);
-
-                if (bedrock) v.set(-vec.x() / 16, -vec.z() / 16, vec.y() / 16);
-                else v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
+                v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
                 verts.put(key, v);
-            });
+            }
 
-            b.faces.forEach((key, json) -> {
+            for (var entry : b.faces.entrySet())
+            {
+                var key = entry.getKey();
+                var json = entry.getValue();
                 MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
                 BBModelQuad quad = new BBModelQuad();
 
-                // TODO find the real fix for this.
-                // To test this, uncomment the same = true; line after the loop
-                // that checks it
-                List<String> map_order = template._unique_meshs.computeIfAbsent(key, var -> {
-                    return face.vertices;
-                });
+                var map_order = face.vertices;
+                boolean same = !brokenQuad(face, verts);
 
-                boolean same = true;
-                for (int i = 0; i < map_order.size() && same; i++)
+                if (!same)
                 {
-                    same = map_order.get(i).equals(face.vertices.get(i));
+                    var other_meshs = template._unique_mesh_owners.get(key);
+                    if (other_meshs.size() > 1)
+                    {
+                        var other_b = other_meshs.get(0) == b ? other_meshs.get(1) : other_meshs.get(0);
+                        MeshFace face_2 = JsonUtil.gson.fromJson(other_b.faces.get(key), MeshFace.class);
+                        map_order = face_2.vertices;
+                    }
+                    else
+                    {}
                 }
-//                same = true;
 
                 for (int j = 0; j < face.vertices.size(); j++)
                 {
@@ -385,7 +396,7 @@ public class BBModelTemplate
                 {
                     ThutCore.LOGGER.error("Unsupported vertex count: " + face.vertices.size());
                 }
-            });
+            }
         }
     }
 
@@ -400,17 +411,19 @@ public class BBModelTemplate
         public float[] rotation;
         public int color;
         public boolean box_uv = false;
+        public boolean visibility = true;
         public float inflate = 0.0f;
         public Map<String, JsonObject> faces;
         public Map<String, float[]> vertices;
+        public JsonGroup _parent = null;
 
         public void toMeshs(BBModelTemplate t, Map<String, List<List<Object>>> quads_materials,
                 Map<String, List<List<Object>>> tris_materials)
         {
+            if (!this.visibility) return;
             if (this.type.equals("cube"))
             {
                 BBCubeElement box = new BBCubeElement(t, this);
-                boolean bedrock = t.meta.model_format.equals("bedrock");
                 for (var face : box.quads)
                 {
                     if (face == null) continue;
@@ -428,8 +441,6 @@ public class BBModelTemplate
                     for (int i = 0; i < 4; i++)
                     {
                         int index = i;
-                        if (bedrock) index = 3 - i;
-
                         Integer o = order.size();
                         Vertex v = face.points[index];
                         var tx = face.tex[index];
@@ -443,7 +454,6 @@ public class BBModelTemplate
             else if (this.type.equals("mesh"))
             {
                 BBMeshElement box = new BBMeshElement(t, this);
-                boolean bedrock = t.meta.model_format.equals("bedrock");
                 for (var face : box.quads)
                 {
                     if (face == null) continue;
@@ -461,8 +471,6 @@ public class BBModelTemplate
                     for (int i = 0; i < 4; i++)
                     {
                         int index = i;
-                        if (bedrock) index = 3 - i;
-
                         Integer o = order.size();
                         Vertex v = face.points[index];
                         var tx = face.tex[index];
@@ -489,8 +497,6 @@ public class BBModelTemplate
                     for (int i = 0; i < 3; i++)
                     {
                         int index = i;
-                        if (bedrock) index = 2 - i;
-
                         Integer o = order.size();
                         Vertex v = face.points[index];
                         var tx = face.tex[index];
@@ -537,12 +543,7 @@ public class BBModelTemplate
             }
             else if (this.type.equals("mesh"))
             {
-                vertices.forEach((s, vert) -> {
-                    for (int i = 0; i < 3; i++)
-                    {
-                        vert[i] -= origin[i];
-                    }
-                });
+                for (int i = 0; i < 3; i++) this.origin[i] -= origin[i];
             }
         }
     }
@@ -590,6 +591,7 @@ public class BBModelTemplate
                 {
                     Element b = (Element) template._by_uuid.get(o);
                     if (b.name.equals("cube")) b.name = this.name;
+                    b._parent = this;
                     b.shift(this.origin);
                     newChildren.add(b);
                     _empty = false;

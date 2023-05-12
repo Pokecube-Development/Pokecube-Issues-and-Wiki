@@ -7,6 +7,8 @@
 
 package org.nfunk.jep;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -18,17 +20,17 @@ import org.nfunk.jep.function.SpecialEvaluationI;
  * design pattern to traverse the function tree and evaluate the expression
  * using a stack.
  * <p>
- * Function nodes are evaluated by first evaluating all the children nodes,
- * then applying the function class associated with the node. Variable and
- * constant nodes are evaluated by pushing their value onto the stack.
+ * Function nodes are evaluated by first evaluating all the children nodes, then
+ * applying the function class associated with the node. Variable and constant
+ * nodes are evaluated by pushing their value onto the stack.
  * <p>
- * Some changes implemented by rjm. Nov 03.
- * Added hook to SpecialEvaluationI.
- * Clears stack before evaluation.
- * Simplifies error handeling by making visit methods throw ParseException.
- * Changed visit(ASTVarNode node) so messages not calculated every time.
+ * Some changes implemented by rjm. Nov 03. Added hook to SpecialEvaluationI.
+ * Clears stack before evaluation. Simplifies error handeling by making visit
+ * methods throw ParseException. Changed visit(ASTVarNode node) so messages not
+ * calculated every time.
  */
-@SuppressWarnings({ "rawtypes", "unchecked", "unused" })
+@SuppressWarnings(
+{ "rawtypes", "unchecked", "unused" })
 public class EvaluatorVisitor implements ParserVisitor
 {
     /** Debug flag */
@@ -45,6 +47,9 @@ public class EvaluatorVisitor implements ParserVisitor
 
     /** Flag for errors during evaluation */
     protected boolean errorFlag;
+
+    private boolean built_node_order = false;
+    private List<Node> node_order = new ArrayList<>();
 
     /** Constructor. Initialize the stack member */
     public EvaluatorVisitor()
@@ -63,14 +68,12 @@ public class EvaluatorVisitor implements ParserVisitor
     }
 
     /**
-     * Returns the value of the expression as an object. The expression
-     * tree is specified with its top node. The algorithm uses a stack
-     * for evaluation.
+     * Returns the value of the expression as an object. The expression tree is
+     * specified with its top node. The algorithm uses a stack for evaluation.
      * <p>
-     * The <code>errorList_in</code> parameter is used to
-     * add error information that may occur during the evaluation. It is not
-     * required, and may be set to <code>null</code> if no error information is
-     * needed.
+     * The <code>errorList_in</code> parameter is used to add error information
+     * that may occur during the evaluation. It is not required, and may be set
+     * to <code>null</code> if no error information is needed.
      * <p>
      * The symTab parameter can be null, if no variables are expected in the
      * expression. If a variable is found, an error is added to the error list.
@@ -94,20 +97,42 @@ public class EvaluatorVisitor implements ParserVisitor
         // njf changed from clear() to removeAllElements for 1.1 compatibility
 
         // evaluate by letting the top node accept the visitor
-        try
+        if (!built_node_order)
         {
-            topNode.jjtAccept(this, null);
+            try
+            {
+                topNode.jjtAccept(this, null);
+                built_node_order = true;
+            }
+            catch (final ParseException e)
+            {
+                this.addToErrorList(e.getMessage());
+                throw e;
+            }
         }
-        catch (final ParseException e)
+        else
         {
-            this.addToErrorList(e.getMessage());
-            throw e;
+            Object data = null;
+            try
+            {
+                for (Node n : node_order)
+                {
+                    if (n instanceof ASTConstant n1) data = this.visit(n1, data);
+                    else if (n instanceof ASTFunNode n1) data = this.visit(n1, data);
+                    else if (n instanceof ASTVarNode n1) data = this.visit(n1, data);
+                }
+            }
+            catch (final ParseException e)
+            {
+                this.addToErrorList(e.getMessage());
+                throw e;
+            }
         }
 
         // something is wrong if not exactly one item remains on the stack
         // or if the error flag has been set
-        if (this.errorFlag || this.stack.size() != 1) throw new Exception(
-                "EvaluatorVisitor.getValue(): Error during evaluation");
+        if (this.errorFlag || this.stack.size() != 1)
+            throw new Exception("EvaluatorVisitor.getValue(): Error during evaluation");
 
         // return the value of the expression
         return this.stack.pop();
@@ -121,16 +146,17 @@ public class EvaluatorVisitor implements ParserVisitor
     public Object visit(ASTConstant node, Object data)
     {
         this.stack.push(node.getValue());
+        if (!built_node_order) node_order.add(node);
         return data;
     }
 
     /**
-     * Visit a function node. The values of the child nodes
-     * are first pushed onto the stack. Then the function class associated
-     * with the node is used to evaluate the function.
+     * Visit a function node. The values of the child nodes are first pushed
+     * onto the stack. Then the function class associated with the node is used
+     * to evaluate the function.
      * <p>
-     * If a function implements SpecialEvaluationI then the
-     * evaluate method of PFMC is called.
+     * If a function implements SpecialEvaluationI then the evaluate method of
+     * PFMC is called.
      */
     @Override
     public Object visit(ASTFunNode node, Object data) throws ParseException
@@ -147,16 +173,17 @@ public class EvaluatorVisitor implements ParserVisitor
         // in such cases we call the evaluate method which passes
         // all available info. Note evaluating the children is
         // the responsability of the evaluate method.
-        if (pfmc instanceof SpecialEvaluationI) return ((SpecialEvaluationI) node.getPFMC()).evaluate(node, data, this,
-                this.stack);
+        if (pfmc instanceof SpecialEvaluationI special) return special.evaluate(node, data, this, this.stack);
 
-        if (EvaluatorVisitor.debug == true) System.out.println("Stack size before childrenAccept: " + this.stack
-                .size());
+        if (EvaluatorVisitor.debug == true)
+            System.out.println("Stack size before childrenAccept: " + this.stack.size());
 
         // evaluate all children (each leaves their result on the stack)
-
-        data = node.childrenAccept(this, data);
-
+        if (!built_node_order)
+        {
+            data = node.childrenAccept(this, data);
+            node_order.add(node);
+        }
         if (EvaluatorVisitor.debug == true) System.out.println("Stack size after childrenAccept: " + this.stack.size());
 
         if (pfmc.getNumberOfParameters() == -1) // need to tell the class how
@@ -175,8 +202,7 @@ public class EvaluatorVisitor implements ParserVisitor
     }
 
     /**
-     * This method should never be called when evaluating a normal
-     * expression.
+     * This method should never be called when evaluating a normal expression.
      */
     @Override
     public Object visit(ASTStart node, Object data) throws ParseException
@@ -202,6 +228,7 @@ public class EvaluatorVisitor implements ParserVisitor
         // new code
 
         final Variable var = node.getVar();
+        if (!built_node_order) node_order.add(node);
         if (var == null)
         {
             final String message = "Could not evaluate " + node.getName() + ": ";
@@ -216,15 +243,14 @@ public class EvaluatorVisitor implements ParserVisitor
             throw new ParseException(message + "the variable was not found in the symbol table");
         }
         else // all is fine
-            // push the value on the stack
+             // push the value on the stack
             this.stack.push(temp);
 
         return data;
     }
 
     /**
-     * This method should never be called when evaluation a normal
-     * expression.
+     * This method should never be called when evaluation a normal expression.
      */
     @Override
     public Object visit(SimpleNode node, Object data) throws ParseException

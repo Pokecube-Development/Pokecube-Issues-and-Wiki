@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gholdengo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gholdengo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gholdengo": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gholdengo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -112,11 +112,14 @@
       }
     ],
     "misc": [
+      "body-slam",
       "disable",
+      "psybeam",
       "hyper-beam",
       "toxic",
       "psychic",
       "hypnosis",
+      "night-shade",
       "double-team",
       "smokescreen",
       "confuse-ray",
@@ -130,6 +133,7 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "destiny-bond",
       "icy-wind",
@@ -152,7 +156,9 @@
       "memento",
       "facade",
       "taunt",
+      "helping-hand",
       "trick",
+      "skill-swap",
       "imprison",
       "grudge",
       "snatch",
@@ -170,12 +176,15 @@
       "giga-impact",
       "nasty-plot",
       "shadow-sneak",
+      "trick-room",
       "captivate",
       "ominous-wind",
       "wonder-room",
+      "psyshock",
       "telekinesis",
       "foul-play",
       "round",
+      "stored-power",
       "ally-switch",
       "hex",
       "quash",
@@ -186,7 +195,8 @@
       "infestation",
       "burning-jealousy",
       "lash-out",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

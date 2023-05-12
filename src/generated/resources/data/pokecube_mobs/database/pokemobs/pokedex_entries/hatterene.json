@@ -64,7 +64,8 @@
       {
         "L": 15,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "aromatic-mist"
         ]
       },
       {
@@ -106,10 +107,16 @@
     ],
     "misc": [
       "swords-dance",
+      "psybeam",
       "hyper-beam",
       "thunder-wave",
+      "confusion",
       "psychic",
+      "agility",
       "light-screen",
+      "reflect",
+      "metronome",
+      "swift",
       "rest",
       "substitute",
       "snore",
@@ -125,10 +132,12 @@
       "future-sight",
       "facade",
       "helping-hand",
+      "trick",
       "skill-swap",
       "imprison",
       "magical-leaf",
       "calm-mind",
+      "healing-wish",
       "power-swap",
       "guard-swap",
       "dark-pulse",
@@ -142,13 +151,21 @@
       "magic-room",
       "round",
       "stored-power",
+      "heal-pulse",
+      "disarming-voice",
       "draining-kiss",
+      "misty-terrain",
       "play-rough",
+      "play-nice",
       "mystical-fire",
       "dazzling-gleam",
+      "psychic-terrain",
       "brutal-swing",
+      "magic-powder",
+      "life-dew",
       "expanding-force",
-      "misty-explosion"
+      "misty-explosion",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_2"

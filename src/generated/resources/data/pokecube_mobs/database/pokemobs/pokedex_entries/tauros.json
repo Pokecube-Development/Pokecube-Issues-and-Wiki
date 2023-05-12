@@ -61,7 +61,8 @@
       {
         "L": 35,
         "moves": [
-          "take-down"
+          "take-down",
+          "raging-bull"
         ]
       },
       {
@@ -174,6 +175,7 @@
       "thunder",
       "earthquake",
       "fissure",
+      "dig",
       "toxic",
       "rage",
       "mimic",
@@ -184,6 +186,7 @@
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "curse",
       "reversal",
@@ -206,6 +209,7 @@
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "shadow-ball",
       "rock-smash",
       "whirlpool",
       "uproar",
@@ -239,7 +243,9 @@
       "throat-chop",
       "smart-strike",
       "stomping-tantrum",
-      "lash-out"
+      "lash-out",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/cow_1"

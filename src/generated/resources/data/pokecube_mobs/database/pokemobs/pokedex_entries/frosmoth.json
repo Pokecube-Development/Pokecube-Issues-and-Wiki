@@ -79,7 +79,8 @@
       {
         "L": 28,
         "moves": [
-          "hail"
+          "hail",
+          "snowscape"
         ]
       },
       {
@@ -132,15 +133,21 @@
       }
     ],
     "misc": [
+      "take-down",
+      "mist",
       "ice-beam",
       "blizzard",
+      "aurora-beam",
       "hyper-beam",
+      "stun-spore",
       "light-screen",
       "reflect",
+      "swift",
       "leech-life",
       "rest",
       "substitute",
       "snore",
+      "powder-snow",
       "protect",
       "icy-wind",
       "giga-drain",
@@ -152,22 +159,34 @@
       "facade",
       "helping-hand",
       "imprison",
+      "feather-dance",
       "weather-ball",
       "icicle-spear",
       "calm-mind",
+      "tailwind",
       "u-turn",
       "air-slash",
       "bug-buzz",
       "giga-impact",
       "avalanche",
+      "defog",
+      "wide-guard",
+      "quiver-dance",
       "round",
       "acrobatics",
+      "struggle-bug",
       "hurricane",
       "play-rough",
       "dazzling-gleam",
+      "infestation",
+      "aurora-veil",
       "skitter-smack",
       "triple-axel",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/snowball"

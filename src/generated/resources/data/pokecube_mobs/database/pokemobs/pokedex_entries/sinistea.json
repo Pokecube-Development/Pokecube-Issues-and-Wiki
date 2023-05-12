@@ -62,6 +62,13 @@
         ]
       },
       {
+        "L": 30,
+        "moves": [
+          "sweet-scent",
+          "aromatherapy"
+        ]
+      },
+      {
         "L": 48,
         "moves": [
           "shadow-ball"
@@ -71,12 +78,6 @@
         "L": 54,
         "moves": [
           "memento"
-        ]
-      },
-      {
-        "L": 30,
-        "moves": [
-          "aromatherapy"
         ]
       },
       {
@@ -105,7 +106,12 @@
       }
     ],
     "misc": [
+      "psybeam",
+      "mega-drain",
       "psychic",
+      "night-shade",
+      "confuse-ray",
+      "withdraw",
       "metronome",
       "rest",
       "substitute",
@@ -117,21 +123,31 @@
       "baton-pass",
       "shadow-ball",
       "will-o-wisp",
+      "memento",
       "facade",
       "trick",
+      "skill-swap",
       "imprison",
+      "astonish",
+      "magical-leaf",
+      "calm-mind",
       "payback",
+      "sucker-punch",
       "dark-pulse",
       "nasty-plot",
+      "trick-room",
       "wonder-room",
       "psyshock",
       "foul-play",
       "round",
       "stored-power",
       "ally-switch",
+      "shell-smash",
       "hex",
       "phantom-force",
-      "poltergeist"
+      "aromatic-mist",
+      "poltergeist",
+      "tera-blast"
     ]
   },
   "model": {

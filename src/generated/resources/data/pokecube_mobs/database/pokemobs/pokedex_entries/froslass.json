@@ -126,13 +126,21 @@
         "moves": [
           "draining-kiss"
         ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "snowscape"
+        ]
       }
     ],
     "misc": [
       "ice-punch",
       "headbutt",
       "body-slam",
+      "take-down",
       "leer",
+      "bite",
       "ice-beam",
       "blizzard",
       "hyper-beam",
@@ -141,6 +149,7 @@
       "thunder",
       "toxic",
       "psychic",
+      "night-shade",
       "double-team",
       "confuse-ray",
       "light-screen",
@@ -153,6 +162,7 @@
       "spite",
       "powder-snow",
       "protect",
+      "scary-face",
       "mud-slap",
       "spikes",
       "destiny-bond",
@@ -177,6 +187,7 @@
       "will-o-wisp",
       "facade",
       "taunt",
+      "helping-hand",
       "trick",
       "imprison",
       "snatch",
@@ -211,7 +222,11 @@
       "laser-focus",
       "aurora-veil",
       "poltergeist",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/both_ice"

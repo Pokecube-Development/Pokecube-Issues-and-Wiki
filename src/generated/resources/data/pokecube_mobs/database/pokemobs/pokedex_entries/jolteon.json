@@ -139,6 +139,7 @@
       "double-edge",
       "tail-whip",
       "pin-missile",
+      "bite",
       "growl",
       "roar",
       "hyper-beam",
@@ -171,6 +172,7 @@
       "detect",
       "endure",
       "charm",
+      "false-swipe",
       "swagger",
       "attract",
       "sleep-talk",
@@ -192,8 +194,10 @@
       "fake-tears",
       "signal-beam",
       "covet",
+      "calm-mind",
       "shock-wave",
       "natural-gift",
+      "copycat",
       "last-resort",
       "magnet-rise",
       "giga-impact",
@@ -210,9 +214,13 @@
       "work-up",
       "wild-charge",
       "confide",
+      "eerie-impulse",
+      "electric-terrain",
       "baby-doll-eyes",
       "laser-focus",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/glow_rabbit_1"

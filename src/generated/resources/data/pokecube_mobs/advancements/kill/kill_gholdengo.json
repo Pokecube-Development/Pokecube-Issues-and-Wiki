@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.gholdengo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gholdengo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_gholdengo": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "gholdengo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

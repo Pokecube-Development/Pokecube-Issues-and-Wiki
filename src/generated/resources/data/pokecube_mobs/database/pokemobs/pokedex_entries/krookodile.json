@@ -141,6 +141,8 @@
       "mega-kick",
       "sand-attack",
       "body-slam",
+      "take-down",
+      "thrash",
       "leer",
       "bite",
       "roar",
@@ -181,6 +183,7 @@
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "superpower",
       "revenge",
       "brick-break",
@@ -193,6 +196,7 @@
       "block",
       "dragon-claw",
       "bulk-up",
+      "mud-shot",
       "close-combat",
       "payback",
       "assurance",
@@ -207,6 +211,7 @@
       "shadow-claw",
       "thunder-fang",
       "fire-fang",
+      "gunk-shot",
       "stone-edge",
       "stealth-rock",
       "grass-knot",
@@ -231,7 +236,8 @@
       "scale-shot",
       "skitter-smack",
       "lash-out",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/sand_rabbit_3"

@@ -2,12 +2,12 @@ package thut.core.client.render.model;
 
 import java.io.FileNotFoundException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
@@ -69,10 +69,11 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
 
     public Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
-    private final List<String> order = Lists.newArrayList();
+    private final List<String> renderOrder = Lists.newArrayList();
+    private final List<IExtendedModelPart> animOrder = Lists.newArrayList();
     protected Map<String, Material> mats = new Object2ObjectOpenHashMap<>();
 
-    Set<String> heads = Sets.newHashSet();
+    Set<String> heads = new HashSet<>();
     public String name;
     protected boolean valid = true;
     protected boolean loaded = false;
@@ -135,37 +136,32 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public List<String> getRenderOrder()
     {
-        if ((this.order.isEmpty()) && this.loaded)
+        if ((this.renderOrder.isEmpty()) && this.loaded)
         {
             if (this.callback != null) this.callback.run(this);
             this.callback = null;
             try
             {
-                IExtendedModelPart.sort(this.order, this.getParts());
+                IExtendedModelPart.sort(this.renderOrder, this.getParts());
             }
             catch (Exception e)
             {
                 ThutCore.LOGGER.error("Error sorting parts for {} {}", this.last_loaded, this.name);
                 ThutCore.LOGGER.error(e);
             }
-            for (final String s : this.order)
+            for (final String s : this.renderOrder)
             {
                 final IExtendedModelPart o = this.parts.get(s);
                 o.preProcess();
             }
         }
-        return this.order;
+        return this.renderOrder;
     }
 
     @Override
     public Map<String, IExtendedModelPart> getParts()
     {
         return this.parts;
-    }
-
-    private boolean isHead(final String partName)
-    {
-        return this.getHeadParts().contains(partName);
     }
 
     @Override
@@ -220,62 +216,101 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             final float limbSwing)
     {
         if (this.getRenderOrder().isEmpty()) return;
+        String currentPhase = renderer.getAnimation(entity);
         final IAnimationHolder holder = renderer.getAnimationHolder();
-        this.updateAnimation(entity, renderer, renderer.getAnimation(entity), partialTicks,
-                holder.getHeadInfo().headYaw, holder.getHeadInfo().headYaw, limbSwing);
+        boolean anim = renderer.getAnimations().containsKey(currentPhase);
+        final List<Animation> anims = Lists.newArrayList();
+        if (holder != null)
+        {
+            anims.addAll(holder.getPlaying());
+            anim = !anims.isEmpty();
+        }
+        else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
+        this.updateAnimation(entity, renderer, anims, currentPhase, partialTicks, holder, limbSwing);
     }
 
     @Override
     public void setAnimationChanger(final IAnimationChanger changer)
     {
         if (this.getRenderOrder().isEmpty()) return;
-        for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
+        if (animOrder.isEmpty())
+        {
+            for (var part : this.getParts().values())
+            {
+                animOrder.add(part);
+                addChildrenToOrder(part);
+            }
+        }
+        for (var part : animOrder) if (part instanceof IRetexturableModel tex) tex.setAnimationChangerRaw(changer);
     }
 
     @Override
     public void setTexturer(final IPartTexturer texturer)
     {
         if (this.getRenderOrder().isEmpty()) return;
-        for (final IExtendedModelPart part : this.parts.values())
-            if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
+        if (animOrder.isEmpty())
+        {
+            for (var part : this.getParts().values())
+            {
+                animOrder.add(part);
+                addChildrenToOrder(part);
+            }
+        }
+        for (var part : animOrder) if (part instanceof IRetexturableModel tex) tex.setTexturerRaw(texturer);
     }
 
-    protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
-            final float partialTicks, final float headYaw, final float headPitch, final float limbSwing)
+    @Override
+    public void setTexturerRaw(IPartTexturer texturer)
     {
-        if (this.getRenderOrder().isEmpty()) return;
-        for (final String partName : this.getParts().keySet())
+        // We do nothing here, as raw does not filter to sub parts.
+    }
+
+    @Override
+    public void setAnimationChangerRaw(IAnimationChanger changer)
+    {
+        // We do nothing here, as raw does not filter to sub parts.
+    }
+
+    private void addChildrenToOrder(IExtendedModelPart part)
+    {
+        part.setHeadPart(this.getHeadParts().contains(part.getName()));
+        for (var child : part.getSubParts().values())
         {
-            final IExtendedModelPart part = this.getParts().get(partName);
-            this.updateSubParts(entity, renderer, currentPhase, partialTicks, part, headYaw, headPitch, limbSwing);
+            animOrder.add(child);
+            addChildrenToOrder(child);
         }
     }
 
-    private void updateSubParts(final Entity entity, final IModelRenderer<?> renderer, final String currentPhase,
-            final float partialTick, final IExtendedModelPart parent, final float headYaw, final float headPitch,
+    protected void updateAnimation(final Entity entity, final IModelRenderer<?> renderer, List<Animation> playingAnims,
+            final String currentPhase, final float partialTicks, IAnimationHolder holder, final float limbSwing)
+    {
+        if (this.getRenderOrder().isEmpty()) return;
+        if (animOrder.isEmpty())
+        {
+            for (var part : this.getParts().values())
+            {
+                animOrder.add(part);
+                addChildrenToOrder(part);
+            }
+        }
+
+        for (var part : animOrder)
+            this.updatePart(entity, renderer, playingAnims, currentPhase, partialTicks, part, holder, limbSwing);
+    }
+
+    private void updatePart(final Entity entity, final IModelRenderer<?> renderer, List<Animation> anims,
+            final String currentPhase, final float partialTick, final IExtendedModelPart part, IAnimationHolder holder,
             final float limbSwing)
     {
         if (this.getRenderOrder().isEmpty()) return;
-        if (parent == null) return;
+        if (part == null) return;
 
-        parent.resetToInit();
-        boolean anim = renderer.getAnimations().containsKey(currentPhase);
-        final List<Animation> anims = Lists.newArrayList();
-
-        final IAnimationHolder animHolder = parent.getAnimationHolder();
-        HeadInfo info = null;
-        if (animHolder != null)
+        part.resetToInit();
+        boolean anim = !anims.isEmpty();
+        if (anim) AnimationHelper.doAnimation(anims, holder, entity, part, partialTick, limbSwing);
+        if (part.isHeadPart())
         {
-            anims.addAll(animHolder.getPlaying());
-            anim = !anims.isEmpty();
-            info = animHolder.getHeadInfo();
-        }
-        else if (anim) anims.addAll(renderer.getAnimations().get(currentPhase));
-
-        if (anim) AnimationHelper.doAnimation(anims, entity, parent, partialTick, limbSwing);
-        if (this.isHead(parent.getName()))
-        {
+            HeadInfo info = holder.getHeadInfo();
             float ang;
             float ang2 = -info.headPitch;
             float head = info.headYaw + 180;
@@ -299,12 +334,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
             final Vector4 combined = new Vector4();
             combined.mul(dir.toQuaternion(), dir2.toQuaternion());
-            parent.setPostRotations(combined);
-        }
-        for (final String partName : parent.getSubParts().keySet())
-        {
-            final IExtendedModelPart part = parent.getSubParts().get(partName);
-            this.updateSubParts(entity, renderer, currentPhase, partialTick, part, headYaw, headPitch, limbSwing);
+            part.setPostRotations(combined);
         }
     }
 }

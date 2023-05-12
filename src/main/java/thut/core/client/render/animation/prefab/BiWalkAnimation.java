@@ -6,10 +6,10 @@ import java.util.Set;
 
 import javax.annotation.Nullable;
 
-import org.nfunk.jep.JEP;
-
 import thut.api.entity.animation.Animation;
-import thut.api.entity.animation.Animators.FunctionAnimation;
+import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.common.ThutCore;
 
@@ -84,10 +84,11 @@ public class BiWalkAnimation extends Animation
         {
             try
             {
-                JEP[] rots = new JEP[3];
+                AnimationComponent comp = new AnimationComponent();
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase1, legAngle, duration);
-                FunctionAnimation.fillJEPs(rots, exp);
-                this.sets.put(s, new FunctionAnimation(rots));
+                Animators.fillJEPs(rots, exp);
+                this.sets.put(s, new KeyframeAnimator(comp));
                 continue;
             }
             catch (Exception e)
@@ -99,10 +100,11 @@ public class BiWalkAnimation extends Animation
         {
             try
             {
-                JEP[] rots = new JEP[3];
+                AnimationComponent comp = new AnimationComponent();
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase2, legAngle, duration);
-                FunctionAnimation.fillJEPs(rots, exp);
-                this.sets.put(s, new FunctionAnimation(rots));
+                Animators.fillJEPs(rots, exp);
+                this.sets.put(s, new KeyframeAnimator(comp));
                 continue;
             }
             catch (Exception e)
@@ -114,10 +116,11 @@ public class BiWalkAnimation extends Animation
         {
             try
             {
-                JEP[] rots = new JEP[3];
+                AnimationComponent comp = new AnimationComponent();
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase3, legAngle, duration);
-                FunctionAnimation.fillJEPs(rots, exp);
-                this.sets.put(s, new FunctionAnimation(rots));
+                Animators.fillJEPs(rots, exp);
+                this.sets.put(s, new KeyframeAnimator(comp));
                 continue;
             }
             catch (Exception e)
@@ -129,10 +132,11 @@ public class BiWalkAnimation extends Animation
         {
             try
             {
-                JEP[] rots = new JEP[3];
+                AnimationComponent comp = new AnimationComponent();
+                String[] rots = comp._rotFunctions;
                 String exp = String.format(Locale.ROOT, phase4, legAngle, duration);
-                FunctionAnimation.fillJEPs(rots, exp);
-                this.sets.put(s, new FunctionAnimation(rots));
+                Animators.fillJEPs(rots, exp);
+                this.sets.put(s, new KeyframeAnimator(comp));
                 continue;
             }
             catch (Exception e)

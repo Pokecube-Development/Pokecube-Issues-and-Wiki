@@ -45,7 +45,8 @@
           "tackle",
           "water-gun",
           "absorb",
-          "bubble"
+          "bubble",
+          "acid-armor"
         ]
       },
       {
@@ -113,10 +114,13 @@
     "misc": [
       "tackle",
       "body-slam",
+      "take-down",
+      "water-gun",
       "ice-beam",
       "blizzard",
       "absorb",
       "thunderbolt",
+      "thunder",
       "toxic",
       "double-team",
       "bide",
@@ -125,11 +129,13 @@
       "rock-slide",
       "substitute",
       "snore",
+      "curse",
       "flail",
       "protect",
       "sludge-bomb",
       "outrage",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -153,7 +159,9 @@
       "round",
       "confide",
       "infestation",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

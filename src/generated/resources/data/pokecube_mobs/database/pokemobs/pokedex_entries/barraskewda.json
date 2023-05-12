@@ -59,6 +59,13 @@
         ]
       },
       {
+        "L": 32,
+        "moves": [
+          "focus-energy",
+          "laser-focus"
+        ]
+      },
+      {
         "L": 40,
         "moves": [
           "crunch"
@@ -71,12 +78,6 @@
         ]
       },
       {
-        "L": 32,
-        "moves": [
-          "laser-focus"
-        ]
-      },
-      {
         "L": 48,
         "moves": [
           "liquidation"
@@ -84,9 +85,16 @@
       }
     ],
     "misc": [
+      "fury-attack",
+      "take-down",
+      "double-edge",
+      "bite",
       "hydro-pump",
       "surf",
+      "ice-beam",
+      "blizzard",
       "hyper-beam",
+      "peck",
       "agility",
       "focus-energy",
       "waterfall",
@@ -106,11 +114,13 @@
       "brick-break",
       "dive",
       "bounce",
+      "water-pulse",
       "close-combat",
       "assurance",
       "poison-jab",
       "giga-impact",
       "ice-fang",
+      "aqua-jet",
       "round",
       "scald",
       "drill-run",
@@ -118,7 +128,9 @@
       "psychic-fangs",
       "liquidation",
       "scale-shot",
-      "flip-turn"
+      "flip-turn",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

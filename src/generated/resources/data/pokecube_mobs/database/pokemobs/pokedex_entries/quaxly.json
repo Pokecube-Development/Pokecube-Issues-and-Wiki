@@ -2,7 +2,7 @@
   "name": "quaxly",
   "id": 912,
   "stock": true,
-  "base_experience": 64,
+  "base_experience": 62,
   "size": {
     "height": 0.5
   },
@@ -31,29 +31,35 @@
       "torrent"
     ],
     "hidden": [
-	  "moxie"
-	]
+      "moxie"
+    ]
   },
   "moves": {
     "level_up": [
       {
-        "L": 1,
-        "moves": [
-          "pound",
-		  "growl",
-		  "water-gun"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "work-up"
-        ]
-      },
-      {
         "L": 10,
         "moves": [
           "wing-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "growl",
+          "water-gun",
+          "pound"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "air-slash"
         ]
       },
       {
@@ -69,27 +75,15 @@
         ]
       },
       {
-        "L": 21,
-        "moves": [
-          "aqua-cutter"
-        ]
-      },
-      {
-        "L": 24,
-        "moves": [
-          "air-slash"
-        ]
-      },
-      {
-        "L": 28,
-        "moves": [
-          "focus-energy"
-        ]
-      },
-      {
         "L": 31,
         "moves": [
           "acrobatics"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "work-up"
         ]
       },
       {
@@ -97,33 +91,43 @@
         "moves": [
           "liquidation"
         ]
+      },
+      {
+        "L": 21,
+        "moves": [
+          "aqua-cutter"
+        ]
       }
     ],
     "misc": [
-		"take-down",
-		"hydro-pump",
-		"surf",
-		"low-kick",
-		"swift",
-		"rest",
-		"protect",
-		"endure",
-		"baton-pass",
-		"encore",
-		"rain-dance",
-		"facade",
-		"helping-hand",
-		"air-cutter",
-		"aerial-ace",
-		"air-slash",
-		"brave-bird",
-		"acrobatics",
-		"water-pledge",
-		"disarming-voice",
-		"misty-terrain",
-		"liquidation",
-		"tera-blast",
-		"chilling-water"
+      "take-down",
+      "hydro-pump",
+      "surf",
+      "low-kick",
+      "swift",
+      "rest",
+      "protect",
+      "detect",
+      "endure",
+      "baton-pass",
+      "encore",
+      "rapid-spin",
+      "rain-dance",
+      "facade",
+      "helping-hand",
+      "air-cutter",
+      "aerial-ace",
+      "roost",
+      "last-resort",
+      "air-slash",
+      "brave-bird",
+      "acrobatics",
+      "water-pledge",
+      "disarming-voice",
+      "misty-terrain",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

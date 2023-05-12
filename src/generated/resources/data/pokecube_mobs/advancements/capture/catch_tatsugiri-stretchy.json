@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-stretchy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-stretchy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_tatsugiri-stretchy": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "tatsugiri-stretchy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

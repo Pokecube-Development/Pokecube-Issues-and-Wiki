@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tinkatink"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tinkatink"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tinkatink": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tinkatink"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

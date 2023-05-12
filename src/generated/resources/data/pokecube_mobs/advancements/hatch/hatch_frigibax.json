@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.frigibax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.frigibax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_frigibax": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "frigibax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

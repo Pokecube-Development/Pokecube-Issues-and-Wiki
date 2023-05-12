@@ -42,7 +42,6 @@
           "quick-attack",
           "metal-claw",
           "howl",
-          "metal-burst",
           "wide-guard"
         ]
       },
@@ -62,6 +61,13 @@
         "L": 22,
         "moves": [
           "iron-defense"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "metal-burst",
+          "laser-focus"
         ]
       },
       {
@@ -87,40 +93,46 @@
         "moves": [
           "moonblast"
         ]
-      },
-      {
-        "L": 44,
-        "moves": [
-          "laser-focus"
-        ]
       }
     ],
     "misc": [
+      "body-slam",
+      "take-down",
+      "bite",
       "hyper-beam",
       "solar-beam",
       "dig",
       "agility",
+      "quick-attack",
       "light-screen",
       "reflect",
       "focus-energy",
       "swift",
       "rest",
+      "slash",
       "substitute",
       "snore",
       "reversal",
       "protect",
       "scary-face",
+      "sandstorm",
       "endure",
       "sleep-talk",
       "safeguard",
       "iron-tail",
+      "metal-claw",
+      "rain-dance",
+      "sunny-day",
       "crunch",
       "facade",
       "helping-hand",
       "revenge",
+      "brick-break",
       "imprison",
       "hyper-voice",
       "iron-defense",
+      "howl",
+      "metal-burst",
       "close-combat",
       "payback",
       "power-swap",
@@ -132,6 +144,9 @@
       "fire-fang",
       "flash-cannon",
       "iron-head",
+      "stone-edge",
+      "wide-guard",
+      "heavy-slam",
       "round",
       "retaliate",
       "work-up",
@@ -139,10 +154,14 @@
       "tail-slap",
       "snarl",
       "play-rough",
+      "moonblast",
       "dazzling-gleam",
       "psychic-fangs",
+      "body-press",
       "steel-beam",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "forme_items": [

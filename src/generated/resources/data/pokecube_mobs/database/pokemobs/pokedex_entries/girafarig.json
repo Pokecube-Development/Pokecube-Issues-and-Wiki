@@ -108,7 +108,8 @@
       {
         "L": 32,
         "moves": [
-          "zen-headbutt"
+          "zen-headbutt",
+          "twin-beam"
         ]
       },
       {
@@ -129,6 +130,8 @@
       "double-edge",
       "growl",
       "psybeam",
+      "hyper-beam",
+      "low-kick",
       "strength",
       "thunderbolt",
       "thunder-wave",
@@ -140,6 +143,7 @@
       "agility",
       "mimic",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "reflect",
       "swift",
@@ -177,11 +181,13 @@
       "beat-up",
       "uproar",
       "facade",
+      "helping-hand",
       "trick",
       "wish",
       "magic-coat",
       "recycle",
       "skill-swap",
+      "imprison",
       "secret-power",
       "hyper-voice",
       "astonish",
@@ -196,6 +202,7 @@
       "guard-swap",
       "sucker-punch",
       "energy-ball",
+      "giga-impact",
       "nasty-plot",
       "zen-headbutt",
       "trick-room",
@@ -208,6 +215,7 @@
       "foul-play",
       "round",
       "echoed-voice",
+      "stored-power",
       "ally-switch",
       "retaliate",
       "bulldoze",
@@ -217,7 +225,8 @@
       "psychic-terrain",
       "psychic-fangs",
       "stomping-tantrum",
-      "twin-beam"
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "male_model": {

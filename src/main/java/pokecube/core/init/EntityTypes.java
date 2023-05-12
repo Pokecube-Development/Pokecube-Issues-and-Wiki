@@ -20,7 +20,6 @@ import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.EntityMoveUse;
 import pokecube.core.moves.zmoves.GZMoveManager;
-import thut.api.entity.CopyCaps;
 
 public class EntityTypes
 {
@@ -59,7 +58,6 @@ public class EntityTypes
     {
         final PokemobType<TamableAnimal> type = new PokemobType<>(EntityPokemob::new, entry);
         PokecubeCore.typeMap.put(type, entry);
-        CopyCaps.register(type);
         return type;
     }
 

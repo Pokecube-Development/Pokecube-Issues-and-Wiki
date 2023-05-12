@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.oinkologne"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.oinkologne"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_oinkologne": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "oinkologne"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

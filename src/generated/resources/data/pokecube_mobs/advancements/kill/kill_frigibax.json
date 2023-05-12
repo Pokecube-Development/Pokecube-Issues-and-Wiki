@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.frigibax"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.frigibax"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_frigibax": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "frigibax"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

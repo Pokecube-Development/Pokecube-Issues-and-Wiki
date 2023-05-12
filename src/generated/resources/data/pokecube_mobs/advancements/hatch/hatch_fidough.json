@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.fidough"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fidough"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_fidough": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "fidough"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

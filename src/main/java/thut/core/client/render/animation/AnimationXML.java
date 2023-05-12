@@ -31,7 +31,7 @@ public class AnimationXML
         @XmlAttribute(name = "opacityChange")
         public double opacityChange = 0.0D;
         @XmlAttribute(name = "opacityOffset")
-        public double opacityOffset = 0.0D;
+        public double opacityOffset = 1.0D;
         @XmlAttribute(name = "opacFuncs")
         public String opacFuncs = "";
 
@@ -49,10 +49,17 @@ public class AnimationXML
         @XmlAttribute(name = "rotFuncs")
         public String rotFuncs = "";
 
+        @XmlAttribute(name = "colChange")
+        public String colChange = "0,0,0";
+        @XmlAttribute(name = "colOffset")
+        public String colOffset = "1,1,1";
+        @XmlAttribute(name = "colFuncs")
+        public String colFuncs = "";
+
         @XmlAttribute(name = "scaleChange")
         public String scaleChange = "0,0,0";
         @XmlAttribute(name = "scaleOffset")
-        public String scaleOffset = "0,0,0";
+        public String scaleOffset = "1,1,1";
         @XmlAttribute(name = "scaleFuncs")
         public String scaleFuncs = "";
 
@@ -100,7 +107,7 @@ public class AnimationXML
         @XmlAttribute(name = "smooth")
         public boolean smooth = false;
         @XmlAttribute(name = "cull")
-        public boolean cull = true;
+        public boolean cull = false;
         @XmlAttribute(name = "shader")
         public String shader = "";
         @XmlAttribute(name = "tex")
@@ -112,6 +119,8 @@ public class AnimationXML
     {
         @XmlAttribute(name = "merge")
         public String merge;
+        @XmlAttribute(name = "limbs")
+        public String limbs;
     }
 
     @XmlRootElement(name = "subanim")

@@ -34,114 +34,117 @@ public class SpawnListEntry
         final List<MutableComponent> comps = Lists.newArrayList();
         final List<Component> biomes = Lists.newArrayList();
 
-        if (!matcher.clientBiomes.isEmpty())
+        for (var stuff : matcher.clientStuff)
         {
-            for (final ResourceLocation b : matcher.clientBiomes)
-                biomes.add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
-            String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
-            for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
-            biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-            comps.add(TComponent.literal(biomeString));
-        }
+            if (!stuff.clientBiomes().isEmpty())
+            {
+                for (final ResourceLocation b : stuff.clientBiomes())
+                    biomes.add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
+                String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
+                for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
+                biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
+                comps.add(TComponent.literal(biomeString));
+            }
 
-        final List<String> types = Lists.newArrayList();
-        if (matcher.clientTypes.size() > 1)
-        {
-            matcher.clientTypes.remove("all");
-        }
-        for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
-        if (!types.isEmpty())
-        {
-            String typeString = I18n.get("pokewatch.spawns.types") + "\n";
-            for (final String s : types) typeString = typeString + s + ", ";
-            comps.add(TComponent.literal(typeString));
-        }
-        if (!matcher.clientStructures.isEmpty())
-        {
-            String msg = I18n.get("pokewatch.spawns.structures") + "\n";
-            for (String s : matcher.clientStructures)
+            final List<String> types = Lists.newArrayList();
+            if (stuff.clientTypes().size() > 1)
             {
-                msg = msg + I18n.get("spawn.structure." + s.replace(":", ".")) + ", ";
+                stuff.clientTypes().remove("all");
             }
-            comps.add(TComponent.literal(msg));
-        }
-        final boolean day = matcher.day;
-        final boolean night = matcher.night;
-        final boolean dusk = matcher.dusk;
-        final boolean dawn = matcher.dawn;
-        final boolean water = matcher.water;
-        final boolean air = matcher.air;
-        if (water) if (air) comps.add(TComponent.literal(indent + I18n.get("pokewatch.spawns.water_optional")));
-        else comps.add(TComponent.literal(indent + I18n.get("pokewatch.spawns.water_only")));
-        String times = I18n.get("pokewatch.spawns.times");
-        if (day) times = times + " " + I18n.get("pokewatch.spawns.day");
-        if (night)
-        {
-            if (day) times = times + ", ";
-            times = times + I18n.get("pokewatch.spawns.night");
-        }
-        if (dusk)
-        {
-            if (day || night) times = times + ", ";
-            times = times + I18n.get("pokewatch.spawns.dusk");
-        }
-        if (dawn)
-        {
-            if (day || night || dawn) times = times + ", ";
-            times = times + I18n.get("pokewatch.spawns.dawn");
-        }
-        comps.add(TComponent.literal(times));
-        String rate = "";
-        if (matcher.spawnRule.values.containsKey("Local_Rate"))
-        {
-            float val = 0;
-            try
+            for (final String s : stuff.clientTypes()) types.add(I18n.get("thutcore.biometype." + s));
+            if (!types.isEmpty())
             {
-                val = Float.parseFloat(matcher.spawnRule.values.get("Local_Rate"));
+                String typeString = I18n.get("pokewatch.spawns.types") + "\n";
+                for (final String s : types) typeString = typeString + s + ", ";
+                comps.add(TComponent.literal(typeString));
             }
-            catch (final Exception e)
+            if (!stuff.clientStructures().isEmpty())
             {
-
-            }
-            if (val > 1e-3) val = (int) (val * 1000) / 10f;
-            else if (val != 0)
-            {
-                float denom = 1000f;
-                float numer = 100000f;
-                float val2 = (int) (val * numer) / denom;
-                if ((val * numer) != 0) while (val2 == 0)
+                String msg = I18n.get("pokewatch.spawns.structures") + "\n";
+                for (String s : stuff.clientStructures())
                 {
-                    numer *= 100;
-                    denom *= 100;
-                    val2 = (int) (val * numer) / denom;
+                    msg = msg + I18n.get("spawn.structure." + s.replace(":", ".")) + ", ";
                 }
-                val = val2;
+                comps.add(TComponent.literal(msg));
             }
-            rate = I18n.get("pokewatch.spawns.rate_local", val + "%");
-        }
-        else
-        {
-            float val = 0;
-            try
+            final boolean day = matcher.day;
+            final boolean night = matcher.night;
+            final boolean dusk = matcher.dusk;
+            final boolean dawn = matcher.dawn;
+            final boolean water = matcher.water;
+            final boolean air = matcher.air;
+            if (water) if (air) comps.add(TComponent.literal(indent + I18n.get("pokewatch.spawns.water_optional")));
+            else comps.add(TComponent.literal(indent + I18n.get("pokewatch.spawns.water_only")));
+            String times = I18n.get("pokewatch.spawns.times");
+            if (day) times = times + " " + I18n.get("pokewatch.spawns.day");
+            if (night)
             {
-                val = Float.parseFloat(matcher.spawnRule.values.get("rate"));
+                if (day) times = times + ", ";
+                times = times + I18n.get("pokewatch.spawns.night");
             }
-            catch (final Exception e)
+            if (dusk)
             {
-
+                if (day || night) times = times + ", ";
+                times = times + I18n.get("pokewatch.spawns.dusk");
             }
-            if (val > 10e-4) val = (int) (val * 1000) / 10f;
-            else val = (int) (val * 10000) / 100f;
+            if (dawn)
+            {
+                if (day || night || dawn) times = times + ", ";
+                times = times + I18n.get("pokewatch.spawns.dawn");
+            }
+            comps.add(TComponent.literal(times));
+            String rate = "";
+            if (matcher.spawnRule.values.containsKey("Local_Rate"))
+            {
+                float val = 0;
+                try
+                {
+                    val = Float.parseFloat(matcher.spawnRule.values.get("Local_Rate"));
+                }
+                catch (final Exception e)
+                {
 
-            if (val == 0) rate = "";
+                }
+                if (val > 1e-3) val = (int) (val * 1000) / 10f;
+                else if (val != 0)
+                {
+                    float denom = 1000f;
+                    float numer = 100000f;
+                    float val2 = (int) (val * numer) / denom;
+                    if ((val * numer) != 0) while (val2 == 0)
+                    {
+                        numer *= 100;
+                        denom *= 100;
+                        val2 = (int) (val * numer) / denom;
+                    }
+                    val = val2;
+                }
+                rate = I18n.get("pokewatch.spawns.rate_local", val + "%");
+            }
             else
             {
-                final String var = val + "%";
-                rate = indent + I18n.get("pokewatch.spawns.rate_single", var);
+                float val = 0;
+                try
+                {
+                    val = Float.parseFloat(matcher.spawnRule.values.get("rate"));
+                }
+                catch (final Exception e)
+                {
+
+                }
+                if (val > 10e-4) val = (int) (val * 1000) / 10f;
+                else val = (int) (val * 10000) / 100f;
+
+                if (val == 0) rate = "";
+                else
+                {
+                    final String var = val + "%";
+                    rate = indent + I18n.get("pokewatch.spawns.rate_single", var);
+                }
             }
+            if (!rate.isEmpty()) comps.add(TComponent.literal(indent + rate));
+            comps.add(TComponent.literal(""));
         }
-        if (!rate.isEmpty()) comps.add(TComponent.literal(indent + rate));
-        comps.add(TComponent.literal(""));
         return comps;
     }
 
@@ -159,41 +162,44 @@ public class SpawnListEntry
                     .withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)));
             output.add(name.getVisualOrderText());
         }
-
-        final List<Component> biomes = Lists.newArrayList();
-        for (final ResourceLocation b : matcher.clientBiomes)
-            biomes.add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
-
         final String ind = entry != null ? "  " : "";
-        if (!biomes.isEmpty())
-        {
-            String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
-            for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
-            biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
-            output.addAll(font.split(TComponent.literal(biomeString), width - font.width(ind)));
-        }
 
-        final List<String> types = Lists.newArrayList();
-        if (matcher.clientTypes.size() > 1)
+        for (var stuff : matcher.clientStuff)
         {
-            matcher.clientTypes.remove("all");
-        }
-        for (final String s : matcher.clientTypes) types.add(I18n.get("thutcore.biometype." + s));
-        if (!types.isEmpty())
-        {
-            String typeString = I18n.get("pokewatch.spawns.types") + "\n";
-            for (final String s : types) typeString = typeString + s + ", ";
-            output.addAll(font.split(TComponent.literal(typeString), width - font.width(ind)));
-        }
+            final List<Component> biomes = Lists.newArrayList();
+            for (final ResourceLocation b : stuff.clientBiomes())
+                biomes.add(TComponent.translatable(String.format("biome.%s.%s", b.getNamespace(), b.getPath())));
 
-        if (!matcher.clientStructures.isEmpty())
-        {
-            String msg = I18n.get("pokewatch.spawns.structures") + "\n";
-            for (String s : matcher.clientStructures)
+            if (!biomes.isEmpty())
             {
-                msg = msg + I18n.get("spawn.structure." + s.replace(":", ".")) + ", ";
+                String biomeString = I18n.get("pokewatch.spawns.biomes") + "\n";
+                for (final Component s : biomes) biomeString = biomeString + s.getString() + ",\n";
+                biomeString = biomeString.substring(0, biomeString.length() - 2) + ".";
+                output.addAll(font.split(TComponent.literal(biomeString), width - font.width(ind)));
             }
-            output.addAll(font.split(TComponent.literal(msg), width - font.width(ind)));
+
+            final List<String> types = Lists.newArrayList();
+            if (stuff.clientTypes().size() > 1)
+            {
+                stuff.clientTypes().remove("all");
+            }
+            for (final String s : stuff.clientTypes()) types.add(I18n.get("thutcore.biometype." + s));
+            if (!types.isEmpty())
+            {
+                String typeString = I18n.get("pokewatch.spawns.types") + "\n";
+                for (final String s : types) typeString = typeString + s + ", ";
+                output.addAll(font.split(TComponent.literal(typeString), width - font.width(ind)));
+            }
+
+            if (!stuff.clientStructures().isEmpty())
+            {
+                String msg = I18n.get("pokewatch.spawns.structures") + "\n";
+                for (String s : stuff.clientStructures())
+                {
+                    msg = msg + I18n.get("spawn.structure." + s.replace(":", ".")) + ", ";
+                }
+                output.addAll(font.split(TComponent.literal(msg), width - font.width(ind)));
+            }
         }
 
         final boolean day = matcher.day;

@@ -118,6 +118,7 @@
       "cut",
       "headbutt",
       "body-slam",
+      "take-down",
       "roar",
       "flamethrower",
       "ice-beam",
@@ -161,6 +162,7 @@
       "ancient-power",
       "rock-smash",
       "facade",
+      "trick",
       "brick-break",
       "secret-power",
       "hyper-voice",
@@ -179,6 +181,7 @@
       "aura-sphere",
       "dragon-pulse",
       "power-gem",
+      "focus-blast",
       "earth-power",
       "giga-impact",
       "shadow-claw",
@@ -201,7 +204,8 @@
       "body-press",
       "breaking-swipe",
       "steel-beam",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast"
     ]
   },
   "forme_items": [

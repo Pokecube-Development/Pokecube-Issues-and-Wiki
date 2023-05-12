@@ -137,10 +137,12 @@
     "misc": [
       "mega-punch",
       "ice-punch",
+      "slam",
       "mega-kick",
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "tail-whip",
       "water-gun",
@@ -158,6 +160,7 @@
       "double-team",
       "defense-curl",
       "light-screen",
+      "metronome",
       "waterfall",
       "swift",
       "amnesia",
@@ -215,6 +218,7 @@
       "scald",
       "bulldoze",
       "work-up",
+      "disarming-voice",
       "draining-kiss",
       "misty-terrain",
       "play-rough",
@@ -223,7 +227,12 @@
       "brutal-swing",
       "liquidation",
       "steel-roller",
-      "misty-explosion"
+      "misty-explosion",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

@@ -2,7 +2,7 @@
   "name": "basculegion-female",
   "id": 902,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 265,
   "size": {
     "height": 3.0,
     "width": 2.0

@@ -69,7 +69,8 @@
           "sand-tomb",
           "block",
           "mud-shot",
-          "hammer-arm"
+          "hammer-arm",
+          "smack-down"
         ]
       },
       {
@@ -113,12 +114,20 @@
         "moves": [
           "bulldoze"
         ]
+      },
+      {
+        "L": 80,
+        "moves": [
+          "sandsear-storm"
+        ]
       }
     ],
     "misc": [
       "swords-dance",
       "fly",
       "body-slam",
+      "take-down",
+      "leer",
       "hyper-beam",
       "strength",
       "rock-throw",
@@ -137,6 +146,7 @@
       "protect",
       "scary-face",
       "sludge-bomb",
+      "mud-slap",
       "outrage",
       "sandstorm",
       "endure",
@@ -147,8 +157,12 @@
       "frustration",
       "iron-tail",
       "hidden-power",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
       "rock-smash",
       "facade",
+      "taunt",
       "role-play",
       "superpower",
       "brick-break",
@@ -173,6 +187,7 @@
       "focus-blast",
       "earth-power",
       "giga-impact",
+      "nasty-plot",
       "defog",
       "stone-edge",
       "stealth-rock",
@@ -182,7 +197,9 @@
       "round",
       "bulldoze",
       "confide",
-      "brutal-swing"
+      "brutal-swing",
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
   "interactions": [

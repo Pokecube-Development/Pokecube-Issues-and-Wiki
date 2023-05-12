@@ -164,6 +164,7 @@
       "double-edge",
       "growl",
       "disable",
+      "psybeam",
       "thunderbolt",
       "thunder-wave",
       "toxic",
@@ -177,6 +178,7 @@
       "defense-curl",
       "light-screen",
       "reflect",
+      "metronome",
       "swift",
       "dream-eater",
       "flash",
@@ -249,8 +251,12 @@
       "draining-kiss",
       "misty-terrain",
       "confide",
+      "mystical-fire",
       "dazzling-gleam",
-      "expanding-force"
+      "psychic-terrain",
+      "life-dew",
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "evolutions": [

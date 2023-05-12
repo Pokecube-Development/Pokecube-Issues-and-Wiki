@@ -70,7 +70,8 @@
       {
         "L": 29,
         "moves": [
-          "slash"
+          "slash",
+          "play-rough"
         ]
       },
       {
@@ -98,9 +99,21 @@
         ]
       },
       {
+        "L": 13,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "play-nice"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "high-horsepower"
         ]
       }
     ],
@@ -115,6 +128,7 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "thrash",
       "double-edge",
       "leer",
@@ -147,6 +161,7 @@
       "mud-slap",
       "zap-cannon",
       "endure",
+      "charm",
       "rollout",
       "swagger",
       "fury-cutter",
@@ -156,15 +171,18 @@
       "frustration",
       "dynamic-punch",
       "sweet-scent",
+      "metal-claw",
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "crunch",
       "rock-smash",
       "uproar",
       "torment",
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "superpower",
       "brick-break",
       "secret-power",
@@ -176,6 +194,7 @@
       "covet",
       "hammer-arm",
       "natural-gift",
+      "close-combat",
       "payback",
       "fling",
       "last-resort",
@@ -194,12 +213,15 @@
       "retaliate",
       "bulldoze",
       "work-up",
+      "play-rough",
       "play-nice",
       "confide",
       "power-up-punch",
       "laser-focus",
       "throat-chop",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "interactions": [

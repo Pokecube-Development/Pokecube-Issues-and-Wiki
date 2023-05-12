@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.veluza"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.veluza"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_veluza": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "veluza"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

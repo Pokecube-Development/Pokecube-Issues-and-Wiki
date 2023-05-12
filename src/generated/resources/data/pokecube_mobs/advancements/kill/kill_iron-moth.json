@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-moth"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-moth"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_iron-moth": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "iron-moth"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

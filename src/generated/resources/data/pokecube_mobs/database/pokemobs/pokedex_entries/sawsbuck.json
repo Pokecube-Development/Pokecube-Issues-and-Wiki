@@ -47,7 +47,8 @@
       {
         "L": 24,
         "moves": [
-          "jump-kick"
+          "jump-kick",
+          "zen-headbutt"
         ]
       },
       {
@@ -87,7 +88,8 @@
       {
         "L": 16,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "bullet-seed"
         ]
       },
       {
@@ -128,6 +130,7 @@
       "jump-kick",
       "sand-attack",
       "tackle",
+      "body-slam",
       "take-down",
       "double-edge",
       "growl",
@@ -135,7 +138,9 @@
       "leech-seed",
       "solar-beam",
       "thunder-wave",
+      "dig",
       "toxic",
+      "agility",
       "double-team",
       "light-screen",
       "flash",
@@ -145,6 +150,7 @@
       "protect",
       "feint-attack",
       "giga-drain",
+      "endure",
       "charm",
       "swagger",
       "attract",
@@ -153,6 +159,7 @@
       "frustration",
       "safeguard",
       "megahorn",
+      "baton-pass",
       "synthesis",
       "hidden-power",
       "rain-dance",
@@ -161,24 +168,36 @@
       "rock-smash",
       "facade",
       "nature-power",
+      "helping-hand",
       "secret-power",
       "camouflage",
       "aromatherapy",
+      "fake-tears",
+      "bullet-seed",
       "bounce",
+      "magical-leaf",
       "last-resort",
       "worry-seed",
       "seed-bomb",
       "energy-ball",
       "giga-impact",
+      "zen-headbutt",
+      "leaf-storm",
       "grass-knot",
       "round",
       "echoed-voice",
       "retaliate",
+      "bulldoze",
       "work-up",
       "wild-charge",
       "horn-leech",
+      "grassy-terrain",
+      "play-rough",
       "confide",
-      "stomping-tantrum"
+      "smart-strike",
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "model": {

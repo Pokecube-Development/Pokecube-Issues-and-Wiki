@@ -123,6 +123,7 @@
       "fire-punch",
       "ice-punch",
       "thunder-punch",
+      "take-down",
       "psybeam",
       "hyper-beam",
       "thunderbolt",
@@ -133,6 +134,7 @@
       "double-team",
       "light-screen",
       "reflect",
+      "swift",
       "dream-eater",
       "flash",
       "rest",
@@ -140,7 +142,10 @@
       "thief",
       "snore",
       "protect",
+      "scary-face",
       "destiny-bond",
+      "sandstorm",
+      "endure",
       "swagger",
       "sleep-talk",
       "return",
@@ -166,6 +171,7 @@
       "snatch",
       "secret-power",
       "astonish",
+      "rock-tomb",
       "signal-beam",
       "block",
       "covet",
@@ -202,7 +208,9 @@
       "hyperspace-hole",
       "power-up-punch",
       "laser-focus",
-      "throat-chop"
+      "throat-chop",
+      "psychic-terrain",
+      "tera-blast"
     ]
   },
   "forme_items": [

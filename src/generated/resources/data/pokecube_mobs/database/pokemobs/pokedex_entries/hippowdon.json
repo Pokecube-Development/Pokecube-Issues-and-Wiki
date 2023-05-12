@@ -147,10 +147,13 @@
       "crunch",
       "rock-smash",
       "facade",
+      "helping-hand",
       "superpower",
       "revenge",
       "yawn",
       "secret-power",
+      "slack-off",
+      "hyper-voice",
       "weather-ball",
       "rock-tomb",
       "sand-tomb",
@@ -174,7 +177,8 @@
       "high-horsepower",
       "stomping-tantrum",
       "body-press",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "interactions": [

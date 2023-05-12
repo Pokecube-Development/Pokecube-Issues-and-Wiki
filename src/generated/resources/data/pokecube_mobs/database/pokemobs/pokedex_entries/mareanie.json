@@ -105,6 +105,12 @@
         ]
       },
       {
+        "L": 40,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
         "L": 41,
         "moves": [
           "venom-drench"
@@ -170,6 +176,7 @@
       "wide-guard",
       "venoshock",
       "sludge-wave",
+      "acid-spray",
       "after-you",
       "round",
       "scald",
@@ -177,7 +184,11 @@
       "confide",
       "venom-drench",
       "infestation",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "ice-spinner",
+      "pounce",
+      "chilling-water"
     ]
   },
   "evolutions": [

@@ -114,6 +114,12 @@
         ]
       },
       {
+        "L": 24,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
         "L": 14,
         "moves": [
           "chip-away"
@@ -134,7 +140,9 @@
       "cut",
       "mega-kick",
       "headbutt",
+      "tackle",
       "body-slam",
+      "take-down",
       "thrash",
       "double-edge",
       "leer",
@@ -153,6 +161,7 @@
       "thunderbolt",
       "thunder-wave",
       "thunder",
+      "rock-throw",
       "earthquake",
       "dig",
       "toxic",
@@ -171,6 +180,7 @@
       "protect",
       "scary-face",
       "mud-slap",
+      "icy-wind",
       "detect",
       "outrage",
       "sandstorm",
@@ -196,6 +206,7 @@
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "superpower",
       "revenge",
       "brick-break",
@@ -207,6 +218,7 @@
       "iron-defense",
       "block",
       "dragon-claw",
+      "mud-shot",
       "dragon-dance",
       "rock-blast",
       "shock-wave",
@@ -219,6 +231,7 @@
       "dark-pulse",
       "aqua-tail",
       "dragon-pulse",
+      "power-gem",
       "focus-blast",
       "earth-power",
       "giga-impact",
@@ -250,7 +263,8 @@
       "stomping-tantrum",
       "body-press",
       "breaking-swipe",
-      "lash-out"
+      "lash-out",
+      "tera-blast"
     ]
   },
   "mega_rules": [

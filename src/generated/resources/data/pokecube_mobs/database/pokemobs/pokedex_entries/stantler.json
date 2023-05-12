@@ -71,6 +71,12 @@
         ]
       },
       {
+        "L": 55,
+        "moves": [
+          "double-edge"
+        ]
+      },
+      {
         "L": 3,
         "moves": [
           "leer"
@@ -140,14 +146,18 @@
       "bite",
       "roar",
       "disable",
+      "psybeam",
+      "hyper-beam",
       "solar-beam",
       "thunderbolt",
       "thunder-wave",
       "thunder",
       "earthquake",
+      "dig",
       "toxic",
       "psychic",
       "hypnosis",
+      "agility",
       "rage",
       "mimic",
       "double-team",
@@ -165,6 +175,7 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "mud-slap",
       "detect",
       "endure",
@@ -182,6 +193,8 @@
       "shadow-ball",
       "uproar",
       "facade",
+      "helping-hand",
+      "trick",
       "role-play",
       "skill-swap",
       "imprison",
@@ -199,6 +212,7 @@
       "last-resort",
       "sucker-punch",
       "energy-ball",
+      "earth-power",
       "giga-impact",
       "zen-headbutt",
       "trick-room",
@@ -207,12 +221,16 @@
       "psyshock",
       "magic-room",
       "round",
+      "stored-power",
       "retaliate",
       "bulldoze",
       "work-up",
       "wild-charge",
       "confide",
-      "throat-chop"
+      "throat-chop",
+      "psyshield-bash",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "interactions": [

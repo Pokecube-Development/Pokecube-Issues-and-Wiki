@@ -271,6 +271,7 @@ public abstract class PokemobMoves extends PokemobStats
     public void updateBattleInfo()
     {
         LivingEntity owner = this.getOwner();
+        LivingEntity target = null;
         // Only process battle stuff server side.
         battle_check:
         if (!entity.getLevel().isClientSide())
@@ -288,9 +289,11 @@ public abstract class PokemobMoves extends PokemobStats
                 }
             }
             this.setBattle(b);
+
+            // If no battle, but is in combat, then make a new battle
             if (b == null && this.inCombat())
             {
-                LivingEntity target = entity.getTarget();
+                target = entity.getTarget();
                 if (target != null) Battle.createOrAddToBattle(entity, target);
 
                 b = Battle.getBattle(entity);
@@ -315,7 +318,7 @@ public abstract class PokemobMoves extends PokemobStats
             List<LivingEntity> mobs = Lists.newArrayList(b.getEnemies(entity));
 
             // Ensure that the mobs are valid targets.
-            mobs.removeIf(target -> !AITools.shouldBeAbleToAgro(entity, target));
+            mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(entity, t2));
 
             // If no enemies, lets just end the battle.
             if (mobs.isEmpty())
@@ -334,11 +337,25 @@ public abstract class PokemobMoves extends PokemobStats
             this.dataSync().set(this.params.ENEMYNUMDW, mobs.size());
 
             // And set the target.
-            LivingEntity target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
-            this.setTargetID(target == null ? -1 : target.id);
+            target = mobs.isEmpty() ? null : mobs.get(targetIndex % mobs.size());
 
             // Then also sync attack target in brain.
-            if (target != BrainUtils.getAttackTarget(entity)) BrainUtils.setAttackTarget(entity, target);
+            var brainTarget = BrainUtils.getAttackTarget(entity);
+            brains:
+            if (target != brainTarget)
+            {
+                // Check if the new target is still a combat member, if so, swap
+                // over to it
+                int i = mobs.indexOf(brainTarget);
+                if (i != -1)
+                {
+                    this.getMoveStats().enemyIndex = i;
+                    target = brainTarget;
+                    break brains;
+                }
+                BrainUtils.setAttackTarget(entity, target);
+            }
+            this.setTargetID(target == null ? -1 : target.id);
 
             // Allies are simple
 
@@ -366,10 +383,9 @@ public abstract class PokemobMoves extends PokemobStats
             break battle_check;
         }
         // Then both sides update targetEnemy and targetAlly
-        Entity target = entity.getLevel().getEntity(this.getTargetID());
-        this.getMoveStats().targetEnemy = target instanceof LivingEntity living ? living : null;
-        target = entity.getLevel().getEntity(this.getAllyID());
-        this.getMoveStats().targetAlly = target instanceof LivingEntity living ? living : null;
+        this.getMoveStats().targetEnemy = target;
+        Entity e = entity.getLevel().getEntity(this.getAllyID());
+        this.getMoveStats().targetAlly = e instanceof LivingEntity living ? living : null;
 
         // Only owned mobs process beyond here.
         if (owner == null) return;

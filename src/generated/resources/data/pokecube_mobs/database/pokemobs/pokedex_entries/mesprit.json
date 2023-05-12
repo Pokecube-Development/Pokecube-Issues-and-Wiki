@@ -99,6 +99,12 @@
         "moves": [
           "lucky-chant"
         ]
+      },
+      {
+        "L": 84,
+        "moves": [
+          "mystical-power"
+        ]
       }
     ],
     "misc": [
@@ -108,6 +114,7 @@
       "headbutt",
       "ice-beam",
       "blizzard",
+      "psybeam",
       "hyper-beam",
       "thunderbolt",
       "thunder-wave",
@@ -116,6 +123,7 @@
       "confusion",
       "psychic",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "reflect",
       "metronome",
@@ -145,6 +153,7 @@
       "psych-up",
       "shadow-ball",
       "future-sight",
+      "flatter",
       "facade",
       "helping-hand",
       "trick",
@@ -190,7 +199,8 @@
       "dazzling-gleam",
       "power-up-punch",
       "laser-focus",
-      "expanding-force"
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

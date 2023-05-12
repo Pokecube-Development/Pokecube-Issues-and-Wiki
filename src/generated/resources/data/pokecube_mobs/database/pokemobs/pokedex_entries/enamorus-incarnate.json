@@ -2,7 +2,7 @@
   "name": "enamorus-incarnate",
   "id": 905,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 116,
   "size": {
     "height": 1.6,
     "width": 1.0
@@ -30,7 +30,7 @@
   ],
   "abilities": {
     "normal": [
-      "healer"
+      "cute-charm"
     ],
     "hidden": [
       "contrary"

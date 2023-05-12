@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tandemaus"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tandemaus"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_tandemaus": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "tandemaus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

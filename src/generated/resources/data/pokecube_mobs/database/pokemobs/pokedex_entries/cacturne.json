@@ -77,7 +77,8 @@
       {
         "L": 19,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "power-trip"
         ]
       },
       {
@@ -101,7 +102,8 @@
       {
         "L": 16,
         "moves": [
-          "needle-arm"
+          "needle-arm",
+          "bullet-seed"
         ]
       },
       {
@@ -138,6 +140,7 @@
       "sand-attack",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "poison-sting",
       "pin-missile",
@@ -151,16 +154,20 @@
       "leech-seed",
       "growth",
       "solar-beam",
+      "dig",
       "toxic",
       "mimic",
       "double-team",
+      "swift",
       "flash",
       "rest",
       "substitute",
+      "thief",
       "snore",
       "cotton-spore",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "mud-slap",
       "spikes",
@@ -175,12 +182,17 @@
       "return",
       "frustration",
       "dynamic-punch",
+      "encore",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
+      "shadow-ball",
       "facade",
       "focus-punch",
       "nature-power",
+      "taunt",
+      "helping-hand",
       "role-play",
       "ingrain",
       "superpower",
@@ -190,12 +202,14 @@
       "needle-arm",
       "bullet-seed",
       "block",
+      "magical-leaf",
       "natural-gift",
       "payback",
       "embargo",
       "fling",
       "worry-seed",
       "sucker-punch",
+      "toxic-spikes",
       "poison-jab",
       "dark-pulse",
       "seed-bomb",
@@ -203,16 +217,23 @@
       "focus-blast",
       "energy-ball",
       "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "venoshock",
       "foul-play",
       "round",
       "retaliate",
+      "bulldoze",
+      "grassy-terrain",
       "confide",
       "spiky-shield",
       "power-up-punch",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "male_model": {

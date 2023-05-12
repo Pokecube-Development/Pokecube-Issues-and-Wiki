@@ -43,7 +43,8 @@
           "pound",
           "confusion",
           "tickle",
-          "play-nice"
+          "play-nice",
+          "pound"
         ]
       },
       {
@@ -141,9 +142,12 @@
       "toxic",
       "confusion",
       "psychic",
+      "hypnosis",
       "double-team",
       "light-screen",
       "reflect",
+      "metronome",
+      "swift",
       "dream-eater",
       "flash",
       "rest",
@@ -178,6 +182,7 @@
       "magic-coat",
       "recycle",
       "skill-swap",
+      "imprison",
       "snatch",
       "secret-power",
       "fake-tears",
@@ -209,7 +214,9 @@
       "ally-switch",
       "play-nice",
       "confide",
-      "expanding-force"
+      "psychic-terrain",
+      "expanding-force",
+      "tera-blast"
     ]
   },
   "evolutions": [

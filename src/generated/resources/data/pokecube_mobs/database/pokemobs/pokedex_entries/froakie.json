@@ -40,7 +40,15 @@
         "L": 1,
         "moves": [
           "pound",
-          "growl"
+          "growl",
+          "pound"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "water-gun",
+          "bubble"
         ]
       },
       {
@@ -71,12 +79,6 @@
         "L": 10,
         "moves": [
           "lick"
-        ]
-      },
-      {
-        "L": 5,
-        "moves": [
-          "bubble"
         ]
       },
       {
@@ -119,11 +121,13 @@
     "misc": [
       "pound",
       "cut",
+      "take-down",
       "growl",
       "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
+      "counter",
       "strength",
       "dig",
       "toxic",
@@ -132,6 +136,7 @@
       "smokescreen",
       "lick",
       "waterfall",
+      "swift",
       "bubble",
       "rest",
       "rock-slide",
@@ -141,7 +146,11 @@
       "snore",
       "spite",
       "protect",
+      "mud-slap",
+      "spikes",
       "icy-wind",
+      "endure",
+      "false-swipe",
       "swagger",
       "attract",
       "sleep-talk",
@@ -152,6 +161,7 @@
       "rock-smash",
       "facade",
       "taunt",
+      "helping-hand",
       "role-play",
       "snatch",
       "secret-power",
@@ -161,22 +171,30 @@
       "rock-tomb",
       "aerial-ace",
       "bounce",
+      "mud-shot",
       "water-sport",
       "water-pulse",
       "u-turn",
       "fling",
       "toxic-spikes",
+      "switcheroo",
       "grass-knot",
       "smack-down",
       "round",
       "echoed-voice",
       "scald",
       "acrobatics",
+      "retaliate",
       "bestow",
       "water-pledge",
       "work-up",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "liquidation",
+      "tera-blast",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "evolutions": [

@@ -2,7 +2,7 @@
   "name": "sliggoo-hisui",
   "id": 705,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 158,
   "size": {
     "height": 0.7,
     "length": 0.6

@@ -1,0 +1,124 @@
+{
+  "name": "rellor",
+  "id": 953,
+  "stock": true,
+  "base_experience": 54,
+  "size": {
+    "height": 0.2
+  },
+  "mass": 1.0,
+  "is_default": true,
+  "capture_rate": 190,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 41,
+    "attack": 50,
+    "defense": 60,
+    "special_attack": 31,
+    "special_defense": 58,
+    "speed": 30
+  },
+  "evs": {
+    "defense": 1
+  },
+  "types": [
+    "bug"
+  ],
+  "abilities": {
+    "normal": [
+      "compound-eyes"
+    ],
+    "hidden": [
+      "shed-skin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 4,
+        "moves": [
+          "sand-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "defense-curl"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "rollout"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "mud-shot"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bug-bite"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "struggle-bug"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "lunge"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+      "dig",
+      "recover",
+      "leech-life",
+      "rest",
+      "substitute",
+      "thief",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "endure",
+      "sleep-talk",
+      "memento",
+      "facade",
+      "weather-ball",
+      "rock-tomb",
+      "cosmic-power",
+      "iron-defense",
+      "mud-shot",
+      "fling",
+      "x-scissor",
+      "bug-buzz",
+      "gunk-shot",
+      "struggle-bug",
+      "tera-blast",
+      "pounce"
+    ]
+  }
+}

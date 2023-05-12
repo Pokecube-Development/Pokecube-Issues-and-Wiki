@@ -2,7 +2,7 @@
   "name": "palkia-origin",
   "id": 484,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 306,
   "size": {
     "height": 4.2,
     "width": 3.0

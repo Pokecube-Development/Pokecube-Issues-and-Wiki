@@ -162,6 +162,7 @@
       "reflect",
       "bide",
       "self-destruct",
+      "waterfall",
       "clamp",
       "swift",
       "explosion",
@@ -171,6 +172,7 @@
       "snore",
       "curse",
       "protect",
+      "spikes",
       "icy-wind",
       "endure",
       "swagger",
@@ -184,6 +186,7 @@
       "whirlpool",
       "hail",
       "facade",
+      "helping-hand",
       "secret-power",
       "dive",
       "icicle-spear",
@@ -194,6 +197,7 @@
       "brine",
       "natural-gift",
       "payback",
+      "toxic-spikes",
       "aqua-ring",
       "avalanche",
       "ice-shard",
@@ -203,7 +207,11 @@
       "razor-shell",
       "confide",
       "liquidation",
-      "life-dew"
+      "life-dew",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "evolutions": [

@@ -42,7 +42,8 @@
           "pound",
           "bind",
           "growl",
-          "water-gun"
+          "water-gun",
+          "pound"
         ]
       },
       {
@@ -89,9 +90,15 @@
       }
     ],
     "misc": [
+      "bind",
+      "take-down",
+      "growl",
+      "water-gun",
+      "hydro-pump",
       "surf",
       "light-screen",
       "reflect",
+      "waterfall",
       "swift",
       "rest",
       "substitute",
@@ -110,12 +117,18 @@
       "muddy-water",
       "bounce",
       "mud-shot",
+      "water-pulse",
       "u-turn",
       "fling",
+      "sucker-punch",
+      "soak",
       "round",
       "water-pledge",
       "work-up",
-      "liquidation"
+      "liquidation",
+      "tearful-look",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "evolutions": [

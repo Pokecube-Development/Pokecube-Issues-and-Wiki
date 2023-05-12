@@ -80,6 +80,12 @@
         ]
       },
       {
+        "L": 12,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
         "L": 17,
         "moves": [
           "synthesis"
@@ -174,6 +180,7 @@
       "secret-power",
       "aromatherapy",
       "grass-whistle",
+      "bullet-seed",
       "covet",
       "magical-leaf",
       "healing-wish",
@@ -189,7 +196,9 @@
       "confide",
       "laser-focus",
       "pollen-puff",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

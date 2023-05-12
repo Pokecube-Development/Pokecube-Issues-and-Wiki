@@ -200,6 +200,7 @@
       "hail",
       "facade",
       "charge",
+      "helping-hand",
       "secret-power",
       "weather-ball",
       "air-cutter",
@@ -217,17 +218,21 @@
       "discharge",
       "charge-beam",
       "ominous-wind",
+      "electro-ball",
       "round",
       "sky-drop",
+      "acrobatics",
       "volt-switch",
       "wild-charge",
       "hurricane",
       "confide",
       "eerie-impulse",
       "magnetic-flux",
+      "electric-terrain",
       "laser-focus",
       "rising-voltage",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "spawn_rules": [

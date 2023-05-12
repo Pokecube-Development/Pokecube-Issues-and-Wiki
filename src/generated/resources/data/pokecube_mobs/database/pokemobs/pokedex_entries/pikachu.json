@@ -114,6 +114,12 @@
         ]
       },
       {
+        "L": 28,
+        "moves": [
+          "iron-tail"
+        ]
+      },
+      {
         "L": 21,
         "moves": [
           "feint"
@@ -192,6 +198,7 @@
       "curse",
       "reversal",
       "protect",
+      "sweet-kiss",
       "mud-slap",
       "zap-cannon",
       "detect",
@@ -217,6 +224,7 @@
       "brick-break",
       "knock-off",
       "secret-power",
+      "fake-tears",
       "signal-beam",
       "covet",
       "volt-tackle",
@@ -237,14 +245,18 @@
       "volt-switch",
       "electroweb",
       "wild-charge",
+      "disarming-voice",
       "draining-kiss",
       "play-rough",
       "play-nice",
       "confide",
+      "eerie-impulse",
       "electric-terrain",
       "nuzzle",
       "laser-focus",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

@@ -94,7 +94,11 @@
       }
     ],
     "misc": [
+      "tackle",
+      "body-slam",
+      "take-down",
       "dig",
+      "smokescreen",
       "reflect",
       "self-destruct",
       "explosion",
@@ -109,6 +113,8 @@
       "endure",
       "attract",
       "sleep-talk",
+      "rapid-spin",
+      "ancient-power",
       "will-o-wisp",
       "facade",
       "rock-tomb",
@@ -117,12 +123,18 @@
       "block",
       "rock-blast",
       "gyro-ball",
+      "rock-polish",
+      "power-gem",
       "iron-head",
       "stone-edge",
       "stealth-rock",
+      "smack-down",
       "round",
+      "incinerate",
+      "bulldoze",
       "heat-crash",
-      "meteor-beam"
+      "meteor-beam",
+      "tera-blast"
     ]
   },
   "evolutions": [

@@ -71,7 +71,8 @@
       {
         "L": 25,
         "moves": [
-          "psywave"
+          "psywave",
+          "psyshock"
         ]
       },
       {
@@ -101,7 +102,8 @@
       {
         "L": 44,
         "moves": [
-          "synchronoise"
+          "synchronoise",
+          "wave-crash"
         ]
       },
       {
@@ -113,15 +115,19 @@
     ],
     "misc": [
       "swords-dance",
+      "take-down",
       "bite",
       "disable",
       "water-gun",
+      "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
+      "hyper-beam",
       "toxic",
       "confusion",
       "psychic",
+      "agility",
       "rage",
       "screech",
       "double-team",
@@ -131,9 +137,13 @@
       "dream-eater",
       "psywave",
       "rest",
+      "super-fang",
       "substitute",
       "snore",
       "protect",
+      "scary-face",
+      "icy-wind",
+      "endure",
       "swagger",
       "attract",
       "sleep-talk",
@@ -167,6 +177,7 @@
       "trick-room",
       "aqua-jet",
       "wonder-room",
+      "psyshock",
       "venoshock",
       "telekinesis",
       "magic-room",
@@ -177,8 +188,11 @@
       "scald",
       "frost-breath",
       "confide",
+      "psychic-terrain",
       "psychic-fangs",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

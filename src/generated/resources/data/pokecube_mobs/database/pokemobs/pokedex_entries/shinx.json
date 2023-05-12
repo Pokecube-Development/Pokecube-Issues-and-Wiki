@@ -143,12 +143,14 @@
       "bite",
       "roar",
       "strength",
+      "thunder-shock",
       "thunderbolt",
       "thunder-wave",
       "thunder",
       "toxic",
       "quick-attack",
       "double-team",
+      "confuse-ray",
       "light-screen",
       "swift",
       "flash",
@@ -170,6 +172,7 @@
       "iron-tail",
       "hidden-power",
       "rain-dance",
+      "sunny-day",
       "crunch",
       "facade",
       "charge",
@@ -196,9 +199,12 @@
       "play-rough",
       "confide",
       "eerie-impulse",
+      "electric-terrain",
       "baby-doll-eyes",
       "psychic-fangs",
-      "rising-voltage"
+      "rising-voltage",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "evolutions": [

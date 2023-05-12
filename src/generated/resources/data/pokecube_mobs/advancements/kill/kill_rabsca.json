@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.rabsca"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rabsca"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_rabsca": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "rabsca"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

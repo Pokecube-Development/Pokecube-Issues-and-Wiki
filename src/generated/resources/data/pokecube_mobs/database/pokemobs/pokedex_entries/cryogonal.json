@@ -132,6 +132,8 @@
     ],
     "misc": [
       "bind",
+      "body-slam",
+      "take-down",
       "mist",
       "ice-beam",
       "blizzard",
@@ -154,6 +156,7 @@
       "substitute",
       "snore",
       "protect",
+      "scary-face",
       "icy-wind",
       "endure",
       "swagger",
@@ -177,6 +180,7 @@
       "water-pulse",
       "poison-jab",
       "night-slash",
+      "giga-impact",
       "avalanche",
       "ice-shard",
       "flash-cannon",
@@ -188,7 +192,11 @@
       "confide",
       "laser-focus",
       "aurora-veil",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/both_ice"

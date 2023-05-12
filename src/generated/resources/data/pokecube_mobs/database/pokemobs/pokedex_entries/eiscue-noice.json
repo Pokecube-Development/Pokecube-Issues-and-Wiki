@@ -79,7 +79,8 @@
       {
         "L": 42,
         "moves": [
-          "hail"
+          "hail",
+          "snowscape"
         ]
       },
       {
@@ -103,11 +104,17 @@
     ],
     "misc": [
       "ice-punch",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
       "double-edge",
+      "mist",
       "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
+      "hyper-beam",
       "agility",
       "reflect",
       "waterfall",
@@ -116,12 +123,14 @@
       "substitute",
       "snore",
       "reversal",
+      "powder-snow",
       "protect",
       "belly-drum",
       "icy-wind",
       "endure",
       "attract",
       "sleep-talk",
+      "rain-dance",
       "whirlpool",
       "hail",
       "facade",
@@ -129,8 +138,10 @@
       "weather-ball",
       "icicle-spear",
       "iron-defense",
+      "water-pulse",
       "brine",
       "aqua-ring",
+      "giga-impact",
       "avalanche",
       "zen-headbutt",
       "iron-head",
@@ -138,7 +149,13 @@
       "soak",
       "round",
       "icicle-crash",
-      "liquidation"
+      "freeze-dry",
+      "aurora-veil",
+      "liquidation",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "old_name": "eiscue_noice",

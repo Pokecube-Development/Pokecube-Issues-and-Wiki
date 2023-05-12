@@ -615,7 +615,7 @@
       ]
     },
     {
-      "and_preset": "is_underground",
+      "and_preset": "ultraspace_caves",
       "entries": [
         { "key": "diglett", "min": 1, "max": 3, "rate": 0.5 },
         { "key": "golbat", "min": 1, "max": 3, "rate": 0.5 },

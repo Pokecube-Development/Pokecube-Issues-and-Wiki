@@ -49,7 +49,8 @@
           "charm",
           "covet",
           "copycat",
-          "disarming-voice"
+          "disarming-voice",
+          "pound"
         ]
       },
       {
@@ -194,6 +195,7 @@
       "metronome",
       "egg-bomb",
       "fire-blast",
+      "swift",
       "skull-bash",
       "soft-boiled",
       "dream-eater",
@@ -203,9 +205,11 @@
       "rock-slide",
       "tri-attack",
       "substitute",
+      "thief",
       "snore",
       "curse",
       "protect",
+      "sweet-kiss",
       "mud-slap",
       "zap-cannon",
       "icy-wind",
@@ -252,8 +256,10 @@
       "healing-wish",
       "natural-gift",
       "fling",
+      "copycat",
       "last-resort",
       "drain-punch",
+      "focus-blast",
       "giga-impact",
       "mud-bomb",
       "zen-headbutt",
@@ -274,11 +280,18 @@
       "bulldoze",
       "work-up",
       "wild-charge",
+      "disarming-voice",
       "confide",
+      "electric-terrain",
       "dazzling-gleam",
       "power-up-punch",
       "laser-focus",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "life-dew",
+      "tera-blast",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "evolutions": [

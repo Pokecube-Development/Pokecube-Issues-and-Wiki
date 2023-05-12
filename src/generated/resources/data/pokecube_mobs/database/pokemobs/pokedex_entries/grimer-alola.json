@@ -42,7 +42,8 @@
         "L": 1,
         "moves": [
           "pound",
-          "poison-gas"
+          "poison-gas",
+          "pound"
         ]
       },
       {
@@ -55,6 +56,13 @@
         "L": 12,
         "moves": [
           "disable"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "toxic",
+          "fling"
         ]
       },
       {
@@ -107,12 +115,6 @@
         ]
       },
       {
-        "L": 26,
-        "moves": [
-          "fling"
-        ]
-      },
-      {
         "L": 40,
         "moves": [
           "gunk-shot"
@@ -137,18 +139,25 @@
       "ice-punch",
       "thunder-punch",
       "headbutt",
+      "body-slam",
+      "take-down",
       "bite",
       "disable",
       "flamethrower",
+      "hyper-beam",
       "mega-drain",
+      "thunderbolt",
+      "thunder",
       "dig",
       "toxic",
       "screech",
       "double-team",
       "harden",
       "minimize",
+      "metronome",
       "self-destruct",
       "fire-blast",
+      "swift",
       "poison-gas",
       "acid-armor",
       "explosion",
@@ -162,7 +171,10 @@
       "protect",
       "scary-face",
       "sludge-bomb",
+      "mud-slap",
+      "sandstorm",
       "giga-drain",
+      "endure",
       "swagger",
       "mean-look",
       "attract",
@@ -184,10 +196,12 @@
       "facade",
       "taunt",
       "helping-hand",
+      "brick-break",
       "knock-off",
       "imprison",
       "poison-fang",
       "rock-tomb",
+      "mud-shot",
       "shock-wave",
       "payback",
       "assurance",
@@ -196,7 +210,11 @@
       "gastro-acid",
       "rock-polish",
       "poison-jab",
+      "dark-pulse",
+      "drain-punch",
+      "giga-impact",
       "shadow-sneak",
+      "zen-headbutt",
       "gunk-shot",
       "stone-edge",
       "venoshock",
@@ -204,13 +222,15 @@
       "acid-spray",
       "round",
       "clear-smog",
+      "hex",
       "quash",
       "snarl",
       "belch",
       "confide",
       "infestation",
       "power-up-punch",
-      "brutal-swing"
+      "brutal-swing",
+      "tera-blast"
     ]
   },
   "evolutions": [

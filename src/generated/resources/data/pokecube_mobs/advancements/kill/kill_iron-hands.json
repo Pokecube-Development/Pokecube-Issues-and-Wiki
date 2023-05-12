@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-hands"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-hands"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_iron-hands": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "iron-hands"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

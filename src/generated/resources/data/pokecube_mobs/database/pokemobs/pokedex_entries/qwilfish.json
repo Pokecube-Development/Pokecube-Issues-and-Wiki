@@ -63,7 +63,7 @@
         ]
       },
       {
-        "L": 52,
+        "L": 44,
         "moves": [
           "toxic"
         ]
@@ -107,7 +107,7 @@
         ]
       },
       {
-        "L": 60,
+        "L": 52,
         "moves": [
           "acupressure"
         ]
@@ -148,6 +148,7 @@
       "bubble-beam",
       "thunder-wave",
       "toxic",
+      "agility",
       "mimic",
       "double-team",
       "harden",
@@ -181,6 +182,7 @@
       "pain-split",
       "hidden-power",
       "rain-dance",
+      "crunch",
       "shadow-ball",
       "whirlpool",
       "stockpile",
@@ -194,16 +196,21 @@
       "astonish",
       "signal-beam",
       "bounce",
+      "mud-shot",
+      "poison-tail",
       "shock-wave",
       "water-pulse",
       "gyro-ball",
       "brine",
       "natural-gift",
+      "acupressure",
       "payback",
       "assurance",
       "toxic-spikes",
       "poison-jab",
       "aqua-tail",
+      "giga-impact",
+      "gunk-shot",
       "captivate",
       "aqua-jet",
       "venoshock",
@@ -218,8 +225,17 @@
       "throat-chop",
       "liquidation",
       "steel-roller",
-      "scale-shot"
+      "scale-shot",
+      "barb-barrage",
+      "tera-blast",
+      "chilling-water"
     ]
   },
+  "evolutions": [
+    {
+      "name": "overqwil",
+      "move": "barb-barrage"
+    }
+  ],
   "loot_table": "pokecube:entities/pufferfish"
 }

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.varoom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.varoom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_varoom": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "varoom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

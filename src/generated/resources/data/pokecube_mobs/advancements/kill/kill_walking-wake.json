@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.walking-wake"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.walking-wake"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_walking-wake": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "walking-wake"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

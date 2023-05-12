@@ -90,6 +90,12 @@
         ]
       },
       {
+        "L": 42,
+        "moves": [
+          "acid-spray"
+        ]
+      },
+      {
         "L": 44,
         "moves": [
           "venom-drench"
@@ -109,6 +115,7 @@
       }
     ],
     "misc": [
+      "body-slam",
       "poison-sting",
       "pin-missile",
       "bite",
@@ -116,6 +123,7 @@
       "surf",
       "ice-beam",
       "blizzard",
+      "hyper-beam",
       "peck",
       "toxic",
       "double-team",
@@ -127,6 +135,7 @@
       "snore",
       "spite",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "icy-wind",
       "endure",
@@ -155,12 +164,14 @@
       "gastro-acid",
       "toxic-spikes",
       "poison-jab",
+      "giga-impact",
       "cross-poison",
       "gunk-shot",
       "wide-guard",
       "venoshock",
       "smack-down",
       "sludge-wave",
+      "acid-spray",
       "after-you",
       "round",
       "scald",
@@ -170,7 +181,11 @@
       "venom-drench",
       "infestation",
       "baneful-bunker",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "ice-spinner",
+      "pounce",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

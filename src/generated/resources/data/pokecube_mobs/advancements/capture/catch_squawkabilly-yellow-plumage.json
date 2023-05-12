@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-yellow-plumage"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly-yellow-plumage"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_squawkabilly-yellow-plumage": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "squawkabilly-yellow-plumage"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

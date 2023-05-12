@@ -3,6 +3,7 @@ package pokecube.core.ai.logic;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Random;
 import java.util.UUID;
 
@@ -41,14 +42,19 @@ import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.nests.NestTile;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
+import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.AnimatedCaps;
+import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.IAnimated;
+import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.IAnimated.MolangVars;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
@@ -120,6 +126,7 @@ public class LogicMiscUpdate extends LogicBase
     UUID prevID = null;
 
     final IAnimated animated;
+    final IAnimationHolder holder;
 
     public LogicMiscUpdate(final IPokemob pokemob)
     {
@@ -127,6 +134,7 @@ public class LogicMiscUpdate extends LogicBase
         this.lastCache = this.entity.blockPosition();
 
         animated = AnimatedCaps.getAnimated(this.entity);
+        holder = this.entity.getCapability(ThutCaps.ANIMCAP).orElse(null);
     }
 
     private void checkAIStates(UUID ownerID)
@@ -251,6 +259,12 @@ public class LogicMiscUpdate extends LogicBase
             final boolean tameSitting = animal.isOrderedToSit();
             if (tameSitting != sitting) this.pokemob.setLogicState(LogicStates.SITTING, tameSitting);
         }
+
+        // Check egg guarding
+        boolean guardingEgg = pokemob.getGeneralState(GeneralStates.GUARDEGG);
+        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
+        boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
+        if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
     }
 
     private void checkEvolution()
@@ -376,6 +390,18 @@ public class LogicMiscUpdate extends LogicBase
             final ResourceLocation id = PokecubeItems.getCubeId(pokecube);
             final PokecubeBehaviour behaviour = IPokecube.PokecubeBehaviour.BEHAVIORS.get(id);
             if (behaviour != null) behaviour.onUpdate(this.pokemob);
+        }
+        else if (holder != null)
+        {
+            // Update molang things for stuff that is slow to read.
+            float health = this.pokemob.getHealth();
+            final float max = this.pokemob.getMaxHealth();
+            MolangVars molangs = holder.getMolangVars();
+
+            molangs.health = health;
+            molangs.max_health = max;
+
+            molangs.is_in_water_or_rain = entity.isInWaterOrRain() ? 1 : 0;
         }
 
         for (int i = 0; i < 5; i++) this.flavourAmounts[i] = this.pokemob.getFlavourAmount(i);
@@ -542,11 +568,19 @@ public class LogicMiscUpdate extends LogicBase
         if (next != old) this.entity.setPose(next);
     }
 
+    private void addAnimation(List<String> anims, String key, boolean isRidden)
+    {
+        if (isRidden) anims.add("ridden_" + key);
+        anims.add(key);
+    }
+
     private void checkAnimationStates()
     {
         if (animated == null) return;
-        final List<String> anims = animated.getChoices();
+        List<String> anims = animated.getChoices();
+        List<String> transients = animated.transientAnimations();
         anims.clear();
+        boolean isRidden = entity.getPassengers().size() > 0;
         final Vec3 velocity = this.entity.getDeltaMovement();
         final float dStep = this.entity.animationSpeed;
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
@@ -554,21 +588,16 @@ public class LogicMiscUpdate extends LogicBase
         final boolean moving = walkspeed > stationary;
         final Pose pose = this.entity.getPose();
         final boolean walking = this.floatTimer < 2 && moving;
-        if (pose == Pose.DYING) anims.add("dead");
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+        boolean noBlink = false;
+        if (pose == Pose.DYING || entity.deathTime > 0)
         {
-            final int index = this.pokemob.getMoveIndex();
-            MoveEntry move = this.pokemob.getSelectedMove();
-            if (index < 4)
-            {
-                if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT) anims.add("attack_contact");
-                if (move.getAttackCategory(pokemob) == ContactCategory.RANGED) anims.add("attack_ranged");
-            }
+            addAnimation(anims, "dead", isRidden);
+            noBlink = true;
         }
         for (final LogicStates state : LogicStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
-            if (this.pokemob.getLogicState(state)) anims.add(anim);
+            if (this.pokemob.getLogicState(state)) addAnimation(anims, anim, isRidden);
         }
         switch (pose)
         {
@@ -577,28 +606,60 @@ public class LogicMiscUpdate extends LogicBase
         case CROUCHING:
             break;
         case FALL_FLYING:
-            if (!moving) anims.add("floating");
-            anims.add("flying");
+            if (!moving) addAnimation(anims, "floating", isRidden);
+            addAnimation(anims, "flying", isRidden);
+            if (moving) addAnimation(anims, "floating", isRidden);
             break;
         case SLEEPING:
-            anims.add("sleeping");
+            noBlink = true;
+            addAnimation(anims, "sleeping", isRidden);
             break;
         case SPIN_ATTACK:
             break;
         case STANDING:
             break;
         case SWIMMING:
-            anims.add("swimming");
+            if (!moving) addAnimation(anims, "in_water", isRidden);
+            addAnimation(anims, "swimming", isRidden);
+            if (moving) addAnimation(anims, "in_water", isRidden);
             break;
         default:
             break;
         }
-        if (this.entity.isSprinting()) anims.add("sprinting");
-        if (walking) anims.add("walking");
+        if (this.entity.isSprinting()) addAnimation(anims, "sprinting", isRidden);
+        if (walking) addAnimation(anims, "walking", isRidden);
         for (final CombatStates state : CombatStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
-            if (this.pokemob.getCombatState(state)) anims.add(anim);
+            if (this.pokemob.getCombatState(state)) addAnimation(anims, anim, isRidden);
         }
+
+        // Add in some transients which might occur
+        float blink_rate = 0.5f;
+        if (!noBlink && entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
+        {
+            transients.add("blink");
+        }
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
+        {
+            final int index = this.pokemob.getMoveIndex();
+            MoveEntry move = this.pokemob.getSelectedMove();
+            if (index < 4)
+            {
+                if (move != null) addAnimation(transients, "attack_" + move.name, isRidden);
+                if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)
+                    addAnimation(transients, "attack_contact", isRidden);
+                if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
+                    addAnimation(transients, "attack_ranged", isRidden);
+            }
+        }
+    }
+
+    @Override
+    public boolean shouldRun()
+    {
+        // The base class only runs if the mob is not dead, we need to run while
+        // dead to also handle animation setting.
+        return true;
     }
 }

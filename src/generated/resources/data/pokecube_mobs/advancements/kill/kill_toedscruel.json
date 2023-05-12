@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.toedscruel"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.toedscruel"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_toedscruel": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "toedscruel"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

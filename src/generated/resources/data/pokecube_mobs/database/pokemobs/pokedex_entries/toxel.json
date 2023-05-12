@@ -51,11 +51,15 @@
       }
     ],
     "misc": [
+      "growl",
+      "acid",
       "rest",
       "substitute",
       "snore",
+      "flail",
       "protect",
       "endure",
+      "charm",
       "attract",
       "sleep-talk",
       "encore",
@@ -63,7 +67,11 @@
       "endeavor",
       "metal-sound",
       "round",
-      "power-up-punch"
+      "belch",
+      "nuzzle",
+      "power-up-punch",
+      "tearful-look",
+      "tera-blast"
     ]
   },
   "evolutions": [

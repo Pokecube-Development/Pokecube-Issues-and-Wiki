@@ -48,13 +48,23 @@
           "meditate",
           "bide",
           "detect",
-          "zen-headbutt"
+          "zen-headbutt",
+          "work-up"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "psybeam",
+          "swagger",
+          "hidden-power"
         ]
       },
       {
         "L": 53,
         "moves": [
-          "counter"
+          "counter",
+          "axe-kick"
         ]
       },
       {
@@ -85,13 +95,6 @@
         "L": 12,
         "moves": [
           "endure"
-        ]
-      },
-      {
-        "L": 20,
-        "moves": [
-          "swagger",
-          "hidden-power"
         ]
       },
       {
@@ -139,7 +142,9 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
+      "psybeam",
       "hyper-beam",
       "low-kick",
       "counter",
@@ -149,6 +154,7 @@
       "confusion",
       "psychic",
       "meditate",
+      "night-shade",
       "mimic",
       "double-team",
       "recover",
@@ -163,6 +169,7 @@
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "mind-reader",
       "snore",
       "reversal",
@@ -177,6 +184,7 @@
       "frustration",
       "pain-split",
       "dynamic-punch",
+      "baton-pass",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -185,24 +193,30 @@
       "rock-smash",
       "facade",
       "focus-punch",
+      "taunt",
       "helping-hand",
       "trick",
       "role-play",
       "magic-coat",
       "recycle",
       "brick-break",
+      "skill-swap",
+      "imprison",
       "secret-power",
       "rock-tomb",
       "signal-beam",
+      "aerial-ace",
       "bulk-up",
       "calm-mind",
       "gravity",
       "natural-gift",
       "feint",
       "acupressure",
+      "close-combat",
       "fling",
       "power-trick",
       "force-palm",
+      "aura-sphere",
       "poison-jab",
       "drain-punch",
       "vacuum-wave",
@@ -210,17 +224,22 @@
       "energy-ball",
       "giga-impact",
       "zen-headbutt",
+      "trick-room",
       "captivate",
       "grass-knot",
       "psyshock",
       "telekinesis",
       "low-sweep",
       "round",
+      "stored-power",
       "retaliate",
       "work-up",
       "confide",
       "power-up-punch",
-      "laser-focus"
+      "laser-focus",
+      "psychic-terrain",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "mega_rules": [

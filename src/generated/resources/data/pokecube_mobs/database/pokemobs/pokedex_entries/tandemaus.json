@@ -1,0 +1,169 @@
+{
+  "name": "tandemaus",
+  "id": 924,
+  "stock": true,
+  "base_experience": 61,
+  "size": {
+    "height": 0.3
+  },
+  "mass": 1.8,
+  "is_default": true,
+  "capture_rate": 150,
+  "base_happiness": 50,
+  "growth_rate": "fast",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 50,
+    "attack": 50,
+    "defense": 45,
+    "special_attack": 40,
+    "special_defense": 45,
+    "speed": 75
+  },
+  "evs": {
+    "speed": 1
+  },
+  "types": [
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "run-away",
+      "pickup"
+    ],
+    "hidden": [
+      "own-tempo"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 11,
+        "moves": [
+          "super-fang"
+        ]
+      },
+      {
+        "L": 33,
+        "moves": [
+          "charm"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "encore"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "beat-up"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "hyper-voice"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "copycat"
+        ]
+      },
+      {
+        "L": 14,
+        "moves": [
+          "double-hit"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "echoed-voice"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "play-rough"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "baby-doll-eyes",
+          "pound"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "population-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+      "bite",
+      "low-kick",
+      "thunder-wave",
+      "dig",
+      "agility",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "protect",
+      "mud-slap",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "baton-pass",
+      "encore",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "hyper-voice",
+      "fake-tears",
+      "tickle",
+      "bullet-seed",
+      "aerial-ace",
+      "mud-shot",
+      "water-pulse",
+      "feint",
+      "u-turn",
+      "seed-bomb",
+      "switcheroo",
+      "shadow-claw",
+      "grass-knot",
+      "low-sweep",
+      "after-you",
+      "play-rough",
+      "tera-blast"
+    ]
+  },
+  "evolutions": [
+    {
+      "name": "maushold",
+      "level": 25
+    }
+  ]
+}

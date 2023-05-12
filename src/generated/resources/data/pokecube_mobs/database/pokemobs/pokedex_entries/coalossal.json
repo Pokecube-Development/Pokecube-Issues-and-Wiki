@@ -67,6 +67,13 @@
         ]
       },
       {
+        "L": 63,
+        "moves": [
+          "stone-edge",
+          "burn-up"
+        ]
+      },
+      {
         "L": 37,
         "moves": [
           "stealth-rock"
@@ -85,12 +92,6 @@
         ]
       },
       {
-        "L": 63,
-        "moves": [
-          "burn-up"
-        ]
-      },
-      {
         "L": 0,
         "moves": [
           "tar-shot"
@@ -101,13 +102,16 @@
       "mega-punch",
       "fire-punch",
       "mega-kick",
+      "tackle",
       "body-slam",
+      "take-down",
       "flamethrower",
       "hyper-beam",
       "solar-beam",
       "fire-spin",
       "earthquake",
       "dig",
+      "smokescreen",
       "reflect",
       "self-destruct",
       "fire-blast",
@@ -121,6 +125,9 @@
       "endure",
       "attract",
       "sleep-talk",
+      "rapid-spin",
+      "sunny-day",
+      "ancient-power",
       "heat-wave",
       "will-o-wisp",
       "facade",
@@ -131,21 +138,27 @@
       "rock-blast",
       "gyro-ball",
       "flare-blitz",
+      "rock-polish",
+      "power-gem",
       "earth-power",
       "giga-impact",
       "iron-head",
       "stone-edge",
       "stealth-rock",
+      "smack-down",
       "heavy-slam",
+      "flame-charge",
       "round",
       "scald",
+      "incinerate",
       "bulldoze",
       "heat-crash",
       "high-horsepower",
       "tar-shot",
       "body-press",
       "meteor-beam",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/coal_1"

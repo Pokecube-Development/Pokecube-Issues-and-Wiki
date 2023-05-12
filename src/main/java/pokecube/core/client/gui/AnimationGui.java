@@ -47,8 +47,13 @@ import pokecube.core.database.Database;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.network.packets.PacketPokedex;
 import pokecube.core.utils.EntityTools;
+import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
-import thut.api.entity.animation.Animators.FunctionAnimation;
+import thut.api.entity.animation.AnimationComponent;
+import thut.api.entity.animation.Animators;
+import thut.api.entity.animation.Animators.IAnimator;
+import thut.api.entity.animation.Animators.KeyframeAnimator;
+import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.RegHelper;
@@ -110,6 +115,22 @@ public class AnimationGui extends Screen
         }
         if (ret != null) ret.setCopiedMob(realMob.getCopiedMob());
         return ret;
+    }
+
+    public static IAnimator makeRotationTest(String rotations)
+    {
+        AnimationComponent comp = new AnimationComponent();
+        String[] rots = comp._rotFunctions;
+        Animators.fillJEPs(rots, rotations);
+        return new KeyframeAnimator(comp);
+    }
+
+    public static IAnimator makeOffsetTest(String offsets)
+    {
+        AnimationComponent comp = new AnimationComponent();
+        String[] offs = comp._posFunctions;
+        Animators.fillJEPs(offs, offsets);
+        return new KeyframeAnimator(comp);
     }
 
     public static String mob = "";
@@ -339,8 +360,6 @@ public class AnimationGui extends Screen
             if (this.renderHolder != null)
             {
                 this.renderHolder.overrideAnim = true;
-                this.renderHolder.anim = ThutCore.trim(this.anim.getValue());
-
                 if (this.testAnimation.startsWith("f::")) try
                 {
                     String[] args = testAnimation.split("::");
@@ -349,10 +368,10 @@ public class AnimationGui extends Screen
                     String function = args[2];
                     this.renderHolder.anim = "test_anim";
 
-                    FunctionAnimation animation;
+                    IAnimator animation;
 
-                    if (function.startsWith("d")) animation = FunctionAnimation.makeOffsetTest(function);
-                    else animation = FunctionAnimation.makeRotationTest(function);
+                    if (function.startsWith("d")) animation = makeOffsetTest(function);
+                    else animation = makeRotationTest(function);
 
                     Animation anim = new Animation();
                     anim.sets.put(part, animation);
@@ -414,6 +433,7 @@ public class AnimationGui extends Screen
         this.forme.setValue(AnimationGui.mob);
         this.dyeColour.setValue(AnimationGui.entry.defaultSpecial + "");
         this.anim.setValue("idle");
+
         this.anim.maxLength = 999;
         this.addRenderableWidget(this.anim);
         this.addRenderableWidget(this.state_g);
@@ -535,7 +555,6 @@ public class AnimationGui extends Screen
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
             this.renderHolder.wrapper.lastInit = Long.MIN_VALUE;
-            this.renderHolder.init();
         }));
         dy += 20;
         this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, bg, b -> {
@@ -651,6 +670,11 @@ public class AnimationGui extends Screen
         });
 
         this.onUpdated();
+
+        if (this.renderHolder != null)
+        {
+            this.anim.setValue(this.renderHolder.anim);
+        }
     }
 
     @Override
@@ -664,13 +688,33 @@ public class AnimationGui extends Screen
                 break;
             }
         }
+        if ((code == GLFW.GLFW_KEY_ENTER || code == GLFW.GLFW_KEY_KP_ENTER) && anim.isFocused()
+                && this.toRender != null)
+        {
+            final Mob entity = this.toRender.getEntity();
+            IAnimationHolder holder = AnimationHelper.getHolder(entity);
+            holder.clean();
+            if (anim.getValue().isBlank()) testAnimation = "";
+            else
+            {
+                testAnimation = anim.getValue();
+            }
+            if (this.renderHolder != null)
+            {
+                this.renderHolder.overrideAnim = true;
+                this.renderHolder.anim = ThutCore.trim(this.testAnimation);
+                holder.overridePlaying(this.renderHolder.anim);
+            }
+        }
         if (code == GLFW.GLFW_KEY_ENTER || code == GLFW.GLFW_KEY_KP_ENTER) this.onUpdated();
         return super.keyPressed(code, unk1, unk2);
     }
 
     @Override
-    public boolean mouseDragged(final double x, final double y, final int m, final double dx, final double dy)
+    public boolean mouseDragged(final double x, final double y, final int m, double dx, double dy)
     {
+        if (Screen.hasShiftDown()) dy = 0;
+        if (Screen.hasControlDown()) dx = 0;
         // left click
         if (m == 0)
         {
@@ -682,6 +726,13 @@ public class AnimationGui extends Screen
         {
             this.xHeadRenderAngle -= dx;
             this.yHeadRenderAngle += dy;
+        }
+        if (m == 2)
+        {
+            this.xRenderAngle = 90 * (((int) (this.xRenderAngle % 360)) / 90);
+            this.yRenderAngle = 0;
+            this.xHeadRenderAngle = 0;
+            this.yHeadRenderAngle = 0;
         }
         return super.mouseDragged(x, y, m, dx, dy);
     }

@@ -224,7 +224,9 @@
       "fake-tears",
       "overheat",
       "covet",
+      "calm-mind",
       "natural-gift",
+      "copycat",
       "last-resort",
       "flare-blitz",
       "giga-impact",
@@ -243,7 +245,9 @@
       "baby-doll-eyes",
       "laser-focus",
       "burning-jealousy",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/coal_1"

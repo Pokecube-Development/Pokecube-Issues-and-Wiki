@@ -22,8 +22,8 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
-import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
@@ -167,19 +167,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.setEntity(entityIn);
         IPartTexturer texer = this.renderer.getTexturer();
         if (texer != null) texer.bindObject(this.entityIn);
-        final HeadInfo info = this.renderer.getAnimationHolder().getHeadInfo();
-        if (!info.fixed)
-        {
-            info.headPitch = headPitch;
-            info.headYaw = netHeadYaw;
-        }
-        info.currentTick = entityIn.tickCount;
+        this.renderer.getAnimationHolder().initHeadInfoAndMolangs(entityIn, limbSwing, limbSwingAmount, ageInTicks,
+                netHeadYaw, headPitch);
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         this.imodel.getParts().forEach((partName, part) -> {
             if (animChanger != null) animChanger.isPartHidden(partName, entityIn, false);
-            if (part instanceof IRetexturableModel tex) tex.setTexturer(texer);
         });
-        if (info != null) info.lastTick = entityIn.tickCount;
+        if (this.imodel instanceof IRetexturableModel m) m.setTexturer(texer);
     }
 
     @Override
@@ -267,11 +261,12 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (!this.isLoaded()) return;
         this.setEntity(entityIn);
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
-        holder.preRun();
         this.renderer.setAnimationHolder(holder);
-        if (this.renderer.getAnimationChanger() != null) this.renderer.setAnimation(entityIn, partialTickTime);
+        this.renderer.setAnimation(entityIn, partialTickTime);
+        holder.setContext(AnimatedCaps.getAnimated(entityIn));
+        holder.preRunAll();
         this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
-        holder.postRun();
+        holder.postRunAll();
     }
 
     @Override

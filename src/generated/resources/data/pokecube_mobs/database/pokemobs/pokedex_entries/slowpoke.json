@@ -149,6 +149,7 @@
       "surf",
       "ice-beam",
       "blizzard",
+      "psybeam",
       "bubble-beam",
       "strength",
       "thunder-wave",
@@ -166,6 +167,7 @@
       "reflect",
       "bide",
       "fire-blast",
+      "waterfall",
       "swift",
       "skull-bash",
       "amnesia",
@@ -200,6 +202,7 @@
       "whirlpool",
       "hail",
       "facade",
+      "helping-hand",
       "trick",
       "magic-coat",
       "recycle",
@@ -220,6 +223,7 @@
       "natural-gift",
       "me-first",
       "aqua-tail",
+      "avalanche",
       "zen-headbutt",
       "trick-room",
       "captivate",
@@ -227,6 +231,7 @@
       "wonder-room",
       "psyshock",
       "telekinesis",
+      "foul-play",
       "after-you",
       "round",
       "echoed-voice",
@@ -239,7 +244,10 @@
       "confide",
       "psychic-terrain",
       "liquidation",
-      "expanding-force"
+      "expanding-force",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
   "interactions": [

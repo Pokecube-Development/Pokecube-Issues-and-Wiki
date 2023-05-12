@@ -39,9 +39,23 @@
   "moves": {
     "level_up": [
       {
+        "L": 10,
+        "moves": [
+          "growl",
+          "odor-sleuth"
+        ]
+      },
+      {
         "L": 14,
         "moves": [
           "psybeam"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "confusion",
+          "psywave"
         ]
       },
       {
@@ -54,12 +68,6 @@
         "L": 18,
         "moves": [
           "confuse-ray"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "psywave"
         ]
       },
       {
@@ -94,12 +102,6 @@
         ]
       },
       {
-        "L": 10,
-        "moves": [
-          "odor-sleuth"
-        ]
-      },
-      {
         "L": 50,
         "moves": [
           "bounce"
@@ -128,11 +130,13 @@
       "whirlwind",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "psybeam",
       "thunder-wave",
       "toxic",
       "psychic",
+      "night-shade",
       "mimic",
       "double-team",
       "confuse-ray",
@@ -157,6 +161,7 @@
       "heal-bell",
       "return",
       "frustration",
+      "encore",
       "iron-tail",
       "hidden-power",
       "rain-dance",
@@ -168,11 +173,13 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "trick",
       "role-play",
       "magic-coat",
       "recycle",
       "skill-swap",
+      "imprison",
       "snatch",
       "secret-power",
       "odor-sleuth",
@@ -187,6 +194,7 @@
       "lucky-chant",
       "power-gem",
       "zen-headbutt",
+      "flash-cannon",
       "trick-room",
       "captivate",
       "grass-knot",
@@ -195,8 +203,16 @@
       "telekinesis",
       "simple-beam",
       "round",
+      "stored-power",
       "ally-switch",
-      "confide"
+      "snarl",
+      "confide",
+      "dazzling-gleam",
+      "psychic-terrain",
+      "tera-blast",
+      "snowscape",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "evolutions": [

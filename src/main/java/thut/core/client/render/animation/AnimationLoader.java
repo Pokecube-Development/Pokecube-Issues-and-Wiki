@@ -39,6 +39,7 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.common.ThutCore;
@@ -153,17 +154,11 @@ public class AnimationLoader
             final Set<String> dye = Sets.newHashSet();
 
             // Loaded animations
-            final List<Animation> tblAnims = new ArrayList<>();
-            final Map<String, String> mergedAnimations = new Object2ObjectOpenHashMap<>();
+            final List<Animation> animations = new ArrayList<>();
+            final Map<String, List<String>> mergedAnimations = new Object2ObjectOpenHashMap<>();
             final Map<String, WornOffsets> wornOffsets = new Object2ObjectOpenHashMap<>();
             final Map<String, List<Vector5>> phaseList = new Object2ObjectOpenHashMap<>();
             List<Phase> texPhases = new ArrayList<>();
-
-            if (renderer != null)
-            {
-                renderer.getAnimations().clear();
-                model.initBuiltInAnimations(renderer, tblAnims);
-            }
 
             final Metadata meta = file.model.metadata;
             if (meta != null)
@@ -180,6 +175,7 @@ public class AnimationLoader
                 AnimationLoader.setHeadCaps(meta.headCap, headCaps);
                 AnimationLoader.setHeadCaps(meta.headCap1, headCaps1);
             }
+            final List<Animation> xmlAnimations = new ArrayList<>();
             for (final Phase phase : file.model.phases)
                 // Handle global, merges and presets
                 if (phase.name != null)
@@ -190,7 +186,6 @@ public class AnimationLoader
                     offset = AnimationLoader.getVector3(phase.values.get(new QName("offset")), offset);
                     scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
                     rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), null, rotation);
-//                    System.out.println(rotation);
                 }
                 else if (name.equals("textures")) texPhases.add(phase);
                 else if (AnimationRegistry.animations.containsKey(name))
@@ -199,7 +194,7 @@ public class AnimationLoader
                     try
                     {
                         final Animation anim = AnimationRegistry.make(phase, null);
-                        if (anim != null) tblAnims.add(anim);
+                        if (anim != null) xmlAnimations.add(anim);
                     }
                     catch (final Exception e)
                     {
@@ -213,15 +208,33 @@ public class AnimationLoader
                 if (ThutCore.conf.debug_models)
                     ThutCore.LOGGER.debug("Building Animation " + phase.type + " for " + holder.name);
                 final Animation anim = AnimationBuilder.build(phase, model.getParts().keySet(), null);
-                if (anim != null) tblAnims.add(anim);
+                if (anim != null) xmlAnimations.add(anim);
             }
 
             // Handle merges
             for (final Merge merge : file.model.merges)
             {
                 final String[] merges = merge.merge.split("->");
-                mergedAnimations.put(ThutCore.trim(merges[0]), ThutCore.trim(merges[1]));
+                String key = ThutCore.trim(merges[0]);
+                List<String> toList = mergedAnimations.get(key);
+                if (toList == null) mergedAnimations.put(key, toList = new ArrayList<>());
+                toList.add(ThutCore.trim(merges[1]));
+                if (merge.limbs != null)
+                {
+                    for (String s : merge.limbs.split(":"))
+                    {
+                        var p = model.getParts().get(s);
+                        if (p instanceof Part part) part.isOverridenLimb = true;
+                    }
+                }
             }
+
+            if (renderer != null)
+            {
+                renderer.getAnimations().clear();
+                model.initBuiltInAnimations(renderer, animations);
+            }
+            animations.addAll(xmlAnimations);
 
             // Handle worn offsets.
             for (final Worn worn : file.model.worn)
@@ -287,7 +300,7 @@ public class AnimationLoader
                 model.getHeadParts().addAll(headNames);
 
                 // Cleanup the animation stuff.
-                for (final Animation anim : tblAnims)
+                for (final Animation anim : animations)
                 {
                     List<Animation> anims = renderer.getAnimations().get(anim.name);
                     if (anims == null) renderer.getAnimations().put(anim.name, anims = new ArrayList<>());
@@ -296,28 +309,30 @@ public class AnimationLoader
                 for (final String from : mergedAnimations.keySet())
                 {
                     if (!renderer.getAnimations().containsKey(from)) continue;
-                    List<Animation> fromSet = new ArrayList<>();
-                    String to = mergedAnimations.get(from);
-                    List<Animation> toSet = null;
-                    // In this case, we make an empty animation
-                    if (!renderer.getAnimations().containsKey(to))
+                    for (String to : mergedAnimations.get(from))
                     {
-                        toSet = new ArrayList<>();
-                        renderer.getAnimations().put(to, toSet);
+                        List<Animation> fromSet = new ArrayList<>();
+                        List<Animation> toSet = null;
+                        // In this case, we make an empty animation
+                        if (!renderer.getAnimations().containsKey(to))
+                        {
+                            toSet = new ArrayList<>();
+                            renderer.getAnimations().put(to, toSet);
+                        }
+                        else toSet = renderer.getAnimations().get(to);
+                        for (final Animation anim : renderer.getAnimations().get(from))
+                        {
+                            final Animation newAnim = new Animation();
+                            newAnim.identifier = anim.identifier;
+                            newAnim.name = to;
+                            newAnim.loops = anim.loops;
+                            newAnim.priority = 20;
+                            newAnim.length = -1;
+                            for (final String s : anim.sets.keySet()) newAnim.sets.put(s, anim.sets.get(s));
+                            fromSet.add(newAnim);
+                        }
+                        toSet.addAll(fromSet);
                     }
-                    else toSet = renderer.getAnimations().get(to);
-                    for (final Animation anim : renderer.getAnimations().get(from))
-                    {
-                        final Animation newAnim = new Animation();
-                        newAnim.identifier = anim.identifier;
-                        newAnim.name = to;
-                        newAnim.loops = anim.loops;
-                        newAnim.priority = 20;
-                        newAnim.length = -1;
-                        for (final String s : anim.sets.keySet()) newAnim.sets.put(s, anim.sets.get(s));
-                        fromSet.add(newAnim);
-                    }
-                    toSet.addAll(fromSet);
                 }
 
                 // Finalize animation initialization

@@ -119,7 +119,12 @@
     ],
     "misc": [
       "swords-dance",
+      "headbutt",
+      "tackle",
+      "body-slam",
+      "take-down",
       "hyper-beam",
+      "counter",
       "agility",
       "screech",
       "focus-energy",
@@ -133,6 +138,9 @@
       "false-swipe",
       "sleep-talk",
       "megahorn",
+      "rain-dance",
+      "sunny-day",
+      "rock-smash",
       "beat-up",
       "facade",
       "helping-hand",
@@ -152,9 +160,14 @@
       "iron-head",
       "round",
       "retaliate",
+      "first-impression",
       "throat-chop",
       "smart-strike",
-      "coaching"
+      "no-retreat",
+      "body-press",
+      "coaching",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/iron_1"

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.cetitan"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.cetitan"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_cetitan": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "cetitan"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

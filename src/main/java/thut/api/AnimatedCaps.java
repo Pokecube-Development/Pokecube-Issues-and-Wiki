@@ -22,7 +22,14 @@ public class AnimatedCaps
     {
         private final LazyOptional<IAnimated> holder = LazyOptional.of(() -> this);
 
-        protected List<String> anims = Lists.newArrayList();
+        private final List<String> anims = Lists.newArrayList();
+        private final List<String> transients = Lists.newArrayList();
+        private final Object context;
+
+        public Impl(Object context)
+        {
+            this.context = context;
+        }
 
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> cap, final Direction side)
@@ -35,6 +42,18 @@ public class AnimatedCaps
         {
             return this.anims;
         }
+
+        @Override
+        public List<String> transientAnimations()
+        {
+            return transients;
+        }
+
+        @Override
+        public Object getContext()
+        {
+            return context;
+        }
     }
 
     public static final ResourceLocation WRAP = new ResourceLocation("thutcore:animated_mob");
@@ -44,7 +63,7 @@ public class AnimatedCaps
         // Check if someone else adds this first (like say an IPokemob
         for (final ICapabilityProvider p : event.getCapabilities().values())
             if (p.getCapability(ThutCaps.ANIMATED).isPresent()) return;
-        event.addCapability(AnimatedCaps.WRAP, new Impl());
+        event.addCapability(AnimatedCaps.WRAP, new Impl(event.getObject()));
     }
 
     public static IAnimated getAnimated(final ICapabilityProvider in)

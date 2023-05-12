@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingambit"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingambit"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_kingambit": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "kingambit"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}
