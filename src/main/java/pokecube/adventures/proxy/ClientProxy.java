@@ -8,6 +8,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
@@ -24,7 +25,7 @@ public class ClientProxy extends CommonProxy
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
     {
-        @SubscribeEvent
+        @SubscribeEvent(priority = EventPriority.HIGH)
         public static void onStart(final NewRegistryEvent event)
         {
             PokecubeAdv.proxy = new ClientProxy();

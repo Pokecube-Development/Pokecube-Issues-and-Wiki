@@ -23,6 +23,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.NewRegistryEvent;
@@ -37,7 +38,7 @@ public class ClientProxy extends CommonProxy
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
     {
-        @SubscribeEvent
+        @SubscribeEvent(priority = EventPriority.HIGH)
         public static void onStart(final NewRegistryEvent event)
         {
             PokecubeCore.proxy = new ClientProxy();
@@ -47,12 +48,11 @@ public class ClientProxy extends CommonProxy
 
     public static final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
 
-    private static Map<String, ResourceLocation> players  = Maps.newHashMap();
+    private static Map<String, ResourceLocation> players = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
 
     public ClientProxy()
-    {
-    }
+    {}
 
     @Override
     public Player getPlayer(final UUID uuid)
@@ -80,8 +80,7 @@ public class ClientProxy extends CommonProxy
     {
         if (ClientProxy.players.containsKey(name)) return ClientProxy.players.get(name);
         final Minecraft minecraft = Minecraft.getInstance();
-        SkullBlockEntity.updateGameprofile(new GameProfile((UUID) null, name), (profile) ->
-        {
+        SkullBlockEntity.updateGameprofile(new GameProfile((UUID) null, name), (profile) -> {
             final Map<MinecraftProfileTexture.Type, MinecraftProfileTexture> map = minecraft.getSkinManager()
                     .getInsecureSkinInformation(profile);
             ResourceLocation resourcelocation;
@@ -112,8 +111,7 @@ public class ClientProxy extends CommonProxy
             final File file2 = new File(file1, s);
             final HttpTexture downloadingtexture = new HttpTexture(file2, urlSkin, DefaultPlayerSkin.getDefaultSkin(),
                     true, () ->
-                    {
-                    });
+                    {});
             texturemanager.register(resourcelocation, downloadingtexture);
             ClientProxy.urlSkins.put(urlSkin, resourcelocation);
         }
