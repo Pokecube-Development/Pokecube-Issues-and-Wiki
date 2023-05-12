@@ -247,13 +247,12 @@ public class ContainerWearables extends AbstractContainerMenu
         {
             final ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
-
-            final int numRows = this.hasPlayerSlots ? 3 : 0;
-            if (index < numRows * 9)
+            // 13 wearables slots
+            if (index < 13)
             {
-                if (!this.moveItemStackTo(itemstack1, numRows * 9, this.slots.size(), false)) return ItemStack.EMPTY;
+                if (!this.moveItemStackTo(itemstack1, 13, this.slots.size(), false)) return ItemStack.EMPTY;
             }
-            else if (!this.moveItemStackTo(itemstack1, 0, numRows * 9, false)) return ItemStack.EMPTY;
+            else if (!this.moveItemStackTo(itemstack1, 0, 13, false)) return ItemStack.EMPTY;
 
             if (itemstack1.isEmpty()) slot.set(ItemStack.EMPTY);
             else slot.setChanged();
