@@ -23,38 +23,32 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.NewRegistryEvent;
-import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.client.PokecenterSound;
-import pokecube.nbtedit.NBTEdit;
 
-@OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
 {
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
-    public static class RegistryEvents
-    {
-        @SubscribeEvent(priority = EventPriority.HIGH)
-        public static void onStart(final NewRegistryEvent event)
-        {
-            PokecubeCore.proxy = new ClientProxy();
-            NBTEdit.proxy = new pokecube.nbtedit.forge.ClientProxy();
-        }
-    }
-
-    public static final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
+    @OnlyIn(value = Dist.CLIENT)
+    public final Map<BlockPos, PokecenterSound> pokecenter_sounds = Maps.newHashMap();
 
     private static Map<String, ResourceLocation> players = Maps.newHashMap();
     private static Map<String, ResourceLocation> urlSkins = Maps.newHashMap();
 
     public ClientProxy()
-    {}
+    {
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, this::serverAboutToStart);
+    }
+
+    private void serverAboutToStart(final ServerAboutToStartEvent event)
+    {
+        pokecenter_sounds.clear();
+    }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public Player getPlayer(final UUID uuid)
     {
         // This is null on single player, so we have an integrated server
@@ -64,18 +58,21 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public Player getPlayer()
     {
         return Minecraft.getInstance().player;
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public Level getWorld()
     {
         return Minecraft.getInstance().level;
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public ResourceLocation getPlayerSkin(final String name)
     {
         if (ClientProxy.players.containsKey(name)) return ClientProxy.players.get(name);
@@ -97,6 +94,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public ResourceLocation getUrlSkin(final String urlSkin)
     {
         if (ClientProxy.urlSkins.containsKey(urlSkin)) return ClientProxy.urlSkins.get(urlSkin);
@@ -124,17 +122,18 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void pokecenterloop(final HealerTile tileIn, final boolean play)
     {
-        if (play && !ClientProxy.pokecenter_sounds.containsKey(tileIn.getBlockPos()))
+        if (play && !pokecenter_sounds.containsKey(tileIn.getBlockPos()))
         {
             final PokecenterSound sound = new PokecenterSound(tileIn);
             Minecraft.getInstance().getSoundManager().play(sound);
-            ClientProxy.pokecenter_sounds.put(tileIn.getBlockPos(), sound);
+            pokecenter_sounds.put(tileIn.getBlockPos(), sound);
         }
-        else if (!play && ClientProxy.pokecenter_sounds.containsKey(tileIn.getBlockPos()))
+        else if (!play && pokecenter_sounds.containsKey(tileIn.getBlockPos()))
         {
-            final PokecenterSound sound = ClientProxy.pokecenter_sounds.remove(tileIn.getBlockPos());
+            final PokecenterSound sound = pokecenter_sounds.remove(tileIn.getBlockPos());
             sound.stopped = true;
             Minecraft.getInstance().getSoundManager().stop(sound);
         }

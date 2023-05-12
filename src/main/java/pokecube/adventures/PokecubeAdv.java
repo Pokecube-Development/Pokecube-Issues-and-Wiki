@@ -28,6 +28,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -267,7 +268,8 @@ public class PokecubeAdv
     //
     // Server vs client implementations of Wearable, the client one has extended
     // rendering functions.
-    public static CommonProxy proxy;
+    public static final CommonProxy proxy = DistExecutor.safeRunForDist(
+            () -> pokecube.adventures.proxy.ClientProxy::new, () -> pokecube.adventures.proxy.CommonProxy::new);
 
     private static final String NETVERSION = "1.0.1";
     // Handler for network stuff.

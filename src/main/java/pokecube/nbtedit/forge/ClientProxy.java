@@ -28,12 +28,12 @@ import pokecube.nbtedit.packets.TileRequestPacket;
 import thut.core.common.network.Packet;
 import thut.lib.TComponent;
 
-@OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
 {
     public static KeyMapping NBTEditKey;
 
     @SubscribeEvent
+    @OnlyIn(value = Dist.CLIENT)
     public void onKey(final InputEvent.Key event)
     {
         if (ClientProxy.NBTEditKey.consumeClick())
@@ -65,24 +65,28 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void openEditGUI(final BlockPos pos, final CompoundTag tag)
     {
         Minecraft.getInstance().setScreen(new GuiEditNBTTree(pos, tag));
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void openEditGUI(final int entityID, final CompoundTag tag)
     {
         Minecraft.getInstance().setScreen(new GuiEditNBTTree(entityID, tag));
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void openEditGUI(final int entityID, final String customName, final CompoundTag tag)
     {
         Minecraft.getInstance().setScreen(new GuiEditNBTTree(entityID, customName, tag));
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void sendMessage(final Player player, final String message, final ChatFormatting color)
     {
         final Component component = TComponent.literal(message);
@@ -91,6 +95,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public void setupClient()
     {
         MinecraftForge.EVENT_BUS.register(this);

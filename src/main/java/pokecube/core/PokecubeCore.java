@@ -30,6 +30,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddPackFindersEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -69,7 +70,6 @@ import pokecube.core.legacy.RegistryChangeFixer;
 import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
-import pokecube.nbtedit.NBTEdit;
 import pokecube.world.PokecubeWorld;
 import thut.api.ThutCaps;
 import thut.api.data.StringTag;
@@ -93,11 +93,6 @@ public class PokecubeCore
         @SubscribeEvent
         public static void registerRegistry(final NewRegistryEvent event)
         {
-            if (PokecubeCore.proxy == null)
-            {
-                PokecubeCore.proxy = new CommonProxy();
-                NBTEdit.proxy = new pokecube.nbtedit.forge.CommonProxy();
-            }
             // Register these before items and blocks, as some items might need
             // them
             final InitDatabase.Pre pre = new InitDatabase.Pre();
@@ -166,7 +161,8 @@ public class PokecubeCore
     private static final Config config = new Config();
 
     // Sided proxy for handling server/client only stuff.
-    public static CommonProxy proxy;
+    public static final CommonProxy proxy = DistExecutor.safeRunForDist(() -> pokecube.core.proxy.ClientProxy::new,
+            () -> pokecube.core.proxy.CommonProxy::new);
 
     // Spawner for world spawning of pokemobs.
     public static SpawnHandler spawner = new SpawnHandler();
