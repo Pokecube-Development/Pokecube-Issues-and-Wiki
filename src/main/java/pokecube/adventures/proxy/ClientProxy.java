@@ -8,9 +8,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.adventures.PokecubeAdv;
 import thut.api.ModelHolder;
 import thut.bling.client.render.Back;
@@ -18,22 +15,12 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.ModelFactory;
 import thut.wearables.EnumWearable;
 
-@OnlyIn(value = Dist.CLIENT)
 public class ClientProxy extends CommonProxy
 {
-    @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = PokecubeAdv.MODID, value = Dist.CLIENT)
-    public static class RegistryEvents
-    {
-        @SubscribeEvent
-        public static void onStart(final NewRegistryEvent event)
-        {
-            PokecubeAdv.proxy = new ClientProxy();
-        }
-    }
-
+    @OnlyIn(value = Dist.CLIENT)
     protected static class RenderWearable extends Wearable
-    { // We render layers based on material!
-        static IModel bag;
+    {
+        IModel bag;
 
         @Override
         public void renderWearable(final PoseStack mat, final MultiBufferSource buff, final EnumWearable slot,
@@ -47,6 +34,7 @@ public class ClientProxy extends CommonProxy
     }
 
     @Override
+    @OnlyIn(value = Dist.CLIENT)
     public Wearable getWearable()
     {
         return new RenderWearable();

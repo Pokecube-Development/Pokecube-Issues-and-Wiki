@@ -52,7 +52,6 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.LeftClickEmpty;
-import net.minecraftforge.event.server.ServerAboutToStartEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
@@ -85,7 +84,6 @@ import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.network.pokemobs.PacketBattleTargets;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketMountedControl;
-import pokecube.core.proxy.ClientProxy;
 import pokecube.core.utils.PokemobTracker;
 
 public class EventsHandlerClient
@@ -136,13 +134,6 @@ public class EventsHandlerClient
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();
         MoveAnimationHelper.Instance();
-
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.HIGHEST, EventsHandlerClient::serverAboutToStart);
-    }
-
-    private static void serverAboutToStart(final ServerAboutToStartEvent event)
-    {
-        ClientProxy.pokecenter_sounds.clear();
     }
 
     /**
