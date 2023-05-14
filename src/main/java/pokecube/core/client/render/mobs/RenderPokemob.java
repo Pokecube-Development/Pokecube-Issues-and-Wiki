@@ -578,7 +578,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         Pose pose = entity.getPose();
         boolean sleeping = pose == Pose.SLEEPING;
 
-        if (!activeHolder.checkedAnims)
+        if (!activeHolder.checkedAnims && this.activeHolder.wrapper.isLoaded())
         {
             activeHolder.checkedAnims = true;
             activeHolder.hasSleepAnim = this.activeHolder.hasAnimation("sleeping", entity);
