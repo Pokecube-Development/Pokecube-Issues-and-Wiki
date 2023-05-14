@@ -11,7 +11,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -42,6 +41,7 @@ import pokecube.core.init.Config;
 import pokecube.core.utils.Resources;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
+import thut.lib.AxisAngles;
 import thut.lib.TComponent;
 
 /**
@@ -212,8 +212,8 @@ public class Health
             final float namel = mc.font.width(name) * s;
             if (namel + 20 > size * 2) size = namel / 2F + 10F;
             float healthSize = size * (health / maxHealth);
-            mat.mulPose(Vector3f.YP.rotationDegrees(180));
-            mat.mulPose(Vector3f.XP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.XP.rotationDegrees(180));
 
             pos = mat.last().pose();
             // Background
@@ -348,8 +348,8 @@ public class Health
         mat.pushPose();
         mat.translate(vertexX, vertexY + 7, 0.1f * zOrder);
         mat.scale(20, 20, 20);
-        mat.mulPose(Vector3f.YP.rotationDegrees(180));
-        mat.mulPose(Vector3f.ZP.rotationDegrees(180));
+        mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+        mat.mulPose(AxisAngles.ZP.rotationDegrees(180));
         Minecraft.getInstance().getItemRenderer().renderStatic(stack, TransformType.NONE, br, OverlayTexture.NO_OVERLAY,
                 mat, buf, 0);
         mat.popPose();

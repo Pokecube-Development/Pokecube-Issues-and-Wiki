@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -30,6 +29,7 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
@@ -387,9 +387,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setDefaultAngles(float rx, float ry, float rz)
     {
         _quat.set(0, 0, 0, 1);
-        if (rz != 0) _quat.mul(Vector3f.YN.rotationDegrees(rz));
-        if (rx != 0) _quat.mul(Vector3f.XP.rotationDegrees(rx));
-        if (ry != 0) _quat.mul(Vector3f.ZP.rotationDegrees(ry));
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
         _rot.set(_quat);
         this.preRot.mul(rotations, _rot);
         this.rotations.set(preRot.x, preRot.y, preRot.z, preRot.w);
@@ -399,9 +399,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setAnimAngles(float rx, float ry, float rz)
     {
         _quat.set(0, 0, 0, 1);
-        if (rz != 0) _quat.mul(Vector3f.YN.rotationDegrees(rz));
-        if (rx != 0) _quat.mul(Vector3f.XP.rotationDegrees(rx));
-        if (ry != 0) _quat.mul(Vector3f.ZP.rotationDegrees(ry));
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
         this.setPreRotations(_rot.set(_quat));
     }
 

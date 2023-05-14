@@ -6,7 +6,6 @@ import java.util.Map.Entry;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -17,7 +16,6 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
-import thut.api.level.terrain.TerrainSegment;
 
 public class NamedVolumes
 {
