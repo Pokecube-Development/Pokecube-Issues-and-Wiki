@@ -214,18 +214,6 @@
       "chilling-water"
     ]
   },
-  "male_model": {
-    "key": "wooper_male",
-    "tex": "wooper",
-    "model": "wooper_male",
-    "anim": "wooper_male"
-  },
-  "female_model": {
-    "key": "wooper_female",
-    "tex": "wooper",
-    "model": "wooper_female",
-    "anim": "wooper_female"
-  },
   "evolutions": [
     {
       "name": "quagsire",
