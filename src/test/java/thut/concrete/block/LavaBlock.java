@@ -3,7 +3,6 @@ package thut.concrete.block;
 import java.lang.reflect.Array;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -22,6 +21,7 @@ import thut.api.block.flowing.MoltenBlock;
 import thut.api.block.flowing.SolidBlock;
 import thut.api.maths.Vector3;
 import thut.concrete.Concrete;
+import thut.lib.RegHelper;
 
 public abstract class LavaBlock extends MoltenBlock
 {
@@ -61,7 +61,7 @@ public abstract class LavaBlock extends MoltenBlock
     protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, RandomSource random)
     {
         Vector3 v = new Vector3().set(pos);
-        Biome b = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(Concrete.VOLCANO_BIOME);
+        Biome b = level.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY).get(Concrete.VOLCANO_BIOME);
         v.setBiome(b, level);
     }
 

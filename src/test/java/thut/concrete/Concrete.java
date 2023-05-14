@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -59,6 +58,7 @@ import thut.concrete.item.RebarBlockItem;
 import thut.concrete.item.SmootherItem;
 import thut.concrete.recipe.PaintBrushRecipe;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 @Mod(value = Concrete.MODID)
 public class Concrete
@@ -199,7 +199,7 @@ public class Concrete
         BRUSH_DYE_RECIPE = Concrete.RECIPE_SERIALIZERS.register("paint_brush_dye",
                 PaintBrushRecipe.brushDye(PaintBrushRecipe::new));
 
-        VOLCANO_BIOME = ResourceKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(MODID, "volcano"));
+        VOLCANO_BIOME = ResourceKey.create(RegHelper.BIOME_REGISTRY, new ResourceLocation(MODID, "volcano"));
 
         BlockBehaviour.Properties layer_props = BlockBehaviour.Properties.of(Material.STONE).noOcclusion().randomTicks()
                 .requiresCorrectToolForDrops();

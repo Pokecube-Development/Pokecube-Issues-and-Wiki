@@ -29,7 +29,6 @@ import com.mojang.serialization.Dynamic;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
@@ -69,6 +68,7 @@ import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.entity.BotPlayer;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 @Mod(value = "thutbot")
@@ -284,7 +284,7 @@ public class ThutBot
         {
             if (_dimension == null || !_dimension.location().toString().equals(dimension))
             {
-                _dimension = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(dimension));
+                _dimension = ResourceKey.create(RegHelper.DIMENSION_REGISTRY, new ResourceLocation(dimension));
             }
             return _dimension;
         }

@@ -5,7 +5,6 @@ import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -29,6 +28,7 @@ import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.PlantsInit;
+import thut.lib.RegHelper;
 
 public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
 {
@@ -150,8 +150,8 @@ public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
               } else {
-                  placedFeature = world.registryAccess().registryOrThrow(Registry.PLACED_FEATURE_REGISTRY)
-                          .getHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, new ResourceLocation("pokecube_legends:aged_grass_bonemeal")));
+                  placedFeature = world.registryAccess().registryOrThrow(RegHelper.PLACED_FEATURE_REGISTRY)
+                          .getHolderOrThrow(ResourceKey.create(RegHelper.PLACED_FEATURE_REGISTRY, new ResourceLocation("pokecube_legends:aged_grass_bonemeal")));
               }
               placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);
            }

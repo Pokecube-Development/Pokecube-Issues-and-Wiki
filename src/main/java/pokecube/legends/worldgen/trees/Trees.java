@@ -4,7 +4,6 @@ import java.util.OptionalInt;
 
 import com.google.common.collect.ImmutableList;
 
-import net.minecraft.core.Registry;
 import net.minecraft.util.random.SimpleWeightedRandomList;
 import net.minecraft.util.valueproviders.ConstantInt;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -42,6 +41,7 @@ import pokecube.legends.init.BlockInit;
 import pokecube.legends.worldgen.trees.treedecorators.LeavesStringOfPearlsDecorator;
 import pokecube.legends.worldgen.trees.treedecorators.TrunkStringOfPearlsDecorator;
 import pokecube.world.gen.features.trees.trunks.StraightTrunkPlacerNoDirt;
+import thut.lib.RegHelper;
 
 public class Trees
 {
@@ -52,7 +52,7 @@ public class Trees
     public static final DeferredRegister<TreeDecoratorType<?>> TREE_DECORATORS = DeferredRegister
             .create(ForgeRegistries.TREE_DECORATOR_TYPES, Reference.ID);
     public static final DeferredRegister<ConfiguredFeature<?, ?>> TREE_FEATURES = DeferredRegister
-            .create(Registry.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
+            .create(RegHelper.CONFIGURED_FEATURE_REGISTRY, Reference.ID);
 
     public static final RegistryObject<TreeDecoratorType<?>> LEAVES_STRING_OF_PEARLS = TREE_DECORATORS
             .register("leaves_string_of_pearls", () -> new TreeDecoratorType<>(LeavesStringOfPearlsDecorator.CODEC));
