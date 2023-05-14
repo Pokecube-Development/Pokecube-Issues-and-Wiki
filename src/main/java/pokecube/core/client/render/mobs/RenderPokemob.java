@@ -162,8 +162,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public boolean overrideAnim = false;
         public String anim = "";
 
-        private Vector5 rotations = new Vector5();
-
         // This will decrement if above 0, and if so, we don't render, this
         // gives some time to actually load the model.
         protected int loadTimer = 3;
@@ -252,12 +250,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public Vector3 getRotationOffset()
         {
             return this.offset;
-        }
-
-        @Override
-        public Vector5 getRotations()
-        {
-            return this.rotations;
         }
 
         @Override
@@ -363,12 +355,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public void setRotationOffset(final Vector3 offset)
         {
             this.offset = offset;
-        }
-
-        @Override
-        public void setRotations(final Vector5 rotations)
-        {
-            this.rotations = rotations;
         }
 
         @Override

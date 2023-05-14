@@ -222,10 +222,6 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     {}
 
     @Override
-    public void setRotations(final thut.core.client.render.model.IModelRenderer.Vector5 rotations)
-    {}
-
-    @Override
     public void setScale(final Vector3 scale)
     {
         this.scale.set(scale);

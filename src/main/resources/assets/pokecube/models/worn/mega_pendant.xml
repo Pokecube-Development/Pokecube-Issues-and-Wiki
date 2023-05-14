@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="1.15" offset="0,-0.99,0" rotation="x:-90,y:0"/>
+  <phase name="global" scale="1.15" offset="0,-1.125,0" rotation="x:-90,y:0"/>
   <material name="mega_pendant" meshs="mega_pendant" tex="textures/worn/mega_pendant.png"/>
   <material name="mega_pendant_back" meshs="mega_pendant_back" tex="textures/worn/mega_pendant_back.png"/>
   <material name="mega_pendant_top" meshs="mega_pendant_top" tex="textures/worn/mega_pendant_top.png"/>

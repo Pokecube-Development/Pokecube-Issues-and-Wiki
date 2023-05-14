@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="0.5" offset="0,0.08,-0.6"/>
+  <phase name="global" scale="0.5" offset="0,0.01,-0.3"/>
   <material name="earring" meshs="earring" tex="textures/worn/mega_earring.png"/>
   <material name="earring_overlay" meshs="earring_overlay" tex="textures/worn/mega_earring_overlay.png"/>
  </model>

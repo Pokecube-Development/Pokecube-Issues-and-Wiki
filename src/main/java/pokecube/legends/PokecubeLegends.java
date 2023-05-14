@@ -76,6 +76,7 @@ import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
 import pokecube.legends.worldgen.WorldgenFeatures;
 import pokecube.legends.worldgen.trees.Trees;
 import thut.api.block.flowing.FlowingBlock;
+import thut.api.entity.CopyCaps;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -462,6 +463,7 @@ public class PokecubeLegends
             Flammables.registerDefaults();
             Strippables.registerDefaults();
             Tillables.registerDefaults();
+            CopyCaps.register(EntityInit.WORMHOLE.get());
 
             SpawnHandler.MELT_GETTER = () -> BlockInit.METEORITE_MOLTEN_BLOCK.get().defaultBlockState();
             SpawnHandler.DUST_GETTER = () -> BlockInit.ASH.get().defaultBlockState().setValue(FlowingBlock.LAYERS, 5);
