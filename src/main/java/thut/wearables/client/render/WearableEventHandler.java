@@ -3,12 +3,12 @@ package thut.wearables.client.render;
 import java.lang.reflect.Field;
 import java.util.Map;
 
-import net.minecraft.ChatFormatting;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.InputConstants;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.entity.EntityRenderer;

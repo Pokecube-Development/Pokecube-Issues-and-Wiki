@@ -6,7 +6,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -16,6 +15,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import pokecube.legends.tileentity.RaidSpawn;
+import thut.lib.AxisAngles;
 
 public class Raid implements BlockEntityRenderer<RaidSpawn>
 {
@@ -66,7 +66,7 @@ public class Raid implements BlockEntityRenderer<RaidSpawn>
         final float f4 = colors[1];
         final float f5 = colors[2];
         matrixStackIn.pushPose();
-        matrixStackIn.mulPose(Vector3f.YP.rotationDegrees(f * 2.25F - 45.0F));
+        matrixStackIn.mulPose(AxisAngles.YP.rotationDegrees(f * 2.25F - 45.0F));
         float f6 = 0.0F;
         float f8 = 0.0F;
         float f9 = -beamRadius;

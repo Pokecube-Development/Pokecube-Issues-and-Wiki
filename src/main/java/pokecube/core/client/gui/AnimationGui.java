@@ -56,6 +56,7 @@ import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.AxisAngles;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
@@ -391,7 +392,7 @@ public class AnimationGui extends Screen
                     e.printStackTrace();
                 }
             }
-            RenderSystem.setShaderLights(com.mojang.math.Vector3f.YN, com.mojang.math.Vector3f.ZN);
+            RenderSystem.setShaderLights(AxisAngles.YN, AxisAngles.ZN);
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);

@@ -18,6 +18,7 @@ import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public class BBModelTemplate
 {
@@ -247,9 +248,9 @@ public class BBModelTemplate
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
-                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(Vector3f.YP.rotationDegrees(z));
-                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(AxisAngles.YP.rotationDegrees(z));
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(origin_offset);
@@ -330,9 +331,9 @@ public class BBModelTemplate
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
-                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
-                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(AxisAngles.YN.rotationDegrees(z));
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(b.origin);

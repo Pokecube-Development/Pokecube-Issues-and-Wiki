@@ -12,7 +12,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -27,6 +26,7 @@ import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.api.maths.Vector3;
+import thut.lib.AxisAngles;
 import thut.lib.TComponent;
 
 public class SecretBaseRadarPage extends WatchPage
@@ -151,7 +151,7 @@ public class SecretBaseRadarPage extends WatchPage
         final Vector3 here = new Vector3().set(this.watch.player);
         final float angle = -this.watch.player.yRot % 360 + 180;
         // GL11.glRotated(angle, 0, 0, 1);
-        mat.mulPose(Vector3f.ZP.rotationDegrees(angle));
+        mat.mulPose(AxisAngles.ZP.rotationDegrees(angle));
 
         final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
         final float scale = SecretBaseRadarPage.mode.rangeScale;

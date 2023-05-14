@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 import com.mojang.math.Vector4f;
 
 import thut.api.maths.vecmath.Vec3f;
@@ -13,6 +14,7 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 /**
  * A group of vertices, these get moved around by animations on bones, this just
@@ -43,7 +45,7 @@ public class Face
         this.uvs = uvs;
     }
 
-    private final com.mojang.math.Vector3f dummy3 = new com.mojang.math.Vector3f();
+    private final Vector3f dummy3 = new Vector3f();
     private final Vector4f dummy4 = new Vector4f();
 
     /**
@@ -69,9 +71,9 @@ public class Face
         final Matrix4f pos = matrixstack$entry.pose();
         final Matrix3f norms = matrixstack$entry.normal();
         final Vector4f dp = this.dummy4;
-        final com.mojang.math.Vector3f dn = this.dummy3;
+        final Vector3f dn = this.dummy3;
 
-        com.mojang.math.Vector3f camera_view = com.mojang.math.Vector3f.ZP;
+        Vector3f camera_view = AxisAngles.ZP;
 
         boolean cull = ThutCore.getConfig().modelCullThreshold > 0 && alpha >= 1;
         // TODO ghive this a material to check for culling!

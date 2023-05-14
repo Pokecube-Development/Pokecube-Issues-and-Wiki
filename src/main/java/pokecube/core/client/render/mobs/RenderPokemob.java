@@ -10,7 +10,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -56,6 +55,7 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {
@@ -587,7 +587,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         if (!sleeping)
         {
-            stack.mulPose(Vector3f.YP.rotationDegrees(180.0F - rotationYaw));
+            stack.mulPose(AxisAngles.YP.rotationDegrees(180.0F - rotationYaw));
         }
 
         if (this.isShaking(entity))
@@ -603,26 +603,26 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             {
                 f = 1.0F;
             }
-            stack.mulPose(Vector3f.ZP.rotationDegrees(f * this.getFlipDegrees(entity)));
+            stack.mulPose(AxisAngles.ZP.rotationDegrees(f * this.getFlipDegrees(entity)));
         }
         else if (entity.isAutoSpinAttack())
         {
-            stack.mulPose(Vector3f.XP.rotationDegrees(-90.0F - entity.getXRot()));
-            stack.mulPose(Vector3f.YP.rotationDegrees(((float) entity.tickCount + partialTicks) * -75.0F));
+            stack.mulPose(AxisAngles.XP.rotationDegrees(-90.0F - entity.getXRot()));
+            stack.mulPose(AxisAngles.YP.rotationDegrees(((float) entity.tickCount + partialTicks) * -75.0F));
         }
         else if (sleeping)
         {
             if (activeHolder.hasSleepAnim) return;
             Direction direction = entity.getBedOrientation();
             float f1 = direction != null ? sleepDirectionToRotation(direction) : rotationYaw;
-            stack.mulPose(Vector3f.YP.rotationDegrees(f1));
-            stack.mulPose(Vector3f.ZP.rotationDegrees(this.getFlipDegrees(entity)));
-            stack.mulPose(Vector3f.YP.rotationDegrees(270.0F));
+            stack.mulPose(AxisAngles.YP.rotationDegrees(f1));
+            stack.mulPose(AxisAngles.ZP.rotationDegrees(this.getFlipDegrees(entity)));
+            stack.mulPose(AxisAngles.YP.rotationDegrees(270.0F));
         }
         else if (isEntityUpsideDown(entity))
         {
             stack.translate(0.0D, (double) (entity.getBbHeight() + 0.1F), 0.0D);
-            stack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+            stack.mulPose(AxisAngles.ZP.rotationDegrees(180.0F));
         }
     }
 }

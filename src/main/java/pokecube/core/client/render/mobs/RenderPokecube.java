@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -25,6 +24,7 @@ import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.Tracker;
+import thut.lib.AxisAngles;
 
 public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPokecube>
 {
@@ -61,11 +61,11 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
                 final float sy = 1.25f;
                 final float sz = 0f;
                 mat.translate(sx, sy, sz);
-                mat.mulPose(Vector3f.ZP.rotation(rotateY));
+                mat.mulPose(AxisAngles.ZP.rotation(rotateY));
                 mat.translate(-sx, -sy, -sz);
             }
             mat.translate(0, 1.5, 0);
-            mat.mulPose(Vector3f.ZP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.ZP.rotationDegrees(180));
 
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))

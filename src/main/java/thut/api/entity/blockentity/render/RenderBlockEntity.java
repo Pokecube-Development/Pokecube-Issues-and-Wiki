@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -32,6 +31,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.lib.AxisAngles;
 
 @OnlyIn(Dist.CLIENT)
 public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer<T>
@@ -78,9 +78,9 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
 
             mat.translate(xMin, 0, zMin);
 
-            mat.mulPose(Vector3f.YN.rotationDegrees(180.0F));
-            mat.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
-            mat.mulPose(Vector3f.XP.rotationDegrees(180.0F));
+            mat.mulPose(AxisAngles.YN.rotationDegrees(180.0F));
+            mat.mulPose(AxisAngles.ZP.rotationDegrees(180.0F));
+            mat.mulPose(AxisAngles.XP.rotationDegrees(180.0F));
             if (entity instanceof IMultiplePassengerEntity multi)
             {
                 final float yaw = -(multi.getPrevYaw() + (multi.getYaw() - multi.getPrevYaw()) * partialTicks);
