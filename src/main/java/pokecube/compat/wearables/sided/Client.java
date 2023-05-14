@@ -39,7 +39,6 @@ public class Client
     @OnlyIn(Dist.CLIENT)
     public static Predicate<Material> IS_KEYSTONE = m -> (m.name.contains("keystone")
             || m.tex != null && m.tex.getPath().contains("keystone")
-            || m.tex.getPath().contains("_overlay")
             || m.tex != null && m.tex.getPath().contains("_overlay"));
     @OnlyIn(Dist.CLIENT)
     public static Predicate<Material> IS_OVERLAY = m -> (m.name.contains("_overlay")

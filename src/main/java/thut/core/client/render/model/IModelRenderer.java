@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -70,12 +69,6 @@ public interface IModelRenderer<T extends Entity>
         return Vector3.empty;
     }
 
-    @Nullable
-    default Vector5 getRotations()
-    {
-        return null;
-    }
-
     default Vector3 getScale()
     {
         return IModelRenderer.DEFAULTSCALE;
@@ -122,8 +115,6 @@ public interface IModelRenderer<T extends Entity>
     void setAnimationChanger(IAnimationChanger changer);
 
     void setRotationOffset(Vector3 offset);
-
-    void setRotations(Vector5 rotations);
 
     void setScale(Vector3 scale);
 

@@ -170,6 +170,9 @@ public interface IExtendedModelPart extends IModelCustom
     default void setAnimAngles(float rx, float ry, float rz)
     {}
 
+    default void setDefaultAngles(float rx, float ry, float rz)
+    {}
+
     void setAnimationHolder(IAnimationHolder holder);
 
     IAnimationHolder getAnimationHolder();

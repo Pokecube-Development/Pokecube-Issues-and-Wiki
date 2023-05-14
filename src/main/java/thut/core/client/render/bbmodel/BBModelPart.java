@@ -167,6 +167,14 @@ public class BBModelPart extends Part
         super.resetToInit();
         rx = ry = rz = 0;
     }
+    
+    @Override
+    public void setDefaultAngles(float rx, float ry, float rz)
+    {
+        this.rotations.x += rx;
+        this.rotations.y += ry;
+        this.rotations.z += rz;
+    }
 
     @Override
     public void setAnimAngles(float rx, float ry, float rz)

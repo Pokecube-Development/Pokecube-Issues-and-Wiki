@@ -46,7 +46,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     final Vector3 rotPoint = new Vector3();
     private Vector3 offset = new Vector3();
     private Vector3 scale = new Vector3();
-    private Vector5 rotations = new Vector5();
 
     public Wormhole(final EntityRendererProvider.Context renderManager)
     {
@@ -69,6 +68,11 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     protected RenderType getRenderType(final WormholeEntity entity, final boolean bool_a, final boolean bool_b,
             final boolean bool_c)
     {
+        if (model.lastInit == -1)
+        {
+            this.model = this.makeModel();
+            this.model.lastInit = 0;
+        }
         final RenderType.CompositeState rendertype$state = RenderType.CompositeState.builder()
                 .setTextureState(new RenderStateShard.TextureStateShard(this.getTextureLocation(entity), false, false))
                 .setTransparencyState(new RenderStateShard.TransparencyStateShard("translucent_transparency", () ->
@@ -148,12 +152,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     }
 
     @Override
-    public Vector5 getRotations()
-    {
-        return this.rotations;
-    }
-
-    @Override
     public Vector3 getScale()
     {
         return this.scale;
@@ -199,12 +197,6 @@ public class Wormhole extends LivingEntityRenderer<WormholeEntity, ModelWrapper<
     public void setRotationOffset(final Vector3 offset)
     {
         this.offset = offset;
-    }
-
-    @Override
-    public void setRotations(final Vector5 rotations)
-    {
-        this.rotations = rotations;
     }
 
     @Override

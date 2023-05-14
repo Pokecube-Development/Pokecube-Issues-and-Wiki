@@ -143,7 +143,7 @@ public class Animators
 
         public static enum CHANNEL
         {
-            POS("position"), ROT("rotation"), SCALE("scale"), OPACITY("opacity"), COLOUR("colour");
+            POS("position"), ROT("rotation"), SCALE("scale"), OPACITY("opacity"), COLOUR("colour"), HIDDEN("hidden");
 
             private final String name;
 
@@ -230,6 +230,7 @@ public class Animators
                 if (scale_channel) component._valid_channels.add("scale");
                 if (opac_channel) component._valid_channels.add("opacity");
                 if (colour_channel) component._valid_channels.add("colour");
+                if (component.hidden) component._valid_channels.add("hidden");
 
                 component._needJEPInit = component._opacFunction != DEFAULTS._opacFunction;
                 component._needJEPInit |= !Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
@@ -670,6 +671,32 @@ public class Animators
                 red_scale *= dc[0];
                 green_scale *= dc[1];
                 blue_scale *= dc[2];
+            }
+
+            channel = CHANNEL.HIDDEN;
+            // colour set
+            hidden:
+            {
+                var animChannel = channels.get(channel.ordinal());
+                if (animChannel == null) break hidden;
+                float t1 = time1, t2 = time2;
+                if (animation.loops)
+                {
+                    int l = animChannel.length();
+                    if (l > 1)
+                    {
+                        t1 = time1 % l;
+                        t2 = time2 % l;
+                    }
+                }
+                else
+                {
+                    t1 = Math.min(time1, animChannel.length());
+                    t2 = Math.min(time2, animChannel.length());
+                }
+                AnimationComponent component = getNext(t1, t2, animation.loops, animChannel);
+                if (component == null) break hidden;
+                any_hidden = true;
             }
 
             // Apply hidden like this so last hidden state is kept

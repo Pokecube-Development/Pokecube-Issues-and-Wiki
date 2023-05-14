@@ -22,6 +22,7 @@ import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.parts.Material;
+import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
@@ -67,6 +68,21 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         }
     }
 
+    public static class RootPart extends Part
+    {
+        public RootPart()
+        {
+            super("__root__");
+        }
+
+        @Override
+        public String getType()
+        {
+            return "__root__";
+        }
+    }
+
+    IExtendedModelPart root_part = null;
     public Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
     private final List<String> renderOrder = Lists.newArrayList();
@@ -161,6 +177,12 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public Map<String, IExtendedModelPart> getParts()
     {
+        if (root_part == null)
+        {
+            root_part = new RootPart();
+            for (var part : this.parts.values()) if (part.getParent() == null) root_part.addChild(part);
+            this.parts.put(root_part.getName(), root_part);
+        }
         return this.parts;
     }
 
