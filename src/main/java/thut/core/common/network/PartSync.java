@@ -34,7 +34,7 @@ public class PartSync extends NBTPacket
     {
         if (!(mob.level instanceof ServerLevel)) return;
         if (!(mob instanceof IMultpart<?, ?>)) return;
-        sendUpdate(mob, !(mob.isAlive() && mob.isAddedToWorld()));
+        sendUpdate(mob, !mob.isAddedToWorld());
     }
 
     public static void sendUpdate(final Entity mob, boolean remove)

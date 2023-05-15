@@ -750,7 +750,7 @@ public class PokemobEventsHandler
     private static void onMobTick(final LivingTickEvent evt)
     {
         final LivingEntity living = evt.getEntity();
-        
+
         if (living.isRemoved()) return;
 
         // Have this tick to manage the target's target.
@@ -1145,9 +1145,11 @@ public class PokemobEventsHandler
         if (!fits && pokemob.getEntity() instanceof EntityPokemob mob) fits = mob.canAddPassenger(player);
         final boolean saddled = PokemobEventsHandler.tryStartRiding(player, pokemob);
 
-        final boolean guiAllowed = pokemob.getPokedexEntry().stock || held.getItem() == PokecubeItems.POKEDEX.get();
+        boolean guiAllowed = pokemob.getPokedexEntry().stock || held.getItem() == PokecubeItems.POKEDEX.get();
+        guiAllowed = guiAllowed && entity.isAlive();
 
-        final boolean saddleCheck = !player.isShiftKeyDown() && held.isEmpty() && fits && saddled;
+        boolean saddleCheck = !player.isShiftKeyDown() && held.isEmpty() && fits && saddled;
+        saddleCheck = saddleCheck && entity.isAlive();
 
         // Check if favourte berry and sneaking, if so, do breeding stuff.
         if (isOwner || player instanceof FakePlayer)
