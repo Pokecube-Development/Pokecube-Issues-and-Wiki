@@ -183,7 +183,7 @@ public class AnimationBuilder
         final Animation newAnim = new Animation();
         var old = list.get(0);
         newAnim.name = old.name;
-        newAnim.identifier =old.identifier;
+        newAnim.identifier = old.identifier;
         newAnim.loops = old.loops;
         newAnim.priority = old.priority;
         newAnim.holdWhenDone = old.holdWhenDone;

@@ -379,11 +379,6 @@ public class AnimationConversion
             anmation.name = name;
 
             anmation.loops = animation.loop.equals("loop");
-            if (animation.name.contains("faint") || animation.name.contains("dead"))
-            {
-                anmation.loops = false;
-                anmation.holdWhenDone = true;
-            }
             List<Animation> anims = map.computeIfAbsent(animation.name, (k) -> {
                 return new ArrayList<>();
             });

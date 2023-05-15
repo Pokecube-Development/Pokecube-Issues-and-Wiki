@@ -302,8 +302,7 @@ public class Tools
         AABB aabb = entity.getBoundingBox().expandTowards(vec31.scale(distance)).inflate(f, f, f);
         Predicate<Entity> predicate = EntitySelector.NO_SPECTATORS.and(c -> entity.isPickable());
         if (selector != null) predicate = predicate.and(selector);
-        predicate = predicate
-                .and(c -> !c.isSpectator() && c.isAlive() && c.isPickable() && !Tools.isRidingOrRider(entity, c));
+        predicate = predicate.and(c -> c.isPickable() && !Tools.isRidingOrRider(entity, c));
         EntityHitResult hitResult = Tools.getEntityHitResult(entity, vec3, vec32, aabb, predicate, 0, extraSize);
         Entity hit = hitResult != null ? hitResult.getEntity() : null;
         if (hit != null) hit = EntityTools.getCoreEntity(hit);
