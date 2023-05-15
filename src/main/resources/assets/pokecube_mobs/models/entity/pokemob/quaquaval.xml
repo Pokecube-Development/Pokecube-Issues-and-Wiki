@@ -7,6 +7,7 @@
   <customTex default="quaquaval">
    <part name="Eye" tex="quaquaval_eye"/>
    <animation diffs="0,0.5" part="Eye" trigger="random:0.005:5"/>
+   <part name="Mark" tex="quaquaval_mark"/>
   </customTex>
   <phase type="sitting-2">
    <part name="body">
