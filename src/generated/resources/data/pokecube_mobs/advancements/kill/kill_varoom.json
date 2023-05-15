@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.varoom"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.varoom"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_varoom": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "varoom"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

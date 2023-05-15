@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.greavard"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.greavard"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_greavard": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "greavard"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

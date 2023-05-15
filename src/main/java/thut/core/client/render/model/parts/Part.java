@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Quaternion;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -28,6 +29,7 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
@@ -54,9 +56,15 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public Vector4 rotations = new Vector4();
     public Vertex scale = new Vertex(1, 1, 1);
 
+    protected Quaternion _quat = new Quaternion(0, 0, 0, 1);
+    protected Vector4 _rot = new Vector4();
+
     private float ds = 1;
     public float ds0 = 1;
     public float ds1 = 1;
+
+    public float[] colour_scales =
+    { 1f, 1f, 1f, 1f };
 
     Vector3 min = new Vector3();
     Vector3 max = new Vector3();
@@ -64,8 +72,13 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public int brightness = 15728640;
     public int overlay = 655360;
 
+    // Set this true to mark animations for this as limb based if they are
+    // normal keyframes
+    public boolean isOverridenLimb = false;
+
     private boolean hidden = false;
     private boolean disabled = false;
+    private boolean isHead = false;
 
     private final List<Material> materials = Lists.newArrayList();
     private final Map<String, Material> namedMaterials = new Object2ObjectOpenHashMap<>();
@@ -220,9 +233,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 
         mat.pushPose();
 
-        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         // Translate of offset for rotation.
         mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
         // // Apply PreOffset-Rotations.
         this.preRot.glRotate(mat);
         // Translate by post-PreOffset amount.
@@ -309,15 +322,25 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.set(offset);
         this.postTrans.clear();
+        this.colour_scales[0] = 1;
+        this.colour_scales[1] = 1;
+        this.colour_scales[2] = 1;
+        this.colour_scales[3] = 1;
         this.hidden = false;
     }
 
     @Override
     public void setAnimationChanger(final IAnimationChanger changer)
     {
-        this.changer = changer;
+        this.setAnimationChangerRaw(changer);
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setAnimationChanger(changer);
+    }
+
+    @Override
+    public void setAnimationChangerRaw(IAnimationChanger changer)
+    {
+        this.changer = changer;
     }
 
     @Override
@@ -361,6 +384,28 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
+    public void setDefaultAngles(float rx, float ry, float rz)
+    {
+        _quat.set(0, 0, 0, 1);
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
+        _rot.set(_quat);
+        this.preRot.mul(rotations, _rot);
+        this.rotations.set(preRot.x, preRot.y, preRot.z, preRot.w);
+    }
+
+    @Override
+    public void setAnimAngles(float rx, float ry, float rz)
+    {
+        _quat.set(0, 0, 0, 1);
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
+        this.setPreRotations(_rot.set(_quat));
+    }
+
+    @Override
     public void setPreScale(final Vector3 scale)
     {
         this.preScale.x = (float) scale.x;
@@ -390,10 +435,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
                 if (m == null) return;
                 if (material.test(m))
                 {
-                    m.rgbabro[0] = r;
-                    m.rgbabro[1] = g;
-                    m.rgbabro[2] = b;
-                    m.rgbabro[3] = a;
+                    m.rgbabro[0] = (int) (r * this.colour_scales[0]);
+                    m.rgbabro[1] = (int) (g * this.colour_scales[1]);
+                    m.rgbabro[2] = (int) (b * this.colour_scales[2]);
+                    m.rgbabro[3] = (int) (a * this.colour_scales[3]);
                     m.rgbabro[4] = this.brightness;
                     m.rgbabro[5] = this.overlay;
                 }
@@ -403,10 +448,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         {
             shapes.forEach(m -> {
                 if (m == null) return;
-                m.rgbabro[0] = r;
-                m.rgbabro[1] = g;
-                m.rgbabro[2] = b;
-                m.rgbabro[3] = a;
+                m.rgbabro[0] = (int) (r * this.colour_scales[0]);
+                m.rgbabro[1] = (int) (g * this.colour_scales[1]);
+                m.rgbabro[2] = (int) (b * this.colour_scales[2]);
+                m.rgbabro[3] = (int) (a * this.colour_scales[3]);
                 m.rgbabro[4] = this.brightness;
                 m.rgbabro[5] = this.overlay;
             });
@@ -416,45 +461,50 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void setTexturer(final IPartTexturer texturer)
     {
-        this.texturer = texturer;
+        this.setTexturerRaw(texturer);
         for (final IExtendedModelPart part : this.parts.values())
             if (part instanceof IRetexturableModel tex) tex.setTexturer(texturer);
     }
 
     @Override
+    public void setTexturerRaw(IPartTexturer texturer)
+    {
+        this.texturer = texturer;
+    }
+
+    @Override
     public void updateMaterial(final Mat mat, final Material material)
     {
-        final String[] parts = mat.name.split(":");
+        String[] parts = mat.name.split(":");
         if (mat.meshs == null) mat.meshs = "";
-        for (final String s : parts) for (final Mesh mesh : this.shapes)
+        if (mat.meshs.equals(this.getName()))
+        {
+            for (final Mesh mesh : this.shapes) mesh.setMaterial(material);
+        }
+        else for (final String s : parts) for (final Mesh mesh : this.shapes)
         {
             if (mesh.name == null) mesh.name = this.getName();
-            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name) || mat.meshs.contains(mesh.name))
+            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name))
             {
-                if (mesh.material != null)
-                {
-                    this.matcache.remove(mesh.material);
-                    this.materials.remove(mesh.material);
-                    this.namedMaterials.remove(mesh.material.name);
-                }
                 mesh.setMaterial(material);
             }
-        }
-        for (final Material m : this.materials) if (m.name.equals(mat.name))
-        {
-            this.matcache.remove(m);
-            this.materials.remove(m);
-            this.namedMaterials.remove(m.name);
-            break;
         }
         if (material == null)
         {
             ThutCore.LOGGER.error("Error loading a material, trying to set it to null: {}", JsonUtil.gson.toJson(mat));
             ThutCore.LOGGER.error(new IllegalAccessException());
         }
-        this.matcache.add(material);
-        this.materials.add(material);
-        this.namedMaterials.put(material.name, material);
+        this.matcache.clear();
+        this.materials.clear();
+        this.namedMaterials.clear();
+        for (Mesh shape : this.shapes)
+        {
+            if (this.matcache.add(shape.material))
+            {
+                this.materials.add(shape.material);
+                this.namedMaterials.put(shape.material.name, shape.material);
+            }
+        }
     }
 
     @Override
@@ -485,5 +535,31 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public boolean isDisabled()
     {
         return disabled;
+    }
+
+    @Override
+    public void setColorScales(float r, float g, float b, float a)
+    {
+        r = Math.max(0, Math.min(r, 1));
+        g = Math.max(0, Math.min(g, 1));
+        b = Math.max(0, Math.min(b, 1));
+        a = Math.max(0, Math.min(a, 1));
+
+        this.colour_scales[0] = r;
+        this.colour_scales[1] = g;
+        this.colour_scales[2] = b;
+        this.colour_scales[3] = a;
+    }
+
+    @Override
+    public void setHeadPart(final boolean isHead)
+    {
+        this.isHead = isHead;
+    }
+
+    @Override
+    public boolean isHeadPart()
+    {
+        return isHead;
     }
 }

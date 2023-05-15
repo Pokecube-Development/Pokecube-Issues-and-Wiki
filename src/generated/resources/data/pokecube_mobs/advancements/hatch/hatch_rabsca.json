@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.rabsca"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.rabsca"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_rabsca": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "rabsca"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

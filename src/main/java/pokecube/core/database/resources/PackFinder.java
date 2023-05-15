@@ -17,9 +17,11 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.Pack.PackConstructor;
+import net.minecraft.server.packs.repository.Pack.Position;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.resources.Resource;
@@ -138,6 +140,13 @@ public class PackFinder implements RepositorySource
         return ret;
     }
 
+    public static final PackFinder DEFAULT_FINDER = new PackFinder(
+            (name, component, bool, supplier, metadata, position, source, hidden) ->
+            {
+                return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, Position.TOP, source,
+                        hidden);
+            });
+
     public final List<PackResources> allPacks = Lists.newArrayList();
     public final List<PackResources> folderPacks = Lists.newArrayList();
 
@@ -202,7 +211,7 @@ public class PackFinder implements RepositorySource
     @Override
     public void loadPacks(final Consumer<Pack> infoConsumer, final PackConstructor infoFactory)
     {
-        throw new RuntimeException("Opps we, don't do this yet!");
+        this.folderFinder_new.loadPacks(infoConsumer, infoFactory);
     }
 
 }

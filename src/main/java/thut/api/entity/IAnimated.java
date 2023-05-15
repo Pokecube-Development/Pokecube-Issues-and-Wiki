@@ -1,8 +1,10 @@
 package thut.api.entity;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -22,6 +24,20 @@ public interface IAnimated
      * @return
      */
     List<String> getChoices();
+
+    /**
+     * List of non-looping animations to run during an existing animation.
+     * 
+     * @return
+     */
+    List<String> transientAnimations();
+
+    /**
+     * The thing we animate for, for mobs, this is the Entity itself.
+     * 
+     * @return
+     */
+    Object getContext();
 
     public static class HeadInfo
     {
@@ -91,6 +107,9 @@ public interface IAnimated
             MOLANG_MAP.put("query.is_on_ground", "is_on_ground");
             MOLANG_MAP.put("query.yaw_speed", "yaw_speed");
 
+            Set<String> vars = new HashSet<>(MOLANG_MAP.keySet());
+            for (String s : vars) MOLANG_MAP.put(s.replace("query.", "q."), MOLANG_MAP.get(s));
+
             JEP_VARS.put("t", 0.);
             JEP_VARS.put("l", 0.);
             JEP_VARS.put("health", 20.);
@@ -118,10 +137,10 @@ public interface IAnimated
         public double is_on_ground = 1;
         public double yaw_speed = 0;
 
-        public void updateJEP(JEP jep)
+        public void updateJEP(JEP jep, double anim_time, double walk_time)
         {
-            jep.setVarValue("t", t);
-            jep.setVarValue("l", l);
+            jep.setVarValue("t", anim_time);
+            jep.setVarValue("l", walk_time);
             jep.setVarValue("health", health);
             jep.setVarValue("max_health", max_health);
             jep.setVarValue("is_in_water", is_in_water);
@@ -130,6 +149,18 @@ public interface IAnimated
             jep.setVarValue("on_fire_time", on_fire_time);
             jep.setVarValue("is_on_ground", is_on_ground);
             jep.setVarValue("yaw_speed", yaw_speed);
+        }
+
+        protected double t_0 = 0;
+
+        public void startTimer(float timer)
+        {
+            t_0 = timer;
+        }
+
+        public double getAnimTime()
+        {
+            return t - t_0;
         }
     }
 
@@ -146,6 +177,8 @@ public interface IAnimated
         String getPendingAnimations();
 
         List<Animation> getPlaying();
+
+        void setContext(IAnimated context);
 
         /**
          * This is the animation about to be run.
@@ -172,9 +205,13 @@ public interface IAnimated
          */
         String getAnimation(Entity entityIn);
 
-        void preRun();
+        void preRunAll();
 
-        void postRun();
+        void postRunAll();
+
+        void preRunAnim(Animation animation);
+
+        void postRunAnim(Animation animation);
 
         boolean isFixed();
 

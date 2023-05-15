@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -53,7 +54,8 @@ public class NBTEdit
 
     public static boolean opOnly = true;
 
-    public static CommonProxy proxy;
+    public static final CommonProxy proxy = DistExecutor.safeRunForDist(() -> pokecube.nbtedit.forge.ClientProxy::new,
+            () -> pokecube.nbtedit.forge.CommonProxy::new);
 
     public static final ConfigHolder config = new ConfigHolder();
 

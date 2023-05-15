@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.chi-yu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.chi-yu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_chi-yu": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "chi-yu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

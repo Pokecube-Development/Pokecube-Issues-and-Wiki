@@ -2,7 +2,7 @@
   "name": "dialga-origin",
   "id": 483,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 306,
   "size": {
     "height": 5.4,
     "width": 4.0,

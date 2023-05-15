@@ -122,6 +122,16 @@ public interface IExtendedModelPart extends IModelCustom
 
     void resetToInit();
 
+    default void setHeadPart(final boolean isHead)
+    {
+
+    }
+
+    default boolean isHeadPart()
+    {
+        return false;
+    }
+
     default void setHidden(final boolean hidden)
     {
 
@@ -157,6 +167,12 @@ public interface IExtendedModelPart extends IModelCustom
         return Sets.newHashSet();
     }
 
+    default void setAnimAngles(float rx, float ry, float rz)
+    {}
+
+    default void setDefaultAngles(float rx, float ry, float rz)
+    {}
+
     void setAnimationHolder(IAnimationHolder holder);
 
     IAnimationHolder getAnimationHolder();
@@ -172,6 +188,8 @@ public interface IExtendedModelPart extends IModelCustom
     void setPreScale(Vector3 scale);
 
     void setPreTranslations(Vector3 translations);
+
+    void setColorScales(float r, float g, float b, float a);
 
     /**
      * Sets the colour for this part

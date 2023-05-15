@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ting-lu"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ting-lu"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ting-lu": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ting-lu"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

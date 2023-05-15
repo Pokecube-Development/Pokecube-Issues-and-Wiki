@@ -14,7 +14,6 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix3f;
 import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -29,8 +28,10 @@ import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
+import thut.api.AnimatedCaps;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public class GuiPokemobHelper
@@ -120,15 +121,15 @@ public class GuiPokemobHelper
         mat.pushPose();
         mat.translate(j + 55, k + 60, 50.0F);
         mat.scale(scale, scale, scale);
-        final Quaternion quaternion = Vector3f.ZP.rotationDegrees(180.0F);
-        final Quaternion quaternion1 = Vector3f.YP.rotationDegrees(180 - yaw);
+        final Quaternion quaternion = AxisAngles.ZP.rotationDegrees(180.0F);
+        final Quaternion quaternion1 = AxisAngles.YP.rotationDegrees(180 - yaw);
 
         final Matrix3f norms = mat.last().normal().copy();
         mat.scale(1, 1, -1);
         mat.last().normal().load(norms);
 
         quaternion.mul(quaternion1);
-        quaternion.mul(Vector3f.XP.rotationDegrees(pitch));
+        quaternion.mul(AxisAngles.XP.rotationDegrees(pitch));
         mat.mulPose(quaternion);
         Lighting.setupForEntityInInventory();
         final EntityRenderDispatcher entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
@@ -141,8 +142,13 @@ public class GuiPokemobHelper
         // Disable the face culling that occurs if too far away
         double bak = ThutCore.getConfig().modelCullThreshold;
         ThutCore.getConfig().modelCullThreshold = -1;
-        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, mat, irendertypebuffer$impl,
-                15728880);
+        if (!pokemob.getEntity().isAddedToWorld())
+        {
+            var animated = AnimatedCaps.getAnimated(pokemob.getEntity());
+            animated.getChoices().clear();
+            animated.getChoices().add("gui_render");
+        }
+        entityrenderermanager.render(renderMob, 0.0D, 0.0D, 0.0D, 0.0F, 0F, mat, irendertypebuffer$impl, 15728880);
         // Re-enable the face culling that occurs if too far away
         ThutCore.getConfig().modelCullThreshold = bak;
         RenderMobOverlays.enabled = true;

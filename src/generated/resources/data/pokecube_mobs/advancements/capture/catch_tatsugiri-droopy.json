@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-droopy"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tatsugiri-droopy"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_tatsugiri-droopy": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "tatsugiri-droopy"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}

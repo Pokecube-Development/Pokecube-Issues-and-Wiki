@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.gimmighoul"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_gimmighoul": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "gimmighoul"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

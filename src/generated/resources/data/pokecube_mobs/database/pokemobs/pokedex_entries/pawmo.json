@@ -1,0 +1,171 @@
+{
+  "name": "pawmo",
+  "id": 922,
+  "stock": true,
+  "base_experience": 123,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 6.5,
+  "is_default": true,
+  "capture_rate": 80,
+  "base_happiness": 50,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 60,
+    "attack": 75,
+    "defense": 40,
+    "special_attack": 50,
+    "special_defense": 40,
+    "speed": 85
+  },
+  "evs": {
+    "speed": 2
+  },
+  "types": [
+    "electric",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "volt-absorb",
+      "natural-cure"
+    ],
+    "hidden": [
+      "iron-fist"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "growl"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 19,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 3,
+        "moves": [
+          "thunder-shock"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "thunder-wave"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "dig"
+        ]
+      },
+      {
+        "L": 46,
+        "moves": [
+          "agility"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "spark"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "charge"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "arm-thrust"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "discharge"
+        ]
+      },
+      {
+        "L": 38,
+        "moves": [
+          "entrainment"
+        ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "wild-charge"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "nuzzle"
+        ]
+      }
+    ],
+    "misc": [
+      "thunder-punch",
+      "take-down",
+      "low-kick",
+      "thunderbolt",
+      "thunder-wave",
+      "thunder",
+      "dig",
+      "agility",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "protect",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "baton-pass",
+      "encore",
+      "metal-claw",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "facade",
+      "helping-hand",
+      "fling",
+      "thunder-fang",
+      "charge-beam",
+      "electro-ball",
+      "low-sweep",
+      "volt-switch",
+      "wild-charge",
+      "play-rough",
+      "eerie-impulse",
+      "electric-terrain",
+      "tera-blast"
+    ]
+  }
+}

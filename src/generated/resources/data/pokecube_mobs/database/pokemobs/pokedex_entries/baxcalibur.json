@@ -1,0 +1,160 @@
+{
+  "name": "baxcalibur",
+  "id": 998,
+  "stock": true,
+  "base_experience": 300,
+  "size": {
+    "height": 2.1
+  },
+  "mass": 210.0,
+  "is_default": true,
+  "capture_rate": 10,
+  "base_happiness": 50,
+  "growth_rate": "slow",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 115,
+    "attack": 145,
+    "defense": 92,
+    "special_attack": 75,
+    "special_defense": 86,
+    "speed": 87
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "dragon",
+    "ice"
+  ],
+  "abilities": {
+    "normal": [
+      "thermal-exchange"
+    ],
+    "hidden": [
+      "ice-body"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "leer",
+          "ice-shard",
+          "dragon-tail",
+          "breaking-swipe",
+          "snowscape"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "take-down"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bite"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "ice-beam"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "icy-wind"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "dragon-claw"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "ice-fang"
+        ]
+      },
+      {
+        "L": 62,
+        "moves": [
+          "icicle-crash"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "glaive-rush"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "body-slam",
+      "take-down",
+      "ice-beam",
+      "blizzard",
+      "hyper-beam",
+      "earthquake",
+      "dig",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "icy-wind",
+      "outrage",
+      "endure",
+      "false-swipe",
+      "sleep-talk",
+      "rain-dance",
+      "crunch",
+      "facade",
+      "helping-hand",
+      "brick-break",
+      "aerial-ace",
+      "dragon-claw",
+      "dragon-dance",
+      "dragon-pulse",
+      "giga-impact",
+      "avalanche",
+      "thunder-fang",
+      "ice-fang",
+      "zen-headbutt",
+      "draco-meteor",
+      "iron-head",
+      "bulldoze",
+      "dragon-tail",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "snowscape"
+    ]
+  }
+}

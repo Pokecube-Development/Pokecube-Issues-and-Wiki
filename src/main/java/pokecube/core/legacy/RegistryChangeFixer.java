@@ -8,6 +8,8 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -52,6 +54,15 @@ public class RegistryChangeFixer
     }
 
     @SubscribeEvent
+    public static void onRegistryMissingSoundEventsEvent(RegistryEvent.MissingMappings<SoundEvent> event)
+    {
+        ImmutableList<Mapping<SoundEvent>> mappings = event.getAllMappings();
+        mappings.forEach(m -> {
+            if (m.key.getPath().startsWith("mobs.")) m.remap(SoundEvents.PIG_AMBIENT);
+        });
+    }
+
+    @SubscribeEvent
     public static void onRegistryMissingEntityTypeEvent(RegistryEvent.MissingMappings<EntityType<?>> event)
     {
         ImmutableList<Mapping<EntityType<?>>> mappings = event.getAllMappings();
@@ -68,6 +79,11 @@ public class RegistryChangeFixer
             {
                 PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key, Database.formeToEntry.get(m.key));
                 m.remap(Database.formeToEntry.get(m.key).getEntityType());
+            }
+            else
+            {
+                PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key, Database.missingno);
+                m.remap(Database.missingno.getEntityType());
             }
         });
     }

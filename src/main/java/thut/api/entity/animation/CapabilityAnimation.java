@@ -1,14 +1,16 @@
 package thut.api.entity.animation;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -16,6 +18,7 @@ import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import thut.api.ThutCaps;
+import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
@@ -31,10 +34,10 @@ public class CapabilityAnimation
         Map<String, List<Animation>> anims = Maps.newHashMap();
 
         List<Animation> playingList = DefaultImpl.EMPTY;
+        Set<Animation> transients = new HashSet<>();
 
-        Object2IntOpenHashMap<UUID> non_static = new Object2IntOpenHashMap<>();
-
-        List<Animation> keys = Lists.newArrayList();
+        Object2FloatOpenHashMap<UUID> non_static = new Object2FloatOpenHashMap<>();
+        Object2FloatOpenHashMap<UUID> start_times = new Object2FloatOpenHashMap<>();
 
         public String _default = "idle";
 
@@ -48,11 +51,19 @@ public class CapabilityAnimation
 
         boolean init = false;
 
+        float _ageInTicks;
+
+        IAnimated context;
+
         @Override
         public void clean()
         {
             this.pending = _default;
             this.playing = _default;
+            this.non_static.clear();
+            this.start_times.clear();
+            if (this.playingList != DefaultImpl.EMPTY && !transients.isEmpty()) this.playingList.removeAll(transients);
+            this.transients.clear();
             this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
         }
 
@@ -71,25 +82,44 @@ public class CapabilityAnimation
         @Override
         public void initAnimations(Map<String, List<Animation>> map, String _default)
         {
-            if (init) return;
+            if (map.size() == this.anims.size()) return;
             map.forEach((s, l) -> anims.computeIfAbsent(s, s2 -> Lists.newArrayList(l)));
             this._default = _default;
             init = true;
         }
 
+        private void initPlayingList()
+        {
+            this.non_static.clear();
+            this.start_times.clear();
+            for (final Animation a : this.playingList) if (a.getLength() > 0)
+            {
+                this.non_static.put(a._uuid, 0);
+                this.start_times.removeFloat(a._uuid);
+            }
+        }
+
         @Override
         public List<Animation> getPlaying()
         {
-            if (this.keys.isEmpty() && !this.pending.isEmpty())
+            if (pending.equals("none"))
+            {
+                non_static.clear();
+                return EMPTY;
+            }
+            if (!this.anims.containsKey(this.playing)) this.playing = _default;
+
+            List<Animation> playing = this.anims.getOrDefault(this.playing, EMPTY);
+            if (this.playingList != playing)
+            {
+                this.playingList = playing;
+                initPlayingList();
+            }
+            if (non_static.isEmpty() && !this.pending.isEmpty())
             {
                 this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
                 this.playing = this.pending;
-                this.non_static.clear();
-                for (final Animation a : this.playingList) if (a.getLength() > 0)
-                {
-                    this.non_static.put(a._uuid, 0);
-                    this.keys.add(a);
-                }
+                initPlayingList();
             }
             return this.playingList;
         }
@@ -118,12 +148,7 @@ public class CapabilityAnimation
         @Override
         public void setStep(final Animation animation, final float step)
         {
-            // Only reset if we have a pending animation.
-            final int l = animation.getLength();
-            final boolean finished = l != 0 && step > l || animation.hasLimbBased;
-            if (finished && (!animation.loops || !this.pending.equals(this.playing)))
-                this.non_static.put(animation._uuid, 0);
-            else this.non_static.put(animation._uuid, l != 0 ? l : 10);
+            this.non_static.put(animation._uuid, step);
         }
 
         @Override
@@ -133,23 +158,81 @@ public class CapabilityAnimation
         }
 
         @Override
-        public void preRun()
+        public void preRunAll()
         {
-            this.non_static.replaceAll((a, i) -> 0);
+            if (context != null)
+            {
+                var transients = context.transientAnimations();
+                synchronized (transients)
+                {
+                    if (!transients.isEmpty() && this.playingList != EMPTY)
+                    {
+                        for (var anim : transients)
+                        {
+                            if (this.anims.containsKey(anim))
+                            {
+                                this.transients.addAll(anims.get(anim));
+                            }
+                        }
+                        for (Animation a : this.transients)
+                        {
+                            if (this.playingList.contains(a)) continue;
+                            this.playingList.add(0, a);
+                            this.non_static.put(a._uuid, 0);
+                            this.start_times.removeFloat(a._uuid);
+                        }
+                    }
+                    transients.clear();
+                }
+            }
         }
 
         @Override
-        public void postRun()
+        public void postRunAll()
+        {}
+
+        @Override
+        public void initHeadInfoAndMolangs(Entity entityIn, float limbSwing, float limbSwingAmount, float ageInTicks,
+                float netHeadYaw, float headPitch)
         {
-            this.keys.removeIf(a -> {
-                final int i = this.non_static.getInt(a._uuid);
-                if (i <= 0)
+            IAnimationHolder.super.initHeadInfoAndMolangs(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw,
+                    headPitch);
+            this._ageInTicks = ageInTicks;
+        }
+
+        @Override
+        public void preRunAnim(Animation animation)
+        {
+            this.non_static.put(animation._uuid, 0);
+            float t_0 = this.start_times.getOrDefault(animation._uuid, this._ageInTicks);
+            this.start_times.put(animation._uuid, t_0);
+            this.getMolangVars().startTimer(t_0);
+        }
+
+        @Override
+        public void postRunAnim(Animation animation)
+        {
+            float i = this.non_static.getFloat(animation._uuid);
+            if (this.pending != this.playing)
+            {
+                if (i >= animation.length)
                 {
-                    this.non_static.removeInt(a._uuid);
-                    return true;
+                    this.non_static.removeFloat(animation._uuid);
+                    if (this.transients.contains(animation)) this.playingList.remove(animation);
+                    this.transients.remove(animation);
                 }
-                return false;
-            });
+            }
+            else
+            {
+                boolean dontCleanup = this.transients.contains(animation)
+                        || (animation.loops || animation.hasLimbBased || animation.holdWhenDone);
+                if (i >= animation.length && !dontCleanup)
+                {
+                    this.non_static.removeFloat(animation._uuid);
+                    if (this.transients.contains(animation)) this.playingList.remove(animation);
+                    this.transients.remove(animation);
+                }
+            }
         }
 
         @Override
@@ -212,6 +295,12 @@ public class CapabilityAnimation
         public MolangVars getMolangVars()
         {
             return molangs;
+        }
+
+        @Override
+        public void setContext(IAnimated context)
+        {
+            this.context = context;
         }
     }
 }

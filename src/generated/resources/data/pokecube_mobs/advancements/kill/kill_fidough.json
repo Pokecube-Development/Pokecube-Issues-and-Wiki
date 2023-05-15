@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.fidough"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.fidough"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_fidough": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "fidough"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

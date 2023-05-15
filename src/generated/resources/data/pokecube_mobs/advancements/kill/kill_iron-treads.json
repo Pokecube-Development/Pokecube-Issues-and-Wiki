@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-treads"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.iron-treads"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_iron-treads": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "iron-treads"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

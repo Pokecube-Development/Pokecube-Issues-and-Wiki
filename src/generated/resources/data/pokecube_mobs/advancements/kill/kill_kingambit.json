@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingambit"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.kingambit"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_kingambit": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "kingambit"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

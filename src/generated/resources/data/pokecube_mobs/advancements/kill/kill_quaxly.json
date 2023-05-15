@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaxly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaxly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_quaxly": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "quaxly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

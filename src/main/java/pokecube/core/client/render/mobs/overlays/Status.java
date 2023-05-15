@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -20,6 +19,7 @@ import pokecube.core.utils.Resources;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
+import thut.lib.AxisAngles;
 
 public class Status
 {
@@ -118,7 +118,7 @@ public class Status
 
             if (f8 > 1.0F) f8 = 1.0F;
         }
-        mat.mulPose(Vector3f.YP.rotationDegrees(180.0F - f));
+        mat.mulPose(AxisAngles.YP.rotationDegrees(180.0F - f));
 
         final float ds = frz ? 0.05f : 0.05f;
 

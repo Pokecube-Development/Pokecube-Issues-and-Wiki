@@ -8,7 +8,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -36,6 +35,7 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.wrappers.ModelWrapper;
+import thut.lib.AxisAngles;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
@@ -117,11 +117,11 @@ public class WearableWrapper
             mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
 
             mat.scale(1, -1, -1);
-            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
 
-            mat.mulPose(Vector3f.ZP.rotationDegrees((float) offsets.angles.z));
-            mat.mulPose(Vector3f.YP.rotationDegrees((float) offsets.angles.y));
-            mat.mulPose(Vector3f.XP.rotationDegrees((float) offsets.angles.x));
+            mat.mulPose(AxisAngles.ZP.rotationDegrees((float) offsets.angles.z));
+            mat.mulPose(AxisAngles.YP.rotationDegrees((float) offsets.angles.y));
+            mat.mulPose(AxisAngles.XP.rotationDegrees((float) offsets.angles.x));
 
             float sx = (float) this.offsets.scale.x;
             float sy = (float) this.offsets.scale.y;
@@ -174,11 +174,11 @@ public class WearableWrapper
             mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
 
             mat.scale(1, -1, -1);
-            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
 
-            mat.mulPose(Vector3f.ZP.rotationDegrees((float) offsets.angles.z));
-            mat.mulPose(Vector3f.YP.rotationDegrees((float) offsets.angles.y));
-            mat.mulPose(Vector3f.XP.rotationDegrees((float) offsets.angles.x));
+            mat.mulPose(AxisAngles.ZP.rotationDegrees((float) offsets.angles.z));
+            mat.mulPose(AxisAngles.YP.rotationDegrees((float) offsets.angles.y));
+            mat.mulPose(AxisAngles.XP.rotationDegrees((float) offsets.angles.x));
 
             float sx = (float) this.offsets.scale.x;
             float sy = (float) this.offsets.scale.y;

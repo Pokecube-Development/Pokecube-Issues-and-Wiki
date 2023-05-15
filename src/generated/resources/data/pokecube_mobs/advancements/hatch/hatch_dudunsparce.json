@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dudunsparce"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_dudunsparce": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "dudunsparce"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

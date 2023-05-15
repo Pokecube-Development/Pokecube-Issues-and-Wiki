@@ -22,12 +22,12 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -35,7 +35,6 @@ import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
 import thut.core.client.render.model.IModelRenderer;
-import thut.core.client.render.model.IModelRenderer.Vector5;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
@@ -65,8 +64,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public boolean debugMode = false;
 
     private final int[] tmp = new int[4];
-
-    private final Vector5 rots = new Vector5();
 
     public ModelWrapper(final ModelHolder model, final IModelRenderer<?> renderer)
     {
@@ -171,8 +168,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         final IAnimationChanger animChanger = this.renderer.getAnimationChanger();
         this.imodel.getParts().forEach((partName, part) -> {
             if (animChanger != null) animChanger.isPartHidden(partName, entityIn, false);
-            if (part instanceof IRetexturableModel tex) tex.setTexturer(texer);
         });
+        if (this.imodel instanceof IRetexturableModel m) m.setTexturer(texer);
     }
 
     @Override
@@ -260,25 +257,18 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         if (!this.isLoaded()) return;
         this.setEntity(entityIn);
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
-        holder.preRun();
         this.renderer.setAnimationHolder(holder);
-        if (this.renderer.getAnimationChanger() != null) this.renderer.setAnimation(entityIn, partialTickTime);
+        this.renderer.setAnimation(entityIn, partialTickTime);
+        holder.setContext(AnimatedCaps.getAnimated(entityIn));
+        holder.preRunAll();
         this.applyAnimation(entityIn, this.renderer, partialTickTime, limbSwing);
-        holder.postRun();
+        holder.postRunAll();
     }
 
     @Override
     public void setOffset(final Vector3 point)
     {
         this.setRotationPoint((float) point.x, (float) point.y, (float) point.z);
-    }
-
-    public void setRotationAngles(final Vector4 rotations)
-    {
-        this.rotateAngle = rotations.w;
-        this.rotateAngleX = rotations.x;
-        this.rotateAngleY = rotations.y;
-        this.rotateAngleZ = rotations.z;
     }
 
     public void setRotationPoint(final float par1, final float par2, final float par3)
@@ -291,11 +281,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     protected void transformGlobal(final PoseStack mat, final VertexConsumer buffer, final String currentPhase,
             final Entity entity, final float partialTick)
     {
-        Vector5 rotations = this.renderer.getRotations();
-        if (rotations == null) rotations = this.rots;
-        this.setRotationAngles(rotations.rotations);
         this.setOffset(this.renderer.getRotationOffset());
-        this.rotate(mat);
         this.imodel.globalFix(mat, this.rotationPointX, this.rotationPointY, this.rotationPointZ);
         this.translate(mat);
         this.renderer.scaleEntity(mat, entity, this, partialTick);

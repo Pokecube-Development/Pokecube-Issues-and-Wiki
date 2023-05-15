@@ -23,9 +23,9 @@ public class Animation
         void convertToIdents(String[] names);
     }
 
-    private UUID id;
+    private UUID id = UUID.randomUUID();;
 
-    public UUID _uuid = UUID.randomUUID();
+    public UUID _uuid = id;
 
     public String name = "";
     public String identifier = "";
@@ -38,6 +38,7 @@ public class Animation
     public int priority = 10;
 
     public boolean loops = true;
+    public boolean holdWhenDone = false;
 
     public boolean hasLimbBased = false;
 

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.crocalor"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.crocalor"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_crocalor": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "crocalor"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.arboliva"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.arboliva"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_arboliva": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "arboliva"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

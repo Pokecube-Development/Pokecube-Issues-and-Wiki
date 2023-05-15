@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.walking-wake"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.walking-wake"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_walking-wake": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "walking-wake"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

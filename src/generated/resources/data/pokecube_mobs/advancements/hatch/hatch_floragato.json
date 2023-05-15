@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.floragato"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.floragato"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_floragato": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "floragato"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

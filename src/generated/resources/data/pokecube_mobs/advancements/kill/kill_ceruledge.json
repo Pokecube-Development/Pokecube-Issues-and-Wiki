@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ceruledge"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ceruledge"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ceruledge": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ceruledge"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

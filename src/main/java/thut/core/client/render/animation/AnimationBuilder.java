@@ -9,15 +9,13 @@ import java.util.Set;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
-import org.nfunk.jep.JEP;
-
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animation.IPartRenamer;
 import thut.api.entity.animation.AnimationComponent;
-import thut.api.entity.animation.Animators.FunctionAnimation;
+import thut.api.entity.animation.Animators;
 import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationXML.Component;
@@ -29,8 +27,9 @@ public class AnimationBuilder
 {
     private static void addTo(final Animation animation, final int priority, final String part, final IAnimator parts)
     {
-        if (animation.sets.containsKey(part) && animation.priority > priority)
-            ThutCore.LOGGER.warn("Already have " + part + ", Skipping.");
+        boolean conflicts = animation.sets.containsKey(part);
+        conflicts = conflicts && animation.sets.get(part).conflicts(parts);
+        if (conflicts && animation.priority > priority) ThutCore.LOGGER.debug("Already have " + part + ", Skipping.");
         else animation.sets.put(part, parts);
     }
 
@@ -81,29 +80,28 @@ public class AnimationBuilder
                 }
             }
 
-            outer:
             for (final String partName : partNames)
             {
                 final ArrayList<AnimationComponent> set = Lists.newArrayList();
                 for (final Component component : part.components)
                 {
-                    if (!(component.rotFuncs.isBlank() && component.posFuncs.isBlank()
-                            && component.scaleFuncs.isBlank()))
-                    {
-                        JEP[] rots = new JEP[3];
-                        JEP[] pos = new JEP[3];
-                        JEP[] scale = new JEP[3];
-
-                        if (!component.rotFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.rotFuncs);
-                        if (!component.posFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.posFuncs);
-                        if (!component.scaleFuncs.isBlank()) FunctionAnimation.fillJEPs(rots, component.scaleFuncs);
-
-                        FunctionAnimation anim = new FunctionAnimation(rots, pos, scale);
-                        anim.setHidden(component.hidden);
-                        ret.sets.put(partName, anim);
-                        continue outer;
-                    }
                     final AnimationComponent comp = new AnimationComponent();
+
+                    String[] rots = comp._rotFunctions;
+                    String[] pos = comp._posFunctions;
+                    String[] col = comp._colFunctions;
+                    String[] scale = comp._scaleFunctions;
+
+                    if (!component.rotFuncs.isBlank()) Animators.fillJEPs(rots, component.rotFuncs);
+                    if (!component.posFuncs.isBlank()) Animators.fillJEPs(pos, component.posFuncs);
+                    if (!component.colFuncs.isBlank()) Animators.fillJEPs(col, component.colFuncs);
+                    if (!component.scaleFuncs.isBlank()) Animators.fillJEPs(scale, component.scaleFuncs);
+                    if (!component.opacFuncs.isBlank())
+                    {
+                        var func = component.opacFuncs;
+                        comp._opacFunction = func;
+                    }
+
                     if (component.name != null) comp.name = component.name;
                     if (component.rotChange != null)
                     {
@@ -118,6 +116,13 @@ public class AnimationBuilder
                         comp.posChange[0] = Double.parseDouble(vals[0]);
                         comp.posChange[1] = Double.parseDouble(vals[1]);
                         comp.posChange[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.colChange != null)
+                    {
+                        final String[] vals = component.colChange.split(",");
+                        comp.colChange[0] = Double.parseDouble(vals[0]);
+                        comp.colChange[1] = Double.parseDouble(vals[1]);
+                        comp.colChange[2] = Double.parseDouble(vals[2]);
                     }
                     if (component.scaleChange != null)
                     {
@@ -139,6 +144,13 @@ public class AnimationBuilder
                         comp.posOffset[0] = Double.parseDouble(vals[0]);
                         comp.posOffset[1] = Double.parseDouble(vals[1]);
                         comp.posOffset[2] = Double.parseDouble(vals[2]);
+                    }
+                    if (component.colOffset != null)
+                    {
+                        final String[] vals = component.colOffset.split(",");
+                        comp.colOffset[0] = Double.parseDouble(vals[0]);
+                        comp.colOffset[1] = Double.parseDouble(vals[1]);
+                        comp.colOffset[2] = Double.parseDouble(vals[2]);
                     }
                     if (component.scaleOffset != null)
                     {
@@ -169,10 +181,12 @@ public class AnimationBuilder
     {
         if (list.isEmpty()) return null;
         final Animation newAnim = new Animation();
-        newAnim.name = list.get(0).name;
-        newAnim.identifier = list.get(0).identifier;
-        newAnim.loops = list.get(0).loops;
-        newAnim.priority = list.get(0).priority;
+        var old = list.get(0);
+        newAnim.name = old.name;
+        newAnim.identifier =old.identifier;
+        newAnim.loops = old.loops;
+        newAnim.priority = old.priority;
+        newAnim.holdWhenDone = old.holdWhenDone;
         for (final Animation anim : list) for (final String part : anim.sets.keySet())
             AnimationBuilder.addTo(newAnim, anim.priority, part, anim.sets.get(part));
         return newAnim;
@@ -184,7 +198,7 @@ public class AnimationBuilder
         final Map<Integer, List<Animation>> splitAnims = Maps.newHashMap();
         for (final Animation anim : oldList) AnimationBuilder.splitAnimation(anim, splitAnims);
         list.clear();
-        for (final List<Animation> split : splitAnims.values()) list.add(AnimationBuilder.mergeAnimations(split));
+        list.add(AnimationBuilder.mergeAnimations(oldList));
     }
 
     private static void splitAnimation(final Animation animIn, final Map<Integer, List<Animation>> fill)
@@ -205,6 +219,7 @@ public class AnimationBuilder
             newAnim.identifier = animIn.identifier;
             newAnim.loops = animIn.loops;
             newAnim.priority = animIn.priority;
+            newAnim.holdWhenDone = animIn.holdWhenDone;
             newAnim.sets.put(key, comps);
             anims.add(newAnim);
         }

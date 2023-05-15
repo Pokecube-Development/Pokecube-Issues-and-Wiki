@@ -95,6 +95,7 @@ public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
                 {
                     this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
                     this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+                    this.textFieldBoxName.setValue(this.menu.getPage());
                 }));
         final Component prev = TComponent.translatable("block.pc.previous");
         this.addRenderableWidget(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10,
@@ -102,6 +103,7 @@ public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
                 {
                     this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
                     this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+                    this.textFieldBoxName.setValue(this.menu.getPage());
                 }));
         this.textFieldSelectedBox = new EditBox(this.font, this.width / 2 - xOffset - 70, this.height / 2 - yOffset
                 - 121, 25, 10, TComponent.literal(this.page));

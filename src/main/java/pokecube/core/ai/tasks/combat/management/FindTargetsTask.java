@@ -87,6 +87,8 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
     public static void onMobTick(final LivingEntity living)
     {
         if (!FindTargetsTask.handleDamagedTargets) return;
+        // Only run this every 10 ticks
+        if (living.tickCount % 10 != 0) return;
         LivingEntity target = BrainUtils.getAttackTarget(living);
         if (target == null) return;
         LivingEntity diverted = divertTarget(living, target);

@@ -2,7 +2,7 @@
   "name": "sneasel-hisui",
   "id": 215,
   "stock": true,
-  "base_experience": null,
+  "base_experience": 86,
   "size": {
     "height": 0.9,
     "width": 0.6

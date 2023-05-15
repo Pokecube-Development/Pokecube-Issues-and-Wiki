@@ -10,7 +10,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -21,6 +20,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
+import thut.lib.AxisAngles;
 
 public class Evolution
 {
@@ -35,7 +35,7 @@ public class Evolution
             });
 
     private static final float sqrt3_2 = (float) (Math.sqrt(3.0D) / 2.0D);
-    private static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
+    public static final RenderType EFFECT = RenderType.create("pokemob:evo_effect", DefaultVertexFormat.POSITION_COLOR,
             Mode.QUADS, 256, false, true,
             RenderType.CompositeState.builder().setShaderState(RenderType.POSITION_COLOR_SHADER)
                     .setWriteMaskState(new RenderStateShard.WriteMaskStateShard(true, false))
@@ -83,12 +83,12 @@ public class Evolution
         }
         for (int i = 0; i < (f5 + f5 * f5) / 2.0F * 100.0F; ++i)
         {
-            mat.mulPose(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(Vector3f.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(Vector3f.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(Vector3f.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
+            mat.mulPose(AxisAngles.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(AxisAngles.ZP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(AxisAngles.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(AxisAngles.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
             float f3 = random.nextFloat() * 20.0F + 5.0F + f7 * 10.0F;
             float f4 = random.nextFloat() * 2.0F + 1.0F + f7 * 2.0F;
 

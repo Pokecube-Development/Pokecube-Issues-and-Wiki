@@ -11,8 +11,8 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.CategoryProvider;
 import pokecube.api.moves.utils.IMoveConstants;
-import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
+import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.Damage;
 import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 

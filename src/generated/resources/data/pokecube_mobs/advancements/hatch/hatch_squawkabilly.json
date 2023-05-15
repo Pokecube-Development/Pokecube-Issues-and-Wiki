@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.squawkabilly"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_squawkabilly": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "squawkabilly"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

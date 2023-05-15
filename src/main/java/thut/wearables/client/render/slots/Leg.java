@@ -1,12 +1,12 @@
 package thut.wearables.client.render.slots;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import thut.lib.AxisAngles;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
@@ -23,7 +23,7 @@ public class Leg
         if (wearable.customOffsets())
         {
             mat.scale(1, -1, -1);
-            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
             return;
         }
@@ -46,7 +46,7 @@ public class Leg
         if (render)
         {
             mat.scale(1, -1, -1);
-            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
         }
     }

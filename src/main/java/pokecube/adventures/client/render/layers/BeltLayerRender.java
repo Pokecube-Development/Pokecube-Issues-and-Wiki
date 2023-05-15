@@ -1,7 +1,6 @@
 package pokecube.adventures.client.render.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
@@ -14,6 +13,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
+import thut.lib.AxisAngles;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
@@ -48,8 +48,8 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
         mat.pushPose();
         theModel.body.translateAndRotate(mat);
         mat.translate(0, 0.785, -.125);
-        mat.mulPose(Vector3f.XP.rotationDegrees(180));
-        mat.mulPose(Vector3f.YP.rotationDegrees(180));
+        mat.mulPose(AxisAngles.XP.rotationDegrees(180));
+        mat.mulPose(AxisAngles.YP.rotationDegrees(180));
         mat.scale(0.6f, 0.6f, 0.6f);
 
         float scale = 0.3f;
@@ -101,9 +101,9 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
             float z = offsets[i][2] * scale;
             mat.translate(x, y, z);
             float[] rots = rotates[i];
-            if (rots[0] != 0) mat.mulPose(Vector3f.XP.rotationDegrees(rots[0]));
-            if (rots[1] != 0) mat.mulPose(Vector3f.YP.rotationDegrees(rots[1]));
-            if (rots[2] != 0) mat.mulPose(Vector3f.ZP.rotationDegrees(rots[2]));
+            if (rots[0] != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rots[0]));
+            if (rots[1] != 0) mat.mulPose(AxisAngles.YP.rotationDegrees(rots[1]));
+            if (rots[2] != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(rots[2]));
             Minecraft.getInstance().getItemInHandRenderer().renderItem(wearer, stack, TransformType.GROUND, false, mat,
                     buff, packedLightIn);
             mat.popPose();

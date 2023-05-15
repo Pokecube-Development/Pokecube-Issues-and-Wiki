@@ -16,7 +16,6 @@ import java.util.regex.Pattern;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -37,6 +36,7 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public class ObjModel implements IModelCustom, IModel, IRetexturableModel
@@ -295,8 +295,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public void globalFix(final PoseStack mat, final float dx, final float dy, final float dz)
     {
         // FIXME obj rotation
-        mat.mulPose(Vector3f.XP.rotationDegrees(180));
-        mat.mulPose(Vector3f.YP.rotationDegrees(180));
+        mat.mulPose(AxisAngles.XP.rotationDegrees(180));
+        mat.mulPose(AxisAngles.YP.rotationDegrees(180));
         mat.translate(0, -1.5, 0);
     }
 
@@ -310,8 +310,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
 
         parent.resetToInit();
         final boolean anim = renderer.getAnimations().containsKey(currentPhase);
-        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase), entity, parent,
-                partialTick, limbSwing))
+        if (anim) if (AnimationHelper.doAnimation(renderer.getAnimations().get(currentPhase),
+                renderer.getAnimationHolder(), entity, parent, partialTick, limbSwing))
         {}
         if (this.isHead(parent.getName()))
         {
@@ -352,5 +352,17 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public List<String> getRenderOrder()
     {
         return order;
+    }
+
+    @Override
+    public void setTexturerRaw(IPartTexturer texturer)
+    {
+        // We do nothing here, as raw does not filter to sub parts.
+    }
+
+    @Override
+    public void setAnimationChangerRaw(IAnimationChanger changer)
+    {
+        // We do nothing here, as raw does not filter to sub parts.
     }
 }

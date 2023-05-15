@@ -5,35 +5,34 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.compress.utils.Lists;
-import org.nfunk.jep.JEP;
-
-import it.unimi.dsi.fastutil.doubles.Double2ObjectArrayMap;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.AnimationComponent;
-import thut.api.entity.animation.Animators.IAnimator;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBDataPoint;
 import thut.core.client.render.bbmodel.BBModelTemplate.BBAnimation.BBKeyFrame;
+import thut.core.client.render.model.parts.Part;
 import thut.core.common.ThutCore;
 
 public class AnimationConversion
 {
-    private static final float deg_to_rads = (float) (Math.PI / 180f);
-
-    public static String convertMolangToJEP(String molang)
+    public static String convertMolangToJEP(String molang, boolean forcedLimbs)
     {
         String jep = molang;
 
         jep = jep.replaceAll("math.", "");// We do not need "math."
+        jep = jep.replaceAll("Math.", "");// We do not need "math."
 
         // We take radians for these, not degreees.
-        jep = jep.replace("sin(", "sin(%.4f * ".formatted(deg_to_rads));
-        jep = jep.replace("cos(", "sin(%.4f * ".formatted(deg_to_rads));
-        jep = jep.replace("tan(", "sin(%.4f * ".formatted(deg_to_rads));
+        jep = jep.replace("sin(", "sin_deg(");
+        jep = jep.replace("cos(", "cos_deg(");
+        jep = jep.replace("tan(", "tan_deg(");
 
-        MolangVars.MOLANG_MAP.put("query.anim_time", "(t/20)");
+        if (forcedLimbs)
+        {
+            jep = jep.replace("anim_time", "ground_speed");
+        }
+
         for (var entry : MolangVars.MOLANG_MAP.entrySet())
         {
             jep = jep.replace(entry.getKey(), entry.getValue());
@@ -50,6 +49,11 @@ public class AnimationConversion
 
     public static class XMLAnimationSegment extends AnimationComponent
     {
+        static float[] _posFuncScales =
+        { -1 / 16f, -1 / 16f, 1 / 16f };
+        static float[] _rotFuncScales =
+        { -1, -1, 1 };
+
         public String rotFuncs = "";
         public String scaleFuncs = "";
         public String posFuncs = "";
@@ -58,24 +62,28 @@ public class AnimationConversion
         {
             this.length = length;
             this.startKey = start_time;
+            this._posFuncScale = _posFuncScales;
+            this._rotFuncScale = _rotFuncScales;
         }
     }
 
     public static class BBModelAnimationSegment
     {
         final int time;
-        boolean is_bedrock = false;
         boolean has_scale = false;
+        boolean forcedLimbs = false;
         Object[] rotations =
-        { 0, 0, 0 };
+        { null, null, null };
         Object[] positions =
-        { 0, 0, 0 };
+        { null, null, null };
         Object[] scales =
-        { 0, 0, 0 };
+        { null, null, null };
+        String channel = "";
 
-        public BBModelAnimationSegment(double time)
+        public BBModelAnimationSegment(double time, boolean forcedLimbs)
         {
             this.time = (int) (time * 20);
+            this.forcedLimbs = forcedLimbs;
         }
 
         public void process(BBKeyFrame keyframe)
@@ -126,6 +134,12 @@ public class AnimationConversion
             catch (Exception e)
             {}
 
+            if (x instanceof String s && s.isBlank()) x = null;
+            if (y instanceof String s && s.isBlank()) y = null;
+            if (z instanceof String s && s.isBlank()) z = null;
+
+            this.channel = channel;
+
             switch (channel)
             {
             case "rotation":
@@ -140,14 +154,14 @@ public class AnimationConversion
                 break;
             case "scale":
                 this.scales[0] = x;
-                this.scales[1] = y;
-                this.scales[2] = z;
+                this.scales[1] = z;
+                this.scales[2] = y;
                 has_scale = true;
                 break;
             }
         }
 
-        private boolean setDoubles(double[] _to, Object[] _from, JEP[] jeps)
+        private boolean setDoubles(double[] _to, Object[] _from, String[] jeps)
         {
             boolean allValid = true;
             for (int i = 0; i < 3; i++)
@@ -158,13 +172,8 @@ public class AnimationConversion
                 }
                 else if (_from[i] instanceof String func)
                 {
-                    func = convertMolangToJEP(func);
-                    jeps[i] = new JEP();
-                    jeps[i].addStandardFunctions();
-                    jeps[i].addStandardConstants();
-                    for (var entry : MolangVars.JEP_VARS.entrySet())
-                        if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
-                    jeps[i].parseExpression(func);
+                    func = convertMolangToJEP(func, forcedLimbs);
+                    jeps[i] = func;
                     allValid = false;
                 }
                 else
@@ -175,7 +184,7 @@ public class AnimationConversion
             return allValid;
         }
 
-        public boolean setDiff(double[] _arr, Object[] _pos, Object[] _neg, JEP[] jeps)
+        public boolean setDiff(double[] _arr, Object[] _pos, Object[] _neg, String[] jeps)
         {
             boolean allValid = true;
             for (int i = 0; i < 3; i++)
@@ -187,13 +196,8 @@ public class AnimationConversion
                 }
                 else if (_pos[i] instanceof String func)
                 {
-                    func = convertMolangToJEP(func);
-                    jeps[i] = new JEP();
-                    jeps[i].addStandardFunctions();
-                    jeps[i].addStandardConstants();
-                    for (var entry : MolangVars.JEP_VARS.entrySet())
-                        if (func.contains(entry.getKey())) jeps[i].addVariable(entry.getKey(), entry.getValue());
-                    jeps[i].parseExpression(func);
+                    func = convertMolangToJEP(func, forcedLimbs);
+                    jeps[i] = func;
                     allValid = false;
                 }
                 else
@@ -204,32 +208,41 @@ public class AnimationConversion
             return allValid;
         }
 
-        public XMLAnimationSegment toXML(BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame)
+        public XMLAnimationSegment toXML(BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame,
+                double max_length)
         {
             int start = this.time;
             int length = next_frame.time - this.time;
+            max_length *= 20;
+
+            if (length <= 0) length = (int) max_length;
+            length = (int) Math.min(max_length - start, length);
 
             if (first_frame == next_frame) start = 0;
 
             XMLAnimationSegment segment = new XMLAnimationSegment(length, start);
 
+            segment.limbBased = this.forcedLimbs;
+
             boolean all_not_func = true;
-            if (first_frame == this)
+
+            // Scoped for var old below
             {
                 all_not_func = this.setDoubles(segment.posOffset, positions, segment._posFunctions) & all_not_func;
                 all_not_func = this.setDoubles(segment.rotOffset, rotations, segment._rotFunctions) & all_not_func;
                 all_not_func = this.setDoubles(segment.scaleOffset, scales, segment._scaleFunctions) & all_not_func;
 
                 var old = segment.posOffset.clone();
-                
+
                 segment.posOffset[0] = -old[0] * 1 / 16f;
                 segment.posOffset[1] = -old[2] * 1 / 16f;
                 segment.posOffset[2] = +old[1] * 1 / 16f;
 
-                if (is_bedrock) segment.posOffset[0] *= -1;
+                old = segment.rotOffset.clone();
 
-                segment.rotOffset[0] = -segment.rotOffset[0];
-                segment.rotOffset[1] = -segment.rotOffset[1];
+                segment.rotOffset[0] = -old[0];
+                segment.rotOffset[1] = -old[1];
+                segment.rotOffset[2] = +old[2];
 
                 if (has_scale)
                 {
@@ -249,90 +262,109 @@ public class AnimationConversion
                 all_not_func = this.setDiff(segment.scaleChange, this.scales, next_frame.scales,
                         segment._scaleFunctions) & all_not_func;
 
-                segment.rotChange[0] = -segment.rotChange[0];
-                segment.rotChange[1] = -segment.rotChange[1];
-                
                 var old = segment.posChange.clone();
 
-                segment.posChange[0] = -old[0] * 1 / 16f;
-                segment.posChange[1] = -old[2] * 1 / 16f;
-                segment.posChange[2] = +old[1] * 1 / 16f;
+                segment.posChange[0] = +old[0] * 1 / 16f;
+                segment.posChange[1] = +old[2] * 1 / 16f;
+                segment.posChange[2] = -old[1] * 1 / 16f;
 
-                if (is_bedrock) segment.posChange[0] *= -1;
+                old = segment.rotChange.clone();
+
+                segment.rotChange[0] = +old[0];
+                segment.rotChange[1] = +old[1];
+                segment.rotChange[2] = -old[2];
 
                 if (has_scale)
                 {
                     segment.scaleChange[0] = segment.scaleChange[0];
                     segment.scaleChange[1] = segment.scaleChange[1];
-                    segment.scaleChange[2] = segment.scaleChange[2];
-                    if (segment.scaleChange[0] <= 0) segment.hidden = true;
+                    segment.scaleChange[2] = -segment.scaleChange[2];
                 }
             }
 
             if (!all_not_func)
-            {}
+            {
+                var old = segment._posFunctions.clone();
+                segment._posFunctions[0] = old[0];
+                segment._posFunctions[1] = old[2];
+                segment._posFunctions[2] = old[1];
+                segment._needJEPInit = true;
+
+                if (length == 0 && max_length <= 0) segment.length = Integer.MAX_VALUE;
+            }
             // We are not printing, so we don't need the "clear if not defined"
             // section
+            segment._valid_channels.add(channel);
 
             return segment;
         }
     }
 
-    public static Map<String, List<Animation>> make_animations(BBModelTemplate template)
+    public static Map<String, List<Animation>> make_animations(BBModelTemplate template, BBModel bbModel)
     {
         Map<String, List<Animation>> map = new HashMap<>();
-        boolean bedrock = template.meta.model_format.equals("bedrock");
+
         for (var animation : template.animations)
         {
             Map<String, List<AnimationComponent>> parts = new HashMap<>();
             for (var entry : animation.animators.entrySet())
             {
                 var part = entry.getValue();
-                Map<Double, BBModelAnimationSegment> segments = new Double2ObjectArrayMap<>();
-                Map<String, List<BBModelAnimationSegment>> frames_map = new HashMap<>();
+
+                Map<String, Map<String, List<BBModelAnimationSegment>>> frames_map = new HashMap<>();
                 // This puts them in correct order before this loop!
                 part.keyframes.sort(null);
                 for (var keyframe : part.keyframes)
                 {
+                    boolean limb = bbModel.getParts().get(part.name) instanceof Part p && p.isOverridenLimb;
                     double time = keyframe.time;
-                    var frame = segments.computeIfAbsent(time, t -> {
-                        var f = new BBModelAnimationSegment(t);
-                        List<BBModelAnimationSegment> frames_list = frames_map.getOrDefault(part.name, null);
-                        if (frames_list == null) frames_map.put(part.name, frames_list = Lists.newArrayList());
-                        frames_list.add(f);
-                        f.is_bedrock = bedrock;
-                        return f;
-                    });
+                    var frame = new BBModelAnimationSegment(time, limb);
                     frame.process(keyframe);
+                    Map<String, List<BBModelAnimationSegment>> part_frames_map = frames_map.get(part.name);
+                    if (part_frames_map == null) frames_map.put(part.name, part_frames_map = new HashMap<>());
+
+                    List<BBModelAnimationSegment> frames_list = part_frames_map.get(keyframe.channel);
+                    if (frames_list == null) part_frames_map.put(keyframe.channel, frames_list = new ArrayList<>());
+                    frames_list.add(frame);
                 }
+
                 for (var entry_frames : frames_map.entrySet())
                 {
-                    var frames = entry_frames.getValue();
+                    var part_frames_map = entry_frames.getValue();
                     List<AnimationComponent> xml_parts = new ArrayList<>();
                     var _part_name = entry_frames.getKey();
-//                    System.out.println(_part_name);
-                    if (parts.containsKey(_part_name))
+
+                    for (var entry_list : part_frames_map.entrySet())
                     {
-                        xml_parts = parts.get(_part_name);
-                    }
-                    else
-                    {
-                        parts.put(_part_name, xml_parts);
-                    }
-                    if (frames.size() == 1)
-                    {
-                        var frame = frames.get(0);
-                        xml_parts.add(frame.toXML(frame, frame));
-                    }
-                    else
-                    {
-                        var first_frame = frames.get(0);
-                        for (int i = 0; i < frames.size() - 1; i++)
+                        var frames = entry_list.getValue();
+                        if (parts.containsKey(_part_name))
                         {
-                            var next_frame = frames.get(i + 1);
-                            var frame = frames.get(i);
-                            var xml = frame.toXML(first_frame, next_frame);
+                            xml_parts = parts.get(_part_name);
+                        }
+                        else
+                        {
+                            parts.put(_part_name, xml_parts);
+                        }
+                        if (frames.size() == 1)
+                        {
+                            var frame = frames.get(0);
+                            var xml = frame.toXML(frame, frame, animation.length);
                             xml_parts.add(xml);
+                        }
+                        else
+                        {
+                            var first_frame = frames.get(0);
+                            var last_frame = first_frame;
+                            for (int i = 0; i < frames.size() - 1; i++)
+                            {
+                                var next_frame = frames.get(i + 1);
+                                var frame = frames.get(i);
+                                var xml = frame.toXML(first_frame, next_frame, animation.length);
+                                xml_parts.add(xml);
+                                last_frame = next_frame;
+                            }
+                            var xml = last_frame.toXML(first_frame, first_frame, animation.length);
+                            if (xml._needJEPInit) xml_parts.add(xml);
                         }
                     }
                 }
@@ -341,11 +373,17 @@ public class AnimationConversion
             // Now here we differ from python a bit more, there it dumps as XML,
             // here we make into animation directly.
 
-            var name = animation.name;
+            var name = animation.name.replace("animation." + template.name + ".", "");
+            name = ThutCore.trim(name);
             Animation anmation = new Animation();
-            anmation.name = name.replace(".", "");
-            anmation.loops = animation.loop.equals("loop");
+            anmation.name = name;
 
+            anmation.loops = animation.loop.equals("loop");
+            if (animation.name.contains("faint") || animation.name.contains("dead"))
+            {
+                anmation.loops = false;
+                anmation.holdWhenDone = true;
+            }
             List<Animation> anims = map.computeIfAbsent(animation.name, (k) -> {
                 return new ArrayList<>();
             });
@@ -354,7 +392,7 @@ public class AnimationConversion
             {
                 var part = entry.getKey();
                 List<AnimationComponent> list = entry.getValue();
-                IAnimator animator = new KeyframeAnimator(list);
+                KeyframeAnimator animator = new KeyframeAnimator(list, true, (int) (animation.length * 20));
                 if (anmation.sets.containsKey(part))
                 {
                     ThutCore.LOGGER.warn("Unsupported double part for animation " + animation.name + " " + part);

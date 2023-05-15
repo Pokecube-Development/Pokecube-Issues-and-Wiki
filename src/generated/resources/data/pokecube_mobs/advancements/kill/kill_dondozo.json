@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dondozo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dondozo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_dondozo": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "dondozo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

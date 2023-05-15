@@ -24,6 +24,20 @@ TOIGNORE = [
     # Not sure about these
     "magearna-original",
     "zarude-dada",
+
+    # Cosmetic only
+    "maushold-family-of-three",
+    # "dudunsparce-three-segment", keeping this for now as it also changes sizes...
+
+    "koraidon-limited-build",
+    "koraidon-sprinting-build",
+    "koraidon-swimming-build",
+    "koraidon-gliding-build",
+
+    "miraidon-low-power-mode",
+    "miraidon-glide-mode",
+    "miraidon-drive-mode",
+    "miraidon-aquatic-mode",
 ]
 
 NO_WORDS = [

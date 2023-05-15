@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.tandemaus"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.tandemaus"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_tandemaus": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "tandemaus"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

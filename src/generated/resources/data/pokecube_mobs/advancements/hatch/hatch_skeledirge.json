@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.skeledirge"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.skeledirge"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_skeledirge": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "skeledirge"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

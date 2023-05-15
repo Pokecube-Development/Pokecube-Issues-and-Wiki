@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.wo-chien"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.wo-chien"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_wo-chien": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "wo-chien"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

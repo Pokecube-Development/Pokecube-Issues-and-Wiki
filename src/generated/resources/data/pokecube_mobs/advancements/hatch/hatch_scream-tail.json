@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.scream-tail"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.scream-tail"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_scream-tail": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "scream-tail"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

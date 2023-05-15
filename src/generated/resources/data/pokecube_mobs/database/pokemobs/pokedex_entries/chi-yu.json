@@ -1,0 +1,173 @@
+{
+  "name": "chi-yu",
+  "id": 1004,
+  "stock": true,
+  "base_experience": 285,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 4.9,
+  "is_default": true,
+  "capture_rate": 6,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 55,
+    "attack": 80,
+    "defense": 80,
+    "special_attack": 135,
+    "special_defense": 120,
+    "speed": 100
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "dark",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "beads-of-ruin"
+    ],
+    "hidden": [
+      "beads-of-ruin"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "ember",
+          "spite",
+          "mean-look"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "confuse-ray"
+        ]
+      },
+      {
+        "L": 5,
+        "moves": [
+          "flame-wheel"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "swagger"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "will-o-wisp"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 75,
+        "moves": [
+          "overheat"
+        ]
+      },
+      {
+        "L": 55,
+        "moves": [
+          "bounce"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "dark-pulse"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "lava-plume"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "flame-charge"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "incinerate"
+        ]
+      },
+      {
+        "L": 65,
+        "moves": [
+          "inferno"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "ruination"
+        ]
+      }
+    ],
+    "misc": [
+      "take-down",
+      "flamethrower",
+      "hyper-beam",
+      "fire-spin",
+      "psychic",
+      "confuse-ray",
+      "light-screen",
+      "reflect",
+      "fire-blast",
+      "rest",
+      "substitute",
+      "protect",
+      "scary-face",
+      "endure",
+      "sleep-talk",
+      "sunny-day",
+      "crunch",
+      "heat-wave",
+      "will-o-wisp",
+      "facade",
+      "taunt",
+      "overheat",
+      "flare-blitz",
+      "dark-pulse",
+      "giga-impact",
+      "nasty-plot",
+      "zen-headbutt",
+      "flame-charge",
+      "hex",
+      "snarl",
+      "tera-blast"
+    ]
+  }
+}

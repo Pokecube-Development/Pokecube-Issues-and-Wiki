@@ -225,13 +225,13 @@ public class BrainUtils extends BrainUtil
     {
         if (mob == null) return;
         final IPokemob aggressor = PokemobCaps.getPokemobFor(mob);
+        final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
         if (aggressor != null)
         {
             aggressor.getTargetFinder().clear();
-            aggressor.onSetTarget(null, true);
+            if (oldTarget != null) aggressor.onSetTarget(null, true);
             aggressor.setCombatState(CombatStates.MATEFIGHT, false);
         }
-        final LivingEntity oldTarget = BrainUtils.getAttackTarget(mob);
         if (oldTarget != null && mutual) BrainUtils.deagro(oldTarget, false);
         BrainUtils.clearAttackTarget(mob);
         mob.getBrain().eraseMemory(MemoryModules.ATTACKTARGET.get());

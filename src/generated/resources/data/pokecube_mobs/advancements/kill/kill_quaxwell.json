@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaxwell"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaxwell"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_quaxwell": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "quaxwell"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

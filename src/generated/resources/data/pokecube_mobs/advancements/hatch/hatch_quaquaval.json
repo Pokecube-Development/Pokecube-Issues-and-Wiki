@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaquaval"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.quaquaval"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_quaquaval": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "quaquaval"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

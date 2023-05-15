@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.flamigo"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.flamigo"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_flamigo": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "flamigo"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

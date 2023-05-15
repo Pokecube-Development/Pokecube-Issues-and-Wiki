@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.Maps;
-import com.mojang.math.Quaternion;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
@@ -21,6 +21,7 @@ import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.client.render.x3d.X3dMesh;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public class BBModelPart extends Part
 {
@@ -85,11 +86,9 @@ public class BBModelPart extends Part
         if (b.getRotation() != null)
         {
             float x = b.getRotation()[0];
-            float y = -b.getRotation()[2];
-            float z = b.getRotation()[1];
-            Quaternion quat = new Quaternion(x, y, z, true);
-            final Vector4 rotations = new Vector4(quat);
-            part.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
+            float y = b.getRotation()[1];
+            float z = b.getRotation()[2];
+            part.rotations.set(x, y, z, 1);
         }
 
         offsets[0] /= 16.0f;
@@ -127,7 +126,7 @@ public class BBModelPart extends Part
             m.name = ThutCore.trim(key);
             Material mat = new Material(m.name);
             mats.put(m.name, mat);
-            if (b.box_uv) mat.cull = true;
+            if (b.box_uv || t.meta.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);
         });
@@ -140,7 +139,7 @@ public class BBModelPart extends Part
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
-            if (b.box_uv) mat.cull = true;
+            if (b.box_uv || t.meta.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);
         });
@@ -149,10 +148,67 @@ public class BBModelPart extends Part
     }
 
     public int index = 0;
+    private float rx = 0, ry = 0, rz = 0;
 
     public BBModelPart(String name)
     {
         super(name + "");
+    }
+
+    @Override
+    public void setPreRotations(Vector4 angles)
+    {
+        this.preRot.mul(angles, rotations);
+    }
+
+    @Override
+    public void resetToInit()
+    {
+        super.resetToInit();
+        rx = ry = rz = 0;
+    }
+    
+    @Override
+    public void setDefaultAngles(float rx, float ry, float rz)
+    {
+        this.rotations.x += rx;
+        this.rotations.y += ry;
+        this.rotations.z += rz;
+    }
+
+    @Override
+    public void setAnimAngles(float rx, float ry, float rz)
+    {
+        this.rx = rx;
+        this.ry = ry;
+        this.rz = rz;
+    }
+
+    @Override
+    public void preRender(PoseStack mat)
+    {
+        if (this.getParent() != null) getParent().preRender(mat);
+
+        mat.pushPose();
+
+        // Translate of offset for rotation.
+        mat.translate(this.preTrans.x, this.preTrans.y, this.preTrans.z);
+        mat.scale(this.preScale.x, this.preScale.y, this.preScale.z);
+
+        float rx = this.rx + rotations.x;
+        float ry = this.ry + rotations.y;
+        float rz = this.rz + rotations.z;
+
+        if (rz != 0) mat.mulPose(AxisAngles.YN.rotationDegrees(rz));
+        if (ry != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(ry));
+        if (rx != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rx));
+
+        // Translate by post-PreOffset amount.
+        mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
+        // Apply postRotation
+        this.postRot.glRotate(mat);
+        // Scale
+        mat.scale(this.scale.x, this.scale.y, this.scale.z);
     }
 
     @Override

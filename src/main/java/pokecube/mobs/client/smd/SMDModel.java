@@ -12,7 +12,6 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,6 +37,7 @@ import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFakeExtendedPart
@@ -250,7 +250,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             // Scaling factor for model.
             mat.scale(0.165f, 0.165f, 0.165f);
             // Makes model face correct way.
-            mat.mulPose(Vector3f.YP.rotationDegrees(180));
+            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
 
             final HeadInfo info = renderer.getAnimationHolder() != null ? renderer.getAnimationHolder().getHeadInfo()
                     : HeadInfo.DUMMY;
@@ -319,13 +319,13 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     }
 
     @Override
-    public void setAnimationChanger(final IAnimationChanger changer)
+    public void setAnimationChangerRaw(IAnimationChanger changer)
     {
         this.changer = changer;
     }
 
     @Override
-    public void setTexturer(final IPartTexturer texturer)
+    public void setTexturerRaw(IPartTexturer texturer)
     {
         this.texturer = texturer;
     }
@@ -410,5 +410,12 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
     {
         // TODO see what we need to do for this for wearables support later.
         return this.order;
+    }
+
+    @Override
+    public void setColorScales(float r, float g, float b, float a)
+    {
+        // TODO Auto-generated method stub
+        
     }
 }
