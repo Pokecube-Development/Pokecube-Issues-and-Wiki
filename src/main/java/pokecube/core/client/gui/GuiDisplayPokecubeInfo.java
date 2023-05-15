@@ -642,6 +642,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
         final Player player = this.minecraft.player;
         return input -> {
 
+            input = EntityTools.getCoreEntity(input);
             // First check basic rules for targets.
             if (!(input instanceof LivingEntity living)) return false;
             if (!(AITools.validCombatTargets.test(living))) return false;
