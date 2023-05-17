@@ -29,7 +29,7 @@ public class Animation
 
     public String name = "";
     public String identifier = "";
-    public int length = -1;
+    public float length = -1;
     /**
      * This is used for sorting animations for determining which components
      * should take priority when multiple animations are specified for a single
@@ -51,7 +51,7 @@ public class Animation
         return this.sets.get(key);
     }
 
-    public int getLength()
+    public float getLength()
     {
         if (this.length == -1) this.initLength();
         return this.length;
@@ -86,11 +86,7 @@ public class Animation
     @Override
     public boolean equals(final Object obj)
     {
-        if (this.id == null)
-        {
-            if (this.identifier.isEmpty()) this.identifier = this.name;
-            this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + this.getLength());
-        }
+        if (this.id == null) this.hashCode();
         if (obj instanceof Animation anim) return anim.id.equals(this.id);
         return super.equals(obj);
     }
@@ -101,7 +97,7 @@ public class Animation
         if (this.id == null)
         {
             if (this.identifier.isEmpty()) this.identifier = this.name;
-            this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + this.getLength());
+            this.id = new UUID(this.identifier.hashCode(), (this.identifier.hashCode() << 16) + (int) this.getLength());
         }
         return this.id.hashCode();
     }

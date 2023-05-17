@@ -3,14 +3,12 @@ package thut.core.client.render.animation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animation.IPartRenamer;
@@ -195,33 +193,7 @@ public class AnimationBuilder
     public static void processAnimations(final List<Animation> list)
     {
         final List<Animation> oldList = Lists.newArrayList(list);
-        final Map<Integer, List<Animation>> splitAnims = Maps.newHashMap();
-        for (final Animation anim : oldList) AnimationBuilder.splitAnimation(anim, splitAnims);
         list.clear();
         list.add(AnimationBuilder.mergeAnimations(oldList));
-    }
-
-    private static void splitAnimation(final Animation animIn, final Map<Integer, List<Animation>> fill)
-    {
-        if (animIn == null)
-        {
-            return;
-        }
-        for (final var entry : animIn.sets.entrySet())
-        {
-            final String key = entry.getKey();
-            final IAnimator comps = entry.getValue();
-            final int length = comps.getLength();
-            List<Animation> anims = fill.get(length);
-            if (anims == null) fill.put(length, anims = Lists.newArrayList());
-            final Animation newAnim = new Animation();
-            newAnim.name = animIn.name;
-            newAnim.identifier = animIn.identifier;
-            newAnim.loops = animIn.loops;
-            newAnim.priority = animIn.priority;
-            newAnim.holdWhenDone = animIn.holdWhenDone;
-            newAnim.sets.put(key, comps);
-            anims.add(newAnim);
-        }
     }
 }

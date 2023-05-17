@@ -58,7 +58,7 @@ public class AnimationConversion
         public String scaleFuncs = "";
         public String posFuncs = "";
 
-        public XMLAnimationSegment(int length, int start_time)
+        public XMLAnimationSegment(float length, float start_time)
         {
             this.length = length;
             this.startKey = start_time;
@@ -69,7 +69,7 @@ public class AnimationConversion
 
     public static class BBModelAnimationSegment
     {
-        final int time;
+        final float time;
         boolean has_scale = false;
         boolean forcedLimbs = false;
         Object[] rotations =
@@ -82,7 +82,7 @@ public class AnimationConversion
 
         public BBModelAnimationSegment(double time, boolean forcedLimbs)
         {
-            this.time = (int) (time * 20);
+            this.time = (float) (time * 20);
             this.forcedLimbs = forcedLimbs;
         }
 
@@ -176,10 +176,6 @@ public class AnimationConversion
                     jeps[i] = func;
                     allValid = false;
                 }
-                else
-                {
-                    allValid = false;
-                }
             }
             return allValid;
         }
@@ -200,10 +196,6 @@ public class AnimationConversion
                     jeps[i] = func;
                     allValid = false;
                 }
-                else
-                {
-                    allValid = false;
-                }
             }
             return allValid;
         }
@@ -211,12 +203,12 @@ public class AnimationConversion
         public XMLAnimationSegment toXML(BBModelAnimationSegment first_frame, BBModelAnimationSegment next_frame,
                 double max_length)
         {
-            int start = this.time;
-            int length = next_frame.time - this.time;
+            float start = this.time;
+            float length = next_frame.time - this.time;
             max_length *= 20;
 
-            if (length <= 0) length = (int) max_length;
-            length = (int) Math.min(max_length - start, length);
+            if (length <= 0) length = (float) max_length;
+            length = (float) Math.min(max_length - start, length);
 
             if (first_frame == next_frame) start = 0;
 
@@ -387,7 +379,7 @@ public class AnimationConversion
             {
                 var part = entry.getKey();
                 List<AnimationComponent> list = entry.getValue();
-                KeyframeAnimator animator = new KeyframeAnimator(list, true, (int) (animation.length * 20));
+                KeyframeAnimator animator = new KeyframeAnimator(list, true, (float) (animation.length * 20));
                 if (anmation.sets.containsKey(part))
                 {
                     ThutCore.LOGGER.warn("Unsupported double part for animation " + animation.name + " " + part);
