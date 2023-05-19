@@ -402,7 +402,13 @@ public class BBModelTemplate
                         }
                     }
                     else
-                    {}
+                    {
+                        map_order = face.vertices;
+                        var a = face.vertices.get(2);
+                        face.vertices.set(2, face.vertices.get(3));
+                        face.vertices.set(3, a);
+                        same = true;
+                    }
                 }
 
                 for (int j = 0; j < face.vertices.size(); j++)
