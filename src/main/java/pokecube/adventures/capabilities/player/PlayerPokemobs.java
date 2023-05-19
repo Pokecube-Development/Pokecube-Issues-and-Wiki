@@ -1,17 +1,26 @@
 package pokecube.adventures.capabilities.player;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 
+import com.google.common.collect.Maps;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
 import pokecube.adventures.capabilities.CapabilityHasRewards.DefaultRewards;
 import pokecube.adventures.capabilities.CapabilityNPCAIStates.DefaultAIStates;
@@ -19,6 +28,7 @@ import pokecube.adventures.capabilities.CapabilityNPCMessages.DefaultMessager;
 import pokecube.adventures.capabilities.utils.TypeTrainer;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.api.entity.trainers.IHasPokemobs;
+import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.utils.TagNames;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.world.mobs.data.DataSync;
@@ -31,11 +41,13 @@ import thut.wearables.inventory.PlayerWearables;
 
 public class PlayerPokemobs extends DefaultPokemobs
 {
+    /** Cache of wearables for players that die when keep inventory is on. */
+    static Map<UUID, IHasPokemobs> player_inventory_cache = Maps.newHashMap();
     public static Function<Player, IHasPokemobs> PLAYERPOKEMOBS = (p) -> new PlayerPokemobs(p);
 
     public static void register(final AttachCapabilitiesEvent<Entity> event)
     {
-        if (!(event.getObject() instanceof Player)) return;
+        if (!(event.getObject() instanceof Player player)) return;
         if (event.getCapabilities().containsKey(TrainerEventHandler.POKEMOBSCAP)) return;
         final IHasPokemobs mobs = PlayerPokemobs.PLAYERPOKEMOBS.apply((Player) event.getObject());
         event.addCapability(TrainerEventHandler.POKEMOBSCAP, mobs);
@@ -51,6 +63,34 @@ public class PlayerPokemobs extends DefaultPokemobs
             players.holder.TYPE = data.register(new Data_String(), "");
             for (int i = 0; i < 6; i++)
                 players.holder.POKEMOBS[i] = data.register(new Data_ItemStack(), ItemStack.EMPTY);
+        }
+    }
+
+    @SubscribeEvent
+    public static void playerTick(final LivingUpdateEvent event)
+    {
+        if (event.getEntity().getLevel().isClientSide) return;
+        if (event.getEntity() instanceof ServerPlayer player && event.getEntity().isAlive())
+        {
+            var mobs = TrainerCaps.getHasPokemobs(player);
+            player_inventory_cache.put(player.getUUID(), mobs);
+        }
+    }
+
+    @SubscribeEvent
+    public static void PlayerLoggedOutEvent(final PlayerLoggedOutEvent event)
+    {
+        player_inventory_cache.remove(event.getPlayer().getUUID());
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void respawn(final PlayerRespawnEvent event)
+    {
+        if (event.getPlayer() instanceof ServerPlayer player)
+        {
+            final CompoundTag tag = player_inventory_cache.get(player.getUUID()).serializeNBT();
+            var mobs = TrainerCaps.getHasPokemobs(player);
+            mobs.deserializeNBT(tag);
         }
     }
 

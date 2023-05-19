@@ -12,6 +12,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.tasks.Tasks;
 import pokecube.adventures.blocks.BlockEventHandler;
 import pokecube.adventures.capabilities.CapabilityHasTrades;
+import pokecube.adventures.capabilities.player.PlayerPokemobs;
 import pokecube.adventures.events.TrainerEventHandler;
 import pokecube.adventures.events.TrainerSpawnHandler;
 import pokecube.adventures.items.Linker;
@@ -86,6 +87,7 @@ public class SetupHandler
         MinecraftForge.EVENT_BUS.register(BlockEventHandler.class);
         MinecraftForge.EVENT_BUS.register(TrainerTracker.class);
         MinecraftForge.EVENT_BUS.register(CapabilityHasTrades.class);
+        MinecraftForge.EVENT_BUS.register(PlayerPokemobs.class);
     }
 
     @SubscribeEvent
