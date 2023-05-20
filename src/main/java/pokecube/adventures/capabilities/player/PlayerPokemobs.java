@@ -16,7 +16,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -67,7 +67,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     }
 
     @SubscribeEvent
-    public static void playerTick(final LivingUpdateEvent event)
+    public static void playerTick(final LivingTickEvent event)
     {
         if (event.getEntity().getLevel().isClientSide) return;
         if (event.getEntity() instanceof ServerPlayer player && event.getEntity().isAlive())
@@ -80,13 +80,13 @@ public class PlayerPokemobs extends DefaultPokemobs
     @SubscribeEvent
     public static void PlayerLoggedOutEvent(final PlayerLoggedOutEvent event)
     {
-        player_inventory_cache.remove(event.getPlayer().getUUID());
+        player_inventory_cache.remove(event.getEntity().getUUID());
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void respawn(final PlayerRespawnEvent event)
     {
-        if (event.getPlayer() instanceof ServerPlayer player)
+        if (event.getEntity() instanceof ServerPlayer player)
         {
             final CompoundTag tag = player_inventory_cache.get(player.getUUID()).serializeNBT();
             var mobs = TrainerCaps.getHasPokemobs(player);
