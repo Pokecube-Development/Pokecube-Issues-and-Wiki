@@ -57,6 +57,7 @@ import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
 import pokecube.core.utils.Permissions;
+import thut.api.entity.event.BreakTestEvent;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
@@ -224,10 +225,8 @@ public class MoveEventsHandler
             return false;
         }
         final Player player = (Player) owner;
-        final BreakEvent evt = new BreakEvent(player.getLevel(), location.getPos(),
-                location.getBlockState(player.getLevel()), player);
-        MinecraftForge.EVENT_BUS.post(evt);
-        if (evt.isCanceled())
+        if (!BreakTestEvent.testBreak(player.getLevel(), location.getPos(), location.getBlockState(player.getLevel()),
+                player))
         {
             final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.noperms");
             if (!user.inCombat() && denyMessage) thut.lib.ChatHelper.sendSystemMessage(player, message);

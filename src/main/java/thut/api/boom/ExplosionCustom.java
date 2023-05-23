@@ -29,12 +29,12 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.level.BlockEvent.BreakEvent;
 import net.minecraftforge.event.level.ExplosionEvent;
 import net.minecraftforge.event.level.LevelEvent.Unload;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.boom.ShadowMaskChecker.ResistProvider;
+import thut.api.entity.event.BreakTestEvent;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
@@ -269,19 +269,8 @@ public class ExplosionCustom extends Explosion
     {
         final boolean ret = !ItemList.is(EXPLOSION_BLOCKING, state);
         if (!ret) return false;
-
-        if (this.owner != null) try
-        {
-            final BreakEvent evt = new BreakEvent(this.level, location.getPos(), state, this.owner);
-            MinecraftForge.EVENT_BUS.post(evt);
-            if (evt.isCanceled()) return false;
-        }
-        catch (final Exception e)
-        {
-            ThutCore.LOGGER.error("Error checking if we can break a block!");
-            ThutCore.LOGGER.error(e);
+        if (this.owner != null && !BreakTestEvent.testBreak(this.level, location.getPos(), state, this.owner))
             return false;
-        }
         return true;
     }
 
