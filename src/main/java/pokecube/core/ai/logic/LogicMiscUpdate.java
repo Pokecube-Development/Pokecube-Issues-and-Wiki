@@ -200,7 +200,7 @@ public class LogicMiscUpdate extends LogicBase
             {
                 float health = this.pokemob.getHealth();
                 final float max = this.pokemob.getMaxHealth();
-                if (health < max)
+                if (health < max && health > 0)
                 {
                     health = Math.min(max, health + max / 16);
                     this.pokemob.setHealth(health);

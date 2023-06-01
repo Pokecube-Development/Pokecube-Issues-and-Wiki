@@ -333,6 +333,12 @@ public class AnimationLoader
                 animator.init(allAnims);
                 for (final Animation anim : allAnims)
                 {
+                    if (anim.name.contains("faint") || anim.name.contains("dead"))
+                    {
+                        anim.loops = false;
+                        anim.holdWhenDone = true;
+                    }
+
                     if (!renderer.getAnimations().containsKey(anim.name))
                     {
                         List<Animation> anims = new ArrayList<>();

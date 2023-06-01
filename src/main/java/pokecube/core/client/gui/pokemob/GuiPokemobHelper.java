@@ -13,7 +13,6 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix3f;
-import com.mojang.math.Quaternion;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -101,7 +100,7 @@ public class GuiPokemobHelper
                     final boolean stock = pokemob.getPokedexEntry().stock;
                     if (stock)
                     {
-                        final thut.api.maths.vecmath.Vec3f dims = pokemob.getPokedexEntry().getModelSize();
+                        var dims = pokemob.getPokedexEntry().getModelSize();
                         mobScale = Math.max(dims.z, Math.max(dims.y, dims.x));
                     }
                     else mobScale = Math.max(renderMob.getBbHeight(), renderMob.getBbWidth());
@@ -109,7 +108,7 @@ public class GuiPokemobHelper
             }
             else
             {
-                final thut.api.maths.vecmath.Vec3f dims = pokemob.getPokedexEntry().getModelSize();
+                var dims = pokemob.getPokedexEntry().getModelSize();
                 mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
             }
 
@@ -121,8 +120,8 @@ public class GuiPokemobHelper
         mat.pushPose();
         mat.translate(j + 55, k + 60, 50.0F);
         mat.scale(scale, scale, scale);
-        final Quaternion quaternion = AxisAngles.ZP.rotationDegrees(180.0F);
-        final Quaternion quaternion1 = AxisAngles.YP.rotationDegrees(180 - yaw);
+        var quaternion = AxisAngles.ZP.rotationDegrees(180.0F);
+        var quaternion1 = AxisAngles.YP.rotationDegrees(180 - yaw);
 
         final Matrix3f norms = mat.last().normal().copy();
         mat.scale(1, 1, -1);
@@ -142,7 +141,7 @@ public class GuiPokemobHelper
         // Disable the face culling that occurs if too far away
         double bak = ThutCore.getConfig().modelCullThreshold;
         ThutCore.getConfig().modelCullThreshold = -1;
-        if (!pokemob.getEntity().isAddedToWorld())
+        if (pokemob != null && !pokemob.getEntity().isAddedToWorld())
         {
             var animated = AnimatedCaps.getAnimated(pokemob.getEntity());
             animated.getChoices().clear();

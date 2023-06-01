@@ -292,6 +292,7 @@ public class JEP
         this.funTab.put("tan_deg", new TangentDeg());
 
         this.funTab.put("rand", new org.nfunk.jep.function.Random());
+        this.funTab.put("random", new org.nfunk.jep.function.Random());
         this.funTab.put("guassian", new org.nfunk.jep.function.Guassian());
 
         // rjm additions
