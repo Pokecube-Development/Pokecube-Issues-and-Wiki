@@ -3,66 +3,71 @@
     {
       "and_preset": "forests",
       "entries": [
-        {"key": "pidgey","min": 1,"max": 4,"rate": 0.4},
-        {"key": "taillow","min": 1,"max": 4,"rate": 0.4},
-        {"key": "pidove","min": 1,"max": 4,"rate": 0.4},
-        {"key": "starly","min": 1,"max": 4,"rate": 0.4},
-        {"key": "fletchling","min": 1,"max": 4,"rate": 0.4},
-        {"key": "rattata","min": 1,"max": 6,"rate": 0.4},
-        {"key": "bidoof","min": 1,"max": 6,"rate": 0.4},
-        
-        {"key": "poochyena","min": 1,"max": 6,"rate": 0.4},
-        {"key": "rockruff","min": 1,"max": 6,"rate": 0.4},
-        {"key": "zigzagoon","min": 1,"max": 6,"rate": 0.4},
+        {"key": "pidgey","min": 2,"max": 4,"rate": 0.4},
+        {"key": "taillow","min": 2,"max": 4,"rate": 0.4},
+        {"key": "pidove","min": 2,"max": 4,"rate": 0.4},
+        {"key": "starly","min": 2,"max": 4,"rate": 0.4},
+        {"key": "fletchling","min": 2,"max": 4,"rate": 0.4},
+        {"key": "rattata","min": 3,"max": 6,"rate": 0.4},
+        {"key": "bidoof","min": 3,"max": 6,"rate": 0.4},
+
+        {"key": "poochyena","min": 3,"max": 6,"rate": 0.4},
+        {"key": "rockruff","min": 3,"max": 6,"rate": 0.4},
+        {"key": "zigzagoon","min": 3,"max": 6,"rate": 0.4},
         {"key": "zigzagoon-galar","min": 1,"max": 3,"rate": 0.4},
-        
+
         {"key": "roselia","min": 1,"max": 3,"rate": 0.3},
-        
-        {"key": "kricketot","min": 1,"max": 8,"rate": 0.2},
-        {"key": "burmy","min": 1,"max": 8,"rate": 0.2},
-        {"key": "petilil","min": 1,"max": 8,"rate": 0.2},
-        {"key": "grubbin","min": 1,"max": 8,"rate": 0.2},
-        {"key": "blipbug","min": 1,"max": 8,"rate": 0.2},
-        
-        {"key": "pikipek","min": 1,"max": 6,"rate": 0.2},
-        {"key": "dedenne","min": 1,"max": 4,"rate": 0.2},
-        {"key": "hawlucha","min": 1,"max": 4,"rate": 0.2},
-        {"key": "buneary","min": 1,"max": 4,"rate": 0.2},
-        {"key": "pachirisu","min": 1,"max": 4,"rate": 0.2},
-        {"key": "skitty","min": 1,"max": 4,"rate": 0.2},
-        {"key": "emolga","min": 1,"max": 4,"rate": 0.2},
-        {"key": "morpeko-full-belly","min": 1,"max": 4,"rate": 0.2},
-        {"key": "pikachu","min": 1,"max": 4,"rate": 0.2},
-        
-        {"key": "ekans","min": 1,"max": 4,"rate": 0.15},
-        {"key": "mankey","min": 1,"max": 4,"rate": 0.15},
-        {"key": "skwovet","min": 1,"max": 4,"rate": 0.15},
-        
+
+        {"key": "kricketot","min": 4,"max": 8,"rate": 0.2},
+        {"key": "burmy","min": 4,"max": 8,"rate": 0.2},
+        {"key": "petilil","min": 4,"max": 8,"rate": 0.2},
+        {"key": "grubbin","min": 4,"max": 8,"rate": 0.2},
+        {"key": "blipbug","min": 4,"max": 8,"rate": 0.2},
+        {"key": "nymble","min": 1,"max": 8,"rate": 0.2},
+
+        {"key": "pikipek","min": 3,"max": 6,"rate": 0.2},
+        {"key": "squawkabilly","min": 1,"max": 4,"rate": 0.2},
+        {"key": "squawkabilly-blue-plumage","min": 1,"max": 4,"rate": 0.2},
+        {"key": "squawkabilly-yellow-plumage","min": 1,"max": 2,"rate": 0.2},
+        {"key": "dedenne","min": 2,"max": 4,"rate": 0.2},
+        {"key": "buneary","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pachirisu","min": 2,"max": 4,"rate": 0.2},
+        {"key": "skitty","min": 2,"max": 4,"rate": 0.2},
+        {"key": "emolga","min": 2,"max": 4,"rate": 0.2},
+        {"key": "morpeko-full-belly","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pikachu","min": 2,"max": 4,"rate": 0.2},
+
+        {"key": "ekans","min": 2,"max": 4,"rate": 0.15},
+        {"key": "toedscool","min": 1,"max": 4,"rate": 0.15},
+        {"key": "mankey","min": 2,"max": 4,"rate": 0.15},
+        {"key": "skwovet","min": 2,"max": 4,"rate": 0.15},
+
         {"key": "abra","min": 1,"max": 2,"rate": 0.125},
 		{"key": "voltorb-hisui","min": 1,"max": 2,"rate": 0.125},
-        
-        {"key": "spinarak","min": 1,"max": 5,"rate": 0.1},
-        {"key": "natu","min": 1,"max": 4,"rate": 0.1},
-        {"key": "marill","min": 1,"max": 4,"rate": 0.1},
-        {"key": "natu","min": 1,"max": 4,"rate": 0.1},
-        {"key": "natu","min": 1,"max": 4,"rate": 0.1},
-        {"key": "lillipup","min": 1,"max": 4,"rate": 0.1},
-        {"key": "nincada","min": 1,"max": 4,"rate": 0.1},
-        {"key": "rattata-alola","min": 1,"max": 6,"rate": 0.1},
-		{"key": "tarountula","min": 1,"max": 4,"rate": 0.1},
-        
-        {"key": "komala","min": 1,"max": 4,"rate": 0.1},
-        
-        {"key": "cottonee","min": 1,"max": 4,"rate": 0.1},
-        {"key": "audino","min": 1,"max": 4,"rate": 0.1},
-        {"key": "slakoth","min": 1,"max": 4,"rate": 0.1},
-        
-        {"key": "swablu","min": 1,"max": 4,"rate": 0.05},
-        {"key": "bonsly","min": 1,"max": 4,"rate": 0.05},
-        {"key": "rufflet","min": 1,"max": 4,"rate": 0.05},
-        
+
+        {"key": "spinarak","min": 2,"max": 5,"rate": 0.1},
+        {"key": "natu","min": 2,"max": 4,"rate": 0.1},
+        {"key": "marill","min": 2,"max": 4,"rate": 0.1},
+        {"key": "natu","min": 2,"max": 4,"rate": 0.1},
+        {"key": "natu","min": 2,"max": 4,"rate": 0.1},
+        {"key": "lillipup","min": 2,"max": 4,"rate": 0.1},
+        {"key": "nincada","min": 2,"max": 4,"rate": 0.1},
+        {"key": "rattata-alola","min": 3,"max": 6,"rate": 0.1},
+		{"key": "tarountula","min": 2,"max": 4,"rate": 0.1},
+        {"key": "pawmi","min": 1,"max": 3,"rate": 0.1},
+
+        {"key": "komala","min": 2,"max": 4,"rate": 0.1},
+
+        {"key": "cottonee","min": 2,"max": 4,"rate": 0.1},
+        {"key": "audino","min": 2,"max": 4,"rate": 0.1},
+        {"key": "slakoth","min": 2,"max": 4,"rate": 0.1},
+
+        {"key": "swablu","min": 2,"max": 4,"rate": 0.05},
+        {"key": "bonsly","min": 2,"max": 4,"rate": 0.05},
+        {"key": "rufflet","min": 2,"max": 4,"rate": 0.05},
+
         {"key": "snorlax","min": 1,"max": 2,"rate": 0.03},
-        
+
         {"key": "bulbasaur","min": 1,"max": 2,"rate": 0.01},
         {"key": "charmander","min": 1,"max": 2,"rate": 0.01},
         {"key": "chikorita","min": 1,"max": 2,"rate": 0.01},
@@ -79,9 +84,10 @@
         {"key": "litten","min": 1,"max": 2,"rate": 0.01},
         {"key": "grookey","min": 1,"max": 2,"rate": 0.01},
 		{"key": "sprigatito","min": 1,"max": 2,"rate": 0.01},
-        
-        {"key": "raikou","min": 1,"max": 1,"rate": 0.01},
-        
+        {"key": "fuecoco","min": 1,"max": 2,"rate": 0.01},
+
+        {"key": "raikou","min": 1,"max": 1,"rate": 0.005},
+
         {"key": "virizion","min": 1,"max": 1,"rate": 0.002},
         {"key": "zygarde-10","min": 1,"max": 1,"rate": 0.002}
       ]
@@ -90,71 +96,74 @@
       "and_preset": "forests",
       "not_preset": "cold_areas,dry_areas",
       "entries": [
-        
-        {"key": "cutiefly","min": 1,"max": 8,"rate": 0.3},
-        
-        {"key": "caterpie","min": 1,"max": 8,"rate": 0.2},
-        {"key": "weedle","min": 1,"max": 8,"rate": 0.2},
-        {"key": "wurmple","min": 1,"max": 8,"rate": 0.2},
-        
-        {"key": "girafarig","min": 1,"max": 4,"rate": 0.2},
-        
-        {"key": "deerling","min": 1,"max": 4,"rate": 0.11, "variant": "deerling_su"},
-        
-        {"key": "pansage","min": 1,"max": 4,"rate": 0.1},
-        {"key": "pansear","min": 1,"max": 4,"rate": 0.1},
-        {"key": "panpour","min": 1,"max": 4,"rate": 0.1},
+
+        {"key": "cutiefly","min": 4,"max": 8,"rate": 0.3},
+
+        {"key": "caterpie","min": 4,"max": 8,"rate": 0.2},
+        {"key": "weedle","min": 4,"max": 8,"rate": 0.2},
+        {"key": "wurmple","min": 4,"max": 8,"rate": 0.2},
+
+        {"key": "girafarig","min": 2,"max": 4,"rate": 0.2},
+
+        {"key": "deerling","min": 2,"max": 4,"rate": 0.11, "variant": "deerling_su"},
+
+        {"key": "pansage","min": 2,"max": 4,"rate": 0.1},
+        {"key": "pansear","min": 2,"max": 4,"rate": 0.1},
+        {"key": "panpour","min": 2,"max": 4,"rate": 0.1},
         {"key": "tropius","min": 1,"max": 5,"rate": 0.1},
-        {"key": "shroomish","min": 1,"max": 4,"rate": 0.1},
-        
-        {"key": "heracross","min": 1,"max": 4,"rate": 0.1},
-        
-        {"key": "combee","min": 1,"max": 8,"rate": 0.06}
+        {"key": "shroomish","min": 2,"max": 4,"rate": 0.1},
+        {"key": "bonsly","min": 1,"max": 2,"rate": 0.1},
+
+        {"key": "heracross","min": 2,"max": 4,"rate": 0.1},
+
+        {"key": "combee","min": 4,"max": 8,"rate": 0.06}
       ]
     },
     {
       "and_preset": "taigas",
       "entries": [
-        {"key": "calyrex","min": 1,"max": 1,"rate": 0.004}
+        {"key": "calyrex","min": 1,"max": 1,"rate": 0.004},
+        {"key": "stantler","min": 1,"max": 1,"rate": 0.05}
       ]
     },
     {
       "and_preset": "forests",
       "not_preset": "cold_areas",
       "entries": [
-        {"key": "pineco","min": 1,"max": 4,"rate": 0.1},
-        {"key": "sneasel","min": 1,"max": 4,"rate": 0.1},
-        {"key": "teddiursa","min": 1,"max": 4,"rate": 0.1},
-        
-        {"key": "pawniard","min": 1,"max": 4,"rate": 0.05}
+        {"key": "pineco","min": 2,"max": 4,"rate": 0.1},
+        {"key": "sneasel","min": 2,"max": 4,"rate": 0.1},
+        {"key": "teddiursa","min": 2,"max": 4,"rate": 0.1},
+
+        {"key": "pawniard","min": 2,"max": 4,"rate": 0.05}
       ]
     },
     {
       "and_preset": "forests,hills",
       "entries": [
-        {"key": "spearow","min": 1,"max": 4,"rate": 0.5}
+        {"key": "spearow","min": 2,"max": 4,"rate": 0.5},
+        {"key": "hawlucha","min": 2,"max": 4,"rate": 0.2}
       ]
     },
     {
       "and_preset": "forests,night_time",
       "entries": [
-        {"key": "volbeat","min": 1,"max": 4,"rate": 0.3},
-        {"key": "illumise","min": 1,"max": 4,"rate": 0.3},
-        {"key": "venonat","min": 1,"max": 4,"rate": 0.2},
-        {"key": "venipede","min": 1,"max": 5,"rate": 0.1},
-        {"key": "hoothoot","min": 1,"max": 4,"rate": 0.2},
-        {"key": "stantler","min": 1,"max": 4,"rate": 0.2},
-        {"key": "munna","min": 1,"max": 4,"rate": 0.2},
-        {"key": "pancham","min": 1,"max": 4,"rate": 0.1},
-        {"key": "murkrow","min": 1,"max": 4,"rate": 0.05}
+        {"key": "volbeat","min": 2,"max": 4,"rate": 0.3},
+        {"key": "illumise","min": 2,"max": 4,"rate": 0.3},
+        {"key": "venonat","min": 2,"max": 4,"rate": 0.2},
+        {"key": "venipede","min": 2,"max": 5,"rate": 0.1},
+        {"key": "hoothoot","min": 2,"max": 4,"rate": 0.2},
+        {"key": "stantler","min": 2,"max": 4,"rate": 0.2},
+        {"key": "munna","min": 2,"max": 4,"rate": 0.2},
+        {"key": "pancham","min": 2,"max": 4,"rate": 0.1},
+        {"key": "murkrow","min": 2,"max": 4,"rate": 0.05}
       ]
     },
     {
       "and_preset": "forests,day_time",
       "entries": [
-        {"key": "sewaddle","min": 1,"max": 5,"rate": 0.1},
-        {"key": "seedot","min": 1,"max": 5,"rate": 0.3},
-        {"key": "ledyba","min": 1,"max": 5,"rate": 0.1}
+        {"key": "sewaddle","min": 2,"max": 5,"rate": 0.1},
+        {"key": "seedot","min": 2,"max": 5,"rate": 0.3},
+        {"key": "ledyba","min": 2,"max": 5,"rate": 0.1}
       ]
     }
   ]
