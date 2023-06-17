@@ -4,6 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -55,6 +57,7 @@ public abstract class PokemobHungry extends PokemobMoves
             }
         }
         this.applyHunger(-hungerValue);
+        level.playSound(Player, BlockPos, SoundEvent, SoundCategory, volume, pitch);
         this.hungerCooldown = 0;
         this.setCombatState(CombatStates.HUNTING, false);
         if (!this.getEntity().isAlive()) return null;
