@@ -22,6 +22,7 @@ import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import java.util.function.Supplier;
+import java.util.ArrayList;
 
 public class EatRock extends EatBlockBase
 {
