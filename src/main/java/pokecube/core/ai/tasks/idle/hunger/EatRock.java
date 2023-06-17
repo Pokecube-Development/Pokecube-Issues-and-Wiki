@@ -36,6 +36,7 @@ public class EatRock extends EatBlockBase
     {
         toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores"), Blocks.COBBLESTONE::defaultBlockState));
         toCobble.add(new CobbleConversion(new ResourceLocation("forge", "cobblestone"), Blocks.COBBLESTONE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores_in_ground/deepslate"), Blocks.COBBLED_DEEPSLATE::defaultBlockState));
     }
 
     private static final ResourceLocation ORE = new ResourceLocation("forge", "ores_in_ground/stone");
