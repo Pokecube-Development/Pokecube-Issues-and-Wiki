@@ -21,6 +21,7 @@ import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import java.util.function.Supplier;
 
 public class EatRock extends EatBlockBase
 {
