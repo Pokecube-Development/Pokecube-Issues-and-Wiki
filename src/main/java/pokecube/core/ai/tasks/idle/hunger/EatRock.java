@@ -63,11 +63,13 @@ public class EatRock extends EatBlockBase
         final ItemStack first = list.get(0);
         final boolean isOre = ItemList.is(EatRock.ORE, first);
         final boolean isDeepslateOre = ItemList.is(EatRock.DEEPSLATE_ORE, first);
+        final boolean isNetherOre = ItemList.is(EatRock.NETHER_ORE, first);
         pokemob.eat(first);
         first.grow(-1);
         if (first.isEmpty()) list.remove(0);
         if (isOre) list.add(0, new ItemStack(Blocks.COBBLESTONE));
         else if (isDeepslateOre) list.add(0, new ItemStack(Blocks.COBBLED_DEEPSLATE));
+        else if (isNetherOre) list.add(0, new ItemStack(Blocks.NETHERRACK));
         boolean replanted = false;
 
         // See if anything dropped was a seed for the thing we
@@ -81,6 +83,7 @@ public class EatRock extends EatBlockBase
 
         if (PokecubeCore.getConfig().pokemobsEatRocks)
         {
+            BlockState drop = Blocks.COBBLESTONE.defaultBlockState();
             if (ItemList.is(EatRock.ORE, current)) drop = Blocks.COBBLE.defaultBlockState();
             if (ItemList.is(EatRock.DEEPSLATE_ORE, current)) drop = Blocks.COBBLED_DEEPSLATE.defaultBlockState();
             if (ItemList.is(EatRock.NETHER_ORE, current)) drop = Blocks.NETHERRACK.defaultBlockState();
