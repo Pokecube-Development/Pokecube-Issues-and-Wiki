@@ -78,6 +78,7 @@ public class EatRock extends EatBlockBase
         if (PokecubeCore.getConfig().pokemobsEatRocks)
         {
             BlockState drop = Blocks.COBBLESTONE.defaultBlockState();
+            if (ItemList.is(EatRock.DEEPSLATE_ORE, current)) drop = Blocks.COBBLED_DEEPSLATE.defaultBlockState();
             if (ItemList.is(EatRock.COBBLE, current)) drop = Blocks.GRAVEL.defaultBlockState();
             if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL)
                 drop = Blocks.AIR.defaultBlockState();
