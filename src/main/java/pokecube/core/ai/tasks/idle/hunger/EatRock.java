@@ -26,7 +26,11 @@ public class EatRock extends EatBlockBase
 {
     private static final ResourceLocation ORE = new ResourceLocation("forge", "ores");
 
+    private static final ResourceLocation DEEPSLATE_ORE = new ResourceLocation("forge", "ores_in_ground/deepslate");
+
     private static final ResourceLocation COBBLE = new ResourceLocation("forge", "cobblestone");
+
+    private static final ResourceLocation COBBLED_DEEPSLATE = new ResourceLocation("forge", "cobblestone/deepslate");
 
     private static final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
 
@@ -54,10 +58,12 @@ public class EatRock extends EatBlockBase
 
         final ItemStack first = list.get(0);
         final boolean isOre = ItemList.is(EatRock.ORE, first);
+        final boolean isDeepslateOre = ItemList.is(EatRock.DEEPSLATE_ORE, first);
         pokemob.eat(first);
         first.grow(-1);
         if (first.isEmpty()) list.remove(0);
         if (isOre) list.add(0, new ItemStack(Blocks.COBBLESTONE));
+        if (isDeepslateOre) list.add(0, new ItemStack(Blocks.COBBLED_DEEPSLATE));
         boolean replanted = false;
 
         // See if anything dropped was a seed for the thing we
