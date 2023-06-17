@@ -32,10 +32,6 @@ public class EatRock extends EatBlockBase
 
     private static final ResourceLocation COBBLE = new ResourceLocation("forge", "cobblestone");
 
-    private static final ResourceLocation COBBLED_DEEPSLATE = new ResourceLocation("forge", "cobblestone/deepslate");
-
-    private static final ResourceLocation NETHERRACK = new ResourceLocation("forge", "netherrack");
-
     private static final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
 
     @Override
