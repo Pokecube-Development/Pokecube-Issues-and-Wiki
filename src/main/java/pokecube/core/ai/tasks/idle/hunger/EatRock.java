@@ -24,7 +24,7 @@ import thut.api.maths.Vector3;
 
 public class EatRock extends EatBlockBase
 {
-    private static final ResourceLocation ORE = new ResourceLocation("forge", "ores");
+    private static final ResourceLocation ORE = new ResourceLocation("forge", "ores_in_ground/stone");
 
     private static final ResourceLocation DEEPSLATE_ORE = new ResourceLocation("forge", "ores_in_ground/deepslate");
 
