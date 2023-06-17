@@ -28,9 +28,13 @@ public class EatRock extends EatBlockBase
 
     private static final ResourceLocation DEEPSLATE_ORE = new ResourceLocation("forge", "ores_in_ground/deepslate");
 
+    private static final ResourceLocation NETHER_ORE = new ResourceLocation("forge", "ores_in_ground/netherrack");
+
     private static final ResourceLocation COBBLE = new ResourceLocation("forge", "cobblestone");
 
     private static final ResourceLocation COBBLED_DEEPSLATE = new ResourceLocation("forge", "cobblestone/deepslate");
+
+    private static final ResourceLocation NETHERRACK = new ResourceLocation("forge", "netherrack");
 
     private static final Predicate<BlockState> checker = (b2) -> PokecubeTerrainChecker.isRock(b2);
 
@@ -79,6 +83,7 @@ public class EatRock extends EatBlockBase
         {
             BlockState drop = Blocks.COBBLESTONE.defaultBlockState();
             if (ItemList.is(EatRock.DEEPSLATE_ORE, current)) drop = Blocks.COBBLED_DEEPSLATE.defaultBlockState();
+            if (ItemList.is(EatRock.NETHER_ORE, current)) drop = Blocks.NETHERRACK.defaultBlockState();
             if (ItemList.is(EatRock.COBBLE, current)) drop = Blocks.GRAVEL.defaultBlockState();
             if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL)
                 drop = Blocks.AIR.defaultBlockState();
