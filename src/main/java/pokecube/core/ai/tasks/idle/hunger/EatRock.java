@@ -62,7 +62,7 @@ public class EatRock extends EatBlockBase
         pokemob.eat(first);
         first.grow(-1);
         if (first.isEmpty()) list.remove(0);
-        if (isOre) && (!isDeepslateOre) list.add(0, new ItemStack(Blocks.COBBLESTONE));
+        if (isOre && !isDeepslateOre) list.add(0, new ItemStack(Blocks.COBBLESTONE));
         if (isDeepslateOre) list.add(0, new ItemStack(Blocks.COBBLED_DEEPSLATE));
         boolean replanted = false;
 
