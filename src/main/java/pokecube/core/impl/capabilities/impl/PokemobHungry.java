@@ -22,11 +22,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.registries.ForgeRegistries;import net.minecraftforge.registries.ForgeRegistries;
 
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.Level;
-import net.minecraft.core.BlockPos;
-
-
 public abstract class PokemobHungry extends PokemobMoves
 {
     public static final ResourceLocation LEPPABERRY = new ResourceLocation(PokecubeCore.MODID, "berry_leppa");
