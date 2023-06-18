@@ -34,10 +34,19 @@ public class EatRock extends EatBlockBase
 
     static
     {
-        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores_in_ground/deepslate"), Blocks.COBBLED_DEEPSLATE::defaultBlockState));
-        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores"), Blocks.COBBLESTONE::defaultBlockState));
         toCobble.add(new CobbleConversion(new ResourceLocation("forge", "netherrack"), Blocks.NETHERRACK::defaultBlockState));
         toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "calcite"), Blocks.DIORITE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "smooth_basalt"), Blocks.BASALT::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("pokecube_legends", "meteor_cosmic_ore"), Blocks.TUFF::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "budding_amethyst"), Blocks.AMETHYST_BLOCK::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "amethyst_block"), Blocks.AIR::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "raw_iron_block"), Blocks.IRON_ORE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "raw_gold_block"), Blocks.GOLD_ORE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "raw_copper_block"), Blocks.COPPER_ORE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "sandstone"), Blocks.SAND::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "base_stone_nether"), Blocks.NETHERRACK::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores_in_ground/deepslate"), Blocks.COBBLED_DEEPSLATE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores"), Blocks.COBBLESTONE::defaultBlockState));
     }
 
     private static final ResourceLocation ORE = new ResourceLocation("forge", "ores_in_ground/stone");

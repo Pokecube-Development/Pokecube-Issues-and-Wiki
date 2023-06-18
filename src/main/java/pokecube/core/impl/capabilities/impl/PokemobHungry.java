@@ -4,11 +4,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.level.Level;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -21,6 +16,16 @@ import pokecube.core.items.berries.ItemBerry;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+
+import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.registries.ForgeRegistries;import net.minecraftforge.registries.ForgeRegistries;
+
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.Level;
+import net.minecraft.core.BlockPos;
+
 
 public abstract class PokemobHungry extends PokemobMoves
 {
@@ -60,8 +65,8 @@ public abstract class PokemobHungry extends PokemobMoves
             }
         }
         this.applyHunger(-hungerValue);
-        level.playSound(Player, BlockPos, SoundEvent, SoundCategory, volume, pitch);
         this.hungerCooldown = 0;
+        this.getEntity().playSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.eat")), 1, 1);
         this.setCombatState(CombatStates.HUNTING, false);
         if (!this.getEntity().isAlive()) return null;
         final float missingHp = this.getMaxHealth() - this.getHealth();
