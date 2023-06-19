@@ -8110,17 +8110,80 @@
     "subtitle": "entity.pokecube.deoxys-normal",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/deoxys",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/deoxys",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.deoxys-defense": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.deoxys-defense",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.deoxys-attack": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.deoxys-attack",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.deoxys-speed": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.deoxys-speed",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/deoxys",
         "volume": 1.0,
         "pitch": 1.0
       }
