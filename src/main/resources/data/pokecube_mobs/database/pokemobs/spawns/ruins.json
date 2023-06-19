@@ -3,23 +3,30 @@
     {
       "and_preset": "ruins",
       "entries": [
-        {"key": "unown","min": 2,"max": 4,"rate": 0.5, "variant": "unown_*"},
+        {"key": "unown","min": 1,"max": 4,"rate": 0.5, "variant": "unown_*"},
         
-        {"key": "klefki","min": 2,"max": 4,"rate": 0.2},
-        {"key": "honedge","min": 2,"max": 4,"rate": 0.2},
+        {"key": "klefki","min": 1,"max": 4,"rate": 0.2},
+        {"key": "tinkatink","min": 1,"max": 2,"rate": 0.2},
+        {"key": "bronzor","min": 1,"max": 3,"rate": 0.2},
+        {"key": "honedge","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "mimikyu-disguised","min": 2,"max": 4,"rate": 0.1},
+        {"key": "mimikyu-disguised","min": 1,"max": 1,"rate": 0.1},
         
-        {"key": "golett","min": 2,"max": 4,"rate": 0.05},
+        {"key": "golett","min": 1,"max": 3,"rate": 0.05},
         
-        {"key": "hoopa","min": 1,"max": 1,"rate": 0.002}
+        {"key": "hoopa","min": 1,"max": 1,"rate": 0.002},
+
+        {"key": "chien-pao","min": 1,"max": 1,"rate": 0.001},
+        {"key": "wo-chien","min": 1,"max": 1,"rate": 0.001},
+        {"key": "chi-yu","min": 1,"max": 1,"rate": 0.001},
+        {"key": "ting-lu","min": 1,"max": 1,"rate": 0.001}
         
       ]
     },
     {
       "and_preset": "ruins,hills",
       "entries": [
-        {"key": "bronzor","min": 2,"max": 4,"rate": 0.1}
+        {"key": "bronzor","min": 1,"max": 4,"rate": 0.1}
       ]
     }
   ]

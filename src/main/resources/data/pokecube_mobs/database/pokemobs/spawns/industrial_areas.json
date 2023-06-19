@@ -3,16 +3,18 @@
     {
       "and_preset": "industrial",
       "entries": [
-        {"key": "magnemite","min": 2,"max": 4,"rate": 0.7},
-        {"key": "grimer","min": 2,"max": 4,"rate": 0.7},
-        {"key": "grimer-alola","min": 2,"max": 4,"rate": 0.7},
-        {"key": "voltorb","min": 2,"max": 4,"rate": 0.7},
+        {"key": "magnemite","min": 1,"max": 4,"rate": 0.7},
+        {"key": "grimer","min": 1,"max": 4,"rate": 0.7},
+        {"key": "grimer-alola","min": 1,"max": 4,"rate": 0.7},
+        {"key": "varoom","min": 1,"max": 2,"rate": 0.7},
+        {"key": "voltorb","min": 1,"max": 4,"rate": 0.7},
+        {"key": "burmy","min": 1,"max": 4,"rate": 0.7,"variant": "burmy-trash"},
         
-        {"key": "klink","min": 2,"max": 4,"rate": 0.1},
-        {"key": "joltik","min": 2,"max": 4,"rate": 0.1},
-        {"key": "electabuzz","min": 2,"max": 4,"rate": 0.1},
-        {"key": "porygon","min": 2,"max": 4,"rate": 0.1},
-        {"key": "shinx","min": 2,"max": 4,"rate": 0.1},
+        {"key": "klink","min": 1,"max": 4,"rate": 0.1},
+        {"key": "joltik","min": 1,"max": 4,"rate": 0.1},
+        {"key": "electabuzz","min": 1,"max": 4,"rate": 0.1},
+        {"key": "porygon","min": 1,"max": 4,"rate": 0.1},
+        {"key": "shinx","min": 1,"max": 4,"rate": 0.1},
         
         {"key": "meltan","min": 1,"max": 1,"rate": 0.05},
         
@@ -22,16 +24,16 @@
     {
       "and_preset": "industrial,day_time",
       "entries": [
-        {"key": "helioptile","min": 2,"max": 4,"rate": 0.25},
+        {"key": "helioptile","min": 1,"max": 4,"rate": 0.25},
         
-        {"key": "castform","min": 2,"max": 4,"rate": 0.1},
-        {"key": "ferroseed","min": 2,"max": 4,"rate": 0.1}
+        {"key": "castform","min": 1,"max": 4,"rate": 0.1},
+        {"key": "ferroseed","min": 1,"max": 4,"rate": 0.1}
       ]
     },
     {
       "and_preset": "industrial,night_time",
       "entries": [
-        {"key": "rotom","min": 2,"max": 4,"rate": 0.1}
+        {"key": "rotom","min": 1,"max": 4,"rate": 0.1}
       ]
     }
   ]
