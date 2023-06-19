@@ -8740,17 +8740,17 @@
     "subtitle": "entity.pokecube.wormadam-plant",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/wormadam",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/wormadam",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/wormadam",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -10294,17 +10294,17 @@
     "subtitle": "entity.pokecube.giratina-altered",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/giratina",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/giratina",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/giratina",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -11722,17 +11722,17 @@
     "subtitle": "entity.pokecube.darmanitan-standard",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/darmanitan",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/darmanitan",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/darmanitan",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -13654,17 +13654,17 @@
     "subtitle": "entity.pokecube.keldeo-ordinary",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/keldeo",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/keldeo",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/keldeo",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -14998,17 +14998,38 @@
     "subtitle": "entity.pokecube.pumpkaboo-average",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/pumpkaboo",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/pumpkaboo",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/pumpkaboo",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.pumpkaboo-super": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.pumpkaboo-super",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/pumpkaboosuper",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/pumpkaboosuper",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/pumpkaboosuper",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15019,17 +15040,38 @@
     "subtitle": "entity.pokecube.gourgeist-average",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/gourgeist",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/gourgeist",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/gourgeist",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.gourgeist-super": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.gourgeist-super",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/gourgeistsuper",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/gourgeistsuper",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/gourgeistsuper",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -15817,17 +15859,38 @@
     "subtitle": "entity.pokecube.wishiwashi-solo",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/wishiwashi",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/wishiwashi",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/wishiwashi",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.wishiwashi-school": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.wishiwashi-school",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/wishiwashi-school",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/wishiwashi-school",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/wishiwashi-school",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -16405,17 +16468,17 @@
     "subtitle": "entity.pokecube.minior-meteor",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/minior",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/minior",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/minior",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -18526,17 +18589,38 @@
     "subtitle": "entity.pokecube.eiscue-ice",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/eiscue",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/eiscue",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/eiscue",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.eiscue-noice": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.eiscue-ice",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/eiscue-noice",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/eiscue-noice",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/eiscue-noice",
         "volume": 1.0,
         "pitch": 1.0
       }
@@ -18883,17 +18967,38 @@
     "subtitle": "entity.pokecube.urshifu-single-strike",
     "sounds": [
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/urshifu_single",
         "volume": 0.8,
         "pitch": 0.9
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/urshifu_single",
         "volume": 0.9,
         "pitch": 0.95
       },
       {
-        "name": "pokecube_mobs:mobs/rattata",
+        "name": "pokecube_mobs:mobs/urshifu_single",
+        "volume": 1.0,
+        "pitch": 1.0
+      }
+    ]
+  },
+  "mobs.urshifu-rapid-strike": {
+    "category": "hostile",
+    "subtitle": "entity.pokecube.urshifu-single-strike",
+    "sounds": [
+      {
+        "name": "pokecube_mobs:mobs/urshifu_rapid",
+        "volume": 0.8,
+        "pitch": 0.9
+      },
+      {
+        "name": "pokecube_mobs:mobs/urshifu_rapid",
+        "volume": 0.9,
+        "pitch": 0.95
+      },
+      {
+        "name": "pokecube_mobs:mobs/urshifu_rapid",
         "volume": 1.0,
         "pitch": 1.0
       }
