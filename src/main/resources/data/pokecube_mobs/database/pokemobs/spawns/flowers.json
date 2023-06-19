@@ -5,13 +5,14 @@
       "not_preset": "cold_areas",
       "entries": [
         
-        {"key": "oricorio-baile","min": 5,"max": 10,"rate": 0.7},
-        {"key": "oricorio-pau","min": 5,"max": 10,"rate": 0.7},
-        {"key": "oricorio-pom-pom","min": 5,"max": 10,"rate": 0.7},
-        {"key": "oricorio-sensu","min": 5,"max": 10,"rate": 0.7},
-		{"key": "sprigatito","min": 1,"max": 2,"rate": 0.01},
+        {"key": "oricorio-baile","min": 1,"max": 5,"rate": 0.7},
+        {"key": "oricorio-pau","min": 1,"max": 5,"rate": 0.7},
+        {"key": "oricorio-pom-pom","min": 1,"max": 5,"rate": 0.7},
+        {"key": "oricorio-sensu","min": 1,"max": 5,"rate": 0.7},
+		{"key": "sprigatito","min": 1,"max": 1,"rate": 0.01},
         
-        {"key": "deerling","min": 2,"max": 4,"rate": 0.11, "variant": "deerling_sp"},
+        {"key": "deerling","min": 1,"max": 4,"rate": 0.11, "variant": "deerling_sp"},
+        {"key": "lechonk","min": 1,"max": 2,"rate": 0.1},
         
         {"key": "shaymin-land","min": 1,"max": 1,"rate": 0.002}
       ]
@@ -19,19 +20,19 @@
     {
       "and_preset": "flowers,night_time",
       "entries": [
-        {"key": "applin","min": 2,"max": 4,"rate": 0.2}
+        {"key": "applin","min": 1,"max": 4,"rate": 0.2}
       ]
     },
     {
       "and_preset": "flowers,day_time",
       "not_preset": "cold_areas",
       "entries": [
-        {"key": "flabebe","min": 2,"max": 4,"rate": 0.8},
+        {"key": "flabebe","min": 1,"max": 4,"rate": 0.8},
         
-        {"key": "gossifleur","min": 2,"max": 4,"rate": 0.7},
+        {"key": "gossifleur","min": 1,"max": 4,"rate": 0.7},
         
-        {"key": "roselia","min": 2,"max": 4,"rate": 0.3},
-        {"key": "petilil","min": 2,"max": 4,"rate": 0.3}
+        {"key": "roselia","min": 1,"max": 4,"rate": 0.3},
+        {"key": "petilil","min": 1,"max": 4,"rate": 0.3}
       ]
     }
   ]
