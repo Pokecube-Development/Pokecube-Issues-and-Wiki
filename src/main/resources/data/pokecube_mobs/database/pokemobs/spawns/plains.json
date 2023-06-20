@@ -145,7 +145,7 @@
       ]
     },
     {
-      "and_preset": "savannas, lakes",
+      "and_preset": "savannas, rivers",
       "not_preset": "cold_areas",
       "entries": [
         {"key": "ducklett","min": 1,"max": 2,"rate": 0.08}
