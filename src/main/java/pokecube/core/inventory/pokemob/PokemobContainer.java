@@ -22,7 +22,6 @@ import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Resources;
 import thut.api.inventory.BaseContainer;
-import thut.core.common.ThutCore;
 
 public class PokemobContainer extends BaseContainer
 {
@@ -88,24 +87,6 @@ public class PokemobContainer extends BaseContainer
             public boolean mayPlace(final ItemStack stack)
             {
                 return !pokemob.getPokedexEntry().stock || PokecubeItems.isValidHeldItem(stack);
-            }
-
-            @Override
-            public void onTake(final Player playerIn, final ItemStack stack)
-            {
-                final ItemStack old = this.getItem();
-                if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.getPokedexEntry()
-                        .onHeldItemChange(stack, old, PokemobContainer.this.pokemob);
-                super.onTake(playerIn, stack);
-            }
-
-            /** Helper method to put a stack in the slot. */
-            @Override
-            public void set(final ItemStack stack)
-            {
-                // ItemStack old = getStack();
-                super.set(stack);
-                if (ThutCore.proxy.isServerSide()) PokemobContainer.this.pokemob.setHeldItem(stack);
             }
         });
         this.addSlot(new TexturedSlot(this.pokemobInv, offhand, 64, 54, Resources.SLOT_ICON_BOOK));
