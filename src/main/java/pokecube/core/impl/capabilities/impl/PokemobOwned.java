@@ -55,6 +55,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
+import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
 public abstract class PokemobOwned extends PokemobAI implements ContainerListener
@@ -378,17 +379,27 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.dataSync().set(this.params.DYECOLOUR, Integer.valueOf(info));
     }
 
+    // Cache of last held itemstack, as shift clicking inventories clears stacks
+    // via network stuff.
+    private ItemStack _lastHeld = ItemStack.EMPTY;
+
     @Override
     public void setHeldItem(final ItemStack itemStack)
     {
-        final ItemStack oldStack = this.getHeldItem();
-        this.getInventory().setItem(1, itemStack);
-        this.getPokedexEntry().onHeldItemChange(oldStack, itemStack, this);
-        super.setHeldItem(itemStack);
-        this.dataSync().set(this.params.HELDITEMDW, itemStack);
-        // Now check if we need to cancel any mega evolutions, etc.
-        // megaRevert handles checking if we are mega evolved, etc
-        if (!itemStack.isEmpty()) this.megaRevert();
+        if (ThutCore.proxy.isServerSide())
+        {
+            ItemStack oldStack = this.getHeldItem();
+            // If we have a cache of last held, swap over to that.
+            if (!_lastHeld.isEmpty()) oldStack = _lastHeld;
+            this.getPokedexEntry().onHeldItemChange(oldStack, itemStack, this);
+            super.setHeldItem(itemStack);
+            this.dataSync().set(this.params.HELDITEMDW, itemStack);
+            // Now check if we need to cancel any mega evolutions, etc.
+            // megaRevert handles checking if we are mega evolved, etc
+            if (!itemStack.isEmpty()) this.megaRevert();
+            // Copy the item over as the actual item gets invalidated.
+            _lastHeld = itemStack.copy();
+        }
     }
 
     @Override
