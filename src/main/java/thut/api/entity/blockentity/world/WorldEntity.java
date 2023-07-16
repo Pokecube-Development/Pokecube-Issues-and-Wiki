@@ -1,7 +1,6 @@
 package thut.api.entity.blockentity.world;
 
 import java.util.List;
-import java.util.Random;
 import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
@@ -12,6 +11,7 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +33,7 @@ import net.minecraft.world.level.entity.LevelCallback;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.level.entity.TransientEntitySectionManager;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.level.material.Fluid;
@@ -40,6 +41,7 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.ticks.LevelTickAccess;
 import thut.api.entity.blockentity.IBlockEntity;
@@ -73,6 +75,10 @@ public class WorldEntity extends Level implements IBlockEntityWorld
         @Override
         public void onTrackingEnd(Entity p_156925_)
         {}
+
+        @Override
+        public void onSectionChange(Entity p_223609_)
+        {}
     }
 
     private final TransientEntitySectionManager<Entity> entityStorage = new TransientEntitySectionManager<>(
@@ -85,7 +91,7 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     public WorldEntity(final Level level)
     {
         super((WritableLevelData) level.getLevelData(), level.dimension(), level.dimensionTypeRegistration(),
-                level.getProfilerSupplier(), level.isClientSide(), level.isDebug(), 0);
+                level.getProfilerSupplier(), level.isClientSide(), level.isDebug(), 0, 1000);
         this.world = level;
         this.chunks = new BlockEntityChunkProvider(this);
     }
@@ -194,7 +200,7 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
-    public Random getRandom()
+    public RandomSource getRandom()
     {
         return this.world.getRandom();
     }
@@ -337,6 +343,11 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
+    public void gameEvent(GameEvent p_220404_, Vec3 p_220405_, Context p_220406_)
+    {
+        this.world.gameEvent(p_220404_, p_220405_, p_220406_);
+    }
+
     public void sendBlockUpdated(BlockPos p_46612_, BlockState p_46613_, BlockState p_46614_, int p_46615_)
     {
         world.sendBlockUpdated(p_46612_, p_46613_, p_46614_, p_46615_);
@@ -408,5 +419,20 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     protected LevelEntityGetter<Entity> getEntities()
     {
         return entityStorage.getEntityGetter();
+    }
+
+    @Override
+    public void playSeededSound(Player p_220363_, double p_220364_, double p_220365_, double p_220366_,
+            SoundEvent p_220367_, SoundSource p_220368_, float p_220369_, float p_220370_, long p_220371_)
+    {
+        world.playSeededSound(p_220363_, p_220364_, p_220365_, p_220366_, p_220367_, p_220368_, p_220369_, p_220370_,
+                p_220371_);
+    }
+
+    @Override
+    public void playSeededSound(Player p_220372_, Entity p_220373_, SoundEvent p_220374_, SoundSource p_220375_,
+            float p_220376_, float p_220377_, long p_220378_)
+    {
+        world.playSeededSound(p_220372_, p_220373_, p_220374_, p_220375_, p_220376_, p_220377_, p_220378_);
     }
 }

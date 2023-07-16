@@ -72,15 +72,6 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/the_end/houses/house_8",
-        "processors": "pokecube:generic",
-        "projection": "rigid"
-      },
-      "weight": 4
-    },
-    {
-      "element": {
-        "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/the_end/houses/house_color_a",
         "processors": "pokecube:generic",
         "projection": "rigid"
@@ -167,6 +158,15 @@
         "projection": "rigid"
       },
       "weight": 6
+    },
+    {
+      "element": {
+        "element_type": "pokecube:expanded_pool_element",
+        "location": "pokecube:village/the_end/houses/obsidian_coral",
+        "processors": "pokecube:generic",
+        "projection": "rigid"
+      },
+      "weight": 4
     }
   ],
   "fallback": "pokecube:village/the_end/terminators",

@@ -17,10 +17,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.event.ServerChatEvent;
+import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.api.PokecubeAPI;
@@ -55,19 +55,18 @@ public class WorldGenRarity
             public int last_n = 0;
             public Set<BlockPos> points = new HashSet<>();
 
-            public boolean locate(int max_n, ServerLevel level, BlockPos pos,
-                    Registry<ConfiguredStructureFeature<?, ?>> registry, int min_dt, int radius)
+            public boolean locate(int max_n, ServerLevel level, BlockPos pos, Registry<Structure> registry, int min_dt,
+                    int radius)
             {
                 if (max_n == 25310) ThutCore.LOGGER.info("Checking {}", name);
-                final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
-                        .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
+                final ResourceKey<Structure> structure = ResourceKey.create(Registry.STRUCTURE_REGISTRY, name);
                 var holder = registry.getHolderOrThrow(structure);
 
                 if (points.isEmpty())
                 {
                     Set<Holder<Biome>> level_biomes = level.getChunkSource().getGenerator().getBiomeSource()
                             .possibleBiomes();
-                    HolderSet<Biome> struct_biomes = holder.value().biomes;
+                    HolderSet<Biome> struct_biomes = holder.value().biomes();
                     boolean valid = false;
                     for (var b : level_biomes)
                     {
@@ -76,11 +75,11 @@ public class WorldGenRarity
                     }
                     if (!valid) return false;
                 }
-                
-                HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(holder);
+
+                HolderSet<Structure> holderset = HolderSet.direct(holder);
                 long time = System.nanoTime();
-                Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource().getGenerator()
-                        .findNearestMapFeature(level, holderset, pos, radius, false);
+                Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator()
+                        .findNearestMapStructure(level, holderset, pos, radius, false);
                 long dt = (long) ((System.nanoTime() - time) / 1e3);
                 if (thing != null)
                 {
@@ -142,7 +141,7 @@ public class WorldGenRarity
         public boolean tick(ServerLevel level)
         {
             if (level.players().isEmpty()) return false;
-            var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+            var registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
             if (this.entries.isEmpty())
             {
                 var list = registry.stream().toList();
@@ -203,13 +202,14 @@ public class WorldGenRarity
     @SubscribeEvent
     public static void onChat(final ServerChatEvent chat)
     {
-        if (chat.getMessage().startsWith("Start:Debug_Structures"))
+        if (chat instanceof ServerChatEvent.Preview) return;
+        if (chat.getMessage().getString().startsWith("Start:Debug_Structures"))
         {
             LOG = new Logger();
         }
-        if (chat.getMessage().startsWith("Status:Debug_Structures") && LOG != null)
+        if (chat.getMessage().getString().startsWith("Status:Debug_Structures") && LOG != null)
         {
-            PokecubeAPI.LOGGER.info("Structures Found within {}:", LOG.searcher._radius);
+            PokecubeAPI.LOGGER.info("Structures Found within {}:", LOG.searcher._radius * 12 * 16);
             Set<ResourceLocation> found = Sets.newHashSet();
             for (var entry : LOG.entries)
             {
@@ -231,9 +231,9 @@ public class WorldGenRarity
     }
 
     @SubscribeEvent
-    public static void onServerTick(final WorldTickEvent event)
+    public static void onServerTick(final LevelTickEvent event)
     {
-        if (LOG != null && event.world instanceof ServerLevel level && event.phase == Phase.END)
+        if (LOG != null && event.level instanceof ServerLevel level && event.phase == Phase.END)
         {
             boolean done = LOG.tick(level);
             if (done)

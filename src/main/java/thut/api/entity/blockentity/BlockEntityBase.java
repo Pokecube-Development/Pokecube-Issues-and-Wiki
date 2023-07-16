@@ -588,21 +588,24 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         // this.setBoundingBox(this.collider.getBoundingBox());
     }
 
-    @Override
-    public AABB getBoundingBox()
+    public AABB _getBoundingBox()
     {
+        // TODO see if this was needed, if so AT getBoundingBox to not be final!
         AABB box = super.getBoundingBox();
         final BlockPos size = this.getSize();
         if ((box.getXsize() != size.getX() + 1 || box.getYsize() != size.getY() + 1
                 || box.getZsize() != size.getZ() + 1))
+        {
             box = this.getUpdater().getBoundingBox();
+            this.setBoundingBox(box);
+        }
         return box;
     }
 
     @Override
     protected AABB getBoundingBoxForPose(final Pose pose)
     {
-        return this.getBoundingBox();
+        return this._getBoundingBox();
     }
 
     @Override

@@ -1,15 +1,13 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -20,10 +18,11 @@ import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConf
 import net.minecraftforge.common.Tags;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
+import thut.lib.RegHelper;
 
 public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
 {
-   public static final TagKey<Block> FEATURES_CANNOT_PLACE_ON = TagKey.create(Registry.BLOCK_REGISTRY,new ResourceLocation(Reference.ID, "features_cannot_place_on"));
+   public static final TagKey<Block> FEATURES_CANNOT_PLACE_ON = TagKey.create(RegHelper.BLOCK_REGISTRY,new ResourceLocation(Reference.ID, "features_cannot_place_on"));
    
    private static boolean noPlacement(BlockState state) {
        return state.is(FEATURES_CANNOT_PLACE_ON);
@@ -38,7 +37,7 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
    public boolean place(FeaturePlaceContext<NoneFeatureConfiguration> context)
    {
       BlockPos pos = context.origin();
-      Random random = context.random();
+      RandomSource random = context.random();
       
       WorldGenLevel world;
       for(world = context.level(); world.isEmptyBlock(pos) && pos.getY() > world.getMinBuildHeight() + 2; pos = pos.below())

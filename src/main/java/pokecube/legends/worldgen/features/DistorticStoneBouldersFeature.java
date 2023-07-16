@@ -1,7 +1,5 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import javax.annotation.Nullable;
 
 import com.google.common.collect.ImmutableList;
@@ -9,6 +7,7 @@ import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -23,7 +22,7 @@ import pokecube.legends.init.FluidInit;
 public class DistorticStoneBouldersFeature extends Feature<ColumnFeatureConfiguration>
 {
     private static final ImmutableList<Block> CAN_PLACE_ON      = ImmutableList.of(BlockInit.DISTORTIC_GRASS_BLOCK.get(),
-            BlockInit.DISTORTIC_STONE.get(), BlockInit.ULTRA_STONE.get(), FluidInit.DISTORTED_WATER_BLOCK.get());
+            BlockInit.DISTORTIC_STONE.get(), BlockInit.ULTRA_STONE.get(), FluidInit.DISTORTIC_WATER_BLOCK.get());
     private static final int                  CLUSTERED_REACH   = 5;
     private static final int                  CLUSTERED_SIZE    = 50;
     private static final int                  UNCLUSTERED_REACH = 8;
@@ -40,7 +39,7 @@ public class DistorticStoneBouldersFeature extends Feature<ColumnFeatureConfigur
         final int i = context.chunkGenerator().getSeaLevel();
         final BlockPos pos = context.origin();
         final WorldGenLevel world = context.level();
-        final Random random = context.random();
+        final RandomSource random = context.random();
         final ColumnFeatureConfiguration conlumnConfig = context.config();
         if (!DistorticStoneBouldersFeature.canPlaceAt(world, i, pos.mutable())) return false;
         else

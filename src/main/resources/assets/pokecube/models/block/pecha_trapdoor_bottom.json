@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:block/template_orientable_trapdoor_bottom",
+  "render_type": "cutout",
   "textures": {
     "texture": "pokecube:block/pecha_trapdoor"
   }

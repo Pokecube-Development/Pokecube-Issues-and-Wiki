@@ -126,16 +126,6 @@ repositories {
     flatDir {
         dirs 'libs'
     }
-    maven {
-        // location of the maven that hosts JEI files
-        name = "Progwml6 maven"
-        url = "https://dvs1.progwml6.com/files/maven/"
-      }
-    maven {
-        // location of a maven mirror for JEI files, as a fallback
-        name = "ModMaven"
-        url = "https://modmaven.k-4u.nl"
-    }
 }
 
 dependencies {
@@ -145,10 +135,7 @@ dependencies {
     // Cyanide
     implementation fg.deobf("curse.maven:cyanide-${version_cyanide}")
     // JEI
-    // compile against the JEI API but do not include it at runtime
-    compileOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-${version_jei_mc}:${version_jei}")
+    implementation fg.deobf("curse.maven:jei-${version_jei}")
 }
 
 sourceSets {

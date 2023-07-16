@@ -11,8 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.model.HumanoidModel;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -28,11 +26,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.InputEvent;
+import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -68,7 +66,7 @@ public class ClientSetupHandler
     public static class EventHandler
     {
         @SubscribeEvent
-        public static void onKey(final InputEvent.KeyInputEvent event)
+        public static void onKey(final InputEvent.Key event)
         {
             if (ClientSetupHandler.trainerEditKey.consumeClick())
             {
@@ -90,7 +88,7 @@ public class ClientSetupHandler
         @SubscribeEvent
         public static void onToolTip(final ItemTooltipEvent evt)
         {
-            final Player player = evt.getPlayer();
+            final Player player = evt.getEntity();
             final ItemStack stack = evt.getItemStack();
             if (stack.isEmpty()) return;
             final CompoundTag tag = stack.hasTag() ? stack.getTag() : new CompoundTag();
@@ -117,7 +115,7 @@ public class ClientSetupHandler
                     if (modelTag.contains("id"))
                     {
                         ResourceLocation id = new ResourceLocation(modelTag.getString("id"));
-                        final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
+                        final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
                         evt.getToolTip().add(type.getDescription());
                     }
                     else if (blockTag.contains("ForgeCaps"))
@@ -129,7 +127,7 @@ public class ClientSetupHandler
                             if (capsTag.contains("id"))
                             {
                                 ResourceLocation id = new ResourceLocation(capsTag.getString("id"));
-                                final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(id);
+                                final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
                                 evt.getToolTip().add(type.getDescription());
                             }
                         }
@@ -192,7 +190,7 @@ public class ClientSetupHandler
             Field f = event.getClass().getDeclaredField("renderers");
             f.setAccessible(true);
             Map<EntityType<?>, EntityRenderer<?>> renderers = (Map<EntityType<?>, EntityRenderer<?>>) f.get(event);
-            for (EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
+            for (EntityType<?> type : ForgeRegistries.ENTITY_TYPES.getValues())
             {
                 EntityRenderer<?> render = renderers.get(type);
                 if (render instanceof LivingEntityRenderer livingRender
@@ -245,23 +243,22 @@ public class ClientSetupHandler
         MenuScreens.register(PokecubeAdv.BAG_CONT.get(), Bag<BagContainer>::new);
         MenuScreens.register(PokecubeAdv.TRAINER_CONT.get(), Trainer::new);
 
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.CLONER.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.EXTRACTOR.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.SPLICER.get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PokecubeAdv.LAB_GLASS.get(), RenderType.translucent());
-
-        ClientSetupHandler.trainerEditKey = new KeyMapping("key.trainer.edit", InputConstants.UNKNOWN.getValue(),
-                "key.categories.pokecube");
-        ClientRegistry.registerKeyBinding(ClientSetupHandler.trainerEditKey);
     }
 
     @SubscribeEvent
-    public static void colourItems(final ColorHandlerEvent.Item event)
+    public static void registetKeys(final RegisterKeyMappingsEvent event)
     {
-        event.getItemColors().register((stack, tintIndex) -> {
+        ClientSetupHandler.trainerEditKey = new KeyMapping("key.trainer.edit", InputConstants.UNKNOWN.getValue(),
+                "key.categories.pokecube");
+        event.register(ClientSetupHandler.trainerEditKey);
+    }
+
+    @SubscribeEvent
+    public static void colourItems(final RegisterColorHandlersEvent.Item event)
+    {
+        event.register((stack, tintIndex) -> {
             if (!(stack.getItem() instanceof DyeableLeatherItem item)) return 0xFFFFFFFF;
             return tintIndex == 0 ? item.getColor(stack) : 0xFFFFFFFF;
         }, PokecubeAdv.BAG.get());
     }
-
 }

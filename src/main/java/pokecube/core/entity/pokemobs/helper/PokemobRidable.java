@@ -24,6 +24,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fluids.FluidType;
 import pokecube.api.data.PokedexEntry;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
@@ -61,7 +62,14 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     @Override
-    public boolean canBeRiddenInWater(final Entity rider)
+    public boolean canBeRiddenUnderFluidType(FluidType type, Entity rider)
+    {
+        // TODO add lava check as well!
+        return super.canBeRiddenUnderFluidType(type, rider);
+    }
+
+    @Override
+    public boolean rideableUnderWater()
     {
         return this.pokemobCap.canUseSurf() || this.pokemobCap.canUseDive();
     }

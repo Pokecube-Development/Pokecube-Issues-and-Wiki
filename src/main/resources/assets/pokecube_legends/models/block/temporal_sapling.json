@@ -1,7 +1,8 @@
 {
-   "parent": "block/cross",
-   "textures": {
-	"cross": "pokecube_legends:block/temporal_sapling",
+  "parent": "block/cross",
+  "render_type": "cutout",
+  "textures": {
+    "cross": "pokecube_legends:block/temporal_sapling",
     "particle": "pokecube_legends:block/temporal_sapling"
-   }
+  }
 }

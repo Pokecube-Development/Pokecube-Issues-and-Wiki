@@ -1,12 +1,12 @@
 package pokecube.core.ai.tasks.burrows.sensors;
 
 import java.util.Optional;
-import java.util.Random;
 import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
@@ -21,7 +21,6 @@ import pokecube.core.ai.poi.PointsOfInterest;
 import pokecube.core.ai.tasks.burrows.BurrowTasks;
 import pokecube.core.ai.tasks.burrows.burrow.BurrowHab;
 import pokecube.core.blocks.nests.NestTile;
-import thut.core.common.ThutCore;
 
 public class BurrowSensor extends Sensor<Mob>
 {
@@ -68,8 +67,8 @@ public class BurrowSensor extends Sensor<Mob>
 
         final PoiManager pois = worldIn.getPoiManager();
         final BlockPos pos = entityIn.blockPosition();
-        final Random rand = ThutCore.newRandom();
-        final Optional<BlockPos> opt = pois.getRandom(p -> p == PointsOfInterest.NEST.get(),
+        final RandomSource rand = entityIn.getRandom();
+        final Optional<BlockPos> opt = pois.getRandom(PointsOfInterest.NEST,
                 p -> this.validNest(p, worldIn, entityIn), Occupancy.ANY, pos, 64, rand);
         if (opt.isPresent())
         {

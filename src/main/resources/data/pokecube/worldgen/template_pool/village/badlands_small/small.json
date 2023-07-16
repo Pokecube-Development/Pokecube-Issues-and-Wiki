@@ -4,6 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands_small/town_centers/center_small",
+        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },

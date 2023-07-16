@@ -1,0 +1,15 @@
+{
+    "type": "forge:add_features",
+    "biomes": {
+	  "type": "forge:and",
+	  "values": [
+	    "#minecraft:is_beach",
+	    {
+	      "type": "forge:not",
+	      "value": "#forge:is_cold"
+	    }
+	  ]
+	},
+    "features": ["pokecube_world:trees_beach_berries"],
+    "step": "vegetal_decoration"
+  }

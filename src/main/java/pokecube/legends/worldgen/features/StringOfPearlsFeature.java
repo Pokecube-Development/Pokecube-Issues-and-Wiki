@@ -1,11 +1,10 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.VineBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -26,7 +25,7 @@ public class StringOfPearlsFeature extends Feature<NoneFeatureConfiguration>
    {
       WorldGenLevel world = context.level();
       BlockPos pos = context.origin();
-      Random random = context.random();
+      RandomSource random = context.random();
       context.config();
       if (!world.isEmptyBlock(pos))
       {

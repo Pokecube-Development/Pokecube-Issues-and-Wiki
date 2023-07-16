@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/rails/line_1",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:logs_to_ground",
         "projection": "rigid"
       },
       "weight": 4
@@ -13,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/rails/line_2",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:logs_to_ground",
         "projection": "rigid"
       },
       "weight": 3
@@ -22,7 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/rails/line_3",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:logs_to_ground",
         "projection": "rigid"
       },
       "weight": 4
@@ -31,21 +31,12 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/rails/line_4",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:logs_to_ground",
         "projection": "rigid"
       },
       "weight": 4
-    },
-    {
-      "element": {
-        "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/badlands/rails/end",
-        "processors": "pokecube:generic",
-        "projection": "rigid"
-      },
-      "weight": 3
     }
   ],
-  "fallback": "minecraft:empty",
+  "fallback": "pokecube:village/badlands/rail_terminators",
   "name": "pokecube:village/badlands/rails"
 }

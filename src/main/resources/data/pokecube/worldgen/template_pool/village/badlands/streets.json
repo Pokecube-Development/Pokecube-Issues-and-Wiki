@@ -4,6 +4,8 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/streets/crossroad_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
+        "bool_config": { "no_affect_noise": true },
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
@@ -12,29 +14,33 @@
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
-        "location": "pokecube:village/badlands/streets/crossroad_02",
+        "location": "pokecube:village/badlands/streets/turn_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
+        "bool_config": { "no_affect_noise": true },
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
-      "weight": 2
+      "weight": 3
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/streets/straight_1",
+        "bool_config": { "no_affect_noise": true },
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
-      "weight": 8
+      "weight": 5
     },
     {
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/streets/straight_2",
+        "bool_config": { "no_affect_noise": true },
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },
-      "weight": 8
+      "weight": 5
     }
   ],
   "fallback": "pokecube:village/badlands/terminators",

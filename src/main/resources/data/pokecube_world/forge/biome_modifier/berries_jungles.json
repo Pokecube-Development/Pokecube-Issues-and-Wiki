@@ -1,0 +1,9 @@
+{
+    "type": "forge:add_features",
+    "biomes": {
+	  "type": "forge:and",
+	  "values": ["#minecraft:is_jungle"]
+	},
+    "features": ["pokecube_world:trees_jungle_berries","pokecube_world:crops_jungles"],
+    "step": "vegetal_decoration"
+  }

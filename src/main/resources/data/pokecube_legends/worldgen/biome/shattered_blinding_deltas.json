@@ -2,7 +2,6 @@
   "temperature": 1.5,
   "downfall": 0.2,
   "precipitation": "none",
-  "category": "mountain",
   "effects": {
     "sky_color": 1184274,
     "fog_color": 855309,
@@ -39,7 +38,6 @@
     ],
     [
       "minecraft:amethyst_geode",
-      "minecraft:basalt_pillar",
       "pokecube_legends:large_basalt_columns",
       "pokecube_legends:small_basalt_columns",
       "pokecube_legends:delta_shattered"

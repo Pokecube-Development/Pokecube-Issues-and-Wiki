@@ -5,6 +5,7 @@
 		"oran": "pokecube:block/oran_fruit",
 		"overlay": "pokecube:block/oran_fruit_overlay"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "fruit",

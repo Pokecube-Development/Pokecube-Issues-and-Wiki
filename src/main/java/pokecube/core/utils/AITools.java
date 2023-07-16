@@ -7,7 +7,6 @@ import com.google.common.collect.Lists;
 import com.mojang.serialization.DataResult;
 import com.mojang.serialization.Dynamic;
 
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
@@ -185,7 +184,7 @@ public class AITools
     {
         if (var.startsWith("#"))
         {
-            TagKey<EntityType<?>> tag = TagKey.create(Registry.ENTITY_TYPE_REGISTRY,
+            TagKey<EntityType<?>> tag = TagKey.create(RegHelper.ENTITY_TYPE_REGISTRY,
                     new ResourceLocation(var.replace("#", "")));
             _blacklist.add(e -> e.getType().is(tag));
         }

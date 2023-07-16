@@ -21,9 +21,8 @@ import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.client.gui.ForgeIngameGui;
-import net.minecraftforge.client.gui.IIngameOverlay;
-import net.minecraftforge.client.gui.OverlayRegistry;
+import net.minecraftforge.client.gui.overlay.ForgeGui;
+import net.minecraftforge.client.gui.overlay.IGuiOverlay;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.PartEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -61,7 +60,7 @@ import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Resources;
 import thut.api.maths.Vector3;
 
-public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverlay
+public class GuiDisplayPokecubeInfo extends GuiComponent implements IGuiOverlay
 {
     protected static int lightGrey = 0xDDDDDD;
     public static int[] guiDims =
@@ -168,7 +167,7 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
 
     int indexPokemob = 0;
 
-    IIngameOverlay infoOverlay = this;
+    IGuiOverlay infoOverlay = this;
 
     /**
      *
@@ -180,22 +179,11 @@ public class GuiDisplayPokecubeInfo extends GuiComponent implements IIngameOverl
         if (GuiDisplayPokecubeInfo.instance != null)
             MinecraftForge.EVENT_BUS.unregister(GuiDisplayPokecubeInfo.instance);
         GuiDisplayPokecubeInfo.instance = this;
-        OverlayRegistry.registerOverlayTop("Pokecube Info", this.infoOverlay);
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    public void disable()
-    {
-        OverlayRegistry.enableOverlay(this.infoOverlay, false);
-    }
-
-    public void enable()
-    {
-        OverlayRegistry.enableOverlay(this.infoOverlay, true);
-    }
-
     @Override
-    public void render(final ForgeIngameGui gui, final PoseStack mStack, final float partialTicks, final int width,
+    public void render(final ForgeGui gui, final PoseStack mStack, final float partialTicks, final int width,
             final int height)
     {
         MinecraftForge.EVENT_BUS.post(new GuiEvent.RenderMoveMessages(mStack, gui));

@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -126,10 +127,10 @@ public class StructureEvent extends Event
         public ServerLevel worldActual;
         public BlockPos pos;
         public BoundingBox sbb;
-        public Random rand;
+        public RandomSource rand;
 
         public ReadTag(final String function, final BlockPos pos, final LevelAccessor worldIn, final ServerLevel world,
-                final Random rand, final BoundingBox sbb)
+                final RandomSource rand, final BoundingBox sbb)
         {
             this.function = function;
             this.worldBlocks = worldIn;

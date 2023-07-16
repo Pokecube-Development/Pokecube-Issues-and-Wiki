@@ -1,0 +1,16 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:distorted/distorted_island",
+  "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 1,
+  "y_settings": {
+    "dy_offset": 45,
+    "min_y": 45,
+    "surface_type": "air",
+    "vertical_offset": 50
+  },
+  "biomes": "#pokecube_world:is_distorted_world",
+  "spawn_overrides": {}
+}

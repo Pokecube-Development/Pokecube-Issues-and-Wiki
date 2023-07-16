@@ -119,7 +119,7 @@ public class Compat
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
         PokemobsJson database = new PokemobsJson();
         database.priority = 1;
-        ForgeRegistries.ENTITIES.forEach(t -> {
+        ForgeRegistries.ENTITY_TYPES.forEach(t -> {
             Entity e = t.create(testLevel);
             if (e instanceof Mob && makePokemob.test(t))
             {

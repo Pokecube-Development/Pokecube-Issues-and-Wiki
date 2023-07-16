@@ -1,0 +1,9 @@
+{
+    "type": "forge:add_features",
+    "biomes": {
+	  "type": "forge:and",
+	  "values": ["minecraft:flower_forest"]
+	},
+    "features": ["pokecube_world:trees_flower_forest_berries"],
+    "step": "vegetal_decoration"
+  }

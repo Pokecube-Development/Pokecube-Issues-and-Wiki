@@ -1,10 +1,9 @@
 package pokecube.legends.blocks.plants;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
@@ -28,7 +27,7 @@ public class TaintedSeagrassBlock extends SeagrassBlock implements BonemealableB
    }
 
    @Override
-   public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
+   public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos, final BlockState state)
    {
       final BlockState state1 = PlantsInit.TALL_TAINTED_SEAGRASS.get().defaultBlockState();
       final BlockState state2 = state1.setValue(TallSeagrassBlock.HALF, DoubleBlockHalf.UPPER);

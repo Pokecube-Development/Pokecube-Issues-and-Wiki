@@ -7,6 +7,7 @@
 		"5": "pokecube_adventures:block/cloner_details",
 		"particle": "pokecube_adventures:block/cloner_lower"
 	},
+	"render_type": "translucent",
 	"elements": [
 		{
 			"name": "center",

@@ -10,7 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
-import net.minecraftforge.event.world.WorldEvent.Load;
+import net.minecraftforge.event.level.LevelEvent.Load;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.adventures.entity.trainer.TrainerBase;
 import thut.api.maths.Vector3;
@@ -107,7 +107,7 @@ public class TrainerTracker
     @SubscribeEvent
     public static void worldLoadEvent(final Load evt)
     {
-        if (evt.getWorld().isClientSide() || !(evt.getWorld() instanceof Level level)) return;
+        if (evt.getLevel().isClientSide() || !(evt.getLevel() instanceof Level level)) return;
         // Reset the tracked map for this world
         TrainerTracker.mobMap.put(level.dimension(), new ArrayList<>());
     }

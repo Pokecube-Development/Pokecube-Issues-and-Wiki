@@ -28,7 +28,8 @@ public class GenericBoat extends Boat
             EntityDataSerializers.STRING);
 
     private static final Object2ObjectOpenHashMap<String, BoatType> BOAT_REGISTRY = new Object2ObjectOpenHashMap<>();
-    private static final BoatType NULL_TYPE = new BoatType(() -> Blocks.DIAMOND_BLOCK, () -> Items.DIAMOND, "null");
+    private static final BoatType NULL_TYPE = new BoatType(() -> Blocks.DIAMOND_BLOCK, () -> Items.DIAMOND,
+            () -> Items.DIAMOND, "null");
 
     static
     {
@@ -36,9 +37,10 @@ public class GenericBoat extends Boat
         BOAT_REGISTRY.defaultReturnValue(NULL_TYPE);
     }
 
-    public static final BoatType registerBoat(Supplier<Block> block, Supplier<Item> item, String name)
+    public static final BoatType registerBoat(Supplier<Block> block, Supplier<Item> item, Supplier<Item> chestBoat,
+            String name)
     {
-        BoatType type = new BoatType(block, item, name);
+        BoatType type = new BoatType(block, item, chestBoat, name);
         BOAT_REGISTRY.put(name, type);
         if (BOAT_REGISTRY.defaultReturnValue() == NULL_TYPE)
         {
@@ -61,7 +63,7 @@ public class GenericBoat extends Boat
 
     public GenericBoat(Level world, double x, double y, double z)
     {
-        this(EntityTypes.BOAT.get(), world);
+        this(EntityTypes.getBoat(), world);
         this.setPos(x, y, z);
         this.setDeltaMovement(Vec3.ZERO);
         this.xo = x;
@@ -72,7 +74,7 @@ public class GenericBoat extends Boat
     @Override
     public Item getDropItem()
     {
-        return this.getGenericBoatType().item.get();
+        return this.getGenericBoatType().item().get();
     }
 
     public BoatType getGenericBoatType()
@@ -118,7 +120,7 @@ public class GenericBoat extends Boat
         return new ClientboundAddEntityPacket(this);
     }
 
-    public static record BoatType(Supplier<Block> block, Supplier<Item> item, String name)
+    public static record BoatType(Supplier<Block> block, Supplier<Item> item, Supplier<Item> chestBoat, String name)
     {
     }
 

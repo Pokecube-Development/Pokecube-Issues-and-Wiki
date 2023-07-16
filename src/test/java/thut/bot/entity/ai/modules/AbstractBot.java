@@ -104,7 +104,7 @@ public abstract class AbstractBot implements IBotAI
     @Override
     public void tick()
     {
-        if (ForgeHooks.onLivingUpdate(this.player)) return;
+        if (ForgeHooks.onLivingTick(this.player)) return;
         if (!(this.player.level instanceof final ServerLevel world)) return;
 
         preBotTick(world);

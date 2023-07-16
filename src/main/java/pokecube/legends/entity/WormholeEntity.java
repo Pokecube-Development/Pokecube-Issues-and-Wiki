@@ -24,6 +24,7 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -178,7 +179,7 @@ public class WormholeEntity extends LivingEntity
         final double chance = ItemList.is(WormholeSpawns.SPACE_WORMS, entity) ? WormholeSpawns.teleWormholeChanceWorms
                 : WormholeSpawns.teleWormholeChanceNormal;
 
-        final Random rand = world.getRandom();
+        final RandomSource rand = world.getRandom();
         if (rand.nextDouble() > chance) return;
 
         final Vector3 pos = new Vector3().set(event.getPrevX(), event.getPrevY() + 2, event.getPrevZ());
@@ -305,7 +306,7 @@ public class WormholeEntity extends LivingEntity
         {
             if (this.makingDest) return new TeleDest().setPos(GlobalPos
                     .of(this.level != null ? this.level.dimension() : Level.OVERWORLD, this.getOnPos().above(20)));
-            final Random rng = this.getRandom();
+            final RandomSource rng = this.getRandom();
             final ResourceKey<Level> key = WormholeEntity.getTargetWorld((ServerLevel) this.level, rng.nextFloat());
             ServerLevel dest = this.getServer().getLevel(key);
             if (dest == null)

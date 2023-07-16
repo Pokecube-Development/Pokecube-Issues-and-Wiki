@@ -18,8 +18,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
-import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import thut.core.common.ThutCore;
 
@@ -137,9 +137,9 @@ public class Tracker
         }
     }
 
-    private static void onWorldSave(final WorldEvent.Save event)
+    private static void onWorldSave(final LevelEvent.Save event)
     {
-        if (!(event.getWorld() instanceof ServerLevel level)) return;
+        if (!(event.getLevel() instanceof ServerLevel level)) return;
         if (level.dimension() != Level.OVERWORLD) return;
 
         final MinecraftServer server = ThutCore.proxy.getServer();

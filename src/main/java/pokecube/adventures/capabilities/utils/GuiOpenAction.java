@@ -33,7 +33,7 @@ public class GuiOpenAction extends Action
         buffer.writeInt(holder.getId());
         final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new ContainerTrainer(i, p, buffer),
                 holder.getDisplayName());
-        NetworkHooks.openGui(player, provider, buf -> {
+        NetworkHooks.openScreen(player, provider, buf -> {
             buf.writeInt(holder.getId());
         });
         return true;

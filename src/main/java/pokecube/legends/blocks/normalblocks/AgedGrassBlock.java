@@ -1,13 +1,15 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.List;
-import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
@@ -25,8 +27,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.PlantsInit;
+import thut.lib.RegHelper;
 
 public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
 {
@@ -38,7 +40,7 @@ public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
     {
 
         if (!AgedGrassBlock.canBeGrass(state, world, pos))
@@ -105,7 +107,7 @@ public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
         BlockPos posAbove = pos.above();
         BlockState grassState = PlantsInit.GOLDEN_GRASS.get().defaultBlockState();
@@ -148,9 +150,9 @@ public class AgedGrassBlock extends GrassBlock implements BonemealableBlock
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
               } else {
-                 placedFeature = FeaturesInit.PlantPlacements.PATCH_GOLDEN_GRASS.getHolder().get();
+                  placedFeature = world.registryAccess().registryOrThrow(RegHelper.PLACED_FEATURE_REGISTRY)
+                          .getHolderOrThrow(ResourceKey.create(RegHelper.PLACED_FEATURE_REGISTRY, new ResourceLocation("pokecube_legends:aged_grass_bonemeal")));
               }
-
               placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);
            }
         }

@@ -21,8 +21,8 @@ import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import net.minecraftforge.event.world.ChunkEvent;
-import net.minecraftforge.event.world.WorldEvent;
+import net.minecraftforge.event.level.ChunkEvent;
+import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.loading.moddiscovery.ModFile;
@@ -132,7 +132,7 @@ public class MoveAnimationHelper
     @SubscribeEvent
     public void chunkUnload(final ChunkEvent.Unload evt)
     {
-        if (!evt.getWorld().isClientSide()) return;
+        if (!evt.getLevel().isClientSide()) return;
         for (int i = 0; i < 16; i++)
             this.terrainMap.remove(new BlockPos(evt.getChunk().getPos().x, i, evt.getChunk().getPos().z));
     }
@@ -211,9 +211,9 @@ public class MoveAnimationHelper
 
     @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
-    public void worldLoad(final WorldEvent.Load evt)
+    public void worldLoad(final LevelEvent.Load evt)
     {
-        if (!evt.getWorld().isClientSide()) return;
+        if (!evt.getLevel().isClientSide()) return;
         this.terrainMap.clear();
     }
 }

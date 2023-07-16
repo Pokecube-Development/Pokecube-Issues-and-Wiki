@@ -4,6 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/high_sky/town_centers/center_1",
+        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },

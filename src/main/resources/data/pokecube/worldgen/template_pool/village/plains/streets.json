@@ -6,8 +6,9 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/road_t_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -16,8 +17,9 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/road_plus_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -27,7 +29,7 @@
       "element": {
         "location": "pokecube:village/plains/streets/road_01",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -37,8 +39,9 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/corner_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -47,8 +50,9 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/corner_02",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -57,6 +61,7 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/corner_03",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bound_check": false,
         "element_type": "pokecube:expanded_pool_element",
@@ -68,8 +73,9 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -78,6 +84,7 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_02",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
         "bound_check": false,
         "element_type": "pokecube:expanded_pool_element",
@@ -88,8 +95,9 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_03",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -98,8 +106,9 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_04",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -108,8 +117,9 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_05",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -118,8 +128,9 @@
       "weight": 5,
       "element": {
         "location": "pokecube:village/plains/streets/crossroad_06",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -130,7 +141,7 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_01",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -140,7 +151,7 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_02",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -150,7 +161,7 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_03",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -160,7 +171,7 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_04",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -170,7 +181,7 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_05",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -180,7 +191,7 @@
       "element": {
         "location": "pokecube:village/plains/streets/straight_06",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }
@@ -190,8 +201,9 @@
       "weight": 3,
       "element": {
         "location": "pokecube:village/plains/streets/turn_01",
+        "flags":"street_corner", "no_connect_flags": "street_corner",
         "projection": "terrain_matching",
-        "bool_config": {"no_affect_noise":true},
+        "bool_config": { "no_affect_noise": true },
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:street_plains"
       }

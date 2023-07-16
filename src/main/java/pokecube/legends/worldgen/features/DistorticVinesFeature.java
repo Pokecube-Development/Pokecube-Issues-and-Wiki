@@ -1,12 +1,11 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,7 +28,7 @@ public class DistorticVinesFeature extends Feature<NoneFeatureConfiguration>
       return DistorticVinesFeature.place(context.level(), context.random(), context.origin(), 8, 4, 8);
    }
 
-   public static boolean place(final LevelAccessor world, final Random random, final BlockPos pos, final int x, final int y, final int z)
+   public static boolean place(final LevelAccessor world, final RandomSource random, final BlockPos pos, final int x, final int y, final int z)
    {
       if (DistorticVinesFeature.isInvalidPlacementLocation(world, pos)) return false;
     else
@@ -39,7 +38,7 @@ public class DistorticVinesFeature extends Feature<NoneFeatureConfiguration>
       }
    }
 
-   public static void placeDistorticVines(final LevelAccessor world, final Random random, final BlockPos pos, final int x, final int y, final int z)
+   public static void placeDistorticVines(final LevelAccessor world, final RandomSource random, final BlockPos pos, final int x, final int y, final int z)
    {
       final BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
@@ -69,7 +68,7 @@ public class DistorticVinesFeature extends Feature<NoneFeatureConfiguration>
       return true;
    }
 
-   public static void placeDistorticVinesColumn(final LevelAccessor world, final Random random, final BlockPos.MutableBlockPos pos, final int x, final int y, final int z)
+   public static void placeDistorticVinesColumn(final LevelAccessor world, final RandomSource random, final BlockPos.MutableBlockPos pos, final int x, final int y, final int z)
    {
       for(int i = 1; i <= x; ++i)
       {

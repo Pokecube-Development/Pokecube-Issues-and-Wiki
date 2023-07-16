@@ -1,12 +1,10 @@
 package pokecube.legends.blocks.plants;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -22,12 +20,13 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
+import thut.lib.RegHelper;
 
 public class SmallContaminatedDripleafBlock extends SmallDripleafBlock
         implements BonemealableBlock, SimpleWaterloggedBlock
 {
     // Tag
-    public static final TagKey<Block> SMALL_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(Registry.BLOCK_REGISTRY,
+    public static final TagKey<Block> SMALL_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "small_contaminated_dripleaf_placeable"));
     protected static final VoxelShape SHAPE_UPPER = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 13.0D, 14.0D);
     protected static final VoxelShape SHAPE_LOWER = Block.box(4.0D, 0.0D, 4.0D, 12.0D, 16.0D, 12.0D);
@@ -73,7 +72,7 @@ public class SmallContaminatedDripleafBlock extends SmallDripleafBlock
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
         if (state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.LOWER)
         {

@@ -1,11 +1,10 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BambooLeaves;
@@ -38,7 +37,7 @@ public class TemporalBambooFeature extends Feature<ProbabilityFeatureConfigurati
       int i = 0;
       BlockPos pos = context.origin();
       WorldGenLevel world = context.level();
-      Random random = context.random();
+      RandomSource random = context.random();
       ProbabilityFeatureConfiguration probConfig = context.config();
       BlockPos.MutableBlockPos mutablePos = pos.mutable();
       BlockPos.MutableBlockPos mutablePos1 = pos.mutable();

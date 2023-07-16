@@ -3,7 +3,6 @@ package pokecube.legends.recipes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 import thut.lib.RegHelper;
 
 public class LegendsDistorticRecipeSerializer implements Recipe<Container>
@@ -40,7 +38,7 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
         this.input = input;
         this.output = output;
         this.block = block;
-        this.dimId = ResourceKey.create(Registry.DIMENSION_REGISTRY, dimId);
+        this.dimId = ResourceKey.create(RegHelper.DIMENSION_REGISTRY, dimId);
     }
 
     @Override
@@ -99,7 +97,7 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
         return this.output;
     }
 
-    public static class SerializerDistortic extends ForgeRegistryEntry<RecipeSerializer<?>>
+    public static class SerializerDistortic
             implements RecipeSerializer<LegendsDistorticRecipeSerializer>
     {
 

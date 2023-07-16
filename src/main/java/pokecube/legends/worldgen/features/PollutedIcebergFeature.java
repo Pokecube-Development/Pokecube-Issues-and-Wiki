@@ -1,11 +1,10 @@
 package pokecube.legends.worldgen.features;
 
-import java.util.Random;
-
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -28,7 +27,7 @@ public class PollutedIcebergFeature extends IcebergFeature
        BlockPos pos = context.origin();
        WorldGenLevel world = context.level();
        pos = new BlockPos(pos.getX(), context.chunkGenerator().getSeaLevel(), pos.getZ());
-       Random random = context.random();
+       RandomSource random = context.random();
        boolean flag = random.nextDouble() > 0.7D;
        BlockState state = (context.config()).state;
        double d0 = random.nextDouble() * 2.0D * Math.PI;
@@ -124,7 +123,7 @@ public class PollutedIcebergFeature extends IcebergFeature
        }
     }
 
-    public void setIcebergBlock(BlockPos pos, LevelAccessor world, Random random, int x, int y, boolean b, boolean b1, BlockState state)
+    public void setIcebergBlock(BlockPos pos, LevelAccessor world, RandomSource random, int x, int y, boolean b, boolean b1, BlockState state)
     {
        BlockState stateWorld = world.getBlockState(pos);
        if (stateWorld.getMaterial() == Material.AIR || stateWorld.is(Blocks.SNOW_BLOCK) || stateWorld.is(Blocks.ICE) || stateWorld.is(Blocks.WATER))

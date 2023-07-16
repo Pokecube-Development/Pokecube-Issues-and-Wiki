@@ -178,13 +178,13 @@ public class LinkableCaps
         final LazyOptional<ILinkStorage> test_stack = event.getItemStack().getCapability(ThutCaps.STORE);
         if (!test_stack.isPresent()) return;
         final ILinkStorage storage = test_stack.orElse(null);
-        final BlockEntity tile = event.getWorld().getBlockEntity(event.getPos());
+        final BlockEntity tile = event.getLevel().getBlockEntity(event.getPos());
         final LazyOptional<ILinkable> test_tile;
         // Only run for tile entities
         if (tile != null && (test_tile = tile.getCapability(ThutCaps.LINK, event.getFace())).isPresent())
         {
             // Only run for linkable ones
-            test_tile.orElse(null).link(storage, event.getPlayer());
+            test_tile.orElse(null).link(storage, event.getEntity());
             event.setCanceled(true);
             event.setUseBlock(Result.DENY);
             event.setUseItem(Result.DENY);
@@ -192,8 +192,8 @@ public class LinkableCaps
         // Otherwise try to save the location instead
         else
         {
-            final GlobalPos pos = GlobalPos.of(event.getPlayer().getLevel().dimension(), event.getPos());
-            storage.setLinkedPos(pos, event.getPlayer());
+            final GlobalPos pos = GlobalPos.of(event.getEntity().getLevel().dimension(), event.getPos());
+            storage.setLinkedPos(pos, event.getEntity());
             event.setCanceled(true);
             event.setUseBlock(Result.DENY);
             event.setUseItem(Result.DENY);

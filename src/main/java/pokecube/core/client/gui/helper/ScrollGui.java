@@ -93,10 +93,14 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     {
         return this.getRowLeft() + this.getRowWidth() + this.scrollBarOffset;
     }
+    
+    int mouseX, mouseY;
 
     @Override
     public void render(final PoseStack mat, final int mouseX, final int mouseY, final float tick)
     {
+        this.mouseX = mouseX;
+        this.mouseY = mouseY;
         this.renderBackground(mat);
 
         final int i = this.getScrollbarPosition();
@@ -108,7 +112,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         final int l = this.y0 + 4 - (int) this.getScrollAmount();
         if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
 
-        this.renderList(mat, k, l, mouseX, mouseY, tick);
+        this.renderList(mat, k, l, tick);
 
         final int k1 = this.getMaxScroll();
         if (k1 > (smoothScroll ? 0 : this.itemHeight))
@@ -159,8 +163,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     }
 
     @Override
-    protected void renderList(final PoseStack mat, final int x, final int y, final int mouseX, final int mouseY,
-            final float tick)
+    protected void renderList(final PoseStack mat, final int x, final int y, final float tick)
     {
         final int i = this.getItemCount();
         final Tesselator tessellator = Tesselator.getInstance();

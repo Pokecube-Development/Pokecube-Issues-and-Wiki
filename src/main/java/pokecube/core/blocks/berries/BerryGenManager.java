@@ -6,32 +6,27 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.function.Supplier;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.AlwaysTrueTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.ProcessorRule;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
-import net.minecraftforge.event.world.BiomeLoadingEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
@@ -40,10 +35,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.berries.ItemBerry;
-import pokecube.world.gen.structures.processors.NotRuleProcessor;
-import thut.api.level.terrain.BiomeDatabase;
 import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
+import thut.lib.RegHelper;
 import thut.lib.ResourceHelper;
 
 public class BerryGenManager
@@ -58,65 +52,6 @@ public class BerryGenManager
     {
         public List<SpawnRule> spawn;
         public String berry;
-        public String placement;
-
-        public boolean matches(BiomeLoadingEvent event)
-        {
-            if (this.placement == null || this.placement.isBlank()) return false;
-            return spawn.stream().anyMatch(rule -> this.matches(rule, event));
-        }
-
-        public boolean matches(SpawnRule spawn, BiomeLoadingEvent event)
-        {
-            if (event.getName() != null)
-            {
-                ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
-                String no_specific_biomes = spawn.values.get("no_biomes");
-                if (no_specific_biomes != null)
-                {
-                    String[] ts = no_specific_biomes.split(",");
-                    for (String s : ts) if (s.equals(event.getName().toString())) return false;
-                }
-                String no_biome_types = spawn.values.get("no_biome_types");
-                if (no_biome_types != null)
-                {
-                    String[] ts = no_biome_types.split(",");
-                    for (String s : ts) if (BiomeDatabase.contains(key, s)) return false;
-                }
-                String catName = event.getCategory().getName();
-                String no_biome_cats = spawn.values.get("no_biome_category");
-                if (no_biome_cats != null)
-                {
-                    String[] ts = no_biome_cats.split(",");
-                    for (String s : ts) if (catName.equals(s)) return false;
-                }
-                String specific_biomes = spawn.values.get("biomes");
-                if (specific_biomes != null)
-                {
-                    String[] ts = specific_biomes.split(",");
-                    for (String s : ts) if (s.equals(event.getName().toString())) return true;
-                    return false;
-                }
-                String biome_types = spawn.values.get("biome_types");
-                boolean correctType = biome_types == null || biome_types.isBlank();
-                if (!correctType)
-                {
-                    String[] ts = biome_types.split(",");
-                    for (String s : ts) if (!BiomeDatabase.contains(key, s)) return false;
-                    correctType = true;
-                }
-                String biome_cats = spawn.values.get("biome_category");
-                boolean correctCategory = biome_cats == null || biome_cats.isBlank();
-                if (!correctCategory)
-                {
-                    String[] ts = biome_cats.split(",");
-                    for (String s : ts) if (!catName.equals(s)) return false;
-                    correctCategory = true;
-                }
-                return correctType && correctCategory;
-            }
-            return false;
-        }
     }
 
     private static class TreeConfig
@@ -131,7 +66,7 @@ public class BerryGenManager
         public List<ResourceLocation> trees = Lists.newArrayList();
         private ServerLevel level;
 
-        public void init(ServerLevel worldIn, Random random)
+        public void init(ServerLevel worldIn, RandomSource random)
         {
             this.level = worldIn;
         }
@@ -143,9 +78,9 @@ public class BerryGenManager
         }
 
         @Override
-        protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(Random rand, boolean has_flowers)
+        protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource rand, boolean has_flowers)
         {
-            var reg = level.registryAccess().registryOrThrow(Registry.CONFIGURED_FEATURE_REGISTRY);
+            var reg = level.registryAccess().registryOrThrow(RegHelper.CONFIGURED_FEATURE_REGISTRY);
             int rng = rand.nextInt(trees.size());
             ResourceLocation loc = trees.get(rng);
             return Holder.direct(reg.get(loc));
@@ -157,11 +92,8 @@ public class BerryGenManager
     public static final ResourceLocation REPLACETAG = new ResourceLocation("pokecube:berry_tree_replace");
 
     public static final ProcessorRule REPLACEABLEONLY = new ProcessorRule(AlwaysTrueTest.INSTANCE,
-            new TagMatchTest(TagKey.create(Registry.BLOCK_REGISTRY, BerryGenManager.REPLACETAG)),
+            new TagMatchTest(TagKey.create(RegHelper.BLOCK_REGISTRY, BerryGenManager.REPLACETAG)),
             Blocks.STRUCTURE_VOID.defaultBlockState());
-
-    public static final NotRuleProcessor NOREPLACE = new NotRuleProcessor(
-            ImmutableList.of(BerryGenManager.REPLACEABLEONLY));
 
     private static Map<Integer, TreeProvider> trees = Maps.newHashMap();
 
@@ -249,7 +181,7 @@ public class BerryGenManager
         return trees.containsKey(index);
     }
 
-    public static Supplier<AbstractTreeGrower> getTree(ServerLevel worldIn, Random random, int index)
+    public static Supplier<AbstractTreeGrower> getTree(ServerLevel worldIn, RandomSource random, int index)
     {
         if (!isTree(index)) return null;
         TreeProvider prov = trees.get(index);

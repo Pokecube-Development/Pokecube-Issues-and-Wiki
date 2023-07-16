@@ -34,7 +34,7 @@ public class ClientProxy extends CommonProxy
 
     @SubscribeEvent
     @OnlyIn(value = Dist.CLIENT)
-    public void onKey(final InputEvent.KeyInputEvent event)
+    public void onKey(final InputEvent.Key event)
     {
         if (ClientProxy.NBTEditKey.consumeClick())
         {

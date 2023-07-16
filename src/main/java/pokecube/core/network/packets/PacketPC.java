@@ -50,7 +50,7 @@ public class PacketPC extends Packet
         final FriendlyByteBuf clt = inv.makeBuffer();
         final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new PCContainer(i,
                 p, inv), sendTo.getDisplayName());
-        NetworkHooks.openGui(player, provider, buf ->
+        NetworkHooks.openScreen(player, provider, buf ->
         {
             buf.writeBytes(clt);
         });

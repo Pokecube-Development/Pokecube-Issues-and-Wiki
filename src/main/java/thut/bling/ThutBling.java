@@ -44,7 +44,7 @@ public class ThutBling
 
     static
     {
-        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, ThutBling.MODID);
+        CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, ThutBling.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ThutBling.MODID);
 
         BIG_BAG = CONTAINERS.register("bling_bag_ender_large",

@@ -10,7 +10,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -22,6 +21,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import thut.api.util.JsonUtil;
 import thut.core.xml.bind.annotation.XmlElement;
+import thut.lib.RegHelper;
 
 public class XMLRecipeHandler
 {
@@ -115,7 +115,7 @@ public class XMLRecipeHandler
                 if (value.id.startsWith("#"))
                 {
                     final ResourceLocation id = new ResourceLocation(value.id.replaceFirst("#", ""));
-                    final TagKey<Item> tag = TagKey.create(Registry.ITEM_REGISTRY, id);
+                    final TagKey<Item> tag = TagKey.create(RegHelper.ITEM_REGISTRY, id);
                     recipeItemsIn.add(Ingredient.of(tag));
                 }
                 else recipeItemsIn.add(Ingredient.of(Tools.getStack(value.getValues())));

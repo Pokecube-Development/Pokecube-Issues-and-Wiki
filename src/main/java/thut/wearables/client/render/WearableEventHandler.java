@@ -17,9 +17,9 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.client.event.InputEvent.KeyInputEvent;
+import net.minecraftforge.client.event.InputEvent.Key;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -35,8 +35,8 @@ import thut.wearables.network.PacketGui;
 
 public class WearableEventHandler
 {
-    KeyMapping toggleGui;
-    KeyMapping[] keys = new KeyMapping[13];
+    static KeyMapping toggleGui;
+    static KeyMapping[] keys = new KeyMapping[13];
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.MODID, value = Dist.CLIENT)
     public static class RegistryEvents
@@ -51,7 +51,7 @@ public class WearableEventHandler
                 Field f = event.getClass().getDeclaredField("renderers");
                 f.setAccessible(true);
                 Map<EntityType<?>, EntityRenderer<?>> renderers = (Map<EntityType<?>, EntityRenderer<?>>) f.get(event);
-                for (EntityType<?> type : ForgeRegistries.ENTITIES.getValues())
+                for (EntityType<?> type : ForgeRegistries.ENTITY_TYPES.getValues())
                 {
                     EntityRenderer<?> render = renderers.get(type);
                     if (render instanceof LivingEntityRenderer livingRender
@@ -79,43 +79,47 @@ public class WearableEventHandler
                 e.printStackTrace();
             }
         }
-    }
 
-    public WearableEventHandler()
-    {
-        this.toggleGui = new KeyMapping("key.wearables.toggle_gui", InputConstants.UNKNOWN.getValue(), "key.categories.wearables");
-        ClientRegistry.registerKeyBinding(this.toggleGui);
-
-        final Map<Integer, Integer> defaults = Maps.newHashMap();
-        // Back
-        defaults.put(7, GLFW.GLFW_KEY_E);
-        // Left and right wrists
-        defaults.put(2, GLFW.GLFW_KEY_Z);
-        defaults.put(3, GLFW.GLFW_KEY_X);
-
-        for (int i = 0; i < 13; i++)
+        @SubscribeEvent
+        public static void registerKeys(RegisterKeyMappingsEvent event)
         {
-            final EnumWearable slot = EnumWearable.getWearable(i);
-            final int subIndex = EnumWearable.getSubIndex(i);
-            String name = "Activate";
-            if (slot.slots == 1) name = name + " " + slot + " Wearable";
-            else name = name + " " + slot + " " + subIndex + " Wearable";
+            WearableEventHandler.toggleGui = new KeyMapping("key.wearables.toggle_gui", InputConstants.UNKNOWN.getValue(), "key.categories.wearables");
+            event.register(WearableEventHandler.toggleGui);
 
-            final boolean defaulted = defaults.containsKey(i);
-            final int key = defaulted ? defaults.get(i) : InputConstants.UNKNOWN.getValue();
-            if (defaulted) this.keys[i] = new KeyMapping(name, KeyConflictContext.IN_GAME, KeyModifier.CONTROL,
-                    InputConstants.Type.KEYSYM.getOrCreate(key), "key.categories.wearables");
-            else this.keys[i] = new KeyMapping(name, key, "key.categories.wearables");
-            ClientRegistry.registerKeyBinding(this.keys[i]);
+            final Map<Integer, Integer> defaults = Maps.newHashMap();
+            // Back
+            defaults.put(7, GLFW.GLFW_KEY_E);
+            // Left and right wrists
+            defaults.put(2, GLFW.GLFW_KEY_Z);
+            defaults.put(3, GLFW.GLFW_KEY_X);
+
+            for (int i = 0; i < 13; i++)
+            {
+                final EnumWearable slot = EnumWearable.getWearable(i);
+                final int subIndex = EnumWearable.getSubIndex(i);
+                String name = "Activate ";
+                if (slot.slots == 1) name = name + " " + slot + " Wearable";
+                else name = name + " " + slot + " " + subIndex + " Wearable";
+
+                final boolean defaulted = defaults.containsKey(i);
+                final int key = defaulted ? defaults.get(i) : InputConstants.UNKNOWN.getValue();
+                if (defaulted) WearableEventHandler.keys[i] = new KeyMapping(name, KeyConflictContext.IN_GAME,
+                        KeyModifier.CONTROL, InputConstants.Type.KEYSYM.getOrCreate(key), "key.categories.wearables");
+                else WearableEventHandler.keys[i] = new KeyMapping(name, key, "key.categories.wearables");
+                event.register(WearableEventHandler.keys[i]);
+            }
         }
     }
 
+    public WearableEventHandler()
+    {}
+
     @SubscribeEvent
-    public void keyPress(final KeyInputEvent event)
+    public void keyPress(final Key event)
     {
         for (byte i = 0; i < 13; i++)
         {
-            final KeyMapping key = this.keys[i];
+            final KeyMapping key = WearableEventHandler.keys[i];
             if (key.consumeClick())
             {
                 final PacketGui packet = new PacketGui();
@@ -123,7 +127,7 @@ public class WearableEventHandler
                 ThutWearables.packets.sendToServer(packet);
             }
         }
-        if (this.toggleGui.consumeClick())
+        if (WearableEventHandler.toggleGui.consumeClick())
         {
             final PacketGui packet = new PacketGui();
             ThutWearables.packets.sendToServer(packet);
@@ -139,14 +143,14 @@ public class WearableEventHandler
             IWearable wear = evt.getItemStack().getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null);
             if (wear == null) wear = (IWearable) evt.getItemStack().getItem();
             final EnumWearable slot = wear.getSlot(evt.getItemStack());
-            String key = this.keys[slot.index].getTranslatedKeyMessage().getString();
+            String key = WearableEventHandler.keys[slot.index].getTranslatedKeyMessage().getString();
             String message = "";
             switch (slot.slots)
             {
             case 2:
                 message = I18n.get("wearables.keyuse.left", key.formatted(ChatFormatting.GRAY));
                 evt.getToolTip().add(TComponent.literal(message));
-                key = this.keys[slot.index + 1].getTranslatedKeyMessage().getString().formatted(ChatFormatting.GRAY);
+                key = WearableEventHandler.keys[slot.index + 1].getTranslatedKeyMessage().getString().formatted(ChatFormatting.GRAY);
                 message = I18n.get("wearables.keyuse.right", key);
                 evt.getToolTip().add(TComponent.literal(message));
                 break;

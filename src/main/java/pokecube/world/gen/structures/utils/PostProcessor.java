@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.StructureMode;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
-import net.minecraft.world.level.levelgen.structure.pieces.PieceGeneratorSupplier;
+import net.minecraft.world.level.levelgen.structure.Structure.GenerationContext;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.Palette;
@@ -21,23 +21,25 @@ import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.SpawnEventsHandler;
 import pokecube.core.utils.PokecubeSerializer;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
+import pokecube.world.gen.structures.GenericJigsawStructure;
 import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.api.level.terrain.BiomeType;
 
-public class PostProcessor implements
-        BiConsumer<PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration>, List<PoolElementStructurePiece>>
+public class PostProcessor implements BiConsumer<GenerationContext, List<PoolElementStructurePiece>>
 {
-    public static PostProcessor POSTPROCESS = new PostProcessor();
+    final GenericJigsawStructure config;
+
+    public PostProcessor(GenericJigsawStructure config)
+    {
+        this.config = config;
+    }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void accept(PieceGeneratorSupplier.Context<ExpandedJigsawConfiguration> context,
-            List<PoolElementStructurePiece> parts)
+    public void accept(GenerationContext context, List<PoolElementStructurePiece> parts)
     {
         ChunkGenerator chunkGenerator = context.chunkGenerator();
         ChunkPos pos = context.chunkPos();
-        ExpandedJigsawConfiguration config = context.config();
 
         for (final PoolElementStructurePiece part : parts)
         {
@@ -66,7 +68,7 @@ public class PostProcessor implements
                     return;
                 // Check if we should place a professor.
 
-                final StructureTemplate t = piece.getTemplate(context.structureManager());
+                final StructureTemplate t = piece.getTemplate(context.structureTemplateManager());
                 StructurePlaceSettings settings = piece.getSettings(part.getRotation(), part.getBoundingBox(), false);
                 components:
                 for (final Palette list : t.palettes)

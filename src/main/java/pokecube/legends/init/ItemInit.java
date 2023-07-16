@@ -13,12 +13,12 @@ import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.PlaceOnWaterBlockItem;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.SignItem;
 import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
-import net.minecraft.world.item.WaterLilyBlockItem;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -26,6 +26,8 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
+import pokecube.core.entity.boats.GenericBoat;
+import pokecube.core.init.ItemGenerator;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
@@ -172,7 +174,7 @@ public class ItemInit
     public static final RegistryObject<Item> ULTRAKEY;
     public static final RegistryObject<Item> COSMIC_DUST;
     public static final RegistryObject<Item> FRACTAL_SHARD;
-    public static final RegistryObject<Item> DISTORTED_WATER_BUCKET;
+    public static final RegistryObject<Item> DISTORTIC_WATER_BUCKET;
 
     // Giratina
     public static final RegistryObject<Item> GIRATINA_MIRROR;
@@ -457,10 +459,10 @@ public class ItemInit
                 () -> new ItemNameBlockItem(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get(),
                         new Item.Properties().food(FoodInit.GOLDEN_SWEET_BERRIES)));
         PINK_TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("pink_blossom_tainted_lily_pad",
-                () -> new WaterLilyBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
+                () -> new PlaceOnWaterBlockItem(PlantsInit.PINK_TAINTED_LILY_PAD.get(),
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         TAINTED_LILY_PAD = PokecubeLegends.ITEMS.register("tainted_lily_pad",
-                () -> new WaterLilyBlockItem(PlantsInit.TAINTED_LILY_PAD.get(),
+                () -> new PlaceOnWaterBlockItem(PlantsInit.TAINTED_LILY_PAD.get(),
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         TEMPORAL_BAMBOO = PokecubeLegends.ITEMS.register("temporal_bamboo",
                 () -> new TemporalBambooBlockItem(PlantsInit.TEMPORAL_BAMBOO.get(),
@@ -486,15 +488,23 @@ public class ItemInit
         TEMPORAL_SIGN = PokecubeLegends.ITEMS.register("temporal_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
 
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.AGED_PLANKS, "aged", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CONCRETE_PLANKS, "concrete", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CORRUPTED_PLANKS, "corrupted", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.DISTORTIC_PLANKS, "distortic", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.INVERTED_PLANKS, "inverted", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.MIRAGE_PLANKS, "mirage", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.TEMPORAL_PLANKS, "temporal", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
+
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
-                () -> new UltraHelmetEffect(ItemInit.armormaterial, EquipmentSlot.HEAD,
+                () -> new UltraHelmetEffect(ItemInit.SPECTRUM, EquipmentSlot.HEAD,
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         ULTRA_CHESTPLATE = PokecubeLegends.ITEMS.register("ultra_chestplate",
-                () -> new ArmorItem(ItemInit.armormaterial, EquipmentSlot.CHEST,
+                () -> new ArmorItem(ItemInit.SPECTRUM, EquipmentSlot.CHEST,
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(ItemInit.armormaterial,
+        ULTRA_LEGGINGS = PokecubeLegends.ITEMS.register("ultra_leggings", () -> new ArmorItem(ItemInit.SPECTRUM,
                 EquipmentSlot.LEGS, new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
-        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.armormaterial,
+        ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.SPECTRUM,
                 EquipmentSlot.FEET, new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         ULTRAKEY = PokecubeLegends.ITEMS.register("ultrakey",
@@ -502,9 +512,9 @@ public class ItemInit
         GIRATINA_MIRROR = PokecubeLegends.ITEMS.register("giratina_mirror",
                 () -> new DistortedMirror("giratina_mirror", PokecubeLegends.TAB_DIMENSIONS, 1));
 
-        DISTORTED_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket", () -> new BucketItem(
-                FluidInit.DISTORTED_WATER,
-                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(PokecubeLegends.TAB_DIMENSIONS)));
+        DISTORTIC_WATER_BUCKET = PokecubeLegends.ITEMS.register("distortic_water_bucket",
+                () -> new BucketItem(FluidInit.DISTORTIC_WATER, new Item.Properties().craftRemainder(Items.BUCKET)
+                        .stacksTo(1).rarity(Rarity.RARE).tab(PokecubeLegends.TAB_DIMENSIONS)));
 
         // Decorations Creative Tab - Sorting depends on the order the items are
         // listed in
@@ -562,7 +572,7 @@ public class ItemInit
                 PokecubeItems.TAB_BERRIES, Rarity.RARE, FoodInit.FIRE_RESISTANCE_POKEPUFF, 16));
     }
 
-    public static final ArmorMaterial armormaterial = new ArmorMaterial()
+    public static final ArmorMaterial SPECTRUM = new ArmorMaterial()
     {
         @Override
         public int getDurabilityForSlot(final EquipmentSlot slot)
@@ -587,7 +597,7 @@ public class ItemInit
         @Override
         public net.minecraft.sounds.SoundEvent getEquipSound()
         {
-            return SoundEvents.ZOMBIE_ATTACK_IRON_DOOR;
+            return SoundEvents.ARMOR_EQUIP_NETHERITE;
         }
 
         @Override

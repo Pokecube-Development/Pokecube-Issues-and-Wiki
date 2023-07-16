@@ -2,7 +2,6 @@
   "temperature": 2,
   "downfall": 0,
   "precipitation": "none",
-  "category": "plains",
   "creature_spawn_probability": 0.07,
   "effects": {
     "sky_color": 921110,
@@ -36,7 +35,8 @@
     [],
     [
       "pokecube_legends:lake_lava_underground",
-      "pokecube_legends:lake_lava_surface"
+      "pokecube_legends:lake_lava_meteorite_surface",
+      "pokecube_legends:meteorite_crater_surface"
     ],
     [
       "minecraft:amethyst_geode",
@@ -44,14 +44,14 @@
     ],
     [],
     [
-      "pokecube_legends:ash_patch",
-      "pokecube_legends:meteorite_spike",
-      "pokecube_legends:meteorite_patch"
+      "pokecube_legends:disk_ash_block_rare",
+      "pokecube_legends:disk_meteorite",
+      "pokecube_legends:meteorite_spike"
     ],
     [],
     [
       "minecraft:underwater_magma",
-      "pokecube_legends:disk_ash_block",
+      "pokecube_legends:disk_ash_block_rare",
       "pokecube_legends:disk_blackened_sand",
       "pokecube_legends:disk_clay",
       "pokecube_legends:disk_turquoise_gravel",
@@ -91,8 +91,7 @@
     ],
     [],
     [
-      "pokecube_legends:spring_lava",
-      "pokecube_legends:spring_water"
+      "pokecube_legends:spring_lava"
     ],
     [
       "minecraft:patch_sugar_cane",

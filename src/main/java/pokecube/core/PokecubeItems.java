@@ -20,7 +20,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -37,7 +36,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
-import net.minecraft.world.level.block.OreBlock;
+import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -228,13 +227,12 @@ public class PokecubeItems extends ItemList
 
         TM = PokecubeCore.ITEMS.register("tm", () -> new ItemTM(new Item.Properties().tab(PokecubeItems.TAB_ITEMS)));
 
-        // Blocks // 1.19 OreBlock -> DropExperienceBlock .noDrops() -> gone
         FOSSIL_ORE = PokecubeCore.BLOCKS.register("fossil_ore",
-                () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
+                () -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.STONE)
                         .strength(3.0f, 3.0f).sound(SoundType.BONE_BLOCK).requiresCorrectToolForDrops(),
                         UniformInt.of(0, 3)));
         DEEPSLATE_FOSSIL_ORE = PokecubeCore.BLOCKS.register("deepslate_fossil_ore",
-                () -> new OreBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE)
+                () -> new DropExperienceBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.DEEPSLATE)
                         .strength(4.5f, 3.0f).sound(SoundType.DEEPSLATE).requiresCorrectToolForDrops(),
                         UniformInt.of(0, 3)));
 
@@ -495,7 +493,7 @@ public class PokecubeItems extends ItemList
 
     public static ItemStack getStack(final ResourceLocation loc, final boolean stacktrace)
     {
-        final TagKey<Item> tag = TagKey.create(Registry.ITEM_REGISTRY, loc);
+        final TagKey<Item> tag = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
         if (tag != null)
         {
             List<Item> items = ForgeRegistries.ITEMS.tags().getTag(tag).stream().toList();
@@ -760,7 +758,7 @@ public class PokecubeItems extends ItemList
     {
         if (name == null) return false;
         final ResourceLocation loc = PokecubeItems.toPokecubeResource(name);
-        final TagKey<Item> old = TagKey.create(Registry.ITEM_REGISTRY, loc);
+        final TagKey<Item> old = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
         final Item item = ForgeRegistries.ITEMS.getValue(loc);
         return old != null || ItemList.pendingTags.containsKey(loc) || item != null;
     }

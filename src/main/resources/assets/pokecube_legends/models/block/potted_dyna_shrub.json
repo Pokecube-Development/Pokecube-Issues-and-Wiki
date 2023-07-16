@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
     "parent": "minecraft:block/flower_pot_cross",
+	"render_type": "cutout",
 	"textures": {
 		"dirt": "pokecube_legends:block/mushroom_dirt",
 		"dyna_shrub": "pokecube_legends:block/potted_dyna_shrub",

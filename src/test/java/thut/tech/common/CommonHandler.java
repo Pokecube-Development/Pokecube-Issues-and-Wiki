@@ -1,9 +1,7 @@
 package thut.tech.common;
 
-import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -18,6 +16,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 import thut.tech.Reference;
 import thut.tech.common.entity.EntityLift;
 import thut.tech.common.network.PacketLift;
@@ -31,13 +30,14 @@ public class CommonHandler
         @SubscribeEvent
         public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
         {
-            if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || evt
-                    .getItemStack().getItem() != TechCore.LIFT.get()) return;
+            if (evt.getHand() == InteractionHand.OFF_HAND || evt.getLevel().isClientSide || evt.getItemStack().isEmpty()
+                    || evt.getItemStack().getItem() != TechCore.LIFT.get())
+                return;
 
             final ItemStack itemstack = evt.getItemStack();
-            final Player playerIn = evt.getPlayer();
-            final Level worldIn = evt.getWorld();
-            if (!evt.getPlayer().isShiftKeyDown())
+            final Player playerIn = evt.getEntity();
+            final Level worldIn = evt.getLevel();
+            if (!evt.getEntity().isShiftKeyDown())
             {
                 if (itemstack.hasTag())
                 {
@@ -45,7 +45,8 @@ public class CommonHandler
                     itemstack.getTag().remove("time");
                     if (itemstack.getTag().isEmpty()) itemstack.setTag(null);
                     final String message = "msg.lift.reset";
-                    if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
+                    if (!worldIn.isClientSide)
+                        thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                     evt.setCanceled(true);
                 }
                 return;
@@ -68,7 +69,8 @@ public class CommonHandler
                 if (max.getY() - min.getY() > TechCore.config.maxHeight || dw > 2 * TechCore.config.maxRadius + 1)
                 {
                     final String message = "msg.lift.toobig";
-                    if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
+                    if (!worldIn.isClientSide)
+                        thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                     return;
                 }
                 final int num = (dw + 1) * (max.getY() - min.getY() + 1);
@@ -78,19 +80,20 @@ public class CommonHandler
                 if (!playerIn.getAbilities().instabuild && count < num)
                 {
                     final String message = "msg.lift.noblock";
-                    if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, num),
-                            Util.NIL_UUID);
+                    if (!worldIn.isClientSide)
+                        thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, num));
                     return;
                 }
-                else if (!playerIn.getAbilities().instabuild) playerIn.getInventory().clearOrCountMatchingItems(b -> b
-                        .getItem() == TechCore.LIFT.get(), num, playerIn.inventoryMenu.getCraftSlots());
+                else if (!playerIn.getAbilities().instabuild)
+                    playerIn.getInventory().clearOrCountMatchingItems(b -> b.getItem() == TechCore.LIFT.get(), num,
+                            playerIn.inventoryMenu.getCraftSlots());
                 if (!worldIn.isClientSide)
                 {
                     final EntityLift lift = IBlockEntity.BlockEntityFormer.makeBlockEntity(worldIn, min, max, mid,
                             TechCore.LIFTTYPE.get());
                     if (lift != null) lift.owner = playerIn.getUUID();
                     final String message = lift != null ? "msg.lift.create" : "msg.lift.fail";
-                    playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                 }
                 itemstack.getTag().remove("min");
                 evt.setCanceled(true);
@@ -102,8 +105,8 @@ public class CommonHandler
                 new Vector3().set(pos).writeToNBT(min, "");
                 itemstack.getTag().put("min", min);
                 final String message = "msg.lift.setcorner";
-                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, pos),
-                        Util.NIL_UUID);
+                if (!worldIn.isClientSide)
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, pos));
                 evt.setCanceled(true);
                 itemstack.getTag().putLong("time", worldIn.getGameTime());
             }
@@ -112,13 +115,14 @@ public class CommonHandler
         @SubscribeEvent
         public static void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
         {
-            if (evt.getHand() == InteractionHand.OFF_HAND || evt.getWorld().isClientSide || evt.getItemStack().isEmpty() || evt
-                    .getItemStack().getItem() != TechCore.LIFT.get()) return;
+            if (evt.getHand() == InteractionHand.OFF_HAND || evt.getLevel().isClientSide || evt.getItemStack().isEmpty()
+                    || evt.getItemStack().getItem() != TechCore.LIFT.get())
+                return;
             final ItemStack itemstack = evt.getItemStack();
-            final Player playerIn = evt.getPlayer();
-            final Level worldIn = evt.getWorld();
+            final Player playerIn = evt.getEntity();
+            final Level worldIn = evt.getLevel();
 
-            if (!evt.getPlayer().isShiftKeyDown())
+            if (!evt.getEntity().isShiftKeyDown())
             {
                 if (itemstack.hasTag())
                 {
@@ -127,7 +131,8 @@ public class CommonHandler
                     if (itemstack.getTag().isEmpty()) itemstack.setTag(null);
                 }
                 final String message = "msg.lift.reset";
-                if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
+                if (!worldIn.isClientSide)
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                 return;
             }
 
@@ -136,8 +141,8 @@ public class CommonHandler
             if (validTag && !alreadyUsed)
             {
                 final CompoundTag minTag = itemstack.getTag().getCompound("min");
-                final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0).add(playerIn
-                        .getLookAngle().scale(2));
+                final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
+                        .add(playerIn.getLookAngle().scale(2));
                 final BlockPos pos = new BlockPos(loc);
                 BlockPos min = pos;
                 BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
@@ -151,7 +156,8 @@ public class CommonHandler
                 if (max.getY() - min.getY() > TechCore.config.maxHeight || dw > 2 * TechCore.config.maxRadius + 1)
                 {
                     final String message = "msg.lift.toobig";
-                    if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
+                    if (!worldIn.isClientSide)
+                        thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                     return;
                 }
                 final int num = (dw + 1) * (max.getY() - min.getY() + 1);
@@ -161,19 +167,20 @@ public class CommonHandler
                 if (!playerIn.getAbilities().instabuild && count < num)
                 {
                     final String message = "msg.lift.noblock";
-                    if (!worldIn.isClientSide) playerIn.sendMessage(new TranslatableComponent(message, num),
-                            Util.NIL_UUID);
+                    if (!worldIn.isClientSide)
+                        thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message, num));
                     return;
                 }
-                else if (!playerIn.getAbilities().instabuild) playerIn.getInventory().clearOrCountMatchingItems(i -> i
-                        .getItem() == TechCore.LIFT.get(), num, playerIn.inventoryMenu.getCraftSlots());
+                else if (!playerIn.getAbilities().instabuild)
+                    playerIn.getInventory().clearOrCountMatchingItems(i -> i.getItem() == TechCore.LIFT.get(), num,
+                            playerIn.inventoryMenu.getCraftSlots());
                 if (!worldIn.isClientSide)
                 {
                     final EntityLift lift = IBlockEntity.BlockEntityFormer.makeBlockEntity(worldIn, min, max, mid,
                             TechCore.LIFTTYPE.get());
                     if (lift != null) lift.owner = playerIn.getUUID();
                     final String message = lift != null ? "msg.lift.create" : "msg.lift.fail";
-                    playerIn.sendMessage(new TranslatableComponent(message), Util.NIL_UUID);
+                    thut.lib.ChatHelper.sendSystemMessage(playerIn, TComponent.translatable(message));
                 }
                 itemstack.getTag().remove("min");
             }

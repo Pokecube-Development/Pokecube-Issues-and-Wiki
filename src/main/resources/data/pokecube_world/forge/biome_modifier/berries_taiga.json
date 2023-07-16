@@ -1,0 +1,9 @@
+{
+    "type": "forge:add_features",
+    "biomes": {
+	  "type": "forge:and",
+	  "values": ["#minecraft:is_taiga"]
+	},
+    "features": ["pokecube_world:crops_taigas"],
+    "step": "vegetal_decoration"
+  }

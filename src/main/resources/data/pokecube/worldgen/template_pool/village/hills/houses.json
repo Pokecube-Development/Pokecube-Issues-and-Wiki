@@ -158,7 +158,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
         "location": "pokecube:village/hills/pokecenter/center_01",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:decay_30_percent",
         "projection": "rigid"
       },
       "weight": 1
@@ -168,7 +168,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
         "location": "pokecube:village/hills/gym/gym_01",
-        "processors": "pokecube:generic",
+        "processors": "pokecube:decay_30_percent",
         "projection": "rigid"
       },
       "weight": 1

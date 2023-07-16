@@ -5,6 +5,7 @@
 		"pomeg": "pokecube:block/pomeg_fruit",
 		"overlay": "pokecube:block/pomeg_fruit_overlay"
 	},
+	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "stem",

@@ -1,17 +1,16 @@
 package pokecube.legends.blocks.plants;
 
 import java.util.Map;
-import java.util.Random;
 
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -36,11 +35,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
+import thut.lib.RegHelper;
 
 public class BigContaminatedDripleafBlock extends BigDripleafBlock implements BonemealableBlock, SimpleWaterloggedBlock
 {
     // Tag
-    public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(Registry.BLOCK_REGISTRY,
+    public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "big_contaminated_dripleaf_placeable"));
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final EnumProperty<Tilt> TILT = BlockStateProperties.TILT;
@@ -72,7 +72,7 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
         return Shapes.or(LEAF_SHAPES.get(state.getValue(TILT)), STEM_SHAPES.get(state.getValue(FACING)));
     }
 
-    public static void placeWithRandomHeight(LevelAccessor world, Random random, BlockPos pos, Direction direction)
+    public static void placeWithRandomHeight(LevelAccessor world, RandomSource random, BlockPos pos, Direction direction)
     {
         int i = Mth.nextInt(random, 2, 5);
         BlockPos.MutableBlockPos mutablePos = pos.mutable();
@@ -151,7 +151,7 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
     {
         BlockPos posAbove = pos.above();
         BlockState stateAbove = world.getBlockState(posAbove);

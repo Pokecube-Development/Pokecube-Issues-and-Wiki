@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout",
 	"textures": {
 		"2": "block/cracked_stone_bricks",
 		"3": "pokecube_legends:block/keldeo_banner_end",

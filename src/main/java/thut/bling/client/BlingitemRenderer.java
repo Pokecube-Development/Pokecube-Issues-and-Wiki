@@ -7,13 +7,13 @@ import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.client.IItemRenderProperties;
+import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;
 
-public class BlingitemRenderer extends BlockEntityWithoutLevelRenderer implements IItemRenderProperties
+public class BlingitemRenderer extends BlockEntityWithoutLevelRenderer implements IClientItemExtensions
 {
     public static final BlingitemRenderer INSTANCE = new BlingitemRenderer();
 
@@ -50,7 +50,7 @@ public class BlingitemRenderer extends BlockEntityWithoutLevelRenderer implement
     }
 
     @Override
-    public BlockEntityWithoutLevelRenderer getItemStackRenderer()
+    public BlockEntityWithoutLevelRenderer getCustomRenderer()
     {
         return this;
     }

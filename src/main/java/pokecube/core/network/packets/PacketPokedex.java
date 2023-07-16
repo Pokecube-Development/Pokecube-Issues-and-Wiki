@@ -16,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -30,7 +29,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
@@ -64,6 +63,7 @@ import thut.api.util.UnderscoreIgnore;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.nbtpacket.NBTPacket;
 import thut.core.common.network.nbtpacket.PacketAssembly;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class PacketPokedex extends NBTPacket
@@ -301,16 +301,15 @@ public class PacketPokedex extends NBTPacket
         BlockPos testPos = searcher.getNext(pos, step);
 
         ResourceLocation resourcelocation1 = new ResourceLocation("pokecube_world:meteorites");
-        var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
-        var key = TagKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, resourcelocation1);
-        HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet
-                .direct(registry.getOrCreateTag(key).stream().toList());
+        var registry = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
+        var key = TagKey.create(RegHelper.STRUCTURE_REGISTRY, resourcelocation1);
+        HolderSet<Structure> holderset = HolderSet.direct(registry.getOrCreateTag(key).stream().toList());
 
         long time = System.nanoTime();
         while ((System.nanoTime() - time) < 5e5)
         {
-            Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource().getGenerator()
-                    .findNearestMapFeature(level, holderset, testPos, 1, false);
+            Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator().findNearestMapStructure(level,
+                    holderset, testPos, 1, false);
             if (thing != null)
             {
                 BlockPos p2 = thing.getFirst();

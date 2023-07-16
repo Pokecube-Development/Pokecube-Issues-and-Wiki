@@ -12,7 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
-import net.minecraftforge.event.world.WorldEvent.Unload;
+import net.minecraftforge.event.level.LevelEvent.Unload;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.maths.Vector3;
 
@@ -39,7 +39,7 @@ public class ParticleHandler
 
     public static void addParticle(final Vector3 location, final IParticle particle)
     {
-        if (particle == null || location == null || Minecraft.getInstance().options.particles == ParticleStatus.MINIMAL)
+        if (particle == null || location == null || Minecraft.getInstance().options.particles().get() == ParticleStatus.MINIMAL)
             return;
         synchronized (ParticleHandler.particles)
         {

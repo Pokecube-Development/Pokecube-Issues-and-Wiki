@@ -21,6 +21,7 @@ public class Fluid extends BaseMaterialAction
         _tag = TagKey.create(Keys.FLUIDS, new ResourceLocation(fluid));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public boolean shouldApply(LivingEntity mob)
     {

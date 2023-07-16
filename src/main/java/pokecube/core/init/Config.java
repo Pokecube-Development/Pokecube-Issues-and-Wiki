@@ -6,7 +6,6 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -41,6 +40,7 @@ import pokecube.core.utils.PokecubeSerializer;
 import thut.api.data.DataHelpers;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
+import thut.lib.RegHelper;
 
 public class Config extends ConfigData
 {
@@ -794,7 +794,7 @@ public class Config extends ConfigData
         SpawnBiomeMatcher.SOFTBLACKLIST.clear();
         for (final String name : this.softSpawnBiomeBlacklist)
         {
-            SpawnBiomeMatcher.SOFTBLACKLIST.add(TagKey.create(Registry.BIOME_REGISTRY, new ResourceLocation(name)));
+            SpawnBiomeMatcher.SOFTBLACKLIST.add(TagKey.create(RegHelper.BIOME_REGISTRY, new ResourceLocation(name)));
         }
 
         SpawnHandler.MAX_DENSITY = this.mobDensityMultiplier;
@@ -906,19 +906,19 @@ public class Config extends ConfigData
         for (final String i : this.spawnDimBlacklist)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            SpawnHandler.dimensionBlacklist.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, key));
+            SpawnHandler.dimensionBlacklist.add(ResourceKey.create(RegHelper.DIMENSION_REGISTRY, key));
         }
         SpawnHandler.dimensionWhitelist.clear();
         for (final String i : this.spawnDimWhitelist)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            SpawnHandler.dimensionWhitelist.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, key));
+            SpawnHandler.dimensionWhitelist.add(ResourceKey.create(RegHelper.DIMENSION_REGISTRY, key));
         }
         LogicMountedControl.BLACKLISTED.clear();
         for (final String i : this.blackListedFlyDims)
         {
             final ResourceLocation key = new ResourceLocation(i);
-            LogicMountedControl.BLACKLISTED.add(ResourceKey.create(Registry.DIMENSION_REGISTRY, key));
+            LogicMountedControl.BLACKLISTED.add(ResourceKey.create(RegHelper.DIMENSION_REGISTRY, key));
         }
 
         boolean failed = false;

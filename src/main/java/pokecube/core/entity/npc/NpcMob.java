@@ -242,7 +242,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
                 buffer.writeInt(this.getId());
                 final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new NpcContainer(i, p, buffer),
                         this.getDisplayName());
-                NetworkHooks.openGui(sp, provider, buf -> {
+                NetworkHooks.openScreen(sp, provider, buf -> {
                     buf.writeInt(this.getId());
                 });
             }

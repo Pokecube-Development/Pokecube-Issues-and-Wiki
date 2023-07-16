@@ -6,7 +6,6 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +29,7 @@ public class ItemList extends Items
 
     public static boolean is(final ResourceLocation tag, final EntityType<?> type)
     {
-        var tagkey = E_TAGS.computeIfAbsent(tag, l -> TagKey.create(Registry.ENTITY_TYPE_REGISTRY, l));
+        var tagkey = E_TAGS.computeIfAbsent(tag, l -> TagKey.create(RegHelper.ENTITY_TYPE_REGISTRY, l));
         final boolean tagged = type.is(tagkey);
         if (!tagged) return RegHelper.getKey(type).equals(tag);
         return tagged;
@@ -43,7 +42,7 @@ public class ItemList extends Items
 
     public static boolean is(final ResourceLocation tag, final BlockState toCheck)
     {
-        var tagkey = B_TAGS.computeIfAbsent(tag, l -> TagKey.create(Registry.BLOCK_REGISTRY, l));
+        var tagkey = B_TAGS.computeIfAbsent(tag, l -> TagKey.create(RegHelper.BLOCK_REGISTRY, l));
         final boolean tagged = toCheck.is(tagkey);
         if (!tagged) return RegHelper.getKey(toCheck.getBlock()).equals(tag);
         return tagged;
@@ -56,7 +55,7 @@ public class ItemList extends Items
 
     public static boolean is(final ResourceLocation tag, final ItemStack stack)
     {
-        var tagkey = I_TAGS.computeIfAbsent(tag, l -> TagKey.create(Registry.ITEM_REGISTRY, l));
+        var tagkey = I_TAGS.computeIfAbsent(tag, l -> TagKey.create(RegHelper.ITEM_REGISTRY, l));
         boolean tagged = stack.is(tagkey);
         tagged = tagged || ItemList.pendingTags.getOrDefault(tag, Collections.emptySet()).contains(stack.getItem());
         if (!tagged) return RegHelper.getKey(stack).equals(tag);

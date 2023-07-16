@@ -2,7 +2,6 @@ package pokecube.legends.blocks.customblocks;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import javax.annotation.Nullable;
 
@@ -12,6 +11,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -211,7 +211,7 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final RandomSource random)
     {
         if (random.nextInt(100) == 0) worldIn.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
                 SoundEvents.END_PORTAL_SPAWN, SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);

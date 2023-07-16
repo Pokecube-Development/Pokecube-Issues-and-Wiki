@@ -1,0 +1,25 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "OCEAN_FLOOR_WG",
+  "start_pool": "pokecube:scattered/stonehenge",
+  "step": "surface_structures",
+  "avoid_range": 6,
+  "size": 2,
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:legendary_tree"
+  ],
+  "y_settings": {
+    "max_dy": 5
+  },
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#minecraft:is_overworld"
+    ]
+  },
+  "spawn_overrides": {}
+}

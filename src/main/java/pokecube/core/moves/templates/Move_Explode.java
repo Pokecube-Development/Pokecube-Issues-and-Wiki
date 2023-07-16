@@ -12,7 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.Explosion;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.level.ExplosionEvent;
 import pokecube.api.data.moves.IMove;
 import pokecube.api.data.moves.MoveApplicationRegistry;
 import pokecube.api.entity.pokemob.IPokemob;

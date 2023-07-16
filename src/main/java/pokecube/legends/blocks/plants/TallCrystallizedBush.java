@@ -4,7 +4,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,7 +57,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
 
     @Nullable
     @Override
-    public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
+    public BlockPathTypes getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
     {
         return BlockPathTypes.DAMAGE_OTHER;
     }
@@ -77,7 +76,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
         {
             final FluidState fluidState = world.getFluidState(pos.above());
             world.setBlock(pos.above(), state.setValue(TallCrystallizedBush.HALF, DoubleBlockHalf.UPPER)
-                .setValue(TallCrystallizedBush.WATERLOGGED, fluidState.getType() == Fluids.WATER), 1);
+                .setValue(TallCrystallizedBush.WATERLOGGED, fluidState.getType() == Fluids.WATER), 3);
         }
     }
 
@@ -87,13 +86,10 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
         final FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         final BlockPos pos = context.getClickedPos();
         final Level world = context.getLevel();
-
-        final BlockPos tallBushPos = this.getTallBushTopPos(pos);
         
-        if (pos.getY() < world.getMaxBuildHeight() && tallBushPos.getY() < world.getMaxBuildHeight()
-                && context.getLevel().getBlockState(pos.above()).canBeReplaced(context))
+        if (pos.getY() < world.getMaxBuildHeight() - 1 && world.getBlockState(pos.above()).canBeReplaced(context))
             return this.defaultBlockState().setValue(HALF, DoubleBlockHalf.LOWER)
-                    .setValue(WATERLOGGED, fluidState.is(FluidTags.WATER) && fluidState.getAmount() == 8);
+                    .setValue(WATERLOGGED, fluidState.getType() == Fluids.WATER);
 
         return null;
     }

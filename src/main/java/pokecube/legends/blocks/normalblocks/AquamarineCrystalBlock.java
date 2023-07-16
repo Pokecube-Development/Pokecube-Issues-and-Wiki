@@ -1,7 +1,6 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.Optional;
-import java.util.Random;
 import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
@@ -16,6 +15,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -124,7 +124,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
         }
     }
 
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
     {
         if (canDrip(state))
         {
@@ -140,7 +140,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
         }
     }
 
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random)
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
     {
         if (isStalagmite(state) && !this.canSurvive(state, world, pos))
         {
@@ -152,7 +152,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
         }
     }
 
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random)
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
     {
         maybeFillCauldron(state, world, pos, random.nextFloat());
         if (random.nextFloat() < 0.011377778F && isStalactiteStartPos(state, world, pos))
@@ -312,7 +312,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
 
     @VisibleForTesting
     public static void growStalactiteOrStalagmiteIfPossible(BlockState state, ServerLevel world, BlockPos pos,
-            Random random)
+            RandomSource random)
     {
         BlockState state1 = world.getBlockState(pos.above(1));
         BlockState state2 = world.getBlockState(pos.above(2));

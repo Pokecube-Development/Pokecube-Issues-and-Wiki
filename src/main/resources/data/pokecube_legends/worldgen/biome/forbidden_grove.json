@@ -2,7 +2,6 @@
   "temperature": -0.2,
   "downfall": 0.8,
   "precipitation": "snow",
-  "category": "forest",
   "effects": {
     "sky_color": 10380288,
     "fog_color": 13797903,

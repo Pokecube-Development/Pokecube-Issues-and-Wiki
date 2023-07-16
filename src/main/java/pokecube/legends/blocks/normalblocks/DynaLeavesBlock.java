@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.IForgeShearable;
 
 public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
@@ -24,8 +26,8 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     public DynaLeavesBlock(final Properties properties)
     {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any()
-            .setValue(DynaLeavesBlock.SNOWY, false).setValue(DynaLeavesBlock.DISTANCE, 7).setValue(DynaLeavesBlock.PERSISTENT, false));
+        this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, Boolean.valueOf(false))
+            .setValue(SNOWY, Boolean.valueOf(false)).setValue(DISTANCE, Integer.valueOf(7)).setValue(PERSISTENT, Boolean.valueOf(false)));
     }
 
     @Override
@@ -45,11 +47,12 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final BlockState state = context.getLevel().getBlockState(context.getClickedPos().above());
-//      return (BlockState)this.defaultBlockState().setValue(SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(Blocks.SNOW));
+        FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
+        BlockState stateAbove = context.getLevel().getBlockState(context.getClickedPos().above());
 
         return DynaLeavesBlock.updateDistance(this.defaultBlockState()
-            .setValue(DynaLeavesBlock.SNOWY, state.is(Blocks.SNOW_BLOCK) || state.is(Blocks.SNOW))
+            .setValue(DynaLeavesBlock.WATERLOGGED, fluidstate.getType() == Fluids.WATER)
+            .setValue(DynaLeavesBlock.SNOWY, stateAbove.is(Blocks.SNOW_BLOCK) || stateAbove.is(Blocks.SNOW))
             .setValue(DynaLeavesBlock.PERSISTENT, true), context.getLevel(), context.getClickedPos());
 
     }
@@ -73,6 +76,6 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
     @Override
     protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(DynaLeavesBlock.DISTANCE, DynaLeavesBlock.PERSISTENT, DynaLeavesBlock.SNOWY);
+        builder.add(DynaLeavesBlock.DISTANCE, DynaLeavesBlock.PERSISTENT, DynaLeavesBlock.SNOWY, DynaLeavesBlock.WATERLOGGED);
     }
 }

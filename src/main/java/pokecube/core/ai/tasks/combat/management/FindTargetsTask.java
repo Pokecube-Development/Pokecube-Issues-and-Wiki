@@ -109,7 +109,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (!FindTargetsTask.handleDamagedTargets) return;
 
         LivingEntity newTarget = event.getNewTarget();
-        LivingEntity rootMob = event.getEntityLiving();
+        LivingEntity rootMob = event.getEntity();
 
         // Don't manage this.
         if (newTarget == null) return;
@@ -123,7 +123,7 @@ public class FindTargetsTask extends TaskBase implements IAICombat, ITargetFinde
         if (!FindTargetsTask.handleDamagedTargets) return;
 
         final DamageSource source = event.getSource();
-        final LivingEntity hurt = event.getEntityLiving();
+        final LivingEntity hurt = event.getEntity();
         final Entity user = source.getDirectEntity();
 
         // Make sure they are marked as in a battle with each other.

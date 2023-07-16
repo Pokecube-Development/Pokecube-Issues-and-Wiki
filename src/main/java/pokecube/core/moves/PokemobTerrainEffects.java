@@ -339,8 +339,8 @@ public class PokemobTerrainEffects implements ITerrainEffect
         final double dy = direction.y * 1;
         final double dz = direction.z * 1;
 
-        final int num = Minecraft.getInstance().options.particles == ParticleStatus.ALL ? 10000
-                : Minecraft.getInstance().options.particles == ParticleStatus.DECREASED ? 1000 : 100;
+        final int num = Minecraft.getInstance().options.particles().get() == ParticleStatus.ALL ? 10000
+                : Minecraft.getInstance().options.particles().get() == ParticleStatus.DECREASED ? 1000 : 100;
 
         for (int i = 0; i < num; i++)
         {
@@ -420,7 +420,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                             .setShaderState(RenderStateShard.POSITION_COLOR_SHADER).createCompositeState(false));
 
             final VertexConsumer builder = buffer.getBuffer(effectType);
-            final Matrix4f pos = mat.last().pose();
+            var pos = mat.last().pose();
 
             mat.pushPose();
             GlStateManager._enableDepthTest();

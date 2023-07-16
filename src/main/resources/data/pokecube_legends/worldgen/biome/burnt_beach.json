@@ -2,7 +2,6 @@
   "temperature": 1.5,
   "downfall": 0.2,
   "precipitation": "none",
-  "category": "beach",
   "effects": {
     "sky_color": 5127218,
     "fog_color": 5127218,
@@ -44,7 +43,7 @@
     ],
     [],
     [
-      "pokecube_legends:ash_patch_rare"
+      "pokecube_legends:disk_ash_block_super_rare"
     ],
     [],
     [

@@ -41,7 +41,7 @@ public class MimicBot extends AbstractBot
             try
             {
                 ResourceLocation loc = new ResourceLocation(match.group(5));
-                final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(loc);
+                final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(loc);
                 if (type == null || !RegHelper.getKey(type).equals(loc)) return false;
                 final ICopyMob copy = CopyCaps.get(player);
                 copy.setCopiedID(loc);
@@ -89,7 +89,7 @@ public class MimicBot extends AbstractBot
         copy.setCopiedMob(null);
         copy.setCopiedNBT(new CompoundTag());
 
-        if (ForgeHooks.onLivingUpdate(this.player)) return;
+        if (ForgeHooks.onLivingTick(this.player)) return;
 
         copy.setCopiedID(id);
         copy.setCopiedMob(mob);

@@ -14,7 +14,7 @@ public class PokecenterSound extends AbstractTickableSoundInstance
 
     public PokecenterSound(final HealerTile tileIn)
     {
-        super(Sounds.HEAL_MUSIC.get(), SoundSource.RECORDS);
+        super(Sounds.HEAL_MUSIC.get(), SoundSource.RECORDS, tileIn.getLevel().getRandom());
         this.tile = tileIn;
         this.looping = true;
         this.delay = 1;

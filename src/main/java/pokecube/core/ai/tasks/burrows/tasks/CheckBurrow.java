@@ -83,7 +83,7 @@ public class CheckBurrow extends BaseIdleTask
             final List<NearBlock> blocks = BrainUtils.getNearBlocks(this.entity);
 
             final PoiManager pois = this.world.getPoiManager();
-            final long num = pois.getCountInRange(p -> p == PointsOfInterest.NEST.get(), this.entity.blockPosition(),
+            final long num = pois.getCountInRange(PointsOfInterest.NEST, this.entity.blockPosition(),
                     PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
 
             if (blocks == null || num != 0) return;

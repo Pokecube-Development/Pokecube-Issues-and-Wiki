@@ -1,0 +1,39 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube_legends:ultraspace/giant_white_mushroom_stems",
+  "terrain_adaptation": "beard_box",
+  "step": "surface_structures",
+  "avoid_range": 4,
+  "size": 2,
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
+  "y_settings": {
+    "min_y": 64
+  },
+  "biomes": {
+    "type": "forge:and",
+    "values": [
+      "#pokecube_world:is_ultraspace/is_fungal",
+      {
+        "type": "forge:not",
+        "value": {
+          "type": "forge:or",
+          "values": [
+            "#forge:is_mushroom",
+            "#minecraft:is_beach",
+            "#minecraft:is_ocean",
+            "#minecraft:is_river"
+          ]
+        }
+      }
+    ]
+  },
+  "spawn_overrides": {}
+}

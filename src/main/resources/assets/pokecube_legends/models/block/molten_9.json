@@ -1,6 +1,0 @@
-{
-    "parent": "pokecube_legends:block/layered_9",
-    "textures": {
-        "texture": "pokecube_legends:block/molten"
-    }
-}

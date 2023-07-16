@@ -40,9 +40,9 @@ public class TempBlock extends AirBlock implements EntityBlock
 
     public static TempBlock make()
     {
-        return new TempBlock(BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).noDrops()
-                .isRedstoneConductor(TempBlock::solidCheck).dynamicShape().noOcclusion()
-                .lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
+        return new TempBlock(
+                BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).isRedstoneConductor(TempBlock::solidCheck)
+                        .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
     private static boolean solidCheck(final BlockState state, final BlockGetter reader, final BlockPos pos)
@@ -83,7 +83,7 @@ public class TempBlock extends AirBlock implements EntityBlock
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile temp)
         {
-            Player player = event.getPlayer();
+            Player player = event.getEntity();
             BlockPos pos = event.getPos();
             BlockState state = world.getBlockState(pos);
             InteractionHand hand = event.getHand();

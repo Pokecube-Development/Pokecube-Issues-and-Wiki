@@ -241,7 +241,7 @@ public class PokecubeManager
             PokecubeAPI.LOGGER.catching(new NullPointerException("World Still null when itemToMob!"));
             return null;
         }
-        final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(new ResourceLocation(id));
+        final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(new ResourceLocation(id));
         final LivingEntity mob = (LivingEntity) type.create(world);
         try
         {

@@ -156,7 +156,7 @@ public class NestTile extends InteractableTile implements ITickTile
                 });
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
                         (i, p, e) -> ChestMenu.sixRows(i, p, wrapper), TComponent.translatable("block.pokecube.nest"));
-                NetworkHooks.openGui(sendTo, provider);
+                NetworkHooks.openScreen(sendTo, provider);
             }
             return InteractionResult.SUCCESS;
         }

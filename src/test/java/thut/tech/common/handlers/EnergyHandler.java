@@ -7,12 +7,12 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import thut.api.ThutCaps;
 import thut.tech.Reference;
 import thut.tech.common.TechCore;
 import thut.tech.common.blocks.lift.ControllerTile;
@@ -34,7 +34,7 @@ public class EnergyHandler
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(capability, this.holder);
+            return ThutCaps.ENERGY.orEmpty(capability, this.holder);
         }
     }
 
@@ -81,7 +81,7 @@ public class EnergyHandler
         @Override
         public <T> LazyOptional<T> getCapability(final Capability<T> capability, final Direction facing)
         {
-            return CapabilityEnergy.ENERGY.orEmpty(capability, this.holder);
+            return ThutCaps.ENERGY.orEmpty(capability, this.holder);
         }
 
         @Override
@@ -111,7 +111,7 @@ public class EnergyHandler
         private void updateLift()
         {
             if (this.tile.getLift() == null) this.lift = null;
-            else this.lift = this.tile.getLift().getCapability(CapabilityEnergy.ENERGY, null).orElse(null);
+            else this.lift = this.tile.getLift().getCapability(ThutCaps.ENERGY, null).orElse(null);
         }
     }
 

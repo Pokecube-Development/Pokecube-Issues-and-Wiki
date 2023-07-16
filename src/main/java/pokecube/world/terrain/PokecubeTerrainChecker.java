@@ -4,21 +4,19 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.QuartPos;
-import net.minecraft.core.Registry;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.biome.Climate;
-import net.minecraft.world.level.biome.TerrainShaper;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.chunk.ChunkGenerator;
+import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.NoiseRouter;
+import net.minecraft.world.level.levelgen.NoiseRouterData;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
-import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
+import pokecube.world.gen.structures.GenericJigsawStructure;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
@@ -27,6 +25,7 @@ import thut.api.level.terrain.TerrainSegment;
 import thut.api.level.terrain.TerrainSegment.ISubBiomeChecker;
 import thut.api.maths.Vector3;
 import thut.core.common.handlers.ConfigHandler;
+import thut.lib.RegHelper;
 
 public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeChecker
 {
@@ -39,16 +38,12 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
     public static TerrainType getTerrain(Vector3 v, LevelAccessor world)
     {
         if (!(world instanceof ServerLevel level)) return TerrainType.FLAT;
-
-        ChunkGenerator generator = level.getChunkSource().getGenerator();
         BlockPos pos = v.getPos();
-
-        int i = QuartPos.fromBlock(pos.getX());
-        int j = QuartPos.fromBlock(pos.getY());
-        int k = QuartPos.fromBlock(pos.getZ());
-        Climate.TargetPoint climate$targetpoint = generator.climateSampler().sample(i, j, k);
-        float f4 = Climate.unquantizeCoord(climate$targetpoint.weirdness());
-        double d0 = (double) TerrainShaper.peaksAndValleys(f4);
+        NoiseRouter noiserouter = level.getChunkSource().randomState().router();
+        DensityFunction.SinglePointContext densityfunction$singlepointcontext = new DensityFunction.SinglePointContext(
+                pos.getX(), pos.getY(), pos.getZ());
+        double f4 = noiserouter.ridges().compute(densityfunction$singlepointcontext);
+        double d0 = (double) NoiseRouterData.peaksAndValleys((float) f4);
         return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
     }
 
@@ -69,16 +64,15 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 var obj = info.getWrapped();
                 // first manually check structures to see if they define a
                 // subbiome internally, if so, set to that first.
-                if (obj instanceof ConfiguredStructureFeature<?, ?> feature)
+                if (obj instanceof Structure feature)
                 {
-                    var registry = world.registryAccess()
-                            .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+                    var registry = world.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
                     var opt_holder = registry.getHolder(registry.getId(feature));
                     opt_check:
                     if (!opt_holder.isEmpty())
                     {
                         var holder = opt_holder.get();
-                        if (holder.value().config instanceof ExpandedJigsawConfiguration config)
+                        if (holder.value() instanceof GenericJigsawStructure config)
                         {
                             if (!config.biome_type.equals("none"))
                             {

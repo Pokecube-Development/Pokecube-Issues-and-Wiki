@@ -1,5 +1,7 @@
 package pokecube.core.init;
 
+import org.jetbrains.annotations.NotNull;
+
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.TamableAnimal;
@@ -13,6 +15,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.boats.GenericBoat;
+import pokecube.core.entity.boats.GenericChestBoat;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokemobs.EntityPokemob;
@@ -24,6 +27,7 @@ import pokecube.core.moves.zmoves.GZMoveManager;
 public class EntityTypes
 {
     public static final RegistryObject<EntityType<GenericBoat>> BOAT;
+    public static final RegistryObject<EntityType<GenericChestBoat>> CHEST_BOAT;
     public static final RegistryObject<EntityType<EntityPokemobEgg>> EGG;
     public static final RegistryObject<EntityType<EntityMoveUse>> MOVE;
     public static final RegistryObject<EntityType<NpcMob>> NPC;
@@ -32,7 +36,11 @@ public class EntityTypes
     static
     {
         BOAT = PokecubeCore.ENTITIES.register("boat",
-                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build("boat"));
+                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F)
+                        .clientTrackingRange(10).build("boat"));
+        CHEST_BOAT = PokecubeCore.ENTITIES.register("chest_boat",
+                () -> EntityType.Builder.<GenericChestBoat>of(GenericChestBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F)
+                        .clientTrackingRange(10).build("chest_boat"));
         EGG = PokecubeCore.ENTITIES.register("egg",
                 () -> EntityType.Builder.of(EntityPokemobEgg::new, MobCategory.CREATURE).noSummon().fireImmune()
                         .sized(0.35f, 0.35f).build("egg"));
@@ -106,6 +114,11 @@ public class EntityTypes
     public static EntityType<GenericBoat> getBoat()
     {
         return BOAT.get();
+    }
+
+    public static @NotNull EntityType<GenericChestBoat> getChestBoat()
+    {
+        return CHEST_BOAT.get();
     }
 
     public static EntityType<EntityPokecube> getPokecube()

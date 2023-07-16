@@ -18,7 +18,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
-import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
+import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -34,11 +34,38 @@ import thut.lib.TComponent;
 public class DebugInteractions
 {
 
+//    @SubscribeEvent
+//    public static void onKeyInput(final Key evt)
+//    {
+//        if (Minecraft.getInstance().screen != null) return;
+//        final Player player = Minecraft.getInstance().player;
+//        if (evt.getKey() == GLFW.GLFW_KEY_UP)
+//        {
+//            player.xRot -= 1;
+//            player.xRotO = player.xRot;
+//        }
+//        if (evt.getKey() == GLFW.GLFW_KEY_DOWN)
+//        {
+//            player.xRot += 1;
+//            player.xRotO = player.xRot;
+//        }
+//        if (evt.getKey() == GLFW.GLFW_KEY_LEFT)
+//        {
+//            player.yRot -= 1;
+//            player.yRotO = player.xRot;
+//        }
+//        if (evt.getKey() == GLFW.GLFW_KEY_RIGHT)
+//        {
+//            player.yRot += 1;
+//            player.yRotO = player.xRot;
+//        }
+//    }
+
     @SubscribeEvent
     public static void onBlockRightClick(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)
-                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
+        if (!(evt.getEntity() instanceof ServerPlayer player)
+                || !(evt.getEntity().getLevel() instanceof ServerLevel level))
             return;
         boolean isStructureMaker = evt.getItemStack().getDisplayName().getString().contains("structure_maker");
 
@@ -63,14 +90,14 @@ public class DebugInteractions
     @SubscribeEvent
     public static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (!(evt.getPlayer() instanceof ServerPlayer player)
-                || !(evt.getPlayer().getLevel() instanceof ServerLevel level))
+        if (!(evt.getEntity() instanceof ServerPlayer player)
+                || !(evt.getEntity().getLevel() instanceof ServerLevel level))
             return;
         boolean isStructureDebug = evt.getItemStack().getDisplayName().getString().contains("structure_debug");
         Vector3 v = new Vector3().set(player);
         if (isStructureDebug)
         {
-            var registry = level.registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+            var registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
             var list = registry.stream().toList();
             List<ResourceLocation> found = Lists.newArrayList();
             List<ResourceLocation> not_found = Lists.newArrayList();
@@ -82,12 +109,11 @@ public class DebugInteractions
                 if (name.toString().startsWith("pokecube"))
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Checking " + name));
-                    final ResourceKey<ConfiguredStructureFeature<?, ?>> structure = ResourceKey
-                            .create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY, name);
+                    final ResourceKey<Structure> structure = ResourceKey.create(Registry.STRUCTURE_REGISTRY, name);
                     var holder = registry.getHolderOrThrow(structure);
-                    HolderSet<ConfiguredStructureFeature<?, ?>> holderset = HolderSet.direct(holder);
-                    Pair<BlockPos, Holder<ConfiguredStructureFeature<?, ?>>> thing = level.getChunkSource()
-                            .getGenerator().findNearestMapFeature(level, holderset, v.getPos(), 100, false);
+                    HolderSet<Structure> holderset = HolderSet.direct(holder);
+                    Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator()
+                            .findNearestMapStructure(level, holderset, v.getPos(), 100, false);
                     if (thing != null)
                     {
                         found.add(name);

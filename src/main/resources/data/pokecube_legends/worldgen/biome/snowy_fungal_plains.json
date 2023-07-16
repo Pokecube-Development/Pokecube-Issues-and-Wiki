@@ -2,7 +2,6 @@
   "temperature": -0.5,
   "downfall": 0.4,
   "precipitation": "snow",
-  "category": "mushroom",
   "effects": {
     "sky_color": 1840429,
     "fog_color": 3286608,

@@ -1,11 +1,10 @@
 package pokecube.legends.blocks.normalblocks;
 
-import java.util.Random;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -23,7 +22,7 @@ public class InfectedTorchWall extends WallTorchBlock
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random rand)
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
     {
         Direction direction = state.getValue(FACING);
         double d0 = (double) pos.getX() + 0.5D;
