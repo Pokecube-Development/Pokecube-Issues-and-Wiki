@@ -1,6 +1,5 @@
 {
     "parent": "block/template_torch",
-    "render_type": "cutout",
     "textures": {
         "torch": "pokecube_legends:block/infected_torch"
     }

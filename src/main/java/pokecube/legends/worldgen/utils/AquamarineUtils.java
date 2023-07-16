@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.Mth;
@@ -16,12 +17,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.DripstoneThickness;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
-import thut.lib.RegHelper;
 
 public class AquamarineUtils
 {
     // Block Tag
-    public static final TagKey<Block> AQUAMARINE_REPLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
+    public static final TagKey<Block> AQUAMARINE_REPLACEABLE = TagKey.create(Registry.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "aquamarine_replaceable_blocks"));
 
     public static double getAquamarineHeight(double i, double j, double k, double l)

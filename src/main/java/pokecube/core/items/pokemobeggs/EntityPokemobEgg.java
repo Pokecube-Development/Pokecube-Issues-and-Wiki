@@ -232,7 +232,7 @@ public class EntityPokemobEgg extends AgeableMob
     public void tick()
     {
         this.here.set(this);
-        if (net.minecraftforge.common.ForgeHooks.onLivingTick(this)) return;
+        if (net.minecraftforge.common.ForgeHooks.onLivingUpdate(this)) return;
 
         this.baseTick();
         this.aiStep();

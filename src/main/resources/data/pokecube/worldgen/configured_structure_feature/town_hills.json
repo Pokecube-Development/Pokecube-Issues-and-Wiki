@@ -1,0 +1,20 @@
+{
+  "adapt_noise": true,
+  "biomes": "#pokecube_world:has_structure/village_hills",
+  "config": {
+    "avoid_range": 6,
+    "biome_type": "village",
+    "required_parts": [
+      "pokecenter",
+      "gym"
+    ],
+    "size": 6,
+    "start_pool": "pokecube:village/hills/town_centers",
+    "structures_to_avoid": [
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ]
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

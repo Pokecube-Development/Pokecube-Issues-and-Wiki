@@ -1,0 +1,27 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/tapu_center/tapu_center",
+    "required_parts": ["bulu", "fini", "lele", "koko", "totems"],
+    "spawn_blacklist": "oceans,rivers",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "y_settings":{"min_y": 64},
+    "avoid_range": 6,
+    "size": 7,
+    "avoidances":{
+      "flags": ["temple", "tapu_center"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"tapu_center","distance":80}]
+    }
+  },
+  "biomes": "#pokecube_world:has_structure/tapu_center",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

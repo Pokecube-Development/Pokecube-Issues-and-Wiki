@@ -3,8 +3,8 @@ package pokecube.core.ai.tasks.misc;
 import com.google.common.collect.ImmutableMap;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Mob;
-import net.minecraftforge.common.ForgeMod;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.entity.ai.RootTask;
 
@@ -36,8 +36,8 @@ public class SwimTask extends RootTask<Mob>
     protected boolean checkExtraStartConditions(final ServerLevel worldIn, final Mob owner)
     {
         if (this.pokemob != null && this.pokemob.swims()) return false;
-        final boolean belowDepth = owner.getFluidTypeHeight(ForgeMod.WATER_TYPE.get()) > owner.getFluidJumpThreshold()
-                || owner.isEyeInFluidType(ForgeMod.WATER_TYPE.get());
+        final boolean belowDepth = owner.getFluidHeight(FluidTags.WATER) > owner.getFluidJumpThreshold()
+                || owner.isEyeInFluid(FluidTags.WATER);
         return owner.isInWater() && belowDepth || owner.isInLava();
     }
 

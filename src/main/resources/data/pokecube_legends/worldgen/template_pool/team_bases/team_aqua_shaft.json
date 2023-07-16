@@ -8,8 +8,8 @@
         "location": "pokecube_legends:team_bases/team_aqua/main_shaft",
         "processors": "pokecube:generic_ladders_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "needed_flags": "boss",
         "projection": "rigid",
         "flags": "shaft"

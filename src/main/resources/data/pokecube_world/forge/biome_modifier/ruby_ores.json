@@ -1,9 +1,0 @@
-{
-    "type": "forge:add_features",
-    "biomes": {
-      "type": "forge:or",
-      "values": ["#minecraft:is_overworld"]
-	  },
-    "features": ["pokecube_world:ruby_ore_small","pokecube_world:ruby_ore_large","pokecube_world:ruby_ore_buried"],
-    "step": "underground_ores"
-  }

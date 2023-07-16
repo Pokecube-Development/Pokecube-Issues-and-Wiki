@@ -63,8 +63,8 @@ public class ThutCrafts
     {
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MODID);
-        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Reference.MODID);
-        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Reference.MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Reference.MODID);
+        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, Reference.MODID);
 
         CRAFTTYPE = ENTITIES.register("craft", () -> new BlockEntityBase.BlockEntityType<>(EntityCraft::new));
         CRAFTMAKER = ITEMS.register("craftmaker", () -> new Item(new Item.Properties()));

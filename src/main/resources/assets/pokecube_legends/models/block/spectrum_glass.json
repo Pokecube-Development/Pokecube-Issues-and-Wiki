@@ -1,7 +1,12 @@
 {
-  "parent": "block/cube_all",
-  "render_type": "translucent",
-  "textures": {
-    "all": "pokecube_legends:block/spectrum_glass"
-  }
+   "parent": "block/cube",
+   "textures": {
+	"down": "pokecube_legends:block/spectrum_glass",
+    "up": "pokecube_legends:block/spectrum_glass",
+    "north": "pokecube_legends:block/spectrum_glass",
+    "east": "pokecube_legends:block/spectrum_glass",
+    "south": "pokecube_legends:block/spectrum_glass",
+    "west": "pokecube_legends:block/spectrum_glass",
+    "particle": "pokecube_legends:block/spectrum_glass"
+   }
 }

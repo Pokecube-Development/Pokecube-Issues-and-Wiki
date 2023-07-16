@@ -92,7 +92,7 @@ public class PacketGui extends Packet
                 buffer.writeInt(t.getId());
                 final SimpleMenuProvider provider = new SimpleMenuProvider(
                         (i, p, e) -> new ContainerWearables(i, p, buffer), t.getName());
-                NetworkHooks.openScreen(player, provider, buf -> buf.writeInt(t.getId()));
+                NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
             }
         }
         else
@@ -108,7 +108,7 @@ public class PacketGui extends Packet
             buffer.writeInt(t.getId());
             final SimpleMenuProvider provider = new SimpleMenuProvider(
                     (i, p, e) -> new ContainerWearables(i, p, buffer), t.getName());
-            NetworkHooks.openScreen(player, provider, buf -> buf.writeInt(t.getId()));
+            NetworkHooks.openGui(player, provider, buf -> buf.writeInt(t.getId()));
         }
     }
 

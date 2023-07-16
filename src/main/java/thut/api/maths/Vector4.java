@@ -12,6 +12,12 @@ import thut.core.common.ThutCore;
 
 public class Vector4
 {
+    public static Vector4 fromAngles(final float x, final float y, final float z)
+    {
+        final Quaternion quat = new Quaternion(x, y, z, true);
+        return new Vector4(quat);
+    }
+
     public float x, y, z, w;
     @OnlyIn(value = Dist.CLIENT)
     private Quaternion quat;

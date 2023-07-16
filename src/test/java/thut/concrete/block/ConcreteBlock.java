@@ -45,16 +45,25 @@ public abstract class ConcreteBlock extends SolidBlock implements IDyedBlock
             String block, BlockBehaviour.Properties layer_props, BlockBehaviour.Properties block_props, DyeColor colour)
     {
         ResourceLocation layer_id = new ResourceLocation(modid, layer);
+//        ResourceLocation block_id = new ResourceLocation(modid, block);
 
         @SuppressWarnings("unchecked")
         RegistryObject<FlowingBlock>[] arr = (RegistryObject<FlowingBlock>[]) Array.newInstance(RegistryObject.class,
                 2);
 
+//        RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
+//                () -> new PartialDry(layer_props, colour).alternateBlock(() -> REGMAP.get(block_id).get()));
+//        REGMAP.put(layer_id, layer_reg);
         RegistryObject<FlowingBlock> layer_reg = BLOCKS.register(layer,
                 () -> new PartialDry(layer_props, colour).alternateBlock(() -> VANILLA.get(colour)));
         REGMAP.put(layer_id, layer_reg);
 
+//        RegistryObject<FlowingBlock> block_reg = BLOCKS.register(block,
+//                () -> new FullDry(block_props, colour).alternateBlock(() -> REGMAP.get(layer_id).get()));
+//        REGMAP.put(block_id, block_reg);
+
         arr[0] = layer_reg;
+//        arr[1] = block_reg;
 
         return arr;
     }

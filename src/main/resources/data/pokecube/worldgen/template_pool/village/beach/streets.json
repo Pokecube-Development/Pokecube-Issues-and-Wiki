@@ -4,8 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/streets/crossroad_01",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 2
@@ -14,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/streets/straight_1",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 2
@@ -23,7 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/streets/straight_2",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 6
@@ -32,10 +31,10 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/streets/straight_3",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
-      "weight": 6
+      "weight": 4
     }
   ],
   "fallback": "pokecube:village/beach/terminators",

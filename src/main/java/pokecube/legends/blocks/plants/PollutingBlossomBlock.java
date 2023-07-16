@@ -1,9 +1,10 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SporeBlossomBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -17,7 +18,7 @@ public class PollutingBlossomBlock extends SporeBlossomBlock
    }
 
    @Override
-   public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
+   public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
    {
       int i = pos.getX();
       int j = pos.getY();

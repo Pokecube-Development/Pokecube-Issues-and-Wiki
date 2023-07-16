@@ -1,11 +1,11 @@
 package pokecube.core.blocks.berries;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
@@ -44,7 +44,7 @@ public class BerryCrop extends CropBlock
     }
 
     @Override
-    public void randomTick(BlockState state, final ServerLevel worldIn, final BlockPos pos, final RandomSource random)
+    public void randomTick(BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         super.randomTick(state, worldIn, pos, random);
         if (!worldIn.isPositionEntityTicking(pos)) return;
@@ -65,7 +65,7 @@ public class BerryCrop extends CropBlock
     }
 
     @Override
-    public void performBonemeal(final ServerLevel worldIn, final RandomSource rand, final BlockPos pos,
+    public void performBonemeal(final ServerLevel worldIn, final Random rand, final BlockPos pos,
             final BlockState state)
     {
         super.performBonemeal(worldIn, rand, pos, state);

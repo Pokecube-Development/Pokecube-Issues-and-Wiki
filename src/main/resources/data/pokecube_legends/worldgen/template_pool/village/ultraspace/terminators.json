@@ -9,7 +9,7 @@
         "location": "pokecube_legends:village/ultraspace/terminators/terminator_01",
         "processors": "pokecube_legends:street_ultraspace",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "projection": "terrain_matching"
       }
     },
@@ -19,7 +19,7 @@
         "location": "pokecube_legends:village/ultraspace/terminators/terminator_02",
         "processors": "pokecube_legends:street_ultraspace",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "projection": "terrain_matching"
       }
     }

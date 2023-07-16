@@ -1,0 +1,24 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:ultraspace/mirage_pyramid",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "avoidances":{
+      "avoidances": [{"name":"mirage_pyramid","distance":256}],
+      "flags": ["mirage_pyramid"]
+    },
+    "avoid_range": 6,
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/mirage_pyramid",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

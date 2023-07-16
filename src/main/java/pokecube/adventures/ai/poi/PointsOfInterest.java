@@ -1,11 +1,9 @@
 package pokecube.adventures.ai.poi;
 
 import java.util.Set;
-import java.util.function.Predicate;
 
 import com.google.common.collect.Sets;
 
-import net.minecraft.core.Holder;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.DeferredRegister;
@@ -39,15 +37,14 @@ public class PointsOfInterest
         return PointsOfInterest.TRADEMACHINES;
     }
 
-    public static final RegistryObject<PoiType> _GENELAB = PointsOfInterest.REG.register("gene_lab",
-            () -> new PoiType(PointsOfInterest.getLabMachines(), 1, 2));
+    public static final RegistryObject<PoiType> GENELAB = PointsOfInterest.REG.register("gene_lab",
+            () -> new PoiType("gene_lab", PointsOfInterest.getLabMachines(), 1, 2));
 
-    public static final RegistryObject<PoiType> _TRADER = PointsOfInterest.REG.register("trader",
-            () -> new PoiType(PointsOfInterest.getTradebMachines(), 1, 2));
-
-    public static final Predicate<Holder<PoiType>> GENELAB = holder -> holder.is(_GENELAB.getKey());;
-    public static final Predicate<Holder<PoiType>> TRADER = holder -> holder.is(_TRADER.getKey());;
+    public static final RegistryObject<PoiType> TRADER = PointsOfInterest.REG.register("trader",
+            () -> new PoiType("trader", PointsOfInterest.getTradebMachines(), 1, 2));
 
     public static void postInit()
-    {}
+    {
+        PointsOfInterest.REG.getEntries().forEach(r -> PoiType.registerBlockStates(r.get()));
+    }
 }

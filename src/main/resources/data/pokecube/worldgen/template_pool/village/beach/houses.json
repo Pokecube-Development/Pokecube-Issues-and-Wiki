@@ -10,7 +10,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/house_1",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -19,7 +19,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/house_2",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -28,7 +28,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/house_3",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -37,7 +37,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/house_4",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -46,7 +46,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/house_5",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -55,7 +55,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/shop_house_1",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -64,7 +64,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/shop_house_2",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -73,7 +73,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/shop_house_3",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -82,7 +82,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/beach/houses/shop_house_4",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -92,7 +92,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
         "location": "pokecube:village/beach/pokecenter/center_01",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1
@@ -102,7 +102,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
         "location": "pokecube:village/beach/gym/gym_01",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1

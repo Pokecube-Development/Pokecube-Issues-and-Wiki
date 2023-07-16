@@ -5,6 +5,7 @@ import java.util.List;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
@@ -15,8 +16,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-=======
-import thut.lib.TComponent;
 
 public class PokemobInventory extends SimpleContainer implements Nameable
 {
@@ -63,7 +62,7 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     @Override
     public Component getName()
     {
-        return TComponent.translatable("container.inventory");
+        return new TranslatableComponent("container.inventory");
     }
 
     @Override

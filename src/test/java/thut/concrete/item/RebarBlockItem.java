@@ -3,9 +3,11 @@ package thut.concrete.item;
 import javax.annotation.Nullable;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ChatType;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -64,10 +66,11 @@ public class RebarBlockItem extends BlockItem
                 {
                     Player player = context.getPlayer();
                     int j = level.getMaxBuildHeight();
-                    if (player instanceof ServerPlayer p2 && blockpos$mutableblockpos.getY() >= j)
+                    if (player instanceof ServerPlayer && blockpos$mutableblockpos.getY() >= j)
                     {
-                        p2.sendSystemMessage(
-                                (Component.translatable("build.tooHigh", j - 1)).withStyle(ChatFormatting.RED));
+                        ((ServerPlayer) player).sendMessage(
+                                (new TranslatableComponent("build.tooHigh", j - 1)).withStyle(ChatFormatting.RED),
+                                ChatType.GAME_INFO, Util.NIL_UUID);
                     }
                     break;
                 }

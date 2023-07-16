@@ -15,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.tags.TagKey;
@@ -39,7 +40,6 @@ import pokecube.core.database.resources.PackFinder;
 import pokecube.core.entity.npc.NpcType;
 import thut.api.util.JsonUtil;
 import thut.lib.CompatParser.ClassFinder;
-import thut.lib.RegHelper;
 
 public class TradeEntryLoader
 {
@@ -197,7 +197,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_sell"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            TagKey<Item> itemtag = TagKey.create(RegHelper.ITEM_REGISTRY, tag);
+            TagKey<Item> itemtag = TagKey.create(Registry.ITEM_REGISTRY, tag);
             List<Item> items = ForgeRegistries.ITEMS.tags().getTag(itemtag).stream().toList();
             for (final Item i : items)
             {
@@ -231,7 +231,7 @@ public class TradeEntryLoader
         else if (flag.equals("tag_buy"))
         {
             final ResourceLocation tag = PokecubeItems.toPokecubeResource(custom);
-            TagKey<Item> itemtag = TagKey.create(RegHelper.ITEM_REGISTRY, tag);
+            TagKey<Item> itemtag = TagKey.create(Registry.ITEM_REGISTRY, tag);
             List<Item> items = ForgeRegistries.ITEMS.tags().getTag(itemtag).stream().toList();
             for (final Item i : items)
             {
@@ -311,9 +311,9 @@ public class TradeEntryLoader
                 if (entry.profession != null)
                 {
                     ResourceLocation id = new ResourceLocation(entry.profession);
-                    if (ForgeRegistries.VILLAGER_PROFESSIONS.containsKey(id))
+                    if (ForgeRegistries.PROFESSIONS.containsKey(id))
                     {
-                        VillagerProfession profession = ForgeRegistries.VILLAGER_PROFESSIONS.getValue(id);
+                        VillagerProfession profession = ForgeRegistries.PROFESSIONS.getValue(id);
                         Professions.updateProfession(profession, level, arr, stage.clear_old);
                     }
                 }

@@ -14,6 +14,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
@@ -22,6 +23,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.InteractionHand;
@@ -48,18 +50,17 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
@@ -125,7 +126,6 @@ import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
-import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class PokemobEventsHandler
@@ -220,9 +220,9 @@ public class PokemobEventsHandler
         }
 
         @SubscribeEvent
-        public void tick(final LevelTickEvent evt)
+        public void tick(final WorldTickEvent evt)
         {
-            if (evt.level != this.world || evt.phase != Phase.END) return;
+            if (evt.world != this.world || evt.phase != Phase.END) return;
             MinecraftForge.EVENT_BUS.unregister(this);
             this.tick();
         }
@@ -275,15 +275,15 @@ public class PokemobEventsHandler
         }
 
         @SubscribeEvent
-        public void tick(final LevelTickEvent evt)
+        public void tick(final WorldTickEvent evt)
         {
-            if (evt.level != this.world || evt.phase != Phase.END) return;
+            if (evt.world != this.world || evt.phase != Phase.END) return;
             if (!this.mob.isAddedToWorld() || !this.mob.isAlive() || this.set)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
                 return;
             }
-            if (evt.level.getGameTime() >= this.evoTime)
+            if (evt.world.getGameTime() >= this.evoTime)
             {
                 this.set = true;
                 if (this.pokemob.getCombatState(CombatStates.MEGAFORME)
@@ -392,7 +392,7 @@ public class PokemobEventsHandler
      * Here we will check if it was a bee, added from a bee-hive, and if so, we
      * will increment the honey level as needed.
      */
-    private static void onMobAddedToWorld(final EntityJoinLevelEvent event)
+    private static void onMobAddedToWorld(final EntityJoinWorldEvent event)
     {
         // We only consider MobEntities
         if (!(event.getEntity() instanceof Mob mob)) return;
@@ -584,7 +584,7 @@ public class PokemobEventsHandler
 
     private static void onLivingDeath(final LivingDeathEvent evt)
     {
-        LivingEntity living = evt.getEntity();
+        if (!(evt.getEntity() instanceof LivingEntity living)) return;
 
         // If the thing that died was a pokemob, ensure no boss bar left
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
@@ -598,7 +598,7 @@ public class PokemobEventsHandler
         // Handle transferring the kill info over, This is in place for mod
         // support.
         if (damageSource instanceof PokemobDamageSource && living.getLevel() instanceof ServerLevel level)
-            damageSource.getDirectEntity().wasKilled(level, living);
+            damageSource.getDirectEntity().killed(level, living);
 
         // Handle exp gain for the mob.
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());
@@ -606,7 +606,7 @@ public class PokemobEventsHandler
             PokemobEventsHandler.handleExp(mob, attacker, living);
     }
 
-    private static void onJoinWorldLast(final EntityJoinLevelEvent event)
+    private static void onJoinWorldLast(final EntityJoinWorldEvent event)
     {
         final Entity mob = event.getEntity();
         if (!(mob instanceof final EntityPokemob pokemob)) return;
@@ -615,7 +615,7 @@ public class PokemobEventsHandler
             PlayerPokemobCache.UpdateCache(pokemob.pokemobCap);
     }
 
-    private static void onJoinWorld(final EntityJoinLevelEvent event)
+    private static void onJoinWorld(final EntityJoinWorldEvent event)
     {
         final Entity mob = event.getEntity();
         final Level world = mob.level;
@@ -674,9 +674,9 @@ public class PokemobEventsHandler
         if (pokemob.getBossInfo() != null) pokemob.getBossInfo().removePlayer(player);
     }
 
-    private static void onWorldTick(final LevelTickEvent evt)
+    private static void onWorldTick(final WorldTickEvent evt)
     {
-        for (final Player player : evt.level.players()) if (player.getVehicle() instanceof LivingEntity ridden
+        for (final Player player : evt.world.players()) if (player.getVehicle() instanceof LivingEntity ridden
                 && PokemobCaps.getPokemobFor(player.getVehicle()) != null)
             EntityTools.copyRotations(ridden, player);
     }
@@ -705,7 +705,7 @@ public class PokemobEventsHandler
 
     private static void onCopyTick(final CopyUpdateEvent evt)
     {
-        final LivingEntity living = evt.getEntity();
+        final LivingEntity living = evt.getEntityLiving();
 
         // This prevents double ticking when a mob is both a copy and ticking
         // elsewhere, say in a custom pokeplayer like implementation
@@ -717,7 +717,7 @@ public class PokemobEventsHandler
         if (pokemob != null)
         {
             // Reset death time if we are not dead.
-            if (evt.getEntity().getHealth() > 0) evt.getEntity().deathTime = 0;
+            if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
 
             // Initialize this for client side here
             if (living.level.isClientSide() && pokemob.getTickLogic().isEmpty()) pokemob.initAI();
@@ -729,13 +729,13 @@ public class PokemobEventsHandler
 
     private static void onBreakSpeed(final PlayerEvent.BreakSpeed evt)
     {
-        Entity mount = evt.getEntity().getVehicle();
+        Entity mount = evt.getPlayer().getVehicle();
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mount);
         if (pokemob == null) return;
 
-        boolean inWater = evt.getEntity().isEyeInFluidType(ForgeMod.WATER_TYPE.get())
-                && !EnchantmentHelper.hasAquaAffinity(evt.getEntity());
-        boolean inAir = !evt.getEntity().onGround;
+        boolean inWater = evt.getPlayer().isEyeInFluid(FluidTags.WATER)
+                && !EnchantmentHelper.hasAquaAffinity(evt.getPlayer());
+        boolean inAir = !evt.getPlayer().onGround;
 
         if (inWater && pokemob.canUseDive())
         {
@@ -747,9 +747,9 @@ public class PokemobEventsHandler
         }
     }
 
-    private static void onMobTick(final LivingTickEvent evt)
+    private static void onMobTick(final LivingUpdateEvent evt)
     {
-        final LivingEntity living = evt.getEntity();
+        final LivingEntity living = evt.getEntityLiving();
 
         if (living.isRemoved()) return;
 
@@ -893,7 +893,7 @@ public class PokemobEventsHandler
                 pokemob.setBossInfo(new ServerBossEvent(living.getDisplayName(), BossEvent.BossBarColor.RED,
                         BossEvent.BossBarOverlay.PROGRESS));
             // Reset death time if we are not dead.
-            if (evt.getEntity().getHealth() > 0) evt.getEntity().deathTime = 0;
+            if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
             // Tick the logic stuff for this mob.
             for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getLevel());
         }
@@ -904,7 +904,7 @@ public class PokemobEventsHandler
         if (PokemobEventsHandler.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            PokemobEventsHandler.DYETAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
+            PokemobEventsHandler.DYETAGS.put(colour, TagKey.create(Registry.ITEM_REGISTRY, tag));
         }
         return PokemobEventsHandler.DYETAGS;
     }
@@ -1010,7 +1010,7 @@ public class PokemobEventsHandler
 
     private static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
-        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(target);
         if (pokemob == null) return;
 
@@ -1065,7 +1065,7 @@ public class PokemobEventsHandler
             {
                 if (player.isShiftKeyDown())
                 {
-                    if (held.getDisplayName().getString().contains("poke")) pokemob.moveToShoulder(player);
+                    if (held.getDisplayName().getContents().contains("poke")) pokemob.moveToShoulder(player);
                     return;
                 }
                 else if (pokemob.getEntity().isPassenger())
@@ -1073,7 +1073,7 @@ public class PokemobEventsHandler
                     pokemob.getEntity().stopRiding();
                     return;
                 }
-                if (held.getDisplayName().getString().contains("poke"))
+                if (held.getDisplayName().getContents().contains("poke"))
                 {
                     final Vector3 look = new Vector3().set(player.getLookAngle()).scalarMultBy(0.5);
                     look.y = 0.2;

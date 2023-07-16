@@ -28,8 +28,8 @@ import net.minecraft.world.level.NaturalSpawner;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -289,10 +289,10 @@ public class TrainerSpawnHandler
     }
 
     @SubscribeEvent
-    public static void tickEvent(final LevelTickEvent evt)
+    public static void tickEvent(final WorldTickEvent evt)
     {
-        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.level instanceof ServerLevel level
-                && evt.level.getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
+        if (Config.instance.trainerSpawn && evt.phase == Phase.END && evt.world instanceof ServerLevel level
+                && evt.world.getGameTime() % PokecubeCore.getConfig().spawnRate == 0)
         {
             final long time = System.nanoTime();
             TrainerSpawnHandler.tick(level);

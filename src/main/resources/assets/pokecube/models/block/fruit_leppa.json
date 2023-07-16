@@ -5,7 +5,6 @@
 		"leppa": "pokecube:block/leppa_fruit",
 		"overlay": "pokecube:block/leppa_fruit_overlay"
 	},
-	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "fruit",

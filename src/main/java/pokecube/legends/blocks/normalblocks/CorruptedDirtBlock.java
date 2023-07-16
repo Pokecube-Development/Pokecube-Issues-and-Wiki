@@ -1,25 +1,19 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
-import thut.lib.RegHelper;
 
 public class CorruptedDirtBlock extends Block implements BonemealableBlock
 {
-    // Tag
-    public static final TagKey<Block> CORRUPTED_GRASS_SPREADABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
-            new ResourceLocation(Reference.ID, "corrupted_grass_spreadable"));
-
     public CorruptedDirtBlock(final Properties properties)
     {
         super(properties);
@@ -35,7 +29,7 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
        {
           for(BlockPos posOffset : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)))
           {
-             if (block.getBlockState(posOffset).is(CORRUPTED_GRASS_SPREADABLE))
+             if (block.getBlockState(posOffset).is(BlockTags.DIRT))
              {
                 return true;
              }
@@ -45,13 +39,13 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
     {
         boolean flag1 = false;
 

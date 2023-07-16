@@ -1,10 +1,11 @@
 package thut.api.block.flowing;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -144,7 +145,7 @@ public interface IFlowingBlock
         return Blocks.AIR.defaultBlockState();
     }
 
-    default void onStableTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    default void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         int dust = getExistingAmount(state, pos, level);
         if (dust == 16 && state.hasProperty(LAYERS) && getAlternate() != thisBlock())
@@ -153,7 +154,7 @@ public interface IFlowingBlock
         }
     }
 
-    default BlockState tryFall(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    default BlockState tryFall(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         boolean falling = isFalling(state);
 
@@ -266,7 +267,7 @@ public interface IFlowingBlock
         return state;
     }
 
-    default BlockState trySpread(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    default BlockState trySpread(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         int dust = getExistingAmount(state, pos, level);
         int slope = getSlope(state);
@@ -393,7 +394,7 @@ public interface IFlowingBlock
             level.scheduleTick(pos, state.getBlock(), isFalling(state) ? getFallRate() : getFlowRate());
     }
 
-    default void doTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    default void doTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         if (!this.flows(state)) return;
         boolean debug = false;

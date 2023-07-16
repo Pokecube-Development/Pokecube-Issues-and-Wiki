@@ -3,9 +3,9 @@ package pokecube.world.gen.structures.pool_elements;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Either;
@@ -17,10 +17,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlockContainer;
@@ -40,11 +39,11 @@ import net.minecraft.world.level.levelgen.structure.pools.StructureTemplatePool.
 import net.minecraft.world.level.levelgen.structure.templatesystem.BlockIgnoreProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.GravityProcessor;
 import net.minecraft.world.level.levelgen.structure.templatesystem.JigsawReplacementProcessor;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
@@ -72,7 +71,6 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                     Codec.STRING.fieldOf("name").orElse("none").forGetter(s -> s.biome_type),
                     Codec.STRING.fieldOf("flags").orElse("").forGetter(s -> s.flags),
                     Codec.STRING.fieldOf("needed_flags").orElse("").forGetter(s -> s.needed_flags),
-                    Codec.STRING.fieldOf("no_connect_flags").orElse("").forGetter(s -> s.no_connect_flags),
                     ResourceLocation.CODEC.listOf().fieldOf("extra_pools").orElse(new ArrayList<>())
                             .forGetter(s -> s.extra_pools))
                     .apply(instance, ExpandedJigsawPiece::new);
@@ -169,14 +167,12 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public final String biome_type;
     public final String name;
     public final String flags;
-    public final String no_connect_flags;
     public final String needed_flags;
     public final List<ResourceLocation> extra_pools;
     public final Ints int_config;
     public final Bools bool_config;
 
-    public final List<String> _flags;
-    public final Set<String> _no_connect_flags;
+    public final String[] _flags;
     public final String[] _needed_flags;
 
     public boolean isSpawn;
@@ -191,43 +187,21 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public ExpandedJigsawPiece(final Either<ResourceLocation, StructureTemplate> template,
             final Holder<StructureProcessorList> processors, StructureTemplatePool.Projection behaviour,
             final Ints int_config, final Bools bool_config, final String biome_type, final String name,
-            final String flags, final String needed_flags, final String no_connect_flags,
-            List<ResourceLocation> extra_pools)
+            final String flags, final String needed_flags, List<ResourceLocation> extra_pools)
     {
         super(template, processors, behaviour);
         this.biome_type = biome_type;
         this.name = name;
         this.flags = flags;
         this.needed_flags = needed_flags;
-        this.no_connect_flags = no_connect_flags;
         this.extra_pools = extra_pools;
-        this._flags = Lists.newArrayList(flags.split(","));
-        this._flags.removeIf(s -> s.isBlank());
+        this._flags = flags.split(",");
         this._needed_flags = needed_flags.split(",");
-        this._no_connect_flags = Sets.newHashSet(no_connect_flags.split(","));
-        this._no_connect_flags.removeIf(s -> s.isBlank());
         this.int_config = int_config;
         this.bool_config = bool_config;
         this._projection = bool_config.rigid_override ? Projection.RIGID : behaviour;
         if (bool_config.no_affect_noise) this.setProjection(Projection.TERRAIN_MATCHING);
         if (_projection != this.getProjection()) bool_config.rigid_override = true;
-    }
-
-    public boolean noAttach(StructurePoolElement other)
-    {
-        if (_no_connect_flags.isEmpty()) return false;
-        if (other instanceof ExpandedJigsawPiece piece)
-        {
-            Set<String> matching = Sets.newHashSet(_no_connect_flags);
-            matching.retainAll(Sets.newHashSet(piece._flags));
-            if (!matching.isEmpty()) return true;
-            if (piece._no_connect_flags.isEmpty()) return false;
-            matching.clear();
-            matching.addAll(piece._no_connect_flags);
-            matching.retainAll(Sets.newHashSet(this._flags));
-            return !matching.isEmpty();
-        }
-        return false;
     }
 
     @Override
@@ -268,7 +242,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     public void checkWaterlogging(final WorldGenLevel level, StructureTemplate template,
             StructurePlaceSettings placementsettings, final BlockPos pos1, final BlockPos pos2, final Rotation rotation,
-            final BoundingBox box, final RandomSource rng, Map<BlockPos, BlockState> unWaterlog)
+            final BoundingBox box, final Random rng, Map<BlockPos, BlockState> unWaterlog)
     {
         List<StructureTemplate.StructureBlockInfo> list = placementsettings.getRandomPalette(template.palettes, pos1)
                 .blocks();
@@ -290,9 +264,9 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     }
 
     @Override
-    public boolean place(final StructureTemplateManager templates, final WorldGenLevel level,
-            final StructureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
-            final BlockPos pos2, final Rotation rotation, final BoundingBox box, final RandomSource rng,
+    public boolean place(final StructureManager templates, final WorldGenLevel level,
+            final StructureFeatureManager structureManager, final ChunkGenerator chunkGenerator, final BlockPos pos1,
+            final BlockPos pos2, final Rotation rotation, final BoundingBox box, final Random rng,
             final boolean notJigsaw)
     {
         final StructureTemplate template = this.getTemplate(templates);
@@ -385,7 +359,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
 
     @Override
     public void handleDataMarker(final LevelAccessor worldIn, final StructureBlockInfo info, final BlockPos pos,
-            final Rotation rotationIn, final RandomSource rand, final BoundingBox box)
+            final Rotation rotationIn, final Random rand, final BoundingBox box)
     {
 
         if (worldIn instanceof WorldGenRegionAccessor accessor)

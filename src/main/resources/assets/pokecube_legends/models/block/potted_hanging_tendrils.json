@@ -1,6 +1,5 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
-  "render_type": "cutout",
   "textures": {
     "dirt": "pokecube_legends:block/corrupted_dirt",
     "plant": "pokecube_legends:block/potted_hanging_tendrils"

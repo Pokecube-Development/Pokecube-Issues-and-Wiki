@@ -2,6 +2,7 @@
   "temperature": 0.05,
   "downfall": 0.3,
   "precipitation": "snow",
+  "category": "beach",
   "effects": {
     "sky_color": 2638163,
     "fog_color": 4545902,

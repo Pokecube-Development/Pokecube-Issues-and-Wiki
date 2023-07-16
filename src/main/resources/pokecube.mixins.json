@@ -6,7 +6,6 @@
   "refmap": "pokecube.refmap.json",
   "mixins": [
     "MixinBaseFireBlock",
-    "MixinEntityFluidFix",
     "accessors.ChunkAccessAcessor",
     "accessors.WorldGenRegionAccessor",
     "brain.MixinLivingEntityInit",

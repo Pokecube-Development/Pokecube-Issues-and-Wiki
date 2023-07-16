@@ -1,0 +1,14 @@
+{
+  "adapt_noise": false,
+  "biomes": "#pokecube_world:has_structure/village_end",
+  "config": {
+    "avoid_range": 6,
+    "size": 5,
+    "biome_type": "village",
+    "start_pool": "pokecube:village/the_end/town_centers",
+    "y_settings":{"vertical_offset": 128, "dy_offset": 10, "surface_type":"air"},
+    "structures_to_avoid": []
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

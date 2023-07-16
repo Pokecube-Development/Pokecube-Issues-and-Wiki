@@ -1,6 +1,5 @@
 {
   "parent": "minecraft:block/cross",
-  "render_type": "cutout",
   "textures": {
     "cross": "pokecube_legends:block/golden_sweet_berry_bush_stage2"
   }

@@ -1,10 +1,10 @@
 package pokecube.world.gen.features.trees.trunks;
 
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,7 +33,7 @@ public class TrunkPlacerTypes
         });
     }
 
-    public static void setDirtAt(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+    public static void setDirtAt(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, Random random,
                                  BlockPos pos, TreeConfiguration treeConfig)
     {
         if (treeConfig.forceDirt || !isDirtOrSand(level, pos)) {
@@ -41,7 +41,7 @@ public class TrunkPlacerTypes
         }
     }
 
-    public static void requireForceDirtAt(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, RandomSource random,
+    public static void requireForceDirtAt(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter, Random random,
                                  BlockPos pos, TreeConfiguration treeConfig)
     {
         if (treeConfig.forceDirt && !isDirtOrSand(level, pos)) {

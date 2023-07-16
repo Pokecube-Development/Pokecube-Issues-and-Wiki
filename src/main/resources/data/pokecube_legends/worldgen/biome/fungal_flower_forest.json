@@ -2,6 +2,7 @@
   "temperature": 0.7,
   "downfall": 0.8,
   "precipitation": "rain",
+  "category": "forest",
   "effects": {
     "sky_color": 1840429,
     "fog_color": 3286608,
@@ -86,11 +87,11 @@
       "pokecube_legends:spring_water"
     ],
     [
+      "minecraft:mushroom_island_vegetation",
       "minecraft:patch_sugar_cane",
-      "pokecube_legends:glow_lichen",
       "pokecube_legends:flower_flower_forest",
       "pokecube_legends:fungal_flower_forest_flowers",
-      "pokecube_legends:fungal_vegetation",
+      "pokecube_legends:glow_lichen",
       "pokecube_legends:mushrooms_fungal",
       "pokecube_legends:patch_grass_flower_forest",
       "pokecube_legends:patch_pumpkin",

@@ -242,7 +242,7 @@ public class SpawnEventsHandler
         else
         {
             final ResourceLocation mobId = new ResourceLocation(thing.get("mob").getAsString());
-            final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(mobId);
+            final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(mobId);
 
             final Entity entity = type.create(event.worldActual);
 

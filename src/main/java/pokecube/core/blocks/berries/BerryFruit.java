@@ -28,7 +28,7 @@ import pokecube.core.items.berries.BerryManager;
 
 public class BerryFruit extends BushBlock
 {
-    public static final VoxelShape BERRY_UP = Block.box(5.0D, 5.0D, 5.0D, 11.0D, 16.0D, 11.0D);
+    public static final VoxelShape BERRY_UP   = Block.box(5.0D, 5.0D, 5.0D, 11.0D, 16.0D, 11.0D);
     public static final VoxelShape BERRY_DOWN = Block.box(2.5D, 0.0D, 2.5D, 13.5D, 6.0D, 13.5D);
 
     // Precise selection box @formatter:off
@@ -108,19 +108,11 @@ public class BerryFruit extends BushBlock
       .optimize();
     //@formatter:on
 
-    private static final BlockBehaviour.OffsetType getOffsetType(int ind)
-    {
-        if (ind == 3 || ind == 6 || ind == 7 || ind == 10 || ind == 18 || ind == 21 || ind == 22 || ind == 23
-                || ind == 24 || ind == 25 || ind == 26 || ind == 60)
-            return BlockBehaviour.OffsetType.XZ;
-        return BlockBehaviour.OffsetType.NONE;
-    }
-
     private final int ind;
 
     public BerryFruit(final Properties builder, final int ind)
     {
-        super(builder.offsetType(getOffsetType(ind)));
+        super(builder);
         this.ind = ind;
     }
 
@@ -168,9 +160,19 @@ public class BerryFruit extends BushBlock
     }
 
     @Override
+    public BlockBehaviour.OffsetType getOffsetType()
+    {
+        if (this.ind == 3 || this.ind == 6 || this.ind == 7 || this.ind == 10 || this.ind == 18 || this.ind == 21
+                || this.ind == 22 || this.ind == 23 || this.ind == 24 || this.ind == 25 || this.ind == 26
+                || this.ind == 60) return BlockBehaviour.OffsetType.XZ;
+        return BlockBehaviour.OffsetType.NONE;
+    }
+
+    @Override
     protected boolean mayPlaceOn(final BlockState state, final BlockGetter worldIn, final BlockPos pos)
     {
-        if (state.getBlock() instanceof BerryCrop) return state.getValue(BerryCrop.AGE) == 7;
+        if (state.getBlock() instanceof BerryCrop)
+            return state.getValue(BerryCrop.AGE) == 7;
         return worldIn.getBlockState(pos.above()).getBlock() instanceof BerryLeaf;
     }
 
@@ -190,11 +192,8 @@ public class BerryFruit extends BushBlock
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world,
-            BlockPos pos, BlockPos pos1)
-    {
-        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState()
-                : super.updateShape(state, direction, state1, world, pos, pos1);
+    public BlockState updateShape(BlockState state, Direction direction, BlockState state1, LevelAccessor world, BlockPos pos, BlockPos pos1) {
+        return !state.canSurvive(world, pos) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, state1, world, pos, pos1);
     }
 
     @Override
@@ -219,8 +218,7 @@ public class BerryFruit extends BushBlock
         if (world.getBlockState(pos.below()).is(BerryManager.berryCrops.get(this.ind).get()))
             world.setBlockAndUpdate(pos.below(), state2.setValue(CropBlock.AGE, Integer.valueOf(5)));
 
-        if (state.is(BlockTags.GUARDED_BY_PIGLINS))
-        {
+        if (state.is(BlockTags.GUARDED_BY_PIGLINS)) {
             PiglinAi.angerNearbyPiglins(player, false);
         }
 

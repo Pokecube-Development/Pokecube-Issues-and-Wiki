@@ -2,8 +2,8 @@
   "feature": "pokecube_legends:disk_crystallized_sand",
   "placement": [
     {
-      "type": "minecraft:count",
-      "count": 3
+      "count": 3,
+      "type": "minecraft:count"
     },
     {
       "type": "minecraft:in_square"
@@ -11,13 +11,6 @@
     {
       "heightmap": "OCEAN_FLOOR_WG",
       "type": "minecraft:heightmap"
-    },
-    {
-      "type": "minecraft:block_predicate_filter",
-      "predicate": {
-        "type": "minecraft:matching_fluids",
-        "fluids": "minecraft:water"
-      }
     },
     {
       "type": "minecraft:biome"

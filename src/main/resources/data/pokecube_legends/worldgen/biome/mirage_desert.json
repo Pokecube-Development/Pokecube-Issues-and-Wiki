@@ -2,6 +2,7 @@
   "temperature": 2,
   "downfall": 0.4,
   "precipitation": "none",
+  "category": "desert",
   "effects": {
     "sky_color": 1323848,
     "fog_color": 1854829,
@@ -173,15 +174,9 @@
     "creature": [
       {
         "type": "minecraft:rabbit",
-        "weight": 10,
+        "weight": 4,
         "minCount": 2,
         "maxCount": 3
-      },
-      {
-        "type": "minecraft:allay",
-        "weight": 1,
-        "minCount": 1,
-        "maxCount": 2
       }
     ],
     "ambient": [

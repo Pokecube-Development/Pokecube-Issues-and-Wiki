@@ -112,8 +112,8 @@ public class CommonInit
     @SubscribeEvent
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickBlock evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getEntity() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getEntity().isShiftKeyDown())
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown())
             return;
         final ItemStack itemstack = evt.getItemStack();
 
@@ -128,8 +128,8 @@ public class CommonInit
         }
         if (handler == null) return;
 
-        final Player playerIn = evt.getEntity();
-        final Level worldIn = evt.getLevel();
+        final Player playerIn = evt.getPlayer();
+        final Level worldIn = evt.getWorld();
         final BlockPos pos = evt.getPos();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min"))
         {
@@ -159,8 +159,8 @@ public class CommonInit
     @SubscribeEvent
     public static void interactRightClickBlock(final PlayerInteractEvent.RightClickItem evt)
     {
-        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getEntity() instanceof ServerPlayer player)
-                || evt.getItemStack().isEmpty() || !evt.getEntity().isShiftKeyDown())
+        if (evt.getHand() == InteractionHand.OFF_HAND || !(evt.getPlayer() instanceof ServerPlayer player)
+                || evt.getItemStack().isEmpty() || !evt.getPlayer().isShiftKeyDown())
             return;
         final ItemStack itemstack = evt.getItemStack();
 
@@ -175,8 +175,8 @@ public class CommonInit
         }
         if (handler == null) return;
 
-        final Player playerIn = evt.getEntity();
-        final Level worldIn = evt.getLevel();
+        final Player playerIn = evt.getPlayer();
+        final Level worldIn = evt.getWorld();
         final long now = Tracker.instance().getTick();
         if (itemstack.hasTag() && playerIn.isShiftKeyDown() && itemstack.getTag().contains("min")
                 && itemstack.getTag().getLong("time") != now)
@@ -196,8 +196,8 @@ public class CommonInit
     @SubscribeEvent
     public static void logout(final PlayerLoggedOutEvent event)
     {
-        if (event.getEntity().isPassenger() && event.getEntity().getRootVehicle() instanceof EntityCraft)
-            event.getEntity().stopRiding();
+        if (event.getPlayer().isPassenger() && event.getPlayer().getRootVehicle() instanceof EntityCraft)
+            event.getPlayer().stopRiding();
     }
 
     @SubscribeEvent

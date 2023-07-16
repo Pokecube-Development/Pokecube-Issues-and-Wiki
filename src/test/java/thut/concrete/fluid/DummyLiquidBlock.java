@@ -1,10 +1,10 @@
 package thut.concrete.fluid;
 
+import java.util.Random;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -24,7 +24,7 @@ public class DummyLiquidBlock extends LiquidBlock
     }
 
     @Override
-    public void tick(BlockState p_60462_, ServerLevel p_60463_, BlockPos p_60464_, RandomSource p_60465_)
+    public void tick(BlockState p_60462_, ServerLevel p_60463_, BlockPos p_60464_, Random p_60465_)
     {
 
     }

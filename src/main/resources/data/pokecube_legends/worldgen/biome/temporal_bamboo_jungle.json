@@ -2,6 +2,7 @@
   "temperature": 0.95,
   "downfall": 0.9,
   "precipitation": "rain",
+  "category": "jungle",
   "effects": {
     "sky_color": 5466895,
     "fog_color": 8562714,

@@ -4,7 +4,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands_small/pokecenter/path",
-        "int_config": { "extra_child_depth": 1 },
         "processors": "pokecube:generic",
         "projection": "terrain_matching"
       },

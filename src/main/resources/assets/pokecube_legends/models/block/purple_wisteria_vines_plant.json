@@ -1,6 +1,5 @@
 {
   "parent": "minecraft:block/cross",
-  "render_type": "cutout",
   "textures": {
     "cross": "pokecube_legends:block/purple_wisteria_vines_plant"
   }

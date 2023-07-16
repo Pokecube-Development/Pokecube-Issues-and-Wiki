@@ -31,7 +31,7 @@
     {
       "values": {
         "preset": "savannas",
-        "types": "#minecraft:is_savanna",
+        "types": "#forge:is_savanna",
         "and_preset": "overworld"
       }
     },
@@ -147,7 +147,7 @@
     {
       "values": {
         "preset": "overworld",
-        "types": "#minecraft:is_overworld,all",
+        "types": "#forge:is_overworld,all",
         "air": "true",
         "water": "true"
       }

@@ -2,6 +2,7 @@
   "temperature": -0.7,
   "downfall": 0.9,
   "precipitation": "snow",
+  "category": "mountain",
   "effects": {
     "sky_color": 1054499,
     "fog_color": 1648446,

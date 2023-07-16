@@ -1,0 +1,122 @@
+{
+  "locations": [
+    {
+      "placement": "pokecube_world:trees_end_berries",
+      "spawn": [
+        {
+          "values":{"biomes": "minecraft:end_highlands"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:trees_flower_forest_berries",
+      "spawn": [
+        {
+          "values":{"biomes": "minecraft:flower_forest"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_meadows",
+      "spawn": [
+        {
+          "values":{"biomes": "minecraft:meadow"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_taigas",
+      "spawn": [
+        {          
+          "values":{"biome_types": "coniferous,overworld"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:trees_beach_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "beach", "biome_types": "overworld", "no_biome_types": "cold,snowy,ultraspace", "no_biomes":"minecraft:flower_forest,minecraft:meadow"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:trees_forest_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "forest", "biome_types": "overworld", "no_biome_types": "cold,spooky,snowy,sparse,dry,ultraspace", "no_biomes":"minecraft:flower_forest"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:trees_jungle_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "jungle", "biome_types": "overworld", "no_biome_types": "savanna,cold,spooky,snowy,sparse,dry,ultraspace"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:trees_plains_berries",
+      "spawn": [
+        {
+          "values":{"biome_category": "plains", "biome_types": "overworld", "no_biome_types": "savanna,cold,spooky,snowy,sparse,dry,ultraspace"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_forests",
+      "spawn": [
+        {          
+          "values":{"biome_category": "forest", "biome_types": "overworld", "no_biome_types": "cold,spooky,snowy,sparse,dry,ultraspace"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_mushrooms",
+      "spawn": [
+        {
+          "values":{"biome_category": "mushroom", "biome_types": "overworld"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_plains",
+      "spawn": [
+        {
+          "values":{"biome_category": "plains", "biome_types": "overworld", "no_biome_types": "savanna,cold,spooky,snowy,sparse,dry,ultraspace"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_mountains",
+      "spawn": [
+        {          
+          "values":{"biome_category": "extreme_hills", "biome_types": "overworld"}
+        },
+        {          
+          "values":{"biome_category": "mountain", "biome_types": "overworld"}
+        },
+        {          
+          "values":{"biome_category": "nether"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_swamps",
+      "spawn": [
+        {          
+          "values":{"biome_category": "swamp", "biome_types": "overworld"}
+        }
+      ]
+    },
+    {
+      "placement": "pokecube_world:crops_jungles",
+      "spawn": [
+        {          
+          "values":{"biome_category": "jungle", "biome_types": "overworld"}
+        }
+      ]
+    }
+  ]
+}

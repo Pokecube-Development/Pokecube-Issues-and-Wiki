@@ -3,6 +3,7 @@ package thut.core.common.commands;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
@@ -67,12 +68,12 @@ public class CommandTools
 
     public static void sendBadArgumentsMissingArg(final CommandSource sender)
     {
-        sender.sendSystemMessage(CommandTools.makeError("pokecube.command.invalidmissing"));
+        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidmissing"), Util.NIL_UUID);
     }
 
     public static void sendBadArgumentsTryTab(final CommandSource sender)
     {
-        sender.sendSystemMessage(CommandTools.makeError("pokecube.command.invalidtab"));
+        sender.sendMessage(CommandTools.makeError("pokecube.command.invalidtab"), Util.NIL_UUID);
     }
 
     public static void sendError(final CommandSourceStack sender, final String text)
@@ -82,17 +83,17 @@ public class CommandTools
 
     public static void sendError(final CommandSource sender, final String text)
     {
-        sender.sendSystemMessage(CommandTools.makeError(text));
+        sender.sendMessage(CommandTools.makeError(text), Util.NIL_UUID);
     }
 
     public static void sendMessage(final CommandSource sender, final String text)
     {
         final Component message = CommandTools.makeTranslatedMessage(text, null);
-        sender.sendSystemMessage(message);
+        sender.sendMessage(message, Util.NIL_UUID);
     }
 
     public static void sendNoPermissions(final CommandSource sender)
     {
-        sender.sendSystemMessage(CommandTools.makeError("pokecube.command.noperms"));
+        sender.sendMessage(CommandTools.makeError("pokecube.command.noperms"), Util.NIL_UUID);
     }
 }

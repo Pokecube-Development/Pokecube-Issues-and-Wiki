@@ -157,13 +157,13 @@ public class PokecubeAdv
     static
     {
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeAdv.MODID);
-        CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, PokecubeAdv.MODID);
+        CONTAINERS = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeAdv.MODID);
         DECORATIONS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeAdv.MODID);
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeAdv.MODID);
-        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, PokecubeAdv.MODID);
-        PROFESSIONS = DeferredRegister.create(ForgeRegistries.VILLAGER_PROFESSIONS, MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeAdv.MODID);
+        PROFESSIONS = DeferredRegister.create(ForgeRegistries.PROFESSIONS, MODID);
         MEMORIES = DeferredRegister.create(ForgeRegistries.MEMORY_MODULE_TYPES, MODID);
-        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, MODID);
+        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MODID);
 
         // Blocks
         AFA = PokecubeAdv.BLOCKS.register("afa",

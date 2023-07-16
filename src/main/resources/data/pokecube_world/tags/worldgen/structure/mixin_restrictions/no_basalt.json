@@ -1,8 +1,0 @@
-{
-    "replace": false,
-    "values": [
-        "#pokecube_world:overworld_structures",
-        "#pokecube_world:nether_structures",
-        "#pokecube_world:distorted_world_structures"
-    ]
-  }

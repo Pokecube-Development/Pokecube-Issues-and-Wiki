@@ -1,6 +1,5 @@
 {
     "ambientocclusion": false,
-    "render_type": "cutout",
     "textures": {
     	"torch": "pokecube_legends:block/infected_torch",
         "particle": "#torch"

@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.math.Matrix4f;
 
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -61,7 +62,7 @@ public class ThrowParticle extends MoveAnimationBase
         final Random rand = new Random(hash);
         factor = values.width * 0.2;
         tez.begin(Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
-        var pos = mat.last().pose();
+        final Matrix4f pos = mat.last().pose();
 
         float x1, x2, y1, y2, z1, z2;
 

@@ -2,6 +2,7 @@
   "temperature": 0.3,
   "downfall": 0.2,
   "precipitation": "rain",
+  "category": "swamp",
   "effects": {
     "sky_color": 2499631,
     "fog_color": 3289147,
@@ -86,9 +87,7 @@
       "pokecube_legends:ore_spectrum_large",
       "pokecube_legends:ore_turquoise_gravel"
     ],
-    [
-      "pokecube_legends:sculk_patch_tainted_barrens"
-    ],
+    [],
     [
       "pokecube_legends:spring_lava",
       "pokecube_legends:spring_water"
@@ -194,12 +193,6 @@
         "weight": 8,
         "minCount": 4,
         "maxCount": 4
-      },
-      {
-        "type": "minecraft:frog",
-        "maxCount": 5,
-        "minCount": 2,
-        "weight": 10
       }
     ],
     "ambient": [

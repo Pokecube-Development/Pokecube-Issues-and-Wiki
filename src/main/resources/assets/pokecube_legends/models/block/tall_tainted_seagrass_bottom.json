@@ -1,6 +1,5 @@
 {
   "parent": "minecraft:block/template_seagrass",
-  "render_type": "cutout",
   "textures": {
     "texture": "pokecube_legends:block/tall_tainted_seagrass_bottom"
   }

@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -26,7 +27,7 @@ import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.resource.PathPackResources;
+import net.minecraftforge.resource.PathResourcePack;
 import net.minecraftforge.resource.ResourcePackLoader;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeCore;
@@ -49,10 +50,22 @@ public class PackFinder implements RepositorySource
     public static Map<ResourceLocation, Resource> getResources(String path, final Predicate<String> match)
     {
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+
         long start = System.nanoTime();
-        Map<ResourceLocation, Resource> ret =  Database.resourceManager.listResources(path, p->match.test(p.toString()));
+
+        Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, match);
+
+        Map<ResourceLocation, Resource> ret = Maps.newHashMap();
+
+        for (var loc : resources)
+        {
+            Resource res = ResourceHelper.getResource(loc, Database.resourceManager);
+            if (res != null) ret.put(loc, res);
+        }
+
         long end = System.nanoTime();
         time_listing += (end - start);
+
         return ret;
     }
 
@@ -64,10 +77,28 @@ public class PackFinder implements RepositorySource
     public static Map<ResourceLocation, List<Resource>> getAllResources(String path, final Predicate<String> match)
     {
         if (path.endsWith("/")) path = path.substring(0, path.length() - 1);
+
         long start = System.nanoTime();
-        Map<ResourceLocation, List<Resource>> ret =  Database.resourceManager.listResourceStacks(path, p->match.test(p.toString()));
+
+        Collection<ResourceLocation> resources = Database.resourceManager.listResources(path, match);
+
+        Map<ResourceLocation, List<Resource>> ret = Maps.newHashMap();
+
+        for (var loc : resources)
+        {
+            try
+            {
+                ret.put(loc, Database.resourceManager.getResources(loc));
+            }
+            catch (IOException e)
+            {
+                e.printStackTrace();
+            }
+        }
+
         long end = System.nanoTime();
         time_listing += (end - start);
+
         return ret;
     }
 
@@ -102,7 +133,7 @@ public class PackFinder implements RepositorySource
         if (l.toString().contains("//")) l = new ResourceLocation(l.toString().replace("//", "/"));
 
         long start = System.nanoTime();
-        List<Resource> ret = Database.resourceManager.getResourceStack(l);
+        List<Resource> ret = Database.resourceManager.getResources(l);
         long end = System.nanoTime();
         time_getting_2 += (end - start);
 
@@ -139,7 +170,7 @@ public class PackFinder implements RepositorySource
     {
         try
         {
-            final List<PathPackResources> packs = Lists.newArrayList();
+            final List<PathResourcePack> packs = Lists.newArrayList();
             ModList.get().getModFiles().stream().forEach(mf -> packs.add(ResourcePackLoader.createPackForMod(mf)));
             this.allPacks.addAll(packs);
         }

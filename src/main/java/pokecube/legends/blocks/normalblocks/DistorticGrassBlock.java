@@ -1,12 +1,12 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -32,6 +32,7 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.PlantsInit;
 
 public class DistorticGrassBlock extends DirectionalBlock implements BonemealableBlock
@@ -92,7 +93,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
@@ -147,7 +148,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
+    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
         if (!DistorticGrassBlock.canBeGrass(state, world, pos))
             world.setBlockAndUpdate(pos, BlockInit.DISTORTIC_STONE
@@ -155,7 +156,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     }
     
     @Override
-    public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos,
+    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)
     {
         {
@@ -195,9 +196,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
 
                      placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
                   } else {
-                      //FIXME distorted grass
-                      return;
-//                     placedFeature = FeaturesInit.Configs.DISTORTIC_GRASS_BONEMEAL.getHolder().get();
+                     placedFeature = FeaturesInit.Configs.DISTORTIC_GRASS_BONEMEAL.getHolder().get();
                   }
 
                   placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);

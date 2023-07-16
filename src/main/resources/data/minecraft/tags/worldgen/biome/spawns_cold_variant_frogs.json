@@ -1,7 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#pokecube_world:is_ultraspace/is_cold",
-    "#pokecube_world:is_ultraspace/is_snowy"
-  ]
-}

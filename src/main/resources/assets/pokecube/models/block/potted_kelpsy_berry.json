@@ -1,5 +1,5 @@
 {
-  "parent": "pokecube:block/potted_berry",
+  "parent": "minecraft:block/flower_pot_cross",
   "textures": {
     "plant": "pokecube:block/potted_kelpsy_berry"
   }

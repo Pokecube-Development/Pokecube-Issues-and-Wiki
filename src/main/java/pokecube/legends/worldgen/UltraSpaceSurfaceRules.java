@@ -7,9 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.MapCodec;
 
-import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,7 +25,7 @@ public class UltraSpaceSurfaceRules
     }
 
     public static final RegistryObject<Codec<Bandlands>> AZURE_BADLANDS = PokecubeLegends.SURFACE_RULES
-            .register("azure_bandlands", () -> UltraSpaceSurfaceRules.Bandlands.CODEC.codec());
+            .register("azure_bandlands", () -> UltraSpaceSurfaceRules.Bandlands.CODEC);
 
     private static Map<Block, Block> TERRACOTTA_MAP = Maps.newConcurrentMap();
 
@@ -68,10 +66,9 @@ public class UltraSpaceSurfaceRules
     {
         INSTANCE;
 
-        static final KeyDispatchDataCodec<UltraSpaceSurfaceRules.Bandlands> CODEC = KeyDispatchDataCodec
-                .of(MapCodec.unit(INSTANCE));
+        static final Codec<UltraSpaceSurfaceRules.Bandlands> CODEC = Codec.unit(INSTANCE);
 
-        public KeyDispatchDataCodec<Bandlands> codec()
+        public Codec<? extends SurfaceRules.RuleSource> codec()
         {
             return CODEC;
         }

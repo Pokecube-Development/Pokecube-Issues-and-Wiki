@@ -14,6 +14,7 @@ import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.ints.Int2IntMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -29,7 +30,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
 
 public class TerrainSegment
 {
@@ -107,7 +107,7 @@ public class TerrainSegment
 
     public static interface ISubBiomeChecker
     {
-        public static final TagKey<Biome> WATERY = TagKey.create(RegHelper.BIOME_REGISTRY,
+        public static final TagKey<Biome> WATERY = TagKey.create(Registry.BIOME_REGISTRY,
                 new ResourceLocation("thutcore:is_watery"));
 
         /**

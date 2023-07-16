@@ -30,7 +30,7 @@ public class PacketBag extends Packet
         final FriendlyByteBuf clt = inv.makeBuffer();
         final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new BagContainer(i,
                 p, inv), sendTo.getDisplayName());
-        NetworkHooks.openScreen(player, provider, buf ->
+        NetworkHooks.openGui(player, provider, buf ->
         {
             buf.writeBytes(clt);
         });

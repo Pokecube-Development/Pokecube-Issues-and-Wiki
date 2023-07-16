@@ -1,6 +1,5 @@
 {
 	"credit": "Made with Blockbench",
-	"render_type": "cutout",
 	"parent": "block/block",
 	"textures": {
 		"particle": "pokecube_legends:block/small_contaminated_dripleaf_stem_bottom",

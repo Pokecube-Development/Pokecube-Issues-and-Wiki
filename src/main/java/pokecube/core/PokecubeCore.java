@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Maps;
 import com.mojang.serialization.Codec;
 
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackType;
@@ -15,7 +16,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.Motive;
 import net.minecraft.world.entity.schedule.Activity;
 import net.minecraft.world.entity.schedule.Schedule;
 import net.minecraft.world.inventory.MenuType;
@@ -35,6 +36,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -71,6 +73,7 @@ import pokecube.core.proxy.CommonProxy;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.Permissions;
 import pokecube.world.PokecubeWorld;
+import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.data.StringTag;
 import thut.api.entity.CopyCaps;
@@ -78,7 +81,6 @@ import thut.api.maths.Vector3;
 import thut.api.particle.ThutParticles;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.PacketHandler;
-import thut.lib.RegHelper;
 import thut.wearables.ThutWearables;
 
 @Mod(value = PokecubeCore.MODID)
@@ -130,24 +132,24 @@ public class PokecubeCore
     public static final DeferredRegister<EntityType<?>> ENTITIES;
     public static final DeferredRegister<MenuType<?>> MENU;
     public static final DeferredRegister<SoundEvent> SOUNDS;
-    public static final DeferredRegister<PaintingVariant> PAINTINGS;
+    public static final DeferredRegister<Motive> PAINTINGS;
 
     static
     {
-        RECIPETYPE = DeferredRegister.create(RegHelper.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
-        CHUNKGENTYPE = DeferredRegister.create(RegHelper.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
-        ACTIVITIES = DeferredRegister.create(RegHelper.ACTIVITY_REGISTRY, PokecubeCore.MODID);
-        SCHEDULES = DeferredRegister.create(RegHelper.SCHEDULE_REGISTRY, PokecubeCore.MODID);
-        MEMORIES = DeferredRegister.create(RegHelper.MEMORY_MODULE_TYPE_REGISTRY, PokecubeCore.MODID);
-        SENSORS = DeferredRegister.create(RegHelper.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
-        BERRY_BLOCKS = DeferredRegister.create(RegHelper.BLOCK_REGISTRY, PokecubeCore.MODID);
-        BLOCKS = DeferredRegister.create(RegHelper.BLOCK_REGISTRY, PokecubeCore.MODID);
-        ITEMS = DeferredRegister.create(RegHelper.ITEM_REGISTRY, PokecubeCore.MODID);
-        TILES = DeferredRegister.create(RegHelper.BLOCK_ENTITY_TYPE_REGISTRY, PokecubeCore.MODID);
-        ENTITIES = DeferredRegister.create(RegHelper.ENTITY_TYPE_REGISTRY, PokecubeCore.MODID);
-        MENU = DeferredRegister.create(RegHelper.MENU_REGISTRY, PokecubeCore.MODID);
-        SOUNDS = DeferredRegister.create(RegHelper.SOUND_EVENT_REGISTRY, PokecubeCore.MODID);
-        PAINTINGS = DeferredRegister.create(RegHelper.PAINTING_VARIANT_REGISTRY, PokecubeCore.MODID);
+        RECIPETYPE = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, PokecubeCore.MODID);
+        CHUNKGENTYPE = DeferredRegister.create(Registry.CHUNK_GENERATOR_REGISTRY, PokecubeCore.MODID);
+        ACTIVITIES = DeferredRegister.create(Registry.ACTIVITY_REGISTRY, PokecubeCore.MODID);
+        SCHEDULES = DeferredRegister.create(Registry.SCHEDULE_REGISTRY, PokecubeCore.MODID);
+        MEMORIES = DeferredRegister.create(Registry.MEMORY_MODULE_TYPE_REGISTRY, PokecubeCore.MODID);
+        SENSORS = DeferredRegister.create(Registry.SENSOR_TYPE_REGISTRY, PokecubeCore.MODID);
+        BERRY_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeCore.MODID);
+        ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, PokecubeCore.MODID);
+        TILES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, PokecubeCore.MODID);
+        ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, PokecubeCore.MODID);
+        MENU = DeferredRegister.create(ForgeRegistries.CONTAINERS, PokecubeCore.MODID);
+        SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, PokecubeCore.MODID);
+        PAINTINGS = DeferredRegister.create(ForgeRegistries.PAINTING_TYPES, PokecubeCore.MODID);
     }
 
     public static final String MODID = PokecubeAPI.MODID;
@@ -255,6 +257,7 @@ public class PokecubeCore
         PointsOfInterest.REG.register(bus);
 
         new BerryGenManager();
+        SecretBaseDimension.onConstruct(bus);
 
         // Register the player data we use with thutcore
         PlayerDataHandler.register(PokecubePlayerData.class);

@@ -1,0 +1,18 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "biomes": "#pokecube_world:has_structure/village_ocean",
+  "config": {
+    "start_pool": "pokecube_legends:village/ocean/town_centers",
+    "structures_to_avoid": [],
+    "spawn_blacklist": "snowy_areas,cold_areas",
+    "required_parts": [
+      "pokecenter",
+      "gym"
+    ],
+    "avoid_range": 6,
+    "biome_room": 10,
+    "size": 6
+  },
+  "spawn_overrides": {},
+  "adapt_noise": false
+}

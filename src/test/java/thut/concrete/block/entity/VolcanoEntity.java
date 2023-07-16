@@ -9,6 +9,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.BlockPos.MutableBlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -32,7 +33,6 @@ import thut.api.boom.ExplosionCustom.BlockBreaker;
 import thut.api.maths.Vector3;
 import thut.concrete.Concrete;
 import thut.concrete.block.VolcanoBlock;
-import thut.lib.RegHelper;
 
 public class VolcanoEntity extends BlockEntity implements ITickTile {
 	public static abstract class Part implements INBTSerializable<CompoundTag> {
@@ -178,7 +178,7 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 					}
 				}
 				Vector3 v = new Vector3().set(pos);
-				Biome b = level.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY).get(Concrete.VOLCANO_BIOME);
+				Biome b = level.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(Concrete.VOLCANO_BIOME);
 				v.setBiome(b, level);
 				return to;
 			}

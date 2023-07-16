@@ -1,10 +1,11 @@
 package pokecube.legends.worldgen.features;
 
+import java.util.Random;
+
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -25,7 +26,7 @@ public class UltraspaceVegetationFeature extends Feature<NetherForestVegetationC
       BlockPos pos = context.origin();
       BlockState stateBelow = world.getBlockState(pos.below());
       NetherForestVegetationConfig vegetationConfig = context.config();
-      RandomSource random = context.random();
+      Random random = context.random();
       if (!stateBelow.is(BlockTags.DIRT))
       {
          return false;

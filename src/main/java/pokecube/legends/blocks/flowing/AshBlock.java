@@ -2,6 +2,7 @@ package pokecube.legends.blocks.flowing;
 
 import java.lang.reflect.Array;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Maps;
 
@@ -12,7 +13,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -70,7 +70,7 @@ public class AshBlock extends FlowingBlock
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    public void tick(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         if (state.getBlock() != this) return;
         boolean wet = state.getValue(WET);
@@ -154,7 +154,7 @@ public class AshBlock extends FlowingBlock
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
     {
         if (random.nextInt(16) == 0 && state.getValue(WET) == false)
         {

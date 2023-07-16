@@ -1,0 +1,134 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "pokecube_legends:block/yveltal_egg_bottom_front",
+		"2": "pokecube_legends:block/yveltal_egg_top_front",
+		"3": "pokecube_legends:block/yveltal_egg_bottom_side",
+		"4": "pokecube_legends:block/yveltal_egg_top_side",
+		"5": "pokecube_legends:block/yveltal_egg_top",
+		"6": "pokecube_legends:block/yveltal_egg_bottom",
+		"7": "pokecube_legends:block/yveltal_egg_spike",
+		"particle": "pokecube_legends:block/yveltal_egg_bottom_front"
+	},
+	"elements": [
+		{
+			"name": "bottom",
+			"from": [2, 0, 2],
+			"to": [14, 4, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [2, 12, 14, 16], "texture": "#1"},
+				"east": {"uv": [2, 12, 14, 16], "texture": "#3"},
+				"south": {"uv": [2, 12, 14, 16], "texture": "#1"},
+				"west": {"uv": [2, 12, 14, 16], "texture": "#3"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#6"}
+			}
+		},
+		{
+			"name": "main",
+			"from": [1, 4, 1],
+			"to": [15, 16, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [1, 0, 15, 12], "texture": "#1"},
+				"east": {"uv": [1, 0, 15, 12], "texture": "#3"},
+				"south": {"uv": [1, 0, 15, 12], "texture": "#1"},
+				"west": {"uv": [1, 0, 15, 12], "texture": "#3"},
+				"down": {"uv": [1, 1, 15, 15], "texture": "#6"}
+			}
+		},
+		{
+			"name": "main",
+			"from": [1, 16, 1],
+			"to": [15, 22, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [1, 10, 15, 16], "texture": "#2"},
+				"east": {"uv": [1, 10, 15, 16], "texture": "#4"},
+				"south": {"uv": [1, 10, 15, 16], "texture": "#2"},
+				"west": {"uv": [1, 10, 15, 16], "texture": "#4"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#5"}
+			}
+		},
+		{
+			"name": "top",
+			"from": [2, 22, 2],
+			"to": [14, 26, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 8, 8]},
+			"faces": {
+				"north": {"uv": [2, 6, 14, 10], "texture": "#2"},
+				"east": {"uv": [2, 6, 14, 10], "texture": "#4"},
+				"south": {"uv": [2, 6, 14, 10], "texture": "#2"},
+				"west": {"uv": [2, 6, 14, 10], "texture": "#4"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#5"}
+			}
+		},
+		{
+			"name": "spike",
+			"from": [12, 21.5, 0],
+			"to": [12, 31.5, 16],
+			"rotation": {"angle": -22.5, "axis": "z", "origin": [12, 27, 7]},
+			"faces": {
+				"east": {"uv": [0, 6, 16, 16], "texture": "#7"},
+				"west": {"uv": [0, 6, 16, 16], "texture": "#7"}
+			}
+		},
+		{
+			"name": "spike",
+			"from": [4, 21.5, 0],
+			"to": [4, 31.5, 16],
+			"rotation": {"angle": 22.5, "axis": "z", "origin": [4, 27, 7]},
+			"faces": {
+				"east": {"uv": [0, 6, 16, 16], "texture": "#7"},
+				"west": {"uv": [0, 6, 16, 16], "texture": "#7"}
+			}
+		},
+		{
+			"name": "spike",
+			"from": [8, 22, 0],
+			"to": [8, 32, 16],
+			"rotation": {"angle": 0, "axis": "z", "origin": [4, 27, 7]},
+			"faces": {
+				"east": {"uv": [0, 6, 16, 16], "texture": "#7"},
+				"west": {"uv": [0, 6, 16, 16], "texture": "#7"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [66, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [66, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, -90, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, -90, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"translation": [0, -2.5, 0],
+			"scale": [0.45, 0.45, 0.45]
+		},
+		"head": {
+			"rotation": [0, 180, 0],
+			"translation": [0, 14, 0]
+		},
+		"fixed": {
+			"translation": [0, -3.75, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

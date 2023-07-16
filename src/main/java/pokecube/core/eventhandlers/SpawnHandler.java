@@ -22,6 +22,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -80,7 +81,6 @@ import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
 
 /** @author Manchou Heavily modified by Thutmose */
 public final class SpawnHandler
@@ -530,7 +530,7 @@ public final class SpawnHandler
     public static void loadFunctionFromString(final String args)
     {
         final Function func = JsonUtil.gson.fromJson(args, Function.class);
-        final ResourceKey<Level> dim = ResourceKey.create(RegHelper.DIMENSION_REGISTRY, new ResourceLocation(func.dim));
+        final ResourceKey<Level> dim = ResourceKey.create(Registry.DIMENSION_REGISTRY, new ResourceLocation(func.dim));
         SpawnHandler.functions.put(dim, func);
         SpawnHandler.parsers.put(dim, SpawnHandler.initJEP(new JEP(), func.func, func.radial));
     }

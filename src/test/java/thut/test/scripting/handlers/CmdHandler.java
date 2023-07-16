@@ -40,7 +40,7 @@ public class CmdHandler implements ICmdHandler
     public String handle(final MinecraftServer server, final String input)
     {
         final SourceWrapper src = new SourceWrapper(server.createCommandSourceStack());
-        final int ret = server.getCommands().performPrefixedCommand(src, input);
+        final int ret = server.getCommands().performCommand(src, input);
         return ret == 0 ? null : src.lastMsg == null ? "command success" : src.lastMsg.getString();
     }
 

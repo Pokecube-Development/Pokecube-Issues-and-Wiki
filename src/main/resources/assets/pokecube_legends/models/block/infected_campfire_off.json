@@ -1,6 +1,5 @@
 {
   "parent": "minecraft:block/campfire_off",
-  "render_type": "cutout",
   "textures": {
     "particle": "pokecube_legends:block/infected_campfire_log",
     "log": "pokecube_legends:block/infected_campfire_log"

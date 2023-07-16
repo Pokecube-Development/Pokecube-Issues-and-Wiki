@@ -7,15 +7,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.TreeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.BushFoliagePlacer;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
-import thut.lib.RegHelper;
 
 @Mixin(TreeFeature.class)
 public class LessJungleBushInStructuresMixin
@@ -32,14 +31,15 @@ public class LessJungleBushInStructuresMixin
             // Rate for removal of bush
             if (context.random().nextFloat() < 0.85f)
             {
-                Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
-                        .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
-                StructureManager structureManager = ((WorldGenRegionAccessor) context.level()).getStructureManager();
+                Registry<ConfiguredStructureFeature<?, ?>> configuredStructureFeatureRegistry = context.level()
+                        .registryAccess().registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+                StructureFeatureManager structureFeatureManager = accessor.getStructureFeatureManager();
 
-                for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
+                for (Holder<ConfiguredStructureFeature<?, ?>> configuredStructureFeature : configuredStructureFeatureRegistry
                         .getOrCreateTag(WorldgenTags.LESS_JUNGLE_BUSHES))
                 {
-                    if (structureManager.getStructureAt(context.origin(), configuredStructureFeature.value()).isValid())
+                    if (structureFeatureManager.getStructureAt(context.origin(), configuredStructureFeature.value())
+                            .isValid())
                     {
                         cir.setReturnValue(false);
                         return;

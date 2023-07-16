@@ -1,8 +1,9 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.AzaleaBlock;
 import net.minecraft.world.level.block.Block;
@@ -31,7 +32,7 @@ public class DynaShrubBlock extends AzaleaBlock implements BonemealableBlock
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
     {
        TREE_GROWER.growTree(world, world.getChunkSource().getGenerator(), pos, state, random);
     }

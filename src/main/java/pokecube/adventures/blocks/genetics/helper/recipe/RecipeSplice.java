@@ -117,7 +117,7 @@ public class RecipeSplice extends PoweredRecipe
                     nonnulllist.set(i, item.copy());
                 }
             }
-            if (item.hasCraftingRemainingItem()) nonnulllist.set(i, item.getCraftingRemainingItem());
+            if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         tile.override_selector = ItemStack.EMPTY;
         return nonnulllist;

@@ -1,6 +1,6 @@
 package pokecube.core.entity.pokemobs.helper;
 
-import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -58,7 +58,7 @@ public abstract class PokemobBase extends TamableAnimal
     }
 
     @Override
-    public SimpleContainer getInventory()
+    public Container getInventory()
     {
         return pokemobCap.getInventory();
     }

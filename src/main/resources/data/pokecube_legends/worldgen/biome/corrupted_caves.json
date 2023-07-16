@@ -2,6 +2,7 @@
   "temperature": 0.5,
   "downfall": 0.5,
   "precipitation": "rain",
+  "category": "underground",
   "effects": {
     "sky_color": 2499631,
     "fog_color": 3289147,
@@ -160,14 +161,7 @@
         "maxCount": 1
       }
     ],
-    "creature": [
-      {
-        "type": "minecraft:frog",
-        "maxCount": 5,
-        "minCount": 2,
-        "weight": 10
-      }
-    ],
+    "creature": [],
     "ambient": [
       {
         "type": "minecraft:bat",

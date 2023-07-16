@@ -104,8 +104,8 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
             if (rots[0] != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rots[0]));
             if (rots[1] != 0) mat.mulPose(AxisAngles.YP.rotationDegrees(rots[1]));
             if (rots[2] != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(rots[2]));
-            Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(wearer, stack,
-                    TransformType.GROUND, false, mat, buff, packedLightIn);
+            Minecraft.getInstance().getItemInHandRenderer().renderItem(wearer, stack, TransformType.GROUND, false, mat,
+                    buff, packedLightIn);
             mat.popPose();
         }
         mat.popPose();

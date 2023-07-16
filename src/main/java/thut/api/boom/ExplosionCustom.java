@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -27,10 +28,10 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.level.ExplosionEvent;
-import net.minecraftforge.event.level.LevelEvent.Unload;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
+import net.minecraftforge.event.world.WorldEvent.Unload;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import thut.api.boom.ShadowMaskChecker.ResistProvider;
@@ -39,7 +40,6 @@ import thut.api.item.ItemList;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
 
 public class ExplosionCustom extends Explosion
 {
@@ -147,7 +147,7 @@ public class ExplosionCustom extends Explosion
         public DefaultBreaker(ServerLevel level)
         {
             this.level = level;
-            list = level.registryAccess().registryOrThrow(RegHelper.PROCESSOR_LIST_REGISTRY).get(DAMAGE_LIST);
+            list = level.registryAccess().registryOrThrow(Registry.PROCESSOR_LIST_REGISTRY).get(DAMAGE_LIST);
             settings = new StructurePlaceSettings();
         }
 
@@ -380,9 +380,9 @@ public class ExplosionCustom extends Explosion
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
-    public void doRemoveBlocks(final LevelTickEvent evt)
+    public void doRemoveBlocks(final WorldTickEvent evt)
     {
-        if (evt.phase == Phase.START || evt.level != this.level) return;
+        if (evt.phase == Phase.START || evt.world != this.level) return;
 
         if (this.hasSubBooms)
         {
@@ -438,6 +438,6 @@ public class ExplosionCustom extends Explosion
     @SubscribeEvent
     public void WorldUnloadEvent(final Unload evt)
     {
-        if (evt.getLevel() == this.level) MinecraftForge.EVENT_BUS.unregister(this);
+        if (evt.getWorld() == this.level) MinecraftForge.EVENT_BUS.unregister(this);
     }
 }

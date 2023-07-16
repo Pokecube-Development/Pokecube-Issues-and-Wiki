@@ -4,7 +4,6 @@
   "model": "pokecube_legends:models/block/portal.obj",
   "ambientToFullbright": true,
   "flip-v": true,
-  "render_type": "translucent",
   "textures": {
     "None": "pokecube_legends:block/portal_on",
     "particle": "pokecube_legends:block/portal_on"

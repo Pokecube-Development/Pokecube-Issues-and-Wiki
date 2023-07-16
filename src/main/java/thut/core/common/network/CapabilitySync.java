@@ -19,7 +19,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityDispatcher;
 import net.minecraftforge.common.capabilities.CapabilityProvider;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import thut.core.common.ThutCore;
 import thut.core.common.network.nbtpacket.NBTPacket;
@@ -99,15 +99,15 @@ public class CapabilitySync extends NBTPacket
         }
     }
 
-    private static void onJoinWorld(final EntityJoinLevelEvent event)
+    private static void onJoinWorld(final EntityJoinWorldEvent event)
     {
-        if (event.getLevel().isClientSide()) return;
-        if (event.getLevel() instanceof ServerLevel) CapabilitySync.sendUpdate(event.getEntity());
+        if (event.getWorld().isClientSide()) return;
+        if (event.getWorld() instanceof ServerLevel) CapabilitySync.sendUpdate(event.getEntity());
     }
 
     private static void onStartTracking(final StartTracking event)
     {
-        if (event.getEntity() instanceof ServerPlayer player)
+        if (event.getPlayer() instanceof ServerPlayer player)
         {
             final CapabilitySync message = CapabilitySync.makePacket(event.getTarget(), CapabilitySync.TO_SYNC);
             if (message != null) CapabilitySync.ASSEMBLER.sendTo(message, player);

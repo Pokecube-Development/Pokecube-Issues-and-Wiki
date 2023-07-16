@@ -25,7 +25,7 @@ public class PackListener implements PreparableReloadListener
         {
             ((MultiPackResourceManager) manager.resources).namespacedManagers.computeIfAbsent(s, (namespace) -> {
                 return new FallbackResourceManager(PackType.SERVER_DATA, namespace);
-            }).push(pack);
+            }).add(pack);
         }
     }
 

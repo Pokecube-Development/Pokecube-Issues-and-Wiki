@@ -1,0 +1,22 @@
+{
+  "adapt_noise": true,
+  "biomes": "#pokecube_world:has_structure/village_beach",
+  "config": {
+    "avoid_range": 6,
+    "biome_type": "village",
+    "y_settings":{"vertical_offset": -2},
+    "clearances":{"h_clearance": 0},
+    "required_parts": [
+      "pokecenter",
+      "gym"
+    ],
+    "size": 6,
+    "start_pool": "pokecube:village/beach/town_centers",
+    "structures_to_avoid": [
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ]
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

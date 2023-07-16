@@ -11,9 +11,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import thut.core.common.ThutCore;
 
 public class WorldTickManager
@@ -127,10 +127,10 @@ public class WorldTickManager
         holder.removeData(data);
     }
 
-    public static void onWorldLoad(final LevelEvent.Load event)
+    public static void onWorldLoad(final WorldEvent.Load event)
     {
-        if (event.getLevel().isClientSide()) return;
-        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        if (event.getWorld().isClientSide()) return;
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
         final ResourceKey<Level> key = level.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.get(key).detach();
         final WorldData data = new WorldData(level);
@@ -141,31 +141,30 @@ public class WorldTickManager
         WorldTickManager.pathHelpers.put(key, Lists.newArrayList());
     }
 
-    public static void onWorldUnload(final LevelEvent.Unload event)
+    public static void onWorldUnload(final WorldEvent.Unload event)
     {
-        if (event.getLevel().isClientSide()) return;
-        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        if (event.getWorld().isClientSide()) return;
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
         final ResourceKey<Level> key = level.dimension();
         if (WorldTickManager.dataMap.containsKey(key)) WorldTickManager.dataMap.remove(key).detach();
         WorldTickManager.pathHelpers.remove(key);
     }
 
-    public static void onWorldTick(final LevelTickEvent event)
+    public static void onWorldTick(final WorldTickEvent event)
     {
-        if (event.level instanceof ServerLevel)
+        if (event.world instanceof ServerLevel)
         {
-            
             // Uncomment to produce server lag for testing.
-//            if (event.level.getRandom().nextDouble() > 0.9)
+//            if (event.world.getRandom().nextDouble() > 0.9)
 //            {
 //                long start = System.nanoTime();
-//                int wait = event.level.getRandom().nextInt(1000000, 100000000);
+//                int wait = event.world.getRandom().nextInt(1000000, 100000000);
 //                while (System.nanoTime() < start + wait)
 //                {}
 //                System.out.println("FORCED LAGGED: " + (wait / 1e9d));
 //            }
-            
-            final ResourceKey<Level> key = event.level.dimension();
+
+            final ResourceKey<Level> key = event.world.dimension();
             final WorldData data = WorldTickManager.dataMap.get(key);
             if (data == null)
             {

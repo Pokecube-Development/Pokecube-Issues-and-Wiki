@@ -8,11 +8,9 @@ import com.google.common.collect.Lists;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -20,7 +18,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.data.PokedexEntry.EvolutionData;
-import pokecube.compat.jei.Compat;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
 import thut.lib.TComponent;
@@ -65,14 +62,19 @@ public class Category implements IRecipeCategory<Evolution>
     }
 
     @Override
-    public RecipeType<Evolution> getRecipeType()
+    public ResourceLocation getUid()
     {
-        return Compat.evoType;
+        return Category.GUID;
     }
 
     @Override
-    public List<Component> getTooltipStrings(final Evolution recipe, IRecipeSlotsView recipeSlotsView,
-            final double mouseX, final double mouseY)
+    public Class<? extends Evolution> getRecipeClass()
+    {
+        return Evolution.class;
+    }
+
+    @Override
+    public List<Component> getTooltipStrings(final Evolution recipe, final double mouseX, final double mouseY)
     {
         final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);

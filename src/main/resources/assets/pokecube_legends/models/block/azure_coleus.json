@@ -1,8 +1,7 @@
 {
-  "parent": "block/cross",
-  "render_type": "cutout",
-  "textures": {
-    "cross": "pokecube_legends:block/azure_coleus",
+   "parent": "block/cross",
+   "textures": {
+	"cross": "pokecube_legends:block/azure_coleus",
     "particle": "pokecube_legends:block/azure_coleus"
-  }
+   }
 }

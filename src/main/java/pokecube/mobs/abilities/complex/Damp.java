@@ -1,7 +1,7 @@
 package pokecube.mobs.abilities.complex;
 
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.level.ExplosionEvent;
+import net.minecraftforge.event.world.ExplosionEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;

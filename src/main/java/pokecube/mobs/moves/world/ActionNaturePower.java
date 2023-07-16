@@ -16,6 +16,7 @@ import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -27,6 +28,7 @@ import net.minecraft.world.level.biome.Climate;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
@@ -200,7 +202,7 @@ public class ActionNaturePower implements IMoveWorldEffect
                 _biome_ = new ResourceLocation(biome);
                 required.forEach(s -> _required_.add(new ResourceLocation(s)));
             }
-            ResourceKey<Biome> KEY = ResourceKey.create(RegHelper.BIOME_REGISTRY, _biome_);
+            ResourceKey<Biome> KEY = ResourceKey.create(Registry.BIOME_REGISTRY, _biome_);
             final PointChecker checker = new PointChecker(world, new Vector3().set(pos), _predicate_);
             checker.checkPoints();
             if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Checking for " + _biome_);
@@ -333,7 +335,12 @@ public class ActionNaturePower implements IMoveWorldEffect
             boolean mod = false;
             final Vector3 vec = new Vector3().set(pos);
 
-            Climate.Sampler sampler = world.getChunkSource().randomState().sampler();
+            ChunkGenerator generator = world.getChunkSource().getGenerator();
+            Climate.Sampler sampler = generator.climateSampler();
+
+            // 1.19:
+            // Climate.Sampler sampler =
+            // world.getChunkSource().randomState().sampler();
 
             for (int i = -8; i <= 8; i++) for (int j = -8; j <= 8; j++) for (int k = -8; k <= 8; k++)
             {
@@ -362,7 +369,7 @@ public class ActionNaturePower implements IMoveWorldEffect
         if (checker.blocks.size() > 1)
         {
             final Set<ChunkAccess> affected = Sets.newHashSet();
-            final Biome biome = world.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY).get(key);
+            final Biome biome = world.registryAccess().registryOrThrow(Registry.BIOME_REGISTRY).get(key);
             final ServerLevel sWorld = (ServerLevel) world;
             sWorld.getServer().getPlayerList();
             // This needs to use the chunk manager and send the chunkto watching

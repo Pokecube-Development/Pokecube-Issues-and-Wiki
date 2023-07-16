@@ -1,9 +1,0 @@
-{
-    "type": "forge:add_features",
-    "biomes": {
-	  "type": "forge:and",
-	  "values": ["#forge:is_swamp"]
-	},
-    "features": ["pokecube_world:crops_swamps"],
-    "step": "vegetal_decoration"
-  }

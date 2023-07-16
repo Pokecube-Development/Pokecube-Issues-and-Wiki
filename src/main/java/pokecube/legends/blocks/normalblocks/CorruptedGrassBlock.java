@@ -1,14 +1,12 @@
 package pokecube.legends.blocks.normalblocks;
 
 import java.util.List;
+import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -30,8 +28,8 @@ import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.PlantsInit;
-import thut.lib.RegHelper;
 
 public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBlock
 {
@@ -84,7 +82,7 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
+    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
         if (!CorruptedGrassBlock.canBeGrass(state, world, pos))
             world.setBlockAndUpdate(pos, BlockInit.CORRUPTED_DIRT
@@ -111,7 +109,7 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
     }
     
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
     {
         BlockPos posAbove = pos.above();
         BlockState grassState = PlantsInit.CORRUPTED_GRASS.get().defaultBlockState();
@@ -149,8 +147,7 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
 
                  placedFeature = ((RandomPatchConfiguration)list.get(0).config()).feature();
               } else {
-                  placedFeature = world.registryAccess().registryOrThrow(RegHelper.PLACED_FEATURE_REGISTRY)
-                          .getHolderOrThrow(ResourceKey.create(RegHelper.PLACED_FEATURE_REGISTRY, new ResourceLocation("pokecube_legends:corrupted_grass_bonemeal")));
+                 placedFeature = FeaturesInit.PlantPlacements.PATCH_CORRUPTED_GRASS.getHolder().get();
               }
 
               placedFeature.value().place(world, world.getChunkSource().getGenerator(), random, posAbove1);

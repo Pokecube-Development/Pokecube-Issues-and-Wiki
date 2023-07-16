@@ -75,7 +75,7 @@ public class PacketBag extends Packet
         final FriendlyByteBuf clt = inv.makeBuffer();
         final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new LargeContainer(i, p, inv),
                 PacketBag.LARGEENDERBAG);
-        NetworkHooks.openScreen(player, provider, buf -> {
+        NetworkHooks.openGui(player, provider, buf -> {
             buf.writeBytes(clt);
         });
     }

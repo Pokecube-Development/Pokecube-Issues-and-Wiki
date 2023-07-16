@@ -1,5 +1,6 @@
 package pokecube.world.gen.features.trees.foliage;
 
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.mojang.datafixers.Products.P3;
@@ -8,7 +9,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.state.BlockState;
@@ -46,7 +46,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
 
     @Override
     protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
-            RandomSource random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
+            Random random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
             FoliagePlacer.FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
@@ -58,7 +58,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
     }
 
     protected void placeLeafSegment(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
-            RandomSource random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
+            Random random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
         int minRadius = range - yOffset - 2 + ((1 + yOffset) % 2);
@@ -93,13 +93,13 @@ public class PalmFoliagePlacer extends FoliagePlacer
     }
 
     @Override
-    public int foliageHeight(RandomSource random, int height, TreeConfiguration treeConfig)
+    public int foliageHeight(Random random, int height, TreeConfiguration treeConfig)
     {
         return this.height.sample(random);
     }
 
     @Override
-    protected boolean shouldSkipLocation(RandomSource random, int localX, int localY, int localZ, int range, boolean large)
+    protected boolean shouldSkipLocation(Random random, int localX, int localY, int localZ, int range, boolean large)
     {
         return localX == range && localZ == range && (random.nextInt(4) == 0 || localY == 0);
     }

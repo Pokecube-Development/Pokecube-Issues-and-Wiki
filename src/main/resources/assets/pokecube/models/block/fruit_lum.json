@@ -1,5 +1,5 @@
 {
-    "parent": "pokecube:block/berryfruit",
+    "parent": "block/cross",
     "textures": {
         "cross": "pokecube:block/lumfruit"
     }

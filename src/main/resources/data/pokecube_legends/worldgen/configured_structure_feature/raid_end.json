@@ -1,0 +1,22 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/raids/raid_end",
+    "spawn_blacklist": "beaches,oceans,rivers",
+    "spawn_preset": "end_surface",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "y_settings":{"min_y": 45},
+    "avoid_range": 6,
+    "size": 2
+  },
+  "biomes": "#pokecube_world:has_structure/raid_end",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

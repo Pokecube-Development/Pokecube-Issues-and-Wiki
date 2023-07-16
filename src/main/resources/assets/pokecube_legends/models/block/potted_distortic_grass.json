@@ -1,6 +1,5 @@
 {
   "parent": "minecraft:block/flower_pot_cross",
-  "render_type": "cutout",
   "textures": {
     "dirt": "pokecube_legends:block/distortic_grass_block_top",
     "plant": "pokecube_legends:block/potted_distortic_grass"

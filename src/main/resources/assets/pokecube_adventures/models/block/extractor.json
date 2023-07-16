@@ -8,7 +8,6 @@
 		"5": "pokecube_adventures:block/extractor_details",
 		"particle": "pokecube_adventures:block/extractor_side"
 	},
-	"render_type": "translucent",
 	"elements": [
 		{
 			"from": [0, 0, 0],

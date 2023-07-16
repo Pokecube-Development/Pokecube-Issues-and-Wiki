@@ -1,5 +1,4 @@
 {
-    "render_type": "cutout",
     "textures": {
         "all": "pokecube_legends:block/temporal_bamboo_stalk",
         "particle": "pokecube_legends:block/temporal_bamboo_stalk"

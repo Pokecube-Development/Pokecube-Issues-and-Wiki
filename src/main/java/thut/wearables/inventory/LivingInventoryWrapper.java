@@ -5,6 +5,7 @@ import java.util.List;
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.core.NonNullList;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.Nameable;
@@ -57,7 +58,7 @@ public class LivingInventoryWrapper extends SimpleContainer implements Nameable
     @Override
     public Component getName()
     {
-        return Component.translatable("container.inventory");
+        return new TranslatableComponent("container.inventory");
     }
 
     @Override

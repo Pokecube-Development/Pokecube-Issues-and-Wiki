@@ -4,8 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/corner_01",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_savanna",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
       "weight": 3
@@ -14,8 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/corner_03",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -25,8 +23,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/crossroad_02",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -36,8 +33,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/crossroad_03",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -47,8 +43,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/crossroad_04",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -58,8 +53,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/crossroad_05",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -69,8 +63,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/crossroad_06",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -80,8 +73,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/crossroad_07",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -91,8 +83,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/crossroad_berry_farm_01",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:berry_farm_savanna",
         "projection": "terrain_matching"
       },
@@ -102,8 +93,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/split_01",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -113,8 +103,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/split_02",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -124,7 +113,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_02",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -134,7 +123,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_04",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -144,7 +133,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_05",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -154,7 +143,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_06",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -164,7 +153,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_08",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -174,7 +163,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_09",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -184,7 +173,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_10",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -194,7 +183,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_11",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },
@@ -204,7 +193,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_berry_farm_01",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:berry_farm_savanna",
         "projection": "terrain_matching"
       },
@@ -214,7 +203,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_berry_farm_02",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:berry_farm_savanna",
         "projection": "terrain_matching"
       },
@@ -224,7 +213,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/straight_berry_farm_03",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:berry_farm_savanna",
         "projection": "terrain_matching"
       },
@@ -234,8 +223,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/streets/turn_01",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:street_savanna",
         "projection": "terrain_matching"
       },

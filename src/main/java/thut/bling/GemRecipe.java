@@ -124,7 +124,7 @@ public class GemRecipe extends CustomRecipe
         for (int i = 0; i < nonnulllist.size(); ++i)
         {
             final ItemStack item = inv.getItem(i);
-            if (item.hasCraftingRemainingItem()) nonnulllist.set(i, item.getCraftingRemainingItem());
+            if (item.hasContainerItem()) nonnulllist.set(i, item.getContainerItem());
         }
         if (gem.isEmpty())
         {

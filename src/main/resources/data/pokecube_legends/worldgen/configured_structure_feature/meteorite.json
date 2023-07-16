@@ -1,0 +1,13 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:meteorite",
+    "biome_type": "meteor",
+    "height_type": "OCEAN_FLOOR_WG",
+    "spawn_preset": "all",
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/meteorite",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

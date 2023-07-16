@@ -44,7 +44,7 @@ public class PacketPokemobGui extends Packet
             PacketSyncRoutes.sendUpdateClientPacket(target, player, false);
             final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new PokemobContainer(i, p, buffer),
                     target.getDisplayName());
-            NetworkHooks.openScreen(player, provider, buf -> {
+            NetworkHooks.openGui(player, provider, buf -> {
                 buf.writeInt(target.getId());
                 buf.writeByte(mode);
                 buf.writeNbt(toSend.serializeNBT());

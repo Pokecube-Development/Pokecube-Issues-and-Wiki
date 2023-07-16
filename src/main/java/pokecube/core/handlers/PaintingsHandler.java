@@ -1,14 +1,13 @@
 package pokecube.core.handlers;
 
-import net.minecraft.world.entity.decoration.PaintingVariant;
+import net.minecraft.world.entity.decoration.Motive;
 import pokecube.core.PokecubeCore;
 
 public class PaintingsHandler
 {
-
-    public static PaintingVariant createPainting(String id, int width, int height)
+    public static Motive createPainting(String id, int width, int height)
     {
-        final PaintingVariant painting = new PaintingVariant(width, height);
+        final Motive painting = new Motive(width, height);
         return painting;
     }
 

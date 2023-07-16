@@ -1,0 +1,22 @@
+{
+  "adapt_noise": false,
+  "biomes": "#pokecube_world:has_structure/village_jungle",
+  "config": {
+    "avoid_range": 6,
+    "biome_type": "village",
+    "y_settings":{"vertical_offset": -2, "y_check_radius":2, "max_dy": 5},
+    "clearances":{"h_clearance": 0},
+    "required_parts": [
+      "pokecenter"
+    ],
+    "size": 2,
+    "start_pool": "pokecube:village/jungle/small",
+    "structures_to_avoid": [
+      "pokecube:towns",
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ]
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

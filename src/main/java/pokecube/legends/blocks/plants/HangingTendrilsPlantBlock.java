@@ -1,12 +1,13 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -70,7 +71,7 @@ public class HangingTendrilsPlantBlock extends GrowingPlantBodyBlock implements 
    }
 
    @Override
-   public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
+   public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
    {
        world.setBlock(pos, state.setValue(EYES, Boolean.valueOf(true)), 2);
    }

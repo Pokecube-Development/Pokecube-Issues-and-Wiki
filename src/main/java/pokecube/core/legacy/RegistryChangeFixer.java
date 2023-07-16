@@ -1,9 +1,9 @@
 package pokecube.core.legacy;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
@@ -12,10 +12,9 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.event.RegistryEvent.MissingMappings.Mapping;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.registries.ForgeRegistries.Keys;
-import net.minecraftforge.registries.MissingMappingsEvent;
-import net.minecraftforge.registries.MissingMappingsEvent.Mapping;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -45,52 +44,47 @@ public class RegistryChangeFixer
     }
 
     @SubscribeEvent
-    public static void onRegistryMissingEvent(MissingMappingsEvent event)
+    public static void onRegistryMissingItemEvent(RegistryEvent.MissingMappings<Item> event)
     {
-
         // Remap the TMs.
-        if (event.getKey().equals(Keys.ITEMS))
-        {
-            List<Mapping<Item>> mappings = event.getAllMappings(Keys.ITEMS);
-            mappings.forEach(m -> {
-                if (tmNames.contains(m.getKey())) m.remap(PokecubeItems.TM.get());
-            });
-        }
+        ImmutableList<Mapping<Item>> mappings = event.getAllMappings();
+        mappings.forEach(m -> {
+            if (tmNames.contains(m.key)) m.remap(PokecubeItems.TM.get());
+        });
+    }
 
-        // Remap the sounds.
-        if (event.getKey().equals(Keys.SOUND_EVENTS))
-        {
-            List<Mapping<SoundEvent>> mappings = event.getAllMappings(Keys.SOUND_EVENTS);
-            mappings.forEach(m -> {
-                if (m.getKey().getPath().startsWith("mobs.")) m.remap(SoundEvents.PIG_AMBIENT);
-            });
-        }
+    @SubscribeEvent
+    public static void onRegistryMissingSoundEventsEvent(RegistryEvent.MissingMappings<SoundEvent> event)
+    {
+        ImmutableList<Mapping<SoundEvent>> mappings = event.getAllMappings();
+        mappings.forEach(m -> {
+            if (m.key.getPath().startsWith("mobs.")) m.remap(SoundEvents.PIG_AMBIENT);
+        });
+    }
 
-        // Remap the entity types
-        if (event.getKey().equals(Keys.ENTITY_TYPES))
-        {
-            List<Mapping<EntityType<?>>> mappings = event.getAllMappings(Keys.ENTITY_TYPES);
-            mappings.forEach(m -> {
-                if (ENTRY_RENAMES.containsKey(m.getKey()))
-                {
-                    PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.getKey(),
-                            Database.getEntry(ENTRY_RENAMES.get(m.getKey()).getPath()));
-                    m.remap(Database.getEntry(ENTRY_RENAMES.get(m.getKey()).getPath()).getEntityType());
-                }
-                // Otherwise check if maybe it changed to a form? if so, return
-                // type
-                // of new root.
-                else if (Database.formeToEntry.containsKey(m.getKey()))
-                {
-                    PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.getKey(), Database.formeToEntry.get(m.getKey()));
-                    m.remap(Database.formeToEntry.get(m.getKey()).getEntityType());
-                }
-                else
-                {
-                    PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.getKey(), Database.missingno);
-                    m.remap(Database.missingno.getEntityType());
-                }
-            });
-        }
+    @SubscribeEvent
+    public static void onRegistryMissingEntityTypeEvent(RegistryEvent.MissingMappings<EntityType<?>> event)
+    {
+        ImmutableList<Mapping<EntityType<?>>> mappings = event.getAllMappings();
+        mappings.forEach(m -> {
+            if (ENTRY_RENAMES.containsKey(m.key))
+            {
+                PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key,
+                        Database.getEntry(ENTRY_RENAMES.get(m.key).getPath()));
+                m.remap(Database.getEntry(ENTRY_RENAMES.get(m.key).getPath()).getEntityType());
+            }
+            // Otherwise check if maybe it changed to a form? if so, return type
+            // of new root.
+            else if (Database.formeToEntry.containsKey(m.key))
+            {
+                PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key, Database.formeToEntry.get(m.key));
+                m.remap(Database.formeToEntry.get(m.key).getEntityType());
+            }
+            else
+            {
+                PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key, Database.missingno);
+                m.remap(Database.missingno.getEntityType());
+            }
+        });
     }
 }

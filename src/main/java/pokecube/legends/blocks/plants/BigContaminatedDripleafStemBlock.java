@@ -1,14 +1,15 @@
 package pokecube.legends.blocks.plants;
 
 import java.util.Optional;
+import java.util.Random;
 
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
@@ -27,13 +28,12 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.init.BlockInit;
-import thut.lib.RegHelper;
 
 public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         implements BonemealableBlock, SimpleWaterloggedBlock
 {
     // Tag
-    public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(RegHelper.BLOCK_REGISTRY,
+    public static final TagKey<Block> BIG_CONTAMINATED_DRIPLEAF_PLACEABLE = TagKey.create(Registry.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "big_contaminated_dripleaf_placeable"));
     private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     protected static final VoxelShape NORTH_SHAPE = Block.box(4.0D, 0.0D, 8.0D, 12.0D, 16.0D, 16.0D);
@@ -97,7 +97,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         return super.updateShape(state, direction, state1, world, pos, pos1);
     }
 
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random)
     {
         if (!state.canSurvive(world, pos))
         {
@@ -123,7 +123,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     }
 
     @Override
-    public void performBonemeal(ServerLevel world, RandomSource random, BlockPos pos, BlockState state)
+    public void performBonemeal(ServerLevel world, Random random, BlockPos pos, BlockState state)
     {
         Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(world, pos, state.getBlock(), Direction.UP,
                 BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());

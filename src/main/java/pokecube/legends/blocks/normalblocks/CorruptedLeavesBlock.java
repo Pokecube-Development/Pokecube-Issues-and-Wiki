@@ -1,7 +1,8 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -19,7 +20,7 @@ public class CorruptedLeavesBlock extends LeavesBlock
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final RandomSource random)
+    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final Random random)
     {
         if (random.nextInt(16) == 0)
         {

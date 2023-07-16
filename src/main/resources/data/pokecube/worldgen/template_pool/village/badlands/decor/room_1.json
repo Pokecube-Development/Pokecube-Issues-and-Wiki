@@ -4,7 +4,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/badlands/decor/room_1",
-        "int_config": { "extra_child_depth": 3 },
         "processors": "pokecube:generic",
         "projection": "rigid"
       },

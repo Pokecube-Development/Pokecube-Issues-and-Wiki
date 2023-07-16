@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/taiga/terminators/terminator_01",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:street_taiga",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:street_taiga",
         "projection": "terrain_matching"
       },
       "weight": 1

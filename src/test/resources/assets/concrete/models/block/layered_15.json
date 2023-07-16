@@ -4,7 +4,6 @@
         "particle": "#texture",
         "texture": "#texture"
     },
-	"render_type": "translucent",
     "elements": [
         {   "from": [ 0, 0, 0 ],
             "to": [ 16, 15, 16 ],

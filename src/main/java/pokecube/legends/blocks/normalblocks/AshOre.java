@@ -1,11 +1,12 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.BlockParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -27,7 +28,7 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
     }
 
     @Override
-    public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
+    public void tick(BlockState state, ServerLevel world, BlockPos pos, Random random)
     {
         if (isNearWater(world, pos) || world.isRainingAt(pos.above()))
         {
@@ -42,7 +43,7 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random)
     {
         if (!isNearWater(world, pos) && !world.isRainingAt(pos.above()))
         {
@@ -69,7 +70,7 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random)
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
     {
         if (random.nextInt(16) == 0 && state.getValue(WET) == false)
         {

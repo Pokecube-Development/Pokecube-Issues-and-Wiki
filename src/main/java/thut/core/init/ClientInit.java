@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,19 +29,19 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.CustomizeGuiOverlayEvent;
-import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
+import net.minecraftforge.client.event.EntityViewRenderEvent.CameraSetup;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.ViewportEvent.ComputeCameraAngles;
+import net.minecraftforge.event.world.WorldEvent.Load;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -59,7 +60,6 @@ import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.particle.ParticleFactories;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
-import thut.lib.RegHelper;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class ClientInit
@@ -71,16 +71,6 @@ public class ClientInit
         public static void setupClient(final FMLClientSetupEvent event)
         {
             MenuScreens.register(RegistryObjects.NPC_MENU.get(), NpcScreen::new);
-        }
-
-        @SubscribeEvent
-        public static void registerParticles(RegisterParticleProvidersEvent event)
-        {
-            event.register(ThutParticles.AURORA, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.MISC, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
         }
     }
 
@@ -99,8 +89,22 @@ public class ClientInit
                 a);
     }
 
+    private static boolean initParticles = false;
+
     @SubscribeEvent
-    public static void onRenderSetup(ComputeCameraAngles event)
+    public static void startup(final Load event)
+    {
+        if (ClientInit.initParticles) return;
+        ClientInit.initParticles = true;
+        Minecraft.getInstance().particleEngine.register(ThutParticles.AURORA, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.MISC, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
+        Minecraft.getInstance().particleEngine.register(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
+    }
+
+    @SubscribeEvent
+    public static void onRenderSetup(CameraSetup event)
     {
 //        Tracker.timerEnd("render time", 5000);
         Mesh.windowScale = (float) Math.sqrt(Minecraft.getInstance().getWindow().getScreenHeight()
@@ -111,7 +115,7 @@ public class ClientInit
     }
 
     @SubscribeEvent
-    public static void textOverlay(final CustomizeGuiOverlayEvent.DebugText event)
+    public static void textOverlay(final RenderGameOverlayEvent.Text event)
     {
         final boolean debug = Minecraft.getInstance().options.renderDebug;
         if (!debug) return;
@@ -125,14 +129,14 @@ public class ClientInit
         event.getLeft().add("");
         Level level = Minecraft.getInstance().level;
 
-        var regi = level.registryAccess().registry(RegHelper.STRUCTURE_REGISTRY);
+        var regi = level.registryAccess().registry(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
         Set<INamedStructure> structures = StructureManager.getNear(level.dimension(), v.getPos(), 5, true);
         if (regi.isPresent())
         {
             for (var info : structures)
             {
                 Object o = info.getWrapped();
-                if (o instanceof Structure feature)
+                if (o instanceof ConfiguredStructureFeature<?, ?> feature)
                 {
                     var tags = regi.get().getHolderOrThrow(regi.get().getResourceKey(feature).get()).tags().toList();
                     List<ResourceLocation> keys = Lists.newArrayList();

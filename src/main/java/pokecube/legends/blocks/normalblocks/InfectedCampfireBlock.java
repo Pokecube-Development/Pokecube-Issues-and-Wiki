@@ -1,9 +1,10 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -68,22 +69,22 @@ public class InfectedCampfireBlock extends CampfireBlock
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource source)
+    public void animateTick(BlockState state, Level world, BlockPos pos, Random random)
     {
         if (state.getValue(LIT))
         {
-            if (source.nextInt(10) == 0)
+            if (random.nextInt(10) == 0)
             {
                 world.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D,
-                        SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.5F + source.nextFloat(), source.nextFloat() * 0.7F + 0.6F, false);
+                        SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.5F + random.nextFloat(), random.nextFloat() * 0.7F + 0.6F, false);
             }
 
-            if (this.spawnParticles && source.nextInt(5) == 0)
+            if (this.spawnParticles && random.nextInt(5) == 0)
             {
-                for(int i = 0; i < source.nextInt(1) + 1; ++i)
+                for(int i = 0; i < random.nextInt(1) + 1; ++i)
                 {
                     world.addParticle(ParticleInit.INFECTED_SPARK.get(), (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D,
-                            (double)pos.getZ() + 0.5D, (double)(source.nextFloat() / 2.0F), 5.0E-5D, (double)(source.nextFloat() / 2.0F));
+                            (double)pos.getZ() + 0.5D, (double)(random.nextFloat() / 2.0F), 5.0E-5D, (double)(random.nextFloat() / 2.0F));
                 }
             }
         }

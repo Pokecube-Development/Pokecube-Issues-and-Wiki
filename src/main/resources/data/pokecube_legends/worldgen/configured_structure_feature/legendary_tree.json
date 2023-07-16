@@ -1,0 +1,26 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/legendary_tree",
+    "spawn_blacklist": "oceans,beaches,rivers",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "y_settings":{"max_dy": 5, "min_y": 63, "y_check_radius": 2},
+    "avoid_range": 6,
+    "size": 4,
+    "avoidances":{
+      "flags": ["temple", "legendary_tree"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"legendary_tree","distance":256}]
+    }
+  },
+  "biomes": "#pokecube_world:has_structure/legendary_tree",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

@@ -1,0 +1,19 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube:village/plains/small",
+    "required_parts": ["pokecenter"],
+    "spawn_blacklist": "snowy_areas",
+    "avoid_range": 6,
+    "biome_type": "village",
+    "structures_to_avoid": [
+      "pokecube:towns",
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ],
+    "size": 3
+  },
+  "biomes": "#pokecube_world:has_structure/village_plains",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

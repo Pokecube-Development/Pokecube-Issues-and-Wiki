@@ -17,7 +17,6 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraftforge.common.MinecraftForge;
@@ -163,7 +162,7 @@ public class WormholeSpawns implements IWorldTickListener
 
         final double rate = WormholeSpawns.randomWormholeChance;
         final double distance = WormholeSpawns.randomWormholeDistance;
-        final RandomSource rand = world.getRandom();
+        final Random rand = world.getRandom();
         if (rand.nextDouble() > rate) return;
 
         final double wormholeSpacing = WormholeSpawns.randomWormholeSpacing;

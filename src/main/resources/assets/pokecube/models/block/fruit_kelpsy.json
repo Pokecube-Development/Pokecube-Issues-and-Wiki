@@ -4,7 +4,6 @@
 		"particle": "pokecube:block/kelpsy_fruit",
 		"kelpsy": "pokecube:block/kelpsy_fruit"
 	},
-	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "stem",

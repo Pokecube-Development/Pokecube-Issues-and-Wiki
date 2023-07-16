@@ -25,18 +25,15 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
 {
     private final Object2ObjectOpenHashMap<String, Pair<ResourceLocation, BoatModel>> boatResources = new Object2ObjectOpenHashMap<>();
 
-    public GenericBoatRenderer(EntityRendererProvider.Context context, boolean chest)
+    public GenericBoatRenderer(EntityRendererProvider.Context context)
     {
         super(context);
         this.shadowRadius = 0.8F;
         GenericBoat.getTypes().forEach(type -> {
             String modid = RegHelper.getKey(type.item().get()).getNamespace();
-            if (chest) boatResources.put(type.name(),
-                    Pair.of(new ResourceLocation(modid, "textures/entity/chest_boat/" + type.name() + ".png"),
-                            new BoatModel(context.bakeLayer(createChestBoatModelName(modid, type)), chest)));
-            else boatResources.put(type.name(),
+            boatResources.put(type.name(),
                     Pair.of(new ResourceLocation(modid, "textures/entity/boat/" + type.name() + ".png"),
-                            new BoatModel(context.bakeLayer(createBoatModelName(modid, type)), chest)));
+                            new BoatModel(context.bakeLayer(createBoatModelName(modid, type)))));
         });
 
     }
@@ -44,11 +41,6 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
     public static ModelLayerLocation createBoatModelName(String modid, BoatType type)
     {
         return new ModelLayerLocation(new ResourceLocation(modid, "boat/" + type.name()), "main");
-    }
-
-    public static ModelLayerLocation createChestBoatModelName(String modid, BoatType type)
-    {
-        return new ModelLayerLocation(new ResourceLocation(modid, "chest_boat/" + type.name()), "main");
     }
 
     @Override

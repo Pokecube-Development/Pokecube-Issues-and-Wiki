@@ -1,6 +1,5 @@
 {
 	"credit": "Made with Blockbench",
-	"render_type": "cutout",
 	"textures": {
 		"1": "pokecube_legends:block/cramomatic_front",
 		"2": "pokecube_legends:block/cramomatic_side",

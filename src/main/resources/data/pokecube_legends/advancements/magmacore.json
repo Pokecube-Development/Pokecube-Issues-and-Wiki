@@ -21,31 +21,24 @@
     "hidden": false
   },
   "criteria": {
-    "requirement": {
+    "touch": {
       "trigger": "minecraft:location",
       "conditions": {
-        "player": [
-          {
-            "condition": "minecraft:location_check",
-            "predicate": {
-              "position": {
-                "x": {
-                  "min": 0,
-                  "max": 300
-                },
-                "y": {
-                  "min": 5,
-                  "max": 5
-                },
-                "z": {
-                  "min": 0,
-                  "max": 300
-                }
-              },
-              "dimension": "minecraft:the_nether"
-            }
+        "dimension": "the_nether",
+        "position": {
+          "x": {
+            "min": 0,
+            "max": 300
+          },
+          "y": {
+            "min": 5,
+            "max": 5
+          },
+          "z": {
+            "min": 0,
+            "max": 300
           }
-        ]
+        }
       }
     }
   },

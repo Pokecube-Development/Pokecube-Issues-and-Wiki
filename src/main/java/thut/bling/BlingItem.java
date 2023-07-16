@@ -29,7 +29,7 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.client.IItemRenderProperties;
 import thut.bling.client.BlingitemRenderer;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
@@ -83,14 +83,14 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     }
 
     @Override
-    public void initializeClient(Consumer<IClientItemExtensions> consumer)
+    public void initializeClient(Consumer<IItemRenderProperties> consumer)
     {
-        consumer.accept(new IClientItemExtensions()
+        consumer.accept(new IItemRenderProperties()
         {
             private final BlockEntityWithoutLevelRenderer renderer = BlingitemRenderer.INSTANCE;
 
             @Override
-            public BlockEntityWithoutLevelRenderer getCustomRenderer()
+            public BlockEntityWithoutLevelRenderer getItemStackRenderer()
             {
                 return this.renderer;
             }

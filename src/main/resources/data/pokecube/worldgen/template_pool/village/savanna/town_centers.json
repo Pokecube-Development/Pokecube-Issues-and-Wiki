@@ -4,7 +4,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/town_centers/center_1",
-        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -14,7 +13,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/town_centers/center_2",
-        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -24,7 +22,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/town_centers/center_3",
-        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -34,7 +31,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/town_centers/center_4",
-        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -44,7 +40,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/town_centers/center_oran_tree",
-        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },
@@ -54,7 +49,6 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/savanna/town_centers/center_pomeg_tree",
-        "flags":"street_corner",
         "processors": "pokecube:generic",
         "projection": "rigid"
       },

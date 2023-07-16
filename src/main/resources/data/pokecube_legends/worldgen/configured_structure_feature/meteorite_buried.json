@@ -1,0 +1,14 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:meteorite_buried",
+    "biome_type": "industrial",
+    "y_settings":{"dy_offset": -3, "surface_type": "underground", "vertical_offset": -5},
+    "height_type": "OCEAN_FLOOR_WG",
+    "spawn_preset": "all",
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/meteorite",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

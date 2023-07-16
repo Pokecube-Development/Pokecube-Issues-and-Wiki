@@ -6,6 +6,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.TamableAnimal;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
@@ -56,7 +57,7 @@ public abstract class PokemobCombat extends PokemobBase
                         && this.level.getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT))
                 && this.pokemobCap.getOwnerId() == null)
         {
-            int i = this.getExperienceReward();
+            int i = this.getExperienceReward(this.lastHurtByPlayer);
             i = net.minecraftforge.event.ForgeEventFactory.getExperienceDrop(this, this.lastHurtByPlayer, i);
             while (i > 0)
             {
@@ -69,7 +70,7 @@ public abstract class PokemobCombat extends PokemobBase
 
     @Override
     /** Get the experience points the entity currently has. */
-    public int getExperienceReward()
+    protected int getExperienceReward(final Player player)
     {
         final float scale = (float) PokecubeCore.getConfig().expFromDeathDropScale;
         final int exp = (int) Math.max(1,

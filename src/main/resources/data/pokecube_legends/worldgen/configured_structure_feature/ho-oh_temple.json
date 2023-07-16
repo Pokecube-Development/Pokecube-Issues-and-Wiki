@@ -1,0 +1,25 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/ho-oh_temple",
+    "spawn_blacklist": "oceans,beaches,rivers",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "avoid_range": 6,
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "ho-oh_temple"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"ho-oh_temple","distance":256}]
+    }
+  },
+  "biomes": "#pokecube_world:has_structure/ho-oh_temple",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

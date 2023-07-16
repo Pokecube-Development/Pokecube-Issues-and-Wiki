@@ -2,6 +2,7 @@
   "temperature": 2.0,
   "downfall": 0.0,
   "precipitation": "none",
+  "category": "mesa",
   "effects": {
     "sky_color": 2233156,
     "fog_color": 3670863,

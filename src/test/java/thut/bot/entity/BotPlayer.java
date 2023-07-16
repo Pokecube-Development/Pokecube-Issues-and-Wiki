@@ -10,15 +10,14 @@ import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
 
+import io.netty.util.concurrent.Future;
+import io.netty.util.concurrent.GenericFutureListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
-import net.minecraft.network.PacketSendListener;
-import net.minecraft.network.chat.ChatMessageContent;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.PlayerChatMessage;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
 import net.minecraft.server.MinecraftServer;
@@ -51,7 +50,7 @@ public class BotPlayer extends ServerPlayer implements Npc
 
     public BotPlayer(final ServerLevel world, final GameProfile profile)
     {
-        super(world.getServer(), world, profile, null);
+        super(world.getServer(), world, profile);
         this.connection = new BotPlayerNetHandler(world.getServer(), this);
         entry = ThutBot.BOT_MAP.get(profile.getId());
         try
@@ -139,7 +138,7 @@ public class BotPlayer extends ServerPlayer implements Npc
         ServerPlayer talker = event.getPlayer();
         if (talker instanceof BotPlayer) return;
 
-        String cmd = event.getMessage().getString();
+        String cmd = event.getMessage();
 
         boolean isOrder = cmd.contains(this.getName().getString());
 
@@ -236,9 +235,13 @@ public class BotPlayer extends ServerPlayer implements Npc
 
     public void chat(String message)
     {
+        Component component = message.isEmpty() ? null
+                : TComponent.translatable("chat.type.text", this.getDisplayName(), message);
         Component component1 = TComponent.translatable("chat.type.text", this.getDisplayName(), message);
-        PlayerChatMessage message2 = PlayerChatMessage.system(new ChatMessageContent(message, component1));
-        this.server.getPlayerList().broadcastChatMessage(message2, this, ChatType.bind(ChatType.CHAT, this));
+        Component finalComponent = component1;
+        this.server.getPlayerList().broadcastMessage(component1, (player) -> {
+            return this.shouldFilterMessageTo(player) ? component : finalComponent;
+        }, ChatType.CHAT, this.getUUID());
     }
 
     private static class BotPlayerNetHandler extends ServerGamePacketListenerImpl
@@ -252,8 +255,8 @@ public class BotPlayer extends ServerPlayer implements Npc
 
     //@formatter:off See FakePlayer for more things to overrige here if needed
         @Override public void disconnect(final Component message) { }
-        @Override public void send(Packet<?> packet) { }
-        @Override public void send(Packet<?> packet, @Nullable PacketSendListener sendListener) { }
+        @Override public void send(final Packet<?> packet) { }
+        @Override public void send(final Packet<?> packet, @Nullable final GenericFutureListener<? extends Future<? super Void>> listener) { }
     //@formatter:on
     }
 }

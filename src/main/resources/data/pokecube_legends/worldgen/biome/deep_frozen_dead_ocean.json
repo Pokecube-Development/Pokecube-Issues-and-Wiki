@@ -3,6 +3,7 @@
   "temperature": 0.5,
   "downfall": 0.5,
   "precipitation": "rain",
+  "category": "ocean",
   "effects": {
     "sky_color": 2829099,
     "fog_color": 4539717,

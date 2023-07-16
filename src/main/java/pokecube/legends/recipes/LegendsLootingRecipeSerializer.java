@@ -16,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistryEntry;
 import thut.lib.RegHelper;
 
 public class LegendsLootingRecipeSerializer implements Recipe<Container>
@@ -92,7 +93,7 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container>
         return ItemStack.EMPTY;
     }
 
-    public static class SerializerLooting
+    public static class SerializerLooting extends ForgeRegistryEntry<RecipeSerializer<?>>
             implements RecipeSerializer<LegendsLootingRecipeSerializer>
     {
         @Override

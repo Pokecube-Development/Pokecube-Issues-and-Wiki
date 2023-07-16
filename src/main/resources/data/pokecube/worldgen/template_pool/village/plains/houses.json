@@ -46,7 +46,7 @@
         "processors": "pokecube:mossify_20_percent_no_waterlog",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"only_once": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "flags": "pokecenter",
         "projection": "rigid"
       }
@@ -58,7 +58,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:decay_10_percent",
         "bool_config": {"only_once": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "projection": "rigid",
         "flags": "gym"
       }

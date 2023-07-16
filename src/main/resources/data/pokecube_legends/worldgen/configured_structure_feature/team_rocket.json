@@ -1,0 +1,28 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:team_bases/team_rocket",
+    "biome_type": "industrial",
+    "spawn_blacklist": "oceans,beaches,rivers",
+    "required_parts": ["entrance", "boss"],
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "y_settings":{"max_dy": 14, "y_check_radius": 3},
+    "avoid_range": 6,
+    "size": 12,
+    "avoidances":{
+      "flags": ["team_bases", "team_rocket"],
+      "avoidances": [{"name":"team_bases","distance":12}, {"name":"temple","distance":2}, {"name":"team_rocket","distance":80}]
+    }
+  },
+  "biomes": "#pokecube_world:has_structure/team_rocket",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

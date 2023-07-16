@@ -5,7 +5,6 @@
 		"particle": "pokecube:block/dynamax",
 		"dynamax": "pokecube:block/dynamax"
 	},
-	"render_type": "cutout_mipped",
 	"elements": [
 		{
 			"name": "base",

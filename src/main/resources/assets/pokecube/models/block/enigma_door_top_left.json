@@ -1,9 +1,0 @@
-{
-  "parent": "minecraft:block/door_top_left",
-  "render_type": "cutout",
-  "render_type": "cutout",
-  "textures": {
-    "top": "pokecube:block/enigma_door_top",
-    "bottom": "pokecube:block/enigma_door_bottom"
-  }
-}

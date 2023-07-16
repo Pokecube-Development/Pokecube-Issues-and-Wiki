@@ -1,9 +1,0 @@
-{
-    "type": "forge:add_features",
-    "biomes": {
-	  "type": "forge:and",
-	  "values": ["minecraft:end_highlands"]
-	},
-    "features": ["pokecube_world:trees_end_berries"],
-    "step": "vegetal_decoration"
-  }

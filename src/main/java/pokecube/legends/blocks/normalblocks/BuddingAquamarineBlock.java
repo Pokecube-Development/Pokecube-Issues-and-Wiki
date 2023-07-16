@@ -1,9 +1,10 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.AmethystClusterBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BuddingAmethystBlock;
@@ -22,7 +23,7 @@ public class BuddingAquamarineBlock extends BuddingAmethystBlock
     }
 
     @Override
-    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random)
+    public void randomTick(BlockState state, ServerLevel world, BlockPos pos, Random random)
     {
        if (random.nextInt(5) == 0)
        {

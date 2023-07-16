@@ -1,7 +1,6 @@
 {
 	"credit": "Made with Blockbench",
 	"ambientocclusion": false,
-	"render_type": "cutout",
 	"textures": {
 		"petals": "pokecube_legends:block/pink_blossom_lily",
 		"pollen": "pokecube_legends:block/pink_blossom_lily_pollen",

@@ -7,7 +7,7 @@
       "element": {
         "location": "pokecube_legends:distorted/tree_island_1",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:generic",
         "projection": "rigid"
       }
@@ -17,7 +17,7 @@
       "element": {
         "location": "pokecube_legends:distorted/tree_island_2",
         "element_type": "pokecube:expanded_pool_element",
-        "bool_config": { "no_affect_noise": true },
+        "bool_config": {"no_affect_noise":true},
         "processors": "pokecube:generic",
         "projection": "rigid"
       }

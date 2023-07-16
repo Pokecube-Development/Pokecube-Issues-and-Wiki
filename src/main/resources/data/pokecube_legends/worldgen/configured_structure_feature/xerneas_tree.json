@@ -1,0 +1,25 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/xerneas_tree",
+    "spawn_blacklist": "beaches,oceans,rivers",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "avoid_range": 6,
+    "size": 7,
+    "avoidances":{
+      "flags": ["temple", "xerneas_tree"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"xerneas_tree","distance":256}]
+    }
+  },
+  "biomes": "#pokecube_world:has_structure/xerneas_tree",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

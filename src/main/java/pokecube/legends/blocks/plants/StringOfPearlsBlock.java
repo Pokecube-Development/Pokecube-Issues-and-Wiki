@@ -1,12 +1,13 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.Mth;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -38,7 +39,7 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
                 .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(false)));
     }
 
-    public int getBlocksToGrowWhenBonemealed(final RandomSource random)
+    public int getBlocksToGrowWhenBonemealed(final Random random)
     {
         return 1;
     }
@@ -56,13 +57,13 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
 
     @Override
-    public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos,
+    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos,
             final BlockState state)
     {
         world.setBlock(pos, state.setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(true)), 2);
@@ -87,7 +88,7 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
 
     @SuppressWarnings("deprecation")
     @Override
-    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
+    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
         if (world.random.nextInt(4) == 0 && world.isAreaLoaded(pos, 4))
         {
@@ -183,7 +184,7 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
         }
     }
 
-    public BlockState copyRandomFaces(final BlockState state, BlockState state1, final RandomSource random)
+    public BlockState copyRandomFaces(final BlockState state, BlockState state1, final Random random)
     {
         for (final Direction direction : Direction.Plane.HORIZONTAL)
             if (random.nextBoolean())

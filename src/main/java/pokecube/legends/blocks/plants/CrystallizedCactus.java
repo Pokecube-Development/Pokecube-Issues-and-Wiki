@@ -1,12 +1,13 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -43,7 +44,7 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
     }
 
     @Override
-    public void tick(final BlockState state, final ServerLevel server, final BlockPos pos, final RandomSource random)
+    public void tick(final BlockState state, final ServerLevel server, final BlockPos pos, final Random random)
     {
         if (!server.isPositionEntityTicking(pos)) return;
         if (!state.canSurvive(server, pos)) server.destroyBlock(pos, true);
@@ -83,7 +84,7 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 
 	@Nullable
 	@Override
-	public BlockPathTypes getBlockPathType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
+	public BlockPathTypes getAiPathNodeType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
 	{
 		return BlockPathTypes.DAMAGE_CACTUS;
 	}

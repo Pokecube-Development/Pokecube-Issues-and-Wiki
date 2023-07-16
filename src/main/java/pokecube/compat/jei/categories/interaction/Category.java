@@ -9,18 +9,15 @@ import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.builder.IRecipeSlotBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.compat.jei.Compat;
 import pokecube.compat.jei.ingredients.Pokemob;
 import pokecube.core.PokecubeItems;
 import thut.lib.TComponent;
@@ -64,14 +61,19 @@ public class Category implements IRecipeCategory<InteractRecipe>
     }
 
     @Override
-    public RecipeType<InteractRecipe> getRecipeType()
+    public ResourceLocation getUid()
     {
-        return Compat.interactType;
+        return Category.GUID;
     }
 
     @Override
-    public List<Component> getTooltipStrings(final InteractRecipe recipe, IRecipeSlotsView recipeSlotsView,
-            final double mouseX, final double mouseY)
+    public Class<? extends InteractRecipe> getRecipeClass()
+    {
+        return InteractRecipe.class;
+    }
+
+    @Override
+    public List<Component> getTooltipStrings(final InteractRecipe recipe, final double mouseX, final double mouseY)
     {
         final List<Component> tooltips = Lists.newArrayList();
         final Rectangle arrow = new Rectangle(44, 18, 32, 17);
@@ -90,7 +92,7 @@ public class Category implements IRecipeCategory<InteractRecipe>
         if (recipe.to != null) outputSlot.addIngredient(Pokemob.TYPE, recipe.to);
         else if (!recipe.interaction.stacks.isEmpty())
         {
-            outputSlot.addIngredients(VanillaTypes.ITEM_STACK, recipe.interaction.stacks);
+            outputSlot.addIngredients(VanillaTypes.ITEM, recipe.interaction.stacks);
         }
 
         IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 18);

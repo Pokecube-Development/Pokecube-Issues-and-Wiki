@@ -1,6 +1,5 @@
 {
   "parent": "block/cross",
-  "render_type": "cutout",
   "textures": {
     "cross": "pokecube_legends:block/inverted_orchid",
     "particle": "pokecube_legends:block/inverted_orchid"

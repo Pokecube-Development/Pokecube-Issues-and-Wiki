@@ -9,7 +9,7 @@
         "processors": "pokecube_legends:meteorite_cosmic_ore",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true,"water_terrain_match": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "projection": "terrain_matching"
       }
     },
@@ -20,7 +20,7 @@
         "processors": "pokecube_legends:meteorite_cosmic_ore",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true,"water_terrain_match": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "projection": "terrain_matching"
       }
     },
@@ -31,7 +31,7 @@
         "processors": "pokecube_legends:meteorite_cosmic_ore",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true,"water_terrain_match": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "projection": "terrain_matching"
       }
     },
@@ -42,7 +42,7 @@
         "processors": "pokecube_legends:meteorite_cosmic_ore",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true,"water_terrain_match": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "projection": "terrain_matching"
       }
     },
@@ -53,7 +53,7 @@
         "processors": "pokecube_legends:meteorite_cosmic_ore",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true,"water_terrain_match": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "projection": "terrain_matching"
       }
     },
@@ -64,7 +64,7 @@
         "processors": "pokecube_legends:meteorite_cosmic_ore",
         "element_type": "pokecube:expanded_pool_element",
         "bool_config": {"no_affect_noise":true,"water_terrain_match": true},
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "projection": "terrain_matching"
       }
     }

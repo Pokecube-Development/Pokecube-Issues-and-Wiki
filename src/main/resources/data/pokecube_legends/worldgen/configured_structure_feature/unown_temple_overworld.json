@@ -1,0 +1,20 @@
+{
+  "adapt_noise": false,
+  "biomes": "#pokecube_world:has_structure/unown_temple_overworld",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/unown_temple",
+    "structures_to_avoid": [
+      "pokecube:towns",
+      "pokecube:villages"
+    ],
+    "y_settings":{"vertical_offset": -50},
+    "avoid_range": 6,
+    "size": 8,
+    "avoidances":{
+      "flags": ["unown_temple"],
+      "avoidances": [{"name":"unown_temple","distance":256}]
+    }
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

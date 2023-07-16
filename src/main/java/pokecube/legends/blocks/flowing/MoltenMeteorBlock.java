@@ -1,24 +1,20 @@
 package pokecube.legends.blocks.flowing;
 
 import java.lang.reflect.Array;
+import java.util.Random;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.FluidState;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.legends.init.FluidInit;
 import thut.api.block.flowing.FlowingBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.api.block.flowing.SolidBlock;
@@ -58,18 +54,9 @@ public class MoltenMeteorBlock extends MoltenBlock
     }
 
     @Override
-    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, RandomSource random)
+    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, Random random)
     {
         super.onHarden(state, solidTo, level, pos, random);
-    }
-
-    @Override
-    public FluidState getFluidState(BlockState state)
-    {
-        if (isFalling(state)) return Fluids.EMPTY.defaultFluidState();
-        int amt = this.getAmount(state);
-        if (amt < 2) amt = 2;
-        return FluidInit.MOLTEN_METEORITE_FLOWING.get().defaultFluidState().setValue(FlowingFluid.LEVEL, amt / 2);
     }
     
     public static class FullMolten extends MoltenMeteorBlock

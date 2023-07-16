@@ -101,12 +101,6 @@ public final class PacketAssembly<T extends NBTPacket>
 
     protected CompoundTag onRead(final CompoundTag tag)
     {
-        if (tag == null)
-        {
-            ThutCore.LOGGER.error("Error with bad packet!", new IllegalStateException());
-            return null;
-        }
-
         final UUID id = tag.getUUID("id");
         final CompoundTag made = this.assemblePacket(id, tag);
         return made;

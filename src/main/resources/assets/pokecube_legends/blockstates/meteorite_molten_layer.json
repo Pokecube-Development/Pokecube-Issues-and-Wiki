@@ -5,7 +5,7 @@
         "falling": "true"
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_pile"
+        "model": "pokecube_legends:block/molten_air"
       }
     },
     {
@@ -14,7 +14,7 @@
         "layers": 16
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_block"
+        "model": "pokecube_legends:block/molten_block"
       }
     },
     {
@@ -23,7 +23,7 @@
         "layers": 1
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_1"
+        "model": "pokecube_legends:block/molten_1"
       }
     },
     {
@@ -32,7 +32,7 @@
         "layers": 2
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_2"
+        "model": "pokecube_legends:block/molten_2"
       }
     },
     {
@@ -41,7 +41,7 @@
         "layers": 3
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_3"
+        "model": "pokecube_legends:block/molten_3"
       }
     },
     {
@@ -50,7 +50,7 @@
         "layers": 4
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_4"
+        "model": "pokecube_legends:block/molten_4"
       }
     },
     {
@@ -59,7 +59,7 @@
         "layers": 5
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_5"
+        "model": "pokecube_legends:block/molten_5"
       }
     },
     {
@@ -68,7 +68,7 @@
         "layers": 6
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_6"
+        "model": "pokecube_legends:block/molten_6"
       }
     },
     {
@@ -77,7 +77,7 @@
         "layers": 7
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_7"
+        "model": "pokecube_legends:block/molten_7"
       }
     },
     {
@@ -86,7 +86,7 @@
         "layers": 8
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_8"
+        "model": "pokecube_legends:block/molten_8"
       }
     },
     {
@@ -95,7 +95,7 @@
         "layers": 9
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_9"
+        "model": "pokecube_legends:block/molten_9"
       }
     },
     {
@@ -104,7 +104,7 @@
         "layers": 10
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_10"
+        "model": "pokecube_legends:block/molten_10"
       }
     },
     {
@@ -113,7 +113,7 @@
         "layers": 11
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_11"
+        "model": "pokecube_legends:block/molten_11"
       }
     },
     {
@@ -122,7 +122,7 @@
         "layers": 12
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_12"
+        "model": "pokecube_legends:block/molten_12"
       }
     },
     {
@@ -131,7 +131,7 @@
         "layers": 13
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_13"
+        "model": "pokecube_legends:block/molten_13"
       }
     },
     {
@@ -140,7 +140,7 @@
         "layers": 14
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_14"
+        "model": "pokecube_legends:block/molten_14"
       }
     },
     {
@@ -149,7 +149,7 @@
         "layers": 15
       },
       "apply": {
-        "model": "pokecube_legends:block/molten_meteorite_15"
+        "model": "pokecube_legends:block/molten_15"
       }
     }
   ]

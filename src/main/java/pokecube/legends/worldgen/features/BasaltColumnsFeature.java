@@ -1,14 +1,16 @@
 package pokecube.legends.worldgen.features;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -18,11 +20,10 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ColumnFeatureConfiguration;
 import pokecube.legends.Reference;
-import thut.lib.RegHelper;
 
 public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
 {
-    public static final TagKey<Block> FEATURES_CANNOT_PLACE_ON = TagKey.create(RegHelper.BLOCK_REGISTRY,
+    public static final TagKey<Block> FEATURES_CANNOT_PLACE_ON = TagKey.create(Registry.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "features_cannot_place_on"));
 
     private static final int CLUSTERED_REACH = 5;
@@ -41,7 +42,7 @@ public class BasaltColumnsFeature extends Feature<ColumnFeatureConfiguration>
         final int i = context.chunkGenerator().getSeaLevel();
         final BlockPos pos = context.origin();
         final WorldGenLevel world = context.level();
-        final RandomSource random = context.random();
+        final Random random = context.random();
         final ColumnFeatureConfiguration conlumnConfig = context.config();
         if (!BasaltColumnsFeature.canPlaceAt(world, i, pos.mutable())) return false;
         else

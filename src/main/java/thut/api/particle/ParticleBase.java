@@ -131,7 +131,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
 
         for (int i = 0; i < 4; ++i)
         {
-            final Vector3f vector3f = verts[i];
+            final com.mojang.math.Vector3f vector3f = verts[i];
             vector3f.transform(quaternion);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);

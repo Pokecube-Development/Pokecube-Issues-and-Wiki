@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -95,5 +96,8 @@ public class ClientHandler
     public static void setupClient(final FMLClientSetupEvent event)
     {
         MinecraftForge.EVENT_BUS.register(BoundRenderer.class);
+
+        ItemBlockRenderTypes.setRenderLayer(TechCore.LIFTCONTROLLER.get(), t -> (t == RenderType.translucent()
+                || t == RenderType.cutoutMipped()));
     }
 }

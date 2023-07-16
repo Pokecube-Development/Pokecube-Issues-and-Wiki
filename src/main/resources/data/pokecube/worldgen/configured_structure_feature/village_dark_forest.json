@@ -1,0 +1,21 @@
+{
+  "adapt_noise": true,
+  "biomes": "#pokecube_world:has_structure/village_dark_forest",
+  "config": {
+    "avoid_range": 6,
+    "spawn_preset": "spooky_areas",
+    "biome_type": "village",
+    "required_parts": [
+      "pokecenter"
+    ],
+    "size": 3,
+    "start_pool": "pokecube:village/dark_forest/small",
+    "structures_to_avoid": [
+      "pokecube:towns",
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ]
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

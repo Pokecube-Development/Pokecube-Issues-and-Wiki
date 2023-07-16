@@ -1,9 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#pokecube_world:is_ultraspace/is_badlands",
-    "#pokecube_world:is_ultraspace/is_crystallized",
-    "#pokecube_world:is_ultraspace/is_jungle",
-    "pokecube_legends:crystallized_beach"
-  ]
-}

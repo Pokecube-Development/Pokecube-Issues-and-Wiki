@@ -26,14 +26,13 @@ public class Professions
 
     static
     {
-        HEALER = PokecubeAdv.PROFESSIONS.register("healer",
-                () -> new VillagerProfession("pokecube_adventures:healer", pokecube.core.ai.poi.PointsOfInterest.HEALER,
-                        pokecube.core.ai.poi.PointsOfInterest.HEALER, ImmutableSet.of(), ImmutableSet.of(), null));
+        HEALER = PokecubeAdv.PROFESSIONS.register("healer", () -> new VillagerProfession("pokecube_adventures:healer",
+                pokecube.core.ai.poi.PointsOfInterest.HEALER.get(), ImmutableSet.of(), ImmutableSet.of(), null));
         PROFESSOR = PokecubeAdv.PROFESSIONS.register("professor",
-                () -> new VillagerProfession("pokecube_adventures:professor", PointsOfInterest.GENELAB,
-                        PointsOfInterest.GENELAB, ImmutableSet.of(), ImmutableSet.of(), null));
+                () -> new VillagerProfession("pokecube_adventures:professor", PointsOfInterest.GENELAB.get(),
+                        ImmutableSet.of(), ImmutableSet.of(), null));
         MERCHANT = PokecubeAdv.PROFESSIONS.register("trader", () -> new VillagerProfession("pokecube_adventures:trader",
-                PointsOfInterest.TRADER, PointsOfInterest.TRADER, ImmutableSet.of(), ImmutableSet.of(), null));
+                PointsOfInterest.TRADER.get(), ImmutableSet.of(), ImmutableSet.of(), null));
     }
 
     public static void init()

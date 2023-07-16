@@ -1,8 +1,0 @@
-{
-  "replace": false,
-  "values": [
-    "#pokecube_world:is_ultraspace/is_barrens",
-    "#pokecube_world:is_ultraspace/is_ocean",
-    "#pokecube_world:is_ultraspace/is_river"
-  ]
-}

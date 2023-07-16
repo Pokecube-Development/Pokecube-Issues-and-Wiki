@@ -1,0 +1,26 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/regirock_temple",
+    "spawn_blacklist": "oceans,rivers,beaches,badlands",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "y_settings":{"max_dy": 5, "y_check_radius": 1},
+    "avoid_range": 6,
+    "size": 2,
+    "avoidances":{
+      "flags": ["regi_temple", "regirock_temple"],
+      "avoidances": [{"name":"regi_temple","distance":8}, {"name":"temple","distance":4}, {"name":"regirock_temple","distance":160}]
+    }
+  },
+  "biomes": "#pokecube_world:has_structure/regirock_temple",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

@@ -8,8 +8,8 @@
         "location": "pokecube_legends:team_bases/team_rocket/terminators/room_8",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid"
       }
     },
@@ -19,8 +19,8 @@
         "location": "pokecube_legends:team_bases/team_rocket/terminators/bedroom",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid"
       }
     },
@@ -30,8 +30,8 @@
         "location": "pokecube_legends:team_bases/team_rocket/terminators/fish_tank",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid"
       }
     },
@@ -41,8 +41,8 @@
         "location": "pokecube_legends:team_bases/team_rocket/terminators/closet",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid"
       }
     },
@@ -52,8 +52,8 @@
         "location": "pokecube_legends:team_bases/team_rocket/terminators/end",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid"
       }
     },
@@ -63,8 +63,8 @@
         "location": "pokecube_legends:team_bases/team_rocket/terminators/upstairs_end",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid"
       }
     },
@@ -74,8 +74,8 @@
         "location": "pokecube_legends:team_bases/team_rocket/terminators/downstairs_end",
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic_ladders_no_waterlog",
-        "bool_config": { "no_affect_noise": true },
-        "int_config": { "space_below": 0 },
+        "bool_config": {"no_affect_noise":true},
+        "int_config":{"space_below":0},
         "projection": "rigid"
       }
     }

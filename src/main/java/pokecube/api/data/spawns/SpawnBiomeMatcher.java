@@ -13,14 +13,11 @@ import javax.annotation.Nullable;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.RegistryCodecs;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -38,7 +35,6 @@ import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.level.terrain.BiomeDatabase;
 import thut.api.level.terrain.BiomeType;
-import thut.lib.RegHelper;
 
 public class SpawnBiomeMatcher
 {
@@ -158,11 +154,11 @@ public class SpawnBiomeMatcher
             try
             {
                 var reg = ServerLifecycleHooks.getCurrentServer().registryAccess()
-                        .registryOrThrow(RegHelper.BIOME_REGISTRY);
+                        .registryOrThrow(Registry.BIOME_REGISTRY);
 
                 for (final ResourceLocation test : reg.keySet())
                 {
-                    var holder = reg.getHolderOrThrow(ResourceKey.create(RegHelper.BIOME_REGISTRY, test));
+                    var holder = reg.getHolderOrThrow(ResourceKey.create(Registry.BIOME_REGISTRY, test));
                     final boolean valid = m.checkBiome(holder);
                     if (valid)
                     {
@@ -684,7 +680,7 @@ public class SpawnBiomeMatcher
             {
                 if (BiomeDatabase.isBiomeTag(s))
                 {
-                    TagKey<Biome> tag = TagKey.create(RegHelper.BIOME_REGISTRY,
+                    TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
                             new ResourceLocation(s.replace("#", "")));
                     this._validBiomes.add(tag);
                     continue;
@@ -701,7 +697,7 @@ public class SpawnBiomeMatcher
             {
                 if (BiomeDatabase.isBiomeTag(s))
                 {
-                    TagKey<Biome> tag = TagKey.create(RegHelper.BIOME_REGISTRY,
+                    TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
                             new ResourceLocation(s.replace("#", "")));
                     this._blackListBiomes.add(tag);
                     continue;
@@ -773,18 +769,7 @@ public class SpawnBiomeMatcher
 
         if (spawnRule.biomes != null)
         {
-            try
-            {
-                var arr = spawnRule.biomes;
-                var server = ServerLifecycleHooks.getCurrentServer();
-                RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, server.registryAccess());
-                var output = RegistryCodecs.homogeneousList(RegHelper.BIOME_REGISTRY).parse(ops, arr);
-                this._biomeHolderset = output.result().get();
-            }
-            catch (Exception e)
-            {
-                PokecubeAPI.LOGGER.error(e);
-            }
+            PokecubeAPI.LOGGER.warn("Warning, holdersets are not yet implemented here!");
         }
 
         for (final SpawnBiomeMatcher child : this._and_children) child.parse();

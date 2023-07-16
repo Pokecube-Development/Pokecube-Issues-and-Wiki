@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/straight_1",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 6
@@ -13,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/straight_2",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 6
@@ -22,7 +22,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/straight_3",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 6
@@ -31,8 +31,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_cross_1",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 5
@@ -41,8 +40,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_cross_2",
-        "flags":"street_corner", "no_connect_flags": "street_corner",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 5
@@ -51,7 +49,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_house_1",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 3
@@ -60,7 +58,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_house_2",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 3
@@ -69,7 +67,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_balloon_1",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 6
@@ -78,7 +76,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_balloon_2",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 6
@@ -87,7 +85,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_1_a",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -96,7 +94,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_1_b",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -105,7 +103,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_1_c",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -114,7 +112,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_1_d",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -123,7 +121,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_1_e",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -132,7 +130,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_1_f",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -141,7 +139,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_2_a",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -150,7 +148,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_2_b",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -159,7 +157,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_2_c",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -168,7 +166,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_2_d",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -177,7 +175,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_2_e",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4
@@ -186,7 +184,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/sky/streets/platform_ship_2_f",
-        "bool_config": { "no_affect_noise": true },"processors": "pokecube:generic",
+        "bool_config": {"no_affect_noise":true},"processors": "pokecube:generic",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 4

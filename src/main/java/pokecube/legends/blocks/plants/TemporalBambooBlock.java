@@ -1,12 +1,14 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -25,14 +27,13 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import pokecube.legends.Reference;
 import pokecube.legends.init.PlantsInit;
-import thut.lib.RegHelper;
 
 public class TemporalBambooBlock extends BambooBlock implements BonemealableBlock
 {
     protected static final VoxelShape SMALL_SHAPE = Block.box(7, 0, 7, 9, 16, 9);
     protected static final VoxelShape LARGE_SHAPE = Block.box(6.5, 0, 6.5, 9.5, 16, 9.5);
     // Tags
-    public static TagKey<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = TagKey.create(RegHelper.BLOCK_REGISTRY,
+    public static TagKey<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = TagKey.create(Registry.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "temporal_bamboo_plantable_on"));
 
     public TemporalBambooBlock(final BlockBehaviour.Properties properties)
@@ -112,7 +113,7 @@ public class TemporalBambooBlock extends BambooBlock implements BonemealableBloc
     }
 
     @Override
-    public void growBamboo(final BlockState state, final Level world, final BlockPos pos, final RandomSource random,
+    public void growBamboo(final BlockState state, final Level world, final BlockPos pos, final Random random,
             final int x)
     {
         final BlockState state1 = world.getBlockState(pos.below());

@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ocean/town_centers/bottom_2",
-        "processors": "pokecube:generic_ladders_no_waterlog",
+        "processors": "pokecube:generic_no_waterlog",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 1

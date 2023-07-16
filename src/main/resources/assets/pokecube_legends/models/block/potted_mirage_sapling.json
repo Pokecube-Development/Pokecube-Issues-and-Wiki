@@ -1,6 +1,5 @@
 {
   "parent": "pokecube_legends:block/flower_pot_cross_shadeless",
-  "render_type": "cutout",
   "textures": {
     "dirt": "pokecube_legends:block/crystallized_sand",
     "plant": "pokecube_legends:block/mirage_sapling"

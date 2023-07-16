@@ -4,13 +4,14 @@ import java.util.Locale;
 import java.util.Map;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MapItem;
-import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.saveddata.maps.MapDecoration;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import pokecube.adventures.capabilities.utils.TypeTrainer.TrainerTrade;
@@ -21,7 +22,6 @@ import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.utils.Tools;
 import thut.api.util.JsonUtil;
-import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 @TradePresetAn(key = "sellExplorationMap")
@@ -54,6 +54,9 @@ public class SellStructureMap implements TradePreset
 
         ResourceLocation loc = new ResourceLocation(trade.values.get(ID));
 
+        TagKey<ConfiguredStructureFeature<?, ?>> key = TagKey.create(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY,
+                loc);
+
         boolean newOnly = Boolean.parseBoolean(trade.values.getOrDefault(NEW_ONLY, "false"));
 
         recipe.outputModifier = (entity, random) -> {
@@ -61,9 +64,8 @@ public class SellStructureMap implements TradePreset
             ItemStack output = ItemStack.EMPTY;
             try
             {
-                TagKey<Structure> key = TagKey.create(RegHelper.STRUCTURE_REGISTRY, loc);
                 // Vanilla one uses 100 and true.
-                BlockPos blockpos = serverlevel.findNearestMapStructure(key, entity.blockPosition(), 100, newOnly);
+                BlockPos blockpos = serverlevel.findNearestMapFeature(key, entity.blockPosition(), 100, newOnly);
                 if (blockpos != null)
                 {
                     ItemStack itemstack = MapItem.create(serverlevel, blockpos.getX(), blockpos.getZ(), (byte) 2, true,

@@ -7,13 +7,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.StructureFeatureManager;
+import net.minecraft.world.level.levelgen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
-import net.minecraft.world.level.levelgen.structure.Structure;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.WorldgenTags;
-import thut.lib.RegHelper;
 
 @SuppressWarnings("deprecation")
 @Mixin(net.minecraft.world.level.levelgen.feature.LakeFeature.class)
@@ -29,11 +28,11 @@ public class NoLakesInStructuresMixin
             return;
         }
 
-        Registry<Structure> configuredStructureFeatureRegistry = context.level().registryAccess()
-                .registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
-        StructureManager structureFeatureManager = accessor.getStructureManager();
+        Registry<ConfiguredStructureFeature<?, ?>> configuredStructureFeatureRegistry = context.level().registryAccess()
+                .registryOrThrow(Registry.CONFIGURED_STRUCTURE_FEATURE_REGISTRY);
+        StructureFeatureManager structureFeatureManager = accessor.getStructureFeatureManager();
 
-        for (Holder<Structure> configuredStructureFeature : configuredStructureFeatureRegistry
+        for (Holder<ConfiguredStructureFeature<?, ?>> configuredStructureFeature : configuredStructureFeatureRegistry
                 .getOrCreateTag(WorldgenTags.NO_LAKES))
         {
             if (structureFeatureManager.getStructureAt(context.origin(), configuredStructureFeature.value()).isValid())

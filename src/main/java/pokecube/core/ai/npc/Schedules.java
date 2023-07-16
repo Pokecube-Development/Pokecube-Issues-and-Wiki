@@ -26,7 +26,7 @@ public class Schedules
         builder
         //@formatter:off
         .changeActivityAt(10, Activity.IDLE)
-        .changeActivityAt(10, Activities._STATIONARY)
+        .changeActivityAt(10, Activities.STATIONARY.get())
         .changeActivityAt(2000,Activity.WORK)
         .changeActivityAt(9000, Activity.MEET)
         .changeActivityAt(11000, Activity.IDLE)
@@ -38,15 +38,9 @@ public class Schedules
     private static Schedule makeChild()
     {
         final ScheduleBuilder builder = new ScheduleBuilder(new Schedule());
-        builder
-        //@formatter:off
-        .changeActivityAt(10, Activity.IDLE)
-        .changeActivityAt(10, Activities._STATIONARY)
-        .changeActivityAt(3000, Activity.PLAY)
-        .changeActivityAt(6000, Activity.IDLE)
-        .changeActivityAt(10000, Activity.PLAY)
-        .changeActivityAt(12000, Activity.REST);
-        //@formatter:on
+        builder.changeActivityAt(10, Activity.IDLE).changeActivityAt(10, Activities.STATIONARY.get())
+                .changeActivityAt(3000, Activity.PLAY).changeActivityAt(6000, Activity.IDLE)
+                .changeActivityAt(10000, Activity.PLAY).changeActivityAt(12000, Activity.REST);
         return builder.build();
     }
 }

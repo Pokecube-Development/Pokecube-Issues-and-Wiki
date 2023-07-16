@@ -19,7 +19,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import thut.api.ThutCaps;
 import thut.api.entity.animation.CapabilityAnimation.DefaultImpl;
@@ -110,11 +110,11 @@ public class CopyCaps
         event.setNewSize(EntityDimensions.fixed(width, height));
     }
 
-    private static void onLivingUpdate(final LivingTickEvent event)
+    private static void onLivingUpdate(final LivingUpdateEvent event)
     {
         final ICopyMob copyMob = CopyCaps.get(event.getEntity());
         if (copyMob == null) return;
-        copyMob.onBaseTick(event.getEntity().level, event.getEntity());
+        copyMob.onBaseTick(event.getEntity().level, event.getEntityLiving());
     }
 
     public static void setup()

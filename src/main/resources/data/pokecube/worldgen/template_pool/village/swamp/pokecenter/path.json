@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/swamp/pokecenter/path",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1

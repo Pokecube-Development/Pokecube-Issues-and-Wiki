@@ -16,7 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.MaterialColor;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -111,7 +111,7 @@ public class PokecubeMobs
     }
 
     @SubscribeEvent
-    public void livingUpdate(final LivingTickEvent evt)
+    public void livingUpdate(final LivingUpdateEvent evt)
     {
         final IPokemob shuckle = PokemobCaps.getPokemobFor(evt.getEntity());
         if (shuckle != null && shuckle.getPokedexNb() == 213)

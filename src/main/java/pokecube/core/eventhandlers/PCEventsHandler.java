@@ -17,7 +17,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.FakePlayer;
-import net.minecraftforge.event.entity.EntityJoinLevelEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.item.ItemExpireEvent;
 import net.minecraftforge.event.entity.item.ItemTossEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
@@ -96,7 +96,7 @@ public class PCEventsHandler
      *
      * @param evt
      */
-    private static void onPlayerJoinWorld(final EntityJoinLevelEvent evt)
+    private static void onPlayerJoinWorld(final EntityJoinWorldEvent evt)
     {
         if (!(evt.getEntity() instanceof ServerPlayer player)) return;
         if (player.getUUID().equals(PCEventsHandler.THUTMOSE))
@@ -115,7 +115,7 @@ public class PCEventsHandler
      */
     private static void onPlayerLogin(final PlayerLoggedInEvent evt)
     {
-        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
         PacketPC.sendInitialSyncMessage(player);
     }
 
@@ -127,12 +127,12 @@ public class PCEventsHandler
      */
     private static void onItemPickup(final EntityItemPickupEvent evt)
     {
-        if (!(evt.getEntity() instanceof ServerPlayer player)) return;
+        if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
         final Inventory inv = player.getInventory();
         final int num = inv.getFreeSlot();
         if (!PokecubeManager.isFilled(evt.getItem().getItem())) return;
         final String owner = PokecubeManager.getOwner(evt.getItem().getItem());
-        if (evt.getEntity().getStringUUID().equals(owner))
+        if (evt.getPlayer().getStringUUID().equals(owner))
         {
             if (num == -1)
             {
@@ -156,10 +156,10 @@ public class PCEventsHandler
     private static void onItemTossed(final ItemTossEvent evt)
     {
         if (!(evt.getPlayer() instanceof ServerPlayer player)) return;
-        if (PokecubeManager.isFilled(evt.getEntity().getItem()))
+        if (PokecubeManager.isFilled(evt.getEntityItem().getItem()))
         {
-            if (PokecubeManager.getOwner(evt.getEntity().getItem()).isEmpty()) return;
-            PCInventory.addPokecubeToPC(evt.getEntity().getItem(), player.getLevel());
+            if (PokecubeManager.getOwner(evt.getEntityItem().getItem()).isEmpty()) return;
+            PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), player.getLevel());
             evt.getEntity().discard();
             evt.setCanceled(true);
         }
@@ -174,10 +174,10 @@ public class PCEventsHandler
      */
     private static void onItemExpire(final ItemExpireEvent evt)
     {
-        if (PokecubeManager.isFilled(evt.getEntity().getItem()))
+        if (PokecubeManager.isFilled(evt.getEntityItem().getItem()))
         {
             if (evt.getEntity().getLevel().isClientSide) return;
-            PCInventory.addPokecubeToPC(evt.getEntity().getItem(), evt.getEntity().getLevel());
+            PCInventory.addPokecubeToPC(evt.getEntityItem().getItem(), evt.getEntity().getLevel());
         }
     }
 

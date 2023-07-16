@@ -37,7 +37,7 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 
 	public CrystallizedBush(final Properties props)
     {
-        super(props.offsetType(OffsetType.XZ));
+        super(props);
 		this.registerDefaultState(this.stateDefinition.any().setValue(CrystallizedBush.WATERLOGGED, false));
     }
 
@@ -67,7 +67,7 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 
 	@Nullable
 	@Override
-	public BlockPathTypes getBlockPathType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
+	public BlockPathTypes getAiPathNodeType(BlockState state, BlockGetter world, BlockPos pos, @Nullable Mob entity)
 	{
 		return BlockPathTypes.DAMAGE_OTHER;
 	}
@@ -84,6 +84,11 @@ public class CrystallizedBush extends DeadBushBlock implements SimpleWaterlogged
 		final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
 		return this.defaultBlockState().setValue(CrystallizedBush.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
 			&& ifluidstate.getAmount() == 8);
+	}
+
+	@Override
+	public OffsetType getOffsetType() {
+		return OffsetType.XZ;
 	}
 
 	@Override

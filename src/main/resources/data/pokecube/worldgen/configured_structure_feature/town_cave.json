@@ -1,0 +1,20 @@
+{
+  "adapt_noise": true,
+  "biomes": "#pokecube_world:has_structure/village_cave",
+  "config": {
+    "avoid_range": 6,
+    "biome_type": "industrial",
+    "required_parts": [
+      "pokecenter"
+    ],
+    "size": 6,
+    "y_settings":{"min_y": 64,"max_dy": 3},
+    "start_pool": "pokecube:village/cave/town_centers",
+    "structures_to_avoid": [
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ]
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

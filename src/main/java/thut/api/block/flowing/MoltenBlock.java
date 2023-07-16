@@ -1,13 +1,13 @@
 package thut.api.block.flowing;
 
 import java.lang.reflect.Array;
+import java.util.Random;
 import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
@@ -164,7 +164,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     {
         if (ItemList.is(LAVAREPLACEABLE, state)) return true;
         @SuppressWarnings("deprecation")
-        boolean burns = ((FireBlock) Blocks.FIRE).getBurnOdds(state) > 0;
+        boolean burns = ((FireBlock) Blocks.FIRE).getBurnOdd(state) > 0;
         if (burns) return true;
         return super.canReplace(state);
     }
@@ -219,7 +219,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     }
 
     @Override
-    public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, Random random)
     {
         if (!FMLEnvironment.production)
         {
@@ -267,7 +267,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
         if (state.getLightBlock(level, pos) != 0) level.getChunk(pos).setUnsaved(false);
     }
 
-    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, RandomSource random)
+    protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, Random random)
     {
 
     }

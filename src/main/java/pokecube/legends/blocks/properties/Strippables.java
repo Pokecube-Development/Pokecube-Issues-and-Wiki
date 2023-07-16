@@ -17,7 +17,7 @@ import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.ToolAction;
 import net.minecraftforge.common.ToolActions;
-import net.minecraftforge.event.level.BlockEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.Event;
 import pokecube.legends.init.BlockInit;
 
@@ -76,7 +76,7 @@ public class Strippables
             if (pair != null && pair.getFirst().test(event.getContext()))
             {
                 pair.getSecond().accept(event.getContext());
-                event.getLevel().playSound(event.getPlayer(), event.getPos(), SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
+                event.getWorld().playSound(event.getPlayer(), event.getPos(), SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 1.0F, 1.0F);
                 event.setResult(Event.Result.ALLOW);
                 event.getPlayer().swing(event.getContext().getHand());
             }

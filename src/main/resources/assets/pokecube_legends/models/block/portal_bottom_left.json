@@ -4,7 +4,6 @@
 		"0": "pokecube_legends:block/portal_on",
 		"particle": "pokecube_legends:block/portal_on"
 	},
-	"render_type": "translucent",
 	"elements": [
 		{
 			"name": "Voxels",

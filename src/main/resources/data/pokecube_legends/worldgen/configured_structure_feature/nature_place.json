@@ -1,0 +1,25 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:temples/surface/nature_place",
+    "spawn_blacklist": "oceans,beaches",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "avoid_range": 6,
+    "size": 2,
+    "avoidances":{
+      "flags": ["temple", "nature_place"],
+      "avoidances": [{"name":"temple","distance":8}, {"name":"nature_place","distance":256}]
+    }
+  },
+  "biomes": "#pokecube_world:has_structure/nature_place",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

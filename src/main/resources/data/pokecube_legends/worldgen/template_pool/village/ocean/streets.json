@@ -4,7 +4,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ocean/streets/road_1",
-        "processors": "pokecube:generic_ladders_no_waterlog",
+        "processors": "pokecube:generic_no_waterlog",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 3
@@ -13,7 +13,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ocean/streets/road_2",
-        "processors": "pokecube:generic_ladders_no_waterlog",
+        "processors": "pokecube:generic_no_waterlog",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 5
@@ -22,12 +22,12 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube_legends:village/ocean/streets/road_close",
-        "processors": "pokecube:generic_ladders_no_waterlog",
+        "processors": "pokecube:generic_no_waterlog",
         "int_config": {"space_below":0},"projection": "rigid"
       },
       "weight": 2
     }
   ],
-  "fallback": "pokecube_legends:village/ocean/terminators",
+  "fallback": "minecraft:empty",
   "name": "pokecube_legends:village/ocean/streets"
 }

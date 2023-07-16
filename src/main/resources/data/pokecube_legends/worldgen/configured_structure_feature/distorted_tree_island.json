@@ -1,0 +1,15 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:distorted/distorted_tree_island",
+    "spawn_blacklist": "beaches,oceans,rivers",
+    "y_settings":{"dy_offset": 45, "min_y": 45,
+      "surface_type": "air", "vertical_offset": 50},
+    "spawn_preset": "all",
+    "avoid_range": 6,
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/distorted_tree_island",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

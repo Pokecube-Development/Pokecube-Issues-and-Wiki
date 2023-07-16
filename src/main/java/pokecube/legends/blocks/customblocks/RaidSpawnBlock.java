@@ -2,6 +2,7 @@ package pokecube.legends.blocks.customblocks;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Random;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -11,7 +12,6 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -179,7 +179,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
     }
 
     @Override
-    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final RandomSource random)
+    public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final Random random)
     {
         final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
         if (active) return;
@@ -193,7 +193,7 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
 
     @OnlyIn(Dist.CLIENT)
     @Override
-    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final RandomSource random)
+    public void animateTick(final BlockState state, final Level world, final BlockPos pos, final Random random)
     {
         if (!state.getValue(RaidSpawnBlock.ACTIVE).active()) return;
 

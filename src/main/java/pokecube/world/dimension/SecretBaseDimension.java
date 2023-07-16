@@ -28,9 +28,11 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.NoiseColumn;
-import net.minecraft.world.level.StructureManager;
+import net.minecraft.world.level.StructureFeatureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.Climate;
+import net.minecraft.world.level.biome.Climate.Sampler;
 import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -39,16 +41,15 @@ import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.GenerationStep.Carving;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
-import net.minecraftforge.event.TickEvent.LevelTickEvent;
+import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -60,7 +61,6 @@ import pokecube.core.utils.PokecubeSerializer;
 import thut.api.entity.teleporting.TeleDest;
 import thut.api.entity.teleporting.ThutTeleporter;
 import thut.api.maths.Vector3;
-import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 public class SecretBaseDimension
@@ -206,7 +206,7 @@ public class SecretBaseDimension
     {
         public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((p_208215_) -> {
             return commonCodec(p_208215_)
-                    .and(RegistryOps.retrieveRegistry(RegHelper.BIOME_REGISTRY).forGetter((p_208210_) ->
+                    .and(RegistryOps.retrieveRegistry(Registry.BIOME_REGISTRY).forGetter((p_208210_) ->
                     {
                         return p_208210_.registry;
                     })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
@@ -219,7 +219,7 @@ public class SecretBaseDimension
         public SecretChunkGenerator(final Registry<StructureSet> structs, final Registry<Biome> registry)
         {
             super(structs, Optional.empty(),
-                    new FixedBiomeSource(registry.getOrCreateHolder(SecretBaseDimension.BIOME_KEY).get().orThrow()));
+                    new FixedBiomeSource(registry.getOrCreateHolder(SecretBaseDimension.BIOME_KEY)));
             this.registry = registry;
             Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
         }
@@ -236,29 +236,39 @@ public class SecretBaseDimension
         }
 
         @Override
+        public ChunkGenerator withSeed(final long p_230349_1_)
+        {
+            return this;
+        }
+
+        @Override
         public int getBaseHeight(final int x, final int z, final Types heightmapType,
-                final LevelHeightAccessor p_156156_, RandomState p_223211_)
+                final LevelHeightAccessor p_156156_)
         {
             return 64;
         }
 
         @Override
-        public NoiseColumn getBaseColumn(final int x, final int z, final LevelHeightAccessor p_156152_,
-                RandomState p_223211_)
+        public NoiseColumn getBaseColumn(final int x, final int z, final LevelHeightAccessor p_156152_)
         {
             return new NoiseColumn(0, this.states);
         }
 
         @Override
-        public void applyCarvers(WorldGenRegion p_187691_, long p_187692_, RandomState p_223211_,
-                BiomeManager p_187693_, StructureManager p_187694_, ChunkAccess p_187695_, Carving p_187696_)
+        public Sampler climateSampler()
+        {
+            return Climate.empty();
+        }
+
+        @Override
+        public void applyCarvers(WorldGenRegion p_187691_, long p_187692_, BiomeManager p_187693_,
+                StructureFeatureManager p_187694_, ChunkAccess p_187695_, Carving p_187696_)
         {
 
         }
 
         @Override
-        public void buildSurface(WorldGenRegion p_187697_, StructureManager p_187698_, RandomState p_223211_,
-                ChunkAccess p_187699_)
+        public void buildSurface(WorldGenRegion p_187697_, StructureFeatureManager p_187698_, ChunkAccess p_187699_)
         {
 
         }
@@ -277,7 +287,7 @@ public class SecretBaseDimension
 
         @Override
         public CompletableFuture<ChunkAccess> fillFromNoise(Executor p_187748_, Blender p_187749_,
-                RandomState p_223211_, StructureManager p_187750_, ChunkAccess chunk)
+                StructureFeatureManager p_187750_, ChunkAccess chunk)
         {
 
             final ChunkPos pos = chunk.getPos();
@@ -317,7 +327,7 @@ public class SecretBaseDimension
         }
 
         @Override
-        public void addDebugScreenInfo(List<String> p_208054_, RandomState p_223176_, BlockPos p_208055_)
+        public void addDebugScreenInfo(List<String> p_208054_, BlockPos p_208055_)
         {
             // TODO Auto-generated method stub
 
@@ -329,9 +339,9 @@ public class SecretBaseDimension
 
     private static final ResourceLocation IDLOC = new ResourceLocation(SecretBaseDimension.ID);
 
-    public static final ResourceKey<Level> WORLD_KEY = ResourceKey.create(RegHelper.DIMENSION_REGISTRY,
+    public static final ResourceKey<Level> WORLD_KEY = ResourceKey.create(Registry.DIMENSION_REGISTRY,
             SecretBaseDimension.IDLOC);
-    public static final ResourceKey<Biome> BIOME_KEY = ResourceKey.create(RegHelper.BIOME_REGISTRY,
+    public static final ResourceKey<Biome> BIOME_KEY = ResourceKey.create(Registry.BIOME_REGISTRY,
             SecretBaseDimension.IDLOC);
 
     public static final double WORLDSIZE = 2 * 2999984;
@@ -356,18 +366,18 @@ public class SecretBaseDimension
     {
 
         @SubscribeEvent
-        public static void onWorldTick(final LevelTickEvent event)
+        public static void onWorldTick(final WorldTickEvent event)
         {
-            final Level world = event.level;
+            final Level world = event.world;
             if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
                 world.getWorldBorder().setSize(WORLDSIZE);
         }
 
         @SubscribeEvent
-        public static void onWorldLoad(final LevelEvent.Load event)
+        public static void onWorldLoad(final WorldEvent.Load event)
         {
-            final Level world = (Level) event.getLevel();
+            final Level world = (Level) event.getWorld();
             if (world.getWorldBorder().getSize() != WORLDSIZE
                     && world.dimension().compareTo(SecretBaseDimension.WORLD_KEY) == 0)
                 world.getWorldBorder().setSize(WORLDSIZE);

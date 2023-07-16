@@ -1,6 +1,5 @@
 {
     "ambientocclusion": false,
-    "render_type": "cutout",
     "textures": {
         "particle": "pokecube_legends:block/string_of_pearls",
         "vine": "pokecube_legends:block/string_of_pearls"

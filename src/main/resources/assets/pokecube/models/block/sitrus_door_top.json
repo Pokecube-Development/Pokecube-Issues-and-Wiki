@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/door_top",
+  "textures": {
+    "top": "pokecube:block/sitrus_door_top",
+    "bottom": "pokecube:block/sitrus_door_bottom"
+  }
+}

@@ -9,7 +9,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "processors": "pokecube:generic",
         "projection": "terrain_matching",
-        "int_config": { "space_below": 0 },
+        "int_config":{"space_below":0},
         "bool_config": {"no_affect_noise":true,"water_terrain_match": true}
       }
     }

@@ -9,7 +9,7 @@
     {
       "values": {
         "preset": "end_surface",
-        "types": "#minecraft:is_end"
+        "types": "#forge:is_end"
       }
     },
     {
@@ -21,13 +21,13 @@
     {
       "values": {
         "preset": "end_cave_a",
-        "types": "#minecraft:is_end,cave"
+        "types": "#forge:is_end,cave"
       }
     },
     {
       "values": {
         "preset": "end_cave_b",
-        "types": "#minecraft:is_end,#forge:is_underground"
+        "types": "#forge:is_end,#forge:is_underground"
       }
     }
   ]

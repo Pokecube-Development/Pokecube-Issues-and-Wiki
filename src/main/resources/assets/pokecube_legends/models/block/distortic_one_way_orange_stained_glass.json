@@ -1,6 +1,5 @@
 {
     "parent": "block/cube",
-    "render_type": "translucent",
     "textures": {
         "down": "pokecube_legends:block/distortic_mirror",
         "up": "pokecube_legends:block/distortic_mirror",

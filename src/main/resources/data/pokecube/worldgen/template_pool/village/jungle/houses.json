@@ -10,7 +10,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/house_1",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 2
@@ -19,7 +19,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/house_2",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 2
@@ -28,7 +28,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/house_3",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -37,7 +37,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/house_4",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -46,7 +46,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/house_5",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -55,7 +55,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/fisher_house",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -64,7 +64,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/fletcher_house",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -73,7 +73,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/library_house",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 2
@@ -82,7 +82,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/masons_house",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -91,7 +91,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/shepherds_house",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -100,7 +100,7 @@
       "element": {
         "element_type": "pokecube:expanded_pool_element",
         "location": "pokecube:village/jungle/houses/tool_smith_house",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 3
@@ -110,7 +110,7 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "pokecenter",
         "location": "pokecube:village/jungle/pokecenter/center_01",
-        "processors": "pokecube:logs_to_ground",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1
@@ -120,12 +120,12 @@
         "element_type": "pokecube:expanded_pool_element",
         "flags": "gym",
         "location": "pokecube:village/jungle/gym/gym_01",
-        "processors": "pokecube:jungle_gym",
+        "processors": "pokecube:beach_jungle_swamp_towns",
         "projection": "rigid"
       },
       "weight": 1
     }
   ],
-  "fallback": "minecraft:empty",
+  "fallback": "pokecube:village/jungle/terminators",
   "name": "pokecube:village/jungle/houses"
 }

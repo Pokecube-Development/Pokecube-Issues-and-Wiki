@@ -1,0 +1,24 @@
+{
+  "adapt_noise": true,
+  "biomes": "#pokecube_world:has_structure/village_deep",
+  "config": {
+    "avoid_range": 6,
+    "biome_type": "industrial",
+    "y_settings":{"vertical_offset": -75},
+    "required_parts": [
+      "pokecenter"
+    ],
+    "size": 5,
+    "start_pool": "pokecube:village/deep/town_centers",
+    "structures_to_avoid": [
+      "minecraft:villages",
+      "minecraft:pillager_outposts"
+    ],
+    "avoidances":{
+      "flags": ["village_deep"],
+      "avoidances": [{"name":"village_deep","distance":128}]
+    }
+  },
+  "spawn_overrides": {},
+  "type": "pokecube:generic_surface_jigsaw"
+}

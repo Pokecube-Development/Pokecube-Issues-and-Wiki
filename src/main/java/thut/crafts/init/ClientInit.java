@@ -18,8 +18,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ClientRegistry;
 import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
 import net.minecraftforge.client.settings.KeyConflictContext;
@@ -28,6 +28,7 @@ import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.api.entity.blockentity.render.RenderBlockEntity;
 import thut.api.maths.Vector3;
 import thut.crafts.Reference;
@@ -54,7 +55,7 @@ public class ClientInit
         }
 
         @SubscribeEvent
-        public static void registerKeys(RegisterKeyMappingsEvent event)
+        public static void setupClient(final FMLClientSetupEvent event)
         {
             ClientInit.UP = new KeyMapping("crafts.key.up", InputConstants.UNKNOWN.getValue(), "keys.crafts");
             ClientInit.DOWN = new KeyMapping("crafts.key.down", InputConstants.UNKNOWN.getValue(), "keys.crafts");
@@ -70,11 +71,10 @@ public class ClientInit
             ClientInit.ROTATELEFT.setKeyConflictContext(inGame);
             ClientInit.ROTATERIGHT.setKeyConflictContext(inGame);
 
-            event.register(ClientInit.UP);
-            event.register(ClientInit.DOWN);
-            event.register(ClientInit.ROTATELEFT);
-            event.register(ClientInit.ROTATERIGHT);
-
+            ClientRegistry.registerKeyBinding(ClientInit.UP);
+            ClientRegistry.registerKeyBinding(ClientInit.DOWN);
+            ClientRegistry.registerKeyBinding(ClientInit.ROTATELEFT);
+            ClientRegistry.registerKeyBinding(ClientInit.ROTATERIGHT);
         }
     }
 

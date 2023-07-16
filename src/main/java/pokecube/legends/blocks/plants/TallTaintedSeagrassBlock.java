@@ -1,9 +1,10 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -44,13 +45,13 @@ public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements Liqui
     }
 
     @Override
-    public boolean isBonemealSuccess(final Level world, final RandomSource random, final BlockPos pos, final BlockState state)
+    public boolean isBonemealSuccess(final Level world, final Random random, final BlockPos pos, final BlockState state)
     {
         return true;
     }
 
     @Override
-    public void performBonemeal(final ServerLevel world, final RandomSource random, final BlockPos pos, final BlockState state)
+    public void performBonemeal(final ServerLevel world, final Random random, final BlockPos pos, final BlockState state)
     {
         Block.popResource(world, pos, new ItemStack(this));
     }

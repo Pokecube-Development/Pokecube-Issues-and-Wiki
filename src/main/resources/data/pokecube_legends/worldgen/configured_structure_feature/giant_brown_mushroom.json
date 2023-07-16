@@ -1,0 +1,22 @@
+{
+  "type": "pokecube:generic_surface_jigsaw",
+  "config": {
+    "start_pool": "pokecube_legends:ultraspace/giant_brown_mushroom",
+    "spawn_blacklist": "beaches,oceans,rivers",
+    "spawn_preset": "all",
+    "structures_to_avoid": [
+      "minecraft:pillager_outposts",
+      "minecraft:villages",
+      "pokecube:towns",
+      "pokecube:villages",
+      "pokecube_legends:towns",
+      "pokecube_legends:villages"
+    ],
+    "y_settings":{"min_y": 65},
+    "avoid_range": 6,
+    "size": 1
+  },
+  "biomes": "#pokecube_world:has_structure/giant_brown_mushroom",
+  "adapt_noise": true,
+  "spawn_overrides": {}
+}

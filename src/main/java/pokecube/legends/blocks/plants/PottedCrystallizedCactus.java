@@ -23,7 +23,7 @@ public class PottedCrystallizedCactus extends ItemGenerator.GenericPottedPlant
 
     @Nullable
     @Override
-    public BlockPathTypes getBlockPathType(final BlockState state, final BlockGetter world, final BlockPos pos,
+    public BlockPathTypes getAiPathNodeType(final BlockState state, final BlockGetter world, final BlockPos pos,
             @Nullable final Mob entity)
     {
         return BlockPathTypes.DAMAGE_OTHER;

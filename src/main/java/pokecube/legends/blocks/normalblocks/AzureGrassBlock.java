@@ -1,10 +1,11 @@
 package pokecube.legends.blocks.normalblocks;
 
+import java.util.Random;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
@@ -30,7 +31,7 @@ public class AzureGrassBlock extends GrassBlock implements BonemealableBlock
 
     @SuppressWarnings("deprecation")
     @Override
-    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
+    public void randomTick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
         if (!AzureGrassBlock.canBeGrass(state, world, pos))
         {

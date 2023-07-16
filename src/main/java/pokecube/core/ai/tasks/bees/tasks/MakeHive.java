@@ -10,11 +10,11 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.tags.PoiTypeTags;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
+import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
@@ -77,7 +77,7 @@ public class MakeHive extends BaseIdleTask
         final BlockPos pos = b.getPos();
 
         final PoiManager pois = this.world.getPoiManager();
-        final long num = pois.getCountInRange(p -> p.is(PoiTypeTags.BEE_HOME), pos,
+        final long num = pois.getCountInRange(p -> p == PoiType.BEE_NEST || p == PoiType.BEEHIVE, pos,
                 PokecubeCore.getConfig().nestSpacing, PoiManager.Occupancy.ANY);
         if (num > 0) return false;
 

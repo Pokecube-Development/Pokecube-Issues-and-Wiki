@@ -1,12 +1,13 @@
 package pokecube.legends.worldgen.features;
 
+import java.util.Random;
+
 import org.apache.commons.lang3.mutable.MutableInt;
 
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Vec3i;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -18,9 +19,9 @@ import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.FossilFeatureConfiguration;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.templatesystem.StructureManager;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
-import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
 
 public class SurfaceFossilFeature extends Feature<FossilFeatureConfiguration>
 {
@@ -32,13 +33,13 @@ public class SurfaceFossilFeature extends Feature<FossilFeatureConfiguration>
    @Override
    public boolean place(FeaturePlaceContext<FossilFeatureConfiguration> context)
    {
-       RandomSource random = context.random();
+      Random random = context.random();
       WorldGenLevel world = context.level();
       BlockPos posOrigin = context.origin();
       Rotation rotation = Rotation.getRandom(random);
       FossilFeatureConfiguration fossilConfig = context.config();
       int i = random.nextInt(fossilConfig.fossilStructures.size());
-      StructureTemplateManager structureManager = world.getLevel().getServer().getStructureManager();
+      StructureManager structureManager = world.getLevel().getServer().getStructureManager();
       StructureTemplate structureTemplate = structureManager.getOrCreate(fossilConfig.fossilStructures.get(i));
       StructureTemplate structureTemplate1 = structureManager.getOrCreate(fossilConfig.overlayStructures.get(i));
       ChunkPos posChunk = new ChunkPos(posOrigin);

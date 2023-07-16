@@ -302,7 +302,6 @@ public class ItemGenerator
                         ItemGenerator.planks.put(name, block);
                         BerryManager.berryPlanks.put(index, block);
                     });
-
             ItemGenerator.BOATS.add(new BoatRegister(plank_block, name, PokecubeItems.TAB_BERRIES, PokecubeCore.ITEMS));
 
             // Stairs
@@ -512,11 +511,8 @@ public class ItemGenerator
             String regName = boat.name() + "_boat";
             BoatGiver giver = new BoatGiver();
             RegistryObject<Item> reg = boat.register().register(regName,
-                    () -> new GenericBoatItem(giver.get(), false, new Item.Properties().stacksTo(1).tab(boat.tab())));
-            regName = boat.name() + "_chest_boat";
-            RegistryObject<Item> chest_reg = boat.register().register(regName,
-                    () -> new GenericBoatItem(giver.get(), true, new Item.Properties().stacksTo(1).tab(boat.tab())));
-            giver.type = GenericBoat.registerBoat(boat.block(), reg, chest_reg, boat.name());
+                    () -> new GenericBoatItem(giver.get(), new Item.Properties().stacksTo(1).tab(boat.tab())));
+            giver.type = GenericBoat.registerBoat(boat.block(), reg, boat.name());
         });
     }
 

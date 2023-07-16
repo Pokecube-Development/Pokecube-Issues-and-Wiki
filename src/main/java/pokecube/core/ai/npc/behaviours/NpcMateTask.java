@@ -5,7 +5,6 @@ import java.util.function.Predicate;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.core.Holder;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.AgeableMob;
@@ -16,7 +15,6 @@ import net.minecraft.world.entity.ai.behavior.BehaviorUtils;
 import net.minecraft.world.entity.ai.behavior.VillagerMakeLove;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.entity.ai.village.poi.PoiTypes;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.level.pathfinder.Path;
 import pokecube.core.ai.brain.BrainUtils;
@@ -155,16 +153,14 @@ public class NpcMateTask extends VillagerMakeLove
 
     private Optional<BlockPos> takeVacantBed(ServerLevel level, Villager mob)
     {
-        return level.getPoiManager().take((poi) -> {
-            return poi.is(PoiTypes.HOME);
-        }, (pos, poi) -> {
-            return this.canReach(mob, poi, pos);
+        return level.getPoiManager().take(PoiType.HOME.getPredicate(), (target) -> {
+            return this.canReach(mob, target);
         }, mob.blockPosition(), 48);
     }
 
-    private boolean canReach(Villager mob, BlockPos target, Holder<PoiType> poi)
+    private boolean canReach(Villager mob, BlockPos target)
     {
-        Path path = mob.getNavigation().createPath(target, poi.value().validRange());
+        Path path = mob.getNavigation().createPath(target.above(), PoiType.HOME.getValidRange());
         return path != null && path.canReach();
     }
 

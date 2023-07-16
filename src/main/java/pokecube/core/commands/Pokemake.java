@@ -15,7 +15,6 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -26,7 +25,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.AbilityManager;
@@ -111,9 +109,7 @@ public class Pokemake
             {
                 try
                 {
-                    final ItemInput item = ItemArgument
-                            .item(new CommandBuildContext(ServerLifecycleHooks.getCurrentServer().registryAccess()))
-                            .parse(new StringReader(val));
+                    final ItemInput item = ItemArgument.item().parse(new StringReader(val));
                     itemstack = item.createItemStack(1, false);
                 }
                 catch (final Throwable e)

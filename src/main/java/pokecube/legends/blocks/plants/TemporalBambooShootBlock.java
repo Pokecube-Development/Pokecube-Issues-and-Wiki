@@ -2,6 +2,7 @@ package pokecube.legends.blocks.plants;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
@@ -20,12 +21,11 @@ import net.minecraft.world.level.block.state.properties.BambooLeaves;
 import pokecube.legends.Reference;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.PlantsInit;
-import thut.lib.RegHelper;
 
 public class TemporalBambooShootBlock extends BambooSaplingBlock implements BonemealableBlock
 {
     // Tags
-    public static TagKey<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = TagKey.create(RegHelper.BLOCK_REGISTRY,
+    public static TagKey<Block> TEMPORAL_BAMBOO_PLANTABLE_ON = TagKey.create(Registry.BLOCK_REGISTRY,
             new ResourceLocation(Reference.ID, "temporal_bamboo_plantable_on"));
 
     public TemporalBambooShootBlock(BlockBehaviour.Properties properties)

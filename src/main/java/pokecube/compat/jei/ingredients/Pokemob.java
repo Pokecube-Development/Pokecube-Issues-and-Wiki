@@ -15,7 +15,6 @@ import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -47,9 +46,23 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         }
 
         @Override
-        public ResourceLocation getResourceLocation(Pokemob arg0)
+        public Pokemob getMatch(final Iterable<Pokemob> ingredients, final Pokemob ingredientToMatch,
+                final UidContext context)
         {
-            return new ResourceLocation(arg0.entry.getModId(), arg0.entry.getTrimmedName());
+            for (final Pokemob mob : ingredients) if (ingredientToMatch.entry == mob.entry) return mob;
+            return null;
+        }
+
+        @Override
+        public String getModId(final Pokemob arg0)
+        {
+            return arg0.entry.getModId();
+        }
+
+        @Override
+        public String getResourceId(final Pokemob arg0)
+        {
+            return arg0.entry.getTrimmedName();
         }
 
         @Override
@@ -78,19 +91,20 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         }
 
         @Override
-        public void render(PoseStack poseStack, Pokemob pokemob)
+        public void render(final PoseStack poseStack, int x, int y, final Pokemob pokemob)
         {
             if (pokemob != null)
             {
                 final byte gender = pokemob.gender;
                 Vector4f test = new Vector4f(1, 1, 1, 1);
                 test.transform(poseStack.last().pose());
-                int x = (int) test.x();
-                int y = (int) test.y();
+                x = (int) test.x();
+                y = (int) test.y();
                 EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder, gender == IPokemob.MALE, x, y, 16, 16,
                         false);
             }
         }
+
     }
 
     public static final IIngredientType<Pokemob> TYPE = () -> Pokemob.class;

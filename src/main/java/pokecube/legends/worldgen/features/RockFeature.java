@@ -1,10 +1,11 @@
 package pokecube.legends.worldgen.features;
 
+import java.util.Random;
+
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.Feature;
@@ -24,7 +25,7 @@ public class RockFeature extends Feature<BlockStateConfiguration>
    {
       BlockPos pos = context.origin();
       WorldGenLevel world = context.level();
-      RandomSource random = context.random();
+      Random random = context.random();
 
       BlockStateConfiguration stateConfig;
       for(stateConfig = context.config(); pos.getY() > world.getMinBuildHeight() + 3; pos = pos.below())

@@ -20,6 +20,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.MutableComponent;
@@ -725,7 +726,7 @@ public class PokedexEntry
         public boolean isValid(final ResourceLocation biome)
         {
             for (final SpawnBiomeMatcher matcher : this.matchers.keySet())
-                if (matcher.getValidBiomes().contains(TagKey.create(RegHelper.BIOME_REGISTRY, biome))) return true;
+                if (matcher.getValidBiomes().contains(TagKey.create(Registry.BIOME_REGISTRY, biome))) return true;
             return false;
         }
 

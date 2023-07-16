@@ -1,12 +1,13 @@
 package pokecube.core.blocks.barrels;
 
+import java.util.Random;
+
 import javax.annotation.Nullable;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -102,7 +103,7 @@ public class GenericBarrel extends BaseEntityBlock
     }
 
     @Override
-    public void tick(final BlockState state, final ServerLevel world, final BlockPos pos, final RandomSource random)
+    public void tick(final BlockState state, final ServerLevel world, final BlockPos pos, final Random random)
     {
         if (!world.isLoaded(pos)) return;
         final BlockEntity tileentity = world.getBlockEntity(pos);

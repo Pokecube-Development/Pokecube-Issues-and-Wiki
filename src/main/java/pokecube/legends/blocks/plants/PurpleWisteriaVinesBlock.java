@@ -1,7 +1,8 @@
 package pokecube.legends.blocks.plants;
 
+import java.util.Random;
+
 import net.minecraft.core.Direction;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
@@ -28,7 +29,7 @@ public class PurpleWisteriaVinesBlock extends GrowingPlantHeadBlock implements B
    }
 
    @Override
-   protected int getBlocksToGrowWhenBonemealed(RandomSource random)
+   protected int getBlocksToGrowWhenBonemealed(Random random)
    {
       return NetherVines.getBlocksToGrowWhenBonemealed(random);
    }

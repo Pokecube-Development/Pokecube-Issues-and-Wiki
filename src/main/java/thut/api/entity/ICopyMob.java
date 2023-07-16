@@ -72,7 +72,7 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         }
         if (this.getCopiedMob() == null || !this.getCopiedID().equals(RegHelper.getKey(this.getCopiedMob().getType())))
         {
-            final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(this.getCopiedID());
+            final EntityType<?> type = ForgeRegistries.ENTITIES.getValue(this.getCopiedID());
             final Entity entity = type.create(level);
             if (entity instanceof LivingEntity mob)
             {
@@ -158,7 +158,6 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.yRotO = from.yRotO;
     }
 
-    @SuppressWarnings("deprecation")
     public static void copyEntityTransforms(final LivingEntity to, final LivingEntity from)
     {
         ICopyMob.copyRotations(to, from);

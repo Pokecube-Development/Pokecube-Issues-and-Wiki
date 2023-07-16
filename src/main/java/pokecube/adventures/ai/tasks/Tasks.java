@@ -14,6 +14,7 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.sensing.DummySensor;
 import net.minecraft.world.entity.ai.sensing.SensorType;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.tasks.battle.ChooseAttacks;
 import pokecube.adventures.ai.tasks.battle.ManageOutMob;
@@ -32,6 +33,7 @@ public class Tasks
 
     public static void init()
     {
+        Tasks.DUMMY.setRegistryName(PokecubeAdv.MODID, "dummy_sensor");
     }
 
     public static final List<SensorType<?>> REMOVE = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES);

@@ -1,13 +1,16 @@
 package pokecube.legends.worldgen.trees.treedecorators;
 
+import java.util.List;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 import com.mojang.serialization.Codec;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.RandomSource;
+import net.minecraft.world.level.LevelSimulatedReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecorator;
 import net.minecraft.world.level.levelgen.feature.treedecorators.TreeDecoratorType;
 import pokecube.legends.blocks.plants.StringOfPearlsBlock;
@@ -25,55 +28,53 @@ public class TrunkStringOfPearlsDecorator extends TreeDecorator
     }
 
     @Override
-    public void place(TreeDecorator.Context context)
+    public void place(LevelSimulatedReader world, BiConsumer<BlockPos, BlockState> blockPos, Random random,
+            List<BlockPos> listPos, List<BlockPos> listPos1)
     {
-        RandomSource random = context.random();
-        var world = context.level();
-        BiConsumer<BlockPos, BlockState> blockSetter = context::setBlock;
-        context.logs().forEach((listedPos) -> {
+        listPos.forEach((listedPos) -> {
             if (random.nextInt(3) > 0)
             {
                 BlockPos pos = listedPos.west();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                if (Feature.isAir(world, pos))
                 {
-                    placeVine(blockSetter, pos, StringOfPearlsBlock.EAST, random);
+                    placeVine(blockPos, pos, StringOfPearlsBlock.EAST, random);
                 }
             }
 
             if (random.nextInt(3) > 0)
             {
-                BlockPos pos = listedPos.east();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                BlockPos pos1 = listedPos.east();
+                if (Feature.isAir(world, pos1))
                 {
-                    placeVine(blockSetter, pos, StringOfPearlsBlock.WEST, random);
+                    placeVine(blockPos, pos1, StringOfPearlsBlock.WEST, random);
                 }
             }
 
             if (random.nextInt(3) > 0)
             {
-                BlockPos pos = listedPos.north();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                BlockPos pos2 = listedPos.north();
+                if (Feature.isAir(world, pos2))
                 {
-                    placeVine(blockSetter, pos, StringOfPearlsBlock.SOUTH, random);
+                    placeVine(blockPos, pos2, StringOfPearlsBlock.SOUTH, random);
                 }
             }
 
             if (random.nextInt(3) > 0)
             {
-                BlockPos pos = listedPos.south();
-                if (world.isStateAtPosition(pos, s -> s.isAir()))
+                BlockPos pos3 = listedPos.south();
+                if (Feature.isAir(world, pos3))
                 {
-                    placeVine(blockSetter, pos, StringOfPearlsBlock.NORTH, random);
+                    placeVine(blockPos, pos3, StringOfPearlsBlock.NORTH, random);
                 }
             }
 
         });
     }
 
-    public static void placeVine(BiConsumer<BlockPos, BlockState> blockSetter, BlockPos pos, BooleanProperty b,
-            RandomSource random)
+    public static void placeVine(BiConsumer<BlockPos, BlockState> blockPos, BlockPos pos, BooleanProperty b,
+            Random random)
     {
-        blockSetter.accept(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true))
+        blockPos.accept(pos, BlockInit.STRING_OF_PEARLS.get().defaultBlockState().setValue(b, Boolean.valueOf(true))
                 .setValue(StringOfPearlsBlock.FLOWERS, Boolean.valueOf(random.nextFloat() < 0.11F)));
     }
 
