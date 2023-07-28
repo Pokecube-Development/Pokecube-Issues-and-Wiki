@@ -3,26 +3,31 @@
     {
       "and_preset": "deserts",
       "entries": [
-        {"key": "trapinch","min": 2,"max": 4,"rate": 0.5},
+        {"key": "trapinch","min": 1,"max": 4,"rate": 0.5},
         
-        {"key": "diglett","min": 2,"max": 4,"rate": 0.3},
-        {"key": "litleo","min": 2,"max": 4,"rate": 0.3},
+        {"key": "diglett","min": 1,"max": 4,"rate": 0.3},
+        {"key": "litleo","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "sandshrew","min": 2,"max": 4,"rate": 0.25},
+        {"key": "sandshrew","min": 1,"max": 4,"rate": 0.25},
+        {"key": "bramblin","min": 1,"max": 4,"rate": 0.25},
+        {"key": "burmy","min": 1,"max": 4,"rate": 0.25,"variant": "burmy-sandy"},
         
-        {"key": "hippopotas","min": 2,"max": 4,"rate": 0.2},
-        {"key": "sandile","min": 2,"max": 4,"rate": 0.2},
-        {"key": "darumaka","min": 2,"max": 4,"rate": 0.2},
-        {"key": "dwebble","min": 2,"max": 4,"rate": 0.2},
-        {"key": "sigilyph","min": 2,"max": 4,"rate": 0.2},
+        {"key": "hippopotas","min": 1,"max": 4,"rate": 0.2},
+        {"key": "sandile","min": 1,"max": 4,"rate": 0.2},
+        {"key": "darumaka","min": 1,"max": 4,"rate": 0.2},
+        {"key": "dwebble","min": 1,"max": 4,"rate": 0.2},
+        {"key": "sigilyph","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "silicobra","min": 2,"max": 4,"rate": 0.15},
-        {"key": "sizzlipede","min": 2,"max": 4,"rate": 0.15},
+        {"key": "silicobra","min": 1,"max": 4,"rate": 0.15},
+        {"key": "sizzlipede","min": 1,"max": 4,"rate": 0.15},
         
-        {"key": "diglett-alola","min": 2,"max": 4,"rate": 0.1},
-        {"key": "sandygast","min": 2,"max": 4,"rate": 0.1},
+        {"key": "diglett-alola","min": 1,"max": 4,"rate": 0.1},
+        {"key": "sandygast","min": 1,"max": 4,"rate": 0.1},
+        {"key": "rellor","min": 1,"max": 2,"rate": 0.1},
+        {"key": "flittle","min": 1,"max": 2,"rate": 0.05},
         
-        {"key": "onix","min": 2,"max": 4,"rate": 0.05},
+        {"key": "onix","min": 1,"max": 2,"rate": 0.05},
+        {"key": "orthworm","min": 1,"max": 2,"rate": 0.05},
         
         {"key": "terrakion","min": 1,"max": 1,"rate": 0.002}
       ]
@@ -30,77 +35,89 @@
     {
       "and_preset": "deserts,night_time",
       "entries": [
-        {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
-        {"key": "yamask","min": 2,"max": 4,"rate": 0.2},
-        {"key": "yamask-galar","min": 2,"max": 4,"rate": 0.1},
-        {"key": "lunatone","min": 2,"max": 4,"rate": 0.01}
+        {"key": "sableye","min": 1,"max": 4,"rate": 0.25},
+        {"key": "yamask","min": 1,"max": 4,"rate": 0.2},
+        {"key": "yamask-galar","min": 1,"max": 4,"rate": 0.1},
+        {"key": "lunatone","min": 1,"max": 4,"rate": 0.01}
       ]
     },
     {
       "and_preset": "deserts,day_time",
       "entries": [
-        {"key": "cacnea","min": 2,"max": 4,"rate": 0.6},
-        {"key": "maractus","min": 2,"max": 4,"rate": 0.6},
-        {"key": "helioptile","min": 2,"max": 4,"rate": 0.25},
-        {"key": "solrock","min": 2,"max": 4,"rate": 0.01}
+        {"key": "cacnea","min": 1,"max": 4,"rate": 0.6},
+        {"key": "maractus","min": 1,"max": 4,"rate": 0.6},
+        {"key": "helioptile","min": 1,"max": 4,"rate": 0.25},
+        {"key": "solrock","min": 1,"max": 4,"rate": 0.01}
       ]
     },
     {
       "and_preset": "deserts,hills",
       "entries": [
-        {"key": "baltoy","min": 2,"max": 4,"rate": 0.3}
+        {"key": "baltoy","min": 1,"max": 4,"rate": 0.3}
       ]
     },
     {
       "and_preset": "badlands",
       "entries": [
-        {"key": "geodude","min": 2,"max": 4,"rate": 0.3},
-        {"key": "roggenrola","min": 2,"max": 4,"rate": 0.3},
-        {"key": "rolycoly","min": 2,"max": 4,"rate": 0.3},
-        {"key": "diglett","min": 2,"max": 4,"rate": 0.3},
-        {"key": "litleo","min": 2,"max": 4,"rate": 0.3},
+        {"key": "geodude","min": 1,"max": 4,"rate": 0.3},
+        {"key": "roggenrola","min": 1,"max": 4,"rate": 0.3},
+        {"key": "rolycoly","min": 1,"max": 4,"rate": 0.3},
+        {"key": "diglett","min": 1,"max": 4,"rate": 0.3},
+        {"key": "litleo","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "sandshrew","min": 2,"max": 4,"rate": 0.25},
+        {"key": "sandshrew","min": 1,"max": 4,"rate": 0.25},
+        {"key": "bramblin","min": 1,"max": 2,"rate": 0.25},
         
-        {"key": "darumaka","min": 2,"max": 4,"rate": 0.2},
-        {"key": "dwebble","min": 2,"max": 4,"rate": 0.2},
-        {"key": "cufant","min": 2,"max": 4,"rate": 0.2},
+        {"key": "darumaka","min": 1,"max": 4,"rate": 0.2},
+        {"key": "dwebble","min": 1,"max": 4,"rate": 0.2},
+        {"key": "cufant","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "silicobra","min": 2,"max": 4,"rate": 0.15},
-        {"key": "sizzlipede","min": 2,"max": 4,"rate": 0.15},
+        {"key": "silicobra","min": 1,"max": 4,"rate": 0.15},
+        {"key": "sizzlipede","min": 1,"max": 4,"rate": 0.15},
         
-        {"key": "diglett-alola","min": 2,"max": 4,"rate": 0.1},
+        {"key": "diglett-alola","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "onix","min": 2,"max": 4,"rate": 0.05}
+        {"key": "onix","min": 1,"max": 2,"rate": 0.05}
       ]
     },
     {
       "and_preset": "badlands,night_time",
       "entries": [
-        {"key": "sableye","min": 2,"max": 4,"rate": 0.25},
-        {"key": "lunatone","min": 2,"max": 4,"rate": 0.01}
+        {"key": "sableye","min": 1,"max": 4,"rate": 0.25},
+        {"key": "flittle","min": 1,"max": 2,"rate": 0.25},
+        {"key": "lunatone","min": 1,"max": 4,"rate": 0.01}
       ]
     },
     {
       "and_preset": "badlands,day_time",
       "entries": [
-        {"key": "solrock","min": 2,"max": 4,"rate": 0.01}
+        {"key": "solrock","min": 1,"max": 4,"rate": 0.01},
+        {"key": "tinkatink","min": 1,"max": 1,"rate": 0.005}
       ]
     },
     {
       "and_preset": "badlands,hills",
       "entries": [
-        {"key": "baltoy","min": 2,"max": 4,"rate": 0.3}
+        {"key": "baltoy","min": 1,"max": 4,"rate": 0.3},
+        {"key": "tauros-paldea-blaze-breed","min": 1,"max": 4,"rate": 0.1},
+        {"key": "capsakid","min": 1,"max": 2,"rate": 0.2},
+        {"key": "rellor","min": 1,"max": 2,"rate": 0.1}
       ]
     },
     {
       "and_preset": "mesa_forests",
       "entries": [
-        {"key": "durant","min": 2,"max": 4,"rate": 0.5},
-        
-        {"key": "heatmor","min": 2,"max": 4,"rate": 0.4},
-        
-        {"key": "pawniard","min": 2,"max": 4,"rate": 0.2}
+        {"key": "durant","min": 1,"max": 4,"rate": 0.5},
+
+        {"key": "flittle","min": 1,"max": 2,"rate": 0.25},
+
+        {"key": "capsakid","min": 1,"max": 2,"rate": 0.5},
+
+        {"key": "heatmor","min": 1,"max": 3,"rate": 0.4},
+
+        {"key": "pawniard","min": 1,"max": 4,"rate": 0.2},
+
+        {"key": "rellor","min": 1,"max": 3,"rate": 0.2}
       ]
     }
   ]

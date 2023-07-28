@@ -3,35 +3,44 @@
     {
       "and_preset": "villages",
       "entries": [
-        {"key": "trubbish","min": 2,"max": 4,"rate": 0.3},
-        {"key": "ralts","min": 2,"max": 4,"rate": 0.3},
+        {"key": "trubbish","min": 1,"max": 4,"rate": 0.3},
+        {"key": "ralts","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "meowth","min": 2,"max": 4,"rate": 0.25},
-        {"key": "meowth-alola","min": 2,"max": 4,"rate": 0.25},
-        {"key": "meowth-galar","min": 2,"max": 4,"rate": 0.25},
+        {"key": "meowth","min": 1,"max": 4,"rate": 0.25},
+        {"key": "meowth-alola","min": 1,"max": 4,"rate": 0.25},
+        {"key": "meowth-galar","min": 1,"max": 4,"rate": 0.25},
+
+        {"key": "yamper","min": 1,"max": 4,"rate": 0.2},
+        {"key": "fidough","min": 1,"max": 4,"rate": 0.2},
+        {"key": "pidove","min": 1,"max": 4,"rate": 0.2},
+        {"key": "squawkabilly","min": 1,"max": 6,"rate": 0.2},
+        {"key": "squawkabilly-blue-plumage","min": 1,"max": 6,"rate": 0.2},
+        {"key": "squawkabilly-yellow-plumage","min": 1,"max": 4,"rate": 0.2},
+        {"key": "squawkabilly-white-plumage","min": 1,"max": 2,"rate": 0.2},
+        {"key": "applin","min": 1,"max": 4,"rate": 0.2},
+        {"key": "lechonk","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "yamper","min": 2,"max": 4,"rate": 0.2},
-        {"key": "pidove","min": 2,"max": 4,"rate": 0.2},
-        {"key": "applin","min": 2,"max": 4,"rate": 0.2},
+        {"key": "mr_mime","min": 1,"max": 4,"rate": 0.1},
+        {"key": "drifloon","min": 1,"max": 4,"rate": 0.1},
+        {"key": "stufful","min": 1,"max": 4,"rate": 0.1},
+        {"key": "milcery","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "mr_mime","min": 2,"max": 4,"rate": 0.1},
-        {"key": "drifloon","min": 2,"max": 4,"rate": 0.1},
-        {"key": "stufful","min": 2,"max": 4,"rate": 0.1},
-        {"key": "milcery","min": 2,"max": 4,"rate": 0.1},
+        {"key": "indeedee-male","min": 1,"max": 4,"rate": 0.1},
+        {"key": "indeedee-female","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "indeedee-male","min": 2,"max": 4,"rate": 0.1},
-        {"key": "indeedee-female","min": 2,"max": 4,"rate": 0.1},
+        {"key": "snubbull","min": 1,"max": 4,"rate": 0.08},
+        {"key": "ditto","min": 1,"max": 4,"rate": 0.08},
+        {"key": "eevee","min": 1,"max": 4,"rate": 0.08},
+        {"key": "tyrogue","min": 1,"max": 4,"rate": 0.08},
+        {"key": "scraggy","min": 1,"max": 4,"rate": 0.08},
+
+        {"key": "munchlax","min": 1,"max": 5,"rate": 0.1},
+        {"key": "sinistea","min": 1,"max": 4,"rate": 0.1, "variant": "sinistea-phony"},
         
-        {"key": "snubbull","min": 2,"max": 4,"rate": 0.08},
-        {"key": "ditto","min": 2,"max": 4,"rate": 0.08},
-        {"key": "eevee","min": 2,"max": 4,"rate": 0.08},
-        {"key": "tyrogue","min": 2,"max": 4,"rate": 0.08},
-        {"key": "scraggy","min": 2,"max": 4,"rate": 0.08},
+        {"key": "gimmighoul","min": 1,"max": 2,"rate": 0.05},
         
-        {"key": "sinistea","min": 2,"max": 4,"rate": 0.1, "variant": "sinistea-phony"},
-        
-        {"key": "sinistea","min": 2,"max": 4,"rate": 0.01, "variant": "sinistea-antique"},
-        {"key": "smeargle","min": 2,"max": 4,"rate": 0.01},
+        {"key": "sinistea","min": 1,"max": 4,"rate": 0.01, "variant": "sinistea-antique"},
+        {"key": "smeargle","min": 1,"max": 4,"rate": 0.01},
         
         {"key": "volcanion","min": 1,"max": 1,"rate": 0.002},
         {"key": "magearna","min": 1,"max": 1,"rate": 0.002}
@@ -41,9 +50,9 @@
     {
       "and_preset": "villages,day_time",
       "entries": [
-        {"key": "furfrou","min": 2,"max": 4,"rate": 0.08},
-        {"key": "spritzee","min": 2,"max": 4,"rate": 0.08},
-        {"key": "swirlix","min": 2,"max": 4,"rate": 0.08}
+        {"key": "furfrou","min": 1,"max": 4,"rate": 0.08},
+        {"key": "spritzee","min": 1,"max": 4,"rate": 0.08},
+        {"key": "swirlix","min": 1,"max": 4,"rate": 0.08}
       ]
     }
   ]
