@@ -9,12 +9,11 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import pokecube.adventures.PokecubeAdv;
@@ -70,7 +69,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
 
     public static Map<UUID, LivingEntity> CACHE = Maps.newHashMap();
 
-    private LivingEntity getMob(ItemStack stack, final ItemTransforms.TransformType transform)
+    private LivingEntity getMob(ItemStack stack, final ItemDisplayContext displayContext)
     {
         LivingEntity mob = null;
         final Minecraft mc = Minecraft.getInstance();
@@ -155,7 +154,7 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
         if (initMob && pokemob != null)
         {
             float mobScale = 1;
-            if (transform == TransformType.GUI)
+            if (displayContext == ItemDisplayContext.GUI)
             {
                 final Float value = GuiPokemobHelper.sizeMap.get(pokemob.getPokedexEntry());
                 if (value != null) mobScale = value * 8.0f;
@@ -183,10 +182,10 @@ public class StatueItem extends BlockEntityWithoutLevelRenderer implements IClie
     }
 
     @Override
-    public void renderByItem(final ItemStack stack, final ItemTransforms.TransformType transform, final PoseStack mat,
+    public void renderByItem(final ItemStack stack, final ItemDisplayContext displayContext, final PoseStack mat,
             final MultiBufferSource bufs, final int light, final int overlay)
     {
-        LivingEntity mob = getMob(stack, transform);
+        LivingEntity mob = getMob(stack, displayContext);
         StatueBlock.renderStatue(mob, 0, mat, bufs, light, overlay);
     }
 
