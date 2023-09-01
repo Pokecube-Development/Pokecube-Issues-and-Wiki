@@ -1,15 +1,12 @@
 package pokecube.core.client.gui.helper;
 
-import java.util.Objects;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-
+import java.util.Objects;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
@@ -56,7 +53,7 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
         return Math.max(0, this.getMaxPosition() - (this.y1 - this.y0 - 4));
     }
 
-    private int getRowBottom(final int index)
+    protected int getRowBottom(final int index)
     {
         return this.getRowTop(index) + this.itemHeight;
     }
