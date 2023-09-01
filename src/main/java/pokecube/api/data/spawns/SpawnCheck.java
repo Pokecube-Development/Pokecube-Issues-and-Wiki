@@ -8,9 +8,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
@@ -37,7 +37,7 @@ public class SpawnCheck
             if (!outside) return NONE;
             if (globalRain)
             {
-                final Biome.Precipitation type = world.getBiome(position).value().getPrecipitation();
+                final Biome.Precipitation type = world.getBiome(position).value().getPrecipitationAt(position);
                 switch (type)
                 {
                 case NONE:
@@ -71,7 +71,7 @@ public class SpawnCheck
     public final boolean dusk;
     public final boolean dawn;
     public final boolean night;
-    public final Material material;
+    public final BlockState state;
     public final float light;
     public final Holder<Biome> biome;
     public final BiomeType type;
@@ -80,19 +80,18 @@ public class SpawnCheck
     public final boolean thundering;
     public final LevelAccessor world;
     public final ChunkAccess chunk;
-    public final Vector3 location;
+    public final BlockPos pos;
 
-    public SpawnCheck(final Vector3 location, final ServerLevelAccessor world)
+    public SpawnCheck(final Vector3 location, final ServerLevelAccessor world, BlockPos pos, BlockState state)
     {
         this.world = world;
-        this.location = location;
-        final Holder<Biome> biome = location.getBiomeHolder(world);
-        this.biome = biome;
-        this.material = location.getBlockMaterial(world);
+        this.pos = pos;
+        this.biome = location.getBiomeHolder(world);
+        this.state = state;
         ServerLevel level;
         if (world instanceof ServerLevel) level = (ServerLevel) world;
         else level = ((WorldGenRegionAccessor) world).getServerLevel();
-        this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
+        this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(pos));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
         final double time = TimePeriod.getTime(level);
@@ -111,7 +110,7 @@ public class SpawnCheck
     public String toString()
     {
         String timeStr = day ? "day" : night ? "night" : dusk ? "dusk" : "dawn";
-        return String.format(FMT, timeStr, (int) (light * 16), material.getColor().col + "", biome.toString(),
-                type.name, weather.toString(), thundering, terrain.toString(), location.getPos().toString());
+        return String.format(FMT, timeStr, (int) (light * 16), state.getMapColor(world, pos).col + "", biome.toString(),
+                type.name, weather.toString(), thundering, terrain.toString(), pos);
     }
 }

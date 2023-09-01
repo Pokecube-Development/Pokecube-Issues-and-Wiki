@@ -16,6 +16,7 @@ import com.google.common.collect.Sets;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -28,7 +29,7 @@ import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerTrades.ItemListing;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
@@ -150,13 +151,13 @@ public class NpcType
         return list.toArray(new ItemListing[list.size()]);
     }
 
+    // TODO: Check if this still works
     @Nullable
-    public static NpcType getRandomForLocation(Vector3 v, final ServerLevel w)
+    public static NpcType getRandomForLocation(Vector3 v, final ServerLevel w, BlockState state, BlockPos pos)
     {
-        final Material m = v.getBlockMaterial(w);
-        if (m == Material.AIR && v.offset(Direction.DOWN).getBlockMaterial(w) == Material.AIR)
+        if (state.isAir() && w.getBlockState(pos.below()).isAir())
             v = v.getTopBlockPos(w).offsetBy(Direction.UP);
-        final SpawnCheck checker = new SpawnCheck(v, w);
+        final SpawnCheck checker = new SpawnCheck(v, w, pos, state);
         final List<NpcType> types = Lists.newArrayList(typeMap.values());
         Collections.shuffle(types);
         for (NpcType type : types) if (type.shouldSpawn(checker, w)) return type;

@@ -16,6 +16,7 @@ import net.minecraft.core.Direction8;
 import net.minecraft.core.GlobalPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Holder.Reference;
+import net.minecraft.core.HolderOwner;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -44,7 +45,6 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.lighting.LevelLightEngine;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -612,13 +612,6 @@ public class Vector3
         return ret;
     }
 
-    public Material getBlockMaterial(final BlockGetter world)
-    {
-        final BlockState state = world.getBlockState(this.getPos());
-        if (state == null || state.getBlock() == null) return Material.AIR;
-        return state.getMaterial();
-    }
-
     public BlockState getBlockState(final BlockGetter world)
     {
         return world.getBlockState(this.getPos());
@@ -683,7 +676,7 @@ public class Vector3
             {
                 final BlockState state = world.getBlockState(new BlockPos(this.intX(), ret, this.intZ()));
                 if (state == null) continue;
-                if (state.getMaterial().isSolid()) return ret;
+                if (state.isSolid()) return ret;
             }
         }
         return ret;
@@ -718,14 +711,12 @@ public class Vector3
 
     public boolean isAir(final BlockGetter world)
     {
-        Material m;
         if (world instanceof Level)
         {
             final BlockState state = world.getBlockState(this.getPos());
-            return state.getBlock() == null || (m = this.getBlockMaterial(world)) == null || m == Material.AIR
-                    || state.isAir();
+            return state.getBlock() == null || state.isAir();
         }
-        return (m = this.getBlockMaterial(world)) == null || m == Material.AIR;
+        return false;
     }
 
     public boolean isClearOfBlocks(final BlockGetter world)
@@ -735,9 +726,9 @@ public class Vector3
         if (state == null) return true;
 
         ret = this.isAir(world);
-        if (!ret) ret = ret || this.getBlockMaterial(world).isLiquid();
-        if (!ret) ret = ret || this.getBlockMaterial(world).isReplaceable();
-        if (!ret) ret = ret || !this.getBlockMaterial(world).blocksMotion();
+        if (!ret) ret = ret || state.liquid();
+        if (!ret) ret = ret || state.canBeReplaced();
+        if (!ret) ret = ret || !state.blocksMotion();
         if (!ret)
         {
             final VoxelShape shape = state.getCollisionShape(world, this.getPos());
@@ -1087,9 +1078,10 @@ public class Vector3
         if (old == biome) return;
 
         ResourceKey<Biome> key = ResourceKey.create(RegHelper.BIOME_REGISTRY, RegHelper.getKey(biome));
-        Registry<Biome> registry = level.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY);
+        HolderOwner<Biome> registry = level.registryAccess().registryOrThrow(RegHelper.BIOME_REGISTRY).holderOwner();
         Reference<Biome> holder = Holder.Reference.createStandAlone(registry, key);
-        holder.bind(key, biome);
+        holder.bindKey(key);
+        holder.bindValue(biome);
 
         biomes.set(qx & 3, l & 3, qz & 3, holder);
 
@@ -1098,7 +1090,7 @@ public class Vector3
             ChunkMap map = level.getChunkSource().chunkMap;
             LevelLightEngine lights = level.getLightEngine();
             ClientboundLevelChunkWithLightPacket packet = new ClientboundLevelChunkWithLightPacket(lchunk, lights, null,
-                    null, true);
+                    null);
 
             // Send the packet to tracking things, this is taken from
             // PacketDistributor.TRACKING_CHUNK
