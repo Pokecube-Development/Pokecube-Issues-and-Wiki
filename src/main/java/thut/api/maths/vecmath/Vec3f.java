@@ -1,6 +1,7 @@
 package thut.api.maths.vecmath;
 
 import net.minecraft.world.phys.Vec3;
+import org.joml.Vector3f;
 import thut.api.maths.Vector3;
 
 /**
@@ -108,9 +109,9 @@ public class Vec3f extends Tuple3f implements java.io.Serializable
         return new Quat4f(this, valueIn, true);
     }
 
-    public Vec3 toMC()
+    public Vector3f toMC()
     {
-        return new Vec3(this.x, this.y, this.z);
+        return new Vector3f(this.x, this.y, this.z);
     }
 
     public Vec3f(final Vector3 rHat)
