@@ -11,7 +11,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.gui.screens.Screen;
@@ -97,27 +97,28 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
     int mouseX, mouseY;
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float tick)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float tick)
     {
         this.mouseX = mouseX;
         this.mouseY = mouseY;
-        this.renderBackground(mat);
+        this.renderBackground(graphics);
 
         final int i = this.getScrollbarPosition();
         final int j = i + 6;
         final Tesselator tessellator = Tesselator.getInstance();
         final BufferBuilder bufferbuilder = tessellator.getBuilder();
-        RenderSystem.setShaderTexture(0, GuiComponent.BACKGROUND_LOCATION);
+        RenderSystem.setShaderTexture(0, Screen.BACKGROUND_LOCATION);
         final int k = this.getRowLeft();
         final int l = this.y0 + 4 - (int) this.getScrollAmount();
-        if (this.renderHeader) this.renderHeader(mat, k, l, tessellator);
+        if (this.renderHeader) this.renderHeader(graphics, k, l);
 
-        this.renderList(mat, k, l, tick);
+        this.renderList(graphics, k, l, tick);
 
         final int k1 = this.getMaxScroll();
         if (k1 > (smoothScroll ? 0 : this.itemHeight))
         {
-            RenderSystem.disableTexture();
+            // TODO: No equivalent?
+            // RenderSystem.disableTexture();
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
             int l1 = (int) ((float) ((this.y1 - this.y0) * (this.y1 - this.y0)) / (float) this.getMaxPosition());
             l1 = Mth.clamp(l1, 32, this.y1 - this.y0 - 8);
@@ -159,11 +160,11 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
             tessellator.end();
         }
 
-        this.renderDecorations(mat, mouseX, mouseY);
+        this.renderDecorations(graphics, mouseX, mouseY);
     }
 
     @Override
-    protected void renderList(final PoseStack mat, final int x, final int y, final float tick)
+    protected void renderList(final GuiGraphics graphics, final int x, final int y, final float tick)
     {
         final int i = this.getItemCount();
         final Tesselator tessellator = Tesselator.getInstance();
@@ -188,7 +189,8 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
                 {
                     final int l1 = x + this.x0 + this.width / 2 - k1 / 2;
                     final int i2 = x + this.x0 + this.width / 2 + k1 / 2;
-                    RenderSystem.disableTexture();
+                    // TODO: No equivalent?
+                    // RenderSystem.disableTexture();
                     final float f = this.isFocused() ? 1.0F : 0.5F;
                     bufferbuilder.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
                     bufferbuilder.vertex(l1, i1 + j1 + 2, 0.0D).color(f, f, f, 1).endVertex();
@@ -202,9 +204,10 @@ public class ScrollGui<T extends AbstractSelectionList.Entry<T>> extends Abstrac
                     bufferbuilder.vertex(i2 - 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
                     bufferbuilder.vertex(l1 + 1, i1 - 1, 0.0D).color(0, 0, 0, 1f).endVertex();
                     tessellator.end();
-                    RenderSystem.enableTexture();
+                    // TODO: No equivalent?
+                    // RenderSystem.activeTexture();
                 }
-                e.render(mat, j, k, j2, k1, j1, mouseX, mouseY,
+                e.render(graphics, j, k, j2, k1, j1, mouseX, mouseY,
                         this.isMouseOver(mouseX, mouseY) && Objects.equals(this.getEntryAtPosition(mouseX, mouseY), e),
                         tick);
             }
