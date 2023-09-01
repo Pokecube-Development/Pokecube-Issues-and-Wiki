@@ -5,9 +5,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.joml.Quaternionf;
+
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -59,7 +60,10 @@ public interface IModel
     default void globalFix(final PoseStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
-        mat.mulPose(new Quaternion(90, 0, 180, true));
+
+        // TODO: Check if this is the correct new method
+        // mat.mulPose(new Quaternion(90, 0, 180, true));
+        mat.mulPose(new Quaternionf().rotationXYZ(90, 0, 180));
         mat.translate(0, 0, dy - 1.5f);
     }
 
