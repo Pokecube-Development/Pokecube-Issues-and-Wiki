@@ -1,6 +1,8 @@
 {
     "_comment": "Pokecube Adventures translation",
 
+    "itemGroup.pokecube_adventures": "Pokécube Adventures",
+
     "block.rfsiphon.info": "Energy Output: %1$s/%2$s",
     "block.afa.ability.none": "No Ability Set",
     "block.afa.ability.info": "Ability: %s",
