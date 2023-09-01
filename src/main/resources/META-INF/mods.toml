@@ -92,6 +92,6 @@ license="All rights reserved"
 [[dependencies.pokecube]]
     modId="forge"
     mandatory=true
-    versionRange="version_forge"
+    versionRange="version_neoforged"
     ordering="NONE"
     side="BOTH"
