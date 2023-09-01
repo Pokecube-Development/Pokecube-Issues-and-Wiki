@@ -6,11 +6,13 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -146,9 +148,9 @@ public class RecipeSelector extends CustomRecipe
         return false;
     }
 
-    public RecipeSelector(final ResourceLocation location)
+    public RecipeSelector(final ResourceLocation location, CraftingBookCategory category)
     {
-        super(location);
+        super(location, category);
     }
 
     @Override
@@ -158,7 +160,7 @@ public class RecipeSelector extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingContainer inv, RegistryAccess access)
     {
 
         ItemStack book = ItemStack.EMPTY;
