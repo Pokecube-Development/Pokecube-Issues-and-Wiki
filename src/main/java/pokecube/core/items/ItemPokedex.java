@@ -88,7 +88,7 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
     public InteractionResultHolder<ItemStack> use(final Level world, final Player player, final InteractionHand hand)
     {
         final ItemStack itemstack = player.getItemInHand(hand);
-        if (!world.isClientSide) SpawnHandler.refreshTerrain(new Vector3().set(player), player.getLevel(), true);
+        if (!world.isClientSide) SpawnHandler.refreshTerrain(new Vector3().set(player), player.level(), true);
         if (!player.isCrouching())
         {
             final Entity entityHit = Tools.getPointedEntity(player, 16, 0.5);
@@ -109,7 +109,7 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
         final Block block = hit.getBlockState(worldIn).getBlock();
         if (!worldIn.isClientSide && playerIn instanceof ServerPlayer player && worldIn instanceof ServerLevel level)
         {
-            SpawnHandler.refreshTerrain(new Vector3().set(player), player.getLevel(), true);
+            SpawnHandler.refreshTerrain(new Vector3().set(player), player.level(), true);
 
             // Debug option to see if structures are in an area, for testing
             // datapacks/configs.
@@ -132,7 +132,7 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
             if (PokecubeCore.getConfig().debug_spawning)
             {
                 Vector3 v = new Vector3().set(pos);
-                SpawnCheck checker = new SpawnCheck(v, level);
+                SpawnCheck checker = new SpawnCheck(v, level, pos, context.getLevel().getBlockState(pos));
                 for (final PokedexEntry e : Database.spawnables)
                     if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null)
                 {
@@ -180,7 +180,7 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
     {
         if (player instanceof ServerPlayer splayer)
         {
-            final ChunkAccess chunk = player.getLevel().getChunk(player.blockPosition());
+            final ChunkAccess chunk = player.level.getChunk(player.blockPosition());
             TerrainUpdate.sendTerrainToClient(new ChunkPos(chunk.getPos().x, chunk.getPos().z), splayer);
             PacketDataSync.syncData(player, "pokecube-stats");
             PacketPokedex.sendSecretBaseInfoPacket(splayer, this.watch);

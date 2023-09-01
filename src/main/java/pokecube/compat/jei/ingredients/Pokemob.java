@@ -8,7 +8,9 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector4f;
+
+import net.minecraft.client.gui.GuiGraphics;
+import org.joml.Vector4f;
 
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
@@ -78,13 +80,13 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         }
 
         @Override
-        public void render(PoseStack poseStack, Pokemob pokemob)
+        public void render(GuiGraphics graphics, Pokemob pokemob)
         {
             if (pokemob != null)
             {
                 final byte gender = pokemob.gender;
                 Vector4f test = new Vector4f(1, 1, 1, 1);
-                test.transform(poseStack.last().pose());
+                test.transform(graphics.last().pose());
                 int x = (int) test.x();
                 int y = (int) test.y();
                 EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder, gender == IPokemob.MALE, x, y, 16, 16,
