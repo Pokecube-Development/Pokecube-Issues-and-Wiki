@@ -1,20 +1,20 @@
 package thut.api.maths;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Quaternionf;
 import thut.core.common.ThutCore;
 
 public class Vector4
 {
     public float x, y, z, w;
     @OnlyIn(value = Dist.CLIENT)
-    private Quaternion quat;
+    private Quaternionf quat;
 
     public Vector4()
     {
@@ -23,16 +23,18 @@ public class Vector4
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public Vector4(final Quaternion quat)
+    public Vector4(final Quaternionf quat)
     {
-        this(quat.i(), quat.j(), quat.k(), quat.r());
+        // TODO: Check this
+        this(quat.x(), quat.y(), quat.z(), quat.w());
         this.quat = quat;
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public Vector4 set(final Quaternion quat)
+    public Vector4 set(final Quaternionf quat)
     {
-        this.set(quat.i(), quat.j(), quat.k(), quat.r());
+        // TODO: Check this
+        this.set(quat.x(), quat.y(), quat.z(), quat.w());
         this.quat = quat;
         return this;
     }
@@ -266,17 +268,18 @@ public class Vector4
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public Quaternion toMCQ()
+    public Quaternionf toMCQ()
     {
+        // TODO: Check this
         if (this.quat != null) return this.quat;
-        return this.quat = new Quaternion(this.x, this.y, this.z, this.w);
+        return this.quat = new Quaternionf(this.x, this.y, this.z, this.w);
     }
 
     @OnlyIn(value = Dist.CLIENT)
-    public Quaternion toMCQInv()
+    public Quaternionf toMCQInv()
     {
-        final Quaternion quat = this.toMCQ();
-        quat.conj();
+        final Quaternionf quat = this.toMCQ();
+        quat.conjugate();
         return quat;
     }
 }
