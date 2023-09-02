@@ -27,7 +27,7 @@ public class StartPage extends WatchPage
         public int buttonX = 0;
         public int buttonY = 0;
 
-        public TooltipArea.OnTooltip hover = TexButton.NAMEONHOVER;
+        public TooltipArea.OnTooltipB hover = TexButton.NAMEONHOVER;
 
         public ImgRender render = new ImgRender()
         {

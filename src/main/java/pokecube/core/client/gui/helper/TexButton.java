@@ -13,7 +13,7 @@ import net.minecraft.util.Mth;
 
 public class TexButton extends Button
 {
-    private static class Tooltip implements TooltipArea.OnTooltip
+    private static class Tooltip implements TooltipArea.OnTooltipB
     {
         @Override
         public void onTooltip(final Button button, final GuiGraphics graphics, final int x, final int y)
@@ -24,14 +24,11 @@ public class TexButton extends Button
             graphics.drawCenteredString(fontrenderer, button.getMessage(), button.getX() + button.getWidth()
                     / 2, button.getY() + (button.getHeight() - 8) / 2, j | Mth.ceil(255.0F) << 24);
         }
-
-        @Override
-        public void onTooltipA(TooltipArea area, GuiGraphics graphics, int x, int y) {}
     }
 
-    public static final TooltipArea.OnTooltip NAMEONHOVER = new Tooltip();
+    public static final TooltipArea.OnTooltipB NAMEONHOVER = new Tooltip();
 
-    public static class ShiftedTooltip implements TooltipArea.OnTooltip
+    public static class ShiftedTooltip implements TooltipArea.OnTooltipB
     {
         int dx;
         int dy;
@@ -73,9 +70,6 @@ public class TexButton extends Button
                 // fontrenderer.draw(graphics, msg, button.getX() + this.dx - dx, button.getY() + this.dy, j | this.alpha << 24);
             }
         }
-
-        @Override
-        public void onTooltipA(TooltipArea area, GuiGraphics graphics, int x, int y) {}
     }
 
     public static interface IntFunc

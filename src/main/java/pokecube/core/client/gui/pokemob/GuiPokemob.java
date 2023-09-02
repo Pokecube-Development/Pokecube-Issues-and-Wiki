@@ -1,8 +1,11 @@
 package pokecube.core.client.gui.pokemob;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.MutableComponent;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -169,6 +172,10 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     public boolean keyPressed(int code, int unk1, int unk2)
     {
         return modules.get(moduleIndex).keyPressed(code, unk1, unk2) || super.keyPressed(code, unk1, unk2);
+    }
+
+    public void renderTooltip(GuiGraphics graphics, Component component, int x, int y) {
+        this.renderTooltip(graphics, (Component) Arrays.asList(component.getVisualOrderText()), x, y);
     }
 
     @Override
