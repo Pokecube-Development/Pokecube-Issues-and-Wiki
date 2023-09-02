@@ -1,22 +1,45 @@
 package pokecube.core.client.gui.helper;
 
 import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import javax.annotation.Nullable;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class TooltipArea extends AbstractWidget
 {
     public interface OnTooltip
     {
         // TODO: Check this
-        void onTooltip(Button button, GuiGraphics graphics, int x, int y);
-        void onTooltipA(TooltipArea area, GuiGraphics graphics, int x, int y);
+        void onTooltip(TooltipArea area, GuiGraphics graphics, int x, int y);
 
         default void narrateTooltip(Consumer<Component> consumer)
         {}
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public interface OnTooltipB {
+        void onTooltip(Button button, GuiGraphics graphics, int x, int y);
+
+        default void narrateTooltip(Consumer<Component> p_168842_) {
+        }
+    }
+    protected static final TooltipArea.CreateNarration DEFAULT_NARRATION = (p_253298_) -> {
+        return p_253298_.get();
+    };
+
+    protected CreateNarration createNarration;
+
+    public static TooltipArea.Builder builder(Component component, DoTooltip doTooltip, OnTooltip onTooltip) {
+        return new TooltipArea.Builder(component, doTooltip, onTooltip);
     }
 
     public interface DoTooltip
@@ -24,16 +47,17 @@ public class TooltipArea extends AbstractWidget
         boolean doTooltip(int mx, int my);
     }
 
-    private final DoTooltip doTooltip;
-    private final OnTooltip onTooltip;
+    private DoTooltip doTooltip;
+    private OnTooltip onTooltip;
 
     private boolean autoShow = true;
 
-    public TooltipArea(int x, int y, int w, int h, Component name, DoTooltip doTooltip, OnTooltip onTooltip)
+    public TooltipArea(int x, int y, int w, int h, Component name, DoTooltip doTooltip, OnTooltip onTooltip, TooltipArea.CreateNarration narration)
     {
         super(x, y, w, h, name);
         this.doTooltip = doTooltip;
         this.onTooltip = onTooltip;
+        this.createNarration = narration;
     }
 
     public TooltipArea(AbstractWidget mask, Component name, DoTooltip doTooltip, OnTooltip onTooltip)
@@ -41,6 +65,12 @@ public class TooltipArea extends AbstractWidget
         super(mask.getX(), mask.getY(), mask.getWidth(), mask.getHeight(), name);
         this.doTooltip = doTooltip;
         this.onTooltip = onTooltip;
+    }
+
+    public TooltipArea(Builder builder)
+    {
+        this(builder.x, builder.y, builder.width, builder.height, builder.name, builder.doTooltip, builder.onTooltip, builder.createNarration);
+        this.setTooltip(builder.tooltip);
     }
 
     /**
@@ -89,6 +119,77 @@ public class TooltipArea extends AbstractWidget
     @Override
     public void renderWidget(GuiGraphics graphics, int x, int y, final float tick)
     {
-        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltipA(this, graphics, x, y);
+        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltip(this, graphics, x, y);
+    }
+
+    protected MutableComponent createNarrationMessage() {
+        return this.createNarration.createNarrationMessage(() -> {
+            return super.createNarrationMessage();
+        });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static class Builder {
+        private DoTooltip doTooltip;
+        private OnTooltip onTooltip;
+        public final Component name;
+        @Nullable
+        public Tooltip tooltip;
+        public int x;
+        public int y;
+        public int width = 150;
+        public int height = 20;
+        public CreateNarration createNarration;
+
+        public Builder(Component name, DoTooltip doTooltip, OnTooltip onTooltip) {
+            this.createNarration = TooltipArea.DEFAULT_NARRATION;
+            this.name = name;
+            this.doTooltip = doTooltip;
+            this.onTooltip = onTooltip;
+        }
+
+        public TooltipArea.Builder pos(int x, int y) {
+            this.x = x;
+            this.y = y;
+            return this;
+        }
+
+        public TooltipArea.Builder width(int p_254259_) {
+            this.width = p_254259_;
+            return this;
+        }
+
+        public TooltipArea.Builder size(int p_253727_, int p_254457_) {
+            this.width = p_253727_;
+            this.height = p_254457_;
+            return this;
+        }
+
+        public TooltipArea.Builder bounds(int p_254166_, int p_253872_, int p_254522_, int p_253985_) {
+            return this.pos(p_254166_, p_253872_).size(p_254522_, p_253985_);
+        }
+
+        public TooltipArea.Builder tooltip(@Nullable Tooltip p_259609_) {
+            this.tooltip = p_259609_;
+            return this;
+        }
+
+        public TooltipArea.Builder createNarration(TooltipArea.CreateNarration p_253638_) {
+            this.createNarration = p_253638_;
+            return this;
+        }
+
+        public TooltipArea build() {
+            return this.build(TooltipArea::new);
+        }
+
+        public TooltipArea build(Function<Builder, TooltipArea> builder) {
+            return (TooltipArea)builder.apply(this);
+        }
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public interface CreateNarration {
+        MutableComponent createNarrationMessage(Supplier<MutableComponent> var1);
     }
 }
