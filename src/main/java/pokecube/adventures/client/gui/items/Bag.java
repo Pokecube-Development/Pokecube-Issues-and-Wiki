@@ -77,6 +77,8 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
                 "textures/gui/pcgui.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
+
+        // TODO: Check this
         graphics.blit(BACKGROUND_LOCATION, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 
