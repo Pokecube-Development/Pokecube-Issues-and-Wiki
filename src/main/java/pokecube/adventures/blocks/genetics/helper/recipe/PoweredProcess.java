@@ -24,10 +24,10 @@ public class PoweredProcess
 
         // TODO: Check this
         // This checks for item output
-        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.assemble(tile.getCraftMatrix(), RegistryAccess.EMPTY).isEmpty())
+        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.assemble(tile.getCraftMatrix(), world.registryAccess()).isEmpty())
             output = spliceRecipe;
         // This checks for item output also
-        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.assemble(tile.getCraftMatrix(), RegistryAccess.EMPTY).isEmpty())
+        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.assemble(tile.getCraftMatrix(), world.registryAccess()).isEmpty())
             output = extractRecipe;
         return output;
     }
@@ -52,12 +52,12 @@ public class PoweredProcess
     public boolean complete()
     {
         if (this.recipe == null || this.tile == null) return false;
-        final boolean ret = this.recipe.complete(this.tile);
+        final boolean ret = this.recipe.complete(this.tile, this.world);
         if (this.tile.getItem(this.tile.getOutputSlot()).isEmpty())
         {
             // TODO: Check this
             this.tile.setItem(this.tile.getOutputSlot(), this.recipe.assemble(this.tile
-                    .getCraftMatrix(), RegistryAccess.EMPTY));
+                    .getCraftMatrix(), this.world.registryAccess()));
             if (this.tile.getCraftMatrix().eventHandler != null) this.tile.getCraftMatrix().eventHandler
                     .slotsChanged(this.tile);
             TileUpdate.sendUpdate((BlockEntity) this.tile);
@@ -116,6 +116,6 @@ public class PoweredProcess
         if (this.world == null || this.recipe == null) return false;
         final boolean valid = this.recipe.matches(this.tile.getCraftMatrix(), this.world);
         // check this, as the "matches" sometimes checks the energy value.
-        return valid || !this.recipe.assemble(this.tile.getCraftMatrix()).isEmpty();
+        return valid || !this.recipe.assemble(this.tile.getCraftMatrix(), this.world.registryAccess()).isEmpty();
     }
 }

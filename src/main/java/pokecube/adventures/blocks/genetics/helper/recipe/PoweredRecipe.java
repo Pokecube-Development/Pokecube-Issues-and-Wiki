@@ -29,7 +29,7 @@ public abstract class PoweredRecipe extends CustomRecipe implements IPoweredReci
         final int energy = pinv.getEnergy();
 
         // TODO: Check this
-        final ItemStack result = this.assemble(inv, RegistryAccess.EMPTY);
+        final ItemStack result = this.assemble(inv, worldIn.registryAccess());
         if (result.isEmpty()) return false;
         final int needed = this.getCostFunction().apply(result);
         if (energy < needed) return false;

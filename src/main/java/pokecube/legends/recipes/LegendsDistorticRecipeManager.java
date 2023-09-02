@@ -56,7 +56,7 @@ public class LegendsDistorticRecipeManager
 
                     heldItem.shrink(1);
 
-                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem().copy());
+                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(event.getLevel().registryAccess()).copy());
                     event.setCanceled(true);
                     break;
                 }

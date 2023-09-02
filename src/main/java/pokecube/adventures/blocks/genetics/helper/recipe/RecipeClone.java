@@ -200,7 +200,7 @@ public class RecipeClone extends PoweredRecipe
     }
 
     @Override
-    public boolean complete(final IPoweredProgress tile)
+    public boolean complete(final IPoweredProgress tile, Level world)
     {
         boolean completed = false;
         for (final ReviveMatcher matcher : RecipeClone.getMatchers()) if (completed == matcher.complete(tile)) break;
@@ -210,7 +210,7 @@ public class RecipeClone extends PoweredRecipe
             final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
 
             // TODO: Check this
-            tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), RegistryAccess.EMPTY));
+            tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), world.registryAccess()));
             for (int i = 0; i < remaining.size(); i++)
             {
                 final ItemStack stack = remaining.get(i);

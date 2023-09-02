@@ -31,7 +31,7 @@ public class DefaultFireAction extends DefaultAction
 
     public static boolean attemptSmelt(final IPokemob attacker, final Vector3 pos)
     {
-        final Level world = attacker.getEntity().getLevel();
+        final Level world = attacker.getEntity().level();
         final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, pos.getAABB().inflate(1));
         if (!items.isEmpty())
         {
@@ -47,7 +47,7 @@ public class DefaultFireAction extends DefaultAction
                 tile.setItem(1, stack);
                 var recipe = world.getRecipeManager().getRecipeFor(RecipeType.SMELTING, tile, world).orElse(null);
                 if (recipe == null) continue;
-                ItemStack newstack = recipe.getResultItem();
+                ItemStack newstack = recipe.getResultItem(world.registryAccess());
                 if (newstack != null)
                 {
                     newstack = newstack.copy();

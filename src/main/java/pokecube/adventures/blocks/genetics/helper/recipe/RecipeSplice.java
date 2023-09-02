@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
@@ -39,12 +40,12 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public boolean complete(final IPoweredProgress tile)
+    public boolean complete(final IPoweredProgress tile, Level world)
     {
         final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
 
         // TODO: Check this
-        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), RegistryAccess.EMPTY));
+        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), world.registryAccess()));
         for (int i = 0; i < remaining.size(); i++)
         {
             final ItemStack stack = remaining.get(i);
