@@ -1,13 +1,11 @@
 package pokecube.core.client.gui;
 
-import java.awt.Rectangle;
+import com.google.common.collect.Lists;
+import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
-
-import com.google.common.collect.Lists;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -54,7 +52,7 @@ public class GuiInfoMessages
         GuiInfoMessages.recent.clear();
     }
 
-    public static void draw(final RenderMoveMessages event)
+    public static void draw(final RenderMoveMessages event, GuiGraphics graphics)
     {
         if (PokecubeCore.getConfig().battleLogInChat) return;
         final Minecraft minecraft = Minecraft.getInstance();
@@ -137,8 +135,9 @@ public class GuiInfoMessages
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
-                GuiComponent.fill(event.getMat(), w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.font.draw(event.getMat(), mess1.get(j), x - trim, ph, 0xffffff);
+                // TODO: Check this
+                graphics.fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
+                // minecraft.font.draw(event.getMat(), mess1.get(j), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;
