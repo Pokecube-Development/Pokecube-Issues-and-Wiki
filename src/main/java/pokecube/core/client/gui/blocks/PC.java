@@ -1,12 +1,7 @@
 package pokecube.core.client.gui.blocks;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.Screen;
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -17,6 +12,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
+import org.lwjgl.glfw.GLFW;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pc.PCContainer;
