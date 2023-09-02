@@ -4,7 +4,10 @@ import java.util.function.Consumer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
 
@@ -12,9 +15,11 @@ public class TooltipArea extends AbstractWidget
 {
     public interface OnTooltip
     {
-        void onTooltip(TooltipArea area, PoseStack stack, int x, int y);
+        // TODO: Check this
+        void onTooltip(Button button, GuiGraphics graphics, int x, int y);
+        void onTooltip(TooltipArea area, GuiGraphics graphics, int x, int y);
 
-        default void narrateTooltip(Consumer<Component> p_168842_)
+        default void narrateTooltip(Consumer<Component> consumer)
         {}
     }
 
@@ -37,7 +42,7 @@ public class TooltipArea extends AbstractWidget
 
     public TooltipArea(AbstractWidget mask, Component name, DoTooltip doTooltip, OnTooltip onTooltip)
     {
-        super(mask.x, mask.y, mask.getWidth(), mask.getHeight(), name);
+        super(mask.getX(), mask.getY(), mask.getWidth(), mask.getHeight(), name);
         this.doTooltip = doTooltip;
         this.onTooltip = onTooltip;
     }
@@ -61,7 +66,7 @@ public class TooltipArea extends AbstractWidget
     }
 
     @Override
-    public void updateNarration(NarrationElementOutput naration)
+    public void updateWidgetNarration(NarrationElementOutput narration)
     {}
 
     @Override
@@ -78,15 +83,16 @@ public class TooltipArea extends AbstractWidget
         return false;
     }
 
+    // TODO: Check this
     @Override
-    public void renderButton(final PoseStack mat, final int mx, final int my, final float tick)
+    public void render(final GuiGraphics graphics, final int mx, final int my, final float tick)
     {
-        if (autoShow) this.renderToolTip(mat, mx, my);
+        if (autoShow) this.renderWidget(graphics, mx, my, tick);
     }
 
     @Override
-    public void renderToolTip(PoseStack stack, int x, int y)
+    public void renderWidget(GuiGraphics graphics, int x, int y, final float tick)
     {
-        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltip(this, stack, x, y);
+        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltip(this, graphics, x, y);
     }
 }

@@ -5,12 +5,12 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Button.OnTooltip;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ImgRender;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
+import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.lib.TComponent;
 
@@ -27,7 +27,7 @@ public class StartPage extends WatchPage
         public int buttonX = 0;
         public int buttonY = 0;
 
-        public OnTooltip hover = TexButton.NAMEONHOVER;
+        public TooltipArea.OnTooltip hover = TexButton.NAMEONHOVER;
 
         public ImgRender render = new ImgRender()
         {

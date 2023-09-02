@@ -258,7 +258,7 @@ public class GuiEditNBT extends AbstractWidget
     }
 
     @Override
-    public void updateNarration(final NarrationElementOutput p_169152_)
+    public void updateWidgetNarration(final NarrationElementOutput p_169152_)
     {
         // TODO Auto-generated method stub
 

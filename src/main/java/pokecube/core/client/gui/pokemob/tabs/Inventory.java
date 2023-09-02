@@ -81,7 +81,7 @@ public class Inventory extends Tab
         }
 
         @Override
-        public void updateNarration(final NarrationElementOutput narate)
+        public void updateWidgetNarration(final NarrationElementOutput narate)
         {
             // TODO Auto-generated method stub
 
