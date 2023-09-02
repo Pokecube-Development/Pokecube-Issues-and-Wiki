@@ -6,6 +6,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
+import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -16,7 +21,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
@@ -293,25 +297,30 @@ public class AnimationGui extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int unk1, final int unk2, float partialTicks)
+    public void render(final GuiGraphics graphics, final int unk1, final int unk2, float partialTicks)
     {
+        Matrix4f matrix4f = graphics.pose().last().pose();
         if (this.bg)
         {
-            mat.pushPose();
-            mat.translate(0, 0, -900);
-            GuiComponent.fill(mat, 0, 0, this.width, this.height, 0xFF121314);
-            mat.popPose();
+            graphics.pose().pushPose();
+            graphics.pose().translate(0, 0, -900);
+
+            // TODO: Check this
+            graphics.fill(RenderType.guiOverlay(), 0, 0, this.width, this.height, 0xFF121314);
+            graphics.pose().popPose();
         }
-        super.render(mat, unk1, unk2, partialTicks);
+        super.render(graphics, unk1, unk2, partialTicks);
 
         final int yOffset = this.height / 2;
-        this.font.draw(mat, "State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
-        this.font.draw(mat, "State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
-        this.font.draw(mat, "State-Logic", this.width - 101, yOffset - 02 - yOffset / 2, 0xFFFFFF);
 
-        this.font.draw(mat, "Animation", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
-        this.font.draw(mat, "              Info:", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
-        this.font.draw(mat, "Forme", this.width - 101, yOffset / 2 + 60, 0xFFFFFF);
+        // TODO: Fix this
+//        this.font.drawInBatch("State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
+//        this.font.drawInBatch("State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
+//        this.font.drawInBatch("State-Logic", this.width - 101, yOffset - 02 - yOffset / 2, 0xFFFFFF);
+//
+//        this.font.drawInBatch("Animation", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
+//        this.font.drawInBatch("              Info:", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
+//        this.font.drawInBatch("Forme", this.width - 101, yOffset / 2 + 60, 0xFFFFFF);
 
         if (this.toRender != null)
         {
@@ -324,7 +333,7 @@ public class AnimationGui extends Screen
                 if (m.active) m.preRender();
             });
 
-            mat.pushPose();
+            graphics.pose().pushPose();
 
             final float xSize = this.width / 2;
             final float dx = xSize / 3 + this.shift[0];
@@ -347,13 +356,14 @@ public class AnimationGui extends Screen
             entity.yHeadRotO = entity.yHeadRot;
             entity.xRotO = entity.xRot;
             entity.tickCount = Minecraft.getInstance().player.tickCount;
-            entity.animationPosition += 0.0125;
+            // TODO: Check this
+            entity.attackAnim += 0.0125;
 
             partialTicks = minecraft.getFrameTime();
             if (this.isPauseScreen())
             {
                 entity.tickCount = 0;
-                entity.animationPosition = 0;
+                entity.attackAnim = 0;
                 partialTicks = 0;
             }
 
@@ -397,11 +407,11 @@ public class AnimationGui extends Screen
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);
             GuiPokemobHelper.autoScale = false;
-            GuiPokemobHelper.renderMob(mat, entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
+            GuiPokemobHelper.renderMob(graphics.pose(), entity, j, k, this.yRenderAngle, this.xRenderAngle, this.yHeadRenderAngle,
                     this.xHeadRenderAngle, zoom, partialTicks);
             GuiPokemobHelper.autoScale = true;
             if (this.renderHolder != null) this.renderHolder.overrideAnim = false;
-            mat.popPose();
+            graphics.pose().popPose();
 
             modules.forEach(m -> {
                 if (m.active) m.postRender();
@@ -469,28 +479,34 @@ public class AnimationGui extends Screen
 
         int dy = -120;
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20, up, b -> {
+        this.addRenderableWidget(new Button.Builder(up, (b) -> {
             this.shift[1] += Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 20, 20, down, b -> {
+        }).bounds(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(down, (b) -> {
             this.shift[1] -= Screen.hasShiftDown() ? 10 : 1;
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 20, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20, right, b -> {
+        this.addRenderableWidget(new Button.Builder(right, (b) -> {
             this.shift[0] += Screen.hasShiftDown() ? 10 : 1;
-        }));
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 20, 20, left, b -> {
+        }).bounds(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(left, (b) -> {
             this.shift[0] -= Screen.hasShiftDown() ? 10 : 1;
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 20, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20, plus, b -> {
+        this.addRenderableWidget(new Button.Builder(plus, (b) -> {
             this.scale += Screen.hasShiftDown() ? 1 : 0.1;
-        }));
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 20, 20, minus, b -> {
+        }).bounds(this.width / 2 - xOffset + 20, yOffset + dy, 20, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(minus, (b) -> {
             this.scale -= Screen.hasShiftDown() ? 1 : 0.1;
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 20, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, prev, b -> {
+        this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             final PokedexEntry num = Pokedex.getInstance().getPrevious(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
             else AnimationGui.entry = Pokedex.getInstance().getLastEntry();
@@ -500,9 +516,10 @@ public class AnimationGui extends Screen
             this.forme_alt.setValue(this.holder == null ? "" : this.holder.key.toString());
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, next, b -> {
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
             final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
             else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
@@ -512,9 +529,10 @@ public class AnimationGui extends Screen
             this.forme_alt.setValue(this.holder == null ? "" : this.holder.key.toString());
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, reset, b -> {
+        this.addRenderableWidget(new Button.Builder(reset, (b) -> {
             this.xRenderAngle = 0;
             this.yRenderAngle = 0;
             this.yHeadRenderAngle = 0;
@@ -522,47 +540,48 @@ public class AnimationGui extends Screen
             this.scale = 1;
             this.shift[0] = 0;
             this.shift[1] = 0;
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, TComponent.literal("normal"), b ->
-                {
-                    this.shiny = !this.shiny;
-                    b.setMessage(TComponent.literal(this.shiny ? "shiny" : "normal"));
-                    this.onUpdated();
-                }));
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("normal"), (b) -> {
+            this.shiny = !this.shiny;
+            b.setMessage(TComponent.literal(this.shiny ? "shiny" : "normal"));
+            this.onUpdated();
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(
-                new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, TComponent.literal("sexe:M"), b ->
-                {
-                    final String[] gender = b.getMessage().getString().split(":");
-                    if (gender[1].equalsIgnoreCase("f"))
-                    {
-                        this.sexe = IPokemob.MALE;
-                        b.setMessage(TComponent.literal("sexe:M"));
-                    }
-                    else if (gender[1].equalsIgnoreCase("m"))
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("sexe:M"), (b) -> {
+            final String[] gender = b.getMessage().getString().split(":");
+            if (gender[1].equalsIgnoreCase("f"))
+            {
+                this.sexe = IPokemob.MALE;
+                b.setMessage(TComponent.literal("sexe:M"));
+            }
+            else if (gender[1].equalsIgnoreCase("m"))
             {
                 this.sexe = IPokemob.FEMALE;
                 b.setMessage(TComponent.literal("sexe:F"));
             }
-                    this.holder = AnimationGui.entry.getModel(this.sexe);
-                    this.forme_alt.setValue("");
-                    this.onUpdated();
-                }));
+            this.holder = AnimationGui.entry.getModel(this.sexe);
+            this.forme_alt.setValue("");
+            this.onUpdated();
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, f5, b -> {
+        this.addRenderableWidget(new Button.Builder(f5, (b) -> {
             AnimationGui.renderMobs.clear();
             RenderPokemob.reloadModel(AnimationGui.entry);
             this.onUpdated();
             this.renderHolder.wrapper.lastInit = Long.MIN_VALUE;
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 20, bg, b -> {
+        this.addRenderableWidget(new Button.Builder(bg, (b) -> {
             this.bg = !this.bg;
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 20).build());
+
         dy += 20;
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset, yOffset + dy, 40, 10, module, b -> {
+        this.addRenderableWidget(new Button.Builder(module, (b) -> {
             int mod = this.moduleIndex + 1;
             modules.forEach(m -> {
                 m.setEnabled(false);
@@ -574,10 +593,10 @@ public class AnimationGui extends Screen
             }
             else mod = -1;
             this.moduleIndex = mod;
-        }));
+        }).bounds(this.width / 2 - xOffset, yOffset + dy, 40, 10).build());
 
         // Buttons from here down are on the right side of the screen
-        this.addRenderableWidget(new Button(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10, right, b -> {
+        this.addRenderableWidget(new Button.Builder(right, (b) -> {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
             {
@@ -595,8 +614,9 @@ public class AnimationGui extends Screen
                 }
             }
             this.onUpdated();
-        }));
-        this.addRenderableWidget(new Button(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10, left, b -> {
+        }).bounds(this.width - 101 + 20, yOffset + 85 - yOffset / 2, 10, 10).build());
+
+        this.addRenderableWidget(new Button.Builder(left, (b) -> {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
             {
@@ -614,8 +634,9 @@ public class AnimationGui extends Screen
                 }
             }
             this.onUpdated();
-        }));
-        this.addRenderableWidget(new Button(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10, right, b -> {
+        }).bounds(this.width - 101, yOffset + 85 - yOffset / 2, 10, 10).build());
+
+        this.addRenderableWidget(new Button.Builder(right, (b) -> {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
             {
@@ -639,8 +660,9 @@ public class AnimationGui extends Screen
                 else this.forme_alt.setValue("");
             }
             this.onUpdated();
-        }));
-        this.addRenderableWidget(new Button(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10, left, b -> {
+        }).bounds(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10).build());
+
+        this.addRenderableWidget(new Button.Builder(left, (b) -> {
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
             {
@@ -664,7 +686,7 @@ public class AnimationGui extends Screen
                 else this.forme_alt.setValue("");
             }
             this.onUpdated();
-        }));
+        }).bounds(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10).build());
 
         modules.forEach(m -> {
             m.init();
