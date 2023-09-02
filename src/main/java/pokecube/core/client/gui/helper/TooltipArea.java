@@ -1,11 +1,7 @@
 package pokecube.core.client.gui.helper;
 
 import java.util.function.Consumer;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractButton;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -17,7 +13,7 @@ public class TooltipArea extends AbstractWidget
     {
         // TODO: Check this
         void onTooltip(Button button, GuiGraphics graphics, int x, int y);
-        void onTooltip(TooltipArea area, GuiGraphics graphics, int x, int y);
+        void onTooltipA(TooltipArea area, GuiGraphics graphics, int x, int y);
 
         default void narrateTooltip(Consumer<Component> consumer)
         {}
@@ -93,6 +89,6 @@ public class TooltipArea extends AbstractWidget
     @Override
     public void renderWidget(GuiGraphics graphics, int x, int y, final float tick)
     {
-        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltip(this, graphics, x, y);
+        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltipA(this, graphics, x, y);
     }
 }
