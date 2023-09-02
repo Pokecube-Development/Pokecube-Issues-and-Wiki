@@ -17,6 +17,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.entity.Entity;
@@ -144,9 +145,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         return ret;
     }
 
-    public static GuiDisplayPokecubeInfo instance()
+    public static GuiDisplayPokecubeInfo instance(Minecraft craft, MultiBufferSource.BufferSource bufferSource)
     {
-        if (GuiDisplayPokecubeInfo.instance == null) GuiDisplayPokecubeInfo.instance = new GuiDisplayPokecubeInfo();
+        if (GuiDisplayPokecubeInfo.instance == null) GuiDisplayPokecubeInfo.instance = new GuiDisplayPokecubeInfo(craft, bufferSource);
         return GuiDisplayPokecubeInfo.instance;
     }
 
@@ -173,8 +174,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
     /**
      *
      */
-    public GuiDisplayPokecubeInfo()
+    public GuiDisplayPokecubeInfo(Minecraft craft, MultiBufferSource.BufferSource bufferSource)
     {
+        super(craft, bufferSource);
         this.minecraft = Minecraft.getInstance();
         this.fontRenderer = this.minecraft.font;
         if (GuiDisplayPokecubeInfo.instance != null)
