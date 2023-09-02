@@ -1,5 +1,8 @@
 package thut.api.maths.vecmath;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+
 /**
  * A single precision floating point 3 by 3 matrix.
  * Primarily to support 3D rotations.
@@ -2241,6 +2244,33 @@ public class Mat3f implements java.io.Serializable, Cloneable
         y = this.m10 * t.x + this.m11 * t.y + this.m12 * t.z;
         z = this.m20 * t.x + this.m21 * t.y + this.m22 * t.z;
         t.set(x, y, z);
+    }
+
+    /**
+     * The x component of the vector.
+     */
+    public float x;
+    /**
+     * The y component of the vector.
+     */
+    public float y;
+    /**
+     * The z component of the vector.
+     */
+    public float z;
+    /**
+     * The w component of the vector.
+     */
+    public float w;
+
+    // TODO: Check this
+
+    public void transform(Matrix3f t) {
+        float x, y, z;
+        x = this.m00 * this.x + this.m01 * this.y + this.m02 * this.z;
+        y = this.m10 * this.x + this.m11 * this.y + this.m12 * this.z;
+        z = this.m20 * this.x + this.m21 * this.y + this.m22 * this.z;
+        t.set((int) x, (int) y, z);
     }
 
     /**

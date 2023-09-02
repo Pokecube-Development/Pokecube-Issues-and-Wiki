@@ -1,15 +1,17 @@
 package thut.core.client.render.model.parts;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 
+import thut.api.maths.vecmath.Mat3f;
+import thut.api.maths.vecmath.Mat4f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -165,12 +167,26 @@ public abstract class Mesh
     private final Vector3f dummy3 = new Vector3f();
     private final Vector3f dummy_1 = new Vector3f();
     private final Vector4f dummy4 = new Vector4f();
+    private final Mat4f dummy5 = new Mat4f();
+    private final Mat3f dummy6 = new Mat3f();
+
+    public float m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33;
+    public final void transform(final thut.api.maths.vecmath.Vector4f t)
+    {
+        float x, y, z, w;
+        x = this.m00 * t.x + this.m01 * t.y + this.m02 * t.z;
+        y = this.m10 * t.x + this.m11 * t.y + this.m12 * t.z;
+        z = this.m20 * t.x + this.m21 * t.y + this.m22 * t.z;
+        w = this.m30 * t.x + this.m31 * t.y + this.m32 * t.z;
+        t.set(x, y, z, w);
+    }
 
     protected void doRender(final PoseStack mat, final VertexConsumer buffer, final IPartTexturer texturer)
     {
         final PoseStack.Pose matrixstack$entry = mat.last();
         final Matrix4f pos = matrixstack$entry.pose();
         final Vector4f dp = this.dummy4;
+        final Mat4f dp4f = this.dummy5;
 
         float x, y, z, nx, ny, nz, u, v;
         if (modelCullThreshold > 0)
@@ -179,12 +195,14 @@ public abstract class Mesh
             float s = len * scale;
 
             dp.set(s, s, s, 0);
-            dp.transform(pos);
+            // TODO: Check this
+            dp4f.transform(pos);
             dp.mul(a);
             double dr2_us = dp.dot(dp);
 
             dp.set(0, 0, 0, 1);
-            dp.transform(pos);
+            // TODO: Check this
+            dp4f.transform(pos);
             double dr2_2 = dp.dot(dp);
 
             boolean size_cull = modelCullThreshold * dr2_2 >= dr2_us;
@@ -211,7 +229,8 @@ public abstract class Mesh
 
         final boolean flat = this.material.flat;
         Vertex[] normals = flat ? this.normalList : this.normals;
-        final com.mojang.math.Vector3f dn = this.dummy3;
+        final Vector3f dn = this.dummy3;
+        final Mat3f dn4f = this.dummy6;
         final Matrix3f norms = matrixstack$entry.normal();
 
         Vertex vertex;
@@ -234,7 +253,7 @@ public abstract class Mesh
             nz = normal.z;
 
             dn.set(nx, ny, nz);
-            dn.transform(norms);
+            dn4f.transform(norms);
 
             // Next we can pull out the coordinates if not culled.
             textureCoordinate = this.textureCoordinates[i];
@@ -245,7 +264,7 @@ public abstract class Mesh
             z = vertex.z;
 
             dp.set(x, y, z, 1);
-            dp.transform(pos);
+            dp4f.transform(pos);
 
             u = textureCoordinate.u + (float) this.uvShift[0];
             v = textureCoordinate.v + (float) this.uvShift[1];
