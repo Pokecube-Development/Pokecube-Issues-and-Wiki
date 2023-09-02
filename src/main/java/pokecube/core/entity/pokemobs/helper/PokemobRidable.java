@@ -12,9 +12,11 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.Saddleable;
 import net.minecraft.world.entity.TamableAnimal;
@@ -53,11 +55,11 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     @Override
-    public Entity getControllingPassenger()
+    public LivingEntity getControllingPassenger()
     {
         final List<Entity> passengers = this.getPassengers();
         if (passengers.isEmpty()) return null;
-        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId()) ? this.getPassengers().get(0)
+        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId()) ? (LivingEntity) this.getPassengers().get(0)
                 : null;
     }
 
@@ -69,9 +71,9 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     @Override
-    public boolean rideableUnderWater()
+    public boolean dismountsUnderwater()
     {
-        return this.pokemobCap.canUseSurf() || this.pokemobCap.canUseDive();
+        return !this.pokemobCap.canUseSurf() && !this.pokemobCap.canUseDive() && !this.getType().is(EntityTypeTags.DISMOUNTS_UNDERWATER);
     }
 
     // ========== Jumping Mount and Equipable stuff here ==========
@@ -208,7 +210,7 @@ public abstract class PokemobRidable extends PokemobHasParts
 
     protected void initSeats()
     {
-        if (!(this.getLevel() instanceof ServerLevel)) return;
+        if (!(this.level instanceof ServerLevel)) return;
         if (this.init && this.lastPose.equals(getHolder().holder().effective_pose)) return;
         final PokedexEntry entry = this.pokemobCap.getPokedexEntry();
         this.lastPose = getHolder().holder().effective_pose;
@@ -286,7 +288,7 @@ public abstract class PokemobRidable extends PokemobHasParts
     }
 
     @Override
-    public void positionRider(final Entity passenger)
+    public void positionRider(final Entity passenger, Entity.MoveFunction moveFunction)
     {
         if (this.hasPassenger(passenger))
             IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
