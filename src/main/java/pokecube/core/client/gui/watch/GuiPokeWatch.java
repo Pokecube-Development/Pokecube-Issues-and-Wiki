@@ -207,19 +207,22 @@ public class GuiPokeWatch extends Screen
             if (index < GuiPokeWatch.PAGELIST.size() - 1) index++;
             else index = 0;
             this.changePage(index);
-        }).bounds(x + 14, y + 40, 17, 17).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)).build());
+        }).bounds(x + 14, y + 40, 17, 17).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(144, 0, 17, 17)).build());
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             int index = this.index;
             if (index > 0) index--;
             else index = GuiPokeWatch.PAGELIST.size() - 1;
             this.changePage(index);
-        }).bounds(x - 33, y + 40, 17, 17).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)).build());
+        }).bounds(x - 33, y + 40, 17, 17).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(144, 0, 17, 17)).build());
 
         final TexButton homeBtn = this.addRenderableWidget(new TexButton.Builder(home, (b) -> {
             final int index = 0;
             this.changePage(index, true);
-        }).bounds(x - 17, y + 40, 32, 17).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(168, 0, 32, 17)).build());
+        }).bounds(x - 17, y + 40, 32, 17).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(168, 0, 32, 17)).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

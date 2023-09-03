@@ -5,6 +5,7 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
@@ -79,12 +80,12 @@ public abstract class PageWithSubPages<T extends Page> extends Page
 
     protected abstract int pageCount();
 
-    public void postPageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void postPageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
 
-    public void prePageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
 
     }
