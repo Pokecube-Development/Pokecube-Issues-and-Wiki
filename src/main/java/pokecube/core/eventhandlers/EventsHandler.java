@@ -46,7 +46,7 @@ import net.minecraftforge.event.TickEvent.PlayerTickEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.event.entity.living.MobSpawnEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.PlayerLoggedInEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent.StartTracking;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
@@ -144,15 +144,15 @@ public class EventsHandler
         public ChooseFirst(final Player player)
         {
             this.player = player;
-            this.start = player.getLevel().getGameTime();
-            if (!SpawnHandler.canSpawnInWorld(player.getLevel(), false)) return;
+            this.start = player.level().getGameTime();
+            if (!SpawnHandler.canSpawnInWorld(player.level(), false)) return;
             MinecraftForge.EVENT_BUS.register(this);
         }
 
         @SubscribeEvent
         public void onPlayerJoin(final TickEvent.PlayerTickEvent event)
         {
-            if (event.player.getLevel().getGameTime() - this.start < 20) return;
+            if (event.player.level.getGameTime() - this.start < 20) return;
             if (event.player == this.player)
             {
                 PacketChoose packet;
@@ -451,7 +451,7 @@ public class EventsHandler
     private static void onItemRightClick(final PlayerInteractEvent.RightClickItem evt)
     {
         if (!(evt.getEntity() instanceof ServerPlayer player)
-                || !(evt.getEntity().getLevel() instanceof ServerLevel level))
+                || !(evt.getEntity().level() instanceof ServerLevel level))
             return;
         final String ID = "__poke_interact__";
         final long time = player.getPersistentData().getLong(ID);
@@ -472,7 +472,7 @@ public class EventsHandler
         Vector3 v = new Vector3().set(player);
         if (isSpawnPresetDebug)
         {
-            SpawnCheck check = new SpawnCheck(v, level);
+            SpawnCheck check = new SpawnCheck(v, level, evt.getPos(), evt.getLevel().getBlockState(evt.getPos()));
             List<String> valid = Lists.newArrayList();
 
             for (Entry<String, SpawnRule> entry : SpawnBiomeMatcher.PRESETS.entrySet())
@@ -635,11 +635,11 @@ public class EventsHandler
         }
     }
 
-    private static void onCheckSpawnCheck(final LivingSpawnEvent.CheckSpawn event)
+    private static void onCheckSpawnCheck(final MobSpawnEvent.PositionCheck event)
     {
         // Only deny them from these reasons.
-        if (!(event.getSpawnReason() == MobSpawnType.NATURAL || event.getSpawnReason() == MobSpawnType.CHUNK_GENERATION
-                || event.getSpawnReason() == MobSpawnType.STRUCTURE))
+        if (!(event.getSpawnType() == MobSpawnType.NATURAL || event.getSpawnType() == MobSpawnType.CHUNK_GENERATION
+                || event.getSpawnType() == MobSpawnType.STRUCTURE))
             return;
 
         if (EventsHandler.MONSTERMATCHER.test(event.getEntity()) && PokecubeCore.getConfig().deactivateMonsters)
@@ -654,7 +654,7 @@ public class EventsHandler
         for (int i = 0; i < player.getInventory().getContainerSize(); i++)
         {
             final ItemStack stack = player.getInventory().getItem(i);
-            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, player.getLevel());
+            if (PokecubeManager.isFilled(stack)) PokecubeManager.heal(stack, player.level());
         }
     }
 
@@ -671,7 +671,7 @@ public class EventsHandler
             poke.onTick();
         }
 
-        if (evt.getEntity().getLevel().isClientSide || !evt.getEntity().isAlive()) return;
+        if (evt.getEntity().level().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
         if (evt.getEntity().tickCount % tick == 0 || !EventsHandler.COOLDOWN_BASED)
@@ -746,7 +746,7 @@ public class EventsHandler
     private static void onChangeDimension(final EntityTravelToDimensionEvent evt)
     {
         final Entity entity = evt.getEntity();
-        final Level tworld = entity.getLevel();
+        final Level tworld = entity.level();
         if (tworld.isClientSide || !(tworld instanceof ServerLevel world)) return;
         // Recall the pokemobs if the player changes dimension.
         final ResourceKey<Level> newDim = evt.getDimension();
