@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.MultiLineLabel;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.MutableComponent;
@@ -32,13 +33,13 @@ public class Bonus extends PokeInfoPage
     }
 
     // Default
-    private void drawBaseStats(final PoseStack mat, final int x, final int y)
+    private void drawBaseStats(final GuiGraphics graphics, final int x, final int y)
     {
 
     }
 
     // Your Pokemob
-    private void drawInfo(final PoseStack mat, final int x, final int y)
+    private void drawInfo(final GuiGraphics graphics, final int x, final int y)
     {
         final int offsetX = 120; // -52
         int dx = 20 + offsetX;
@@ -57,7 +58,8 @@ public class Bonus extends PokeInfoPage
         if (!ability.isEmpty())
         {
             final String abilityName = I18n.get(ability);
-            this.font.draw(mat, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
+            // TODO: Check this
+            // this.font.draw(graphics, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
         }
         final int happiness = this.parent.pokemob.getHappiness();
         MutableComponent message = TComponent.literal("");
@@ -66,7 +68,7 @@ public class Bonus extends PokeInfoPage
         dy += 10; // 50
         message = TComponent.translatable("pokewatch.size", "%.2f".formatted(this.parent.pokemob.getSize()));
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
-        this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, sizeColour);
+        this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
 
         // Draw Nature
         dy += 11; // 50
@@ -74,7 +76,7 @@ public class Bonus extends PokeInfoPage
         {
             message = TComponent.translatable("pokewatch.nature", this.parent.pokemob.getNature());
             this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
-            this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, natureColour);
+            this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, natureColour);
         }
 
         if (happiness == 0) message = TComponent.translatable("pokemob.info.happy0");
@@ -87,15 +89,15 @@ public class Bonus extends PokeInfoPage
         // Draw Happiness
         dy += 16; // 50
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
-        this.splitRenderer.renderLeftAlignedNoShadow(mat, x + dx, y + dy, 12, abilitycolour);
+        this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, abilitycolour);
     }
 
     @Override
-    void drawInfo(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        if (this.watch.canEdit(this.parent.pokemob)) this.drawInfo(mat, x, y);
-        else this.drawBaseStats(mat, x, y);
+        if (this.watch.canEdit(this.parent.pokemob)) this.drawInfo(graphics, x, y);
+        else this.drawBaseStats(graphics, x, y);
     }
 }
