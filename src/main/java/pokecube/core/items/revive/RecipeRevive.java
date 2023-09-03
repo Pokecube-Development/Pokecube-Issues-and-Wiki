@@ -1,9 +1,11 @@
 package pokecube.core.items.revive;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -20,9 +22,9 @@ public class RecipeRevive extends CustomRecipe
 {
     public static final ResourceLocation REVIVETAG = new ResourceLocation("pokecube:revive");
 
-    public RecipeRevive(final ResourceLocation idIn)
+    public RecipeRevive(final ResourceLocation idIn, CraftingBookCategory category)
     {
-        super(idIn);
+        super(idIn, category);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class RecipeRevive extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingContainer inv, RegistryAccess access)
     {
         ItemStack healed = ItemStack.EMPTY;
         boolean revive = false;
