@@ -9,8 +9,8 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
-import net.minecraft.world.level.block.BambooBlock;
 import net.minecraft.world.level.block.BambooSaplingBlock;
+import net.minecraft.world.level.block.BambooStalkBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -62,7 +62,7 @@ public class TemporalBambooShootBlock extends BambooSaplingBlock implements Bone
     public void growBamboo(Level world, BlockPos pos)
     {
         world.setBlock(pos.above(),
-                PlantsInit.TEMPORAL_BAMBOO.get().defaultBlockState().setValue(BambooBlock.LEAVES, BambooLeaves.SMALL),
+                PlantsInit.TEMPORAL_BAMBOO.get().defaultBlockState().setValue(BambooStalkBlock.LEAVES, BambooLeaves.SMALL),
                 3);
     }
 

@@ -1,6 +1,8 @@
 package pokecube.legends.blocks.plants;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
@@ -9,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
@@ -34,13 +35,13 @@ public class LilyPadBlock extends WaterlilyBlock
    {
       FluidState fluidState = block.getFluidState(pos);
       FluidState fluidState1 = block.getFluidState(pos.above());
-      return (fluidState.getType() == Fluids.WATER || state.getMaterial() == Material.ICE) && fluidState1.getType() == Fluids.EMPTY;
+      return (fluidState.is(FluidTags.WATER) || state.is(BlockTags.ICE)) && fluidState1.is(Fluids.EMPTY);
    }
 
    @Override
    public boolean canSurvive(final BlockState state, final LevelReader reader, final BlockPos pos)
    {
       FluidState fluidState = reader.getFluidState(pos.below());
-      return (fluidState.getType() == Fluids.WATER || state.getMaterial() == Material.ICE);
+      return (fluidState.is(FluidTags.WATER) || state.is(BlockTags.ICE));
    }
 }

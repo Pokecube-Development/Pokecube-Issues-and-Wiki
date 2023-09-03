@@ -11,18 +11,17 @@ import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.legends.blocks.BlockBase;
 
 public class MagneticBlock extends BlockBase
 {
 
-    public MagneticBlock(final Material material, final MaterialColor color, final float hardness, final float resistance, final SoundType sound,
-            final boolean hasDrop)
+    public MagneticBlock(final MapColor color, final float hardness, final float resistance, final SoundType sound,
+                         final boolean hasDrop)
     {
-        super(material, color, hardness, resistance, sound, hasDrop);
+        super(color, hardness, resistance, sound, hasDrop);
     }
 
     @Override
