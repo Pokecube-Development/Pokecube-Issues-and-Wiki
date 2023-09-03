@@ -21,7 +21,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
-import thut.lib.AxisAngles;
 
 public class Evolution
 {
