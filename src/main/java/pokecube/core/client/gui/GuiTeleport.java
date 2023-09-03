@@ -70,7 +70,7 @@ public class GuiTeleport extends GuiGraphics
         if (!this.state) return;
         GuiDisplayPokecubeInfo.teleDims[0] = 89;
         GuiDisplayPokecubeInfo.teleDims[1] = 25;
-        final IPokemob pokemob = GuiDisplayPokecubeInfo.instance(event.getGui().getMinecraft(), this.bufferSource()).getCurrentPokemob();
+        final IPokemob pokemob = GuiDisplayPokecubeInfo.instance(this.bufferSource()).getCurrentPokemob();
         if (pokemob == null) return;
 
         event.getMat().pushPose();

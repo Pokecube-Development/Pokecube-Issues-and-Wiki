@@ -3,6 +3,8 @@ package pokecube.core.init;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -43,6 +45,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -160,9 +163,9 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void registerGui(final RegisterGuiOverlaysEvent event)
+    public static void registerGui(final RegisterGuiOverlaysEvent event, MultiBufferSource.BufferSource source)
     {
-        event.registerAboveAll("pokecube_gui", GuiDisplayPokecubeInfo.instance());
+        event.registerAboveAll("pokecube_gui", GuiDisplayPokecubeInfo.instance(source));
     }
 
     private static void registerKey(KeyMapping key, RegisterKeyMappingsEvent event)
@@ -314,15 +317,16 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void textureStitch(final TextureStitchEvent.Pre event)
+    public static void textureStitch(final TextureStitchEvent event)
     {
         if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Slot Textures");
-        event.addSprite(Resources.SLOT_ICON_CUBE);
-        event.addSprite(Resources.SLOT_ICON_TM);
-        event.addSprite(Resources.SLOT_ICON_BOOK);
-        event.addSprite(Resources.SLOT_ICON_BOTTLE);
-        event.addSprite(Resources.SLOT_ICON_DNA);
-        event.addSprite(Resources.SLOT_ICON_EGG);
+        event.getAtlas().getSprite(Resources.SLOT_ICON_CUBE);
+        // TODO: Fix this
+        // event.addSprite(Resources.SLOT_ICON_TM);
+        // event.addSprite(Resources.SLOT_ICON_BOOK);
+        // event.addSprite(Resources.SLOT_ICON_BOTTLE);
+        // event.addSprite(Resources.SLOT_ICON_DNA);
+        // event.addSprite(Resources.SLOT_ICON_EGG);
     }
 }

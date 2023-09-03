@@ -145,9 +145,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         return ret;
     }
 
-    public static GuiDisplayPokecubeInfo instance(Minecraft craft, MultiBufferSource.BufferSource bufferSource)
+    public static GuiDisplayPokecubeInfo instance(MultiBufferSource.BufferSource source)
     {
-        if (GuiDisplayPokecubeInfo.instance == null) GuiDisplayPokecubeInfo.instance = new GuiDisplayPokecubeInfo(craft, bufferSource);
+        if (GuiDisplayPokecubeInfo.instance == null) GuiDisplayPokecubeInfo.instance = new GuiDisplayPokecubeInfo(source);
         return GuiDisplayPokecubeInfo.instance;
     }
 
@@ -174,9 +174,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
     /**
      *
      */
-    public GuiDisplayPokecubeInfo(Minecraft craft, MultiBufferSource.BufferSource bufferSource)
+    public GuiDisplayPokecubeInfo(MultiBufferSource.BufferSource source)
     {
-        super(craft, bufferSource);
+        super(Minecraft.getInstance(), source);
         this.minecraft = Minecraft.getInstance();
         this.fontRenderer = this.minecraft.font;
         if (GuiDisplayPokecubeInfo.instance != null)
@@ -720,12 +720,12 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             if (pokemob.getMove(pokemob.getMoveIndex()) == null) return;
             if (pokemob.getMove(pokemob.getMoveIndex()).equalsIgnoreCase(IMoveNames.MOVE_TELEPORT))
             {
-                if (!GuiTeleport.instance().getState())
+                if (!GuiTeleport.instance(Minecraft.getInstance(), this.bufferSource()).getState())
                 {
-                    GuiTeleport.instance().setState(true);
+                    GuiTeleport.instance(Minecraft.getInstance(), this.bufferSource()).setState(true);
                     return;
                 }
-                GuiTeleport.instance().setState(false);
+                GuiTeleport.instance(Minecraft.getInstance(), this.bufferSource()).setState(false);
                 PacketCommand.sendCommand(pokemob, Command.TELEPORT, new TeleportHandler().setFromOwner(true));
                 return;
             }
