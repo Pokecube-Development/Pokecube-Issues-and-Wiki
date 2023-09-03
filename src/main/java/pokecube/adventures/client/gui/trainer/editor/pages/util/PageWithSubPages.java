@@ -2,8 +2,6 @@ package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -101,13 +99,13 @@ public abstract class PageWithSubPages<T extends Page> extends Page
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.font == null) this.font = Minecraft.getInstance().font;
-        this.prePageDraw(mat, mouseX, mouseY, partialTicks);
-        this.current_page.render(mat, mouseX, mouseY, partialTicks);
-        this.postPageDraw(mat, mouseX, mouseY, partialTicks);
-        super.render(mat, mouseX, mouseY, partialTicks);
+        this.prePageDraw(graphics, mouseX, mouseY, partialTicks);
+        this.current_page.render(graphics, mouseX, mouseY, partialTicks);
+        this.postPageDraw(graphics, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 
     @Override
