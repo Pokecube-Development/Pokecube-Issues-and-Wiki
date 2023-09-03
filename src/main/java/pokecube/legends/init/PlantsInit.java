@@ -31,7 +31,7 @@ import pokecube.legends.blocks.plants.TallCorruptedGrassBlock;
 import pokecube.legends.blocks.plants.TallDistorticGrassBlock;
 import pokecube.legends.blocks.plants.TallGoldenGrassBlock;
 import pokecube.legends.blocks.plants.TallTaintedSeagrassBlock;
-import pokecube.legends.blocks.plants.TemporalBambooBlock;
+import pokecube.legends.blocks.plants.TemporalBambooStalkBlock;
 import pokecube.legends.blocks.plants.TemporalBambooShootBlock;
 
 public class PlantsInit
@@ -185,7 +185,7 @@ public class PlantsInit
                 BlockBehaviour.Properties.of(Material.REPLACEABLE_WATER_PLANT, MaterialColor.TERRACOTTA_PURPLE)
                 .noCollission().instabreak().sound(SoundType.WET_GRASS)));
 
-        TEMPORAL_BAMBOO = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo", () -> new TemporalBambooBlock(
+        TEMPORAL_BAMBOO = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo", () -> new TemporalBambooStalkBlock(
                 BlockBehaviour.Properties.of(Material.BAMBOO, MaterialColor.WARPED_NYLIUM).randomTicks().instabreak()
                 .strength(1.2f).sound(SoundType.BAMBOO).noOcclusion().dynamicShape()));
         TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo_shoot", () -> new TemporalBambooShootBlock(
