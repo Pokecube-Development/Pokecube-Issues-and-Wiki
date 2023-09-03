@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -45,7 +46,7 @@ public abstract class PokeInfoPage extends WatchPage
     public void onPageClosed()
     {}
 
-    abstract void drawInfo(PoseStack mat, int mouseX, int mouseY, float partialTicks);
+    abstract void drawInfo(GuiGraphics graphics, int mouseX, int mouseY, float partialTicks);
 
     @Override
     public void init()
@@ -62,7 +63,7 @@ public abstract class PokeInfoPage extends WatchPage
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
             PacketPokedex.selectedMob.clear();
-            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
+            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
         final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 96, y + 35, 12, 20, prev, b -> {
@@ -70,7 +71,7 @@ public abstract class PokeInfoPage extends WatchPage
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
             PacketPokedex.selectedMob.clear();
-            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
+            this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
         final TexButton formBtn = this.addRenderableWidget(new TexButton(x - 85, y + 35, 20, 10, form, b -> { // Cycle
@@ -119,10 +120,10 @@ public abstract class PokeInfoPage extends WatchPage
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(mat, mouseX, mouseY, partialTicks);
-        this.drawInfo(mat, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.drawInfo(graphics, mouseX, mouseY, partialTicks);
     }
 
 }

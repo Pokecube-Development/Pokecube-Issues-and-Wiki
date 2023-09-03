@@ -3,6 +3,7 @@ package pokecube.core.client.gui.watch.util;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
@@ -22,6 +23,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
 
         }
 
+        void handleHovor(GuiGraphics graphics, Style component, int x, int y);
     }
 
     final Font font;
