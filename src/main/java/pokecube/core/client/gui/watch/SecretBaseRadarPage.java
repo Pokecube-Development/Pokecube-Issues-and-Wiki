@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.watch;
 
+import com.mojang.math.Axis;
 import java.util.Map;
 import java.util.Set;
 
@@ -11,9 +12,8 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix4f;
 
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -22,6 +22,7 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Matrix4f;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
@@ -116,23 +117,27 @@ public class SecretBaseRadarPage extends WatchPage
         super.onPageOpened();
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
-        this.addRenderableWidget(new TexButton(x + 95, y - 70, 12, 12, TComponent.literal(""),
-                b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
-                        % RadarMode.values().length]).setTex(GuiPokeWatch.getWidgetTex())
-                                .setRender(new UVImgRender(200, 0, 12, 12)));
+
+        // TODO: Check this
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), (b) -> {
+            SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
+                % RadarMode.values().length];
+        }).bounds(x + 95, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).build());
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        mat.pushPose();
+        graphics.pose().pushPose();
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
-        mat.translate(x + 126, y + 72, 0);
+        graphics.pose().translate(x + 126, y + 72, 0);
         float xCoord = 0;
         float yCoord = 0;
-        final float zCoord = this.getBlitOffset();
+        // TODO: Fix this, previously this.getBlitOffset();
+        final float zCoord = 0;
         final float maxU = 1;
         final float maxV = 1;
         final float minU = -1;
@@ -141,7 +146,8 @@ public class SecretBaseRadarPage extends WatchPage
         float g = 1;
         final float b = 0;
         float a = 1;
-        RenderSystem.disableTexture();
+        // TODO: Fix this
+        // RenderSystem.disableTexture();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         final Tesselator tessellator = Tesselator.getInstance();
@@ -151,7 +157,7 @@ public class SecretBaseRadarPage extends WatchPage
         final Vector3 here = new Vector3().set(this.watch.player);
         final float angle = -this.watch.player.yRot % 360 + 180;
         // GL11.glRotated(angle, 0, 0, 1);
-        mat.mulPose(AxisAngles.ZP.rotationDegrees(angle));
+        graphics.pose().mulPose(Axis.ZP.rotationDegrees(angle));
 
         final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
         final float scale = SecretBaseRadarPage.mode.rangeScale;
@@ -162,8 +168,8 @@ public class SecretBaseRadarPage extends WatchPage
         for (final BlockPos c : coords)
         {
             final Vector3 loc = new Vector3().set(c);
-            mat.pushPose();
-            Matrix4f matrix = mat.last().pose();
+            graphics.pose().pushPose();
+            Matrix4f matrix = graphics.pose().last().pose();
             final Vector3 v = loc.subtract(here);
             final float max = 55;
             final float hDistSq = (float) (v.x * v.x + v.z * v.z);
@@ -185,12 +191,12 @@ public class SecretBaseRadarPage extends WatchPage
             vertexbuffer.vertex(matrix, xCoord + maxU, yCoord + maxV, zCoord).color(r, g, b, a).endVertex();
             vertexbuffer.vertex(matrix, xCoord + maxU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
             vertexbuffer.vertex(matrix, xCoord + minU, yCoord + minV, zCoord).color(r, g, b, a).endVertex();
-            mat.popPose();
+            graphics.pose().popPose();
         }
         tessellator.end();
-        mat.popPose();
-        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 128, y + 8, 0x78C850);
+        graphics.pose().popPose();
+        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 128, y + 8, 0x78C850);
 
-        super.render(mat, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }
