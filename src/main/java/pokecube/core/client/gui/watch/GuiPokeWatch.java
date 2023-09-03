@@ -1,20 +1,16 @@
 package pokecube.core.client.gui.watch;
 
-import java.util.List;
-
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
-
+import java.util.List;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -38,12 +34,12 @@ public class GuiPokeWatch extends Screen
         }
 
         @Override
-        public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+        public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
         {
             final int x = (this.watch.width - 160) / 2 + 80;
             final int y = (this.watch.height - 160) / 2 + 70;
-            GuiComponent.drawCenteredString(mat, this.font, I18n.get("pokewatch.title.blank"), x, y - 20, 0xFFFFFFFF);
-            super.render(mat, mouseX, mouseY, partialTicks);
+            graphics.drawCenteredString(this.font, I18n.get("pokewatch.title.blank"), x, y - 20, 0xFFFFFFFF);
+            super.render(graphics, mouseX, mouseY, partialTicks);
         }
 
     }
@@ -148,9 +144,7 @@ public class GuiPokeWatch extends Screen
 
     public WatchPage createPage(final int index)
     {
-        if (this.itemRenderer == null) this.itemRenderer = Minecraft.getInstance().getItemRenderer();
         WatchPage page = GuiPokeWatch.makePage(GuiPokeWatch.PAGELIST.get(index), this);
-        page.itemRenderer = this.itemRenderer;
         return page;
     }
 
@@ -185,7 +179,8 @@ public class GuiPokeWatch extends Screen
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
             final boolean flag = !Screen.hasShiftDown();
-            if (!this.changeFocus(flag)) this.changeFocus(flag);
+            // TODO: Fix this
+            // if (!this.changeFocus(flag)) this.changeFocus(flag);
 
             return true;
         }
@@ -199,29 +194,32 @@ public class GuiPokeWatch extends Screen
         this.children.clear();
         super.init();
         this.current_page = this.createPage(GuiPokeWatch.lastPage);
-        this.current_page.itemRenderer = this.itemRenderer = Minecraft.getInstance().getItemRenderer();
         this.current_page.init();
         final int x = this.width / 2;
         final int y = this.height / 2 - 5;
         final Component next = TComponent.translatable("block.pc.next");
         final Component prev = TComponent.translatable("block.pc.previous");
         final Component home = TComponent.translatable("pokewatch.button.home");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 14, y + 40, 17, 17, next, b -> {
+
+        // TODO: Check this
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             int index = this.index;
             if (index < GuiPokeWatch.PAGELIST.size() - 1) index++;
             else index = 0;
             this.changePage(index);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 33, y + 40, 17, 17, prev, b -> {
+        }).bounds(x + 14, y + 40, 17, 17).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)).build());
+
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             int index = this.index;
             if (index > 0) index--;
             else index = GuiPokeWatch.PAGELIST.size() - 1;
             this.changePage(index);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
-        final TexButton homeBtn = this.addRenderableWidget(new TexButton(x - 17, y + 40, 32, 17, home, b -> {
+        }).bounds(x - 33, y + 40, 17, 17).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)).build());
+
+        final TexButton homeBtn = this.addRenderableWidget(new TexButton.Builder(home, (b) -> {
             final int index = 0;
             this.changePage(index, true);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(168, 0, 32, 17)));
+        }).bounds(x - 17, y + 40, 32, 17).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(168, 0, 32, 17)).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
@@ -231,17 +229,17 @@ public class GuiPokeWatch extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         try
         {
-            this.current_page.renderBackground(mat);
-            this.current_page.render(mat, mouseX, mouseY, partialTicks);
+            this.current_page.renderBackground(graphics);
+            this.current_page.render(graphics, mouseX, mouseY, partialTicks);
         }
         catch (final Exception e)
         {
             this.handleError(e);
         }
-        super.render(mat, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }
