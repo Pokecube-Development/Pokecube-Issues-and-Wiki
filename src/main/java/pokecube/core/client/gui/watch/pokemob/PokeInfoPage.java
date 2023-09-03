@@ -58,30 +58,30 @@ public abstract class PokeInfoPage extends WatchPage
         final Component prev = TComponent.literal("<");
         final Component form = TComponent.literal("\u2500");
         final Component cry = TComponent.literal("\u266B");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 66, y + 35, 12, 20, next, b -> {
+
+        // TODO: Check this
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 96, y + 35, 12, 20, prev, b -> {
+        }).bounds(x - 66, y + 35, 12, 20).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(212, 0, 12, 20)).build());
+
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
-        final TexButton formBtn = this.addRenderableWidget(new TexButton(x - 85, y + 35, 20, 10, form, b -> { // Cycle
-                                                                                                              // Form,
-                                                                                                              // only
-                                                                                                              // if
-                                                                                                              // not
-                                                                                                              // a
-                                                                                                              // real
-                                                                                                              // mob
+        }).bounds(x - 96, y + 35, 12, 20).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(212, 0, 12, 20)).build());
+
+        final TexButton formBtn = this.addRenderableWidget(new TexButton.Builder(form, (b) -> {
+            // Cycle Form, only if not a real mob
             if (this.parent.pokemob.getEntity().isAddedToWorld()) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             FormeHolder holder = null;
@@ -108,10 +108,13 @@ public abstract class PokeInfoPage extends WatchPage
             // This ensures the textures/etc are reset to account for the new
             // model holder.
             this.parent.pokemob.onGenesChanged();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
-        final TexButton cryBtn = this.addRenderableWidget(new TexButton(x - 85, y + 45, 20, 10, cry, b -> {
+        }).bounds(x - 85, y + 35, 20, 10).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(224, 0, 20, 10)).build());
+
+        final TexButton cryBtn = this.addRenderableWidget(new TexButton.Builder(cry, (b) -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
+        }).bounds(x - 85, y + 45, 20, 10).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(224, 0, 20, 10)).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
