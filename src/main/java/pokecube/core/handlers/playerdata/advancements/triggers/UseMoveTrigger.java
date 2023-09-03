@@ -3,9 +3,9 @@ package pokecube.core.handlers.playerdata.advancements.triggers;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,9 +23,9 @@ public class UseMoveTrigger extends SimpleCriterionTrigger<UseMoveTrigger.Instan
         int power;
         float damage;
 
-        public Instance(final Composite pred, final MoveEntry move)
+        public Instance(final ContextAwarePredicate predicate, final MoveEntry move)
         {
-            super(UseMoveTrigger.ID, pred);
+            super(UseMoveTrigger.ID, predicate);
             this.attack = move.getName();
             this.type = move.type;
             this.power = move.power;
@@ -56,9 +56,9 @@ public class UseMoveTrigger extends SimpleCriterionTrigger<UseMoveTrigger.Instan
     }
 
     @Override
-    protected Instance createInstance(JsonObject json, Composite composite, DeserializationContext conditions)
+    protected Instance createInstance(JsonObject json, ContextAwarePredicate predicate, DeserializationContext conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final ContextAwarePredicate pred = EntityPredicate.fromJson(json, "player", conditions);
         final String attack = json.get("move").getAsString();
         MoveEntry move = MovesUtils.getMove(attack);
         return new Instance(pred, move);

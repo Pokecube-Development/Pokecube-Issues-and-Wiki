@@ -3,9 +3,9 @@ package pokecube.core.handlers.playerdata.advancements.triggers;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -25,10 +25,10 @@ public class CatchPokemobTrigger extends SimpleCriterionTrigger<CatchPokemobTrig
         int number = -1;
         int sign = 0;
 
-        public Instance(final EntityPredicate.Composite player, final PokedexEntry entry, final boolean lenient,
-                final int number, final int sign)
+        public Instance(final ContextAwarePredicate predicate, final PokedexEntry entry, final boolean lenient,
+                        final int number, final int sign)
         {
-            super(CatchPokemobTrigger.ID, player);
+            super(CatchPokemobTrigger.ID, predicate);
             this.entry = entry != null ? entry : Database.missingno;
             this.lenient = lenient;
             this.number = number;
@@ -78,9 +78,9 @@ public class CatchPokemobTrigger extends SimpleCriterionTrigger<CatchPokemobTrig
     }
 
     @Override
-    protected Instance createInstance(JsonObject json, Composite composite, DeserializationContext conditions)
+    protected Instance createInstance(JsonObject json, ContextAwarePredicate predicate, DeserializationContext conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final ContextAwarePredicate pred = EntityPredicate.fromJson(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
         final int number = json.has("number") ? json.get("number").getAsInt() : -1;
         final int sign = json.has("sign") ? json.get("sign").getAsInt() : 0;

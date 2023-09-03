@@ -3,9 +3,9 @@ package pokecube.core.handlers.playerdata.advancements.triggers;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -20,9 +20,9 @@ public class MegaEvolvePokemobTrigger extends SimpleCriterionTrigger<MegaEvolveP
     {
         final PokedexEntry entry;
 
-        public Instance(final Composite pred, final PokedexEntry entry)
+        public Instance(final ContextAwarePredicate predicate, final PokedexEntry entry)
         {
-            super(MegaEvolvePokemobTrigger.ID, pred);
+            super(MegaEvolvePokemobTrigger.ID, predicate);
             this.entry = entry != null ? entry : Database.missingno;
         }
 
@@ -53,9 +53,9 @@ public class MegaEvolvePokemobTrigger extends SimpleCriterionTrigger<MegaEvolveP
     }
 
     @Override
-    protected Instance createInstance(JsonObject json, Composite composite, DeserializationContext conditions)
+    protected Instance createInstance(JsonObject json, ContextAwarePredicate predicate, DeserializationContext conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final ContextAwarePredicate pred = EntityPredicate.fromJson(json, "player", conditions);
         final String name = json.has("entry") ? json.get("entry").getAsString() : "";
         return new Instance(pred, Database.getEntry(name));
     }
