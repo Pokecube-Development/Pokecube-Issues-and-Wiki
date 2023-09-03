@@ -2,6 +2,8 @@ package pokecube.core.client.gui.watch.util;
 
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -24,7 +26,7 @@ public abstract class WatchPage extends Screen implements GuiEventListener
     private final ResourceLocation tex_nm;
 
     public WatchPage(final Component title, final GuiPokeWatch watch, final ResourceLocation day,
-            final ResourceLocation night)
+                     final ResourceLocation night)
     {
         super(title);
         this.title = title;
@@ -33,7 +35,6 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         this.font = this.minecraft.font;
         this.tex_dm = day;
         this.tex_nm = night;
-        this.itemRenderer = watch.itemRenderer;
     }
 
     protected ResourceLocation getBackgroundTex()
@@ -42,14 +43,14 @@ public abstract class WatchPage extends Screen implements GuiEventListener
     }
 
     @Override
-    public void renderBackground(final PoseStack matrixStack)
+    public void renderBackground(final GuiGraphics graphics)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, this.getBackgroundTex());
 
         final int j2 = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int k2 = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        this.blit(matrixStack, j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+        graphics.blit(new ResourceLocation(""), j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
     }
 
     @Override
@@ -83,7 +84,8 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         if (keyCode == GLFW.GLFW_KEY_TAB)
         {
             final boolean flag = !Screen.hasShiftDown();
-            if (!this.changeFocus(flag)) this.changeFocus(flag);
+            // TODO: Fix this
+            // if (!this.changeFocus(flag)) this.changeFocus(flag);
 
             return true;
         }
