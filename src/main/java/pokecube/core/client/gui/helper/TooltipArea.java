@@ -154,28 +154,28 @@ public class TooltipArea extends AbstractWidget
             return this;
         }
 
-        public TooltipArea.Builder width(int p_254259_) {
-            this.width = p_254259_;
+        public TooltipArea.Builder width(int width) {
+            this.width = width;
             return this;
         }
 
-        public TooltipArea.Builder size(int p_253727_, int p_254457_) {
-            this.width = p_253727_;
-            this.height = p_254457_;
+        public TooltipArea.Builder size(int width, int height) {
+            this.width = width;
+            this.height = height;
             return this;
         }
 
-        public TooltipArea.Builder bounds(int p_254166_, int p_253872_, int p_254522_, int p_253985_) {
-            return this.pos(p_254166_, p_253872_).size(p_254522_, p_253985_);
+        public TooltipArea.Builder bounds(int x, int y, int width, int height) {
+            return this.pos(x, y).size(width, height);
         }
 
-        public TooltipArea.Builder tooltip(@Nullable Tooltip p_259609_) {
-            this.tooltip = p_259609_;
+        public TooltipArea.Builder tooltip(@Nullable Tooltip tooltip) {
+            this.tooltip = tooltip;
             return this;
         }
 
-        public TooltipArea.Builder createNarration(TooltipArea.CreateNarration p_253638_) {
-            this.createNarration = p_253638_;
+        public TooltipArea.Builder createNarration(TooltipArea.CreateNarration narration) {
+            this.createNarration = narration;
             return this;
         }
 
