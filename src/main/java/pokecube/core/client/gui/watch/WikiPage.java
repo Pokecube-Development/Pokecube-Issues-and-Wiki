@@ -8,10 +8,9 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.ClickEvent;
@@ -106,14 +105,20 @@ public class WikiPage extends ListPage<LineEntry>
         final int y = this.watch.height / 2 - 5;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 94, y - 70, 12, 12, next, b -> {
+
+        // TODO: Check this
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             this.index++;
             this.setList();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 94, y - 70, 12, 12, prev, b -> {
+        }).bounds(x + 94, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             this.index--;
             this.setList();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }).bounds(x - 94, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+
         this.setList();
 
         nextBtn.setFGColor(0x444444);
@@ -121,13 +126,13 @@ public class WikiPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void renderBackground(final PoseStack matrixStack)
+    public void renderBackground(final GuiGraphics graphics)
     {
-        super.renderBackground(matrixStack);
+        super.renderBackground(graphics);
 
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        GuiComponent.fill(matrixStack, offsetX + 55, offsetY + 30, offsetX + 200, offsetY + 120, 0xFFFDF8EC);
+        graphics.fill(offsetX + 55, offsetY + 30, offsetX + 200, offsetY + 120, 0xFFFDF8EC);
 
     }
 
@@ -160,11 +165,12 @@ public class WikiPage extends ListPage<LineEntry>
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final GuiGraphics graphics, final Style component, final int x, final int y)
             {}
         };
         final boolean item_book = !book.page_file;
-        final String lang = this.minecraft.getLanguageManager().getSelected().getCode().toLowerCase(Locale.ROOT);
+        // TODO: Check this
+        final String lang = this.minecraft.getLanguageManager().getSelected().toLowerCase(Locale.ROOT);
         if (item_book)
         {
             final ItemStack bookStack = books.get(this.index).getInfoStack(lang);
