@@ -19,8 +19,6 @@ import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.FolderRepositorySource;
 import net.minecraft.server.packs.repository.Pack;
-import net.minecraft.server.packs.repository.Pack.PackConstructor;
-import net.minecraft.server.packs.repository.Pack.Position;
 import net.minecraft.server.packs.repository.PackSource;
 import net.minecraft.server.packs.repository.RepositorySource;
 import net.minecraft.server.packs.resources.Resource;
@@ -39,7 +37,9 @@ public class PackFinder implements RepositorySource
     public static long time_getting_1 = 0;
     public static long time_getting_2 = 0;
 
-    static final PackSource DECORATOR = PackSource.decorating("pack.source.pokecube.data");
+    // TODO: Check this
+    static final PackType DECORATOR = PackType.valueOf("pack.source.pokecube.data");
+
 
     public static Map<ResourceLocation, Resource> getJsonResources(final String path)
     {
@@ -109,12 +109,12 @@ public class PackFinder implements RepositorySource
         return ret;
     }
 
-    public static final PackFinder DEFAULT_FINDER = new PackFinder(
-            (name, component, bool, supplier, metadata, position, source, hidden) ->
-            {
-                return new Pack(name, component, bool, supplier, metadata, PackType.SERVER_DATA, Position.TOP, source,
-                        hidden);
-            });
+//    TODO: Fix this
+//    public static final PackFinder DEFAULT_FINDER = new PackFinder(
+//            (name, component, bool, supplier, metadata, position, source, hidden) ->
+//            {
+//                return new Pack(name, bool, supplier, metadata, PackType.SERVER_DATA, Position.TOP, source, hidden);
+//            });
 
     public final List<PackResources> allPacks = Lists.newArrayList();
     public final List<PackResources> folderPacks = Lists.newArrayList();
@@ -122,20 +122,20 @@ public class PackFinder implements RepositorySource
     private final FolderRepositorySource folderFinder_old;
     private final FolderRepositorySource folderFinder_new;
 
-    public PackFinder(final Pack.PackConstructor packInfoFactoryIn)
+    public PackFinder()
     {
         File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
         folder.mkdirs();
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data folder: {}", folder);
-        this.folderFinder_old = new FolderRepositorySource(folder, PackFinder.DECORATOR);
+        this.folderFinder_old = new FolderRepositorySource(folder.toPath(), PackFinder.DECORATOR, PackSource.DEFAULT);
         folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
         folder.mkdirs();
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data folder: {}", folder);
-        this.folderFinder_new = new FolderRepositorySource(folder, PackFinder.DECORATOR);
-        this.init(packInfoFactoryIn);
+        this.folderFinder_new = new FolderRepositorySource(folder.toPath(), PackFinder.DECORATOR, PackSource.DEFAULT);
+        this.init();
     }
 
-    public void init(final Pack.PackConstructor packInfoFactoryIn)
+    public void init()
     {
         try
         {
@@ -151,7 +151,7 @@ public class PackFinder implements RepositorySource
         final Map<String, Pack> map = Maps.newHashMap();
         try
         {
-            this.folderFinder_old.loadPacks(a -> map.put(a.getId(), a), packInfoFactoryIn);
+            this.folderFinder_old.loadPacks(a -> map.put(a.getId(), a));
         }
         catch (final Exception e)
         {
@@ -159,7 +159,7 @@ public class PackFinder implements RepositorySource
         }
         try
         {
-            this.folderFinder_new.loadPacks(a -> map.put(a.getId(), a), packInfoFactoryIn);
+            this.folderFinder_new.loadPacks(a -> map.put(a.getId(), a));
         }
         catch (final Exception e)
         {
@@ -178,9 +178,9 @@ public class PackFinder implements RepositorySource
     }
 
     @Override
-    public void loadPacks(final Consumer<Pack> infoConsumer, final PackConstructor infoFactory)
+    public void loadPacks(final Consumer<Pack> infoConsumer)
     {
-        this.folderFinder_new.loadPacks(infoConsumer, infoFactory);
+        this.folderFinder_new.loadPacks(infoConsumer);
     }
 
 }
