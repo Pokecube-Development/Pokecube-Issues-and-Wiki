@@ -8,6 +8,7 @@ import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -25,8 +26,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.lighting.LayerLightEngine;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.lighting.LightEngine;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
@@ -77,7 +77,7 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
             return false;
         else
         {
-            final int light = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
+            final int light = LightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
                     blockstate.getLightBlock(world, blockpos));
             return light < world.getMaxLightLevel();
         }
@@ -100,7 +100,7 @@ public class CorruptedGrassBlock extends NyliumBlock implements BonemealableBloc
         if (plantType == PlantType.PLAINS)
             return true;
         else if (plantType == PlantType.WATER)
-            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
+            return block.getFluidState(pos).is(FluidTags.WATER) && block.getBlockState(pos) == this.defaultBlockState();
         else if (plantType == PlantType.BEACH)
             return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
                     || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))

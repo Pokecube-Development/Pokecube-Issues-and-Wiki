@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -27,8 +28,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.lighting.LayerLightEngine;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.lighting.LightEngine;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 import pokecube.legends.init.BlockInit;
@@ -85,10 +85,10 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
     }
 
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
+    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state,
             final boolean valid)
     {
-        return block.getBlockState(pos.above()).isAir() && state.getValue(DirectionalBlock.FACING) == Direction.UP;
+        return worldReader.getBlockState(pos.above()).isAir() && state.getValue(DirectionalBlock.FACING) == Direction.UP;
     }
 
     @Override
@@ -117,17 +117,17 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
             return false;
         else
         {
-            final int up = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
+            final int up = LightEngine.getLightBlockInto(world, state, pos, blockstate, blockpos, Direction.UP,
                     blockstate.getLightBlock(world, blockpos));
-            final int down = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate1, blockpos1,
+            final int down = LightEngine.getLightBlockInto(world, state, pos, blockstate1, blockpos1,
                     Direction.DOWN, blockstate1.getLightBlock(world, blockpos1));
-            final int north = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate2, blockpos2,
+            final int north = LightEngine.getLightBlockInto(world, state, pos, blockstate2, blockpos2,
                     Direction.NORTH, blockstate2.getLightBlock(world, blockpos2));
-            final int south = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate3, blockpos3,
+            final int south = LightEngine.getLightBlockInto(world, state, pos, blockstate3, blockpos3,
                     Direction.SOUTH, blockstate3.getLightBlock(world, blockpos3));
-            final int east = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate4, blockpos4,
+            final int east = LightEngine.getLightBlockInto(world, state, pos, blockstate4, blockpos4,
                     Direction.EAST, blockstate4.getLightBlock(world, blockpos4));
-            final int west = LayerLightEngine.getLightBlockInto(world, state, pos, blockstate5, blockpos5,
+            final int west = LightEngine.getLightBlockInto(world, state, pos, blockstate5, blockpos5,
                     Direction.WEST, blockstate5.getLightBlock(world, blockpos5));
             if (state.getValue(DirectionalBlock.FACING) == Direction.UP)
                 return up < world.getMaxLightLevel();
@@ -215,7 +215,7 @@ public class DistorticGrassBlock extends DirectionalBlock implements Bonemealabl
         if (plantType == PlantType.PLAINS)
             return true;
         else if (plantType == PlantType.WATER)
-            return block.getBlockState(pos).getMaterial() == Material.WATER && block.getBlockState(pos) == this.defaultBlockState();
+            return block.getFluidState(pos).is(FluidTags.WATER) && block.getBlockState(pos) == this.defaultBlockState();
         else if (plantType == PlantType.BEACH)
             return ((block.getBlockState(pos.east()).getBlock() == Blocks.WATER || block.getBlockState(pos.east()).hasProperty(BlockStateProperties.WATERLOGGED))
                     || (block.getBlockState(pos.west()).getBlock() == Blocks.WATER || block.getBlockState(pos.west()).hasProperty(BlockStateProperties.WATERLOGGED))

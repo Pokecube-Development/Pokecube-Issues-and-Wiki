@@ -10,25 +10,24 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 
 public class FaceBlockBase extends BlockBase
 {
 
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public FaceBlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean hasDrop)
+    public FaceBlockBase(final String name, final MapColor color, final float hardness,
+                         final float resistance, final SoundType sound, final boolean hasDrop)
     {
-        super(name, material, color, hardness, resistance, sound, hasDrop);
+        super(name, color, hardness, resistance, sound, hasDrop);
         this.registerDefaultState(this.stateDefinition.any().setValue(FaceBlockBase.FACING, Direction.NORTH));
     }
 
-    public FaceBlockBase(final Material material, final MaterialColor color, final float hardness,
+    public FaceBlockBase(final MapColor color, final float hardness,
             final float resistance, final SoundType sound, final boolean hasDrop)
     {
-        super(material, color, hardness, resistance, sound, hasDrop);
+        super(color, hardness, resistance, sound, hasDrop);
         this.registerDefaultState(this.stateDefinition.any().setValue(FaceBlockBase.FACING, Direction.NORTH));
     }
 
