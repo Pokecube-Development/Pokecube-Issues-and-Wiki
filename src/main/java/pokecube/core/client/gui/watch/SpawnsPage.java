@@ -9,7 +9,7 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -110,7 +110,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final GuiGraphics graphics, final Style component, final int x, final int y)
             {
                 // TODO possibly handle hovor text?
             }
@@ -149,7 +149,7 @@ public class SpawnsPage extends ListPage<LineEntry>
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedLoc.size() || this.repel != PacketPokedex.repelled)
@@ -160,7 +160,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        GuiComponent.drawCenteredString(mat, this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 30, colour);
+        graphics.drawCenteredString(this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 30, colour);
 
         if (Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL)
         {
@@ -168,7 +168,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             var list = this.font.split(comp, 120);
             int n = 0;
             for (var entry : list)
-                GuiComponent.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
+                graphics.drawCenteredString(this.font, entry, x + 130, y + 100 + 10 * n++, 0);
         }
         else if (this.repel = PacketPokedex.repelled)
         {
@@ -176,9 +176,9 @@ public class SpawnsPage extends ListPage<LineEntry>
             var list = this.font.split(comp, 120);
             int n = 0;
             for (var entry : list)
-                GuiComponent.drawCenteredString(mat, this.font, entry, x + 130, y + 100 + 10 * n++, 0);
+                graphics.drawCenteredString(this.font, entry, x + 130, y + 100 + 10 * n++, 0);
         }
 
-        super.render(mat, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }
