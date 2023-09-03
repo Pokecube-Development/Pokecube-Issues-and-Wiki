@@ -9,9 +9,9 @@ import net.minecraft.world.entity.LivingEntity;
 public class GenericDamageSource extends DamageSource implements IPokedamage
 {
 
-    public GenericDamageSource(final Holder<DamageType> damageTypeIn, final Entity damageSourceEntityIn)
+    public GenericDamageSource(final Holder<DamageType> damageTypeHolder, final Entity damageSourceEntityIn)
     {
-        super(damageTypeIn, damageSourceEntityIn);
+        super(damageTypeHolder, damageSourceEntityIn);
     }
 
     public static DamageSource causeMobDamage(final LivingEntity mob)
