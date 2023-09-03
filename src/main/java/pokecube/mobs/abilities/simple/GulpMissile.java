@@ -48,8 +48,9 @@ public class GulpMissile extends Ability
 
         final IPokemob attacker = move.getUser();
         final float amount = attacker.getEntity().getMaxHealth() / 4;
-        final DamageSource source = new GenericDamageSource(this.getName(), mob.getEntity()).bypassMagic()
-                .setProjectile();
+        // TODO: Fix this
+        final DamageSource source = new GenericDamageSource(mob.getEntity().damageSources().generic().typeHolder(), mob.getEntity())
+                /*.bypassMagic().setProjectile()*/;
         // Hit for Arrakuda
         if (mobs == GulpMissile.arrakuda)
         {
