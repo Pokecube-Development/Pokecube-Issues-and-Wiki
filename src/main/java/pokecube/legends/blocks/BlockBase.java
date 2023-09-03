@@ -14,8 +14,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -31,20 +30,20 @@ public class BlockBase extends Block
     boolean hasRequiredCorrectToolForDrops = false;
 
     // ToolTip
-    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops)
+    public BlockBase(final String name, final MapColor color, final float hardness,
+                     final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops)
     {
-        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound).requiresCorrectToolForDrops());
+        super(BlockBehaviour.Properties.of().strength(hardness, resistance).mapColor(color).sound(sound).requiresCorrectToolForDrops());
         this.infoname = name;
         this.hasTextInfo = true;
         this.hasRequiredCorrectToolForDrops(requiresCorrectToolForDrops);
     }
 
     // No Tooltip
-    public BlockBase(final Material material, final MaterialColor color, final float hardness, final float resistance,
+    public BlockBase(final MapColor color, final float hardness, final float resistance,
             final SoundType sound, final boolean requiresCorrectToolForDrops)
     {
-        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
+        super(BlockBehaviour.Properties.of().mapColor(color).strength(hardness, resistance).sound(sound));
         this.hasRequiredCorrectToolForDrops(requiresCorrectToolForDrops);
     }
 
@@ -63,19 +62,19 @@ public class BlockBase extends Block
     }
 
     // Effects -ToolTip-
-    public BlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
+    public BlockBase(final String name, final MapColor color, final float hardness,
             final float resistance, final SoundType sound, final boolean requiresCorrectToolForDrops, final MobEffect effects)
     {
-        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
+        super(BlockBehaviour.Properties.of().mapColor(color).strength(hardness, resistance).sound(sound));
         this.infoname = name;
         this.hasTextInfo = true;
     }
 
     // Effects -No ToolTip-
-    public BlockBase(final Material material, final MaterialColor color, final float hardness, final float resistance,
+    public BlockBase(final MapColor color, final float hardness, final float resistance,
             final SoundType sound, final boolean requiresCorrectToolForDrops, final MobEffect effects)
     {
-        super(BlockBehaviour.Properties.of(material, color).strength(hardness, resistance).sound(sound));
+        super(BlockBehaviour.Properties.of().mapColor(color).strength(hardness, resistance).sound(sound));
     }
 
     public BlockBase setToolTip(final String infoname)
