@@ -564,9 +564,9 @@ public class ItemGenerator
     }
 
     public static RotatedPillarBlock stoneLog(final MapColor mapColorSide, final MapColor mapColorTop, SoundType sound,
-                                              NoteBlockInstrument instrument, float destroyTIme, float explosionResistance)
+                                              NoteBlockInstrument instrument, float destroyTime, float explosionResistance)
     {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTIme, explosionResistance)
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTime, explosionResistance)
                 .sound(sound).instrument(instrument).requiresCorrectToolForDrops().mapColor((state) -> {
                     return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? mapColorSide : mapColorTop;
                 }));
