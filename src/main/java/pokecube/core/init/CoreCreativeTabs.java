@@ -10,6 +10,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 
 @Mod.EventBusSubscriber(modid = PokecubeCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -45,5 +46,19 @@ public class CoreCreativeTabs {
 
                 for (final String type : ItemGenerator.trapdoors.keySet())
                     output.accept(ItemGenerator.trapdoors.get(type).get());
+            }).build());
+
+    public static final RegistryObject<CreativeModeTab> BLOCKS_TAB = TABS.register("pokecube_blocks_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.pokecube_blocks"))
+            .icon(() -> new ItemStack(PokecubeItems.NEST.get()))
+            .displayItems((parameters, output) -> {
+                output.accept(PokecubeItems.NEST.get());
+            }).build());
+
+    public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("pokecube_cubes_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.pokecube_cubes"))
+            .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
+            .displayItems((parameters, output) -> {
+                output.accept(PokecubeItems.POKECUBE_CUBES.getItem());
             }).build());
 }
