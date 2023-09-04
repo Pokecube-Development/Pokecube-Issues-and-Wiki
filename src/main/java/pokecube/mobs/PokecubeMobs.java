@@ -14,7 +14,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -183,7 +183,7 @@ public class PokecubeMobs
             }
             if (hasCube && hasSpace)
             {
-                final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player.getLevel());
+                final Entity pokemon = PokecubeCore.createPokemob(Database.getEntry("shedinja"), player.level());
                 if (pokemon != null)
                 {
                     final ItemStack mobCube = cube.copy();
@@ -212,75 +212,75 @@ public class PokecubeMobs
     @SubscribeEvent
     public void registerItems(final RegisterMiscItems event)
     {
+        // Map Colors for berry blocks
+        ItemGenerator.berryWoods.put("enigma", MapColor.COLOR_BLACK);
+        ItemGenerator.berryWoods.put("leppa", MapColor.COLOR_RED);
+        ItemGenerator.berryWoods.put("nanab", MapColor.TERRACOTTA_BROWN);
+        ItemGenerator.berryWoods.put("oran", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryWoods.put("pecha", MapColor.COLOR_MAGENTA);
+        ItemGenerator.berryWoods.put("sitrus", MapColor.TERRACOTTA_YELLOW);
 
-        ItemGenerator.berryWoods.put("enigma", MaterialColor.COLOR_BLACK);
-        ItemGenerator.berryWoods.put("leppa", MaterialColor.COLOR_RED);
-        ItemGenerator.berryWoods.put("nanab", MaterialColor.TERRACOTTA_BROWN);
-        ItemGenerator.berryWoods.put("oran", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryWoods.put("pecha", MaterialColor.COLOR_MAGENTA);
-        ItemGenerator.berryWoods.put("sitrus", MaterialColor.TERRACOTTA_YELLOW);
+        ItemGenerator.berryLeaves.put("enigma", MapColor.TERRACOTTA_WHITE);
+        ItemGenerator.berryLeaves.put("leppa", MapColor.SAND);
+        ItemGenerator.berryLeaves.put("nanab", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryLeaves.put("oran", MapColor.COLOR_ORANGE);
+        ItemGenerator.berryLeaves.put("pecha", MapColor.TERRACOTTA_LIGHT_BLUE);
+        ItemGenerator.berryLeaves.put("sitrus", MapColor.TERRACOTTA_LIGHT_BLUE);
 
-        ItemGenerator.berryLeaves.put("enigma", MaterialColor.TERRACOTTA_WHITE);
-        ItemGenerator.berryLeaves.put("leppa", MaterialColor.SAND);
-        ItemGenerator.berryLeaves.put("nanab", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryLeaves.put("oran", MaterialColor.COLOR_ORANGE);
-        ItemGenerator.berryLeaves.put("pecha", MaterialColor.TERRACOTTA_LIGHT_BLUE);
-        ItemGenerator.berryLeaves.put("sitrus", MaterialColor.TERRACOTTA_LIGHT_BLUE);
+        ItemGenerator.onlyBerryLeaves.put("grepa", MapColor.COLOR_RED);
+        ItemGenerator.onlyBerryLeaves.put("hondew", MapColor.TERRACOTTA_PURPLE);
+        ItemGenerator.onlyBerryLeaves.put("kelpsy", MapColor.COLOR_PINK);
+        ItemGenerator.onlyBerryLeaves.put("pomeg", MapColor.COLOR_RED);
+        ItemGenerator.onlyBerryLeaves.put("qualot", MapColor.PLANT);
+        ItemGenerator.onlyBerryLeaves.put("tamato", MapColor.COLOR_LIGHT_BLUE);
 
-        ItemGenerator.onlyBerryLeaves.put("grepa", MaterialColor.COLOR_RED);
-        ItemGenerator.onlyBerryLeaves.put("hondew", MaterialColor.TERRACOTTA_PURPLE);
-        ItemGenerator.onlyBerryLeaves.put("kelpsy", MaterialColor.COLOR_PINK);
-        ItemGenerator.onlyBerryLeaves.put("pomeg", MaterialColor.COLOR_RED);
-        ItemGenerator.onlyBerryLeaves.put("qualot", MaterialColor.PLANT);
-        ItemGenerator.onlyBerryLeaves.put("tamato", MaterialColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("aspear", MapColor.COLOR_RED);
+        ItemGenerator.berryCrops.put("cheri", MapColor.PLANT);
+        ItemGenerator.berryCrops.put("chesto", MapColor.COLOR_PINK);
+        ItemGenerator.berryCrops.put("cornn", MapColor.COLOR_PINK);
+        ItemGenerator.berryCrops.put("enigma", MapColor.TERRACOTTA_WHITE);
+        ItemGenerator.berryCrops.put("grepa", MapColor.COLOR_RED);
+        ItemGenerator.berryCrops.put("hondew", MapColor.PLANT);
+        ItemGenerator.berryCrops.put("jaboca", MapColor.COLOR_PURPLE);
+        ItemGenerator.berryCrops.put("kelpsy", MapColor.COLOR_PINK);
+        ItemGenerator.berryCrops.put("leppa", MapColor.TERRACOTTA_YELLOW);
+        ItemGenerator.berryCrops.put("lum", MapColor.COLOR_PURPLE);
+        ItemGenerator.berryCrops.put("nanab", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("null", MapColor.PLANT);
+        ItemGenerator.berryCrops.put("oran", MapColor.COLOR_ORANGE);
+        ItemGenerator.berryCrops.put("pecha", MapColor.PLANT);
+        ItemGenerator.berryCrops.put("persim", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("pinap", MapColor.PLANT);
+        ItemGenerator.berryCrops.put("pomeg", MapColor.COLOR_RED);
+        ItemGenerator.berryCrops.put("qualot", MapColor.PLANT);
+        ItemGenerator.berryCrops.put("rawst", MapColor.PLANT);
+        ItemGenerator.berryCrops.put("rowap", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("sitrus", MapColor.TERRACOTTA_LIGHT_BLUE);
+        ItemGenerator.berryCrops.put("tamato", MapColor.COLOR_LIGHT_BLUE);
 
-        ItemGenerator.berryCrops.put("aspear", MaterialColor.COLOR_RED);
-        ItemGenerator.berryCrops.put("cheri", MaterialColor.PLANT);
-        ItemGenerator.berryCrops.put("chesto", MaterialColor.COLOR_PINK);
-        ItemGenerator.berryCrops.put("cornn", MaterialColor.COLOR_PINK);
-        ItemGenerator.berryCrops.put("enigma", MaterialColor.TERRACOTTA_WHITE);
-        ItemGenerator.berryCrops.put("grepa", MaterialColor.COLOR_RED);
-        ItemGenerator.berryCrops.put("hondew", MaterialColor.PLANT);
-        ItemGenerator.berryCrops.put("jaboca", MaterialColor.COLOR_PURPLE);
-        ItemGenerator.berryCrops.put("kelpsy", MaterialColor.COLOR_PINK);
-        ItemGenerator.berryCrops.put("leppa", MaterialColor.TERRACOTTA_YELLOW);
-        ItemGenerator.berryCrops.put("lum", MaterialColor.COLOR_PURPLE);
-        ItemGenerator.berryCrops.put("nanab", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryCrops.put("null", MaterialColor.PLANT);
-        ItemGenerator.berryCrops.put("oran", MaterialColor.COLOR_ORANGE);
-        ItemGenerator.berryCrops.put("pecha", MaterialColor.PLANT);
-        ItemGenerator.berryCrops.put("persim", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryCrops.put("pinap", MaterialColor.PLANT);
-        ItemGenerator.berryCrops.put("pomeg", MaterialColor.COLOR_RED);
-        ItemGenerator.berryCrops.put("qualot", MaterialColor.PLANT);
-        ItemGenerator.berryCrops.put("rawst", MaterialColor.PLANT);
-        ItemGenerator.berryCrops.put("rowap", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryCrops.put("sitrus", MaterialColor.TERRACOTTA_LIGHT_BLUE);
-        ItemGenerator.berryCrops.put("tamato", MaterialColor.COLOR_LIGHT_BLUE);
-
-        ItemGenerator.berryFruits.put("aspear", MaterialColor.COLOR_RED);
-        ItemGenerator.berryFruits.put("cheri", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("chesto", MaterialColor.COLOR_PINK);
-        ItemGenerator.berryFruits.put("cornn", MaterialColor.COLOR_PINK);
-        ItemGenerator.berryFruits.put("enigma", MaterialColor.COLOR_BLACK);
-        ItemGenerator.berryFruits.put("grepa", MaterialColor.COLOR_YELLOW);
-        ItemGenerator.berryFruits.put("hondew", MaterialColor.COLOR_LIGHT_GREEN);
-        ItemGenerator.berryFruits.put("jaboca", MaterialColor.COLOR_PURPLE);
-        ItemGenerator.berryFruits.put("kelpsy", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("leppa", MaterialColor.COLOR_RED);
-        ItemGenerator.berryFruits.put("lum", MaterialColor.COLOR_PURPLE);
-        ItemGenerator.berryFruits.put("nanab", MaterialColor.COLOR_PINK);
-        ItemGenerator.berryFruits.put("null", MaterialColor.PLANT);
-        ItemGenerator.berryFruits.put("oran", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("pecha", MaterialColor.COLOR_PINK);
-        ItemGenerator.berryFruits.put("persim", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("pinap", MaterialColor.COLOR_YELLOW);
-        ItemGenerator.berryFruits.put("pomeg", MaterialColor.TERRACOTTA_ORANGE);
-        ItemGenerator.berryFruits.put("qualot", MaterialColor.COLOR_YELLOW);
-        ItemGenerator.berryFruits.put("rawst", MaterialColor.PLANT);
-        ItemGenerator.berryFruits.put("rowap", MaterialColor.COLOR_LIGHT_BLUE);
-        ItemGenerator.berryFruits.put("sitrus", MaterialColor.COLOR_YELLOW);
-        ItemGenerator.berryFruits.put("tamato", MaterialColor.TERRACOTTA_ORANGE);
+        ItemGenerator.berryFruits.put("aspear", MapColor.COLOR_RED);
+        ItemGenerator.berryFruits.put("cheri", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("chesto", MapColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("cornn", MapColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("enigma", MapColor.COLOR_BLACK);
+        ItemGenerator.berryFruits.put("grepa", MapColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("hondew", MapColor.COLOR_LIGHT_GREEN);
+        ItemGenerator.berryFruits.put("jaboca", MapColor.COLOR_PURPLE);
+        ItemGenerator.berryFruits.put("kelpsy", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("leppa", MapColor.COLOR_RED);
+        ItemGenerator.berryFruits.put("lum", MapColor.COLOR_PURPLE);
+        ItemGenerator.berryFruits.put("nanab", MapColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("null", MapColor.PLANT);
+        ItemGenerator.berryFruits.put("oran", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("pecha", MapColor.COLOR_PINK);
+        ItemGenerator.berryFruits.put("persim", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("pinap", MapColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("pomeg", MapColor.TERRACOTTA_ORANGE);
+        ItemGenerator.berryFruits.put("qualot", MapColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("rawst", MapColor.PLANT);
+        ItemGenerator.berryFruits.put("rowap", MapColor.COLOR_LIGHT_BLUE);
+        ItemGenerator.berryFruits.put("sitrus", MapColor.COLOR_YELLOW);
+        ItemGenerator.berryFruits.put("tamato", MapColor.TERRACOTTA_ORANGE);
 
         ItemGenerator.variants.add("dawnstone");
         ItemGenerator.variants.add("dubiousdisc");
@@ -565,7 +565,7 @@ public class PokecubeMobs
                 {
                     final EntityPokecubeBase cube = evt.pokecube;
                     final IPokemob mob = PokemobCaps.getPokemobFor(
-                            PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.getLevel()));
+                            PokecubeCore.createPokemob(evt.getCaught().getPokedexEntry(), cube.level()));
                     cube.setTilt(Tools.computeCatchRate(mob, 1));
                     evt.setCanceled(true);
                 }
