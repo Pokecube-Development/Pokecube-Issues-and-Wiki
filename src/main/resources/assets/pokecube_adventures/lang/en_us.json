@@ -182,6 +182,7 @@
     "traineredit.error.pokemob": "Error updating the Pokémob (%s)",
 
     "traineredit.button.home": "Back",
+    "traineredit.button.apply": "Apply",
     "traineredit.button.delete": "Delete",
     "traineredit.button.newpokemob": "Add New",
     "traineredit.button.rewards": "Rewards",

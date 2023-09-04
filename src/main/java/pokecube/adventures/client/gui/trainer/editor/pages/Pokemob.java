@@ -2,15 +2,13 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import java.util.function.Predicate;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
@@ -190,7 +188,7 @@ public class Pokemob extends Page
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
 
-        this.addRenderableWidget(new Button(xOffset - 100, yOffset + 62, 12, 12, next, b -> {
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
             int index = this.nat.ordinal() + 1;
             if (index > Nature.values().length - 1) index = 0;
             this.nat = Nature.values()[index];
@@ -198,8 +196,9 @@ public class Pokemob extends Page
             this.nature.setValue("" + this.nat);
             this.nature.moveCursor(-100);
             this.onChanged();
-        }));
-        this.addRenderableWidget(new Button(xOffset - 112, yOffset + 62, 12, 12, prev, b -> {
+        }).bounds(xOffset - 100, yOffset + 62, 12, 12).build());
+
+        this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             int index = this.nat.ordinal() - 1;
             if (index < 0) index = Nature.values().length - 1;
             this.nat = Nature.values()[index];
@@ -207,9 +206,9 @@ public class Pokemob extends Page
             this.nature.setValue("" + this.nat);
             this.nature.moveCursor(-100);
             this.onChanged();
-        }));
+        }).bounds(xOffset - 112, yOffset + 62, 12, 12).build());
 
-        this.addRenderableWidget(new Button(xOffset - 40, yOffset + 62, 12, 12, next, b -> {
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
             if (this.pokemob != null)
             {
                 this.abilIndex = this.abilIndex + 1;
@@ -220,8 +219,9 @@ public class Pokemob extends Page
                 this.ability.moveCursor(-100);
                 this.onChanged();
             }
-        }));
-        this.addRenderableWidget(new Button(xOffset - 52, yOffset + 62, 12, 12, prev, b -> {
+        }).bounds(xOffset - 40, yOffset + 62, 12, 12).build());
+
+        this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.abilIndex = this.abilIndex - 1;
             if (this.abilIndex < 0) this.abilIndex = 2;
             this.pokemob.setAbilityIndex(this.abilIndex);
@@ -229,35 +229,33 @@ public class Pokemob extends Page
             this.ability.setValue("" + this.pokemob.getAbility());
             this.ability.moveCursor(-100);
             this.onChanged();
-        }));
+        }).bounds(xOffset - 52, yOffset + 62, 12, 12).build());
 
-        this.addRenderableWidget(
-                new Button(xOffset + 73, yOffset + 64, 50, 12, TComponent.translatable("traineredit.button.home"), b ->
-                {
-                    this.closeCallback.run();
-                }));
-        this.addRenderableWidget(new Button(xOffset + 73, yOffset + 52, 50, 12, TComponent.translatable("Apply"), b -> {
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
+            this.closeCallback.run();
+        }).bounds(xOffset + 73, yOffset + 64, 50, 12).build());
+
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> {
             this.onChanged();
-        }));
+        }).bounds(xOffset + 73, yOffset + 52, 50, 12).build());
 
         // Live pokemob editing doesn't have this option, so the deleteCallback
         // will be null in that case.
-        if (this.deleteCallback != null) this
-                .addRenderableWidget(new Button(xOffset + 73, yOffset + 40, 50, 12,
-                        TComponent.translatable(
-                                this.pokemob == null ? "traineredit.button.newpokemob" : "traineredit.button.delete"),
-                        b ->
-                        {
-                            if (this.pokemob != null) this.deleteCallback.run();
-                            else
-                            {
-                                this.onChanged();
-                                if (this.pokemob != null)
-                                    b.setMessage(TComponent.translatable("traineredit.button.delete"));
-                            }
-                        }));
+        if (this.deleteCallback != null)
+        {
+            this.addRenderableWidget(new Button.Builder(
+                    TComponent.translatable(this.pokemob == null ? "traineredit.button.newpokemob" : "traineredit.button.delete"), (b) -> {
+                if (this.pokemob != null) this.deleteCallback.run();
+                else
+                {
+                    this.onChanged();
+                    if (this.pokemob != null)
+                        b.setMessage(TComponent.translatable("traineredit.button.delete"));
+                }
+            }).bounds(xOffset + 73, yOffset + 40, 50, 12).build());
+        }
 
-        this.addRenderableWidget(new Button(xOffset - 122, yOffset - 67, 10, 10, TComponent.literal(gender), b -> {
+        this.addRenderableWidget(new Button.Builder(TComponent.literal(gender), (b) -> {
             if (this.pokemob != null)
             {
                 final byte old = this.pokemob.getSexe();
@@ -272,19 +270,17 @@ public class Pokemob extends Page
                     this.onChanged();
                 }
             }
-        }));
-        this.addRenderableWidget(
-                new Button(xOffset - 30, yOffset - 42, 10, 10, TComponent.literal(this.shiny ? "Y" : "N"), b ->
-                {
-                    if (this.pokemob != null)
-                    {
-                        this.shiny = !this.pokemob.isShiny();
-                        this.pokemob.setShiny(this.shiny);
-                        b.setMessage(TComponent.literal(this.shiny ? "Y" : "N"));
-                        this.onChanged();
-                    }
-                }));
+        }).bounds(xOffset - 122, yOffset - 67, 10, 10).build());
 
+        this.addRenderableWidget(new Button.Builder(TComponent.literal(this.shiny ? "Yes" : "No"), (b) -> {
+            if (this.pokemob != null)
+            {
+                this.shiny = !this.pokemob.isShiny();
+                this.pokemob.setShiny(this.shiny);
+                b.setMessage(TComponent.literal(this.shiny ? "Y" : "N"));
+                this.onChanged();
+            }
+        }).bounds(xOffset - 30, yOffset - 42, 10, 10).build());
     }
 
     private void onChanged()
@@ -437,20 +433,21 @@ public class Pokemob extends Page
     }
 
     @Override
-    public void render(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
         final int x = this.parent.width / 2;
         final int y = this.parent.height / 2 - 70;
-        this.font.draw(matrixStack, I18n.get("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
+//        TODO: Fix these
+//        this.font.draw(graphics, I18n.get("traineredit.info.pokemob"), x - 110, y + 5, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.moves"), x - 120, y + 30, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.shiny"), x - 60, y + 30, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.level"), x - 120, y + 85, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.size"), x - 90, y + 85, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.nature"), x - 120, y + 110, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.ability"), x - 60, y + 110, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.evs"), x + 90, y, 0xFFFFFFFF);
+//        this.font.draw(graphics, I18n.get("traineredit.info.ivs"), x + 60, y, 0xFFFFFFFF);
 
         if (this.pokemob != null)
         {
