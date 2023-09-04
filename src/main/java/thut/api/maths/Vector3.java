@@ -222,7 +222,7 @@ public class Vector3
             final Vec3 end = direction.scalarMultBy(range).addTo(source).toVec3d();
             if (Vector3.USEDFORRAYTRACECONTEXT == null)
                 Vector3.USEDFORRAYTRACECONTEXT = FakePlayerFactory.get(level, Vector3.FAKEPLAYER);
-            else Vector3.USEDFORRAYTRACECONTEXT.setLevel(level);
+            else Vector3.USEDFORRAYTRACECONTEXT.setServerLevel(level);
             final ClipContext context = new ClipContext(start, end, ClipContext.Block.COLLIDER, Fluid.NONE,
                     Vector3.USEDFORRAYTRACECONTEXT);
             final BlockHitResult result = world.clip(context);
