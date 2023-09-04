@@ -153,8 +153,6 @@ public class PokecubeAdv
     public static final Map<PokeType, Item> BADGES = Maps.newHashMap();
     public static final Map<Item, PokeType> BADGEINV = Maps.newHashMap();
 
-    public static CreativeModeTab TAB_DECORATIONS = PokecubeItems.TAB_ITEMS;
-
     static
     {
         BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, PokecubeAdv.MODID);

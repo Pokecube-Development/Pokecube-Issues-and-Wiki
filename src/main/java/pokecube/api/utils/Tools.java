@@ -426,22 +426,23 @@ public class Tools
 
         if (isTable && world != null)
         {
-            final LootTable loottable = world.getServer().getLootTables().get(new ResourceLocation(table));
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder(world)
-                    .withRandom(world.getRandom());
-            // Generate the loot list.
-            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+            final LootTable loottable = world.getServer().getLootData().getLootTable(new ResourceLocation(table));
+//            TODO: Fix this
+//            final LootContext.Builder lootcontext$builder = new LootContext.Builder(world)
+//                    .withRandom(world.getRandom());
+//            // Generate the loot list.
+//            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
             // Shuffle the list.
-            if (!list.isEmpty()) Collections.shuffle(list);
-            for (final ItemStack itemstack : list)
+//            if (!list.isEmpty()) Collections.shuffle(list);
+//            for (final ItemStack itemstack : list)
                 // Pick first valid item in it.
-                if (!itemstack.isEmpty())
-            {
-                final ItemStack stack = itemstack.copy();
-                if (RegHelper.getKey(stack).equals(new ResourceLocation("pokecube", "candy")))
-                    PokecubeItems.makeStackValid(stack);
-                return stack;
-            }
+//                if (!itemstack.isEmpty())
+//            {
+//                final ItemStack stack = itemstack.copy();
+//                if (RegHelper.getKey(stack).equals(new ResourceLocation("pokecube", "candy")))
+//                    PokecubeItems.makeStackValid(stack);
+//                return stack;
+//            }
         }
 
         if (id.isEmpty()) return ItemStack.EMPTY;
@@ -537,7 +538,7 @@ public class Tools
             if (ItemEntity != null)
             {
                 ItemEntity.setNoPickUpDelay();
-                ItemEntity.setOwner(PlayerEntity.getUUID());
+                ItemEntity.setThrower(PlayerEntity.getUUID());
             }
         }
     }
@@ -562,8 +563,8 @@ public class Tools
 
     public static boolean isSameStack(final ItemStack a, final ItemStack b, final boolean strict)
     {
-        // TODO determine if to use the tags?
-        return ItemStack.isSameIgnoreDurability(a, b);
+        // TODO: Check if the same
+        return ItemStack.isSameItemSameTags(a, b);
     }
 
     public static int levelToXp(final int type, int level)
