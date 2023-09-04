@@ -11,10 +11,10 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import javax.xml.namespace.QName;
 
+import org.joml.Vector3f;
 import org.w3c.dom.Node;
 
 import com.google.common.collect.Sets;
-import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
