@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -114,7 +115,8 @@ public class GuiNBTTree extends Screen
     private void addNodes(final Node<NamedNBT> node, int x)
     {
         final int dx = node.hasChildren() ? 10 : 0;
-        final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y);
+        // TODO: Check this
+        final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y, (Button.CreateNarration) this.getNarrationMessage());
         this.nodes.add(nbtNode);
         this.addRenderableWidget(nbtNode);
         x += this.X_GAP;
