@@ -67,7 +67,7 @@ public class Pokeplayer
                     if (copy == null) throw Pokeplayer.ERROR_FAILED.create();
                     if (wrd.equals("check"))
                     {
-                        ctx.getSource().sendSuccess(TComponent.literal(copy.getCopiedID() + ""), false);
+                        ctx.getSource().sendSuccess(() -> TComponent.literal(copy.getCopiedID() + ""), false);
                         return 0;
                     }
 

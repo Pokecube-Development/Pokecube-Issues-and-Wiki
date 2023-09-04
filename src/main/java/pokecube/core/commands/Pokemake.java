@@ -281,7 +281,7 @@ public class Pokemake
 
         final String text = ChatFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
         final Component message = Component.Serializer.fromJson("[\"" + text + "\"]");
-        source.sendSuccess(message, true);
+        source.sendSuccess(() -> message, true);
         return 0;
     }
 

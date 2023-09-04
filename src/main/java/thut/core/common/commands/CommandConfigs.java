@@ -27,7 +27,7 @@ public class CommandConfigs
         {
             final Field f = data.getClass().getField(field);
             final Object value = f.get(data);
-            source.sendSuccess(TComponent.translatable("thutcore.command.settings.check", field, value), true);
+            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.check", field, value), true);
         }
         catch (final Exception e)
         {
@@ -57,21 +57,24 @@ public class CommandConfigs
         if (val.equals("!set"))
         {
             CommandConfigs.handleSet(data, args, value, f);
-            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.set", field, value), true);
+            Object finalValue = value;
+            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.array.set", field, finalValue), true);
             return 0;
         }
 
         if (val.equals("!add"))
         {
             CommandConfigs.handleAdd(data, args, value, f);
-            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.add", field, value), true);
+            Object finalValue1 = value;
+            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.array.add", field, finalValue1), true);
             return 0;
         }
 
         if (val.equals("!remove"))
         {
             CommandConfigs.handleRemove(data, args, value, f);
-            source.sendSuccess(TComponent.translatable("thutcore.command.settings.array.remove", field, value), true);
+            Object finalValue2 = value;
+            source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.array.remove", field, finalValue2), true);
             return 0;
         }
 
@@ -85,7 +88,8 @@ public class CommandConfigs
         {
             throw new CommandRuntimeException(TComponent.literal("Error with setting field name " + field));
         }
-        source.sendSuccess(TComponent.translatable("thutcore.command.settings.set", field, value), true);
+        Object finalValue3 = value;
+        source.sendSuccess(() -> TComponent.translatable("thutcore.command.settings.set", field, finalValue3), true);
 
         return 0;
     }
