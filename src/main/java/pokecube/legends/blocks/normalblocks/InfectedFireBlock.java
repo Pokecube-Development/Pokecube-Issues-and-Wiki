@@ -32,7 +32,7 @@ public class InfectedFireBlock extends BaseFireBlock
    public static TagKey<Block> INFECTED_FIRE_BASE_BLOCKS = BlockTags.create(new ResourceLocation(Reference.ID, "infected_fire_base_blocks"));
    private final float fireDamage;
 
-   public InfectedFireBlock(BlockBehaviour.Properties properties, float damage)
+   public InfectedFireBlock(float damage, BlockBehaviour.Properties properties)
    {
       super(properties, damage);
       this.fireDamage = damage;
@@ -75,7 +75,7 @@ public class InfectedFireBlock extends BaseFireBlock
             {
                 ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
             }
-            entity.hurt(DamageSource.IN_FIRE, this.fireDamage);
+            entity.hurt(entity.damageSources().inFire(), this.fireDamage);
         }
         super.entityInside(state, world, pos, entity);
     }

@@ -15,7 +15,7 @@ import pokecube.legends.init.ParticleInit;
 
 public class InfectedTorchWall extends WallTorchBlock
 {
-    public InfectedTorchWall(BlockBehaviour.Properties properties, SimpleParticleType particle)
+    public InfectedTorchWall(SimpleParticleType particle, BlockBehaviour.Properties properties)
     {
         super(properties, particle);
     }

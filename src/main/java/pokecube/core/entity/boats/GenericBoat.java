@@ -118,7 +118,7 @@ public class GenericBoat extends Boat
     {
     }
 
-    public static record BoatRegister(Supplier<Block> block, String name, CreativeModeTab tab,
+    public static record BoatRegister(Supplier<Block> block, String name,
             DeferredRegister<Item> register)
     {
     }
