@@ -78,7 +78,7 @@ public abstract class TrainerBase extends NpcMob
         final ItemStack stack = player.getItemInHand(hand);
         if (player.getAbilities().instabuild && player.isCrouching())
         {
-            if (!this.getLevel().isClientSide && player.isCrouching()
+            if (!this.level().isClientSide && player.isCrouching()
                     && player.getMainHandItem().getItem() == Items.STICK)
                 this.pokemobsCap.throwCubeAt(player);
             return InteractionResult.sidedSuccess(this.level.isClientSide);
@@ -132,7 +132,7 @@ public abstract class TrainerBase extends NpcMob
         this.invuln = true;
         if (PokecubeAdv.config.trainerAIPause)
         {
-            final Player near = this.getLevel().getNearestPlayer(this, -1);
+            final Player near = this.level().getNearestPlayer(this, -1);
             if (near != null)
             {
                 final float dist = near.distanceTo(this);

@@ -182,7 +182,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     {
         this.setRemainingFireTicks(this.getRemainingFireTicks() + 1);
         if (this.getRemainingFireTicks() == 0) this.setSecondsOnFire(8);
-        this.hurt(DamageSource.LIGHTNING_BOLT, 5.0F);
+        this.hurt(this.damageSources().lightningBolt(), 5.0F);
     }
 
     @Override
@@ -204,11 +204,12 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (this.fixedTrades || !this.customTrades.isEmpty()) this.offers = trades;
     }
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+//    TODO: Still needed?
+//    @Override
+//    public Packet<?> getAddEntityPacket()
+//    {
+//        return NetworkHooks.getEntitySpawningPacket(this);
+//    }
 
     @Override
     public SpawnGroupData finalizeSpawn(final ServerLevelAccessor worldIn, final DifficultyInstance difficultyIn,

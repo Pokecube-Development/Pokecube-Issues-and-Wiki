@@ -720,7 +720,7 @@ public class CapabilityHasPokemobs
                 // Make trainer own it when place in.
                 if (!this.getTrainer().getStringUUID().equals(owner))
                 {
-                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, this.getTrainer().getLevel());
+                    final IPokemob pokemob = PokecubeManager.itemToPokemob(cube, this.getTrainer().level());
                     if (pokemob != null)
                     {
                         pokemob.setOwner(this.getTrainer());
@@ -817,7 +817,7 @@ public class CapabilityHasPokemobs
         public void throwCubeAt(final Entity target)
         {
             if (target == null || this.aiStates.getAIState(AIState.THROWING)
-                    || !(target.getLevel() instanceof ServerLevel))
+                    || !(target.level() instanceof ServerLevel))
                 return;
             final ItemStack i = this.getNextPokemob();
             if (!i.isEmpty())

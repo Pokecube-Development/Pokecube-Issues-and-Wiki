@@ -163,7 +163,7 @@ public interface IHasMoves extends IHasStats
     /**
      * Gets the {@link String} id of the specified move.
      *
-     * @param i from 0 to 3
+     * @param index from 0 to 3
      * @return the String name of the move
      */
     default String getMove(final int index)
@@ -286,7 +286,7 @@ public interface IHasMoves extends IHasStats
      */
     default void learn(final String moveName)
     {
-        if (moveName == null || this.getEntity().getLevel() == null || this.getEntity().getLevel().isClientSide) return;
+        if (moveName == null || this.getEntity().level() == null || this.getEntity().level().isClientSide) return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
         final String[] moves = this.getMoves();
         final LivingEntity thisEntity = this.getEntity();
@@ -422,7 +422,7 @@ public interface IHasMoves extends IHasStats
     }
 
     /**
-     * Same as {@link IHasMoves#setStatus(byte)} but also specifies the duration
+     * Same as {@link IHasMoves#setStatus(int)} but also specifies the duration
      * for the effect.
      *
      * @param status the status to set
