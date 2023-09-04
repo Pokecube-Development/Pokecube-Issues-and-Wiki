@@ -165,12 +165,14 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public static TerrainDamageSource createHailSource(final IPokemob mobIn)
     {
-        return new TerrainDamageSource("terrain.hail", TerrainType.TERRAIN, mobIn);
+        // TODO: Fix this, old is "terrain.hail"
+        return new TerrainDamageSource(mobIn.getEntity().damageSources().generic().typeHolder(), TerrainType.TERRAIN, mobIn);
     }
 
     public static TerrainDamageSource createSandstormSource(final IPokemob mobIn)
     {
-        return new TerrainDamageSource("terrain.sandstorm", TerrainType.TERRAIN, mobIn);
+        // TODO: Fix this, old is "terrain.sandstorm"
+        return new TerrainDamageSource(mobIn.getEntity().damageSources().generic().typeHolder(), TerrainType.TERRAIN, mobIn);
     }
 
     private final HashMap<Integer, Effect> effects;
