@@ -4,7 +4,9 @@ import java.util.function.Supplier;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.MushroomBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -13,20 +15,20 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
+import org.jetbrains.annotations.NotNull;
 import pokecube.legends.init.PlantsInit;
 
 public class MushroomBase extends MushroomBlock
 {
     protected static final VoxelShape LARGE_SHAPE = Block.box(2, 0, 2, 14, 15, 14);
     protected static final VoxelShape SMALL_SHAPE = Block.box(4, 0, 4, 12, 9, 12);
-    public final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> featureSupplier;
+    public final ResourceKey<ConfiguredFeature<?, ?>> featureSupplier;
     public boolean validBonemealTarget = true;
 
-    public MushroomBase(final BlockBehaviour.Properties properties,
-            final Supplier<Holder<? extends ConfiguredFeature<?, ?>>> supplier)
+    public MushroomBase(final BlockBehaviour.Properties properties, ResourceKey<ConfiguredFeature<?, ?>> featureSupplier)
     {
-        super(properties, supplier);
-        this.featureSupplier = supplier;
+        super(properties, featureSupplier);
+        this.featureSupplier = featureSupplier;
     }
 
     @Override
@@ -48,8 +50,8 @@ public class MushroomBase extends MushroomBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
-            final boolean b)
+    public boolean isValidBonemealTarget(final @NotNull LevelReader worldReader, final BlockPos pos, final BlockState state,
+                                         final boolean b)
     {
         return this.validBonemealTarget;
     }
