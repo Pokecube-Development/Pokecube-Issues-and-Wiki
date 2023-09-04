@@ -130,6 +130,7 @@ public class GuiNBTTree extends Screen
         final SaveStates saveStates = NBTEdit.getSaveStates();
         for (int i = 0; i < 7; ++i)
         {
+            // TODO: Check this
             this.saves[i] = new GuiSaveSlotButton(saveStates.getSaveState(i), this.width - 24, 31 + i * 25, b ->
             {
                 final GuiSaveSlotButton button = (GuiSaveSlotButton) b;
@@ -137,7 +138,7 @@ public class GuiNBTTree extends Screen
                 NBTEdit.getSaveStates().save();
                 this.mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 return;
-            });
+            }, (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.saves[i]);
         }
     }
