@@ -3,8 +3,7 @@ package pokecube.legends.init;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
@@ -29,7 +28,8 @@ public class FluidInit
                         new ForgeFlowingFluid.Flowing(DistorticWaterType.makeProperties()));
 
         DISTORTIC_WATER_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("distortic_water_block", () ->
-                        new LiquidBlock(DISTORTIC_WATER, BlockBehaviour.Properties.of(Material.WATER, MaterialColor.COLOR_LIGHT_BLUE).noCollission().strength(100.0F).noLootTable()));
+                        new LiquidBlock(DISTORTIC_WATER, BlockBehaviour.Properties.of()
+                                .mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().strength(100.0F).noLootTable()));
 
 
         MOLTEN_METEORITE = PokecubeLegends.FLUIDS.register("molten_meteorite", () ->
