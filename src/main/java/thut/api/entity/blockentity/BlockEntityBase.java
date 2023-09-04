@@ -1,22 +1,20 @@
 package thut.api.entity.blockentity;
 
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.mojang.math.Vector3f;
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -29,8 +27,11 @@ import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
@@ -40,8 +41,8 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
-import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
+import org.joml.Vector3f;
 import thut.api.ThutCaps;
 import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
@@ -61,10 +62,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 {
     public static class BlockEntityType<T extends BlockEntityBase> extends EntityType<T>
     {
+        // TODO: Check this
         public BlockEntityType(final EntityType.EntityFactory<T> factory)
         {
             super(factory, MobCategory.MISC, true, false, true, true, ImmutableSet.of(),
-                    new EntityDimensions(1, 1, true), 64, 1, e -> true, e -> 64, e -> 1, null);
+                    new EntityDimensions(1, 1, true), 64, 1,
+                    FeatureFlagSet.of());
         }
 
         @Override
@@ -251,7 +254,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     public void checkCollision()
     {
         BlockPos.betweenClosedStream(this.getBoundingBox()).forEach(p -> {
-            final Level world = this.getLevel();
+            final Level world = this.level();
             final BlockState block = world.getBlockState(p);
 
             ResourceLocation replaceable = new ResourceLocation("thutcore:craft_replace");
@@ -340,11 +343,12 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+//    TODO: Find Replacement
+//    @Override
+//    public Packet<?> getAddEntityPacket()
+//    {
+//        return NetworkHooks.getEntitySpawningPacket(this);
+//    }
 
     public final void doMotion()
     {
@@ -538,10 +542,10 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         if (nbt.contains("bounds"))
         {
             final CompoundTag bounds = nbt.getCompound("bounds");
-            this.boundMin = new BlockPos(bounds.getDouble("minx"), bounds.getDouble("miny"), bounds.getDouble("minz"));
-            this.boundMax = new BlockPos(bounds.getDouble("maxx"), bounds.getDouble("maxy"), bounds.getDouble("maxz"));
-            if (bounds.contains("orix")) this.originalPos = new BlockPos(bounds.getDouble("orix"),
-                    bounds.getDouble("oriy"), bounds.getDouble("oriz"));
+            this.boundMin = new BlockPos(bounds.getInt("minx"), bounds.getInt("miny"), bounds.getInt("minz"));
+            this.boundMax = new BlockPos(bounds.getInt("maxx"), bounds.getInt("maxy"), bounds.getInt("maxz"));
+            if (bounds.contains("orix")) this.originalPos = new BlockPos(bounds.getInt("orix"),
+                    bounds.getInt("oriy"), bounds.getInt("oriz"));
         }
         this.readBlocks(nbt);
         this.getUpdater().resetShape();
@@ -551,6 +555,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (nbt.contains("Blocks"))
         {
+            ListTag paletteNbt = nbt.getList("palette", 10);
             final CompoundTag blockTag = nbt.getCompound("Blocks");
             int sizeX = blockTag.getInt("BlocksLengthX");
             int sizeZ = blockTag.getInt("BlocksLengthZ");
@@ -563,7 +568,8 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             {
                 final String name = "B" + i + "," + k + "," + j;
                 if (!blockTag.contains(name)) continue;
-                final BlockState state = NbtUtils.readBlockState(blockTag.getCompound(name));
+                // TODO: Fix this
+                final BlockState state = NbtUtils.readBlockState((HolderGetter<Block>) Blocks.OAK_PLANKS, blockTag.getCompound(name));
                 this.blocks[i][k][j] = state;
                 if (blockTag.contains("T" + i + "," + k + "," + j)) try
                 {
@@ -624,7 +630,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     @Override
     public void remove(final RemovalReason reason)
     {
-        if (!this.getLevel().isClientSide && this.isAlive() && this.shouldRevert)
+        if (!this.level().isClientSide && this.isAlive() && this.shouldRevert)
             IBlockEntity.BlockEntityFormer.RevertEntity(this);
         super.remove(reason);
     }
