@@ -1,11 +1,9 @@
 package pokecube.nbtedit.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -92,12 +90,18 @@ public class GuiEditNBTTree extends Screen
     @Override
     public void init()
     {
-        this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
+        // TODO: Find replacement
+        // this.minecraft.keyboardHandler.setSendRepeatsToGui(true);
         this.guiTree.initGUI(this.width, this.height, this.height - 35);
-        this.addRenderableWidget(new Button(this.width / 4 - 100, this.height - 27, 200, 20, TComponent.literal("Save"),
-                b -> this.quitWithSave()));
-        this.addRenderableWidget(new Button(this.width * 3 / 4 - 100, this.height - 27, 200, 20, TComponent.literal("Quit"),
-                b -> this.quitWithoutSaving()));
+
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Save"), (b) -> {
+            this.quitWithSave();
+        }).bounds(this.width / 4 - 100, this.height - 27, 200, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Quit"), (b) -> {
+            this.quitWithoutSaving();
+        }).bounds(this.width * 3 / 4 - 100, this.height - 27, 200, 20).build());
+
         this.children.add(this.guiTree);
     }
 
@@ -133,11 +137,12 @@ public class GuiEditNBTTree extends Screen
         return ret;
     }
 
-    @Override
-    public void removed()
-    {
-        this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
-    }
+//    TODO: Fix this
+//    @Override
+//    public void removed()
+//    {
+//        this.minecraft.keyboardHandler.setSendRepeatsToGui(false);
+//    }
 
     private void quitWithoutSaving()
     {
@@ -168,12 +173,12 @@ public class GuiEditNBTTree extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int x, final int y, final float par3)
+    public void render(final GuiGraphics graphics, final int x, final int y, final float par3)
     {
-        this.renderBackground(mat);
-        this.guiTree.render(mat, x, y, par3);
-        GuiComponent.drawCenteredString(mat, this.font, this.screenTitle, this.width / 2, 5, 16777215);
-        super.render(mat, x, y, par3);
+        this.renderBackground(graphics);
+        this.guiTree.render(graphics, x, y, par3);
+        graphics.drawCenteredString(this.font, this.screenTitle, this.width / 2, 5, 16777215);
+        super.render(graphics, x, y, par3);
     }
 
     @Override
