@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
@@ -29,14 +29,14 @@ public class GuiNBTNode extends Button
 
     private String displayString;
 
-    public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y)
+    public GuiNBTNode(final GuiNBTTree tree, final Node<NamedNBT> node, final int x, final int y, CreateNarration narration)
     {
         super(x, y, 10, Minecraft.getInstance().font.lineHeight, TComponent.literal(node.toString()), b -> tree
-                .nodeClicked((GuiNBTNode) b));
+                .nodeClicked((GuiNBTNode) b), narration);
         this.tree = tree;
         this.node = node;
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
         this.height = this.mc.font.lineHeight;
         this.updateDisplay();
     }
@@ -66,11 +66,11 @@ public class GuiNBTNode extends Button
     private boolean inHideShowBounds()
     {
         final int dx = this.node.hasChildren() ? 10 : 0;
-        return this.x2 - dx <= this.x && this.clicked(this.x2, this.y2);
+        return this.x2 - dx <= this.getX() && this.clicked(this.x2, this.y2);
     }
 
     @Override
-    public void render(final PoseStack mat, final int mx, final int my, final float m)
+    public void render(final GuiGraphics graphics, final int mx, final int my, final float m)
     {
         if (!this.shouldDraw(this.tree.START_Y + 5, this.tree.bottom)) return;
 
@@ -81,18 +81,18 @@ public class GuiNBTNode extends Button
         final boolean chHover = this.inHideShowBounds();
         final int color = selected ? 0xff : hover ? 16777120 : this.node.hasParent() ? 14737632 : -6250336;
         final int dx = this.node.hasChildren() ? 10 : 0;
-        final int x = this.x + dx;
+        final int x = this.getX() + dx;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
 
-        if (selected) GuiComponent.fill(mat, x + 11, this.y, x + this.width, this.y + this.height, Integer.MIN_VALUE);
-        if (this.node.hasChildren()) this.blit(mat, x - 9, this.y, this.node.shouldDrawChildren() ? 9 : 0, chHover
-                ? this.height
-                : 0, 9, this.height);
-        this.blit(mat, x + 1, this.y, (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
-        GuiComponent.drawString(mat, this.mc.font, this.displayString, x + 11, this.y + (this.height - 8) / 2, color);
+        // TODO: Check this
+        if (selected) graphics.fill(x + 11, this.getY(), x + this.width, this.getY() + this.height, Integer.MIN_VALUE);
+        if (this.node.hasChildren()) graphics.blit(new ResourceLocation(""), x - 9, this.getY(),
+                this.node.shouldDrawChildren() ? 9 : 0, chHover ? this.height : 0, 9, this.height);
+        graphics.blit(new ResourceLocation(""), x + 1, this.getY(), (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
+        graphics.drawString(this.mc.font, this.displayString, x + 11, this.getY() + (this.height - 8) / 2, color);
     }
 
     public void shift(final int dy)
@@ -102,7 +102,7 @@ public class GuiNBTNode extends Button
 
     public boolean shouldDraw(final int top, final int bottom)
     {
-        return this.y + this.height >= top && this.y <= bottom;
+        return this.getY() + this.height >= top && this.getY() <= bottom;
     }
 
     public boolean shouldDrawChildren()
