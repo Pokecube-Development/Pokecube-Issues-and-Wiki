@@ -3,12 +3,12 @@ package thut.api.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.math.Quaternion;
 
 import net.minecraft.client.Camera;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import org.joml.Quaternionf;
 import thut.api.maths.Vector4;
 import thut.api.maths.vecmath.Vec3f;
 
@@ -52,8 +52,8 @@ public class ParticleOrientable extends ParticleBase
     public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
             final Vec3f offset)
     {
-        Quaternion quaternion;
-        quaternion = new Quaternion(renderInfo.rotation());
+        Quaternionf quaternion;
+        quaternion = new Quaternionf(renderInfo.rotation());
         quaternion.mul(this.orientation.toMCQ());
         this.render(buffer, quaternion, offset);
     }
