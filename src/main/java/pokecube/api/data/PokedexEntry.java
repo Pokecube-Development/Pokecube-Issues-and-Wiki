@@ -233,7 +233,7 @@ public class PokedexEntry
                             new IllegalStateException());
                     return false;
                 }
-                final SpawnCheck check = new SpawnCheck(loc, world);
+                final SpawnCheck check = new SpawnCheck(loc, world, loc.getPos(), world.getBlockState(loc.getPos()));
                 return this.matcher.matches(check);
             }
             return true;
@@ -297,7 +297,7 @@ public class PokedexEntry
             }
             if (this.rainOnly)
             {
-                final Level world = mob.getEntity().getLevel();
+                final Level world = mob.getEntity().level();
                 final boolean rain = world.isRaining();
                 if (!rain)
                 {
@@ -338,7 +338,7 @@ public class PokedexEntry
             boolean rightTime = !this.dayOnly && !this.nightOnly && !this.dawnOnly && !this.duskOnly;
             if (!rightTime)
             {
-                final double time = TimePeriod.getTime(mob.getEntity().getLevel());
+                final double time = TimePeriod.getTime(mob.getEntity().level());
                 rightTime = this.dayOnly ? PokedexEntry.day.contains(time)
                         : this.nightOnly ? PokedexEntry.night.contains(time)
                                 : this.duskOnly ? PokedexEntry.dusk.contains(time) : PokedexEntry.dawn.contains(time);
@@ -519,18 +519,18 @@ public class PokedexEntry
             ItemStack result = null;
             if (action.lootTable != null)
             {
-                final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables()
-                        .get(action.lootTable);
-                final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                        (ServerLevel) pokemob.getEntity().getLevel()).withParameter(LootContextParams.THIS_ENTITY,
-                                pokemob.getEntity());
-                for (final ItemStack itemstack : loottable
-                        .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
-                    if (!itemstack.isEmpty())
-                {
-                    result = itemstack;
-                    break;
-                }
+                final LootTable loottable = pokemob.getEntity().level().getServer().getLootData().getLootTable(action.lootTable);
+//                TODO: Fix this
+//                final LootContext.Builder lootcontext$builder =
+//                        new LootContext.Builder((ServerLevel) pokemob.getEntity().level())
+//                                .withParameter(LootContextParams.THIS_ENTITY, pokemob.getEntity());
+//                for (final ItemStack itemstack : loottable
+//                        .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
+//                    if (!itemstack.isEmpty())
+//                    {
+//                        result = itemstack;
+//                        break;
+//                    }
             }
             else
             {
@@ -656,7 +656,7 @@ public class PokedexEntry
 
         public SpawnBiomeMatcher getMatcher(final SpawnContext context)
         {
-            SpawnCheck checker = new SpawnCheck(context.location(), context.level());
+            SpawnCheck checker = new SpawnCheck(context.location(), context.level(), context.location().getPos(), context.level().getBlockState(context.location().getPos()));
             return this.getMatcher(context, checker, true);
         }
 
@@ -680,7 +680,7 @@ public class PokedexEntry
                 @Nullable ServerPlayer player)
         {
             SpawnContext context = new SpawnContext(player, world, entry, location);
-            final SpawnCheck checker = new SpawnCheck(location, world);
+            final SpawnCheck checker = new SpawnCheck(location, world, location.getPos(), world.getBlockState(location.getPos()));
             return this.getMatcher(context, checker);
         }
 
@@ -749,7 +749,7 @@ public class PokedexEntry
         /**
          * Only checks one biome type for vailidity
          *
-         * @param b
+         * b
          * @return
          */
         public boolean isValid(final SpawnContext context, SpawnCheck checker)
@@ -1408,7 +1408,7 @@ public class PokedexEntry
         for (final EvolutionData d : this.evolutions)
         {
             boolean itemCheck = d.item == ItemStack.EMPTY;
-            if (!itemCheck && stack != ItemStack.EMPTY) itemCheck = stack.sameItem(d.item);
+            if (!itemCheck && stack != ItemStack.EMPTY) itemCheck = !stack.isEmpty() && stack.is(d.item.getItem());
             if (d.level >= 0 && level >= d.level && itemCheck) return true;
         }
         return false;
@@ -1746,17 +1746,17 @@ public class PokedexEntry
 
     public ItemStack getRandomHeldItem(final Mob mob)
     {
-        if (mob.getLevel().isClientSide) return ItemStack.EMPTY;
+        if (mob.level().isClientSide) return ItemStack.EMPTY;
         if (this.heldTable != null)
         {
-            final LootTable loottable = mob.getLevel().getServer().getLootTables().get(this.heldTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob.getLevel())
-                    .withParameter(LootContextParams.THIS_ENTITY, mob)
-                    .withParameter(LootContextParams.DAMAGE_SOURCE, DamageSource.GENERIC)
-                    .withParameter(LootContextParams.ORIGIN, mob.position());
-            for (final ItemStack itemstack : loottable.getRandomItems(
-                    lootcontext$builder.create(loottable.getParamSet())))
-                if (!itemstack.isEmpty()) return itemstack;
+            final LootTable loottable = mob.level().getServer().getLootData().getLootTable(this.heldTable);
+//            TODO: Fix this
+//            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob.level())
+//                    .withParameter(LootContextParams.THIS_ENTITY, mob)
+//                    .withParameter(LootContextParams.DAMAGE_SOURCE, mob.damageSources().generic())
+//                    .withParameter(LootContextParams.ORIGIN, mob.position());
+//            for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
+//                if (!itemstack.isEmpty()) return itemstack;
         }
         return ItemStack.EMPTY;
     }
@@ -1973,8 +1973,7 @@ public class PokedexEntry
      * returns whether the interaction logic has a response listed for the given
      * key.
      *
-     * @param cube
-     * @param doInteract - if false, will not actually do anything.
+     * @param stack - if false, will not actually do anything.
      * @return
      */
     public boolean interact(final ItemStack stack)
