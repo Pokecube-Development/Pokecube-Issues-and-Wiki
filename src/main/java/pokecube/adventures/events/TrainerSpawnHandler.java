@@ -172,8 +172,9 @@ public class TrainerSpawnHandler
                 temp1.y = y_Test;
             temp1.y++;
 
-            if (temp1.getBlockMaterial(world).blocksMotion()) return null;
-            if (temp1.addTo(0, 1, 0).getBlockMaterial(world).blocksMotion()) return null;
+            // TODO: Check if correct, old was .getBlockMaterial(world).blocksMotion()
+            if (!temp1.isClearOfBlocks(world)) return null;
+            if (!temp1.addTo(0, 1, 0).isClearOfBlocks(world)) return null;
             temp1.y--;
             return temp1;
         }

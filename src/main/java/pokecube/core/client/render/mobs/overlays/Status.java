@@ -1,5 +1,6 @@
 package pokecube.core.client.render.mobs.overlays;
 
+import com.mojang.math.Axis;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
@@ -113,12 +114,13 @@ public class Status
         float f8 = 0.0F;
         float f5 = 0.0F;
         {
-            f8 = Mth.lerp(partialTicks, mob.animationSpeedOld, mob.animationSpeed);
-            f5 = mob.animationPosition - mob.animationSpeed * (1.0F - partialTicks);
+//            TODO: Fix this
+//            f8 = Mth.lerp(partialTicks, mob.animationSpeedOld, mob.animationSpeed);
+//            f5 = mob.animationPosition - mob.animationSpeed * (1.0F - partialTicks);
 
             if (f8 > 1.0F) f8 = 1.0F;
         }
-        mat.mulPose(AxisAngles.YP.rotationDegrees(180.0F - f));
+        mat.mulPose(Axis.YP.rotationDegrees(180.0F - f));
 
         final float ds = frz ? 0.05f : 0.05f;
 
