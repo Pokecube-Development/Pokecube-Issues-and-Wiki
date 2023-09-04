@@ -308,7 +308,7 @@ public class ItemGenerator
                         BerryManager.berryPlanks.put(index, block);
                     });
 
-            ItemGenerator.BOATS.add(new BoatRegister(plank_block, name, PokecubeItems.TAB_BERRIES, PokecubeCore.ITEMS));
+            ItemGenerator.BOATS.add(new BoatRegister(plank_block, name, PokecubeCore.ITEMS));
 
             // Stairs
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(7).apply(name),
@@ -343,7 +343,7 @@ public class ItemGenerator
                     () -> new FenceGateBlock(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)
-                                    .forceSolidOn().ignitedByLava().forceSolidOn(), SoundEvents.FENCE_GATE_CLOSE, SoundEvents.FENCE_GATE_OPEN),
+                                    .forceSolidOn().ignitedByLava().forceSolidOn(), SoundEvents.FENCE_GATE_OPEN, SoundEvents.FENCE_GATE_CLOSE),
                     block ->
                     {
                         ItemGenerator.fence_gates.put(name, block);
@@ -352,7 +352,9 @@ public class ItemGenerator
             // TODO: Check this
             // Buttons
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(11).apply(name),
-                    () -> Blocks.woodenButton(BlockSetType.OAK),
+                    () -> new GenericButton(BlockSetType.OAK, true, 30,
+                    BlockBehaviour.Properties.of().strength(0.5f).noCollission().ignitedByLava()
+                            .sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)),
                     block ->
                     {
                         ItemGenerator.buttons.put(name, block);
@@ -362,7 +364,7 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(12).apply(name),
                     () -> new GenericPressurePlate(Sensitivity.EVERYTHING, BlockSetType.OAK,
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).forceSolidOn().noCollission().ignitedByLava()
+                                    .strength(0.5F).forceSolidOn().noCollission().ignitedByLava()
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).pushReaction(PushReaction.DESTROY)),
                     block ->
                     {
@@ -597,16 +599,9 @@ public class ItemGenerator
         }
     }
 
-    public static class GenericWoodButton extends ButtonBlock
+    public static class GenericButton extends ButtonBlock
     {
-        public GenericWoodButton(BlockSetType setType, boolean arrowsCanPress, int ticksPressed, final Properties properties)
-        {
-            super(properties, setType, ticksPressed, arrowsCanPress);
-        }
-    }
-    public static class GenericStoneButton extends ButtonBlock
-    {
-        public GenericStoneButton(BlockSetType setType, boolean arrowsCanPress, int ticksPressed, final Properties properties)
+        public GenericButton(BlockSetType setType, boolean arrowsCanPress, int ticksPressed, final Properties properties)
         {
             super(properties, setType, ticksPressed, arrowsCanPress);
         }
