@@ -10,11 +10,11 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.api.maths.Vector3;
@@ -132,8 +132,9 @@ public class X3dModel extends BaseModel
             offset = t.rotation.split(" ");
             final Vector3f axis = new Vector3f(Float.parseFloat(offset[0]), Float.parseFloat(offset[1]),
                     Float.parseFloat(offset[2]));
-            final Quaternion quat = new Quaternion(axis, Float.parseFloat(offset[3]), false);
-            final Vector4 rotations = new Vector4(quat);
+            // TODO: Fix this
+            // final Quaternionf quat = new Quaternionf(axis, Float.parseFloat(offset[3]), false);
+            // final Vector4 rotations = new Vector4(quat);
 
             final Set<String> children = t.getChildNames();
             t = t.getIfsTransform();
@@ -155,7 +156,8 @@ public class X3dModel extends BaseModel
             }
             final X3dPart o = new X3dPart(name);
             o.setShapes(shapes);
-            o.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
+            // TODO: Fix this
+            // o.rotations.set(rotations.x, rotations.y, rotations.z, rotations.w);
             o.offset.set(translation);
             o.scale = scale;
             o.ds1 = scale.length();
