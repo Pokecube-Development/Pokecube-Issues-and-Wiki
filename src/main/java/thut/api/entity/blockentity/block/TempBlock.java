@@ -21,7 +21,6 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.EntityCollisionContext;
@@ -41,7 +40,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     public static TempBlock make()
     {
         return new TempBlock(
-                BlockBehaviour.Properties.of(Material.STRUCTURAL_AIR).isRedstoneConductor(TempBlock::solidCheck)
+                BlockBehaviour.Properties.of().isRedstoneConductor(TempBlock::solidCheck).noCollission().replaceable()
                         .dynamicShape().noOcclusion().lightLevel(s -> s.getValue(TempBlock.LIGHTLEVEL)));
     }
 
@@ -79,7 +78,7 @@ public class TempBlock extends AirBlock implements EntityBlock
     {
         final BlockHitResult trace = event.getHitVec();
         if (trace == null || !event.getEntity().isShiftKeyDown()) return;
-        final Level world = event.getEntity().getLevel();
+        final Level world = event.getEntity().level();
         final BlockEntity tile = world.getBlockEntity(event.getPos());
         if (tile instanceof TempTile temp)
         {
@@ -102,7 +101,7 @@ public class TempBlock extends AirBlock implements EntityBlock
      * model, MODELBLOCK_ANIMATED for TESR-only, LIQUID for vanilla liquids,
      * INVISIBLE to skip all rendering
      *
-     * @deprecated call via {@link BlockState#getRenderType()} whenever
+     * @deprecated call via {@link BlockState#getRenderShape()} whenever
      *             possible. Implementing/overriding is fine.
      */
     @Deprecated
