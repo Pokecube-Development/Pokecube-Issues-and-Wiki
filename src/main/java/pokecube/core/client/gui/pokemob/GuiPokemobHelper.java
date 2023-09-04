@@ -128,8 +128,8 @@ public class GuiPokemobHelper
         // TODO: Find replacement for graphics.last().normal().copy
         final Matrix3f norms = mat.last().normal();
         mat.scale(1, 1, -1);
-        // TODO: Find replacement for graphics.last().normal().load(norms)
-        mat.last().normal().set(norms);
+        // TODO: check this
+        mat.last().normal().set(norms).add(norms);
 
         quaternion.mul(quaternion1);
         quaternion.mul(Axis.XP.rotationDegrees(pitch));
