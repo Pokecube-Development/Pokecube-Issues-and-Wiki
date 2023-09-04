@@ -1,5 +1,6 @@
 package thut.core.client.render.json;
 
+import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -7,11 +8,11 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.maths.Vector4;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.json.JsonTemplate.JsonFace;
@@ -258,7 +259,7 @@ public class JsonPart extends Part
         float us = 16f;
         float vs = 16f;
 
-        Quaternion quat = new Quaternion(0, 0, 0, 1);
+        Quaternionf quat = new Quaternionf(0, 0, 0, 1);
 
         if (b.rotation != null)
         {
@@ -277,9 +278,9 @@ public class JsonPart extends Part
             {
                 z = b.rotation.angle;
             }
-            if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
-            if (z != 0) quat.mul(AxisAngles.YP.rotationDegrees(z));
-            if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+            if (y != 0) quat.mul(Axis.ZP.rotationDegrees(y));
+            if (z != 0) quat.mul(Axis.YP.rotationDegrees(z));
+            if (x != 0) quat.mul(Axis.XP.rotationDegrees(x));
         }
 
         Vector3f origin = new Vector3f(origin_offset);
@@ -294,22 +295,23 @@ public class JsonPart extends Part
             // We need to translate to rotation point, then rotate, then
             // translate back.
             vec.add(origin);
-            vec.transform(quat);
-            vec.sub(origin);
+            // TODO: Fix this
+            // vec.transform(quat);
+        vec.sub(origin);
 
-            // Now translate to where it should be
-            vec.add(shift);
+        // Now translate to where it should be
+        vec.add(shift);
 
-            v.set(vec.x() / 16, vec.y() / 16, vec.z() / 16);
-            Integer o = order.size();
-            int u0 = tex_order[i][0];
-            int v0 = tex_order[i][1];
-            TextureCoordinate t = new TextureCoordinate(face.uv[u0] / us, face.uv[v0] / vs);
-            order.add(o);
-            verts.add(v);
-            tex.add(t);
-        }
+        v.set(vec.x() / 16, vec.y() / 16, vec.z() / 16);
+        Integer o = order.size();
+        int u0 = tex_order[i][0];
+        int v0 = tex_order[i][1];
+        TextureCoordinate t = new TextureCoordinate(face.uv[u0] / us, face.uv[v0] / vs);
+        order.add(o);
+        verts.add(v);
+        tex.add(t);
     }
+}
 
     private static List<Mesh> makeShapes(JsonTemplate t, JsonBlock b, float[] offsets)
     {
@@ -418,9 +420,9 @@ public class JsonPart extends Part
         float ry = this.ry + rotations.y;
         float rz = this.rz + rotations.z;
 
-        if (rz != 0) mat.mulPose(AxisAngles.YN.rotationDegrees(rz));
-        if (ry != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(ry));
-        if (rx != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rx));
+        if (rz != 0) mat.mulPose(Axis.YN.rotationDegrees(rz));
+        if (ry != 0) mat.mulPose(Axis.ZP.rotationDegrees(ry));
+        if (rx != 0) mat.mulPose(Axis.XP.rotationDegrees(rx));
 
         // Translate by post-PreOffset amount.
         mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);
