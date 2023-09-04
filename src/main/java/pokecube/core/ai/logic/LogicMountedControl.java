@@ -158,10 +158,10 @@ public class LogicMountedControl extends LogicBase
         this.wasRiding = true;
         this.entity.yRot = this.pokemob.getHeading();
 
-        shouldControl = this.entity.isOnGround() || this.pokemob.canUseFly();
+        shouldControl = this.entity.onGround() || this.pokemob.canUseFly();
         verticalControl = false;
         boolean waterSpeed = false;
-        boolean airSpeed = !this.entity.isOnGround();
+        boolean airSpeed = !this.entity.onGround();
 
         final boolean fluidRestricted = this.inFluid && !(this.canSurf || this.canDive);
 

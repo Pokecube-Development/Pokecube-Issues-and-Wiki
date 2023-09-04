@@ -409,7 +409,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         final AttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
         final boolean swimming = this.getEntity().isInWater()
                 || this.getEntity().isInLava() && this.getEntity().fireImmune();
-        final boolean flying = !swimming && !this.isOnGround();
+        final boolean flying = !swimming && !this.onGround();
 
         final boolean hasFlyBoost = iattributeinstance.getModifier(IPokemob.FLYSPEEDFACTOR_ID) != null;
         final boolean hasSwimBoost = iattributeinstance.getModifier(IPokemob.SWIMSPEEDFACTOR_ID) != null;
@@ -476,7 +476,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     boolean isGrounded();
 
-    boolean isOnGround();
+    boolean onGround();
 
     /**
      * Returns the texture path.

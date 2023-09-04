@@ -200,9 +200,9 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public boolean isOnGround()
+    public boolean onGround()
     {
-        return this.getEntity().isOnGround();
+        return this.getEntity().onGround();
     }
 
     @Override

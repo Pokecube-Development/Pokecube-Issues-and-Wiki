@@ -380,7 +380,7 @@ public class GatherTask extends UtilTask
         final double dot = this.v.normalize().dot(Vector3.secondAxis);
 
         final boolean air = this.pokemob.floats() || this.pokemob.flys();
-        final boolean groundShouldJump = this.entity.isOnGround() && !air && dot < -0.8 && dy < -1.8;
+        final boolean groundShouldJump = this.entity.onGround() && !air && dot < -0.8 && dy < -1.8;
         final boolean flyShouldJump = !groundShouldJump && air && dist < 4;
 
         // This means that the item is directly above the pokemob, try to jump

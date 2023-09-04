@@ -21,7 +21,7 @@ public class Mimicry extends Ability
         final PokedexEntry mobs = mob.getPokedexEntry();
         if (!mob.inCombat()) mob.setPokedexEntry(mobs);
 
-        if (mob.getEntity().isOnGround())
+        if (mob.getEntity().onGround())
         {
             if (effects.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC))
             {

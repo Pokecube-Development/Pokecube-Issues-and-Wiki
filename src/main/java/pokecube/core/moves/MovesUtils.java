@@ -452,14 +452,14 @@ public class MovesUtils implements IMoveConstants
         final PokemobTerrainEffects effect = (PokemobTerrainEffects) terrain.geTerrainEffect("pokemobEffects");
         if (type == PokeType.getType("dragon"))
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MISTY)) ret = 0.5f;
-        if (type == PokeType.getType("electric") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
+        if (type == PokeType.getType("electric") && (attacker.onGround() || attacker.fallDistance < 0.5))
         {
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.ELECTRIC)) ret = 1.5f;
 
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.MUD)) ret *= 0.33f;
         }
 
-        if (type == PokeType.getType("grass") && (attacker.isOnGround() || attacker.fallDistance < 0.5))
+        if (type == PokeType.getType("grass") && (attacker.onGround() || attacker.fallDistance < 0.5))
             if (effect.isEffectActive(PokemobTerrainEffects.TerrainEffectType.GRASS)) ret = 1.5f;
 
         if (type == PokeType.getType("water"))

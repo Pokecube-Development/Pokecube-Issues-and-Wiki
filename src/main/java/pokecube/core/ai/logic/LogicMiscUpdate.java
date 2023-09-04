@@ -357,7 +357,7 @@ public class LogicMiscUpdate extends LogicBase
             this.mods.setModifier(stat, val);
         }
 
-        if (this.entity.isOnGround()) this.floatTimer = 0;
+        if (this.entity.onGround()) this.floatTimer = 0;
         else this.floatTimer++;
 
         // Now some server only processing

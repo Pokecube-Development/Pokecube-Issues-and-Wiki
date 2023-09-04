@@ -129,7 +129,7 @@ public class AITools
         {
             if (input.swims() && input.getEntity().isInWater()) return true;
             if (input.floats() || input.flys()) return true;
-            return input.isOnGround();
+            return input.onGround();
         }
     }
 

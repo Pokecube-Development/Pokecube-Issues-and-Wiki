@@ -244,7 +244,7 @@ public interface IAnimated
             molangs.l = limbSpeedFactor * limbSwing;
             molangs.t = ageInTicks;
 
-            molangs.is_on_ground = entityIn.isOnGround() ? 1 : 0;
+            molangs.is_on_ground = entityIn.onGround() ? 1 : 0;
             molangs.is_in_water = entityIn.isInWater() ? 1 : 0;
             molangs.is_on_fire = entityIn.isOnFire() ? 1 : 0;
 

@@ -205,7 +205,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
         boolean immune = false;
         final float thisMaxHP = entity.getMaxHealth();
         float damage = 0;
-        final boolean onGround = mob != null ? mob.isOnGround() : entity.onGround;
+        final boolean onGround = mob != null ? mob.onGround() : entity.onGround;
         DamageSource source = null;
         if (this.effects.containsKey(WeatherEffectType.HAIL.getIndex()))
         {
@@ -283,7 +283,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 final double mult = Tools.getAttackEfficiency(PokeType.getType("rock"), mob.getType1(), mob.getType2());
                 entity.hurt(entity.damageSources().generic(), (float) (damage * mult));
             }
-            if (this.effects.containsKey(EntryEffectType.WEBS.getIndex()) && mob.isOnGround())
+            if (this.effects.containsKey(EntryEffectType.WEBS.getIndex()) && mob.onGround())
                 MovesUtils.handleStats2(mob, null, IMoveConstants.VIT, IMoveConstants.FALL);
         }
     }
