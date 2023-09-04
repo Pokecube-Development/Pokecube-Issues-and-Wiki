@@ -71,7 +71,7 @@ public class CaptureEvent extends Event
     public void setFilledCube(final ItemStack filledCube, final boolean replaceMob)
     {
         this.filledCube = filledCube;
-        if (replaceMob) this.setCaught(PokecubeManager.itemToPokemob(filledCube, this.pokecube.getLevel()));
+        if (replaceMob) this.setCaught(PokecubeManager.itemToPokemob(filledCube, this.pokecube.level()));
     }
 
     public IPokemob getCaught()
