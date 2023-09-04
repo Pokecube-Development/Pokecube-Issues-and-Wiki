@@ -181,7 +181,9 @@
 
     "traineredit.error.pokemob": "Error updating the Pokémob (%s)",
 
+    "traineredit.button.ai": "AI",
     "traineredit.button.home": "Back",
+    "traineredit.button.exit": "Exit",
     "traineredit.button.apply": "Apply",
     "traineredit.button.delete": "Delete",
     "traineredit.button.newpokemob": "Add New",
@@ -190,6 +192,7 @@
     "traineredit.button.routes": "Routes",
     "traineredit.button.messages": "Messages",
     "traineredit.button.ai": "AI Settings",
+    "traineredit.button.delete": "Delete",
     "traineredit.button.kill": "Delete",
     "traineredit.button.wander": "Wanders",
     "traineredit.button.stationary": "Stands",
