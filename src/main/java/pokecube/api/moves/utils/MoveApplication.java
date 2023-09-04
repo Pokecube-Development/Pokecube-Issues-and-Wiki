@@ -3,6 +3,7 @@ package pokecube.api.moves.utils;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -14,10 +15,13 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Sets;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.entity.player.Player;
@@ -282,9 +286,10 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // Apply attack damage to players.
                 if (target instanceof Player)
                 {
-                    final DamageSource source1 = new PokemobDamageSource(attackerMob, move).setType(type);
-                    final DamageSource source2 = new PokemobDamageSource(attackerMob, move).setType(type);
-                    source2.setMagic();
+                    final DamageSource source1 = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
+                    final DamageSource source2 = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
+                    // TODO: Check this
+                    source2.is(DamageTypes.MAGIC);
                     float d1, d2;
                     if (wild)
                     {
@@ -310,9 +315,10 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // Apply attack damage to a pokemob
                 else if (targetPokemob != null)
                 {
-                    final DamageSource source = new PokemobDamageSource(attackerMob, move).setType(type);
-                    source.bypassMagic();
-                    source.bypassArmor();
+                    final DamageSource source = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
+                    // TODO: Check if correct
+                    source.is(DamageTypeTags.BYPASSES_ARMOR);
+                    source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as .bypassMagic?
                     if (PokecubeCore.getConfig().debug_moves)
                     {
                         PokecubeAPI.logInfo("Attack Used: " + move.name);
@@ -323,7 +329,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // Apply attack damage to another mob type.
                 else
                 {
-                    final DamageSource source = new PokemobDamageSource(attackerMob, move).setType(type);
+                    final DamageSource source = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
                     final boolean damaged = target.hurt(source, finalAttackStrength);
                     if (PokecubeCore.getConfig().debug_moves)
                     {
@@ -428,9 +434,10 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // Otherwise it damages as recoil.
                 else
                 {
+                    Mob entity = moveAppl.getUser().getEntity();
                     if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.LOGGER
                             .info("Applying recoil damage for move {} of amount {}", t.move().getName(), recoil);
-                    moveAppl.getUser().getEntity().hurt(DamageSource.FALL, -recoil);
+                    entity.hurt(entity.damageSources().fall(), -recoil);
                     MovesUtils.sendPairedMessages(moveAppl.getUser().getEntity(), other, "pokemob.move.recoil.damage");
                 }
             }
