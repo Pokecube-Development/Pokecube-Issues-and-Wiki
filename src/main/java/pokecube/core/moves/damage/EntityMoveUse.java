@@ -219,11 +219,12 @@ public class EntityMoveUse extends ThrowableProjectile
         return size;
     }
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+//    TODO: No longer needed?
+//    @Override
+//    public Packet<?> getAddEntityPacket()
+//    {
+//        return NetworkHooks.getEntitySpawningPacket(this);
+//    }
 
     private void doMoveUse(final LivingEntity target)
     {
