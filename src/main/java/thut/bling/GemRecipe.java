@@ -31,7 +31,7 @@ public class GemRecipe extends CustomRecipe
             .register("apply_gem", GemRecipe.special(GemRecipe::new));
 
     private static <T extends CraftingRecipe> Supplier<SimpleCraftingRecipeSerializer<T>> special(
-            final SimpleCraftingRecipeSerializer.Factory<T>  create)
+            final SimpleCraftingRecipeSerializer.Factory<T> create)
     {
         return () -> new SimpleCraftingRecipeSerializer<>(create);
     }
