@@ -558,18 +558,18 @@ public class ItemGenerator
     }
 
     public static RotatedPillarBlock stoneLog(final MapColor mapColorSide, final MapColor mapColorTop, NoteBlockInstrument instrument,
-                                              float destroyTIme, float explosionResistance)
+                                              float destroyTIme, float blastResistance)
     {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTIme, explosionResistance)
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTIme, blastResistance)
                 .sound(SoundType.STONE).instrument(instrument).requiresCorrectToolForDrops().mapColor((state) -> {
             return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? mapColorSide : mapColorTop;
         }));
     }
 
     public static RotatedPillarBlock stoneLog(final MapColor mapColorSide, final MapColor mapColorTop, SoundType sound,
-                                              NoteBlockInstrument instrument, float destroyTime, float explosionResistance)
+                                              NoteBlockInstrument instrument, float destroyTime, float blastResistance)
     {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTime, explosionResistance)
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTime, blastResistance)
                 .sound(sound).instrument(instrument).requiresCorrectToolForDrops().mapColor((state) -> {
                     return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? mapColorSide : mapColorTop;
                 }));
