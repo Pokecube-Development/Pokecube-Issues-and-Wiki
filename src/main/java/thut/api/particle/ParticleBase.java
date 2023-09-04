@@ -3,8 +3,6 @@ package thut.api.particle;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 import com.mojang.serialization.Codec;
 
 import net.minecraft.client.Camera;
@@ -16,6 +14,8 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -116,11 +116,12 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         return this;
     }
 
-    protected void render(final VertexConsumer buffer, final Quaternion quaternion,
+    protected void render(final VertexConsumer buffer, final Quaternionf quaternion,
             final thut.api.maths.vecmath.Vec3f offset)
     {
         final Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
-        vector3f1.transform(quaternion);
+        // TODO: Find replacement
+        // vector3f1.transform(quaternion);
         final Vector3f[] verts = new Vector3f[] { //@formatter:off
                 new Vector3f(-1.0F, -1.0F, 0.0F),
                 new Vector3f(-1.0F, 1.0F, 0.0F),
@@ -132,7 +133,8 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         for (int i = 0; i < 4; ++i)
         {
             final Vector3f vector3f = verts[i];
-            vector3f.transform(quaternion);
+            // TODO: Find replacement
+            // vector3f.transform(quaternion);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);
         }
@@ -161,7 +163,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
     public void renderParticle(final VertexConsumer buffer, final Camera renderInfo, final float partialTicks,
             final thut.api.maths.vecmath.Vec3f offset)
     {
-        Quaternion quaternion;
+        Quaternionf quaternion;
         quaternion = renderInfo.rotation();
         this.render(buffer, quaternion, offset);
     }
