@@ -1,7 +1,6 @@
 package pokecube.legends.worldgen.features;
 
 import com.mojang.serialization.Codec;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -12,7 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.IcebergFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
-import net.minecraft.world.level.material.Material;
 
 public class PollutedIcebergFeature extends IcebergFeature
 {
@@ -123,19 +121,19 @@ public class PollutedIcebergFeature extends IcebergFeature
        }
     }
 
-    public void setIcebergBlock(BlockPos pos, LevelAccessor world, RandomSource random, int x, int y, boolean b, boolean b1, BlockState state)
+    public void setIcebergBlock(BlockPos pos, LevelAccessor worldAccessor, RandomSource random, int x, int y, boolean b, boolean b1, BlockState state)
     {
-       BlockState stateWorld = world.getBlockState(pos);
-       if (stateWorld.getMaterial() == Material.AIR || stateWorld.is(Blocks.SNOW_BLOCK) || stateWorld.is(Blocks.ICE) || stateWorld.is(Blocks.WATER))
+       BlockState stateWorld = worldAccessor.getBlockState(pos);
+       if (stateWorld.is(Blocks.AIR) || stateWorld.is(Blocks.CAVE_AIR) || stateWorld.is(Blocks.SNOW_BLOCK) || stateWorld.is(Blocks.ICE) || stateWorld.is(Blocks.WATER))
        {
           boolean flag = !b || random.nextDouble() > 0.05D;
           int i = b ? 3 : 2;
           if (b1 && !stateWorld.is(Blocks.WATER) && (double)x <= (double)random.nextInt(Math.max(1, y / i)) + (double)y * 0.6D && flag)
           {
-             this.setBlock(world, pos, Blocks.SNOW_BLOCK.defaultBlockState());
+             this.setBlock(worldAccessor, pos, Blocks.SNOW_BLOCK.defaultBlockState());
           } else
           {
-             this.setBlock(world, pos, state);
+             this.setBlock(worldAccessor, pos, state);
           }
        }
 
