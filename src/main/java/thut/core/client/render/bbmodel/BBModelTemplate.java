@@ -1,5 +1,6 @@
 package thut.core.client.render.bbmodel;
 
+import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -9,16 +10,15 @@ import java.util.Map;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.core.Direction;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 
 public class BBModelTemplate
 {
@@ -241,16 +241,16 @@ public class BBModelTemplate
             float us = template.resolution.width;
             float vs = template.resolution.height;
 
-            Quaternion quat = new Quaternion(0, 0, 0, 1);
+            Quaternionf quat = new Quaternionf(0, 0, 0, 1);
 
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
-                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(AxisAngles.YP.rotationDegrees(z));
-                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(Axis.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(Axis.YP.rotationDegrees(z));
+                if (x != 0) quat.mul(Axis.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(origin_offset);
@@ -278,7 +278,8 @@ public class BBModelTemplate
                     // We need to translate to rotation point, then rotate, then
                     // translate back.
                     vec.add(origin);
-                    vec.transform(quat);
+                    // TODO: Fix this
+                    // vec.transform(quat);
                     vec.sub(origin);
 
                     // Now translate to where it should be
@@ -332,16 +333,16 @@ public class BBModelTemplate
             float us = template.resolution.width;
             float vs = template.resolution.height;
 
-            Quaternion quat = new Quaternion(0, 0, 0, 1);
+            Quaternionf quat = new Quaternionf(0, 0, 0, 1);
 
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
-                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(AxisAngles.YN.rotationDegrees(z));
-                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(Axis.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(Axis.YN.rotationDegrees(z));
+                if (x != 0) quat.mul(Axis.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(b.origin);
@@ -359,7 +360,8 @@ public class BBModelTemplate
 
                 // We need to translate to rotation point, then rotate, then
                 // translate back.
-                vec.transform(quat);
+                // TODO: Fix this
+                // vec.transform(quat);
                 vec.add(origin);
 
                 float x = vec.x() / 16f;
