@@ -106,7 +106,7 @@ public class WarpPadTile extends InteractableTile implements IEnergyStorage
             if (!this.noEnergyNeed && this.energy < cost)
             {
                 this.getLevel().playSound(null, this.getBlockPos().getX() + 0.5, this.getBlockPos().getY() + 0.5,
-                        this.getBlockPos().getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1, 1);
+                        this.getBlockPos().getZ() + 0.5, SoundEvents.NOTE_BLOCK_BASEDRUM.get(), SoundSource.BLOCKS, 1, 1);
                 return;
             }
             else this.energy -= cost;
