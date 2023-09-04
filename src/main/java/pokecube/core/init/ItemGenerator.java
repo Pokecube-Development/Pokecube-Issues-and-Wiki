@@ -27,6 +27,7 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ButtonBlock;
 import net.minecraft.world.level.block.ComposterBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.FenceBlock;
@@ -593,6 +594,21 @@ public class ItemGenerator
         public GenericPressurePlate(final Sensitivity sensitivity, final BlockSetType setType, final Properties properties)
         {
             super(sensitivity, properties, setType);
+        }
+    }
+
+    public static class GenericWoodButton extends ButtonBlock
+    {
+        public GenericWoodButton(BlockSetType setType, boolean arrowsCanPress, int ticksPressed, final Properties properties)
+        {
+            super(properties, setType, ticksPressed, arrowsCanPress);
+        }
+    }
+    public static class GenericStoneButton extends ButtonBlock
+    {
+        public GenericStoneButton(BlockSetType setType, boolean arrowsCanPress, int ticksPressed, final Properties properties)
+        {
+            super(properties, setType, ticksPressed, arrowsCanPress);
         }
     }
 
