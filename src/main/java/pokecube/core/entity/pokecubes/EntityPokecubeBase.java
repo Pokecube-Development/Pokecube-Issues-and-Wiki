@@ -1,5 +1,6 @@
 package pokecube.core.entity.pokecubes;
 
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -150,7 +151,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             this.interact(player, InteractionHand.MAIN_HAND);
             return false;
         }
-        if (source == DamageSource.OUT_OF_WORLD)
+        if (source == Objects.requireNonNull(source.getDirectEntity()).damageSources().fellOutOfWorld())
         {
             if (PokecubeManager.isFilled(this.getItem()))
             {
@@ -163,7 +164,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     }
 
     @Override
-    protected void outOfWorld()
+    protected void onBelowWorld()
     {
         final IPokemob mob = PokemobCaps.getPokemobFor(SendOutManager.sendOut(this, true, false));
         if (mob != null && mob.getOwnerId() != null) mob.onRecall();
@@ -174,7 +175,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     {
         if (!this.isAlive()) return;
 
-        final boolean serverSide = this.getLevel() instanceof ServerLevel;
+        final boolean serverSide = this.level() instanceof ServerLevel;
         final boolean capturing = this.getTilt() >= 0;
         final boolean releasing = this.isReleasing();
 
@@ -300,8 +301,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 this.handleInsidePortal(((BlockHitResult) raytraceresult).getBlockPos());
             if (raytraceresult instanceof BlockHitResult result)
             {
-                final BlockState hit = this.getLevel().getBlockState(result.getBlockPos());
-                final VoxelShape shape = hit.getCollisionShape(this.getLevel(), result.getBlockPos());
+                final BlockState hit = this.level().getBlockState(result.getBlockPos());
+                final VoxelShape shape = hit.getCollisionShape(this.level(), result.getBlockPos());
                 if (!shape.isEmpty() && !shape.bounds().move(result.getBlockPos()).intersects(axisalignedbb))
                     break trace;
             }
@@ -409,13 +410,14 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final boolean releasing = this.isReleasing();
         if (capturing || releasing) this.seeking = false;
 
-        if (this.getY() < -64.0D) this.outOfWorld();
+        // TODO: Check this, removed hardcode check of -64, datapacks can change this
+        if (this.getY() < this.level.getMinBuildHeight()) this.onBelowWorld();
 
         if (this.checkCube)
         {
             this.checkCube = false;
             PokemobTracker.removePokecube(this);
-            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.getLevel());
+            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.level());
             if (this.containedMob != null && this.shooter == null)
             {
                 this.shootingEntity = this.containedMob.getOwner();
@@ -600,7 +602,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public Entity getReleased()
     {
         final int id = this.getEntityData().get(EntityPokecubeBase.ENTITYID);
-        final Entity ret = this.getLevel().getEntity(id);
+        final Entity ret = this.level().getEntity(id);
         return ret;
     }
 
@@ -621,13 +623,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
             return !target.isSpectator() && target.isPickable() && (includeShooter || !target.is(shooter))
                     && !target.noPhysics;
         };
-        return ProjectileUtil.getHitResult(projectile, valid);
+        return ProjectileUtil.getHitResultOnMoveVector(projectile, valid);
     }
 
     public static HitResult rayTrace(final Entity projectile, final AABB boundingBox, final Predicate<Entity> filter,
             final ClipContext.Block blockModeIn, final boolean checkEntityCollision)
     {
-        return ProjectileUtil.getHitResult(projectile, filter);
+        return ProjectileUtil.getHitResultOnMoveVector(projectile, filter);
     }
 
     /**
