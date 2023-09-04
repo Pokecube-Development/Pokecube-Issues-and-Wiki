@@ -525,7 +525,7 @@ public class Tools
         final boolean flag = PlayerEntity.getInventory().add(itemstack);
         if (flag)
         {
-            PlayerEntity.getLevel().playSound((Player) null, PlayerEntity.getX(), PlayerEntity.getY(),
+            PlayerEntity.level().playSound((Player) null, PlayerEntity.getX(), PlayerEntity.getY(),
                     PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
                     ((PlayerEntity.getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F)
                             * 2.0F);
@@ -550,7 +550,7 @@ public class Tools
 
     public static boolean isAnyPlayerInRange(final double range, final Entity entity)
     {
-        final Level world = entity.getLevel();
+        final Level world = entity.level();
         return world.getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(), range,
                 EntitySelector.NO_SPECTATORS) != null;
     }

@@ -44,7 +44,7 @@ public class ActionSmash implements IMoveWorldEffect
         }
         if (!used)
         {
-            final Level world = user.getEntity().getLevel();
+            final Level world = user.getEntity().level();
             final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(1));
             if (!items.isEmpty())
             {
@@ -67,7 +67,7 @@ public class ActionSmash implements IMoveWorldEffect
         final LivingEntity owner = digger.getOwner();
         ServerPlayer player = null;
         if (owner instanceof ServerPlayer splayer) player = splayer;
-        final Level world = digger.getEntity().getLevel();
+        final Level world = digger.getEntity().level();
         final Vector3 temp = new Vector3();
         ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
         temp.set(v);

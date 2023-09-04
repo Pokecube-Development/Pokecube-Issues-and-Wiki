@@ -35,7 +35,7 @@ public class DefaultWaterAction extends DefaultAction
     {
         if (!PokecubeCore.getConfig().defaultWaterActions) return false;
         if (user.getMoveStats().targettingSelf) return false;
-        final Level world = user.getEntity().getLevel();
+        final Level world = user.getEntity().level();
         final UseContext context = MoveEventsHandler.getContext(world, user, Blocks.WATER.defaultBlockState(),
                 location);
         final BlockState state = context.getHitState();

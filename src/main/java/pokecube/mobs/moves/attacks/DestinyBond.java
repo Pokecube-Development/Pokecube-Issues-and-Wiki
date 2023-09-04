@@ -52,10 +52,10 @@ public class DestinyBond implements PreApplyTests
         final UUID killed = event.killed.getEntity().getUUID();
         final Set<UUID> targets = usedOn.remove(killed);
 
-        if (targets != null && event.killed.getEntity().getLevel() instanceof ServerLevel)
+        if (targets != null && event.killed.getEntity().level() instanceof ServerLevel)
         {
             PokecubeAPI.LOGGER.error(new NotImplementedException("destiny-bond"));
-            final ServerLevel world = (ServerLevel) event.killed.getEntity().getLevel();
+            final ServerLevel world = (ServerLevel) event.killed.getEntity().level();
             final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), dbond);
             source.bypassMagic();
             source.bypassArmor();

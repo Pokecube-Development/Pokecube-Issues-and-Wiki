@@ -21,7 +21,7 @@ public class ActionRockThrow implements IMoveWorldEffect
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(user, location, getMoveName())) return false;
 
-        final Level world = user.getEntity().getLevel();
+        final Level world = user.getEntity().level();
         final UseContext context = MoveEventsHandler.getContext(world, user, Blocks.COBBLESTONE.defaultBlockState(),
                 location);
         final InteractionResult result = context.getItemInHand().useOn(context);

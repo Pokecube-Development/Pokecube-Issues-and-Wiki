@@ -13,7 +13,7 @@ public class Light extends BaseMaterialAction
     @Override
     public boolean shouldApply(LivingEntity mob)
     {
-        if (!(mob.getLevel() instanceof ServerLevel level)) return false;
+        if (!(mob.level() instanceof ServerLevel level)) return false;
         if (!level.isDay()) return false;
         float br = level.getLightEngine().getRawBrightness(mob.getOnPos(), 0) / 15f;
         return br > max_light;

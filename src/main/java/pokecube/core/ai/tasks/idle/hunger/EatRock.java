@@ -42,7 +42,7 @@ public class EatRock extends EatBlockBase
         this.setWalkTo(entity, block.getPos(), 1, 0);
         if (dist > diff) return EatResult.PATHING;
 
-        final ServerLevel world = (ServerLevel) entity.getLevel();
+        final ServerLevel world = (ServerLevel) entity.level();
         final BlockState current = world.getBlockState(block.getPos());
         if (!EatRock.checker.test(current)) return EatResult.NOEAT;
 

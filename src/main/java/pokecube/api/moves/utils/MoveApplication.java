@@ -357,8 +357,8 @@ public class MoveApplication implements Comparable<MoveApplication>
             // thunder moves apply lightning bolt effects.
             if (AnimationMultiAnimations.isThunderAnimation(t.move.getAnimation(t.getUser())))
             {
-                final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, t.getTarget().getLevel());
-                t.getTarget().thunderHit((ServerLevel) t.getTarget().getLevel(), lightning);
+                final LightningBolt lightning = new LightningBolt(EntityType.LIGHTNING_BOLT, t.getTarget().level());
+                t.getTarget().thunderHit((ServerLevel) t.getTarget().level(), lightning);
             }
 
             // Creepers fear psyhic moves.

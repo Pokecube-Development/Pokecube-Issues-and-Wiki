@@ -192,7 +192,7 @@ public class LinkableCaps
         // Otherwise try to save the location instead
         else
         {
-            final GlobalPos pos = GlobalPos.of(event.getEntity().getLevel().dimension(), event.getPos());
+            final GlobalPos pos = GlobalPos.of(event.getEntity().level().dimension(), event.getPos());
             storage.setLinkedPos(pos, event.getEntity());
             event.setCanceled(true);
             event.setUseBlock(Result.DENY);

@@ -377,11 +377,11 @@ public class WormholeEntity extends LivingEntity
         this.setNoGravity(true);
 
         if (!this.isIdle() && !this.isClosing() && !this.isOpening())
-            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 1);
+            if (this.level() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 1);
 
         if (this.isOpening()) if (this.timer++ > 300)
         {
-            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
+            if (this.level() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
             this.timer = 0;
         }
 
@@ -400,7 +400,7 @@ public class WormholeEntity extends LivingEntity
                     final List<WormholeEntity> list = w.getEntitiesOfClass(WormholeEntity.class, box);
                     for (final WormholeEntity e : list)
                     {
-                        if (this.getLevel() instanceof ServerLevel)
+                        if (this.level() instanceof ServerLevel)
                             e.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
                         e.energy.receiveEnergy(this.energy.getEnergyStored(), false);
                         e.timer = 0;
@@ -419,7 +419,7 @@ public class WormholeEntity extends LivingEntity
         if (this.stable)
         {
             this.energy.extractEnergy(Integer.MAX_VALUE, false);
-            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
+            if (this.level() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 2);
             this.timer = 0;
         }
 
@@ -434,7 +434,7 @@ public class WormholeEntity extends LivingEntity
         // Collapse at full energy
         if (!this.stable && this.energy.getEnergyStored() >= WormholeEntity.maxWormholeEnergy && !this.isClosing())
         {
-            if (this.getLevel() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
+            if (this.level() instanceof ServerLevel) this.entityData.set(WormholeEntity.ACTIVE_STATE, (byte) 4);
             this.timer = 0;
         }
 

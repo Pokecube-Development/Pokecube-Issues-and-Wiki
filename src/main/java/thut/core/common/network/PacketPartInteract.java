@@ -127,7 +127,7 @@ public class PacketPartInteract extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final ServerLevel serverworld = player.getLevel();
+        final ServerLevel serverworld = player.level();
         Entity entity = this.getEntityFromWorld(serverworld);
 
         // Most of the stuff from here is copied from CUseEntityPacket!

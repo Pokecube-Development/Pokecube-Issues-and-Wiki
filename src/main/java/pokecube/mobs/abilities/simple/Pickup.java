@@ -37,10 +37,10 @@ public class Pickup extends Ability
 
         if (Pickup.lootTable != null && Pickup.useLootTable)
         {
-            final LootTable loottable = mob.getEntity().getLevel().getServer().getLootTables()
+            final LootTable loottable = mob.getEntity().level().getServer().getLootTables()
                     .get(Pickup.lootTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob.getEntity()
-                    .getLevel()).withRandom(poke.getRandom());
+                    .level()).withRandom(poke.getRandom());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
             // Shuffle the list.

@@ -646,7 +646,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public void onExitHabitat(final Mob mob)
     {
-        if (this.world == null) this.world = (ServerLevel) mob.getLevel();
+        if (this.world == null) this.world = (ServerLevel) mob.level();
 
         AntJob job = AntTasks.getJob(mob);
         // Remove the old work pos for now, we will decide which ones need
@@ -691,7 +691,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public boolean onEnterHabitat(final Mob mob)
     {
-        if (!this.canEnterHabitat(mob) || !(mob.getLevel() instanceof ServerLevel level)) return false;
+        if (!this.canEnterHabitat(mob) || !(mob.level() instanceof ServerLevel level)) return false;
 
         final int ants = this.ants_in.size() + this.ants.size();
 
@@ -765,7 +765,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public boolean canEnterHabitat(final Mob mob)
     {
         if (!AntTasks.isValid(mob)) return false;
-        if (!(mob.getLevel() instanceof ServerLevel)) return false;
+        if (!(mob.level() instanceof ServerLevel)) return false;
         return true;
     }
 

@@ -69,7 +69,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
     protected void doTick(final ServerLevel worldIn, final LivingEntity entityIn)
     {
         final double s = 16;
-        if (!TerrainManager.isAreaLoaded(entityIn.getLevel(), entityIn.blockPosition(), 8 + s)) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.level(), entityIn.blockPosition(), 8 + s)) return;
 
         if (RootTask.doLoadThrottling)
         {

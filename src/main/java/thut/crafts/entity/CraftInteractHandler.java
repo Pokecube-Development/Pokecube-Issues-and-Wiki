@@ -86,7 +86,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
                 final BlockPos pos1 = new BlockPos(seatPos.x, seatPos.y, seatPos.z);
                 if (pos1.equals(pos))
                 {
-                    if (!player.getLevel().isClientSide && !seat.getEntityId().equals(player.getUUID()))
+                    if (!player.level().isClientSide && !seat.getEntityId().equals(player.getUUID()))
                     {
                         this.craft.setSeatID(i, player.getUUID());
                         player.startRiding(this.craft);

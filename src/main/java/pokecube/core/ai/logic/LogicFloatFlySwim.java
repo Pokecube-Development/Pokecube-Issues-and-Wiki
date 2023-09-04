@@ -239,10 +239,10 @@ public class LogicFloatFlySwim extends LogicBase
     public LogicFloatFlySwim(final IPokemob entity)
     {
         super(entity);
-        this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().getLevel());
-        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().getLevel());
-        this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().getLevel());
-        this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().getLevel());
+        this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().level());
+        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().level());
+        this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().level());
+        this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().level());
 
         this.flyPather.setCanOpenDoors(false);
         this.flyPather.setCanFloat(true);
@@ -261,7 +261,7 @@ public class LogicFloatFlySwim extends LogicBase
         this.walkController = new WalkController(entity);
         this.swimController = new SwimController(entity);
 
-        this.world = this.pokemob.getEntity().getLevel();
+        this.world = this.pokemob.getEntity().level();
     }
 
     @Override

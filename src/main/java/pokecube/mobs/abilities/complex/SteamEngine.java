@@ -42,7 +42,7 @@ public class SteamEngine extends Ability
     public void onUpdate(IPokemob mob)
     {
         final Vector3 v = new Vector3().set(mob.getEntity());
-        final List<EntityPokemobEgg> eggs = mob.getEntity().getLevel().getEntitiesOfClass(EntityPokemobEgg.class,
+        final List<EntityPokemobEgg> eggs = mob.getEntity().level().getEntitiesOfClass(EntityPokemobEgg.class,
                 v.getAABB().expandTowards(this.range, this.range, this.range));
         for (final EntityPokemobEgg egg : eggs) egg.incubateEgg();
     }

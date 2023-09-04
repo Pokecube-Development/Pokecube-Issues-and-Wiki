@@ -108,7 +108,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getTotalCombatState()
     {
-        if (this.getEntity().getLevel().isClientSide)
+        if (this.getEntity().level().isClientSide)
             this.cachedCombatState = this.dataSync().get(this.params.COMBATSTATESDW);
         return this.cachedCombatState;
     }
@@ -116,7 +116,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getTotalGeneralState()
     {
-        if (this.getEntity().getLevel().isClientSide)
+        if (this.getEntity().level().isClientSide)
             this.cachedGeneralState = this.dataSync().get(this.params.GENERALSTATESDW);
         return this.cachedGeneralState;
     }
@@ -124,7 +124,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public int getTotalLogicState()
     {
-        if (this.getEntity().getLevel().isClientSide)
+        if (this.getEntity().level().isClientSide)
             this.cachedLogicState = this.dataSync().get(this.params.LOGICSTATESDW);
         return this.cachedLogicState;
     }
@@ -150,7 +150,7 @@ public abstract class PokemobAI extends PokemobEvolves
         this.getEntity().fallDistance = 0;
         this.getEntity().clearFire();
         // After here is server side only.
-        if (this.getEntity().getLevel().isClientSide) return;
+        if (this.getEntity().level().isClientSide) return;
         // Flag as not evolving
         this.setGeneralState(GeneralStates.EVOLVING, false);
 
@@ -172,7 +172,7 @@ public abstract class PokemobAI extends PokemobEvolves
                         this.getEntity().getZ()
                                 + this.getEntity().getRandom().nextFloat() * this.getEntity().getBbWidth() * 2.0F
                                 - this.getEntity().getBbWidth());
-                this.getEntity().getLevel().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y,
+                this.getEntity().level().addParticle(ParticleTypes.HAPPY_VILLAGER, particleLoc.x, particleLoc.y,
                         particleLoc.z, 0, 0, 0);
             }
         }
@@ -298,7 +298,7 @@ public abstract class PokemobAI extends PokemobEvolves
 
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (entity.getLevel() == null || ThutCore.proxy.isClientSide()) return;
+        if (entity.level() == null || ThutCore.proxy.isClientSide()) return;
 
         // DOLATER decide on speed scaling here?
         if (entry.stock) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
@@ -335,7 +335,7 @@ public abstract class PokemobAI extends PokemobEvolves
     {
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (entity.getLevel() == null || ThutCore.proxy.isClientSide()) return;
+        if (entity.level() == null || ThutCore.proxy.isClientSide()) return;
 
         // Set the pathing priorities for various blocks
         if (entity.fireImmune())
@@ -357,7 +357,7 @@ public abstract class PokemobAI extends PokemobEvolves
     @Override
     public void onSetTarget(final LivingEntity entity, final boolean forced)
     {
-        final boolean remote = this.getEntity().getLevel().isClientSide;
+        final boolean remote = this.getEntity().level().isClientSide;
         if (remote) return;
         if (entity == null)
         {

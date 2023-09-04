@@ -160,7 +160,7 @@ public class EventsHandlerClient
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
-            Entity target = pokemob.getEntity().getLevel().getEntity(pokemob.getTargetID());
+            Entity target = pokemob.getEntity().level().getEntity(pokemob.getTargetID());
             if (target instanceof LivingEntity living && !pokemob.getGeneralState(GeneralStates.MATING))
                 EventsHandlerClient.setMostDamagingMove(pokemob, living);
         }
@@ -422,7 +422,7 @@ public class EventsHandlerClient
                 final ItemStack stack = player.getInventory().items.get(l);
                 if (stack != null && PokecubeManager.isFilled(stack))
                 {
-                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.getLevel());
+                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.level());
                     if (pokemob == null) continue;
                     int x = w / 2;
                     x = i + x + 20 * l - 8;

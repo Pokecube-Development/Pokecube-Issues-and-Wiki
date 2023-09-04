@@ -53,7 +53,7 @@ public class RoadBuilder extends AbstractBot
 
         public BlockState getReplacement(BlockPos p)
         {
-            ServerLevel level = RoadBuilder.this.player.getLevel();
+            ServerLevel level = RoadBuilder.this.player.level();
 
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);

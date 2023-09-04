@@ -274,7 +274,7 @@ public abstract class PokemobMoves extends PokemobStats
         LivingEntity target = null;
         // Only process battle stuff server side.
         battle_check:
-        if (!entity.getLevel().isClientSide())
+        if (!entity.level().isClientSide())
         {
             Battle b = Battle.getBattle(entity);
 
@@ -385,13 +385,13 @@ public abstract class PokemobMoves extends PokemobStats
         // Client side we pull them from the ids.
         else
         {
-            Entity e = entity.getLevel().getEntity(this.getTargetID());
+            Entity e = entity.level().getEntity(this.getTargetID());
             if (e instanceof LivingEntity living) target = living;
         }
 
         // Then both sides update targetEnemy and targetAlly
         this.getMoveStats().targetEnemy = target;
-        Entity e = entity.getLevel().getEntity(this.getAllyID());
+        Entity e = entity.level().getEntity(this.getAllyID());
         this.getMoveStats().targetAlly = e instanceof LivingEntity living ? living : null;
 
         // Only owned mobs process beyond here.

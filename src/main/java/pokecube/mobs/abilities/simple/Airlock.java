@@ -12,7 +12,7 @@ public class Airlock extends Ability
     @Override
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
-        final Level world = mob.getEntity().getLevel();
+        final Level world = mob.getEntity().level();
         final boolean rain = world.isRaining();
         if (!rain)
         {

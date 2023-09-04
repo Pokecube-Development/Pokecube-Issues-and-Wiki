@@ -34,7 +34,7 @@ public class MixinEntityFluidFix
     {
         Entity us = _self();
         Set<FluidType> types = revMap.computeIfAbsent(tag, t -> {
-            var reg = us.getLevel().registryAccess().registryOrThrow(Keys.FLUIDS);
+            var reg = us.level().registryAccess().registryOrThrow(Keys.FLUIDS);
             var tagged = reg.getTagOrEmpty(tag);
             Set<FluidType> ret = Sets.newHashSet();
             tagged.forEach(h -> ret.add(h.get().getFluidType()));
@@ -56,7 +56,7 @@ public class MixinEntityFluidFix
     {
         Entity us = _self();
         Set<FluidType> types = revMap.computeIfAbsent(tag, t -> {
-            var reg = us.getLevel().registryAccess().registryOrThrow(Keys.FLUIDS);
+            var reg = us.level().registryAccess().registryOrThrow(Keys.FLUIDS);
             var tagged = reg.getTagOrEmpty(tag);
             Set<FluidType> ret = Sets.newHashSet();
             tagged.forEach(h -> ret.add(h.get().getFluidType()));
@@ -72,7 +72,7 @@ public class MixinEntityFluidFix
     {
         Entity us = _self();
         Set<FluidType> types = revMap.computeIfAbsent(tag, t -> {
-            var reg = us.getLevel().registryAccess().registryOrThrow(Keys.FLUIDS);
+            var reg = us.level().registryAccess().registryOrThrow(Keys.FLUIDS);
             var tagged = reg.getTagOrEmpty(tag);
             Set<FluidType> ret = Sets.newHashSet();
             tagged.forEach(h -> ret.add(h.get().getFluidType()));
@@ -94,7 +94,7 @@ public class MixinEntityFluidFix
         if (us.firstTick) return;
         TagKey<Fluid> tag = FluidTags.LAVA;
         Set<FluidType> types = revMap.computeIfAbsent(tag, t -> {
-            var reg = us.getLevel().registryAccess().registryOrThrow(Keys.FLUIDS);
+            var reg = us.level().registryAccess().registryOrThrow(Keys.FLUIDS);
             var tagged = reg.getTagOrEmpty(tag);
             Set<FluidType> ret = Sets.newHashSet();
             tagged.forEach(h -> ret.add(h.get().getFluidType()));

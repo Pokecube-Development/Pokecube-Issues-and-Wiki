@@ -595,7 +595,7 @@ public class MovesUtils implements IMoveConstants
     public static ExplosionCustom newExplosion(final LivingEntity entity, final double x, final double y,
             final double z, final float power)
     {
-        final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.getLevel(), entity, x, y, z, power)
+        final ExplosionCustom var11 = new ExplosionCustom((ServerLevel) entity.level(), entity, x, y, z, power)
                 .setMaxRadius(PokecubeCore.getConfig().blastRadius);
         final IPokemob poke = PokemobCaps.getPokemobFor(entity);
         if (poke != null) if (poke.getOwner() instanceof Player) var11.owner = (Player) poke.getOwner();
@@ -647,7 +647,7 @@ public class MovesUtils implements IMoveConstants
             if (attacker.is(e)) return false;
             if (!PokecubeCore.getConfig().pokemobsDamagePlayers && e instanceof Player) return false;
             if (!PokecubeCore.getConfig().pokemobsDamageOwner && e.getUUID().equals(pokemob.getOwnerId())) return false;
-            if (PokecubeAPI.getEntityProvider().getEntity(attacker.getLevel(), e.getId(), true) == attacker)
+            if (PokecubeAPI.getEntityProvider().getEntity(attacker.level(), e.getId(), true) == attacker)
                 return false;
             return true;
         };
@@ -657,7 +657,7 @@ public class MovesUtils implements IMoveConstants
     {
         final Vector3 source = new Vector3().set(attacker, false);
         final boolean ignoreAllies = false;
-        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.getLevel(), attacker, ignoreAllies,
+        return MovesUtils.targetHit(source, dest.subtract(source), 16, attacker.level(), attacker, ignoreAllies,
                 MovesUtils.targetMatcher(attacker));
     }
 
@@ -682,7 +682,7 @@ public class MovesUtils implements IMoveConstants
     {
         final Vector3 source = new Vector3().set(attacker);
         final List<Entity> targets = source.allEntityLocationExcluding(16, 0.5, dest.subtract(source), source,
-                attacker.getLevel(), attacker);
+                attacker.level(), attacker);
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;
@@ -691,7 +691,7 @@ public class MovesUtils implements IMoveConstants
     public static List<LivingEntity> targetsHit(final LivingEntity attacker, final Vector3 dest, final double area)
     {
         final Vector3 source = new Vector3().set(attacker);
-        final List<Entity> targets = attacker.getLevel().getEntities(attacker, source.getAABB().inflate(area));
+        final List<Entity> targets = attacker.level().getEntities(attacker, source.getAABB().inflate(area));
         final List<LivingEntity> ret = new ArrayList<>();
         if (targets != null) for (final Entity e : targets) if (e instanceof LivingEntity) ret.add((LivingEntity) e);
         return ret;
@@ -814,7 +814,7 @@ public class MovesUtils implements IMoveConstants
         ItemStack offhand = pokemob.getEntity().getOffhandItem();
         if (!offhand.isEmpty())
         {
-            FakePlayer player = PokecubeMod.getFakePlayer(pokemob.getEntity().getLevel());
+            FakePlayer player = PokecubeMod.getFakePlayer(pokemob.getEntity().level());
             player.setExperienceLevels(1000);
             AnvilMenu menu = new AnvilMenu(0, player.getInventory());
             menu.getSlot(0).set(tool);

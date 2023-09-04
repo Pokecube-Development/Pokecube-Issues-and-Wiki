@@ -110,7 +110,7 @@ public class EntityPokemob extends PokemobRidable
     {
         final IPokemob other = PokemobCaps.getPokemobFor(ageable);
         if (other == null) return null;
-        final EntityPokemobEgg egg = EntityTypes.getEgg().create(this.getLevel());
+        final EntityPokemobEgg egg = EntityTypes.getEgg().create(this.level());
         egg.setStackByParents(this, other);
         return egg;
     }
@@ -138,7 +138,7 @@ public class EntityPokemob extends PokemobRidable
     protected void tickDeath()
     {
         ++this.deathTime;
-        if (!(this.getLevel() instanceof ServerLevel)) return;
+        if (!(this.level() instanceof ServerLevel)) return;
 
         if (this.isVehicle()) this.ejectPassengers();
 
@@ -277,7 +277,7 @@ public class EntityPokemob extends PokemobRidable
     {
         if (this.getPersistentData().getBoolean(TagNames.CLONED) && !PokecubeCore.getConfig().clonesDrop) return null;
         if (this.getPersistentData().getBoolean(TagNames.NODROP)) return null;
-        if (this.getLevel() instanceof ServerLevel level && Config.Rules.dropLoot(level))
+        if (this.level() instanceof ServerLevel level && Config.Rules.dropLoot(level))
             return this.pokemobCap.getPokedexEntry().lootTable;
         else return null;
     }

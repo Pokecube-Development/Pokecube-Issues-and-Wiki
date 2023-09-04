@@ -132,7 +132,7 @@ public class GuardAICapability implements IGuardAICapability
 
         private void pathFail(final Mob entity)
         {
-            if (this.path_fails++ > 100 && entity.getLevel() instanceof ServerLevel level)
+            if (this.path_fails++ > 100 && entity.level() instanceof ServerLevel level)
             {
                 final BlockPos old = entity.blockPosition();
                 // Only path fail if we actually are nearby.

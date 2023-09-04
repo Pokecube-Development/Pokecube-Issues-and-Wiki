@@ -38,7 +38,7 @@ public class PacketNickname extends Packet
     public void handleServer(final ServerPlayer player)
     {
 
-        final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.entityId, true);
+        final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.level(), this.entityId, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob == null) return;
         final String name = SharedConstants.filterText(new String(this.name));

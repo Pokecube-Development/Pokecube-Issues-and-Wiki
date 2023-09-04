@@ -190,7 +190,7 @@ public class BeeTasks
             final boolean nectar = hasNectar.isPresent() && hasNectar.get();
             if (nectar)
             {
-                final Level world = mob.getLevel();
+                final Level world = mob.level();
                 final BlockState state = world.getBlockState(this.hive.getBlockPos());
                 if (state.is(BlockTags.BEEHIVES))
                 {

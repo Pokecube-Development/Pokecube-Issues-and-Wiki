@@ -93,7 +93,7 @@ public class Move_Explode implements IMove
                 final float f1 = (float) (t.move().pwr * PokecubeCore.getConfig().blastStrength
                         * user.getStat(Stats.ATTACK, true) / 500000f);
 
-                final boolean explodeDamage = mob.getLevel() instanceof ServerLevel level && Config.Rules.doBoom(level);
+                final boolean explodeDamage = mob.level() instanceof ServerLevel level && Config.Rules.doBoom(level);
                 final boolean damagePerms = MoveEventsHandler.canAffectBlock(user, new Vector3().set(mob),
                         t.move().getName());
 
@@ -101,7 +101,7 @@ public class Move_Explode implements IMove
                 {
                     final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.getX(), mob.getY(), mob.getZ(), f1);
                     boom.hitter = hitter;
-                    final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.getLevel(), boom);
+                    final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.level(), boom);
                     MinecraftForge.EVENT_BUS.post(evt);
                     if (!evt.isCanceled()) boom.doExplosion();
                 }

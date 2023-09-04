@@ -40,7 +40,7 @@ public class MagmaArmor extends Ability
     {
         if (mob.getStatus() == IMoveConstants.STATUS_FRZ) mob.healStatus();
         final Vector3 v = new Vector3().set(mob.getEntity());
-        final List<EntityPokemobEgg> eggs = mob.getEntity().getLevel().getEntitiesOfClass(
+        final List<EntityPokemobEgg> eggs = mob.getEntity().level().getEntitiesOfClass(
                 EntityPokemobEgg.class, v.getAABB().expandTowards(this.range, this.range, this.range));
         for (final EntityPokemobEgg egg : eggs)
             egg.incubateEgg();

@@ -399,7 +399,7 @@ public class ActionNaturePower implements IMoveWorldEffect
     public boolean applyOutOfCombat(final IPokemob attacker, final Vector3 location)
     {
         if (!(attacker.getOwner() instanceof ServerPlayer)) return false;
-        if (!(attacker.getEntity().getLevel() instanceof ServerLevel level)) return false;
+        if (!(attacker.getEntity().level() instanceof ServerLevel level)) return false;
         if (!MoveEventsHandler.canAffectBlock(attacker, location, this.getMoveName())) return false;
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
         final long now = Tracker.instance().getTick();

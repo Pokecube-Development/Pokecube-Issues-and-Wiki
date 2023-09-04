@@ -64,7 +64,7 @@ public class MoveQueue
 
         public static void queueMove(final EntityMoveUse move)
         {
-            final MoveQueue queue = MoveQueuer.queues.get(move.getLevel().dimension());
+            final MoveQueue queue = MoveQueuer.queues.get(move.level().dimension());
             if (queue == null) throw new NullPointerException("why is world queue null?");
             if (move.getUser() != null) queue.moves.add(move);
         }

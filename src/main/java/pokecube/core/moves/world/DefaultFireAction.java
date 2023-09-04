@@ -97,7 +97,7 @@ public class DefaultFireAction extends DefaultAction
     public boolean applyOutOfCombat(IPokemob user, Vector3 location)
     {
         if (move.getPWR() <= 0 || !PokecubeCore.getConfig().defaultFireActions) return false;
-        final Level world = user.getEntity().getLevel();
+        final Level world = user.getEntity().level();
         final UseContext context = MoveEventsHandler.getContext(world, user, Blocks.LAVA.defaultBlockState(), location);
         final BlockState state = context.getHitState();
         Block block = state.getBlock();

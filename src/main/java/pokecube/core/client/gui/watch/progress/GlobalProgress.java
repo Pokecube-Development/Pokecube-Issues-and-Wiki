@@ -56,7 +56,7 @@ public class GlobalProgress extends Progress
         final AABB centre = this.watch.player.getBoundingBox();
         final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5,
                 PokecubeCore.getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player, bb,
+        final List<Entity> otherMobs = this.watch.player.level().getEntities(this.watch.player, bb,
                 input -> input instanceof Animal && PokemobCaps.getPokemobFor(input) != null);
         final MutableComponent nearbyLine = TComponent.translatable("pokewatch.progress.global.nearby",
                 otherMobs.size());

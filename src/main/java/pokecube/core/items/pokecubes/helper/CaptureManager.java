@@ -48,7 +48,7 @@ public class CaptureManager
 
     public static void captureAttempt(final EntityPokecubeBase cube, final Entity e)
     {
-        if (!(cube.getLevel() instanceof ServerLevel)) return;
+        if (!(cube.level() instanceof ServerLevel)) return;
         if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity mob)) return;
         if (e.isInvulnerable()) return;
@@ -170,7 +170,7 @@ public class CaptureManager
     {
         cube.setNoCollisionRelease();
         PokecubeManager.setTilt(cube.getItem(), -2);
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
+        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level());
         IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if (mob == null || cube.shooter == null)

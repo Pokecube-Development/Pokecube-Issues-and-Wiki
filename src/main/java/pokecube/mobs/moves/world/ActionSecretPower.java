@@ -27,7 +27,7 @@ public class ActionSecretPower implements IMoveWorldEffect
         final long time = attacker.getEntity().getPersistentData().getLong("lastAttackTick");
         final long now = Tracker.instance().getTick();
         if (time + 20 * 3 > now) return false;
-        final BlockState state = location.getBlockState(player.getLevel());
+        final BlockState state = location.getBlockState(player.level());
         if (!(PokecubeTerrainChecker.isTerrain(state) || PokecubeTerrainChecker.isWood(state)))
         {
             final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.wrongloc");
@@ -35,7 +35,7 @@ public class ActionSecretPower implements IMoveWorldEffect
             return false;
         }
         SecretBase.pendingBaseLocations.put(player.getUUID(),
-                GlobalPos.of(player.getLevel().dimension(), location.getPos()));
+                GlobalPos.of(player.level().dimension(), location.getPos()));
         final MutableComponent message = TComponent.translatable("pokemob.createbase.confirm",
                 location.set(location.getPos()));
         message.setStyle(message.getStyle().withClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND,

@@ -75,7 +75,7 @@ public class BotPlayer extends ServerPlayer implements Npc
     public void tick()
     {
         ChunkPos cpos = this.chunkPosition();
-        ServerLevel level = this.getLevel();
+        ServerLevel level = this.level();
 
         if (routine != null)
         {

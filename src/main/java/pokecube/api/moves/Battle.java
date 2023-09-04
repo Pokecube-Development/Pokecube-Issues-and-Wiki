@@ -95,7 +95,7 @@ public class Battle
 
     public static Battle getBattle(final LivingEntity mob)
     {
-        if (!(mob.getLevel() instanceof ServerLevel level)) return null;
+        if (!(mob.level() instanceof ServerLevel level)) return null;
         final BattleManager manager = BattleManager.managers.get(level.dimension());
         var b = manager.getFor(mob);
         // Prevents trying to add things to an ended battle.
@@ -106,7 +106,7 @@ public class Battle
     public static boolean createOrAddToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         if (mobB == null || !AITools.validCombatTargets.test(mobB)) return false;
-        if (mobA == null || !(mobA.getLevel() instanceof ServerLevel level)) return false;
+        if (mobA == null || !(mobA.level() instanceof ServerLevel level)) return false;
 
         final Battle existingA = Battle.getBattle(mobA);
         final Battle existingB = Battle.getBattle(mobB);
@@ -194,7 +194,7 @@ public class Battle
         List<LivingEntity> s = side == side1 ? s1 : s2;
         s.add(mob);
 
-        final ServerLevel world = (ServerLevel) mob.getLevel();
+        final ServerLevel world = (ServerLevel) mob.level();
         final BattleManager manager = BattleManager.managers.get(world.dimension());
         manager.battlesById.put(mob.getUUID(), this);
 

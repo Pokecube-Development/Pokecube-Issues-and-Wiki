@@ -24,8 +24,8 @@ public class ActionPayDay implements IMoveWorldEffect
     public boolean applyInCombat(final IPokemob user, final Vector3 location)
     {
         final LivingEntity poke = user.getEntity();
-        final LootTable loottable = poke.getLevel().getServer().getLootTables().get(ActionPayDay.lootTable);
-        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.getLevel())
+        final LootTable loottable = poke.level().getServer().getLootTables().get(ActionPayDay.lootTable);
+        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.level())
                 .withRandom(poke.getRandom());
         // Generate the loot list.
         final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));

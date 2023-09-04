@@ -70,10 +70,10 @@ public class MaxRaidFunction
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 
-            final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables()
+            final LootTable loottable = pokemob.getEntity().level().getServer().getLootTables()
                     .get(MaxRaidFunction.lootTable);
             final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                    (ServerLevel) pokemob.getEntity().getLevel()).withRandom(poke.getRandom());
+                    (ServerLevel) pokemob.getEntity().level()).withRandom(poke.getRandom());
             // Generate the loot list.
             final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
 

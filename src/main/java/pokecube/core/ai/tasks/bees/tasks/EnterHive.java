@@ -33,7 +33,7 @@ public class EnterHive extends AbstractBeeTask
         final Optional<GlobalPos> pos_opt = brain.getMemory(BeeTasks.HIVE_POS.get());
         if (pos_opt.isPresent())
         {
-            final Level world = this.entity.getLevel();
+            final Level world = this.entity.level();
             final GlobalPos pos = pos_opt.get();
             final boolean clearHive = pos.dimension() != world.dimension();
             // This will be cleared by CheckHive, so lets just exit here.
@@ -59,9 +59,9 @@ public class EnterHive extends AbstractBeeTask
         // the hive, if so, we don't return to hive.
         if (hiveTimer.isPresent() && hiveTimer.get() > 0) return false;
         // Return home if it is raining
-        if (this.entity.getLevel().isRaining()) return true;
+        if (this.entity.level().isRaining()) return true;
         // Return home if it is night time
-        if (this.entity.getLevel().isNight()) return true;
+        if (this.entity.level().isNight()) return true;
         // Otherwise don't return home
         return false;
     }

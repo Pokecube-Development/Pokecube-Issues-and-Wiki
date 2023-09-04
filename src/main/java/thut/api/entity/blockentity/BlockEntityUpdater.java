@@ -179,7 +179,7 @@ public class BlockEntityUpdater
         double dx = 0, dz = 0, dy = 0;
         Vec3 motion_b = entity.getDeltaMovement();
 
-        boolean serverSide = entity.getLevel().isClientSide;
+        boolean serverSide = entity.level().isClientSide;
         final boolean isPlayer = entity instanceof Player;
         if (isPlayer) serverSide = entity instanceof ServerPlayer;
 
@@ -350,7 +350,7 @@ public class BlockEntityUpdater
         if (this.blockEntity.getBlocks() == null) return;
         final BlockPos dims = this.blockEntity.getSize();
         final double uMax = Math.max(dims.getX(), Math.max(dims.getY(), dims.getZ()));
-        this.theEntity.getLevel().increaseMaxEntityRadius(uMax);
+        this.theEntity.level().increaseMaxEntityRadius(uMax);
         EntityDimensions size = this.theEntity.getDimensions(this.theEntity.getPose());
         if (size.width != dims.getX() + 1)
         {
@@ -363,7 +363,7 @@ public class BlockEntityUpdater
         final int sizeY = dims.getY();
         final int sizeZ = dims.getZ();
 
-        final Level world = this.blockEntity.getFakeWorld() instanceof Level level ? level : this.theEntity.getLevel();
+        final Level world = this.blockEntity.getFakeWorld() instanceof Level level ? level : this.theEntity.level();
 
         for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
         {

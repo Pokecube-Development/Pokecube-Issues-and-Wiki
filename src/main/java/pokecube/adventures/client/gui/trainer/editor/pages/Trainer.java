@@ -128,7 +128,7 @@ public class Trainer extends Page
                 this.parent.changePage(pokemobIndex);
                 if (!(this.parent.current_page instanceof Pokemob page)) return;
                 page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(Trainer.lastMobIndex),
-                        this.parent.entity.getLevel());
+                        this.parent.entity.level());
                 page.index = Trainer.lastMobIndex;
                 page.deleteCallback = () -> {
                     final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);
@@ -158,7 +158,7 @@ public class Trainer extends Page
                             this.parent.changePage(pokemobIndex);
                             if (!(this.parent.current_page instanceof Pokemob page)) return;
                             page.pokemob = PokecubeManager.itemToPokemob(this.parent.trainer.getPokemob(i2),
-                                    this.parent.entity.getLevel());
+                                    this.parent.entity.level());
                             page.index = i2;
                             page.deleteCallback = () -> {
                                 final PacketTrainer message = new PacketTrainer(PacketTrainer.UPDATEMOB);

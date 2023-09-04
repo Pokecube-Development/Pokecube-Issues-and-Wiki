@@ -172,14 +172,14 @@ public class ItemPokemobEgg extends Item
     private static LivingEntity imprintOwner(final IPokemob mob)
     {
         final Vector3 location = new Vector3().set(mob.getEntity());
-        Player player = mob.getEntity().getLevel().getNearestPlayer(location.x, location.y, location.z,
+        Player player = mob.getEntity().level().getNearestPlayer(location.x, location.y, location.z,
                 ItemPokemobEgg.PLAYERDIST, EntitySelector.NO_SPECTATORS);
         LivingEntity owner = player;
         final AABB box = location.getAABB().inflate(ItemPokemobEgg.MOBDIST, ItemPokemobEgg.MOBDIST,
                 ItemPokemobEgg.MOBDIST);
         if (owner == null)
         {
-            final List<LivingEntity> list = mob.getEntity().getLevel().getEntitiesOfClass(LivingEntity.class, box,
+            final List<LivingEntity> list = mob.getEntity().level().getEntitiesOfClass(LivingEntity.class, box,
                     (Predicate<LivingEntity>) input -> !(input instanceof EntityPokemobEgg));
             final LivingEntity closestTo = mob.getEntity();
             LivingEntity t = null;
@@ -372,7 +372,7 @@ public class ItemPokemobEgg extends Item
     @Override
     public InteractionResult useOn(final UseOnContext context)
     {
-        final Level worldIn = context.getLevel();
+        final Level worldIn = context.level();
         if (worldIn.isClientSide) return InteractionResult.SUCCESS;
         final Vec3 hit = context.getClickLocation();
         final Vector3 loc = new Vector3().set(hit);

@@ -231,7 +231,7 @@ public class TrainerSpawnHandler
             }
         }
         else if (mobs.getType() != null)
-            TypeTrainer.getRandomTeam(mobs, (LivingEntity) trainer, level, trainer.getLevel());
+            TypeTrainer.getRandomTeam(mobs, (LivingEntity) trainer, level, trainer.level());
     }
 
     public static void tick(final ServerLevel w)

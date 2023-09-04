@@ -69,7 +69,7 @@ public class PlayerPokemobs extends DefaultPokemobs
     @SubscribeEvent
     public static void playerTick(final LivingTickEvent event)
     {
-        if (event.getEntity().getLevel().isClientSide) return;
+        if (event.getEntity().level().isClientSide) return;
         if (event.getEntity() instanceof ServerPlayer player && event.getEntity().isAlive())
         {
             var mobs = TrainerCaps.getHasPokemobs(player);

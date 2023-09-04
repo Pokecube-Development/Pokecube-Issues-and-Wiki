@@ -29,7 +29,7 @@ public class Regice extends AbstractRegiCondition
     	mob = mob.setForSpawn(54500);
         final Vector3 location = new Vector3().set(mob.getEntity()).add(0, -1, 0);
         final ArrayList<Vector3> locations = new ArrayList<>();
-        final Level world = mob.getEntity().getLevel();
+        final Level world = mob.getEntity().level();
         locations.add(location.add(0, -1, 0));
         locations.add(location.add(0, -2, 0));
         locations.add(location.add(1, -1, 0));

@@ -28,7 +28,7 @@ public class Illuminate extends Ability
     @Override
     public void onUpdate(final IPokemob mob)
     {
-        if (!(mob.getEntity().getLevel() instanceof ServerLevel)) return;
+        if (!(mob.getEntity().level() instanceof ServerLevel)) return;
         if (mob.getEntity().tickCount % 20 == 0)
         {
             SpawnContext context = new SpawnContext(mob);

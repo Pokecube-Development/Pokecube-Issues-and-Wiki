@@ -46,7 +46,7 @@ public class ActionHyperspaceHole implements IMoveWorldEffect
         }
         else
         {
-            final Level world = user.getEntity().getLevel();
+            final Level world = user.getEntity().level();
             final long lastUse = user.getEntity().getPersistentData().getLong("pokecube_legends:last_portal_make");
             final long now = Tracker.instance().getTick();
             if (lastUse != 0)

@@ -187,7 +187,7 @@ public class PacketPokedex extends NBTPacket
         Map<PokedexEntry, Float> rates;
         ArrayList<PokedexEntry> names = new ArrayList<>();
         float total = 0;
-        ServerLevel level = player.getLevel();
+        ServerLevel level = player.level();
         Vector3 pos = new Vector3().set(player);
         SpawnCheck checker = new SpawnCheck(pos, level);
 
@@ -280,7 +280,7 @@ public class PacketPokedex extends NBTPacket
         final PacketPokedex packet = new PacketPokedex(PacketPokedex.BASERADAR);
         ListTag list = new ListTag();
 
-        final ServerLevel level = player.getLevel();
+        final ServerLevel level = player.level();
 
         final BlockPos pos = player.blockPosition();
         final GlobalPos here = GlobalPos.of(level.dimension(), pos);
@@ -444,7 +444,7 @@ public class PacketPokedex extends NBTPacket
         switch (this.message)
         {
         case OPEN:
-            final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), this.getTag().getInt("M"),
+            final Entity mob = PokecubeAPI.getEntityProvider().getEntity(player.level(), this.getTag().getInt("M"),
                     true);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             final boolean watch = this.getTag().getBoolean("W");
@@ -561,7 +561,7 @@ public class PacketPokedex extends NBTPacket
         IPokemob pokemob;
         Entity mob;
         PokedexEntry entry;
-        ServerLevel level = player.getLevel();
+        ServerLevel level = player.level();
 
         switch (this.message)
         {

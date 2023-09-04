@@ -44,7 +44,7 @@ public class BurrowSensor extends Sensor<Mob>
         final Optional<GlobalPos> pos_opt = brain.getMemory(MemoryModules.NEST_POS.get());
         if (pos_opt.isPresent())
         {
-            final Level world = mob.getLevel();
+            final Level world = mob.level();
             final GlobalPos pos = pos_opt.get();
             final boolean notHere = pos.dimension() != world.dimension();
             if (notHere) return Optional.empty();
@@ -75,7 +75,7 @@ public class BurrowSensor extends Sensor<Mob>
             // Randomize this so we don't always pick the same hive if it was
             // cleared for some reason
             brain.eraseMemory(MemoryModules.NO_NEST_TIMER.get());
-            brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(entityIn.getLevel().dimension(), opt.get()));
+            brain.setMemory(MemoryModules.NEST_POS.get(), GlobalPos.of(entityIn.level().dimension(), opt.get()));
         }
         else
         {

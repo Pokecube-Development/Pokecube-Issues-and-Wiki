@@ -67,7 +67,7 @@ public class Description extends ListPage<LineEntry>
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
                 if (entry != null && entry != this.parent.pokemob.getPokedexEntry())
-                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel()));
+                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.level()));
                 return true;
             }
         }

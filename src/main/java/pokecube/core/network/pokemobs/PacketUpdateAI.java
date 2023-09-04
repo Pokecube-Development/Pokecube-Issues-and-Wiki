@@ -46,7 +46,7 @@ public class PacketUpdateAI extends Packet
     {
         final int id = this.entityId;
         final CompoundTag data = this.data;
-        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         if (pokemob != null) for (final IAIRunnable runnable : pokemob.getTasks())
             if (runnable instanceof INBTSerializable && data.contains(runnable.getIdentifier()))

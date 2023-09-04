@@ -106,7 +106,7 @@ public class LogicMountedControl extends LogicBase
         }
         if (this.canFly)
         {
-            boolean noFly = LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
+            boolean noFly = LogicMountedControl.BLACKLISTED.contains(rider.level().dimension());
             if (noFly)
             {
                 if (this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))

@@ -57,7 +57,7 @@ public class SecretBase
     {
         final BlockPos pos = player.blockPosition();
         final AABB box = new AABB(pos.offset(-30, -pos.getY() + 1, -30), pos.offset(30, 256 - pos.getY(), 30));
-        final Level world = player.getLevel();
+        final Level world = player.level();
         BlockPos.betweenClosedStream(box).forEach(p -> {
             if (p.getY() == 0) return;
             if (world.getBlockState(p).getBlock() == Blocks.BARRIER)
@@ -68,7 +68,7 @@ public class SecretBase
 
     private static int execute_exit(final CommandSourceStack source, final ServerPlayer player)
     {
-        if (player.getLevel().dimension() != SecretBaseDimension.WORLD_KEY)
+        if (player.level().dimension() != SecretBaseDimension.WORLD_KEY)
         {
             thut.lib.ChatHelper.sendSystemMessage(player,
                     TComponent.translatable("pokecube.secretbase.exit.notinbase"));
@@ -89,12 +89,12 @@ public class SecretBase
             final Vector3 pos = new Vector3().set(loc.pos());
             final ResourceKey<Level> type = loc.dimension();
             double distance = pos.distTo(new Vector3().set(input));
-            if (type == player.getLevel().dimension() && distance < 16)
+            if (type == player.level().dimension() && distance < 16)
             {
                 final BlockPos base_pos = new BlockPos(input);
-                final BlockState original = pos.getBlockState(player.getLevel());
-                pos.setBlock(player.getLevel(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
-                if (player.getLevel().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
+                final BlockState original = pos.getBlockState(player.level());
+                pos.setBlock(player.level(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
+                if (player.level().getBlockEntity(pos.getPos()) instanceof BaseTile tile)
                 {
                     final IOwnableTE ownable = (IOwnableTE) tile.getCapability(ThutCaps.OWNABLE_CAP).orElse(null);
                     ownable.setPlacer(player);

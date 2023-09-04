@@ -53,7 +53,7 @@ public class EventsHandler
     {
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer player)
         {
-            final Biome biome = event.player.getLevel().getBiome(player.getOnPos()).value();
+            final Biome biome = event.player.level().getBiome(player.getOnPos()).value();
             MobEffectInstance effect = null;
 
             String key = RegHelper.getKey(biome).toString();

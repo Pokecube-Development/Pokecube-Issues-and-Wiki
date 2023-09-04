@@ -58,7 +58,7 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
         if (hab.related.isEmpty()) return null;
         hab.setPos(pos);
         final Predicate<Mob> filter = mob -> hab.canEnterHabitat(mob);
-        final List<Mob> mobs = pokemob.getEntity().getLevel().getEntitiesOfClass(Mob.class,
+        final List<Mob> mobs = pokemob.getEntity().level().getEntitiesOfClass(Mob.class,
                 hab.burrow.getOutBounds().inflate(10), filter);
         for (final Mob mob : mobs) if (!hab.mobs.contains(mob.getUUID())) hab.mobs.add(mob.getUUID());
         return hab;

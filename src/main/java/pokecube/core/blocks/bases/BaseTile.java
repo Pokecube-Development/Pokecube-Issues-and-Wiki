@@ -52,7 +52,7 @@ public class BaseTile extends InteractableTile
             try
             {
                 exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server,
-                        player.getLevel().dimension() == SecretBaseDimension.WORLD_KEY);
+                        player.level().dimension() == SecretBaseDimension.WORLD_KEY);
             }
             catch (final Exception e)
             {
@@ -69,7 +69,7 @@ public class BaseTile extends InteractableTile
                 return InteractionResult.FAIL;
             }
         }
-        final ResourceKey<Level> dim = player.getLevel().dimension();
+        final ResourceKey<Level> dim = player.level().dimension();
         if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit(splayer, targetBase);
         else SecretBaseDimension.sendToBase(splayer, targetBase);
         return InteractionResult.SUCCESS;

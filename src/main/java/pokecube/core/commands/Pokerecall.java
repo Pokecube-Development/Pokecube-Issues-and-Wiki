@@ -46,7 +46,7 @@ public class Pokerecall
             if (poke != null) opts.add(e.getDisplayName().getString());
             else if (e instanceof EntityPokecubeBase cube)
             {
-                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
+                final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level());
                 if (mob != null) opts.add(mob.getDisplayName().getString());
             }
         }
@@ -69,7 +69,7 @@ public class Pokerecall
         }
             else if (e instanceof EntityPokecubeBase cube)
         {
-            final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
+            final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level());
             if (mob != null && mob.getDisplayName().getString().equals(pokemob))
             {
                 final LivingEntity sent = SendOutManager.sendOut(cube, true, false);

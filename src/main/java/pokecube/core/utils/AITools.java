@@ -111,7 +111,7 @@ public class AITools
                 // Do not target creative or spectator
                 if (player.isCreative() || player.isSpectator()) return false;
                 // Do not target any player on easy or peaceful
-                if (player.getLevel().getDifficulty().getId() <= Difficulty.EASY.getId()) return false;
+                if (player.level().getDifficulty().getId() <= Difficulty.EASY.getId()) return false;
                 return true;
             }
             // Confirm is not an egg or a pokecube as well
