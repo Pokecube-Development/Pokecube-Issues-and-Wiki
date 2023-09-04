@@ -87,9 +87,10 @@ public class GuiNBTTree extends Screen
     {
         int x = 18, y = 4;
 
+        // TODO: Check these
         for (byte i = 14; i < 17; ++i)
         {
-            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
+            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b), (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 15;
         }
@@ -97,7 +98,7 @@ public class GuiNBTTree extends Screen
         x += 30;
         for (byte i = 12; i < 14; ++i)
         {
-            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
+            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b), (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 15;
         }
@@ -106,7 +107,7 @@ public class GuiNBTTree extends Screen
         y = 17;
         for (byte i = 1; i < 12; ++i)
         {
-            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
+            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b), (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 9;
         }
