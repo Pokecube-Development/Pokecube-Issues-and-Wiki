@@ -1,5 +1,6 @@
 package pokecube.legends.init;
 
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.PokecubeLegends;
@@ -12,7 +13,7 @@ public class ContainerInit {
     
     static
     {
-    	BARREL_MENU = PokecubeLegends.MENU.register("barrel_menu", () -> new MenuType<>(GenericBarrelMenu::threeRows));
+    	BARREL_MENU = PokecubeLegends.MENU.register("barrel_menu", () -> new MenuType<>(GenericBarrelMenu::threeRows, FeatureFlags.REGISTRY.allFlags()));
     }
     
     public static void init() {}
