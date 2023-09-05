@@ -320,7 +320,7 @@ public class ItemPokemobEgg extends Item
      * function normally. Called when the item it placed in a world.
      *
      * @param world     The world object
-     * @param location  The ItemEntity object, useful for getting the position
+     * @param oldItem  The ItemEntity object, useful for getting the position
      *                  of the entity
      * @param itemstack The current item stack
      * @return A new Entity object to spawn or null
@@ -372,7 +372,7 @@ public class ItemPokemobEgg extends Item
     @Override
     public InteractionResult useOn(final UseOnContext context)
     {
-        final Level worldIn = context.level();
+        final Level worldIn = context.getLevel();
         if (worldIn.isClientSide) return InteractionResult.SUCCESS;
         final Vec3 hit = context.getClickLocation();
         final Vector3 loc = new Vector3().set(hit);
