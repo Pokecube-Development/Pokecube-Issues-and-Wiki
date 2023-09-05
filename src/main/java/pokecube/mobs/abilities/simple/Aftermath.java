@@ -4,6 +4,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Explosion.BlockInteraction;
+import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.ExplosionEvent;
 import pokecube.api.data.abilities.Ability;
@@ -25,14 +26,14 @@ public class Aftermath extends Ability
         if (mob.getEntity().getHealth() <= 0)
         {
             final Explosion boom = new Explosion(move.getTarget().level(), move.getTarget(), move.getTarget().getX(),
-                    move.getTarget().getY(), move.getTarget().getZ(), 0, false, BlockInteraction.BREAK);
+                    move.getTarget().getY(), move.getTarget().getZ(), 0, false, BlockInteraction.DESTROY_WITH_DECAY);
             final ExplosionEvent evt = new ExplosionEvent.Start(move.getTarget().level(), boom);
             MinecraftForge.EVENT_BUS.post(evt);
             if (!evt.isCanceled())
             {
                 final LivingEntity attacker = move.getUser().getEntity();
                 final float hp = attacker.getHealth();
-                attacker.hurt(DamageSource.MAGIC, hp / 4);
+                attacker.hurt(attacker.damageSources().magic(), hp / 4);
             }
         }
     }

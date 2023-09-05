@@ -1,5 +1,6 @@
 package pokecube.mobs.client.smd;
 
+import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -250,7 +251,7 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
             // Scaling factor for model.
             mat.scale(0.165f, 0.165f, 0.165f);
             // Makes model face correct way.
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
 
             final HeadInfo info = renderer.getAnimationHolder() != null ? renderer.getAnimationHolder().getHeadInfo()
                     : HeadInfo.DUMMY;

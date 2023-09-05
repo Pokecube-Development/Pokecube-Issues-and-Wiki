@@ -202,8 +202,6 @@ public class PokecubeLegends
         LegendsLootingRecipeManager.init();
 
         UltraSpaceSurfaceRules.init();
-
-        PokecubeAdv.TAB_DECORATIONS = TAB_DECORATIONS;
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)

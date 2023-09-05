@@ -18,7 +18,7 @@ public class RoughSkin extends Ability
             final LivingEntity entity = move.getUser().getEntity();
             final float maxHp = entity.getMaxHealth();
             // TODO message about recoil
-            entity.hurt(DamageSource.MAGIC, 0.125f * maxHp);
+            entity.hurt(entity.damageSources().magic(), 0.125f * maxHp);
         }
         return damage;
     }

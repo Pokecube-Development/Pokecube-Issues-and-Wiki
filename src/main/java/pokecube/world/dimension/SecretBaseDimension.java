@@ -31,6 +31,7 @@ import net.minecraft.world.level.NoiseColumn;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
+import net.minecraft.world.level.biome.BiomeSource;
 import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -204,30 +205,35 @@ public class SecretBaseDimension
 
     public static class SecretChunkGenerator extends ChunkGenerator
     {
-        public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((p_208215_) -> {
-            return commonCodec(p_208215_)
-                    .and(RegistryOps.retrieveRegistry(RegHelper.BIOME_REGISTRY).forGetter((p_208210_) ->
-                    {
-                        return p_208210_.registry;
-                    })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
-        });
+//        public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((p_208215_) -> {
+//            return commonCodec(p_208215_)
+//                    .and(RegistryOps.retrieveRegistry(RegHelper.BIOME_REGISTRY).forGetter((p_208210_) ->
+//                    {
+//                        return p_208210_.registry;
+//                    })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
+//        });
 
-        private final Registry<Biome> registry;
+//        TODO: Fix biome
+//        private final Registry<Biome> registry;
 
         BlockState[] states = new BlockState[256];
 
-        public SecretChunkGenerator(final Registry<StructureSet> structs, final Registry<Biome> registry)
-        {
-            super(structs, Optional.empty(),
-                    new FixedBiomeSource(registry.getOrCreateHolder(SecretBaseDimension.BIOME_KEY).get().orThrow()));
-            this.registry = registry;
-            Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
+        public SecretChunkGenerator(BiomeSource p_256133_) {
+            super(p_256133_);
         }
 
-        public Registry<Biome> getRegistry()
-        {
-            return this.registry;
-        }
+//        public SecretChunkGenerator(final Registry<StructureSet> structs, final Registry<Biome> registry)
+//        {
+//            super(structs, Optional.empty(),
+//                    new FixedBiomeSource(registry.getOrCreateHolder(SecretBaseDimension.BIOME_KEY).get().orThrow()));
+//            this.registry = registry;
+//            Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
+//        }
+
+//        public Registry<Biome> getRegistry()
+//        {
+//            return this.registry;
+//        }
 
         @Override
         protected Codec<? extends ChunkGenerator> codec()
@@ -414,7 +420,7 @@ public class SecretBaseDimension
             if (nz <= chunkBox.minZ) nz = chunkBox.maxZ - 1;
             if (nz >= chunkBox.maxZ) nz = chunkBox.minZ + 1;
 
-            final BlockPos pos = new BlockPos(nx, mob.getY(), nz);
+            final BlockPos pos = new BlockPos((int) nx, mob.getY(), (int) nz);
 
             final TeleDest dest = new TeleDest().setPos(GlobalPos.of(world.dimension(), pos));
             EventsHandler.Schedule(world, w -> {

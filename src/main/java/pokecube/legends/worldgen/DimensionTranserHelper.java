@@ -57,7 +57,7 @@ public class DimensionTranserHelper
             for (int i = -2; i <= 2; i++)
                 for (int j = -2; j <= 2; j++)
                 {
-                    final BlockPos pos = new BlockPos(top.getX() + i, player.getY() - 1, top.getZ() + j);
+                    final BlockPos pos = new BlockPos(top.getX() + i, (int) (player.getY() - 1), top.getZ() + j);
                     world.setBlockAndUpdate(pos, Blocks.OBSIDIAN.defaultBlockState());
                 }
         }
