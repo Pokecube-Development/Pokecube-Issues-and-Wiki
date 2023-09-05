@@ -15,12 +15,13 @@ public class Sounds
 
     static
     {
+        // TODO: Check if correct
         CAPTURE_SOUND = PokecubeCore.SOUNDS.register("pokecube_caught",
-                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught")));
+                () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecube_caught")));
         HEAL_SOUND = PokecubeCore.SOUNDS.register("pokecenter",
-                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenter")));
+                () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenter")));
         HEAL_MUSIC = PokecubeCore.SOUNDS.register("pokecenterloop",
-                () -> new SoundEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop")));
+                () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(PokecubeCore.MODID + ":pokecenterloop")));
     }
 
     public static void init()
@@ -43,7 +44,7 @@ public class Sounds
         for (final String var : PokecubeCore.getConfig().customSounds)
         {
             final ResourceLocation sound = new ResourceLocation(var);
-            final SoundEvent event = new SoundEvent(sound);
+            final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
             if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
         }
     }
@@ -57,14 +58,16 @@ public class Sounds
             if (entry._sound_effect_source != null)
             {
                 final ResourceLocation sound = new ResourceLocation(entry.getMove().sound_effect_source);
-                final SoundEvent event = new SoundEvent(sound);
+                // TODO: Check if correct
+                final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
                 if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
             }
             // Register sound on target
             if (entry._sound_effect_target != null)
             {
                 final ResourceLocation sound = new ResourceLocation(entry.getMove().sound_effect_target);
-                final SoundEvent event = new SoundEvent(sound);
+                // TODO: Check if correct
+                final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
                 if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
             }
             // Register sounds for the animations
@@ -72,7 +75,8 @@ public class Sounds
                 for (final AnimationJson anim : entry.animation.animations) if (anim.sound != null)
             {
                 final ResourceLocation sound = new ResourceLocation(anim.sound);
-                final SoundEvent event = new SoundEvent(sound);
+                // TODO: Check if correct
+                final SoundEvent event = SoundEvent.createVariableRangeEvent(sound);
                 if (!sound.getNamespace().equals("minecraft")) registerIfNotPresent(sound, event);
             }
         }
