@@ -36,24 +36,24 @@ public class LogsToGround extends StructureProcessor
             final StructureTemplate.StructureBlockInfo blockInfo, final StructurePlaceSettings settings,
             final StructureTemplate ref)
     {
-        BlockPos p1 = old.pos;
+        BlockPos p1 = old.pos();
         // This means we are at the base of the structure.
         down:
-        if (p1.getY() == 0 && blockInfo.state.hasProperty(RotatedPillarBlock.AXIS)
-                && blockInfo.state.getValue(RotatedPillarBlock.AXIS) == Axis.Y
+        if (p1.getY() == 0 && blockInfo.state().hasProperty(RotatedPillarBlock.AXIS)
+                && blockInfo.state().getValue(RotatedPillarBlock.AXIS) == Axis.Y
                 && level instanceof WorldGenRegion region)
         {
-            int y = blockInfo.pos.getY() - 1;
-            int y_max = level.getHeight(Types.OCEAN_FLOOR_WG, blockInfo.pos.getX(), blockInfo.pos.getZ());
+            int y = blockInfo.pos().getY() - 1;
+            int y_max = level.getHeight(Types.OCEAN_FLOOR_WG, blockInfo.pos().getX(), blockInfo.pos().getZ());
             if (y_max == level.getMinBuildHeight()) break down;
             boolean try_place = y >= y_max;
             while (try_place)
             {
-                BlockPos test = blockInfo.pos.atY(y);
+                BlockPos test = blockInfo.pos().atY(y);
                 BlockState state = level.getBlockState(test);
-                try_place = state.getMaterial().isReplaceable() || state.getMaterial().isLiquid();
+                try_place = state.canBeReplaced() || state.liquid();
                 try_place &= !level.isOutsideBuildHeight(test);
-                if (try_place) region.setBlock(test, blockInfo.state, 2);
+                if (try_place) region.setBlock(test, blockInfo.state(), 2);
                 y--;
                 try_place &= y >= y_max;
             }
