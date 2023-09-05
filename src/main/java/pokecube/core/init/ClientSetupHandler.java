@@ -163,9 +163,9 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void registerGui(final RegisterGuiOverlaysEvent event, MultiBufferSource.BufferSource source)
+    public static void registerGui(final RegisterGuiOverlaysEvent event)
     {
-        event.registerAboveAll("pokecube_gui", GuiDisplayPokecubeInfo.instance(source));
+        event.registerAboveAll("pokecube_gui", GuiDisplayPokecubeInfo.instance());
     }
 
     private static void registerKey(KeyMapping key, RegisterKeyMappingsEvent event)

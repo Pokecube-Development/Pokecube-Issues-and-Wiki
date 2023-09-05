@@ -54,7 +54,6 @@ public class ItemBerry extends BlockItem implements IMoveConstants, IPlantable
             this.effect = effect;
             this.index = index;
             this.flavours = flavours;
-            this.tab(PokecubeItems.TAB_BERRIES);
         }
     }
 

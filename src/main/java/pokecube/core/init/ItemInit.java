@@ -26,7 +26,6 @@ public class ItemInit
             final String name = i.name + "cube";
             PokecubeBehaviour.addCubeBehavior(i);
             final Item.Properties props = new Item.Properties();
-            props.tab(PokecubeItems.TAB_POKECUBES);
             props.durability(255).defaultDurability(255);
             PokecubeCore.ITEMS.register(name, () -> {
                 final Pokecube cube = new Pokecube(props);
@@ -37,7 +36,6 @@ public class ItemInit
         }
 
         final Item.Properties props = new Item.Properties();
-        props.tab(PokecubeItems.TAB_POKECUBES);
         PokecubeCore.ITEMS.register("pokeseal", () -> {
             final Pokecube pokeseal = new Pokecube(props);
             PokecubeBehaviour.POKESEAL = new ResourceLocation("pokecube:seal");
@@ -49,7 +47,7 @@ public class ItemInit
 
     private static void addVitamins()
     {
-        final Item.Properties props = new Item.Properties().tab(PokecubeItems.TAB_ITEMS);
+        final Item.Properties props = new Item.Properties();
         for (final String type : ItemVitamin.vitamins)
         {
             PokecubeCore.ITEMS.register("vitamin_" + type, () -> new ItemVitamin(props, Database.trim(type)));
