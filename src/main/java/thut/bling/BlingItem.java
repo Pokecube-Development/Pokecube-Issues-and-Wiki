@@ -83,7 +83,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
         if (event.getTabKey() == ThutCreativeTabs.ITEMS_TAB.getKey()) {
             for (final String s : BlingItem.names)
             {
-                ThutBling.ITEMS.register("bling_" + s, () -> new BlingItem(s, BlingItem.wearables.get(s)));
+                event.accept(new BlingItem(s, BlingItem.wearables.get(s)).asItem());
             }
         }
     }
