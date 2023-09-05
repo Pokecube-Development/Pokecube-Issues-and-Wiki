@@ -261,7 +261,7 @@ public class ThutTeleporter
             targetZ = event.getTargetZ();
 
             dest = new TeleDest().setLoc(
-                    GlobalPos.of(dest.getPos().dimension(), new BlockPos(targetX, targetY, targetZ)),
+                    GlobalPos.of(dest.getPos().dimension(), new BlockPos((int) targetX, (int) targetY, (int) targetZ)),
                     new Vector3().set(targetX, targetY, targetZ));
         }
 

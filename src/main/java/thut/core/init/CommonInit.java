@@ -184,7 +184,7 @@ public class CommonInit
             final CompoundTag minTag = itemstack.getTag().getCompound("min");
             final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
                     .add(playerIn.getLookAngle().scale(2));
-            final BlockPos pos = new BlockPos(loc);
+            final BlockPos pos = new BlockPos((int) loc.x, (int) loc.y, (int) loc.z);
             final BlockPos min = pos;
             final BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
             if (!worldIn.isClientSide && worldIn instanceof ServerLevel level)
