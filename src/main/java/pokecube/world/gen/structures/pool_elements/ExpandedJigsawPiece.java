@@ -276,11 +276,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         for (StructureTemplate.StructureBlockInfo structuretemplate$structureblockinfo : StructureTemplate
                 .processBlockInfos(level, pos1, pos2, placementsettings, list, template))
         {
-            BlockPos blockpos = structuretemplate$structureblockinfo.pos;
+            BlockPos blockpos = structuretemplate$structureblockinfo.pos();
             if (box == null || box.isInside(blockpos))
             {
                 @SuppressWarnings("deprecation")
-                BlockState to_place = structuretemplate$structureblockinfo.state.mirror(placementsettings.getMirror())
+                BlockState to_place = structuretemplate$structureblockinfo.state().mirror(placementsettings.getMirror())
                         .rotate(placementsettings.getRotation());
                 if (!(to_place.hasProperty(BlockStateProperties.WATERLOGGED)
                         && to_place.getValue(BlockStateProperties.WATERLOGGED)))
@@ -357,13 +357,13 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                 for (final StructureBlockInfo info : list)
                 {
                     String key;
-                    final boolean isDataMarker = info.state.getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt != null
-                            && !(key = info.nbt.getString("mode")).isBlank()
+                    final boolean isDataMarker = info.state().getBlock() == Blocks.STRUCTURE_BLOCK && info.nbt() != null
+                            && !(key = info.nbt().getString("mode")).isBlank()
                             && StructureMode.valueOf(key) == StructureMode.DATA;
                     if (isDataMarker)
                     {
                         final BlockPos blockpos = StructureTemplate
-                                .calculateRelativePosition(placementsettings, info.pos).offset(pos1);
+                                .calculateRelativePosition(placementsettings, info.pos()).offset(pos1);
                         this.handleDataMarker(level, info, blockpos, rotation, rng, box);
                     }
                 }
@@ -374,7 +374,7 @@ public class ExpandedJigsawPiece extends SinglePoolElement
                 final List<StructureBlockInfo> data = this.getDataMarkers(templates, pos1, rotation, false);
                 for (final StructureBlockInfo info : data)
                 {
-                    final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos)
+                    final BlockPos blockpos = StructureTemplate.calculateRelativePosition(placementsettings, info.pos())
                             .offset(pos1);
                     this.handleDataMarker(level, info, blockpos, rotation, rng, box);
                 }
@@ -391,17 +391,17 @@ public class ExpandedJigsawPiece extends SinglePoolElement
         if (worldIn instanceof WorldGenRegionAccessor accessor)
         {
             this.world = accessor.getServerLevel();
-            String function = info.nbt != null ? info.nbt.getString("metadata") : "";
+            String function = info.nbt() != null ? info.nbt().getString("metadata") : "";
 
             final boolean toPlaceProf = this.isSpawn && !PokecubeSerializer.getInstance().hasPlacedProf();
             final boolean toPlaceSpawn = this.isSpawn && !this.placedSpawn;
-            if (toPlaceProf && info.pos.equals(this.profPos))
+            if (toPlaceProf && info.pos().equals(this.profPos))
             {
                 PokecubeAPI.logInfo("Overriding an entry as a professor at " + pos);
                 function = PokecubeCore.getConfig().professor_override;
                 PokecubeSerializer.getInstance().setPlacedProf();
             }
-            if (toPlaceSpawn && info.pos.equals(this.spawnPos))
+            if (toPlaceSpawn && info.pos().equals(this.spawnPos))
             {
                 PokecubeAPI.logInfo("Overriding world spawn to " + pos);
                 EventsHandler.Schedule(this.world, w -> {

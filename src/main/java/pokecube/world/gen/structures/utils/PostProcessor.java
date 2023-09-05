@@ -77,16 +77,16 @@ public class PostProcessor implements BiConsumer<GenerationContext, List<PoolEle
                     BlockPos localSpawn = null;
                     BlockPos localTrader = null;
                     for (final StructureBlockInfo i : list.blocks())
-                        if (i != null && i.nbt != null && i.state.getBlock() == Blocks.STRUCTURE_BLOCK)
+                        if (i != null && i.nbt() != null && i.state().getBlock() == Blocks.STRUCTURE_BLOCK)
                     {
-                        final StructureMode structuremode = StructureMode.valueOf(i.nbt.getString("mode"));
+                        final StructureMode structuremode = StructureMode.valueOf(i.nbt().getString("mode"));
                         if (structuremode == StructureMode.DATA)
                         {
-                            final String meta = i.nbt.getString("metadata");
+                            final String meta = i.nbt().getString("metadata");
                             foundWorldspawn = foundWorldspawn || meta.startsWith("pokecube:worldspawn");
-                            if (localSpawn == null && foundWorldspawn) localSpawn = i.pos;
+                            if (localSpawn == null && foundWorldspawn) localSpawn = i.pos();
                             if (meta.contains("pokecube:mob:trader") || meta.contains("pokecube:mob:pokemart_merchant"))
-                                localTrader = i.pos;
+                                localTrader = i.pos();
                         }
                     }
                     if (localTrader != null && localSpawn != null)

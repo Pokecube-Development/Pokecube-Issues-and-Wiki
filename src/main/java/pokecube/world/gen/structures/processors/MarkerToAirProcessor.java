@@ -23,8 +23,8 @@ public class MarkerToAirProcessor extends StructureProcessor
             final BlockPos p_230386_3_, final StructureTemplate.StructureBlockInfo raw, final StructureTemplate.StructureBlockInfo mod,
             final StructurePlaceSettings p_230386_6_)
     {
-        return mod.state.getBlock() == Blocks.STRUCTURE_BLOCK ? new StructureTemplate.StructureBlockInfo(mod.pos, Blocks.AIR
-                .defaultBlockState(), mod.nbt) : mod;
+        return mod.state().getBlock() == Blocks.STRUCTURE_BLOCK ? new StructureTemplate.StructureBlockInfo(mod.pos(), Blocks.AIR
+                .defaultBlockState(), mod.nbt()) : mod;
     }
 
     @Override
