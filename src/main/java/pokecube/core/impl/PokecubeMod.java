@@ -42,7 +42,7 @@ public abstract class PokecubeMod
     {
         final FakePlayer player = PokecubeMod.fakePlayers.getOrDefault(world, PokecubeMod.makeNewFakePlayer(world));
         PokecubeMod.fakePlayers.put(world, player);
-        player.setLevel(world);
+        player.setServerLevel(world);
         return player;
     }
 

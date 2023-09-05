@@ -472,7 +472,7 @@ public class EventsHandler
         Vector3 v = new Vector3().set(player);
         if (isSpawnPresetDebug)
         {
-            SpawnCheck check = new SpawnCheck(v, level, evt.getPos(), evt.getLevel().getBlockState(evt.getPos()));
+            SpawnCheck check = new SpawnCheck(v, level);
             List<String> valid = Lists.newArrayList();
 
             for (Entry<String, SpawnRule> entry : SpawnBiomeMatcher.PRESETS.entrySet())

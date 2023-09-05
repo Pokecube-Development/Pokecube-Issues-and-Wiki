@@ -2,6 +2,7 @@ package pokecube.core.entity.pokemobs.helper;
 
 import net.minecraft.world.damagesource.CombatRules;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.TamableAnimal;
@@ -40,7 +41,7 @@ public abstract class PokemobCombat extends PokemobBase
         if (!(source instanceof PokemobDamageSource))
         {
             int armour = 0;
-            if (source.isMagic()) armour = (int) (this.pokemobCap.getStat(Stats.SPDEFENSE, true) / 12.5);
+            if (source.is(DamageTypes.MAGIC)) armour = (int) (this.pokemobCap.getStat(Stats.SPDEFENSE, true) / 12.5);
             else armour = this.getArmorValue();
             damage = CombatRules.getDamageAfterAbsorb(damage, armour,
                     (float) this.getAttribute(Attributes.ARMOR_TOUGHNESS).getValue());

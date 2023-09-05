@@ -33,6 +33,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
@@ -128,11 +129,12 @@ public class EntityPokemob extends PokemobRidable
                 || this.pokemobCap.isType(PokeType.getType("water"));
     }
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+//    TODO: Still needed?
+//    @Override
+//    public Packet<?> getAddEntityPacket()
+//    {
+//        return NetworkHooks.getEntitySpawningPacket(this);
+//    }
 
     @Override
     protected void tickDeath()
@@ -236,7 +238,8 @@ public class EntityPokemob extends PokemobRidable
                 }
                 this.jumpPower = 0.0F;
             }
-            this.flyingSpeed = this.getSpeed();
+            // TODO: Fix
+            // this.flyingSpeed = this.getSpeed();
             if (this.isControlledByLocalInstance())
             {
                 dr = new Vec3(strafe, upwards, forwards);
@@ -256,10 +259,11 @@ public class EntityPokemob extends PokemobRidable
                 this.jumpPower = 0.0F;
                 this.setJumping(false);
             }
-            this.calculateEntityAnimation(this, false);
+            this.calculateEntityAnimation(false);
             return;
         }
-        this.flyingSpeed = 0.02f;
+        // TODO: Fix
+        // this.flyingSpeed = 0.02f;
         // Swimming mobs get their own treatment while swimming
         if (this.isEffectiveAi() && this.isInWater() && this.pokemobCap.swims())
         {
@@ -534,7 +538,7 @@ public class EntityPokemob extends PokemobRidable
         {
             Entity entity = this.level.getNearestPlayer(this, -1.0D);
             net.minecraftforge.eventbus.api.Event.Result result = net.minecraftforge.event.ForgeEventFactory
-                    .canEntityDespawn(this);
+                    .canEntityDespawn(this, (ServerLevelAccessor) this.level);
             if (result == net.minecraftforge.eventbus.api.Event.Result.DENY)
             {
                 noActionTime = 0;
@@ -632,7 +636,8 @@ public class EntityPokemob extends PokemobRidable
             this.yOld = this.yo;
             this.zOld = this.zo;
 
-            this.animationSpeedOld = this.animationSpeed;
+            // TODO: Fix
+            // this.animationSpeedOld = this.animationSpeed;
             this.animStepO = this.animStep;
 
             this.lerpX = 0;
