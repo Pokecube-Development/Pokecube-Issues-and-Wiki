@@ -9,8 +9,8 @@ import net.minecraft.world.level.Level;
 
 public class UltraHelmetEffect extends ArmorItem
 {
-	public UltraHelmetEffect(final ArmorMaterial materialIn, final EquipmentSlot slot, final Properties builder) {
-		super(materialIn, slot, builder);
+	public UltraHelmetEffect(final ArmorMaterial materialIn, final Type armorSlot, final Properties builder) {
+		super(materialIn, armorSlot, builder);
 	}
 
 	@Override

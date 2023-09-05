@@ -28,9 +28,9 @@ import thut.lib.TComponent;
 public class DistortedMirror extends ItemBase
 {
 
-    public DistortedMirror(final String name, final CreativeModeTab tab, final int maxStackSize)
+    public DistortedMirror(final String name, final int maxStackSize)
     {
-        super(name, tab, maxStackSize);
+        super(name, maxStackSize);
     }
 
     @Override
