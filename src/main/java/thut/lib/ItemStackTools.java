@@ -152,7 +152,7 @@ public class ItemStackTools
     /** Checks item, NBT, and meta if the item is not damageable */
     private static boolean stackEqualExact(final ItemStack stack1, final ItemStack stack2)
     {
-        return stack1.getItem() == stack2.getItem() && ItemStack.tagMatches(stack1, stack2);
+        return stack1.getItem() == stack2.getItem() && ItemStack.matches(stack1, stack2);
     }
 
     /** stores an itemstack in the users inventory */

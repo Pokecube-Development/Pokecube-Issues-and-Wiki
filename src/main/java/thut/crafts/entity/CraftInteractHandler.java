@@ -39,7 +39,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         if (passed) return InteractionResult.SUCCESS;
         vec = vec.subtract(craft.position());
 
-        if (this.interactInternal(player, new BlockPos(vec), stack, hand) == InteractionResult.SUCCESS)
+        if (this.interactInternal(player, new BlockPos((int) vec.x, (int) vec.y, (int) vec.z), stack, hand) == InteractionResult.SUCCESS)
             return InteractionResult.SUCCESS;
         else if (this.craft.yRot != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
         {
@@ -83,7 +83,7 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
             {
                 final Seat seat = this.craft.getSeat(i);
                 final Vec3f seatPos = seat.seat;
-                final BlockPos pos1 = new BlockPos(seatPos.x, seatPos.y, seatPos.z);
+                final BlockPos pos1 = new BlockPos((int) seatPos.x, (int) seatPos.y, (int) seatPos.z);
                 if (pos1.equals(pos))
                 {
                     if (!player.level().isClientSide && !seat.getEntityId().equals(player.getUUID()))
