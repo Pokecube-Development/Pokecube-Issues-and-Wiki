@@ -45,20 +45,20 @@ public class RoundFoliagePlacer extends FoliagePlacer
     }
 
     @Override
-    protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void createFoliage(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
-                                 FoliagePlacer.FoliageAttachment foliageAttachment, int height, int radius, int offset)
+                                 FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
         double ch = height / 2.0;
         double scale = Math.sqrt(2);
         for(int i = 0; i >= -height; --i)
         {
             int range = (int) ((Math.sqrt(ch - Math.abs(-i - ch)) + 1) * scale + 1);
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
+            this.placeLeavesRow(level, foliageSetter, random, treeConfig, foliageAttachment.pos(), range - 1, offset + i, foliageAttachment.doubleTrunk());
         }
     }
 
-    protected void placeLeavesRow(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void placeLeavesRow(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, BlockPos pos, int range, int yOffset, boolean large)
     {
         int i = large ? 1 : 0;
@@ -73,7 +73,7 @@ public class RoundFoliagePlacer extends FoliagePlacer
                     if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
                     {
                         mutablePos.setWithOffset(pos, j, yOffset, k);
-                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                        tryPlaceLeaf(level, foliageSetter, random, treeConfig, mutablePos);
                     }
                 }
             }

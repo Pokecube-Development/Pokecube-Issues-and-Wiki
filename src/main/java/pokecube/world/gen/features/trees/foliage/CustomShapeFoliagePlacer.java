@@ -61,19 +61,19 @@ public class CustomShapeFoliagePlacer extends FoliagePlacer
     }
 
     @Override
-    protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void createFoliage(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
             FoliagePlacer.FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
         {
             int range = Math.max(radius + foliageAttachment.radiusOffset() - 1 - yOffset, 0);
-            placeLeafSegment(level, blockSetter, random, treeConfig, foliageAttachment.pos(), offset, range, yOffset,
+            placeLeafSegment(level, foliageSetter, random, treeConfig, foliageAttachment.pos(), offset, range, yOffset,
                     foliageAttachment.doubleTrunk());
         }
     }
 
-    protected void placeLeafSegment(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void placeLeafSegment(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
@@ -82,7 +82,7 @@ public class CustomShapeFoliagePlacer extends FoliagePlacer
             if (!this.shouldSkipLocationSigned(random, leaf.x, leaf.y + yOffset, leaf.z, range, large))
             {
                 mutablePos.setWithOffset(pos, leaf.x, leaf.y + yOffset, leaf.z);
-                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                tryPlaceLeaf(level, foliageSetter, random, treeConfig, mutablePos);
             }
         });
     }
