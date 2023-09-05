@@ -264,33 +264,6 @@ public class PokecubeLegends
         UsableItemGigantShard.registerCapabilities(event);
     }
 
-    public static final CreativeModeTab TAB_DIMENSIONS = new CreativeModeTab("ultratab")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return new ItemStack(BlockInit.DISTORTIC_GRASS_BLOCK.get());
-        }
-    };
-
-    public static final CreativeModeTab TAB_DECORATIONS = new CreativeModeTab("decotab")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return new ItemStack(BlockInit.SKY_BRICKS.get());
-        }
-    };
-
-    public static final CreativeModeTab TAB_LEGENDS = new CreativeModeTab("legendtab")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return new ItemStack(ItemInit.RAINBOW_ORB.get());
-        }
-    };
-
     @SubscribeEvent
     public void registerItems(final RegisterMiscItems event)
     {

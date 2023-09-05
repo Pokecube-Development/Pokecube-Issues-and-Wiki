@@ -21,9 +21,9 @@ import thut.lib.TComponent;
 public class ControllerUltraEffect extends ItemBase
 {
 
-    public ControllerUltraEffect(final String name, final CreativeModeTab tab, final int maxStackSize)
+    public ControllerUltraEffect(final String name, final int maxStackSize)
     {
-        super(name, tab, maxStackSize);
+        super(name, maxStackSize);
     }
 
     @Override

@@ -6,8 +6,8 @@ import net.minecraft.world.item.Tier;
 
 public class ToolSword extends SwordItem
 {
-    public ToolSword(final int maxDamage, final int attackSpeed, final Tier material, final CreativeModeTab group)
+    public ToolSword(final int maxDamage, final int attackSpeed, final Tier material)
     {
-        super(material, maxDamage, attackSpeed, new Properties().tab(group));
+        super(material, maxDamage, attackSpeed, new Properties());
     }
 }

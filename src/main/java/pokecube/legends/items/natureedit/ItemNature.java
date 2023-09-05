@@ -16,7 +16,7 @@ public class ItemNature extends Item
 
     public ItemNature(final Nature type)
     {
-        super(new Item.Properties().tab(PokecubeItems.TAB_ITEMS));
+        super(new Item.Properties());
         this.type = type;
     }
 }
