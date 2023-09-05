@@ -16,6 +16,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.level.material.MapColor;
@@ -23,21 +24,21 @@ import pokecube.legends.blocks.BlockBase;
 
 public class Rotates extends BlockBase implements SimpleWaterloggedBlock
 {
-    private static final BooleanProperty   WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty FACING      = HorizontalDirectionalBlock.FACING;
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public Rotates(final String name, final MapColor color, final float hardness,
-                   final float resistance, final SoundType sound, final boolean hasDrop)
+    public Rotates(final String name, final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                   final boolean requiresCorrectToolForDrops, final float destroyTime, final float blastResistance)
     {
-        super(name, color, hardness, resistance, sound, hasDrop);
+        super(name, color, sound, instrument, requiresCorrectToolForDrops, destroyTime, blastResistance);
         this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
     }
 
-    public Rotates(final MapColor color, final float hardness, final float resistance,
-            final SoundType sound, final boolean hasDrop)
+    public Rotates(final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                   final boolean requiresCorrectToolForDrops, final float destroyTime, final float blastResistance)
     {
-        super(color, hardness, resistance, sound, hasDrop);
+        super(color, sound, instrument, requiresCorrectToolForDrops, destroyTime, blastResistance);
         this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
     }
