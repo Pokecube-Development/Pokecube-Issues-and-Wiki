@@ -81,7 +81,7 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
     }
 
     @Override
-    public ItemStack assemble(final Container inventory)
+    public ItemStack assemble(final Container inventory, RegistryAccess access)
     {
         return this.output.copy();
     }

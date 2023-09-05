@@ -76,7 +76,7 @@ public class LegendsLootingRecipeSerializer implements Recipe<Container>
     }
 
     @Override
-    public ItemStack assemble(Container inventory)
+    public ItemStack assemble(Container inventory, RegistryAccess access)
     {
         return ItemStack.EMPTY;
     }
