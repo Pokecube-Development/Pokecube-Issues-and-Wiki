@@ -1,5 +1,6 @@
 package pokecube.core.utils;
 
+import com.mojang.serialization.Lifecycle;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -247,7 +248,7 @@ public class AITools
                     final MemoryModuleType<Object> mem = (MemoryModuleType<Object>) ForgeRegistries.MEMORY_MODULE_TYPES
                             .getValue(new ResourceLocation(s));
                     final DataResult<?> res = mem.getCodec().map(DataResult::success)
-                            .orElseGet(() -> DataResult.error("Error loading Memory??"))
+                            .orElseGet(() -> DataResult.error(() -> "Error loading Memory??"))
                             .flatMap(codec -> codec.parse(d));
                     final ExpirableValue<?> memory = (ExpirableValue<?>) res.getOrThrow(true,
                             s1 -> PokecubeAPI.LOGGER.error(s1));
