@@ -120,7 +120,7 @@ public class SpawnEventsHandler
         seedA ^= world.dayTime() / 600;
         Random rand = new Random(seedA);
 
-        SpawnCheck filter = new SpawnCheck(v, world, blockPos, state);
+        SpawnCheck filter = new SpawnCheck(v, world);
         // Filter out entries which are not even valid options here.
         entries.removeIf(dbe -> {
             SpawnContext toUse = new SpawnContext(event.context(), dbe);
@@ -137,7 +137,7 @@ public class SpawnEventsHandler
         int index = 0;
         PokedexEntry dbe = entries.get(index);
 
-        SpawnCheck checker = new SpawnCheck(v, world, blockPos, state);
+        SpawnCheck checker = new SpawnCheck(v, world);
         SpawnContext context = event.context();
         context = new SpawnContext(context, dbe);
         float weight = dbe.getSpawnData().getWeight(context, checker, true);
@@ -158,7 +158,7 @@ public class SpawnEventsHandler
                 {
                     v.offsetBy(Direction.UP);
                     context = new SpawnContext(context, v);
-                    checker = new SpawnCheck(v, world, blockPos, state);
+                    checker = new SpawnCheck(v, world);
                     weight = dbe.getSpawnData().getWeight(context, checker, true);
                 }
                 else weight = 0;

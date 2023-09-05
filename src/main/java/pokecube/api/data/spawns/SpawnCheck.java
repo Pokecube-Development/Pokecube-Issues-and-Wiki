@@ -82,16 +82,16 @@ public class SpawnCheck
     public final ChunkAccess chunk;
     public final BlockPos pos;
 
-    public SpawnCheck(final Vector3 location, final ServerLevelAccessor world, BlockPos pos, BlockState state)
+    public SpawnCheck(final Vector3 location, final ServerLevelAccessor world)
     {
         this.world = world;
-        this.pos = pos;
+        this.pos = location.getPos();
         this.biome = location.getBiomeHolder(world);
-        this.state = state;
+        this.state = world.getBlockState(location.getPos());
         ServerLevel level;
         if (world instanceof ServerLevel) level = (ServerLevel) world;
         else level = ((WorldGenRegionAccessor) world).getServerLevel();
-        this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(pos));
+        this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
         final double time = TimePeriod.getTime(level);

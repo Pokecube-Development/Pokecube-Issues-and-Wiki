@@ -132,7 +132,7 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
             if (PokecubeCore.getConfig().debug_spawning)
             {
                 Vector3 v = new Vector3().set(pos);
-                SpawnCheck checker = new SpawnCheck(v, level, pos, context.getLevel().getBlockState(pos));
+                SpawnCheck checker = new SpawnCheck(v, level, context.getLevel().getBlockState(pos));
                 for (final PokedexEntry e : Database.spawnables)
                     if (e.getSpawnData().getMatcher(new SpawnContext(player, e), checker, false) != null)
                 {
