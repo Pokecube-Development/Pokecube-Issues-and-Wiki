@@ -6,6 +6,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
 import pokecube.core.PokecubeCore;
 
@@ -15,7 +16,9 @@ public class BerriesWoodType
 
     public static WoodType addWoodTypes(String name)
     {
-        WoodType type = WoodType.register(WoodType.create(new ResourceLocation(PokecubeCore.MODID, name).toString()));
+        // TODO: Check this
+        WoodType type = WoodType.register(new WoodType(new ResourceLocation(PokecubeCore.MODID, name).toString(),
+                new BlockSetType(new ResourceLocation(PokecubeCore.MODID, name).toString())));
         TYPES.put(name, type);
         return type;
     }
@@ -27,6 +30,6 @@ public class BerriesWoodType
 
     public static void register()
     {
-        TYPES.values().forEach(t->Sheets.addWoodType(t));
+        TYPES.values().forEach(Sheets::addWoodType);
     }
 }

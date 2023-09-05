@@ -2,7 +2,9 @@ package pokecube.legends.init;
 
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
+import pokecube.core.PokecubeCore;
 import pokecube.legends.Reference;
 
 public class LegendsWoodType
@@ -18,7 +20,9 @@ public class LegendsWoodType
 
     public static WoodType addWoodTypes(String name)
     {
-        return WoodType.register(WoodType.create(new ResourceLocation(Reference.ID, name).toString()));
+        // TODO: Check this
+        return WoodType.register(new WoodType(new ResourceLocation(Reference.ID, name).toString(),
+                new BlockSetType(new ResourceLocation(Reference.ID, name).toString())));
     }
 
     public static void register()
