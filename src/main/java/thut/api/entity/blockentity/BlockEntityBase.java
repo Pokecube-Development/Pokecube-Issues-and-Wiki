@@ -569,7 +569,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
                 final String name = "B" + i + "," + k + "," + j;
                 if (!blockTag.contains(name)) continue;
                 // TODO: Fix this
-                final BlockState state = NbtUtils.readBlockState((HolderGetter<Block>) Blocks.OAK_PLANKS, blockTag.getCompound(name));
+                final BlockState state = NbtUtils.readBlockState((HolderGetter<Block>) this.level.getBlockState(this.blockPosition).getBlockHolder(), blockTag.getCompound(name));
                 this.blocks[i][k][j] = state;
                 if (blockTag.contains("T" + i + "," + k + "," + j)) try
                 {
