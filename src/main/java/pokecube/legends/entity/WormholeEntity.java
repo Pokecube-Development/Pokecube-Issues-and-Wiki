@@ -408,7 +408,7 @@ public class WormholeEntity extends LivingEntity
                     return true;
                 });
                 final float boom = 0.5f * this.uses;
-                this.level.explode(this, this.getX(), this.getY(), this.getZ(), boom, BlockInteraction.NONE);
+                this.level.explode(this, this.getX(), this.getY(), this.getZ(), boom, Level.ExplosionInteraction.NONE);
                 this.discard();
             }
             return;
@@ -529,11 +529,12 @@ public class WormholeEntity extends LivingEntity
         return true;
     }
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+//    TODO: Check if removed
+//    @Override
+//    public Packet<?> getAddEntityPacket()
+//    {
+//        return NetworkHooks.getEntitySpawningPacket(this);
+//    }
 
     @Override
     public Iterable<ItemStack> getArmorSlots()
