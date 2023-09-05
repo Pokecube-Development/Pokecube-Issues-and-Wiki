@@ -389,14 +389,15 @@ public class EventsHandlerClient
                     j = slot.y;
                     final int x = i + gui.getGuiLeft();
                     final int y = j + gui.getGuiTop();
-                    if (ctrl)
-                    {
-                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
-                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
-                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
-                    }
-                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+//                    TODO: Fix this
+//                    if (ctrl)
+//                    {
+//                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
+//                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
+//                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+//                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
+//                    }
+                    /*else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
             }
         }
@@ -428,14 +429,15 @@ public class EventsHandlerClient
                     x = i + x + 20 * l - 8;
                     int y = h;
                     y = j + y - 9;
-                    if (Screen.hasControlDown())
+                    // TODO: Fix this
+                    /*if (Screen.hasControlDown())
                     {
                         final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
                         Minecraft.getInstance().getItemRenderer().blitOffset += 100;
                         Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
                         Minecraft.getInstance().getItemRenderer().blitOffset = z;
                     }
-                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+                    else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
             }
         }
