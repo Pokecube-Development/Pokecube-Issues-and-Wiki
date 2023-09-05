@@ -257,12 +257,13 @@ public class EntityPokecube extends EntityPokecubeBase
                     }
                     else if (this.lootTable != null)
                     {
-                        final LootTable loottable = this.level().getServer().getLootTables().get(this.lootTable);
-                        final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                                (ServerLevel) this.level()).withParameter(LootContextParams.THIS_ENTITY, this);
-                        for (final ItemStack itemstack : loottable
-                                .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
-                            if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
+                        final LootTable loottable = this.level().getServer().getLootData().getLootTable(this.lootTable);
+//                        TODO: Fix
+//                        final LootContext.Builder lootcontext$builder = new LootContext.Builder(
+//                                (ServerLevel) this.level()).withParameter(LootContextParams.THIS_ENTITY, this);
+//                        for (final ItemStack itemstack : loottable
+//                                .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
+//                            if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
                         did = true;
                     }
                     if (did)

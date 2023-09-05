@@ -91,7 +91,7 @@ public class SecretBase
             double distance = pos.distTo(new Vector3().set(input));
             if (type == player.level().dimension() && distance < 16)
             {
-                final BlockPos base_pos = new BlockPos(input);
+                final BlockPos base_pos = new BlockPos((int) input.x, (int) input.y, (int) input.z);
                 final BlockState original = pos.getBlockState(player.level());
                 pos.setBlock(player.level(), PokecubeItems.SECRET_BASE.get().defaultBlockState());
                 if (player.level().getBlockEntity(pos.getPos()) instanceof BaseTile tile)

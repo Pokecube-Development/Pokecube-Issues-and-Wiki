@@ -1,5 +1,6 @@
 package pokecube.core.client.render.mobs;
 
+import com.mojang.math.Axis;
 import java.util.HashMap;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,6 +17,7 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
@@ -61,11 +63,11 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
                 final float sy = 1.25f;
                 final float sz = 0f;
                 mat.translate(sx, sy, sz);
-                mat.mulPose(AxisAngles.ZP.rotation(rotateY));
+                mat.mulPose(Axis.ZP.rotation(rotateY));
                 mat.translate(-sx, -sy, -sz);
             }
             mat.translate(0, 1.5, 0);
-            mat.mulPose(AxisAngles.ZP.rotationDegrees(180));
+            mat.mulPose(Axis.ZP.rotationDegrees(180));
 
             ItemStack renderStack = this.cube.getItem();
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
@@ -75,7 +77,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
 
             if (this.buffer == null) this.buffer = mc.renderBuffers().bufferSource();
             final BakedModel ibakedmodel = mc.getItemRenderer().getModel(renderStack, this.cube.level, this.cube, 0);
-            mc.getItemRenderer().render(renderStack, ItemTransforms.TransformType.GROUND, false, mat, this.buffer,
+            mc.getItemRenderer().render(renderStack, ItemDisplayContext.GROUND, false, mat, this.buffer,
                     packedLightIn, OverlayTexture.NO_OVERLAY, ibakedmodel);
 
             mat.popPose();
