@@ -233,7 +233,7 @@ public class PokedexEntry
                             new IllegalStateException());
                     return false;
                 }
-                final SpawnCheck check = new SpawnCheck(loc, world, loc.getPos(), world.getBlockState(loc.getPos()));
+                final SpawnCheck check = new SpawnCheck(loc, world);
                 return this.matcher.matches(check);
             }
             return true;

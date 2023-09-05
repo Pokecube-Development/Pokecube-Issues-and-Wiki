@@ -318,7 +318,7 @@ public final class SpawnHandler
             if (count > PokecubeCore.getConfig().mobSpawnNumber * PokecubeCore.getConfig().mobDensityMultiplier)
                 return false;
         }
-        SpawnCheck check = new SpawnCheck(context.location(), context.level(), context.location().getPos(), context.level().getBlockState(context.location().getPos()));
+        SpawnCheck check = new SpawnCheck(context.location(), context.level());
         return data.isValid(context, check);
     }
 

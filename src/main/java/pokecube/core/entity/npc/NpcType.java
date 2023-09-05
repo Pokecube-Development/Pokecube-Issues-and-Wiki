@@ -157,7 +157,7 @@ public class NpcType
     {
         if (w.getBlockState(v.getPos()).isAir() && w.getBlockState(v.getPos().below()).isAir())
             v = v.getTopBlockPos(w).offsetBy(Direction.UP);
-        final SpawnCheck checker = new SpawnCheck(v, w, v.getPos(), w.getBlockState(v.getPos()));
+        final SpawnCheck checker = new SpawnCheck(v, w);
         final List<NpcType> types = Lists.newArrayList(typeMap.values());
         Collections.shuffle(types);
         for (NpcType type : types) if (type.shouldSpawn(checker, w)) return type;
