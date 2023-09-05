@@ -152,8 +152,8 @@ public class TexButton extends Button
     protected final TexButton.OnPress onPress;
     protected final TexButton.CreateNarration createNarration;
 
-    public static TexButton.Builder builder(Component p_254439_, TexButton.OnPress p_254567_) {
-        return new TexButton.Builder(p_254439_, p_254567_);
+    public static TexButton.Builder builder(Component component, TexButton.OnPress onPress) {
+        return new TexButton.Builder(component, onPress);
     }
 
     public TexButton(final int x, final int y, final int width, final int height, final Component title,
@@ -247,6 +247,7 @@ public class TexButton extends Button
         public final TexButton.OnPress onPress;
         @Nullable
         public net.minecraft.client.gui.components.Tooltip tooltip;
+        public TooltipArea.OnTooltipB onTooltip;
         public int x;
         public int y;
         public int width = 150;
@@ -286,6 +287,11 @@ public class TexButton extends Button
 
         public TexButton.Builder tooltip(@Nullable net.minecraft.client.gui.components.Tooltip tooltip) {
             this.tooltip = tooltip;
+            return this;
+        }
+
+        public TexButton.Builder onTooltip(@Nullable TooltipArea.OnTooltipB onTooltip) {
+            this.onTooltip = onTooltip;
             return this;
         }
 

@@ -4,7 +4,6 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ImgRender;
@@ -101,9 +100,12 @@ public class StartPage extends WatchPage
                 final UVHolder loc = this.BUTTONLOC.getOrDefault(page, UVHolder.DEFAULT);
                 final ResourceLocation tex = this.BUTTONTEX.getOrDefault(page, GuiPokeWatch.getWidgetTex());
 
-                final Button buttons = new TexButton(offsetX + loc.buttonX, offsetY + loc.buttonY, 24, 24, newPage
-                        .getTitle(), b -> this.watch.changePage(index), loc.hover).noName().setTex(tex).setRender(
-                                loc.render);
+                // TODO: Check hover tooltip
+                final TexButton buttons = this.addRenderableWidget(new TexButton.Builder(newPage.getTitle(), (b) -> {
+                    this.watch.changePage(index);
+                }).bounds(offsetX + loc.buttonX, offsetY + loc.buttonY, 24, 24).setTex(tex)
+                        .onTooltip(loc.hover).setRender(loc.render).noName().build());
+
                 this.addRenderableWidget(buttons);
             }
 
@@ -113,12 +115,14 @@ public class StartPage extends WatchPage
         loc.buttonX = -80;
         loc.buttonY = 100;
         final ResourceLocation tex = GuiPokeWatch.getWidgetTex();
-        final Button buttons = new TexButton(offsetX + loc.buttonX, offsetY + loc.buttonY, 12, 12,
-                TComponent.literal(""), b ->
-                {
-                    GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
-                    this.watch.init();
-                }, loc.hover).noName().setTex(tex).setRender(loc.render);
+
+        // TODO: Check hover tooltip
+        final TexButton buttons = new TexButton.Builder(TComponent.literal(""), (b) -> {
+            GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
+            this.watch.init();
+        }).bounds(offsetX + loc.buttonX, offsetY + loc.buttonY, 12, 12).setTex(tex)
+                .onTooltip(loc.hover).setRender(loc.render).noName().build();
+
         this.addRenderableWidget(buttons);
     }
 }

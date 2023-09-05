@@ -11,7 +11,7 @@ import pokecube.core.client.gui.helper.ScrollGui;
 
 public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
 {
-    public static interface IClickListener
+    public interface IClickListener
     {
         default boolean handleClick(final Style component)
         {
@@ -36,6 +36,8 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
     private int x1 = 0;
     private IClickListener listener = new IClickListener()
     {
+        @Override
+        public void handleHovor(GuiGraphics graphics, Style component, int x, int y) {}
     };
 
     @SuppressWarnings("deprecation")
@@ -68,18 +70,19 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
     }
 
     @Override
-    public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+    public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {
-        if (shadowed) this.font.drawShadow(mat, this.line, x + this.x0, y + this.y0, this.colour);
-        else this.font.draw(mat, this.line, x + this.x0, y + this.y0, this.colour);
+        // TODO: Fix this
+        // if (shadowed) this.font.drawShadow(graphics, this.line, x + this.x0, y + this.y0, this.colour);
+        //  this.font.draw(graphics, this.line, x + this.x0, y + this.y0, this.colour);
         x1 = x;
         final int dx = this.font.width(this.line);
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
         if (relativeY <= this.font.lineHeight && relativeX >= 0 && relativeX <= dx && relativeY > 0)
-            this.listener.handleHovor(mat, this.getStyle(mouseX), x, y);
+            this.listener.handleHovor(graphics, this.getStyle(mouseX), x, y);
     }
 
     private Style getStyle(double x)
@@ -95,6 +98,8 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
     {
         if (listener == null) listener = new IClickListener()
         {
+            @Override
+            public void handleHovor(GuiGraphics graphics, Style component, int x, int y) {}
         };
         this.listener = listener;
         return this;

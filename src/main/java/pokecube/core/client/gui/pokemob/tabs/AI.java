@@ -5,8 +5,8 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -51,7 +51,7 @@ public class AI extends Tab
         }
 
         @Override
-        public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
                 final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
                 final float partialTicks)
         {
@@ -67,8 +67,8 @@ public class AI extends Tab
 
                 if (y > this.top && y < this.top + 50)
                 {
-                    button.x = x + dx;
-                    button.y = y;
+                    button.setX(x + dx);
+                    button.setY(y);
                     button.visible = true;
                     button.active = true;
 
@@ -80,17 +80,17 @@ public class AI extends Tab
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
                     RenderSystem.setShaderTexture(0, CHECK_TEX);
 
-                    mat.pushPose();
+                    graphics.pose().pushPose();
                     float s = 10f / 80f;
                     int sx = x + dx;
                     int sy = y + 0;
-                    mat.translate(sx, sy, 0);
-                    mat.scale(s, s, s);
-                    mat.translate(-sx, -sy, 0);
+                    graphics.pose().translate(sx, sy, 0);
+                    graphics.pose().scale(s, s, s);
+                    graphics.pose().translate(-sx, -sy, 0);
                     int tx = 0;
                     int ty = state ? 80 : 0;
-                    parent.parent.blit(mat, x + dx, y, tx, ty, 80, 80);
-                    mat.popPose();
+                    graphics.blit(new ResourceLocation(""), x + dx, y, tx, ty, 80, 80);
+                    graphics.pose().popPose();
                     dx += texW;
                 }
             }
@@ -166,13 +166,16 @@ public class AI extends Tab
                 text.setStyle(nameComp.getStyle());
                 nameComp = text;
             }
-            final Button button = new Button(xOffset, yOffset, 40, 10, nameComp, b -> {
+
+            // TODO: Fix this
+            final Button button = new Button.Builder(nameComp, (b) -> {
                 final boolean state = !pokemob.isRoutineEnabled(routine);
                 pokemob.setRoutineState(routine, state);
                 PacketAIRoutine.sentCommand(pokemob, routine, state);
-            }, (b, pose, x, y) -> {
+            })/*.tooltip((b, pose, x, y) -> {
                 parent.renderTooltip(pose, tooltip, x, y);
-            });
+            })*/.bounds(xOffset, yOffset, 40, 10).build();
+
             button.active = button.visible = false;
             AIButton toAdd = new AIButton(button, routine);
             thisRow.add(toAdd);
@@ -189,16 +192,16 @@ public class AI extends Tab
     }
 
     @Override
-    public void render(PoseStack mat, int x, int y, float f)
+    public void render(GuiGraphics graphics, int x, int y, float f)
     {
         for (AbstractWidget button : ours) button.visible = false;
-        this.list.render(mat, x, y, f);
+        this.list.render(graphics, x, y, f);
     }
 
     @Override
-    public void renderBg(PoseStack mat, float partialTicks, int mouseX, int mouseY)
+    public void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY)
     {
-        super.renderBg(mat, partialTicks, mouseX, mouseY);
+        super.renderBg(graphics, partialTicks, mouseX, mouseY);
     }
 
 }

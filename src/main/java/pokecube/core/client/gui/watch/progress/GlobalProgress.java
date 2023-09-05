@@ -66,9 +66,11 @@ public class GlobalProgress extends Progress
 
         final Component inspect = TComponent.translatable("pokewatch.progress.inspect");
 
-        final TexButton inspectBtn = this.addRenderableWidget(new TexButton(x - 50, y + 25, 100, 12, inspect, b -> {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected().getCode());
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
+        final TexButton inspectBtn = this.addRenderableWidget(new TexButton.Builder(inspect, (b) -> {
+            // TODO: Replace .getCode()
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()/*.getCode()*/);
+        }).bounds(x - 50, y + 25, 100, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(0, 72, 100, 12)).build());
 
         inspectBtn.setFGColor(0x444444);
 

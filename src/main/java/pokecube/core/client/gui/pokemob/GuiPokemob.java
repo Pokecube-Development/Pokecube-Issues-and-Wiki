@@ -175,10 +175,6 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         return modules.get(moduleIndex).keyPressed(code, unk1, unk2) || super.keyPressed(code, unk1, unk2);
     }
 
-    public void renderTooltip(GuiGraphics graphics, Component component, int x, int y) {
-        this.renderTooltip(graphics, (Component) Arrays.asList(component.getVisualOrderText()), x, y);
-    }
-
     @Override
     protected void renderLabels(GuiGraphics graphics, int p_97809_, int p_97810_)
     {

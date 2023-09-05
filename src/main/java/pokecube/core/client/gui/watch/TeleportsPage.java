@@ -3,9 +3,8 @@ package pokecube.core.client.gui.watch;
 import java.util.List;
 import java.util.function.Consumer;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
-
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractSelectionList;
@@ -49,7 +48,9 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-            this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b -> {
+
+            // TODO: Fix tooltips
+            this.confirm = new Button.Builder(TComponent.literal("Y"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
                 PacketPokedex.sendRemoveTelePacket(this.dest.index);
@@ -57,45 +58,50 @@ public class TeleportsPage extends ListPage<TeleOption>
                 TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getStringUUID());
                 // Update the list for the page.
                 this.parent.initList();
-            }, (b, pose, x, y) -> {
+            })/*.tooltip((b, graphics, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.delete.confirm.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });
-            this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b -> {
+                GuiGraphics.renderTooltip(graphics, tooltip, x, y);
+            })*/.bounds(0, 0, 10, 10).build();
+
+            this.delete = new Button.Builder(TComponent.literal("X"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
-            }, (b, pose, x, y) -> {
+            })/*.tooltip((b, graphics, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.delete.start.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });
+                parent.renderTooltip(graphics, tooltip, x, y);
+            })*/.bounds(0, 0, 10, 10).build();
+
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
-            this.moveUp = new Button(0, 0, 10, 10, TComponent.literal("\u21e7"), b -> {
+
+            this.moveUp = new Button.Builder(TComponent.literal("\u21e7"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                     // Update the list for the page.
                     this.parent.initList();
                 });
-            }, (b, pose, x, y) -> {
+            })/*.tooltip((b, graphics, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.move.up.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });
-            this.moveDown = new Button(0, 0, 10, 10, TComponent.literal("\u21e9"), b -> {
+                parent.renderTooltip(graphics, tooltip, x, y);
+            })*/.bounds(0, 0, 10, 10).build();
+
+            this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
                     // Update the list for the page.
                     this.parent.initList();
                 });
-            }, (b, pose, x, y) -> {
+            })/*.tooltip((b, graphics, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.move.down.desc");
-                parent.renderTooltip(pose, tooltip, x, y);
-            });
+                parent.renderTooltip(graphics, tooltip, x, y);
+            })*/.bounds(0, 0, 10, 10).build();
+
             this.moveUp.active = dest.index != 0;
             this.moveDown.active = dest.index != parent.locations.size() - 1;
 
@@ -170,9 +176,9 @@ public class TeleportsPage extends ListPage<TeleOption>
         }
 
         @Override
-        public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
-                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
-                final float partialTicks)
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
+                           final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                           final float partialTicks)
         {
             this.delete.visible = true;
             this.confirm.visible = true;
@@ -180,16 +186,16 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.moveDown.visible = true;
             this.text.visible = true;
 
-            this.text.x = x - 2;
-            this.text.y = y - 4;
-            this.delete.y = y - 5;
-            this.delete.x = x - 1 + this.text.getWidth();
-            this.confirm.y = y - 5;
-            this.confirm.x = x - 2 + 10 + this.text.getWidth();
-            this.moveUp.y = y - 5;
-            this.moveUp.x = x - 2 + 18 + this.text.getWidth();
-            this.moveDown.y = y - 5;
-            this.moveDown.x = x - 2 + 26 + this.text.getWidth();
+            this.text.setX(x - 2);
+            this.text.setY(y - 4);
+            this.delete.setY(y - 5);
+            this.delete.setX(x - 1 + this.text.getWidth());
+            this.confirm.setY(y - 5);
+            this.confirm.setX(x - 2 + 10 + this.text.getWidth());
+            this.moveUp.setY(y - 5);
+            this.moveUp.setX(x - 2 + 18 + this.text.getWidth());
+            this.moveDown.setY(y - 5);
+            this.moveDown.setX(x - 2 + 26 + this.text.getWidth());
         }
     }
 

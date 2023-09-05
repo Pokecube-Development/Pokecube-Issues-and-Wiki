@@ -193,8 +193,9 @@ public class Inventory extends Tab
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, graphics, x, y) ->
         {
+            // TODO: Fix tooltips
             Component tooltip = b.getMessage();
-            parent.renderTooltip(graphics, tooltip, x, y);
+            parent.renderTooltip(graphics, x, y);
         }).bounds(k + 64, l + 18, 16, 16).build()).noAuto();
 
         this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
@@ -204,7 +205,7 @@ public class Inventory extends Tab
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, pose, x, y) -> {
             Component tooltip = b.getMessage();
-            parent.renderTooltip(pose, tooltip, x, y);
+            parent.renderTooltip(pose, x, y);
         }).bounds(k + 64, l + 36, 16, 16).build()).noAuto();
 
         this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
@@ -214,7 +215,7 @@ public class Inventory extends Tab
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, pose, x, y) -> {
             Component tooltip = b.getMessage();
-            parent.renderTooltip(pose, tooltip, x, y);
+            parent.renderTooltip(pose, x, y);
         }).bounds(k + 64, l + 54, 16, 16).build()).noAuto();
 
         this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.food_misc"), (x, y) ->
@@ -229,7 +230,7 @@ public class Inventory extends Tab
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, pose, x, y) -> {
             Component tooltip = b.getMessage();
-            parent.renderTooltip(pose, tooltip, x, y);
+            parent.renderTooltip(pose, x, y);
         }).bounds(k + 83, l + 18, 89, 16).build()).noAuto();
 
         xOffset = 80;
@@ -248,7 +249,7 @@ public class Inventory extends Tab
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, pose, x, y) -> {
             Component tooltip = b.getMessage();
-            parent.renderTooltip(pose, tooltip, x, y);
+            parent.renderTooltip(pose, x, y);
         }).bounds(name.getX(), name.getY(), name.getWidth(), name.getHeight()).build()).noAuto();
     }
 

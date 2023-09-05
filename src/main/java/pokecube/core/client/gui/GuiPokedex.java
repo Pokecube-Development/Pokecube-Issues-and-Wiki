@@ -10,7 +10,6 @@ import org.lwjgl.glfw.GLFW;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -202,7 +201,7 @@ public class GuiPokedex extends Screen
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final GuiGraphics graphics, final Style component, int x, int y)
             {}
         };
         for (var line : list)
