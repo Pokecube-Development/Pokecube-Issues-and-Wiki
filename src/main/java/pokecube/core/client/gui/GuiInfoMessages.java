@@ -52,7 +52,7 @@ public class GuiInfoMessages
         GuiInfoMessages.recent.clear();
     }
 
-    public static void draw(final RenderMoveMessages event, GuiGraphics graphics)
+    public static void draw(final RenderMoveMessages event)
     {
         if (PokecubeCore.getConfig().battleLogInChat) return;
         final Minecraft minecraft = Minecraft.getInstance();
@@ -135,8 +135,8 @@ public class GuiInfoMessages
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
-                // TODO: Check this
-                graphics.fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
+                // TODO: Fix this
+                // GuiGraphics.fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
                 // minecraft.font.draw(event.getMat(), mess1.get(j), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }

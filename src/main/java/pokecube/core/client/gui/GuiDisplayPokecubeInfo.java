@@ -145,9 +145,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         return ret;
     }
 
-    public static GuiDisplayPokecubeInfo instance(MultiBufferSource.BufferSource source)
+    public static GuiDisplayPokecubeInfo instance()
     {
-        if (GuiDisplayPokecubeInfo.instance == null) GuiDisplayPokecubeInfo.instance = new GuiDisplayPokecubeInfo(source);
+        if (GuiDisplayPokecubeInfo.instance == null) GuiDisplayPokecubeInfo.instance = new GuiDisplayPokecubeInfo();
         return GuiDisplayPokecubeInfo.instance;
     }
 
@@ -174,9 +174,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
     /**
      *
      */
-    public GuiDisplayPokecubeInfo(MultiBufferSource.BufferSource source)
+    public GuiDisplayPokecubeInfo()
     {
-        super(Minecraft.getInstance(), source);
+        super(Minecraft.getInstance(), Minecraft.getInstance().renderBuffers().bufferSource());
         this.minecraft = Minecraft.getInstance();
         this.fontRenderer = this.minecraft.font;
         if (GuiDisplayPokecubeInfo.instance != null)
@@ -720,12 +720,12 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             if (pokemob.getMove(pokemob.getMoveIndex()) == null) return;
             if (pokemob.getMove(pokemob.getMoveIndex()).equalsIgnoreCase(IMoveNames.MOVE_TELEPORT))
             {
-                if (!GuiTeleport.instance(Minecraft.getInstance(), this.bufferSource()).getState())
+                if (!GuiTeleport.instance().getState())
                 {
-                    GuiTeleport.instance(Minecraft.getInstance(), this.bufferSource()).setState(true);
+                    GuiTeleport.instance().setState(true);
                     return;
                 }
-                GuiTeleport.instance(Minecraft.getInstance(), this.bufferSource()).setState(false);
+                GuiTeleport.instance().setState(false);
                 PacketCommand.sendCommand(pokemob, Command.TELEPORT, new TeleportHandler().setFromOwner(true));
                 return;
             }

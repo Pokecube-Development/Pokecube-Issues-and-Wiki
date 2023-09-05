@@ -34,15 +34,15 @@ public class GuiTeleport extends GuiGraphics
      */
     public static int direction = 1;
 
-    public static void create(Minecraft craft, MultiBufferSource.BufferSource bufferSource)
+    public static void create()
     {
         if (GuiTeleport.instance != null) MinecraftForge.EVENT_BUS.unregister(GuiTeleport.instance);
-        GuiTeleport.instance = new GuiTeleport(craft, bufferSource);
+        GuiTeleport.instance = new GuiTeleport(Minecraft.getInstance(), Minecraft.getInstance().renderBuffers().bufferSource());
     }
 
-    public static GuiTeleport instance(Minecraft craft, MultiBufferSource.BufferSource bufferSource)
+    public static GuiTeleport instance()
     {
-        if (GuiTeleport.instance == null) GuiTeleport.create(craft, bufferSource);
+        if (GuiTeleport.instance == null) GuiTeleport.create();
         return GuiTeleport.instance;
     }
 
@@ -70,7 +70,7 @@ public class GuiTeleport extends GuiGraphics
         if (!this.state) return;
         GuiDisplayPokecubeInfo.teleDims[0] = 89;
         GuiDisplayPokecubeInfo.teleDims[1] = 25;
-        final IPokemob pokemob = GuiDisplayPokecubeInfo.instance(this.bufferSource()).getCurrentPokemob();
+        final IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob == null) return;
 
         event.getMat().pushPose();
