@@ -426,7 +426,7 @@ public class HungerTask extends BaseIdleTask
                 final float damage = dead ? this.pokemob.getMaxHealth() * 20 : this.pokemob.getMaxHealth() * ratio;
                 if (damage >= 1 && ratio >= 0.0625 && this.entity.getHealth() > 0)
                 {
-                    this.entity.hurt(DamageSource.STARVE, damage);
+                    this.entity.hurt(this.entity.damageSources().starve(), damage);
                     if (!dead)
                     {
                         if (this.lastMessageTick1 < this.entity.level().getGameTime())
