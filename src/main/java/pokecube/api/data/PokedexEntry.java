@@ -656,7 +656,7 @@ public class PokedexEntry
 
         public SpawnBiomeMatcher getMatcher(final SpawnContext context)
         {
-            SpawnCheck checker = new SpawnCheck(context.location(), context.level(), context.location().getPos(), context.level().getBlockState(context.location().getPos()));
+            SpawnCheck checker = new SpawnCheck(context.location(), context.level());
             return this.getMatcher(context, checker, true);
         }
 
@@ -680,7 +680,7 @@ public class PokedexEntry
                 @Nullable ServerPlayer player)
         {
             SpawnContext context = new SpawnContext(player, world, entry, location);
-            final SpawnCheck checker = new SpawnCheck(location, world, location.getPos(), world.getBlockState(location.getPos()));
+            final SpawnCheck checker = new SpawnCheck(location, world);
             return this.getMatcher(context, checker);
         }
 

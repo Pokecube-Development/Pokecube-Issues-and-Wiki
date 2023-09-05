@@ -154,7 +154,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         valid.clear();
         // Now from ones left, lets filter by location requirements
         // TODO: Check this
-        SpawnCheck check = new SpawnCheck(new Vector3(thisEntity), (ServerLevelAccessor) thisEntity.level, thisEntity.level().getBlockState(thisEntity.blockPosition));
+        SpawnCheck check = new SpawnCheck(new Vector3(thisEntity), (ServerLevelAccessor) thisEntity.level);
         for (final EvolutionData d : select_from)
         {
             if (d.matcher != null && d.matcher.matches(check))
