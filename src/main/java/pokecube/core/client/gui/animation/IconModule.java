@@ -89,19 +89,21 @@ public class IconModule extends AnimModule
         int dy = -120;
         final Component icons = TComponent.literal("Icons");
 
-        final Button iconBtn = this.addRenderableWidget(new Button(0, yOffset + dy, 40, 20, icons, b -> {
+        final Button iconBtn = this.addRenderableWidget(new Button.Builder(icons, (b) -> {
             this.doneLocs.clear();
             parent.entries.clear();
             parent.entryIndex = 0;
             this.cap = !this.cap;
             b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
-        }));
+        }).bounds(0, yOffset + dy, 40, 20).build());
+
         iconBtn.setFGColor(0xFFFF0000);
 
         dy += 230;
-        this.addRenderableWidget(new Button(0, yOffset + dy, 40, 10, TComponent.literal("WRTSIZE"), b -> {
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("WRTSIZE"), (b) -> {
             IconModule.printSizes();
-        }));
+        }).bounds(0, yOffset + dy, 40, 10).build());
+
         this.setEnabled(false);
     }
 

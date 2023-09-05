@@ -7,6 +7,7 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
 import pokecube.api.data.PokedexEntry;
@@ -19,7 +20,7 @@ public class PokemobType<T extends TamableAnimal> extends EntityType<T>
     public PokemobType(final EntityType.EntityFactory<T> factory, final PokedexEntry entry)
     {
         super(factory, MobCategory.CREATURE, true, true, false, true, ImmutableSet.of(),
-                EntityDimensions.scalable(entry.width, entry.height), 64, 3);
+                EntityDimensions.scalable(entry.width, entry.height), 64, 3, FeatureFlagSet.of());
         this.entry = entry;
         entry.setEntityType(this);
     }

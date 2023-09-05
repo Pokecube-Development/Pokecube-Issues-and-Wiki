@@ -181,6 +181,10 @@
 
     "traineredit.error.pokemob": "Error updating the Pokémob (%s)",
 
+    "wearables.button.reset": "Reset",
+    "wearables.button.copy": "Copy",
+    "wearables.button.see": "See",
+
     "traineredit.button.ai": "AI",
     "traineredit.button.home": "Back",
     "traineredit.button.exit": "Exit",

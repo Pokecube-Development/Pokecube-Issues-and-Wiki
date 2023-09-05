@@ -1,5 +1,6 @@
 package pokecube.core.client.render.mobs;
 
+import com.mojang.math.Axis;
 import java.util.List;
 import java.util.Map;
 
@@ -587,7 +588,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         if (!sleeping)
         {
-            stack.mulPose(AxisAngles.YP.rotationDegrees(180.0F - rotationYaw));
+            stack.mulPose(Axis.YP.rotationDegrees(180.0F - rotationYaw));
         }
 
         if (this.isShaking(entity))
@@ -603,26 +604,26 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             {
                 f = 1.0F;
             }
-            stack.mulPose(AxisAngles.ZP.rotationDegrees(f * this.getFlipDegrees(entity)));
+            stack.mulPose(Axis.ZP.rotationDegrees(f * this.getFlipDegrees(entity)));
         }
         else if (entity.isAutoSpinAttack())
         {
-            stack.mulPose(AxisAngles.XP.rotationDegrees(-90.0F - entity.getXRot()));
-            stack.mulPose(AxisAngles.YP.rotationDegrees(((float) entity.tickCount + partialTicks) * -75.0F));
+            stack.mulPose(Axis.XP.rotationDegrees(-90.0F - entity.getXRot()));
+            stack.mulPose(Axis.YP.rotationDegrees(((float) entity.tickCount + partialTicks) * -75.0F));
         }
         else if (sleeping)
         {
             if (activeHolder.hasSleepAnim) return;
             Direction direction = entity.getBedOrientation();
             float f1 = direction != null ? sleepDirectionToRotation(direction) : rotationYaw;
-            stack.mulPose(AxisAngles.YP.rotationDegrees(f1));
-            stack.mulPose(AxisAngles.ZP.rotationDegrees(this.getFlipDegrees(entity)));
-            stack.mulPose(AxisAngles.YP.rotationDegrees(270.0F));
+            stack.mulPose(Axis.YP.rotationDegrees(f1));
+            stack.mulPose(Axis.ZP.rotationDegrees(this.getFlipDegrees(entity)));
+            stack.mulPose(Axis.YP.rotationDegrees(270.0F));
         }
         else if (isEntityUpsideDown(entity))
         {
             stack.translate(0.0D, (double) (entity.getBbHeight() + 0.1F), 0.0D);
-            stack.mulPose(AxisAngles.ZP.rotationDegrees(180.0F));
+            stack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         }
     }
 }

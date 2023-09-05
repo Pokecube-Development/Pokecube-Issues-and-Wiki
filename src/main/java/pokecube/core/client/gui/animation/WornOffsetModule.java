@@ -264,10 +264,12 @@ public class WornOffsetModule extends AnimModule
 
         final Component zero = TComponent.literal("0");
         final Component one = TComponent.literal("1");
-
-        final Component reset = TComponent.literal("reset");
         final Component right = TComponent.literal("\u25b6");
         final Component left = TComponent.literal("\u25c0");
+
+        final Component reset = TComponent.translatable("wearables.button.reset");
+        final Component copy = TComponent.translatable("wearables.button.copy");
+        final Component see = TComponent.translatable("wearables.button.see");
 
         yOffset -= yOffset / 2;
         yOffset += 57;
@@ -291,9 +293,8 @@ public class WornOffsetModule extends AnimModule
         this.dX = new ListEditBox(parent.font, dx, yOffset - 40, 50, 10, zero);
         yOffset -= 10;
 
-        final Component copy = TComponent.literal("copy");
         dx -= 45;
-        this.addRenderableWidget(new Button(dx, yOffset - 60, 30, 10, copy, b2 -> {
+        this.addRenderableWidget(new Button.Builder(copy, (b) -> {
             String xml = "\n  <worn id=\"%s\" parent=\"%s\" offset=\"%s,%s,%s\" angles=\"%s,%s,%s\" scale=\"%s\"/>";
             String key = this.worn_slot.getValue();
             String part = this.worn_part.getValue();
@@ -328,37 +329,40 @@ public class WornOffsetModule extends AnimModule
             xml = xml.formatted(key, part, dX, dY, dZ, rX, rY, rZ, scale);
             Minecraft.getInstance().keyboardHandler.setClipboard(xml);
             Minecraft.getInstance().player.displayClientMessage(TComponent.literal("Copied XML to clipboard"), true);
-        }));
+        }).bounds(dx, yOffset - 60, 30, 10).build());
+
         dx += 30;
-        this.addRenderableWidget(new Button(dx, yOffset - 60, 30, 10, reset, b2 -> {
+        this.addRenderableWidget(new Button.Builder(reset, (b) -> {
             resetWearableValues();
-        }));
+        }).bounds(dx, yOffset - 60, 30, 10).build());
+
         dx += 30;
-        this.addRenderableWidget(new Button(dx, yOffset - 60, 30, 10, TComponent.literal("SEE"), b -> {
+        this.addRenderableWidget(new Button.Builder(see, (b) -> {
             boolean pause = parent.toRender.getEntity().getPersistentData().getBoolean("__offset_debug_menu__");
             parent.toRender.getEntity().getPersistentData().putBoolean("__offset_debug_menu__", !pause);
-        }));
+        }).bounds(dx, yOffset - 60, 30, 10).build());
 
         dx = parent.width - 220;
         int dy = -80;
-        this.addRenderableWidget(new Button(dx, yOffset + dy, 10, 10, right, b2 -> {
+        this.addRenderableWidget(new Button.Builder(right, (b) -> {
             this.worn_index++;
             this.worn_index = this.worn_index % sortedSlots.size();
             worn_slot.setValue(sortedSlots.get(worn_index));
             this.resetWearableValues();
-        }));
+        }).bounds(dx, yOffset + dy, 10, 10).build());
+
         dx -= 10;
-        this.addRenderableWidget(new Button(dx, yOffset + dy, 10, 10, left, b2 -> {
+        this.addRenderableWidget(new Button.Builder(left, (b) -> {
             this.worn_index--;
             if (worn_index < 0) worn_index = sortedSlots.size() - 1;
             this.worn_index = this.worn_index % sortedSlots.size();
             worn_slot.setValue(sortedSlots.get(worn_index));
             this.resetWearableValues();
-        }));
+        }).bounds(dx, yOffset + dy, 10, 10).build());
 
         dx = parent.width - 220;
         dy = -70;
-        this.addRenderableWidget(new Button(dx, yOffset + dy, 10, 10, right, b2 -> {
+        this.addRenderableWidget(new Button.Builder(right, (b) -> {
             List<String> renders = Lists.newArrayList();
             EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
             Object ren = manager.getRenderer(parent.toRender.getEntity());
@@ -379,9 +383,10 @@ public class WornOffsetModule extends AnimModule
                     this.worn_part.setValue(renders.get(index % renders.size()));
                 }
             }
-        }));
+        }).bounds(dx, yOffset + dy, 10, 10).build());
+
         dx -= 10;
-        this.addRenderableWidget(new Button(dx, yOffset + dy, 10, 10, left, b2 -> {
+        this.addRenderableWidget(new Button.Builder(left, (b) -> {
             List<String> renders = Lists.newArrayList();
             EntityRenderDispatcher manager = Minecraft.getInstance().getEntityRenderDispatcher();
             Object ren = manager.getRenderer(parent.toRender.getEntity());
@@ -403,7 +408,7 @@ public class WornOffsetModule extends AnimModule
                     this.worn_part.setValue(renders.get(index % renders.size()));
                 }
             }
-        }));
+        }).bounds(dx, yOffset + dy, 10, 10).build());
 
         this.rX.setValue("0");
         this.rY.setValue("0");
