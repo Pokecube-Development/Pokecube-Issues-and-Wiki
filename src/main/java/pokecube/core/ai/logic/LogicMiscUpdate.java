@@ -582,7 +582,8 @@ public class LogicMiscUpdate extends LogicBase
         anims.clear();
         boolean isRidden = entity.getPassengers().size() > 0;
         final Vec3 velocity = this.entity.getDeltaMovement();
-        final float dStep = this.entity.animationSpeed;
+        // TODO: Find fix
+        final float dStep = 1; /*this.entity.animationSpeed*/
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
         final float stationary = 1e-5f;
         final boolean moving = walkspeed > stationary;
