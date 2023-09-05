@@ -36,7 +36,7 @@ public class PottedCrystallizedBush extends ItemGenerator.GenericPottedPlant
         if (entity instanceof LivingEntity)
         {
             entity.makeStuckInBlock(state, new Vec3(0.9D, 0.75D, 0.9D));
-            if (!world.isClientSide) entity.hurt(DamageSource.CACTUS, 1.0F);
+            if (!world.isClientSide) entity.hurt(world.damageSources().cactus(), 1.0F);
         }
     }
 }

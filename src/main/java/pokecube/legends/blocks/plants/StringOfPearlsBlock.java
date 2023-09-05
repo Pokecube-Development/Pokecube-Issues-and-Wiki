@@ -14,6 +14,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.VineBlock;
@@ -49,8 +50,8 @@ public class StringOfPearlsBlock extends VineBlock implements BonemealableBlock,
     }
 
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
-            final boolean b)
+    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state,
+                                         final boolean b)
     {
         return !state.getValue(StringOfPearlsBlock.FLOWERS);
     }

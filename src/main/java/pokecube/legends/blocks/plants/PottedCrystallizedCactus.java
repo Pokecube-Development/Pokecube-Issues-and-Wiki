@@ -32,6 +32,6 @@ public class PottedCrystallizedCactus extends ItemGenerator.GenericPottedPlant
     @Override
     public void stepOn(final Level world, final BlockPos pos, final BlockState state, final Entity entity)
     {
-        if (!world.isClientSide) entity.hurt(DamageSource.CACTUS, 1.0F);
+        if (!world.isClientSide) entity.hurt(world.damageSources().cactus(), 1.0F);
     }
 }

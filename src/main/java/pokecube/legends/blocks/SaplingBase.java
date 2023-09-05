@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.BushBlock;
@@ -66,8 +67,8 @@ public class SaplingBase extends BushBlock implements BonemealableBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter worldIn, final BlockPos pos, final BlockState state,
-            final boolean isClient)
+    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state,
+                                         final boolean isClient)
     {
         return true;
     }

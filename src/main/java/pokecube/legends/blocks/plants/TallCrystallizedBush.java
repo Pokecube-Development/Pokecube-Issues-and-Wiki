@@ -50,7 +50,7 @@ public class TallCrystallizedBush extends DoublePlantBlock implements SimpleWate
             if (!world.isClientSide && (entity.xOld != entity.getX() || entity.zOld != entity.getZ())) {
                 final double d0 = Math.abs(entity.getX() - entity.xOld);
                 final double d1 = Math.abs(entity.getZ() - entity.zOld);
-                if (d0 >= 0.003000000026077032D || d1 >= 0.003000000026077032D) entity.hurt(DamageSource.CACTUS, 1.0F);
+                if (d0 >= 0.003000000026077032D || d1 >= 0.003000000026077032D) entity.hurt(world.damageSources().cactus(), 1.0F);
             }
         }
     }

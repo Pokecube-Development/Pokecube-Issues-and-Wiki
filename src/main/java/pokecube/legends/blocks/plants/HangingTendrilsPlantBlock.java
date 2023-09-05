@@ -13,6 +13,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.GrowingPlantBodyBlock;
@@ -64,7 +65,7 @@ public class HangingTendrilsPlantBlock extends GrowingPlantBodyBlock implements 
    }
 
    @Override
-   public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+   public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
    {
        return !state.getValue(EYES);
    }

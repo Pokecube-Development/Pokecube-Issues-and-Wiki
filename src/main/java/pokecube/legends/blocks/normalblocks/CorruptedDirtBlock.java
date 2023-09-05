@@ -7,6 +7,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -26,16 +27,16 @@ public class CorruptedDirtBlock extends Block implements BonemealableBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+    public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
     {
-       if (!block.getBlockState(pos.above()).propagatesSkylightDown(block, pos))
+       if (!worldReader.getBlockState(pos.above()).propagatesSkylightDown(worldReader, pos))
        {
           return false;
        } else
        {
           for(BlockPos posOffset : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1)))
           {
-             if (block.getBlockState(posOffset).is(CORRUPTED_GRASS_SPREADABLE))
+             if (worldReader.getBlockState(posOffset).is(CORRUPTED_GRASS_SPREADABLE))
              {
                 return true;
              }

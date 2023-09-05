@@ -30,14 +30,15 @@ public class FlowerBase extends FlowerBlock
         return false;
     }
 
-    @SuppressWarnings("deprecation")
-    @Override
-    public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
-        final List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-        if (!dropsOriginal.isEmpty())
-            return dropsOriginal;
-        return Collections.singletonList(new ItemStack(this, 1));
-    }
+//    TODO: Removed?
+//    @SuppressWarnings("deprecation")
+//    @Override
+//    public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
+//        final List<ItemStack> dropsOriginal = super.getDrops(state, builder);
+//        if (!dropsOriginal.isEmpty())
+//            return dropsOriginal;
+//        return Collections.singletonList(new ItemStack(this, 1));
+//    }
 
     @Override
     public int getFlammability(final BlockState state, final BlockGetter world, final BlockPos pos, final Direction face) {

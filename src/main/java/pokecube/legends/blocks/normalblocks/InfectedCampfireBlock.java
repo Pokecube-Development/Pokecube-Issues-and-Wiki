@@ -39,7 +39,7 @@ public class InfectedCampfireBlock extends CampfireBlock
     {
        if (!entity.fireImmune() && state.getValue(LIT) && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity))
        {
-          entity.hurt(DamageSource.IN_FIRE, (float)this.fireDamage);
+          entity.hurt(world.damageSources().inFire(), (float)this.fireDamage);
           if (entity instanceof LivingEntity)
           {
               ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));

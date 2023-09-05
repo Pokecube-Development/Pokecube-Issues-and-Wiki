@@ -123,9 +123,9 @@ public class BigContaminatedDripleafBlock extends BigDripleafBlock implements Bo
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+    public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
     {
-        BlockState stateAbove = block.getBlockState(pos.above());
+        BlockState stateAbove = worldReader.getBlockState(pos.above());
         return canReplace(stateAbove);
     }
 

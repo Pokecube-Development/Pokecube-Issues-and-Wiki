@@ -7,6 +7,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -38,7 +39,7 @@ public class TallTaintedSeagrassBlock extends TallSeagrassBlock implements Liqui
     }
 
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state, final boolean b)
+    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state, final boolean b)
     {
         return true;
     }
