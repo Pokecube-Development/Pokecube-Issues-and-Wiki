@@ -120,7 +120,7 @@ public interface IBlockEntity
                     if (hit != null) return hit;
                 }
             }
-            return BlockHitResult.miss(end, Direction.DOWN, new BlockPos(end));
+            return BlockHitResult.miss(end, Direction.DOWN, new BlockPos((int) end.x, (int) end.y, (int) end.z));
         }
 
         public static void removeBlocks(final Level world, final BlockPos min, final BlockPos max, final BlockPos pos)
@@ -175,8 +175,8 @@ public interface IBlockEntity
                 // whether the entity is rotated, and then also call the
                 // block's rotate method as well before placing the
                 // BlockState.
-                final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
-                        k + zMin + entity.getZ());
+                final BlockPos pos = new BlockPos((int) (i + xMin + entity.getX()),
+                        (int) (j + yMin + entity.getY()), (int) (k + zMin + entity.getZ()));
                 final BlockState state = toRevert.getFakeWorld().getBlock(pos);
                 final BlockEntity tile = toRevert.getFakeWorld().getTile(pos);
                 if (state != null)

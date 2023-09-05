@@ -15,6 +15,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
@@ -44,6 +45,7 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.ticks.LevelTickAccess;
+import org.jetbrains.annotations.Nullable;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.core.common.network.EntityUpdate;
 
@@ -90,7 +92,7 @@ public class WorldEntity extends Level implements IBlockEntityWorld
 
     public WorldEntity(final Level level)
     {
-        super((WritableLevelData) level.getLevelData(), level.dimension(), level.dimensionTypeRegistration(),
+        super((WritableLevelData) level.getLevelData(), level.dimension(), level.registryAccess(), level.dimensionTypeRegistration(),
                 level.getProfilerSupplier(), level.isClientSide(), level.isDebug(), 0, 1000);
         this.world = level;
         this.chunks = new BlockEntityChunkProvider(this);
@@ -269,6 +271,11 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
+    public FeatureFlagSet enabledFeatures() {
+        return null;
+    }
+
+    @Override
     public float getShade(final Direction p_230487_1_, final boolean p_230487_2_)
     {
         return this.world.getShade(p_230487_1_, p_230487_2_);
@@ -430,9 +437,16 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
-    public void playSeededSound(Player p_220372_, Entity p_220373_, SoundEvent p_220374_, SoundSource p_220375_,
+    public void playSeededSound(@Nullable Player player, double v, double v1, double v2, Holder<SoundEvent> holder,
+                                SoundSource soundSource, float v3, float v4, long l)
+    {
+        world.playSeededSound(player, v, v1, v2, holder, soundSource, v3, v4, l);
+    }
+
+    @Override
+    public void playSeededSound(Player p_220372_, Entity p_220373_, Holder<SoundEvent> var3, SoundSource p_220375_,
             float p_220376_, float p_220377_, long p_220378_)
     {
-        world.playSeededSound(p_220372_, p_220373_, p_220374_, p_220375_, p_220376_, p_220377_, p_220378_);
+        world.playSeededSound(p_220372_, p_220373_, var3, p_220375_, p_220376_, p_220377_, p_220378_);
     }
 }

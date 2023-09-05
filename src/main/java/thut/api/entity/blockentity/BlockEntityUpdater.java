@@ -316,7 +316,7 @@ public class BlockEntityUpdater
             if (colY)
             {
                 entity.setOnGround(true);
-                entity.causeFallDamage(entity.fallDistance, 0, DamageSource.GENERIC);
+                entity.causeFallDamage(entity.fallDistance, 0, entity.damageSources().generic());
                 entity.fallDistance = 0;
             }
         }

@@ -125,8 +125,8 @@ public interface IBlockEntityWorld extends LevelAccessor
         for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++)
             for (int k = 0; k < sizeZ; k++) if ((tile = mob.getTiles()[i][j][k]) != null)
         {
-            final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
-                    k + zMin + entity.getZ());
+            final BlockPos pos = new BlockPos((int) (i + xMin + entity.getX()),
+                    (int) (j + yMin + entity.getY()), (int) (k + zMin + entity.getZ()));
             final BlockPos old = tile.getBlockPos();
             if (!old.equals(pos))
             {
