@@ -17,7 +17,7 @@ import pokecube.core.items.berries.BerryManager;
 public class CoreCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PokecubeCore.MODID);
 
-    public static final RegistryObject<CreativeModeTab> BERRIES_TAB = TABS.register("pokecube_berries_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> BERRIES_TAB = TABS.register("berries_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_berries"))
             .icon(() -> new ItemStack(BerryManager.getBerryItem("leppa")))
             .displayItems((parameters, output) -> {
@@ -31,7 +31,7 @@ public class CoreCreativeTabs {
                 });
             }).build());
 
-    public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("pokecube_items_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_items"))
             .icon(() -> {
                 for (final String type : ItemGenerator.fossilVariants)
@@ -48,14 +48,14 @@ public class CoreCreativeTabs {
                     output.accept(ItemGenerator.trapdoors.get(type).get());
             }).build());
 
-    public static final RegistryObject<CreativeModeTab> BLOCKS_TAB = TABS.register("pokecube_blocks_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> BLOCKS_TAB = TABS.register("blocks_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_blocks"))
             .icon(() -> new ItemStack(PokecubeItems.NEST.get()))
             .displayItems((parameters, output) -> {
                 output.accept(PokecubeItems.NEST.get());
             }).build());
 
-    public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("pokecube_cubes_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("cubes_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_cubes"))
             .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
             .displayItems((parameters, output) -> {

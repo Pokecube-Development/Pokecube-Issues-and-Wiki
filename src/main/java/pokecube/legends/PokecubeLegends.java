@@ -71,6 +71,7 @@ import pokecube.legends.init.EntityInit;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.FluidInit;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.LegendsCreativeTabs;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.TileEntityInit;
@@ -183,6 +184,7 @@ public class PokecubeLegends
         PokecubeLegends.CONFIGURED_FEATURES.register(modEventBus);
         PokecubeLegends.PLACED_FEATURES.register(modEventBus);
         PokecubeLegends.SURFACE_RULES.register(modEventBus);
+        LegendsCreativeTabs.TABS.register(modEventBus);
 
         WorldgenFeatures.init(modEventBus);
         BlockInit.init();

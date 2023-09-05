@@ -12,7 +12,7 @@ import pokecube.adventures.PokecubeAdv;
 @Mod.EventBusSubscriber(modid = PokecubeAdv.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AdvCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PokecubeAdv.MODID);
-    public static final RegistryObject<CreativeModeTab> POKECUBE_ADVENTURES_TAB = TABS.register("pokecube_adventures_tab", () -> CreativeModeTab.builder()
+    public static final RegistryObject<CreativeModeTab> POKECUBE_ADVENTURES_TAB = TABS.register("adventures_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_adventures"))
             .icon(() -> new ItemStack(PokecubeAdv.WARP_PAD.get()))
             .displayItems((parameters, output) -> {

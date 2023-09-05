@@ -1,6 +1,11 @@
 {
     "_comment1": "Pokecube Legends translation",
 
+    "_comment80": "Creative Tabs",
+    "itemGroup.pokecube_legends.dimensions": "Pokécube Dimensions",
+    "itemGroup.pokecube_legends.legends":  "Pokécube Legends",
+    "itemGroup.pokecube_legends.decorations": "Pokécube Decorations",
+
     "_comment2": "Trainers",
     "pokecube.aether.named": "Aether F. Employee %s",
     "pokecube.rocket.named": "Rocket Employee %s",
@@ -352,10 +357,6 @@
     "block.pokecube_legends.dyna_leaves_pink": "Pink Dyna Leaves",
     "block.pokecube_legends.dyna_leaves_red": "Red Dyna Leaves",
     "block.pokecube_legends.dyna_leaves_pastel_pink": "Pastel Pink Dyna Leaves",
-
-    "itemGroup.ultratab": "Pokécube Dimensions",
-    "itemGroup.legendtab":  "Pokécube Legends",
-    "itemGroup.decotab": "Pokécube Decoration",
 
     "_comment15": "Barrels",
     "block.pokecube_legends.distortic_stone_barrel": "Distortic Stone Barrel",
