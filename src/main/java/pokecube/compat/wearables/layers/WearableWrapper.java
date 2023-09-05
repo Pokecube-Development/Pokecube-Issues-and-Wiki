@@ -1,5 +1,6 @@
 package pokecube.compat.wearables.layers;
 
+import com.mojang.math.Axis;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,11 +13,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -35,7 +36,6 @@ import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.wrappers.ModelWrapper;
-import thut.lib.AxisAngles;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
@@ -117,11 +117,11 @@ public class WearableWrapper
             mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
 
             mat.scale(1, -1, -1);
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
 
-            mat.mulPose(AxisAngles.ZP.rotationDegrees((float) offsets.angles.z));
-            mat.mulPose(AxisAngles.YP.rotationDegrees((float) offsets.angles.y));
-            mat.mulPose(AxisAngles.XP.rotationDegrees((float) offsets.angles.x));
+            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles.z));
+            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles.y));
+            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles.x));
 
             float sx = (float) this.offsets.scale.x;
             float sy = (float) this.offsets.scale.y;
@@ -130,7 +130,7 @@ public class WearableWrapper
 
             final MultiBufferSource buff = Minecraft.getInstance().renderBuffers().bufferSource();
             Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(mob, stack,
-                    ItemTransforms.TransformType.GROUND, false, mat, buff, this.brightness);
+                    ItemDisplayContext.GROUND, false, mat, buff, this.brightness);
             this.postRender(mat);
             mat.popPose();
         }
@@ -174,11 +174,11 @@ public class WearableWrapper
             mat.translate(this.offsets.offset.x, this.offsets.offset.y, this.offsets.offset.z);
 
             mat.scale(1, -1, -1);
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
 
-            mat.mulPose(AxisAngles.ZP.rotationDegrees((float) offsets.angles.z));
-            mat.mulPose(AxisAngles.YP.rotationDegrees((float) offsets.angles.y));
-            mat.mulPose(AxisAngles.XP.rotationDegrees((float) offsets.angles.x));
+            mat.mulPose(Axis.ZP.rotationDegrees((float) offsets.angles.z));
+            mat.mulPose(Axis.YP.rotationDegrees((float) offsets.angles.y));
+            mat.mulPose(Axis.XP.rotationDegrees((float) offsets.angles.x));
 
             float sx = (float) this.offsets.scale.x;
             float sy = (float) this.offsets.scale.y;
