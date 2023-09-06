@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -14,6 +15,8 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.PackResources;
 import net.minecraft.server.packs.PackType;
@@ -38,7 +41,14 @@ public class PackFinder implements RepositorySource
     public static long time_getting_2 = 0;
 
     // TODO: Check this
-    static final PackType DECORATOR = PackType.valueOf("pack.source.pokecube.data");
+    static final PackSource DECORATOR;
+    static
+    {
+        DECORATOR = PackSource.create(component_in -> {
+            Component component = Component.translatable("pack.source.pokecube.data");
+            return Component.translatable("pack.nameAndSource", component_in, component).withStyle(ChatFormatting.GRAY);
+        }, true);
+    }
 
 
     public static Map<ResourceLocation, Resource> getJsonResources(final String path)
@@ -125,14 +135,12 @@ public class PackFinder implements RepositorySource
 
     public PackFinder()
     {
-        File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
-        folder.mkdirs();
+        Path folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks");
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data folder: {}", folder);
-        this.folderFinder_old = new FolderRepositorySource(folder.toPath(), PackFinder.DECORATOR, PackSource.DEFAULT);
-        folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
-        folder.mkdirs();
+        this.folderFinder_old = new FolderRepositorySource(folder, PackType.SERVER_DATA, PackFinder.DECORATOR);
+        folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks");
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data folder: {}", folder);
-        this.folderFinder_new = new FolderRepositorySource(folder.toPath(), PackFinder.DECORATOR, PackSource.DEFAULT);
+        this.folderFinder_new = new FolderRepositorySource(folder, PackType.SERVER_DATA, PackFinder.DECORATOR);
         this.init();
     }
 
