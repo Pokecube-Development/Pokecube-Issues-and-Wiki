@@ -1,12 +1,10 @@
 package pokecube.legends.init;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -36,7 +34,6 @@ import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.grower.OakTreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -1290,9 +1287,8 @@ public class BlockInit
                         .strength(1.5f, 1.5f).sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)
                         .lightLevel(i -> 10)));
 
-        // TODO: Fix Trees
         AGED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("aged_sapling",
-                () -> new SaplingBase(OakTreeGrower::new/*AgedTreeGrower::new*/,
+                () -> new SaplingBase(AgedTreeGrower::new,
                         BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1374,7 +1370,7 @@ public class BlockInit
                                 .strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
 
         CORRUPTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_sapling",
-                () -> new SaplingBase(OakTreeGrower::new/*CorruptedTreeGrower::new*/, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                () -> new SaplingBase(CorruptedTreeGrower::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         CORRUPTED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_leaves",
@@ -1435,7 +1431,7 @@ public class BlockInit
 
         // Distorted Blocks
         DISTORTIC_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("distortic_sapling",
-                () -> new DistorticSapling(new OakTreeGrower()/*new DistorticTreeGrower()*/,
+                () -> new DistorticSapling(new DistorticTreeGrower(),
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1501,7 +1497,7 @@ public class BlockInit
 
         // Inverted Blocks
         INVERTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("inverted_sapling",
-                () -> new SaplingBase(OakTreeGrower::new/*InvertedTreeGrower::new*/,
+                () -> new SaplingBase(InvertedTreeGrower::new,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1570,7 +1566,7 @@ public class BlockInit
 
         // MIRAGE Blocks
         MIRAGE_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("mirage_sapling",
-                () -> new MirageSapling(new OakTreeGrower()/*new MirageTreeGrower()*/,
+                () -> new MirageSapling(new MirageTreeGrower(),
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1637,7 +1633,7 @@ public class BlockInit
                         .randomTicks().strength(0.2F).sound(SoundType.VINE)));
 
         TEMPORAL_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("temporal_sapling",
-                () -> new SaplingBase(OakTreeGrower::new/*TemporalTreeGrower::new*/,
+                () -> new SaplingBase(TemporalTreeGrower::new,
                         BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 

@@ -11,16 +11,15 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class TemporalTreeGrower extends AbstractMegaTreeGrower
 {
-    //  TODO: Fix trees
     @Override
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(final RandomSource randomIn, final boolean b)
     {
-        return TreeFeatures.OAK /*Trees.TEMPORAL_TREE.get()*/;
+        return Trees.TEMPORAL_TREE;
     }
 
     @Nullable
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredMegaFeature(RandomSource randomIn)
     {
-        return TreeFeatures.OAK /*Trees.MEGA_TEMPORAL_TREE.get()*/;
+        return Trees.MEGA_TEMPORAL_TREE;
     }
 }
