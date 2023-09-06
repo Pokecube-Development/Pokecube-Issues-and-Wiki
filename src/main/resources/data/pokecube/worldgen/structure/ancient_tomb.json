@@ -1,12 +1,12 @@
 {
-  "type":"pokecube:generic_surface_jigsaw",
-  "project_start_to_heightmap":"WORLD_SURFACE_WG",
-  "start_pool":"pokecube:scattered/ancient_tomb",
-  "terrain_adaptation":"beard_thin",
-  "step":"surface_structures",
+  "type": "pokecube:generic_surface_jigsaw",
+  "project_start_to_heightmap": "WORLD_SURFACE_WG",
+  "start_pool": "pokecube:scattered/ancient_tomb",
+  "terrain_adaptation": "beard_thin",
+  "step": "surface_structures",
   "avoid_range": 6,
   "size": 2,
-  "structures_to_avoid":[
+  "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
     "pokecube:towns",
