@@ -9,6 +9,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.UniformInt;
@@ -1733,10 +1734,10 @@ public class BlockInit
 
         // Decorations Creative Tab -
         INFECTED_TORCH = PokecubeLegends.DECORATION_TAB.register("infected_torch",
-                () -> new InfectedTorch(ParticleInit.INFECTED_FIRE_FLAME.get(), BlockBehaviour.Properties.of()
+                () -> new InfectedTorch(ParticleTypes.DRAGON_BREATH, ParticleTypes.SMOKE, BlockBehaviour.Properties.of()
                         .noCollission().instabreak().lightLevel(i -> 10).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
         INFECTED_TORCH_WALL = PokecubeLegends.DECORATION_TAB.register("infected_torch_wall",
-                () -> new InfectedTorchWall(ParticleInit.INFECTED_FIRE_FLAME.get(), BlockBehaviour.Properties.of()
+                () -> new InfectedTorchWall(ParticleTypes.DRAGON_BREATH, ParticleTypes.SMOKE, BlockBehaviour.Properties.of()
                         .noCollission().instabreak().lightLevel(i -> 10).sound(SoundType.WOOD).dropsLike(INFECTED_TORCH.get())));
 
         INFECTED_FIRE = PokecubeLegends.NO_TAB.register("infected_fire",
