@@ -190,8 +190,9 @@ public class Util
         {
             gem = ItemStack.of(stack.getTag().getCompound("gemTag"));
             @SuppressWarnings("deprecation")
+            // TODO: Check this
             final ResourceLocation sprite = Minecraft.getInstance().getItemRenderer().getItemModelShaper()
-                    .getItemModel(gem).getParticleIcon().getName();
+                    .getItemModel(gem).getParticleIcon().atlasLocation();
             final String namespace = sprite.getNamespace();
             final String val = "textures/" + sprite.getPath();
             tex0 = new ResourceLocation(namespace, val + ".png");

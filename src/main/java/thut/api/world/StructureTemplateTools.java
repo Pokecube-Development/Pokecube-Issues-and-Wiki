@@ -116,11 +116,11 @@ public class StructureTemplateTools
         List<BlockPos> remove = Lists.newArrayList();
         for (var info : infos)
         {
-            if (info.state != null)
+            if (info.state() != null)
             {
-                BlockState old = level.getBlockState(info.pos);
+                BlockState old = level.getBlockState(info.pos());
                 if (old.isAir()) continue;
-                if (old.getBlock() != info.state.getBlock()) remove.add(info.pos);
+                if (old.getBlock() != info.state().getBlock()) remove.add(info.pos());
 //                else
 //                {
 //                    BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
