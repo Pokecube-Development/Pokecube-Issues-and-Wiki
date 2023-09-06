@@ -210,15 +210,6 @@ public class ThutCore
 
     public static ItemStack THUTICON = ItemStack.EMPTY;
 
-    public static final CreativeModeTab THUTITEMS = new CreativeModeTab("thut")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return ThutCore.THUTICON;
-        }
-    };
-
     private static Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
 
     public static synchronized String trim(final String name)

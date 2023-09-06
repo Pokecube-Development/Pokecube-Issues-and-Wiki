@@ -86,8 +86,8 @@ public interface IBlockEntity
             final T ret = type.create(world);
             // This enforces that min is the lower corner, and max is the upper.
             final AABB box = new AABB(min, max);
-            min = new BlockPos(box.minX, box.minY, box.minZ);
-            max = new BlockPos(box.maxX, box.maxY, box.maxZ);
+            min = new BlockPos((int) box.minX, (int) box.minY, (int) box.minZ);
+            max = new BlockPos((int) box.maxX, (int) box.maxY, (int) box.maxZ);
             final IBlockEntity entity = (IBlockEntity) ret;
             ret.setPos(pos.getX(), pos.getY(), pos.getZ());
             final BlockState[][][] blocks = BlockEntityFormer.checkBlocks(world, min, max, pos);
