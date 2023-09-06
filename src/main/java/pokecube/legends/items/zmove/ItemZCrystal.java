@@ -16,7 +16,7 @@ public class ItemZCrystal extends Item
 
     public ItemZCrystal(final PokeType type)
     {
-        super(new Item.Properties().tab(PokecubeItems.TAB_ITEMS));
+        super(new Item.Properties());
         this.type = type;
     }
 }

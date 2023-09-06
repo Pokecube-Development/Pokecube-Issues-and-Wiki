@@ -1,5 +1,6 @@
 package thut.core.client.render.obj;
 
+import com.mojang.math.Axis;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -295,8 +296,8 @@ public class ObjModel implements IModelCustom, IModel, IRetexturableModel
     public void globalFix(final PoseStack mat, final float dx, final float dy, final float dz)
     {
         // FIXME obj rotation
-        mat.mulPose(AxisAngles.XP.rotationDegrees(180));
-        mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+        mat.mulPose(Axis.XP.rotationDegrees(180));
+        mat.mulPose(Axis.YP.rotationDegrees(180));
         mat.translate(0, -1.5, 0);
     }
 

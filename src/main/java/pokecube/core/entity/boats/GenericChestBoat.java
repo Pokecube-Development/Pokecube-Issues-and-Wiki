@@ -69,43 +69,51 @@ public class GenericChestBoat extends GenericBoat implements HasCustomInventoryS
     }
 
     @Override
-    protected void addAdditionalSaveData(CompoundTag p_219908_)
+    protected void addAdditionalSaveData(CompoundTag tag)
     {
-        super.addAdditionalSaveData(p_219908_);
-        this.addChestVehicleSaveData(p_219908_);
+        super.addAdditionalSaveData(tag);
+        this.addChestVehicleSaveData(tag);
     }
 
     @Override
-    protected void readAdditionalSaveData(CompoundTag p_219901_)
+    protected void readAdditionalSaveData(CompoundTag tag)
     {
-        super.readAdditionalSaveData(p_219901_);
-        this.readChestVehicleSaveData(p_219901_);
+        super.readAdditionalSaveData(tag);
+        this.readChestVehicleSaveData(tag);
     }
 
     @Override
-    public void destroy(DamageSource p_219892_)
+    public void destroy(DamageSource source)
     {
-        super.destroy(p_219892_);
-        this.chestVehicleDestroyed(p_219892_, this.level, this);
+        super.destroy(source);
+        this.chestVehicleDestroyed(source, this.level, this);
     }
 
     @Override
-    public void remove(Entity.RemovalReason p_219894_)
+    public void remove(Entity.RemovalReason reason)
     {
-        if (!this.level.isClientSide && p_219894_.shouldDestroy())
+        if (!this.level.isClientSide && reason.shouldDestroy())
         {
             Containers.dropContents(this.level, this, this);
         }
 
-        super.remove(p_219894_);
+        super.remove(reason);
     }
 
     @Override
-    public InteractionResult interact(Player p_219898_, InteractionHand p_219899_)
+    public InteractionResult interact(Player player, InteractionHand hand)
     {
-        return this.canAddPassenger(p_219898_) && !p_219898_.isSecondaryUseActive()
-                ? super.interact(p_219898_, p_219899_)
-                : this.interactWithChestVehicle(this::gameEvent, p_219898_);
+        if (this.canAddPassenger(player) && !player.isSecondaryUseActive()) {
+            return super.interact(player, hand);
+        } else {
+            InteractionResult interactionresult = this.interactWithContainerVehicle(player);
+            if (interactionresult.consumesAction()) {
+                this.gameEvent(GameEvent.CONTAINER_OPEN, player);
+                PiglinAi.angerNearbyPiglins(player, true);
+            }
+
+            return interactionresult;
+        }
     }
 
     @Override
@@ -139,27 +147,27 @@ public class GenericChestBoat extends GenericBoat implements HasCustomInventoryS
     }
 
     @Override
-    public ItemStack removeItem(int p_219882_, int p_219883_)
+    public ItemStack removeItem(int i, int j)
     {
-        return this.removeChestVehicleItem(p_219882_, p_219883_);
+        return this.removeChestVehicleItem(i, j);
     }
 
     @Override
-    public ItemStack removeItemNoUpdate(int p_219904_)
+    public ItemStack removeItemNoUpdate(int i)
     {
-        return this.removeChestVehicleItemNoUpdate(p_219904_);
+        return this.removeChestVehicleItemNoUpdate(i);
     }
 
     @Override
-    public void setItem(int p_219885_, ItemStack p_219886_)
+    public void setItem(int i, ItemStack stack)
     {
-        this.setChestVehicleItem(p_219885_, p_219886_);
+        this.setChestVehicleItem(i, stack);
     }
 
     @Override
-    public SlotAccess getSlot(int p_219918_)
+    public SlotAccess getSlot(int slot)
     {
-        return this.getChestVehicleSlot(p_219918_);
+        return this.getChestVehicleSlot(slot);
     }
 
     @Override
@@ -167,29 +175,29 @@ public class GenericChestBoat extends GenericBoat implements HasCustomInventoryS
     {}
 
     @Override
-    public boolean stillValid(Player p_219896_)
+    public boolean stillValid(Player player)
     {
-        return this.isChestVehicleStillValid(p_219896_);
+        return this.isChestVehicleStillValid(player);
     }
 
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int p_219910_, Inventory p_219911_, Player p_219912_)
+    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player)
     {
-        if (this.lootTable != null && p_219912_.isSpectator())
+        if (this.lootTable != null && player.isSpectator())
         {
             return null;
         }
         else
         {
-            this.unpackLootTable(p_219911_.player);
-            return ChestMenu.threeRows(p_219910_, p_219911_, this);
+            this.unpackLootTable(inventory.player);
+            return ChestMenu.threeRows(i, inventory, this);
         }
     }
 
-    public void unpackLootTable(@Nullable Player p_219914_)
+    public void unpackLootTable(@Nullable Player player)
     {
-        this.unpackChestVehicleLootTable(p_219914_);
+        this.unpackChestVehicleLootTable(player);
     }
 
     @Nullable
@@ -200,9 +208,9 @@ public class GenericChestBoat extends GenericBoat implements HasCustomInventoryS
     }
 
     @Override
-    public void setLootTable(@Nullable ResourceLocation p_219890_)
+    public void setLootTable(@Nullable ResourceLocation location)
     {
-        this.lootTable = p_219890_;
+        this.lootTable = location;
     }
 
     @Override
@@ -212,9 +220,9 @@ public class GenericChestBoat extends GenericBoat implements HasCustomInventoryS
     }
 
     @Override
-    public void setLootTableSeed(long p_219888_)
+    public void setLootTableSeed(long l)
     {
-        this.lootTableSeed = p_219888_;
+        this.lootTableSeed = l;
     }
 
     @Override

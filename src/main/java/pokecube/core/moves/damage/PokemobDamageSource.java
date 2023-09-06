@@ -5,10 +5,11 @@ package pokecube.core.moves.damage;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -24,7 +25,7 @@ import thut.api.OwnableCaps;
 import thut.lib.TComponent;
 
 /**
- * This class extends {@link EntityDamageSource} and only modifies the death
+ * This class extends {@link DamageSource} and only modifies the death
  * message.
  *
  * @author Manchou
@@ -44,21 +45,22 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
      * @param par1Str
      * @param par2Entity
      */
-    public PokemobDamageSource(final LivingEntity par2Entity, final MoveEntry type)
+    public PokemobDamageSource(Holder<DamageType> damageTypeHolder, final LivingEntity par2Entity, final MoveEntry type)
     {
-        super("mob");
+        super(damageTypeHolder);
         this.damageSourceEntity = par2Entity;
         this.user = PokemobCaps.getPokemobFor(par2Entity);
         this.move = type;
     }
 
+    // TODO: Check this
     @Override
     public Component getLocalizedDeathMessage(final LivingEntity par1PlayerEntity)
     {
         final ItemStack localObject = this.damageSourceEntity != null ? this.damageSourceEntity.getMainHandItem()
                 : ItemStack.EMPTY;
         if (!localObject.isEmpty() && localObject.hasCustomHoverName())
-            return TComponent.translatable("death.attack." + this.msgId, new Object[]
+            return TComponent.translatable("death.attack." + this.type().msgId(), new Object[]
             { par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName(),
                     localObject.getDisplayName() });
         final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.damageSourceEntity);
@@ -75,7 +77,7 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
                     par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName());
             return message;
         }
-        return TComponent.translatable("death.attack." + this.msgId, new Object[]
+        return TComponent.translatable("death.attack." + this.type().msgId(), new Object[]
         { par1PlayerEntity.getDisplayName(), this.damageSourceEntity.getDisplayName() });
     }
 
@@ -116,7 +118,8 @@ public class PokemobDamageSource extends DamageSource implements IPokedamage
         return this.moveType == null ? this.move.getType(this.user) : this.moveType;
     }
 
-    @Override
+    // TODO: Find replacement
+    // @Override
     /** Returns true if the damage is projectile based. */
     public boolean isProjectile()
     {

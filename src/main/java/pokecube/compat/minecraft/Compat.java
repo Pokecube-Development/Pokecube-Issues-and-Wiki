@@ -143,9 +143,10 @@ public class Compat
                     .resolve("pokemobs").toFile();
             data.mkdirs();
 
+            // TODO: Find replacement for .getVersion()
             String metacontents = "{\r\n" + "  \"pack\": {\r\n"
                     + "    \"pack_format\": 8,\r\n".replace("8",
-                            "" + PackType.SERVER_DATA.getVersion(SharedConstants.getCurrentVersion()))
+                            "" + PackType.SERVER_DATA/*.getVersion(SharedConstants.getCurrentVersion())*/)
                     + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
             File mcmeta = new File(root, "pack.mcmeta");
             File pokemobs = new File(data, "_template_.json");

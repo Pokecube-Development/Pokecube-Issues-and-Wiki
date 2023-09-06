@@ -45,7 +45,7 @@ public class FlowerSensor extends Sensor<LivingEntity>
                 && entityIn.getRandom().nextFloat() < this.flowerSenseChance)
         {
             brain.eraseMemory(BeeTasks.NO_FLOWER_TIME.get());
-            brain.setMemory(BeeTasks.FLOWER_POS.get(), GlobalPos.of(entityIn.getLevel().dimension(), b.getPos()));
+            brain.setMemory(BeeTasks.FLOWER_POS.get(), GlobalPos.of(entityIn.level().dimension(), b.getPos()));
             return;
         }
         // we returned earlier if we had found a flower, so here we increment

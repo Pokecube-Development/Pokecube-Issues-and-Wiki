@@ -5,6 +5,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.world.entity.LivingEntity;
@@ -70,42 +71,45 @@ public class Spawn extends Page
         this.addRenderableWidget(this.level);
         this.addRenderableWidget(this.type);
 
-        this.addRenderableWidget(new Button(xOffset + 75 - 15, yOffset, 40, 20, TComponent.literal("next"), b ->
-        {
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Next"), (b) -> {
             this.index++;
             this.index = this.index % types.size();
             this.type.setValue(types.get(this.index));
+        }).bounds(xOffset + 75 - 15, yOffset, 40, 20).build());
 
-        }));
-        this.addRenderableWidget(new Button(xOffset - 75 - 15, yOffset, 40, 20, TComponent.literal("prev"), b ->
-        {
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Prev"), (b) -> {
             this.index--;
             if (this.index < 0) this.index = types.size() - 1;
             this.type.setValue(types.get(this.index));
-        }));
-        this.addRenderableWidget(new Button(xOffset - 5, yOffset + 40, 40, 20, TComponent.literal("stands"), b ->
-        {
+        }).bounds(xOffset - 75 - 15, yOffset, 40, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Stands"), (b) -> {
             if (b.getMessage().getString().equals("wanders")) b.setMessage(TComponent.literal("stands"));
             else b.setMessage(TComponent.literal("wanders"));
             this.stand = b.getMessage().getString().equals("stands");
-        }));
-        this.addRenderableWidget(new Button(xOffset - 45, yOffset + 40, 40, 20, TComponent.literal("random"), b ->
-        {
+        }).bounds(xOffset - 5, yOffset + 40, 40, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Random"), (b) -> {
             if (b.getMessage().getString().equals("male")) b.setMessage(TComponent.literal("female"));
             else if (b.getMessage().getString().equals("female")) b.setMessage(TComponent.literal("random"));
             else b.setMessage(TComponent.literal("male"));
             this.gender = b.getMessage().getString();
-        }));
+        }).bounds(xOffset - 45, yOffset + 40, 40, 20).build());
 
         xOffset -= 20;
         yOffset += 10;
 
-        this.addRenderableWidget(new Button(xOffset - 100, yOffset - 80, 80, 20, TComponent.literal("Spawn NPC"), b -> this
-                .send("npc")));
-        this.addRenderableWidget(new Button(xOffset - 20, yOffset - 80, 80, 20, TComponent.literal("Spawn Trainer"),
-                b -> this.send("trainer")));
-        this.addRenderableWidget(new Button(xOffset + 60, yOffset - 80, 80, 20, TComponent.literal("Spawn Leader"), b -> this
-                .send("leader")));
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Spawn NPC"), (b) -> {
+            this.send("npc");
+        }).bounds(xOffset - 100, yOffset - 80, 80, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Spawn Trainer"), (b) -> {
+            this.send("trainer");
+        }).bounds(xOffset - 20, yOffset - 80, 80, 20).build());
+
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("Spawn Leader"), (b) -> {
+            this.send("leader");
+        }).bounds(xOffset + 60, yOffset - 80, 80, 20).build());
     }
 
     private void send(final String type)
@@ -121,8 +125,8 @@ public class Spawn extends Page
     }
 
     @Override
-    public void render(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

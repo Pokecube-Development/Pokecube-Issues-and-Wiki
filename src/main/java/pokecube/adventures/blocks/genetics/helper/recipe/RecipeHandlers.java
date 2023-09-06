@@ -14,6 +14,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.BookCloningRecipe;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -162,7 +163,7 @@ public class RecipeHandlers
                                 if (hasTag) break;
                             }
                             if (hasTag && !stack.hasTag()) continue;
-                            if (hasTag && !ItemStack.tagMatches(stack, test)) continue;
+                            if (hasTag && !ItemStack.isSameItemSameTags(stack, test)) continue;
                             temp.remove(ing);
                             continue outer;
                         }
@@ -336,9 +337,9 @@ public class RecipeHandlers
     private static void onCrafted(final ItemCraftedEvent event)
     {
         if (!(event.getInventory() instanceof CraftingContainer inv)) return;
-        final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"));
+        final BookCloningRecipe test = new BookCloningRecipe(new ResourceLocation("dummy"), CraftingBookCategory.MISC);
 
-        if (!test.matches(inv, event.getEntity().getLevel())) return;
+        if (!test.matches(inv, event.getEntity().level())) return;
         final SelectorValue value = ClonerHelper.getSelectorValue(event.getCrafting());
         if (value == RecipeSelector.defaultSelector) return;
         event.getCrafting().getTag().remove(ClonerHelper.SELECTORTAG);

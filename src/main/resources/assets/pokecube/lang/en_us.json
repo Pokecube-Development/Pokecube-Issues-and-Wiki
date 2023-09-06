@@ -1,4 +1,11 @@
 {
+    "_comment": "Item Groups",
+
+    "itemGroup.pokecube_items": "Pokécube Items",
+    "itemGroup.pokecube_blocks": "Pokécube Blocks",
+    "itemGroup.pokecube_berries": "Pokécube Berries",
+    "itemGroup.pokecube_cubes": "Pokécubes",
+
     "_comment": "Pokécube translation",
     "_comment": "#Mount Messages",
 
@@ -740,13 +747,6 @@
     "pokecube.professor.named": "Professor %s",
     "pokecube.healer.named": "Nurse %s",
     "pokecube.trader.named": "Merchant %s",
-
-    "_comment": "Item Groups",
-
-    "itemGroup.pokecube_items": "Pokécube Items",
-    "itemGroup.pokecube_blocks": "Pokécube Blocks",
-    "itemGroup.pokecube_berries": "Pokécube Berries",
-    "itemGroup.pokecube_cubes": "Pokécubes",
 
     "_comment": "Command Messages",
 

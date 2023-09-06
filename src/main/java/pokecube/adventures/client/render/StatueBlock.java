@@ -43,8 +43,7 @@ public class StatueBlock implements BlockEntityRenderer<StatueEntity>
             {
                 Block b = ForgeRegistries.BLOCKS.getValue(inTag);
                 @SuppressWarnings("deprecation")
-                ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon()
-                        .getName();
+                ResourceLocation tex_ = mc.getBlockRenderer().getBlockModel(b.defaultBlockState()).getParticleIcon().atlasLocation();
                 tex = new ResourceLocation(tex_.getNamespace(), "textures/" + tex_.getPath() + ".png");
             }
             else tex = inTag;

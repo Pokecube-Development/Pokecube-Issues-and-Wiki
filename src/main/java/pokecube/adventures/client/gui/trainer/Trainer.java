@@ -1,8 +1,8 @@
 package pokecube.adventures.client.gui.trainer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -23,7 +23,7 @@ public class Trainer extends AbstractContainerScreen<ContainerTrainer>
     }
 
     @Override
-    protected void renderBg(final PoseStack matrixStack, final float partialTicks, final int x,
+    protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int x,
             final int y)
     {
         // bind texture
@@ -32,16 +32,17 @@ public class Trainer extends AbstractContainerScreen<ContainerTrainer>
 
         final int j2 = (this.width - this.imageWidth) / 2;
         final int k2 = (this.height - this.imageHeight) / 2;
-        this.blit(matrixStack, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
+        // TODO: Check this
+        graphics.blit(new ResourceLocation(""), j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
     /** Draws the screen and all the components in it. */
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground(mat);
-        super.render(mat, mouseX, mouseY, partialTicks);
-        this.renderTooltip(mat, mouseX, mouseY);
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 
 }

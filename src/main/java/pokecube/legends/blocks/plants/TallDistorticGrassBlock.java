@@ -5,6 +5,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.TallGrassBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,7 +19,7 @@ public class TallDistorticGrassBlock extends TallGrassBlock implements IForgeShe
    }
 
    @Override
-   public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+   public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
    {
       return false;
    }

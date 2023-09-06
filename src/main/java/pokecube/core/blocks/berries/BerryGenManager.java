@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.resources.Resource;
@@ -78,12 +79,12 @@ public class BerryGenManager
         }
 
         @Override
-        protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource rand, boolean has_flowers)
+        protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(RandomSource rand, boolean has_flowers)
         {
             var reg = level.registryAccess().registryOrThrow(RegHelper.CONFIGURED_FEATURE_REGISTRY);
             int rng = rand.nextInt(trees.size());
             ResourceLocation loc = trees.get(rng);
-            return Holder.direct(reg.get(loc));
+            return ResourceKey.create(reg.key(), loc);
         }
     }
 

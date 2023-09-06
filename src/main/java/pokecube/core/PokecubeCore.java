@@ -36,6 +36,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.NewRegistryEvent;
+import pokecube.adventures.init.AdvCreativeTabs;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -60,6 +61,7 @@ import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.handlers.playerdata.advancements.triggers.Triggers;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Config;
+import pokecube.core.init.CoreCreativeTabs;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.init.ItemGenerator;
 import pokecube.core.init.ItemInit;
@@ -112,7 +114,8 @@ public class PokecubeCore
         {
             if (event.getPackType() == PackType.SERVER_DATA)
             {
-                event.addRepositorySource(PackFinder.DEFAULT_FINDER);
+                // TODO: Fix this
+                // event.addRepositorySource(PackFinder.DEFAULT_FINDER);
             }
         }
     }
@@ -246,6 +249,7 @@ public class PokecubeCore
         PokecubeCore.MEMORIES.register(bus);
         PokecubeCore.SOUNDS.register(bus);
         PokecubeCore.PAINTINGS.register(bus);
+        CoreCreativeTabs.TABS.register(bus);
 
         PokecubeWorld.init(bus);
 

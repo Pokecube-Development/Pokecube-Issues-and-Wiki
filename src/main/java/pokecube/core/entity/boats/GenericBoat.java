@@ -114,17 +114,11 @@ public class GenericBoat extends Boat
         this.entityData.set(BOAT_ID_TYPE, type.name());
     }
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return new ClientboundAddEntityPacket(this);
-    }
-
     public static record BoatType(Supplier<Block> block, Supplier<Item> item, Supplier<Item> chestBoat, String name)
     {
     }
 
-    public static record BoatRegister(Supplier<Block> block, String name, CreativeModeTab tab,
+    public static record BoatRegister(Supplier<Block> block, String name,
             DeferredRegister<Item> register)
     {
     }

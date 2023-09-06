@@ -56,7 +56,7 @@ public class GlobalProgress extends Progress
         final AABB centre = this.watch.player.getBoundingBox();
         final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5,
                 PokecubeCore.getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player, bb,
+        final List<Entity> otherMobs = this.watch.player.level().getEntities(this.watch.player, bb,
                 input -> input instanceof Animal && PokemobCaps.getPokemobFor(input) != null);
         final MutableComponent nearbyLine = TComponent.translatable("pokewatch.progress.global.nearby",
                 otherMobs.size());
@@ -66,9 +66,11 @@ public class GlobalProgress extends Progress
 
         final Component inspect = TComponent.translatable("pokewatch.progress.inspect");
 
-        final TexButton inspectBtn = this.addRenderableWidget(new TexButton(x - 50, y + 25, 100, 12, inspect, b -> {
-            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected().getCode());
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
+        final TexButton inspectBtn = this.addRenderableWidget(new TexButton.Builder(inspect, (b) -> {
+            // TODO: Replace .getCode()
+            PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()/*.getCode()*/);
+        }).bounds(x - 50, y + 25, 100, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(0, 72, 100, 12)).build());
 
         inspectBtn.setFGColor(0x444444);
 

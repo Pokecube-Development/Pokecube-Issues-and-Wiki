@@ -10,7 +10,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix4f;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.client.Minecraft;
@@ -26,6 +25,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
+import org.joml.Matrix4f;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.utils.IMoveConstants;
@@ -165,12 +165,14 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public static TerrainDamageSource createHailSource(final IPokemob mobIn)
     {
-        return new TerrainDamageSource("terrain.hail", TerrainType.TERRAIN, mobIn);
+        // TODO: Fix this, old is "terrain.hail"
+        return new TerrainDamageSource(mobIn.getEntity().damageSources().generic().typeHolder(), TerrainType.TERRAIN, mobIn);
     }
 
     public static TerrainDamageSource createSandstormSource(final IPokemob mobIn)
     {
-        return new TerrainDamageSource("terrain.sandstorm", TerrainType.TERRAIN, mobIn);
+        // TODO: Fix this, old is "terrain.sandstorm"
+        return new TerrainDamageSource(mobIn.getEntity().damageSources().generic().typeHolder(), TerrainType.TERRAIN, mobIn);
     }
 
     private final HashMap<Integer, Effect> effects;
@@ -197,15 +199,15 @@ public class PokemobTerrainEffects implements ITerrainEffect
     public void doEffect(final LivingEntity entity)
     {
         if (EventsHandler.COOLDOWN_BASED
-                && Tracker.instance().getTick() % (2 * PokecubeCore.getConfig().attackCooldown) != 0)
+                && Tracker.instance().getTick() % (2L * PokecubeCore.getConfig().attackCooldown) != 0)
             return;
-        if (!AITools.validCombatTargets.test(entity) || !(entity.getLevel() instanceof ServerLevel level)) return;
+        if (!AITools.validCombatTargets.test(entity) || !(entity.level() instanceof ServerLevel level)) return;
 
         final IPokemob mob = PokemobCaps.getPokemobFor(entity);
         boolean immune = false;
         final float thisMaxHP = entity.getMaxHealth();
         float damage = 0;
-        final boolean onGround = mob != null ? mob.isOnGround() : entity.isOnGround();
+        final boolean onGround = mob != null ? mob.onGround() : entity.onGround;
         DamageSource source = null;
         if (this.effects.containsKey(WeatherEffectType.HAIL.getIndex()))
         {
@@ -258,7 +260,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
     public void doEntryEffect(final LivingEntity entity)
     {
         final IPokemob mob = PokemobCaps.getPokemobFor(entity);
-        if (mob != null && entity.getLevel() instanceof ServerLevel)
+        if (mob != null && entity.level() instanceof ServerLevel)
         {
             if (this.effects.containsKey(EntryEffectType.POISON.getIndex()) && !mob.isType(PokeType.getType("poison"))
                     && !mob.isType(PokeType.getType("steel")))
@@ -281,9 +283,9 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 final float thisMaxHP = mob.getMaxHealth();
                 final int damage = Math.max(1, (int) (0.0625 * thisMaxHP));
                 final double mult = Tools.getAttackEfficiency(PokeType.getType("rock"), mob.getType1(), mob.getType2());
-                entity.hurt(DamageSource.GENERIC, (float) (damage * mult));
+                entity.hurt(entity.damageSources().generic(), (float) (damage * mult));
             }
-            if (this.effects.containsKey(EntryEffectType.WEBS.getIndex()) && mob.isOnGround())
+            if (this.effects.containsKey(EntryEffectType.WEBS.getIndex()) && mob.onGround())
                 MovesUtils.handleStats2(mob, null, IMoveConstants.VIT, IMoveConstants.FALL);
         }
     }
@@ -325,7 +327,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     @OnlyIn(Dist.CLIENT)
     private void renderEffect(final VertexConsumer builder, final Matrix4f pos, final Vector3 origin,
-            final Vector3 direction, final float tick, final float r, final float g, final float b, final float a)
+                              final Vector3 direction, final float tick, final float r, final float g, final float b, final float a)
     {
         if (Minecraft.getInstance().player == null) return;
 

@@ -2,12 +2,14 @@ package pokecube.core.items.pokecubes;
 
 import java.util.Locale;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -53,9 +55,9 @@ public class RecipePokeseals extends CustomRecipe
         return cube;
     }
 
-    public RecipePokeseals(final ResourceLocation idIn)
+    public RecipePokeseals(final ResourceLocation idIn, CraftingBookCategory category)
     {
-        super(idIn);
+        super(idIn, category);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class RecipePokeseals extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingContainer inv, RegistryAccess access)
     {
         final ItemStack toCraft = new ItemStack(PokecubeItems.getEmptyCube(PokecubeBehaviour.POKESEAL), 1);
         final CompoundTag tag = new CompoundTag();

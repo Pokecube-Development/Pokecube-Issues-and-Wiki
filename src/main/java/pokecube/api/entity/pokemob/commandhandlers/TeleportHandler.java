@@ -147,7 +147,7 @@ public class TeleportHandler extends DefaultHandler
         }
         if (d == null) return;
         final ResourceKey<Level> dim = d.getPos().dimension();
-        final ResourceKey<Level> oldDim = player.getLevel().dimension();
+        final ResourceKey<Level> oldDim = player.level().dimension();
         int needed = PokecubeCore.getConfig().telePearlsCostSameDim;
         if (dim != oldDim)
         {

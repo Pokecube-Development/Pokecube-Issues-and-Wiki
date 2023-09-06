@@ -48,7 +48,7 @@ public class EntityPokemobEgg extends AgeableMob
     public EntityPokemobEgg(final EntityType<EntityPokemobEgg> type, final Level world)
     {
         super(type, world);
-        final int hatch = 1000 + this.getLevel().random.nextInt(PokecubeCore.getConfig().eggHatchTime);
+        final int hatch = 1000 + this.level().random.nextInt(PokecubeCore.getConfig().eggHatchTime);
         this.setAge(-hatch);
         this.init = true;
         this.setPersistenceRequired();
@@ -61,7 +61,7 @@ public class EntityPokemobEgg extends AgeableMob
     {
         if (this.delayBeforeCanPickup > 0) return false;
         final Entity e = source.getDirectEntity();
-        if (!this.getLevel().isClientSide && e instanceof Player player)
+        if (!this.level().isClientSide && e instanceof Player player)
         {
             final ItemStack itemstack = this.getMainHandItem();
             final int i = itemstack.getCount();
@@ -89,7 +89,7 @@ public class EntityPokemobEgg extends AgeableMob
     @Override
     public ItemStack getMainHandItem()
     {
-        if (this.getLevel().isClientSide) return super.getMainHandItem();
+        if (this.level().isClientSide) return super.getMainHandItem();
         if (this.eggCache == null) this.eggCache = super.getMainHandItem();
         if (!this.eggCache.hasTag()) this.eggCache.setTag(new CompoundTag());
         this.eggCache.getTag().putInt("timer", this.getAge());
@@ -132,14 +132,14 @@ public class EntityPokemobEgg extends AgeableMob
                 this.sounds.getEntity().setPos(this.getX(), this.getY(), this.getZ());
                 return this.sounds;
             }
-            this.sounds = ItemPokemobEgg.getFakePokemob(this.getLevel(), this.here, this.getMainHandItem());
+            this.sounds = ItemPokemobEgg.getFakePokemob(this.level(), this.here, this.getMainHandItem());
             if (this.sounds == null) return null;
-            this.sounds.getEntity().level = this.getLevel();
+            this.sounds.getEntity().level = this.level();
             return this.sounds;
         }
 
         if (this.toHatch != null) return this.toHatch;
-        this.toHatch = ItemPokemobEgg.make(this.getLevel(), this.getMainHandItem(), this);
+        this.toHatch = ItemPokemobEgg.make(this.level(), this.getMainHandItem(), this);
         return this.toHatch;
     }
 
@@ -224,7 +224,7 @@ public class EntityPokemobEgg extends AgeableMob
         final EggEvent.PreHatch event = new EggEvent.PreHatch(this);
         MinecraftForge.EVENT_BUS.post(event);
         if (!event.isCanceled())
-            ItemPokemobEgg.spawn(this.getPokemob(true), this.getMainHandItem(), this.getLevel(), this);
+            ItemPokemobEgg.spawn(this.getPokemob(true), this.getMainHandItem(), this.level(), this);
         this.discard();
     }
 
@@ -245,7 +245,7 @@ public class EntityPokemobEgg extends AgeableMob
             this.setDeltaMovement(motion.x, dy, motion.z);
         }
 
-        if (this.getLevel().isClientSide) return;
+        if (this.level().isClientSide) return;
         if (this.getMainHandItem().isEmpty() || this.getAge() > 0)
         {
             this.discard();
@@ -258,11 +258,11 @@ public class EntityPokemobEgg extends AgeableMob
             if (mob == null) this.discard();
             else mob.getEntity().playAmbientSound();
         }
-        BlockEntity te = this.here.getTileEntity(this.getLevel(), Direction.DOWN);
-        if (te == null) te = this.here.getTileEntity(this.getLevel());
+        BlockEntity te = this.here.getTileEntity(this.level(), Direction.DOWN);
+        if (te == null) te = this.here.getTileEntity(this.level());
         if (te instanceof HopperBlockEntity hopper)
         {
-            final ItemEntity item = new ItemEntity(this.getLevel(), this.getX(), this.getY(), this.getZ(),
+            final ItemEntity item = new ItemEntity(this.level(), this.getX(), this.getY(), this.getZ(),
                     this.getMainHandItem());
             if (HopperBlockEntity.addItem(hopper, item)) this.discard();
         }

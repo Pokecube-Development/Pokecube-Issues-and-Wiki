@@ -2,7 +2,7 @@
     "forge_marker": 1,
     "defaults": {
         "textures": {
-            "#table": "pokecube:block/pokecube_table" //the identifier must be a name of a material defined by the "model" obj's .mtl file
+            "#table": "pokecube:block/pokecube_table"
         },
         "model": "pokecube:pokecube_table.obj"
      },

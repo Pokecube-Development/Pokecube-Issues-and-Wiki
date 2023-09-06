@@ -4,17 +4,18 @@ import net.minecraft.core.Direction;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 
 public class StoneLogBase
 {
-    public static RotatedPillarBlock concreteLog(final MaterialColor color1, final MaterialColor color2, final Material material,
-                                                 final float hardness, final float resistance, final SoundType sound)
+    public static RotatedPillarBlock concreteLog(final MapColor mapColorSide, final MapColor mapColorTop, final SoundType sound,
+                                                 final NoteBlockInstrument instrument, final float destroyTime, final float explosionResistance)
     {
-        return new RotatedPillarBlock(BlockBehaviour.Properties.of(material, (state) ->
-        {
-            return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? color1 : color2;
-        }).strength(hardness, resistance).sound(sound).requiresCorrectToolForDrops());
+        return new RotatedPillarBlock(BlockBehaviour.Properties.of().strength(destroyTime, explosionResistance)
+                .sound(sound).instrument(instrument).requiresCorrectToolForDrops()
+                .mapColor((state) -> {
+                    return state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? mapColorSide : mapColorTop;
+                }));
     }
 }

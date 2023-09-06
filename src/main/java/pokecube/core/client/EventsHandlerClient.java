@@ -160,7 +160,7 @@ public class EventsHandlerClient
         IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob != null && PokecubeCore.getConfig().autoSelectMoves)
         {
-            Entity target = pokemob.getEntity().getLevel().getEntity(pokemob.getTargetID());
+            Entity target = pokemob.getEntity().level().getEntity(pokemob.getTargetID());
             if (target instanceof LivingEntity living && !pokemob.getGeneralState(GeneralStates.MATING))
                 EventsHandlerClient.setMostDamagingMove(pokemob, living);
         }
@@ -389,14 +389,15 @@ public class EventsHandlerClient
                     j = slot.y;
                     final int x = i + gui.getGuiLeft();
                     final int y = j + gui.getGuiTop();
-                    if (ctrl)
-                    {
-                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
-                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
-                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
-                    }
-                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+//                    TODO: Fix this
+//                    if (ctrl)
+//                    {
+//                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
+//                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
+//                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+//                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
+//                    }
+                    /*else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
             }
         }
@@ -422,20 +423,21 @@ public class EventsHandlerClient
                 final ItemStack stack = player.getInventory().items.get(l);
                 if (stack != null && PokecubeManager.isFilled(stack))
                 {
-                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.getLevel());
+                    final IPokemob pokemob = EventsHandlerClient.getPokemobForRender(stack, player.level());
                     if (pokemob == null) continue;
                     int x = w / 2;
                     x = i + x + 20 * l - 8;
                     int y = h;
                     y = j + y - 9;
-                    if (Screen.hasControlDown())
+                    // TODO: Fix this
+                    /*if (Screen.hasControlDown())
                     {
                         final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
                         Minecraft.getInstance().getItemRenderer().blitOffset += 100;
                         Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
                         Minecraft.getInstance().getItemRenderer().blitOffset = z;
                     }
-                    else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
+                    else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
                 }
             }
         }

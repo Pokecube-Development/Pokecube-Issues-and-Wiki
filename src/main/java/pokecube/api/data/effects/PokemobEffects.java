@@ -37,7 +37,7 @@ public class PokemobEffects implements IMergeable<PokemobEffects>
         return other;
     }
 
-    private void init()
+    public void init()
     {
         var effects = MaterialEffects.fromJson(material_rules);
         pokemobs.forEach(name -> {

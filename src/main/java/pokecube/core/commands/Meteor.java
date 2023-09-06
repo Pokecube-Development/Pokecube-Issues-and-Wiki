@@ -43,7 +43,7 @@ public class Meteor
         // /fill ~-11 ~-11 ~-11 ~11 ~11 ~11 minecraft:dirt replace air
         // @formatter:on
 
-        source.sendSuccess(TComponent.translatable("pokecube.meteor.spawned", pos, power), true);
+        source.sendSuccess(() -> TComponent.translatable("pokecube.meteor.spawned", pos, power), true);
         return 0;
     }
 

@@ -30,7 +30,7 @@ public interface StructureMatcher
         if (!matcher._validStructures.isEmpty())
         {
             final Set<INamedStructure> set = StructureManager.getFor(((Level) checker.world).dimension(),
-                    checker.location.getPos(), false);
+                    checker.pos, false);
             for (var i : set) if (matcher._validStructures.contains(i.getName())) return MatchResult.SUCCEED;
             return MatchResult.FAIL;
         }

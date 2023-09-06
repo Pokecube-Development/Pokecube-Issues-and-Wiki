@@ -1,6 +1,7 @@
 package thut.bling;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -48,9 +49,9 @@ public class ThutBling
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ThutBling.MODID);
 
         BIG_BAG = CONTAINERS.register("bling_bag_ender_large",
-                () -> new MenuType<>((IContainerFactory<LargeContainer>) LargeContainer::new));
+                () -> new MenuType<>((IContainerFactory<LargeContainer>) LargeContainer::new, FeatureFlags.REGISTRY.allFlags()));
         SMALL_BAG = CONTAINERS.register("bling_bag",
-                () -> new MenuType<>((IContainerFactory<SmallContainer>) SmallContainer::new));
+                () -> new MenuType<>((IContainerFactory<SmallContainer>) SmallContainer::new, FeatureFlags.REGISTRY.allFlags()));
     }
 
     public ThutBling()

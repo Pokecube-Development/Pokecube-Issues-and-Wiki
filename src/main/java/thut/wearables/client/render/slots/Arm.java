@@ -2,6 +2,7 @@ package thut.wearables.client.render.slots;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Axis;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.HumanoidArm;
@@ -24,7 +25,7 @@ public class Arm
         if (wearable.customOffsets())
         {
             mat.scale(1, -1, -1);
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
             return;
         }
@@ -110,7 +111,7 @@ public class Arm
         if (render)
         {
             mat.scale(1, -1, -1);
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
         }
     }

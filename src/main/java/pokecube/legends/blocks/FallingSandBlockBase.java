@@ -2,13 +2,13 @@ package pokecube.legends.blocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
@@ -16,10 +16,10 @@ public class FallingSandBlockBase extends SandBlock
 {
     private final int dustColor;
 
-    public FallingSandBlockBase(final int color, final BlockBehaviour.Properties properties)
+    public FallingSandBlockBase(final int dustColor, final BlockBehaviour.Properties properties)
     {
-        super(color, properties);
-        this.dustColor = color;
+        super(dustColor, properties);
+        this.dustColor = dustColor;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class FallingSandBlockBase extends SandBlock
                     || (block.getBlockState(pos.north()).getBlock() == Blocks.WATER || block.getBlockState(pos.north()).hasProperty(BlockStateProperties.WATERLOGGED))
                     || (block.getBlockState(pos.south()).getBlock() == Blocks.WATER || block.getBlockState(pos.south()).hasProperty(BlockStateProperties.WATERLOGGED)));
         else if (plantType == PlantType.WATER)
-            return state.getMaterial() == Material.WATER;
+            return state.getFluidState().is(FluidTags.WATER);
         else
             return super.canSustainPlant(state, block, pos, direction, plantable);
     }

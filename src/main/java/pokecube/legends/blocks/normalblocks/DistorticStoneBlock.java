@@ -9,6 +9,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
@@ -28,10 +29,10 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter block, final BlockPos pos, final BlockState state,
-            final boolean valid)
+    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state,
+                                         final boolean valid)
     {
-        if (!block.getBlockState(pos.above()).propagatesSkylightDown(block, pos)) return false;
+        if (!worldReader.getBlockState(pos.above()).propagatesSkylightDown(worldReader, pos)) return false;
         else
         {
             final Iterator<BlockPos> var5 = BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))
@@ -44,7 +45,7 @@ public class DistorticStoneBlock extends Block implements BonemealableBlock
 
                 blockpos = var5.next();
             }
-            while (!block.getBlockState(blockpos).is(DISTORTIC_GRASS_SPREADABLE));
+            while (!worldReader.getBlockState(blockpos).is(DISTORTIC_GRASS_SPREADABLE));
 
             return true;
         }

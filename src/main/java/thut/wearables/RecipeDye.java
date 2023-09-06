@@ -1,12 +1,12 @@
 package thut.wearables;
 
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -15,10 +15,11 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.registries.DeferredRegister;
@@ -28,33 +29,33 @@ import thut.lib.RegHelper;
 
 public class RecipeDye extends CustomRecipe
 {
-    private static Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
+    private static Map<DyeColor, TagKey<Item>> DYE_TAGS = Maps.newHashMap();
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister
             .create(ForgeRegistries.RECIPE_SERIALIZERS, ThutWearables.MODID);
 
-    public static final RegistryObject<SimpleRecipeSerializer<RecipeDye>> SERIALIZER = RecipeDye.RECIPE_SERIALIZERS
+    public static final RegistryObject<SimpleCraftingRecipeSerializer<RecipeDye>> SERIALIZER = RecipeDye.RECIPE_SERIALIZERS
             .register("dye", RecipeDye.special(RecipeDye::new));
 
-    private static <T extends Recipe<?>> Supplier<SimpleRecipeSerializer<T>> special(
-            final Function<ResourceLocation, T> create)
+    private static <T extends CraftingRecipe> Supplier<SimpleCraftingRecipeSerializer<T>> special(
+            final SimpleCraftingRecipeSerializer.Factory<T> create)
     {
-        return () -> new SimpleRecipeSerializer<>(create);
+        return () -> new SimpleCraftingRecipeSerializer<>(create);
     }
 
     public static Map<DyeColor, TagKey<Item>> getDyeTagMap()
     {
-        if (RecipeDye.DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
+        if (RecipeDye.DYE_TAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            RecipeDye.DYETAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
+            RecipeDye.DYE_TAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
         }
-        return RecipeDye.DYETAGS;
+        return RecipeDye.DYE_TAGS;
     }
 
-    public RecipeDye(final ResourceLocation idIn)
+    public RecipeDye(final ResourceLocation location, CraftingBookCategory bookCategory)
     {
-        super(idIn);
+        super(location, bookCategory);
     }
 
     @Override
@@ -64,7 +65,7 @@ public class RecipeDye extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingContainer inv, RegistryAccess access)
     {
         ItemStack wearable = ItemStack.EMPTY;
         ItemStack dye = ItemStack.EMPTY;

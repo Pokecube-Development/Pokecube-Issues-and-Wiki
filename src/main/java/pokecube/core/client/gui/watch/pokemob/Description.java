@@ -3,9 +3,9 @@ package pokecube.core.client.gui.watch.pokemob;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.Component;
@@ -50,9 +50,11 @@ public class Description extends ListPage<LineEntry>
             final int x = this.watch.width / 2 + 10;
             final int y = this.watch.height / 2 + 22;
             final Component check_conditions = TComponent.translatable("pokewatch.capture.check");
-            final TexButton button = this.addRenderableWidget(new TexButton(x, y, 100, 12, check_conditions, b -> {
+
+            final TexButton button = this.addRenderableWidget(new TexButton.Builder(check_conditions, (b) -> {
                 PacketPokedex.sendCaptureCheck(e);
-            }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
+            }).bounds(x, y, 100, 12).setTex(GuiPokeWatch.getWidgetTex())
+                    .setRender(new UVImgRender(0, 72, 100, 12)).build());
             button.setFGColor(0x444444);
         }
     }
@@ -67,7 +69,7 @@ public class Description extends ListPage<LineEntry>
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
                 if (entry != null && entry != this.parent.pokemob.getPokedexEntry())
-                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel()));
+                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.level()));
                 return true;
             }
         }
@@ -98,9 +100,10 @@ public class Description extends ListPage<LineEntry>
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final GuiGraphics graphics, final Style component, final int x, final int y)
             {
-                Description.this.renderComponentHoverEffect(mat, component, x, y);
+//                TODO: Fix
+//                Description.this.render().renderComponentHoverEffect(graphics, component, x, y);
             }
         };
         MutableComponent page;

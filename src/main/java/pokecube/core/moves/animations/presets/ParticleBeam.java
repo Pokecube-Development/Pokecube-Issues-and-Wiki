@@ -30,12 +30,12 @@ public class ParticleBeam extends MoveAnimationBase
     {
         final Vector3 source = info.source;
         final Vector3 target = info.target;
-        this.initColour(info.attacker.getLevel().getDayTime() * 20, 0, info.move);
+        this.initColour(info.attacker.level().getDayTime() * 20, 0, info.move);
         final double dist = source.distanceTo(target);
         final double frac = dist * info.currentTick / this.getDuration();
         final Vector3 temp = new Vector3().set(target).subtractFrom(source).norm();
         final Vector3 dir = target.subtract(source).norm().scalarMult(0.01);
-        for (double i = frac; i < dist; i += 0.1) PokecubeCore.spawnParticle(info.attacker.getLevel(), values.particle,
+        for (double i = frac; i < dist; i += 0.1) PokecubeCore.spawnParticle(info.attacker.level(), values.particle,
                 source.add(temp.scalarMult(i)), dir, values.rgba, values.lifetime);
     }
 }

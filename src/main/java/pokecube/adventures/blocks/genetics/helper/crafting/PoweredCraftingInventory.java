@@ -1,5 +1,6 @@
 package pokecube.adventures.blocks.genetics.helper.crafting;
 
+import java.util.List;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.player.StackedContents;
@@ -8,16 +9,16 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.blocks.genetics.helper.recipe.IPoweredProgress;
 
-public class PoweredCraftingInventory extends CraftingContainer
-{
-    public final AbstractContainerMenu        eventHandler;
+//TODO: Check if this works
+public class PoweredCraftingInventory implements CraftingContainer {
+    public final AbstractContainerMenu eventHandler;
     public final IPoweredProgress inventory;
     private int                   energy = 0;
 
     public PoweredCraftingInventory(final AbstractContainerMenu container, final IPoweredProgress inventory, final int x,
             final int y)
     {
-        super(container, x, y);
+        super();
         this.eventHandler = container;
         this.inventory = inventory;
     }
@@ -56,6 +57,11 @@ public class PoweredCraftingInventory extends CraftingContainer
     public ItemStack getItem(final int index)
     {
         return index >= this.getContainerSize() ? ItemStack.EMPTY : this.inventory.getList().get(index);
+    }
+
+    @Override
+    public int getContainerSize() {
+        return 0;
     }
 
     @Override
@@ -110,5 +116,20 @@ public class PoweredCraftingInventory extends CraftingContainer
     {
         this.inventory.getList().set(index, stack);
         if (this.eventHandler != null) this.eventHandler.slotsChanged(this);
+    }
+
+    @Override
+    public int getWidth() {
+        return 0;
+    }
+
+    @Override
+    public int getHeight() {
+        return 0;
+    }
+
+    @Override
+    public List<ItemStack> getItems() {
+        return null;
     }
 }

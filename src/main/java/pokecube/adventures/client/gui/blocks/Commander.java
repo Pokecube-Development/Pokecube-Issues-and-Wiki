@@ -2,10 +2,10 @@ package pokecube.adventures.client.gui.blocks;
 
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -42,10 +42,10 @@ public class Commander extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int a, final int b, final float c)
+    public void render(final GuiGraphics graphics, final int a, final int b, final float c)
     {
-        this.renderBackground(mat);
-        super.render(mat, a, b, c);
+        this.renderBackground(graphics);
+        super.render(graphics, a, b, c);
     }
 
     @Override
@@ -60,21 +60,17 @@ public class Commander extends Screen
         for (final Command command : types)
             names.add(command.name());
 
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 85, 20, 20,
-                TComponent.literal("\u25b2"), b ->
-                {
-                    if (this.index < names.size() - 1) this.index++;
-                    else this.index = 0;
-                    this.command.setValue(names.get(this.index));
-                }));
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("\u25b2"), (b) -> {
+            if (this.index < names.size() - 1) this.index++;
+            else this.index = 0;
+            this.command.setValue(names.get(this.index));
+        }).bounds(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 85, 20, 20).build());
 
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20,
-                TComponent.literal("\u25bc"), b ->
-                {
-                    if (this.index > 0) this.index--;
-                    else this.index = names.size() - 1;
-                    this.command.setValue(names.get(this.index));
-                }));
+        this.addRenderableWidget(new Button.Builder(TComponent.literal("\u25bc"), (b) -> {
+            if (this.index > 0) this.index--;
+            else this.index = names.size() - 1;
+            this.command.setValue(names.get(this.index));
+        }).bounds(this.width / 2 - xOffset + 64, this.height / 2 - yOffset - 65, 20, 20).build());
 
         this.command = new EditBox(this.font, this.width / 2 - 50, this.height / 4 + 74 + yOffset, 100, 10,
                 TComponent.literal(""));

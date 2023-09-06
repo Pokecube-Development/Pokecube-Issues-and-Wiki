@@ -13,10 +13,12 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -186,9 +188,9 @@ public class RecipeClone extends PoweredRecipe
         return RecipeClone.MATCHERS;
     }
 
-    public RecipeClone(final ResourceLocation loc)
+    public RecipeClone(final ResourceLocation loc, CraftingBookCategory category)
     {
-        super(loc);
+        super(loc, category);
     }
 
     @Override
@@ -198,15 +200,17 @@ public class RecipeClone extends PoweredRecipe
     }
 
     @Override
-    public boolean complete(final IPoweredProgress tile)
+    public boolean complete(final IPoweredProgress tile, Level world)
     {
         boolean completed = false;
-        for (final ReviveMatcher matcher : RecipeClone.getMatchers()) if (completed = matcher.complete(tile)) break;
-        if (!completed) completed = RecipeClone.ANYMATCHER.complete(tile);
+        for (final ReviveMatcher matcher : RecipeClone.getMatchers()) if (completed == matcher.complete(tile)) break;
+        completed = RecipeClone.ANYMATCHER.complete(tile);
         if (completed)
         {
             final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
-            tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix()));
+
+            // TODO: Check this
+            tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), world.registryAccess()));
             for (int i = 0; i < remaining.size(); i++)
             {
                 final ItemStack stack = remaining.get(i);
@@ -230,7 +234,7 @@ public class RecipeClone extends PoweredRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingContainer inv, RegistryAccess access)
     {
         return ItemStack.EMPTY;
     }

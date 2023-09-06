@@ -7,8 +7,6 @@ import java.util.Set;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -45,6 +43,8 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
@@ -76,17 +76,17 @@ public class ClientInit
         @SubscribeEvent
         public static void registerParticles(RegisterParticleProvidersEvent event)
         {
-            event.register(ThutParticles.AURORA, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.MISC, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
-            event.register(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
+            event.registerSpecial(ThutParticles.AURORA, ParticleFactories.GENERICFACTORY);
+            event.registerSpecial(ThutParticles.MISC, ParticleFactories.GENERICFACTORY);
+            event.registerSpecial(ThutParticles.STRING, ParticleFactories.GENERICFACTORY);
+            event.registerSpecial(ThutParticles.LEAF, ParticleFactories.GENERICFACTORY);
+            event.registerSpecial(ThutParticles.POWDER, ParticleFactories.GENERICFACTORY);
         }
     }
 
     public static void line(final VertexConsumer builder, final Matrix4f positionMatrix, final float dx1,
-            final float dy1, final float dz1, final float dx2, final float dy2, final float dz2, final float r,
-            final float g, final float b, final float a)
+                            final float dy1, final float dz1, final float dx2, final float dy2, final float dz2, final float r,
+                            final float g, final float b, final float a)
     {
         builder.vertex(positionMatrix, dx1, dy1, dz1).color(r, g, b, a).normal(0, 1, 0).endVertex();
         builder.vertex(positionMatrix, dx2, dy2, dz2).color(r, g, b, a).normal(0, 1, 0).endVertex();
@@ -216,7 +216,7 @@ public class ClientInit
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
 
                 final AABB one = new AABB(v.getPos());
-                final AABB two = new AABB(new BlockPos(pointed));
+                final AABB two = new AABB(new BlockPos((int) pointed.x, (int) pointed.y, (int) pointed.z));
 
                 final double minX = Math.min(one.minX, two.minX);
                 final double minY = Math.min(one.minY, two.minY);

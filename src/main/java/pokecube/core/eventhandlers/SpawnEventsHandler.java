@@ -25,6 +25,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -34,8 +35,8 @@ import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -108,6 +109,8 @@ public class SpawnEventsHandler
     {
         Vector3 v = event.getLocation();
         final ServerLevel world = event.level();
+        BlockPos blockPos = v.getPos();
+        BlockState state = v.getBlockState(world);
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
 
         SectionPos pos = SectionPos.of(v.getPos());
@@ -148,7 +151,7 @@ public class SpawnEventsHandler
             weight = dbe.getSpawnData().getWeight(context, checker, true);
 
             if (weight == 0) continue;
-            if (!dbe.flys() && random >= weight) if (!(dbe.swims() && v.getBlockMaterial(world) == Material.WATER))
+            if (!dbe.flys() && random >= weight) if (!(dbe.swims() && state.getFluidState().is(FluidTags.WATER)))
             {
                 v = Vector3.getNextSurfacePoint(world, vbak, Vector3.secondAxisNeg, 20);
                 if (v != null)

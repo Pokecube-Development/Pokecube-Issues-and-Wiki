@@ -28,6 +28,7 @@ package thut.api.maths.vecmath;
 
 import java.io.Serializable;
 import java.nio.FloatBuffer;
+import org.joml.Matrix4f;
 
 /**
  * Holds a 4x4 float matrix.
@@ -572,6 +573,34 @@ public class Mat4f extends Matrix implements Serializable
         dest.w = w;
 
         return dest;
+    }
+    /**
+     * The x component of the vector.
+     */
+    public float x;
+    /**
+     * The y component of the vector.
+     */
+    public float y;
+    /**
+     * The z component of the vector.
+     */
+    public float z;
+    /**
+     * The w component of the vector.
+     */
+    public float w;
+
+    // TODO: Check this
+    public void transform(Matrix4f f4) {
+        float x = this.x;
+        float y = this.y;
+        float z = this.z;
+        float w = this.w;
+        x = this.m00 * x + this.m01 * y + this.m02 * z + this.m03 * w;
+        y = this.m10 * x + this.m11 * y + this.m12 * z + this.m13 * w;
+        z = this.m20 * x + this.m21 * y + this.m22 * z + this.m23 * w;
+        w = this.m30 * x + this.m31 * y + this.m32 * z + this.m33 * w;
     }
 
     /**

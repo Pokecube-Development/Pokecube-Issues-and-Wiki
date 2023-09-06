@@ -12,19 +12,19 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.ProbabilityFeatureConfiguration;
-import pokecube.legends.blocks.plants.TemporalBambooBlock;
+import pokecube.legends.blocks.plants.TemporalBambooStalkBlock;
 import pokecube.legends.init.BlockInit;
 import pokecube.legends.init.PlantsInit;
 
 public class TemporalBambooFeature extends Feature<ProbabilityFeatureConfiguration>
 {
    private static final BlockState BAMBOO_TRUNK = PlantsInit.TEMPORAL_BAMBOO.get().defaultBlockState()
-           .setValue(TemporalBambooBlock.AGE, Integer.valueOf(1)).setValue(TemporalBambooBlock.LEAVES, BambooLeaves.NONE)
-           .setValue(TemporalBambooBlock.STAGE, Integer.valueOf(0));
-   private static final BlockState BAMBOO_FINAL_LARGE = BAMBOO_TRUNK.setValue(TemporalBambooBlock.LEAVES, BambooLeaves.LARGE)
-           .setValue(TemporalBambooBlock.STAGE, Integer.valueOf(1));
-   private static final BlockState BAMBOO_TOP_LARGE = BAMBOO_TRUNK.setValue(TemporalBambooBlock.LEAVES, BambooLeaves.LARGE);
-   private static final BlockState BAMBOO_TOP_SMALL = BAMBOO_TRUNK.setValue(TemporalBambooBlock.LEAVES, BambooLeaves.SMALL);
+           .setValue(TemporalBambooStalkBlock.AGE, Integer.valueOf(1)).setValue(TemporalBambooStalkBlock.LEAVES, BambooLeaves.NONE)
+           .setValue(TemporalBambooStalkBlock.STAGE, Integer.valueOf(0));
+   private static final BlockState BAMBOO_FINAL_LARGE = BAMBOO_TRUNK.setValue(TemporalBambooStalkBlock.LEAVES, BambooLeaves.LARGE)
+           .setValue(TemporalBambooStalkBlock.STAGE, Integer.valueOf(1));
+   private static final BlockState BAMBOO_TOP_LARGE = BAMBOO_TRUNK.setValue(TemporalBambooStalkBlock.LEAVES, BambooLeaves.LARGE);
+   private static final BlockState BAMBOO_TOP_SMALL = BAMBOO_TRUNK.setValue(TemporalBambooStalkBlock.LEAVES, BambooLeaves.SMALL);
 
    public TemporalBambooFeature(Codec<ProbabilityFeatureConfiguration> config)
    {

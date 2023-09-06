@@ -71,6 +71,7 @@ import thut.core.common.network.TileUpdate;
 import thut.core.common.terrain.CapabilityTerrainAffected;
 import thut.core.common.world.mobs.data.PacketDataSync;
 import thut.core.init.RegistryObjects;
+import thut.core.init.ThutCreativeTabs;
 import thut.crafts.ThutCrafts;
 import thut.lib.RegHelper;
 
@@ -209,15 +210,6 @@ public class ThutCore
 
     public static ItemStack THUTICON = ItemStack.EMPTY;
 
-    public static final CreativeModeTab THUTITEMS = new CreativeModeTab("thut")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return ThutCore.THUTICON;
-        }
-    };
-
     private static Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
 
     public static synchronized String trim(final String name)
@@ -266,6 +258,7 @@ public class ThutCore
         RegistryEvents.RECIPETYPE.register(modEventBus);
         RegistryEvents.MENUS.register(modEventBus);
         RegistryEvents.PARTICLES.register(modEventBus);
+        ThutCreativeTabs.TABS.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested
         // in

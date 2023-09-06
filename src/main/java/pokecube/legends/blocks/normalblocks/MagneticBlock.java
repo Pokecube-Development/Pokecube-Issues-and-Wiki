@@ -7,22 +7,21 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.Explosion;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.BlockHitResult;
 import pokecube.legends.blocks.BlockBase;
 
 public class MagneticBlock extends BlockBase
 {
 
-    public MagneticBlock(final Material material, final MaterialColor color, final float hardness, final float resistance, final SoundType sound,
-            final boolean hasDrop)
+    public MagneticBlock(final MapColor color, final SoundType sound, final NoteBlockInstrument instrument,
+                         final boolean requiresCorrectToolForDrops, final float destroyTime, final float blastResistance)
     {
-        super(material, color, hardness, resistance, sound, hasDrop);
+        super(color, sound, instrument, requiresCorrectToolForDrops, destroyTime, blastResistance);
     }
 
     @Override
@@ -59,7 +58,7 @@ public class MagneticBlock extends BlockBase
         final Entity entity = (Entity) dependencies.get("entity");
         if (entity instanceof ServerPlayer)
         {
-            if (!world.isClientSide) world.explode(null, x, y, z, 3, Explosion.BlockInteraction.BREAK);
+            if (!world.isClientSide) world.explode(null, x, y, z, 3, Level.ExplosionInteraction.TNT);
 
             if (world instanceof ServerLevel)
             {

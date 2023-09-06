@@ -1,19 +1,18 @@
 package pokecube.adventures.client.render.layers;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
-import thut.lib.AxisAngles;
 import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.PlayerWearables;
@@ -48,8 +47,10 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
         mat.pushPose();
         theModel.body.translateAndRotate(mat);
         mat.translate(0, 0.785, -.125);
-        mat.mulPose(AxisAngles.XP.rotationDegrees(180));
-        mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+
+        // TODO: Check this
+        mat.mulPose(Axis.XP.rotationDegrees(180));
+        mat.mulPose(Axis.YP.rotationDegrees(180));
         mat.scale(0.6f, 0.6f, 0.6f);
 
         float scale = 0.3f;
@@ -101,11 +102,13 @@ public class BeltLayerRender<T extends LivingEntity, M extends HumanoidModel<T>>
             float z = offsets[i][2] * scale;
             mat.translate(x, y, z);
             float[] rots = rotates[i];
-            if (rots[0] != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rots[0]));
-            if (rots[1] != 0) mat.mulPose(AxisAngles.YP.rotationDegrees(rots[1]));
-            if (rots[2] != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(rots[2]));
+
+            // TODO: Check this
+            if (rots[0] != 0) mat.mulPose(Axis.XP.rotationDegrees(rots[0]));
+            if (rots[1] != 0) mat.mulPose(Axis.YP.rotationDegrees(rots[1]));
+            if (rots[2] != 0) mat.mulPose(Axis.ZP.rotationDegrees(rots[2]));
             Minecraft.getInstance().getEntityRenderDispatcher().getItemInHandRenderer().renderItem(wearer, stack,
-                    TransformType.GROUND, false, mat, buff, packedLightIn);
+                    ItemDisplayContext.GROUND, false, mat, buff, packedLightIn);
             mat.popPose();
         }
         mat.popPose();

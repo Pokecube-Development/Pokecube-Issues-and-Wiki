@@ -157,7 +157,7 @@ public class PacketTrainer extends NBTPacket
             if (this.getTag().getBoolean("O"))
             {
                 final int id = this.getTag().getInt("I");
-                final Entity mob = player.getLevel().getEntity(id);
+                final Entity mob = player.level().getEntity(id);
                 if (mob != null && this.getTag().contains("C"))
                 {
                     final CompoundTag nbt = this.getTag().getCompound("C");
@@ -185,7 +185,7 @@ public class PacketTrainer extends NBTPacket
     protected void onCompleteServer(final ServerPlayer player)
     {
         this.message = this.getTag().getByte("__message__");
-        final Level world = player.getLevel();
+        final Level world = player.level();
         String type;
         String name;
         boolean male;
@@ -239,8 +239,8 @@ public class PacketTrainer extends NBTPacket
             }
             final String var = JsonUtil.gson.toJson(thing);
             args = args + var;
-            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getLevel(),
-                    (ServerLevel) player.getLevel(), player.getRandom(), BoundingBox.infinite());
+            final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.level(),
+                    (ServerLevel) player.level(), player.getRandom(), BoundingBox.infinite());
             MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:
@@ -352,7 +352,7 @@ public class PacketTrainer extends NBTPacket
                         TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
-            mob = player.getLevel().getEntity(id);
+            mob = player.level().getEntity(id);
             if (mob != null) mob.discard();
             break;
         case UPDATEMOB:
@@ -362,7 +362,7 @@ public class PacketTrainer extends NBTPacket
                         TComponent.literal(ChatFormatting.RED + "You are not allowed to do that."));
                 return;
             }
-            mob = player.getLevel().getEntity(id);
+            mob = player.level().getEntity(id);
             mobHolder = TrainerCaps.getHasPokemobs(mob);
             // This means we are editing a mob of a trainer.
             if (this.getTag().contains("__trainers__") && mobHolder != null)

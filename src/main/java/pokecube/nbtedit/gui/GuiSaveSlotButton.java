@@ -1,12 +1,12 @@
 package pokecube.nbtedit.gui;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.nbt.CompoundTag;
@@ -29,13 +29,13 @@ public class GuiSaveSlotButton extends Button
     int                                  rightX;
     private int                          tickCount;
 
-    public GuiSaveSlotButton(final SaveStates.SaveState save, final int x, final int y, final OnPress onClick)
+    public GuiSaveSlotButton(final SaveStates.SaveState save, final int x, final int y, final OnPress onClick, CreateNarration narration)
     {
         super(x, y, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.HEIGHT, TComponent.literal((save.tag.isEmpty() ? "Save " : "Load ")
-                + save.name), onClick);
+                + save.name), onClick, narration);
         this.save = save;
-        this.x = this.rightX = x;
-        this.y = y;
+        this.setX(this.rightX = x);
+        this.setY(y);
         this.mc = Minecraft.getInstance();
         this.xVisible = !save.tag.isEmpty();
         this.tickCount = -1;
@@ -70,23 +70,24 @@ public class GuiSaveSlotButton extends Button
         return false;
     }
 
-    public void draw(final PoseStack mat, final int mx, final int my)
+    public void draw(final GuiGraphics graphics, final int mx, final int my)
     {
 
         int textColor = this.isHoveredOrFocused() ? 16777120 : 0xffffff;
-        this.renderVanillaButton(mat, this.x, this.y, 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
-        GuiComponent.drawCenteredString(mat, this.mc.font, this.getMessage(), this.x + this.width / 2, this.y + 6,
-                textColor);
-        if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0) this.mc.font.drawShadow(mat, "_", this.x
-                + (this.width + this.mc.font.width(this.getMessage().getString())) / 2 + 1, this.y + 6, 0xffffff);
+        this.renderVanillaButton(graphics, this.getX(), this.getY(), 0, 66, this.width, GuiSaveSlotButton.HEIGHT);
+        graphics.drawCenteredString(this.mc.font, this.getMessage(), this.getX() + this.width / 2, this.getY() + 6, textColor);
+        // TODO: Fix this
+//        if (this.tickCount != -1 && this.tickCount / 6 % 2 == 0)
+//            this.mc.font.drawShadow(graphics, "_", this.getX() +
+//                    (this.width + this.mc.font.width(this.getMessage().getString())) / 2 + 1, this.getY() + 6, 0xffffff);
 
         if (this.xVisible)
         {
             textColor = this.inBoundsOfX(mx, my) ? 16777120 : 0xffffff;
-            this.renderVanillaButton(mat, this.leftBoundOfX(), this.topBoundOfX(), 0, 66, GuiSaveSlotButton.X_SIZE,
-                    GuiSaveSlotButton.X_SIZE);
-            GuiComponent.drawCenteredString(mat, this.mc.font, "x", this.x - GuiSaveSlotButton.GAP
-                    - GuiSaveSlotButton.X_SIZE / 2, this.y + 6, textColor);
+            this.renderVanillaButton(graphics, this.leftBoundOfX(),
+                    this.topBoundOfX(), 0, 66, GuiSaveSlotButton.X_SIZE, GuiSaveSlotButton.X_SIZE);
+            graphics.drawCenteredString(this.mc.font, "x", this.getX() -
+                    GuiSaveSlotButton.GAP - GuiSaveSlotButton.X_SIZE / 2, this.getY() + 6, textColor);
         }
     }
 
@@ -100,24 +101,25 @@ public class GuiSaveSlotButton extends Button
 
     private int leftBoundOfX()
     {
-        return this.x - GuiSaveSlotButton.X_SIZE - GuiSaveSlotButton.GAP;
+        return this.getX() - GuiSaveSlotButton.X_SIZE - GuiSaveSlotButton.GAP;
     }
 
-    private void renderVanillaButton(final PoseStack mat, final int x, final int y, final int u, final int v, final int width,
+    private void renderVanillaButton(final GuiGraphics graphics, final int x, final int y, final int u, final int v, final int width,
             final int height)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GuiSaveSlotButton.TEXTURE);
 
+        // TODO: Check this
         // Top Left
-        this.blit(mat, x, y, u, v, width / 2, height / 2);
+        graphics.blit(new ResourceLocation(""), x, y, u, v, width / 2, height / 2);
         // Top Right
-        this.blit(mat, x + width / 2, y, u + 200 - width / 2, v, width / 2, height / 2);
+        graphics.blit(new ResourceLocation(""), x + width / 2, y, u + 200 - width / 2, v, width / 2, height / 2);
         // Bottom Left
-        this.blit(mat, x, y + height / 2, u, v + 20 - height / 2, width / 2, height / 2);
+        graphics.blit(new ResourceLocation(""), x, y + height / 2, u, v + 20 - height / 2, width / 2, height / 2);
         // Bottom Right
-        this.blit(mat, x + width / 2, y + height / 2, u + 200 - width / 2, v + 20 - height / 2, width / 2, height / 2);
+        graphics.blit(new ResourceLocation(""), x + width / 2, y + height / 2, u + 200 - width / 2, v + 20 - height / 2, width / 2, height / 2);
     }
 
     public void reset()
@@ -152,7 +154,7 @@ public class GuiSaveSlotButton extends Button
 
     private int topBoundOfX()
     {
-        return this.y + (GuiSaveSlotButton.HEIGHT - GuiSaveSlotButton.X_SIZE) / 2;
+        return this.getY() + (GuiSaveSlotButton.HEIGHT - GuiSaveSlotButton.X_SIZE) / 2;
     }
 
     public void update()
@@ -165,7 +167,7 @@ public class GuiSaveSlotButton extends Button
         this.width = this.mc.font.width(this.getMessage().getString()) + 24;
         if (this.width % 2 == 1) ++this.width;
         this.width = Mth.clamp(this.width, GuiSaveSlotButton.MIN_WIDTH, GuiSaveSlotButton.MAX_WIDTH);
-        this.x = this.rightX - this.width;
+        this.setX(this.rightX - this.width);
     }
 
 }

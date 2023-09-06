@@ -1,33 +1,31 @@
 package pokecube.core.client.render.mobs.overlays;
 
-import java.awt.Color;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 import java.util.function.BiFunction;
-
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Quaternion;
-
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.entity.PartEntity;
+import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -41,7 +39,6 @@ import pokecube.core.init.Config;
 import pokecube.core.utils.Resources;
 import thut.core.common.ThutCore;
 import thut.core.common.handlers.PlayerDataHandler;
-import thut.lib.AxisAngles;
 import thut.lib.TComponent;
 
 /**
@@ -124,8 +121,8 @@ public class Health
     }
 
     private static void blit(final VertexConsumer buffer, final Matrix4f pos, final float x1, final float y1,
-            final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
-            final int brightness)
+                             final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
+                             final int brightness)
     {
         final float u0 = 0;
         final float u1 = 90f / 256f;
@@ -181,7 +178,7 @@ public class Health
             }
 
             mat.translate(0, dy + config.heightAbove, 0);
-            Quaternion quaternion;
+            Quaternionf quaternion;
             quaternion = viewer.rotation();
             mat.mulPose(quaternion);
             mat.scale(scale, scale, scale);
@@ -212,8 +209,8 @@ public class Health
             final float namel = mc.font.width(name) * s;
             if (namel + 20 > size * 2) size = namel / 2F + 10F;
             float healthSize = size * (health / maxHealth);
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
-            mat.mulPose(AxisAngles.XP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
+            mat.mulPose(Axis.XP.rotationDegrees(180));
 
             pos = mat.last().pose();
             // Background
@@ -278,7 +275,8 @@ public class Health
             mat.pushPose();
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
-            mc.font.draw(mat, nameComp.getString(), 0, 0, colour);
+            // TODO: Fix this
+            // mc.font.draw(mat, nameComp.getString(), 0, 0, colour);
             s1 = 0.75F;
             mat.popPose();
 
@@ -296,17 +294,20 @@ public class Health
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
             if (isOwner)
-                mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h, 0xFFFFFFFF);
+                // TODO: Fix this
+                // mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.last().pose();
-            mc.font.drawInBatch(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
-            mc.font.drawInBatch(gender, (int) (size / (s * s1) * 2) - 2 - mc.font.width(gender), h - 1, colour, false,
-                    pos, buf, false, 0, br);
+
+            // TODO: Fix this
+            // mc.font.drawInBatch(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
+            // mc.font.drawInBatch(gender, (int) (size / (s * s1) * 2) - 2 - mc.font.width(gender), h - 1, colour, false, pos, buf, false, 0, br);
 
             if (PokecubeCore.getConfig().enableDebugInfo && mc.options.renderDebug)
             {
                 final String entityID = entity.getEncodeId().toString();
-                mc.font.draw(mat, "ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h + 16, 0xFFFFFFFF);
+                // TODO: Fix this
+                // mc.font.draw(mat, "ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h + 16, 0xFFFFFFFF);
             }
             mat.popPose();
 
@@ -348,10 +349,11 @@ public class Health
         mat.pushPose();
         mat.translate(vertexX, vertexY + 7, 0.1f * zOrder);
         mat.scale(20, 20, 20);
-        mat.mulPose(AxisAngles.YP.rotationDegrees(180));
-        mat.mulPose(AxisAngles.ZP.rotationDegrees(180));
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, TransformType.NONE, br, OverlayTexture.NO_OVERLAY,
-                mat, buf, 0);
+        mat.mulPose(Axis.YP.rotationDegrees(180));
+        mat.mulPose(Axis.ZP.rotationDegrees(180));
+        // TODO: Check this
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.NONE, br, intV, mat,
+                buf, mob.level, 0);
         mat.popPose();
     }
 }

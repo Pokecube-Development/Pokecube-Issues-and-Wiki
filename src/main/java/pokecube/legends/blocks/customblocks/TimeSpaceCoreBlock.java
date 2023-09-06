@@ -29,10 +29,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -112,10 +112,10 @@ public class TimeSpaceCoreBlock extends Rotates implements SimpleWaterloggedBloc
     }
 
     // Default States
-    public TimeSpaceCoreBlock(final String name, final Material material, final MaterialColor color,
-            final float hardness, final float resistance, final SoundType sound, final boolean isDrop)
+    public TimeSpaceCoreBlock(final String name, final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                              final boolean requiresCorrectToolForDrops, final float destroyTime, final float blastResistance)
     {
-        super(name, material, color, hardness, resistance, sound, isDrop);
+        super(name, color, sound, instrument, requiresCorrectToolForDrops, destroyTime, blastResistance);
         this.registerDefaultState(this.stateDefinition.any().setValue(TimeSpaceCoreBlock.HALF, TimeSpaceCorePart.BOTTOM)
                 .setValue(TimeSpaceCoreBlock.FACING, Direction.NORTH).setValue(TimeSpaceCoreBlock.WATERLOGGED, false));
     }

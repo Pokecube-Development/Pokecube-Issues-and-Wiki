@@ -6,12 +6,15 @@ import java.util.function.Function;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.level.Level;
 import pokecube.adventures.blocks.genetics.helper.ClonerHelper;
 import pokecube.adventures.blocks.genetics.helper.crafting.PoweredCraftingInventory;
 import pokecube.adventures.blocks.genetics.helper.recipe.RecipeSelector.ItemBasedSelector;
@@ -25,9 +28,9 @@ public class RecipeSplice extends PoweredRecipe
     public static int ENERGYCOST = 10000;
     public static Function<ItemStack, Integer> ENERGYNEED = (s) -> RecipeSplice.ENERGYCOST;
 
-    public RecipeSplice(final ResourceLocation location)
+    public RecipeSplice(final ResourceLocation location, CraftingBookCategory category)
     {
-        super(location);
+        super(location, category);
     }
 
     @Override
@@ -37,10 +40,12 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public boolean complete(final IPoweredProgress tile)
+    public boolean complete(final IPoweredProgress tile, Level world)
     {
         final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
-        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix()));
+
+        // TODO: Check this
+        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), world.registryAccess()));
         for (int i = 0; i < remaining.size(); i++)
         {
             final ItemStack stack = remaining.get(i);
@@ -58,7 +63,7 @@ public class RecipeSplice extends PoweredRecipe
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingContainer inv, RegistryAccess access)
     {
         if (!(inv instanceof PoweredCraftingInventory inv_p)) return ItemStack.EMPTY;
         if (!(inv_p.inventory instanceof SplicerTile tile)) return ItemStack.EMPTY;

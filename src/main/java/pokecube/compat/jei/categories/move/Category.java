@@ -16,9 +16,11 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.Compat;
 import pokecube.core.moves.MovesUtils;
@@ -96,7 +98,7 @@ public class Category implements IRecipeCategory<MoveRecipe>
     public void setRecipe(IRecipeLayoutBuilder builder, MoveRecipe recipe, IFocusGroup focuses)
     {
         IRecipeSlotBuilder outputSlot = builder.addSlot(RecipeIngredientRole.OUTPUT, 94, 18);
-        outputSlot.addItemStack(recipe.getResultItem());
+        outputSlot.addItemStack(recipe.getResultItem(RegistryAccess.EMPTY));
 
         NonNullList<Ingredient> ingredients = recipe.getIngredients();
 

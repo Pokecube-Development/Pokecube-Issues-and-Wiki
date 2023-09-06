@@ -1,23 +1,20 @@
 package pokecube.legends.worldgen.trees;
 
-import javax.annotation.Nullable;
-
-import net.minecraft.core.Holder;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractMegaTreeGrower;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 public class AgedTreeGrower extends AbstractMegaTreeGrower 
 {
-	  @Override
-    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredFeature(final RandomSource randomIn, final boolean b)
+    @Override
+    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(final RandomSource random, final boolean b)
     {
-        return randomIn.nextBoolean() ? Holder.direct(Trees.AGED_SPRUCE_TREE.get()) : Holder.direct(Trees.AGED_PINE_TREE.get());
+        return random.nextBoolean() ? Trees.AGED_SPRUCE_TREE : Trees.AGED_PINE_TREE;
     }
 
-    @Nullable
-    protected Holder<? extends ConfiguredFeature<?, ?>> getConfiguredMegaFeature(RandomSource randomIn)
+    protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredMegaFeature(RandomSource random)
     {
-        return randomIn.nextBoolean() ? Holder.direct(Trees.MEGA_AGED_SPRUCE_TREE.get()) : Holder.direct(Trees.MEGA_AGED_PINE_TREE.get());
+        return random.nextBoolean() ? Trees.MEGA_AGED_SPRUCE_TREE : Trees.MEGA_AGED_PINE_TREE;
     }
 }

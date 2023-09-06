@@ -1,11 +1,7 @@
 package pokecube.core.client.gui.blocks;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -13,6 +9,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.lwjgl.glfw.GLFW;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
@@ -50,55 +47,61 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     }
 
     @Override
-    protected void renderLabels(final PoseStack matrixStack, final int x, final int y)
+    protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
         // NOOP, this would draw name and title.
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, TMs.TEXTURE);
         final int j2 = (this.width - this.imageWidth) / 2;
         final int k2 = (this.height - this.imageHeight) / 2;
-        this.blit(mat, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
+
+        // TODO: Check this
+        graphics.blit(BACKGROUND_LOCATION, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
     public void init()
     {
         super.init();
+
         final Component apply = TComponent.translatable("block.tm_machine.apply");
-        this.addRenderableWidget(new Button(this.width / 2 - 8, this.height / 2 - 39, 60, 20, apply, b -> {
+        this.addRenderableWidget(new Button.Builder(apply, (b) -> {
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
-        }));
+        }).bounds(this.width / 2 - 8, this.height / 2 - 39, 60, 20).build());
+
         final Component next = TComponent.translatable(">");
-        this.addRenderableWidget(new Button(this.width / 2 + 68, this.height / 2 - 50, 10, 10, next, b -> {
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
             final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
-        }));
+        }).bounds(this.width / 2 + 68, this.height / 2 - 50, 10, 10).build());
+
         final Component prev = TComponent.translatable("<");
-        this.addRenderableWidget(new Button(this.width / 2 - 30, this.height / 2 - 50, 10, 10, prev, b -> {
+        this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             final String[] moves = this.menu.moves;
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
             else if (this.index < 0) this.index = 0;
-        }));
+        }).bounds(this.width / 2 - 30, this.height / 2 - 50, 10, 10).build());
+
         this.addRenderableWidget(this.search = new EditBox(this.font, this.width / 2 - 19, this.height / 2 - 50, 87, 10,
                 TComponent.translatable("")));
     }
 
     @Override
     /** Draws the screen and all the components in it. */
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground(mat);
-        super.render(mat, mouseX, mouseY, partialTicks);
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTicks);
         final String[] moves = this.menu.moves;
         final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
         final MoveEntry move = MovesUtils.getMove(s);
@@ -106,11 +109,13 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         {
             final int yOffset = this.height / 2 - 164;
             final int xOffset = this.width / 2 - 42;
-            GuiComponent.drawString(mat, this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 14,
+
+            // TODO: Check this
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 14,
                     yOffset + 99, move.getType(null).colour);
-            GuiComponent.drawString(mat, this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
+            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
         }
-        this.renderTooltip(mat, mouseX, mouseY);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 
 }

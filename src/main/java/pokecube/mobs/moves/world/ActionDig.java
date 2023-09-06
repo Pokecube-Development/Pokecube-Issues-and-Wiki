@@ -46,7 +46,7 @@ public class ActionDig implements IMoveWorldEffect
         int ret = 0;
 
         final LivingEntity owner = digger.getOwner();
-        final Level world = digger.getEntity().getLevel();
+        final Level world = digger.getEntity().level();
         ItemStack pickaxe = new ItemStack(Items.DIAMOND_PICKAXE);
         ServerPlayer player = null;
         if (owner instanceof ServerPlayer splayer) player = splayer;

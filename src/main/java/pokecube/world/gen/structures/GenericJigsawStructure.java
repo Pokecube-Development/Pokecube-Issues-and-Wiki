@@ -222,18 +222,18 @@ public class GenericJigsawStructure extends Structure
         this._spawn_preset = _spawn_preset;
         this._spawn_blacklist = _spawn_blacklist;
         this.biome_type = biome_type;
-        this.name = start_pool.value().getName().toString();
+        this.name = start_pool.value().getClass().getName().toString();
         this.avoidances = avoidances;
 
         if (!_spawn_blacklist.isBlank())
         {
             PokecubeAPI.LOGGER.warn("Warning, spawn blacklist is not used anymore! Use Holdersets instead! {}",
-                    start_pool.get().getName());
+                    start_pool.get().getClass().getName());
         }
         if (!_spawn_preset.isBlank())
         {
             PokecubeAPI.LOGGER.warn("Warning, spawn preset is not used anymore! Use Holdersets instead! {}",
-                    start_pool.get().getName());
+                    start_pool.get().getClass().getName());
         }
 
         this.underground = "underground".equals(y_settings.surface_type);
@@ -294,13 +294,14 @@ public class GenericJigsawStructure extends Structure
             {
                 continue;
             }
-            if (generator.hasStructureChunkInRange(set, rng, context.seed(), pos.x, pos.z, this.avoid_range))
-            {
-                if (PokecubeCore.getConfig().debug_misc)
-                    PokecubeAPI.logDebug("Skipping generation of {} due to conflict with {}",
-                            this.startPool.value().getName(), key);
-                return false;
-            }
+//            TODO: Find replacement
+//            if (generator.hasStructureChunkInRange(set, rng, context.seed(), pos.x, pos.z, this.avoid_range))
+//            {
+//                if (PokecubeCore.getConfig().debug_misc)
+//                    PokecubeAPI.logDebug("Skipping generation of {} due to conflict with {}",
+//                            this.startPool.value().getClass().getName(), key);
+//                return false;
+//            }
         }
 
         // Check if we have enough biome room around us.

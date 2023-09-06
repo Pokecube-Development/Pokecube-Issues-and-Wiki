@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.brigadier.StringReader;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -86,23 +87,25 @@ public class Rewards extends ListPage<RewardOption>
                 this.chance.setValue(r.chance + "");
             }
 
-            this.confirm = new Button(0, 0, 10, 10, TComponent.literal("Y"), b -> {
+            this.confirm = new Button.Builder(TComponent.literal("Y"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.reward.setValue("");
                 this.onUpdated();
-            });
-            this.delete = new Button(0, 0, 10, 10, TComponent.literal("x"), b -> {
+            }).bounds(0, 0, 10, 10).build();
+
+            this.delete = new Button.Builder(TComponent.literal("X"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
-            });
+            }).bounds(0, 0, 10, 10).build();
             this.delete.setFGColor(0xFFFF0000);
+
             if (index == this.rewards.getRewards().size()) this.delete.active = false;
             this.confirm.active = false;
 
-            this.apply = new Button(0, 0, 45, 10, TComponent.literal("Apply"), b -> {
+            this.apply = new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
-            });
+            }).bounds(0, 0, 45, 10).build();
 
             parent.addRenderableWidget(this.delete);
             parent.addRenderableWidget(this.confirm);
@@ -132,9 +135,9 @@ public class Rewards extends ListPage<RewardOption>
         }
 
         @Override
-        public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
-                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
-                final float partialTicks)
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
+                           final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                           final float partialTicks)
         {
             this.confirm.visible = true;
             this.delete.visible = true;
@@ -142,22 +145,22 @@ public class Rewards extends ListPage<RewardOption>
             this.chance.visible = true;
             this.apply.visible = true;
 
-            this.apply.x = x + 18 + this.reward.getWidth() + this.chance.getWidth();
-            this.apply.y = y - 5;
-            this.reward.x = x - 2;
-            this.reward.y = y - 4;
-            this.chance.x = x - 2 + this.reward.getWidth();
-            this.chance.y = y - 4;
-            this.delete.y = y - 5;
-            this.delete.x = x - 1 + this.reward.getWidth() + this.chance.getWidth();
-            this.confirm.y = y - 5;
-            this.confirm.x = x - 2 + 10 + this.reward.getWidth() + this.chance.getWidth();
+            this.apply.setX(x + 18 + this.reward.getWidth() + this.chance.getWidth());
+            this.apply.setY(y - 5);
+            this.reward.setX(x - 2);
+            this.reward.setY(y - 4);
+            this.chance.setX(x - 2 + this.reward.getWidth());
+            this.chance.setY(y - 4);
+            this.delete.setY(y - 5);
+            this.delete.setX(x - 1 + this.reward.getWidth() + this.chance.getWidth());
+            this.confirm.setY(y - 5);
+            this.confirm.setX(x - 2 + 10 + this.reward.getWidth() + this.chance.getWidth());
 
-            this.reward.render(mat, mouseX, mouseY, partialTicks);
-            this.chance.render(mat, mouseX, mouseY, partialTicks);
-            this.delete.render(mat, mouseX, mouseY, partialTicks);
-            this.confirm.render(mat, mouseX, mouseY, partialTicks);
-            this.apply.render(mat, mouseX, mouseY, partialTicks);
+            this.reward.render(graphics, mouseX, mouseY, partialTicks);
+            this.chance.render(graphics, mouseX, mouseY, partialTicks);
+            this.delete.render(graphics, mouseX, mouseY, partialTicks);
+            this.confirm.render(graphics, mouseX, mouseY, partialTicks);
+            this.apply.render(graphics, mouseX, mouseY, partialTicks);
         }
 
         public void onUpdated()
@@ -229,10 +232,9 @@ public class Rewards extends ListPage<RewardOption>
 
         x = this.width / 2;
         y = this.height / 2;
-        this.addRenderableWidget(
-                new Button(x + 73, y + 64, 50, 12, TComponent.translatable("traineredit.button.home"), b ->
-                {
-                    this.closeCallback.run();
-                }));
+
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
+            this.closeCallback.run();
+        }).bounds(x + 73, y + 64, 50, 12).build());
     }
 }

@@ -73,7 +73,7 @@ public class StructureTemplateTools
 
     public static ItemStack getForInfo(StructureBlockInfo info)
     {
-        return getPlacer(info.state).getForBlock(info.state);
+        return getPlacer(info.state()).getForBlock(info.state());
     }
 
     public static Map<BlockPos, ItemStack> getNeededMaterials(ServerLevel level, List<StructureBlockInfo> infos,
@@ -85,12 +85,12 @@ public class StructureTemplateTools
         for (int i = startIndex; i <= endIndex; i++)
         {
             var info = infos.get(i);
-            if (info.state != null && !info.state.isAir())
+            if (info.state() != null && !info.state().isAir())
             {
-                BlockPlacer placer = getPlacer(info.state);
-                BlockState old = level.getBlockState(info.pos);
-                if (old.getBlock() == info.state.getBlock()) continue;
-                ItemStack newStack = placer.getForBlock(info.state);
+                BlockPlacer placer = getPlacer(info.state());
+                BlockState old = level.getBlockState(info.pos());
+                if (old.getBlock() == info.state().getBlock()) continue;
+                ItemStack newStack = placer.getForBlock(info.state());
                 if (!newStack.isEmpty())
                 {
                     Item item = newStack.getItem();
@@ -98,7 +98,7 @@ public class StructureTemplateTools
                     if (stack == null) stack = newStack;
                     else stack.setCount(stack.getCount() + 1);
                     tmp.put(item, stack);
-                    neededItems.put(info.pos, stack);
+                    neededItems.put(info.pos(), stack);
                 }
             }
         }
@@ -116,11 +116,11 @@ public class StructureTemplateTools
         List<BlockPos> remove = Lists.newArrayList();
         for (var info : infos)
         {
-            if (info.state != null)
+            if (info.state() != null)
             {
-                BlockState old = level.getBlockState(info.pos);
+                BlockState old = level.getBlockState(info.pos());
                 if (old.isAir()) continue;
-                if (old.getBlock() != info.state.getBlock()) remove.add(info.pos);
+                if (old.getBlock() != info.state().getBlock()) remove.add(info.pos());
 //                else
 //                {
 //                    BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,

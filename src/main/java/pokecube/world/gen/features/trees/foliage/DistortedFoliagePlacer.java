@@ -45,18 +45,18 @@ public class DistortedFoliagePlacer extends FoliagePlacer
     }
 
     @Override
-    protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void createFoliage(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
                                  FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
         for(int i = offset; i >= offset - height; --i) {
             int j = radius + (i != offset && i != offset - height ? 1 : 0);
-            this.placeLeavesRow(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
-            this.placeLeavesDot(level, blockSetter, random, treeConfig, foliageAttachment.pos(), j - 1, i - 4, foliageAttachment.doubleTrunk());
+            this.placeLeavesRow(level, foliageSetter, random, treeConfig, foliageAttachment.pos(), j, i, foliageAttachment.doubleTrunk());
+            this.placeLeavesDot(level, foliageSetter, random, treeConfig, foliageAttachment.pos(), j - 1, i - 4, foliageAttachment.doubleTrunk());
         }
     }
 
-    protected void placeLeavesRow(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void placeLeavesRow(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, BlockPos pos, int range, int yOffset, boolean large)
     {
         int i = large ? 1 : 0;
@@ -71,14 +71,14 @@ public class DistortedFoliagePlacer extends FoliagePlacer
                     if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
                     {
                         mutablePos.setWithOffset(pos, j, yOffset, k);
-                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                        tryPlaceLeaf(level, foliageSetter, random, treeConfig, mutablePos);
                     }
                 }
             }
         }
     }
 
-    protected void placeLeavesDot(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void placeLeavesDot(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, BlockPos pos, int range, int yOffset, boolean large)
     {
         int i = large ? 1 : 0;
@@ -93,7 +93,7 @@ public class DistortedFoliagePlacer extends FoliagePlacer
                     if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
                     {
                         mutablePos.setWithOffset(pos, j, yOffset, k);
-                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                        tryPlaceLeaf(level, foliageSetter, random, treeConfig, mutablePos);
                     }
                 }
             }

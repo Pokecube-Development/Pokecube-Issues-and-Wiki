@@ -11,25 +11,25 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
+import net.minecraft.world.level.material.MapColor;
 import pokecube.legends.init.ItemInit;
 
 public class EffectBlockBase extends BlockBase
 {
     private final MobEffect effect;
 
-    public EffectBlockBase(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
+    public EffectBlockBase(final String name, final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                           final boolean requiresCorrectToolForDrops, final MobEffect effects, final float destroyTime, final float blastResistance)
     {
-        super(name, material, color, hardness, resistance, sound, hadDrop, effects);
+        super(name, color, sound, instrument, requiresCorrectToolForDrops, effects, destroyTime, blastResistance);
         this.effect = effects;
     }
 
-    public EffectBlockBase(final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean hadDrop, final MobEffect effects)
+    public EffectBlockBase(final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                           final boolean requiresCorrectToolForDrops, final MobEffect effects, final float destroyTime, final float blastResistance)
     {
-        super(material, color, hardness, resistance, sound, hadDrop, effects);
+        super(color, sound, instrument, requiresCorrectToolForDrops, effects, destroyTime, blastResistance);
         this.effect = effects;
     }
 

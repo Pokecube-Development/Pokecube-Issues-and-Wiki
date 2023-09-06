@@ -1,5 +1,6 @@
 package thut.core.client.render.bbmodel;
 
+import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -199,9 +200,9 @@ public class BBModelPart extends Part
         float ry = this.ry + rotations.y;
         float rz = this.rz + rotations.z;
 
-        if (rz != 0) mat.mulPose(AxisAngles.YN.rotationDegrees(rz));
-        if (ry != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(ry));
-        if (rx != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rx));
+        if (rz != 0) mat.mulPose(Axis.YN.rotationDegrees(rz));
+        if (ry != 0) mat.mulPose(Axis.ZP.rotationDegrees(ry));
+        if (rx != 0) mat.mulPose(Axis.XP.rotationDegrees(rx));
 
         // Translate by post-PreOffset amount.
         mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);

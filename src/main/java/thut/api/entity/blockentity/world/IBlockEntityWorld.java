@@ -60,7 +60,7 @@ public interface IBlockEntityWorld extends LevelAccessor
     default Level getWorld()
     {
         final Entity entity = (Entity) this.getBlockEntity();
-        return entity.getLevel();
+        return entity.level();
     }
 
     default BlockEntity getTile(BlockPos pos)
@@ -115,7 +115,7 @@ public interface IBlockEntityWorld extends LevelAccessor
         final int yMin = mob.getMin().getY();
         if (mob.getBlocks() == null)
         {
-            if (!entity.getLevel().isClientSide) entity.discard();
+            if (!entity.level().isClientSide) entity.discard();
             return;
         }
         final int sizeX = mob.getBlocks().length;
@@ -125,8 +125,8 @@ public interface IBlockEntityWorld extends LevelAccessor
         for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++)
             for (int k = 0; k < sizeZ; k++) if ((tile = mob.getTiles()[i][j][k]) != null)
         {
-            final BlockPos pos = new BlockPos(i + xMin + entity.getX(), j + yMin + entity.getY(),
-                    k + zMin + entity.getZ());
+            final BlockPos pos = new BlockPos((int) (i + xMin + entity.getX()),
+                    (int) (j + yMin + entity.getY()), (int) (k + zMin + entity.getZ()));
             final BlockPos old = tile.getBlockPos();
             if (!old.equals(pos))
             {

@@ -159,7 +159,7 @@ public class WalkToTask extends RootTask<Mob>
                 break pathing;
             }
 
-            final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.getLevel().dimension());
+            final List<IPathHelper> pathers = WorldTickManager.pathHelpers.get(mob.level().dimension());
             for (final IPathHelper h : pathers)
             {
                 final boolean valid = h.shouldHelpPath(mob, target);

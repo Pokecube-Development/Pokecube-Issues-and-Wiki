@@ -121,7 +121,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         final UUID ownerID = this.getOwnerId();
         if (ownerID == null) return null;
-        final Level world = this.getEntity().getLevel();
+        final Level world = this.getEntity().level();
         final boolean serv = world instanceof ServerLevel;
         if (!serv && ownerID.equals(PokecubeCore.proxy.getPlayer().getUUID()))
             if (this.getOwnerHolder().getOwner() == null)
@@ -205,7 +205,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             this.getEntity().discard();
             return;
         }
-        if (!(this.getEntity().getLevel() instanceof ServerLevel))
+        if (!(this.getEntity().level() instanceof ServerLevel))
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getId());
             PokecubeCore.packets.sendToServer(packet);
@@ -218,7 +218,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         final UUID id = this.getEntity().getUUID();
         final Entity mob = this.getEntity();
-        final Level world = this.getEntity().getLevel();
+        final Level world = this.getEntity().level();
         final BlockPos pos = this.getEntity().blockPosition();
         // Ensures the chunk is actually still loaded here.
         world.getChunk(pos);
@@ -295,7 +295,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.timeSinceCombat = -50;
 
         this.getEntity().captureDrops(Lists.newArrayList());
-        final Player tosser = PokecubeMod.getFakePlayer(this.getEntity().getLevel());
+        final Player tosser = PokecubeMod.getFakePlayer(this.getEntity().level());
 
         boolean added = false;
         toPlayer:
@@ -360,7 +360,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
     private void onToss(final LivingEntity owner, final ItemStack itemstack)
     {
-        final EntityPokecube entity = new EntityPokecube(EntityTypes.getPokecube(), owner.getLevel());
+        final EntityPokecube entity = new EntityPokecube(EntityTypes.getPokecube(), owner.level());
         entity.shootingEntity = owner;
         entity.shooter = owner.getUUID();
         entity.setItem(itemstack);
@@ -369,7 +369,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.here.clear().setVelocities(entity);
         entity.targetEntity = null;
         entity.targetLocation.clear();
-        this.getEntity().getLevel().addFreshEntity(entity);
+        this.getEntity().level().addFreshEntity(entity);
     }
 
     @Override

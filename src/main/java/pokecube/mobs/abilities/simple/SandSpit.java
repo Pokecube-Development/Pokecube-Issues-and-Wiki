@@ -25,7 +25,7 @@ public class SandSpit extends Ability
         // We can be target and user at the same time, if self move.
         if (areWeTarget(mob, move)) return;
 
-        final Level world = mob.getEntity().getLevel();
+        final Level world = mob.getEntity().level();
 
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3());
         final PokemobTerrainEffects teffect = (PokemobTerrainEffects) segment.geTerrainEffect("pokemobEffects");

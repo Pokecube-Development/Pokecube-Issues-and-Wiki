@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Tooltip;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -59,44 +61,31 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.variation = variation;
         this.index = index;
         this.entity = entity;
-        this.delete = new Button(-200, 0, 10, 10, TComponent.literal("x"), b -> this.deleteClicked(b),
-                (b, pose, x, y) ->
-                {
-                    if (!b.active) return;
-                    Component tooltip = TComponent.translatable("pokecube.gui.delete.start.desc");
-                    parent.renderTooltip(pose, tooltip, x, y);
-                });
+
+        // TODO: Check these
+        this.delete = new Button.Builder(TComponent.literal("X"), this::deleteClicked)
+                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.delete.start.desc")))
+                .bounds(-200, 0, 10, 10).build();
         this.delete.setFGColor(0xFFFF0000);
-        this.confirm = new Button(-200, 0, 10, 10, TComponent.literal("Y"), b -> this.confirmClicked(b),
-                (b, pose, x, y) ->
-                {
-                    if (!b.active) return;
-                    Component tooltip = TComponent.translatable("pokecube.gui.delete.confirm.desc");
-                    parent.renderTooltip(pose, tooltip, x, y);
-                });
+
+        this.confirm = new Button.Builder(TComponent.literal("Y"), this::confirmClicked)
+                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.delete.start.desc")))
+                .bounds(-200, 0, 10, 10).build();
         this.confirm.active = false;
 
         if (index == guard.getTasks().size()) this.delete.active = false;
 
-        this.moveUp = new Button(-200, 0, 10, 10, TComponent.literal("\u21e7"), b -> this.moveUpClicked(b),
-                (b, pose, x, y) ->
-                {
-                    if (!b.active) return;
-                    Component tooltip = TComponent.translatable("pokecube.gui.move.up.desc");
-                    parent.renderTooltip(pose, tooltip, x, y);
-                });
-        this.moveDown = new Button(-200, 0, 10, 10, TComponent.literal("\u21e9"), b -> this.moveDownClicked(b),
-                (b, pose, x, y) ->
-                {
-                    if (!b.active) return;
-                    Component tooltip = TComponent.translatable("pokecube.gui.move.down.desc");
-                    parent.renderTooltip(pose, tooltip, x, y);
-                });
+        this.moveUp = new Button.Builder(TComponent.literal("\u21e7"), this::moveUpClicked)
+                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.move.up.desc")))
+                .bounds(-200, 0, 10, 10).build();
 
-        this.update = new Button(-200, 0, 20, 10, TComponent.literal("btn"), b -> this.update(), (b, pose, x, y) -> {
-            Component tooltip = TComponent.translatable("pokemob.route.btn.desc");
-            parent.renderTooltip(pose, tooltip, x, y);
-        });
+        this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), this::moveDownClicked)
+                .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.move.down.desc")))
+                .bounds(-200, 0, 10, 10).build();
+
+        this.update = new Button.Builder(TComponent.literal("btn"), b -> this.update())
+                .tooltip(Tooltip.create(TComponent.translatable("pokemob.route.btn.desc")))
+                .bounds(-200, 0, 10, 10).build();
 
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;
@@ -261,9 +250,9 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
     }
 
     @Override
-    public void render(final PoseStack mat, final int slotIndex, int y, int x, final int listWidth,
-            final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
-            final float partialTicks)
+    public void render(final GuiGraphics graphics, final int slotIndex, int y, int x, final int listWidth,
+                       final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                       final float partialTicks)
     {
         this.delete.visible = true;
         this.confirm.visible = true;
@@ -277,26 +266,26 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         x += this.guiX;
         y += this.guiY;
 
-        this.location.x = x - 2;
-        this.location.y = y - 4;
+        this.location.setX(x - 2);
+        this.location.setY(y - 4);
 
-        this.timeperiod.x = x - 2;
-        this.timeperiod.y = y - 4 - 10;
+        this.timeperiod.setX(x - 2);
+        this.timeperiod.setY(y - 4 - 10);
 
-        this.variation.x = x - 2;
-        this.variation.y = y - 4 - 20;
+        this.variation.setX(x - 2);
+        this.variation.setY(y - 4 - 20);
 
-        this.delete.y = y - 5;
-        this.delete.x = x - 1 + this.location.getWidth();
-        this.confirm.y = y - 5;
-        this.confirm.x = x - 2 + 11 + this.location.getWidth();
-        this.moveUp.y = y - 5 - 10;
-        this.moveUp.x = x - 1 + this.location.getWidth();
-        this.moveDown.y = y - 5 - 10;
-        this.moveDown.x = x - 2 + 11 + this.location.getWidth();
+        this.delete.setY(y - 5);
+        this.delete.setX(x - 1 + this.location.getWidth());
+        this.confirm.setY(y - 5);
+        this.confirm.setX(x - 2 + 11 + this.location.getWidth());
+        this.moveUp.setY(y - 5 - 10);
+        this.moveUp.setX(x - 1 + this.location.getWidth());
+        this.moveDown.setY(y - 5 - 10);
+        this.moveDown.setX(x - 2 + 11 + this.location.getWidth());
 
-        this.update.y = y - 5 - 20;
-        this.update.x = x - 1 + this.location.getWidth();
+        this.update.setY(y - 5 - 20);
+        this.update.setX(x - 1 + this.location.getWidth());
     }
 
     public void reOrder(final int dir)

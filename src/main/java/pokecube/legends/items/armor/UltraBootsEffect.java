@@ -9,8 +9,8 @@ import net.minecraft.world.level.Level;
 
 public class UltraBootsEffect extends ArmorItem
 {
-	public UltraBootsEffect(final ArmorMaterial materialIn, final EquipmentSlot slot, final Properties builder) {
-		super(materialIn, slot, builder);
+	public UltraBootsEffect(final ArmorMaterial materialIn, final Type armorSlot, final Properties builder) {
+		super(materialIn, armorSlot, builder);
 	}
 
 	@Override

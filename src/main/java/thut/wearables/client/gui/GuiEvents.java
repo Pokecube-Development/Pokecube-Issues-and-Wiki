@@ -10,6 +10,7 @@ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent.Init;
@@ -70,7 +71,8 @@ public class GuiEvents
                     button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9, 9,
                             TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
                             b -> pressButton(gui), gui));
-            button.stillVisible = () -> gui.getSelectedTab() == CreativeModeTab.TAB_INVENTORY.getId();
+//            TODO: Fix
+//            button.stillVisible = () -> gui.getSelectedTab() == CreativeModeTabs.INVENTORY;
             button.setFGColor(0xFFFF00FF);
         }
     }

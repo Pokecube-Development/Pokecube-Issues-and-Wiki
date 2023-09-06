@@ -3,10 +3,9 @@ package pokecube.core.client.gui.watch;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
@@ -67,26 +66,26 @@ public class ProgressPage extends PageWithSubPages<Progress>
     }
 
     @Override
-    public void prePageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, colour);
-        GuiComponent.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20,
+        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 135, y + 10, colour);
+        graphics.drawCenteredString(this.font, this.current_page.getTitle().getString(), x + 135, y + 20,
                 colour);
 
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
-        GuiComponent.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 30, colour);
+        graphics.drawCenteredString(this.font, player.getDisplayName().getString(), x + 135, y + 30, colour);
     }
 
     @Override
     public void onPageOpened()
     {
         super.onPageOpened();
-        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected()
-                .getCode());
+        // TODO: Check for .code() replacement
+        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected()/*.code()*/);
     }
 
     @Override
@@ -96,14 +95,17 @@ public class ProgressPage extends PageWithSubPages<Progress>
         final int y = this.watch.height / 2 - 5;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 90, y - 70, 12, 12, next, b ->
-        {
+
+        // TODO: Check this
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             this.changePage(this.index + 1);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 90, y - 70, 12, 12, prev, b ->
-        {
+        }).bounds(x + 90, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             this.changePage(this.index - 1);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }).bounds(x - 90, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

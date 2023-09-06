@@ -22,9 +22,9 @@ public class LegendsSword extends SwordItem
 	boolean hasTooltip = true;
 	boolean hasShiny = false;
 
-    public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, final Properties properties, final CreativeModeTab group)
+    public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, final Properties properties)
     {
-        super(material, bonusDamage, attackSpeed, properties.tab(group));
+        super(material, bonusDamage, attackSpeed, properties);
     }
 
     public LegendsSword setTooltipName(final String tooltipname)

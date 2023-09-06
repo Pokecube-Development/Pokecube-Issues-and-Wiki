@@ -106,7 +106,7 @@ public class LogicMountedControl extends LogicBase
         }
         if (this.canFly)
         {
-            boolean noFly = LogicMountedControl.BLACKLISTED.contains(rider.getLevel().dimension());
+            boolean noFly = LogicMountedControl.BLACKLISTED.contains(rider.level().dimension());
             if (noFly)
             {
                 if (this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE))
@@ -158,10 +158,10 @@ public class LogicMountedControl extends LogicBase
         this.wasRiding = true;
         this.entity.yRot = this.pokemob.getHeading();
 
-        shouldControl = this.entity.isOnGround() || this.pokemob.canUseFly();
+        shouldControl = this.entity.onGround() || this.pokemob.canUseFly();
         verticalControl = false;
         boolean waterSpeed = false;
-        boolean airSpeed = !this.entity.isOnGround();
+        boolean airSpeed = !this.entity.onGround();
 
         final boolean fluidRestricted = this.inFluid && !(this.canSurf || this.canDive);
 

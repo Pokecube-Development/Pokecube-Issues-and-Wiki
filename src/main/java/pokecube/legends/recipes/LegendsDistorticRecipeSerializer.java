@@ -3,6 +3,7 @@ package pokecube.legends.recipes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -80,7 +81,7 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
     }
 
     @Override
-    public ItemStack assemble(final Container inventory)
+    public ItemStack assemble(final Container inventory, RegistryAccess access)
     {
         return this.output.copy();
     }
@@ -92,7 +93,7 @@ public class LegendsDistorticRecipeSerializer implements Recipe<Container>
     }
 
     @Override
-    public ItemStack getResultItem()
+    public ItemStack getResultItem(RegistryAccess access)
     {
         return this.output;
     }

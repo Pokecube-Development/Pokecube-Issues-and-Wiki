@@ -4,24 +4,23 @@
 package pokecube.core.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
-import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.network.pokemobs.PacketTeleport;
 import pokecube.core.utils.Resources;
 import thut.api.entity.teleporting.TeleDest;
 
-public class GuiTeleport extends GuiComponent
+public class GuiTeleport extends GuiGraphics
 {
     protected static int      lightGrey = 0xDDDDDD;
     /**
@@ -38,7 +37,7 @@ public class GuiTeleport extends GuiComponent
     public static void create()
     {
         if (GuiTeleport.instance != null) MinecraftForge.EVENT_BUS.unregister(GuiTeleport.instance);
-        GuiTeleport.instance = new GuiTeleport();
+        GuiTeleport.instance = new GuiTeleport(Minecraft.getInstance(), Minecraft.getInstance().renderBuffers().bufferSource());
     }
 
     public static GuiTeleport instance()
@@ -56,8 +55,9 @@ public class GuiTeleport extends GuiComponent
     /**
      *
      */
-    private GuiTeleport()
+    private GuiTeleport(Minecraft craft, MultiBufferSource.BufferSource bufferSource)
     {
+        super(craft, bufferSource);
         this.minecraft = Minecraft.getInstance();
         MinecraftForge.EVENT_BUS.register(this);
         this.fontRenderer = this.minecraft.font;
@@ -86,9 +86,10 @@ public class GuiTeleport extends GuiComponent
         // bind texture
         RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
         RenderSystem.enableBlend();
-        this.blit(event.getMat(), xOffset + w, yOffset + h, 44, 0, 90, 13);
-        this.fontRenderer.draw(event.getMat(), I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
-                GuiTeleport.lightGrey);
+        // TODO: Check this
+        this.blit(new ResourceLocation(""), xOffset + w, yOffset + h, 44, 0, 90, 13);
+//        this.fontRenderer.draw(event.getMat(), I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
+//                GuiTeleport.lightGrey);
 
         final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getStringUUID());
         if (location != null)
@@ -100,8 +101,9 @@ public class GuiTeleport extends GuiComponent
             // bind texture
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
-            this.blit(event.getMat(), xOffset + w, shift, 44, 22, 91, 12);
-            this.fontRenderer.draw(event.getMat(), name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
+            // TODO: Check this
+            this.blit(new ResourceLocation(""), xOffset + w, shift, 44, 22, 91, 12);
+//            this.fontRenderer.draw(event.getMat(), name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
         i++;
         event.getMat().popPose();

@@ -3,9 +3,9 @@ package pokecube.core.handlers.playerdata.advancements.triggers;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -21,9 +21,9 @@ public class BreedPokemobTrigger extends SimpleCriterionTrigger<BreedPokemobTrig
         final PokedexEntry mate1;
         final PokedexEntry mate2;
 
-        public Instance(final EntityPredicate.Composite player, final PokedexEntry mate1, final PokedexEntry mate2)
+        public Instance(ContextAwarePredicate predicate, final PokedexEntry mate1, final PokedexEntry mate2)
         {
-            super(BreedPokemobTrigger.ID, player);
+            super(BreedPokemobTrigger.ID, predicate);
             this.mate1 = mate1 != null ? mate1 : Database.missingno;
             this.mate2 = mate2 != null ? mate2 : Database.missingno;
         }
@@ -72,9 +72,9 @@ public class BreedPokemobTrigger extends SimpleCriterionTrigger<BreedPokemobTrig
     }
 
     @Override
-    protected Instance createInstance(JsonObject json, Composite composite, DeserializationContext conditions)
+    protected Instance createInstance(JsonObject json, ContextAwarePredicate predicate, DeserializationContext conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
+        final ContextAwarePredicate pred = EntityPredicate.fromJson(json, "player", conditions);
         final String mate1 = json.has("mate1") ? json.get("mate1").getAsString() : "";
         final String mate2 = json.has("mate2") ? json.get("mate2").getAsString() : "";
         return new BreedPokemobTrigger.Instance(pred, Database.getEntry(mate1), Database.getEntry(mate2));

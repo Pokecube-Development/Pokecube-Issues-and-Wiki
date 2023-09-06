@@ -1,6 +1,7 @@
 package pokecube.core.impl.entity.impl;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 
 import com.google.common.collect.Maps;
@@ -9,6 +10,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -59,11 +61,12 @@ public class PersistantStatusEffect extends BaseEffect
             if (targetM == null) targetM = entity;
             float scale = 1;
             final IPokemob user = PokemobCaps.getPokemobFor(targetM);
-            final DamageSource source = new StatusEffectDamageSource(targetM);
+            final DamageSource source = new StatusEffectDamageSource(Objects.requireNonNull(entity.getLastDamageSource()).typeHolder(), targetM);
             if (pokemob != null)
             {
-                source.bypassMagic();
-                source.bypassArmor();
+                // TODO: Check if correct
+                source.is(DamageTypeTags.BYPASSES_ARMOR);
+                source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as .bypassMagic?
             }
             else if (entity instanceof Player)
                 scale = (float) (user != null && user.isPlayerOwned() ? PokecubeCore.getConfig().ownedPlayerDamageRatio
@@ -145,7 +148,7 @@ public class PersistantStatusEffect extends BaseEffect
                 loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity.getZ());
                 // PokecubeCore.spawnParticle(entity.getEntityWorld(),
                 // "mobSpell", particleLoc, vel);TODO figure out colouring
-                entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                entity.level().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
 
@@ -157,7 +160,7 @@ public class PersistantStatusEffect extends BaseEffect
             for (int i = 0; i < 3; ++i)
             {
                 loc.set(entity.getX(), entity.getY() + 0.5D + rand.nextFloat() * entity.getBbHeight(), entity.getZ());
-                entity.getLevel().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
+                entity.level().addParticle(ParticleTypes.WITCH, loc.x, loc.y, loc.z, 0, 0, 0);
             }
         }
     }

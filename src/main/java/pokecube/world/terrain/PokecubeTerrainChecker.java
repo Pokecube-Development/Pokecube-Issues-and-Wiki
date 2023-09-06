@@ -5,6 +5,7 @@ import java.util.Set;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,7 +14,6 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.NoiseRouterData;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.GenericJigsawStructure;
@@ -127,7 +127,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
                 BlockState state;
                 if (PokecubeTerrainChecker.isIndustrial(state = temp1.getBlockState(world))) industrial++;
                 if (industrial > 2) return BiomeType.INDUSTRIAL;
-                if (state.getMaterial() == Material.WATER) water++;
+                if (state.getFluidState().is(FluidTags.WATER)) water++;
                 if (sky) break outer;
             }
             if (sky) return BiomeType.NONE;
@@ -160,7 +160,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             if (isFlower) flower++;
             if (industrial > 2) return BiomeType.INDUSTRIAL;
             if (flower > 3) return BiomeType.FLOWER;
-            if (state.getMaterial() == Material.WATER) water++;
+            if (state.getFluidState().is(FluidTags.WATER)) water++;
         }
         if (water > 4)
         {
@@ -195,7 +195,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         final double y = v.getMaxY(world);
         if (y <= v.y) return false;
         BlockState state = v.getBlockState(world);
-        if (state.getMaterial().isSolid()) return PokecubeTerrainChecker.isCave(state);
+        if (state.isSolid()) return PokecubeTerrainChecker.isCave(state);
         final Vector3 up = Vector3.getNextSurfacePoint(world, v, Vector3.secondAxis, y - v.y);
         if (up == null) return false;
         state = up.getBlockState(world);
@@ -205,7 +205,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
     public boolean isCaveFloor(final Vector3 v, final LevelAccessor world)
     {
         final BlockState state = v.getBlockState(world);
-        if (state.getMaterial().isSolid()) return PokecubeTerrainChecker.isCave(state);
+        if (state.isSolid()) return PokecubeTerrainChecker.isCave(state);
         final Vector3 down = Vector3.getNextSurfacePoint(world, v, Vector3.secondAxisNeg,
                 v.y - world.getMinBuildHeight());
         if (down == null) return false;

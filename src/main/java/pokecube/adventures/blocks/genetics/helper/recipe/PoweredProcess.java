@@ -1,7 +1,9 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import pokecube.adventures.blocks.genetics.helper.BaseGeneticsTile;
@@ -14,16 +16,18 @@ public class PoweredProcess
     {
         if (!tile.getItem(tile.getOutputSlot()).isEmpty()) return null;
         PoweredRecipe output = null;
-        final RecipeClone cloneRecipe = new RecipeClone(RecipePokeAdv.REVIVE.getId());
-        final RecipeSplice spliceRecipe = new RecipeSplice(RecipePokeAdv.SPLICE.getId());
-        final RecipeExtract extractRecipe = new RecipeExtract(RecipePokeAdv.EXTRACT.getId());
+        final RecipeClone cloneRecipe = new RecipeClone(RecipePokeAdv.REVIVE.getId(), CraftingBookCategory.MISC);
+        final RecipeSplice spliceRecipe = new RecipeSplice(RecipePokeAdv.SPLICE.getId(), CraftingBookCategory.MISC);
+        final RecipeExtract extractRecipe = new RecipeExtract(RecipePokeAdv.EXTRACT.getId(), CraftingBookCategory.MISC);
         // This one checks if it matches, as has no item output.
         if (tile.isValid(RecipeClone.class) && cloneRecipe.matches(tile.getCraftMatrix(), world)) output = cloneRecipe;
+
+        // TODO: Check this
         // This checks for item output
-        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.assemble(tile.getCraftMatrix()).isEmpty())
+        else if (tile.isValid(RecipeSplice.class) && !spliceRecipe.assemble(tile.getCraftMatrix(), world.registryAccess()).isEmpty())
             output = spliceRecipe;
         // This checks for item output also
-        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.assemble(tile.getCraftMatrix()).isEmpty())
+        else if (tile.isValid(RecipeExtract.class) && !extractRecipe.assemble(tile.getCraftMatrix(), world.registryAccess()).isEmpty())
             output = extractRecipe;
         return output;
     }
@@ -48,11 +52,12 @@ public class PoweredProcess
     public boolean complete()
     {
         if (this.recipe == null || this.tile == null) return false;
-        final boolean ret = this.recipe.complete(this.tile);
+        final boolean ret = this.recipe.complete(this.tile, this.world);
         if (this.tile.getItem(this.tile.getOutputSlot()).isEmpty())
         {
+            // TODO: Check this
             this.tile.setItem(this.tile.getOutputSlot(), this.recipe.assemble(this.tile
-                    .getCraftMatrix()));
+                    .getCraftMatrix(), this.world.registryAccess()));
             if (this.tile.getCraftMatrix().eventHandler != null) this.tile.getCraftMatrix().eventHandler
                     .slotsChanged(this.tile);
             TileUpdate.sendUpdate((BlockEntity) this.tile);
@@ -111,6 +116,6 @@ public class PoweredProcess
         if (this.world == null || this.recipe == null) return false;
         final boolean valid = this.recipe.matches(this.tile.getCraftMatrix(), this.world);
         // check this, as the "matches" sometimes checks the energy value.
-        return valid || !this.recipe.assemble(this.tile.getCraftMatrix()).isEmpty();
+        return valid || !this.recipe.assemble(this.tile.getCraftMatrix(), this.world.registryAccess()).isEmpty();
     }
 }

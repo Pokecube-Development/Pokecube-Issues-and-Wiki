@@ -91,9 +91,9 @@ public abstract class MixinMobEntity extends LivingEntity
         {
             @SuppressWarnings("unchecked")
             final Brain<LivingEntity> brain = (Brain<LivingEntity>) this.getBrain();
-            this.getLevel().getProfiler().push("custom_brain");
-            brain.tick((ServerLevel) this.getLevel(), this);
-            this.getLevel().getProfiler().pop();
+            this.level().getProfiler().push("custom_brain");
+            brain.tick((ServerLevel) this.level(), this);
+            this.level().getProfiler().pop();
         }
     }
 }

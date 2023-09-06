@@ -125,10 +125,10 @@ public abstract class PokemobStats extends PokemobGenes
                     }
                     ret.levelUp(newLvl);
                     if (mob.isAddedToWorld() && ret.getOwner() instanceof Player
-                            && mob.getLevel().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)
-                            && !mob.getLevel().isClientSide)
-                        mob.getLevel().addFreshEntity(
-                                new ExperienceOrb(mob.getLevel(), mob.getX(), mob.getY(), mob.getZ(), 1));
+                            && mob.level().getGameRules().getBoolean(GameRules.RULE_DOMOBLOOT)
+                            && !mob.level().isClientSide)
+                        mob.level().addFreshEntity(
+                                new ExperienceOrb(mob.level(), mob.getX(), mob.getY(), mob.getZ(), 1));
                 }
             }
             else this.getMoveStats().exp = old;

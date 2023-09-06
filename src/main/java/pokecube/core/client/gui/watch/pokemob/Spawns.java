@@ -2,6 +2,7 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -24,7 +25,7 @@ public class Spawns extends ListPage<LineEntry>
     }
 
     @Override
-    void drawInfo(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         // This is to give extra time for packet syncing.
         if (this.last != PacketPokedex.selectedMob.size())

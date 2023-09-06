@@ -1,8 +1,7 @@
 package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.network.chat.Component;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -16,7 +15,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
             return false;
         }
 
-        default void handleHovor(final Component component, final int x, final int y)
+        default void handleHovor(final GuiGraphics graphics, final Component component, final int x, final int y)
         {
 
         }
@@ -53,15 +52,16 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
     }
 
     @Override
-    public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
+    public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth, final int slotHeight,
             final int mouseX, final int mouseY, final boolean isSelected, final float partialTicks)
     {
-        this.fontRender.draw(mat, this.line.getString(), x, y, this.colour);
+        // TODO: Fix this
+        // this.fontRender.draw(graphics, this.line.getString(), x, y, this.colour);
         final int dx = this.fontRender.width(this.line.getString());
         final int relativeX = mouseX - x;
         final int relativeY = mouseY - y;
         if (relativeY <= this.fontRender.lineHeight && relativeX >= 0 && relativeX <= dx && relativeY > 0)
-            this.listener.handleHovor(this.line, x, y);
+            this.listener.handleHovor(graphics, this.line, x, y);
     }
 
     public LineEntry setClickListner(IClickListener listener)

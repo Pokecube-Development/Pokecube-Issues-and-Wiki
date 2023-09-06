@@ -64,7 +64,7 @@ public class PacketCommander extends Packet
     @Override
     public void handleServer(final ServerPlayer player)
     {
-        final Level world = player.getLevel();
+        final Level world = player.level();
         final BlockPos pos = new BlockPos(this.data.getInt("x"), this.data.getInt("y"), this.data.getInt("z"));
         final BlockEntity te = world.getBlockEntity(pos);
         if (!(te instanceof CommanderTile tile)) return;
@@ -80,7 +80,7 @@ public class PacketCommander extends Packet
         {
             if (PokecubeCore.getConfig().debug_commands)
                 PokecubeAPI.LOGGER.warn("Invalid Commander Block use at " + tile.getBlockPos(), e);
-            tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1,
+            tile.getLevel().playSound(null, tile.getBlockPos(), SoundEvents.NOTE_BLOCK_BASEDRUM.get(), SoundSource.BLOCKS, 1,
                     1);
         }
         TileUpdate.sendUpdate(tile);

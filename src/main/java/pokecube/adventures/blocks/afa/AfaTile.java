@@ -2,6 +2,7 @@ package pokecube.adventures.blocks.afa;
 
 import java.util.Random;
 
+import net.minecraft.sounds.SoundEvent;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.core.BlockPos;
@@ -327,18 +328,18 @@ public class AfaTile extends InteractableTile implements ITickTile, IEnergyStora
                     {
                         this.energy = 0;
                         this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(),
-                                this.getBlockPos().getZ(), SoundEvents.NOTE_BLOCK_BASEDRUM, SoundSource.BLOCKS, 1.0F,
-                                1.0F, false);
+                                this.getBlockPos().getZ(), SoundEvents.NOTE_BLOCK_BASEDRUM.get(),
+                                SoundSource.BLOCKS, 1.0F, 1.0F, false);
                         return;
                     }
                     this.energy -= needed;
                 }
                 evt.pokemob.setShiny(true);
-                this.level.playLocalSound(evt.entity.getX(), evt.entity.getY(), evt.entity.getZ(),
-                        SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
+                if (this.level != null)
+                    this.level.playLocalSound(evt.entity.getX(), evt.entity.getY(), evt.entity.getZ(),
+                            SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
                 this.level.playLocalSound(this.getBlockPos().getX(), this.getBlockPos().getY(),
-                        this.getBlockPos().getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F,
-                        false);
+                        this.getBlockPos().getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 1.0F, 1.0F, false);
             }
         }
     }

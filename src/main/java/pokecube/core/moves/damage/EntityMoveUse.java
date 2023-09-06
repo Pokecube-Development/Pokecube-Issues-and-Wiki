@@ -198,7 +198,7 @@ public class EntityMoveUse extends ThrowableProjectile
 
         this.here.set(this);
 
-        if (!this.getUser().getLevel().isClientSide())
+        if (!this.getUser().level().isClientSide())
         {
             // Put us and our user in here by default.
             this.apply.alreadyHit.add(this.getUUID());
@@ -219,11 +219,12 @@ public class EntityMoveUse extends ThrowableProjectile
         return size;
     }
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+//    TODO: No longer needed?
+//    @Override
+//    public Packet<?> getAddEntityPacket()
+//    {
+//        return NetworkHooks.getEntitySpawningPacket(this);
+//    }
 
     private void doMoveUse(final LivingEntity target)
     {

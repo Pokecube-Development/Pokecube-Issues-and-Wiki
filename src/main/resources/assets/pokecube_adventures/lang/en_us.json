@@ -1,6 +1,8 @@
 {
     "_comment": "Pokecube Adventures translation",
 
+    "itemGroup.pokecube_adventures": "Pokécube Adventures",
+
     "block.rfsiphon.info": "Energy Output: %1$s/%2$s",
     "block.afa.ability.none": "No Ability Set",
     "block.afa.ability.info": "Ability: %s",
@@ -179,7 +181,14 @@
 
     "traineredit.error.pokemob": "Error updating the Pokémob (%s)",
 
+    "wearables.button.reset": "Reset",
+    "wearables.button.copy": "Copy",
+    "wearables.button.see": "See",
+
+    "traineredit.button.ai": "AI",
     "traineredit.button.home": "Back",
+    "traineredit.button.exit": "Exit",
+    "traineredit.button.apply": "Apply",
     "traineredit.button.delete": "Delete",
     "traineredit.button.newpokemob": "Add New",
     "traineredit.button.rewards": "Rewards",
@@ -187,6 +196,7 @@
     "traineredit.button.routes": "Routes",
     "traineredit.button.messages": "Messages",
     "traineredit.button.ai": "AI Settings",
+    "traineredit.button.delete": "Delete",
     "traineredit.button.kill": "Delete",
     "traineredit.button.wander": "Wanders",
     "traineredit.button.stationary": "Stands",

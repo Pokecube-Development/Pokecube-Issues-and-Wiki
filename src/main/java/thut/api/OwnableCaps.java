@@ -92,7 +92,7 @@ public class OwnableCaps
         public LivingEntity getOwner()
         {
             if (this.getOwnerId() == null) this.owner = null;
-            if (this.getOwnerId() != null && this.owner == null && this.wrapped.getLevel() instanceof ServerLevel level)
+            if (this.getOwnerId() != null && this.owner == null && this.wrapped.level() instanceof ServerLevel level)
                 return this.owner = this.getOwner(level, this.owner);
             return this.owner;
         }
@@ -142,7 +142,7 @@ public class OwnableCaps
         {
             if (this.getOwnerId() == null) this.owner = null;
             if (this.getOwnerId() != null) this.owner = this.wrapped.getOwner();
-            if (this.getOwnerId() != null && this.wrapped.getLevel() instanceof ServerLevel level)
+            if (this.getOwnerId() != null && this.wrapped.level() instanceof ServerLevel level)
                 return this.owner = this.getOwner(level, this.owner);
             this.playerOwned = this.owner instanceof Player;
             return this.owner;

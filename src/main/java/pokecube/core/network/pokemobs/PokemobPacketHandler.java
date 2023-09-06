@@ -60,7 +60,7 @@ public class PokemobPacketHandler
         {
             final byte channel = this.buffer.readByte();
             final int id = this.buffer.readInt();
-            final ServerLevel world = player.getLevel();
+            final ServerLevel world = (ServerLevel) player.level();
             final Entity entity = PokecubeAPI.getEntityProvider().getEntity(world, id, true);
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             if (pokemob == null || !player.getUUID().equals(pokemob.getOwnerId())) return;

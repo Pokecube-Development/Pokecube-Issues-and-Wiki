@@ -30,7 +30,7 @@ public class PacketHandler
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
-            final Entity entity = player.getLevel().getEntity(entityId);
+            final Entity entity = player.level().getEntity(entityId);
 
             if (entity != null && !(entity instanceof Player))
                 NBTEdit.proxy.sendMessage(player, "\"Error- Target must be a player", ChatFormatting.RED);
@@ -62,7 +62,7 @@ public class PacketHandler
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
-            final Entity entity = player.getLevel().getEntity(entityId);
+            final Entity entity = player.level().getEntity(entityId);
             if (entity instanceof Player && entity != player)
             {
                 NBTEdit.proxy.sendMessage(player, "Error - You may not use NBTEdit on other Players",
@@ -90,7 +90,7 @@ public class PacketHandler
     {
         if (NBTEdit.proxy.checkPermission(player))
         {
-            final BlockEntity te = player.getLevel().getBlockEntity(pos);
+            final BlockEntity te = player.level().getBlockEntity(pos);
             if (te != null)
             {
                 final CompoundTag tag = te.saveWithFullMetadata();

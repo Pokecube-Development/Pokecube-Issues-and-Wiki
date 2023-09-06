@@ -34,14 +34,14 @@ public class NotRuleProcessor extends RuleProcessor
             final StructureBlockInfo blockInfo1, final StructureBlockInfo blockInfo2,
             final StructurePlaceSettings placementSettingsIn)
     {
-        RandomSource random = RandomSource.create(Mth.getSeed(blockInfo2.pos));
-        final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos);
+        RandomSource random = RandomSource.create(Mth.getSeed(blockInfo2.pos()));
+        final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos());
         if (blockstate != null && blockstate.getBlock() != Blocks.AIR) for (final ProcessorRule ruleentry : this.rules)
-            if (!ruleentry.test(blockInfo2.state, blockstate, blockInfo1.pos, blockInfo2.pos, pos2, random))
+            if (!ruleentry.test(blockInfo2.state(), blockstate, blockInfo1.pos(), blockInfo2.pos(), pos2, random))
         {
             final BlockState output = ruleentry.getOutputState();
             if (output == null || output.getBlock() == Blocks.STRUCTURE_VOID) return null;
-            return new StructureTemplate.StructureBlockInfo(blockInfo2.pos, output, ruleentry.getOutputTag());
+            return new StructureTemplate.StructureBlockInfo(blockInfo2.pos(), output, ruleentry.getOutputTag(random, blockInfo2.nbt()));
 
         }
         return blockInfo2;

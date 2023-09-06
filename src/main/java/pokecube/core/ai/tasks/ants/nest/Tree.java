@@ -75,7 +75,7 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
     @Override
     public Path getPath(final Mob mob, final WalkTarget target)
     {
-        final ServerLevel world = (ServerLevel) mob.getLevel();
+        final ServerLevel world = (ServerLevel) mob.level();
         final BlockPos to = target.getTarget().currentBlockPosition();
         this.pather = new SwimAndWalkNodeProcessor();
         this.pather.setCanPassDoors(true);
@@ -87,8 +87,8 @@ public class Tree implements INBTSerializable<CompoundTag>, IPathHelper
         // edgePaths map, and re-use that later if needed.
         if (this.r == null || this.regionSetTimer < world.getGameTime())
         {
-            final BlockPos min = new BlockPos(this.bounds.minX, this.bounds.minY, this.bounds.minZ);
-            final BlockPos max = new BlockPos(this.bounds.maxX, this.bounds.maxY, this.bounds.maxZ);
+            final BlockPos min = new BlockPos((int) this.bounds.minX, (int) this.bounds.minY, (int) this.bounds.minZ);
+            final BlockPos max = new BlockPos((int) this.bounds.maxX, (int) this.bounds.maxY, (int) this.bounds.maxZ);
             this.r = new PathNavigationRegion(world, min, max);
             this.regionSetTimer = world.getGameTime() + 20;
         }

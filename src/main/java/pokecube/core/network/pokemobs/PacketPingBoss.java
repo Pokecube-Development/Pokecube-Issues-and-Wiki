@@ -33,7 +33,7 @@ public class PacketPingBoss extends Packet
     public void handleServer(final ServerPlayer player)
     {
         final int id = this.entityId;
-        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(e);
         if (pokemob != null && pokemob.getBossInfo() != null) pokemob.getBossInfo().addPlayer(player);
     }

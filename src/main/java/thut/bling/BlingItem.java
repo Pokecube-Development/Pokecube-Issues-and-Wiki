@@ -20,6 +20,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -30,14 +31,20 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import pokecube.legends.Reference;
 import thut.bling.client.BlingitemRenderer;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
 import thut.core.common.ThutCore;
+import thut.core.init.ThutCreativeTabs;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 
+@Mod.EventBusSubscriber(modid = Reference.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlingItem extends Item implements IWearable, DyeableLeatherItem
 {
 
@@ -70,12 +77,23 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
         }
     }
 
+    @SubscribeEvent
+    public static void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey() == ThutCreativeTabs.ITEMS_TAB.getKey()) {
+            for (final String s : BlingItem.names)
+            {
+                event.accept(new BlingItem(s, BlingItem.wearables.get(s)).asItem());
+            }
+        }
+    }
+
     public final String name;
     private final EnumWearable slot;
 
     public BlingItem(final String name, final EnumWearable slot)
     {
-        super(new Properties().tab(ThutCore.THUTITEMS).stacksTo(1));
+        super(new Properties().stacksTo(1));
         this.name = name;
         this.slot = slot;
         BlingItem.defaults.put(this, slot);

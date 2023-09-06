@@ -347,7 +347,7 @@ public class PokecubeSerializer
 
     public ItemStack starter(final PokedexEntry entry, final Player owner)
     {
-        final Level worldObj = owner.getLevel();
+        final Level worldObj = owner.level();
         final IPokemob entity = PokemobCaps.getPokemobFor(PokecubeCore.createPokemob(entry, worldObj));
 
         if (entity != null)
@@ -359,7 +359,7 @@ public class PokecubeSerializer
             entity.setOwner(owner.getUUID());
             entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
-            PokecubeManager.heal(item, owner.getLevel());
+            PokecubeManager.heal(item, owner.level());
             entity.getEntity().discard();
             return item;
         }

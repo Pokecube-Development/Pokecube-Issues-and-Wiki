@@ -875,28 +875,29 @@ public class Database
     public static void loadCustomPacks(final boolean applyToManager)
     {
         Database.customPacks.clear();
+//        TODO: Fix
         List<PackResources> packs = applyToManager ? PackFinder.DEFAULT_FINDER.allPacks
                 : PackFinder.DEFAULT_FINDER.folderPacks;
         for (final PackResources info : packs) try
         {
             // This initialises the info, for the caching system.
-            info.init(PackType.SERVER_DATA);
+            info.getNamespaces(PackType.SERVER_DATA);
             if (applyToManager)
             {
                 if (PokecubeCore.getConfig().debug_data)
                 {
-                    PokecubeAPI.logInfo("Loading Pack: " + info.getName());
+                    PokecubeAPI.logInfo("Loading Pack: " + info.getClass().getName());
                     PokecubeAPI.logInfo("Namespaces: " + info.getNamespaces(PackType.SERVER_DATA));
                 }
                 PackListener.addPack(info, Database.resourceManager);
             }
             // Only add the zips or folders here, jars get properly added by
             // forge to the real resourcemanager later
-            else if (!info.getName().endsWith(".jar")) Database.customPacks.add(info);
+            else if (!info.getClass().getName().endsWith(".jar")) Database.customPacks.add(info);
         }
         catch (final Exception e)
         {
-            PokecubeAPI.LOGGER.fatal("Error with pack " + info.getName(), e);
+            PokecubeAPI.LOGGER.fatal("Error with pack " + info.getClass().getName(), e);
         }
     }
 

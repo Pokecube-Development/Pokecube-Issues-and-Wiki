@@ -3,6 +3,8 @@ package pokecube.core.init;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MultiBufferSource;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -43,6 +45,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.client.EventsHandlerClient;
+import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.blocks.Healer;
 import pokecube.core.client.gui.blocks.PC;
@@ -254,14 +257,14 @@ public class ClientSetupHandler
 
     public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
     {
-        LayerDefinition noChest = BoatModel.createBodyModel(false);
-        LayerDefinition withChest = BoatModel.createBodyModel(true);
+        LayerDefinition noChest = BoatModel.createBodyModel();
+        LayerDefinition withChest = BoatModel.createBodyModel();
         for (BoatType value : GenericBoat.getTypes())
         {
             String modid = RegHelper.getKey(value.item().get()).getNamespace();
             // This is layer without chest
-            consumer.accept(GenericBoatRenderer.createBoatModelName(modid, value), () -> noChest);
-            consumer.accept(GenericBoatRenderer.createChestBoatModelName(modid, value), () -> withChest);
+            consumer.accept(GenericBoatRenderer.createBoatModelName(modid, value, false), () -> noChest);
+            consumer.accept(GenericBoatRenderer.createBoatModelName(modid, value, true), () -> withChest);
         }
     }
 
@@ -314,15 +317,16 @@ public class ClientSetupHandler
     }
 
     @SubscribeEvent
-    public static void textureStitch(final TextureStitchEvent.Pre event)
+    public static void textureStitch(final TextureStitchEvent event)
     {
         if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Slot Textures");
-        event.addSprite(Resources.SLOT_ICON_CUBE);
-        event.addSprite(Resources.SLOT_ICON_TM);
-        event.addSprite(Resources.SLOT_ICON_BOOK);
-        event.addSprite(Resources.SLOT_ICON_BOTTLE);
-        event.addSprite(Resources.SLOT_ICON_DNA);
-        event.addSprite(Resources.SLOT_ICON_EGG);
+        event.getAtlas().getSprite(Resources.SLOT_ICON_CUBE);
+        // TODO: Fix this
+        // event.addSprite(Resources.SLOT_ICON_TM);
+        // event.addSprite(Resources.SLOT_ICON_BOOK);
+        // event.addSprite(Resources.SLOT_ICON_BOTTLE);
+        // event.addSprite(Resources.SLOT_ICON_DNA);
+        // event.addSprite(Resources.SLOT_ICON_EGG);
     }
 }

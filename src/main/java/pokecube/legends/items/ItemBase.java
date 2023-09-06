@@ -24,30 +24,30 @@ public class ItemBase extends Item
     boolean hasShiny = false;
 
     // Info
-    public ItemBase(final String name, final CreativeModeTab tab, final int maxStackSize)
+    public ItemBase(final String name, final int maxStackSize)
     {
-        super(new Properties().tab(tab).stacksTo(maxStackSize));
+        super(new Properties().stacksTo(maxStackSize));
         this.hasTooltip = true;
         this.tooltip_block_id = name;
     }
 
     // No Info
-    public ItemBase(final CreativeModeTab tab, final int maxStackSize)
+    public ItemBase(final int maxStackSize)
     {
-        super(new Properties().tab(tab).stacksTo(maxStackSize));
+        super(new Properties().stacksTo(maxStackSize));
     }
 
-    public ItemBase(final String name, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
+    public ItemBase(final String name, final Rarity rarity, final FoodProperties food,
             final int maxStackSize)
     {
-        super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
+        super(new Properties().stacksTo(maxStackSize).rarity(rarity).food(food));
         this.tooltip_block_id = name;
         this.hasTooltip = true;
     }
 
-    public ItemBase(final CreativeModeTab tab, final int maxStackSize, final FoodProperties food)
+    public ItemBase(final int maxStackSize, final FoodProperties food)
     {
-        super(new Properties().tab(tab).stacksTo(maxStackSize).food(food));
+        super(new Properties().stacksTo(maxStackSize).food(food));
     }
 
     public ItemBase setShiny()

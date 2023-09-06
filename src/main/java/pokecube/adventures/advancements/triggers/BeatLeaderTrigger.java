@@ -3,9 +3,9 @@ package pokecube.adventures.advancements.triggers;
 import com.google.gson.JsonObject;
 
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
+import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
 import net.minecraft.advancements.critereon.EntityPredicate;
-import net.minecraft.advancements.critereon.EntityPredicate.Composite;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,7 +19,7 @@ public class BeatLeaderTrigger extends SimpleCriterionTrigger<BeatLeaderTrigger.
 
     public static class Instance extends AbstractCriterionTriggerInstance
     {
-        public Instance(final Composite pred)
+        public Instance(final ContextAwarePredicate pred)
         {
             super(BeatLeaderTrigger.ID, pred);
         }
@@ -48,9 +48,9 @@ public class BeatLeaderTrigger extends SimpleCriterionTrigger<BeatLeaderTrigger.
     }
 
     @Override
-    protected Instance createInstance(JsonObject json, Composite composite, DeserializationContext conditions)
+    protected Instance createInstance(JsonObject json, ContextAwarePredicate pred, DeserializationContext conditions)
     {
-        final EntityPredicate.Composite pred = EntityPredicate.Composite.fromJson(json, "player", conditions);
-        return new Instance(pred);
+        final ContextAwarePredicate context = EntityPredicate.fromJson(json, "player", conditions);
+        return new Instance(context);
     }
 }

@@ -42,7 +42,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        if (entity.getLevel().getBlockState(entity.blockPosition()).getBlock() == Blocks.WATER
+        if (entity.level().getBlockState(entity.blockPosition()).getBlock() == Blocks.WATER
                 && mob.isType(PokeType.getType("water")))
             x = 3.5;
         return x;
@@ -52,7 +52,7 @@ public class PokecubeHelper
     {
         double x = 1;
         final Entity entity = mob.getEntity();
-        final int light = entity.getLevel().getMaxLocalRawBrightness(entity.blockPosition());
+        final int light = entity.level().getMaxLocalRawBrightness(entity.blockPosition());
         if (light < 5) x = 3.5;
         return x;
     }
@@ -102,7 +102,7 @@ public class PokecubeHelper
         {// grow in 1.12
             final AABB bb = new Vector3().set(entity).addTo(0, entity.getEyeHeight(), 0).getAABB()
                     .inflate(PokecubeCore.getConfig().fishHookBaitRange);
-            final List<FishingHook> hooks = entity.getLevel().getEntitiesOfClass(FishingHook.class, bb);
+            final List<FishingHook> hooks = entity.level().getEntitiesOfClass(FishingHook.class, bb);
             if (!hooks.isEmpty()) for (final FishingHook hook : hooks) if (hook.getHookedIn() == entity) return 5;
         }
         return 1;
@@ -120,7 +120,7 @@ public class PokecubeHelper
 
     public double moon(final IPokemob mob)
     {
-        if (!(mob.getEntity().getLevel() instanceof ServerLevel level))
+        if (!(mob.getEntity().level() instanceof ServerLevel level))
         {
             PokecubeAPI.LOGGER.error("moon cube catch rate called wrong side!");
             return 1;

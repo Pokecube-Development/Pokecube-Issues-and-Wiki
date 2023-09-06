@@ -5,10 +5,11 @@ package pokecube.core.moves.damage;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.EntityDamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -20,7 +21,7 @@ import thut.api.OwnableCaps;
 import thut.lib.TComponent;
 
 /**
- * This class extends {@link EntityDamageSource} and only modifies the death
+ * This class extends {@link DamageSource} and only modifies the death
  * message.
  *
  * @author Manchou
@@ -39,20 +40,21 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
      * @param par1Str
      * @param mob
      */
-    public StatusEffectDamageSource(final LivingEntity mob)
+    public StatusEffectDamageSource(Holder<DamageType> damageTypeHolder, final LivingEntity mob)
     {
-        super("mob");
+        super(damageTypeHolder);
         this.sourceMob = mob;
         this.user = PokemobCaps.getPokemobFor(mob);
     }
 
+    // TODO: Check this
     @Override
     public Component getLocalizedDeathMessage(final LivingEntity died)
     {
         final ItemStack localObject = this.sourceMob != null ? this.sourceMob.getMainHandItem()
                 : ItemStack.EMPTY;
         if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return TComponent.translatable("death.attack."
-                + this.msgId, new Object[] { died.getDisplayName(), this.sourceMob
+                + this.type().msgId(), new Object[] { died.getDisplayName(), this.sourceMob
                         .getDisplayName(), localObject.getDisplayName() });
         final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.sourceMob);
         if (sourceMob != null && sourceMob.getOwner() != null)
@@ -68,7 +70,7 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
                     died.getDisplayName(), this.sourceMob.getDisplayName());
             return message;
         }
-        return TComponent.translatable("death.attack." + this.msgId, new Object[] { died
+        return TComponent.translatable("death.attack." + this.type().msgId(), new Object[] { died
                 .getDisplayName(), this.sourceMob.getDisplayName() });
     }
 
@@ -93,7 +95,8 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
         return this.sourceMob;
     }
 
-    @Override
+    // TODO: Check for replacement
+    // @Override
     /** Returns true if the damage is projectile based. */
     public boolean isProjectile()
     {

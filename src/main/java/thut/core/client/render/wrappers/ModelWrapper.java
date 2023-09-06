@@ -10,8 +10,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -22,12 +20,18 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import org.joml.Quaterniond;
+import org.joml.Quaternionf;
+import org.joml.QuaternionfInterpolator;
+import org.joml.Vector3f;
 import thut.api.AnimatedCaps;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
+import thut.api.maths.vecmath.Quat4d;
+import thut.api.maths.vecmath.Quat4f;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.IAnimationChanger;
@@ -220,7 +224,8 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     protected void rotate(final PoseStack mat)
     {
         final Vector3f axis = new Vector3f(this.rotateAngleX, this.rotateAngleY, this.rotateAngleZ);
-        mat.mulPose(new Quaternion(axis, this.rotateAngle, true));
+        // TODO: Fix this
+        // mat.mulPose(new Quaternionf(axis, this.rotateAngle, true));
     }
 
     public void setMob(final T entity, final MultiBufferSource bufferIn, ResourceLocation default_)

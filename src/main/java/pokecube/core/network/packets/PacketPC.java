@@ -125,7 +125,7 @@ public class PacketPC extends Packet
         case BIND:
             if (container != null && container.pcPos != null)
             {
-                final BlockEntity tile = player.getLevel().getBlockEntity(container.pcPos);
+                final BlockEntity tile = player.level().getBlockEntity(container.pcPos);
                 if (tile instanceof PCTile)
                 {
                     final PCTile pcTile = (PCTile) tile;

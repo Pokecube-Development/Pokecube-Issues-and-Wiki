@@ -1,9 +1,11 @@
 package pokecube.core.blocks.bases;
 
+import cpw.mods.util.Lazy;
 import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
@@ -14,6 +16,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -52,7 +55,7 @@ public class BaseTile extends InteractableTile
             try
             {
                 exit_here = SecretBaseDimension.getSecretBaseLoc(targetBase, server,
-                        player.getLevel().dimension() == SecretBaseDimension.WORLD_KEY);
+                        player.level().dimension() == SecretBaseDimension.WORLD_KEY);
             }
             catch (final Exception e)
             {
@@ -69,11 +72,12 @@ public class BaseTile extends InteractableTile
                 return InteractionResult.FAIL;
             }
         }
-        final ResourceKey<Level> dim = player.getLevel().dimension();
+        final ResourceKey<Level> dim = player.level().dimension();
         if (dim == SecretBaseDimension.WORLD_KEY) SecretBaseDimension.sendToExit(splayer, targetBase);
         else SecretBaseDimension.sendToBase(splayer, targetBase);
         return InteractionResult.SUCCESS;
     }
+
 
     @Override
     public void load(final CompoundTag compound)
@@ -85,7 +89,8 @@ public class BaseTile extends InteractableTile
         if (compound.contains("revert_to"))
         {
             final CompoundTag tag = compound.getCompound("revert_to");
-            this.original = NbtUtils.readBlockState(tag);
+            // TODO: Fix this
+            this.original = NbtUtils.readBlockState((HolderGetter<Block>) this.level.getBlockState(this.getBlockPos()).getBlockHolder(), tag);
         }
     }
 

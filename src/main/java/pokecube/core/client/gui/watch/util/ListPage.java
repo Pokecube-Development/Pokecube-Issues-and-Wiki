@@ -1,8 +1,6 @@
 package pokecube.core.client.gui.watch.util;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -24,12 +22,12 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
         super(title, watch, day, night);
     }
 
-    public void drawTitle(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void drawTitle(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - 160) / 2 + 80;
         final int y = (this.watch.height - 160) / 2 + 8;
         final int colour = 0xFF78C850;
-        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x, y, colour);
+        graphics.drawCenteredString(this.font, this.getTitle().getString(), x, y, colour);
     }
 
     @Override
@@ -73,16 +71,16 @@ public abstract class ListPage<T extends AbstractSelectionList.Entry<T>> extends
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.updateRunnable != null)
         {
             this.updateRunnable.run();
             this.updateRunnable = null;
         }
-        this.drawTitle(mat, mouseX, mouseY, partialTicks);
-        super.render(mat, mouseX, mouseY, partialTicks);
+        this.drawTitle(graphics, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
         // Draw the list
-        if (!this.handlesList && this.list != null) this.list.render(mat, mouseX, mouseY, partialTicks);
+        if (!this.handlesList && this.list != null) this.list.render(graphics, mouseX, mouseY, partialTicks);
     }
 }

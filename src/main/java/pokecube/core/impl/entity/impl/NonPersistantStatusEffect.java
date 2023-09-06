@@ -5,9 +5,11 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
+import java.util.Objects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -61,11 +63,12 @@ public class NonPersistantStatusEffect extends BaseEffect
                 if (targetM == null) targetM = entity;
                 float scale = 1;
                 final IPokemob user = PokemobCaps.getPokemobFor(targetM);
-                final DamageSource source = new StatusEffectDamageSource(targetM);
+                final DamageSource source = new StatusEffectDamageSource(Objects.requireNonNull(entity.getLastDamageSource()).typeHolder(), targetM);
                 if (pokemob != null)
                 {
-                    source.bypassMagic();
-                    source.bypassArmor();
+                    // TODO: Check if correct
+                    source.is(DamageTypeTags.BYPASSES_ARMOR);
+                    source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as .bypassMagic?
                 }
                 else if (entity instanceof Player) scale = (float) (user != null && user.isPlayerOwned()
                         ? PokecubeCore.getConfig().ownedPlayerDamageRatio

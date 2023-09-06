@@ -5,8 +5,14 @@ package pokecube.core.moves.templates;
 
 import java.util.BitSet;
 
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -58,7 +64,9 @@ public class Move_Explode implements IMove
 
     }
 
-    public static final DamageSource SELFBOOM = new DamageSource("pokemob.exploded").setExplosion().bypassMagic();
+    // TODO: Fix .setExplosion().bypassMagic()
+    public static final ResourceKey<DamageType> SELF_BOOM = ResourceKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(PokecubeCore.MODID, "pokemob.explosion"));
+//    public static final DamageSource SELF_BOOMS = new DamageSource((Holder<DamageType>) SELF_BOOM).is(DamageTypeTags.BYPASSES_ENCHANTMENTS).is(DamageTypeTags.IS_EXPLOSION).setExplosion().bypassMagic();
 
     public Move_Explode()
     {}
@@ -93,7 +101,7 @@ public class Move_Explode implements IMove
                 final float f1 = (float) (t.move().pwr * PokecubeCore.getConfig().blastStrength
                         * user.getStat(Stats.ATTACK, true) / 500000f);
 
-                final boolean explodeDamage = mob.getLevel() instanceof ServerLevel level && Config.Rules.doBoom(level);
+                final boolean explodeDamage = mob.level() instanceof ServerLevel level && Config.Rules.doBoom(level);
                 final boolean damagePerms = MoveEventsHandler.canAffectBlock(user, new Vector3().set(mob),
                         t.move().getName());
 
@@ -101,7 +109,7 @@ public class Move_Explode implements IMove
                 {
                     final ExplosionCustom boom = MovesUtils.newExplosion(mob, mob.getX(), mob.getY(), mob.getZ(), f1);
                     boom.hitter = hitter;
-                    final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.getLevel(), boom);
+                    final ExplosionEvent.Start evt = new ExplosionEvent.Start(mob.level(), boom);
                     MinecraftForge.EVENT_BUS.post(evt);
                     if (!evt.isCanceled()) boom.doExplosion();
                 }
@@ -109,7 +117,7 @@ public class Move_Explode implements IMove
                 // First give it some health so it is alive
                 mob.setHealth(1);
                 // Now we kill the user via a damage source.
-                mob.hurt(Move_Explode.SELFBOOM, mob.getMaxHealth() * 1e5f);
+                mob.hurt(mob.level.damageSources().source(SELF_BOOM), mob.getMaxHealth() * 1e5f);
             }
         }
     };

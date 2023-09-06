@@ -193,6 +193,6 @@ public class NatureCoreBlock extends Rotates implements SimpleWaterloggedBlock
     public void randomTick(final BlockState state, final ServerLevel worldIn, final BlockPos pos, final RandomSource random)
     {
         if (random.nextInt(100) == 0) worldIn.playLocalSound(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5,
-                SoundEvents.AMBIENT_CAVE, SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
+                SoundEvents.AMBIENT_CAVE.get(), SoundSource.BLOCKS, 0.5F, random.nextFloat() * 0.4F + 0.8F, false);
     }
 }

@@ -357,7 +357,7 @@ public class LogicMiscUpdate extends LogicBase
             this.mods.setModifier(stat, val);
         }
 
-        if (this.entity.isOnGround()) this.floatTimer = 0;
+        if (this.entity.onGround()) this.floatTimer = 0;
         else this.floatTimer++;
 
         // Now some server only processing
@@ -428,7 +428,7 @@ public class LogicMiscUpdate extends LogicBase
         this.checkAnimationStates();
 
         // end of server side logic here.
-        if (this.entity.getLevel() instanceof ServerLevel)
+        if (this.entity.level() instanceof ServerLevel)
         {
             return;
         }
@@ -503,7 +503,7 @@ public class LogicMiscUpdate extends LogicBase
                                 - this.entity.getBbWidth(),
                         this.entity.getY() + 0.5D + rand.nextFloat() * this.entity.getBbHeight(), this.entity.getZ()
                                 + rand.nextFloat() * this.entity.getBbWidth() * 2.0F - this.entity.getBbWidth());
-                this.entity.getLevel().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
+                this.entity.level().addParticle(ParticleTypes.HEART, heart.x, heart.y, heart.z, 0, 0, 0);
             }
         }
         int[] args = {};
@@ -523,7 +523,7 @@ public class LogicMiscUpdate extends LogicBase
                         rand.nextDouble() - 0.5);
                 particleVelo.scalarMultBy(0.25);
             }
-            PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo, args);
+            PokecubeCore.spawnParticle(this.entity.level(), this.particle, particleLoc, particleVelo, args);
         }
         for (int i = 0; i < this.flavourAmounts.length; i++)
         {
@@ -548,7 +548,7 @@ public class LogicMiscUpdate extends LogicBase
                 args = new int[]
                 { LogicMiscUpdate.FLAVCOLOURS[i] };
                 this.particle = "powder";
-                PokecubeCore.spawnParticle(this.entity.getLevel(), this.particle, particleLoc, particleVelo, args);
+                PokecubeCore.spawnParticle(this.entity.level(), this.particle, particleLoc, particleVelo, args);
             }
         }
         this.particle = null;
@@ -582,7 +582,8 @@ public class LogicMiscUpdate extends LogicBase
         anims.clear();
         boolean isRidden = entity.getPassengers().size() > 0;
         final Vec3 velocity = this.entity.getDeltaMovement();
-        final float dStep = this.entity.animationSpeed;
+        // TODO: Find fix
+        final float dStep = 1; /*this.entity.animationSpeed*/
         final float walkspeed = (float) (velocity.x * velocity.x + velocity.z * velocity.z + dStep * dStep);
         final float stationary = 1e-5f;
         final boolean moving = walkspeed > stationary;

@@ -246,12 +246,12 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
         final float root_size = root.size - 0.5f;
         final float next_size = 2.5f + rng.nextFloat() * 3;
 
-        BlockPos edgeShift = new BlockPos(root_size * dx / ds, 0, root_size * dz / ds);
+        BlockPos edgeShift = new BlockPos((int) (root_size * dx / ds), 0, (int) (root_size * dz / ds));
 
         final BlockPos end1 = root.getCenter().offset(edgeShift);
         final BlockPos end2 = end1.offset(new BlockPos(dx, dy, dz));
 
-        edgeShift = new BlockPos((next_size - 0.5) * dx / ds, 0, (next_size - 0.5) * dz / ds);
+        edgeShift = new BlockPos((int) ((next_size - 0.5) * dx / ds), 0, (int) ((next_size - 0.5) * dz / ds));
 
         final Vector3 vec2 = new Vector3().set(end1.subtract(end2));
         vec2.y = 0;
@@ -646,7 +646,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public void onExitHabitat(final Mob mob)
     {
-        if (this.world == null) this.world = (ServerLevel) mob.getLevel();
+        if (this.world == null) this.world = (ServerLevel) mob.level();
 
         AntJob job = AntTasks.getJob(mob);
         // Remove the old work pos for now, we will decide which ones need
@@ -691,7 +691,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     @Override
     public boolean onEnterHabitat(final Mob mob)
     {
-        if (!this.canEnterHabitat(mob) || !(mob.getLevel() instanceof ServerLevel level)) return false;
+        if (!this.canEnterHabitat(mob) || !(mob.level() instanceof ServerLevel level)) return false;
 
         final int ants = this.ants_in.size() + this.ants.size();
 
@@ -765,7 +765,7 @@ public class AntHabitat implements IInhabitable, INBTSerializable<CompoundTag>, 
     public boolean canEnterHabitat(final Mob mob)
     {
         if (!AntTasks.isValid(mob)) return false;
-        if (!(mob.getLevel() instanceof ServerLevel)) return false;
+        if (!(mob.level() instanceof ServerLevel)) return false;
         return true;
     }
 

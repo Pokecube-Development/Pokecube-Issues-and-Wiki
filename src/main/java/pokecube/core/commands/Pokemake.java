@@ -109,17 +109,18 @@ public class Pokemake
             if (arg.equalsIgnoreCase("s")) mob.setShiny(true);
             else if (arg.equalsIgnoreCase("item"))
             {
-                try
-                {
-                    final ItemInput item = ItemArgument
-                            .item(new CommandBuildContext(ServerLifecycleHooks.getCurrentServer().registryAccess()))
-                            .parse(new StringReader(val));
-                    itemstack = item.createItemStack(1, false);
-                }
-                catch (final Throwable e)
-                {
-                    PokecubeAPI.LOGGER.error("Error with item for " + val, e);
-                }
+//            TODO: Fix
+//                try
+//                {
+//                    final ItemInput item = ItemArgument
+//                            .item(new CommandBuildContext(ServerLifecycleHooks.getCurrentServer().registryAccess()))
+//                            .parse(new StringReader(val));
+//                    itemstack = item.createItemStack(1, false);
+//                }
+//                catch (final Throwable e)
+//                {
+//                    PokecubeAPI.LOGGER.error("Error with item for " + val, e);
+//                }
                 /**
                  * Use this instead of isEmpty() to allow specifically setting
                  * an air itemstack for clearing held items.
@@ -277,11 +278,11 @@ public class Pokemake
         temp.moveEntity(mob);
         pokemob.spawnInit();
         GeneticsManager.initMob(mob);
-        mob.getLevel().addFreshEntity(mob);
+        mob.level().addFreshEntity(mob);
 
         final String text = ChatFormatting.GREEN + "Spawned " + pokemob.getDisplayName().getString();
         final Component message = Component.Serializer.fromJson("[\"" + text + "\"]");
-        source.sendSuccess(message, true);
+        source.sendSuccess(() -> message, true);
         return 0;
     }
 

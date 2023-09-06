@@ -3,6 +3,7 @@ package pokecube.core.eventhandlers;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
@@ -141,7 +142,7 @@ public class PokemobEventsHandler
         {
             this.thisEntity = thisEntity;
             this.evolution = evolution;
-            this.world = thisEntity.getLevel();
+            this.world = thisEntity.level();
         }
 
         public void init()
@@ -153,7 +154,7 @@ public class PokemobEventsHandler
         {
             if (this.done) return;
             this.done = true;
-            final ServerLevel world = (ServerLevel) this.thisEntity.getLevel();
+            final ServerLevel world = (ServerLevel) this.thisEntity.level();
             final IPokemob old = PokemobCaps.getPokemobFor(this.thisEntity);
 
             if (this.thisEntity != this.evolution)
@@ -173,7 +174,7 @@ public class PokemobEventsHandler
                 this.evolution.getPersistentData().remove(TagNames.REMOVED);
                 if (old != null) PokemobTracker.removePokemob(old);
                 this.evolution.setUUID(this.thisEntity.getUUID());
-                this.evolution.getLevel().addFreshEntity(this.evolution);
+                this.evolution.level().addFreshEntity(this.evolution);
 
                 this.evolution.refreshDimensions();
                 final AABB oldBox = this.thisEntity.getBoundingBox();
@@ -253,7 +254,7 @@ public class PokemobEventsHandler
                 final Component message, final boolean dynamaxing)
         {
             this.mob = evolver.getEntity();
-            this.world = this.mob.getLevel();
+            this.world = this.mob.level();
             this.evoTime = this.world.getGameTime() + evoTime;
             this.message = message;
             this.mega = mega;
@@ -397,7 +398,7 @@ public class PokemobEventsHandler
         // We only consider MobEntities
         if (!(event.getEntity() instanceof Mob mob)) return;
 
-        if (mob.getLevel().isClientSide()) return;
+        if (mob.level().isClientSide()) return;
 
         // We only want to run this from execution thread.
         if (!mob.getServer().isSameThread() || !(mob.level instanceof ServerLevel world)) return;
@@ -496,7 +497,7 @@ public class PokemobEventsHandler
     private static void onLivingHurt(final LivingHurtEvent evt)
     {
         // Only process these server side
-        if (!(evt.getEntity().getLevel() instanceof ServerLevel level)) return;
+        if (!(evt.getEntity().level() instanceof ServerLevel level)) return;
         /*
          * No harming invalid targets, only apply this to pokemob related damage
          * sources
@@ -520,7 +521,7 @@ public class PokemobEventsHandler
                 evt.setAmount((float) (evt.getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
         }
         // Some special handling for in wall stuff
-        if (evt.getSource() == DamageSource.IN_WALL)
+        if (evt.getSource() == Objects.requireNonNull(evt.getSource().getEntity()).damageSources().inWall())
         {
             Mob toPush = pokemob != null ? pokemob.getEntity() : null;
 
@@ -597,8 +598,8 @@ public class PokemobEventsHandler
         final DamageSource damageSource = evt.getSource();
         // Handle transferring the kill info over, This is in place for mod
         // support.
-        if (damageSource instanceof PokemobDamageSource && living.getLevel() instanceof ServerLevel level)
-            damageSource.getDirectEntity().wasKilled(level, living);
+        if (damageSource instanceof PokemobDamageSource && living.level() instanceof ServerLevel level)
+            Objects.requireNonNull(damageSource.getDirectEntity()).killedEntity(level, living);
 
         // Handle exp gain for the mob.
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());
@@ -723,7 +724,7 @@ public class PokemobEventsHandler
             if (living.level.isClientSide() && pokemob.getTickLogic().isEmpty()) pokemob.initAI();
 
             // Tick the logic stuff for this mob.
-            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getLevel());
+            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.level());
         }
     }
 
@@ -791,7 +792,7 @@ public class PokemobEventsHandler
         if (tick == Tracker.instance().getTick()) return;
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
 
-        final Level dim = living.getLevel();
+        final Level dim = living.level();
         // Prevent moving if it is liable to take us out of a loaded area
         double dist = Math.sqrt(living.getDeltaMovement().x * living.getDeltaMovement().x
                 + living.getDeltaMovement().z * living.getDeltaMovement().z);
@@ -811,7 +812,7 @@ public class PokemobEventsHandler
                 return;
             }
             if (pokemobCap.getOwnerId() != null) mob.setPersistenceRequired();
-            final Player near = mob.getLevel().getNearestPlayer(mob, -1);
+            final Player near = mob.level().getNearestPlayer(mob, -1);
             if (near != null && pokemob.getOwnerId() == null)
             {
                 dist = near.distanceTo(mob);
@@ -865,7 +866,7 @@ public class PokemobEventsHandler
                     PacketDataSync.syncData(player, "pokecube-custom");
                 }
             }
-            else if (living.getLevel() instanceof ServerLevel
+            else if (living.level() instanceof ServerLevel
                     && living.getPersistentData().getBoolean("__on_shoulder__")
                     && pokemob.getLogicState(LogicStates.SITTING))
             {
@@ -895,7 +896,7 @@ public class PokemobEventsHandler
             // Reset death time if we are not dead.
             if (evt.getEntity().getHealth() > 0) evt.getEntity().deathTime = 0;
             // Tick the logic stuff for this mob.
-            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.getLevel());
+            for (final Logic l : pokemob.getTickLogic()) if (l.shouldRun()) l.tick(living.level());
         }
     }
 
@@ -1166,7 +1167,7 @@ public class PokemobEventsHandler
                 }
                 pokemob.setReadyToMate(player);
                 BrainUtils.clearAttackTarget(entity);
-                entity.getLevel().broadcastEntityEvent(entity, (byte) 18);
+                entity.level().broadcastEntityEvent(entity, (byte) 18);
                 evt.setCanceled(true);
                 evt.setCancellationResult(InteractionResult.SUCCESS);
                 return;

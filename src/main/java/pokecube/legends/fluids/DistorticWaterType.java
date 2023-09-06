@@ -1,12 +1,9 @@
 package pokecube.legends.fluids;
 
 import java.util.function.Consumer;
-
 import javax.annotation.Nullable;
-
+import net.minecraftforge.common.SoundAction;
 import org.jetbrains.annotations.NotNull;
-
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -17,6 +14,7 @@ import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
+import org.joml.Vector3f;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.FluidInit;
 import pokecube.legends.init.ItemInit;
@@ -47,8 +45,9 @@ public class DistorticWaterType extends FluidType
     public static final RegistryObject<FluidType> DISTORTIC_WATER_TYPE = PokecubeLegends.FLUID_TYPES.register(
             "distortic_water",
             () -> new FluidType(FluidType.Properties.create().descriptionId("block.pokecube_legends.distortic_water")
-                    .density(1000).temperature(100).viscosity(1000).lightLevel(0).supportsBoating(true)
-                    .canExtinguish(true).canConvertToSource(true).canHydrate(true).rarity(Rarity.RARE))
+                    .density(1000).temperature(100).viscosity(1000).lightLevel(0).motionScale(1.5)
+                    .supportsBoating(true).canDrown(true).canPushEntity(true).canExtinguish(true)
+                    .canConvertToSource(true).canHydrate(true).canSwim(true).rarity(Rarity.RARE))
             {
                 @Override
                 public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer)

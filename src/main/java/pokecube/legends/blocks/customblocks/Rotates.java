@@ -16,29 +16,29 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.material.Material;
-import net.minecraft.world.level.material.MaterialColor;
+import net.minecraft.world.level.material.MapColor;
 import pokecube.legends.blocks.BlockBase;
 
 public class Rotates extends BlockBase implements SimpleWaterloggedBlock
 {
-    private static final BooleanProperty   WATERLOGGED = BlockStateProperties.WATERLOGGED;
-    private static final DirectionProperty FACING      = HorizontalDirectionalBlock.FACING;
+    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
+    private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    public Rotates(final String name, final Material material, final MaterialColor color, final float hardness,
-            final float resistance, final SoundType sound, final boolean hasDrop)
+    public Rotates(final String name, final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                   final boolean requiresCorrectToolForDrops, final float destroyTime, final float blastResistance)
     {
-        super(name, material, color, hardness, resistance, sound, hasDrop);
+        super(name, color, sound, instrument, requiresCorrectToolForDrops, destroyTime, blastResistance);
         this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
     }
 
-    public Rotates(final Material material, final MaterialColor color, final float hardness, final float resistance,
-            final SoundType sound, final boolean hasDrop)
+    public Rotates(final MapColor color, final SoundType sound, NoteBlockInstrument instrument,
+                   final boolean requiresCorrectToolForDrops, final float destroyTime, final float blastResistance)
     {
-        super(material, color, hardness, resistance, sound, hasDrop);
+        super(color, sound, instrument, requiresCorrectToolForDrops, destroyTime, blastResistance);
         this.registerDefaultState(this.stateDefinition.any().setValue(Rotates.FACING, Direction.NORTH).setValue(
                 Rotates.WATERLOGGED, false));
     }
@@ -84,7 +84,7 @@ public class Rotates extends BlockBase implements SimpleWaterloggedBlock
      * blockstate. If inapplicable, returns the passed
      * blockstate.
      *
-     * @deprecated call via {@link IBlockState#withRotation(Rotation)} whenever
+     * @deprecated call via {IBlockState#withRotation(Rotation)} whenever
      *             possible. Implementing/overriding is
      *             fine.
      */
@@ -100,7 +100,7 @@ public class Rotates extends BlockBase implements SimpleWaterloggedBlock
      * inapplicable, returns the passed
      * blockstate.
      *
-     * @deprecated call via {@link IBlockState#withMirror(Mirror)} whenever
+     * @deprecated call via {IBlockState#withMirror(Mirror)} whenever
      *             possible. Implementing/overriding is fine.
      */
     @Deprecated

@@ -49,7 +49,7 @@ public class PacketSyncModifier extends Packet
         final int id = this.entityId;
         final int modifier = this.modifier;
         final float[] values = this.values;
-        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
+        final Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
         final IPokemob mob = PokemobCaps.getPokemobFor(e);
         if (mob != null)
         {

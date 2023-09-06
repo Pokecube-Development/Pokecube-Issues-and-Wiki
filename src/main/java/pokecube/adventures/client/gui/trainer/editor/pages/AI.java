@@ -3,6 +3,7 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -139,23 +140,24 @@ public class AI extends Page
         {
             if (state.isTemporary()) continue;
             index++;
+
             final OnPress action = b -> {
                 final boolean flag = !this.parent.aiStates.getAIState(state);
                 this.parent.aiStates.setAIState(state, flag);
                 b.setFGColor(flag ? 0x00FF00 : 0xFF0000);
                 this.onChanged();
             };
-            final Button press = new Button(x - 123, y - 30 + index * 12, 100, 12, TComponent.literal(state.name()),
-                    action);
+
+            final Button press = new Button.Builder(TComponent.literal(state.name()), action)
+                    .bounds(x - 123, y - 30 + index * 12, 100, 12).build();
+
             press.setFGColor(this.parent.aiStates.getAIState(state) ? 0x00FF00 : 0xFF0000);
             this.addRenderableWidget(press);
         }
 
-        this.addRenderableWidget(
-                new Button(x + 73, y + 64, 50, 12, TComponent.translatable("traineredit.button.home"), b ->
-                {
-                    this.closeCallback.run();
-                }));
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
+            this.closeCallback.run();
+        }).bounds(x + 73, y + 64, 50, 12).build());
     }
 
     @Override
@@ -171,21 +173,22 @@ public class AI extends Page
     }
 
     @Override
-    public void render(final PoseStack matrixStack, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.guardList.render(matrixStack, mouseX, mouseY, partialTicks);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.guardList.render(graphics, mouseX, mouseY, partialTicks);
 
         final int x = this.parent.width / 2 - 67;
         final int y = this.parent.height / 2 - 72;
         final int dy = 12;
         int i = 0;
-        this.font.draw(matrixStack, I18n.get("Loss Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("Win Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("Battle Cooldown"), x, y + dy * i++, 0xFFFFFFFF);
-        this.font.draw(matrixStack, I18n.get("Fixed Facing"), x - 20, y + dy * i++, 0xFFFFFFFF);
+        // TODO: Fix these
+        // this.font.draw(graphics, I18n.get("Loss Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        // this.font.draw(graphics, I18n.get("Win Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        // this.font.draw(graphics, I18n.get("Battle Cooldown"), x, y + dy * i++, 0xFFFFFFFF);
+        // this.font.draw(graphics, I18n.get("Fixed Facing"), x - 20, y + dy * i++, 0xFFFFFFFF);
 
-        this.font.draw(matrixStack, I18n.get("Guard Locations"), x + 100, y, 0xFFFFFFFF);
+        // this.font.draw(graphics, I18n.get("Guard Locations"), x + 100, y, 0xFFFFFFFF);
     }
 
     private void onChanged()

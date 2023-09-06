@@ -1,10 +1,12 @@
 package pokecube.adventures.items;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -15,9 +17,9 @@ import thut.lib.RegHelper;
 public class RecipeStatueCoat extends CustomRecipe
 {
 
-    public RecipeStatueCoat(ResourceLocation idIn)
+    public RecipeStatueCoat(ResourceLocation idIn, CraftingBookCategory category)
     {
-        super(idIn);
+        super(idIn, category);
     }
 
     @Override
@@ -39,7 +41,7 @@ public class RecipeStatueCoat extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv)
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess access)
     {
         ItemStack statue = ItemStack.EMPTY;
         ItemStack block = ItemStack.EMPTY;

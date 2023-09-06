@@ -1,22 +1,20 @@
 package pokecube.compat.jei.ingredients;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector4f;
-
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
+import org.joml.Vector4f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -78,13 +76,14 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         }
 
         @Override
-        public void render(PoseStack poseStack, Pokemob pokemob)
+        public void render(GuiGraphics graphics, Pokemob pokemob)
         {
             if (pokemob != null)
             {
                 final byte gender = pokemob.gender;
                 Vector4f test = new Vector4f(1, 1, 1, 1);
-                test.transform(poseStack.last().pose());
+                // TODO: Find replacement
+                // test.transform(graphics.pose().last());
                 int x = (int) test.x();
                 int y = (int) test.y();
                 EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder, gender == IPokemob.MALE, x, y, 16, 16,

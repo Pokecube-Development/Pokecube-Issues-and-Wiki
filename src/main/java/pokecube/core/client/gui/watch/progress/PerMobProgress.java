@@ -121,7 +121,7 @@ public class PerMobProgress extends Progress
         final AABB centre = this.watch.player.getBoundingBox();
         final AABB bb = centre.inflate(PokecubeCore.getConfig().maxSpawnRadius, 5,
                 PokecubeCore.getConfig().maxSpawnRadius);
-        final List<Entity> otherMobs = this.watch.player.getLevel().getEntities(this.watch.player, bb, input -> {
+        final List<Entity> otherMobs = this.watch.player.level().getEntities(this.watch.player, bb, input -> {
             IPokemob pokemob;
             if (!(input instanceof Animal && (pokemob = PokemobCaps.getPokemobFor(input)) != null)) return false;
             return pokemob.getPokedexEntry() == PerMobProgress.this.entry;

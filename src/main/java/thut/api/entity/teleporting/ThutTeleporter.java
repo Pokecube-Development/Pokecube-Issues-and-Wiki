@@ -102,7 +102,7 @@ public class ThutTeleporter
         @SubscribeEvent
         public void tickEvent(final LevelTickEvent event)
         {
-            if (event.level == this.entity.getLevel() && event.phase == Phase.END)
+            if (event.level == this.entity.level() && event.phase == Phase.END)
             {
                 MinecraftForge.EVENT_BUS.unregister(this);
                 if (this.entity instanceof ServerPlayer player)
@@ -182,7 +182,7 @@ public class ThutTeleporter
 
     public static void transferTo(final Entity entity, final TeleDest dest, final boolean sound)
     {
-        if (entity.getLevel() instanceof ServerLevel)
+        if (entity.level() instanceof ServerLevel)
         {
             new InvulnTicker(entity);
             if (dest.loc.dimension() == entity.level.dimension())
@@ -204,7 +204,7 @@ public class ThutTeleporter
             player = (ServerPlayer) entity;
             player.isChangingDimension = true;
         }
-        final ServerLevel serverworld = (ServerLevel) entity.getLevel();
+        final ServerLevel serverworld = (ServerLevel) entity.level();
 
         final List<Entity> passengers = entity.getPassengers();
         entity.ejectPassengers();
@@ -261,7 +261,7 @@ public class ThutTeleporter
             targetZ = event.getTargetZ();
 
             dest = new TeleDest().setLoc(
-                    GlobalPos.of(dest.getPos().dimension(), new BlockPos(targetX, targetY, targetZ)),
+                    GlobalPos.of(dest.getPos().dimension(), new BlockPos((int) targetX, (int) targetY, (int) targetZ)),
                     new Vector3().set(targetX, targetY, targetZ));
         }
 

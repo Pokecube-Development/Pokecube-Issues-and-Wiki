@@ -207,7 +207,7 @@ public class MoveEventsHandler
         for (final String s : PokecubeCore.getConfig().damageBlocksBlacklist) if (s.equals(move)) return false;
 
         ServerLevel level = null;
-        if (user.getEntity().getLevel() instanceof ServerLevel level2) level = level2;
+        if (user.getEntity().level() instanceof ServerLevel level2) level = level2;
 
         deny:
         if (!Config.Rules.canAffectBlocks(level))
@@ -216,16 +216,16 @@ public class MoveEventsHandler
             return false;
         }
         LivingEntity owner = user.getOwner();
-        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().getLevel(), location.intX(),
+        final boolean repel = SpawnHandler.getNoSpawnReason(user.getEntity().level(), location.intX(),
                 location.intY(), location.intZ()) == ForbidReason.REPEL;
-        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().getLevel());
+        if (!(owner instanceof Player)) owner = PokecubeMod.getFakePlayer(user.getEntity().level());
         if (repel)
         {
             if (!user.inCombat() && repelWarning) CommandTools.sendError(owner, "pokemob.action.denyrepel");
             return false;
         }
         final Player player = (Player) owner;
-        if (!BreakTestEvent.testBreak(player.getLevel(), location.getPos(), location.getBlockState(player.getLevel()),
+        if (!BreakTestEvent.testBreak(player.level(), location.getPos(), location.getBlockState(player.level()),
                 player))
         {
             final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.noperms");

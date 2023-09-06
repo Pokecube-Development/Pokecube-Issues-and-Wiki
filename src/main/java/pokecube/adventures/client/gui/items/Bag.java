@@ -1,11 +1,13 @@
 package pokecube.adventures.client.gui.items;
 
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.network.chat.CommonComponents;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -67,7 +69,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float f, final int i, final int j)
+    protected void renderBg(final GuiGraphics graphics, final float f, final int i, final int j)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -75,11 +77,13 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
                 "textures/gui/pcgui.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
-        this.blit(mat, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+
+        // TODO: Check this
+        graphics.blit(BACKGROUND_LOCATION, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 
     @Override
-    protected void renderLabels(final PoseStack mat, final int par1, final int par2)
+    protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
     {
 
     }
@@ -90,33 +94,33 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         super.init();
         final int xOffset = 0;
         final int yOffset = -11;
+
         final Component next = TComponent.translatable("block.pc.next");
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10, next, b ->
-        {
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
             this.textFieldSelectedBox.setValue(this.menu.getPageNb());
             this.textFieldBoxName.setValue(this.menu.getPage());
-        }));
+        }).bounds(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10).build());
+
         final Component prev = TComponent.translatable("block.pc.previous");
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10, prev, b ->
-        {
+        this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
             this.textFieldSelectedBox.setValue(this.menu.getPageNb());
             this.textFieldBoxName.setValue(this.menu.getPage());
-        }));
+        }).bounds(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10).build());
+
         this.textFieldSelectedBox = new EditBox(this.font, this.width / 2 - xOffset - 70,
                 this.height / 2 - yOffset - 121, 25, 10, TComponent.literal(this.page));
 
         final Component rename =TComponent.translatable("block.pc.rename");
-        this.addRenderableWidget(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset - 0, 50, 10, rename, b ->
-        {
+        this.addRenderableWidget(new Button.Builder(rename, (b) -> {
             final String box = this.textFieldBoxName.getValue();
             if (!box.equals(this.boxName)) this.menu.changeName(box);
             this.boxName = box;
-        }));
+        }).bounds(this.width / 2 - xOffset + 30, this.height / 2 - yOffset, 50, 10).build());
 
-        this.textFieldBoxName = new EditBox(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset
-                + 0, 100, 10, TComponent.literal(this.boxName));
+        this.textFieldBoxName = new EditBox(this.font, this.width / 2 - xOffset - 80, this.height / 2 - yOffset,
+                100, 10, TComponent.literal(this.boxName));
         this.textFieldSearch = new EditBox(this.font, this.width / 2 - xOffset - 10, this.height / 2 - yOffset
                 - 121, 90, 10, TComponent.literal(""));
 
@@ -137,10 +141,10 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     }
 
     @Override
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float f)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float f)
     {
-        this.renderBackground(mat);
-        super.render(mat,mouseX, mouseY, f);
+        this.renderBackground(graphics);
+        super.render(graphics,mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
             if (!this.textFieldSearch.getValue().isEmpty())
             {
@@ -152,15 +156,17 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getValue())))
                 {
                     final int slotColor = 0x55FF0000;
-                    GuiComponent.fill(mat,x, y, x + 16, y + 16, slotColor);
+                    // TODO: Check this
+                    graphics.fill(RenderType.guiOverlay(), x, y, x + 16, y + 16, slotColor);
                 }
                 else
                 {
                     final int slotColor = 0x5500FF00;
-                    GuiComponent.fill(mat,x, y, x + 16, y + 16, slotColor);
+                    // TODO: Check this
+                    graphics.fill(RenderType.guiOverlay(), x, y, x + 16, y + 16, slotColor);
                 }
             }
-        this.renderTooltip(mat,mouseX, mouseY);
+        this.renderTooltip(graphics,mouseX, mouseY);
     }
 
 }

@@ -32,7 +32,7 @@ public class DefaultElectricAction extends DefaultAction
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(user, location, move.getName())) return false;
 
-        final Level world = user.getEntity().getLevel();
+        final Level world = user.getEntity().level();
         final BlockState state = location.getBlockState(world);
         final Block block = state.getBlock();
         final Vector3 nextBlock = new Vector3().set(user.getEntity()).subtractFrom(location).reverse().norm()

@@ -34,7 +34,7 @@ public class DefaultIceAction extends DefaultAction
         // Things below here all actually damage blocks, so check this.
         if (!MoveEventsHandler.canAffectBlock(user, location, move.getName())) return false;
 
-        final Level world = user.getEntity().getLevel();
+        final Level world = user.getEntity().level();
         final UseContext context = MoveEventsHandler.getContext(world, user, Blocks.SNOW.defaultBlockState(), location);
         final BlockState state = context.getHitState();
         final Block block = state.getBlock();

@@ -118,8 +118,8 @@ public class ForgeEventHandlers
         if (!(evt.getLevel() instanceof ServerLevel level) || !PokecubeLegends.config.protectTemples) return;
         final List<BlockPos> toRemove = Lists.newArrayList();
 
-        ServerPlayer player = evt.getExplosion().getSourceMob() instanceof ServerPlayer
-                ? (ServerPlayer) evt.getExplosion().getSourceMob()
+        ServerPlayer player = evt.getExplosion().getIndirectSourceEntity() instanceof ServerPlayer
+                ? (ServerPlayer) evt.getExplosion().getIndirectSourceEntity()
                 : null;
 
         for (final BlockPos pos : evt.getAffectedBlocks())
@@ -132,7 +132,7 @@ public class ForgeEventHandlers
     public void placeBlocks(final EntityPlaceEvent evt)
     {
         if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
-        final ServerLevel world = (ServerLevel) player.getLevel();
+        final ServerLevel world = (ServerLevel) player.level();
         if (this.protectTemple(player, world, evt.getPlacedBlock(), evt.getPos()))
         {
             evt.setCanceled(true);
@@ -146,7 +146,7 @@ public class ForgeEventHandlers
     {
         if (!(evt.getPlayer() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
 
-        final ServerLevel world = (ServerLevel) player.getLevel();
+        final ServerLevel world = (ServerLevel) player.level();
         if (this.protectTemple(player, world, null, evt.getPos()))
         {
             evt.setCanceled(true);
@@ -159,7 +159,7 @@ public class ForgeEventHandlers
     public void bucket(final FillBucketEvent evt)
     {
         if (!(evt.getEntity() instanceof ServerPlayer player) || !PokecubeLegends.config.protectTemples) return;
-        final ServerLevel world = (ServerLevel) player.getLevel();
+        final ServerLevel world = (ServerLevel) player.level();
         BlockPos pos = player.blockPosition();
         if (evt.getTarget() instanceof BlockHitResult && evt.getTarget().getType() != Type.MISS)
         {

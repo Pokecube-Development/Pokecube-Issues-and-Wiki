@@ -51,23 +51,24 @@ public class LegendsLootingRecipeManager
                 if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock()))
                 {
 
-                    final LootTable loottable = event.getEntity().getServer().getLootTables().get(blockRecipe.output);
-                    final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                            (ServerLevel) event.getEntity().getLevel()).withRandom(event.getEntity().getRandom());
+//                    TODO: Fix
+                    final LootTable loottable = event.getEntity().getServer().getLootData().getLootTable(blockRecipe.output);
+//                    final LootContext.Builder lootcontext$builder =
+//                            new LootContext.Builder((ServerLevel) event.getEntity().level()).withRandom(event.getEntity().getRandom());
+//
+//                    final List<ItemStack> list = loottable
+//                            .getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
 
-                    final List<ItemStack> list = loottable
-                            .getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
-
-                    if (!list.isEmpty()) Collections.shuffle(list);
-
-                    for (final ItemStack itemstack : list)
-                    {
-                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), itemstack);
-                        break;
-                    }
+//                    if (!list.isEmpty()) Collections.shuffle(list);
+//
+//                    for (final ItemStack itemstack : list)
+//                    {
+//                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), itemstack);
+//                        break;
+//                    }
 
                     heldItem.shrink(1);
-                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem());
+                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(event.getLevel().registryAccess()));
                     break;
                 }
             }

@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Matrix3f;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 
+import org.joml.Matrix3f;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.joml.Vector4f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Mesh;
@@ -82,7 +82,8 @@ public class Face
         {
             // TODO use face centre instead here!
             dp.set(verts[0].x, verts[0].y, verts[0].z, 1);
-            dp.transform(pos);
+            // TODO: Fix this
+            // dp.transform(pos);
             double dr2 = Math.abs(dp.dot(Mesh.METRIC));
             if (dr2 < ThutCore.getConfig().modelCullThreshold)
             {
@@ -99,7 +100,8 @@ public class Face
             final float nz = smoothShading ? vert.zn : this.normal.z;
 
             dn.set(nx, ny, nz);
-            dn.transform(norms);
+            // TODO: Fix this
+            // dn.transform(norms);
 
             // Similar to Mesh, except we only have to check the 1 face, as we
             // only have 1 face! so only apply on i==0. Then, apply a similar
@@ -115,7 +117,8 @@ public class Face
             final float v = this.uvs[i].v + (float) uvShift[1];
 
             dp.set(x, y, z, 1);
-            dp.transform(pos);
+            // TODO: Fix this
+            // dp.transform(pos);
 
             buffer.vertex(
             //@formatter:off

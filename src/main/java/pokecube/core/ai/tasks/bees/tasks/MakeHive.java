@@ -58,7 +58,7 @@ public class MakeHive extends BaseIdleTask
             final BlockPos pos = b.getPos().relative(dir);
             final BlockState old = this.world.getBlockState(pos);
             if (!state.canSurvive(this.world, pos)) continue;
-            if (!old.getMaterial().isReplaceable()) continue;
+            if (!old.canBeReplaced()) continue;
             final FluidState fluid = this.world.getFluidState(pos);
             if (!fluid.isEmpty()) continue;
             return true;

@@ -116,7 +116,7 @@ public class LeapTask extends TaskBase implements IAICombat
         // Set the timer so we don't leap again rapidly
         this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
 
-        new PlaySound(this.entity.getLevel().dimension(), new Vector3().set(this.entity), this.getLeapSound(),
+        new PlaySound(this.entity.level().dimension(), new Vector3().set(this.entity), this.getLeapSound(),
                 SoundSource.HOSTILE, 1, 1).run(this.world);
         BrainUtils.setLeapTarget(this.entity, null);
     }

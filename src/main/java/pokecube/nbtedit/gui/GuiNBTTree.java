@@ -5,17 +5,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
@@ -87,9 +87,10 @@ public class GuiNBTTree extends Screen
     {
         int x = 18, y = 4;
 
+        // TODO: Check these
         for (byte i = 14; i < 17; ++i)
         {
-            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
+            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b), (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 15;
         }
@@ -97,7 +98,7 @@ public class GuiNBTTree extends Screen
         x += 30;
         for (byte i = 12; i < 14; ++i)
         {
-            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
+            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b), (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 15;
         }
@@ -106,7 +107,7 @@ public class GuiNBTTree extends Screen
         y = 17;
         for (byte i = 1; i < 12; ++i)
         {
-            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b));
+            this.nbtButtons[i - 1] = new GuiNBTButton(i, x, y, b -> this.buttonClicked((GuiNBTButton) b), (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.nbtButtons[i - 1]);
             x += 9;
         }
@@ -115,7 +116,8 @@ public class GuiNBTTree extends Screen
     private void addNodes(final Node<NamedNBT> node, int x)
     {
         final int dx = node.hasChildren() ? 10 : 0;
-        final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y);
+        // TODO: Check this
+        final GuiNBTNode nbtNode = new GuiNBTNode(this, node, x - dx, this.y, (Button.CreateNarration) this.getNarrationMessage());
         this.nodes.add(nbtNode);
         this.addRenderableWidget(nbtNode);
         x += this.X_GAP;
@@ -129,6 +131,7 @@ public class GuiNBTTree extends Screen
         final SaveStates saveStates = NBTEdit.getSaveStates();
         for (int i = 0; i < 7; ++i)
         {
+            // TODO: Check this
             this.saves[i] = new GuiSaveSlotButton(saveStates.getSaveState(i), this.width - 24, 31 + i * 25, b ->
             {
                 final GuiSaveSlotButton button = (GuiSaveSlotButton) b;
@@ -136,7 +139,7 @@ public class GuiNBTTree extends Screen
                 NBTEdit.getSaveStates().save();
                 this.mc.getSoundManager().play(SimpleSoundInstance.forUI(SoundEvents.UI_BUTTON_CLICK, 1.0F));
                 return;
-            });
+            }, (Button.CreateNarration) this.getNarrationMessage());
             this.addRenderableWidget(this.saves[i]);
         }
     }
@@ -291,7 +294,7 @@ public class GuiNBTTree extends Screen
         return false;
     }
 
-    private void drawScrollBar(final PoseStack mat, final int mx, final int my)
+    private void drawScrollBar(final GuiGraphics graphics, final int mx, final int my)
     {
         if (this.heightDiff > 0)
         {
@@ -322,7 +325,7 @@ public class GuiNBTTree extends Screen
             }
             else this.yClick = -1;
 
-            GuiComponent.fill(mat, this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
+            graphics.fill(this.width - 20, this.START_Y - 1, this.width, this.bottom, Integer.MIN_VALUE);
 
             int length = (this.bottom - (this.START_Y - 1)) * (this.bottom - (this.START_Y - 1)) / this
                     .getContentHeight();
@@ -332,7 +335,7 @@ public class GuiNBTTree extends Screen
 
             if (y < this.START_Y - 1) y = this.START_Y - 1;
 
-            this.fillGradient(mat, this.width - 20, y, this.width, y + length, 0x80ffffff, 0x80333333);
+            graphics.fillGradient(this.width - 20, y, this.width, y + length, 0x80ffffff, 0x80333333);
         }
     }
 
@@ -356,7 +359,7 @@ public class GuiNBTTree extends Screen
                 int index;
 
                 if (this.focused.shouldDrawChildren() && (index = this.indexOf(this.focused)) != -1)
-                    this.offset = this.START_Y + 1 - this.nodes.get(index).y + this.offset;
+                    this.offset = this.START_Y + 1 - this.nodes.get(index).getY() + this.offset;
 
                 this.initGUI();
                 return true;
@@ -514,7 +517,7 @@ public class GuiNBTTree extends Screen
             if (node.hideShowClicked())
             { // Check hide/show children buttons
                 this.reInit = true;
-                if (node.shouldDrawChildren()) this.offset = this.START_Y + 1 - node.y + this.offset;
+                if (node.shouldDrawChildren()) this.offset = this.START_Y + 1 - node.getY() + this.offset;
             }
             if (!this.reInit)
             { // Check actual nodes, remove focus if nothing clicked
@@ -539,7 +542,7 @@ public class GuiNBTTree extends Screen
         final BufferBuilder worldRenderer = tessellator.getBuilder();
 
         RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
-        RenderSystem.setShaderTexture(0, GuiComponent.BACKGROUND_LOCATION);
+        RenderSystem.setShaderTexture(0, Screen.BACKGROUND_LOCATION);
         final float var6 = 32.0F;
         worldRenderer.begin(Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
         final Color color = new Color(4210752);
@@ -596,7 +599,7 @@ public class GuiNBTTree extends Screen
     }
 
     @Override
-    public void render(final PoseStack mat, final int mx, final int my, final float ticks)
+    public void render(final GuiGraphics graphics, final int mx, final int my, final float ticks)
     {
         int cmx = mx, cmy = my;
         if (this.window != null)
@@ -606,11 +609,12 @@ public class GuiNBTTree extends Screen
         }
         this.overlayBackground(0, this.START_Y - 1, 255, 255);
         this.overlayBackground(this.bottom, this.height, 255, 255);
-        super.render(mat, mx, my, ticks);
+        super.render(graphics, mx, my, ticks);
+        // TODO: Fix this
         // Render the tooltips after, so they don't get hidden by other buttond
-        for (final GuiNBTButton button : this.nbtButtons)
-            button.renderToolTip(mat, my, my);
-        this.drawScrollBar(mat, cmx, cmy);
+        // for (final GuiNBTButton button : this.nbtButtons)
+        //     button.renderToolTip(graphics, my, my);
+        this.drawScrollBar(graphics, cmx, cmy);
     }
 
     public boolean rightClick(final double x, final double y2, final int t)
@@ -716,7 +720,7 @@ public class GuiNBTTree extends Screen
         if (index != -1)
         {
             final GuiNBTNode gui = this.nodes.get(index);
-            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.y + gui.getHeight()));
+            this.shift((this.bottom + this.START_Y + 1) / 2 - (gui.getY() + gui.getHeight()));
         }
     }
 

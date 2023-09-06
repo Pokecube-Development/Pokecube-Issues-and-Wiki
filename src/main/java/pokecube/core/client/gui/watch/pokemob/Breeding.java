@@ -5,6 +5,7 @@ import java.util.Collections;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.ClickEvent.Action;
 import net.minecraft.network.chat.MutableComponent;
@@ -37,7 +38,7 @@ public class Breeding extends ListPage<LineEntry>
     }
 
     @Override
-    void drawInfo(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    void drawInfo(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
         final int num = PacketPokedex.relatedLists.getOrDefault(ourEntry.getTrimmedName(), Collections.emptyList())
@@ -61,7 +62,7 @@ public class Breeding extends ListPage<LineEntry>
             {
                 final PokedexEntry entry = Database.getEntry(clickevent.getValue());
                 if (entry != null && entry != this.parent.pokemob.getPokedexEntry())
-                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel()));
+                    this.parent.initPages(EventsHandlerClient.getRenderMob(entry, this.watch.player.level()));
                 return true;
             }
         }
@@ -95,9 +96,10 @@ public class Breeding extends ListPage<LineEntry>
             }
 
             @Override
-            public void handleHovor(final PoseStack mat, final Style component, final int x, final int y)
+            public void handleHovor(final GuiGraphics graphics, final Style component, final int x, final int y)
             {
-                thisObj.renderComponentHoverEffect(mat, component, x, y);
+                // TODO: Check this
+                // thisObj.renderComponentHoverEffect(graphics, component, x, y);
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();

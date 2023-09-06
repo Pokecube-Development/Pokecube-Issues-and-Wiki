@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.pokemob;
 
+import com.mojang.math.Axis;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -12,13 +13,14 @@ import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix3f;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import org.joml.Matrix3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -79,8 +81,8 @@ public class GuiPokemobHelper
     }
 
     public static void renderMob(final PoseStack mat, final LivingEntity entity, final int dx, final int dy,
-            final float pitch, final float yaw, final float headPitch, final float headYaw, float scale,
-            float partialTicks)
+                                 final float pitch, final float yaw, final float headPitch, final float headYaw, float scale,
+                                 float partialTicks)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         LivingEntity renderMob = entity;
@@ -120,19 +122,21 @@ public class GuiPokemobHelper
         mat.pushPose();
         mat.translate(j + 55, k + 60, 50.0F);
         mat.scale(scale, scale, scale);
-        var quaternion = AxisAngles.ZP.rotationDegrees(180.0F);
-        var quaternion1 = AxisAngles.YP.rotationDegrees(180 - yaw);
+        var quaternion = Axis.ZP.rotationDegrees(180.0F);
+        var quaternion1 = Axis.YP.rotationDegrees(180 - yaw);
 
-        final Matrix3f norms = mat.last().normal().copy();
+        // TODO: Find replacement for graphics.last().normal().copy
+        final Matrix3f norms = mat.last().normal();
         mat.scale(1, 1, -1);
-        mat.last().normal().load(norms);
+        // TODO: check this
+        mat.last().normal().set(norms).add(norms);
 
         quaternion.mul(quaternion1);
-        quaternion.mul(AxisAngles.XP.rotationDegrees(pitch));
+        quaternion.mul(Axis.XP.rotationDegrees(pitch));
         mat.mulPose(quaternion);
         Lighting.setupForEntityInInventory();
         final EntityRenderDispatcher entityrenderermanager = Minecraft.getInstance().getEntityRenderDispatcher();
-        quaternion1.conj();
+        quaternion1.conjugate();
         entityrenderermanager.overrideCameraOrientation(quaternion1);
         entityrenderermanager.setRenderShadow(false);
         final MultiBufferSource.BufferSource irendertypebuffer$impl = Minecraft.getInstance().renderBuffers()

@@ -30,7 +30,7 @@ public class DefaultChecker implements IWearableChecker
         {
             final InteractionResult result = itemstack.getItem().useOn(context);
             if (result == InteractionResult.PASS && wearer instanceof Player player)
-                itemstack.use(wearer.getLevel(), player, InteractionHand.MAIN_HAND);
+                itemstack.use(wearer.level(), player, InteractionHand.MAIN_HAND);
         }
     }
 
@@ -71,7 +71,7 @@ public class DefaultChecker implements IWearableChecker
         if ((wearable = itemstack.getCapability(ThutWearables.WEARABLE_CAP, null).orElse(null)) != null)
             wearable.onUpdate(wearer, itemstack, slot, subIndex);
         if (itemstack.getItem() instanceof IActiveWearable worn) worn.onUpdate(wearer, itemstack, slot, subIndex);
-        else if (wearer instanceof Player player) itemstack.getItem().onArmorTick(itemstack, wearer.getLevel(), player);
-        else itemstack.getItem().inventoryTick(itemstack, wearer.getLevel(), wearer, slot.index + subIndex, false);
+        else if (wearer instanceof Player player) itemstack.getItem().onArmorTick(itemstack, wearer.level(), player);
+        else itemstack.getItem().inventoryTick(itemstack, wearer.level(), wearer, slot.index + subIndex, false);
     }
 }

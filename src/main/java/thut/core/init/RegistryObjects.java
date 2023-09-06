@@ -1,5 +1,6 @@
 package thut.core.init;
 
+import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.RegistryObject;
@@ -22,7 +23,7 @@ public class RegistryObjects
     static
     {
         NPC_MENU = ThutCore.RegistryEvents.MENUS.register("npc",
-                () -> new MenuType<>((IContainerFactory<NpcContainer>) NpcContainer::new));
+                () -> new MenuType<>((IContainerFactory<NpcContainer>) NpcContainer::new, FeatureFlagSet.of()));
 
         AURORA = ThutCore.RegistryEvents.PARTICLES.register("aurora", () -> ThutParticles.AURORA);
         LEAF = ThutCore.RegistryEvents.PARTICLES.register("leaf", () -> ThutParticles.LEAF);

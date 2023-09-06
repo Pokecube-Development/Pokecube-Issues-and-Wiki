@@ -108,7 +108,7 @@ public class NpcMateTask extends VillagerMakeLove
 
     private boolean isBreedingPossible(Villager mob)
     {
-        if (!(mob instanceof NpcMob npc && mob.getLevel() instanceof ServerLevel level)) return false;
+        if (!(mob instanceof NpcMob npc && mob.level() instanceof ServerLevel level)) return false;
 
         if (!mob.canBreed()) return false;
 

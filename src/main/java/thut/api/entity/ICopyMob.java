@@ -167,11 +167,12 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.yBodyRotO = from.yBodyRotO;
         to.yBodyRot = from.yBodyRot;
 
-        to.animationSpeedOld = from.animationSpeedOld;
-        to.animationPosition = from.animationPosition;
-        to.animationSpeed = from.animationSpeed;
+//        TODO: Fix this
+//        to.animationSpeedOld = from.animationSpeedOld;
+//        to.animationPosition = from.animationPosition;
+//        to.animationSpeed = from.animationSpeed;
 
-        to.setOnGround(from.isOnGround());
+        to.setOnGround(from.onGround());
         to.wasTouchingWater = from.wasTouchingWater;
         to.fluidHeight = from.fluidHeight;
         to.fluidOnEyes.clear();

@@ -106,7 +106,8 @@ public class LogicFloatFlySwim extends LogicBase
                 float f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
 
                 this.mob.setSpeed(f1 * dot);
-                this.mob.flyingSpeed = (float) (f1 * 0.05);
+                // TODO: Find fix
+                // this.mob.flyingSpeed = (float) (f1 * 0.05);
                 final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
@@ -183,7 +184,8 @@ public class LogicFloatFlySwim extends LogicBase
                 f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
 
                 this.mob.setSpeed(f1 * dot);
-                this.mob.flyingSpeed = (float) (f1 * 0.05);
+                // TODO: Find fix
+                // this.mob.flyingSpeed = (float) (f1 * 0.05);
                 final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
                 this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
                 f1 *= Math.abs(dy / ds);
@@ -202,7 +204,8 @@ public class LogicFloatFlySwim extends LogicBase
             }
             else
             {
-                this.mob.flyingSpeed = 0.02f;
+                // TODO: Find fix
+                // this.mob.flyingSpeed = 0.02f;
                 this.mob.setYya(0.0F);
                 this.mob.setZza(0.0F);
             }
@@ -239,10 +242,10 @@ public class LogicFloatFlySwim extends LogicBase
     public LogicFloatFlySwim(final IPokemob entity)
     {
         super(entity);
-        this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().getLevel());
-        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().getLevel());
-        this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().getLevel());
-        this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().getLevel());
+        this.flyPather = new FlyPathNavi(entity.getEntity(), entity.getEntity().level());
+        this.walkPather = new WalkPathNavi(entity.getEntity(), entity.getEntity().level());
+        this.climbPather = new ClimbPathNavi(entity.getEntity(), entity.getEntity().level());
+        this.swimPather = new SwimPathNavi(entity.getEntity(), entity.getEntity().level());
 
         this.flyPather.setCanOpenDoors(false);
         this.flyPather.setCanFloat(true);
@@ -261,7 +264,7 @@ public class LogicFloatFlySwim extends LogicBase
         this.walkController = new WalkController(entity);
         this.swimController = new SwimController(entity);
 
-        this.world = this.pokemob.getEntity().getLevel();
+        this.world = this.pokemob.getEntity().level();
     }
 
     @Override

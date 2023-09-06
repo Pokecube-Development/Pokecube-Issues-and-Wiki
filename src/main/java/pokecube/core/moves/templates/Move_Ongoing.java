@@ -3,6 +3,7 @@ package pokecube.core.moves.templates;
 import java.util.Random;
 import java.util.function.Function;
 
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
@@ -56,8 +57,9 @@ public class Move_Ongoing implements Function<Damage, IOngoingEffect>
         final DamageSource source = GenericDamageSource.causeMobDamage(user);
         if (PokemobCaps.getPokemobFor(user) != null)
         {
-            source.bypassMagic();
-            source.bypassArmor();
+            // TODO: Same as .bypassMagic?
+            source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
+            source.is(DamageTypeTags.BYPASSES_ARMOR);
         }
         return source;
     }

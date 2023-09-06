@@ -71,6 +71,7 @@ import pokecube.legends.init.EntityInit;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.FluidInit;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.LegendsCreativeTabs;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.TileEntityInit;
@@ -94,16 +95,12 @@ public class PokecubeLegends
 {
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static final DeferredRegister<Block> DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            Reference.ID);
-    public static final DeferredRegister<Block> DIMENSIONS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            Reference.ID);
+    public static final DeferredRegister<Block> DECORATION_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Block> DIMENSIONS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
     public static final DeferredRegister<Block> NO_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
-    public static final DeferredRegister<Block> POKECUBE_BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            Reference.ID);
+    public static final DeferredRegister<Block> POKECUBE_BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
 
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
-            Reference.ID);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES, Reference.ID);
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.ID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, Reference.ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
@@ -183,6 +180,7 @@ public class PokecubeLegends
         PokecubeLegends.CONFIGURED_FEATURES.register(modEventBus);
         PokecubeLegends.PLACED_FEATURES.register(modEventBus);
         PokecubeLegends.SURFACE_RULES.register(modEventBus);
+        LegendsCreativeTabs.TABS.register(modEventBus);
 
         WorldgenFeatures.init(modEventBus);
         BlockInit.init();
@@ -200,8 +198,6 @@ public class PokecubeLegends
         LegendsLootingRecipeManager.init();
 
         UltraSpaceSurfaceRules.init();
-
-        PokecubeAdv.TAB_DECORATIONS = TAB_DECORATIONS;
     }
 
     private void loadComplete(final FMLLoadCompleteEvent event)
@@ -261,33 +257,6 @@ public class PokecubeLegends
         UsableItemZMoveEffects.registerCapabilities(event);
         UsableItemGigantShard.registerCapabilities(event);
     }
-
-    public static final CreativeModeTab TAB_DIMENSIONS = new CreativeModeTab("ultratab")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return new ItemStack(BlockInit.DISTORTIC_GRASS_BLOCK.get());
-        }
-    };
-
-    public static final CreativeModeTab TAB_DECORATIONS = new CreativeModeTab("decotab")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return new ItemStack(BlockInit.SKY_BRICKS.get());
-        }
-    };
-
-    public static final CreativeModeTab TAB_LEGENDS = new CreativeModeTab("legendtab")
-    {
-        @Override
-        public ItemStack makeIcon()
-        {
-            return new ItemStack(ItemInit.RAINBOW_ORB.get());
-        }
-    };
 
     @SubscribeEvent
     public void registerItems(final RegisterMiscItems event)

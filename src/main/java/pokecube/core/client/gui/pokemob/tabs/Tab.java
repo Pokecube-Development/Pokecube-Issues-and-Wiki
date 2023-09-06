@@ -1,12 +1,10 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
-import java.util.Collections;
-import java.util.List;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
+import java.util.Collections;
+import java.util.List;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
@@ -101,15 +99,16 @@ public abstract class Tab
         });
     }
 
-    public void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    public void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
     {
 
         final int k = (this.width - this.imageWidth) / 2 - 17;
         final int l = (this.height - this.imageHeight) / 2;
+        // TODO: Check this
         // Render the black box to hold the pokemob
-        parent.blit(mat, k + 24, l + 16, 0, this.imageHeight, 55, 55);
+        graphics.blit(new ResourceLocation(""), k + 24, l + 16, 0, this.imageHeight, 55, 55);
         // Render the box around where the inventory slots/buttons go.
-        parent.blit(mat, k + 79, l + 16, 145, this.imageHeight, 110, 55);
+        graphics.blit(new ResourceLocation(""), k + 79, l + 16, 145, this.imageHeight, 110, 55);
 
         if (this.menu.pokemob != null)
         {
@@ -124,7 +123,7 @@ public abstract class Tab
             mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
             mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-            GuiPokemobHelper.renderMob(mat, mob, k, l, 0, 0, 0, 0, 1, partialTicks);
+            GuiPokemobHelper.renderMob(mob, k, l, 0, 0, 0, 0, 1, partialTicks);
             mob.yBodyRot = yBodyRot;
             mob.yBodyRotO = yBodyRotO;
             mob.yHeadRot = yHeadRot;
@@ -133,14 +132,15 @@ public abstract class Tab
         }
     }
 
-    public void render(final PoseStack mat, final int x, final int y, final float z)
+    public void render(final GuiGraphics graphics, final int x, final int y, final float z)
     {}
 
-    public void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
+    public void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
     {
         if (this.menu.pokemob != null)
         {
-            parent.font.draw(mat, this.menu.pokemob.getDisplayName(), 8.0F, this.imageHeight - 160 + 2, 4210752);
+            // TODO: Fix this
+            // parent.font.draw(graphics, this.menu.pokemob.getDisplayName(), 8.0F, this.imageHeight - 160 + 2, 4210752);
         }
     }
 

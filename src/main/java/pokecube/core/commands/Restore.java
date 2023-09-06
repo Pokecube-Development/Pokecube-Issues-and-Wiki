@@ -192,7 +192,7 @@ public class Restore
 
             if (!toMatch.isEmpty())
             {
-                final Entity mob = PokecubeManager.itemToMob(stack, user.getLevel());
+                final Entity mob = PokecubeManager.itemToMob(stack, user.level());
                 if (mob == null) continue;
                 final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
                 if (pokemob != null)

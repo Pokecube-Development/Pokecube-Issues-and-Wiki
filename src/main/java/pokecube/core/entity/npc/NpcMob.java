@@ -126,7 +126,8 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         VillagerProfession villagerprofession = this.getVillagerData().getProfession();
         // Replace the default idle set with ours, with a different canBreed
         // system.
-        brain.addActivity(Activity.IDLE, Tasks.getIdlePackage(villagerprofession, 0.5F));
+        // TODO: Fix these
+        // brain.addActivity(Activity.IDLE, Tasks.getIdlePackage(villagerprofession, 0.5F));
 
         final IGuardAICapability guard = this.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         if (guard != null)
@@ -141,7 +142,8 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             Set<Activity> acts = brain.activityRequirements.keySet();
             for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);
 
-            brain.addActivity(Activities.STATIONARY.get(), this.addGuard(guardai, Tasks.stationary(profession, f)));
+            // TODO: Fix these
+            // brain.addActivity(Activities.STATIONARY.get(), this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
             brain.setDefaultActivity(Activity.IDLE);
             brain.setActiveActivityIfPossible(Activity.IDLE);
@@ -182,7 +184,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
     {
         this.setRemainingFireTicks(this.getRemainingFireTicks() + 1);
         if (this.getRemainingFireTicks() == 0) this.setSecondsOnFire(8);
-        this.hurt(DamageSource.LIGHTNING_BOLT, 5.0F);
+        this.hurt(this.damageSources().lightningBolt(), 5.0F);
     }
 
     @Override
@@ -204,11 +206,12 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (this.fixedTrades || !this.customTrades.isEmpty()) this.offers = trades;
     }
 
-    @Override
-    public Packet<?> getAddEntityPacket()
-    {
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
+//    TODO: Still needed?
+//    @Override
+//    public Packet<?> getAddEntityPacket()
+//    {
+//        return NetworkHooks.getEntitySpawningPacket(this);
+//    }
 
     @Override
     public SpawnGroupData finalizeSpawn(final ServerLevelAccessor worldIn, final DifficultyInstance difficultyIn,

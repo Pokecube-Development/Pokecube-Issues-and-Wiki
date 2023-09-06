@@ -404,7 +404,7 @@ public class MoveEntry implements IMoveConstants
 
         final Vector3 pos = new Vector3();
         final float scale = (float) PokecubeCore.getConfig().moveVolumeCry;
-        final Level world = attacker.getLevel();
+        final Level world = attacker.level();
         final float pitch = 1;
         final float volume = 1 * scale;
 

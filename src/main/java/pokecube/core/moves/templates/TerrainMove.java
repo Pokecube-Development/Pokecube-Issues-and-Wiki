@@ -49,7 +49,7 @@ public class TerrainMove implements IMove
         user.getMoveStats().SPECIALCOUNTER = 20;
 
         this.duration = 300 + ThutCore.newRandom().nextInt(600);
-        final Level world = user.getEntity().getLevel();
+        final Level world = user.getEntity().level();
         final TerrainSegment segment = TerrainManager.getInstance().getTerrian(world, new Vector3(user.getEntity()));
 
         EffectType apply = this.effect;

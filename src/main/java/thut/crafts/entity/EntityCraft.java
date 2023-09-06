@@ -464,14 +464,14 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
     }
 
     @Override
-    public void positionRider(final Entity passenger)
+    public void positionRider(final Entity passenger, MoveFunction moveFunction)
     {
         if (this.hasPassenger(passenger))
         {
             if (passenger.isShiftKeyDown()) passenger.stopRiding();
             IMultiplePassengerEntity.MultiplePassengerManager.managePassenger(passenger, this);
             passenger.setOnGround(true);
-            passenger.causeFallDamage(passenger.fallDistance, 0, DamageSource.GENERIC);
+            passenger.causeFallDamage(passenger.fallDistance, 0, passenger.damageSources().generic());
             passenger.fallDistance = 0;
             if (passenger instanceof ServerPlayer player)
             {

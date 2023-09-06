@@ -6,6 +6,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BonemealableBlock;
 import net.minecraft.world.level.block.SaplingBlock;
@@ -53,8 +54,8 @@ public class DistorticSapling extends SaplingBlock implements BonemealableBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(final BlockGetter worldIn, final BlockPos pos, final BlockState state,
-            final boolean isClient)
+    public boolean isValidBonemealTarget(final LevelReader worldReader, final BlockPos pos, final BlockState state,
+                                         final boolean isClient)
     {
         return true;
     }

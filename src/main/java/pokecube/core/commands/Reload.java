@@ -26,11 +26,11 @@ public class Reload
 
     public static int execute(final CommandSourceStack source) throws CommandSyntaxException
     {
-        source.sendSuccess(TComponent.translatable("pokecube.command.reloading_packs.start"), true);
+        source.sendSuccess(() -> TComponent.translatable("pokecube.command.reloading_packs.start"), true);
         Database.listener.loaded = true;
         Database.needs_reload = true;
         Database.onResourcesReloaded();
-        source.sendSuccess(TComponent.translatable("pokecube.command.reloading_packs.end"), true);
+        source.sendSuccess(() -> TComponent.translatable("pokecube.command.reloading_packs.end"), true);
         return 0;
     }
 

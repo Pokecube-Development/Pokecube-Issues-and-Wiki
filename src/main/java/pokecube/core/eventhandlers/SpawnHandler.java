@@ -10,6 +10,11 @@ import java.util.function.Supplier;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.world.DifficultyInstance;
+import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.level.ServerLevelAccessor;
 import org.nfunk.jep.JEP;
 
 import com.google.common.base.Predicate;
@@ -45,7 +50,6 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
@@ -124,8 +128,9 @@ public final class SpawnHandler
 
         public AABBRegion(final AABB box)
         {
+            // TODO: Check this
             this.box = box;
-            this.mid = new BlockPos(box.getCenter());
+            this.mid = new BlockPos((int) box.getCenter().x, (int) box.getCenter().y, (int) box.getCenter().z);
         }
 
         @Override
@@ -345,7 +350,8 @@ public final class SpawnHandler
     }
 
     public static Mob creatureSpecificInit(final Mob MobEntity, final Level world, final double posX, final double posY,
-            final double posZ, final Vector3 spawnPoint, final SpawnData entry, final SpawnBiomeMatcher matcher)
+                                           final double posZ, final Vector3 spawnPoint, final SpawnData entry,
+                                           final SpawnBiomeMatcher matcher, CompoundTag spawnTag)
     {
         final BaseSpawner spawner = new BaseSpawner()
         {
@@ -356,16 +362,18 @@ public final class SpawnHandler
 
             }
         };
-        if (ForgeEventFactory.doSpecialSpawn(MobEntity, (LevelAccessor) world, (float) posX, (float) posY, (float) posZ,
-                spawner, MobSpawnType.NATURAL))
-            return null;
         IPokemob pokemob = PokemobCaps.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
             pokemob = pokemob.spawnInit(matcher.spawnRule);
             return pokemob.getEntity();
         }
-        return null;
+        // TODO: Check this
+        if (ForgeEventFactory.onFinalizeSpawnSpawner(MobEntity, (ServerLevelAccessor) world, 
+                world.getCurrentDifficultyAt(world.getSharedSpawnPos()), (SpawnGroupData) entry, spawnTag, null) != null);
+        {
+            return null;
+        }
     }
 
     public static ForbiddenEntry getForbiddenEntry(final Level world, final int x, final int y, final int z)
@@ -441,7 +449,7 @@ public final class SpawnHandler
 
     public static Vector3 getRandomPointNear(final Entity player, final int range)
     {
-        if (player == null || !(player.getLevel() instanceof ServerLevel level)) return null;
+        if (player == null || !(player.level() instanceof ServerLevel level)) return null;
         return SpawnHandler.getRandomPointNear(level, new Vector3().set(player), range);
     }
 
@@ -498,7 +506,7 @@ public final class SpawnHandler
         if (loc.y > 0) while (tries++ <= range)
         {
             state = loc.getBlockState(world);
-            if (state.getMaterial() == Material.WATER) return loc.copy();
+            if (state.getFluidState().is(FluidTags.WATER)) return loc.copy();
             final boolean clear = loc.isClearOfBlocks(world);
             if (clear && !loc.offsetBy(Direction.DOWN).isClearOfBlocks(world)) return loc.copy();
             loc.offsetBy(Direction.DOWN);
@@ -712,7 +720,7 @@ public final class SpawnHandler
             if (!TerrainManager.isAreaLoaded(world, v, 0)) return;
             // This getHeight can block if the above check doesn't work out!
             loc.y = world.getHeight(Types.WORLD_SURFACE, (int) loc.x, (int) loc.z);
-            final GlobalPos pos = GlobalPos.of(world.dimension(), new BlockPos(loc.x, loc.y, loc.z));
+            final GlobalPos pos = GlobalPos.of(world.dimension(), new BlockPos((int) loc.x, (int) loc.y, (int) loc.z));
             if (PokecubeSerializer.getInstance().canMeteorLand(pos, world))
             {
                 final Vector3 direction = v1.set(rand.nextGaussian() / 2, -1, rand.nextGaussian() / 2);
@@ -793,8 +801,8 @@ public final class SpawnHandler
      * Attempts to spawn mobs near the player.
      *
      * @param player
-     * @param world
-     * @param maxSpawnRadius
+     * @param level
+     * @param maxRadius
      * @return number of mobs spawned.
      */
     public void doSpawn(ServerPlayer player, ServerLevel level, final int minRadius, final int maxRadius)
@@ -810,7 +818,7 @@ public final class SpawnHandler
     private int doSpawnForType(SpawnContext context, final JEP parser, final TerrainSegment t)
     {
         final SpawnData entry = context.entry().getSpawnData();
-
+        CompoundTag spawnTag = null;
         ServerLevel level = context.level();
         Vector3 loc = context.location();
         PokedexEntry dbe = context.entry();
@@ -852,8 +860,9 @@ public final class SpawnHandler
                 entity.moveTo(x, y, z, level.random.nextFloat() * 360.0F, 0.0F);
                 if (entity.checkSpawnRules(level, MobSpawnType.NATURAL))
                 {
+                    // TODO: Check this
                     if ((entity = SpawnHandler.creatureSpecificInit(entity, level, x, y, z, v3.set(entity), entry,
-                            matcher)) != null)
+                            matcher, spawnTag)) != null)
                     {
                         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
                         if (!event.getSpawnArgs().isEmpty())

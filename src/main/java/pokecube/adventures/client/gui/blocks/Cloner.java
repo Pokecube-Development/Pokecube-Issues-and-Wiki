@@ -1,8 +1,8 @@
 package pokecube.adventures.client.gui.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
@@ -21,27 +21,29 @@ public class Cloner extends AbstractContainerScreen<ClonerContainer>
     }
 
     @Override
-    protected void renderBg(final PoseStack mat, final float partialTicks, final int mouseX, final int mouseY)
+    protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
-        this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        // TODO: Check these
+        graphics.blit(new ResourceLocation(""), x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         // Draw the progress bar.
-        this.blit(mat, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(new ResourceLocation(""), x, y, 0, 0, this.imageWidth, this.imageHeight);
         final int i = this.menu.tile.progress;
         final int j = this.menu.tile.total;
         final int l1 = j != 0 && i != 0 ? i * 24 / j : 0;
-        this.blit(mat, x + 89, y + 34, 176, 0, l1 + 1, 16);
+        graphics.blit(new ResourceLocation(""), x + 89, y + 34, 176, 0, l1 + 1, 16);
     }
 
     @Override
-    protected void renderLabels(final PoseStack mat, final int mouseX, final int mouseY)
+    protected void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
     {
-        this.font.draw(mat, this.getTitle().getString(), 8, 6, 4210752);
-        this.font.draw(mat, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
+        // TODO: Fix these
+        // this.font.draw(graphics, this.getTitle().getString(), 8, 6, 4210752);
+        // this.font.draw(graphics, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
 
         final Component warning0 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_0");
         final Component warning1 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_1");
@@ -49,20 +51,20 @@ public class Cloner extends AbstractContainerScreen<ClonerContainer>
         final int dx = 109;
         final int dy = 6;
 
-        this.font.draw(mat, warning0.getString(), dx, dy, 4210752);
-        mat.pushPose();
+        // this.font.draw(graphics, warning0.getString(), dx, dy, 4210752);
+        graphics.pose().pushPose();
         final float s = 0.5f;
-        mat.scale(s, s, s);
-        this.font.draw(mat, warning1.getString(), dx / s, (dy + 10) / s, 4210752);
-        mat.popPose();
+        graphics.pose().scale(s, s, s);
+        // this.font.draw(graphics, warning1.getString(), dx / s, (dy + 10) / s, 4210752);
+        graphics.pose().popPose();
     }
 
     @Override
     /** Draws the screen and all the components in it. */
-    public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        this.renderBackground(mat);
-        super.render(mat, mouseX, mouseY, partialTicks);
-        this.renderTooltip(mat, mouseX, mouseY);
+        this.renderBackground(graphics);
+        super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderTooltip(graphics, mouseX, mouseY);
     }
 }

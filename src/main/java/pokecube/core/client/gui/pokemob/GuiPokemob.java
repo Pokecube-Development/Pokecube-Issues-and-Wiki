@@ -1,14 +1,11 @@
 package pokecube.core.client.gui.pokemob;
 
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.lwjgl.glfw.GLFW;
-
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -16,6 +13,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import org.lwjgl.glfw.GLFW;
 import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.tabs.AI;
@@ -85,31 +83,32 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 
     /** Draws the screen and all the components in it. */
     @Override
-    public void render(final PoseStack mat, final int x, final int y, final float z)
+    public void render(final GuiGraphics graphics, final int x, final int y, final float z)
     {
-        super.renderBackground(mat);
-        super.render(mat, x, y, z);
-        modules.get(moduleIndex).render(mat, x, y, z);
+        super.renderBackground(graphics);
+        super.render(graphics, x, y, z);
+        modules.get(moduleIndex).render(graphics, x, y, z);
         for (int i = 0; i < modules.size(); i++)
         {
             Tab t = modules.get(i);
             if (t.isHovored())
             {
-                this.renderComponentTooltip(mat, Lists.newArrayList(TComponent.translatable(t.desc)), x, y);
+                // TODO: Check this
+                graphics.renderComponentTooltip(this.font, Lists.newArrayList(TComponent.translatable(t.desc)), x, y);
             }
         }
         for (var component : this.renderables)
         {
             if (component instanceof TooltipArea area && !area.autoRenders())
             {
-                area.renderToolTip(mat, x, y);
+                area.renderWidget(graphics, x, y, z);
             }
         }
-        this.renderTooltip(mat, x, y);
+        this.renderTooltip(graphics, x, y);
     }
 
     @Override
-    protected void renderBg(PoseStack pose, float tick, int mx, int my)
+    protected void renderBg(GuiGraphics graphics, float tick, int mx, int my)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -128,41 +127,46 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, TAB_TEX);
             RenderSystem.enableBlend();
-            this.blit(pose, r.x0, r.y0, 28, 0, r.w, r.h);
+            // TODO: Check this
+            graphics.blit(new ResourceLocation(""), r.x0, r.y0, 28, 0, r.w, r.h);
             if (t.icon != null)
             {
                 RenderSystem.setShaderTexture(0, t.icon);
                 RenderSystem.enableBlend();
-                pose.pushPose();
-                pose.translate(r.x0 - 2, r.y0 - 1, 0);
+                graphics.pose().pushPose();
+                graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
                 float s = 1 / 8f;
-                pose.scale(s, s, s);
-                this.blit(pose, 0, 0, 0, 0, 256, 256);
-                pose.popPose();
+                graphics.pose().scale(s, s, s);
+                // TODO: Check this
+                graphics.blit(new ResourceLocation(""), 0, 0, 0, 0, 256, 256);
+                graphics.pose().popPose();
             }
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
-        this.blit(pose, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        // TODO: Check this
+        graphics.blit(new ResourceLocation(""), k, l, 0, 0, this.imageWidth, this.imageHeight);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, TAB_TEX);
         RenderSystem.enableBlend();
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);
         int dx = moduleIndex == 0 ? 0 : 28;
-        this.blit(pose, r.x0, r.y0, dx, 32, r.w, r.h);
+        // TODO: Check this
+        graphics.blit(new ResourceLocation(""), r.x0, r.y0, dx, 32, r.w, r.h);
         if (t.icon != null)
         {
             RenderSystem.setShaderTexture(0, t.icon);
             RenderSystem.enableBlend();
-            pose.pushPose();
-            pose.translate(r.x0 - 2, r.y0 - 1, 0);
+            graphics.pose().pushPose();
+            graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
             float s = 1 / 8f;
-            pose.scale(s, s, s);
-            this.blit(pose, 0, 0, 0, 0, 256, 256);
-            pose.popPose();
+            graphics.pose().scale(s, s, s);
+            // TODO: Check this
+            graphics.blit(new ResourceLocation(""), 0, 0, 0, 0, 256, 256);
+            graphics.pose().popPose();
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
-        modules.get(moduleIndex).renderBg(pose, tick, mx, my);
+        modules.get(moduleIndex).renderBg(graphics, tick, mx, my);
     }
 
     @Override
@@ -172,9 +176,10 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     }
 
     @Override
-    protected void renderLabels(PoseStack mat, int p_97809_, int p_97810_)
+    protected void renderLabels(GuiGraphics graphics, int p_97809_, int p_97810_)
     {
-        this.font.draw(mat, this.playerInventoryTitle, 8.0F, this.imageHeight - 96 + 2, 4210752);
+        // TODO: Fix this
+        // this.font.draw(graphics, this.playerInventoryTitle, 8.0F, this.imageHeight - 96 + 2, 4210752);
 
         final int k = 6;
         final int l = this.imageHeight - 152;
@@ -185,10 +190,11 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             if (t.icon == null)
             {
                 Component tab = TComponent.translatable(t.text);
-                this.font.draw(mat, tab, k + 28 * (i + 1), l - 28, 4210752);
+                // TODO: Fix this
+                // this.font.draw(graphics, tab, k + 28 * (i + 1), l - 28, 4210752);
             }
         }
-        modules.get(moduleIndex).renderLabels(mat, p_97809_, p_97810_);
+        modules.get(moduleIndex).renderLabels(graphics, p_97809_, p_97810_);
     }
 
     @Override
@@ -196,7 +202,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     {
         for (var w : this.children)
         {
-            if (w instanceof EditBox b) b.setFocus(false);
+            if (w instanceof EditBox b) b.setFocused(false);
         }
         if (button == GLFW.GLFW_MOUSE_BUTTON_LEFT)
         {

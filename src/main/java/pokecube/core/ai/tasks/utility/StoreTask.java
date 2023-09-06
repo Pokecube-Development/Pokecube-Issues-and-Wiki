@@ -467,7 +467,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         // TODO decide on what to do here later, for now, only let this run if
         // owner is online.
         if (!(pokemob.getOwner() instanceof Player player)) return false;
-        if (!BreakTestEvent.testBreak(player.getLevel(), pos, world.getBlockState(pos), player)) return false;
+        if (!BreakTestEvent.testBreak(player.level(), pos, world.getBlockState(pos), player)) return false;
         this.knownValid.add(pos.immutable());
         return true;
     }

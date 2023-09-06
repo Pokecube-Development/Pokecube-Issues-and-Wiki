@@ -182,7 +182,7 @@ public class ExpandedJigsawPacement
                             {
                                 List<Placer> attempts = Lists.newArrayList();
 
-                                if (ThutCore.conf.debug) PokecubeAPI.logDebug("Building: {}", root_pool.getName());
+                                if (ThutCore.conf.debug) PokecubeAPI.logDebug("Building: {}", root_pool.getClass().getName());
                                 tries:
                                 for (int n = 0; n < 10; n++)
                                 {
@@ -246,7 +246,7 @@ public class ExpandedJigsawPacement
                                 @SuppressWarnings("unchecked")
                                 List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
 
-                                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_pool.getName());
+                                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_pool.getClass().getName());
 
                                 new PostProcessor(config).accept(context, list);
                                 list.forEach(builder::addPiece);
@@ -358,7 +358,7 @@ public class ExpandedJigsawPacement
                 Optional<StructureTemplatePool> fallback_pool)
         {
             List<StructurePoolElement> list = Lists.newArrayList();
-            boolean addChildren = depth < this.maxDepth || ALWAYS_ADD.contains(target_pool.get().getName());
+            boolean addChildren = depth < this.maxDepth || ALWAYS_ADD.contains(target_pool.get().getClass().getName());
             if (addChildren)
             {
                 list.addAll(target_pool.get().getShuffledTemplates(this.random));
@@ -423,17 +423,17 @@ public class ExpandedJigsawPacement
         public Attachment canAttach(StructureTemplate.StructureBlockInfo root,
                 StructureTemplate.StructureBlockInfo next, AABB root_box)
         {
-            Direction root_front = JigsawBlock.getFrontFacing(root.state);
-            Direction next_front = JigsawBlock.getFrontFacing(next.state);
+            Direction root_front = JigsawBlock.getFrontFacing(root.state());
+            Direction next_front = JigsawBlock.getFrontFacing(next.state());
 
             boolean correct_direction = root_front == next_front.getOpposite();
 
             if (!correct_direction && logs) PokecubeAPI.logDebug("wrong direction");
             if (!correct_direction) return Attachment.INVALID;
 
-            Direction root_top = JigsawBlock.getTopFacing(root.state);
-            Direction next_top = JigsawBlock.getTopFacing(next.state);
-            JointType jointtype = JointType.byName(root.nbt.getString("joint")).orElseGet(() -> {
+            Direction root_top = JigsawBlock.getTopFacing(root.state());
+            Direction next_top = JigsawBlock.getTopFacing(next.state());
+            JointType jointtype = JointType.byName(root.nbt().getString("joint")).orElseGet(() -> {
                 return root_front.getAxis().isHorizontal() ? JointType.ALIGNED : JointType.ROLLABLE;
             });
 
@@ -442,12 +442,12 @@ public class ExpandedJigsawPacement
 
             if (!correct_orientation) return Attachment.INVALID;
 
-            boolean tag_match = root.nbt.getString("target").equals(next.nbt.getString("name"));
+            boolean tag_match = root.nbt().getString("target").equals(next.nbt().getString("name"));
 
             if (!tag_match && logs)
-                PokecubeAPI.logDebug(root.nbt.getString("target") + "!=" + next.nbt.getString("name"));
+                PokecubeAPI.logDebug(root.nbt().getString("target") + "!=" + next.nbt().getString("name"));
             if (!tag_match) return Attachment.INVALID;
-            BlockPos next_pos = root.pos.relative(root_front);
+            BlockPos next_pos = root.pos().relative(root_front);
             return root_box.contains(next_pos.getX(), next_pos.getY(), next_pos.getZ()) ? Attachment.INSIDE
                     : Attachment.EDGE;
         }
@@ -512,15 +512,15 @@ public class ExpandedJigsawPacement
             root_jigsaws:
             for (StructureBlockInfo root_block_info : root_jigsaws)
             {
-                BlockPos raw_jigsaw_pos = root_block_info.pos;
+                BlockPos raw_jigsaw_pos = root_block_info.pos();
                 if (root_state.used_jigsaws.contains(raw_jigsaw_pos)) continue root_jigsaws;
-                Direction direction = JigsawBlock.getFrontFacing(root_block_info.state);
+                Direction direction = JigsawBlock.getFrontFacing(root_block_info.state());
                 BlockPos connecting_jigsaw_pos = raw_jigsaw_pos.relative(direction);
                 boolean next_pick_inside = root_bounding_box.isInside(connecting_jigsaw_pos);
 
                 int dy = raw_jigsaw_pos.getY() - root_min_y;
                 int k = -1;
-                ResourceLocation next_pool_name = new ResourceLocation(root_block_info.nbt.getString("pool"));
+                ResourceLocation next_pool_name = new ResourceLocation(root_block_info.nbt().getString("pool"));
                 Optional<StructureTemplatePool> next_pool = this.pools.getOptional(next_pool_name);
 
                 boolean valid_next_pool = next_pool.isPresent()
@@ -528,7 +528,8 @@ public class ExpandedJigsawPacement
 
                 if (valid_next_pool)
                 {
-                    ResourceLocation resourcelocation1 = next_pool.get().getFallback();
+                    // TODO: Fix this
+                    ResourceLocation resourcelocation1 = (ResourceLocation) next_pool.get().getFallback();
                     Optional<StructureTemplatePool> fallback_pool = this.pools.getOptional(resourcelocation1);
 
                     boolean valid_fallback = fallback_pool.isPresent() && (fallback_pool.get().size() != 0
@@ -562,20 +563,21 @@ public class ExpandedJigsawPacement
                                 if (bound_check && picked_box.getYSpan() <= 16)
                                 {
                                     l = next_jigsaws.stream().mapToInt((structure_info) -> {
-                                        if (!picked_box.isInside(structure_info.pos
-                                                .relative(JigsawBlock.getFrontFacing(structure_info.state))))
+                                        if (!picked_box.isInside(structure_info.pos()
+                                                .relative(JigsawBlock.getFrontFacing(structure_info.state()))))
                                         {
                                             return 0;
                                         }
                                         else
                                         {
                                             ResourceLocation id = new ResourceLocation(
-                                                    structure_info.nbt.getString("pool"));
+                                                    structure_info.nbt().getString("pool"));
                                             Optional<StructureTemplatePool> pool_entry = this.pools.getOptional(id);
                                             Optional<StructureTemplatePool> pool_fallback = pool_entry
                                                     .flatMap((pool) ->
                                                     {
-                                                        return this.pools.getOptional(pool.getFallback());
+                                                        // TODO: Fix this
+                                                        return this.pools.getOptional((ResourceLocation) pool.getFallback());
                                                     });
                                             int y_1 = pool_entry.map((pool) -> {
                                                 return pool.getMaxSize(this.structureManager);
@@ -600,7 +602,7 @@ public class ExpandedJigsawPacement
                                     Attachment attachment = canAttach(root_block_info, next_block_info, root_box);
                                     if (attachment.valid())
                                     {
-                                        BlockPos next_pos_raw = next_block_info.pos;
+                                        BlockPos next_pos_raw = next_block_info.pos();
                                         BlockPos next_jigsaw_pos = connecting_jigsaw_pos.subtract(next_pos_raw);
                                         BoundingBox next_pick_box = next_picked_element.getBoundingBox(
                                                 this.structureManager, next_jigsaw_pos, random_direction);
@@ -631,7 +633,7 @@ public class ExpandedJigsawPacement
 
                                         int raw_pos_y = next_pos_raw.getY();
                                         int jigsaw_block_dy = dy - raw_pos_y
-                                                + JigsawBlock.getFrontFacing(root_block_info.state).getStepY();
+                                                + JigsawBlock.getFrontFacing(root_block_info.state()).getStepY();
                                         int l1;
                                         if (root_rigid && next_pick_rigid)
                                         {

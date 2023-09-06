@@ -72,7 +72,7 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 	@Override
 	public void entityInside(final BlockState state, final Level world, final BlockPos pos, final Entity entity)
 	{
-		entity.hurt(DamageSource.CACTUS, 1.0F);
+		entity.hurt(entity.damageSources().cactus(), 1.0F);
     }
 
 	@Override
@@ -81,12 +81,13 @@ public class CrystallizedCactus extends Block implements SimpleWaterloggedBlock
 		return false;
 	}
 
-	@Nullable
-	@Override
-	public BlockPathTypes getBlockPathType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
-	{
-		return BlockPathTypes.DAMAGE_CACTUS;
-	}
+	// TODO: Chech if needed
+//	@Nullable
+//	@Override
+//	public BlockPathTypes getBlockPathType(final BlockState state, final BlockGetter world, final BlockPos pos, @Nullable final Mob entity)
+//	{
+//		return BlockPathTypes.DAMAGE_CACTUS;
+//	}
 
 	@Override
 	protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)

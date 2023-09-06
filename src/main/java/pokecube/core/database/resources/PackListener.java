@@ -48,7 +48,7 @@ public class PackListener implements PreparableReloadListener
 
         for (final PackResources pack : Database.customPacks)
         {
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Reloading Pack: " + pack.getName());
+            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Reloading Pack: " + pack.getClass().getName());
             PackListener.addPack(pack, manager);
         }
         this.loaded = true;

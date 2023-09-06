@@ -5,6 +5,7 @@ license="All rights reserved"
 
 [[mods]]
     modId="pokecube"
+    logoFile="pokecube_logo.png"
     version="${file.jarVersion}"
     displayName="Pokécube Core"
     authors="Thutmose"
@@ -92,6 +93,6 @@ license="All rights reserved"
 [[dependencies.pokecube]]
     modId="forge"
     mandatory=true
-    versionRange="version_forge"
+    versionRange="version_neoforged"
     ordering="NONE"
     side="BOTH"

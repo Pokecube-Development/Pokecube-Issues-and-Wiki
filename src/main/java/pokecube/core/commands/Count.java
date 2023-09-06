@@ -57,9 +57,11 @@ public class Count
         }
         final List<Map.Entry<PokedexEntry, Integer>> entries = Lists.newArrayList(counts.entrySet());
         Collections.sort(entries, (o1, o2) -> o2.getValue() - o1.getValue());
-        source.sendSuccess(TComponent.translatable("pokecube.command.count", count1, count2), true);
-        source.sendSuccess(TComponent.literal(entries.toString()), true);
-        if (RootTask.doLoadThrottling) source.sendSuccess(TComponent.literal("Load Factor: " + RootTask.runRate), true);
+        int finalCount = count1;
+        int finalCount2 = count2;
+        source.sendSuccess(() -> TComponent.translatable("pokecube.command.count", finalCount, finalCount2), true);
+        source.sendSuccess(() -> TComponent.literal(entries.toString()), true);
+        if (RootTask.doLoadThrottling) source.sendSuccess(() -> TComponent.literal("Load Factor: " + RootTask.runRate), true);
         return 0;
     }
 

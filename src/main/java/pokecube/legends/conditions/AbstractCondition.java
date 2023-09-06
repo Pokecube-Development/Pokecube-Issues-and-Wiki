@@ -15,7 +15,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -49,26 +48,6 @@ public abstract class AbstractCondition implements ISpecialCaptureCondition, ISp
     {
         for (final Vector3 v : blocks) if (!ItemList.is(toTest, v.getBlockState(world))) return false;
         return true;
-    }
-
-    /**
-     * @param world
-     * @param blocks
-     * @param material
-     * @param bool     if true, looks for matches, if false looks for anything
-     *                 that doesn't match.
-     * @return
-     */
-    protected static boolean isMaterial(final Level world, final ArrayList<Vector3> blocks, final Material material,
-            final boolean bool)
-    {
-        final boolean ret = true;
-        if (bool)
-        {
-            for (final Vector3 v : blocks) if (v.getBlockMaterial(world) != material) return false;
-        }
-        else for (final Vector3 v : blocks) if (v.getBlockMaterial(world) == material) return false;
-        return ret;
     }
 
     private final List<Predicate<BlockState>> relevantBlocks = Lists.newArrayList();

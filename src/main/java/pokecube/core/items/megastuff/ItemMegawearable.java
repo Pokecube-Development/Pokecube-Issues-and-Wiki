@@ -47,7 +47,7 @@ public class ItemMegawearable extends Item implements DyeableLeatherItem
 
     public ItemMegawearable(String name)
     {
-        super(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1));
+        super(new Properties().stacksTo(1));
         this.name = name;
         this.slot = wearables.get(name);
         INSTANCES.add(this);

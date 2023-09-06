@@ -82,7 +82,7 @@ public class NearBlocks extends Sensor<LivingEntity>
         final boolean gathering = pokemob != null && pokemob.isPlayerOwned()
                 && pokemob.isRoutineEnabled(AIRoutine.GATHER) && this.tameCheck(pokemob);
         final int size = gathering ? 15 : 8;
-        if (!TerrainManager.isAreaLoaded(entityIn.getLevel(), entityIn.blockPosition(), size + 8)) return;
+        if (!TerrainManager.isAreaLoaded(entityIn.level(), entityIn.blockPosition(), size + 8)) return;
 
         final Vector3 rAbs = new Vector3();
         final Vector3 origin = new Vector3();

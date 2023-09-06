@@ -133,7 +133,7 @@ public class ClientInit
                 final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
 
                 final AABB one = new AABB(v.getPos());
-                final AABB two = new AABB(new BlockPos(pointed));
+                final AABB two = new AABB(new BlockPos((int) pointed.x, (int) pointed.y, (int) pointed.z));
 
                 final double minX = Math.min(one.minX, two.minX);
                 final double minY = Math.min(one.minY, two.minY);

@@ -45,19 +45,19 @@ public class PalmFoliagePlacer extends FoliagePlacer
     }
 
     @Override
-    protected void createFoliage(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void createFoliage(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, int maxFreeTreeHeight,
-            FoliagePlacer.FoliageAttachment foliageAttachment, int height, int radius, int offset)
+            FoliageAttachment foliageAttachment, int height, int radius, int offset)
     {
         for (int yOffset = offset; yOffset >= offset - height; --yOffset)
         {
             int range = Math.max(radius + foliageAttachment.radiusOffset() - 2 - yOffset, 0);
-            placeLeafSegment(level, blockSetter, random, treeConfig, foliageAttachment.pos(), offset, range, yOffset,
+            placeLeafSegment(level, foliageSetter, random, treeConfig, foliageAttachment.pos(), offset, range, yOffset,
                     foliageAttachment.doubleTrunk());
         }
     }
 
-    protected void placeLeafSegment(LevelSimulatedReader level, BiConsumer<BlockPos, BlockState> blockSetter,
+    protected void placeLeafSegment(LevelSimulatedReader level, FoliageSetter foliageSetter,
             RandomSource random, TreeConfiguration treeConfig, BlockPos pos, int offset, int range, int yOffset,
             boolean large)
     {
@@ -71,12 +71,12 @@ public class PalmFoliagePlacer extends FoliagePlacer
             if (!this.shouldSkipLocationSigned(random, j, yOffset, 0, range, large))
             {
                 mutablePos.setWithOffset(pos, j, yOffset, 0);
-                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                tryPlaceLeaf(level, foliageSetter, random, treeConfig, mutablePos);
             }
             if (!this.shouldSkipLocationSigned(random, 0, yOffset, j, range, large))
             {
                 mutablePos.setWithOffset(pos, 0, yOffset, j);
-                tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                tryPlaceLeaf(level, foliageSetter, random, treeConfig, mutablePos);
             }
             if (minRadius <= sideLeafRadius && Math.abs(j) <= sideLeafRadius)
             {
@@ -85,7 +85,7 @@ public class PalmFoliagePlacer extends FoliagePlacer
                     if (!this.shouldSkipLocationSigned(random, j, yOffset, k, range, large))
                     {
                         mutablePos.setWithOffset(pos, j, yOffset, k);
-                        tryPlaceLeaf(level, blockSetter, random, treeConfig, mutablePos);
+                        tryPlaceLeaf(level, foliageSetter, random, treeConfig, mutablePos);
                     }
                 }
             }

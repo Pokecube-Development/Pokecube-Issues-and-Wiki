@@ -140,7 +140,8 @@ public class Tasks
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        // TODO: Fix this
+        // if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
 
         // Send the event to let anyone edit the tasks if needed.
         PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
@@ -199,7 +200,8 @@ public class Tasks
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
         }
-        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        // TODO: Fix this
+        // if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
@@ -256,7 +258,8 @@ public class Tasks
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        // TODO: Fix this
+        // if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 

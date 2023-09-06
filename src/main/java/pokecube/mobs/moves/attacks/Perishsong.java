@@ -1,5 +1,6 @@
 package pokecube.mobs.moves.attacks;
 
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.IOngoingAffected;
@@ -21,7 +22,11 @@ public class Perishsong extends Move_Ongoing
     @Override
     protected DamageSource getOngoingDamage(final LivingEntity user)
     {
-        return super.getOngoingDamage(user).bypassMagic().bypassArmor();
+        // TODO: Check if correct
+        final DamageSource source = super.getOngoingDamage(user);
+        source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
+        source.is(DamageTypeTags.BYPASSES_ARMOR);
+        return source;
     }
 
     @Override

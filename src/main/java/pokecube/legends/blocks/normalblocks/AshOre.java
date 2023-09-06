@@ -20,9 +20,9 @@ public class AshOre extends FallingDirtBlockBase implements Fallable
 {
     public static final BooleanProperty WET = BooleanProperty.create("wet");
 
-    public AshOre(final int color, final Properties properties)
+    public AshOre(final int particleColor, final Properties properties)
     {
-        super(color, properties);
+        super(particleColor, properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(WET, false));
     }
 

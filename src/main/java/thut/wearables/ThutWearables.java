@@ -16,6 +16,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
@@ -144,11 +145,12 @@ public class ThutWearables
 
         @OnlyIn(Dist.CLIENT)
         @SubscribeEvent
-        public static void textureStitch(final TextureStitchEvent.Pre event)
+        public static void textureStitch(final TextureStitchEvent event)
         {
             if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-            for (int i = 0; i < EnumWearable.BYINDEX.length; i++)
-                event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));
+            // TODO: Fix this
+            // for (int i = 0; i < EnumWearable.BYINDEX.length; i++)
+            //    event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));
         }
     }
 
@@ -178,7 +180,7 @@ public class ThutWearables
     {
         CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Reference.MODID);
         WEARABLES = CONTAINERS.register("wearables",
-                () -> new MenuType<>((IContainerFactory<ContainerWearables>) ContainerWearables::new));
+                () -> new MenuType<>((IContainerFactory<ContainerWearables>) ContainerWearables::new, FeatureFlags.REGISTRY.allFlags()));
     }
 
     public static PlayerWearables getWearables(final LivingEntity wearer)
@@ -233,7 +235,7 @@ public class ThutWearables
     {
         final LivingEntity mob = event.getEntity();
         final GameRules rules = this.overworldRules ? mob.getServer().getLevel(Level.OVERWORLD).getGameRules()
-                : mob.getLevel().getGameRules();
+                : mob.level().getGameRules();
         final PlayerWearables cap = ThutWearables.getWearables(mob);
         if (rules.getBoolean(GameRules.RULE_KEEPINVENTORY) || cap == null) return;
 
@@ -246,7 +248,7 @@ public class ThutWearables
                 if (MinecraftForge.EVENT_BUS.post(dropEvent)) continue;
                 EnumWearable.takeOff(mob, stack, i);
                 final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
-                final ItemEntity drop = new ItemEntity(mob.getLevel(), mob.getX(), d0, mob.getZ(), stack);
+                final ItemEntity drop = new ItemEntity(mob.level(), mob.getX(), d0, mob.getZ(), stack);
                 final float f = mob.getRandom().nextFloat() * 0.5F;
                 final float f1 = mob.getRandom().nextFloat() * ((float) Math.PI * 2F);
                 drop.setDeltaMovement(-Mth.sin(f1) * f, Mth.cos(f1) * f, 0.2);
@@ -298,7 +300,7 @@ public class ThutWearables
     @SubscribeEvent
     public void playerTick(final LivingTickEvent event)
     {
-        if (event.getEntity().getLevel().isClientSide) return;
+        if (event.getEntity().level().isClientSide) return;
         if (event.getEntity() instanceof Player wearer && event.getEntity().isAlive())
         {
             final PlayerWearables wearables = ThutWearables.getWearables(wearer);
@@ -312,7 +314,7 @@ public class ThutWearables
     {
         if (!(event.getEntity() instanceof ServerPlayer player)) return;
         final GameRules rules = this.overworldRules ? player.getServer().getLevel(Level.OVERWORLD).getGameRules()
-                : player.getLevel().getGameRules();
+                : player.level().getGameRules();
         if (rules.getBoolean(GameRules.RULE_KEEPINVENTORY))
         {
             final PlayerWearables cap = ThutWearables.getWearables(player);

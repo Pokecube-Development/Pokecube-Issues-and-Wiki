@@ -8,11 +8,13 @@ import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
 
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -54,15 +56,81 @@ public class MoveRecipes
 
     public static Map<String, List<MoveRecipe>> MOVE_TO_RECIPES_MAP = Maps.newHashMap();
 
-    public static class WorldCraftInventory extends CraftingContainer
+    public static class WorldCraftInventory implements CraftingContainer
     {
         final IPokemob pokemob;
 
         public WorldCraftInventory(final AbstractContainerMenu container, final int x, final int y,
                 final IPokemob pokemob)
         {
-            super(container, x, y);
+            super();
             this.pokemob = pokemob;
+        }
+
+        // TODO: Check this
+        @Override
+        public int getWidth() {
+            return 0;
+        }
+
+        @Override
+        public int getHeight() {
+            return 0;
+        }
+
+        @Override
+        public List<ItemStack> getItems() {
+            return null;
+        }
+
+        @Override
+        public int getContainerSize() {
+            return 0;
+        }
+
+        @Override
+        public boolean isEmpty() {
+            return false;
+        }
+
+        @Override
+        public ItemStack getItem(int p_18941_) {
+            return null;
+        }
+
+        @Override
+        public ItemStack removeItem(int p_18942_, int p_18943_) {
+            return null;
+        }
+
+        @Override
+        public ItemStack removeItemNoUpdate(int p_18951_) {
+            return null;
+        }
+
+        @Override
+        public void setItem(int p_18944_, ItemStack p_18945_) {
+
+        }
+
+        @Override
+        public void setChanged() {
+
+        }
+
+        @Override
+        public boolean stillValid(Player p_18946_) {
+            return false;
+        }
+
+        @Override
+        public void clearContent() {
+
+        }
+
+        @Override
+        public void fillStackedContents(StackedContents p_40281_) {
+
         }
     }
 
@@ -108,9 +176,10 @@ public class MoveRecipes
         }
 
         @Override
-        public ItemStack assemble(final WorldCraftInventory inventory)
+        public ItemStack assemble(final WorldCraftInventory inventory, RegistryAccess access)
         {
-            final ItemStack stack = this.wrapped.assemble(inventory);
+            // TODO: Check this
+            final ItemStack stack = this.wrapped.assemble(inventory, access);
             inventory.pokemob.applyHunger(this.hungerCost);
             return stack;
         }
@@ -122,9 +191,9 @@ public class MoveRecipes
         }
 
         @Override
-        public ItemStack getResultItem()
+        public ItemStack getResultItem(RegistryAccess access)
         {
-            return this.wrapped.getResultItem();
+            return this.wrapped.getResultItem(access);
         }
 
         @Override
@@ -162,14 +231,14 @@ public class MoveRecipes
             if (!MoveEventsHandler.canAffectBlock(user, location, name, false, true)) return false;
             // This should look at the block hit, and attempt to craft that into
             // a shapeless recipe.
-            final Level world = user.getEntity().getLevel();
+            final Level world = user.getEntity().level();
             final BlockState block = location.getBlockState(world);
             if (block == null || world.isEmptyBlock(location.getPos())) return false;
             final ItemStack item = new ItemStack(block.getBlock());
             final WorldCraftInventory inven = new WorldCraftInventory(this.c, 1, 1, user);
             inven.setItem(0, item);
             if (!this.matches(inven, world)) return false;
-            final ItemStack stack = this.assemble(inven);
+            final ItemStack stack = this.assemble(inven, world.registryAccess());
             if (stack.isEmpty()) return false;
             final Block toSet = Block.byItem(stack.getItem());
             if (toSet == Blocks.AIR)
@@ -202,7 +271,7 @@ public class MoveRecipes
             final WorldCraftInventory inven = new WorldCraftInventory(this.c, 1, toUse.size(), user);
             for (int i = 0; i < toUse.size(); i++) inven.setItem(i, toUse.get(i));
             if (!this.matches(inven, world)) return depth;
-            final ItemStack stack = this.assemble(inven);
+            final ItemStack stack = this.assemble(inven, world.registryAccess());
             if (stack.isEmpty()) return depth;
             final List<ItemStack> remains = this.getRemainingItems(inven);
             toUse.forEach(e -> {
@@ -226,7 +295,7 @@ public class MoveRecipes
         {
             // This should look for items near the location, and try to stuff
             // them into a shapeless recipe.
-            final Level world = attacker.getEntity().getLevel();
+            final Level world = attacker.getEntity().level();
             final List<ItemEntity> items = world.getEntitiesOfClass(ItemEntity.class, location.getAABB().inflate(2));
             final List<ItemStack> stacks = Lists.newArrayList();
             items.forEach(e -> stacks.add(e.getItem()));

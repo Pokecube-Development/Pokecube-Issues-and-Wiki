@@ -258,7 +258,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
          {
             int i = this.originY - pos.getY();
             Vec3 vec3 = this.windSpeed.scale((double)i);
-            return pos.offset(vec3.x, 0.0D, vec3.z);
+            return pos.offset((int) vec3.x, 0, (int) vec3.z);
          }
       }
    }

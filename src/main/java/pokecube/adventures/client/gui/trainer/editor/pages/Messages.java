@@ -1,8 +1,7 @@
 package pokecube.adventures.client.gui.trainer.editor.pages;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -69,10 +68,10 @@ public class Messages extends ListPage<MessageOption>
             this.message.setMaxLength(1024);
             this.action.setMaxLength(1024);
 
-            this.apply = new Button(0, 0, 50, 10, TComponent.literal("Apply"), b -> {
+            this.apply = new Button.Builder(TComponent.translatable("traineredit.button.apply"), (b) -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.onUpdated();
-            });
+            }).bounds(0, 0, 50, 10).build();
 
             parent.addRenderableWidget(this.apply);
             parent.addRenderableWidget(this.message);
@@ -96,9 +95,9 @@ public class Messages extends ListPage<MessageOption>
         }
 
         @Override
-        public void render(final PoseStack mat, final int slotIndex, final int y, final int x, final int listWidth,
-                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
-                final float partialTicks)
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
+                           final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                           final float partialTicks)
         {
             this.message.visible = true;
             this.action.visible = true;
@@ -106,17 +105,18 @@ public class Messages extends ListPage<MessageOption>
 
             final int dy = 10;
 
-            this.apply.x = x - 2 + this.message.getWidth();
-            this.apply.y = y - 4 + dy;
-            this.message.x = x - 2;
-            this.message.y = y - 4 + dy;
-            this.action.x = x - 2;
-            this.action.y = y - 4 + dy + 12;
+            this.apply.setX(x - 2 + this.message.getWidth());
+            this.apply.setY(y - 4 + dy);
+            this.message.setX(x - 2);
+            this.message.setY(y - 4 + dy);
+            this.action.setX(x - 2);
+            this.action.setY(y - 4 + dy + 12);
 
-            this.parent.font.draw(mat, MessageState.values()[this.index].name(), x, y - 5, 0xFFFFFF);
-            this.message.render(mat, mouseX, mouseY, partialTicks);
-            this.action.render(mat, mouseX, mouseY, partialTicks);
-            this.apply.render(mat, mouseX, mouseY, partialTicks);
+            // TODO: Fix this
+            // this.parent.font.draw(graphics, MessageState.values()[this.index].name(), x, y - 5, 0xFFFFFF);
+            this.message.render(graphics, mouseX, mouseY, partialTicks);
+            this.action.render(graphics, mouseX, mouseY, partialTicks);
+            this.apply.render(graphics, mouseX, mouseY, partialTicks);
         }
 
         public void onUpdated()
@@ -166,10 +166,9 @@ public class Messages extends ListPage<MessageOption>
         this.children.add(this.list);
         x = this.width / 2;
         y = this.height / 2;
-        this.addRenderableWidget(
-                new Button(x + 73, y + 64, 50, 12, TComponent.translatable("traineredit.button.home"), b ->
-                {
-                    this.closeCallback.run();
-                }));
+
+        this.addRenderableWidget(new Button.Builder(TComponent.translatable("traineredit.button.home"), (b) -> {
+            this.closeCallback.run();
+        }).bounds(x + 73, y + 64, 50, 12).build());
     }
 }

@@ -262,7 +262,7 @@ public class EnergyHandler
     public static void onEntityCapabilityAttach(final AttachCapabilitiesEvent<Entity> event)
     {
         if (!event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP)
-                || event.getCapabilities().containsKey(EnergyHandler.ENERGYCAP) || event.getObject().getLevel() == null)
+                || event.getCapabilities().containsKey(EnergyHandler.ENERGYCAP) || event.getObject().level() == null)
             return;
         final IPokemob pokemob = event.getCapabilities().get(EventsHandler.POKEMOBCAP)
                 .getCapability(PokemobCaps.POKEMOB_CAP).orElse(null);
@@ -332,9 +332,9 @@ public class EnergyHandler
 
             final Mob living = this.pokemob.getEntity();
             // We will update our energy when this is called, as that
-            if (living.getLevel().getGameTime() != this.lastTickCheck)
+            if (living.level().getGameTime() != this.lastTickCheck)
             {
-                this.lastTickCheck = living.getLevel().getGameTime();
+                this.lastTickCheck = living.level().getGameTime();
                 final int spAtk = this.pokemob.getStat(Stats.SPATTACK, true);
                 final int atk = this.pokemob.getStat(Stats.ATTACK, true);
                 final int level = this.pokemob.getLevel();

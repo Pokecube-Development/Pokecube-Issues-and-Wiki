@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -13,7 +14,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
@@ -256,7 +256,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     }
 
     @Override
-    public void postPageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void postPageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 80;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 8;
@@ -278,12 +278,12 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 int box = 0;
                 for (final String s : text) box = Math.max(box, this.font.width(s) + 2);
 
-                GuiComponent.fill(mat, x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1,
-                        0xFF78C850);
+                graphics.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1, 0xFF78C850);
                 for (final String s : text)
                 {
-                    GuiComponent.fill(mat, x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-                    this.font.draw(mat, s, x + mx + 1, y + my, 0xFFFFFFFF);
+                    graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
+                    // TODO: Check this
+                    // this.font.draw(graphics, s, x + mx + 1, y + my, 0xFFFFFFFF);
                     my += dy;
                 }
                 GlStateManager._enableDepthTest();
@@ -292,9 +292,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     }
 
     @Override
-    public void prePageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
+    public void prePageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        if (this.current_page != null) this.current_page.renderBackground(mat);
+        if (this.current_page != null) this.current_page.renderBackground(graphics);
         if (!this.watch.canEdit(this.pokemob))
         {
             final String name = PokecubePlayerDataHandler.getCustomDataTag(this.watch.player).getString("WEntry");
@@ -316,9 +316,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 - 5;
         int colour = 0xFF78C850;
-        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 70, y + 17, colour);
-        GuiComponent.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 70, y + 27,
-                colour);
+        graphics.drawCenteredString(this.font, this.getTitle().getString(), x + 70, y + 17, colour);
+        graphics.drawCenteredString(this.font, this.current_page.getTitle().getString(), x + 70, y + 27, colour);
         int dx = -76;
         int dy = 10;
 
@@ -392,26 +391,31 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Only draw the lvl if it is a real mob, otherwise it will just say
             // L.1
             final int lvlColour = GuiPokeWatch.nightMode ? 0xFFFFFF : 0x444444;
-            if (drawLevel) this.font.draw(mat, level, x + dx, y + dy, lvlColour);
+            // TODO: Fix this
+            //if (drawLevel) this.font.draw(graphics, level, x + dx, y + dy, lvlColour);
             dx = -80;
             dy = 97;
-            this.font.draw(mat, gender, x + dx, y + dy, genderColor);
+            // TODO: Fix this
+            // this.font.draw(graphics, gender, x + dx, y + dy, genderColor);
             pokemob.getType1();
             final String type1 = PokeType.getTranslatedName(pokemob.getType1()).getString();
             dx = -80;
             dy = 114;
             colour = pokemob.getType1().colour;
-            this.font.draw(mat, type1, x + dx, y + dy, colour);
+            // TODO: Fix this
+            // this.font.draw(graphics, type1, x + dx, y + dy, colour);
             dy = 114;
             if (pokemob.getType2() != PokeType.unknown)
             {
                 final String slash = "/";
                 colour = pokemob.getType2().colour;
                 dx += this.font.width(type1);
-                this.font.draw(mat, slash, x + dx, y + dy, 0x444444);
+                // TODO: Fix this
+                // this.font.draw(graphics, slash, x + dx, y + dy, 0x444444);
                 final String type2 = PokeType.getTranslatedName(pokemob.getType2()).getString();
                 dx += this.font.width(slash);
-                this.font.draw(mat, type2, x + dx, y + dy, colour);
+                // TODO: Fix this
+                // this.font.draw(graphics, type2, x + dx, y + dy, colour);
             }
         }
     }
@@ -425,14 +429,19 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int y = this.watch.height / 2 - 5;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 95, y - 74, 12, 12, next, b -> {
+
+        // TODO: Check this
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             this.changePage(this.index + 1);
             PokemobInfoPage.savedIndex = this.index;
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x + 81, y - 74, 12, 12, prev, b -> {
+        }).bounds(x + 95, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             this.changePage(this.index - 1);
             PokemobInfoPage.savedIndex = this.index;
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }).bounds(x + 81, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

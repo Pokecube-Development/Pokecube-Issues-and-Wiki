@@ -48,7 +48,7 @@ public class TM
             if (itementity != null)
             {
                 itementity.setNoPickUpDelay();
-                itementity.setOwner(serverplayerentity.getUUID());
+                itementity.setThrower(serverplayerentity.getUUID());
             }
         }
         return 0;

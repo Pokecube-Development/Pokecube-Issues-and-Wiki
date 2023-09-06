@@ -249,7 +249,7 @@ public class TrainerEventHandler
         try
         {
             drop = JsonUtil.gson.fromJson(arg, Drop.class);
-            return Tools.getStack(drop.getValues(), sender.getLevel() instanceof ServerLevel level ? level : null);
+            return Tools.getStack(drop.getValues(), sender.level() instanceof ServerLevel level ? level : null);
         }
         catch (final JsonSyntaxException e)
         {
@@ -386,7 +386,7 @@ public class TrainerEventHandler
             final LivingEntity npc = event.getEntity();
             // Add our task if the dummy not present, this can happen if the
             // brain has reset before
-            if (npc instanceof Mob mob && npc.getLevel() instanceof ServerLevel)
+            if (npc instanceof Mob mob && npc.level() instanceof ServerLevel)
             {
                 TypeTrainer.addAI(mob);
                 if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Added Tasks: " + npc);
@@ -412,11 +412,11 @@ public class TrainerEventHandler
         }
 
         final IHasPokemobs mobs = TrainerCaps.getHasPokemobs(mob);
-        if (mobs == null || !(mob.getLevel() instanceof ServerLevel slevel) || mob instanceof Player) return;
+        if (mobs == null || !(mob.level() instanceof ServerLevel slevel) || mob instanceof Player) return;
         if (mob.getPersistentData().contains("pokeadv_join")
-                && mob.getPersistentData().getLong("pokeadv_join") == mob.getLevel().getGameTime())
+                && mob.getPersistentData().getLong("pokeadv_join") == mob.level().getGameTime())
             return;
-        mob.getPersistentData().putLong("pokeadv_join", mob.getLevel().getGameTime());
+        mob.getPersistentData().putLong("pokeadv_join", mob.level().getGameTime());
 
         if (mobs.countPokemon() != 0) return;
         final TypeTrainer newType = TypeTrainer.get(mob, true);
@@ -425,7 +425,7 @@ public class TrainerEventHandler
         SpawnContext context = new SpawnContext(slevel, Database.missingno, new Vector3().set(mob));
         final int level = SpawnHandler.getSpawnLevel(context);
         if (mob instanceof TrainerBase npc) npc.initTeam(level);
-        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.getLevel());
+        else TypeTrainer.getRandomTeam(mobs, mob, level, mob.level());
         if (mob.isAddedToWorld()) EntityUpdate.sendEntityUpdate(mob);
     }
 
@@ -562,7 +562,7 @@ public class TrainerEventHandler
             ItemStack stack = pokemobs.getItem(i);
             if (stack.isEmpty()) continue;
             final double d0 = mob.getY() - 0.3D + mob.getEyeHeight();
-            final ItemEntity drop = new ItemEntity(mob.getLevel(), mob.getX(), d0, mob.getZ(), stack);
+            final ItemEntity drop = new ItemEntity(mob.level(), mob.getX(), d0, mob.getZ(), stack);
             final float f = mob.getRandom().nextFloat() * 0.5F;
             final float f1 = mob.getRandom().nextFloat() * ((float) Math.PI * 2F);
             drop.setDeltaMovement(-Mth.sin(f1) * f, Mth.cos(f1) * f, 0.2);

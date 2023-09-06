@@ -37,23 +37,23 @@ public class Pickup extends Ability
 
         if (Pickup.lootTable != null && Pickup.useLootTable)
         {
-            final LootTable loottable = mob.getEntity().getLevel().getServer().getLootTables()
-                    .get(Pickup.lootTable);
-            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob.getEntity()
-                    .getLevel()).withRandom(poke.getRandom());
-            // Generate the loot list.
-            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
-            // Shuffle the list.
-            if (!list.isEmpty()) Collections.shuffle(list);
-            for (final ItemStack itemstack : list)
-                // Pick first valid item in it.
-                if (!itemstack.isEmpty())
-                {
-                    ItemStack stack = itemstack.copy();
-                    if (stack.getItem() instanceof ItemCandy) stack = PokecubeItems.makeCandyStack();
-                    mob.setHeldItem(stack);
-                    return;
-                }
+            final LootTable loottable = mob.getEntity().level().getServer().getLootData().getLootTable(Pickup.lootTable);
+//            TODO: Fix
+//            final LootContext.Builder lootcontext$builder =
+//                    new LootContext.Builder((ServerLevel) mob.getEntity().level()).withRandom(poke.getRandom());
+//            // Generate the loot list.
+//            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+//            // Shuffle the list.
+//            if (!list.isEmpty()) Collections.shuffle(list);
+//            for (final ItemStack itemstack : list)
+//                // Pick first valid item in it.
+//                if (!itemstack.isEmpty())
+//                {
+//                    ItemStack stack = itemstack.copy();
+//                    if (stack.getItem() instanceof ItemCandy) stack = PokecubeItems.makeCandyStack();
+//                    mob.setHeldItem(stack);
+//                    return;
+//                }
         }
 
     }

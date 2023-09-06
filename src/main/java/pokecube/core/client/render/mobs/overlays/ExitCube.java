@@ -38,7 +38,7 @@ public class ExitCube
                 loc.x += (rand.nextDouble() - 0.5) * width;
                 loc.y += rand.nextDouble();
                 loc.z += (rand.nextDouble() - 0.5) * width;
-                PokecubeCore.spawnParticle(entity.getLevel(), RegHelper.getKey(ParticleTypes.BUBBLE).toString(),
+                PokecubeCore.spawnParticle(entity.level(), RegHelper.getKey(ParticleTypes.BUBBLE).toString(),
                         loc, vel);
             }
             if (sealTag.getBoolean("Flames"))
@@ -46,7 +46,7 @@ public class ExitCube
                 loc.x += (rand.nextDouble() - 0.5) * width;
                 loc.y += rand.nextDouble();
                 loc.z += (rand.nextDouble() - 0.5) * width;
-                PokecubeCore.spawnParticle(entity.getLevel(), RegHelper.getKey(ParticleTypes.FLAME).toString(),
+                PokecubeCore.spawnParticle(entity.level(), RegHelper.getKey(ParticleTypes.FLAME).toString(),
                         loc, vel);
             }
             if (sealTag.getBoolean("Leaves"))
@@ -57,7 +57,7 @@ public class ExitCube
                 loc.x += rand.nextGaussian() / 2;
                 loc.y += rand.nextGaussian() / 2;
                 loc.z += rand.nextGaussian() / 2;
-                PokecubeCore.spawnParticle(entity.getLevel(), "leaf", loc, vel);
+                PokecubeCore.spawnParticle(entity.level(), "leaf", loc, vel);
             }
             if (sealTag.contains("dye"))
             {
@@ -69,7 +69,7 @@ public class ExitCube
                 loc.z += width * rand.nextGaussian() / 2;
                 final int id = sealTag.getInt("dye");
                 final int colour = DyeColor.byId(id).getTextColor();
-                PokecubeCore.spawnParticle(entity.getLevel(), "powder", loc, vel, colour | 0xFF000000);
+                PokecubeCore.spawnParticle(entity.level(), "powder", loc, vel, colour | 0xFF000000);
             }
         }
         if (pokemob.isShiny())
@@ -85,7 +85,7 @@ public class ExitCube
             loc.y += width * rand.nextGaussian() / 2;
             loc.z += width * rand.nextGaussian() / 2;
             final int colour = DyeColor.GREEN.getTextColor();
-            if (rand.nextFloat() < 0.125) PokecubeCore.spawnParticle(entity.getLevel(), "happy_villager", loc,
+            if (rand.nextFloat() < 0.125) PokecubeCore.spawnParticle(entity.level(), "happy_villager", loc,
                     vel, colour | 0xFF000000);
         }
     }

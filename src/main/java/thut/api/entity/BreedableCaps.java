@@ -51,7 +51,7 @@ public class BreedableCaps
         @Override
         public Object getChild(final IBreedingMob male)
         {
-            return this.wrapped.getBreedOffspring((ServerLevel) this.wrapped.getLevel(), male.getEntity());
+            return this.wrapped.getBreedOffspring((ServerLevel) this.wrapped.level(), male.getEntity());
         }
 
         @Override

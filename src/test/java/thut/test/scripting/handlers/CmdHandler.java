@@ -1,5 +1,6 @@
 package thut.test.scripting.handlers;
 
+import java.util.function.Supplier;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -25,10 +26,10 @@ public class CmdHandler implements ICmdHandler
         }
 
         @Override
-        public void sendSuccess(final Component message, final boolean p_197030_2_)
+        public void sendSuccess(final Supplier<Component> message, final boolean b)
         {
-            this.lastMsg = message;
-            super.sendSuccess(message, p_197030_2_);
+            this.lastMsg = message.get();
+            super.sendSuccess(message, b);
         }
     }
 

@@ -87,9 +87,9 @@ public class SendOutManager
 
     public static LivingEntity sendOut(final EntityPokecubeBase cube, final boolean summon, final boolean respectRoom)
     {
-        if (cube.getLevel().isClientSide || cube.isReleasing()) return null;
-        final ServerLevel world = (ServerLevel) cube.getLevel();
-        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.getLevel());
+        if (cube.level().isClientSide || cube.isReleasing()) return null;
+        final ServerLevel world = (ServerLevel) cube.level();
+        final Entity mob = PokecubeManager.itemToMob(cube.getItem(), cube.level());
 
         if (mob == null) return null;
 
@@ -132,7 +132,7 @@ public class SendOutManager
             if (pokemob != null) pokemob.onGenesChanged();
 
             v.set(v.intX() + 0.5, v.intY(), v.intZ() + 0.5);
-            final BlockState state = v.getBlockState(cube.getLevel());
+            final BlockState state = v.getBlockState(cube.level());
             final VoxelShape s = state.getCollisionShape(world, v.getPos());
             if (!s.isEmpty()) v.y += s.max(Axis.Y);
             // Ensure the mob's position is initialized properly first

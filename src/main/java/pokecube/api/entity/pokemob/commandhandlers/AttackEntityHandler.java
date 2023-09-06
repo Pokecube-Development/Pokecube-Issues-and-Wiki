@@ -34,7 +34,7 @@ public class AttackEntityHandler extends DefaultHandler
     @Override
     public void handleCommand(final IPokemob pokemob)
     {
-        final Level world = pokemob.getEntity().getLevel();
+        final Level world = pokemob.getEntity().level();
         final Entity target = PokecubeAPI.getEntityProvider().getEntity(world, this.targetId, true);
         if (PokecubeCore.getConfig().debug_commands)
             PokecubeAPI.logInfo("Recieved Command to Attack {} for {}", target, pokemob.getEntity());

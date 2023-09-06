@@ -1,5 +1,6 @@
 package pokecube.mobs.moves.attacks;
 
+import java.util.Objects;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -35,7 +36,7 @@ public class MetalBurst implements PostMoveUse
             user.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
             user.getMoveStats().PHYSICALDAMAGETAKENCOUNTER = 0;
             if (target != null && !target.isInvulnerable())
-                target.hurt(new PokemobDamageSource(attacker, t.move().getMove()), damage);
+                target.hurt(new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attacker, t.move().getMove()), damage);
             user.getMoveStats().biding = false;
         }
     }

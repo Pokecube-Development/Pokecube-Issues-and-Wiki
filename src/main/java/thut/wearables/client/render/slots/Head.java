@@ -2,6 +2,7 @@ package thut.wearables.client.render.slots;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 
+import com.mojang.math.Axis;
 import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,8 +41,8 @@ public class Head
             {
                 if (ThutWearables.config.renderBlacklist.contains(9)) break;
                 mat.translate(-0.25, -0.1, 0.0);
-                mat.mulPose(AxisAngles.YP.rotationDegrees(90));
-                mat.mulPose(AxisAngles.XP.rotationDegrees(90));
+                mat.mulPose(Axis.YP.rotationDegrees(90));
+                mat.mulPose(Axis.XP.rotationDegrees(90));
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(9)) != null)
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
                 render = true;
@@ -50,8 +51,8 @@ public class Head
             {
                 if (ThutWearables.config.renderBlacklist.contains(10)) break;
                 mat.translate(0.25, -0.1, 0.0);
-                mat.mulPose(AxisAngles.YP.rotationDegrees(90));
-                mat.mulPose(AxisAngles.XP.rotationDegrees(90));
+                mat.mulPose(Axis.YP.rotationDegrees(90));
+                mat.mulPose(Axis.XP.rotationDegrees(90));
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(10)) != null)
                     mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
                 Utils.mirror(0, 1, 0, mat);
@@ -87,7 +88,7 @@ public class Head
         if (wearable.customOffsets())
         {
             mat.scale(1, -1, -1);
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
             return;
         }
@@ -97,7 +98,7 @@ public class Head
         if (Head.postOffset(mat, index, slot))
         {
             mat.scale(1, -1, -1);
-            mat.mulPose(AxisAngles.YP.rotationDegrees(180));
+            mat.mulPose(Axis.YP.rotationDegrees(180));
             wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
         }
     }

@@ -1,5 +1,6 @@
 package pokecube.core.client.render.mobs.overlays;
 
+import com.mojang.math.Axis;
 import java.awt.Color;
 import java.util.Random;
 
@@ -9,18 +10,17 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix4f;
 
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TransparencyStateShard;
 import net.minecraft.client.renderer.RenderType;
+import org.joml.Matrix4f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicMiscUpdate;
-import thut.lib.AxisAngles;
 
 public class Evolution
 {
@@ -83,12 +83,12 @@ public class Evolution
         }
         for (int i = 0; i < (f5 + f5 * f5) / 2.0F * 100.0F; ++i)
         {
-            mat.mulPose(AxisAngles.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(AxisAngles.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(AxisAngles.ZP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(AxisAngles.XP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(AxisAngles.YP.rotationDegrees(random.nextFloat() * 360.0F));
-            mat.mulPose(AxisAngles.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
+            mat.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.XP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.YP.rotationDegrees(random.nextFloat() * 360.0F));
+            mat.mulPose(Axis.ZP.rotationDegrees(random.nextFloat() * 360.0F + f5 * 90.0F));
             float f3 = random.nextFloat() * 20.0F + 5.0F + f7 * 10.0F;
             float f4 = random.nextFloat() * 2.0F + 1.0F + f7 * 2.0F;
 

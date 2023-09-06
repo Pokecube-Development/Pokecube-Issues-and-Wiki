@@ -1,11 +1,10 @@
 package thut.api.boom;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -13,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +24,6 @@ import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructurePlaceSettings;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProcessorList;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.LevelTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
@@ -96,8 +94,8 @@ public class ExplosionCustom extends Explosion
             BlockState to = Blocks.AIR.defaultBlockState();
             if (power < 36)
             {
-                if (state.getMaterial() == Material.LEAVES) to = Blocks.FIRE.defaultBlockState();
-                if (state.getMaterial() == Material.REPLACEABLE_PLANT) to = Blocks.FIRE.defaultBlockState();
+                if (state.is(BlockTags.LEAVES)) to = Blocks.FIRE.defaultBlockState();
+                if (state.canBeReplaced()) to = Blocks.FIRE.defaultBlockState();
             }
             level.setBlock(pos, to, 3);
             return to;
@@ -163,9 +161,9 @@ public class ExplosionCustom extends Explosion
             {
                 info = list.process(level, pos, pos, info, processed, settings, null);
             }
-            if (state != info.state)
+            if (info != null && state != info.state())
             {
-                state = info.state;
+                state = info.state();
                 level.setBlock(pos, state, 3);
             }
             return state;
@@ -186,7 +184,7 @@ public class ExplosionCustom extends Explosion
         final EntityDimensions size = e.getDimensions(e.getPose());
         final float area = size.width * size.height;
         final float damage = area * power;
-        if (!e.isInvulnerable()) e.hurt(DamageSource.explosion(boom), damage);
+        if (!e.isInvulnerable()) e.hurt(e.damageSources().explosion(boom), damage);
     };
 
     float minBlastDamage;

@@ -75,7 +75,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
         if (!this.isEvolving()) return;
         final LivingEntity entity = this.getEntity();
-        if (this.getEntity().getLevel().isClientSide)
+        if (this.getEntity().level().isClientSide)
         {
             final MessageServer message = new MessageServer(MessageServer.CANCELEVOLVE, entity.getId());
             PokecubeCore.packets.sendToServer(message);
@@ -90,7 +90,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     /**
      * Called when give item. to override when the pokemob evolve with a stone.
      *
-     * @param itemId the shifted index of the item
+     * @param stack the shifted index of the item
      * @return whether should evolve
      */
     default boolean canEvolve(final ItemStack stack)
@@ -153,6 +153,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
         valid.clear();
         // Now from ones left, lets filter by location requirements
+        // TODO: Check this
         SpawnCheck check = new SpawnCheck(new Vector3(thisEntity), (ServerLevelAccessor) thisEntity.level);
         for (final EvolutionData d : select_from)
         {
@@ -183,7 +184,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // change to new forme.
             final IPokemob evo = this.megaEvolve(((EvolveEvent.Pre) evt).forme);
             // Remove held item if it had one.
-            if (neededItem && ItemStack.isSame(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
+            if (neededItem && ItemStack.isSameItem(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
             // Init things like moves.
             evo.getMoveStats().oldLevel = data.level - 1;
             evo.levelUp(evo.getLevel());
@@ -227,7 +228,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             if (evo != null)
             {
                 // Clear held item if used for evolving.
-                if (neededItem && ItemStack.isSame(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
+                if (neededItem && ItemStack.isSameItem(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
 
                 evt = new EvolveEvent.Post(evo);
                 MinecraftForge.EVENT_BUS.post(evt);
@@ -284,7 +285,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         final List<String> moves = Database.getLevelUpMoves(theMob.getPokedexEntry(), level,
                 theMob.getMoveStats().oldLevel);
         Collections.shuffle(moves);
-        if (!theEntity.getLevel().isClientSide)
+        if (!theEntity.level().isClientSide)
         {
             final Component mess = TComponent.translatable("pokemob.info.levelup", theMob.getDisplayName(), level + "");
             theMob.displayMessageToOwner(mess);
@@ -325,7 +326,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
     default IPokemob megaEvolve(final PokedexEntry newEntry)
     {
-        if (this.getEntity().getLevel() instanceof ServerLevel level)
+        if (this.getEntity().level() instanceof ServerLevel level)
             return this.megaEvolve(newEntry, !level.isHandlingTick());
         return this.megaEvolve(newEntry, true);
     }
@@ -368,7 +369,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             this.setGeneralState(GeneralStates.EVOLVING, true);
 
-            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.getLevel());
+            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.level());
             if (evolution == null)
             {
                 PokecubeAPI.LOGGER.warn("No Entry for " + newEntry);

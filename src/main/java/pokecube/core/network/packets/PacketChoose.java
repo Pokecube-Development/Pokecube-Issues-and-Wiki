@@ -154,7 +154,7 @@ public class PacketChoose extends Packet
              */
             if (PokecubeManager.isFilled(e))
             {
-                final IPokemob pokemob = PokecubeManager.itemToPokemob(e, player.getLevel());
+                final IPokemob pokemob = PokecubeManager.itemToPokemob(e, player.level());
                 /** First pokemob advancement on getting starter. */
                 if (pokemob != null && pokemob.getPokedexEntry() == entry) StatsCollector.addCapture(pokemob);
             }

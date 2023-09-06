@@ -38,61 +38,62 @@ import pokecube.core.entity.npc.NpcMob;
 public class Tasks
 {
 
+//    TODO: Fix these
     //@formatter:off
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> stationary(
-            final VillagerProfession profession, final float speed)
-    {
-        return ImmutableList.of(
-                Pair.of(0, new SwimTask(0.8F)),
-                Pair.of(0, new InteractWithDoor()),
-                Pair.of(0, new LookAtTask(45, 90)),
-                Tasks.lookAtMany(),
-                Tasks.lookAtPlayerOrVillager()
-        );
-    }
-
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> battle(
-            final VillagerProfession profession, final float speed)
-    {
-        return ImmutableList.of(
-                Pair.of(0, new SwimTask(0.8F)),
-                Pair.of(0, new InteractWithDoor()),
-                Pair.of(0, new LookAtTask(45, 90)),
-                Tasks.lookAtMany(),
-                Tasks.lookAtPlayerOrVillager()
-        );
-    }
+//    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> stationary(
+//            final VillagerProfession profession, final float speed)
+//    {
+//        return ImmutableList.of(
+//                Pair.of(0, new SwimTask(0.8F)),
+//                Pair.of(0, new InteractWithDoor()),
+//                Pair.of(0, new LookAtTask(45, 90)),
+//                Pair.of(0, Tasks.lookAtMany()),
+//                Pair.of(0, Tasks.lookAtPlayerOrVillager())
+//        );
+//    }
+//
+//    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> battle(
+//            final VillagerProfession profession, final float speed)
+//    {
+//        return ImmutableList.of(
+//                Pair.of(0, new SwimTask(0.8F)),
+//                Pair.of(0, new InteractWithDoor()),
+//                Pair.of(0, new LookAtTask(45, 90)),
+//                Tasks.lookAtMany(),
+//                Tasks.lookAtPlayerOrVillager()
+//        );
+//    }
     
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> getIdlePackage(
-            VillagerProfession p_24599_, float p_24600_)
-    {
-        Predicate<LivingEntity> isCat = (mob) -> mob.getType()==EntityType.CAT;
-        Predicate<LivingEntity> isNpc = (mob) -> mob instanceof NpcMob;
-        
-        Predicate<AgeableMob> canBreed = (mob) -> mob.canBreed();
-        
-        
-        return ImmutableList.of(Pair.of(2, new RunOne(ImmutableList.of(
-                Pair.of(InteractWith.of(isNpc, 8, MemoryModuleType.INTERACTION_TARGET, p_24600_, 2), 2),
-                Pair.of(new InteractWith(isNpc, 8, canBreed, canBreed,
-                        MemoryModuleType.BREED_TARGET, p_24600_, 2), 1),
-                Pair.of(InteractWith.of(isCat, 8, MemoryModuleType.INTERACTION_TARGET, p_24600_, 2), 1),
-                Pair.of(new VillageBoundRandomStroll(p_24600_), 1),
-                Pair.of(new SetWalkTargetFromLookTarget(p_24600_, 2), 1), Pair.of(new JumpOnBed(p_24600_), 1),
-                Pair.of(new DoNothing(30, 60), 1)))), Pair.of(3, new GiveGiftToHero(100)),
-                Pair.of(3, new SetLookAndInteract(EntityType.PLAYER, 4)), Pair.of(3, new ShowTradesToPlayer(400, 1600)),
-                Pair.of(3,
-                        new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET),
-                                GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE,
-                                ImmutableList.of(Pair.of(new TradeWithVillager(), 1)))),
-                Pair.of(3,
-                        new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.BREED_TARGET),
-                                GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE,
-                                ImmutableList.of(Pair.of(new NpcMateTask(), 1)))),
-                lookAtMany(), Pair.of(99, new UpdateActivityFromSchedule()));
-    }
+//    @SuppressWarnings({ "unchecked", "rawtypes" })
+//    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> getIdlePackage(
+//            VillagerProfession profession, float speed)
+//    {
+//        Predicate<LivingEntity> isCat = (mob) -> mob.getType()==EntityType.CAT;
+//        Predicate<LivingEntity> isNpc = (mob) -> mob instanceof NpcMob;
+//
+//        Predicate<AgeableMob> canBreed = (mob) -> mob.canBreed();
+//
+//
+//        return ImmutableList.of(Pair.of(2, new RunOne(ImmutableList.of(
+//                Pair.of(InteractWith.of(isNpc, 8, MemoryModuleType.INTERACTION_TARGET, speed, 2), 2),
+//                Pair.of(new InteractWith(isNpc, 8, canBreed, canBreed,
+//                        MemoryModuleType.BREED_TARGET, speed, 2), 1),
+//                Pair.of(InteractWith.of(isCat, 8, MemoryModuleType.INTERACTION_TARGET, speed, 2), 1),
+//                Pair.of(new VillageBoundRandomStroll(), 1),
+//                Pair.of(new SetWalkTargetFromLookTarget(), 1), Pair.of(new JumpOnBed(speed), 1),
+//                Pair.of(new DoNothing(30, 60), 1)))), Pair.of(3, new GiveGiftToHero(100)),
+//                Pair.of(3, new SetLookAndInteract()), Pair.of(3, new ShowTradesToPlayer(400, 1600)),
+//                Pair.of(3,
+//                        new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.INTERACTION_TARGET),
+//                                GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE,
+//                                ImmutableList.of(Pair.of(new TradeWithVillager(), 1)))),
+//                Pair.of(3,
+//                        new GateBehavior<>(ImmutableMap.of(), ImmutableSet.of(MemoryModuleType.BREED_TARGET),
+//                                GateBehavior.OrderPolicy.ORDERED, GateBehavior.RunningPolicy.RUN_ONE,
+//                                ImmutableList.of(Pair.of(new NpcMateTask(), 1)))),
+//                lookAtMany(), Pair.of(99, new UpdateActivityFromSchedule()));
+//    }
 
     private static Pair<Integer, Behavior<LivingEntity>> lookAtMany()
     {

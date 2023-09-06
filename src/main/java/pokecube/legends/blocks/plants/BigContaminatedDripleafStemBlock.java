@@ -106,9 +106,9 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     }
 
     @Override
-    public boolean isValidBonemealTarget(BlockGetter block, BlockPos pos, BlockState state, boolean b)
+    public boolean isValidBonemealTarget(LevelReader worldReader, BlockPos pos, BlockState state, boolean b)
     {
-        Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(block, pos, state.getBlock(), Direction.UP,
+        Optional<BlockPos> optional = BlockUtil.getTopConnectedBlock(worldReader, pos, state.getBlock(), Direction.UP,
                 BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());
         if (!optional.isPresent())
         {
@@ -117,8 +117,8 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
         else
         {
             BlockPos posAbove = optional.get().above();
-            BlockState stateAbove = block.getBlockState(posAbove);
-            return BigContaminatedDripleafBlock.canPlaceAt(block, posAbove, stateAbove);
+            BlockState stateAbove = worldReader.getBlockState(posAbove);
+            return BigContaminatedDripleafBlock.canPlaceAt(worldReader, posAbove, stateAbove);
         }
     }
 

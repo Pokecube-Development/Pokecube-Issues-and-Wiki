@@ -1,7 +1,9 @@
 package pokecube.core.moves.damage;
 
+import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -18,9 +20,9 @@ public class TerrainDamageSource extends DamageSource implements IPokedamage
 
     public final IPokemob user;
 
-    public TerrainDamageSource(final String damageTypeIn, final TerrainType type, final IPokemob user)
+    public TerrainDamageSource(Holder<DamageType> damageType, final TerrainType type, final IPokemob user)
     {
-        super(damageTypeIn);
+        super(damageType);
         this.type = type;
         this.user = user;
     }
@@ -29,7 +31,7 @@ public class TerrainDamageSource extends DamageSource implements IPokedamage
     /** Gets the death message that is displayed when the player dies */
     public Component getLocalizedDeathMessage(final LivingEntity LivingEntityIn)
     {
-        final String s = "death.attack." + this.msgId;
+        final String s = "death.attack." + this.getMsgId();
         return TComponent.translatable(s, LivingEntityIn.getDisplayName());
     }
 

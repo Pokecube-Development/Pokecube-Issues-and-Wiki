@@ -1,12 +1,8 @@
 package pokecube.nbtedit.gui;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
@@ -22,6 +18,7 @@ import net.minecraft.nbt.ShortTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.NBTStringHelper;
 import pokecube.nbtedit.nbt.NamedNBT;
 import pokecube.nbtedit.nbt.Node;
@@ -176,18 +173,20 @@ public class GuiEditNBT extends AbstractWidget
 
     public void initGUI(final int x, final int y)
     {
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
+
+        // TODO: Check this
         this.parent.addRenderableWidget(this.section = new GuiCharacterButton((byte) 0, x + GuiEditNBT.WIDTH - 1, y + 34, b ->
         {
             this.value.insertText("" + NBTStringHelper.SECTION_SIGN);
             this.checkValidInput();
-        }));
+        }, (Button.CreateNarration) this.createNarrationMessage()));
         this.parent.addRenderableWidget(this.newLine = new GuiCharacterButton((byte) 1, x + GuiEditNBT.WIDTH - 1, y + 50, b ->
         {
             this.value.insertText("\n");
             this.checkValidInput();
-        }));
+        }, (Button.CreateNarration) this.createNarrationMessage()));
         final String sKey = this.node.getObject().getName();
         final String sValue = GuiEditNBT.getValue(this.nbt);
         this.parent.addRenderableWidget(this.key = new TextFieldWidget2(this.mc.font, x + 46, y + 18, 116, 15, false));
@@ -205,8 +204,13 @@ public class GuiEditNBT extends AbstractWidget
         if (!this.key.isFocused() && !this.value.isFocused()) if (this.canEditText) this.key.setFocused(true);
         else if (this.canEditValue) this.value.setFocused(true);
 
-        this.parent.addRenderableWidget(this.save = new Button(x + 9, y + 62, 75, 20, TComponent.literal("Save"), b -> this.saveAndQuit()));
-        this.parent.addRenderableWidget(new Button(x + 93, y + 62, 75, 20, TComponent.literal("Cancel"), b -> this.parent.closeWindow()));
+        this.parent.addRenderableWidget(this.save = new Button.Builder(TComponent.literal("Save"), (b) -> {
+            this.saveAndQuit();
+        }).bounds(x + 9, y + 62, 75, 20).build());
+
+        this.parent.addRenderableWidget(new Button.Builder(TComponent.literal("Cancel"), (b) -> {
+            this.parent.closeWindow();
+        }).bounds(x + 93, y + 62, 75, 20).build());
     }
 
     @Override
@@ -218,7 +222,7 @@ public class GuiEditNBT extends AbstractWidget
     }
 
     @Override
-    public void render(final PoseStack mat, final int mx, final int my, final float m)
+    public void render(final GuiGraphics graphics, final int mx, final int my, final float m)
     {
         this.active = false;
 
@@ -229,14 +233,17 @@ public class GuiEditNBT extends AbstractWidget
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, GuiEditNBT.WINDOW_TEXTURE);
 
-        this.blit(mat, this.x, this.y, 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
-        if (!this.canEditText) GuiComponent.fill(mat, this.x + 42, this.y + 15, this.x + 169, this.y + 31, 0x80000000);
-        if (!this.canEditValue) GuiComponent.fill(mat, this.x + 42, this.y + 41, this.x + 169, this.y + 57, 0x80000000);
+        // TODO: Check this
+        graphics.blit(new ResourceLocation(""), this.getX(), this.getY(), 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
+        if (!this.canEditText) graphics.fill(this.getX() + 42, this.getY() + 15,
+                this.getX() + 169, this.getY() + 31, 0x80000000);
+        if (!this.canEditValue) graphics.fill(this.getX() + 42, this.getY() + 41,
+                this.getX() + 169, this.getY() + 57, 0x80000000);
 
-        if (this.kError != null) GuiComponent.drawCenteredString(mat,this.mc.font, this.kError,
-                this.x + GuiEditNBT.WIDTH / 2, this.y + 4, 0xFF0000);
-        if (this.vError != null) GuiComponent.drawCenteredString(mat, this.mc.font, this.vError,
-                this.x + GuiEditNBT.WIDTH / 2, this.y + 32, 0xFF0000);
+        if (this.kError != null) graphics.drawCenteredString(this.mc.font, this.kError,
+                this.getX() + GuiEditNBT.WIDTH / 2, this.getY() + 4, 0xFF0000);
+        if (this.vError != null) graphics.drawCenteredString(this.mc.font, this.vError,
+                this.getX() + GuiEditNBT.WIDTH / 2, this.getY() + 32, 0xFF0000);
     }
 
     private void saveAndQuit()
@@ -258,10 +265,14 @@ public class GuiEditNBT extends AbstractWidget
     }
 
     @Override
-    public void updateNarration(final NarrationElementOutput p_169152_)
+    protected void renderWidget(GuiGraphics graphics, int i, int i1, float v) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void updateWidgetNarration(final NarrationElementOutput output)
     {
         // TODO Auto-generated method stub
-
     }
 
 }
