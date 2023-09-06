@@ -1,6 +1,7 @@
 package pokecube.legends.worldgen.trees;
 
 import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
@@ -14,10 +15,10 @@ public class InvertedTreeGrower extends AbstractTreeGrower
     {
         if (randomIn.nextInt(10) == 0)
         {
-            return null /*b ? Trees.INVERTED_TREE_FANCY.get() :  Trees.INVERTED_TREE_FANCY.get()*/;
+            return TreeFeatures.OAK /*b ? Trees.INVERTED_TREE_FANCY.get() :  Trees.INVERTED_TREE_FANCY.get()*/;
         } else
         {
-            return null /*b ? Trees.INVERTED_TREE.get() :  Trees.INVERTED_TREE.get()*/;
+            return TreeFeatures.OAK /*b ? Trees.INVERTED_TREE.get() :  Trees.INVERTED_TREE.get()*/;
         }
     }
 }

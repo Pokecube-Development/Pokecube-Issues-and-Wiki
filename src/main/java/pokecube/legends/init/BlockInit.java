@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.grower.OakTreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
@@ -1288,10 +1289,9 @@ public class BlockInit
                         .strength(1.5f, 1.5f).sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)
                         .lightLevel(i -> 10)));
 
-        // Woods
-        // Aged Blocks
+        // TODO: Fix Trees
         AGED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("aged_sapling",
-                () -> new SaplingBase(AgedTreeGrower::new,
+                () -> new SaplingBase(OakTreeGrower::new/*AgedTreeGrower::new*/,
                         BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1373,7 +1373,7 @@ public class BlockInit
                                 .strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
 
         CORRUPTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_sapling",
-                () -> new SaplingBase(CorruptedTreeGrower::new, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
+                () -> new SaplingBase(OakTreeGrower::new/*CorruptedTreeGrower::new*/, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
                         .strength(0f, 1f).sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         CORRUPTED_LEAVES = PokecubeLegends.DIMENSIONS_TAB.register("corrupted_leaves",
@@ -1434,7 +1434,7 @@ public class BlockInit
 
         // Distorted Blocks
         DISTORTIC_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("distortic_sapling",
-                () -> new DistorticSapling(new DistorticTreeGrower(),
+                () -> new DistorticSapling(new OakTreeGrower()/*new DistorticTreeGrower()*/,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1500,7 +1500,7 @@ public class BlockInit
 
         // Inverted Blocks
         INVERTED_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("inverted_sapling",
-                () -> new SaplingBase(InvertedTreeGrower::new,
+                () -> new SaplingBase(OakTreeGrower::new/*InvertedTreeGrower::new*/,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1569,7 +1569,7 @@ public class BlockInit
 
         // MIRAGE Blocks
         MIRAGE_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("mirage_sapling",
-                () -> new MirageSapling(new MirageTreeGrower(),
+                () -> new MirageSapling(new OakTreeGrower()/*new MirageTreeGrower()*/,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1636,7 +1636,7 @@ public class BlockInit
                         .randomTicks().strength(0.2F).sound(SoundType.VINE)));
 
         TEMPORAL_SAPLING = PokecubeLegends.DIMENSIONS_TAB.register("temporal_sapling",
-                () -> new SaplingBase(TemporalTreeGrower::new,
+                () -> new SaplingBase(OakTreeGrower::new/*TemporalTreeGrower::new*/,
                         BlockBehaviour.Properties.of().mapColor(MapColor.PLANT).strength(0f, 1f)
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
@@ -1732,7 +1732,6 @@ public class BlockInit
                         .sound(SoundType.AMETHYST_CLUSTER).noCollission().instabreak()));
 
         // Decorations Creative Tab -
-        // Sorting depends on the order the blocks are listed in
         INFECTED_TORCH = PokecubeLegends.DECORATION_TAB.register("infected_torch",
                 () -> new InfectedTorch(ParticleInit.INFECTED_FIRE_FLAME.get(), BlockBehaviour.Properties.of()
                         .noCollission().instabreak().lightLevel(i -> 10).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));

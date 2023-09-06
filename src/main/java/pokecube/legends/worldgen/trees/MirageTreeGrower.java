@@ -1,6 +1,7 @@
 package pokecube.legends.worldgen.trees;
 
 import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractTreeGrower;
@@ -12,6 +13,6 @@ public class MirageTreeGrower extends AbstractTreeGrower
 	  @Override
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(final RandomSource randomIn, final boolean b)
     {
-        return null /*Trees.MIRAGE_TREE.get()*/;
+        return TreeFeatures.OAK /*Trees.MIRAGE_TREE.get()*/;
     }
 }

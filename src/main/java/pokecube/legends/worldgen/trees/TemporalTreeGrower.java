@@ -3,6 +3,7 @@ package pokecube.legends.worldgen.trees;
 import javax.annotation.Nullable;
 
 import net.minecraft.core.Holder;
+import net.minecraft.data.worldgen.features.TreeFeatures;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.block.grower.AbstractMegaTreeGrower;
@@ -14,12 +15,12 @@ public class TemporalTreeGrower extends AbstractMegaTreeGrower
     @Override
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(final RandomSource randomIn, final boolean b)
     {
-        return null /*Trees.TEMPORAL_TREE.get()*/;
+        return TreeFeatures.OAK /*Trees.TEMPORAL_TREE.get()*/;
     }
 
     @Nullable
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredMegaFeature(RandomSource randomIn)
     {
-        return null /*Trees.MEGA_TEMPORAL_TREE.get()*/;
+        return TreeFeatures.OAK /*Trees.MEGA_TEMPORAL_TREE.get()*/;
     }
 }

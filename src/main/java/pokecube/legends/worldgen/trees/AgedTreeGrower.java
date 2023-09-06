@@ -14,11 +14,11 @@ public class AgedTreeGrower extends AbstractMegaTreeGrower
     @Override
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredFeature(final RandomSource randomIn, final boolean b)
     {
-        return null /*randomIn.nextBoolean() ?  Trees.AGED_SPRUCE_TREE.get() : Trees.AGED_PINE_TREE.get()*/;
+        return TreeFeatures.OAK/*randomIn.nextBoolean() ?  Trees.AGED_SPRUCE_TREE.get() : Trees.AGED_PINE_TREE.get()*/;
     }
 
     protected ResourceKey<ConfiguredFeature<?, ?>> getConfiguredMegaFeature(RandomSource randomIn)
     {
-        return null /*randomIn.nextBoolean() ? Trees.MEGA_AGED_SPRUCE_TREE.get() : Trees.MEGA_AGED_PINE_TREE.get()*/;
+        return TreeFeatures.OAK /*randomIn.nextBoolean() ? Trees.MEGA_AGED_SPRUCE_TREE.get() : Trees.MEGA_AGED_PINE_TREE.get()*/;
     }
 }
