@@ -16,10 +16,10 @@ public class FallingSandBlockBase extends SandBlock
 {
     private final int dustColor;
 
-    public FallingSandBlockBase(final int color, final BlockBehaviour.Properties properties)
+    public FallingSandBlockBase(final int dustColor, final BlockBehaviour.Properties properties)
     {
-        super(color, properties);
-        this.dustColor = color;
+        super(dustColor, properties);
+        this.dustColor = dustColor;
     }
 
     @Override

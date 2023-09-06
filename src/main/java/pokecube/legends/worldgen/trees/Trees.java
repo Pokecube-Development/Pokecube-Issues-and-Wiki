@@ -230,7 +230,6 @@ public class Trees
                                 LeavesStringOfPearlsDecorator.INSTANCE, BEEHIVE_0002,
                                 new AlterGroundDecorator(BlockStateProvider.simple(States.JUNGLE_PODZOL))));
     }
-    
 
     static 
     {
