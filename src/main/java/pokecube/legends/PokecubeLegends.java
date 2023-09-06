@@ -192,7 +192,7 @@ public class PokecubeLegends
         ItemInit.init();
         MoveRegister.init();
         TileEntityInit.init();
-//        Trees.init(modEventBus);
+        Trees.init(modEventBus);
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
