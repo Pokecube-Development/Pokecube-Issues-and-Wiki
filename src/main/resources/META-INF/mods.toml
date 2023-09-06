@@ -5,6 +5,7 @@ license="All rights reserved"
 
 [[mods]]
     modId="pokecube"
+    logoFile="pokecube_logo.png"
     version="${file.jarVersion}"
     displayName="Pokécube Core"
     authors="Thutmose"
