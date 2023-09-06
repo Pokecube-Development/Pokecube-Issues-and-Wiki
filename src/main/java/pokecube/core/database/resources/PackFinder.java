@@ -135,12 +135,14 @@ public class PackFinder implements RepositorySource
 
     public PackFinder()
     {
-        Path folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks");
+        File folder = FMLPaths.GAMEDIR.get().resolve("resourcepacks").toFile();
+        folder.mkdirs();
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data folder: {}", folder);
-        this.folderFinder_old = new FolderRepositorySource(folder, PackType.SERVER_DATA, PackFinder.DECORATOR);
-        folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks");
+        this.folderFinder_old = new FolderRepositorySource(folder.toPath(), PackType.SERVER_DATA, PackFinder.DECORATOR);
+        folder = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks").toFile();
+        folder.mkdirs();
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Adding data folder: {}", folder);
-        this.folderFinder_new = new FolderRepositorySource(folder, PackType.SERVER_DATA, PackFinder.DECORATOR);
+        this.folderFinder_new = new FolderRepositorySource(folder.toPath(), PackType.SERVER_DATA, PackFinder.DECORATOR);
         this.init();
     }
 
