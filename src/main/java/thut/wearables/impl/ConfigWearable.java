@@ -1,6 +1,7 @@
 package thut.wearables.impl;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -55,7 +56,7 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
 
     @OnlyIn(value = Dist.CLIENT)
     @Override
-    public void renderWearable(final GuiGraphics graphics, final MultiBufferSource buff, final EnumWearable slot,
+    public void renderWearable(final PoseStack poseStack, final MultiBufferSource buff, final EnumWearable slot,
                                final int index, final LivingEntity wearer, final ItemStack stack, final float partialTicks,
                                final int brightness, final int overlay)
     {
@@ -65,10 +66,10 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
         if (stack.hasTag() && stack.getTag().contains("wslot"))
         {
 
-            graphics.pose().pushPose();
+            poseStack.pushPose();
 
             // TODO: Fix this
-            // graphics.pose().mulPose(new Quaternionf(0, 0, 180, true));
+            // poseStack.mulPose(new Quaternionf(0, 0, 180, true));
 
             if (stack.getTag().contains("winfo"))
             {
@@ -76,51 +77,51 @@ public class ConfigWearable implements IActiveWearable, ICapabilityProvider
                 if (info.contains("scale"))
                 {
                     final float scale = info.getFloat("scale");
-                    graphics.pose().scale(scale, scale, scale);
+                    poseStack.scale(scale, scale, scale);
                 }
                 if (info.contains("shiftx"))
                 {
                     final float shift = info.getFloat("shiftx");
-                    graphics.pose().translate(shift, 0, 0);
+                    poseStack.translate(shift, 0, 0);
                 }
                 if (info.contains("shifty"))
                 {
                     final float shift = info.getFloat("shifty");
-                    graphics.pose().translate(0, shift, 0);
+                    poseStack.translate(0, shift, 0);
                 }
                 if (info.contains("shiftz"))
                 {
                     final float shift = info.getFloat("shiftz");
-                    graphics.pose().translate(0, 0, shift);
+                    poseStack.translate(0, 0, shift);
                 }
 //                TODO: Fix this
 //                if (info.contains("rotx"))
 //                {
 //                    final float shift = info.getFloat("rotx");
-//                    graphics.pose().mulPose(new Quaternionf(shift, 0, 0, true));
+//                    poseStack.mulPose(new Quaternionf(shift, 0, 0, true));
 //                }
 //                if (info.contains("roty"))
 //                {
 //                    final float shift = info.getFloat("roty");
-//                    graphics.pose().mulPose(new Quaternionf(0, shift, 0, true));
+//                    poseStack.mulPose(new Quaternionf(0, shift, 0, true));
 //                }
 //                if (info.contains("rotz"))
 //                {
 //                    final float shift = info.getFloat("rotz");
-//                    graphics.pose().mulPose(new Quaternionf(0, 0, shift, true));
+//                    poseStack.mulPose(new Quaternionf(0, 0, shift, true));
 //                }
 
             }
 
-            graphics.pose().translate(-0.25f, 0, 0);
+            poseStack.translate(-0.25f, 0, 0);
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, InventoryMenu.BLOCK_ATLAS);
 
             final ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
             final BakedModel ibakedmodel = itemRenderer.getModel(stack, wearer.level(), null, 0);
             itemRenderer.render(stack, ItemDisplayContext.FIXED,
-                    true, graphics.pose(), buff, 0, 0, ibakedmodel);
-            graphics.pose().popPose();
+                    true, poseStack, buff, 0, 0, ibakedmodel);
+            poseStack.popPose();
         }
 
     }

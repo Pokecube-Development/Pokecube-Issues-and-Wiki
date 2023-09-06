@@ -1,11 +1,12 @@
 package thut.wearables.client.render.slots;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Matrix3f;
 
 public class Utils
 {
-    public static void mirror(float x, float y, float z, final GuiGraphics graphics)
+    public static void mirror(float x, float y, float z, final PoseStack poseStack)
     {
         if (x == 0) x = 1;
         else x = -1;
@@ -14,9 +15,9 @@ public class Utils
         if (z == 0) z = 1;
         else z = -1;
         // TODO: Check this
-        final Matrix3f norms = graphics.pose().last().normal()/*.copy()*/;
-        graphics.pose().scale(x, y, z);
-        graphics.pose().last().normal().add(norms);
+        final Matrix3f norms = poseStack.last().normal()/*.copy()*/;
+        poseStack.scale(x, y, z);
+        poseStack.last().normal().add(norms);
 
     }
 }

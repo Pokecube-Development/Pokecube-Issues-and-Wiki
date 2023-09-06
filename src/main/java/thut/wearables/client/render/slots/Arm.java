@@ -3,7 +3,6 @@ package thut.wearables.client.render.slots;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import com.mojang.math.Axis;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.model.ArmedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.HumanoidArm;
@@ -16,18 +15,18 @@ import thut.wearables.ThutWearables;
 
 public class Arm
 {
-    public static void render(final GuiGraphics graphics, final MultiBufferSource buff, final IWearable wearable,
-                              final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
-                              final float partialTicks, final boolean thin, final int brightness, final int overlay,
-                              final ArmedModel theModel)
+    public static void render(final PoseStack mat, final MultiBufferSource buff, final IWearable wearable,
+            final EnumWearable slot, final int index, final LivingEntity wearer, final ItemStack stack,
+            final float partialTicks, final boolean thin, final int brightness, final int overlay,
+            final ArmedModel theModel)
     {
         if (wearable == null) return;
 
         if (wearable.customOffsets())
         {
-            graphics.pose().scale(1, -1, -1);
-            graphics.pose().mulPose(Axis.YP.rotationDegrees(180));
-            wearable.renderWearable(graphics.pose(), buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+            mat.scale(1, -1, -1);
+            mat.mulPose(Axis.YP.rotationDegrees(180));
+            wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
             return;
         }
         float[] offsetArr;
@@ -39,30 +38,30 @@ public class Arm
         case FINGER:
             if (ThutWearables.config.renderBlacklist.contains(0)) break;
             if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(0)) != null)
-                graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-            theModel.translateToHand(HumanoidArm.RIGHT, graphics.pose());
-            graphics.pose().translate(-0.0625F, 0.59F, 0.0625F);
+                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            theModel.translateToHand(HumanoidArm.RIGHT, mat);
+            mat.translate(-0.0625F, 0.59F, 0.0625F);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(0)) != null)
-                graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
             if (thin)
             {
-                graphics.pose().translate(0, 0, 0);
-                graphics.pose().scale(0.85f, 1, 1);
+                mat.translate(0, 0, 0);
+                mat.scale(0.85f, 1, 1);
             }
             render = true;
             break;
         case WRIST:
             if (ThutWearables.config.renderBlacklist.contains(2)) break;
             if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(2)) != null)
-                graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-            theModel.translateToHand(HumanoidArm.RIGHT, graphics.pose());
-            graphics.pose().translate(-0.0625F, 0.4375F, 0.0625F);
+                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+            theModel.translateToHand(HumanoidArm.RIGHT, mat);
+            mat.translate(-0.0625F, 0.4375F, 0.0625F);
             if ((offsetArr = ThutWearables.config.renderOffsets.get(2)) != null)
-                graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
             if (thin)
             {
-                graphics.pose().translate(0, 0, 0);
-                graphics.pose().scale(0.85f, 1, 1);
+                mat.translate(0, 0, 0);
+                mat.scale(0.85f, 1, 1);
             }
             render = true;
             break;
@@ -77,43 +76,43 @@ public class Arm
             case FINGER:
                 if (ThutWearables.config.renderBlacklist.contains(1)) break;
                 if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(1)) != null)
-                    graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-                theModel.translateToHand(HumanoidArm.LEFT, graphics.pose());
-                graphics.pose().translate(0.0625F, 0.59F, 0.0625F);
+                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                theModel.translateToHand(HumanoidArm.LEFT, mat);
+                mat.translate(0.0625F, 0.59F, 0.0625F);
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(1)) != null)
-                    graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
                 if (thin)
                 {
-                    graphics.pose().translate(0, 0, 0);
-                    graphics.pose().scale(0.85f, 1, 1);
+                    mat.translate(0, 0, 0);
+                    mat.scale(0.85f, 1, 1);
                 }
                 render = true;
                 break;
             case WRIST:
                 if (ThutWearables.config.renderBlacklist.contains(3)) break;
                 if (sneak && (offsetArr = ThutWearables.config.renderOffsetsSneak.get(3)) != null)
-                    graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
-                theModel.translateToHand(HumanoidArm.LEFT, graphics.pose());
-                graphics.pose().translate(0.0625F, 0.4375F, 0.0625F);
+                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                theModel.translateToHand(HumanoidArm.LEFT, mat);
+                mat.translate(0.0625F, 0.4375F, 0.0625F);
                 if ((offsetArr = ThutWearables.config.renderOffsets.get(3)) != null)
-                    graphics.pose().translate(offsetArr[0], offsetArr[1], offsetArr[2]);
+                    mat.translate(offsetArr[0], offsetArr[1], offsetArr[2]);
                 if (thin)
                 {
-                    graphics.pose().translate(0, 0, 0);
-                    graphics.pose().scale(0.85f, 1, 1);
+                    mat.translate(0, 0, 0);
+                    mat.scale(0.85f, 1, 1);
                 }
                 render = true;
                 break;
             default:
                 break;
             }
-            Utils.mirror(1, 0, 0, graphics);
+            Utils.mirror(1, 0, 0, mat);
         }
         if (render)
         {
-            graphics.pose().scale(1, -1, -1);
-            graphics.pose().mulPose(Axis.YP.rotationDegrees(180));
-            wearable.renderWearable(graphics.pose(), buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
+            mat.scale(1, -1, -1);
+            mat.mulPose(Axis.YP.rotationDegrees(180));
+            wearable.renderWearable(mat, buff, slot, index, wearer, stack, partialTicks, brightness, overlay);
         }
     }
 }
