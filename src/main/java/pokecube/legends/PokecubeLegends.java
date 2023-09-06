@@ -100,8 +100,7 @@ public class PokecubeLegends
     public static final DeferredRegister<Block> DIMENSIONS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
             Reference.ID);
     public static final DeferredRegister<Block> NO_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
-    public static final DeferredRegister<Block> POKECUBE_BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS,
-            Reference.ID);
+    public static final DeferredRegister<Block> POKECUBE_BLOCKS_TAB = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
 
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITY_TYPES,
             Reference.ID);
@@ -196,7 +195,7 @@ public class PokecubeLegends
         ItemInit.init();
         MoveRegister.init();
         TileEntityInit.init();
-        Trees.init(modEventBus);
+//        Trees.init(modEventBus);
 
         LegendsDistorticRecipeManager.init();
         LegendsLootingRecipeManager.init();
