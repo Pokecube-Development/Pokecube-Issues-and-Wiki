@@ -219,7 +219,7 @@ public class PlantsInit
                         .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ).isRedstoneConductor(PlantsInit::never)));
         TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.DIMENSIONS_TAB.register("temporal_bamboo_shoot", () -> new TemporalBambooShootBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
-                        .strength(1.2f).noOcclusion().randomTicks().instabreak().ignitedByLava().forceSolidOn()
+                        .strength(1.2f).noOcclusion().randomTicks().instabreak().ignitedByLava().dynamicShape().forceSolidOn()
                         .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)));
 
         DISTORTIC_GRASS = PokecubeLegends.DIMENSIONS_TAB.register("distortic_grass", () -> new TallDistorticGrassBlock(
