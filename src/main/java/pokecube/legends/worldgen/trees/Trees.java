@@ -80,20 +80,6 @@ public class Trees
     public static final ResourceKey<ConfiguredFeature<?, ?>> TEMPORAL_TREE = FeatureUtils.createKey("temporal_tree");
     public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_TEMPORAL_TREE = FeatureUtils.createKey("mega_temporal_tree");
 
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> AGED_PINE_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> AGED_SPRUCE_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MEGA_AGED_PINE_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MEGA_AGED_SPRUCE_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> CORRUPTED_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> DISTORTIC_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> DYNA_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> INVERTED_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> INVERTED_TREE_FANCY;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MIRAGE_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> TEMPORAL_TREE;
-//    public static RegistryObject<ConfiguredFeature<TreeConfiguration, Feature<TreeConfiguration>>> MEGA_TEMPORAL_TREE;
-     
-
     public static final class States
     {
         public static final BlockState JUNGLE_PODZOL = BlockInit.JUNGLE_PODZOL.get().defaultBlockState();
@@ -270,25 +256,6 @@ public class Trees
                                 LeavesStringOfPearlsDecorator.INSTANCE, BEEHIVE_0002,
                                 new AlterGroundDecorator(BlockStateProvider.simple(States.JUNGLE_PODZOL))));
     }
-
-//    static
-//    {
-//        Trees.AGED_PINE_TREE = TREE_FEATURES.register("aged_pine_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getAgedPineTree().build()));
-//        Trees.AGED_SPRUCE_TREE = TREE_FEATURES.register("aged_spruce_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getAgedSpruceTree().build()));
-//        Trees.MEGA_AGED_PINE_TREE = TREE_FEATURES.register("mega_aged_pine_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMegaAgedPineTree().build()));
-//        Trees.MEGA_AGED_SPRUCE_TREE = TREE_FEATURES.register("mega_aged_spruce_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMegaAgedSpruceTree().build()));
-//
-//        Trees.CORRUPTED_TREE = TREE_FEATURES.register("corrupted_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getCorruptedTree().build()));
-//        Trees.DISTORTIC_TREE = TREE_FEATURES.register("distortic_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getDistorticTree().build()));
-//        Trees.DYNA_TREE = TREE_FEATURES.register("dyna_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getDynaTree().build()));
-//        Trees.MIRAGE_TREE = TREE_FEATURES.register("mirage_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMirageTree().build()));
-//
-//        Trees.INVERTED_TREE = TREE_FEATURES.register("inverted_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getInvertedTree().build()));
-//        Trees.FANCY_INVERTED_TREE = TREE_FEATURES.register("inverted_fancy_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getFancyInvertedTree().build()));
-//
-//        Trees.TEMPORAL_TREE = TREE_FEATURES.register("temporal_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getTemporalTree().build()));
-//        Trees.MEGA_TEMPORAL_TREE = TREE_FEATURES.register("mega_temporal_tree",  ()->new ConfiguredFeature<>(Feature.TREE, Trees.getMegaTemporalTree().build()));
-//    }
 
     public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context)
     {
