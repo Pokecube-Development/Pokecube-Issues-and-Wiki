@@ -1,6 +1,7 @@
 package pokecube.legends.init;
 
 import java.util.Map;
+import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 import com.google.common.collect.Lists;
@@ -1158,8 +1159,7 @@ public class BlockInit
 
         // Ultra Desert
         CRYSTALLIZED_SAND = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sand", () -> new FallingSandBlockBase(
-                13753318,
-                BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).sound(SoundType.SAND).strength(0.6f)));
+                13753318, BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).sound(SoundType.SAND).strength(0.6f)));
         CRYSTALLIZED_SANDSTONE = PokecubeLegends.DIMENSIONS_TAB.register("crystallized_sandstone",
                 () -> new BlockBase(MapColor.SNOW,
                         SoundType.STONE, NoteBlockInstrument.BASEDRUM, true, 1.0f, 1.0f));
@@ -2328,22 +2328,21 @@ public class BlockInit
         // Pokecube Blocks Creative Tab - Sorting depends on the order the
         // blocks are listed in
         // Block Raid
-        RAID_SPAWNER = PokecubeLegends.POKECUBE_BLOCKS_TAB
-                .register("raid_spot_spawner",
-                        () -> new RaidSpawnBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                                .randomTicks().strength(2000, 2000).sound(SoundType.METAL))
-                                        .setInfoBlockName("raid_spawner"));
+        RAID_SPAWNER = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("raid_spot_spawner",
+                () -> new RaidSpawnBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
+                        .randomTicks().strength(2000, 2000).sound(SoundType.METAL))
+                        .setInfoBlockName("raid_spawner"));
         CRAMOMATIC_BLOCK = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("cramomatic_block",
                 () -> new CramomaticBlock(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED)
                         .strength(6, 15).sound(SoundType.ANVIL).dynamicShape().requiresCorrectToolForDrops())
-                                .setToolTip("cramobot"));
+                        .setToolTip("cramobot"));
 
         // Mirage Spot (Hoopa Ring)
         PORTAL = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("mirage_spot_block",
-                () -> new PortalWarp("mirage_spot_block",
-                        BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).sound(SoundType.METAL)
-                                .strength(2000, 2000)).setShape(Shapes.box(0.05, 0, 0.05, 1, 3, 1))
-                                        .setToolTip("portalwarp"));
+                () -> new PortalWarp("mirage_spot_block", BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
+                        .sound(SoundType.METAL)
+                        .strength(2000, 2000)).setShape(Shapes.box(0.05, 0, 0.05, 1, 3, 1))
+                        .setToolTip("portalwarp"));
 
         // Legendary Spawners
         // Regi Cores
@@ -2547,6 +2546,14 @@ public class BlockInit
     private static boolean never(BlockState state, BlockGetter block, BlockPos pos)
     {
         return false;
+    }
+
+
+    public static RegistryObject<Block> registerBlock(String name, Supplier<? extends Block> block)
+    {
+        RegistryObject<Block> blocks = PokecubeLegends.POKECUBE_BLOCKS_TAB.register(name, block);
+        PokecubeLegends.ITEMS.register(name, () -> new BlockItem(blocks.get(), new Item.Properties()));
+        return blocks;
     }
 
     public static void init()
