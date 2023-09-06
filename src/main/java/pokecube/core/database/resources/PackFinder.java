@@ -110,11 +110,12 @@ public class PackFinder implements RepositorySource
     }
 
 //    TODO: Fix this
-//    public static final PackFinder DEFAULT_FINDER = new PackFinder(
-//        (name, component, bool, supplier, metadata, position, source, hidden) ->
-//        {
+    public static final PackFinder DEFAULT_FINDER = new PackFinder(/*
+        (name, component, bool, supplier, metadata, position, source, hidden) ->
+        {
+            return Pack.create(name, component, bool, supplier, metadata, PackType.SERVER_DATA, Pack.Position.TOP, source, hidden);
 //            return new Pack(name, bool, supplier, metadata, PackType.SERVER_DATA, Pack.Position.TOP, source, hidden);
-//        });
+        }*/);
 
     public final List<PackResources> allPacks = Lists.newArrayList();
     public final List<PackResources> folderPacks = Lists.newArrayList();
