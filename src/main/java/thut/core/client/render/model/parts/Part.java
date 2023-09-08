@@ -1,6 +1,5 @@
 package thut.core.client.render.model.parts;
 
-import com.mojang.math.Axis;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +9,8 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import org.joml.Quaternionf;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -18,7 +19,6 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Quaternionf;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -388,11 +388,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setDefaultAngles(float rx, float ry, float rz)
     {
         _quat.set(0, 0, 0, 1);
-
-        // TODO: Check this
-        if (rz != 0) _quat.mul(Axis.YN.rotationDegrees(rz));
-        if (rx != 0) _quat.mul(Axis.XP.rotationDegrees(rx));
-        if (ry != 0) _quat.mul(Axis.ZP.rotationDegrees(ry));
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
         _rot.set(_quat);
         this.preRot.mul(rotations, _rot);
         this.rotations.set(preRot.x, preRot.y, preRot.z, preRot.w);
@@ -402,11 +400,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void setAnimAngles(float rx, float ry, float rz)
     {
         _quat.set(0, 0, 0, 1);
-
-        // TODO: Check this
-        if (rz != 0) _quat.mul(Axis.YN.rotationDegrees(rz));
-        if (rx != 0) _quat.mul(Axis.XP.rotationDegrees(rx));
-        if (ry != 0) _quat.mul(Axis.ZP.rotationDegrees(ry));
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
         this.setPreRotations(_rot.set(_quat));
     }
 

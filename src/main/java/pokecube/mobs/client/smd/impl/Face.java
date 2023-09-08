@@ -2,19 +2,19 @@ package pokecube.mobs.client.smd.impl;
 
 import java.util.ArrayList;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.joml.Vector4f;
+
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+
 import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 
 /**
  * A group of vertices, these get moved around by animations on bones, this just
@@ -22,6 +22,8 @@ import thut.lib.AxisAngles;
  */
 public class Face
 {
+    private static final Vector3f ZP = (new Vector3f(0.0F, 0.0F, 1.0F)).normalize();
+
     public MutableVertex[] verts;
     public TextureCoordinate[] uvs;
     public Vertex normal;
@@ -73,7 +75,7 @@ public class Face
         final Vector4f dp = this.dummy4;
         final Vector3f dn = this.dummy3;
 
-        Vector3f camera_view = AxisAngles.ZP;
+        Vector3f camera_view = ZP;
 
         boolean cull = ThutCore.getConfig().modelCullThreshold > 0 && alpha >= 1;
         // TODO ghive this a material to check for culling!
@@ -82,8 +84,7 @@ public class Face
         {
             // TODO use face centre instead here!
             dp.set(verts[0].x, verts[0].y, verts[0].z, 1);
-            // TODO: Fix this
-            // dp.transform(pos);
+            dp.mul(pos);
             double dr2 = Math.abs(dp.dot(Mesh.METRIC));
             if (dr2 < ThutCore.getConfig().modelCullThreshold)
             {
@@ -100,8 +101,7 @@ public class Face
             final float nz = smoothShading ? vert.zn : this.normal.z;
 
             dn.set(nx, ny, nz);
-            // TODO: Fix this
-            // dn.transform(norms);
+            dn.mul(norms);
 
             // Similar to Mesh, except we only have to check the 1 face, as we
             // only have 1 face! so only apply on i==0. Then, apply a similar
@@ -117,8 +117,7 @@ public class Face
             final float v = this.uvs[i].v + (float) uvShift[1];
 
             dp.set(x, y, z, 1);
-            // TODO: Fix this
-            // dp.transform(pos);
+            dp.mul(pos);
 
             buffer.vertex(
             //@formatter:off

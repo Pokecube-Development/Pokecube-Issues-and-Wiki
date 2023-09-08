@@ -1,6 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import com.mojang.math.Axis;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +10,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.math.Axis;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -56,7 +56,6 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.TextureHelper;
 import thut.core.client.render.wrappers.ModelWrapper;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 
 public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 {

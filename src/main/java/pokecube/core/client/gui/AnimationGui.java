@@ -1,15 +1,21 @@
 package pokecube.core.client.gui;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mojang.blaze3d.systems.RenderSystem;
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
+
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.blaze3d.systems.RenderSystem;
+
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -21,8 +27,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
-import org.joml.Matrix4f;
-import org.lwjgl.glfw.GLFW;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -54,7 +58,6 @@ import thut.api.entity.animation.Animators.KeyframeAnimator;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
-import thut.lib.AxisAngles;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
@@ -135,6 +138,9 @@ public class AnimationGui extends Screen
     public static String mob = "";
 
     public static PokedexEntry entry;
+    
+    private static final Vector3f YN = (new Vector3f(0.0F, -1.0F, 0.0F)).normalize();
+    private static final Vector3f ZN = (new Vector3f(0.0F, 0.0F, -1.0F)).normalize();
 
     public EditBox anim;
     public EditBox state_g;
@@ -396,7 +402,7 @@ public class AnimationGui extends Screen
                     e.printStackTrace();
                 }
             }
-            RenderSystem.setShaderLights(AxisAngles.YN, AxisAngles.ZN);
+            RenderSystem.setShaderLights(YN, ZN);
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens
             if (l <= 0.0001 || l > 1e10) AnimationGui.entry.getModelSize().set(1, 1, 1);

@@ -1,6 +1,5 @@
 package thut.core.client.render.bbmodel;
 
-import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +7,7 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
@@ -22,7 +22,6 @@ import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.client.render.x3d.X3dMesh;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 
 public class BBModelPart extends Part
 {

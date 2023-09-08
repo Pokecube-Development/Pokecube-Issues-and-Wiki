@@ -1,18 +1,19 @@
 package thut.core.client.render.json;
 
-import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import thut.api.maths.Vector4;
 import thut.core.client.render.json.JsonTemplate.JsonBlock;
 import thut.core.client.render.json.JsonTemplate.JsonFace;
@@ -22,7 +23,6 @@ import thut.core.client.render.model.parts.Mesh;
 import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 
 public class JsonPart extends Part
 {
