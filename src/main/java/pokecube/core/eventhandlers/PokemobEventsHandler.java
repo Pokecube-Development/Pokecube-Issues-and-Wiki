@@ -521,7 +521,7 @@ public class PokemobEventsHandler
                 evt.setAmount((float) (evt.getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
         }
         // Some special handling for in wall stuff
-        if (evt.getSource() == Objects.requireNonNull(evt.getSource().getEntity()).damageSources().inWall())
+        if (evt.getSource().getEntity() != null && evt.getSource() == evt.getSource().getEntity().damageSources().inWall())
         {
             Mob toPush = pokemob != null ? pokemob.getEntity() : null;
 
