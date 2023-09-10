@@ -38,6 +38,7 @@ public class CoreCreativeTabs {
                 output.accept(PokecubeItems.LUCKYEGG.get());
                 output.accept(PokecubeItems.EMERALDSHARD.get());
                 output.accept(PokecubeItems.EGG.get());
+                
                 output.accept(PokecubeItems.getStack("vitamin_protein"));
                 output.accept(PokecubeItems.getStack("vitamin_calcium"));
                 output.accept(PokecubeItems.getStack("vitamin_iron"));
@@ -54,10 +55,52 @@ public class CoreCreativeTabs {
 
             }).build());
 
+    public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("cubes_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.pokecube_cubes"))
+            .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
+            .withTabsBefore(ITEMS_TAB.getId())
+            .displayItems((parameters, output) -> {
+                output.accept(PokecubeItems.getStack("pokeseal"));
+                output.accept(PokecubeItems.getStack("pokecube"));
+                output.accept(PokecubeItems.getStack("cherishcube"));
+                output.accept(PokecubeItems.getStack("repeatcube"));
+                output.accept(PokecubeItems.getStack("sportcube"));
+                output.accept(PokecubeItems.getStack("fastcube"));
+                output.accept(PokecubeItems.getStack("parkcube"));
+                output.accept(PokecubeItems.getStack("ultracube"));
+                output.accept(PokecubeItems.getStack("duskcube"));
+                output.accept(PokecubeItems.getStack("friendcube"));
+                output.accept(PokecubeItems.getStack("nestcube"));
+                output.accept(PokecubeItems.getStack("safaricube"));
+                output.accept(PokecubeItems.getStack("netcube"));
+                output.accept(PokecubeItems.getStack("greatcube"));
+                output.accept(PokecubeItems.getStack("lurecube"));
+                output.accept(PokecubeItems.getStack("mooncube"));
+                output.accept(PokecubeItems.getStack("quickcube"));
+                output.accept(PokecubeItems.getStack("typingcube"));
+                output.accept(PokecubeItems.getStack("divecube"));
+                output.accept(PokecubeItems.getStack("heavycube"));
+                output.accept(PokecubeItems.getStack("mastercube"));
+                output.accept(PokecubeItems.getStack("snagcube"));
+                output.accept(PokecubeItems.getStack("lovecube"));
+                output.accept(PokecubeItems.getStack("dreamcube"));
+                output.accept(PokecubeItems.getStack("healcube"));
+                output.accept(PokecubeItems.getStack("dynacube"));
+                output.accept(PokecubeItems.getStack("teamaquacube"));
+                output.accept(PokecubeItems.getStack("premiercube"));
+                output.accept(PokecubeItems.getStack("timercube"));
+                output.accept(PokecubeItems.getStack("rocketcube"));
+                output.accept(PokecubeItems.getStack("teammagmacube"));
+                output.accept(PokecubeItems.getStack("levelcube"));
+                output.accept(PokecubeItems.getStack("luxurycube"));
+                output.accept(PokecubeItems.getStack("beastcube"));
+                output.accept(PokecubeItems.getStack("clonecube"));
+            }).build());
+
     public static final RegistryObject<CreativeModeTab> BERRIES_TAB = TABS.register("berries_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_berries"))
             .icon(() -> new ItemStack(BerryManager.getBerryItem("cheri")))
-            .withTabsBefore(ITEMS_TAB.getId())
+            .withTabsBefore(POKECUBES_TAB.getId())
             .displayItems((parameters, output) -> {
                 for (final Integer type : BerryManager.berryItems.keySet())
                 {
@@ -142,48 +185,6 @@ public class CoreCreativeTabs {
                 {
                     output.accept(ItemGenerator.leaves.get(type).get());
                 }
-            }).build());
-
-    public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("cubes_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_cubes"))
-            .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
-            .withTabsBefore(BERRIES_TAB.getId())
-            .displayItems((parameters, output) -> {
-                output.accept(PokecubeItems.getStack("pokeseal"));
-                output.accept(PokecubeItems.getStack("pokecube"));
-                output.accept(PokecubeItems.getStack("cherishcube"));
-                output.accept(PokecubeItems.getStack("repeatcube"));
-                output.accept(PokecubeItems.getStack("sportcube"));
-                output.accept(PokecubeItems.getStack("fastcube"));
-                output.accept(PokecubeItems.getStack("parkcube"));
-                output.accept(PokecubeItems.getStack("ultracube"));
-                output.accept(PokecubeItems.getStack("duskcube"));
-                output.accept(PokecubeItems.getStack("friendcube"));
-                output.accept(PokecubeItems.getStack("nestcube"));
-                output.accept(PokecubeItems.getStack("safaricube"));
-                output.accept(PokecubeItems.getStack("netcube"));
-                output.accept(PokecubeItems.getStack("greatcube"));
-                output.accept(PokecubeItems.getStack("lurecube"));
-                output.accept(PokecubeItems.getStack("mooncube"));
-                output.accept(PokecubeItems.getStack("quickcube"));
-                output.accept(PokecubeItems.getStack("typingcube"));
-                output.accept(PokecubeItems.getStack("divecube"));
-                output.accept(PokecubeItems.getStack("heavycube"));
-                output.accept(PokecubeItems.getStack("mastercube"));
-                output.accept(PokecubeItems.getStack("snagcube"));
-                output.accept(PokecubeItems.getStack("lovecube"));
-                output.accept(PokecubeItems.getStack("dreamcube"));
-                output.accept(PokecubeItems.getStack("healcube"));
-                output.accept(PokecubeItems.getStack("dynacube"));
-                output.accept(PokecubeItems.getStack("teamaquacube"));
-                output.accept(PokecubeItems.getStack("premiercube"));
-                output.accept(PokecubeItems.getStack("timercube"));
-                output.accept(PokecubeItems.getStack("rocketcube"));
-                output.accept(PokecubeItems.getStack("teammagmacube"));
-                output.accept(PokecubeItems.getStack("levelcube"));
-                output.accept(PokecubeItems.getStack("luxurycube"));
-                output.accept(PokecubeItems.getStack("beastcube"));
-                output.accept(PokecubeItems.getStack("clonecube"));
             }).build());
 
     public static final RegistryObject<CreativeModeTab> BLOCKS_TAB = TABS.register("blocks_tab", () -> CreativeModeTab.builder()
