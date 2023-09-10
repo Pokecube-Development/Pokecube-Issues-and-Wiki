@@ -1,5 +1,7 @@
 package pokecube.legends.init;
 
+import com.google.common.collect.Lists;
+import java.util.List;
 import java.util.Locale;
 
 import net.minecraft.client.renderer.item.ItemProperties;
@@ -234,6 +236,8 @@ public class ItemInit
     public static final RegistryObject<Item> INVERTED_SIGN;
     public static final RegistryObject<Item> MIRAGE_SIGN;
     public static final RegistryObject<Item> TEMPORAL_SIGN;
+
+    public static List<GenericBoat.BoatRegister> BOATS = Lists.newArrayList();
 
     static
     {
@@ -485,13 +489,13 @@ public class ItemInit
         TEMPORAL_SIGN = PokecubeLegends.ITEMS.register("temporal_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16), BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
 
-        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.AGED_PLANKS, "aged", PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CONCRETE_PLANKS, "concrete", PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CORRUPTED_PLANKS, "corrupted", PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.DISTORTIC_PLANKS, "distortic", PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.INVERTED_PLANKS, "inverted", PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.MIRAGE_PLANKS, "mirage", PokecubeLegends.ITEMS));
-        ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.TEMPORAL_PLANKS, "temporal", PokecubeLegends.ITEMS));
+        ItemInit.BOATS.add(new GenericBoat.BoatRegister(BlockInit.AGED_PLANKS, "aged", PokecubeLegends.ITEMS));
+        ItemInit.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CONCRETE_PLANKS, "concrete", PokecubeLegends.ITEMS));
+        ItemInit.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CORRUPTED_PLANKS, "corrupted", PokecubeLegends.ITEMS));
+        ItemInit.BOATS.add(new GenericBoat.BoatRegister(BlockInit.DISTORTIC_PLANKS, "distortic", PokecubeLegends.ITEMS));
+        ItemInit.BOATS.add(new GenericBoat.BoatRegister(BlockInit.INVERTED_PLANKS, "inverted", PokecubeLegends.ITEMS));
+        ItemInit.BOATS.add(new GenericBoat.BoatRegister(BlockInit.MIRAGE_PLANKS, "mirage", PokecubeLegends.ITEMS));
+        ItemInit.BOATS.add(new GenericBoat.BoatRegister(BlockInit.TEMPORAL_PLANKS, "temporal", PokecubeLegends.ITEMS));
 
         ULTRA_HELMET = PokecubeLegends.ITEMS.register("ultra_helmet",
                 () -> new UltraHelmetEffect(ItemInit.SPECTRUM, ArmorItem.Type.HELMET,

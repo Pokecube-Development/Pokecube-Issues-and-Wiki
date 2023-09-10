@@ -3,16 +3,10 @@ package pokecube.legends.init;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
-import pokecube.core.init.ItemGenerator;
-import pokecube.core.items.berries.BerryManager;
 import pokecube.legends.Reference;
 
 @Mod.EventBusSubscriber(modid = Reference.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -38,5 +32,11 @@ public class LegendsCreativeTabs {
             .icon(() -> new ItemStack(ItemInit.RAINBOW_ORB.get()))
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.RAINBOW_ORB.get());
+
+//                ItemInit.BOATS.forEach(boat ->
+//                {
+//                    output.accept(boat.block().get());
+//                });
+                ItemInit.BOATS.get(5);
             }).build());
 }

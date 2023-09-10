@@ -86,8 +86,11 @@ public class ItemGenerator
     public static Map<Predicate<ItemStack>, IMoveModifier> ITEMMODIFIERS = Maps.newHashMap();
 
     public static ArrayList<String> variants = Lists.newArrayList();
-    public static ArrayList<String> other = Lists.newArrayList();
+    public static ArrayList<String> misc = Lists.newArrayList();
     public static ArrayList<String> fossilVariants = new ArrayList<>();
+    public static Map<String, RegistryObject<Item>> megaWearables = Maps.newHashMap();
+    public static Map<String, RegistryObject<Item>> variantItems = Maps.newHashMap();
+    public static Map<String, RegistryObject<Item>> miscItems = Maps.newHashMap();
 
     public static Map<String, RegistryObject<ItemFossil>> fossils = Maps.newHashMap();
 
@@ -335,7 +338,7 @@ public class ItemGenerator
                             .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
                     block ->
                     {
-                        ItemGenerator.slabs.put(name, block);
+                        ItemGenerator.fences.put(name, block);
                     });
 
             // Fence Gates
@@ -468,21 +471,23 @@ public class ItemGenerator
     {
         final Item.Properties props = new Item.Properties();
         for (final String type : ItemGenerator.variants)
-            PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type)));
+        {
+            ItemGenerator.variantItems.put(type, PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type))));
+        }
     }
 
     private static void makeOtherItems()
     {
         final Item.Properties props = new Item.Properties();
-        for (final String type : ItemGenerator.other)
-            PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type)));
+        for (final String type : ItemGenerator.misc)
+            ItemGenerator.miscItems.put(type, PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type))));
     }
 
     private static void makeMegaWearables()
     {
         for (final String type : ItemMegawearable.getWearables())
         {
-            PokecubeCore.ITEMS.register("mega_" + type, () -> new ItemMegawearable(type));
+            ItemGenerator.megaWearables.put(type, PokecubeCore.ITEMS.register("mega_" + type, () -> new ItemMegawearable(type)));
         }
     }
 

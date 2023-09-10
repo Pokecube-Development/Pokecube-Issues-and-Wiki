@@ -1,5 +1,12 @@
 package pokecube.core;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,15 +18,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import java.util.regex.Pattern;
-
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -29,14 +27,12 @@ import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
 import net.minecraft.world.level.block.SoundType;
@@ -161,7 +157,7 @@ public class PokecubeItems extends ItemList
     public static boolean resetTimeTags = false;
     public static Vector<Long> times = new Vector<>();
 
-    private static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
+    public static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
 
     /** contains pokecubes that should be rendered using the default renderer */
     private static Set<ResourceLocation> cubeIds = new HashSet<>();

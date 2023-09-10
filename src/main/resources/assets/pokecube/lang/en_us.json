@@ -1,9 +1,10 @@
 {
     "_comment": "Item Groups",
 
-    "itemGroup.pokecube_items": "Pokécube Items",
-    "itemGroup.pokecube_blocks": "Pokécube Blocks",
-    "itemGroup.pokecube_berries": "Pokécube Berries",
+    "itemGroup.pokecube_items": "Pokécube: Items",
+    "itemGroup.pokecube_spawn_eggs": "Pokécube: Spawn Eggs",
+    "itemGroup.pokecube_blocks": "Pokécube: Blocks",
+    "itemGroup.pokecube_berries": "Pokécube: Berries",
     "itemGroup.pokecube_cubes": "Pokécubes",
 
     "_comment": "Pokécube translation",

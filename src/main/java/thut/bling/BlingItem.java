@@ -1,15 +1,13 @@
 package thut.bling;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
-
 import javax.annotation.Nullable;
-
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -20,7 +18,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -31,15 +28,12 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.extensions.common.IClientItemExtensions;
-import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.legends.Reference;
 import thut.bling.client.BlingitemRenderer;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
-import thut.core.common.ThutCore;
-import thut.core.init.ThutCreativeTabs;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
@@ -49,6 +43,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
 {
 
     public static Map<String, EnumWearable> wearables = Maps.newHashMap();
+    public static Map<String, RegistryObject<Item>> blingWearables = Maps.newHashMap();
     public static Map<Item, EnumWearable> defaults = Maps.newHashMap();
     public static List<String> names = Lists.newArrayList();
     public static List<Item> bling = Lists.newArrayList();
@@ -71,20 +66,9 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
 
     public static void init()
     {
-        for (final String s : BlingItem.names)
+        for (final String type : BlingItem.names)
         {
-            ThutBling.ITEMS.register("bling_" + s, () -> new BlingItem(s, BlingItem.wearables.get(s)));
-        }
-    }
-
-    @SubscribeEvent
-    public static void addCreative(BuildCreativeModeTabContentsEvent event)
-    {
-        if (event.getTabKey() == ThutCreativeTabs.ITEMS_TAB.getKey()) {
-            for (final String s : BlingItem.names)
-            {
-                event.accept(new BlingItem(s, BlingItem.wearables.get(s)).asItem());
-            }
+            BlingItem.blingWearables.put(type, ThutBling.ITEMS.register("bling_" + type, () -> new BlingItem(type, BlingItem.wearables.get(type))));
         }
     }
 

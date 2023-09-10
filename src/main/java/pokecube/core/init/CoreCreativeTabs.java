@@ -3,16 +3,19 @@ package pokecube.core.init;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
+import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.legends.init.ItemInit;
 import thut.crafts.ThutCrafts;
 
@@ -144,6 +147,7 @@ public class CoreCreativeTabs {
     public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("cubes_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_cubes"))
             .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
+            .withTabsBefore(BERRIES_TAB.getId())
             .displayItems((parameters, output) -> {
                 output.accept(PokecubeItems.getStack("pokeseal"));
                 output.accept(PokecubeItems.getStack("pokecube"));
@@ -176,35 +180,66 @@ public class CoreCreativeTabs {
                 output.accept(PokecubeItems.getStack("timercube"));
                 output.accept(PokecubeItems.getStack("rocketcube"));
                 output.accept(PokecubeItems.getStack("teammagmacube"));
+                output.accept(PokecubeItems.getStack("levelcube"));
                 output.accept(PokecubeItems.getStack("luxurycube"));
                 output.accept(PokecubeItems.getStack("beastcube"));
                 output.accept(PokecubeItems.getStack("clonecube"));
             }).build());
 
-    public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_items"))
-            .icon(() -> {
-                for (final String type : ItemGenerator.fossilVariants)
-                    return new ItemStack(ItemGenerator.fossils.get(type).get());
-                return null;
-            })
-            .displayItems((parameters, output) -> {
-                final Item.Properties props = new Item.Properties();
-
-                for (final String type : ItemGenerator.fossilVariants)
-                    output.accept(ItemGenerator.fossils.get(type).get());
-
-                for (final String type : ItemGenerator.trapdoors.keySet())
-                    output.accept(ItemGenerator.trapdoors.get(type).get());
-            }).build());
-
     public static final RegistryObject<CreativeModeTab> BLOCKS_TAB = TABS.register("blocks_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_blocks"))
             .icon(() -> new ItemStack(PokecubeItems.NEST.get()))
+            .withTabsBefore(POKECUBES_TAB.getId())
             .displayItems((parameters, output) -> {
-                output.accept(PokecubeItems.NEST.get());
+                output.accept(PokecubeItems.FOSSIL_ORE.get());
+                output.accept(PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
             }).build());
 
+    public static final RegistryObject<CreativeModeTab> SPAWN_EGGS_TAB = TABS.register("spawn_eggs_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.pokecube_spawn_eggs"))
+            .icon(() -> new ItemStack(PokecubeItems.NEST.get()))
+            .withTabsBefore(BLOCKS_TAB.getId())
             .displayItems((parameters, output) -> {
+                for (final IPokemob pokemob : ItemPokemobEgg.fakeMobs.values())
+                    output.accept(ItemPokemobEgg.getEggStack(pokemob));
             }).build());
+
+    @SubscribeEvent
+    public static void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
+        {
+            event.accept(PokecubeItems.BERRYJUICE.get());
+            event.accept(PokecubeItems.CANDY.get());
+
+            event.accept(ItemInit.NULL_POKEPUFF.get());
+            event.accept(ItemInit.CHERI_POKEPUFF.get());
+            event.accept(ItemInit.CHESTO_POKEPUFF.get());
+            event.accept(ItemInit.PECHA_POKEPUFF.get());
+            event.accept(ItemInit.RAWST_POKEPUFF.get());
+            event.accept(ItemInit.ASPEAR_POKEPUFF.get());
+            event.accept(ItemInit.LEPPA_POKEPUFF.get());
+            event.accept(ItemInit.ORAN_POKEPUFF.get());
+            event.accept(ItemInit.PERSIM_POKEPUFF.get());
+            event.accept(ItemInit.LUM_POKEPUFF.get());
+            event.accept(ItemInit.SITRUS_POKEPUFF.get());
+            event.accept(ItemInit.NANAB_POKEPUFF.get());
+            event.accept(ItemInit.PINAP_POKEPUFF.get());
+            event.accept(ItemInit.POMEG_POKEPUFF.get());
+            event.accept(ItemInit.KELPSY_POKEPUFF.get());
+            event.accept(ItemInit.QUALOT_POKEPUFF.get());
+            event.accept(ItemInit.HONDEW_POKEPUFF.get());
+            event.accept(ItemInit.GREPA_POKEPUFF.get());
+            event.accept(ItemInit.TAMATO_POKEPUFF.get());
+            event.accept(ItemInit.CORNN_POKEPUFF.get());
+            event.accept(ItemInit.ENIGMA_POKEPUFF.get());
+            event.accept(ItemInit.JABOCA_POKEPUFF.get());
+            event.accept(ItemInit.ROWAP_POKEPUFF.get());
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+        {
+            event.accept(PokecubeItems.EMERALDSHARD.get());
+        }
+    }
 }
