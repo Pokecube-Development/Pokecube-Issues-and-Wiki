@@ -61,13 +61,20 @@ public class ThutCreativeTabs {
             .title(Component.translatable("itemGroup.thutcore.utilities"))
             .icon(() -> new ItemStack(ThutCrafts.CRAFTMAKER.get()))
             .displayItems((parameters, output) -> {
-                output.accept(ThutCrafts.CRAFTMAKER.get());
+                if (parameters.hasPermissions())
+                {
+                    output.accept(ThutCrafts.CRAFTMAKER.get());
+                }
             }).build());
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
-            event.accept(ThutCrafts.CRAFTMAKER.get());
+        if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS)
+        {
+            if (event.hasPermissions())
+            {
+                event.accept(ThutCrafts.CRAFTMAKER.get());
+            }
         }
     }
 }
