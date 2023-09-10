@@ -24,7 +24,7 @@ public class CoreCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PokecubeCore.MODID);
 
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_items"))
+            .title(Component.translatable("itemGroup.pokecube.items"))
             .icon(() -> new ItemStack(PokecubeItems.POKEDEX.get()))
             .displayItems((parameters, output) -> {
                 output.accept(PokecubeItems.POKEDEX.get());
@@ -38,7 +38,7 @@ public class CoreCreativeTabs {
                 output.accept(PokecubeItems.LUCKYEGG.get());
                 output.accept(PokecubeItems.EMERALDSHARD.get());
                 output.accept(PokecubeItems.EGG.get());
-                
+
                 output.accept(PokecubeItems.getStack("vitamin_protein"));
                 output.accept(PokecubeItems.getStack("vitamin_calcium"));
                 output.accept(PokecubeItems.getStack("vitamin_iron"));
@@ -56,7 +56,7 @@ public class CoreCreativeTabs {
             }).build());
 
     public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("cubes_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_cubes"))
+            .title(Component.translatable("itemGroup.pokecube.cubes"))
             .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
             .withTabsBefore(ITEMS_TAB.getId())
             .displayItems((parameters, output) -> {
@@ -98,7 +98,7 @@ public class CoreCreativeTabs {
             }).build());
 
     public static final RegistryObject<CreativeModeTab> BERRIES_TAB = TABS.register("berries_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_berries"))
+            .title(Component.translatable("itemGroup.pokecube.berries"))
             .icon(() -> new ItemStack(BerryManager.getBerryItem("cheri")))
             .withTabsBefore(POKECUBES_TAB.getId())
             .displayItems((parameters, output) -> {
@@ -188,7 +188,7 @@ public class CoreCreativeTabs {
             }).build());
 
     public static final RegistryObject<CreativeModeTab> BLOCKS_TAB = TABS.register("blocks_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_blocks"))
+            .title(Component.translatable("itemGroup.pokecube.blocks"))
             .icon(() -> new ItemStack(PokecubeItems.NEST.get()))
             .withTabsBefore(POKECUBES_TAB.getId())
             .displayItems((parameters, output) -> {

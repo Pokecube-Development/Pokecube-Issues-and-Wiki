@@ -55,8 +55,13 @@ public class ThutCreativeTabs {
                 for (final String type : BlingItem.blingWearables.keySet())
                     output.accept(BlingItem.blingWearables.get(type).get());
 
+            }).build());
+
+    public static final RegistryObject<CreativeModeTab> UTILITIES_TAB = TABS.register("utilities_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.thutcore.utilities"))
+            .icon(() -> new ItemStack(ThutCrafts.CRAFTMAKER.get()))
+            .displayItems((parameters, output) -> {
                 output.accept(ThutCrafts.CRAFTMAKER.get());
-                output.accept(BlingItem.getStack("pokecube_adventures:linker"));
             }).build());
 
     @SubscribeEvent

@@ -14,14 +14,13 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
-import pokecube.core.init.ItemGenerator;
 
 @Mod.EventBusSubscriber(modid = PokecubeAdv.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AdvCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PokecubeAdv.MODID);
     public static final RegistryObject<CreativeModeTab> BADGES_TAB = TABS.register("badges_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_adventures.badges"))
-            .icon(() -> new ItemStack(PokecubeAdv.SIPHON.get()))
+            .icon(() -> new ItemStack(PokecubeItems.getStack("pokecube_adventures:badge_rock").getItem()))
             .withTabsBefore(CoreCreativeTabs.BLOCKS_TAB.getId())
             .displayItems((parameters, output) -> {
                 output.accept(PokecubeAdv.LAB_GLASS.get());
