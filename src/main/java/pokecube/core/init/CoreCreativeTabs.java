@@ -10,12 +10,10 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.legends.init.ItemInit;
-import thut.crafts.ThutCrafts;
 
 @Mod.EventBusSubscriber(modid = PokecubeCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CoreCreativeTabs {
@@ -28,8 +26,7 @@ public class CoreCreativeTabs {
             .displayItems((parameters, output) -> {
                 output.accept(PokecubeItems.POKEDEX.get());
                 output.accept(PokecubeItems.POKEWATCH.get());
-                output.accept(PokecubeAdv.LINKER.get());
-                output.accept(ThutCrafts.CRAFTMAKER.get());
+                output.accept(PokecubeItems.getStack("pokecube_adventures:linker"));
 
                 output.accept(PokecubeItems.NEST.get());
                 output.accept(PokecubeItems.FOSSIL_ORE.get());
