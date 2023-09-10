@@ -9,26 +9,138 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
+import pokecube.legends.init.ItemInit;
+import thut.crafts.ThutCrafts;
 
 @Mod.EventBusSubscriber(modid = PokecubeCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CoreCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PokecubeCore.MODID);
 
+    public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.pokecube_items"))
+            .icon(() -> new ItemStack(PokecubeItems.POKEDEX.get()))
+            .displayItems((parameters, output) -> {
+                output.accept(PokecubeItems.POKEDEX.get());
+                output.accept(PokecubeItems.POKEWATCH.get());
+                output.accept(ThutCrafts.CRAFTMAKER.get());
+                output.accept(PokecubeAdv.LINKER.get());
+                output.accept(PokecubeItems.TM.get());
+                output.accept(PokecubeItems.BERRYJUICE.get());
+                output.accept(PokecubeItems.CANDY.get());
+                output.accept(PokecubeItems.REVIVE.get());
+                output.accept(PokecubeItems.LUCKYEGG.get());
+                output.accept(PokecubeItems.EMERALDSHARD.get());
+                output.accept(PokecubeItems.getStack("dawnstone"));
+                output.accept(PokecubeItems.getStack("vitamin_protein"));
+                output.accept(PokecubeItems.getStack("vitamin_calcium"));
+                output.accept(PokecubeItems.getStack("vitamin_iron"));
+                output.accept(PokecubeItems.getStack("vitamin_zinc"));
+                output.accept(PokecubeItems.getStack("vitamin_hpup"));
+                output.accept(PokecubeItems.getStack("vitamin_carbos"));
+
+                for (final String type : ItemGenerator.fossilVariants)
+                    output.accept(ItemGenerator.fossils.get(type).get());
+                for (final String type : ItemGenerator.misc)
+                    output.accept(ItemGenerator.miscItems.get(type).get());
+                for (final String type : ItemGenerator.variants)
+                    output.accept(ItemGenerator.variantItems.get(type).get());
+
+            }).build());
+
     public static final RegistryObject<CreativeModeTab> BERRIES_TAB = TABS.register("berries_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_berries"))
-            .icon(() -> new ItemStack(BerryManager.getBerryItem("leppa")))
+            .icon(() -> new ItemStack(BerryManager.getBerryItem("cheri")))
+            .withTabsBefore(ITEMS_TAB.getId())
             .displayItems((parameters, output) -> {
-                output.accept((ItemLike) ItemGenerator.woods.keySet());
-                output.accept((ItemLike) ItemGenerator.stripped_logs);
-                output.accept(BerryManager.getBerryItem("oran"));
-
-                ItemGenerator.BOATS.forEach(boat ->
+                for (final Integer type : BerryManager.berryItems.keySet())
                 {
-                    output.accept(boat.block().get());
-                });
+                    output.accept(BerryManager.berryItems.get(type).get());
+                }
+
+                output.accept(ItemInit.NULL_POKEPUFF.get());
+                output.accept(ItemInit.CHERI_POKEPUFF.get());
+                output.accept(ItemInit.CHESTO_POKEPUFF.get());
+                output.accept(ItemInit.PECHA_POKEPUFF.get());
+                output.accept(ItemInit.RAWST_POKEPUFF.get());
+                output.accept(ItemInit.ASPEAR_POKEPUFF.get());
+                output.accept(ItemInit.LEPPA_POKEPUFF.get());
+                output.accept(ItemInit.ORAN_POKEPUFF.get());
+                output.accept(ItemInit.PERSIM_POKEPUFF.get());
+                output.accept(ItemInit.LUM_POKEPUFF.get());
+                output.accept(ItemInit.SITRUS_POKEPUFF.get());
+                output.accept(ItemInit.NANAB_POKEPUFF.get());
+                output.accept(ItemInit.PINAP_POKEPUFF.get());
+                output.accept(ItemInit.POMEG_POKEPUFF.get());
+                output.accept(ItemInit.KELPSY_POKEPUFF.get());
+                output.accept(ItemInit.QUALOT_POKEPUFF.get());
+                output.accept(ItemInit.HONDEW_POKEPUFF.get());
+                output.accept(ItemInit.GREPA_POKEPUFF.get());
+                output.accept(ItemInit.TAMATO_POKEPUFF.get());
+                output.accept(ItemInit.CORNN_POKEPUFF.get());
+                output.accept(ItemInit.ENIGMA_POKEPUFF.get());
+                output.accept(ItemInit.JABOCA_POKEPUFF.get());
+                output.accept(ItemInit.ROWAP_POKEPUFF.get());
+
+                output.accept(PokecubeItems.getStack("enigma_boat"));
+                output.accept(PokecubeItems.getStack("enigma_chest_boat"));
+                output.accept(PokecubeItems.getStack("enigma_sign"));
+                output.accept(PokecubeItems.getStack("leppa_boat"));
+                output.accept(PokecubeItems.getStack("leppa_chest_boat"));
+                output.accept(PokecubeItems.getStack("leppa_sign"));
+                output.accept(PokecubeItems.getStack("nanab_boat"));
+                output.accept(PokecubeItems.getStack("nanab_chest_boat"));
+                output.accept(PokecubeItems.getStack("nanab_sign"));
+                output.accept(PokecubeItems.getStack("oran_boat"));
+                output.accept(PokecubeItems.getStack("oran_chest_boat"));
+                output.accept(PokecubeItems.getStack("oran_sign"));
+                output.accept(PokecubeItems.getStack("pecha_boat"));
+                output.accept(PokecubeItems.getStack("pecha_chest_boat"));
+                output.accept(PokecubeItems.getStack("pecha_sign"));
+                output.accept(PokecubeItems.getStack("sitrus_boat"));
+                output.accept(PokecubeItems.getStack("sitrus_chest_boat"));
+                output.accept(PokecubeItems.getStack("sitrus_sign"));
+
+                for (final String type : ItemGenerator.berryWoods.keySet())
+                {
+                    output.accept(ItemGenerator.leaves.get(type).get());
+                    output.accept(ItemGenerator.logs.get(type).get());
+                    output.accept(ItemGenerator.woods.get(type).get());
+                    output.accept(ItemGenerator.stripped_logs.get(type).get());
+                    output.accept(ItemGenerator.stripped_woods.get(type).get());
+                    output.accept(ItemGenerator.planks.get(type).get());
+                    output.accept(ItemGenerator.stairs.get(type).get());
+                    output.accept(ItemGenerator.slabs.get(type).get());
+                    output.accept(ItemGenerator.fences.get(type).get());
+                    output.accept(ItemGenerator.fence_gates.get(type).get());
+                    output.accept(ItemGenerator.doors.get(type).get());
+                    output.accept(ItemGenerator.trapdoors.get(type).get());
+                    output.accept(ItemGenerator.pressure_plates.get(type).get());
+                    output.accept(ItemGenerator.buttons.get(type).get());
+                }
+
+                output.accept(PokecubeItems.ENIGMA_BARREL.get());
+                output.accept(PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get());
+                output.accept(PokecubeItems.LEPPA_BARREL.get());
+                output.accept(PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get());
+                output.accept(PokecubeItems.NANAB_BARREL.get());
+                output.accept(PokecubeItems.NANAB_BOOKSHELF_EMPTY.get());
+                output.accept(PokecubeItems.ORAN_BARREL.get());
+                output.accept(PokecubeItems.ORAN_BOOKSHELF_EMPTY.get());
+                output.accept(PokecubeItems.PECHA_BARREL.get());
+                output.accept(PokecubeItems.PECHA_BOOKSHELF_EMPTY.get());
+                output.accept(PokecubeItems.SITRUS_BARREL.get());
+                output.accept(PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get());
+
+                for (final String type : ItemGenerator.onlyBerryLeaves.keySet())
+                {
+                    output.accept(ItemGenerator.leaves.get(type).get());
+                }
+            }).build());
+
     public static final RegistryObject<CreativeModeTab> POKECUBES_TAB = TABS.register("cubes_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_cubes"))
             .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
