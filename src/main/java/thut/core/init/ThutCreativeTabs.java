@@ -65,6 +65,7 @@ public class ThutCreativeTabs {
                 {
                     output.accept(ThutCrafts.CRAFTMAKER.get());
                 }
+                output.accept(BlingItem.getStack("pokecube_adventures:linker"));
             }).build());
 
     @SubscribeEvent

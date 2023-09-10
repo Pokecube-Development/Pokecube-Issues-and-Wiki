@@ -21,7 +21,7 @@ public class AdvCreativeTabs {
     public static final RegistryObject<CreativeModeTab> BADGES_TAB = TABS.register("badges_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.pokecube_adventures.badges"))
             .icon(() -> new ItemStack(PokecubeItems.getStack("pokecube_adventures:badge_rock").getItem()))
-            .withTabsBefore(CoreCreativeTabs.BLOCKS_TAB.getId())
+            .withTabsBefore(CoreCreativeTabs.BERRIES_TAB.getId())
             .displayItems((parameters, output) -> {
                 output.accept(PokecubeAdv.LAB_GLASS.get());
 
@@ -29,8 +29,6 @@ public class AdvCreativeTabs {
                 output.accept(PokecubeAdv.AFA.get());
                 output.accept(PokecubeAdv.COMMANDER.get());
                 output.accept(PokecubeAdv.DAYCARE.get());
-
-                output.accept(PokecubeItems.NEST.get());
 
                 output.accept(PokecubeAdv.CLONER.get());
                 output.accept(PokecubeAdv.EXTRACTOR.get());
