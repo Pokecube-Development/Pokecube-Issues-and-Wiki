@@ -232,14 +232,14 @@ public class CoreCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
         {
+            event.accept(PokecubeItems.SECRET_BASE.get());
+            event.accept(PokecubeItems.NEST.get());
             event.accept(PokecubeItems.REPEL.get());
             event.accept(PokecubeItems.HEALER.get());
             event.accept(PokecubeItems.PC_TOP.get());
             event.accept(PokecubeItems.PC_BASE.get());
             event.accept(PokecubeItems.TM_MACHINE.get());
             event.accept(PokecubeItems.TRADER.get());
-            event.accept(PokecubeItems.NEST.get());
-            event.accept(PokecubeItems.SECRET_BASE.get());
             event.accept(PokecubeItems.DYNAMAX.get());
         }
 
@@ -247,6 +247,7 @@ public class CoreCreativeTabs {
         {
             event.accept(PokecubeItems.FOSSIL_ORE.get());
             event.accept(PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
+            event.accept(PokecubeItems.NEST.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
