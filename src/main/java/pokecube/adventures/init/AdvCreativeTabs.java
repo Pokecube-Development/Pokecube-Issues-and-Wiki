@@ -11,14 +11,18 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
+import pokecube.core.init.CoreCreativeTabs;
+import pokecube.core.init.ItemGenerator;
 
 @Mod.EventBusSubscriber(modid = PokecubeAdv.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AdvCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PokecubeAdv.MODID);
-    public static final RegistryObject<CreativeModeTab> ADVENTURES_TAB = TABS.register("adventures_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_adventures"))
+    public static final RegistryObject<CreativeModeTab> BADGES_TAB = TABS.register("badges_tab", () -> CreativeModeTab.builder()
+            .title(Component.translatable("itemGroup.pokecube_adventures.badges"))
             .icon(() -> new ItemStack(PokecubeAdv.SIPHON.get()))
+            .withTabsBefore(CoreCreativeTabs.BLOCKS_TAB.getId())
             .displayItems((parameters, output) -> {
                 output.accept(PokecubeAdv.LAB_GLASS.get());
 
@@ -36,9 +40,14 @@ public class AdvCreativeTabs {
 
                 output.accept(PokecubeAdv.STATUE.get());
 
+                output.accept(PokecubeAdv.BAG.get());
                 output.accept(PokecubeAdv.EXPSHARE.get());
                 output.accept(PokecubeAdv.LINKER.get());
-                output.accept(PokecubeAdv.BAG.get());
+
+                for (final PokeType type : PokecubeAdv.BADGES.keySet())
+                {
+                    output.accept(PokecubeAdv.BADGES.get(type));
+                }
             }).build());
 
     @SubscribeEvent
@@ -48,7 +57,12 @@ public class AdvCreativeTabs {
                 event.accept(PokecubeAdv.AFA.get());
                 event.accept(PokecubeAdv.COMMANDER.get());
                 event.accept(PokecubeAdv.DAYCARE.get());
+                event.accept(PokecubeAdv.LINKER.get());
             }
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+            event.accept(PokecubeAdv.LINKER.get());
         }
     }
 }

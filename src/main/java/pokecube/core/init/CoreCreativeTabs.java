@@ -37,7 +37,7 @@ public class CoreCreativeTabs {
                 output.accept(PokecubeItems.REVIVE.get());
                 output.accept(PokecubeItems.LUCKYEGG.get());
                 output.accept(PokecubeItems.EMERALDSHARD.get());
-                output.accept(PokecubeItems.getStack("dawnstone"));
+                output.accept(PokecubeItems.EGG.get());
                 output.accept(PokecubeItems.getStack("vitamin_protein"));
                 output.accept(PokecubeItems.getStack("vitamin_calcium"));
                 output.accept(PokecubeItems.getStack("vitamin_iron"));
@@ -195,15 +195,6 @@ public class CoreCreativeTabs {
                 output.accept(PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
             }).build());
 
-    public static final RegistryObject<CreativeModeTab> SPAWN_EGGS_TAB = TABS.register("spawn_eggs_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_spawn_eggs"))
-            .icon(() -> new ItemStack(PokecubeItems.NEST.get()))
-            .withTabsBefore(BLOCKS_TAB.getId())
-            .displayItems((parameters, output) -> {
-                for (final IPokemob pokemob : ItemPokemobEgg.fakeMobs.values())
-                    output.accept(ItemPokemobEgg.getEggStack(pokemob));
-            }).build());
-
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
@@ -240,6 +231,11 @@ public class CoreCreativeTabs {
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
         {
             event.accept(PokecubeItems.EMERALDSHARD.get());
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
+        {
+            event.accept(PokecubeItems.EGG.get());
         }
     }
 }
