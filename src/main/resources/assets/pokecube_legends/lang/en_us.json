@@ -2,9 +2,10 @@
     "_comment1": "Pokecube Legends translation",
 
     "_comment80": "Creative Tabs",
-    "itemGroup.pokecube_legends.dimensions": "Pokécube Dimensions",
-    "itemGroup.pokecube_legends.legends":  "Pokécube Legends",
-    "itemGroup.pokecube_legends.decorations": "Pokécube Decorations",
+    "itemGroup.pokecube_legends.building_blocks": "Pokécube Legends: Building",
+    "itemGroup.pokecube_legends.natural_blocks":  "Pokécube Legends: Natural",
+    "itemGroup.pokecube_legends.functional_blocks": "Pokécube Legends: Functional",
+    "itemGroup.pokecube_legends.items": "Pokécube Legends: Items",
 
     "_comment2": "Trainers",
     "pokecube.aether.named": "Aether F. Employee %s",
