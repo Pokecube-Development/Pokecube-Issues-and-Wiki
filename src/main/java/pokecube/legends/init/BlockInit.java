@@ -173,7 +173,7 @@ public class BlockInit
     public static final RegistryObject<FlowingBlock> METEORITE_MOLTEN_LAYER;
 
     // Unowns
-    private static final String[] unowns =
+    public static final String[] unowns =
     { "unown_stone_a", "unown_stone_b", "unown_stone_c", "unown_stone_d", "unown_stone_e", "unown_stone_f",
             "unown_stone_g", "unown_stone_h", "unown_stone_i", "unown_stone_j", "unown_stone_k", "unown_stone_l",
             "unown_stone_m", "unown_stone_n", "unown_stone_o", "unown_stone_p", "unown_stone_q", "unown_stone_r",
@@ -362,7 +362,7 @@ public class BlockInit
     public static final RegistryObject<Block> ROOTED_CORRUPTED_DIRT;
     public static final RegistryObject<Block> ROOTED_MUSHROOM_DIRT;
 
-    public static final RegistryObject<Block> ULTRA_MAGNET;
+    public static final RegistryObject<Block> MAGNETIC_STONE;
     public static final RegistryObject<Block> SPECTRUM_GLASS;
 
     // Aquamarine Blocks
@@ -1969,7 +1969,7 @@ public class BlockInit
                                 .strength(2.0F, 3.0f).noCollission().forceSolidOn()
                                 .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.BASEDRUM).pushReaction(PushReaction.DESTROY)));
 
-        ULTRA_MAGNET = PokecubeLegends.DECORATION_TAB.register("magnetic_stone",
+        MAGNETIC_STONE = PokecubeLegends.DECORATION_TAB.register("magnetic_stone",
                 () -> new MagneticBlock(MapColor.COLOR_BLUE,
                         SoundType.NETHERITE_BLOCK, NoteBlockInstrument.BASEDRUM, true, 4f, 3f));
 
