@@ -347,8 +347,8 @@ public class LegendsCreativeTabs {
 
                 output.accept(BlockInit.MAGNETIC_STONE.get());
 
-                output.accept(PokecubeAdv.LAB_GLASS.get());
                 output.accept(BlockInit.SPECTRUM_GLASS.get());
+                output.accept(PokecubeAdv.LAB_GLASS.get());
                 output.accept(BlockInit.MIRAGE_GLASS.get());
                 output.accept(BlockInit.FRAMED_DISTORTIC_MIRROR.get());
 
@@ -371,8 +371,8 @@ public class LegendsCreativeTabs {
                 output.accept(BlockInit.ONE_WAY_GLASS_PURPLE.get());
                 output.accept(BlockInit.ONE_WAY_GLASS_MAGENTA.get());
                 output.accept(BlockInit.ONE_WAY_GLASS_PINK.get());
-                output.accept(BlockInit.ONE_WAY_GLASS_LAB.get());
                 output.accept(BlockInit.ONE_WAY_GLASS_SPECTRUM.get());
+                output.accept(BlockInit.ONE_WAY_GLASS_LAB.get());
                 output.accept(BlockInit.ONE_WAY_GLASS_MIRAGE.get());
 
                 output.accept(BlockInit.DISTORTIC_MIRROR.get());
@@ -397,26 +397,31 @@ public class LegendsCreativeTabs {
             }).build());
 
     public static final RegistryObject<CreativeModeTab> NATURAL_BLOCKS_TAB = TABS.register("natural_blocks_tab", () -> CreativeModeTab.builder()
+            .withBackgroundLocation(new ResourceLocation(Reference.ID, "textures/gui/container/tab_item_search.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.natural_blocks"))
             .icon(() -> new ItemStack(BlockInit.DISTORTIC_GRASS_BLOCK.get()))
             .withTabsBefore(BUILDING_BLOCKS_TAB.getId())
+            .withSearchBar(71)
             .displayItems((parameters, output) -> {
                 output.accept(BlockInit.DISTORTIC_GRASS_BLOCK.get());
             }).build());
 
     public static final RegistryObject<CreativeModeTab> FUNCTIONAL_BLOCKS_TAB = TABS.register("functional_blocks_tab", () -> CreativeModeTab.builder()
+            .withBackgroundLocation(new ResourceLocation(Reference.ID, "textures/gui/container/tab_item_search_short.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.functional_blocks"))
             .icon(() -> new ItemStack(BlockInit.HEATRAN_BLOCK.get()))
             .withTabsBefore(NATURAL_BLOCKS_TAB.getId())
+            .withSearchBar(53)
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.RAINBOW_ORB.get());
-                ItemInit.BOATS.get(5);
             }).build());
 
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
+            .withBackgroundLocation(new ResourceLocation(Reference.ID, "textures/gui/container/tab_item_search.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.items"))
             .icon(() -> new ItemStack(ItemInit.RAINBOW_ORB.get()))
             .withTabsBefore(FUNCTIONAL_BLOCKS_TAB.getId())
+            .withSearchBar(71)
             .displayItems((parameters, output) -> {
                 output.accept(ItemInit.RAINBOW_SWORD.get());
                 output.accept(ItemInit.COBALION_SWORD.get());
@@ -686,8 +691,8 @@ public class LegendsCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS)
         {
-            event.accept(PokecubeAdv.LAB_GLASS.get());
             event.accept(BlockInit.SPECTRUM_GLASS.get());
+            event.accept(PokecubeAdv.LAB_GLASS.get());
             event.accept(BlockInit.MIRAGE_GLASS.get());
             event.accept(BlockInit.FRAMED_DISTORTIC_MIRROR.get());
 
@@ -710,8 +715,8 @@ public class LegendsCreativeTabs {
             event.accept(BlockInit.ONE_WAY_GLASS_PURPLE.get());
             event.accept(BlockInit.ONE_WAY_GLASS_MAGENTA.get());
             event.accept(BlockInit.ONE_WAY_GLASS_PINK.get());
-            event.accept(BlockInit.ONE_WAY_GLASS_LAB.get());
             event.accept(BlockInit.ONE_WAY_GLASS_SPECTRUM.get());
+            event.accept(BlockInit.ONE_WAY_GLASS_LAB.get());
             event.accept(BlockInit.ONE_WAY_GLASS_MIRAGE.get());
         }
     }
