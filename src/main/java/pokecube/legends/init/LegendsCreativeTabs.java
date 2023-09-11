@@ -413,7 +413,20 @@ public class LegendsCreativeTabs {
             .withTabsBefore(NATURAL_BLOCKS_TAB.getId())
             .withSearchBar(53)
             .displayItems((parameters, output) -> {
-                output.accept(ItemInit.RAINBOW_ORB.get());
+                output.accept(PokecubeItems.getStack("pokecube_legends:aged_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:aged_chest_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:concrete_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:concrete_chest_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:corrupted_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:corrupted_chest_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:distortic_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:distortic_chest_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:inverted_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:inverted_chest_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:mirage_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:mirage_chest_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:temporal_boat"));
+                output.accept(PokecubeItems.getStack("pokecube_legends:temporal_chest_boat"));
             }).build());
 
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
@@ -593,13 +606,13 @@ public class LegendsCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
         {
+            event.accept(ItemInit.DIAMOND_GEM.get());
             event.accept(ItemInit.RUBY.get());
             event.accept(ItemInit.SAPPHIRE.get());
             event.accept(ItemInit.AQUAMARINE.get());
             event.accept(ItemInit.AQUAMARINE_SHARD.get());
             event.accept(ItemInit.FRACTAL_SHARD.get());
             event.accept(ItemInit.SPECTRUM_SHARD.get());
-            event.accept(ItemInit.DIAMOND_GEM.get());
             event.accept(ItemInit.COSMIC_DUST.get());
             event.accept(ItemInit.PILE_OF_ASH.get());
 
