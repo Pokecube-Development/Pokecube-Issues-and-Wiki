@@ -245,9 +245,9 @@ public class CoreCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS)
         {
+            event.accept(PokecubeItems.NEST.get());
             event.accept(PokecubeItems.FOSSIL_ORE.get());
             event.accept(PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
-            event.accept(PokecubeItems.NEST.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)

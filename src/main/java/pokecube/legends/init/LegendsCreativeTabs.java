@@ -403,7 +403,160 @@ public class LegendsCreativeTabs {
             .withTabsBefore(BUILDING_BLOCKS_TAB.getId())
             .withSearchBar(71)
             .displayItems((parameters, output) -> {
+                output.accept(BlockInit.AGED_GRASS_BLOCK.get());
+                output.accept(BlockInit.AGED_PODZOL.get());
+                output.accept(BlockInit.AGED_DIRT.get());
+                output.accept(BlockInit.AGED_COARSE_DIRT.get());
+                output.accept(BlockInit.AZURE_GRASS_BLOCK.get());
+                output.accept(BlockInit.AZURE_DIRT.get());
+                output.accept(BlockInit.AZURE_COARSE_DIRT.get());
+                output.accept(BlockInit.CORRUPTED_GRASS_BLOCK.get());
+                output.accept(BlockInit.CORRUPTED_DIRT.get());
+                output.accept(BlockInit.CORRUPTED_COARSE_DIRT.get());
+                output.accept(BlockInit.ROOTED_CORRUPTED_DIRT.get());
+                output.accept(BlockInit.JUNGLE_GRASS_BLOCK.get());
+                output.accept(BlockInit.JUNGLE_PODZOL.get());
+                output.accept(BlockInit.JUNGLE_DIRT.get());
+                output.accept(BlockInit.JUNGLE_COARSE_DIRT.get());
+                output.accept(BlockInit.MUSHROOM_GRASS_BLOCK.get());
+                output.accept(BlockInit.FUNGAL_NYLIUM.get());
+                output.accept(BlockInit.MUSHROOM_DIRT.get());
+                output.accept(BlockInit.MUSHROOM_COARSE_DIRT.get());
+                output.accept(BlockInit.ROOTED_MUSHROOM_DIRT.get());
+
+
+                output.accept(BlockInit.ULTRA_STONE.get());
+                output.accept(BlockInit.ULTRA_DARKSTONE.get());
+                output.accept(BlockInit.DUSK_DOLERITE.get());
+                output.accept(BlockInit.DISTORTIC_STONE.get());
                 output.accept(BlockInit.DISTORTIC_GRASS_BLOCK.get());
+                output.accept(BlockInit.CRACKED_DISTORTIC_STONE.get());
+                output.accept(BlockInit.DISTORTIC_MIRROR.get());
+                output.accept(BlockInit.DISTORTIC_GLOWSTONE.get());
+                output.accept(BlockInit.METEORITE_BLOCK.get());
+                output.accept(BlockInit.METEORITE_LAYER.get());
+                output.accept(BlockInit.METEORITE_MOLTEN_BLOCK.get());
+                output.accept(BlockInit.METEORITE_MOLTEN_LAYER.get());
+                output.accept(BlockInit.ASH_BLOCK.get());
+                output.accept(BlockInit.ASH.get());
+
+                output.accept(BlockInit.TURQUOISE_GRAVEL.get());
+                output.accept(BlockInit.AZURE_SAND.get());
+                output.accept(BlockInit.AZURE_SANDSTONE.get());
+                output.accept(BlockInit.BLACKENED_SAND.get());
+                output.accept(BlockInit.BLACKENED_SANDSTONE.get());
+                output.accept(BlockInit.CRYSTALLIZED_SAND.get());
+                output.accept(BlockInit.CRYSTALLIZED_SANDSTONE.get());
+
+                output.accept(BlockInit.ULTRA_COAL_ORE.get());
+                output.accept(BlockInit.DUSK_COAL_ORE.get());
+                output.accept(BlockInit.ASH_IRON_ORE.get());
+                output.accept(BlockInit.ULTRA_IRON_ORE.get());
+                output.accept(BlockInit.DUSK_IRON_ORE.get());
+                output.accept(BlockInit.ULTRA_COPPER_ORE.get());
+                output.accept(BlockInit.DUSK_COPPER_ORE.get());
+                output.accept(BlockInit.ULTRA_GOLD_ORE.get());
+                output.accept(BlockInit.DUSK_GOLD_ORE.get());
+                output.accept(BlockInit.ULTRA_REDSTONE_ORE.get());
+                output.accept(BlockInit.DUSK_REDSTONE_ORE.get());
+                output.accept(BlockInit.ULTRA_LAPIS_ORE.get());
+                output.accept(BlockInit.DUSK_LAPIS_ORE.get());
+                output.accept(BlockInit.ULTRA_EMERALD_ORE.get());
+                output.accept(BlockInit.DUSK_EMERALD_ORE.get());
+                output.accept(BlockInit.ULTRA_DIAMOND_ORE.get());
+                output.accept(BlockInit.DUSK_DIAMOND_ORE.get());
+                output.accept(BlockInit.RUBY_ORE.get());
+                output.accept(BlockInit.DEEPSLATE_RUBY_ORE.get());
+                output.accept(BlockInit.ULTRA_RUBY_ORE.get());
+                output.accept(BlockInit.DUSK_RUBY_ORE.get());
+                output.accept(BlockInit.SAPPHIRE_ORE.get());
+                output.accept(BlockInit.DEEPSLATE_SAPPHIRE_ORE.get());
+                output.accept(BlockInit.ULTRA_SAPPHIRE_ORE.get());
+                output.accept(BlockInit.DUSK_SAPPHIRE_ORE.get());
+                output.accept(BlockInit.SPECTRUM_ORE.get());
+                output.accept(BlockInit.DUSK_SPECTRUM_ORE.get());
+                output.accept(BlockInit.FRACTAL_ORE.get());
+                output.accept(BlockInit.METEORITE_COSMIC_ORE.get());
+                output.accept(BlockInit.ULTRA_COSMIC_ORE.get());
+                output.accept(BlockInit.DUSK_COSMIC_ORE.get());
+                output.accept(PokecubeItems.FOSSIL_ORE.get());
+                output.accept(PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
+                output.accept(BlockInit.ULTRA_FOSSIL_ORE.get());
+                output.accept(BlockInit.DUSK_FOSSIL_ORE.get());
+
+                output.accept(BlockInit.UNREFINED_AQUAMARINE.get());
+                output.accept(BlockInit.BUDDING_AQUAMARINE.get());
+                output.accept(BlockInit.AQUAMARINE_CRYSTAL.get());
+                output.accept(BlockInit.AQUAMARINE_CLUSTER.get());
+                output.accept(BlockInit.LARGE_AQUAMARINE_BUD.get());
+                output.accept(BlockInit.MEDIUM_AQUAMARINE_BUD.get());
+                output.accept(BlockInit.SMALL_AQUAMARINE_BUD.get());
+
+                output.accept(BlockInit.AGED_LOG.get());
+                output.accept(BlockInit.CORRUPTED_LOG.get());
+                output.accept(BlockInit.DISTORTIC_LOG.get());
+                output.accept(BlockInit.INVERTED_LOG.get());
+                output.accept(BlockInit.MIRAGE_LOG.get());
+                output.accept(BlockInit.TEMPORAL_LOG.get());
+
+                output.accept(BlockInit.AGED_LEAVES.get());
+                output.accept(BlockInit.CORRUPTED_LEAVES.get());
+                output.accept(BlockInit.DISTORTIC_LEAVES.get());
+                output.accept(BlockInit.INVERTED_LEAVES.get());
+                output.accept(BlockInit.MIRAGE_LEAVES.get());
+                output.accept(BlockInit.TEMPORAL_LEAVES.get());
+                output.accept(BlockInit.DYNA_LEAVES_RED.get());
+                output.accept(BlockInit.DYNA_LEAVES_PINK.get());
+                output.accept(BlockInit.DYNA_LEAVES_PASTEL_PINK.get());
+
+                output.accept(BlockInit.AGED_SAPLING.get());
+                output.accept(BlockInit.CORRUPTED_SAPLING.get());
+                output.accept(BlockInit.DISTORTIC_SAPLING.get());
+                output.accept(BlockInit.INVERTED_SAPLING.get());
+                output.accept(BlockInit.MIRAGE_SAPLING.get());
+                output.accept(BlockInit.TEMPORAL_SAPLING.get());
+                output.accept(BlockInit.DYNA_SHRUB.get());
+
+                output.accept(BlockInit.CRYSTALLIZED_CACTUS.get());
+                output.accept(BlockInit.TALL_CRYSTALLIZED_BUSH.get());
+                output.accept(BlockInit.CRYSTALLIZED_BUSH.get());
+                output.accept(PlantsInit.AZURE_COLEUS.get());
+                output.accept(PlantsInit.COMPRECED_MUSHROOM.get());
+                output.accept(PlantsInit.DISTORCED_MUSHROOM.get());
+                output.accept(PlantsInit.INVERTED_ORCHID.get());
+                output.accept(BlockInit.BIG_CONTAMINATED_DRIPLEAF.get());
+                output.accept(BlockInit.SMALL_CONTAMINATED_DRIPLEAF.get());
+                output.accept(BlockInit.POLLUTING_BLOSSOM.get());
+                output.accept(PlantsInit.TALL_CORRUPTED_GRASS.get());
+                output.accept(PlantsInit.CORRUPTED_GRASS.get());
+                output.accept(PlantsInit.HANGING_TENDRILS.get());
+                output.accept(PlantsInit.PURPLE_WISTERIA_VINES.get());
+                output.accept(PlantsInit.TAINTED_ROOTS.get());
+                output.accept(PlantsInit.TALL_TAINTED_SEAGRASS.get());
+                output.accept(PlantsInit.TAINTED_SEAGRASS.get());
+                output.accept(PlantsInit.TAINTED_KELP.get());
+                output.accept(PlantsInit.TAINTED_LILY_PAD.get());
+                output.accept(PlantsInit.PINK_TAINTED_LILY_PAD.get());
+                output.accept(PlantsInit.DISTORTIC_GRASS.get());
+                output.accept(PlantsInit.DISTORTIC_VINES.get());
+                output.accept(PlantsInit.TEMPORAL_BAMBOO.get());
+                output.accept(BlockInit.STRING_OF_PEARLS.get());
+
+                output.accept(PlantsInit.TALL_GOLDEN_GRASS.get());
+                output.accept(PlantsInit.GOLDEN_GRASS.get());
+                output.accept(PlantsInit.LARGE_GOLDEN_FERN.get());
+                output.accept(PlantsInit.GOLDEN_FERN.get());
+                output.accept(PlantsInit.GOLDEN_SHROOM_PLANT.get());
+                output.accept(PlantsInit.GOLDEN_DANDELION.get());
+                output.accept(PlantsInit.GOLDEN_POPPY.get());
+                output.accept(PlantsInit.GOLDEN_ORCHID.get());
+                output.accept(PlantsInit.GOLDEN_ALLIUM.get());
+                output.accept(PlantsInit.GOLDEN_AZURE_BLUET.get());
+                output.accept(PlantsInit.GOLDEN_TULIP.get());
+                output.accept(PlantsInit.GOLDEN_OXEYE_DAISY.get());
+                output.accept(PlantsInit.GOLDEN_CORNFLOWER.get());
+                output.accept(PlantsInit.GOLDEN_LILY_VALLEY.get());
+                output.accept(PlantsInit.GOLDEN_SWEET_BERRY_BUSH.get());
             }).build());
 
     public static final RegistryObject<CreativeModeTab> FUNCTIONAL_BLOCKS_TAB = TABS.register("functional_blocks_tab", () -> CreativeModeTab.builder()
@@ -413,6 +566,33 @@ public class LegendsCreativeTabs {
             .withTabsBefore(NATURAL_BLOCKS_TAB.getId())
             .withSearchBar(53)
             .displayItems((parameters, output) -> {
+                output.accept(ItemInit.ULTRA_KEY.get());
+                output.accept(ItemInit.GIRATINA_MIRROR.get());
+
+                output.accept(ItemInit.RAINBOW_SWORD.get());
+                output.accept(ItemInit.COBALION_SWORD.get());
+                output.accept(ItemInit.KELDEO_SWORD.get());
+                output.accept(ItemInit.TERRAKION_SWORD.get());
+                output.accept(ItemInit.VIRIZION_SWORD.get());
+                output.accept(ItemInit.ZACIAN_SWORD.get());
+                output.accept(ItemInit.ZAMAZENTA_SHIELD.get());
+
+                output.accept(ItemInit.ULTRA_HELMET.get());
+                output.accept(ItemInit.ULTRA_CHESTPLATE.get());
+                output.accept(ItemInit.ULTRA_LEGGINGS.get());
+                output.accept(ItemInit.ULTRA_BOOTS.get());
+
+                output.accept(ItemInit.DISTORTIC_WATER_BUCKET.get());
+
+                output.accept(BlockInit.AGED_SIGN.get());
+                output.accept(BlockInit.CONCRETE_SIGN.get());
+                output.accept(BlockInit.CONCRETE_DENSE_SIGN.get());
+                output.accept(BlockInit.CORRUPTED_SIGN.get());
+                output.accept(BlockInit.DISTORTIC_SIGN.get());
+                output.accept(BlockInit.INVERTED_SIGN.get());
+                output.accept(BlockInit.MIRAGE_SIGN.get());
+                output.accept(BlockInit.TEMPORAL_SIGN.get());
+
                 output.accept(PokecubeItems.getStack("pokecube_legends:aged_boat"));
                 output.accept(PokecubeItems.getStack("pokecube_legends:aged_chest_boat"));
                 output.accept(PokecubeItems.getStack("pokecube_legends:concrete_boat"));
@@ -436,14 +616,6 @@ public class LegendsCreativeTabs {
             .withTabsBefore(FUNCTIONAL_BLOCKS_TAB.getId())
             .withSearchBar(71)
             .displayItems((parameters, output) -> {
-                output.accept(ItemInit.RAINBOW_SWORD.get());
-                output.accept(ItemInit.COBALION_SWORD.get());
-                output.accept(ItemInit.KELDEO_SWORD.get());
-                output.accept(ItemInit.TERRAKION_SWORD.get());
-                output.accept(ItemInit.VIRIZION_SWORD.get());
-                output.accept(ItemInit.ZACIAN_SWORD.get());
-                output.accept(ItemInit.ZAMAZENTA_SHIELD.get());
-
                 output.accept(ItemInit.RUBY.get());
                 output.accept(ItemInit.SAPPHIRE.get());
                 output.accept(ItemInit.AQUAMARINE.get());
@@ -621,6 +793,39 @@ public class LegendsCreativeTabs {
             event.accept(ItemInit.GLASS_MIRROR.get());
         }
 
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+        {
+            event.accept(BlockInit.AGED_SIGN.get());
+            event.accept(BlockInit.CONCRETE_SIGN.get());
+            event.accept(BlockInit.CONCRETE_DENSE_SIGN.get());
+            event.accept(BlockInit.CORRUPTED_SIGN.get());
+            event.accept(BlockInit.DISTORTIC_SIGN.get());
+            event.accept(BlockInit.INVERTED_SIGN.get());
+            event.accept(BlockInit.MIRAGE_SIGN.get());
+            event.accept(BlockInit.TEMPORAL_SIGN.get());
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+        {
+            event.accept(ItemInit.ULTRA_KEY.get());
+            event.accept(ItemInit.GIRATINA_MIRROR.get());
+            event.accept(ItemInit.DISTORTIC_WATER_BUCKET.get());
+            event.accept(PokecubeItems.getStack("pokecube_legends:aged_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:aged_chest_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:concrete_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:concrete_chest_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:corrupted_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:corrupted_chest_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:distortic_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:distortic_chest_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:inverted_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:inverted_chest_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:mirage_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:mirage_chest_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:temporal_boat"));
+            event.accept(PokecubeItems.getStack("pokecube_legends:temporal_chest_boat"));
+        }
+
         if (event.getTabKey() == CreativeModeTabs.COMBAT)
         {
             event.accept(ItemInit.RAINBOW_SWORD.get());
@@ -630,6 +835,24 @@ public class LegendsCreativeTabs {
             event.accept(ItemInit.VIRIZION_SWORD.get());
             event.accept(ItemInit.ZACIAN_SWORD.get());
             event.accept(ItemInit.ZAMAZENTA_SHIELD.get());
+
+            event.accept(ItemInit.ULTRA_HELMET.get());
+            event.accept(ItemInit.ULTRA_CHESTPLATE.get());
+            event.accept(ItemInit.ULTRA_LEGGINGS.get());
+            event.accept(ItemInit.ULTRA_BOOTS.get());
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS)
+        {
+            event.accept(BlockInit.RUBY_ORE.get());
+            event.accept(BlockInit.DEEPSLATE_RUBY_ORE.get());
+            event.accept(BlockInit.SAPPHIRE_ORE.get());
+            event.accept(BlockInit.DEEPSLATE_SAPPHIRE_ORE.get());
+            event.accept(BlockInit.METEORITE_COSMIC_ORE.get());
+            event.accept(BlockInit.METEORITE_BLOCK.get());
+            event.accept(BlockInit.METEORITE_LAYER.get());
+            event.accept(BlockInit.METEORITE_MOLTEN_BLOCK.get());
+            event.accept(BlockInit.METEORITE_MOLTEN_LAYER.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)

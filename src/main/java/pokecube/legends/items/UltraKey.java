@@ -14,7 +14,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
@@ -85,7 +84,7 @@ public class UltraKey extends ItemBase
                 if (entity instanceof ServerPlayer) DimensionTranserHelper.sentToUltraspace((ServerPlayer) entity);
 
                 if (entity instanceof Player)
-                    ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRAKEY.get(), 200);
+                    ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRA_KEY.get(), 200);
             }
             else
             {
@@ -120,7 +119,7 @@ public class UltraKey extends ItemBase
 
             if (entity instanceof ServerPlayer) DimensionTranserHelper.sendToOverworld((ServerPlayer) entity);
 
-            if (entity instanceof Player) ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRAKEY.get(), 200);
+            if (entity instanceof Player) ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRA_KEY.get(), 200);
         }
         else
         {
@@ -146,7 +145,7 @@ public class UltraKey extends ItemBase
 
             if (entity instanceof ServerPlayer) DimensionTranserHelper.sentToUltraspace((ServerPlayer) entity);
 
-            if (entity instanceof Player) ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRAKEY.get(), 200);
+            if (entity instanceof Player) ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRA_KEY.get(), 200);
         }
         else if (dim == FeaturesInit.ULTRASPACE_KEY)
         {
@@ -156,7 +155,7 @@ public class UltraKey extends ItemBase
 
             if (entity instanceof ServerPlayer) DimensionTranserHelper.sendToOverworld((ServerPlayer) entity);
 
-            if (entity instanceof Player) ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRAKEY.get(), 200);
+            if (entity instanceof Player) ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRA_KEY.get(), 200);
         }
     }
 }

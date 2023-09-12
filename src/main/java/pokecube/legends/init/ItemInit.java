@@ -172,7 +172,7 @@ public class ItemInit
     // Dimensions
     public static final RegistryObject<Item> PILE_OF_ASH;
     public static final RegistryObject<Item> SPECTRUM_SHARD;
-    public static final RegistryObject<Item> ULTRAKEY;
+    public static final RegistryObject<Item> ULTRA_KEY;
     public static final RegistryObject<Item> COSMIC_DUST;
     public static final RegistryObject<Item> FRACTAL_SHARD;
     public static final RegistryObject<Item> DISTORTIC_WATER_BUCKET;
@@ -506,7 +506,7 @@ public class ItemInit
         ULTRA_BOOTS = PokecubeLegends.ITEMS.register("ultra_boots", () -> new UltraBootsEffect(ItemInit.SPECTRUM,
                 ArmorItem.Type.BOOTS, new Item.Properties()));
 
-        ULTRAKEY = PokecubeLegends.ITEMS.register("ultrakey",
+        ULTRA_KEY = PokecubeLegends.ITEMS.register("ultrakey",
                 () -> new UltraKey("ultrakey", 1));
         GIRATINA_MIRROR = PokecubeLegends.ITEMS.register("giratina_mirror",
                 () -> new DistortedMirror("giratina_mirror", 1));
