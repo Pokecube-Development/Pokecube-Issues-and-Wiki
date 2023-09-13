@@ -909,6 +909,12 @@ public class LegendsCreativeTabs {
             event.accept(ItemInit.GLASS_MIRROR.get());
         }
 
+        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS)
+        {
+            event.accept(PokecubeAdv.WARP_PAD.get());
+            event.accept(BlockInit.DISTORTIC_STONE_BARREL.get());
+        }
+
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
         {
             event.accept(BlockInit.RAID_SPAWNER.get());
@@ -923,8 +929,8 @@ public class LegendsCreativeTabs {
             event.accept(PokecubeAdv.COMMANDER.get());
             event.accept(PokecubeAdv.DAYCARE.get());
             event.accept(BlockInit.DISTORTIC_STONE_BARREL.get());
-            event.accept(BlockInit.DISTORTIC_MIRROR.get());
             event.accept(BlockInit.MAGNETIC_STONE.get());
+            event.accept(BlockInit.DISTORTIC_MIRROR.get());
 
             event.accept(BlockInit.AGED_SIGN.get());
             event.accept(BlockInit.CONCRETE_SIGN.get());
