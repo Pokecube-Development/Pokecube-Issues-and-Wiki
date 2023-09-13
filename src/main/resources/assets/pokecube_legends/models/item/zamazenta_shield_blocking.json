@@ -2,11 +2,11 @@
 	"credit": "Made with Blockbench",
 	"parent": "pokecube_legends:item/zamazenta_shield",
 	"textures": {
-		"0": "pokecube_legends:entity/shield_open",
-		"1": "pokecube_legends:entity/shield_close_back",
-		"3": "pokecube_legends:entity/shield_extra",
-		"4": "pokecube_legends:entity/shield_extra_close",
-		"particle": "pokecube_legends:entity/shield_open"
+		"0": "pokecube_legends:item/shield/shield_open",
+		"1": "pokecube_legends:item/shield/shield_close_back",
+		"3": "pokecube_legends:item/shield/shield_extra",
+		"4": "pokecube_legends:item/shield/shield_extra_close",
+		"particle": "pokecube_legends:item/shield/shield_open"
 	},
 	"elements": [
 		{
