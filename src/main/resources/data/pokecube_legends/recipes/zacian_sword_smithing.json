@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/netherite"
+  },
+  "base": {
+    "item": "minecraft:diamond_sword"
+  },
+  "template": {
+    "item": "pokecube_legends:rustedsword"
+  },
+  "result": {
+    "item": "pokecube_legends:zacian_sword"
+  }
+}
