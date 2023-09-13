@@ -43,8 +43,7 @@ public class LegendsDistorticRecipeManager
 
             for (final Recipe<?> recipe : LegendsDistorticRecipeManager
                     .getRecipes(LegendsDistorticRecipeManager.LEGENDS_DISTORTIC_RECIPE_TYPE.get(),
-                            event.getLevel().getRecipeManager())
-                    .values())
+                            event.getLevel().getRecipeManager()).values())
                 if (recipe instanceof LegendsDistorticRecipeSerializer)
             {
 
@@ -54,9 +53,11 @@ public class LegendsDistorticRecipeManager
                         && dim == blockRecipe.dimId)
                 {
 
-                    heldItem.shrink(1);
 
-                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(event.getLevel().registryAccess()).copy());
+                    for (heldItem.getCount();  heldItem.getCount() > 0;) {
+                        heldItem.shrink(1);
+                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(event.getLevel().registryAccess()).copy());
+                    }
                     event.setCanceled(true);
                     break;
                 }
