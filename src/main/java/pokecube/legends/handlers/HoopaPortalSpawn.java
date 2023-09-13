@@ -41,7 +41,7 @@ public class HoopaPortalSpawn
         if (v.isAir(world))
         {
 
-            final PortalWarp block = (PortalWarp) BlockInit.PORTAL.get();
+            final PortalWarp block = (PortalWarp) BlockInit.MIRAGE_SPOTS.get();
             final Vector3 fakePos = new Vector3().set(v);
 
             // Randomize the position a bit so the orientation of portal is
@@ -57,9 +57,9 @@ public class HoopaPortalSpawn
             fakePos.moveEntity(placer);
 
             final UseContext context = MoveEventsHandler.getContext(world, placer, block.defaultBlockState(), v);
-            final BlockState state = BlockInit.PORTAL.get().getStateForPlacement(context);
+            final BlockState state = BlockInit.MIRAGE_SPOTS.get().getStateForPlacement(context);
             final BlockPos placePos = context.getClickedPos();
-            ((PortalWarp) BlockInit.PORTAL.get()).place(world, v.getPos(), Direction.from2DDataValue(
+            ((PortalWarp) BlockInit.MIRAGE_SPOTS.get()).place(world, v.getPos(), Direction.from2DDataValue(
                     rand.nextInt()));
             // Only place if valid, this fixes #478
             if (state != null) block.place(world, placePos, context.getHorizontalDirection());

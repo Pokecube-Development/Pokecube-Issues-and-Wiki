@@ -29,7 +29,7 @@ public class RingTile extends BlockEntity implements ITickTile
 
     public void activatePortal()
     {
-        final PortalWarp warp = (PortalWarp) BlockInit.PORTAL.get();
+        final PortalWarp warp = (PortalWarp) BlockInit.MIRAGE_SPOTS.get();
         final BlockState state = this.getBlockState();
         if (this.despawns)
         {
@@ -52,7 +52,7 @@ public class RingTile extends BlockEntity implements ITickTile
         final PortalWarpPart part = state.getValue(PortalWarp.PART);
         final boolean active = state.getValue(PortalWarp.ACTIVE);
         if (part != PortalWarpPart.MIDDLE) return;
-        final PortalWarp warp = (PortalWarp) BlockInit.PORTAL.get();
+        final PortalWarp warp = (PortalWarp) BlockInit.MIRAGE_SPOTS.get();
         if (this.despawns && this.timer++ > PokecubeLegends.config.ticksPortalDespawn)
         {
             warp.remove(this.level, this.worldPosition, state);
