@@ -238,8 +238,9 @@ public class CoreCreativeTabs {
             event.accept(PokecubeItems.HEALER.get());
             event.accept(PokecubeItems.PC_TOP.get());
             event.accept(PokecubeItems.PC_BASE.get());
-            event.accept(PokecubeItems.TM_MACHINE.get());
             event.accept(PokecubeItems.TRADER.get());
+            event.accept(PokecubeItems.TM_MACHINE.get());
+            event.accept(PokecubeItems.TM.get());
             event.accept(PokecubeItems.DYNAMAX.get());
         }
 

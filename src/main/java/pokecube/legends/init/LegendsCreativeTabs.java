@@ -319,8 +319,8 @@ public class LegendsCreativeTabs {
                 output.accept(BlockInit.PURPUR_BRICK_STAIRS.get());
                 output.accept(BlockInit.PURPUR_BRICK_SLAB.get());
 
-                output.accept(BlockInit.TOTEM_BLOCK.get());
                 output.accept(BlockInit.GOLEM_STONE.get());
+                output.accept(BlockInit.TOTEM_BLOCK.get());
                 output.accept(BlockInit.REGICE_CORE.get());
                 output.accept(BlockInit.REGIDRAGO_CORE.get());
                 output.accept(BlockInit.REGIELEKI_CORE.get());
@@ -332,7 +332,7 @@ public class LegendsCreativeTabs {
                 output.accept(BlockInit.DISTORTIC_STONE_STAIRS.get());
                 output.accept(BlockInit.DISTORTIC_STONE_SLAB.get());
 
-                output.accept(BlockInit.DISTORTIC_BARREL.get());
+                output.accept(BlockInit.DISTORTIC_STONE_BARREL.get());
                 output.accept(BlockInit.DISTORTIC_STONE_BRICKS.get());
                 output.accept(BlockInit.DISTORTIC_STONE_BRICK_STAIRS.get());
                 output.accept(BlockInit.DISTORTIC_STONE_BRICK_SLAB.get());
@@ -394,6 +394,12 @@ public class LegendsCreativeTabs {
                 output.accept(BlockInit.ULTRA_METAL_SLAB.get());
                 output.accept(BlockInit.ULTRA_METAL_PR_PLATE.get());
                 output.accept(BlockInit.ULTRA_METAL_BUTTON.get());
+
+                output.accept(PokecubeAdv.STATUE.get());
+
+                output.accept(BlockInit.INFECTED_TORCH.get());
+                output.accept(BlockInit.INFECTED_LANTERN.get());
+                output.accept(BlockInit.INFECTED_CAMPFIRE.get());
             }).build());
 
     public static final RegistryObject<CreativeModeTab> NATURAL_BLOCKS_TAB = TABS.register("natural_blocks_tab", () -> CreativeModeTab.builder()
@@ -434,10 +440,10 @@ public class LegendsCreativeTabs {
                 output.accept(BlockInit.DISTORTIC_MIRROR.get());
                 output.accept(BlockInit.DISTORTIC_GLOWSTONE.get());
                 output.accept(BlockInit.METEORITE_BLOCK.get());
-                output.accept(BlockInit.METEORITE_LAYER.get());
                 output.accept(BlockInit.METEORITE_MOLTEN_BLOCK.get());
-                output.accept(BlockInit.METEORITE_MOLTEN_LAYER.get());
                 output.accept(BlockInit.ASH_BLOCK.get());
+                output.accept(BlockInit.METEORITE_LAYER.get());
+                output.accept(BlockInit.METEORITE_MOLTEN_LAYER.get());
                 output.accept(BlockInit.ASH.get());
 
                 output.accept(BlockInit.TURQUOISE_GRAVEL.get());
@@ -562,7 +568,7 @@ public class LegendsCreativeTabs {
     public static final RegistryObject<CreativeModeTab> FUNCTIONAL_BLOCKS_TAB = TABS.register("functional_blocks_tab", () -> CreativeModeTab.builder()
             .withBackgroundLocation(new ResourceLocation(Reference.ID, "textures/gui/container/tab_item_search_short.png"))
             .title(Component.translatable("itemGroup.pokecube_legends.functional_blocks"))
-            .icon(() -> new ItemStack(BlockInit.HEATRAN_BLOCK.get()))
+            .icon(() -> new ItemStack(ItemInit.GIRATINA_MIRROR.get()))
             .withTabsBefore(NATURAL_BLOCKS_TAB.getId())
             .withSearchBar(53)
             .displayItems((parameters, output) -> {
@@ -582,7 +588,97 @@ public class LegendsCreativeTabs {
                 output.accept(ItemInit.ULTRA_LEGGINGS.get());
                 output.accept(ItemInit.ULTRA_BOOTS.get());
 
+                output.accept(PokecubeAdv.BAG.get());
+                output.accept(PokecubeAdv.EXPSHARE.get());
+                output.accept(PokecubeAdv.LINKER.get());
+                output.accept(PokecubeItems.TM.get());
+
                 output.accept(ItemInit.DISTORTIC_WATER_BUCKET.get());
+
+                output.accept(PokecubeItems.DYNAMAX.get());
+                output.accept(BlockInit.RAID_SPAWNER.get());
+                output.accept(PokecubeAdv.STATUE.get());
+                output.accept(PokecubeItems.HEALER.get());
+                output.accept(PokecubeItems.PC_TOP.get());
+                output.accept(PokecubeItems.PC_BASE.get());
+                output.accept(PokecubeItems.TRADER.get());
+                output.accept(PokecubeItems.TM_MACHINE.get());
+
+                output.accept(PokecubeAdv.CLONER.get());
+                output.accept(PokecubeAdv.EXTRACTOR.get());
+                output.accept(PokecubeAdv.SPLICER.get());
+                output.accept(PokecubeAdv.SIPHON.get());
+
+                output.accept(BlockInit.CRAMOMATIC_BLOCK.get());
+                output.accept(BlockInit.MIRAGE_SPOTS.get());
+
+                output.accept(BlockInit.VICTINI_CORE.get());
+                output.accept(BlockInit.TROUGH_BLOCK.get());
+                output.accept(BlockInit.TAO_BLOCK.get());
+                output.accept(BlockInit.XERNEAS_CORE.get());
+                output.accept(BlockInit.NATURE_CORE.get());
+                output.accept(BlockInit.TIMESPACE_CORE.get());
+                output.accept(BlockInit.KELDEO_CORE.get());
+                output.accept(BlockInit.YVELTAL_CORE.get());
+                output.accept(BlockInit.TAPU_BULU_CORE.get());
+                output.accept(BlockInit.TAPU_KOKO_CORE.get());
+                output.accept(BlockInit.TAPU_FINI_CORE.get());
+                output.accept(BlockInit.TAPU_LELE_CORE.get());
+                output.accept(BlockInit.HEATRAN_BLOCK.get());
+                output.accept(BlockInit.LEGENDARY_SPAWN.get());
+
+                output.accept(BlockInit.GOLEM_STONE.get());
+                output.accept(BlockInit.TOTEM_BLOCK.get());
+                output.accept(BlockInit.REGICE_CORE.get());
+                output.accept(BlockInit.REGIDRAGO_CORE.get());
+                output.accept(BlockInit.REGIELEKI_CORE.get());
+                output.accept(BlockInit.REGIGIGA_CORE.get());
+                output.accept(BlockInit.REGIROCK_CORE.get());
+                output.accept(BlockInit.REGISTEEL_CORE.get());
+
+                output.accept(PokecubeAdv.WARP_PAD.get());
+                output.accept(PokecubeAdv.AFA.get());
+                output.accept(PokecubeAdv.COMMANDER.get());
+                output.accept(PokecubeAdv.DAYCARE.get());
+
+                output.accept(PokecubeItems.NEST.get());
+                output.accept(PokecubeItems.SECRET_BASE.get());
+                output.accept(PokecubeItems.REPEL.get());
+
+                output.accept(BlockInit.DISTORTIC_MIRROR.get());
+                output.accept(BlockInit.MAGNETIC_STONE.get());
+
+                output.accept(BlockInit.AGED_BARREL.get());
+                output.accept(BlockInit.CONCRETE_BARREL.get());
+                output.accept(BlockInit.CONCRETE_DENSE_BARREL.get());
+                output.accept(BlockInit.CORRUPTED_BARREL.get());
+                output.accept(BlockInit.DISTORTIC_BARREL.get());
+                output.accept(BlockInit.INVERTED_BARREL.get());
+                output.accept(BlockInit.MIRAGE_BARREL.get());
+                output.accept(BlockInit.TEMPORAL_BARREL.get());
+                output.accept(BlockInit.DISTORTIC_STONE_BARREL.get());
+
+                output.accept(BlockInit.BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.AGED_BOOKSHELF.get());
+                output.accept(BlockInit.AGED_BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.CONCRETE_BOOKSHELF.get());
+                output.accept(BlockInit.CONCRETE_BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.CONCRETE_DENSE_BOOKSHELF.get());
+                output.accept(BlockInit.CONCRETE_DENSE_BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.CORRUPTED_BOOKSHELF.get());
+                output.accept(BlockInit.CORRUPTED_BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.DISTORTIC_BOOKSHELF.get());
+                output.accept(BlockInit.DISTORTIC_BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.INVERTED_BOOKSHELF.get());
+                output.accept(BlockInit.INVERTED_BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.MIRAGE_BOOKSHELF.get());
+                output.accept(BlockInit.MIRAGE_BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.TEMPORAL_BOOKSHELF.get());
+                output.accept(BlockInit.TEMPORAL_BOOKSHELF_EMPTY.get());
+
+                output.accept(BlockInit.INFECTED_TORCH.get());
+                output.accept(BlockInit.INFECTED_LANTERN.get());
+                output.accept(BlockInit.INFECTED_CAMPFIRE.get());
 
                 output.accept(BlockInit.AGED_SIGN.get());
                 output.accept(BlockInit.CONCRETE_SIGN.get());
@@ -607,6 +703,26 @@ public class LegendsCreativeTabs {
                 output.accept(PokecubeItems.getStack("pokecube_legends:mirage_chest_boat"));
                 output.accept(PokecubeItems.getStack("pokecube_legends:temporal_boat"));
                 output.accept(PokecubeItems.getStack("pokecube_legends:temporal_chest_boat"));
+
+                for (int i = 0; i < BlockInit.totemKeys.length; i++)
+                {
+                    output.accept(BlockInit.BULU[i].get());
+                }
+
+                for (int i = 0; i < BlockInit.totemKeys.length; i++)
+                {
+                    output.accept(BlockInit.KOKO[i].get());
+                }
+
+                for (int i = 0; i < BlockInit.totemKeys.length; i++)
+                {
+                    output.accept(BlockInit.FINI[i].get());
+                }
+
+                for (int i = 0; i < BlockInit.totemKeys.length; i++)
+                {
+                    output.accept(BlockInit.LELE[i].get());
+                }
             }).build());
 
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = TABS.register("items_tab", () -> CreativeModeTab.builder()
@@ -795,6 +911,21 @@ public class LegendsCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
         {
+            event.accept(BlockInit.RAID_SPAWNER.get());
+            event.accept(PokecubeAdv.CLONER.get());
+            event.accept(PokecubeAdv.EXTRACTOR.get());
+            event.accept(PokecubeAdv.SPLICER.get());
+            event.accept(PokecubeAdv.SIPHON.get());
+            event.accept(BlockInit.CRAMOMATIC_BLOCK.get());
+
+            event.accept(PokecubeAdv.WARP_PAD.get());
+            event.accept(PokecubeAdv.AFA.get());
+            event.accept(PokecubeAdv.COMMANDER.get());
+            event.accept(PokecubeAdv.DAYCARE.get());
+            event.accept(BlockInit.DISTORTIC_STONE_BARREL.get());
+            event.accept(BlockInit.DISTORTIC_MIRROR.get());
+            event.accept(BlockInit.MAGNETIC_STONE.get());
+
             event.accept(BlockInit.AGED_SIGN.get());
             event.accept(BlockInit.CONCRETE_SIGN.get());
             event.accept(BlockInit.CONCRETE_DENSE_SIGN.get());
@@ -803,6 +934,12 @@ public class LegendsCreativeTabs {
             event.accept(BlockInit.INVERTED_SIGN.get());
             event.accept(BlockInit.MIRAGE_SIGN.get());
             event.accept(BlockInit.TEMPORAL_SIGN.get());
+
+            event.accept(BlockInit.INFECTED_TORCH.get());
+            event.accept(BlockInit.INFECTED_LANTERN.get());
+            event.accept(BlockInit.INFECTED_CAMPFIRE.get());
+
+            event.accept(PokecubeAdv.STATUE.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
@@ -844,15 +981,18 @@ public class LegendsCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS)
         {
+            event.accept(BlockInit.ASH_IRON_ORE.get());
             event.accept(BlockInit.RUBY_ORE.get());
             event.accept(BlockInit.DEEPSLATE_RUBY_ORE.get());
             event.accept(BlockInit.SAPPHIRE_ORE.get());
             event.accept(BlockInit.DEEPSLATE_SAPPHIRE_ORE.get());
             event.accept(BlockInit.METEORITE_COSMIC_ORE.get());
             event.accept(BlockInit.METEORITE_BLOCK.get());
-            event.accept(BlockInit.METEORITE_LAYER.get());
             event.accept(BlockInit.METEORITE_MOLTEN_BLOCK.get());
+            event.accept(BlockInit.ASH_BLOCK.get());
+            event.accept(BlockInit.METEORITE_LAYER.get());
             event.accept(BlockInit.METEORITE_MOLTEN_LAYER.get());
+            event.accept(BlockInit.ASH.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
@@ -954,6 +1094,26 @@ public class LegendsCreativeTabs {
             event.accept(BlockInit.ONE_WAY_GLASS_SPECTRUM.get());
             event.accept(BlockInit.ONE_WAY_GLASS_LAB.get());
             event.accept(BlockInit.ONE_WAY_GLASS_MIRAGE.get());
+
+            for (int i = 0; i < BlockInit.totemKeys.length; i++)
+            {
+                event.accept(BlockInit.BULU[i].get());
+            }
+
+            for (int i = 0; i < BlockInit.totemKeys.length; i++)
+            {
+                event.accept(BlockInit.KOKO[i].get());
+            }
+
+            for (int i = 0; i < BlockInit.totemKeys.length; i++)
+            {
+                event.accept(BlockInit.FINI[i].get());
+            }
+
+            for (int i = 0; i < BlockInit.totemKeys.length; i++)
+            {
+                event.accept(BlockInit.LELE[i].get());
+            }
         }
     }
 }
