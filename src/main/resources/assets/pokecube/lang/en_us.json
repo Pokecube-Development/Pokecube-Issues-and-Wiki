@@ -6,6 +6,10 @@
     "itemGroup.pokecube.berries": "Pokécube: Berries",
     "itemGroup.pokecube.cubes": "Pokécubes",
 
+    "_comment": "Paintings",
+    "painting.pokecube.pokecube.title": "Pokécube",
+    "painting.pokecube.pokecube.author": "WenXin2",
+
     "_comment": "Pokécube translation",
     "_comment": "#Mount Messages",
 
