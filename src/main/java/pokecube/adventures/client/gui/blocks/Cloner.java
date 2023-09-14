@@ -30,13 +30,13 @@ public class Cloner extends AbstractContainerScreen<ClonerContainer>
         final int y = (this.height - this.imageHeight) / 2;
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
 
-        // Draw the progress bar.
-        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/cloner.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        // TODO: Fix drawing the progress bar.
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
         final int i = this.menu.tile.progress;
         final int j = this.menu.tile.total;
         final int l1 = j != 0 && i != 0 ? i * 24 / j : 0;
         // TODO: Fix this
-        graphics.blit(new ResourceLocation(PokecubeCore.MODID, "textures/gui/icons/slot_cube.png"), x + 89, y + 34, 176, 0, l1 + 1, 16);
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"), x + 89, y + 34, 176, 0, l1 + 1, 16);
     }
 
     @Override
