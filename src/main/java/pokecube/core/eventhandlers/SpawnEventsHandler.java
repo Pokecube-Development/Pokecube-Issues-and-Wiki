@@ -26,6 +26,7 @@ import net.minecraft.nbt.TagParser;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
@@ -208,7 +209,8 @@ public class SpawnEventsHandler
         }
         if (!(thing.has("trainerType") || thing.has("type")))
             thing.add("type", new JsonPrimitive(nurse ? "healer" : trader ? "trader" : "professor"));
-        if (nurse) mob.setMale(false);
+        RandomSource random = event.rand;
+        if (nurse && random.nextInt(10) < 7) mob.setMale(false);
         SpawnEventsHandler.spawnNpc(event, mob, thing);
         return true;
     }

@@ -49,6 +49,10 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int p_146979_1_, final int p_146979_2_)
     {
+        graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - 96 + 2, 4210752, false);
+
         ItemStack stack = this.menu.getInv().getItem(0);
         if (PokecubeManager.isFilled(stack)) this.renderMob(0, 0);
         stack = this.menu.getInv().getItem(1);

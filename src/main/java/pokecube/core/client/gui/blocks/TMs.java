@@ -49,6 +49,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
+        graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - 96 + 2, 4210752, false);
         // NOOP, this would draw name and title.
     }
 
@@ -82,7 +85,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
-        }).bounds(this.width / 2 + 68, this.height / 2 - 50, 10, 10).build());
+        }).bounds(this.width / 2 + 68, this.height / 2 - 51, 10, 10).build());
 
         final Component prev = TComponent.translatable("<");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
@@ -93,7 +96,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         }).bounds(this.width / 2 - 30, this.height / 2 - 50, 10, 10).build());
 
         this.addRenderableWidget(this.search = new EditBox(this.font, this.width / 2 - 19, this.height / 2 - 50, 87, 10,
-                TComponent.translatable("")));
+                TComponent.translatable("Test")));
     }
 
     @Override
@@ -110,9 +113,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final int yOffset = this.height / 2 - 164;
             final int xOffset = this.width / 2 - 42;
 
-            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 14,
-                    yOffset + 99, move.getType(null).colour, false);
-            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff, false);
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 15,
+                    yOffset + 99, move.getType(null).colour);
+            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
         }
         this.renderTooltip(graphics, mouseX, mouseY);
     }
