@@ -17,6 +17,7 @@ import net.minecraft.nbt.LongTag;
 import net.minecraft.nbt.ShortTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 import pokecube.nbtedit.NBTStringHelper;
@@ -30,7 +31,7 @@ public class GuiEditNBT extends AbstractWidget
 
     public static final ResourceLocation WINDOW_TEXTURE = new ResourceLocation("nbtedit", "textures/gui/window.png");
 
-    public static final int              WIDTH          = 178, HEIGHT = 93;
+    public static final int WIDTH = 178, HEIGHT = 93;
 
     private static String getValue(final Tag base)
     {
@@ -181,12 +182,12 @@ public class GuiEditNBT extends AbstractWidget
         {
             this.value.insertText("" + NBTStringHelper.SECTION_SIGN);
             this.checkValidInput();
-        }, (Button.CreateNarration) this.createNarrationMessage()));
+        }, supplier -> Component.literal("Section Sign")));
         this.parent.addRenderableWidget(this.newLine = new GuiCharacterButton((byte) 1, x + GuiEditNBT.WIDTH - 1, y + 50, b ->
         {
             this.value.insertText("\n");
             this.checkValidInput();
-        }, (Button.CreateNarration) this.createNarrationMessage()));
+        }, supplier -> Component.literal("New Line")));
         final String sKey = this.node.getObject().getName();
         final String sValue = GuiEditNBT.getValue(this.nbt);
         this.parent.addRenderableWidget(this.key = new TextFieldWidget2(this.mc.font, x + 46, y + 18, 116, 15, false));
@@ -234,7 +235,7 @@ public class GuiEditNBT extends AbstractWidget
         RenderSystem.setShaderTexture(0, GuiEditNBT.WINDOW_TEXTURE);
 
         // TODO: Check this
-        graphics.blit(new ResourceLocation(""), this.getX(), this.getY(), 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
+        graphics.blit(GuiEditNBT.WINDOW_TEXTURE, this.getX(), this.getY(), 0, 0, GuiEditNBT.WIDTH, GuiEditNBT.HEIGHT);
         if (!this.canEditText) graphics.fill(this.getX() + 42, this.getY() + 15,
                 this.getX() + 169, this.getY() + 31, 0x80000000);
         if (!this.canEditValue) graphics.fill(this.getX() + 42, this.getY() + 41,

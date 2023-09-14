@@ -55,7 +55,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
             this.inventory.player.playSound(Sounds.HEAL_SOUND.get(), 1, 1);
-        }).bounds(this.width / 2 + 21, this.height / 2 - 50, 60, 20).build());
+        }).bounds(this.width / 2 + 18, this.height / 2 - 50, 60, 20).build());
     }
 
     @Override

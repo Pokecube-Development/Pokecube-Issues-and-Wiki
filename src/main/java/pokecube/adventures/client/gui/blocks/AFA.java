@@ -78,11 +78,6 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
 
         final int xOffset = -86;
         final int yOffset = -88;
-        MutableComponent text = this.menu.tile.ability != null ? Component.translatable("block.afa.ability.info", Component.translatable(this.menu.tile.ability
-                .getName())) : Component.translatable("block.afa.ability.none");
-
-        MutableComponent text2 = Component.translatable("block.afa.range.info", this.menu.tile.distance);
-        MutableComponent text3 = Component.translatable("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
 
         // Elements placed in order of selection when pressing tab
         final Component prev = TComponent.translatable("block.ability_field_amplifier.previous");
@@ -92,10 +87,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
             message.data.putBoolean("S", Screen.hasShiftDown());
             PokecubeAdv.packets.sendToServer(message);
         }).bounds(this.width / 2 + xOffset + 30, this.height / 2 - yOffset - 117, 10, 10)
-                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.previous.narrate"))
-                .createNarration(supplier -> text)
-                .createNarration(supplier -> text2)
-                .createNarration(supplier -> text3).build());
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.previous.narrate")).build());
 
         final Component next = TComponent.translatable("block.ability_field_amplifier.next");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
@@ -104,10 +96,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
             message.data.putBoolean("S", Screen.hasShiftDown());
             PokecubeAdv.packets.sendToServer(message);
         }).bounds(this.width / 2 + xOffset + 42, this.height / 2 - yOffset - 117, 10, 10)
-                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.next.narrate"))
-                .createNarration(supplier -> text)
-                .createNarration(supplier -> text2)
-                .createNarration(supplier -> text3).build());
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.next.narrate")).build());
     }
 
 }
