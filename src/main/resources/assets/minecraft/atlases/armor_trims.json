@@ -39,6 +39,7 @@
             "palette_key": "trims/color_palettes/trim_palette",
             "permutations": {
                 "aquamarine": "pokecube_legends:trims/color_palettes/aquamarine",
+                "ash": "pokecube_legends:trims/color_palettes/ash",
                 "cosmic_dust": "pokecube_legends:trims/color_palettes/cosmic_dust",
                 "fractal": "pokecube_legends:trims/color_palettes/fractal",
                 "pink_diamond": "pokecube_legends:trims/color_palettes/pink_diamond",
