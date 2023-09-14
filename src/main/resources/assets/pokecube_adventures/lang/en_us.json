@@ -8,6 +8,10 @@
     "block.afa.ability.info": "Ability: %s",
     "block.afa.range.info": "Range: %s",
     "block.afa.power.info": "Power: %1$s/%2$s",
+    "block.ability_field_amplifier.next": ">",
+    "block.ability_field_amplifier.next.narrate": "Next",
+    "block.ability_field_amplifier.previous": "<",
+    "block.ability_field_amplifier.next.narrate": "Previous",
 
     "item.pokecube_adventures.target": "Target",
     "item.pokecube_adventures.linker": "Location Linker",

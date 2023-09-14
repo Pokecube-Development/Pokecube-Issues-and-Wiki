@@ -276,8 +276,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             }
         }
         this.renderTooltip(graphics, mouseX, mouseY);
-        // TODO: Fix crash
-        super.render(graphics, mouseX, mouseY, f);
+        // TODO: Fix / by zero crash
+        // super.render(graphics, mouseX, mouseY, f);
     }
 
 }

@@ -508,11 +508,17 @@
     "block.pokecube.repel": "Repel",
     "block.pokecube.table": "Pokécube Table",
     "block.pc.next": ">",
+    "block.pc.next.narrate": "Next",
     "block.pc.previous": "<",
+    "block.pc.next.narrate": "Previous",
 
     "block.pokecube.tm_machine": "TM Machine",
     "block.tm_machine.nomoves": "Put Pokémobs in PC",
     "block.tm_machine.nopc": "Place next to PC",
+    "block.tm_machine.next": ">",
+    "block.tm_machine.next.narrate": "Next",
+    "block.tm_machine.previous": "<",
+    "block.tm_machine.next.narrate": "Previous",
 
     "block.pokecube.trade_machine": "Trading Machine",
     "block.trade_machine.trade": "Trade",

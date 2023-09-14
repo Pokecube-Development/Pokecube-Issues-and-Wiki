@@ -2,6 +2,7 @@ package pokecube.adventures.client.gui.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import java.util.function.Supplier;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.adventures.PokecubeAdv;
@@ -47,14 +49,14 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(this.menu.tile.ability
                 .getName())) : I18n.get("block.afa.ability.none");
 
-        int color = this.menu.tile.ability == null ? 0x0A4C0B : 0xbf1e0b;
+        int color = this.menu.tile.ability == null ? 0xBF1E0B : 0x0A4C0B;
         graphics.drawString(this.font, text, 62, 26, color, false);
 
         text = I18n.get("block.afa.range.info", this.menu.tile.distance);
 
         graphics.drawString(this.font, text, 62, 40, 4210752, false);
 
-        color = this.menu.tile.cost > this.menu.tile.orig ? 4210752 : 0xbf1e0b;
+        color = this.menu.tile.cost > this.menu.tile.orig ? 0xBF1E0B : 4210752;
         text = I18n.get("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
 
         graphics.drawString(this.font, text, 62, 54, color, false);
@@ -76,22 +78,36 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
 
         final int xOffset = -86;
         final int yOffset = -88;
+        MutableComponent text = this.menu.tile.ability != null ? Component.translatable("block.afa.ability.info", Component.translatable(this.menu.tile.ability
+                .getName())) : Component.translatable("block.afa.ability.none");
 
-        final Component next = TComponent.translatable("block.pc.next");
-        this.addRenderableWidget(new Button.Builder(next, (b) -> {
-            final PacketAFA message = new PacketAFA();
-            message.data.putBoolean("U", true);
-            message.data.putBoolean("S", Screen.hasShiftDown());
-            PokecubeAdv.packets.sendToServer(message);
-        }).bounds(this.width / 2 + xOffset + 42, this.height / 2 - yOffset - 117, 10, 10).build());
+        MutableComponent text2 = Component.translatable("block.afa.range.info", this.menu.tile.distance);
+        MutableComponent text3 = Component.translatable("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
 
-        final Component prev = TComponent.translatable("block.pc.previous");
+        // Elements placed in order of selection when pressing tab
+        final Component prev = TComponent.translatable("block.ability_field_amplifier.previous");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             final PacketAFA message = new PacketAFA();
             message.data.putBoolean("U", false);
             message.data.putBoolean("S", Screen.hasShiftDown());
             PokecubeAdv.packets.sendToServer(message);
-        }).bounds(this.width / 2 + xOffset + 31, this.height / 2 - yOffset - 117, 10, 10).build());
+        }).bounds(this.width / 2 + xOffset + 30, this.height / 2 - yOffset - 117, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.previous.narrate"))
+                .createNarration(supplier -> text)
+                .createNarration(supplier -> text2)
+                .createNarration(supplier -> text3).build());
+
+        final Component next = TComponent.translatable("block.ability_field_amplifier.next");
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
+            final PacketAFA message = new PacketAFA();
+            message.data.putBoolean("U", true);
+            message.data.putBoolean("S", Screen.hasShiftDown());
+            PokecubeAdv.packets.sendToServer(message);
+        }).bounds(this.width / 2 + xOffset + 42, this.height / 2 - yOffset - 117, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.next.narrate"))
+                .createNarration(supplier -> text)
+                .createNarration(supplier -> text2)
+                .createNarration(supplier -> text3).build());
     }
 
 }

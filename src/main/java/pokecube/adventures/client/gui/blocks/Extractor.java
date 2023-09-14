@@ -49,7 +49,7 @@ public class Extractor extends AbstractContainerScreen<ExtractorContainer>
 
         final float s = 0.5f;
         final int dx = 172 - this.font.width(warning0.getString());
-        final int dx1 = (int) (((dx + 42) / s) - this.font.width(warning1.getString()));
+        final int dx1 = (int) (((dx + 41) / s) - this.font.width(warning1.getString()));
         final int dy = 6;
 
         graphics.drawString(this.font, warning0.getString(), dx, dy, 0xbf1e0b, false);
