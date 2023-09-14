@@ -17,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.utils.Resources;
 
 public class TexButton extends Button
 {
@@ -95,13 +96,13 @@ public class TexButton extends Button
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            final int i = button.getTextureY();
 
-            //TODO: Check this
-            graphics.blit(new ResourceLocation(""), button.getX(), button.getY(),
+            //TODO: Fix this
+            final int i = button.getTextureY();
+            graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
                     button.uOffset, button.vOffset + i * button.vSize,
                     button.width / 2, button.height);
-            graphics.blit(new ResourceLocation(""), button.getX() + button.width / 2, button.getY(),
+            graphics.blit(Resources.SLOT_ICON_CUBE,  button.getX() + button.width / 2, button.getY(),
                     button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
                     button.width / 2, button.height);
             //@formatter:on

@@ -49,7 +49,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int p_146979_1_, final int p_146979_2_)
     {
-        graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.getTitle().getString() + "'s " + TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 96 + 2, 4210752, false);
 
@@ -69,13 +69,13 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             final PacketTrade packet = new PacketTrade();
             packet.data.putByte("s", (byte) 0);
             PokecubeCore.packets.sendToServer(packet);
-        }).bounds(this.width / 2 - 70, this.height / 2 - 22, 40, 20).build());
+        }).bounds(this.width / 2 - 70, this.height / 2 - 12, 40, 20).build());
 
         this.addRenderableWidget(new Button.Builder(trade, (b) -> {
             final PacketTrade packet = new PacketTrade();
             packet.data.putByte("s", (byte) 1);
             PokecubeCore.packets.sendToServer(packet);
-        }).bounds(this.width / 2 + 30, this.height / 2 - 22, 40, 20).build());
+        }).bounds(this.width / 2 + 30, this.height / 2 - 12, 40, 20).build());
     }
 
     @Override

@@ -49,7 +49,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
-        graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.getTitle().getString() + "'s " + TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 96 + 2, 4210752, false);
         // NOOP, this would draw name and title.
@@ -78,7 +78,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
-        }).bounds(this.width / 2 - 8, this.height / 2 - 40, 58, 20).build());
+        }).bounds(this.width / 2 - 8, this.height / 2 - 42, 60, 20).build());
 
         final Component next = TComponent.translatable(">");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {

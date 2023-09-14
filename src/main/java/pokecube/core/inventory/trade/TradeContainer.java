@@ -53,9 +53,9 @@ public class TradeContainer extends BaseContainer
             this.inv = wrapper.getInv();
         }
 
-        this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 0, 35 + 00, 14 + 00));
-        this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 1, 35 + 90, 14 + 00));
-        this.bindPlayerInventory(inv, -19);
+        this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 0, 35, 23));
+        this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 1, 35 + 90, 23));
+        this.bindPlayerInventory(inv, -40);
         this.addDataSlots(this.tile.syncValues);
     }
 
