@@ -1,0 +1,9 @@
+{
+  "asset_name": "spectrum",
+  "description": {
+    "color": "#A1C3DC",
+    "translate": "trim_material.pokecube_legends.spectrum"
+  },
+  "ingredient": "pokecube_legends:spectrum_shard",
+  "item_model_index": 0.8
+}

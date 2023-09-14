@@ -43,7 +43,8 @@
                 "fractal": "pokecube_legends:trims/color_palettes/fractal",
                 "pink_diamond": "pokecube_legends:trims/color_palettes/pink_diamond",
                 "ruby": "pokecube_legends:trims/color_palettes/ruby",
-                "sapphire": "pokecube_legends:trims/color_palettes/sapphire"
+                "sapphire": "pokecube_legends:trims/color_palettes/sapphire",
+                "spectrum": "pokecube_legends:trims/color_palettes/spectrum"
             }
         }
     ]
