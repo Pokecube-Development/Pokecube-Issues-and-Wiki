@@ -78,14 +78,14 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
-        }).bounds(this.width / 2 - 8, this.height / 2 - 39, 60, 20).build());
+        }).bounds(this.width / 2 - 8, this.height / 2 - 40, 60, 20).build());
 
         final Component next = TComponent.translatable(">");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
             final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
-        }).bounds(this.width / 2 + 68, this.height / 2 - 51, 10, 10).build());
+        }).bounds(this.width / 2 + 70, this.height / 2 - 50, 10, 10).build());
 
         final Component prev = TComponent.translatable("<");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
@@ -93,7 +93,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
             else if (this.index < 0) this.index = 0;
-        }).bounds(this.width / 2 - 30, this.height / 2 - 50, 10, 10).build());
+        }).bounds(this.width / 2 - 31, this.height / 2 - 50, 10, 10).build());
 
         this.addRenderableWidget(this.search = new EditBox(this.font, this.width / 2 - 19, this.height / 2 - 50, 87, 10,
                 TComponent.translatable("Test")));
@@ -110,7 +110,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset = this.height / 2 - 164;
+            final int yOffset = this.height / 2 - 165;
             final int xOffset = this.width / 2 - 42;
 
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 15,

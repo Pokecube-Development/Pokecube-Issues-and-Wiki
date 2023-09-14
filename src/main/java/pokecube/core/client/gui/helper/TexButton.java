@@ -159,7 +159,7 @@ public class TexButton extends Button
     public TexButton(final int x, final int y, final int width, final int height, final Component title,
             final OnPress pressedAction, Button.CreateNarration narration)
     {
-        super(x, y, width, height, title, (Button.OnPress) pressedAction, (Button.CreateNarration) narration);
+        super(x, y, width, height, title, pressedAction, narration);
         this.onPress = pressedAction;
         this.createNarration = narration;
     }
@@ -221,15 +221,15 @@ public class TexButton extends Button
             final float dx = fontrenderer.width(msg) / 2f;
 
             // TODO: Fix this
-            // fontrenderer.draw(graphics, msg, this.x + this.getWidth() / 2 - dx, this.y + (this.getHeight() - 8) / 2, j | 255 << 24);
+            graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx), this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24);
         }
         // TODO: Check this
         if (this.isHoveredOrFocused()) this.renderWidget(graphics, mouseX, mouseY, partialTicks);
     }
 
-    public void onPress() {
-        this.onPress.onPress(this);
-    }
+//    public void onPress() {
+//        this.onPress.onPress(this);
+//    }
 
     protected MutableComponent createNarrationMessage() {
         return this.createNarration.createNarrationMessage(() -> {
@@ -248,7 +248,7 @@ public class TexButton extends Button
     @OnlyIn(Dist.CLIENT)
     public static class Builder {
         public final Component name;
-        public final TexButton.OnPress onPress;
+//        public final TexButton.OnPress onPress;
         @Nullable
         public net.minecraft.client.gui.components.Tooltip tooltip;
         public TooltipArea.OnTooltipB onTooltip;

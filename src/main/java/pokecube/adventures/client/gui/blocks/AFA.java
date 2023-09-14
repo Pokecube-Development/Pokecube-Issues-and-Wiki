@@ -41,7 +41,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     protected void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
     {
         String text = this.getTitle().getString();
-        graphics.drawString(this.font, text, 172 - this.font.width(text), 6, 4210752);
+        graphics.drawString(this.font, text, 172 - this.font.width(text), 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752, false);
 
         text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(this.menu.tile.ability
