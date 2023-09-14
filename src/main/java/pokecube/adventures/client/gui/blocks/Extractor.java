@@ -47,13 +47,13 @@ public class Extractor extends AbstractContainerScreen<ExtractorContainer>
         final Component warning0 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_0");
         final Component warning1 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_1");
 
+        final float s = 0.5f;
         final int dx = 172 - this.font.width(warning0.getString());
-        final int dx1 = 172 - this.font.width(warning1.getString());
+        final int dx1 = (int) (((dx + 42) / s) - this.font.width(warning1.getString()));
         final int dy = 6;
 
         graphics.drawString(this.font, warning0.getString(), dx, dy, 0xbf1e0b, false);
         graphics.pose().pushPose();
-        final float s = 0.5f;
         graphics.pose().scale(s, s, s);
         graphics.drawString(this.font, warning1.getString(), dx1, (int) ((dy + 10) / s), 0xbf1e0b, false);
         graphics.pose().popPose();

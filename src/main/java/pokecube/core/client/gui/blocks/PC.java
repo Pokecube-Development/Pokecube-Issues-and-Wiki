@@ -41,7 +41,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     public PC(final T container, final Inventory ivplay, final Component name)
     {
         super(container, ivplay, name);
-        this.imageWidth = 175;
+        this.imageWidth = 176;
         this.imageHeight = 229;
         this.page = container.getPageNb();
         this.boxName = container.getPage();
@@ -246,11 +246,10 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float f)
     {
         this.renderBackground(graphics);
-        super.render(graphics, mouseX, mouseY, f);
         for (int i = 0; i < 54; i++)
         {
             final int x = i % 9 * 18 + this.width / 2 - 80;
-            final int y = i / 9 * 18 + this.height / 2 - 97;
+            final int y = i / 9 * 18 + (this.height + 1) / 2 - 97;
             if (!this.textFieldSearch.getValue().isEmpty())
             {
                 final ItemStack stack = this.menu.inv.getItem(i + 54 * this.menu.inv.getPage());
@@ -277,6 +276,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             }
         }
         this.renderTooltip(graphics, mouseX, mouseY);
+        // TODO: Fix crash
+        super.render(graphics, mouseX, mouseY, f);
     }
 
 }

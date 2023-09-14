@@ -47,15 +47,17 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(this.menu.tile.ability
                 .getName())) : I18n.get("block.afa.ability.none");
 
-        graphics.drawString(this.font, text, 172 - this.font.width(text), 22, 4210752, false);
+        int color = this.menu.tile.ability == null ? 0x0A4C0B : 0xbf1e0b;
+        graphics.drawString(this.font, text, 62, 26, color, false);
 
         text = I18n.get("block.afa.range.info", this.menu.tile.distance);
 
-        graphics.drawString(this.font, text, 172 - this.font.width(text), 42, 4210752, false);
+        graphics.drawString(this.font, text, 62, 40, 4210752, false);
 
+        color = this.menu.tile.cost > this.menu.tile.orig ? 4210752 : 0xbf1e0b;
         text = I18n.get("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
 
-        graphics.drawString(this.font, text, 172 - this.font.width(text), 62, 4210752, false);
+        graphics.drawString(this.font, text, 62, 54, color, false);
     }
 
     @Override
@@ -72,7 +74,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     {
         super.init();
 
-        final int xOffset = -119;
+        final int xOffset = -86;
         final int yOffset = -88;
 
         final Component next = TComponent.translatable("block.pc.next");
@@ -81,7 +83,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
             message.data.putBoolean("U", true);
             message.data.putBoolean("S", Screen.hasShiftDown());
             PokecubeAdv.packets.sendToServer(message);
-        }).bounds(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10).build());
+        }).bounds(this.width / 2 + xOffset + 42, this.height / 2 - yOffset - 117, 10, 10).build());
 
         final Component prev = TComponent.translatable("block.pc.previous");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
@@ -89,7 +91,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
             message.data.putBoolean("U", false);
             message.data.putBoolean("S", Screen.hasShiftDown());
             PokecubeAdv.packets.sendToServer(message);
-        }).bounds(this.width / 2 - xOffset - 54, this.height / 2 - yOffset - 121, 10, 10).build());
+        }).bounds(this.width / 2 + xOffset + 31, this.height / 2 - yOffset - 117, 10, 10).build());
     }
 
 }

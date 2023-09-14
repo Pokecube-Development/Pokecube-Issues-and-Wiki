@@ -35,7 +35,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
         // bind texture
         final int j2 = (this.width - this.imageWidth) / 2;
         final int k2 = (this.height - this.imageHeight) / 2;
-        graphics.blit(new ResourceLocation(""), j2, k2, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(Resources.GUI_HEAL_TABLE, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override

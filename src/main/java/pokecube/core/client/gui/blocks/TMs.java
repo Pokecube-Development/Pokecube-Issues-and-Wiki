@@ -49,7 +49,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
-        graphics.drawString(this.font, this.getTitle().getString() + "'s " + TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.getTitle().getString() + "'s " + TComponent.translatable("block.pokecube.tm_machine").getString(), 8, 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 96 + 2, 4210752, false);
         // NOOP, this would draw name and title.
@@ -78,14 +78,14 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
-        }).bounds(this.width / 2 - 8, this.height / 2 - 42, 60, 20).build());
+        }).bounds(this.width / 2 - 4, this.height / 2 - 30, 60, 20).build());
 
         final Component next = TComponent.translatable(">");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
             final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
-        }).bounds(this.width / 2 + 70, this.height / 2 - 50, 10, 10).build());
+        }).bounds(this.width / 2 + 71, this.height / 2 - 48, 10, 10).build());
 
         final Component prev = TComponent.translatable("<");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
@@ -93,9 +93,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
             else if (this.index < 0) this.index = 0;
-        }).bounds(this.width / 2 - 31, this.height / 2 - 50, 10, 10).build());
+        }).bounds(this.width / 2 - 32, this.height / 2 - 48, 10, 10).build());
 
-        this.addRenderableWidget(this.search = new EditBox(this.font, this.width / 2 - 19, this.height / 2 - 50, 87, 10,
+        this.addRenderableWidget(this.search = new EditBox(this.font, this.width / 2 - 19, this.height / 2 - 48, 87, 10,
                 TComponent.translatable("")));
     }
 
@@ -115,7 +115,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 15,
                     yOffset + 99, move.getType(null).colour);
-            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
+            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 120 - this.font.width("" + move.getPWR()), yOffset + 99, 0xffffff);
         }
         this.renderTooltip(graphics, mouseX, mouseY);
     }

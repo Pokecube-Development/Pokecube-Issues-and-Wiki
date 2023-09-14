@@ -1,6 +1,7 @@
 package pokecube.core.client.gui.helper;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import javax.annotation.Nullable;
@@ -97,7 +98,7 @@ public class TexButton extends Button
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
 
-            //TODO: Fix this
+            // TODO: Fix this
             final int i = button.getTextureY();
             graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
                     button.uOffset, button.vOffset + i * button.vSize,
@@ -203,6 +204,9 @@ public class TexButton extends Button
         return this;
     }
 
+    public void renderBg(PoseStack stack, Minecraft minecraft, int mouseX, int mouseY) {
+    }
+
     @Override
     public void renderWidget(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
@@ -214,7 +218,7 @@ public class TexButton extends Button
 
         this.render.render(this, graphics, mouseX, mouseY, partialTicks);
         // TODO: Check this
-        this.renderWidget(graphics, mouseX, mouseY, partialTicks);
+        this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
         final int j = this.getFGColor();
         if (this.renderName)
         {
@@ -223,8 +227,8 @@ public class TexButton extends Button
 
             graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx), this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24);
         }
-        // TODO: Check this
-        if (this.isHoveredOrFocused()) this.renderWidget(graphics, mouseX, mouseY, partialTicks);
+        // TODO: Fix this
+        // if (this.isHoveredOrFocused()) this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
     }
 
     public void onPress() {

@@ -57,7 +57,7 @@ public class AfaContainer extends BaseContainer
         }
 
         final int di = 35;
-        final int dj = 80;
+        final int dj = 35;
         final int i = 0;
         final int j = 0;
 
