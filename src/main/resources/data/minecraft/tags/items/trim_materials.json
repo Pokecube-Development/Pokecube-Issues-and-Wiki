@@ -2,6 +2,7 @@
   "values": [
     {"id": "pokecube_legends:aquamarine", "required": false},
     {"id": "pokecube_legends:cosmic_dust", "required": false},
+    {"id": "pokecube_legends:fractal_shard", "required": false},
     {"id": "pokecube_legends:diamond_gem", "required": false},
     {"id": "pokecube_legends:ruby", "required": false},
     {"id": "pokecube_legends:sapphire", "required": false}
