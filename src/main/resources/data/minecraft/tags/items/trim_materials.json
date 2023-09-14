@@ -1,5 +1,6 @@
 {
   "values": [
+    {"id": "pokecube_legends:diamond_gem", "required": false},
     {"id": "pokecube_legends:ruby", "required": false},
     {"id": "pokecube_legends:sapphire", "required": false}
   ]
