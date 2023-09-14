@@ -62,7 +62,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final int k2 = (this.height - this.imageHeight) / 2;
 
         // TODO: Check this
-        graphics.blit(BACKGROUND_LOCATION, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(TMs.TEXTURE, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
@@ -110,10 +110,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final int yOffset = this.height / 2 - 164;
             final int xOffset = this.width / 2 - 42;
 
-            // TODO: Check this
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 14,
-                    yOffset + 99, move.getType(null).colour);
-            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff);
+                    yOffset + 99, move.getType(null).colour, false);
+            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 102, yOffset + 99, 0xffffff, false);
         }
         this.renderTooltip(graphics, mouseX, mouseY);
     }

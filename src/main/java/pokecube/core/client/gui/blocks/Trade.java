@@ -38,7 +38,8 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
-        graphics.blit(new ResourceLocation(""), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(new ResourceLocation(PokecubeMod.ID, "textures/gui/trade_machine.png"),
+                x, y, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     /**

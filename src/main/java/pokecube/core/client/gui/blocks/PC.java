@@ -83,8 +83,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        // TODO: Check this
-        graphics.blit(BACKGROUND_LOCATION, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+        graphics.blit(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"),
+                x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 
     @Override

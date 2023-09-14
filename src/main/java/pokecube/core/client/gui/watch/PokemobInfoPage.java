@@ -125,8 +125,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             final PokedexEntry newEntry = Database.getEntry(this.search.getValue());
-            // Search to see if maybe it was a translated name put into the
-            // search.
+            // Search to see if maybe it was a translated name put into the search.
             if (newEntry == null)
             {
                 for (final PokedexEntry e : Database.getSortedFormes())
@@ -139,9 +138,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                         break;
                     }
                 }
-                // If the pokedex entry is not actually registered, use
-                // old
-                // entry.
+                // If the pokedex entry is not actually registered, use old entry.
                 if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
             }
 
@@ -431,17 +428,27 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final Component prev = TComponent.literal("<");
 
         // TODO: Check this
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 95, y - 74, 12, 12, next, b -> {
             this.changePage(this.index + 1);
             PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 95, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+        }, TexButton.DEFAULT_NARRATION).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
 
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x + 81, y - 74, 12, 12, prev, b -> {
             this.changePage(this.index - 1);
             PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 81, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+        }, TexButton.DEFAULT_NARRATION).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+
+//        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
+//            this.changePage(this.index + 1);
+//            PokemobInfoPage.savedIndex = this.index;
+//        }).bounds(x + 95, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+//                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+//
+//        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
+//            this.changePage(this.index - 1);
+//            PokemobInfoPage.savedIndex = this.index;
+//        }).bounds(x + 81, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+//                .setRender(new UVImgRender(200, 0, 12, 12)).build());
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

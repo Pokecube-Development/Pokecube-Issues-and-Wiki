@@ -30,12 +30,12 @@ public class Cloner extends AbstractContainerScreen<ClonerContainer>
         final int y = (this.height - this.imageHeight) / 2;
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
 
-        // TODO: Fix drawing the progress bar.
+        // TODO: Fix - Draw the progress bar.
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
         final int i = this.menu.tile.progress;
         final int j = this.menu.tile.total;
         final int l1 = j != 0 && i != 0 ? i * 24 / j : 0;
-        // TODO: Fix this
+        // TODO: correct texture?
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"), x + 89, y + 34, 176, 0, l1 + 1, 16);
     }
 
@@ -43,7 +43,8 @@ public class Cloner extends AbstractContainerScreen<ClonerContainer>
     protected void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
     {
         graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 4210752, false);
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - 96 + 2, 4210752, false);
 
         final Component warning0 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_0");
         final Component warning1 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_1");

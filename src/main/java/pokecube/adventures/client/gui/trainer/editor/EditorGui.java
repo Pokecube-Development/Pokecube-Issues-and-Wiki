@@ -134,8 +134,7 @@ public class EditorGui extends Screen
 
         final int j2 = (this.width - 256) / 2;
         final int k2 = (this.height - 160) / 2;
-        // TODO: Check this
-        graphics.blit(BACKGROUND_LOCATION, j2, k2, 0, 0, 256, 160);
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/traineredit.png"), j2, k2, 0, 0, 256, 160);
         try
         {
             this.current_page.render(graphics, mouseX, mouseY, partialTicks);

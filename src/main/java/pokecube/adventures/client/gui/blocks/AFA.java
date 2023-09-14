@@ -34,29 +34,28 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         // TODO: Check this
-        graphics.blit(new ResourceLocation(""), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/afa.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
     {
         String text = this.getTitle().getString();
-        // TODO: Fix this
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 6, 4210752);
-        // this.font.draw(graphics, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
+        graphics.drawString(this.font, text, 172 - this.font.width(text), 6, 4210752);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752, false);
 
         text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(this.menu.tile.ability
                 .getName())) : I18n.get("block.afa.ability.none");
 
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 22, 4210752);
+        graphics.drawString(this.font, text, 172 - this.font.width(text), 22, 4210752, false);
 
         text = I18n.get("block.afa.range.info", this.menu.tile.distance);
 
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 42, 4210752);
+        graphics.drawString(this.font, text, 172 - this.font.width(text), 42, 4210752, false);
 
         text = I18n.get("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
 
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 62, 4210752);
+        graphics.drawString(this.font, text, 172 - this.font.width(text), 62, 4210752, false);
     }
 
     @Override

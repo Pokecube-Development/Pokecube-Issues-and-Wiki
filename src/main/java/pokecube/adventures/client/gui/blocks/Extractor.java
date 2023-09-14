@@ -27,35 +27,34 @@ public class Extractor extends AbstractContainerScreen<ExtractorContainer>
         RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
-        // TODO: Check these
-        graphics.blit(new ResourceLocation(""), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
 
-        // Draw the progress bar.
-        graphics.blit(new ResourceLocation(""), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        // TODO: Fix - Draw the progress bar.
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
         final int i = this.menu.tile.progress;
         final int j = this.menu.tile.total;
         final int l1 = j != 0 && i != 0 ? i * 24 / j : 0;
-        graphics.blit(new ResourceLocation(""), x + 78, y + 34, 176, 0, l1 + 1, 16);
+        // TODO: Correct location?
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x + 78, y + 34, 176, 0, l1 + 1, 16);
     }
 
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
     {
-        // TODO: Fix these
-        // this.font.draw(graphics, this.getTitle().getString(), 8, 6, 4210752);
-        // this.font.draw(graphics, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
+        graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752, false);
 
         final Component warning0 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_0");
         final Component warning1 = TComponent.translatable("gui.pokecube_adventures.cloner.warning_1");
 
-        final int dx = 109;
+        final int dx = 129;
         final int dy = 6;
 
-        // this.font.draw(graphics, warning0.getString(), dx, dy, 4210752);
+        graphics.drawString(this.font, warning0.getString(), dx, dy, 0xbf1e0b, false);
         graphics.pose().pushPose();
         final float s = 0.5f;
         graphics.pose().scale(s, s, s);
-        // this.font.draw(graphics, warning1.getString(), dx / s, (dy + 10) / s, 4210752);
+        graphics.drawString(this.font, warning1.getString(), (int) ((dx - 20) / s), (int) ((dy + 10) / s), 0xbf1e0b, false);
         graphics.pose().popPose();
     }
 

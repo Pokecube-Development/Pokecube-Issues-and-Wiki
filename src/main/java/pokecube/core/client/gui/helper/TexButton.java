@@ -157,7 +157,7 @@ public class TexButton extends Button
     }
 
     public TexButton(final int x, final int y, final int width, final int height, final Component title,
-            final OnPress pressedAction, TexButton.CreateNarration narration)
+            final OnPress pressedAction, Button.CreateNarration narration)
     {
         super(x, y, width, height, title, (Button.OnPress) pressedAction, (Button.CreateNarration) narration);
         this.onPress = pressedAction;
@@ -237,6 +237,10 @@ public class TexButton extends Button
         });
     }
 
+    public static final TexButton.CreateNarration DEFAULT_NARRATION = (supplier) -> {
+        return supplier.get();
+    };
+
     public void updateWidgetNarration(NarrationElementOutput output) {
         this.defaultButtonNarrationText(output);
     }
@@ -259,7 +263,7 @@ public class TexButton extends Button
         {};
 
         public Builder(Component name, TexButton.OnPress onPress) {
-            this.createNarration = (CreateNarration) TexButton.DEFAULT_NARRATION;
+            this.createNarration = TexButton.DEFAULT_NARRATION;
             this.name = name;
             this.onPress = onPress;
         }
@@ -323,7 +327,7 @@ public class TexButton extends Button
         }
 
         public TexButton build(Function<TexButton.Builder, TexButton> builder) {
-            return (TexButton)builder.apply(this);
+            return builder.apply(this);
         }
     }
 
@@ -332,8 +336,8 @@ public class TexButton extends Button
         void onPress(TexButton var1);
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public interface CreateNarration {
-        MutableComponent createNarrationMessage(Supplier<MutableComponent> var1);
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    public interface CreateNarration {
+//        MutableComponent createNarrationMessage(Supplier<MutableComponent> var1);
+//    }
 }

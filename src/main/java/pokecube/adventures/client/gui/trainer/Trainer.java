@@ -32,8 +32,7 @@ public class Trainer extends AbstractContainerScreen<ContainerTrainer>
 
         final int j2 = (this.width - this.imageWidth) / 2;
         final int k2 = (this.height - this.imageHeight) / 2;
-        // TODO: Check this
-        graphics.blit(new ResourceLocation(""), j2, k2, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(Trainer.TRAINER_GUI, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
