@@ -74,7 +74,7 @@ public class TexButton extends Button
                 final String msg = button.getMessage().getString();
                 final float dx = fontrenderer.width(msg) / 2f;
                 // TODO: Fix this
-                // fontrenderer.draw(graphics, msg, button.getX() + this.dx - dx, button.getY() + this.dy, j | this.alpha << 24);
+                graphics.drawString(fontrenderer, msg, (int) (button.getX() + this.dx - dx), button.getY() + this.dy, j | this.alpha << 24);
             }
         }
     }
@@ -86,7 +86,7 @@ public class TexButton extends Button
         int apply(int in);
     }
 
-    public static interface ImgRender
+    public interface ImgRender
     {
         default void render(final TexButton button, final GuiGraphics graphics, final int mouseX, final int mouseY,
                 final float partialTicks)
@@ -149,11 +149,11 @@ public class TexButton extends Button
 
     ImgRender render = new ImgRender()
     {};
-    protected final TexButton.OnPress onPress;
-    protected final TexButton.CreateNarration createNarration;
+    protected final Button.OnPress onPress;
+    protected final Button.CreateNarration createNarration;
 
-    public static TexButton.Builder builder(Component component, TexButton.OnPress onPress) {
-        return new TexButton.Builder(component, onPress);
+    public static Button.Builder builder(Component component, Button.OnPress onPress) {
+        return new Button.Builder(component, onPress);
     }
 
     public TexButton(final int x, final int y, final int width, final int height, final Component title,
@@ -220,16 +220,15 @@ public class TexButton extends Button
             final String msg = this.getMessage().getString();
             final float dx = fontrenderer.width(msg) / 2f;
 
-            // TODO: Fix this
             graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx), this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24);
         }
         // TODO: Check this
         if (this.isHoveredOrFocused()) this.renderWidget(graphics, mouseX, mouseY, partialTicks);
     }
 
-//    public void onPress() {
-//        this.onPress.onPress(this);
-//    }
+    public void onPress() {
+        this.onPress.onPress(this);
+    }
 
     protected MutableComponent createNarrationMessage() {
         return this.createNarration.createNarrationMessage(() -> {
@@ -248,7 +247,7 @@ public class TexButton extends Button
     @OnlyIn(Dist.CLIENT)
     public static class Builder {
         public final Component name;
-//        public final TexButton.OnPress onPress;
+        public final Button.OnPress onPress;
         @Nullable
         public net.minecraft.client.gui.components.Tooltip tooltip;
         public TooltipArea.OnTooltipB onTooltip;
@@ -262,7 +261,7 @@ public class TexButton extends Button
         ImgRender render = new ImgRender()
         {};
 
-        public Builder(Component name, TexButton.OnPress onPress) {
+        public Builder(Component name, Button.OnPress onPress) {
             this.createNarration = TexButton.DEFAULT_NARRATION;
             this.name = name;
             this.onPress = onPress;
@@ -331,10 +330,10 @@ public class TexButton extends Button
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public interface OnPress {
-        void onPress(TexButton var1);
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    public interface OnPress {
+//        void onPress(TexButton var1);
+//    }
 
 //    @OnlyIn(Dist.CLIENT)
 //    public interface CreateNarration {

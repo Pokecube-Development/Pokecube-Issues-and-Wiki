@@ -53,7 +53,7 @@ public class TMContainer extends BaseContainer
             this.inv = wrapper.getInv();
         }
 
-        this.addSlot(new TexturedSlot(this.inv, 0, 15, 15, Resources.SLOT_ICON_TM));
+        this.addSlot(new TexturedSlot(this.inv, 0, 15, 17, Resources.SLOT_ICON_TM));
         final TMContainer cont = this;
         this.addSlot(new TexturedSlot(this.inv, 1, 15, 54, Resources.SLOT_ICON_CUBE)
         {

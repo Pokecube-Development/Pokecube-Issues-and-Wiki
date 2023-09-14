@@ -1,0 +1,24 @@
+{
+    "sources": [
+        {
+            "type": "paletted_permutations",
+            "textures": [
+                "trims/items/leggings_trim",
+                "trims/items/chestplate_trim",
+                "trims/items/helmet_trim",
+                "trims/items/boots_trim"
+            ],
+            "palette_key": "trims/color_palettes/trim_palette",
+            "permutations": {
+                "aquamarine": "pokecube_legends:trims/color_palettes/aquamarine",
+                "ash": "pokecube_legends:trims/color_palettes/ash",
+                "cosmic_dust": "pokecube_legends:trims/color_palettes/cosmic_dust",
+                "fractal": "pokecube_legends:trims/color_palettes/fractal",
+                "pink_diamond": "pokecube_legends:trims/color_palettes/pink_diamond",
+                "ruby": "pokecube_legends:trims/color_palettes/ruby",
+                "sapphire": "pokecube_legends:trims/color_palettes/sapphire",
+                "spectrum": "pokecube_legends:trims/color_palettes/spectrum"
+            }
+        }
+    ]
+}

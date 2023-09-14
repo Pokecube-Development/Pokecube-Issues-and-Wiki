@@ -78,7 +78,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
-        }).bounds(this.width / 2 - 8, this.height / 2 - 40, 60, 20).build());
+        }).bounds(this.width / 2 - 8, this.height / 2 - 40, 58, 20).build());
 
         final Component next = TComponent.translatable(">");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
@@ -96,7 +96,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         }).bounds(this.width / 2 - 31, this.height / 2 - 50, 10, 10).build());
 
         this.addRenderableWidget(this.search = new EditBox(this.font, this.width / 2 - 19, this.height / 2 - 50, 87, 10,
-                TComponent.translatable("Test")));
+                TComponent.translatable("")));
     }
 
     @Override
@@ -110,7 +110,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset = this.height / 2 - 165;
+            final int yOffset = this.height / 2 - 161;
             final int xOffset = this.width / 2 - 42;
 
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 15,
