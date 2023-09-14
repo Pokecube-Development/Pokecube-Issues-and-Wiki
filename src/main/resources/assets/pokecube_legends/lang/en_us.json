@@ -7,6 +7,10 @@
     "itemGroup.pokecube_legends.functional_blocks": "Legends: Functional",
     "itemGroup.pokecube_legends.items": "Legends: Items",
 
+    "_comment80": "Armor Trim Materials",
+    "trim_material.pokecube_legends.ruby": "Ruby Material",
+    "trim_material.pokecube_legends.sapphire": "Sapphire Material",
+
     "_comment2": "Trainers",
     "pokecube.aether.named": "Aether F. Employee %s",
     "pokecube.rocket.named": "Rocket Employee %s",
