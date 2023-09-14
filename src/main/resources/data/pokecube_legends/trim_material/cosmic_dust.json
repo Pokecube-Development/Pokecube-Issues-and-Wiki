@@ -1,0 +1,9 @@
+{
+  "asset_name": "cosmic_dust",
+  "description": {
+    "color": "#64379E",
+    "translate": "trim_material.pokecube_legends.cosmic_dust"
+  },
+  "ingredient": "pokecube_legends:cosmic_dust",
+  "item_model_index": 0.8
+}
