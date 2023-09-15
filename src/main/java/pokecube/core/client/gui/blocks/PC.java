@@ -79,11 +79,11 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        graphics.blit(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"),
+        graphics.blit(new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png"),
                 x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 

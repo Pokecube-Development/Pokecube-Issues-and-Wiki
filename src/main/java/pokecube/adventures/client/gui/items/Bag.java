@@ -3,6 +3,7 @@ package pokecube.adventures.client.gui.items;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
+import net.minecraft.network.chat.FormattedText;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -102,11 +103,11 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"));
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        graphics.blit(new ResourceLocation(PokecubeMod.ID, "textures/gui/pcgui.png"), x, y,
+        graphics.blit(new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png"), x, y,
                 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 
@@ -138,7 +139,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
             final String box = this.textFieldBoxName.getValue();
             if (!box.equals(this.boxName)) this.menu.changeName(box);
             this.boxName = box;
-        }).bounds(x + 159, y + 5, 10, 10)
+        }).bounds(x + 157, y + 4, 12, 12)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")))
                 .createNarration(supplier -> TComponent.translatable("block.pc.rename.narrate")).build());
 
@@ -159,7 +160,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
             this.textFieldSelectedBox.setValue(this.menu.getPageNb());
-        }).bounds(x + 43, y + 127, 10, 10)
+        }).bounds(x + 44, y + 127, 10, 10)
                 .createNarration(supplier -> Component.translatable("block.pc.next.narrate")).build());
 
         this.textFieldSearch = new EditBox(this.font,
@@ -170,7 +171,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
 
         final Component search = TComponent.translatable("block.pc.search");
         this.searchButton = this.addRenderableWidget(new Button.Builder(search, (b) -> {
-        }).bounds(x + 159, y + 127, 10, 10)
+        }).bounds(x + 157, y + 127, 12, 12)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")))
                 .createNarration(supplier -> TComponent.translatable("block.pc.search.narrate")).build());
 
