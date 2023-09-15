@@ -35,12 +35,21 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
+        if (this.search.isFocused() && keyCode != GLFW.GLFW_KEY_E && (keyCode == GLFW.GLFW_KEY_ESCAPE
+                || keyCode == GLFW.GLFW_KEY_TAB || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
+        {
+            this.search.setFocused(false);
+            return false;
+        }
+        if (this.search.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
+
         if (this.search.isFocused())
         {
             if (keyCode == GLFW.GLFW_KEY_ENTER)
             {
                 // TODO search the moves list and go to the one here.
             }
+            this.search.setCanLoseFocus(true);
             return true;
         }
         return super.keyPressed(keyCode, b, c);
@@ -49,10 +58,10 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
-        graphics.drawString(this.font, this.getTitle().getString() + "'s " + TComponent.translatable("block.pokecube.tm_machine").getString(),
+        graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine").getString(),
                 8, 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 96 + 2, 4210752, false);
+                8, this.imageHeight - 94 + 2, 4210752, false);
     }
 
     @Override
@@ -70,12 +79,11 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     public void init()
     {
         super.init();
-        final String[] moves = this.menu.moves;
-        final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
 
         // Elements placed in order of selection when pressing tab
         final Component prev = TComponent.translatable("block.tm_machine.previous");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
+            final String[] moves = this.menu.moves;
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
             else if (this.index < 0) this.index = 0;
@@ -84,9 +92,10 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         final Component next = TComponent.translatable("block.tm_machine.next");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
+            final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
-        }).bounds(this.width / 2 + 70, this.height / 2 - 48, 10, 10)
+        }).bounds(this.width / 2 + 69, this.height / 2 - 48, 10, 10)
                 .createNarration(supplier -> Component.translatable("block.tm_machine.next.narrate")).build());
 
         final Component apply = TComponent.translatable("block.tm_machine.apply");
@@ -114,7 +123,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final int yOffset = this.height / 2 - 161;
             final int xOffset = this.width / 2 - 42;
 
-            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 15,
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(), xOffset + 16,
                     yOffset + 99, move.getType(null).colour);
             graphics.drawString(this.font, "" + move.getPWR(), xOffset + 119 - this.font.width("" + move.getPWR()),
                     yOffset + 99, 0xffffff);

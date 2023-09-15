@@ -103,14 +103,16 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
             this.textFieldSelectedBox.setValue(this.menu.getPageNb());
             this.textFieldBoxName.setValue(this.menu.getPage());
-        }).bounds(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10).build());
+        }).bounds(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.pc.next.narrate")).build());
 
         final Component prev = TComponent.translatable("block.pc.previous");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
             this.textFieldSelectedBox.setValue(this.menu.getPageNb());
             this.textFieldBoxName.setValue(this.menu.getPage());
-        }).bounds(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10).build());
+        }).bounds(this.width / 2 - xOffset - 81, this.height / 2 - yOffset - 121, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.pc.previous.narrate")).build());
 
         this.textFieldSelectedBox = new EditBox(this.font, this.width / 2 - xOffset - 70,
                 this.height / 2 - yOffset - 121, 25, 10, TComponent.literal(this.page));

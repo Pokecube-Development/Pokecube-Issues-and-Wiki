@@ -44,7 +44,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     {
         String text = this.getTitle().getString();
         graphics.drawString(this.font, text, 8, 6, 4210752, false);
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 94 + 2, 4210752, false);
 
         text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(this.menu.tile.ability
                 .getName())) : I18n.get("block.afa.ability.none");

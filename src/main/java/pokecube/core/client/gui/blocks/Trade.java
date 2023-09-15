@@ -51,7 +51,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int p_146979_1_, final int p_146979_2_)
     {
-        graphics.drawString(this.font, this.getTitle().getString() + "'s " + TComponent.translatable("block.pokecube.trade_machine").getString(),
+        graphics.drawString(this.font, TComponent.translatable("block.pokecube.trade_machine").getString(),
                 8, 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 96 + 2, 4210752, false);

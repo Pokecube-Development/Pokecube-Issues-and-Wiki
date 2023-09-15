@@ -11,7 +11,7 @@
     "block.ability_field_amplifier.next": ">",
     "block.ability_field_amplifier.next.narrate": "Next",
     "block.ability_field_amplifier.previous": "<",
-    "block.ability_field_amplifier.next.narrate": "Previous",
+    "block.ability_field_amplifier.previous.narrate": "Previous",
 
     "item.pokecube_adventures.target": "Target",
     "item.pokecube_adventures.linker": "Location Linker",
@@ -24,7 +24,7 @@
     "item.pokecube_adventures.biome_setter": "Sub-Biome Setter",
     "item.pokecube_adventures.exp_share": "Exp. Share",
     "item.pokecube_adventures.trainer_editor": "Trainer Editor",
-    "item.pokecube_adventures.bag": "PokeCube Bag",
+    "item.pokecube_adventures.bag": "PokéCube Bag",
 
     "item.pokecube_adventures.badge_unknown": "??? badge",
     "item.pokecube_adventures.badge_normal": "Normal badge",

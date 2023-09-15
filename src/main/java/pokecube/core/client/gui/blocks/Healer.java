@@ -41,8 +41,10 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
-        // NOOP, vanilla here draws labels for inventory titles, we don't need
-        // those.
+        graphics.drawString(this.font, TComponent.translatable("block.pokecube.pokecenter").getString(),
+                8, 6, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - 94 + 2, 4210752, false);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
             this.inventory.player.playSound(Sounds.HEAL_SOUND.get(), 1, 1);
-        }).bounds(this.width / 2 + 18, this.height / 2 - 50, 60, 20).build());
+        }).bounds(this.width / 2 - 81, this.height / 2 - 50, 54, 20).build());
     }
 
     @Override
