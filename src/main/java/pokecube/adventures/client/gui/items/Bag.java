@@ -1,5 +1,6 @@
 package pokecube.adventures.client.gui.items;
 
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
 import org.lwjgl.glfw.GLFW;
@@ -45,22 +46,30 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        if (this.textFieldSearch.isFocused() && keyCode != GLFW.GLFW_KEY_E)
+        if (this.textFieldSearch.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_TAB
+                || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
-            if (keyCode == GLFW.GLFW_KEY_ESCAPE
-                    || keyCode == GLFW.GLFW_KEY_TAB || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
-                this.textFieldSearch.setFocused(false);
-                return false;
-            }
+//            this.textFieldSearch.setFocused(false);
+            return false;
         }
 
-        if (this.textFieldBoxName.isFocused() && keyCode != GLFW.GLFW_KEY_E)
+        if (this.textFieldSearch.isFocused() && keyCode == GLFW.GLFW_KEY_E)
         {
-            if (keyCode == GLFW.GLFW_KEY_ESCAPE
-                    || keyCode == GLFW.GLFW_KEY_TAB || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER) {
-                this.textFieldBoxName.setFocused(false);
-                return false;
-            }
+            this.textFieldSearch.setFocused(true);
+            return true;
+        }
+
+        if (this.textFieldBoxName.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE || keyCode == GLFW.GLFW_KEY_TAB
+                || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
+        {
+//            this.textFieldBoxName.setFocused(false);
+            return false;
+        }
+
+        if (this.textFieldBoxName.isFocused() && keyCode == GLFW.GLFW_KEY_E)
+        {
+            this.textFieldBoxName.setFocused(true);
+            return true;
         }
 
         if (this.textFieldSelectedBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
@@ -114,7 +123,19 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         final int y = this.height / 2 - 120;
 
         this.textFieldBoxName = new EditBox(this.font,
-                x + 80, y + 5, 78, 10, TComponent.translatable(this.boxName));
+                x + 81, y + 6, 76, 10, TComponent.translatable(this.boxName));
+        this.textFieldBoxName.setTooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")));
+        this.textFieldBoxName.setBordered(false);
+
+        this.textFieldSelectedBox = new EditBox(this.font,
+                x + 20, y + 128, 22, 10, TComponent.literal(this.page));
+        this.textFieldSelectedBox.setTooltip(Tooltip.create(Component.translatable("block.pc.page.tooltip")));
+        this.textFieldSelectedBox.setBordered(false);
+
+        this.textFieldSearch = new EditBox(this.font,
+                x + 81, y + 128, 76, 10, TComponent.translatable("block.pc.search.narrate"));
+        this.textFieldSearch.setTooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")));
+        this.textFieldSearch.setBordered(false);
 
         final Component rename = TComponent.translatable("block.pc.rename");
         this.addRenderableWidget(new Button.Builder(rename, (b) -> {
@@ -132,9 +153,6 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         }).bounds(x + 7, y + 127, 10, 10)
                 .createNarration(supplier -> Component.translatable("block.pc.previous.narrate")).build());
 
-        this.textFieldSelectedBox = new EditBox(this.font,
-                x + 18, y + 127, 24, 10, TComponent.literal(this.page));
-
         final Component next = TComponent.translatable("block.pc.next");
         this.addRenderableWidget(new Button.Builder(next, (b) -> {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
@@ -143,26 +161,17 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         }).bounds(x + 43, y + 127, 10, 10)
                 .createNarration(supplier -> Component.translatable("block.pc.next.narrate")).build());
 
-        this.textFieldSearch = new EditBox(this.font,
-                x + 80, y + 127, 78, 10, TComponent.translatable("block.pc.search.narrate"));
-
         final Component search = TComponent.translatable("block.pc.search");
         this.searchButton = this.addRenderableWidget(new Button.Builder(search, (b) -> {
         }).bounds(x + 159, y + 127, 10, 10)
                 .createNarration(supplier -> TComponent.translatable("block.pc.search.narrate")).build());
 
-        if (this.searchButton.active || this.textFieldSearch.active)
-        {
-            this.textFieldSearch.setAlpha(255);
-        } else this.textFieldSearch.setAlpha(0);
-
-        this.addRenderableWidget(this.textFieldSelectedBox);
         this.addRenderableWidget(this.textFieldBoxName);
+        this.addRenderableWidget(this.textFieldSelectedBox);
         this.addRenderableWidget(this.textFieldSearch);
 
         this.textFieldSelectedBox.value = this.page;
         this.textFieldBoxName.value = this.boxName;
-        // this.textFieldSearch.value = TComponent.translatable("block.pc.search").getString();
     }
 
     /** Called when the screen is unloaded. Used to disable keyboard repeat
@@ -178,8 +187,10 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     {
         this.renderBackground(graphics);
         super.render(graphics,mouseX, mouseY, f);
+
         for (int i = 0; i < 54; i++)
-            if (!this.textFieldSearch.getValue().isEmpty())
+        {
+            if (!this.textFieldSearch.getValue().isEmpty() && this.textFieldSearch != null)
             {
                 final ItemStack stack = this.menu.inv.getItem(i + 54 * this.menu.inv.getPage());
                 if (stack.isEmpty()) continue;
@@ -189,16 +200,14 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getValue())))
                 {
                     final int slotColor = 0x55FF0000;
-                    // TODO: Check this
                     graphics.fill(RenderType.guiOverlay(), x, y, x + 16, y + 16, slotColor);
-                }
-                else
+                } else
                 {
                     final int slotColor = 0x5500FF00;
-                    // TODO: Check this
                     graphics.fill(RenderType.guiOverlay(), x, y, x + 16, y + 16, slotColor);
                 }
             }
+        }
         this.renderTooltip(graphics,mouseX, mouseY);
     }
 }
