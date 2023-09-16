@@ -70,10 +70,10 @@ public class Bag<T extends LargeContainer> extends AbstractContainerScreen<T>
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(ThutBling.MODID, "textures/gui/large_bag.png"));
+        RenderSystem.setShaderTexture(0, new ResourceLocation(ThutBling.MODID, "textures/gui/large_ender_bag.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
-        graphics.blit(new ResourceLocation(ThutBling.MODID, "textures/gui/large_bag.png"), x, y,
+        graphics.blit(new ResourceLocation(ThutBling.MODID, "textures/gui/large_ender_bag.png"), x, y,
                 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 

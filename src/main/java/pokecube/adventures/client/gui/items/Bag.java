@@ -104,11 +104,11 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag_gui.png"));
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag_gui.png"), x, y,
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag.png"), x, y,
                 0, 0, this.imageWidth + 1, this.imageHeight + 1);
     }
 
