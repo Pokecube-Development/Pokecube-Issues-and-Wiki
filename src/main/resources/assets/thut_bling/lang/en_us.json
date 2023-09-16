@@ -11,7 +11,18 @@
     "item.thut_bling.bling_bag_ender_large": "Large Ender Bag",
     "item.thut_bling.bling_bag_ender_vanilla": "Ender Bag",
 
-    "gui.bag.next": "Next",
-    "gui.bag.previous": "Previous",
-    "gui.bag.rename": "Rename"
+    "block.bag.next": ">",
+    "block.bag.next.narrate": "Next Page",
+    "block.bag.next.tooltip": "Next Page",
+    "block.bag.previous": "<",
+    "block.bag.previous.narrate": "Previous Page",
+    "block.bag.previous.tooltip": "Previous Page",
+    "block.bag.rename": "\u2714",
+    "block.bag.rename.narrate": "Rename Page",
+    "block.bag.rename.tooltip": "Rename Page",
+    "block.bag.search": "🔍",
+    "block.bag.search.narrate": "Search",
+    "block.bag.search.tooltip": "Search",
+    "block.bag.page.tooltip": "Page #",
+    "block.bag.page.tooltip.narrate": "Page Number"
 }

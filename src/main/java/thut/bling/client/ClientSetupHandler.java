@@ -19,7 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.bling.BlingItem;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
-import thut.bling.client.gui.Bag;
+import thut.bling.client.gui.LargeEnderBag;
 import thut.bling.client.render.Util;
 import thut.core.client.render.model.IModel;
 import thut.wearables.EnumWearable;
@@ -30,7 +30,7 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        MenuScreens.register(ThutBling.BIG_BAG.get(), Bag<LargeContainer>::new);
+        MenuScreens.register(ThutBling.BIG_BAG.get(), LargeEnderBag<LargeContainer>::new);
         MenuScreens.register(ThutBling.SMALL_BAG.get(), ContainerScreen::new);
 
         event.enqueueWork(() -> {
