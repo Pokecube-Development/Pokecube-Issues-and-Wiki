@@ -116,7 +116,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
     {
         String text = this.menu.getPage();
-        graphics.drawString(this.font, text, 8, 6, 4210752, false);
+        graphics.drawString(this.font, text, 8, 6, 0x590002, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 94 + 2, 4210752, false);
     }

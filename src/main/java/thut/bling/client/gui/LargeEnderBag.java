@@ -112,7 +112,7 @@ public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerSc
         String text = this.menu.getPage();
         graphics.drawString(this.font, text, 8, 6, 0x263631, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 0x263631, false);
+                8, this.imageHeight - 94 + 2, 4210752, false);
     }
 
     @Override
