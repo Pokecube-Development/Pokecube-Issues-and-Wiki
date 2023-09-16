@@ -340,7 +340,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 final String name = stack == null ? "" : stack.getHoverName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getValue())))
                 {
-                    final int slotColor = 0x55FF0000;
+                    final int slotColor = 0x75FF0000;
                     // TODO: Check this
                     graphics.fill(x, y, x + 16, y + 16, slotColor);
                 }
