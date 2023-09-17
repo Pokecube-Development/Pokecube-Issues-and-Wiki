@@ -25,7 +25,7 @@ import thut.lib.TComponent;
 public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 {
     public static ResourceLocation PC_GUI_TEXTURE = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png");
-    public static ResourceLocation WIDGETS_TEXTURE = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_widgets.png");
+    public static ResourceLocation WIDGETS_TEXTURE = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets.png");
 
     String page;
 
