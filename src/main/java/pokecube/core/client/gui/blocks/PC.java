@@ -24,12 +24,14 @@ import thut.lib.TComponent;
 
 public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 {
+    public static ResourceLocation PC_GUI_TEXTURE = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png");
+    public static ResourceLocation WIDGETS_TEXTURE = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_widgets.png");
 
     String page;
 
-    EditBox textFieldBoxName;
+    EditBox textFieldPageName;
     EditBox textFieldSearch;
-    EditBox textFieldSelectedBox;
+    EditBox textFieldSelectedPage;
     Button autoButton;
     Button confirmButton;
     Button nextButton;
@@ -71,28 +73,28 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             return true;
         }
 
-        if (this.textFieldBoxName.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
+        if (this.textFieldPageName.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
                 || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
             if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
             {
-                final String box = this.textFieldBoxName.getValue();
+                final String box = this.textFieldPageName.getValue();
                 if (!box.equals(this.boxName)) this.menu.changeName(box);
                 this.boxName = box;
             }
-            this.textFieldBoxName.setFocused(false);
+            this.textFieldPageName.setFocused(false);
             return false;
         }
 
-        if (this.textFieldBoxName.isFocused() && keyCode == GLFW.GLFW_KEY_E)
+        if (this.textFieldPageName.isFocused() && keyCode == GLFW.GLFW_KEY_E)
         {
-            this.textFieldBoxName.setFocused(true);
+            this.textFieldPageName.setFocused(true);
             return true;
         }
 
-        if (this.textFieldSelectedBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
+        if (this.textFieldSelectedPage.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
-            final String entry = this.textFieldSelectedBox.getValue();
+            final String entry = this.textFieldSelectedPage.getValue();
             int number = 1;
             try
             {
@@ -114,12 +116,82 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png"));
+        RenderSystem.setShaderTexture(0, PC_GUI_TEXTURE);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        graphics.blit(new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png"),
-                x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+        graphics.blit(PC_GUI_TEXTURE, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+
+        if (this.renameButton.isHoveredOrFocused())
+        {
+            graphics.blit(WIDGETS_TEXTURE, x + 158, y + 4, 45, 15, 12, 12);
+            this.renameButton.setPosition(x + 158, y + 4);
+        } else {
+            graphics.blit(WIDGETS_TEXTURE, x + 159, y + 5, 45, 0, 11, 11);
+            this.renameButton.setPosition(x + 159, y + 5);
+        }
+
+        if (this.textFieldPageName.visible)
+            graphics.blit(WIDGETS_TEXTURE, x + 115, y + 6, 0, 60, 43, 11);
+
+        if (this.prevButton.isHoveredOrFocused())
+        {
+            graphics.blit(WIDGETS_TEXTURE, x + 6, y + 126, 45, 15, 12, 12);
+            this.prevButton.setPosition(x + 6, y + 126);
+        } else {
+            graphics.blit(WIDGETS_TEXTURE, x + 7, y + 127, 45, 0, 11, 11);
+            this.prevButton.setPosition(x + 7, y + 127);
+        }
+
+        if (this.textFieldSelectedPage.visible)
+            graphics.blit(WIDGETS_TEXTURE, x + 19, y + 127, 0, 75, 24, 11);
+
+        if (this.nextButton.isHoveredOrFocused())
+        {
+            graphics.blit(WIDGETS_TEXTURE, x + 43, y + 126, 45, 15, 12, 12);
+            this.nextButton.setPosition(x + 43, y + 126);
+        } else {
+            graphics.blit(WIDGETS_TEXTURE, x + 44, y + 127, 45, 0, 11, 11);
+            this.nextButton.setPosition(x + 44, y + 127);
+        }
+
+        if (this.releaseButton.isHoveredOrFocused())
+            graphics.blit(WIDGETS_TEXTURE, x + 146, y + 126, 0, 15, 12, 12);
+        else graphics.blit(WIDGETS_TEXTURE, x + 147, y + 127, 0, 0, 11, 11);
+
+        if (this.confirmButton.isHoveredOrFocused() && this.confirmButton.visible)
+        {
+            graphics.blit(WIDGETS_TEXTURE, x + 134, y + 126, 45, 15, 12, 12);
+            this.confirmButton.setPosition(x + 134, y + 126);
+        } else if (this.confirmButton.visible)
+        {
+            graphics.blit(WIDGETS_TEXTURE, x + 135, y + 127, 45, 0, 11, 11);
+            this.confirmButton.setPosition(x + 135, y + 127);
+        }
+
+        if (this.confirmButton.visible)
+        {
+            if (this.searchButton.isHoveredOrFocused())
+                graphics.blit(WIDGETS_TEXTURE, x + 122, y + 126, 30, 15, 12, 12);
+            else graphics.blit(WIDGETS_TEXTURE, x + 123, y + 127, 30, 0, 11, 11);
+            this.searchButton.setPosition(x + 123, y + 127);
+
+            if (this.textFieldSearch.visible)
+                graphics.blit(WIDGETS_TEXTURE, x + 61, y + 127, 0, 45, 61, 11);
+            this.textFieldSearch.setWidth(60);
+        } else {
+            if (this.searchButton.isHoveredOrFocused())
+                graphics.blit(WIDGETS_TEXTURE, x + 134, y + 126, 30, 15, 12, 12);
+            else graphics.blit(WIDGETS_TEXTURE, x + 135, y + 127, 30, 0, 11, 11);
+            this.searchButton.setPosition(x + 135, y + 127);
+
+            if (this.textFieldSearch.visible)
+                graphics.blit(WIDGETS_TEXTURE, x + 61, y + 127, 0, 30, 73, 11);
+        }
+
+        if (this.autoButton.isHoveredOrFocused())
+            graphics.blit(WIDGETS_TEXTURE, x + 158, y + 126, 15, 15, 12, 12);
+        else graphics.blit(WIDGETS_TEXTURE, x + 159, y + 127, 15, 0, 11, 11);
     }
 
     @Override
@@ -138,22 +210,24 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         final int x = this.width / 2 - 88;
         final int y = this.height / 2 - 120;
 
-        this.textFieldBoxName = new EditBox(this.font,
+        this.textFieldPageName = new EditBox(this.font,
                 x + 117, y + 6, 40, 10, TComponent.translatable("block.pc.rename.narrate"));
-        this.textFieldBoxName.setTooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")));
-        this.textFieldBoxName.setTextColor(0xFFFFFF);
-        this.textFieldBoxName.setBordered(false);
-        this.textFieldBoxName.maxLength = 17;
-        this.addRenderableWidget(this.textFieldBoxName);
+        this.textFieldPageName.setTooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")));
+        this.textFieldPageName.setTextColor(0xFFFFFF);
+        this.textFieldPageName.setBordered(false);
+        this.textFieldPageName.setVisible(false);
+        this.textFieldPageName.maxLength = 23;
+        this.addRenderableWidget(this.textFieldPageName);
 
         if (!this.bound)
         {
             final Component rename = TComponent.translatable("block.pc.rename");
             this.renameButton = this.addRenderableWidget(new Button.Builder(rename, (b) -> {
-                final String box = this.textFieldBoxName.getValue();
-                if (!box.equals(this.boxName)) this.menu.changeName(box);
+                this.textFieldPageName.setVisible(!this.textFieldPageName.visible);
+                final String box = this.textFieldPageName.getValue();
+                if (!box.equals(this.boxName) && this.textFieldPageName.visible) this.menu.changeName(box);
                 this.boxName = box;
-            }).bounds(x + 157, y + 4, 12, 12)
+            }).bounds(x + 159, y + 5, 10, 10)
                     .tooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")))
                     .createNarration(supplier -> TComponent.translatable("block.pc.rename.narrate")).build());
             this.renameButton.setAlpha(0);
@@ -162,30 +236,31 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         final Component prev = TComponent.translatable("block.pc.previous");
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
-            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+            this.textFieldSelectedPage.setValue(this.menu.getPageNb());
         }).bounds(x + 7, y + 127, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.previous.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pc.previous.narrate")).build());
         this.prevButton.setAlpha(0);
 
-        this.textFieldSelectedBox = new EditBox(this.font,
+        this.textFieldSelectedPage = new EditBox(this.font,
                 x + 21, y + 128, 21, 10, TComponent.translatable("block.pc.page.tooltip.narrate"));
-        this.textFieldSelectedBox.setTooltip(Tooltip.create(Component.translatable("block.pc.page.tooltip")));
-        this.textFieldSelectedBox.setTextColor(0xFFFFFF);
-        this.textFieldSelectedBox.setBordered(false);
-        this.addRenderableWidget(this.textFieldSelectedBox);
+        this.textFieldSelectedPage.setTooltip(Tooltip.create(Component.translatable("block.pc.page.tooltip")));
+        this.textFieldSelectedPage.setTextColor(0xFFFFFF);
+        this.textFieldSelectedPage.setBordered(false);
+        this.addRenderableWidget(this.textFieldSelectedPage);
 
         final Component next = TComponent.translatable("block.pc.next");
+
         this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
-            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+            this.textFieldSelectedPage.setValue(this.menu.getPageNb());
         }).bounds(x + 44, y + 127, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.next.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pc.next.narrate")).build());
         this.nextButton.setAlpha(0);
 
-        this.textFieldSelectedBox.value = this.page;
-        this.textFieldBoxName.value = "";
+        this.textFieldSelectedPage.value = this.page;
+        this.textFieldPageName.value = "";
 
 
 //        if (this.menu.pcPos != null)
@@ -243,7 +318,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 packet.data.putBoolean("R", this.release);
                 PokecubeCore.packets.sendToServer(packet);
                 this.checkReleaseButton();
-            }).bounds(x + 73, y + 127, 10, 10)
+            }).bounds(x + 147, y + 127, 10, 10)
                     .tooltip(Tooltip.create(Component.translatable("block.pc.option.release.tooltip")))
                     .createNarration(supplier -> TComponent.translatable("block.pc.option.release.narrate")).build());
             this.releaseButton.setAlpha(0);
@@ -266,7 +341,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                     final PCSlot slot = (PCSlot) this.menu.slots.get(index);
                     slot.release = this.release;
                 }
-            }).bounds(x + 61, y + 127, 10, 10)
+            }).bounds(x + 135, y + 127, 10, 10)
                     .tooltip(Tooltip.create(Component.translatable("block.pc.option.confirm.tooltip")))
                     .createNarration(supplier -> TComponent.translatable("block.pc.option.confirm.narrate")).build());
             this.confirmButton.setAlpha(0);
@@ -282,7 +357,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             // TODO: Causes the / by 0 crash
             /*this.renderables.add(*/this.autoButton = this.addRenderableWidget(new Button.Builder(auto, (b) -> {
             this.menu.toggleAuto();
-        }).bounds(x + 85, y + 127, 10, 10)
+        }).bounds(x + 159, y + 127, 10, 10)
                 .tooltip(Tooltip.create(this.menu.inv.autoToPC ? TComponent.translatable("block.pc.auto_on.tooltip")
                         : TComponent.translatable("block.pc.auto_off.tooltip")))
                 .createNarration(supplier -> this.menu.inv.autoToPC ? TComponent.translatable("block.pc.auto_on.narrate")
@@ -290,19 +365,21 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             this.autoButton.setAlpha(0);
         }
 
-        this.textFieldSearch = new EditBox(this.font,
-                x + 99, y + 128, 58, 10, TComponent.translatable("block.pc.search.narrate"));
-        this.textFieldSearch.setTooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")));
-        this.textFieldSearch.setTextColor(0xFFFFFF);
-        this.textFieldSearch.setBordered(false);
-        this.addRenderableWidget(this.textFieldSearch);
-
         final Component search = TComponent.translatable("block.pc.search");
         this.searchButton = this.addRenderableWidget(new Button.Builder(search, (b) -> {
-        }).bounds(x + 157, y + 127, 12, 12)
+            this.textFieldSearch.setVisible(!this.textFieldSearch.visible);
+        }).bounds(x + 135, y + 127, 12, 12)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")))
                 .createNarration(supplier -> TComponent.translatable("block.pc.search.narrate")).build());
         this.searchButton.setAlpha(0);
+
+        this.textFieldSearch = new EditBox(this.font,
+                x + 62, y + 128, 72, 10, TComponent.translatable("block.pc.search.narrate"));
+        this.textFieldSearch.setTooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")));
+        this.textFieldSearch.setTextColor(0xFFFFFF);
+        this.textFieldSearch.setBordered(false);
+        this.textFieldSearch.setVisible(false);
+        this.addRenderableWidget(this.textFieldSearch);
     }
 
     private void checkReleaseButton()
