@@ -20,10 +20,10 @@ public class GuiWearableButton extends Button
     public Supplier<Boolean> stillVisible = () -> true;
 
     public GuiWearableButton(final int xIn, final int yIn, final int widthIn, final int heightIn,
-            final Component nameIn, final OnPress onPress, Screen parent)
+            final Component nameIn, final OnPress onPress, CreateNarration narration, Screen parent)
     {
 //      TODO: Fix tooltip
-        super(xIn, yIn, widthIn, heightIn, nameIn, onPress, (CreateNarration) parent /*(b, pose, x, y) -> {
+        super(xIn, yIn, widthIn, heightIn, nameIn, onPress, narration /*(b, pose, x, y) -> {
             Component tooltip = narration instanceof GuiWearables ? TComponent.translatable("wearables.gui.button.close")
                     : TComponent.translatable("wearables.gui.button.open");
             if (ThutWearables.config.buttonTooltip) narration.renderTooltip(pose, tooltip, x, y);
