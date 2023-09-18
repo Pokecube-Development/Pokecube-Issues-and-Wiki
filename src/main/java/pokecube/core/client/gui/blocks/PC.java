@@ -239,6 +239,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         final int x = this.width / 2 - 88;
         final int y = this.height / 2 - 120;
 
+        // Elements placed in order of selection when pressing tab
         final Component darkMode = TComponent.literal("");
         this.darkModeButton = this.addRenderableWidget(new Button.Builder(darkMode, (b) -> {
             this.darkModeButton.visible = false;

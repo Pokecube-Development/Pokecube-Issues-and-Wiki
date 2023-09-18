@@ -2,7 +2,7 @@
     "sources": [
         {
             "type": "directory",
-            "source": "block",
+            "source": "gui",
             "prefix": "gui/icons"
         },
         {

@@ -34,6 +34,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     Button applyButton;
     Button darkModeButton;
     Button lightModeButton;
+    Button movesSelection;
     Button nextButton;
     Button prevButton;
     int index = 0;
@@ -130,9 +131,11 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         if (this.applyButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 69, y + 47, 0, 140, 89, 20);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 104, y + 47, 0, 190, 20, 20);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 104, y + 47, 25, 165, 20, 20);
         } else {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 70, y + 48, 0, 115, 88, 19);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 105, y + 48, 0, 165, 19, 19);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 105, y + 48, 25, 165, 19, 19);
         }
     }
 
@@ -143,6 +146,10 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final int x = this.width / 2 - 88;
         final int y = this.height / 2 - 88;
 
+        final String[] moves = this.menu.moves;
+        final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
+
+        // Elements placed in order of selection when pressing tab
         final Component darkMode = TComponent.literal("");
         this.darkModeButton = this.addRenderableWidget(new Button.Builder(darkMode, (b) -> {
             this.darkModeButton.visible = false;
@@ -162,10 +169,15 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         this.lightModeButton.visible = false;
         this.lightModeButton.setAlpha(0);
 
-        // Elements placed in order of selection when pressing tab
+        this.movesSelection = this.addRenderableWidget(new Button.Builder(Component.literal(""), (b) -> {})
+                .bounds( x + 58, y + 16, 111, 18)
+                .tooltip(Tooltip.create(Component.translatable("block.tm_machine.moves_selection.tooltip")))
+                .createNarration(supplier -> TComponent.translatable("block.tm_machine.moves_selection.narrate" + MovesUtils.getMoveName(s, null))).build());
+        this.movesSelection.setAlpha(0);
+        this.movesSelection.active = false;
+
         final Component prev = TComponent.translatable("block.tm_machine.previous");
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
-            final String[] moves = this.menu.moves;
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
             else if (this.index < 0) this.index = 0;
@@ -185,7 +197,6 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         final Component next = TComponent.translatable("block.tm_machine.next");
         this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
-            final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
         }).bounds(x + 159, y + 36, 10, 10)
@@ -198,7 +209,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final PacketTMs packet = new PacketTMs();
             packet.data.putInt("m", this.index);
             PokecubeCore.packets.sendToServer(packet);
-        }).bounds(x + 70, y + 48, 88, 19)
+        }).bounds(x + 105, y + 48, 19, 19)
                 .tooltip(Tooltip.create(Component.translatable("block.tm_machine.apply.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.tm_machine.apply.narrate")).build());
         this.applyButton.setAlpha(0);
@@ -217,10 +228,11 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         {
             final int yOffset = this.height / 2 - 88;
             final int xOffset = this.width / 2 - 88;
-            MovesUtils.getMoveName(s, null).getString().length();
-            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15).concat("..."), xOffset + 61,
+            String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
+
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, xOffset + 61,
                     yOffset + 22, move.getType(null).colour);
-            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 167 - this.font.width("" + move.getPWR()),
+            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 166 - this.font.width("" + move.getPWR()),
                     yOffset + 22, 0xFFFFFF);
         }
         this.renderTooltip(graphics, mouseX, mouseY);
