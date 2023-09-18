@@ -12,7 +12,7 @@ public class Resources
     public final static String TEXTURE_FOLDER = "textures/";
     public final static String TEXTURE_GUI_FOLDER = Resources.TEXTURE_FOLDER + "gui/";
     public final static String TEXTURE_GUI_ICON_FOLDER = Resources.TEXTURE_GUI_FOLDER + "icons/";
-    public final static String TEXTURE_SLOT_ICON = "gui/icons/";
+    public final static String TEXTURE_SLOT_ICON = Resources.TEXTURE_FOLDER + "gui/icons/";
 
     public final static String TEXTURE_PARTICLES = Resources.TEXTURE_FOLDER + "particles.png";
 
