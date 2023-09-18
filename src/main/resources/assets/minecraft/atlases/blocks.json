@@ -1,6 +1,11 @@
 {
     "sources": [
         {
+            "type": "directory",
+            "source": "block",
+            "prefix": "gui/icons"
+        },
+        {
             "type": "paletted_permutations",
             "textures": [
                 "trims/items/leggings_trim",

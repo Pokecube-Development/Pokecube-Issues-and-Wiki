@@ -55,7 +55,7 @@ public class TMContainer extends BaseContainer
 
         this.addSlot(new TexturedSlot(this.inv, 0, 8, 17, Resources.SLOT_ICON_TM));
         final TMContainer cont = this;
-        this.addSlot(new TexturedSlot(this.inv, 1, 8, 54, Resources.SLOT_ICON_CUBE)
+        this.addSlot(new TexturedSlot(this.inv, 1, 8, 49, Resources.SLOT_ICON_CUBE)
         {
             @Override
             public boolean mayPlace(final ItemStack stack)
@@ -75,7 +75,7 @@ public class TMContainer extends BaseContainer
                 return playerIn.getStringUUID().equals(owner);
             }
         });
-        this.bindPlayerInventory(inv, -19);
+        this.bindPlayerInventory(inv, -9);
     }
 
     @Override
