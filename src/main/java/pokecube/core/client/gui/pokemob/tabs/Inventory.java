@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import net.minecraft.client.MouseHandler;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractButton;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jline.terminal.Terminal;
@@ -172,13 +173,15 @@ public class Inventory extends Tab
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE, new StanceHandler(
                         !this.menu.pokemob.getCombatState(CombatStates.GUARDING), StanceHandler.GUARD))
                 // TODO: Fix this
-                /*(b, graphics, x, y) ->
+                /*, (b, graphics, x, y) ->
                 {
                     Component tooltip = guarding ? TComponent.translatable("pokemob.stance.guard")
                             : TComponent.translatable("pokemob.stance.no_guard");
                     return parent.renderTooltip(graphics, tooltip, x, y);
                 }*/
-        ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h).build());
+        ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h)
+                .tooltip(Tooltip.create(guarding ? TComponent.translatable("pokemob.stance.guard")
+                        : TComponent.translatable("pokemob.stance.no_guard"))).build());
 
         this.guard.setFGColor(guarding ? 0xFF00FF00 : 0xFFFF0000);
         this.sit.setFGColor(sitting ? 0xFF00FF00 : 0xFFFF0000);

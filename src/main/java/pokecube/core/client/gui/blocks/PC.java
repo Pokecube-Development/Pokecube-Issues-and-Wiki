@@ -26,6 +26,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 {
     public static ResourceLocation PC_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png");
     public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets.png");
+    public static ResourceLocation PC_DARK_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_dark_gui.png");
+    public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets_dark.png");
 
     String page;
 
@@ -34,6 +36,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     EditBox textFieldSelectedPage;
     Button autoButton;
     Button confirmButton;
+    Button darkModeButton;
+    Button lightModeButton;
     Button nextButton;
     Button prevButton;
     Button releaseButton;
@@ -121,77 +125,96 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderBg(final GuiGraphics graphics, final float f, final int i, final int j)
     {
+        ResourceLocation WIDGETS_DARK_OR_LIGHT_GUI = this.darkModeButton.visible ? WIDGETS_GUI : WIDGETS_DARK_GUI;
+
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, PC_GUI);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        graphics.blit(PC_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+        if (this.darkModeButton.visible)
+            graphics.blit(PC_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+        else if (this.lightModeButton.visible)
+            graphics.blit(PC_DARK_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+
+        if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
+        {
+            graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 0, 110, 15, 13);
+        } else if (this.darkModeButton.visible) {
+            graphics.blit(WIDGETS_DARK_GUI, x - 16, y + 1, 0, 90, 14, 13);
+        }
+
+        if (this.lightModeButton.isHoveredOrFocused() && this.lightModeButton.visible)
+        {
+            graphics.blit(WIDGETS_GUI, x - 17, y + 1, 0, 110, 15, 13);
+        } else if (this.lightModeButton.visible) {
+            graphics.blit(WIDGETS_GUI, x - 16, y + 1, 0, 90, 14, 13);
+        }
 
         if (this.renameButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_GUI, x + 158, y + 4, 45, 15, 12, 12);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 158, y + 4, 60, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_GUI, x + 159, y + 5, 45, 0, 11, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 159, y + 5, 60, 0, 11, 11);
         }
 
         if (this.textFieldPageName.visible)
-            graphics.blit(WIDGETS_GUI, x + 115, y + 5, 0, 60, 43, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 115, y + 5, 0, 60, 43, 11);
 
         if (this.prevButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_GUI, x + 6, y + 126, 60, 15, 12, 12);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 6, y + 126, 75, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_GUI, x + 7, y + 127, 60, 0, 11, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 7, y + 127, 75, 0, 11, 11);
         }
 
         if (this.textFieldSelectedPage.visible)
-            graphics.blit(WIDGETS_GUI, x + 19, y + 127, 0, 75, 24, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 19, y + 127, 0, 75, 24, 11);
 
         if (this.nextButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_GUI, x + 43, y + 126, 75, 15, 12, 12);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 43, y + 126, 90, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_GUI, x + 44, y + 127, 75, 0, 11, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 44, y + 127, 90, 0, 11, 11);
         }
 
         if (this.releaseButton.isHoveredOrFocused())
-            graphics.blit(WIDGETS_GUI, x + 146, y + 126, 0, 15, 12, 12);
-        else graphics.blit(WIDGETS_GUI, x + 147, y + 127, 0, 0, 11, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 146, y + 126, 15, 15, 12, 12);
+        else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 147, y + 127, 15, 0, 11, 11);
 
         if (this.confirmButton.isHoveredOrFocused() && this.confirmButton.visible)
         {
-            graphics.blit(WIDGETS_GUI, x + 134, y + 126, 90, 15, 12, 12);
-        } else if (this.confirmButton.visible)
-        {
-            graphics.blit(WIDGETS_GUI, x + 135, y + 127, 90, 0, 11, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 134, y + 126, 105, 15, 12, 12);
+        } else if (this.confirmButton.visible) {
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 135, y + 127, 105, 0, 11, 11);
         }
 
         if (this.confirmButton.visible)
         {
             if (this.searchButton.isHoveredOrFocused())
-                graphics.blit(WIDGETS_GUI, x + 122, y + 126, 30, 15, 12, 12);
-            else graphics.blit(WIDGETS_GUI, x + 123, y + 127, 30, 0, 11, 11);
+                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 122, y + 126, 45, 15, 12, 12);
+            else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 123, y + 127, 45, 0, 11, 11);
             this.searchButton.setPosition(x + 122, y + 126);
 
             if (this.textFieldSearch.visible)
-                graphics.blit(WIDGETS_GUI, x + 61, y + 127, 0, 45, 61, 11);
+                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 61, y + 127, 0, 45, 61, 11);
             this.textFieldSearch.setWidth(58);
         } else {
             if (this.searchButton.isHoveredOrFocused())
-                graphics.blit(WIDGETS_GUI, x + 134, y + 126, 30, 15, 12, 12);
-            else graphics.blit(WIDGETS_GUI, x + 135, y + 127, 30, 0, 11, 11);
+                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 134, y + 126, 45, 15, 12, 12);
+            else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 135, y + 127, 45, 0, 11, 11);
             this.searchButton.setPosition(x + 134, y + 126);
 
             if (this.textFieldSearch.visible)
-                graphics.blit(WIDGETS_GUI, x + 61, y + 127, 0, 30, 73, 11);
+                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 61, y + 127, 0, 30, 73, 11);
             this.textFieldSearch.setWidth(70);
         }
 
         if (this.autoButton.isHoveredOrFocused())
-            graphics.blit(WIDGETS_GUI, x + 158, y + 126, 15, 15, 12, 12);
-        else graphics.blit(WIDGETS_GUI, x + 159, y + 127, 15, 0, 11, 11);
+            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 158, y + 126, 30, 15, 12, 12);
+        else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 159, y + 127, 30, 0, 11, 11);
+
     }
 
     @Override
@@ -211,6 +234,25 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         super.init();
         final int x = this.width / 2 - 88;
         final int y = this.height / 2 - 120;
+
+        final Component darkMode = TComponent.literal("");
+        this.darkModeButton = this.addRenderableWidget(new Button.Builder(darkMode, (b) -> {
+            this.darkModeButton.visible = false;
+            this.lightModeButton.visible = true;
+        }).bounds(x - 16, y + 1, 14, 13)
+                .tooltip(Tooltip.create(Component.translatable("block.pc.dark_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("block.pc.dark_mode.narrate")).build());
+        this.darkModeButton.setAlpha(0);
+
+        final Component lightMode = TComponent.literal("");
+        this.lightModeButton = this.addRenderableWidget(new Button.Builder(lightMode, (b) -> {
+            this.lightModeButton.visible = false;
+            this.darkModeButton.visible = true;
+        }).bounds(x - 16, y + 1, 14, 13)
+                .tooltip(Tooltip.create(Component.translatable("block.pc.light_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("block.pc.light_mode.narrate")).build());
+        this.lightModeButton.visible = false;
+        this.lightModeButton.setAlpha(0);
 
         this.textFieldPageName = new EditBox(this.font, x + 117, y + 7, 40, 10, TComponent.translatable("block.pc.rename.narrate"));
         this.textFieldPageName.setTooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")));
