@@ -281,7 +281,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 .tooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")))
                 .createNarration(supplier -> TComponent.translatable("block.pc.search.narrate")).build());
         this.searchButton.visible = true;
-        this.searchButton.setAlpha(100);
+        this.searchButton.setAlpha(0);
 
         if (!this.bound)
         {
