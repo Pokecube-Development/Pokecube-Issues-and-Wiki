@@ -136,7 +136,8 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
                 graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
                 float s = 1 / 8f;
                 graphics.pose().scale(s, s, s);
-                graphics.blit(TAB_TEXTURE, 0, 0, 0, 0, 256, 256);
+                // Tab icons
+                graphics.blit(Resources.TAB_ICON_INVENTORY, 0, 0, 0, 0, 256, 256);
                 graphics.pose().popPose();
             }
         }

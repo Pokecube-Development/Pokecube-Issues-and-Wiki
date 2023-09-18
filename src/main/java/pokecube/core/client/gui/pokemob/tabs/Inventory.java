@@ -1,29 +1,21 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
-import java.awt.*;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
-
-import net.minecraft.client.MouseHandler;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractButton;
-import net.minecraft.client.gui.components.Tooltip;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import org.jline.terminal.Terminal;
 import org.lwjgl.glfw.GLFW;
 
-import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
-
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -34,7 +26,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.impl.PokecubeMod;
-import pokecube.core.network.packets.PacketTMs;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.utils.Resources;
@@ -44,6 +35,7 @@ import thut.lib.TComponent;
 public class Inventory extends Tab
 {
     public static ResourceLocation POKEMOB_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pokemob.png");
+    protected static final ResourceLocation GUI_ICONS_LOCATION = new ResourceLocation("textures/gui/icons.png");
 
     public static class HungerBar extends AbstractWidget
     {
@@ -148,38 +140,21 @@ public class Inventory extends Tab
         this.addRenderableWidget(this.sit = new Button.Builder(TComponent.translatable("pokemob.gui.sit"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE, new StanceHandler(
                         !this.menu.pokemob.getGeneralState(GeneralStates.STAYING), StanceHandler.STAY))
-                // TODO: Fix this
-                /*(b, pose, x, y) ->
-                {
-                    Component tooltip = sitting ? TComponent.translatable("pokemob.stance.sit")
-                            : TComponent.translatable("pokemob.stance.no_sit");
-                    parent.renderTooltip(pose, tooltip, x, y);
-                }*/
-        ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset, w, h).build());
+        ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset, w, h)
+                .tooltip(Tooltip.create(sitting ? TComponent.translatable("pokemob.stance.sit")
+                        : TComponent.translatable("pokemob.stance.no_sit"))).build());
 
         this.addRenderableWidget(this.stay = new Button.Builder(TComponent.translatable("pokemob.gui.stay"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE, new StanceHandler(
                         !this.menu.pokemob.getGeneralState(GeneralStates.STAYING), StanceHandler.STAY))
-                // TODO: Fix this
-                /*(b, pose, x, y) ->
-                {
-                    Component tooltip = staying ? TComponent.translatable("pokemob.stance.stay")
-                            : TComponent.translatable("pokemob.stance.follow");
-                    return parent.renderTooltip(pose, tooltip, x, y);
-                }*/
-        ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h).build());
+        ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset + 10, w, h)
+                .tooltip(Tooltip.create(staying ? TComponent.translatable("pokemob.stance.stay")
+                        : TComponent.translatable("pokemob.stance.follow"))).build());
 
         this.addRenderableWidget(this.guard = new Button.Builder(TComponent.translatable("pokemob.gui.guard"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE, new StanceHandler(
-                        !this.menu.pokemob.getCombatState(CombatStates.GUARDING), StanceHandler.GUARD))
-                // TODO: Fix this
-                /*, (b, graphics, x, y) ->
-                {
-                    Component tooltip = guarding ? TComponent.translatable("pokemob.stance.guard")
-                            : TComponent.translatable("pokemob.stance.no_guard");
-                    return parent.renderTooltip(graphics, tooltip, x, y);
-                }*/
-        ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h)
+                        !this.menu.pokemob.getCombatState(CombatStates.GUARDING), StanceHandler.GUARD)))
+                .bounds(this.width / 2 - xOffset, this.height / 2 - yOffset + 20, w, h)
                 .tooltip(Tooltip.create(guarding ? TComponent.translatable("pokemob.stance.guard")
                         : TComponent.translatable("pokemob.stance.no_guard"))).build());
 
@@ -201,7 +176,8 @@ public class Inventory extends Tab
             // TODO: Fix tooltips
             Component tooltip = b.getMessage();
             parent.renderTooltip(graphics, x, y);
-        }).bounds(k + 64, l + 18, 16, 16).build()).noAuto();
+        }).bounds(k + 64, l + 18, 16, 16)
+                .tooltip(Tooltip.create(TComponent.translatable("pokemob.gui.slot.saddle"))).build()).noAuto();
 
         this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.held_item"), (x, y) ->
         {
@@ -211,7 +187,8 @@ public class Inventory extends Tab
         }, (b, pose, x, y) -> {
             Component tooltip = b.getMessage();
             parent.renderTooltip(pose, x, y);
-        }).bounds(k + 64, l + 36, 16, 16).build()).noAuto();
+        }).bounds(k + 64, l + 36, 16, 16)
+                .tooltip(Tooltip.create(TComponent.translatable("pokemob.gui.slot.held_item"))).build()).noAuto();
 
         this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.off_hand"), (x, y) ->
         {
@@ -221,7 +198,8 @@ public class Inventory extends Tab
         }, (b, pose, x, y) -> {
             Component tooltip = b.getMessage();
             parent.renderTooltip(pose, x, y);
-        }).bounds(k + 64, l + 54, 16, 16).build()).noAuto();
+        }).bounds(k + 64, l + 54, 16, 16)
+                .tooltip(Tooltip.create(TComponent.translatable("pokemob.gui.slot.off_hand"))).build()).noAuto();
 
         this.addRenderableWidget(new TooltipArea.Builder(TComponent.translatable("pokemob.gui.slot.food_misc"), (x, y) ->
         {
@@ -236,7 +214,8 @@ public class Inventory extends Tab
         }, (b, pose, x, y) -> {
             Component tooltip = b.getMessage();
             parent.renderTooltip(pose, x, y);
-        }).bounds(k + 83, l + 18, 89, 16).build()).noAuto();
+        }).bounds(k + 83, l + 18, 89, 16)
+                .tooltip(Tooltip.create(TComponent.translatable("pokemob.gui.slot.food_misc"))).build()).noAuto();
 
         xOffset = 80;
         yOffset = 77;
@@ -256,7 +235,8 @@ public class Inventory extends Tab
             // TODO: Fix this
             Component tooltip = b.getMessage();
             parent.renderTooltip(pose, x, y);
-        }).bounds(name.getX(), name.getY(), name.getWidth(), name.getHeight()).build()).noAuto();
+        }).bounds(name.getX(), name.getY(), name.getWidth(), name.getHeight())
+                .tooltip(Tooltip.create(TComponent.translatable("pokemob.gui.nickname"))).build()).noAuto();
     }
 
     @Override
@@ -272,7 +252,7 @@ public class Inventory extends Tab
         // The held item slot
         graphics.blit(POKEMOB_GUI, k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
         // The off-hand slot
-        graphics.blit(POKEMOB_GUI, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(new ResourceLocation("textures/gui/icons/slot_book.png"), k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 
     @Override
