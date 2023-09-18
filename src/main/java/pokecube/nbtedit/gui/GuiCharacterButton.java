@@ -39,8 +39,7 @@ public class GuiCharacterButton extends Button
         else RenderSystem.setShaderColor(0.5F, 0.5F, 0.5F, 1.0F);
 
         RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
-        // TODO: Check this
-        graphics.blit(new ResourceLocation(""), this.getX(), this.getY(), this.id * GuiCharacterButton.WIDTH, 27,
+        graphics.blit(GuiNBTNode.WIDGET_TEXTURE, this.getX(), this.getY(), this.id * GuiCharacterButton.WIDTH, 27,
                 GuiCharacterButton.WIDTH, GuiCharacterButton.HEIGHT);
     }
 }

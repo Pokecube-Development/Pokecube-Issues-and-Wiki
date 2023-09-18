@@ -26,7 +26,7 @@ import thut.lib.TComponent;
 
 public class AI extends Tab
 {
-    private static final ResourceLocation CHECK_TEX = new ResourceLocation("textures/gui/checkbox.png");
+    private static final ResourceLocation CHECK_TEXTURE = new ResourceLocation("textures/gui/checkbox.png");
 
     private static record AIButton(Button button, AIRoutine routine)
     {
@@ -78,7 +78,7 @@ public class AI extends Tab
                     final boolean state = this.pokemob.isRoutineEnabled(routine);
 
                     RenderSystem.setShader(GameRenderer::getPositionTexShader);
-                    RenderSystem.setShaderTexture(0, CHECK_TEX);
+                    RenderSystem.setShaderTexture(0, CHECK_TEXTURE);
 
                     graphics.pose().pushPose();
                     float s = 10f / 80f;
@@ -89,7 +89,7 @@ public class AI extends Tab
                     graphics.pose().translate(-sx, -sy, 0);
                     int tx = 0;
                     int ty = state ? 80 : 0;
-                    graphics.blit(new ResourceLocation(""), x + dx, y, tx, ty, 80, 80);
+                    graphics.blit(CHECK_TEXTURE, x + dx, y, tx, ty, 80, 80);
                     graphics.pose().popPose();
                     dx += texW;
                 }
@@ -173,7 +173,7 @@ public class AI extends Tab
                 pokemob.setRoutineState(routine, state);
                 PacketAIRoutine.sentCommand(pokemob, routine, state);
             })/*.tooltip((b, pose, x, y) -> {
-                parent.renderTooltip(pose, tooltip, x, y);
+                parent.renderTooltip(tooltip, x, y);
             })*/.bounds(xOffset, yOffset, 40, 10).build();
 
             button.active = button.visible = false;

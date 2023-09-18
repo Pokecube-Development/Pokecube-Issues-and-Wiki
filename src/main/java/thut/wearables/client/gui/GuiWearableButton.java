@@ -50,7 +50,7 @@ public class GuiWearableButton extends Button
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, GuiWearables.background);
         final int i = this.getYImage(this.isHoveredOrFocused());
-        graphics.blit(new ResourceLocation(""), this.getX(), this.getY(), 0, i, this.width, this.height);
+        graphics.blit(GuiWearables.background, this.getX(), this.getY(), 0, i, this.width, this.height);
 //      TODO: Fix tooltip
 //        if (this.isHoveredOrFocused())
 //        {

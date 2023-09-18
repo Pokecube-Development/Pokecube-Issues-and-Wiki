@@ -32,6 +32,7 @@ import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.packets.PacketTMs;
 import pokecube.core.network.pokemobs.PacketCommand;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
@@ -41,6 +42,7 @@ import thut.lib.TComponent;
 
 public class Inventory extends Tab
 {
+    public static ResourceLocation POKEMOB_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pokemob.png");
 
     public static class HungerBar extends AbstractWidget
     {
@@ -248,6 +250,7 @@ public class Inventory extends Tab
             if (this.name.isFocused()) return false;
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, pose, x, y) -> {
+            // TODO: Fix this
             Component tooltip = b.getMessage();
             parent.renderTooltip(pose, x, y);
         }).bounds(name.getX(), name.getY(), name.getWidth(), name.getHeight()).build()).noAuto();
@@ -259,15 +262,14 @@ public class Inventory extends Tab
         super.renderBg(graphics, partialTicks, mouseX, mouseY);
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
-        // TODO: Check this
         // The 5 inventory slots
-        graphics.blit(new ResourceLocation(""), k + 82, l + 17, 36, this.imageHeight + 72, 90, 18);
+        graphics.blit(POKEMOB_GUI, k + 82, l + 17, 36, this.imageHeight + 72, 90, 18);
         // The saddle slot
-        graphics.blit(new ResourceLocation(""), k + 63, l + 17, 18, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 63, l + 17, 18, this.imageHeight + 72, 18, 18);
         // The held item slot
-        graphics.blit(new ResourceLocation(""), k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
         // The off-hand slot
-        graphics.blit(new ResourceLocation(""), k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 
     @Override

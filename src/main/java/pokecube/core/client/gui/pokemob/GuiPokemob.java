@@ -26,7 +26,7 @@ import thut.lib.TComponent;
 
 public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 {
-    private static final ResourceLocation TAB_TEX = new ResourceLocation(
+    private static final ResourceLocation TAB_TEXTURE = new ResourceLocation(
             "textures/gui/container/creative_inventory/tabs.png");
 
     List<Tab> modules = Lists.newArrayList();
@@ -93,7 +93,6 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             Tab t = modules.get(i);
             if (t.isHovored())
             {
-                // TODO: Check this
                 graphics.renderComponentTooltip(this.font, Lists.newArrayList(TComponent.translatable(t.desc)), x, y);
             }
         }
@@ -125,10 +124,9 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             t.updateHovored(mx, my);
             if (i == moduleIndex) continue;
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, TAB_TEX);
+            RenderSystem.setShaderTexture(0, TAB_TEXTURE);
             RenderSystem.enableBlend();
-            // TODO: Check this
-            graphics.blit(new ResourceLocation(""), r.x0, r.y0, 28, 0, r.w, r.h);
+            graphics.blit(TAB_TEXTURE, r.x0, r.y0, 28, 0, r.w, r.h);
             if (t.icon != null)
             {
                 RenderSystem.setShaderTexture(0, t.icon);
@@ -137,22 +135,19 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
                 graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
                 float s = 1 / 8f;
                 graphics.pose().scale(s, s, s);
-                // TODO: Check this
-                graphics.blit(new ResourceLocation(""), 0, 0, 0, 0, 256, 256);
+                graphics.blit(TAB_TEXTURE, 0, 0, 0, 0, 256, 256);
                 graphics.pose().popPose();
             }
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
-        // TODO: Check this
-        graphics.blit(new ResourceLocation(""), k, l, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(TAB_TEXTURE, k, l, 0, 0, this.imageWidth, this.imageHeight);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, TAB_TEX);
+        RenderSystem.setShaderTexture(0, TAB_TEXTURE);
         RenderSystem.enableBlend();
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);
         int dx = moduleIndex == 0 ? 0 : 28;
-        // TODO: Check this
-        graphics.blit(new ResourceLocation(""), r.x0, r.y0, dx, 32, r.w, r.h);
+        graphics.blit(TAB_TEXTURE, r.x0, r.y0, dx, 32, r.w, r.h);
         if (t.icon != null)
         {
             RenderSystem.setShaderTexture(0, t.icon);
@@ -161,8 +156,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
             float s = 1 / 8f;
             graphics.pose().scale(s, s, s);
-            // TODO: Check this
-            graphics.blit(new ResourceLocation(""), 0, 0, 0, 0, 256, 256);
+            graphics.blit(TAB_TEXTURE, 0, 0, 0, 0, 256, 256);
             graphics.pose().popPose();
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
@@ -178,8 +172,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     @Override
     protected void renderLabels(GuiGraphics graphics, int p_97809_, int p_97810_)
     {
-        // TODO: Fix this
-        // this.font.draw(graphics, this.playerInventoryTitle, 8.0F, this.imageHeight - 96 + 2, 4210752);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8.0F, this.imageHeight - 96 + 2, 4210752, false);
 
         final int k = 6;
         final int l = this.imageHeight - 152;
@@ -190,8 +183,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             if (t.icon == null)
             {
                 Component tab = TComponent.translatable(t.text);
-                // TODO: Fix this
-                // this.font.draw(graphics, tab, k + 28 * (i + 1), l - 28, 4210752);
+                graphics.drawString(this.font, tab, k + 28 * (i + 1), l - 28, 4210752, false);
             }
         }
         modules.get(moduleIndex).renderLabels(graphics, p_97809_, p_97810_);

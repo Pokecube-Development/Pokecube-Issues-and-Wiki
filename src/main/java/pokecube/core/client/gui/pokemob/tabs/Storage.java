@@ -23,6 +23,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.utility.StoreTask;
 import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
 import pokecube.core.network.pokemobs.PacketUpdateAI;
 import pokecube.core.utils.Resources;
@@ -32,6 +33,7 @@ import thut.lib.TComponent;
 
 public class Storage extends Tab
 {
+    public static ResourceLocation POKEMOB_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pokemob.png");
     IPokemob pokemob;
     EditBox berry;
     EditBox storage;
@@ -188,34 +190,34 @@ public class Storage extends Tab
     {
         int x = 83;
         int y = 20;
-//        TODO: Fix
-//        parent.font.draw(graphics, I18n.get("pokemob.gui.berry"), x, y, 4210752);
-//        parent.font.draw(graphics, I18n.get("pokemob.gui.store"), x, y + 10, 4210752);
-//        parent.font.draw(graphics, I18n.get("pokemob.gui.face"), x, y + 20, 4210752);
-//        parent.font.draw(graphics, I18n.get("pokemob.gui.empty"), x, y + 30, 4210752);
-//        parent.font.draw(graphics, I18n.get("pokemob.gui.face"), x, y + 40, 4210752);
+        
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.berry"), x, y, 4210752);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.store"), x, y + 10, 4210752);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.face"), x, y + 20, 4210752);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.empty"), x, y + 30, 4210752);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.face"), x, y + 40, 4210752);
         y -= 5;
 
-//        if (this.berry.isMouseOver(mouseX, mouseY))
-//        {
-//            this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.gui.storage.berry"), x, y);
-//        }
-//        if (this.storage.isMouseOver(mouseX, mouseY))
-//        {
-//            this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.gui.storage.storage"), x, y);
-//        }
-//        if (this.storageFace.isMouseOver(mouseX, mouseY))
-//        {
-//            this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.gui.storage.storageFace"), x, y);
-//        }
-//        if (this.empty.isMouseOver(mouseX, mouseY))
-//        {
-//            this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.gui.storage.empty"), x, y);
-//        }
-//        if (this.emptyFace.isMouseOver(mouseX, mouseY))
-//        {
-//            this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.gui.storage.emptyFace"), x, y);
-//        }
+        if (this.berry.isMouseOver(mouseX, mouseY))
+        {
+            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.berry"), x, y);
+        }
+        if (this.storage.isMouseOver(mouseX, mouseY))
+        {
+            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.storage"), x, y);
+        }
+        if (this.storageFace.isMouseOver(mouseX, mouseY))
+        {
+            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.storageFace"), x, y);
+        }
+        if (this.empty.isMouseOver(mouseX, mouseY))
+        {
+            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.empty"), x, y);
+        }
+        if (this.emptyFace.isMouseOver(mouseX, mouseY))
+        {
+            graphics.renderTooltip(this.parent.font, TComponent.translatable("pokemob.gui.storage.emptyFace"), x, y);
+        }
 
         super.renderLabels(graphics, mouseX, mouseY);
     }
@@ -285,6 +287,6 @@ public class Storage extends Tab
         final int k = (this.width - this.imageWidth) / 2;
         final int l = (this.height - this.imageHeight) / 2;
         // The off-hand slot
-        graphics.blit(new ResourceLocation(""), k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 }

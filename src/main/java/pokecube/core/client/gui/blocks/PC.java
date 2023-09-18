@@ -24,8 +24,8 @@ import thut.lib.TComponent;
 
 public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 {
-    public static ResourceLocation PC_GUI_TEXTURE = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png");
-    public static ResourceLocation WIDGETS_TEXTURE = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets.png");
+    public static ResourceLocation PC_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png");
+    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets.png");
 
     String page;
 
@@ -123,75 +123,75 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, PC_GUI_TEXTURE);
+        RenderSystem.setShaderTexture(0, PC_GUI);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        graphics.blit(PC_GUI_TEXTURE, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+        graphics.blit(PC_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
 
-        if (this.renameButton.isHovered())
+        if (this.renameButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_TEXTURE, x + 158, y + 4, 45, 15, 12, 12);
+            graphics.blit(WIDGETS_GUI, x + 158, y + 4, 45, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_TEXTURE, x + 159, y + 5, 45, 0, 11, 11);
+            graphics.blit(WIDGETS_GUI, x + 159, y + 5, 45, 0, 11, 11);
         }
 
         if (this.textFieldPageName.visible)
-            graphics.blit(WIDGETS_TEXTURE, x + 115, y + 5, 0, 60, 43, 11);
+            graphics.blit(WIDGETS_GUI, x + 115, y + 5, 0, 60, 43, 11);
 
-        if (this.prevButton.isHovered())
+        if (this.prevButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_TEXTURE, x + 6, y + 126, 60, 15, 12, 12);
+            graphics.blit(WIDGETS_GUI, x + 6, y + 126, 60, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_TEXTURE, x + 7, y + 127, 60, 0, 11, 11);
+            graphics.blit(WIDGETS_GUI, x + 7, y + 127, 60, 0, 11, 11);
         }
 
         if (this.textFieldSelectedPage.visible)
-            graphics.blit(WIDGETS_TEXTURE, x + 19, y + 127, 0, 75, 24, 11);
+            graphics.blit(WIDGETS_GUI, x + 19, y + 127, 0, 75, 24, 11);
 
-        if (this.nextButton.isHovered())
+        if (this.nextButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_TEXTURE, x + 43, y + 126, 75, 15, 12, 12);
+            graphics.blit(WIDGETS_GUI, x + 43, y + 126, 75, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_TEXTURE, x + 44, y + 127, 75, 0, 11, 11);
+            graphics.blit(WIDGETS_GUI, x + 44, y + 127, 75, 0, 11, 11);
         }
 
-        if (this.releaseButton.isHovered())
-            graphics.blit(WIDGETS_TEXTURE, x + 146, y + 126, 0, 15, 12, 12);
-        else graphics.blit(WIDGETS_TEXTURE, x + 147, y + 127, 0, 0, 11, 11);
+        if (this.releaseButton.isHoveredOrFocused())
+            graphics.blit(WIDGETS_GUI, x + 146, y + 126, 0, 15, 12, 12);
+        else graphics.blit(WIDGETS_GUI, x + 147, y + 127, 0, 0, 11, 11);
 
-        if (this.confirmButton.isHovered() && this.confirmButton.visible)
+        if (this.confirmButton.isHoveredOrFocused() && this.confirmButton.visible)
         {
-            graphics.blit(WIDGETS_TEXTURE, x + 134, y + 126, 90, 15, 12, 12);
+            graphics.blit(WIDGETS_GUI, x + 134, y + 126, 90, 15, 12, 12);
         } else if (this.confirmButton.visible)
         {
-            graphics.blit(WIDGETS_TEXTURE, x + 135, y + 127, 90, 0, 11, 11);
+            graphics.blit(WIDGETS_GUI, x + 135, y + 127, 90, 0, 11, 11);
         }
 
         if (this.confirmButton.visible)
         {
-            if (this.searchButton.isHovered())
-                graphics.blit(WIDGETS_TEXTURE, x + 122, y + 126, 30, 15, 12, 12);
-            else graphics.blit(WIDGETS_TEXTURE, x + 123, y + 127, 30, 0, 11, 11);
+            if (this.searchButton.isHoveredOrFocused())
+                graphics.blit(WIDGETS_GUI, x + 122, y + 126, 30, 15, 12, 12);
+            else graphics.blit(WIDGETS_GUI, x + 123, y + 127, 30, 0, 11, 11);
             this.searchButton.setPosition(x + 122, y + 126);
 
             if (this.textFieldSearch.visible)
-                graphics.blit(WIDGETS_TEXTURE, x + 61, y + 127, 0, 45, 61, 11);
+                graphics.blit(WIDGETS_GUI, x + 61, y + 127, 0, 45, 61, 11);
             this.textFieldSearch.setWidth(58);
         } else {
-            if (this.searchButton.isHovered())
-                graphics.blit(WIDGETS_TEXTURE, x + 134, y + 126, 30, 15, 12, 12);
-            else graphics.blit(WIDGETS_TEXTURE, x + 135, y + 127, 30, 0, 11, 11);
+            if (this.searchButton.isHoveredOrFocused())
+                graphics.blit(WIDGETS_GUI, x + 134, y + 126, 30, 15, 12, 12);
+            else graphics.blit(WIDGETS_GUI, x + 135, y + 127, 30, 0, 11, 11);
             this.searchButton.setPosition(x + 134, y + 126);
 
             if (this.textFieldSearch.visible)
-                graphics.blit(WIDGETS_TEXTURE, x + 61, y + 127, 0, 30, 73, 11);
+                graphics.blit(WIDGETS_GUI, x + 61, y + 127, 0, 30, 73, 11);
             this.textFieldSearch.setWidth(70);
         }
 
-        if (this.autoButton.isHovered())
-            graphics.blit(WIDGETS_TEXTURE, x + 158, y + 126, 15, 15, 12, 12);
-        else graphics.blit(WIDGETS_TEXTURE, x + 159, y + 127, 15, 0, 11, 11);
+        if (this.autoButton.isHoveredOrFocused())
+            graphics.blit(WIDGETS_GUI, x + 158, y + 126, 15, 15, 12, 12);
+        else graphics.blit(WIDGETS_GUI, x + 159, y + 127, 15, 0, 11, 11);
     }
 
     @Override

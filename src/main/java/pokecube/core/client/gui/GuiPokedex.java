@@ -301,7 +301,7 @@ public class GuiPokedex extends Screen
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEDEX);
         final int j2 = (this.width - this.xSize) / 2;
         final int k2 = (this.height - this.ySize) / 2;
-        graphics.blit(new ResourceLocation(""), j2, k2, 0, 0, this.xSize, this.ySize);
+        graphics.blit(Resources.GUI_POKEDEX, j2, k2, 0, 0, this.xSize, this.ySize);
 
         // Draw mob
         final IPokemob renderMob = EventsHandlerClient.getRenderMob(GuiPokedex.pokedexEntry,

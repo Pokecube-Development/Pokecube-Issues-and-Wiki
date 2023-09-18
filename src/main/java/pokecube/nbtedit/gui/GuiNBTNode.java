@@ -89,9 +89,9 @@ public class GuiNBTNode extends Button
 
         // TODO: Check this
         if (selected) graphics.fill(x + 11, this.getY(), x + this.width, this.getY() + this.height, Integer.MIN_VALUE);
-        if (this.node.hasChildren()) graphics.blit(new ResourceLocation(""), x - 9, this.getY(),
+        if (this.node.hasChildren()) graphics.blit(GuiNBTNode.WIDGET_TEXTURE, x - 9, this.getY(),
                 this.node.shouldDrawChildren() ? 9 : 0, chHover ? this.height : 0, 9, this.height);
-        graphics.blit(new ResourceLocation(""), x + 1, this.getY(), (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
+        graphics.blit(GuiNBTNode.WIDGET_TEXTURE, x + 1, this.getY(), (this.node.getObject().getNBT().getId() - 1) * 9, 18, 9, 9);
         graphics.drawString(this.mc.font, this.displayString, x + 11, this.getY() + (this.height - 8) / 2, color);
     }
 
