@@ -54,7 +54,6 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             this.searchBar.setFocused(false);
             return false;
         }
-        if (this.searchBar.isFocused() && keyCode != GLFW.GLFW_KEY_BACKSPACE) return true;
 
         if (this.searchBar.isFocused())
         {
@@ -219,7 +218,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             final int yOffset = this.height / 2 - 88;
             final int xOffset = this.width / 2 - 88;
             MovesUtils.getMoveName(s, null).getString().length();
-            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(9), xOffset + 61,
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15).concat("..."), xOffset + 61,
                     yOffset + 22, move.getType(null).colour);
             graphics.drawString(this.font, "" + move.getPWR(), xOffset + 167 - this.font.width("" + move.getPWR()),
                     yOffset + 22, 0xFFFFFF);
