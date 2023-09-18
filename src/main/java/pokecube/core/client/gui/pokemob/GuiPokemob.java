@@ -20,14 +20,15 @@ import pokecube.core.client.gui.pokemob.tabs.AI;
 import pokecube.core.client.gui.pokemob.tabs.Routes;
 import pokecube.core.client.gui.pokemob.tabs.Storage;
 import pokecube.core.client.gui.pokemob.tabs.Tab;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 {
-    private static final ResourceLocation TAB_TEXTURE = new ResourceLocation(
-            "textures/gui/container/creative_inventory/tabs.png");
+    private static final ResourceLocation TAB_TEXTURE =
+            new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
 
     List<Tab> modules = Lists.newArrayList();
     List<Rectangle> tabs = Lists.newArrayList();
@@ -140,14 +141,14 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             }
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
-        graphics.blit(TAB_TEXTURE, k, l, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(Resources.GUI_POKEMOB, k, l, 0, 0, this.imageWidth, this.imageHeight);
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, TAB_TEXTURE);
+        RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         RenderSystem.enableBlend();
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);
         int dx = moduleIndex == 0 ? 0 : 28;
-        graphics.blit(TAB_TEXTURE, r.x0, r.y0, dx, 32, r.w, r.h);
+        graphics.blit(Resources.GUI_POKEMOB, r.x0, r.y0, dx, 32, r.w, r.h);
         if (t.icon != null)
         {
             RenderSystem.setShaderTexture(0, t.icon);
@@ -156,7 +157,7 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
             float s = 1 / 8f;
             graphics.pose().scale(s, s, s);
-            graphics.blit(TAB_TEXTURE, 0, 0, 0, 0, 256, 256);
+            graphics.blit(Resources.GUI_POKEMOB, 0, 0, 0, 0, 256, 256);
             graphics.pose().popPose();
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);

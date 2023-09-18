@@ -10,7 +10,6 @@ import org.lwjgl.glfw.GLFW;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -431,12 +430,12 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 95, y - 74, 12, 12, next, b -> {
             this.changePage(this.index + 1);
             PokemobInfoPage.savedIndex = this.index;
-        }, TexButton.DEFAULT_NARRATION).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton(x + 81, y - 74, 12, 12, prev, b -> {
             this.changePage(this.index - 1);
             PokemobInfoPage.savedIndex = this.index;
-        }, TexButton.DEFAULT_NARRATION).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
 
 //        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
 //            this.changePage(this.index + 1);

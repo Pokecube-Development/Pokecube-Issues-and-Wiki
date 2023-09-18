@@ -9,7 +9,6 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 
@@ -27,7 +26,6 @@ import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.api.maths.Vector3;
-import thut.lib.AxisAngles;
 import thut.lib.TComponent;
 
 public class SecretBaseRadarPage extends WatchPage
@@ -122,7 +120,7 @@ public class SecretBaseRadarPage extends WatchPage
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), (b) -> {
             SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
                 % RadarMode.values().length];
-        }).bounds(x + 95, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x + 95, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(200, 0, 12, 12)).build());
     }
 

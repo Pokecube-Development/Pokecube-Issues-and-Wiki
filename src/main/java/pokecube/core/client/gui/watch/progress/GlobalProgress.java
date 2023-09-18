@@ -69,7 +69,7 @@ public class GlobalProgress extends Progress
         final TexButton inspectBtn = this.addRenderableWidget(new TexButton.Builder(inspect, (b) -> {
             // TODO: Replace .getCode()
             PacketPokedex.sendInspectPacket(true, Minecraft.getInstance().getLanguageManager().getSelected()/*.getCode()*/);
-        }).bounds(x - 50, y + 25, 100, 12).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x - 50, y + 25, 100, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(0, 72, 100, 12)).build());
 
         inspectBtn.setFGColor(0x444444);

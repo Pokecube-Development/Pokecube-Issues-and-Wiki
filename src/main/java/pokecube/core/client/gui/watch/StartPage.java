@@ -103,7 +103,7 @@ public class StartPage extends WatchPage
                 // TODO: Check hover tooltip
                 final TexButton buttons = this.addRenderableWidget(new TexButton.Builder(newPage.getTitle(), (b) -> {
                     this.watch.changePage(index);
-                }).bounds(offsetX + loc.buttonX, offsetY + loc.buttonY, 24, 24).setTex(tex)
+                }).bounds(offsetX + loc.buttonX, offsetY + loc.buttonY, 24, 24).setTexture(tex)
                         .onTooltip(loc.hover).setRender(loc.render).noName().build());
 
                 this.addRenderableWidget(buttons);
@@ -120,7 +120,7 @@ public class StartPage extends WatchPage
         final TexButton buttons = new TexButton.Builder(TComponent.literal(""), (b) -> {
             GuiPokeWatch.nightMode = !GuiPokeWatch.nightMode;
             this.watch.init();
-        }).bounds(offsetX + loc.buttonX, offsetY + loc.buttonY, 12, 12).setTex(tex)
+        }).bounds(offsetX + loc.buttonX, offsetY + loc.buttonY, 12, 12).setTexture(tex)
                 .onTooltip(loc.hover).setRender(loc.render).noName().build();
 
         this.addRenderableWidget(buttons);

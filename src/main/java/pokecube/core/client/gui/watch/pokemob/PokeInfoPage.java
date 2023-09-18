@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -67,7 +66,7 @@ public abstract class PokeInfoPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
-        }).bounds(x - 66, y + 35, 12, 20).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x - 66, y + 35, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(212, 0, 12, 20)).build());
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
@@ -77,7 +76,7 @@ public abstract class PokeInfoPage extends WatchPage
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
-        }).bounds(x - 96, y + 35, 12, 20).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x - 96, y + 35, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(212, 0, 12, 20)).build());
 
         final TexButton formBtn = this.addRenderableWidget(new TexButton.Builder(form, (b) -> {
@@ -108,12 +107,12 @@ public abstract class PokeInfoPage extends WatchPage
             // This ensures the textures/etc are reset to account for the new
             // model holder.
             this.parent.pokemob.onGenesChanged();
-        }).bounds(x - 85, y + 35, 20, 10).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x - 85, y + 35, 20, 10).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(224, 0, 20, 10)).build());
 
         final TexButton cryBtn = this.addRenderableWidget(new TexButton.Builder(cry, (b) -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
-        }).bounds(x - 85, y + 45, 20, 10).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x - 85, y + 45, 20, 10).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(224, 0, 20, 10)).build());
 
         nextBtn.setFGColor(0x444444);

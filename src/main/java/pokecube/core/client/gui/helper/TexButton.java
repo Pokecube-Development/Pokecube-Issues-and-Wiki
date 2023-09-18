@@ -3,7 +3,6 @@ package pokecube.core.client.gui.helper;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -18,6 +17,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.utils.Resources;
 
 public class TexButton extends Button
@@ -135,7 +135,7 @@ public class TexButton extends Button
             final int i = button.getTextureY();
 
             // TODO: Check this
-            graphics.blit(new ResourceLocation(""), button.getX(), button.getY(), this.u, this.v + i * this.h, this.w, this.h);
+            graphics.blit(GuiPokeWatch.getWidgetTex(), button.getX(), button.getY(), this.u, this.v + i * this.h, this.w, this.h);
         }
     }
 
@@ -172,7 +172,7 @@ public class TexButton extends Button
         setTooltip(builder.tooltip);
     }
 
-    public TexButton setTex(final ResourceLocation texture)
+    public TexButton setTexture(final ResourceLocation texture)
     {
         this.texture = texture;
         return this;
@@ -217,7 +217,6 @@ public class TexButton extends Button
         RenderSystem.setShaderTexture(0, this.texture);
 
         this.render.render(this, graphics, mouseX, mouseY, partialTicks);
-        // TODO: Check this
         this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
         final int j = this.getFGColor();
         if (this.renderName)
@@ -227,8 +226,7 @@ public class TexButton extends Button
 
             graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx), this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24);
         }
-        // TODO: Fix this
-        // if (this.isHoveredOrFocused()) this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
+        if (this.isHoveredOrFocused()) this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
     }
 
     public void onPress() {
@@ -308,7 +306,7 @@ public class TexButton extends Button
             return this;
         }
 
-        public TexButton.Builder setTex(final ResourceLocation texture)
+        public TexButton.Builder setTexture(final ResourceLocation texture)
         {
             this.texture = texture;
             return this;

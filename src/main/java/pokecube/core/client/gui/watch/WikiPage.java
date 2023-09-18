@@ -110,13 +110,13 @@ public class WikiPage extends ListPage<LineEntry>
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             this.index++;
             this.setList();
-        }).bounds(x + 94, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x + 94, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(200, 0, 12, 12)).build());
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             this.index--;
             this.setList();
-        }).bounds(x - 94, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x - 94, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(200, 0, 12, 12)).build());
 
         this.setList();
