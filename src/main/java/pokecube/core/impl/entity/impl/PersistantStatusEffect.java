@@ -61,70 +61,68 @@ public class PersistantStatusEffect extends BaseEffect
             if (targetM == null) targetM = entity;
             float scale = 1;
             final IPokemob user = PokemobCaps.getPokemobFor(targetM);
-            final DamageSource source = new StatusEffectDamageSource(Objects.requireNonNull(entity.getLastDamageSource()).typeHolder(), targetM);
-            if (pokemob != null)
+            if (entity.getLastDamageSource() != null)
             {
-                // TODO: Check if correct
-                source.is(DamageTypeTags.BYPASSES_ARMOR);
-                source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as .bypassMagic?
-            }
-            else if (entity instanceof Player)
-                scale = (float) (user != null && user.isPlayerOwned() ? PokecubeCore.getConfig().ownedPlayerDamageRatio
-                        : PokecubeCore.getConfig().wildPlayerDamageRatio);
-            else scale = (float) (entity instanceof Npc ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
-                    : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
-            if (scale <= 0) toRemove = true;
-            
-            switch (this.status)
-            {
-            case BADPOISON:
+                final DamageSource source = new StatusEffectDamageSource(entity.getLastDamageSource().typeHolder(), targetM);
                 if (pokemob != null)
                 {
-                    entity.hurt(source,
-                            scale * (pokemob.getMoveStats().TOXIC_COUNTER + 1) * entity.getMaxHealth() / 16f);
-                    this.spawnPoisonParticle(entity);
-                    this.spawnPoisonParticle(entity);
-                    pokemob.getMoveStats().TOXIC_COUNTER++;
+                    // TODO: Check if correct
+                    source.is(DamageTypeTags.BYPASSES_ARMOR);
+                    source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as .bypassMagic?
+                } else if (entity instanceof Player)
+                    scale = (float) (user != null && user.isPlayerOwned() ? PokecubeCore.getConfig().ownedPlayerDamageRatio
+                            : PokecubeCore.getConfig().wildPlayerDamageRatio);
+                else scale = (float) (entity instanceof Npc ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
+                            : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
+                if (scale <= 0) toRemove = true;
+
+                switch (this.status) {
+                    case BADPOISON:
+                        if (pokemob != null)
+                        {
+                            entity.hurt(source,
+                                    scale * (pokemob.getMoveStats().TOXIC_COUNTER + 1) * entity.getMaxHealth() / 16f);
+                            this.spawnPoisonParticle(entity);
+                            this.spawnPoisonParticle(entity);
+                            pokemob.getMoveStats().TOXIC_COUNTER++;
+                        } else {
+                            entity.hurt(source, scale * entity.getMaxHealth() / 8f);
+                            this.spawnPoisonParticle(entity);
+                        }
+                        break;
+                    case BURN:
+                        if (scale > 0) entity.setSecondsOnFire(duration / 20);
+                        entity.hurt(source, scale * entity.getMaxHealth() / 16f);
+                        break;
+                    case FREEZE:
+                        if (Math.random() > 0.9) toRemove = true;
+                        entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 100));
+                        entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 100));
+                        break;
+                    case PARALYSIS:
+                        break;
+                    case POISON:
+                        entity.hurt(source, scale * entity.getMaxHealth() / 8f);
+                        this.spawnPoisonParticle(entity);
+                        break;
+                    case SLEEP:
+                        if (Math.random() > 0.9) toRemove = true;
+                        else {
+                            entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, duration, 100));
+                            entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 100));
+                            entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 100));
+                            this.spawnSleepParticle(entity);
+                        }
+                        break;
+                    default:
+                        toRemove = true;
+                        break;
                 }
-                else
+                if (toRemove)
                 {
-                    entity.hurt(source, scale * entity.getMaxHealth() / 8f);
-                    this.spawnPoisonParticle(entity);
+                    if (pokemob != null) pokemob.healStatus();
+                    effect.setDuration(0);
                 }
-                break;
-            case BURN:
-                if (scale > 0) entity.setSecondsOnFire(duration / 20);
-                entity.hurt(source, scale * entity.getMaxHealth() / 16f);
-                break;
-            case FREEZE:
-                if (Math.random() > 0.9) toRemove = true;
-                entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 100));
-                entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 100));
-                break;
-            case PARALYSIS:
-                break;
-            case POISON:
-                entity.hurt(source, scale * entity.getMaxHealth() / 8f);
-                this.spawnPoisonParticle(entity);
-                break;
-            case SLEEP:
-                if (Math.random() > 0.9) toRemove = true;
-                else
-                {
-                    entity.addEffect(new MobEffectInstance(MobEffects.BLINDNESS, duration, 100));
-                    entity.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, duration, 100));
-                    entity.addEffect(new MobEffectInstance(MobEffects.WEAKNESS, duration, 100));
-                    this.spawnSleepParticle(entity);
-                }
-                break;
-            default:
-                toRemove = true;
-                break;
-            }
-            if (toRemove)
-            {
-                if (pokemob != null) pokemob.healStatus();
-                effect.setDuration(0);
             }
         }
 
