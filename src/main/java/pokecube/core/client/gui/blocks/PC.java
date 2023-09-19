@@ -301,8 +301,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 x + 21, y + 129, 21, 10, TComponent.translatable("block.pc.page.tooltip.narrate"));
         this.selectedPageBox.setTooltip(Tooltip.create(Component.translatable("block.pc.page.tooltip")));
         if (this.lightModeButton.visible)
-            this.renamePageBox.setTextColor(0xB2AFD6);
-        else this.renamePageBox.setTextColor(0xFFFFFF);
+            this.selectedPageBox.setTextColor(0xB2AFD6);
+        else this.selectedPageBox.setTextColor(0xFFFFFF);
         this.selectedPageBox.setBordered(false);
         this.addRenderableWidget(this.selectedPageBox);
 
@@ -322,8 +322,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 x + 63, y + 129, 72, 10, TComponent.translatable("block.pc.search.narrate"));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")));
         if (this.lightModeButton.visible)
-            this.renamePageBox.setTextColor(0xB2AFD6);
-        else this.renamePageBox.setTextColor(0xFFFFFF);
+            this.searchBar.setTextColor(0xB2AFD6);
+        else this.searchBar.setTextColor(0xFFFFFF);
         this.searchBar.setBordered(false);
         this.searchBar.setVisible(false);
         this.addRenderableWidget(this.searchBar);
