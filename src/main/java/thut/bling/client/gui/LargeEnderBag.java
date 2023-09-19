@@ -30,7 +30,6 @@ public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerSc
     EditBox selectedPageBox;
     Button nextButton;
     Button prevButton;
-    Button releaseButton;
     Button renameButton;
     Button searchButton;
 
