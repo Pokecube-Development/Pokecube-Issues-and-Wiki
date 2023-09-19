@@ -2,12 +2,9 @@ package pokecube.adventures.client.gui.items;
 
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.FormattedText;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -26,11 +23,17 @@ import thut.lib.TComponent;
 
 public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
 {
+    public static ResourceLocation BAG_GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag.png");
+    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/widgets/widgets.png");
 
     String page;
-    EditBox textFieldSelectedBox;
-    EditBox textFieldBoxName;
-    EditBox textFieldSearch;
+    EditBox renamePageBox;
+    EditBox searchBar;
+    EditBox selectedPageBox;
+    Button nextButton;
+    Button prevButton;
+    Button releaseButton;
+    Button renameButton;
     Button searchButton;
 
     private String boxName = "1";
@@ -48,41 +51,48 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     @Override
     public boolean keyPressed(final int keyCode, final int b, final int c)
     {
-        if (this.textFieldSearch.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
+        if (this.searchBar.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
                 || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
-            this.textFieldSearch.setFocused(false);
+            this.searchBar.setFocused(false);
             return false;
         }
 
-        if (this.textFieldSearch.isFocused() && keyCode == GLFW.GLFW_KEY_E)
+        if (this.searchBar.isFocused() && keyCode == GLFW.GLFW_KEY_E)
         {
-            this.textFieldSearch.setFocused(true);
+            this.searchBar.setFocused(true);
             return true;
         }
 
-        if (this.textFieldBoxName.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
+        if (this.renamePageBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ESCAPE
                 || keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
             if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
             {
-                final String box = this.textFieldBoxName.getValue();
-                if (!box.equals(this.boxName)) this.menu.changeName(box);
-                this.boxName = box;
+                final String box = this.renamePageBox.getValue();
+                if (!box.equals(this.boxName) && this.renamePageBox.isVisible())
+                {
+                    this.menu.changeName(box);
+                    this.boxName = box;
+                }
+
+                if (this.renamePageBox.visible) {
+                    this.renamePageBox.setVisible(false);
+                }
             }
-            this.textFieldBoxName.setFocused(false);
+            this.renamePageBox.setFocused(false);
             return false;
         }
 
-        if (this.textFieldBoxName.isFocused() && keyCode == GLFW.GLFW_KEY_E)
+        if (this.renamePageBox.isFocused() && keyCode == GLFW.GLFW_KEY_E)
         {
-            this.textFieldBoxName.setFocused(true);
+            this.renamePageBox.setFocused(true);
             return true;
         }
 
-        if (this.textFieldSelectedBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
+        if (this.selectedPageBox.isFocused() && (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER))
         {
-            final String entry = this.textFieldSelectedBox.getValue();
+            final String entry = this.selectedPageBox.getValue();
             int number = 1;
             try
             {
@@ -104,19 +114,56 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag.png"));
+        RenderSystem.setShaderTexture(0, BAG_GUI);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
+        //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag.png"), x, y,
                 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+
+        if (this.renameButton.isHoveredOrFocused())
+        {
+            graphics.blit(WIDGETS_GUI, x + 159, y + 5, 30, 15, 10, 10);
+        } else {
+            graphics.blit(WIDGETS_GUI, x + 159, y + 5, 30, 0, 10, 10);
+        }
+
+        if (this.renamePageBox.visible)
+            graphics.blit(WIDGETS_GUI, x + 115, y + 5, 0, 60, 43, 10);
+
+        if (this.prevButton.isHoveredOrFocused())
+        {
+            graphics.blit(WIDGETS_GUI, x + 7, y + 127, 45, 15, 10, 10);
+        } else {
+            graphics.blit(WIDGETS_GUI, x + 7, y + 127, 45, 0, 10, 10);
+        }
+
+        if (this.selectedPageBox.visible)
+            graphics.blit(WIDGETS_GUI, x + 18, y + 127, 0, 75, 25, 10);
+
+        if (this.nextButton.isHoveredOrFocused())
+        {
+            graphics.blit(WIDGETS_GUI, x + 44, y + 127, 60, 15, 10, 10);
+        } else {
+            graphics.blit(WIDGETS_GUI, x + 44, y + 127, 60, 0, 10, 10);
+        }
+
+        if (this.searchButton.isHoveredOrFocused())
+            graphics.blit(WIDGETS_GUI, x + 159, y + 127, 15, 15, 10, 10);
+        else graphics.blit(WIDGETS_GUI, x + 159, y + 127, 15, 0, 10, 10);
+
+        if (this.searchBar.visible)
+            graphics.blit(WIDGETS_GUI, x + 79, y + 127, 0, 30, 79, 10);
     }
 
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
     {
         String text = this.menu.getPage();
-        graphics.drawString(this.font, text, 8, 6, 0x590002, false);
+        if (this.renamePageBox.visible && text.length() > 17)
+            graphics.drawString(this.font, "", 8, 6, 0x590002, false);
+        else graphics.drawString(this.font, text, 8, 6, 0x590002, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 94 + 2, 4210752, false);
     }
@@ -128,56 +175,73 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         final int x = this.width / 2 - 88;
         final int y = this.height / 2 - 120;
 
-        this.textFieldBoxName = new EditBox(this.font,
+        // Elements placed in order of selection when pressing tab
+        this.renamePageBox = new EditBox(this.font,
                 x + 117, y + 6, 40, 10, TComponent.translatable("block.bag.rename.narrate"));
-        this.textFieldBoxName.setTooltip(Tooltip.create(Component.translatable("block.bag.rename.tooltip")));
-        this.textFieldBoxName.setBordered(false);
-        this.textFieldBoxName.maxLength = 17;
-        this.addRenderableWidget(this.textFieldBoxName);
+        this.renamePageBox.setTooltip(Tooltip.create(Component.translatable("block.bag.rename.tooltip")));
+        this.renamePageBox.setBordered(false);
+        this.renamePageBox.setVisible(false);
+        this.renamePageBox.maxLength = 24;
+        this.addRenderableWidget(this.renamePageBox);
 
         final Component rename = TComponent.translatable("block.bag.rename");
-        this.addRenderableWidget(new Button.Builder(rename, (b) -> {
-            final String box = this.textFieldBoxName.getValue();
-            if (!box.equals(this.boxName)) this.menu.changeName(box);
-            this.boxName = box;
-        }).bounds(x + 157, y + 4, 12, 12)
+        this.renameButton = this.addRenderableWidget(new Button.Builder(rename, (b) -> {
+            final String box = this.renamePageBox.getValue();
+            if (!box.equals(this.boxName) && this.renamePageBox.isVisible())
+            {
+                this.menu.changeName(box);
+                this.boxName = box;
+            }
+
+            this.renamePageBox.setVisible(!this.renamePageBox.visible);
+        }).bounds(x + 159, y + 5, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.bag.rename.tooltip")))
                 .createNarration(supplier -> TComponent.translatable("block.bag.rename.narrate")).build());
+        this.renameButton.setAlpha(0);
 
         final Component prev = TComponent.translatable("block.bag.previous");
-        this.addRenderableWidget(new Button.Builder(prev, (b) -> {
+        this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
-            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+            this.selectedPageBox.setValue(this.menu.getPageNb());
         }).bounds(x + 7, y + 127, 10, 10)
+                .tooltip(Tooltip.create(Component.translatable("block.bag.previous.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.bag.previous.narrate")).build());
+        this.prevButton.setAlpha(0);
 
-        this.textFieldSelectedBox = new EditBox(this.font,
+        this.selectedPageBox = new EditBox(this.font,
                 x + 20, y + 128, 22, 10, TComponent.literal(this.page));
-        this.textFieldSelectedBox.setTooltip(Tooltip.create(Component.translatable("block.bag.page.tooltip")));
-        this.textFieldSelectedBox.setBordered(false);
-        this.addRenderableWidget(this.textFieldSelectedBox);
+        this.selectedPageBox.setTooltip(Tooltip.create(Component.translatable("block.bag.page.tooltip")));
+        this.selectedPageBox.setBordered(false);
+        this.addRenderableWidget(this.selectedPageBox);
 
         final Component next = TComponent.translatable("block.bag.next");
-        this.addRenderableWidget(new Button.Builder(next, (b) -> {
+        this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
-            this.textFieldSelectedBox.setValue(this.menu.getPageNb());
+            this.selectedPageBox.setValue(this.menu.getPageNb());
         }).bounds(x + 44, y + 127, 10, 10)
+                .tooltip(Tooltip.create(Component.translatable("block.bag.narrate.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.bag.next.narrate")).build());
+        this.nextButton.setAlpha(0);
 
-        this.textFieldSearch = new EditBox(this.font,
-                x + 99, y + 128, 58, 10, TComponent.translatable("block.bag.search.narrate"));
-        this.textFieldSearch.setTooltip(Tooltip.create(Component.translatable("block.bag.search.tooltip")));
-        this.textFieldSearch.setBordered(false);
-        this.addRenderableWidget(this.textFieldSearch);
+        this.searchBar = new EditBox(this.font,
+                x + 81, y + 128, 77, 10, TComponent.translatable("block.bag.search.narrate"));
+        this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.bag.search.tooltip")));
+
+        this.searchBar.setBordered(false);
+        this.searchBar.setVisible(false);
+        this.addRenderableWidget(this.searchBar);
 
         final Component search = TComponent.translatable("block.bag.search");
         this.searchButton = this.addRenderableWidget(new Button.Builder(search, (b) -> {
-        }).bounds(x + 157, y + 126, 12, 12)
+            this.searchBar.setVisible(!this.searchBar.visible);
+        }).bounds(x + 159, y + 127, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.bag.search.tooltip")))
                 .createNarration(supplier -> TComponent.translatable("block.bag.search.narrate")).build());
+        this.searchButton.visible = true;
+        this.searchButton.setAlpha(0);
 
-        this.textFieldSelectedBox.value = this.page;
-        this.textFieldBoxName.value = "";
+        this.selectedPageBox.value = this.page;
+        this.renamePageBox.value = "";
     }
 
     /** Called when the screen is unloaded. Used to disable keyboard repeat
@@ -196,14 +260,14 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
 
         for (int i = 0; i < 54; i++)
         {
-            if (!this.textFieldSearch.getValue().isEmpty() && this.textFieldSearch != null)
+            if (!this.searchBar.getValue().isEmpty() && this.searchBar.visible)
             {
                 final ItemStack stack = this.menu.inv.getItem(i + 54 * this.menu.inv.getPage());
                 if (stack.isEmpty()) continue;
                 final int x = i % 9 * 18 + this.width / 2 - 80;
                 final int y = i / 9 * 18 + this.height / 2 - 102;
                 final String name = stack == null ? "" : stack.getHoverName().getString();
-                if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.textFieldSearch.getValue())))
+                if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.searchBar.getValue())))
                 {
                     final int slotColor = 0x75FFFF00;
                     graphics.fill(RenderType.guiOverlay(), x, y, x + 16, y + 16, slotColor);
