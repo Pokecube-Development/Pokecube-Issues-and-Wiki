@@ -55,6 +55,12 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             return false;
         }
 
+        if (this.searchBar.isFocused() && keyCode == GLFW.GLFW_KEY_E)
+        {
+            this.searchBar.setFocused(true);
+            return true;
+        }
+
 //        if (this.searchBar.isFocused())
 //        {
 //            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
@@ -99,16 +105,16 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
-            graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 240, 0, 15, 13);
+            graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 240, 20, 15, 13);
         } else if (this.darkModeButton.visible) {
-            graphics.blit(WIDGETS_DARK_GUI, x - 16, y + 1, 240, 20, 14, 13);
+            graphics.blit(WIDGETS_DARK_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.lightModeButton.isHoveredOrFocused() && this.lightModeButton.visible)
         {
-            graphics.blit(WIDGETS_GUI, x - 17, y + 1, 240, 0, 15, 13);
+            graphics.blit(WIDGETS_GUI, x - 17, y + 1, 240, 20, 15, 13);
         } else if (this.lightModeButton.visible) {
-            graphics.blit(WIDGETS_GUI, x - 16, y + 1, 240, 20, 14, 13);
+            graphics.blit(WIDGETS_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.prevButton.isHoveredOrFocused())

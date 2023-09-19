@@ -99,10 +99,13 @@ public class SmallBag<T extends ChestMenu> extends AbstractContainerScreen<T>
         ItemStack stack = ItemStack.EMPTY;
         final CompoundTag tag = stack.getTag();
 
-        String text = tag.getString(bagName);
-        if (this.renamePageBox.visible && text.length() > 17)
-            graphics.drawString(this.font, "", 8, 6, 0x330001, false);
-        else if (tag != null) graphics.drawString(this.font, text, 8, 6, 0x330001, false);
+        if (tag != null)
+        {
+            String text = tag.getString(bagName);
+            if (this.renamePageBox.visible && text.length() > 17)
+                graphics.drawString(this.font, "", 8, 6, 0x330001, false);
+            else graphics.drawString(this.font, text, 8, 6, 0x330001, false);
+        }
         else graphics.drawString(this.font, this.getTitle().getString(), 8, 6, 0x330001, false);
 
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),

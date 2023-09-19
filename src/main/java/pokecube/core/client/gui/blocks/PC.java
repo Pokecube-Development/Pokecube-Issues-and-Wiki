@@ -141,16 +141,16 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
-            graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 240, 0, 15, 13);
+            graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 240, 20, 15, 13);
         } else if (this.darkModeButton.visible) {
-            graphics.blit(WIDGETS_DARK_GUI, x - 16, y + 1, 240, 20, 14, 13);
+            graphics.blit(WIDGETS_DARK_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.lightModeButton.isHoveredOrFocused() && this.lightModeButton.visible)
         {
-            graphics.blit(WIDGETS_GUI, x - 17, y + 1, 240, 0, 15, 13);
+            graphics.blit(WIDGETS_GUI, x - 17, y + 1, 240, 20, 15, 13);
         } else if (this.lightModeButton.visible) {
-            graphics.blit(WIDGETS_GUI, x - 16, y + 1, 240, 20, 14, 13);
+            graphics.blit(WIDGETS_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.renameButton.isHoveredOrFocused())
@@ -262,9 +262,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         this.renamePageBox = new EditBox(this.font, x + 117, y + 7, 40, 10, TComponent.translatable("block.pc.rename.narrate"));
         this.renamePageBox.setTooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")));
-        if (this.lightModeButton.visible) {
+        if (this.lightModeButton.visible)
             this.renamePageBox.setTextColor(0xB2AFD6);
-        } else this.renamePageBox.setTextColor(0xFFFFFF);
+        else this.renamePageBox.setTextColor(0xFFFFFF);
         this.renamePageBox.setBordered(false);
         this.renamePageBox.setVisible(false);
         this.renamePageBox.maxLength = 24;
@@ -300,9 +300,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.selectedPageBox = new EditBox(this.font,
                 x + 21, y + 129, 21, 10, TComponent.translatable("block.pc.page.tooltip.narrate"));
         this.selectedPageBox.setTooltip(Tooltip.create(Component.translatable("block.pc.page.tooltip")));
-        if (this.lightModeButton.visible) {
-            this.selectedPageBox.setTextColor(0xB2AFD6);
-        } else this.selectedPageBox.setTextColor(0xFFFFFF);
+        if (this.lightModeButton.visible)
+            this.renamePageBox.setTextColor(0xB2AFD6);
+        else this.renamePageBox.setTextColor(0xFFFFFF);
         this.selectedPageBox.setBordered(false);
         this.addRenderableWidget(this.selectedPageBox);
 
@@ -321,9 +321,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.searchBar = new EditBox(this.font,
                 x + 63, y + 129, 72, 10, TComponent.translatable("block.pc.search.narrate"));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")));
-        if (this.lightModeButton.visible) {
-            this.searchBar.setTextColor(0xB2AFD6);
-        } else this.searchBar.setTextColor(0xFFFFFF);
+        if (this.lightModeButton.visible)
+            this.renamePageBox.setTextColor(0xB2AFD6);
+        else this.renamePageBox.setTextColor(0xFFFFFF);
         this.searchBar.setBordered(false);
         this.searchBar.setVisible(false);
         this.addRenderableWidget(this.searchBar);
