@@ -45,7 +45,8 @@ public class SmallBag<T extends ChestMenu> extends AbstractContainerScreen<T>
             if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
             {
                 final String box = this.renamePageBox.getValue();
-                if (!box.equals(this.boxName))
+
+                if (!box.equals(this.boxName) && this.renamePageBox.visible && !this.renamePageBox.getValue().equals(""))
                 {
                     final CompoundTag tag = new CompoundTag();
                     tag.putString(bagName, box);
@@ -53,10 +54,7 @@ public class SmallBag<T extends ChestMenu> extends AbstractContainerScreen<T>
                     ItemStack stack = ItemStack.EMPTY;
                     stack.setTag(tag);
                 }
-
-                if (this.renamePageBox.visible) {
-                    this.renamePageBox.setVisible(false);
-                }
+                this.renamePageBox.setVisible(!this.renamePageBox.visible);
             }
             this.renamePageBox.setFocused(false);
             return false;
@@ -132,7 +130,7 @@ public class SmallBag<T extends ChestMenu> extends AbstractContainerScreen<T>
         this.renameButton = this.addRenderableWidget(new Button.Builder(rename, (b) -> {
             final String box = this.renamePageBox.getValue();
 
-            if (!box.equals(this.boxName))
+            if (!box.equals(this.boxName) && this.renamePageBox.visible && !this.renamePageBox.getValue().equals(""))
             {
                 final CompoundTag tag = new CompoundTag();
                 tag.putString(bagName, box);

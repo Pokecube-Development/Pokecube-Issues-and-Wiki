@@ -70,7 +70,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
             if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
             {
                 final String box = this.renamePageBox.getValue();
-                if (!box.equals(this.boxName) && this.renamePageBox.isVisible())
+                if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue().equals(""))
                 {
                     this.menu.changeName(box);
                     this.boxName = box;
@@ -186,7 +186,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         final Component rename = TComponent.translatable("block.bag.rename");
         this.renameButton = this.addRenderableWidget(new Button.Builder(rename, (b) -> {
             final String box = this.renamePageBox.getValue();
-            if (!box.equals(this.boxName) && this.renamePageBox.isVisible())
+            if (!box.equals(this.boxName) && this.renamePageBox.isVisible() && !this.renamePageBox.getValue().equals(""))
             {
                 this.menu.changeName(box);
                 this.boxName = box;
