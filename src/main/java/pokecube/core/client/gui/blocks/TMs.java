@@ -55,15 +55,15 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             return false;
         }
 
-        if (this.searchBar.isFocused())
-        {
-            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
-            {
-                // TODO search the moves list and go to the one here.
-            }
-            this.searchBar.setCanLoseFocus(true);
-            return true;
-        }
+//        if (this.searchBar.isFocused())
+//        {
+//            if (keyCode == GLFW.GLFW_KEY_ENTER || keyCode == GLFW.GLFW_KEY_KP_ENTER)
+//            {
+//                // TODO search the moves list and go to the one here.
+//            }
+//            this.searchBar.setCanLoseFocus(true);
+//            return true;
+//        }
         return super.keyPressed(keyCode, b, c);
     }
 
@@ -145,9 +145,6 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final int x = this.width / 2 - 88;
         final int y = this.height / 2 - 88;
 
-        final String[] moves = this.menu.moves;
-        final String s = moves.length > 0 ? moves[this.index % moves.length] : "";
-
         // Elements placed in order of selection when pressing tab
         final Component darkMode = TComponent.literal("");
         this.darkModeButton = this.addRenderableWidget(new Button.Builder(darkMode, (b) -> {
@@ -168,6 +165,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         this.lightModeButton.visible = false;
         this.lightModeButton.setAlpha(0);
 
+        final String[] moves1 = this.menu.moves;
+        final String s = moves1.length > 0 ? moves1[this.index % moves1.length] : "";
         this.movesSelection = this.addRenderableWidget(new Button.Builder(Component.literal(""), (b) -> {})
                 .bounds( x + 58, y + 16, 111, 18)
                 .tooltip(Tooltip.create(Component.translatable("block.tm_machine.moves_selection.tooltip")))
@@ -177,6 +176,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         final Component prev = TComponent.translatable("block.tm_machine.previous");
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
+            final String[] moves = this.menu.moves;
             this.index--;
             if (this.index < 0 && moves.length > 0) this.index = moves.length - 1;
             else if (this.index < 0) this.index = 0;
@@ -196,6 +196,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         final Component next = TComponent.translatable("block.tm_machine.next");
         this.nextButton = this.addRenderableWidget(new Button.Builder(next, (b) -> {
+            final String[] moves = this.menu.moves;
             this.index++;
             if (this.index > moves.length - 1) this.index = 0;
         }).bounds(x + 159, y + 36, 10, 10)

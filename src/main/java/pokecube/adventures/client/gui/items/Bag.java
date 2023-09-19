@@ -119,8 +119,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         final int y = (this.height - this.imageHeight) / 2;
 
         //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
-        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag.png"), x, y,
-                0, 0, this.imageWidth + 1, this.imageHeight + 1);
+        graphics.blit(BAG_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
 
         if (this.renameButton.isHoveredOrFocused())
         {
@@ -219,7 +218,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
             this.menu.updateInventoryPages((byte) 1, this.minecraft.player.getInventory());
             this.selectedPageBox.setValue(this.menu.getPageNb());
         }).bounds(x + 44, y + 127, 10, 10)
-                .tooltip(Tooltip.create(Component.translatable("block.bag.narrate.tooltip")))
+                .tooltip(Tooltip.create(Component.translatable("block.bag.next.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.bag.next.narrate")).build());
         this.nextButton.setAlpha(0);
 
