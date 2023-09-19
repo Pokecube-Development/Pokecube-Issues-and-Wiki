@@ -523,6 +523,9 @@ public class Config extends ConfigData
     public int repelRadius = 16;
 
     // Gui/client settings
+
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Default to dark mode in certain guis, such as the PC. [Default: false]")
+    public boolean darkMode = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the tamed pokemob GUI. [Default: \"top_left\"]")
     public String guiRef = "top_left";
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the pokemob message GUI. [Default: \"right_middle\"]")
@@ -562,7 +565,6 @@ public class Config extends ConfigData
     public double moveVolumeCry = 0.0625f;
     @Configure(category = Config.moves, type = Type.CLIENT, comment = "Volume scale of the effect sound. [Default: 0.25]")
     public double moveVolumeEffect = 0.25;
-
     @Configure(category = Config.client, type = Type.CLIENT, comment = "The moves on the pokemob gui is positioned below the health bar. [Default: true]")
     public boolean guiDown = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Allows the GUI to automatically scale according to screen size. [Default: false]")

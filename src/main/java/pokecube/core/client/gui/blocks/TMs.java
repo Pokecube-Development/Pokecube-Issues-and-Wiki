@@ -153,6 +153,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         }).bounds(x - 16, y + 1, 14, 13)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.dark_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pc.dark_mode.narrate")).build());
+        this.darkModeButton.visible = !PokecubeCore.getConfig().darkMode;
         this.darkModeButton.setAlpha(0);
 
         final Component lightMode = TComponent.literal("");
@@ -162,7 +163,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         }).bounds(x - 16, y + 1, 14, 13)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.light_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pc.light_mode.narrate")).build());
-        this.lightModeButton.visible = false;
+        this.lightModeButton.visible = PokecubeCore.getConfig().darkMode;
         this.lightModeButton.setAlpha(0);
 
         final String[] moves1 = this.menu.moves;
