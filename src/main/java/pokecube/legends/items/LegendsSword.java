@@ -7,6 +7,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.legends.init.ItemInit;
 import thut.lib.TComponent;
 
 public class LegendsSword extends SwordItem
@@ -21,6 +23,13 @@ public class LegendsSword extends SwordItem
 	String  tooltipname;
 	boolean hasTooltip = true;
 	boolean hasShiny = false;
+    Item isRepairItem;
+
+    public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, Item repairItem, final Properties properties)
+    {
+        super(material, bonusDamage, attackSpeed, properties);
+        this.isRepairItem = repairItem;
+    }
 
     public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, final Properties properties)
     {
@@ -61,5 +70,10 @@ public class LegendsSword extends SwordItem
     public boolean isFoil(final ItemStack itemstack)
     {
         return this.hasShiny;
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack stack, ItemStack repairItem) {
+        return repairItem.is(isRepairItem) || super.isValidRepairItem(stack, repairItem);
     }
 }
