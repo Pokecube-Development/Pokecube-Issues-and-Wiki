@@ -4,6 +4,7 @@
       "and_preset": "swamp_ground",
       "entries": [
         {"key": "gulpin","min": 2,"max": 4,"rate": 0.4},
+        {"key": "wooper-paldea","min": 1,"max": 3,"rate": 0.3},
         
         {"key": "caterpie","min": 4,"max": 8,"rate": 0.2},
         {"key": "weedle","min": 4,"max": 8,"rate": 0.2},
@@ -17,6 +18,7 @@
         
         {"key": "dreepy","min": 2,"max": 4,"rate": 0.08},
         {"key": "farfetchd","min": 2,"max": 4,"rate": 0.08},
+        {"key": "flamigo","min": 1,"max": 2,"rate": 0.08},
         
         {"key": "karrablast","min": 2,"max": 4,"rate": 0.04}
       ]

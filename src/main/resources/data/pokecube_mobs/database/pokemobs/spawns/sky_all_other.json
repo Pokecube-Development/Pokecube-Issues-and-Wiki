@@ -3,31 +3,49 @@
     {
       "and_preset": "sky,all_overworld",
       "entries": [
-        {"key": "swablu","min": 2,"max": 4,"rate": 0.5},
-        {"key": "rufflet","min": 2,"max": 4,"rate": 0.1},
+        {"key": "swablu","min": 1,"max": 4,"rate": 0.5},
+        {"key": "pidove","min": 1,"max": 4,"rate": 0.5},
+        {"key": "starly","min": 1,"max": 4,"rate": 0.5},
+        {"key": "squawkabilly","min": 1,"max": 4,"rate": 0.5},
+        {"key": "squawkabilly-blue-plumage","min": 1,"max": 4,"rate": 0.4},
+        {"key": "squawkabilly-yellow-plumage","min": 1,"max": 4,"rate": 0.3},
+        {"key": "drifloon","min": 1,"max": 4,"rate": 0.25},
+        {"key": "rufflet","min": 1,"max": 4,"rate": 0.1},
+        {"key": "vullaby","min": 1,"max": 4,"rate": 0.1},
+        {"key": "articuno","min": 1,"max": 1,"rate": 0.002},
+        {"key": "zapdos","min": 1,"max": 1,"rate": 0.002},
+        {"key": "moltres","min": 1,"max": 1,"rate": 0.002},
         {"key": "rayquaza","min": 1,"max": 1,"rate": 0.002}
       ]
     },
     {
       "and_preset": "all_overworld",
       "entries": [
-        {"key": "scatterbug","min": 2,"max": 4,"rate": 0.05},
-        {"key": "cresselia","min": 1,"max": 1,"rate": 0.001},
-        {"key": "darkrai","min": 1,"max": 1,"rate": 0.001}
+        {"key": "scatterbug","min": 1,"max": 4,"rate": 0.05},
+        {"key": "castform","min": 1,"max": 2,"rate": 0.05},
+        {"key": "yungoos","min": 1,"max": 2,"rate": 0.05},
+        {"key": "articuno-galar","min": 1,"max": 1,"rate": 0.001},
+        {"key": "zapdos-galar","min": 1,"max": 1,"rate": 0.001},
+        {"key": "moltres-galar","min": 1,"max": 1,"rate": 0.001}
       ]
     },
     {
       "and_preset": "all_overworld_water",
       "entries": [
-        {"key": "magikarp","min": 2,"max": 4,"rate": 0.25}
+        {"key": "magikarp","min": 1,"max": 4,"rate": 0.25},
+        {"key": "goldeen","min": 1,"max": 4,"rate": 0.15}
       ]
     },
     {
       "and_preset": "night_time,all_overworld",
       "entries": [
-        {"key": "zubat","min": 4,"max": 8,"rate": 0.5},
-        {"key": "woobat","min": 2,"max": 4,"rate": 0.05},
-        {"key": "noibat","min": 2,"max": 4,"rate": 0.01}
+        {"key": "zubat","min": 1,"max": 5,"rate": 0.5},
+        {"key": "rattata-alola","min": 1,"max": 5,"rate": 0.05},
+        {"key": "woobat","min": 1,"max": 4,"rate": 0.05},
+        {"key": "noibat","min": 1,"max": 3,"rate": 0.01},
+        {"key": "unown","min": 1,"max": 1,"rate": 0.005, "variant": "unown_*"},
+        {"key": "cresselia","min": 1,"max": 1,"rate": 0.001},
+        {"key": "darkrai","min": 1,"max": 1,"rate": 0.001}
       ]
     }
   ]

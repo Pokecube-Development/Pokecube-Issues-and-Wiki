@@ -3,12 +3,12 @@
     {
       "and_preset": "end_surface",
       "entries": [
-        {"key": "clefairy","min": 2,"max": 4,"rate": 0.25},
-        {"key": "beldum","min": 2,"max": 4,"rate": 0.15},
-        {"key": "minior-meteor","min": 2,"max": 4,"rate": 0.1},
+        {"key": "clefairy","min": 1,"max": 4,"rate": 0.25},
+        {"key": "beldum","min": 1,"max": 4,"rate": 0.15},
+        {"key": "minior-meteor","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "lunatone","min": 2,"max": 4,"rate": 0.05},
-        {"key": "solrock","min": 2,"max": 4,"rate": 0.05},
+        {"key": "lunatone","min": 1,"max": 4,"rate": 0.05},
+        {"key": "solrock","min": 1,"max": 4,"rate": 0.05},
         
         {"key": "cresselia","min": 1,"max": 1,"rate": 0.002},
         {"key": "darkrai","min": 1,"max": 1,"rate": 0.002},
@@ -21,12 +21,12 @@
     {
       "and_preset": "end_caves",
       "entries": [
-        {"key": "clefairy","min": 2,"max": 4,"rate": 0.25},
-        {"key": "beldum","min": 2,"max": 4,"rate": 0.15},
-        {"key": "minior-meteor","min": 2,"max": 4,"rate": 0.1},
+        {"key": "clefairy","min": 1,"max": 4,"rate": 0.25},
+        {"key": "beldum","min": 1,"max": 4,"rate": 0.15},
+        {"key": "minior-meteor","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "lunatone","min": 2,"max": 4,"rate": 0.05},
-        {"key": "solrock","min": 2,"max": 4,"rate": 0.05},
+        {"key": "lunatone","min": 1,"max": 4,"rate": 0.05},
+        {"key": "solrock","min": 1,"max": 4,"rate": 0.05},
         
         {"key": "cresselia","min": 1,"max": 1,"rate": 0.002},
         {"key": "darkrai","min": 1,"max": 1,"rate": 0.002},

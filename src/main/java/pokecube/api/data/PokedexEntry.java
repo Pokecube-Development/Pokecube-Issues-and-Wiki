@@ -2032,6 +2032,7 @@ public class PokedexEntry
     public void onHeldItemChange(final ItemStack oldStack, final ItemStack newStack, final IPokemob pokemob)
     {
         if (newStack.isEmpty() && oldStack.isEmpty()) return;
+        if (!ThutCore.proxy.isServerSide()) return;
         boolean isChangedForme = pokemob.getCustomHolder() != null && pokemob.getCustomHolder()._is_item_forme;
         PokedexEntry base = this;
         if (!isChangedForme && this.formeItems.isEmpty() && this.getBaseForme() != null)
