@@ -20,7 +20,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.Level;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.compat.jei.Compat;
 import pokecube.core.moves.MovesUtils;

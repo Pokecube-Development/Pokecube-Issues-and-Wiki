@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
@@ -60,7 +59,7 @@ public class ClientHandler
                     final Vector3 v = Vector3.readFromNBT(held.getTag().getCompound("min"), "");
 
                     final AABB one = new AABB(v.getPos());
-                    final AABB two = new AABB(new BlockPos(pointed));
+                    final AABB two = new AABB(v.set(pointed).getPos());
 
                     final double minX = Math.min(one.minX, two.minX);
                     final double minY = Math.min(one.minY, two.minY);
