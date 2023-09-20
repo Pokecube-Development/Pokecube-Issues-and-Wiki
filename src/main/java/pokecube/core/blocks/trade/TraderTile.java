@@ -33,17 +33,17 @@ public class TraderTile extends InteractableTile
         @Override
         public void set(final int index, final int value)
         {
-            TraderTile.this.confirmed[index] = value != 2;
+            TraderTile.this.confirmed[index] = value != 0;
         }
 
         @Override
         public int get(final int index)
         {
-            return TraderTile.this.confirmed[index] ? 3 : 2;
+            return TraderTile.this.confirmed[index] ? 1 : 0;
         }
     };
 
-    public final boolean[] confirmed = new boolean[4];
+    public final boolean[] confirmed = new boolean[2];
     public final Set<UUID> users = Sets.newHashSet();
 
     public TraderTile(final BlockPos pos, final BlockState state)
