@@ -103,7 +103,7 @@ public class Description extends ListPage<LineEntry>
             public void handleHovor(final GuiGraphics graphics, final Style component, final int x, final int y)
             {
 //                TODO: Fix
-//                Description.this.render().renderComponentHoverEffect(graphics, component, x, y);
+//                Description.this.renderComponentHoverEffect(graphics, component, x, y);
             }
         };
         MutableComponent page;

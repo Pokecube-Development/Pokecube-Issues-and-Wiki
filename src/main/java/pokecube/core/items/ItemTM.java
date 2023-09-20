@@ -1,12 +1,20 @@
 package pokecube.core.items;
 
+import java.util.List;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import org.jetbrains.annotations.Nullable;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.data.moves.Moves;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.moves.MoveEntry;
@@ -14,6 +22,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class ItemTM extends Item
 {
@@ -61,6 +70,19 @@ public class ItemTM extends Item
         return stack;
     }
 
+    public Moves.Move moveEffects;
+    @Override
+    @OnlyIn(Dist.CLIENT)
+    public void appendHoverText(ItemStack item, @Nullable Level world, List<Component> list, TooltipFlag advanced) {
+        item = new ItemStack(PokecubeItems.TM.get());
+        final CompoundTag nbt = item.getTag();
+//        if (nbt.getString("move") != null)
+        if (Screen.hasShiftDown() && item.getTagElement("move") != null) {
+            list.add(TComponent.literal(moveEffects.effect_text_simple));
+        }
+        super.appendHoverText(item, world, list, advanced);
+    }
+
     public static boolean teachToPokemob(final ItemStack tm, final IPokemob mob)
     {
         if (tm.getItem() instanceof ItemTM)
@@ -95,5 +117,4 @@ public class ItemTM extends Item
     {
         return true;
     }
-
 }

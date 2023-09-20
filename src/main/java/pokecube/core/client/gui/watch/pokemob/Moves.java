@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.watch.pokemob;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ public class Moves extends ListPage<LineEntry>
     public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_moves_nm");
 
     private int[][] moveOffsets;
+    public pokecube.api.data.moves.Moves.Move moveEffects;
 
     public Moves(final PokemobInfoPage parent)
     {
@@ -84,14 +86,15 @@ public class Moves extends ListPage<LineEntry>
                     if (GZMoveManager.isGZDMove(move) && offset[3] != this.parent.pokemob.getMoveIndex())
                         value = TComponent.translatable("pokewatch.moves.pwr.fmt", "???", stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
+                    Component effectText = TComponent.translatable(moveEffects.effect_text_simple);
                     final int box = Math.max(10, this.font.width(info) + 2);
                     final int mx1 = 65 - box;
                     final int my1 = offset[1] + 30;
                     final int dy1 = this.font.lineHeight;
                     graphics.fill(x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
                     graphics.fill(x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
-                    // TODO: Fix this
-                    // this.font.draw(graphics, info, x + mx1 + 1, y + my1 + 1, 0xFFFFFFFF);
+                    graphics.drawString(this.font, info, x + mx1 + 1, y + my1 + 1, 0xFF000000);
+                    graphics.renderTooltip(this.font, effectText, mouseX, mouseY);
                 }
             }
         }
@@ -367,38 +370,37 @@ public class Moves extends ListPage<LineEntry>
         return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
-//    TODO: Fix this
+//     TODO: Fix this
 //    @Override
-//    protected void renderComponentHoverEffect(final GuiGraphics graphics, final Style component, final int x, final int y)
-//    {
-//        tooltip:
-//        if (component.getHoverEvent() != null)
-//        {
-//            IPokemob pokemob = this.parent.pokemob;
-//            final Object var = component.getHoverEvent().getValue(component.getHoverEvent().getAction());
-//            if (!(var instanceof Component comp) || pokemob == null) break tooltip;
-//            final MoveEntry move = MovesUtils.getMove(comp.getString());
-//            if (move == null) break tooltip;
-//            Component value = TComponent.literal("-");
-//            final int pwr = move.getPWR(pokemob, this.watch.player);
-//            Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL
-//                    ? TComponent.translatable("pokewatch.ATT", value)
-//                    : TComponent.translatable("pokewatch.ATTSP", value);
-//            if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
-//            Component info = TComponent.translatable("pokewatch.moves.pwr", value);
-//            final int box = Math.max(10, this.font.width(info) + 2);
-//            final int mx = 100 - box;
-//            final int my = 0;
-//            final int dy = this.font.lineHeight;
-//            graphics.pose().pushPose();
-//            graphics.pose().translate(0, 0, 1);
-//            graphics.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
-//            graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-//            // TODO: Fix this
-//            // this.font.draw(graphics, info, x + mx + 1, y + my + 1, 0xFFFFFFFF);
-//            graphics.pose().popPose();
-//        }
+    protected void renderComponentHoverEffect(final GuiGraphics graphics, final Style component, final int x, final int y)
+    {
+        tooltip:
+        if (component.getHoverEvent() != null)
+        {
+            IPokemob pokemob = this.parent.pokemob;
+            final Object var = component.getHoverEvent().getValue(component.getHoverEvent().getAction());
+            if (!(var instanceof Component comp) || pokemob == null) break tooltip;
+            final MoveEntry move = MovesUtils.getMove(comp.getString());
+            if (move == null) break tooltip;
+            Component value = TComponent.literal("-");
+            final int pwr = move.getPWR(pokemob, this.watch.player);
+            Component stat = move.getCategory(pokemob) == AttackCategory.PHYSICAL
+                    ? TComponent.translatable("pokewatch.ATT", value)
+                    : TComponent.translatable("pokewatch.ATTSP", value);
+            if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
+            Component info = TComponent.translatable("pokewatch.moves.pwr", value);
+            final int box = Math.max(10, this.font.width(info) + 2);
+            final int mx = 100 - box;
+            final int my = 0;
+            final int dy = this.font.lineHeight;
+            graphics.pose().pushPose();
+            graphics.pose().translate(0, 0, 1);
+            graphics.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy + 1, 0xFF78C850);
+            graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
+            graphics.drawString(this.font, info, x + mx + 1, y + my + 1, 0xFFFFFFFF);
+            graphics.pose().popPose();
+        }
 //        super.renderComponentHoverEffect(graphics, component, x, y);
-//    }
+    }
 
 }
