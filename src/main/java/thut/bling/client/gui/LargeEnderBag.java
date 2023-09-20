@@ -276,5 +276,4 @@ public class LargeEnderBag<T extends LargeContainer> extends AbstractContainerSc
             }
         this.renderTooltip(graphics, mouseX, mouseY);
     }
-
 }

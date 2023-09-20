@@ -97,9 +97,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (this.darkModeButton.visible)
-            graphics.blit(TM_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+            graphics.blit(TM_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
-            graphics.blit(TM_DARK_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+            graphics.blit(TM_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 58, y + 16, 0, 90, 112, 19);
 
@@ -157,8 +157,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             this.darkModeButton.visible = false;
             this.lightModeButton.visible = true;
         }).bounds(x - 16, y + 1, 14, 13)
-                .tooltip(Tooltip.create(Component.translatable("block.pc.dark_mode.tooltip")))
-                .createNarration(supplier -> Component.translatable("block.pc.dark_mode.narrate")).build());
+                .tooltip(Tooltip.create(Component.translatable("block.tm_machine.dark_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("block.tm_machine.dark_mode.narrate")).build());
         this.darkModeButton.visible = !PokecubeCore.getConfig().darkMode;
         this.darkModeButton.setAlpha(0);
 
@@ -167,8 +167,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
             this.lightModeButton.visible = false;
             this.darkModeButton.visible = true;
         }).bounds(x - 16, y + 1, 14, 13)
-                .tooltip(Tooltip.create(Component.translatable("block.pc.light_mode.tooltip")))
-                .createNarration(supplier -> Component.translatable("block.pc.light_mode.narrate")).build());
+                .tooltip(Tooltip.create(Component.translatable("block.tm_machine.light_mode.tooltip")))
+                .createNarration(supplier -> Component.translatable("block.tm_machine.light_mode.narrate")).build());
         this.lightModeButton.visible = PokecubeCore.getConfig().darkMode;
         this.lightModeButton.setAlpha(0);
 
@@ -244,5 +244,4 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         }
         this.renderTooltip(graphics, mouseX, mouseY);
     }
-
 }
