@@ -60,6 +60,12 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         else if (this.lightModeButton.visible)
             graphics.blit(TRADE_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
+        // PokeCube slot icon
+        graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 25, y + 22, 75, 165, 18, 18);
+
+        // PokeCube slot icons
+        graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 133, y + 22, 75, 165, 18, 18);
+
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
             graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 240, 20, 15, 13);

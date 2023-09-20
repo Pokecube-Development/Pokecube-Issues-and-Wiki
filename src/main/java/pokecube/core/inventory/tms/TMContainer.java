@@ -4,6 +4,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ContainerLevelAccess;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -11,9 +12,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.tms.TMTile;
 import pokecube.core.init.MenuTypes;
-import pokecube.core.inventory.TexturedSlot;
 import pokecube.core.items.pokecubes.PokecubeManager;
-import pokecube.core.utils.Resources;
 import thut.api.ThutCaps;
 import thut.api.inventory.BaseContainer;
 
@@ -53,9 +52,9 @@ public class TMContainer extends BaseContainer
             this.inv = wrapper.getInv();
         }
 
-        this.addSlot(new TexturedSlot(this.inv, 0, 8, 17, Resources.SLOT_ICON_TM));
+        this.addSlot(new Slot(this.inv, 0, 8, 17));
         final TMContainer cont = this;
-        this.addSlot(new TexturedSlot(this.inv, 1, 8, 49, Resources.SLOT_ICON_CUBE)
+        this.addSlot(new Slot(this.inv, 1, 8, 49)
         {
             @Override
             public boolean mayPlace(final ItemStack stack)

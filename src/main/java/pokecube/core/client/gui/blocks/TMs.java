@@ -101,7 +101,14 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         else if (this.lightModeButton.visible)
             graphics.blit(TM_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
+        // Background for moves list
         graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 58, y + 16, 0, 90, 112, 19);
+
+        // TM slot icon
+        graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 7, y + 16, 50, 165, 18, 18);
+
+        // PokeCube slot icon
+        graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 7, y + 48, 75, 165, 18, 18);
 
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
