@@ -145,7 +145,7 @@ public class Pokecube extends Item implements IPokecube
             final int lvlexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             final int exp = pokemob.getExp() - lvlexp;
             final int neededexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - lvlexp;
-            list.add(TComponent.translatable("pokecube.tooltip.level", pokemob.getLevel()).withStyle(ChatFormatting.GRAY));
+            list.add(TComponent.translatable("pokecube.tooltip.level", pokemob.getLevel()).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.UNDERLINE));
             list.add(TComponent.translatable("pokecube.tooltip.health", health, maxHealth).withStyle(ChatFormatting.GRAY));
             list.add(TComponent.translatable("pokecube.tooltip.xp", exp, neededexp).withStyle(ChatFormatting.GRAY));
 
