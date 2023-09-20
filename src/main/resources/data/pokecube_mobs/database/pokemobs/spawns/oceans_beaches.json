@@ -3,143 +3,150 @@
     {
       "and_preset": "oceans",
       "entries": [
-        {"key": "clobbopus","min": 2,"max": 4,"rate": 0.2},
-        {"key": "krabby","min": 2,"max": 4,"rate": 0.2},
-        {"key": "spheal","min": 2,"max": 4,"rate": 0.1},
-        {"key": "seel","min": 2,"max": 4,"rate": 0.1}
+        {"key": "clobbopus","min": 1,"max": 4,"rate": 0.2},
+        {"key": "krabby","min": 1,"max": 4,"rate": 0.2},
+        {"key": "crabrawler","min": 1,"max": 3,"rate": 0.2},
+        {"key": "spheal","min": 1,"max": 4,"rate": 0.1},
+        {"key": "seel","min": 1,"max": 4,"rate": 0.1}
       ]
     },
     {
       "and_preset": "oceans",
       "not_preset": "cold_areas",
       "entries": [
-        {"key": "shellos","min": 2,"max": 4,"rate": 0.1, "variant": "shellos_west"},
-        {"key": "shellos","min": 2,"max": 4,"rate": 0.1, "variant": "shellos_east"}
+        {"key": "shellos","min": 1,"max": 4,"rate": 0.1, "variant": "shellos_west"},
+        {"key": "shellos","min": 1,"max": 4,"rate": 0.1, "variant": "shellos_east"}
       ]
     },
     {
       "and_preset": "ocean_ground",
       "entries": [
-        {"key": "wingull","min": 2,"max": 4,"rate": 0.5},
-        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1}
+        {"key": "wingull","min": 1,"max": 4,"rate": 0.5},
+        {"key": "wiglett","min": 1,"max": 4,"rate": 0.25},
+        {"key": "shuckle","min": 1,"max": 4,"rate": 0.1},
+        {"key": "tauros-paldea-aqua-breed","min": 1,"max": 1,"rate": 0.01}
       ]
     },
     {
       "and_preset": "ocean_water",
       "entries": [
-        {"key": "magikarp","min": 2,"max": 4,"rate": 1},
-        {"key": "tentacool","min": 2,"max": 4,"rate": 1},
-        {"key": "frillish","min": 2,"max": 4,"rate": 1},
+        {"key": "magikarp","min": 1,"max": 4,"rate": 1},
+        {"key": "tentacool","min": 1,"max": 4,"rate": 1},
+        {"key": "frillish","min": 1,"max": 4,"rate": 1},
         
-        {"key": "carvanha","min": 2,"max": 4,"rate": 0.5},
+        {"key": "carvanha","min": 1,"max": 4,"rate": 0.5},
         
-        {"key": "skrelp","min": 2,"max": 4,"rate": 0.4},
+        {"key": "skrelp","min": 1,"max": 4,"rate": 0.4},
         
-        {"key": "mareanie","min": 2,"max": 4,"rate": 0.3},
-        {"key": "alomomola","min": 2,"max": 4,"rate": 0.3},
-        {"key": "clamperl","min": 2,"max": 4,"rate": 0.3},
+        {"key": "mareanie","min": 1,"max": 4,"rate": 0.3},
+        {"key": "alomomola","min": 1,"max": 4,"rate": 0.3},
+        {"key": "clamperl","min": 1,"max": 4,"rate": 0.3},
+        {"key": "veluza","min": 1,"max": 3,"rate": 0.3},
         
         {"key": "lapras","min": 1,"max": 1,"rate": 0.3},
-        {"key": "chinchou","min": 2,"max": 4,"rate": 0.3},
-        {"key": "qwilfish","min": 2,"max": 4,"rate": 0.3},
+        {"key": "dondozo","min": 1,"max": 2,"rate": 0.3},
+        {"key": "chinchou","min": 1,"max": 4,"rate": 0.3},
+        {"key": "qwilfish","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "luvdisc","min": 2,"max": 4,"rate": 0.2},
-        {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
-        {"key": "bruxish","min": 2,"max": 4,"rate": 0.2},
-        {"key": "goldeen","min": 2,"max": 4,"rate": 0.2},
-        {"key": "staryu","min": 2,"max": 4,"rate": 0.2},
-        {"key": "remoraid","min": 2,"max": 4,"rate": 0.2},
-        {"key": "wailmer","min": 2,"max": 4,"rate": 0.2},
+        {"key": "luvdisc","min": 1,"max": 4,"rate": 0.2},
+        {"key": "crabrawler","min": 1,"max": 4,"rate": 0.2},
+        {"key": "bruxish","min": 1,"max": 4,"rate": 0.2},
+        {"key": "goldeen","min": 1,"max": 4,"rate": 0.2},
+        {"key": "staryu","min": 1,"max": 4,"rate": 0.2},
+        {"key": "remoraid","min": 1,"max": 4,"rate": 0.2},
+        {"key": "wailmer","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "arrokuda","min": 2,"max": 4,"rate": 0.17},
+        {"key": "arrokuda","min": 1,"max": 4,"rate": 0.17},
+        {"key": "finizen","min": 1,"max": 4,"rate": 0.17},
         
         {"key": "wishiwashi-solo","min": 5,"max": 10,"rate": 0.1},
-        {"key": "dhelmise","min": 2,"max": 4,"rate": 0.1},
-        {"key": "horsea","min": 2,"max": 4,"rate": 0.1},
-        {"key": "shellder","min": 2,"max": 4,"rate": 0.1},
-        {"key": "corsola","min": 2,"max": 4,"rate": 0.1},
-        {"key": "mantine","min": 2,"max": 4,"rate": 0.1},
+        {"key": "dhelmise","min": 1,"max": 3,"rate": 0.1},
+        {"key": "horsea","min": 1,"max": 4,"rate": 0.1},
+        {"key": "shellder","min": 1,"max": 4,"rate": 0.1},
+        {"key": "corsola","min": 1,"max": 4,"rate": 0.1},
+        {"key": "mantine","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "dratini","min": 2,"max": 4,"rate": 0.05},
+        {"key": "dratini","min": 1,"max": 4,"rate": 0.05},
         
-        {"key": "manaphy","min": 2,"max": 4,"rate": 0.001}
+        {"key": "manaphy","min": 1,"max": 4,"rate": 0.001}
       ]
     },
     {
       "and_preset": "ocean_water,night_time",
       "entries": [
-        {"key": "inkay","min": 2,"max": 4,"rate": 1}
+        {"key": "inkay","min": 1,"max": 4,"rate": 1}
       ]
     },
     {
       "and_preset": "beaches",
       "entries": [
-        {"key": "binacle","min": 2,"max": 4,"rate": 0.5},
-        {"key": "slowpoke","min": 2,"max": 4,"rate": 0.3},
-        {"key": "slowpoke-galar","min": 2,"max": 4,"rate": 0.3},
-        {"key": "clauncher","min": 2,"max": 4,"rate": 0.25},
-        {"key": "chewtle","min": 2,"max": 4,"rate": 0.25},
-        {"key": "krabby","min": 2,"max": 4,"rate": 0.2},
-        {"key": "pyukumuku","min": 2,"max": 4,"rate": 0.2},
-        {"key": "psyduck","min": 2,"max": 4,"rate": 0.2},
-        {"key": "buizel","min": 2,"max": 4,"rate": 0.2},
-        {"key": "seel","min": 2,"max": 4,"rate": 0.1},
-        {"key": "spheal","min": 2,"max": 4,"rate": 0.1},
-        {"key": "shellder","min": 2,"max": 4,"rate": 0.1},
-        {"key": "wimpod","min": 2,"max": 4,"rate": 0.1},
+        {"key": "binacle","min": 1,"max": 4,"rate": 0.5},
+        {"key": "slowpoke","min": 1,"max": 4,"rate": 0.3},
+        {"key": "slowpoke-galar","min": 1,"max": 4,"rate": 0.3},
+        {"key": "clauncher","min": 1,"max": 4,"rate": 0.25},
+        {"key": "chewtle","min": 1,"max": 4,"rate": 0.25},
+        {"key": "krabby","min": 1,"max": 4,"rate": 0.2},
+        {"key": "pyukumuku","min": 1,"max": 4,"rate": 0.2},
+        {"key": "psyduck","min": 1,"max": 4,"rate": 0.2},
+        {"key": "buizel","min": 1,"max": 4,"rate": 0.2},
+        {"key": "seel","min": 1,"max": 4,"rate": 0.1},
+        {"key": "spheal","min": 1,"max": 4,"rate": 0.1},
+        {"key": "shellder","min": 1,"max": 4,"rate": 0.1},
+        {"key": "wimpod","min": 1,"max": 4,"rate": 0.1},
         
         {"key": "piplup","min": 1,"max": 2,"rate": 0.01},
         {"key": "popplio","min": 1,"max": 2,"rate": 0.01},
         {"key": "sobble","min": 1,"max": 2,"rate": 0.01},
-		{"key": "quaxly","min": 1,"max": 2,"rate": 0.01},
+		{"key": "quaxly","min": 1,"max": 1,"rate": 0.01},
 
-        {"key": "latios","min": 2,"max": 2,"rate": 0.005},
-        {"key": "latias","min": 2,"max": 2,"rate": 0.005}
+        {"key": "latios","min": 1,"max": 2,"rate": 0.005},
+        {"key": "latias","min": 1,"max": 2,"rate": 0.005}
       ]
     },
     {
       "and_preset": "beach_ground",
       "entries": [
-        {"key": "wingull","min": 2,"max": 4,"rate": 0.5},
-        {"key": "glameow","min": 2,"max": 4,"rate": 0.2},
-        {"key": "stunky","min": 2,"max": 4,"rate": 0.2},
+        {"key": "wingull","min": 1,"max": 4,"rate": 0.5},
+        {"key": "glameow","min": 1,"max": 4,"rate": 0.2},
+        {"key": "stunky","min": 1,"max": 4,"rate": 0.2},
+        {"key": "wattrel","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "throh","min": 2,"max": 4,"rate": 0.1},
-        {"key": "throh","min": 2,"max": 4,"rate": 0.1},
+        {"key": "throh","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "sandygast","min": 2,"max": 4,"rate": 0.1},
+        {"key": "sandygast","min": 1,"max": 4,"rate": 0.1},
+        {"key": "wiglett","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1}
+        {"key": "shuckle","min": 1,"max": 4,"rate": 0.1}
       ]
     },
     {
       "and_preset": "beach_water",
       "entries": [
-        {"key": "magikarp","min": 2,"max": 4,"rate": 1},
-        {"key": "tentacool","min": 2,"max": 4,"rate": 1},
-        {"key": "frillish","min": 2,"max": 4,"rate": 1},
+        {"key": "magikarp","min": 1,"max": 4,"rate": 1},
+        {"key": "tentacool","min": 1,"max": 4,"rate": 1},
+        {"key": "frillish","min": 1,"max": 4,"rate": 1},
         
-        {"key": "mareanie","min": 2,"max": 4,"rate": 0.3},
-        {"key": "alomomola","min": 2,"max": 4,"rate": 0.3},
+        {"key": "mareanie","min": 1,"max": 4,"rate": 0.3},
+        {"key": "alomomola","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "crabrawler","min": 2,"max": 4,"rate": 0.2},
-        {"key": "bruxish","min": 2,"max": 4,"rate": 0.2},
-        {"key": "goldeen","min": 2,"max": 4,"rate": 0.2},
-        {"key": "staryu","min": 2,"max": 4,"rate": 0.2},
-        {"key": "pincurchin","min": 2,"max": 4,"rate": 0.2},
+        {"key": "crabrawler","min": 1,"max": 4,"rate": 0.2},
+        {"key": "bruxish","min": 1,"max": 4,"rate": 0.2},
+        {"key": "goldeen","min": 1,"max": 4,"rate": 0.2},
+        {"key": "staryu","min": 1,"max": 4,"rate": 0.2},
+        {"key": "pincurchin","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "horsea","min": 2,"max": 4,"rate": 0.1},
+        {"key": "horsea","min": 1,"max": 4,"rate": 0.1},
         {"key": "wishiwashi-solo","min": 5,"max": 10,"rate": 0.1},
-        {"key": "mantine","min": 2,"max": 4,"rate": 0.1},
-        {"key": "corsola","min": 2,"max": 4,"rate": 0.1}
-        
+        {"key": "mantine","min": 1,"max": 4,"rate": 0.1},
+        {"key": "corsola","min": 1,"max": 4,"rate": 0.1},
+        {"key": "veluza","min": 1,"max": 4,"rate": 0.1}
       ]
     },
     {
       "and_preset": "beach_water,night_time",
       "entries": [
-        {"key": "inkay","min": 2,"max": 4,"rate": 1},
-	    {"key": "basculin-white-striped","min": 2,"max": 4,"rate": 0.7}
+        {"key": "inkay","min": 1,"max": 4,"rate": 1},
+	    {"key": "basculin-white-striped","min": 1,"max": 4,"rate": 0.2}
       ]
     }
   ]

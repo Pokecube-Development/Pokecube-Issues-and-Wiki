@@ -17,6 +17,9 @@ import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
+import net.minecraft.sounds.SoundEvent;
+import net.minecraftforge.registries.ForgeRegistries;
+
 public abstract class PokemobHungry extends PokemobMoves
 {
     public static final ResourceLocation LEPPABERRY = new ResourceLocation(PokecubeCore.MODID, "berry_leppa");
@@ -56,6 +59,7 @@ public abstract class PokemobHungry extends PokemobMoves
         }
         this.applyHunger(-hungerValue);
         this.hungerCooldown = 0;
+        this.getEntity().playSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.eat")), 1, 1);
         this.setCombatState(CombatStates.HUNTING, false);
         if (!this.getEntity().isAlive()) return null;
         final float missingHp = this.getMaxHealth() - this.getHealth();

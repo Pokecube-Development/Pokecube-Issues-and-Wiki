@@ -30,12 +30,14 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     Container start = null;
 
     public final LivingEntity entity;
+    public final IPokemob pokemob;
 
     private int startSize = 0;
 
     public PokemobInventory(LivingEntity entity)
     {
         this.entity = entity;
+        this.pokemob = PokemobCaps.getPokemobFor(entity);
 
         start = new SimpleContainer(MAIN_INVENTORY_SIZE);
         int i = start.getContainerSize();
@@ -84,6 +86,7 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     @Override
     public ItemStack removeItem(int slot, int amount)
     {
+        if (slot == 1 && pokemob != null) pokemob.setHeldItem(ItemStack.EMPTY);
         if (SLOTMAP.containsKey(slot))
         {
             List<ItemStack> list = tmpList;
@@ -118,7 +121,13 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     @Override
     public void setItem(int slot, ItemStack stack)
     {
-        if (SLOTMAP.containsKey(slot)) entity.setItemSlot(SLOTMAP.get(slot), stack);
+        if (slot == 1 && pokemob != null) pokemob.setHeldItem(stack);
+        if (SLOTMAP.containsKey(slot))
+        {
+            EquipmentSlot _slot = SLOTMAP.get(slot);
+            if (pokemob != null && (_slot == EquipmentSlot.MAINHAND)) pokemob.setHeldItem(stack);
+            else entity.setItemSlot(_slot, stack);
+        }
         else start.setItem(slot, stack);
     }
 

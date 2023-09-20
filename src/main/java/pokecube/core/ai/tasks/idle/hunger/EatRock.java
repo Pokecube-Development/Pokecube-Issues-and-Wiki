@@ -21,10 +21,39 @@ import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
+import java.util.function.Supplier;
+import java.util.ArrayList;
 
 public class EatRock extends EatBlockBase
 {
-    private static final ResourceLocation ORE = new ResourceLocation("forge", "ores");
+    public static record CobbleConversion(ResourceLocation tag, Supplier<BlockState> cobble)
+    {
+    };
+
+    public static List<CobbleConversion> toCobble = new ArrayList<>();
+
+    static
+    {
+        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "netherrack"), Blocks.NETHERRACK::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "calcite"), Blocks.DIORITE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "smooth_basalt"), Blocks.BASALT::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("pokecube_legends", "meteor_cosmic_ore"), Blocks.TUFF::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "budding_amethyst"), Blocks.AMETHYST_BLOCK::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "amethyst_block"), Blocks.AIR::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "raw_iron_block"), Blocks.IRON_ORE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "raw_gold_block"), Blocks.GOLD_ORE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "raw_copper_block"), Blocks.COPPER_ORE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "sandstone"), Blocks.SAND::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("minecraft", "base_stone_nether"), Blocks.NETHERRACK::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores_in_ground/deepslate"), Blocks.COBBLED_DEEPSLATE::defaultBlockState));
+        toCobble.add(new CobbleConversion(new ResourceLocation("forge", "ores"), Blocks.COBBLESTONE::defaultBlockState));
+    }
+
+    private static final ResourceLocation ORE = new ResourceLocation("forge", "ores_in_ground/stone");
+
+    private static final ResourceLocation DEEPSLATE_ORE = new ResourceLocation("forge", "ores_in_ground/deepslate");
+
+    private static final ResourceLocation NETHER_ORE = new ResourceLocation("forge", "ores_in_ground/netherrack");
 
     private static final ResourceLocation COBBLE = new ResourceLocation("forge", "cobblestone");
 
@@ -54,10 +83,14 @@ public class EatRock extends EatBlockBase
 
         final ItemStack first = list.get(0);
         final boolean isOre = ItemList.is(EatRock.ORE, first);
+        final boolean isDeepslateOre = ItemList.is(EatRock.DEEPSLATE_ORE, first);
+        final boolean isNetherOre = ItemList.is(EatRock.NETHER_ORE, first);
         pokemob.eat(first);
         first.grow(-1);
         if (first.isEmpty()) list.remove(0);
         if (isOre) list.add(0, new ItemStack(Blocks.COBBLESTONE));
+        else if (isDeepslateOre) list.add(0, new ItemStack(Blocks.COBBLED_DEEPSLATE));
+        else if (isNetherOre) list.add(0, new ItemStack(Blocks.NETHERRACK));
         boolean replanted = false;
 
         // See if anything dropped was a seed for the thing we
@@ -72,7 +105,16 @@ public class EatRock extends EatBlockBase
         if (PokecubeCore.getConfig().pokemobsEatRocks)
         {
             BlockState drop = Blocks.COBBLESTONE.defaultBlockState();
-            if (ItemList.is(EatRock.COBBLE, current)) drop = Blocks.GRAVEL.defaultBlockState();
+
+            for (var conversion : toCobble)
+            {
+                if (ItemList.is(conversion.tag(), current))
+                {
+                    drop = conversion.cobble().get();
+                    break;
+                }
+            }
+
             if (PokecubeCore.getConfig().pokemobsEatGravel && drop.getBlock() == Blocks.GRAVEL)
                 drop = Blocks.AIR.defaultBlockState();
             // If we are allowed to, we remove the eaten block

@@ -3,23 +3,26 @@
     {
       "and_preset": "mushrooms",
       "entries": [
-        {"key": "paras","min": 2,"max": 4,"rate": 0.3},
+        {"key": "paras","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "foongus","min": 2,"max": 4,"rate": 0.2},
+        {"key": "foongus","min": 1,"max": 4,"rate": 0.2},
+        {"key": "toedscool","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1},
-        {"key": "shroomish","min": 2,"max": 4,"rate": 0.1}
+        {"key": "shuckle","min": 1,"max": 4,"rate": 0.1},
+        {"key": "shroomish","min": 1,"max": 4,"rate": 0.1}
         
       ]
     },
     {
       "and_preset": "mushrooms,caves",
       "entries": [
-        {"key": "foongus","min": 2,"max": 4,"rate": 0.4},
+        {"key": "foongus","min": 1,"max": 4,"rate": 0.4},
         
-        {"key": "paras","min": 2,"max": 4,"rate": 0.3},
+        {"key": "paras","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "shuckle","min": 2,"max": 4,"rate": 0.1}
+        {"key": "shuckle","min": 1,"max": 4,"rate": 0.1},
+
+        {"key": "toedscool","min": 1,"max": 4,"rate": 0.1}
       ]
     }
   ]

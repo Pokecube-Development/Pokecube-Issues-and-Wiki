@@ -3,51 +3,54 @@
     {
       "and_preset": "mountains",
       "entries": [
-        {"key": "geodude","min": 2,"max": 4,"rate": 1},
-        {"key": "roggenrola","min": 2,"max": 4,"rate": 1},
+        {"key": "geodude","min": 1,"max": 4,"rate": 0.75},
+        {"key": "roggenrola","min": 1,"max": 4,"rate": 0.75},
         
-        {"key": "diglett","min": 2,"max": 4,"rate": 0.3},
-        {"key": "torkoal","min": 2,"max": 4,"rate": 0.3},
-        {"key": "spoink","min": 2,"max": 4,"rate": 0.3},
-        {"key": "spinda","min": 2,"max": 4,"rate": 0.3},
-        {"key": "numel","min": 2,"max": 4,"rate": 0.3},
-        {"key": "skorupi","min": 2,"max": 4,"rate": 0.3},
-        {"key": "vullaby","min": 2,"max": 4,"rate": 0.3},
-        {"key": "skiddo","min": 2,"max": 4,"rate": 0.3},
-        {"key": "rookidee","min": 2,"max": 4,"rate": 0.3},
+        {"key": "diglett","min": 1,"max": 4,"rate": 0.3},
+        {"key": "torkoal","min": 1,"max": 4,"rate": 0.3},
+        {"key": "spoink","min": 1,"max": 4,"rate": 0.3},
+        {"key": "spinda","min": 1,"max": 4,"rate": 0.3},
+        {"key": "numel","min": 1,"max": 4,"rate": 0.3},
+        {"key": "chingling","min": 1,"max": 4,"rate": 0.3},
+        {"key": "skorupi","min": 1,"max": 4,"rate": 0.3},
+        {"key": "vullaby","min": 1,"max": 4,"rate": 0.3},
+        {"key": "skiddo","min": 1,"max": 4,"rate": 0.3},
+        {"key": "rookidee","min": 1,"max": 4,"rate": 0.3},
+        {"key": "wattrel","min": 1,"max": 2,"rate": 0.3},
         
-        {"key": "drilbur","min": 2,"max": 4,"rate": 0.2},
-        {"key": "jangmo-o","min": 2,"max": 4,"rate": 0.2},
-        {"key": "wooloo","min": 2,"max": 4,"rate": 0.2},
-        {"key": "rolycoly","min": 2,"max": 4,"rate": 0.2},
-        {"key": "stonjourner","min": 2,"max": 4,"rate": 0.2},
-        {"key": "geodude-alola","min": 2,"max": 4,"rate": 0.2},
-        {"key": "cubone","min": 2,"max": 4,"rate": 0.2},
-        {"key": "aron","min": 2,"max": 4,"rate": 0.2},
-		{"key": "growlithe-hisui","min": 2,"max": 4,"rate": 0.2},
+        {"key": "drilbur","min": 1,"max": 4,"rate": 0.2},
+        {"key": "jangmo-o","min": 1,"max": 4,"rate": 0.2},
+        {"key": "wooloo","min": 1,"max": 4,"rate": 0.2},
+        {"key": "rolycoly","min": 1,"max": 4,"rate": 0.2},
+        {"key": "stonjourner","min": 1,"max": 4,"rate": 0.2},
+        {"key": "geodude-alola","min": 1,"max": 4,"rate": 0.2},
+        {"key": "cubone","min": 1,"max": 4,"rate": 0.2},
+        {"key": "aron","min": 1,"max": 4,"rate": 0.2},
+		{"key": "growlithe-hisui","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "duraludon","min": 2,"max": 4,"rate": 0.1},
-        {"key": "morpeko-full-belly","min": 2,"max": 4,"rate": 0.1},
-        {"key": "tynamo","min": 2,"max": 4,"rate": 0.1},
-        {"key": "machop","min": 2,"max": 4,"rate": 0.1},
-        {"key": "meditite","min": 2,"max": 4,"rate": 0.1},
-        {"key": "timburr","min": 2,"max": 4,"rate": 0.1},
-        {"key": "throh","min": 2,"max": 4,"rate": 0.1},
-        {"key": "sawk","min": 2,"max": 4,"rate": 0.1},
-        {"key": "turtonator","min": 2,"max": 4,"rate": 0.1},
-        {"key": "togedemaru","min": 2,"max": 4,"rate": 0.1},
-        {"key": "diglett-alola","min": 2,"max": 4,"rate": 0.1},
-        {"key": "dunsparce","min": 2,"max": 4,"rate": 0.1},
-        {"key": "gligar","min": 2,"max": 4,"rate": 0.1},
-        {"key": "larvitar","min": 2,"max": 4,"rate": 0.1},
-        {"key": "absol","min": 2,"max": 4,"rate": 0.1},
+        {"key": "duraludon","min": 1,"max": 4,"rate": 0.1},
+        {"key": "morpeko-full-belly","min": 1,"max": 4,"rate": 0.1},
+        {"key": "tynamo","min": 1,"max": 4,"rate": 0.1},
+        {"key": "machop","min": 1,"max": 4,"rate": 0.1},
+        {"key": "meditite","min": 1,"max": 4,"rate": 0.1},
+        {"key": "timburr","min": 1,"max": 4,"rate": 0.1},
+        {"key": "throh","min": 1,"max": 4,"rate": 0.1},
+        {"key": "sawk","min": 1,"max": 4,"rate": 0.1},
+        {"key": "turtonator","min": 1,"max": 4,"rate": 0.1},
+        {"key": "togedemaru","min": 1,"max": 4,"rate": 0.1},
+        {"key": "diglett-alola","min": 1,"max": 4,"rate": 0.1},
+        {"key": "dunsparce","min": 1,"max": 4,"rate": 0.1},
+        {"key": "gligar","min": 1,"max": 4,"rate": 0.1},
+        {"key": "larvitar","min": 1,"max": 4,"rate": 0.1},
+        {"key": "absol","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "riolu","min": 2,"max": 4,"rate": 0.05},
-        {"key": "farfetchd-galar","min": 2,"max": 4,"rate": 0.05},
-        {"key": "lickitung","min": 2,"max": 4,"rate": 0.05},
-        {"key": "onix","min": 2,"max": 4,"rate": 0.05},
-        {"key": "skarmory","min": 2,"max": 4,"rate": 0.05},
-        {"key": "mawile","min": 2,"max": 4,"rate": 0.05},
+        {"key": "riolu","min": 1,"max": 4,"rate": 0.05},
+        {"key": "farfetchd-galar","min": 1,"max": 4,"rate": 0.05},
+        {"key": "lickitung","min": 1,"max": 4,"rate": 0.05},
+        {"key": "onix","min": 1,"max": 4,"rate": 0.05},
+        {"key": "skarmory","min": 1,"max": 4,"rate": 0.05},
+        {"key": "klawf","min": 1,"max": 2,"rate": 0.05},
+        {"key": "mawile","min": 1,"max": 4,"rate": 0.05},
         
         {"key": "zeraora","min": 1,"max": 1,"rate": 0.01},
         {"key": "articuno","min": 1,"max": 1,"rate": 0.01},
@@ -62,36 +65,37 @@
     {
       "and_preset": "mountains,day_time",
       "entries": [
+        {"key": "bombirdier","min": 1,"max": 1,"rate": 0.1}
       ]
     },
     {
       "and_preset": "mountains,night_time",
       "entries": [
-        {"key": "sableye","min": 2,"max": 4,"rate": 0.2}
+        {"key": "sableye","min": 1,"max": 4,"rate": 0.2}
       ]
     },
     {
       "and_preset": "mountains,snowy_areas",
       "entries": [
-        {"key": "bergmite","min": 2,"max": 4,"rate": 0.3}
+        {"key": "bergmite","min": 1,"max": 4,"rate": 0.3}
       ]
     },
     {
       "and_preset": "dry_areas,hot_areas,overworld",
       "entries": [
-        {"key": "slugma","min": 4,"max": 8,"rate": 0.3},
-        {"key": "torkoal","min": 2,"max": 4,"rate": 0.3},
-        {"key": "skorupi","min": 2,"max": 4,"rate": 0.3},
-        {"key": "numel","min": 2,"max": 4,"rate": 0.3},
+        {"key": "slugma","min": 1,"max": 8,"rate": 0.3},
+        {"key": "torkoal","min": 1,"max": 4,"rate": 0.3},
+        {"key": "skorupi","min": 1,"max": 4,"rate": 0.3},
+        {"key": "numel","min": 1,"max": 4,"rate": 0.3},
 		{"key": "fuecoco","min": 1,"max": 2,"rate": 0.01},
         
-        {"key": "salandit","min": 4,"max": 8,"rate": 0.1}
+        {"key": "salandit","min": 1,"max": 6,"rate": 0.1}
       ]
     },
     {
       "and_preset": "hills,night_time",
       "entries": [
-        {"key": "hoothoot","min": 2,"max": 4,"rate": 0.3}
+        {"key": "hoothoot","min": 1,"max": 4,"rate": 0.3}
       ]
     }
   ]
