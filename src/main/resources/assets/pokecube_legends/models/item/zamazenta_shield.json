@@ -10,8 +10,8 @@
 	"elements": [
 		{
 			"name": "handle",
-			"from": [7, 12, 8],
-			"to": [9, 18, 14],
+			"from": [7, 14, 8],
+			"to": [9, 20, 14],
 			"faces": {
 				"east": {"uv": [8, 6, 14, 12], "texture": "#handle"},
 				"south": {"uv": [14, 6, 16, 12], "texture": "#handle"},
@@ -370,11 +370,11 @@
 	"display": {
 		"thirdperson_righthand": {
 			"rotation": [3, -90, 0],
-			"translation": [3, -9, 3.5]
+			"translation": [3, -11, 3.5]
 		},
 		"thirdperson_lefthand": {
 			"rotation": [3, -90, 0],
-			"translation": [3, -9, 3.5]
+			"translation": [3, -11, 3.5]
 		},
 		"firstperson_righthand": {
 			"rotation": [0, 0, -5],
@@ -386,8 +386,8 @@
 		},
 		"ground": {
 			"rotation": [90, 0, 0],
-			"translation": [0, -4, -5],
-			"scale": [0.65, 0.65, 0.65]
+			"translation": [0, -2, -5],
+			"scale": [0.85, 0.85, 0.85]
 		},
 		"gui": {
 			"rotation": [15, 155, 5],
