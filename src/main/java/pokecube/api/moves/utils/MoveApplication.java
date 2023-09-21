@@ -284,10 +284,10 @@ public class MoveApplication implements Comparable<MoveApplication>
             if (finalAttackStrength > 0 && !target.isInvulnerable())
             {
                 // Apply attack damage to players.
-                if (target instanceof Player)
+                if (target instanceof Player && target.getLastDamageSource() != null)
                 {
-                    final DamageSource source1 = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
-                    final DamageSource source2 = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
+                    final DamageSource source1 = new PokemobDamageSource(target.getLastDamageSource().typeHolder(), attackerMob, move).setType(type);
+                    final DamageSource source2 = new PokemobDamageSource(target.getLastDamageSource().typeHolder(), attackerMob, move).setType(type);
                     // TODO: Check this
                     source2.is(DamageTypes.MAGIC);
                     float d1, d2;
