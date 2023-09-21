@@ -406,7 +406,7 @@ public class ItemInit
         VIRIZION_SWORD = PokecubeLegends.ITEMS.register("virizion_sword",
                 () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 3, -2.4F, new Item.Properties()).setTooltipName("virizion_sword"));
         ZACIAN_SWORD = PokecubeLegends.ITEMS.register("zacian_sword",
-                () -> new LegendsSword(Tiers.NETHERITE, 5, -3.0F, new Item.Properties().fireResistant()).setTooltipName("zacian_sword"));
+                () -> new LegendsSword(Tiers.NETHERITE, 5, -3.25F, new Item.Properties().fireResistant()).setTooltipName("zacian_sword"));
 
         // Shields
         ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield",
