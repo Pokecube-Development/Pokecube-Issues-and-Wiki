@@ -1,13 +1,17 @@
 package pokecube.core.ai.logic;
 
+import java.util.UUID;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.control.MoveControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.pathfinder.Path;
-import net.minecraft.world.phys.Vec3;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -27,6 +31,9 @@ import thut.api.maths.Vector3;
  */
 public class LogicFloatFlySwim extends LogicBase
 {
+    private static final UUID UIDS = UUID.fromString("4454b0d8-75ef-4689-8fce-daab61a7e1b2");
+    private static final UUID UIDF = UUID.fromString("4454b0d8-75ef-4689-8fce-daab61a7e1b3");
+
     private static class WalkController extends MoveControl
     {
 
@@ -39,12 +46,6 @@ public class LogicFloatFlySwim extends LogicBase
         }
 
         @Override
-        public double getSpeedModifier()
-        {
-            return super.getSpeedModifier();
-        }
-
-        @Override
         public void tick()
         {
             if (pokemob.getController().blocksPathing()) return;
@@ -53,162 +54,54 @@ public class LogicFloatFlySwim extends LogicBase
 
     }
 
-    private static class SwimController extends MoveControl
+    private static class SwimController extends SmoothSwimmingMoveControl
     {
+        private AttributeModifier speed_boost = null;
         final IPokemob pokemob;
 
         public SwimController(final IPokemob mob)
         {
-            super(mob.getEntity());
+            super(mob.getEntity(), 85, 10, 0.1F, 0.1F, false);
             this.pokemob = mob;
-        }
-
-        @Override
-        public double getSpeedModifier()
-        {
-            return super.getSpeedModifier() * PokecubeCore.getConfig().swimPathingSpeedFactor;
+            this.speed_boost = new AttributeModifier(UIDS, "pokecube:swim_speed",
+                    PokecubeCore.getConfig().swimPathingSpeedFactor, AttributeModifier.Operation.MULTIPLY_BASE);
         }
 
         @Override
         public void tick()
         {
             this.mob.setNoGravity(this.mob.isInWater());
-
-            if (pokemob.getController().blocksPathing()) return;
-
-            if (this.operation == MoveControl.Operation.MOVE_TO && !this.mob.getNavigation().isDone())
-            {
-                this.operation = MoveControl.Operation.WAIT;
-
-                final double dx = this.wantedX - this.mob.getX();
-                final double dy = this.wantedY - this.mob.getY();
-                final double dz = this.wantedZ - this.mob.getZ();
-
-                // Total distance squared
-                final double ds2 = dx * dx + dy * dy + dz * dz;
-                if (ds2 < 0.01F)
-                {
-                    this.mob.setYya(0.0F);
-                    this.mob.setZza(0.0F);
-                    return;
-                }
-                // Horizontal distance
-                final float dh = Mth.sqrt((float) (dx * dx + dz * dz));
-                final float ds = Mth.sqrt((float) ds2);
-
-                final float f = (float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
-                this.mob.yRot = this.rotlerp(this.mob.yRot, f, 10.0F);
-
-                float angleDiff = this.mob.yRot - f;
-                angleDiff /= 180F / (float) Math.PI;
-
-                final float dot = Mth.cos(angleDiff);
-                float f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
-
-                this.mob.setSpeed(f1 * dot);
-                // TODO: Find fix
-                // this.mob.flyingSpeed = (float) (f1 * 0.05);
-                final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
-                this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
-                f1 *= Math.abs(dy / ds);
-
-                // Speeds up upwards motion if this is too slow.
-                if (dy < 2 && dy > 0) f1 = Math.max(f1 * 10, 0.1f);
-
-                this.mob.setYya(dy > 0.0D ? f1 : -f1);
-
-                // dampen the velocity so they don't orbit their destination
-                // points.
-                final float dh_hat = Mth.abs(dh / ds);
-                final float dy_hat = (float) Math.abs(dy / ds);
-                final Vec3 v = this.mob.getDeltaMovement();
-                this.mob.setDeltaMovement(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
-            }
-            else this.mob.setSpeed(0.0F);
+            if (pokemob.getController().blocksPathing() || !pokemob.getEntity().isAlive()) return;
+            AttributeInstance attr = this.mob.getAttribute(Attributes.MOVEMENT_SPEED);
+            if (!attr.hasModifier(speed_boost) && this.mob.isInWater()) attr.addTransientModifier(speed_boost);
+            else if (attr.hasModifier(speed_boost) && !this.mob.isInWater()) attr.removeModifier(speed_boost);
+            super.tick();
         }
 
     }
 
     private static class FlyController extends FlyingMoveControl
     {
+        private AttributeModifier speed_boost = null;
         final IPokemob pokemob;
 
         public FlyController(final IPokemob mob)
         {
             // The true here is only used for the default behaviour to flag it
             // as not-re-enable gravity when not moving somewhere.
-            super(mob.getEntity(), 20, true);
+            super(mob.getEntity(), 80, true);
             this.pokemob = mob;
-        }
-
-        @Override
-        public double getSpeedModifier()
-        {
-            return super.getSpeedModifier() * PokecubeCore.getConfig().flyPathingSpeedFactor;
+            this.speed_boost = new AttributeModifier(UIDF, "pokecube:fly_speed",
+                    PokecubeCore.getConfig().flyPathingSpeedFactor, AttributeModifier.Operation.MULTIPLY_BASE);
         }
 
         @Override
         public void tick()
         {
             if (pokemob.getController().blocksPathing() || !pokemob.getEntity().isAlive()) return;
-
-            if (this.operation == MoveControl.Operation.MOVE_TO)
-            {
-                this.operation = MoveControl.Operation.WAIT;
-                this.mob.setNoGravity(true);
-                final double dx = this.wantedX - this.mob.getX();
-                final double dy = this.wantedY - this.mob.getY();
-                final double dz = this.wantedZ - this.mob.getZ();
-                // Total distance squared
-                final double ds2 = dx * dx + dy * dy + dz * dz;
-                if (ds2 < 0.01F)
-                {
-                    this.mob.setYya(0.0F);
-                    this.mob.setZza(0.0F);
-                    return;
-                }
-                // Horizontal distance
-                final float dh = Mth.sqrt((float) (dx * dx + dz * dz));
-                // Total distance
-                final float ds = Mth.sqrt((float) ds2);
-
-                final float f = (float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F;
-                this.mob.yRot = this.rotlerp(this.mob.yRot, f, 10.0F);
-
-                float angleDiff = this.mob.yRot - f;
-                angleDiff /= 180F / (float) Math.PI;
-
-                final float dot = Mth.cos(angleDiff);
-
-                float f1;
-                f1 = (float) (this.getSpeedModifier() * this.pokemob.getMovementSpeed());
-
-                this.mob.setSpeed(f1 * dot);
-                // TODO: Find fix
-                // this.mob.flyingSpeed = (float) (f1 * 0.05);
-                final float f2 = (float) -(Mth.atan2(dy, dh) * (180F / (float) Math.PI));
-                this.mob.xRot = this.rotlerp(this.mob.xRot, f2, 10.0F);
-                f1 *= Math.abs(dy / ds);
-
-                // Speeds up upwards motion if this is too slow.
-                if (dy < 2 && dy > 0) f1 = Math.max(f1 * 10, 0.1f);
-
-                this.mob.setYya(dy > 0.0D ? f1 : -f1);
-
-                // dampen the velocity so they don't orbit their destination
-                // points.
-                final float dh_hat = Mth.abs(dh / ds);
-                final float dy_hat = (float) Math.abs(dy / ds);
-                final Vec3 v = this.mob.getDeltaMovement();
-                this.mob.setDeltaMovement(v.x * dh_hat * dot, v.y * dy_hat * dot, v.z * dh_hat * dot);
-            }
-            else
-            {
-                // TODO: Find fix
-                // this.mob.flyingSpeed = 0.02f;
-                this.mob.setYya(0.0F);
-                this.mob.setZza(0.0F);
-            }
+            AttributeInstance attr = this.mob.getAttribute(Attributes.FLYING_SPEED);
+            if (!attr.hasModifier(speed_boost)) attr.addTransientModifier(speed_boost);
+            super.tick();
         }
     }
 

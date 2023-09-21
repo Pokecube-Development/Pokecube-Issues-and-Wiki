@@ -24,8 +24,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 import pokecube.api.data.PokedexEntry;
 import thut.api.entity.IMultiplePassengerEntity;
@@ -45,13 +45,6 @@ public abstract class PokemobRidable extends PokemobHasParts
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
             SEAT[i] = this.pokemobCap.dataSync().register(new Data_Seat().setRealtime(), new Seat(new Vec3f(), null));
-    }
-
-    @Override
-    public boolean isControlledByLocalInstance()
-    {
-        if (this.getPassengers().isEmpty()) return false;
-        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId());
     }
 
     @Override
@@ -80,7 +73,6 @@ public abstract class PokemobRidable extends PokemobHasParts
     protected float jumpPower;
 
     @Override
-    @OnlyIn(Dist.CLIENT)
     public void onPlayerJump(int jumpPowerIn)
     {
         if (jumpPowerIn < 0) jumpPowerIn = 0;
@@ -106,6 +98,45 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         // Horse does nothing here
     }
+
+    protected float playerJumpPendingScale;
+    
+    protected void tickRidden(Player p_278233_, Vec3 p_275693_) {
+        super.tickRidden(p_278233_, p_275693_);
+        Vec2 vec2 = this.getRiddenRotation(p_278233_);
+        this.setRot(vec2.y, vec2.x);
+        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+        if (this.isControlledByLocalInstance()) {
+
+           if (this.onGround()) {
+               // TODO jumping while riding
+//              this.setIsJumping(false);
+//              if (this.playerJumpPendingScale > 0.0F && !this.isJumping()) {
+//                 this.executeRidersJump(this.playerJumpPendingScale, p_275693_);
+//              }
+              this.playerJumpPendingScale = 0.0F;
+           }
+        }
+
+     }
+
+     protected Vec2 getRiddenRotation(LivingEntity p_275502_) {
+        return new Vec2(p_275502_.getXRot() * 0.5F, p_275502_.getYRot());
+     }
+
+     protected Vec3 getRiddenInput(Player p_278278_, Vec3 p_275506_) {
+        if (this.onGround() && this.playerJumpPendingScale == 0.0F) {
+           return Vec3.ZERO;
+        } else {
+           float f = p_278278_.xxa * 0.5F;
+           float f1 = p_278278_.zza;
+           if (f1 <= 0.0F) {
+              f1 *= 0.25F;
+           }
+
+           return new Vec3((double)f, 0.0D, (double)f1);
+        }
+     }
 
     @Override
     /**

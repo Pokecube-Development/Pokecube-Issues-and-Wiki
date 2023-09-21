@@ -12,6 +12,7 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.ai.behavior.InteractWithDoor;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.sensing.SensorType;
@@ -82,7 +83,7 @@ public class Tasks
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super LivingEntity>>> idle(final IPokemob pokemob,
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> idle(final IPokemob pokemob,
             final float speed)
     {
         final PokedexEntry entry = pokemob.getPokedexEntry();
@@ -114,7 +115,7 @@ public class Tasks
             aiList.add(new FollowOwnerTask(pokemob, 3 + entity.getBbWidth() + pokemob.getPokedexEntry().length,
                     8 + entity.getBbWidth() + pokemob.getPokedexEntry().length));
 
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> list = Lists.newArrayList();
+        final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
 
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
         guardai.shouldRun = () -> {
@@ -122,7 +123,7 @@ public class Tasks
             return pokemob.getGeneralState(GeneralStates.STAYING);
         };
 
-        final Pair<Integer, ? extends Behavior<? super LivingEntity>> pair = Pair.of(0,
+        final Pair<Integer, ? extends BehaviorControl<? super LivingEntity>> pair = Pair.of(0,
                 new GuardTask<>(entity, guardai));
         list.add(pair);
 
@@ -140,8 +141,7 @@ public class Tasks
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-        // TODO: Fix this
-        // if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+         if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
 
         // Send the event to let anyone edit the tasks if needed.
         PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.IDLE, aiList));
@@ -157,7 +157,7 @@ public class Tasks
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super LivingEntity>>> combat(final IPokemob pokemob,
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> combat(final IPokemob pokemob,
             final float speed)
     {
         // Tasks for combat
@@ -188,7 +188,7 @@ public class Tasks
         aiList.add(targetFind);
         pokemob.setTargetFinder(targetFind);
 
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> list = Lists.newArrayList();
+        final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
         if (entry.stock)
         {
             Behavior<?> task = new LookAtTask(45, 90);
@@ -200,8 +200,7 @@ public class Tasks
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
         }
-        // TODO: Fix this
-        // if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.COMBAT, aiList));
 
@@ -216,7 +215,7 @@ public class Tasks
     }
 
     @SuppressWarnings("unchecked")
-    public static ImmutableList<Pair<Integer, ? extends Behavior<? super LivingEntity>>> utility(final IPokemob pokemob,
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> utility(final IPokemob pokemob,
             final float speed)
     {
         // Tasks for utilitiy
@@ -235,7 +234,7 @@ public class Tasks
         // forget we were being hunted
         aiList.add(new ForgetHuntedByTask(pokemob, 100));
 
-        final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> list = Lists.newArrayList();
+        final List<Pair<Integer, ? extends BehaviorControl<? super LivingEntity>>> list = Lists.newArrayList();
 
         final IGuardAICapability guardCap = pokemob.getEntity().getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         final GuardAI guardai = new GuardAI(pokemob.getEntity(), guardCap);
@@ -258,8 +257,7 @@ public class Tasks
         // This one is outside as most things don't get this task.
         task = new WalkToTask(200);
         list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
-        // TODO: Fix this
-        // if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, new InteractWithDoor()));
+        if (pokemob.isRoutineEnabled(AIRoutine.USEDOORS)) list.add(Pair.of(0, InteractWithDoor.create()));
         // Send the event to let anyone edit the tasks if needed.
         PokecubeAPI.POKEMOB_BUS.post(new Init(pokemob, Init.Type.UTILITY, aiList));
 

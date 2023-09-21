@@ -12,6 +12,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.ai.behavior.DoNothing;
 import net.minecraft.world.entity.ai.behavior.GateBehavior;
 import net.minecraft.world.entity.ai.behavior.GiveGiftToHero;
@@ -38,35 +39,35 @@ import pokecube.core.entity.npc.NpcMob;
 public class Tasks
 {
 
-//    TODO: Fix these
     //@formatter:off
-//    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> stationary(
-//            final VillagerProfession profession, final float speed)
-//    {
-//        return ImmutableList.of(
-//                Pair.of(0, new SwimTask(0.8F)),
-//                Pair.of(0, new InteractWithDoor()),
-//                Pair.of(0, new LookAtTask(45, 90)),
-//                Pair.of(0, Tasks.lookAtMany()),
-//                Pair.of(0, Tasks.lookAtPlayerOrVillager())
-//        );
-//    }
-//
-//    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> battle(
-//            final VillagerProfession profession, final float speed)
-//    {
-//        return ImmutableList.of(
-//                Pair.of(0, new SwimTask(0.8F)),
-//                Pair.of(0, new InteractWithDoor()),
-//                Pair.of(0, new LookAtTask(45, 90)),
-//                Tasks.lookAtMany(),
-//                Tasks.lookAtPlayerOrVillager()
-//        );
-//    }
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super Villager>>> stationary(
+            final VillagerProfession profession, final float speed)
+    {
+        return ImmutableList.of(
+                Pair.of(0, new SwimTask(0.8F)),
+                Pair.of(0, InteractWithDoor.create()),
+                Pair.of(0, new LookAtTask(45, 90)),
+                Tasks.lookAtMany(),
+                Tasks.lookAtPlayerOrVillager()
+        );
+    }
+
+    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super Villager>>> battle(
+            final VillagerProfession profession, final float speed)
+    {
+        return ImmutableList.of(
+                Pair.of(0, new SwimTask(0.8F)),
+                Pair.of(0, InteractWithDoor.create()),
+                Pair.of(0, new LookAtTask(45, 90)),
+                Tasks.lookAtMany(),
+                Tasks.lookAtPlayerOrVillager()
+        );
+    }
     
 
+//  TODO: Fix this
 //    @SuppressWarnings({ "unchecked", "rawtypes" })
-//    public static ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> getIdlePackage(
+//    public static ImmutableList<Pair<Integer, ? extends BehaviorControl<? super Villager>>> getIdlePackage(
 //            VillagerProfession profession, float speed)
 //    {
 //        Predicate<LivingEntity> isCat = (mob) -> mob.getType()==EntityType.CAT;
@@ -95,7 +96,7 @@ public class Tasks
 //                lookAtMany(), Pair.of(99, new UpdateActivityFromSchedule()));
 //    }
 
-    private static Pair<Integer, Behavior<LivingEntity>> lookAtMany()
+    private static Pair<Integer, BehaviorControl<LivingEntity>> lookAtMany()
     {
         return Pair.of(5, new ShuffledTask<>(
                 ImmutableList.of(
@@ -109,7 +110,7 @@ public class Tasks
                 )));
     }
 
-    private static Pair<Integer, Behavior<LivingEntity>> lookAtPlayerOrVillager()
+    private static Pair<Integer, BehaviorControl<LivingEntity>> lookAtPlayerOrVillager()
     {
         return Pair.of(3, new ShuffledTask<>(
                 ImmutableList.of(

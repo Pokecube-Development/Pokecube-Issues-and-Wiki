@@ -81,7 +81,8 @@ public class SetupHandler
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes");
 
         final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
+                .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D)
+                .add(Attributes.FLYING_SPEED, 0.6);
         event.put(EntityTypes.getPokecube(), attribs.build());
         event.put(EntityTypes.getEgg(), attribs.build());
         event.put(EntityTypes.getNpc(), attribs.build());

@@ -17,7 +17,7 @@ public class WalkPathNavi extends GroundPathNavigation
     @Override
     protected PathFinder createPathFinder(final int range)
     {
-        this.nodeEvaluator = new AmphibiousNodeEvaluator(true);
+        this.nodeEvaluator = new AmphibiousNodeEvaluator(false);
         this.nodeEvaluator.setCanPassDoors(true);
         return new PathFinder(this.nodeEvaluator, range);
     }

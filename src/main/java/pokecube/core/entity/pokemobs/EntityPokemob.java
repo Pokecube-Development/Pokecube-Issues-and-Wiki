@@ -23,20 +23,16 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TamableAnimal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -64,7 +60,6 @@ import pokecube.api.utils.PokeType;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.logic.LogicMountedControl;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.helper.PokemobRidable;
 import pokecube.core.eventhandlers.SpawnHandler;
@@ -126,13 +121,6 @@ public class EntityPokemob extends PokemobRidable
                 || this.pokemobCap.isType(PokeType.getType("water"));
     }
 
-//    TODO: Still needed?
-//    @Override
-//    public Packet<?> getAddEntityPacket()
-//    {
-//        return NetworkHooks.getEntitySpawningPacket(this);
-//    }
-
     @Override
     protected void tickDeath()
     {
@@ -183,86 +171,8 @@ public class EntityPokemob extends PokemobRidable
     @Override
     public void travel(Vec3 dr)
     {
-        // If we are ridden on ground, do similar stuff to horses.
-        ridden:
-        if (this.isVehicle())
-        {
-            final LogicMountedControl controller = this.pokemobCap.getController();
-            if (!controller.hasInput())
-            {
-                this.setZza(0);
-                this.setXxa(0);
-                this.setYya(0);
-                this.jumpPower = 0.0f;
-                this.setJumping(false);
-                super.travel(dr);
-                final Vec3 motion = this.getDeltaMovement();
-                this.setDeltaMovement(motion.x * 0.5, motion.y, motion.z * 0.5);
-                return;
-            }
-            LivingEntity livingentity = this.getControllingPassenger();
-            this.pokemobCap.setHeading(livingentity.yRot);
-            this.yRotO = this.yRot;
-            this.xRot = livingentity.xRot * 0.5F;
-            this.setRot(this.yRot, this.xRot);
-            this.yBodyRot = this.yRot;
-            this.yHeadRot = this.yBodyRot;
-
-            float strafe = controller.moveSide;
-            float forwards = controller.moveFwd;
-            float upwards = controller.moveUp;
-
-            if (this.jumpPower > 0.0F && !this.jumping && this.onGround)
-            {
-                final double jumpStrength = 1.7;
-                final double preBoostJump = jumpStrength * this.jumpPower * this.getBlockJumpFactor();
-                double jumpAmount;
-                if (this.hasEffect(MobEffects.JUMP))
-                    jumpAmount = preBoostJump + (this.getEffect(MobEffects.JUMP).getAmplifier() + 1) * 0.1F;
-                else jumpAmount = preBoostJump;
-
-                final Vec3 vector3d = this.getDeltaMovement();
-                this.setDeltaMovement(vector3d.x, jumpAmount, vector3d.z);
-                this.setJumping(true);
-                this.hasImpulse = true;
-                net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-                if (forwards > 0.0F)
-                {
-                    final float sinYaw = Mth.sin(this.yRot * ((float) Math.PI / 180F));
-                    final float cosYaw = Mth.cos(this.yRot * ((float) Math.PI / 180F));
-                    this.setDeltaMovement(this.getDeltaMovement().add(-0.4F * sinYaw * this.jumpPower, 0.0D,
-                            0.4F * cosYaw * this.jumpPower));
-                }
-                this.jumpPower = 0.0F;
-            }
-            // TODO: Fix
-            // this.flyingSpeed = this.getSpeed();
-            if (this.isControlledByLocalInstance())
-            {
-                dr = new Vec3(strafe, upwards, forwards);
-                this.setSpeed((float) dr.length());
-                if (controller.verticalControl)
-                {
-                    this.moveRelative(this.getSpeed(), dr.normalize());
-                    this.move(MoverType.SELF, this.getDeltaMovement());
-                    this.setDeltaMovement(this.getDeltaMovement().scale(0.8D));
-                }
-                else super.travel(new Vec3(strafe, upwards, forwards));
-            }
-            else if (livingentity instanceof Player) this.setDeltaMovement(Vec3.ZERO);
-
-            if (this.onGround)
-            {
-                this.jumpPower = 0.0F;
-                this.setJumping(false);
-            }
-            this.calculateEntityAnimation(false);
-            return;
-        }
-        // TODO: Fix
-        // this.flyingSpeed = 0.02f;
         // Swimming mobs get their own treatment while swimming
-        if (this.isEffectiveAi() && this.isInWater() && this.pokemobCap.swims())
+        if (this.isControlledByLocalInstance() && this.isInWater() && this.pokemobCap.swims())
         {
             this.moveRelative(this.getSpeed(), dr);
             this.move(MoverType.SELF, this.getDeltaMovement());
@@ -531,11 +441,12 @@ public class EntityPokemob extends PokemobRidable
         {
             this.discard();
         }
-        else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence())
+        else if (!this.isPersistenceRequired() && !this.requiresCustomPersistence()
+                && level() instanceof ServerLevel level)
         {
-            Entity entity = this.level.getNearestPlayer(this, -1.0D);
+            Entity entity = level.getNearestPlayer(this, -1.0D);
             net.minecraftforge.eventbus.api.Event.Result result = net.minecraftforge.event.ForgeEventFactory
-                    .canEntityDespawn(this, (ServerLevelAccessor) this.level);
+                    .canEntityDespawn(this, level);
             if (result == net.minecraftforge.eventbus.api.Event.Result.DENY)
             {
                 noActionTime = 0;
@@ -633,8 +544,7 @@ public class EntityPokemob extends PokemobRidable
             this.yOld = this.yo;
             this.zOld = this.zo;
 
-            // TODO: Fix
-            // this.animationSpeedOld = this.animationSpeed;
+            this.walkAnimation.setSpeed(0);
             this.animStepO = this.animStep;
 
             this.lerpX = 0;

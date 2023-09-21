@@ -151,7 +151,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             this.interact(player, InteractionHand.MAIN_HAND);
             return false;
         }
-        if (source == (source.getDirectEntity()).damageSources().fellOutOfWorld())
+        if (source == this.damageSources().fellOutOfWorld())
         {
             if (PokecubeManager.isFilled(this.getItem()))
             {
