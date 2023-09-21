@@ -2,7 +2,6 @@ package pokecube.adventures.blocks.genetics.helper.recipe;
 
 import java.util.function.Function;
 
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;

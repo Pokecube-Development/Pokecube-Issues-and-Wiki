@@ -1,6 +1,5 @@
 package pokecube.core.utils;
 
-import com.mojang.serialization.Lifecycle;
 import java.util.List;
 import java.util.function.Predicate;
 

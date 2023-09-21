@@ -29,7 +29,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -40,9 +39,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -2031,6 +2028,7 @@ public class PokedexEntry
     public void onHeldItemChange(final ItemStack oldStack, final ItemStack newStack, final IPokemob pokemob)
     {
         if (newStack.isEmpty() && oldStack.isEmpty()) return;
+        if (!ThutCore.proxy.isServerSide()) return;
         boolean isChangedForme = pokemob.getCustomHolder() != null && pokemob.getCustomHolder()._is_item_forme;
         PokedexEntry base = this;
         if (!isChangedForme && this.formeItems.isEmpty() && this.getBaseForme() != null)

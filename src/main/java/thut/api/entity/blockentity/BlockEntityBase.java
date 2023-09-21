@@ -1,15 +1,19 @@
 package thut.api.entity.blockentity;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.joml.Vector3f;
+
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
@@ -30,8 +34,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
@@ -42,7 +44,6 @@ import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
-import org.joml.Vector3f;
 import thut.api.ThutCaps;
 import thut.api.entity.blockentity.block.TempBlock;
 import thut.api.entity.blockentity.block.TempTile;
@@ -568,8 +569,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
             {
                 final String name = "B" + i + "," + k + "," + j;
                 if (!blockTag.contains(name)) continue;
-                // TODO: Fix this
-                final BlockState state = NbtUtils.readBlockState((HolderGetter<Block>) this.level.getBlockState(this.blockPosition).getBlockHolder(), blockTag.getCompound(name));
+                final BlockState state = NbtUtils.readBlockState(this.level().holderLookup(Registries.BLOCK), blockTag.getCompound(name));
                 this.blocks[i][k][j] = state;
                 if (blockTag.contains("T" + i + "," + k + "," + j)) try
                 {

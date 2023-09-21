@@ -2,7 +2,6 @@ package pokecube.adventures.blocks.afa;
 
 import java.util.Random;
 
-import net.minecraft.sounds.SoundEvent;
 import org.nfunk.jep.JEP;
 
 import net.minecraft.core.BlockPos;

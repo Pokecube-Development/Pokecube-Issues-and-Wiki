@@ -60,8 +60,8 @@ public class CommonHandler
                 BlockPos min = pos;
                 BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
                 final AABB box = new AABB(min, max);
-                min = new BlockPos(box.minX, box.minY, box.minZ);
-                max = new BlockPos(box.maxX, box.maxY, box.maxZ);
+                min = BlockPos.containing(box.minX, box.minY, box.minZ);
+                max = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
                 final BlockPos mid = min;
                 min = min.subtract(mid);
                 max = max.subtract(mid);
@@ -143,12 +143,12 @@ public class CommonHandler
                 final CompoundTag minTag = itemstack.getTag().getCompound("min");
                 final Vec3 loc = playerIn.position().add(0, playerIn.getEyeHeight(), 0)
                         .add(playerIn.getLookAngle().scale(2));
-                final BlockPos pos = new BlockPos(loc);
+                final BlockPos pos = BlockPos.containing(loc);
                 BlockPos min = pos;
                 BlockPos max = Vector3.readFromNBT(minTag, "").getPos();
                 final AABB box = new AABB(min, max);
-                min = new BlockPos(box.minX, box.minY, box.minZ);
-                max = new BlockPos(box.maxX, box.maxY, box.maxZ);
+                min = BlockPos.containing(box.minX, box.minY, box.minZ);
+                max = BlockPos.containing(box.maxX, box.maxY, box.maxZ);
                 final BlockPos mid = min;
                 min = min.subtract(mid);
                 max = max.subtract(mid);

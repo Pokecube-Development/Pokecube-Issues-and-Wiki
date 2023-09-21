@@ -1,7 +1,6 @@
 package pokecube.adventures.blocks.genetics.helper.recipe;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.level.Level;

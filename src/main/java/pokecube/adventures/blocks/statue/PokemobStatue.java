@@ -130,7 +130,7 @@ public class PokemobStatue extends InteractableHorizontalBlock implements Entity
             if (tile instanceof StatueEntity statue) statue.checkMob();
             if (mob.getCopiedID() != null && mob.getCopiedMob() == null)
             {
-                mob.onBaseTick(Objects.requireNonNull(tile.getLevel()), null);
+                mob.onBaseTick((tile.getLevel()), null);
                 if (mob.getCopiedMob() != null)
                 {
                     final LivingEntity living = mob.getCopiedMob();

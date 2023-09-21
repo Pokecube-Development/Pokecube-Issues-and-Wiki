@@ -111,7 +111,7 @@ public class PCBlock extends HorizontalDirectionalBlock implements SimpleWaterlo
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(PCBlock.FACING, context
+        return (super.getStateForPlacement(context)).setValue(PCBlock.FACING, context
                 .getHorizontalDirection().getOpposite()).setValue(PCBlock.WATERLOGGED, ifluidstate.is(
                         FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }

@@ -21,7 +21,7 @@ public class TreesDataGenerator extends DatapackBuiltinEntriesProvider
     }
 
     public static final RegistrySetBuilder BUILDER = new RegistrySetBuilder()
-            .add(Registries.CONFIGURED_FEATURE, Trees::bootstrap);
+            .add(Registries.CONFIGURED_FEATURE, c->Trees.bootstrap(c));
 
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event)

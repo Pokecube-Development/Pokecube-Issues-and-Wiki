@@ -521,7 +521,7 @@ public class PokemobEventsHandler
                 evt.setAmount((float) (evt.getAmount() * PokecubeCore.getConfig().playerToPokemobDamageScale));
         }
         // Some special handling for in wall stuff
-        if (evt.getSource().getEntity() != null && evt.getSource() == evt.getSource().getEntity().damageSources().inWall())
+        if (evt.getSource() == evt.getEntity().damageSources().inWall())
         {
             Mob toPush = pokemob != null ? pokemob.getEntity() : null;
 
@@ -599,7 +599,7 @@ public class PokemobEventsHandler
         // Handle transferring the kill info over, This is in place for mod
         // support.
         if (damageSource instanceof PokemobDamageSource && living.level() instanceof ServerLevel level)
-            Objects.requireNonNull(damageSource.getDirectEntity()).killedEntity(level, living);
+            (damageSource.getDirectEntity()).killedEntity(level, living);
 
         // Handle exp gain for the mob.
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());

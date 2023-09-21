@@ -23,9 +23,6 @@ repositories {
     }
 }
 
-//eclipseJdtApt.enabled = false
-//eclipseFactoryPath.enabled = false
-
 mixin { add sourceSets.main, "pokecube.refmap.json" }
 
 ext {

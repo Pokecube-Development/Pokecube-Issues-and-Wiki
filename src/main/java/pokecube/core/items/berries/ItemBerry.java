@@ -29,7 +29,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.berries.BerryGenManager;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.items.UsableItemEffects.BerryUsable.BerryEffect;

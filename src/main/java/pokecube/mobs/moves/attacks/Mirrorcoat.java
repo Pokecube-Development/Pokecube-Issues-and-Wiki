@@ -1,6 +1,5 @@
 package pokecube.mobs.moves.attacks;
 
-import java.util.Objects;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.moves.MoveProvider;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -36,7 +35,7 @@ public class Mirrorcoat implements PostMoveUse
             final int damage = 2 * user.getMoveStats().SPECIALDAMAGETAKENCOUNTER;
             user.getMoveStats().SPECIALDAMAGETAKENCOUNTER = 0;
             if (attacked != null && !attacked.isInvulnerable())
-                attacked.hurt(new PokemobDamageSource(Objects.requireNonNull(attacked.getLastDamageSource()).typeHolder(), attacker, packet.getMove()), damage);
+                attacked.hurt(new PokemobDamageSource(attacker, packet.getMove()), damage);
             user.getMoveStats().biding = false;
         }
     }

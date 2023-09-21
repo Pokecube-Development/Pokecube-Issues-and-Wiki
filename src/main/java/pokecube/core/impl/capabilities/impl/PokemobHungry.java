@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -56,6 +57,7 @@ public abstract class PokemobHungry extends PokemobMoves
         }
         this.applyHunger(-hungerValue);
         this.hungerCooldown = 0;
+        this.getEntity().playSound(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation("entity.generic.eat")), 1, 1);
         this.setCombatState(CombatStates.HUNTING, false);
         if (!this.getEntity().isAlive()) return null;
         final float missingHp = this.getMaxHealth() - this.getHealth();

@@ -125,7 +125,6 @@ public class LogicMountedControl extends LogicBase
         return this.input;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void tick(final Level level)
     {

@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.joml.Quaternionf;
-
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 
@@ -20,6 +18,7 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.model.parts.Material;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public interface IModel
 {
@@ -60,10 +59,7 @@ public interface IModel
     default void globalFix(final PoseStack mat, final float dx, final float dy, final float dz)
     {
         // These are the parameters for models exported from blender.
-
-        // TODO: Check if this is the correct new method
-        // mat.mulPose(new Quaternion(90, 0, 180, true));
-        mat.mulPose(new Quaternionf().rotationXYZ(90, 0, 180));
+        mat.mulPose(AxisAngles.MODEL_ROTATE);
         mat.translate(0, 0, dy - 1.5f);
     }
 
