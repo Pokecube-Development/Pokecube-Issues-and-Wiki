@@ -53,7 +53,7 @@ public class Description extends ListPage<LineEntry>
 
             final TexButton button = this.addRenderableWidget(new TexButton.Builder(check_conditions, (b) -> {
                 PacketPokedex.sendCaptureCheck(e);
-            }).bounds(x, y, 100, 12).setTex(GuiPokeWatch.getWidgetTex())
+            }).bounds(x, y, 100, 12).setTexture(GuiPokeWatch.getWidgetTex())
                     .setRender(new UVImgRender(0, 72, 100, 12)).build());
             button.setFGColor(0x444444);
         }
@@ -103,7 +103,7 @@ public class Description extends ListPage<LineEntry>
             public void handleHovor(final GuiGraphics graphics, final Style component, final int x, final int y)
             {
 //                TODO: Fix
-//                Description.this.render().renderComponentHoverEffect(graphics, component, x, y);
+//                Description.this.renderComponentHoverEffect(graphics, component, x, y);
             }
         };
         MutableComponent page;

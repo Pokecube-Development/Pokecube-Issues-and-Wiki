@@ -61,7 +61,7 @@ public class GuiNBTButton extends Button
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
             RenderSystem.setShaderTexture(0, GuiNBTNode.WIDGET_TEXTURE);
             // TODO: Check this
-            graphics.blit(new ResourceLocation(""), this.getX(), this.getY(), (this.id - 1) * 9, 18, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT);
+            graphics.blit(GuiNBTNode.WIDGET_TEXTURE, this.getX(), this.getY(), (this.id - 1) * 9, 18, GuiNBTButton.WIDTH, GuiNBTButton.HEIGHT);
         }
     }
 }

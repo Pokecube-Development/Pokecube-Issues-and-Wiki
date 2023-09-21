@@ -3,11 +3,11 @@ package thut.bling.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.screens.MenuScreens;
-import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.inventory.ChestMenu;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import thut.bling.BlingItem;
 import thut.bling.ThutBling;
 import thut.bling.bag.large.LargeContainer;
-import thut.bling.client.gui.Bag;
+import thut.bling.client.gui.LargeEnderBag;
+import thut.bling.client.gui.SmallBag;
 import thut.bling.client.render.Util;
 import thut.core.client.render.model.IModel;
 import thut.wearables.EnumWearable;
@@ -30,8 +31,8 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void setupClient(final FMLClientSetupEvent event)
     {
-        MenuScreens.register(ThutBling.BIG_BAG.get(), Bag<LargeContainer>::new);
-        MenuScreens.register(ThutBling.SMALL_BAG.get(), ContainerScreen::new);
+        MenuScreens.register(ThutBling.BIG_BAG.get(), LargeEnderBag<LargeContainer>::new);
+        MenuScreens.register(ThutBling.SMALL_BAG.get(), SmallBag<ChestMenu>::new);
 
         event.enqueueWork(() -> {
             for (Item i : BlingItem.bling)

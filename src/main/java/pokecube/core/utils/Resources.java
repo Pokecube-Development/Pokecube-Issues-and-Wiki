@@ -12,7 +12,7 @@ public class Resources
     public final static String TEXTURE_FOLDER = "textures/";
     public final static String TEXTURE_GUI_FOLDER = Resources.TEXTURE_FOLDER + "gui/";
     public final static String TEXTURE_GUI_ICON_FOLDER = Resources.TEXTURE_GUI_FOLDER + "icons/";
-    public final static String TEXTURE_SLOT_ICON = "gui/icons/";
+    public final static String TEXTURE_SLOT_ICON = Resources.TEXTURE_FOLDER + "gui/icons/";
 
     public final static String TEXTURE_PARTICLES = Resources.TEXTURE_FOLDER + "particles.png";
 
@@ -58,12 +58,12 @@ public class Resources
 
         PARTICLES = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "particles.png");
 
-        SLOT_ICON_CUBE = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_cube");
-        SLOT_ICON_TM = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_tm");
-        SLOT_ICON_BOOK = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_book");
-        SLOT_ICON_BOTTLE = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_bottle");
-        SLOT_ICON_DNA = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_dna");
-        SLOT_ICON_EGG = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_egg");
+        SLOT_ICON_CUBE = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_cube.png");
+        SLOT_ICON_TM = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_tm.png");
+        SLOT_ICON_BOOK = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_book.png");
+        SLOT_ICON_BOTTLE = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_bottle.png");
+        SLOT_ICON_DNA = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_dna.png");
+        SLOT_ICON_EGG = new ResourceLocation(PokecubeMod.ID, TEXTURE_SLOT_ICON + "slot_egg.png");
 
         TAB_ICON_AI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "tab_ai.png");
         TAB_ICON_INVENTORY = new ResourceLocation(PokecubeMod.ID,

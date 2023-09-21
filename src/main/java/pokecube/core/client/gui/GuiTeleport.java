@@ -8,12 +8,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
+import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.network.pokemobs.PacketTeleport;
@@ -49,6 +51,7 @@ public class GuiTeleport extends GuiGraphics
     protected Font fontRenderer;
 
     protected Minecraft minecraft;
+    protected GuiGraphics guiGraphics;
 
     boolean state = false;
 
@@ -86,10 +89,9 @@ public class GuiTeleport extends GuiGraphics
         // bind texture
         RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
         RenderSystem.enableBlend();
-        // TODO: Check this
-        this.blit(new ResourceLocation(""), xOffset + w, yOffset + h, 44, 0, 90, 13);
-//        this.fontRenderer.draw(event.getMat(), I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
-//                GuiTeleport.lightGrey);
+        this.blit(Resources.GUI_BATTLE, xOffset + w, yOffset + h, 44, 0, 90, 13);
+        this.guiGraphics.drawString(this.fontRenderer, I18n.get("gui.pokemob.teleport"),
+                2 + xOffset + w, 2 + yOffset + h, GuiTeleport.lightGrey);
 
         final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getStringUUID());
         if (location != null)
@@ -101,9 +103,9 @@ public class GuiTeleport extends GuiGraphics
             // bind texture
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
-            // TODO: Check this
-            this.blit(new ResourceLocation(""), xOffset + w, shift, 44, 22, 91, 12);
-//            this.fontRenderer.draw(event.getMat(), name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
+            this.blit(Resources.GUI_BATTLE, xOffset + w, shift, 44, 22, 91, 12);
+            this.guiGraphics.drawString(this.fontRenderer, name, 5 + xOffset + w, shift + 2,
+                    PokeType.getType("fire").colour);
         }
         i++;
         event.getMat().popPose();

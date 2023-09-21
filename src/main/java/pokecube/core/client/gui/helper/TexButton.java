@@ -1,8 +1,8 @@
 package pokecube.core.client.gui.helper;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -17,6 +17,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.core.client.gui.watch.GuiPokeWatch;
+import pokecube.core.utils.Resources;
 
 public class TexButton extends Button
 {
@@ -74,7 +76,7 @@ public class TexButton extends Button
                 final String msg = button.getMessage().getString();
                 final float dx = fontrenderer.width(msg) / 2f;
                 // TODO: Fix this
-                // fontrenderer.draw(graphics, msg, button.getX() + this.dx - dx, button.getY() + this.dy, j | this.alpha << 24);
+                graphics.drawString(fontrenderer, msg, (int) (button.getX() + this.dx - dx), button.getY() + this.dy, j | this.alpha << 24);
             }
         }
     }
@@ -86,7 +88,7 @@ public class TexButton extends Button
         int apply(int in);
     }
 
-    public static interface ImgRender
+    public interface ImgRender
     {
         default void render(final TexButton button, final GuiGraphics graphics, final int mouseX, final int mouseY,
                 final float partialTicks)
@@ -95,13 +97,13 @@ public class TexButton extends Button
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-            final int i = button.getTextureY();
 
-            //TODO: Check this
-            graphics.blit(new ResourceLocation(""), button.getX(), button.getY(),
+            // TODO: Fix this
+            final int i = button.getTextureY();
+            graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
                     button.uOffset, button.vOffset + i * button.vSize,
                     button.width / 2, button.height);
-            graphics.blit(new ResourceLocation(""), button.getX() + button.width / 2, button.getY(),
+            graphics.blit(Resources.SLOT_ICON_CUBE,  button.getX() + button.width / 2, button.getY(),
                     button.uEnd.apply(button.width), button.vOffset + i * button.vSize,
                     button.width / 2, button.height);
             //@formatter:on
@@ -133,7 +135,7 @@ public class TexButton extends Button
             final int i = button.getTextureY();
 
             // TODO: Check this
-            graphics.blit(new ResourceLocation(""), button.getX(), button.getY(), this.u, this.v + i * this.h, this.w, this.h);
+            graphics.blit(GuiPokeWatch.getWidgetTex(), button.getX(), button.getY(), this.u, this.v + i * this.h, this.w, this.h);
         }
     }
 
@@ -149,17 +151,17 @@ public class TexButton extends Button
 
     ImgRender render = new ImgRender()
     {};
-    protected final TexButton.OnPress onPress;
-    protected final TexButton.CreateNarration createNarration;
+    protected final Button.OnPress onPress;
+    protected final Button.CreateNarration createNarration;
 
-    public static TexButton.Builder builder(Component component, TexButton.OnPress onPress) {
-        return new TexButton.Builder(component, onPress);
+    public static Button.Builder builder(Component component, Button.OnPress onPress) {
+        return new Button.Builder(component, onPress);
     }
 
     public TexButton(final int x, final int y, final int width, final int height, final Component title,
-            final OnPress pressedAction, TexButton.CreateNarration narration)
+            final OnPress pressedAction, Button.CreateNarration narration)
     {
-        super(x, y, width, height, title, (Button.OnPress) pressedAction, (Button.CreateNarration) narration);
+        super(x, y, width, height, title, pressedAction, narration);
         this.onPress = pressedAction;
         this.createNarration = narration;
     }
@@ -170,7 +172,7 @@ public class TexButton extends Button
         setTooltip(builder.tooltip);
     }
 
-    public TexButton setTex(final ResourceLocation texture)
+    public TexButton setTexture(final ResourceLocation texture)
     {
         this.texture = texture;
         return this;
@@ -202,6 +204,9 @@ public class TexButton extends Button
         return this;
     }
 
+    public void renderBg(PoseStack stack, Minecraft minecraft, int mouseX, int mouseY) {
+    }
+
     @Override
     public void renderWidget(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
@@ -212,19 +217,16 @@ public class TexButton extends Button
         RenderSystem.setShaderTexture(0, this.texture);
 
         this.render.render(this, graphics, mouseX, mouseY, partialTicks);
-        // TODO: Check this
-        this.renderWidget(graphics, mouseX, mouseY, partialTicks);
+        this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
         final int j = this.getFGColor();
         if (this.renderName)
         {
             final String msg = this.getMessage().getString();
             final float dx = fontrenderer.width(msg) / 2f;
 
-            // TODO: Fix this
-            // fontrenderer.draw(graphics, msg, this.x + this.getWidth() / 2 - dx, this.y + (this.getHeight() - 8) / 2, j | 255 << 24);
+            graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx), this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24);
         }
-        // TODO: Check this
-        if (this.isHoveredOrFocused()) this.renderWidget(graphics, mouseX, mouseY, partialTicks);
+        if (this.isHoveredOrFocused()) this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
     }
 
     public void onPress() {
@@ -237,6 +239,10 @@ public class TexButton extends Button
         });
     }
 
+    public static final TexButton.CreateNarration DEFAULT_NARRATION = (supplier) -> {
+        return supplier.get();
+    };
+
     public void updateWidgetNarration(NarrationElementOutput output) {
         this.defaultButtonNarrationText(output);
     }
@@ -244,7 +250,7 @@ public class TexButton extends Button
     @OnlyIn(Dist.CLIENT)
     public static class Builder {
         public final Component name;
-        public final TexButton.OnPress onPress;
+        public final Button.OnPress onPress;
         @Nullable
         public net.minecraft.client.gui.components.Tooltip tooltip;
         public TooltipArea.OnTooltipB onTooltip;
@@ -258,8 +264,8 @@ public class TexButton extends Button
         ImgRender render = new ImgRender()
         {};
 
-        public Builder(Component name, TexButton.OnPress onPress) {
-            this.createNarration = (CreateNarration) TexButton.DEFAULT_NARRATION;
+        public Builder(Component name, Button.OnPress onPress) {
+            this.createNarration = TexButton.DEFAULT_NARRATION;
             this.name = name;
             this.onPress = onPress;
         }
@@ -300,7 +306,7 @@ public class TexButton extends Button
             return this;
         }
 
-        public TexButton.Builder setTex(final ResourceLocation texture)
+        public TexButton.Builder setTexture(final ResourceLocation texture)
         {
             this.texture = texture;
             return this;
@@ -323,17 +329,17 @@ public class TexButton extends Button
         }
 
         public TexButton build(Function<TexButton.Builder, TexButton> builder) {
-            return (TexButton)builder.apply(this);
+            return builder.apply(this);
         }
     }
 
-    @OnlyIn(Dist.CLIENT)
-    public interface OnPress {
-        void onPress(TexButton var1);
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    public interface OnPress {
+//        void onPress(TexButton var1);
+//    }
 
-    @OnlyIn(Dist.CLIENT)
-    public interface CreateNarration {
-        MutableComponent createNarrationMessage(Supplier<MutableComponent> var1);
-    }
+//    @OnlyIn(Dist.CLIENT)
+//    public interface CreateNarration {
+//        MutableComponent createNarrationMessage(Supplier<MutableComponent> var1);
+//    }
 }

@@ -94,7 +94,7 @@ public class PCContainer extends BaseContainer
     {
         this.clearSlots();
         this.bindPCInventory();
-        this.bindPlayerInventory(this.invPlayer, 45);
+        this.bindPlayerInventory(this.invPlayer, 55);
     }
 
     protected void bindPCInventory()

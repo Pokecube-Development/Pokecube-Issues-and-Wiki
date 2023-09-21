@@ -1,18 +1,22 @@
 {
   "variants": {
     "facing=north": {
-      "model": "pokecube_legends:block/regice_spawn"
+      "model": "pokecube_legends:block/regice_spawn",
+      "uvlock": true
     },
     "facing=east": {
       "model": "pokecube_legends:block/regice_spawn",
+      "uvlock": true,
       "y": 90
     },
     "facing=south": {
       "model": "pokecube_legends:block/regice_spawn",
+      "uvlock": true,
       "y": 180
     },
     "facing=west": {
       "model": "pokecube_legends:block/regice_spawn",
+      "uvlock": true,
       "y": 270
     }
     }

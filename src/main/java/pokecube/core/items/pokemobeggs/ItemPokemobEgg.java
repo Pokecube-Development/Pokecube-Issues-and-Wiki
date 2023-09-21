@@ -7,6 +7,7 @@ import javax.annotation.Nullable;
 
 import com.google.common.base.Predicate;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -68,7 +69,7 @@ public class ItemPokemobEgg extends Item
 {
     public static double PLAYERDIST = 2;
     public static double MOBDIST = 4;
-    static HashMap<PokedexEntry, IPokemob> fakeMobs = new HashMap<>();
+    public static HashMap<PokedexEntry, IPokemob> fakeMobs = new HashMap<>();
     public static Item EGG = null;
 
     public static byte[] getColour(final int[] fatherColours, final int[] motherColours)
@@ -311,7 +312,7 @@ public class ItemPokemobEgg extends Item
     {
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         if (entry != null) tooltip.add(1,
-                TComponent.translatable("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())));
+                TComponent.translatable("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())).withStyle(ChatFormatting.GOLD));
     }
 
     /**

@@ -57,6 +57,7 @@ import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
@@ -86,8 +87,11 @@ public class ItemGenerator
     public static Map<Predicate<ItemStack>, IMoveModifier> ITEMMODIFIERS = Maps.newHashMap();
 
     public static ArrayList<String> variants = Lists.newArrayList();
-    public static ArrayList<String> other = Lists.newArrayList();
+    public static ArrayList<String> misc = Lists.newArrayList();
     public static ArrayList<String> fossilVariants = new ArrayList<>();
+    public static Map<String, RegistryObject<Item>> megaWearables = Maps.newHashMap();
+    public static Map<String, RegistryObject<Item>> variantItems = Maps.newHashMap();
+    public static Map<String, RegistryObject<Item>> miscItems = Maps.newHashMap();
 
     public static Map<String, RegistryObject<ItemFossil>> fossils = Maps.newHashMap();
 
@@ -299,7 +303,7 @@ public class ItemGenerator
 
             // Planks
             var plank_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(6).apply(name),
-                    () -> new RotatedPillarBlock(
+                    () -> new BaseBlock(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
                     block ->
@@ -335,7 +339,7 @@ public class ItemGenerator
                             .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
                     block ->
                     {
-                        ItemGenerator.slabs.put(name, block);
+                        ItemGenerator.fences.put(name, block);
                     });
 
             // Fence Gates
@@ -468,21 +472,23 @@ public class ItemGenerator
     {
         final Item.Properties props = new Item.Properties();
         for (final String type : ItemGenerator.variants)
-            PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type)));
+        {
+            ItemGenerator.variantItems.put(type, PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type))));
+        }
     }
 
     private static void makeOtherItems()
     {
         final Item.Properties props = new Item.Properties();
-        for (final String type : ItemGenerator.other)
-            PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type)));
+        for (final String type : ItemGenerator.misc)
+            ItemGenerator.miscItems.put(type, PokecubeCore.ITEMS.register(type, () -> new ItemTyped(props, Database.trim(type))));
     }
 
     private static void makeMegaWearables()
     {
         for (final String type : ItemMegawearable.getWearables())
         {
-            PokecubeCore.ITEMS.register("mega_" + type, () -> new ItemMegawearable(type));
+            ItemGenerator.megaWearables.put(type, PokecubeCore.ITEMS.register("mega_" + type, () -> new ItemMegawearable(type)));
         }
     }
 
@@ -509,9 +515,9 @@ public class ItemGenerator
         }
     }
 
-    private static class BoatGiver implements Supplier<BoatType>
+    public static class BoatGiver implements Supplier<BoatType>
     {
-        BoatType type = null;
+        public BoatType type = null;
 
         @Override
         public BoatType get()

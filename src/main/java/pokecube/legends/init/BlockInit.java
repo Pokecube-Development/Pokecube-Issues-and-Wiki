@@ -173,12 +173,14 @@ public class BlockInit
     public static final RegistryObject<FlowingBlock> METEORITE_MOLTEN_LAYER;
 
     // Unowns
-    private static final String[] unowns =
-    { "unown_stone_a", "unown_stone_b", "unown_stone_c", "unown_stone_d", "unown_stone_e", "unown_stone_f",
+    public static final String[] unowns =
+    {
+            "unown_stone_a", "unown_stone_b", "unown_stone_c", "unown_stone_d", "unown_stone_e", "unown_stone_f",
             "unown_stone_g", "unown_stone_h", "unown_stone_i", "unown_stone_j", "unown_stone_k", "unown_stone_l",
             "unown_stone_m", "unown_stone_n", "unown_stone_o", "unown_stone_p", "unown_stone_q", "unown_stone_r",
             "unown_stone_s", "unown_stone_t", "unown_stone_u", "unown_stone_v", "unown_stone_w", "unown_stone_x",
-            "unown_stone_y", "unown_stone_z", "unown_stone_ex", "unown_stone_in" };
+            "unown_stone_y", "unown_stone_z", "unown_stone_ex", "unown_stone_in"
+    };
     @SuppressWarnings("unchecked")
     public static final RegistryObject<Block>[] UNOWN_STONES = new RegistryObject[unowns.length];
 
@@ -186,10 +188,12 @@ public class BlockInit
     public static final RegistryObject<Block> TOTEM_BLOCK;
 
     private static final Map<String, MapColor> totemColours = Maps.newHashMap();
-    private static final String[] totemKeys =
-    { "_white_totem", "_orange_totem", "_magenta_totem", "_lightblue_totem", "_yellow_totem", "_lime_totem",
-            "_pink_totem", "_gray_totem", "_lightgray_totem", "_cyan_totem", "_purple_totem", "_blue_totem",
-            "_brown_totem", "_green_totem", "_red_totem", "_black_totem" };
+    public static final String[] totemKeys =
+    {
+            "_white_totem", "_lightgray_totem", "_gray_totem", "_black_totem", "_brown_totem", "_red_totem",
+            "_orange_totem", "_yellow_totem", "_lime_totem", "_green_totem", "_cyan_totem",
+            "_lightblue_totem", "_blue_totem", "_purple_totem", "_magenta_totem", "_pink_totem"
+    };
     static
     {
         totemColours.put("_white_totem", MapColor.TERRACOTTA_WHITE);
@@ -255,7 +259,7 @@ public class BlockInit
     public static final RegistryObject<Block> TAPU_LELE_CORE;
 
     // Portal
-    public static final RegistryObject<Block> PORTAL;
+    public static final RegistryObject<Block> MIRAGE_SPOTS;
 
     public static final RegistryObject<Block> RAID_SPAWNER;
     public static final RegistryObject<Block> CRAMOMATIC_BLOCK;
@@ -362,7 +366,7 @@ public class BlockInit
     public static final RegistryObject<Block> ROOTED_CORRUPTED_DIRT;
     public static final RegistryObject<Block> ROOTED_MUSHROOM_DIRT;
 
-    public static final RegistryObject<Block> ULTRA_MAGNET;
+    public static final RegistryObject<Block> MAGNETIC_STONE;
     public static final RegistryObject<Block> SPECTRUM_GLASS;
 
     // Aquamarine Blocks
@@ -723,7 +727,7 @@ public class BlockInit
         RAID_SPAWN_ENTITY = PokecubeLegends.TILES.register("raid_spot_spawner",
                 () -> BlockEntityType.Builder.of(RaidSpawn::new, BlockInit.RAID_SPAWNER.get()).build(null));
         RING_ENTITY = PokecubeLegends.TILES.register("mirage_spot_block",
-                () -> BlockEntityType.Builder.of(RingTile::new, BlockInit.PORTAL.get()).build(null));
+                () -> BlockEntityType.Builder.of(RingTile::new, BlockInit.MIRAGE_SPOTS.get()).build(null));
 
         // Dimensions Creative Tab -
         // Sorting depends on the order the blocks are listed in
@@ -1969,7 +1973,7 @@ public class BlockInit
                                 .strength(2.0F, 3.0f).noCollission().forceSolidOn()
                                 .sound(SoundType.NETHERITE_BLOCK).instrument(NoteBlockInstrument.BASEDRUM).pushReaction(PushReaction.DESTROY)));
 
-        ULTRA_MAGNET = PokecubeLegends.DECORATION_TAB.register("magnetic_stone",
+        MAGNETIC_STONE = PokecubeLegends.DECORATION_TAB.register("magnetic_stone",
                 () -> new MagneticBlock(MapColor.COLOR_BLUE,
                         SoundType.NETHERITE_BLOCK, NoteBlockInstrument.BASEDRUM, true, 4f, 3f));
 
@@ -2335,7 +2339,7 @@ public class BlockInit
                         .setToolTip("cramobot"));
 
         // Mirage Spot (Hoopa Ring)
-        PORTAL = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("mirage_spot_block",
+        MIRAGE_SPOTS = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("mirage_spot_block",
                 () -> new PortalWarp("mirage_spot_block", BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .sound(SoundType.METAL)
                         .strength(2000, 2000)).setShape(Shapes.box(0.05, 0, 0.05, 1, 3, 1))

@@ -10,7 +10,6 @@ import org.lwjgl.glfw.GLFW;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -125,8 +124,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             final PokedexEntry newEntry = Database.getEntry(this.search.getValue());
-            // Search to see if maybe it was a translated name put into the
-            // search.
+            // Search to see if maybe it was a translated name put into the search.
             if (newEntry == null)
             {
                 for (final PokedexEntry e : Database.getSortedFormes())
@@ -139,9 +137,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                         break;
                     }
                 }
-                // If the pokedex entry is not actually registered, use
-                // old
-                // entry.
+                // If the pokedex entry is not actually registered, use old entry.
                 if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
             }
 
@@ -282,8 +278,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 for (final String s : text)
                 {
                     graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-                    // TODO: Check this
-                    // this.font.draw(graphics, s, x + mx + 1, y + my, 0xFFFFFFFF);
+                    graphics.drawString(this.font, s, x + mx + 1, y + my, 0xFFFFFFFF);
                     my += dy;
                 }
                 GlStateManager._enableDepthTest();
@@ -321,8 +316,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         int dx = -76;
         int dy = 10;
 
-        // We only want to draw the level if we are actually inspecting a
-        // pokemob.
+        // We only want to draw the level if we are actually inspecting apokemob.
         // Otherwise this will just show as lvl 1
         boolean drawLevel = this.watch.pokemob != null && this.watch.pokemob.getEntity().isAddedToWorld();
 
@@ -391,31 +385,26 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Only draw the lvl if it is a real mob, otherwise it will just say
             // L.1
             final int lvlColour = GuiPokeWatch.nightMode ? 0xFFFFFF : 0x444444;
-            // TODO: Fix this
-            //if (drawLevel) this.font.draw(graphics, level, x + dx, y + dy, lvlColour);
+            if (drawLevel) graphics.drawString(this.font, level, x + dx, y + dy, lvlColour);
             dx = -80;
             dy = 97;
-            // TODO: Fix this
-            // this.font.draw(graphics, gender, x + dx, y + dy, genderColor);
+            graphics.drawString(this.font, gender, x + dx, y + dy, genderColor);
             pokemob.getType1();
             final String type1 = PokeType.getTranslatedName(pokemob.getType1()).getString();
             dx = -80;
             dy = 114;
             colour = pokemob.getType1().colour;
-            // TODO: Fix this
-            // this.font.draw(graphics, type1, x + dx, y + dy, colour);
+            graphics.drawString(this.font, type1, x + dx, y + dy, colour);
             dy = 114;
             if (pokemob.getType2() != PokeType.unknown)
             {
                 final String slash = "/";
                 colour = pokemob.getType2().colour;
                 dx += this.font.width(type1);
-                // TODO: Fix this
-                // this.font.draw(graphics, slash, x + dx, y + dy, 0x444444);
+                graphics.drawString(this.font, slash, x + dx, y + dy, 0x444444);
                 final String type2 = PokeType.getTranslatedName(pokemob.getType2()).getString();
                 dx += this.font.width(slash);
-                // TODO: Fix this
-                // this.font.draw(graphics, type2, x + dx, y + dy, colour);
+                graphics.drawString(this.font, type2, x + dx, y + dy, colour);
             }
         }
     }
@@ -431,17 +420,15 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final Component prev = TComponent.literal("<");
 
         // TODO: Check this
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 95, y - 74, 12, 12, next, b -> {
             this.changePage(this.index + 1);
             PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 95, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
 
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x + 81, y - 74, 12, 12, prev, b -> {
             this.changePage(this.index - 1);
             PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 81, y - 74, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

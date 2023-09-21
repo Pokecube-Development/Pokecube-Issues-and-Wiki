@@ -50,7 +50,7 @@ public abstract class WatchPage extends Screen implements GuiEventListener
 
         final int j2 = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int k2 = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        graphics.blit(new ResourceLocation(""), j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
+        graphics.blit(this.getBackgroundTex(), j2, k2, 0, 0, GuiPokeWatch.GUIW, GuiPokeWatch.GUIH);
     }
 
     @Override

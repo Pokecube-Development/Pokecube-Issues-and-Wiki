@@ -56,12 +56,12 @@ public class AfaContainer extends BaseContainer
             this.tile.setLevel(PokecubeCore.proxy.getWorld());
         }
 
-        final int di = 12;
-        final int dj = 36;
+        final int di = 35;
+        final int dj = 35;
         final int i = 0;
         final int j = 0;
 
-        this.addSlot(new TexturedSlot(this.inv, 0, dj - 21 + j * 18, di + i * 18, Resources.SLOT_ICON_CUBE));
+        this.addSlot(new TexturedSlot(this.inv, 0, dj + j * 18, di + i * 18, Resources.SLOT_ICON_CUBE));
         this.bindPlayerInventory(invIn, -19);
         this.addDataSlots(this.tile.syncValues);
     }

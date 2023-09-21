@@ -99,12 +99,12 @@ public class ProgressPage extends PageWithSubPages<Progress>
         // TODO: Check this
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             this.changePage(this.index + 1);
-        }).bounds(x + 90, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x + 90, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(200, 0, 12, 12)).build());
 
         final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
             this.changePage(this.index - 1);
-        }).bounds(x - 90, y - 70, 12, 12).setTex(GuiPokeWatch.getWidgetTex())
+        }).bounds(x - 90, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
                 .setRender(new UVImgRender(200, 0, 12, 12)).build());
 
         nextBtn.setFGColor(0x444444);

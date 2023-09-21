@@ -39,7 +39,7 @@ public class GuiWearables extends EffectRenderingInventoryScreen<ContainerWearab
         RenderSystem.setShaderTexture(0, GuiWearables.background);
         final int i = this.leftPos;
         final int j = this.topPos;
-        graphics.blit(new ResourceLocation(""), i, j, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(GuiWearables.background, i, j, 0, 0, this.imageWidth, this.imageHeight);
         InventoryScreen.renderEntityInInventoryFollowsMouse(graphics, i + 51, j + 75, 30, i + 51 - this.oldMouseX, j + 75 - 50
                 - this.oldMouseY, this.menu.wearer);
     }

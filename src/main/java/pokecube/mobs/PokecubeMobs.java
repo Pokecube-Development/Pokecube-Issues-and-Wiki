@@ -355,7 +355,7 @@ public class PokecubeMobs
         ItemGenerator.variants.add("tyranitarmega");
         ItemGenerator.variants.add("venusaurmega");
 
-        ItemGenerator.other.add("mewhair");
+        ItemGenerator.misc.add("mewhair");
 
         ItemGenerator.fossilVariants.add("aerodactyl");
         ItemGenerator.fossilVariants.add("amaura");

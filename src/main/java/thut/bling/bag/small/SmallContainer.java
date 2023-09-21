@@ -60,7 +60,7 @@ public class SmallContainer extends ChestMenu
     {
         this.clearSlots();
         this.bindBagInventory();
-        this.bindPlayerInventory(this.invPlayer, -18);
+        this.bindPlayerInventory(this.invPlayer, -13);
     }
 
     public void bindPlayerInventory(final Inventory playerInv, final int yOffset)

@@ -2,6 +2,7 @@ package pokecube.adventures.client.gui.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import java.util.function.Supplier;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -9,6 +10,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.adventures.PokecubeAdv;
@@ -34,29 +36,30 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
         // TODO: Check this
-        graphics.blit(new ResourceLocation(""), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/afa.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
     }
 
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int mouseX, final int mouseY)
     {
         String text = this.getTitle().getString();
-        // TODO: Fix this
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 6, 4210752);
-        // this.font.draw(graphics, this.playerInventoryTitle.getString(), 8, this.imageHeight - 96 + 2, 4210752);
+        graphics.drawString(this.font, text, 8, 6, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 94 + 2, 4210752, false);
 
         text = this.menu.tile.ability != null ? I18n.get("block.afa.ability.info", I18n.get(this.menu.tile.ability
                 .getName())) : I18n.get("block.afa.ability.none");
 
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 22, 4210752);
+        int color = this.menu.tile.ability == null ? 0xBF1E0B : 0x0A4C0B;
+        graphics.drawString(this.font, text, 62, 26, color, false);
 
         text = I18n.get("block.afa.range.info", this.menu.tile.distance);
 
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 42, 4210752);
+        graphics.drawString(this.font, text, 62, 40, 4210752, false);
 
+        color = this.menu.tile.cost > this.menu.tile.orig ? 0xBF1E0B : 4210752;
         text = I18n.get("block.afa.power.info", this.menu.tile.cost, this.menu.tile.orig);
 
-        // this.font.draw(graphics, text, 172 - this.font.width(text), 62, 4210752);
+        graphics.drawString(this.font, text, 62, 54, color, false);
     }
 
     @Override
@@ -73,24 +76,27 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     {
         super.init();
 
-        final int xOffset = -119;
+        final int xOffset = -86;
         final int yOffset = -88;
 
-        final Component next = TComponent.translatable("block.pc.next");
-        this.addRenderableWidget(new Button.Builder(next, (b) -> {
-            final PacketAFA message = new PacketAFA();
-            message.data.putBoolean("U", true);
-            message.data.putBoolean("S", Screen.hasShiftDown());
-            PokecubeAdv.packets.sendToServer(message);
-        }).bounds(this.width / 2 - xOffset - 44, this.height / 2 - yOffset - 121, 10, 10).build());
-
-        final Component prev = TComponent.translatable("block.pc.previous");
+        // Elements placed in order of selection when pressing tab
+        final Component prev = TComponent.translatable("block.ability_field_amplifier.previous");
         this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             final PacketAFA message = new PacketAFA();
             message.data.putBoolean("U", false);
             message.data.putBoolean("S", Screen.hasShiftDown());
             PokecubeAdv.packets.sendToServer(message);
-        }).bounds(this.width / 2 - xOffset - 54, this.height / 2 - yOffset - 121, 10, 10).build());
+        }).bounds(this.width / 2 + xOffset + 30, this.height / 2 - yOffset - 117, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.previous.narrate")).build());
+
+        final Component next = TComponent.translatable("block.ability_field_amplifier.next");
+        this.addRenderableWidget(new Button.Builder(next, (b) -> {
+            final PacketAFA message = new PacketAFA();
+            message.data.putBoolean("U", true);
+            message.data.putBoolean("S", Screen.hasShiftDown());
+            PokecubeAdv.packets.sendToServer(message);
+        }).bounds(this.width / 2 + xOffset + 42, this.height / 2 - yOffset - 117, 10, 10)
+                .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.next.narrate")).build());
     }
 
 }

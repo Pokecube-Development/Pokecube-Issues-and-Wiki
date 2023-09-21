@@ -113,13 +113,13 @@ public class GuiSaveSlotButton extends Button
 
         // TODO: Check this
         // Top Left
-        graphics.blit(new ResourceLocation(""), x, y, u, v, width / 2, height / 2);
+        graphics.blit(GuiSaveSlotButton.TEXTURE, x, y, u, v, width / 2, height / 2);
         // Top Right
-        graphics.blit(new ResourceLocation(""), x + width / 2, y, u + 200 - width / 2, v, width / 2, height / 2);
+        graphics.blit(GuiSaveSlotButton.TEXTURE, x + width / 2, y, u + 200 - width / 2, v, width / 2, height / 2);
         // Bottom Left
-        graphics.blit(new ResourceLocation(""), x, y + height / 2, u, v + 20 - height / 2, width / 2, height / 2);
+        graphics.blit(GuiSaveSlotButton.TEXTURE, x, y + height / 2, u, v + 20 - height / 2, width / 2, height / 2);
         // Bottom Right
-        graphics.blit(new ResourceLocation(""), x + width / 2, y + height / 2, u + 200 - width / 2, v + 20 - height / 2, width / 2, height / 2);
+        graphics.blit(GuiSaveSlotButton.TEXTURE, x + width / 2, y + height / 2, u + 200 - width / 2, v + 20 - height / 2, width / 2, height / 2);
     }
 
     public void reset()

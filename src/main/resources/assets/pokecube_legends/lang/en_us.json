@@ -2,9 +2,20 @@
     "_comment1": "Pokecube Legends translation",
 
     "_comment80": "Creative Tabs",
-    "itemGroup.pokecube_legends.dimensions": "Pokécube Dimensions",
-    "itemGroup.pokecube_legends.legends":  "Pokécube Legends",
-    "itemGroup.pokecube_legends.decorations": "Pokécube Decorations",
+    "itemGroup.pokecube_legends.building_blocks": "Legends: Building",
+    "itemGroup.pokecube_legends.natural_blocks":  "Legends: Natural",
+    "itemGroup.pokecube_legends.functional_blocks": "Legends: Functional",
+    "itemGroup.pokecube_legends.items": "Legends: Items",
+
+    "_comment80": "Armor Trim Materials",
+    "trim_material.pokecube_legends.aquamarine": "Aquamarine Material",
+    "trim_material.pokecube_legends.ash": "Ash Material",
+    "trim_material.pokecube_legends.cosmic_dust": "Cosmic Dust Material",
+    "trim_material.pokecube_legends.fractal": "Fractal Material",
+    "trim_material.pokecube_legends.pink_diamond": "Pink Diamond Material",
+    "trim_material.pokecube_legends.ruby": "Ruby Material",
+    "trim_material.pokecube_legends.sapphire": "Sapphire Material",
+    "trim_material.pokecube_legends.spectrum": "Spectrum Material",
 
     "_comment2": "Trainers",
     "pokecube.aether.named": "Aether F. Employee %s",
@@ -510,8 +521,8 @@
     "block.pokecube_legends.meteorite_layer": "Meteorite",
     "block.pokecube_legends.meteorite_slab": "Meteorite Block Slab",
     "block.pokecube_legends.meteorite_stairs": "Meteorite Block Stairs",
-    
-    "block.pokecube_legends.meteorite_molten": "Molten Meteorite",
+
+    "block.pokecube_legends.molten_meteorite": "Molten Meteorite",
     "block.pokecube_legends.meteorite_molten_block": "Molten Meteorite",
     "block.pokecube_legends.meteorite_molten_layer": "Molten Meteorite",
     "item.pokecube_legends.molten_meteorite_bucket": "Molten Meteorite Bucket",
@@ -787,7 +798,7 @@
     "block.pokecube_legends.dusk_dolerite_brick_slab": "Dusk Dolerite Brick Slab",
     "block.pokecube_legends.dusk_dolerite_brick_stairs": "Dusk Dolerite Brick Stairs",
 
-    "block.pokecube_legends.distortic_grass_block": "Distortic Grass Block",
+    "block.pokecube_legends.distortic_grass_block": "Distortic Nylium",
     "block.pokecube_legends.distortic_stone": "Distortic Stone",
     "block.pokecube_legends.distortic_stone_slab": "Distortic Stone Slab",
     "block.pokecube_legends.distortic_stone_stairs": "Distortic Stone Stairs",
@@ -1164,7 +1175,7 @@
 
     "_comment39": "Messages",
     "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %1$s%2$s Cosmic Dust",
-    "msg.pokecube_legends.cramomatic.fail": "§cFeed me valuables",
+    "msg.pokecube_legends.cramomatic.fail": "§cFeed me gems & pearls",
     
     "_comment40": "Key Tooltips",
     "legends.giratina_mirror.tooltip": "§6Used to teleport to the Distorted World.",

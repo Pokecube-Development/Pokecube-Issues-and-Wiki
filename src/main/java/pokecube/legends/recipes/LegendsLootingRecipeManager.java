@@ -4,14 +4,19 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
@@ -41,31 +46,27 @@ public class LegendsLootingRecipeManager
             final ItemStack heldItem = event.getEntity().getItemInHand(event.getHand());
 
             for (final Recipe<?> recipe : LegendsLootingRecipeManager.getRecipes(
-                    LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE_TYPE.get(), event.getLevel().getRecipeManager())
-                    .values())
+                    LegendsLootingRecipeManager.LEGENDS_LOOTING_RECIPE_TYPE.get(), event.getLevel().getRecipeManager()).values())
                 if (recipe instanceof LegendsLootingRecipeSerializer)
             {
-
                 final LegendsLootingRecipeSerializer blockRecipe = (LegendsLootingRecipeSerializer) recipe;
 
                 if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock()))
                 {
-
-//                    TODO: Fix
                     final LootTable loottable = event.getEntity().getServer().getLootData().getLootTable(blockRecipe.output);
-//                    final LootContext.Builder lootcontext$builder =
-//                            new LootContext.Builder((ServerLevel) event.getEntity().level()).withRandom(event.getEntity().getRandom());
-//
-//                    final List<ItemStack> list = loottable
-//                            .getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+                    final LootParams.Builder lootcontext$builder =
+                            new LootParams.Builder((ServerLevel) event.getEntity().level());
 
-//                    if (!list.isEmpty()) Collections.shuffle(list);
-//
-//                    for (final ItemStack itemstack : list)
-//                    {
-//                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), itemstack);
-//                        break;
-//                    }
+                    final List<ItemStack> list = loottable
+                            .getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+
+                    if (!list.isEmpty()) Collections.shuffle(list);
+
+                    for (final ItemStack itemstack : list)
+                    {
+                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), itemstack);
+                        break;
+                    }
 
                     heldItem.shrink(1);
                     ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(event.getLevel().registryAccess()));

@@ -11,11 +11,13 @@ import net.minecraft.world.entity.Mob;
 import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.utils.Resources;
 
 public abstract class Tab
 {
+    public static ResourceLocation POKEMOB_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pokemob.png");
     protected final GuiPokemob parent;
 
     protected List<AbstractWidget> ours = Lists.newArrayList();
@@ -104,11 +106,10 @@ public abstract class Tab
 
         final int k = (this.width - this.imageWidth) / 2 - 17;
         final int l = (this.height - this.imageHeight) / 2;
-        // TODO: Check this
         // Render the black box to hold the pokemob
-        graphics.blit(new ResourceLocation(""), k + 24, l + 16, 0, this.imageHeight, 55, 55);
+        graphics.blit(POKEMOB_GUI, k + 24, l + 16, 0, this.imageHeight, 55, 55);
         // Render the box around where the inventory slots/buttons go.
-        graphics.blit(new ResourceLocation(""), k + 79, l + 16, 145, this.imageHeight, 110, 55);
+        graphics.blit(POKEMOB_GUI, k + 79, l + 16, 145, this.imageHeight, 110, 55);
 
         if (this.menu.pokemob != null)
         {

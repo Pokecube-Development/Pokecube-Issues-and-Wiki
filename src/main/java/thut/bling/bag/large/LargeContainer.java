@@ -58,7 +58,7 @@ public class LargeContainer extends BaseContainer
     {
         this.clearSlots();
         this.bindBagInventory();
-        this.bindPlayerInventory(this.invPlayer, 45);
+        this.bindPlayerInventory(this.invPlayer, 55);
     }
 
     protected void bindBagInventory()
