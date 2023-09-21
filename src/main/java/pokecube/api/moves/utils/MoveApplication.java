@@ -3,7 +3,6 @@ package pokecube.api.moves.utils;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -286,8 +285,8 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // Apply attack damage to players.
                 if (target instanceof Player)
                 {
-                    final DamageSource source1 = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
-                    final DamageSource source2 = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
+                    final DamageSource source1 = new PokemobDamageSource(attackerMob, move).setType(type);
+                    final DamageSource source2 = new PokemobDamageSource(attackerMob, move).setType(type);
                     // TODO: Check this
                     source2.is(DamageTypes.MAGIC);
                     float d1, d2;
@@ -315,7 +314,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // Apply attack damage to a pokemob
                 else if (targetPokemob != null)
                 {
-                    final DamageSource source = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
+                    final DamageSource source = new PokemobDamageSource(attackerMob, move).setType(type);
                     // TODO: Check if correct
                     source.is(DamageTypeTags.BYPASSES_ARMOR);
                     source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as .bypassMagic?
@@ -329,7 +328,7 @@ public class MoveApplication implements Comparable<MoveApplication>
                 // Apply attack damage to another mob type.
                 else
                 {
-                    final DamageSource source = new PokemobDamageSource(Objects.requireNonNull(target.getLastDamageSource()).typeHolder(), attackerMob, move).setType(type);
+                    final DamageSource source = new PokemobDamageSource(attackerMob, move).setType(type);
                     final boolean damaged = target.hurt(source, finalAttackStrength);
                     if (PokecubeCore.getConfig().debug_moves)
                     {

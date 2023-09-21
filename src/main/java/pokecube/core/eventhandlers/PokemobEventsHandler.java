@@ -599,7 +599,7 @@ public class PokemobEventsHandler
         // Handle transferring the kill info over, This is in place for mod
         // support.
         if (damageSource instanceof PokemobDamageSource && living.level() instanceof ServerLevel level)
-            Objects.requireNonNull(damageSource.getDirectEntity()).killedEntity(level, living);
+            (damageSource.getDirectEntity()).killedEntity(level, living);
 
         // Handle exp gain for the mob.
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());

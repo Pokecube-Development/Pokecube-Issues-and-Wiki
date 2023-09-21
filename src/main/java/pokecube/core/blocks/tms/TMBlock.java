@@ -92,7 +92,7 @@ public class TMBlock extends InteractableHorizontalBlock implements SimpleWaterl
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(TMBlock.FACING, context
+        return (super.getStateForPlacement(context)).setValue(TMBlock.FACING, context
                 .getHorizontalDirection().getOpposite()).setValue(TMBlock.WATERLOGGED, ifluidstate.is(
                         FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }

@@ -1,17 +1,16 @@
 package pokecube.mobs.moves.attacks;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
-import net.minecraft.tags.DamageTypeTags;
 import org.apache.commons.lang3.NotImplementedException;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -58,7 +57,7 @@ public class DestinyBond implements PreApplyTests
         {
             PokecubeAPI.LOGGER.error(new NotImplementedException("destiny-bond"));
             final ServerLevel world = (ServerLevel) event.killed.getEntity().level();
-            final DamageSource source = new PokemobDamageSource(Objects.requireNonNull(event.killed.getEntity().getLastDamageSource()).typeHolder(), event.killed.getEntity(), dbond);
+            final DamageSource source = new PokemobDamageSource(event.killed.getEntity(), dbond);
             source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS);
             source.is(DamageTypeTags.BYPASSES_ARMOR);
             for (final UUID id : targets)

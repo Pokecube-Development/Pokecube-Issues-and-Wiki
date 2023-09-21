@@ -96,7 +96,7 @@ public class TraderBlock extends InteractableHorizontalBlock implements SimpleWa
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
-        return Objects.requireNonNull(super.getStateForPlacement(context)).setValue(TraderBlock.FACING, context
+        return (super.getStateForPlacement(context)).setValue(TraderBlock.FACING, context
                 .getHorizontalDirection().getOpposite()).setValue(TraderBlock.WATERLOGGED, ifluidstate.is(
                         FluidTags.WATER) && ifluidstate.getAmount() == 8);
     }

@@ -180,7 +180,7 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
   	    if (world.isClientSide) {
   	      world.addParticle(ParticleTypes.TOTEM_OF_UNDYING, x + 0.5, y + 1, z + 0.5, 0, 1, 0);
   	    }
-  	    world.playLocalSound(x, y, z, Objects.requireNonNull(ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
+  	    world.playLocalSound(x, y, z, (ForgeRegistries.SOUND_EVENTS.getValue(new ResourceLocation(
   	      "entity.player.levelup"))), SoundSource.NEUTRAL, 1, 1, false);
 	  }
 }

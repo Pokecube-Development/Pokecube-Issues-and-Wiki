@@ -5,7 +5,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -48,13 +47,11 @@ public class NpcType
 
         default IInteract and(final IInteract other)
         {
-            Objects.requireNonNull(other);
             return (p, h, m) -> this.processInteract(p, h, m) && other.processInteract(p, h, m);
         }
 
         default IInteract or(final IInteract other)
         {
-            Objects.requireNonNull(other);
             return (p, h, m) -> this.processInteract(p, h, m) || other.processInteract(p, h, m);
         }
     }

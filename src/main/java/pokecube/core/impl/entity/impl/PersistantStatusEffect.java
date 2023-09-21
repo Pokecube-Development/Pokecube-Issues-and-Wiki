@@ -61,7 +61,7 @@ public class PersistantStatusEffect extends BaseEffect
             if (targetM == null) targetM = entity;
             float scale = 1;
             final IPokemob user = PokemobCaps.getPokemobFor(targetM);
-            final DamageSource source = new StatusEffectDamageSource(Objects.requireNonNull(entity.getLastDamageSource()).typeHolder(), targetM);
+            final DamageSource source = new StatusEffectDamageSource((entity.getLastDamageSource()).typeHolder(), targetM);
             if (pokemob != null)
             {
                 // TODO: Check if correct
