@@ -1,8 +1,6 @@
 package pokecube.world.dimension;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -13,12 +11,10 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
-import net.minecraft.core.Registry;
 import net.minecraft.core.SectionPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.RegistryOps;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -32,7 +28,6 @@ import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.biome.BiomeSource;
-import net.minecraft.world.level.biome.FixedBiomeSource;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -42,7 +37,6 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.RandomState;
 import net.minecraft.world.level.levelgen.blending.Blender;
-import net.minecraft.world.level.levelgen.structure.StructureSet;
 import net.minecraft.world.phys.AABB;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -205,35 +199,18 @@ public class SecretBaseDimension
 
     public static class SecretChunkGenerator extends ChunkGenerator
     {
-//        public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((p_208215_) -> {
-//            return commonCodec(p_208215_)
-//                    .and(RegistryOps.retrieveRegistry(RegHelper.BIOME_REGISTRY).forGetter((p_208210_) ->
-//                    {
-//                        return p_208210_.registry;
-//                    })).apply(p_208215_, p_208215_.stable(SecretChunkGenerator::new));
-//        });
-
-//        TODO: Fix biome
-//        private final Registry<Biome> registry;
+        public static final Codec<SecretChunkGenerator> CODEC = RecordCodecBuilder.create((builder) -> {
+            return builder.group(BiomeSource.CODEC.fieldOf("biome_source").forGetter((p_255584_) -> {
+                return p_255584_.biomeSource;
+            })).apply(builder, builder.stable(SecretChunkGenerator::new));
+        });
 
         BlockState[] states = new BlockState[256];
 
-        public SecretChunkGenerator(BiomeSource p_256133_) {
+        public SecretChunkGenerator(BiomeSource p_256133_)
+        {
             super(p_256133_);
         }
-
-//        public SecretChunkGenerator(final Registry<StructureSet> structs, final Registry<Biome> registry)
-//        {
-//            super(structs, Optional.empty(),
-//                    new FixedBiomeSource(registry.getOrCreateHolder(SecretBaseDimension.BIOME_KEY).get().orThrow()));
-//            this.registry = registry;
-//            Arrays.fill(this.states, Blocks.AIR.defaultBlockState());
-//        }
-
-//        public Registry<Biome> getRegistry()
-//        {
-//            return this.registry;
-//        }
 
         @Override
         protected Codec<? extends ChunkGenerator> codec()
@@ -323,10 +300,9 @@ public class SecretBaseDimension
         }
 
         @Override
-        public void addDebugScreenInfo(List<String> p_208054_, RandomState p_223176_, BlockPos p_208055_)
+        public void addDebugScreenInfo(List<String> info, RandomState rng, BlockPos pos)
         {
-            // TODO Auto-generated method stub
-
+            // TODO include owner of secret base?
         }
 
     }
