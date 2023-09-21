@@ -3,7 +3,6 @@ package pokecube.world.gen.structures.utils;
 import java.util.Collections;
 import java.util.Deque;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -20,7 +19,9 @@ import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.Pools;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
@@ -71,6 +72,11 @@ public class ExpandedJigsawPacement
         ALWAYS_ADD.add(new ResourceLocation("pokecube:village/common/trainers"));
     }
 
+    private static ResourceKey<StructureTemplatePool> readPoolName(ResourceLocation name)
+    {
+        return ResourceKey.create(Registries.TEMPLATE_POOL, name);
+    }
+
     public static ServerLevel getForGen(final GenerationContext context)
     {
         // Try directly getting the level first
@@ -111,6 +117,7 @@ public class ExpandedJigsawPacement
         Rotation rotation = Rotation.getRandom(worldgenrandom);
 
         StructureTemplatePool root_pool = config.startPool.value();
+        String root_name = config.name;
         // This one can be completely random, as is just the start pool, this
         // shouldn't have any requirements...
         StructurePoolElement root_element = root_pool.getRandomTemplate(worldgenrandom);
@@ -182,7 +189,7 @@ public class ExpandedJigsawPacement
                             {
                                 List<Placer> attempts = Lists.newArrayList();
 
-                                if (ThutCore.conf.debug) PokecubeAPI.logDebug("Building: {}", root_pool.getClass().getName());
+                                if (ThutCore.conf.debug) PokecubeAPI.logDebug("Building: {}", root_name);
                                 tries:
                                 for (int n = 0; n < 10; n++)
                                 {
@@ -246,7 +253,7 @@ public class ExpandedJigsawPacement
                                 @SuppressWarnings("unchecked")
                                 List<PoolElementStructurePiece> list = (List<PoolElementStructurePiece>) most_complete.pieces;
 
-                                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_pool.getClass().getName());
+                                if (ThutCore.conf.debug) PokecubeAPI.LOGGER.debug("Finshed: {}", root_name);
 
                                 new PostProcessor(config).accept(context, list);
                                 list.forEach(builder::addPiece);
@@ -354,11 +361,11 @@ public class ExpandedJigsawPacement
             return shuffled;
         }
 
-        List<StructurePoolElement> getShuffledParts(int depth, Optional<StructureTemplatePool> target_pool,
-                Optional<StructureTemplatePool> fallback_pool)
+        List<StructurePoolElement> getShuffledParts(int depth, Holder<StructureTemplatePool> target_pool,
+                Holder<StructureTemplatePool> fallback_pool, ResourceLocation poolName)
         {
             List<StructurePoolElement> list = Lists.newArrayList();
-            boolean addChildren = depth < this.maxDepth || ALWAYS_ADD.contains(target_pool.get().getClass().getName());
+            boolean addChildren = depth < this.maxDepth || ALWAYS_ADD.contains(poolName);
             if (addChildren)
             {
                 list.addAll(target_pool.get().getShuffledTemplates(this.random));
@@ -521,23 +528,23 @@ public class ExpandedJigsawPacement
                 int dy = raw_jigsaw_pos.getY() - root_min_y;
                 int k = -1;
                 ResourceLocation next_pool_name = new ResourceLocation(root_block_info.nbt().getString("pool"));
-                Optional<StructureTemplatePool> next_pool = this.pools.getOptional(next_pool_name);
 
-                boolean valid_next_pool = next_pool.isPresent()
-                        && (next_pool.get().size() != 0 || Objects.equals(next_pool_name, Pools.EMPTY.location()));
+                Optional<? extends Holder<StructureTemplatePool>> next_holder = this.pools
+                        .getHolder(readPoolName(next_pool_name));
+
+                boolean valid_next_pool = next_holder.isPresent()
+                        && (next_holder.get().value().size() != 0 || next_holder.get().is(Pools.EMPTY));
 
                 if (valid_next_pool)
                 {
-                    // TODO: Fix this
-                    ResourceLocation resourcelocation1 = (ResourceLocation) next_pool.get().getFallback();
-                    Optional<StructureTemplatePool> fallback_pool = this.pools.getOptional(resourcelocation1);
+                    var next_pool = next_holder.get();
+                    Holder<StructureTemplatePool> fallback_pool = next_pool.get().getFallback();
 
-                    boolean valid_fallback = fallback_pool.isPresent() && (fallback_pool.get().size() != 0
-                            || Objects.equals(resourcelocation1, Pools.EMPTY.location()));
+                    boolean valid_fallback = (fallback_pool.get().size() != 0 || fallback_pool.is(Pools.EMPTY));
 
                     if (valid_fallback)
                     {
-                        var picked_parts = getShuffledParts(depth, next_pool, fallback_pool);
+                        var picked_parts = getShuffledParts(depth, next_pool, fallback_pool, next_pool_name);
                         // remove any parts that are deemed invalid due to
                         // attachment rules.
                         if (root_element instanceof ExpandedJigsawPiece piece) picked_parts.removeIf(piece::noAttach);
@@ -572,18 +579,19 @@ public class ExpandedJigsawPacement
                                         {
                                             ResourceLocation id = new ResourceLocation(
                                                     structure_info.nbt().getString("pool"));
-                                            Optional<StructureTemplatePool> pool_entry = this.pools.getOptional(id);
-                                            Optional<StructureTemplatePool> pool_fallback = pool_entry
-                                                    .flatMap((pool) ->
+                                            ResourceKey<StructureTemplatePool> pool_key = readPoolName(id);
+                                            Optional<? extends Holder<StructureTemplatePool>> pool_entry = this.pools
+                                                    .getHolder(pool_key);
+                                            Optional<Holder<StructureTemplatePool>> pool_fallback = pool_entry
+                                                    .map((pool) ->
                                                     {
-                                                        // TODO: Fix this
-                                                        return this.pools.getOptional((ResourceLocation) pool.getFallback());
+                                                        return pool.value().getFallback();
                                                     });
                                             int y_1 = pool_entry.map((pool) -> {
-                                                return pool.getMaxSize(this.structureManager);
+                                                return pool.value().getMaxSize(this.structureManager);
                                             }).orElse(0);
                                             int y_2 = pool_fallback.map((pool) -> {
-                                                return pool.getMaxSize(this.structureManager);
+                                                return pool.value().getMaxSize(this.structureManager);
                                             }).orElse(0);
                                             return Math.max(y_1, y_2);
                                         }
@@ -823,7 +831,7 @@ public class ExpandedJigsawPacement
                     }
                     else
                     {
-                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {} in {}", resourcelocation1,
+                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {} in {}", fallback_pool,
                                 config.name);
                     }
                 }

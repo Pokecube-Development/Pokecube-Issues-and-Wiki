@@ -117,8 +117,6 @@ dependencies {
     minecraft "net.neoforged:forge:${version_minecraft}-${version_neoforged}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     
-    // Cyanide
-    implementation fg.deobf("curse.maven:cyanide-${version_cyanide}")
     // JEI
     implementation fg.deobf("curse.maven:jei-${version_jei}")
 }

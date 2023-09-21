@@ -12,6 +12,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -36,6 +37,7 @@ public class GenericJigsawStructure extends Structure
         return instance
                 .group(//@formatter:off
                 Structure.settingsCodec(instance),
+                Codec.STRING.fieldOf("start_pool").orElse("").forGetter(s -> s.name),
                 StructureTemplatePool.CODEC.fieldOf("start_pool").forGetter(s -> s.startPool),
                 Codec.intRange(0, 30).fieldOf("size").forGetter(s -> s.max_depth),
                 YSettings.CODEC.fieldOf("y_settings").orElse(YSettings.DEFAULT).forGetter(s -> s.y_settings),
@@ -192,6 +194,7 @@ public class GenericJigsawStructure extends Structure
 
     public GenericJigsawStructure(//@formatter:off
             Structure.StructureSettings config,
+            String pool_name,
             Holder<StructureTemplatePool> start_pool, 
             int maxDepth, 
             YSettings y_settings,
@@ -222,18 +225,17 @@ public class GenericJigsawStructure extends Structure
         this._spawn_preset = _spawn_preset;
         this._spawn_blacklist = _spawn_blacklist;
         this.biome_type = biome_type;
-        this.name = start_pool.value().getClass().getName().toString();
+        this.name = pool_name;
         this.avoidances = avoidances;
 
         if (!_spawn_blacklist.isBlank())
         {
             PokecubeAPI.LOGGER.warn("Warning, spawn blacklist is not used anymore! Use Holdersets instead! {}",
-                    start_pool.get().getClass().getName());
+                    pool_name);
         }
         if (!_spawn_preset.isBlank())
         {
-            PokecubeAPI.LOGGER.warn("Warning, spawn preset is not used anymore! Use Holdersets instead! {}",
-                    start_pool.get().getClass().getName());
+            PokecubeAPI.LOGGER.warn("Warning, spawn preset is not used anymore! Use Holdersets instead! {}", pool_name);
         }
 
         this.underground = "underground".equals(y_settings.surface_type);
@@ -266,8 +268,7 @@ public class GenericJigsawStructure extends Structure
         ChunkPos pos = context.chunkPos();
         Level level = ExpandedJigsawPacement.getForGen(context);
         BlockPos bpos = pos.getMiddleBlockPosition(0);
-        if (PokecubeCore.getConfig().debug_misc)
-            PokecubeAPI.logDebug(this.avoidances.flags + " " + level.dimension());
+        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logDebug(this.avoidances.flags + " " + level.dimension());
         for (String flag : flags) PokecubeSerializer.getInstance().place(flag.strip(), bpos, level.dimension());
     }
 
@@ -279,6 +280,8 @@ public class GenericJigsawStructure extends Structure
         var rng = context.randomState();
 
         if (tooClose(context)) return false;
+        ServerLevel level = ExpandedJigsawPacement.getForGen(context);
+        var generatorState = level.getChunkSource().getGeneratorState();
 
         // Check if we need to avoid any structures.
         for (ResourceKey<StructureSet> key : this.structures_to_avoid)
@@ -294,14 +297,13 @@ public class GenericJigsawStructure extends Structure
             {
                 continue;
             }
-//            TODO: Find replacement
-//            if (generator.hasStructureChunkInRange(set, rng, context.seed(), pos.x, pos.z, this.avoid_range))
-//            {
-//                if (PokecubeCore.getConfig().debug_misc)
-//                    PokecubeAPI.logDebug("Skipping generation of {} due to conflict with {}",
-//                            this.startPool.value().getClass().getName(), key);
-//                return false;
-//            }
+            if (generatorState.hasStructureChunkInRange(set, pos.x, pos.z, this.avoid_range))
+            {
+                if (PokecubeCore.getConfig().debug_misc)
+                    PokecubeAPI.logDebug("Skipping generation of {} due to conflict with {}",
+                            this.startPool.value().getClass().getName(), key);
+                return false;
+            }
         }
 
         // Check if we have enough biome room around us.
