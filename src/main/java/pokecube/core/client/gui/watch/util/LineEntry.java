@@ -37,7 +37,8 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
     private IClickListener listener = new IClickListener()
     {
         @Override
-        public void handleHovor(GuiGraphics graphics, Style component, int x, int y) {}
+        public void handleHovor(GuiGraphics graphics, Style component, int x, int y)
+        {}
     };
 
     @SuppressWarnings("deprecation")
@@ -74,9 +75,7 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
             final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
             final float partialTicks)
     {
-        // TODO: Fix this
-        // if (shadowed) this.font.drawShadow(graphics, this.line, x + this.x0, y + this.y0, this.colour);
-        //  this.font.draw(graphics, this.line, x + this.x0, y + this.y0, this.colour);
+        graphics.drawString(font, this.line, x + this.x0, y + this.y0, this.colour, shadowed);
         x1 = x;
         final int dx = this.font.width(this.line);
         final int relativeX = mouseX - x;
@@ -99,7 +98,9 @@ public class LineEntry extends AbstractSelectionList.Entry<LineEntry>
         if (listener == null) listener = new IClickListener()
         {
             @Override
-            public void handleHovor(GuiGraphics graphics, Style component, int x, int y) {}
+            public void handleHovor(GuiGraphics graphics, Style component, int x, int y)
+            {
+            }
         };
         this.listener = listener;
         return this;

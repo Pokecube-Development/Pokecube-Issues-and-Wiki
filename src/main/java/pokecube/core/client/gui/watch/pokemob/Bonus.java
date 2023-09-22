@@ -56,7 +56,7 @@ public class Bonus extends PokeInfoPage
         if (!ability.isEmpty())
         {
             final String abilityName = I18n.get(ability);
-            graphics.drawString(font, abilityName, x + dx, y + dy, abilitycolour);
+            graphics.drawString(font, abilityName, x + dx, y + dy, abilitycolour, false);
         }
         final int happiness = this.parent.pokemob.getHappiness();
         MutableComponent message = TComponent.literal("");
