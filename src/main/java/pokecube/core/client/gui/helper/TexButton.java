@@ -189,6 +189,12 @@ public class TexButton extends Button
         this.onTooltip = builder.onTooltip;
     }
 
+    public TexButton noTooltip()
+    {
+        this.onTooltip = null;
+        return this;
+    }
+
     public TexButton setTexture(final ResourceLocation texture)
     {
         this.texture = texture;

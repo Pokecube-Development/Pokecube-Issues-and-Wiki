@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
@@ -13,6 +12,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
@@ -124,7 +124,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
             final PokedexEntry newEntry = Database.getEntry(this.search.getValue());
-            // Search to see if maybe it was a translated name put into the search.
+            // Search to see if maybe it was a translated name put into the
+            // search.
             if (newEntry == null)
             {
                 for (final PokedexEntry e : Database.getSortedFormes())
@@ -137,7 +138,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                         break;
                     }
                 }
-                // If the pokedex entry is not actually registered, use old entry.
+                // If the pokedex entry is not actually registered, use old
+                // entry.
                 if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
             }
 
@@ -316,7 +318,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         int dx = -76;
         int dy = 10;
 
-        // We only want to draw the level if we are actually inspecting apokemob.
+        // We only want to draw the level if we are actually inspecting
+        // apokemob.
         // Otherwise this will just show as lvl 1
         boolean drawLevel = this.watch.pokemob != null && this.watch.pokemob.getEntity().isAddedToWorld();
 
@@ -412,23 +415,27 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
     @Override
     public void preSubOpened()
     {
-        this.children().clear();
+        this.clearWidgets();
         this.initPages(this.pokemob);
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
 
-        // TODO: Check this
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 95, y - 74, 12, 12, next, b -> {
+        final TexButton nextBtn = new TexButton(x + 95, y - 74, 12, 12, next, b -> {
             this.changePage(this.index + 1);
             PokemobInfoPage.savedIndex = this.index;
-        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).noTooltip();
 
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x + 81, y - 74, 12, 12, prev, b -> {
+        final TexButton prevBtn = new TexButton(x + 81, y - 74, 12, 12, prev, b -> {
             this.changePage(this.index - 1);
             PokemobInfoPage.savedIndex = this.index;
-        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
+        }, TexButton.DEFAULT_NARRATION).setTexture(GuiPokeWatch.getWidgetTex())
+                .setRender(new UVImgRender(200, 0, 12, 12)).noTooltip();
+
+        this.addRenderableWidget(nextBtn);
+        this.addRenderableWidget(prevBtn);
 
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);

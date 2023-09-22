@@ -58,7 +58,6 @@ public abstract class PokeInfoPage extends WatchPage
         final Component form = TComponent.literal("\u2500");
         final Component cry = TComponent.literal("\u266B");
 
-        // TODO: Check this
         final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;

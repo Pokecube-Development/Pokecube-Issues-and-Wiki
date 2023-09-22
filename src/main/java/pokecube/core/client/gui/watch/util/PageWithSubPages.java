@@ -34,7 +34,7 @@ public abstract class PageWithSubPages<T extends WatchPage> extends WatchPage
     {
         if (this.current_page == null) return;
         this.current_page.onPageClosed();
-        this.children().remove(this.current_page);
+        this.removeWidget(current_page);
     }
 
     protected abstract T createPage(int index);
