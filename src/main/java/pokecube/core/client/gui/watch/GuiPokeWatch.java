@@ -197,8 +197,8 @@ public class GuiPokeWatch extends Screen
         this.current_page.init();
         final int x = this.width / 2;
         final int y = this.height / 2 - 5;
-        final Component next = TComponent.translatable("block.pc.next");
-        final Component prev = TComponent.translatable("block.pc.previous");
+        final Component next = TComponent.translatable("pokewatch.button.next");
+        final Component prev = TComponent.translatable("pokewatch.button.previous");
         final Component home = TComponent.translatable("pokewatch.button.home");
 
         // TODO: Check this

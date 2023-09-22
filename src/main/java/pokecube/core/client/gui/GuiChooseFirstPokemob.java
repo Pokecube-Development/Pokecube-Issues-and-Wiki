@@ -93,13 +93,13 @@ public class GuiChooseFirstPokemob extends Screen
         final int yOffset = 110;
         if (GuiChooseFirstPokemob.starters.length > 0)
         {
-            final Component next = TComponent.translatable("block.pc.next");
+            final Component next = TComponent.translatable("pokewatch.button.next");
             this.addRenderableWidget(this.next = new Button.Builder(next, (b) -> {
                 this.index++;
                 if (this.index >= GuiChooseFirstPokemob.starters.length) this.index = 0;
             }).bounds(this.width / 2 - xOffset + 65, this.height / 2 - yOffset, 50, 20).build());
 
-            final Component prev = TComponent.translatable("block.pc.previous");
+            final Component prev = TComponent.translatable("pokewatch.button.previous");
             this.addRenderableWidget(this.prev = new Button.Builder(prev, (b) -> {
                 if (this.index > 0) this.index--;
                 else this.index = GuiChooseFirstPokemob.starters.length - 1;
