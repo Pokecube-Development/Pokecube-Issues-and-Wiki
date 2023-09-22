@@ -376,11 +376,12 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
                         // TODO: Check This
-                        this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),
-                                13);
+                        this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 35,
+                                (int) (91 * timer), 13);
                     }
                     // TODO: Check This
-                    if (disabled) this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
+                    if (disabled)
+                        this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
 
                     evt.getMat().popPose();
                     evt.getMat().pushPose();
@@ -579,7 +580,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             evt.getMat().popPose();
         }
     }
-    
+
     public void drawMoveMessages(final RenderMoveMessages event)
     {
         if (PokecubeCore.getConfig().battleLogInChat) return;
@@ -603,27 +604,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         y += mess[3];
         messRect.setBounds((int) (x * s), (int) ((y - 7 * texH) * s), (int) (150 * s), (int) (8 * texH * s));
 
-        int i1 = -10;
-        int j1 = -10;
-
-        double mx, my;
-        mx = minecraft.mouseHandler.xpos();
-        my = minecraft.mouseHandler.ypos();
-
-        if (minecraft.screen != null)
-        {
-            i1 = (int) (mx * minecraft.screen.width / minecraft.getWindow().getGuiScaledWidth());
-            j1 = (int) (minecraft.screen.height
-                    - my * minecraft.screen.height / minecraft.getWindow().getGuiScaledHeight() - 1);
-        }
-        i1 = i1 - mess[0];
-        j1 = j1 - mess[1];
-
-        int w = 0;
-        int h = 0;
-        x = w;
-        y = h;
-        event.getMat().translate(0, -texH * 7, 0);
         int num = -1;
         final boolean inChat = GuiInfoMessages.fullDisplay();
 
@@ -650,28 +630,29 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         final List<String> toUse = num == 7 ? GuiInfoMessages.messages : GuiInfoMessages.recent;
         final int size = toUse.size() - 1;
         num = Math.min(num, size + 1);
-        int shift = 0;
-        var drawer = GuiDisplayPokecubeInfo.instance();
-        for (int l = 0; l < num && shift < num; l++)
+        int w = messRect.width;
+        x = messRect.x + paddingXPos;
+
+        int printed = 0;
+        int h = texH;
+
+        for (int l = 0; l < num && printed < num; l++)
         {
             int index = l + GuiInfoMessages.offset;
             if (index < 0) index = 0;
             if (index > size) break;
             final MutableComponent mess2 = TComponent.literal(toUse.get(index));
-            var mess1 = minecraft.font.split(mess2, trim);
+            // Split the message if too long
+            var mess1 = minecraft.font.split(mess2, trim - paddingXNeg);
+            y = messRect.y + messRect.height - h * printed;
+            // Draw background
+            this.fill(x, y, x + w, y - mess1.size() * h, 0x66000000);
             for (int j = mess1.size() - 1; j >= 0; j--)
             {
-                h = y + texH * shift;
-                w = x - trim;
-                final int ph = 6 * texH - h;
-                // TODO: Fix this
-                // GuiGraphics.fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                // minecraft.font.draw(event.getMat(), mess1.get(j), x - trim, ph, 0xffffff);
-                drawer.fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                
-                if (j != 0) shift++;
+                // Draw the message
+                this.drawString(this.fontRenderer, mess1.get(j), x, y - (mess1.size() - j) * h, 0xffffff);
+                printed++;
             }
-            shift++;
         }
         event.getMat().popPose();
     }
