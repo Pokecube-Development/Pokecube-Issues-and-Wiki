@@ -297,10 +297,8 @@ public class Health
             colour = 0xBBBBBB;
             if (pokemob.getSexe() == IPokemob.MALE) colour = 0x0011CC;
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
-            if (isOwner)
-                // TODO: Fix this
-                guigraphics.drawString(mc.font, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h,
-                        0xFFFFFFFF);
+            if (isOwner) guigraphics.drawString(mc.font, healthStr,
+                    (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h, 0xFFFFFFFF);
 
             pos = mat.last().pose();
 
