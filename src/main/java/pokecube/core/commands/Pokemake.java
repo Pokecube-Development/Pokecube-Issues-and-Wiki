@@ -156,7 +156,7 @@ public class Pokemake
             {
                 String ability = null;
                 ability = val;
-                if (AbilityManager.abilityExists(ability)) mob.setAbility(AbilityManager.getAbility(ability));
+                if (AbilityManager.abilityExists(ability)) mob.setAbilityRaw(AbilityManager.getAbility(ability));
             }
             else if (arg.equalsIgnoreCase("m") && mindex < 4)
             {
