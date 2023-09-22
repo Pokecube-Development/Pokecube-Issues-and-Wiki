@@ -1,11 +1,12 @@
 package pokecube.core.client.gui.pokemob;
 
-import com.mojang.math.Axis;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import org.joml.Matrix3f;
 
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
@@ -13,14 +14,13 @@ import com.google.gson.JsonObject;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
-import org.joml.Matrix3f;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -32,7 +32,6 @@ import pokecube.core.database.Database;
 import thut.api.AnimatedCaps;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public class GuiPokemobHelper
@@ -125,11 +124,9 @@ public class GuiPokemobHelper
         var quaternion = Axis.ZP.rotationDegrees(180.0F);
         var quaternion1 = Axis.YP.rotationDegrees(180 - yaw);
 
-        // TODO: Find replacement for graphics.last().normal().copy
-        final Matrix3f norms = mat.last().normal();
+        Matrix3f norms = new Matrix3f(mat.last().normal());
         mat.scale(1, 1, -1);
-        // TODO: check this
-        mat.last().normal().set(norms).add(norms);
+        mat.last().normal().set(norms);
 
         quaternion.mul(quaternion1);
         quaternion.mul(Axis.XP.rotationDegrees(pitch));
