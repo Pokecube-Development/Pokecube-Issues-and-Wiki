@@ -120,6 +120,9 @@ public class Config extends ConfigData
     @Configure(category = Config.MACHINE, comment = "How much energy you get of a pokemob. [Default: a*x/10]\n"
             + " a is the max of spatk and atk.\n" + " x is the level of the pokemob.")
     public String powerFunction = "a*x/10";
+    
+    @Configure(category = Config.MACHINE, comment = "How many ticks each statue fuel item lasts [Default: 600]")
+    public int statueFuelDuration = 600;
 
     // Cloning related options
     @Configure(type = Type.CLIENT, category = Config.MACHINE, comment = "Displays additional tooltips in the genetics blocks. [Default: true]")
