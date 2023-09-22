@@ -11,6 +11,7 @@ import java.util.UUID;
 import java.util.function.BiFunction;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
@@ -121,8 +122,8 @@ public class Health
     }
 
     private static void blit(final VertexConsumer buffer, final Matrix4f pos, final float x1, final float y1,
-                             final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
-                             final int brightness)
+            final float x2, final float y2, final float z, final int r, final int g, final int b, final int a,
+            final int brightness)
     {
         final float u0 = 0;
         final float u1 = 90f / 256f;
@@ -134,8 +135,8 @@ public class Health
         buffer.vertex(pos, x2, y1, z).color(r, g, b, a).uv(u0, v0).uv2(brightness).endVertex();
     }
 
-    public static void renderHealthBar(final LivingEntity passedEntity, final PoseStack mat,
-            final MultiBufferSource buf, final float partialTicks, final Entity viewPoint, final int br)
+    public static void renderHealthBar(final LivingEntity passedEntity, PoseStack mat, final MultiBufferSource buf,
+            final float partialTicks, final Entity viewPoint, final int br)
     {
         LivingEntity entity = passedEntity;
 
@@ -151,6 +152,10 @@ public class Health
         final boolean background = config.drawBackground;
         VertexConsumer buffer;
         Matrix4f pos;
+        GuiGraphics guigraphics = new GuiGraphics(mc, mc.renderBuffers().bufferSource());
+        guigraphics.pose().last().normal().set(mat.last().normal());
+        guigraphics.pose().last().pose().set(mat.last().pose());
+        mat = guigraphics.pose();
 
         mat.pushPose();
         processing:
@@ -275,8 +280,7 @@ public class Health
             mat.pushPose();
             s1 = 1.5F;
             mat.scale(s1, s1, s1);
-            // TODO: Fix this
-            // mc.font.draw(mat, nameComp.getString(), 0, 0, colour);
+            guigraphics.drawString(mc.font, nameComp.getString(), 0, 0, colour, false);
             s1 = 0.75F;
             mat.popPose();
 
@@ -295,19 +299,20 @@ public class Health
             else if (pokemob.getSexe() == IPokemob.FEMALE) colour = 0xCC5555;
             if (isOwner)
                 // TODO: Fix this
-                // mc.font.draw(mat, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h, 0xFFFFFFFF);
+                guigraphics.drawString(mc.font, healthStr, (int) (size / (s * s1)) - mc.font.width(healthStr) / 2, h,
+                        0xFFFFFFFF);
 
             pos = mat.last().pose();
 
-            // TODO: Fix this
-            // mc.font.drawInBatch(lvlStr, 2, h, 0xFFFFFF, false, pos, buf, false, 0, br);
-            // mc.font.drawInBatch(gender, (int) (size / (s * s1) * 2) - 2 - mc.font.width(gender), h - 1, colour, false, pos, buf, false, 0, br);
+            guigraphics.drawString(mc.font, lvlStr, 2, h, 0xFFFFFF, false);
+            guigraphics.drawString(mc.font, gender, (int) (size / (s * s1) * 2) - 2 - mc.font.width(gender), h - 1,
+                    colour, false);
 
             if (PokecubeCore.getConfig().enableDebugInfo && mc.options.renderDebug)
             {
                 final String entityID = entity.getEncodeId().toString();
-                // TODO: Fix this
-                // mc.font.draw(mat, "ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h + 16, 0xFFFFFFFF);
+                guigraphics.drawString(mc.font, "ID: \"" + entityID + "\"" + "(" + entity.getId() + ")", 0, h + 16,
+                        0xFFFFFFFF);
             }
             mat.popPose();
 
@@ -352,8 +357,8 @@ public class Health
         mat.mulPose(Axis.YP.rotationDegrees(180));
         mat.mulPose(Axis.ZP.rotationDegrees(180));
         // TODO: Check this
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.NONE, br, intV, mat,
-                buf, mob.level, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.NONE, br, intV, mat, buf,
+                mob.level, 0);
         mat.popPose();
     }
 }
