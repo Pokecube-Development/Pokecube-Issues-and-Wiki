@@ -15,6 +15,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -37,6 +39,7 @@ import net.minecraft.world.entity.ai.Brain;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.behavior.Behavior;
+import net.minecraft.world.entity.ai.behavior.BehaviorControl;
 import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.npc.VillagerData;
 import net.minecraft.world.entity.npc.VillagerProfession;
@@ -55,6 +58,8 @@ import pokecube.api.events.npcs.NpcBreedEvent;
 import pokecube.api.events.npcs.NpcEvent;
 import pokecube.api.events.npcs.NpcTradesEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.npc.Activities;
+import pokecube.core.ai.npc.Tasks;
 import pokecube.core.ai.routes.GuardAI;
 import pokecube.core.ai.routes.GuardTask;
 import pokecube.core.ai.routes.IGuardAICapability;
@@ -101,10 +106,10 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         this.entityData.define(NpcMob.NAMEDW, "");
     }
 
-    private ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> addGuard(final GuardAI guardai,
-            final ImmutableList<Pair<Integer, ? extends Behavior<? super Villager>>> addTo)
+    private ImmutableList<Pair<Integer, ? extends BehaviorControl<? super Villager>>> addGuard(final GuardAI guardai,
+            final ImmutableList<Pair<Integer, ? extends BehaviorControl<? super Villager>>> addTo)
     {
-        final List<Pair<Integer, ? extends Behavior<? super Villager>>> temp = Lists.newArrayList(addTo);
+        final List<Pair<Integer, ? extends BehaviorControl<? super Villager>>> temp = Lists.newArrayList(addTo);
         final Pair<Integer, GuardTask<Villager>> pair = Pair.of(0, new GuardTask<>(this, guardai));
         temp.add(0, pair);
         return ImmutableList.copyOf(temp);
@@ -123,8 +128,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         VillagerProfession villagerprofession = this.getVillagerData().getProfession();
         // Replace the default idle set with ours, with a different canBreed
         // system.
-        // TODO: Fix these
-        // brain.addActivity(Activity.IDLE, Tasks.getIdlePackage(villagerprofession, 0.5F));
+        brain.addActivity(Activity.IDLE, Tasks.getIdlePackage(villagerprofession, 0.5F));
 
         final IGuardAICapability guard = this.getCapability(CapHolders.GUARDAI_CAP).orElse(null);
         if (guard != null)
@@ -139,8 +143,7 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
             Set<Activity> acts = brain.activityRequirements.keySet();
             for (Activity act : acts) BrainUtil.addToActivity(brain, act, args);
 
-            // TODO: Fix these
-            // brain.addActivity(Activities.STATIONARY.get(), this.addGuard(guardai, Tasks.stationary(profession, f)));
+            brain.addActivity(Activities.STATIONARY.get(), this.addGuard(guardai, Tasks.stationary(profession, f)));
             brain.setCoreActivities(ImmutableSet.of(Activity.CORE));
             brain.setDefaultActivity(Activity.IDLE);
             brain.setActiveActivityIfPossible(Activity.IDLE);
@@ -203,12 +206,11 @@ public class NpcMob extends Villager implements IEntityAdditionalSpawnData
         if (this.fixedTrades || !this.customTrades.isEmpty()) this.offers = trades;
     }
 
-//    TODO: Still needed?
-//    @Override
-//    public Packet<?> getAddEntityPacket()
-//    {
-//        return NetworkHooks.getEntitySpawningPacket(this);
-//    }
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket()
+    {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
 
     @Override
     public SpawnGroupData finalizeSpawn(final ServerLevelAccessor worldIn, final DifficultyInstance difficultyIn,
