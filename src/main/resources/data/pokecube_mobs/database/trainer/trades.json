@@ -196,7 +196,7 @@
         {
           "custom": "sellRandomStatue",
           "buys": [
-            {"values": {"id": "minecraft:emerald", "n": "64"}}
+            {"values": {"id": "minecraft:emerald", "n": "8"}}
           ],
           "values": {"chance": "0.005"}
         },
