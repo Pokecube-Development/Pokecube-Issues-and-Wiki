@@ -385,26 +385,26 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             // Only draw the lvl if it is a real mob, otherwise it will just say
             // L.1
             final int lvlColour = GuiPokeWatch.nightMode ? 0xFFFFFF : 0x444444;
-            if (drawLevel) graphics.drawString(this.font, level, x + dx, y + dy, lvlColour);
+            if (drawLevel) graphics.drawString(this.font, level, x + dx, y + dy, lvlColour, false);
             dx = -80;
             dy = 97;
-            graphics.drawString(this.font, gender, x + dx, y + dy, genderColor);
+            graphics.drawString(this.font, gender, x + dx, y + dy, genderColor, false);
             pokemob.getType1();
             final String type1 = PokeType.getTranslatedName(pokemob.getType1()).getString();
             dx = -80;
             dy = 114;
             colour = pokemob.getType1().colour;
-            graphics.drawString(this.font, type1, x + dx, y + dy, colour);
+            graphics.drawString(this.font, type1, x + dx, y + dy, colour, false);
             dy = 114;
             if (pokemob.getType2() != PokeType.unknown)
             {
                 final String slash = "/";
                 colour = pokemob.getType2().colour;
                 dx += this.font.width(type1);
-                graphics.drawString(this.font, slash, x + dx, y + dy, 0x444444);
+                graphics.drawString(this.font, slash, x + dx, y + dy, 0x444444, false);
                 final String type2 = PokeType.getTranslatedName(pokemob.getType2()).getString();
                 dx += this.font.width(slash);
-                graphics.drawString(this.font, type2, x + dx, y + dy, colour);
+                graphics.drawString(this.font, type2, x + dx, y + dy, colour, false);
             }
         }
     }

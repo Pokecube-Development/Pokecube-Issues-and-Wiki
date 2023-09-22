@@ -1,14 +1,10 @@
 package pokecube.core.client.gui.watch.util;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.Button;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.TexButton;
-import pokecube.core.client.gui.watch.GuiPokeWatch;
-import pokecube.core.network.packets.PacketPokedex;
 
 public class PageEntry extends AbstractSelectionList.Entry<PageEntry> implements INotifiedEntry
 {

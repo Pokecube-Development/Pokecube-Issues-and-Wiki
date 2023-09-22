@@ -1,7 +1,5 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -58,8 +56,7 @@ public class Bonus extends PokeInfoPage
         if (!ability.isEmpty())
         {
             final String abilityName = I18n.get(ability);
-            // TODO: Check this
-            // this.font.draw(graphics, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
+            graphics.drawString(font, abilityName, x + dx, y + dy, abilitycolour);
         }
         final int happiness = this.parent.pokemob.getHappiness();
         MutableComponent message = TComponent.literal("");

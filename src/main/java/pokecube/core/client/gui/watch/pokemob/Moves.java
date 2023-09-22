@@ -1,6 +1,5 @@
 package pokecube.core.client.gui.watch.pokemob;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.List;
 import java.util.Set;
 
