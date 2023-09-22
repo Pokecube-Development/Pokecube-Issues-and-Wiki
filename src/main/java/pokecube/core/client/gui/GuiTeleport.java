@@ -4,12 +4,13 @@
 package pokecube.core.client.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -24,10 +25,10 @@ import thut.api.entity.teleporting.TeleDest;
 
 public class GuiTeleport extends GuiGraphics
 {
-    protected static int      lightGrey = 0xDDDDDD;
+    protected static int lightGrey = 0xDDDDDD;
     /**
-     * This is made public incase an addon needs to replace it. Do not
-     * reference this otherwise, always use instance()
+     * This is made public incase an addon needs to replace it. Do not reference
+     * this otherwise, always use instance()
      */
     public static GuiTeleport instance;
 
@@ -39,7 +40,8 @@ public class GuiTeleport extends GuiGraphics
     public static void create()
     {
         if (GuiTeleport.instance != null) MinecraftForge.EVENT_BUS.unregister(GuiTeleport.instance);
-        GuiTeleport.instance = new GuiTeleport(Minecraft.getInstance(), Minecraft.getInstance().renderBuffers().bufferSource());
+        GuiTeleport.instance = new GuiTeleport(Minecraft.getInstance(),
+                Minecraft.getInstance().renderBuffers().bufferSource());
     }
 
     public static GuiTeleport instance()
@@ -75,10 +77,12 @@ public class GuiTeleport extends GuiGraphics
         GuiDisplayPokecubeInfo.teleDims[1] = 25;
         final IPokemob pokemob = GuiDisplayPokecubeInfo.instance().getCurrentPokemob();
         if (pokemob == null) return;
+        PoseStack stack = this.pose();
 
-        event.getMat().pushPose();
-        GuiDisplayPokecubeInfo.applyTransform(event.getMat(), PokecubeCore.getConfig().teleRef, PokecubeCore.getConfig().telePos,
-                GuiDisplayPokecubeInfo.teleDims, (float) PokecubeCore.getConfig().teleSize);
+        stack.pushPose();
+        GuiDisplayPokecubeInfo.applyTransform(stack, PokecubeCore.getConfig().teleRef,
+                PokecubeCore.getConfig().telePos, GuiDisplayPokecubeInfo.teleDims,
+                (float) PokecubeCore.getConfig().teleSize);
 
         final int h = 0;
         final int w = 0;
@@ -90,25 +94,24 @@ public class GuiTeleport extends GuiGraphics
         RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
         RenderSystem.enableBlend();
         this.blit(Resources.GUI_BATTLE, xOffset + w, yOffset + h, 44, 0, 90, 13);
-        this.guiGraphics.drawString(this.fontRenderer, I18n.get("gui.pokemob.teleport"),
-                2 + xOffset + w, 2 + yOffset + h, GuiTeleport.lightGrey);
+        this.drawString(this.fontRenderer, I18n.get("gui.pokemob.teleport"), 2 + xOffset + w, 2 + yOffset + h,
+                GuiTeleport.lightGrey);
 
         final TeleDest location = TeleportHandler.getTeleport(this.minecraft.player.getStringUUID());
         if (location != null)
         {
             String name = location.getName();
-            if(name.isEmpty()) name = location.getInfoName().getString();
+            if (name.isEmpty()) name = location.getInfoName().getString();
             int shift = 13 + 12 * i + yOffset + h;
             if (dir == -1) shift -= 25;
             // bind texture
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             this.blit(Resources.GUI_BATTLE, xOffset + w, shift, 44, 22, 91, 12);
-            this.guiGraphics.drawString(this.fontRenderer, name, 5 + xOffset + w, shift + 2,
-                    PokeType.getType("fire").colour);
+            this.drawString(this.fontRenderer, name, 5 + xOffset + w, shift + 2, PokeType.getType("fire").colour);
         }
         i++;
-        event.getMat().popPose();
+        stack.popPose();
 
     }
 

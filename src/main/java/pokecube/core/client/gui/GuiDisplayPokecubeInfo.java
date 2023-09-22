@@ -233,6 +233,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         final float s = (float) PokecubeCore.getConfig().guiSize;
 
         final IPokemob pokemob = this.getCurrentPokemob();
+        PoseStack stack = this.pose();
         if (pokemob != null)
         {
             FormattedCharSequence displayName = pokemob.getDisplayName().getVisualOrderText();
@@ -243,23 +244,22 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             total = pokemob.getMaxHealth();
             ratio = pokemob.getHealth() / total;
             final int currentMoveIndex = pokemob.getMoveIndex();
-            evt.getMat().pushPose();
-            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().guiRef,
+            stack.pushPose();
+            GuiDisplayPokecubeInfo.applyTransform(stack, PokecubeCore.getConfig().guiRef,
                     PokecubeCore.getConfig().guiPos, GuiDisplayPokecubeInfo.guiDims, s);
-            // Render HP
+
+            // Setup HP render
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             width = (int) (92 * ratio);
             height = 5;
             u = 0;
             v = 85;
 
-            // TODO: Check This
+            // Render HP
             this.blit(Resources.GUI_BATTLE, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             this.blit(Resources.GUI_BATTLE, x, y, u, v, width, height);
 
-            // Render XP
-            // TODO: Check This
-            this.blit(Resources.GUI_BATTLE, xpOffsetX, xpOffsetY, 43, 19, 92, 5);
+            // Setup XP render
             int current = pokemob.getExp();
             int level = pokemob.getLevel();
             int prev = Tools.levelToXp(pokemob.getExperienceMode(), level);
@@ -274,7 +274,9 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             height = 2;
             u = 0;
             v = 97;
-            // TODO: Check This
+
+            // Render XP
+            this.blit(Resources.GUI_BATTLE, xpOffsetX, xpOffsetY, 43, 19, 92, 5);
             this.blit(Resources.GUI_BATTLE, x, y, u, v, width, height);
 
             // Render Hunger before status (Status will render over it)
@@ -287,7 +289,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             if (current_hunger < 0.5)
             {
                 int dv = -1 * 14;
-                // TODO: Check This
                 this.blit(Resources.GUI_BATTLE, statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
             }
 
@@ -300,20 +301,19 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                 if ((status & IMoveConstants.STATUS_BRN) != 0) dv = 2 * 14;
                 if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 3 * 14;
                 if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 4 * 14;
-                // TODO: Check This
                 this.blit(Resources.GUI_BATTLE, statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
             }
             if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
             {
-                evt.getMat().translate(0, 0, 100);
-                // TODO: Check This
+                stack.translate(0, 0, 100);
                 this.blit(Resources.GUI_BATTLE, confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
-                evt.getMat().translate(0, 0, -100);
+                stack.translate(0, 0, -100);
             }
 
             // Render Name
             if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.4F, 1.0F);
             this.blit(Resources.GUI_BATTLE, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
+            if (currentMoveIndex == 5) RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             this.drawString(this.fontRenderer, displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
@@ -329,19 +329,21 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             final int n2 = this.indexPokemob + 1;
             String txt = n == 1 ? n + "" : n2 + "/" + n;
             final int num = this.fontRenderer.width(txt);
-            evt.getMat().pushPose();
-            evt.getMat().translate(nameOffsetX + 89, nameOffsetY, 0);
-            if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
-            // TODO: Check This
+            stack.pushPose();
+            stack.translate(nameOffsetX + 89, nameOffsetY, 0);
+            if (num > 10) stack.scale(1.5f * num / 18f, 1, 1);
             this.blit(Resources.GUI_BATTLE, 0, 0, 0, 27, 15, 15);
-            evt.getMat().popPose();
+            stack.popPose();
             this.drawString(this.fontRenderer, txt, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
+
+            // First count the number of moves
             for (moveCount = 0; moveCount < 4; moveCount++) if (pokemob.getMove(moveCount) == null) break;
             int h = 0;
             if (dir == -1) h -= 14 + 12 * (moveCount - 1) - (4 - moveCount) * 2;
+            // Now render the names
             for (moveIndex = 0; moveIndex < 4; moveIndex++)
             {
                 final int index = moveIndex;
@@ -352,11 +354,10 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                 {
 
                     // bind texture
-                    evt.getMat().pushPose();
+                    stack.pushPose();
 
                     RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
                     RenderSystem.enableBlend();
-                    // TODO: Check This
                     this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
 
                     // Render colour overlays.
@@ -364,7 +365,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                     {
                         // Draw selected indictator
                         RenderSystem.enableBlend();
-                        // TODO: Check This
                         this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
                         // Draw cooldown box
                         float timer = 1;
@@ -375,19 +375,18 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                                     pokemob.getLastMoveUsed(), lastMove.isRanged(pokemob), false);
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
-                        // TODO: Check This
                         this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 35,
                                 (int) (91 * timer), 13);
                     }
-                    // TODO: Check This
+                    // If disabled, render red overlay
                     if (disabled)
                         this.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
 
-                    evt.getMat().popPose();
-                    evt.getMat().pushPose();
+                    stack.popPose();
+                    stack.pushPose();
                     this.drawString(this.fontRenderer, MovesUtils.getMoveName(move.getName(), pokemob).getString(),
                             5 + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
-                    evt.getMat().popPose();
+                    stack.popPose();
                 }
             }
 
@@ -397,7 +396,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             int mobOffsetX = 0;
             int mobOffsetY = 0;
             RenderSystem.enableBlend();
-            // TODO: Check This
             this.blit(Resources.GUI_BATTLE, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
             LivingEntity mob = pokemob.getEntity();
@@ -411,7 +409,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
             mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-            GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f,
+            GuiPokemobHelper.renderMob(stack, mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f,
                     Minecraft.getInstance().getFrameTime());
 
             mob.yBodyRot = yBodyRot;
@@ -422,16 +420,15 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             LivingEntity ally = pokemob.getMoveStats().targetAlly;
             if (ally != null && ally != pokemob.getEntity())
             {
-                evt.getMat().pushPose();
+                stack.pushPose();
 
-                evt.getMat().scale(0.5f, 0.5f, 0.5f);
+                stack.scale(0.5f, 0.5f, 0.5f);
 
                 RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
 
                 mobOffsetX = 45;
                 mobOffsetY = 80;
                 RenderSystem.enableBlend();
-                // TODO: Check This
                 this.blit(Resources.GUI_BATTLE, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
                 mob = ally;
@@ -445,16 +442,16 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                 mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
                 mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-                GuiPokemobHelper.renderMob(evt.getMat(), mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f,
+                GuiPokemobHelper.renderMob(stack, mob, mobOffsetX - 30, mobOffsetY - 25, 0, 0, 0, 0, 0.75f,
                         Minecraft.getInstance().getFrameTime());
 
                 mob.yBodyRot = yBodyRot;
                 mob.yBodyRotO = yBodyRotO;
                 mob.yHeadRot = yHeadRot;
                 mob.yHeadRotO = yHeadRotO;
-                evt.getMat().popPose();
+                stack.popPose();
             }
-            evt.getMat().popPose();
+            stack.popPose();
         }
     }
 
@@ -471,27 +468,27 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
         final int confuseOffsetX = 12;
         final int confuseOffsetY = 1;
         IPokemob pokemob = this.getCurrentPokemob();
+        PoseStack stack = this.pose();
         render:
         if (pokemob != null)
         {
             LivingEntity entity = pokemob.getMoveStats().targetEnemy;
             if (entity == null || !entity.isAlive()) break render;
 
-            evt.getMat().pushPose();
-            GuiDisplayPokecubeInfo.applyTransform(evt.getMat(), PokecubeCore.getConfig().targetRef,
+            stack.pushPose();
+            GuiDisplayPokecubeInfo.applyTransform(stack, PokecubeCore.getConfig().targetRef,
                     PokecubeCore.getConfig().targetPos, GuiDisplayPokecubeInfo.targetDims,
                     (float) PokecubeCore.getConfig().targetSize);
             // Render HP
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
-            // TODO: Check This
-            this.blit(Resources.GUI_BATTLE, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             final float total = entity.getMaxHealth();
             final float ratio = entity.getHealth() / total;
             final int x = hpOffsetX + 1;
             final int y = hpOffsetY + 1;
             final int width = (int) (92 * ratio);
-            // TODO: Check This
+            
+            this.blit(Resources.GUI_BATTLE, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
             this.blit(Resources.GUI_BATTLE, x, y, 0, 85, width, 5);
 
             // Render number of enemies
@@ -502,13 +499,11 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                 final int n2 = pokemob.getMoveStats().enemyIndex + 1;
                 String txt = n == 1 ? n + "" : n2 + "/" + n;
                 final int num = this.fontRenderer.width(txt);
-                evt.getMat().pushPose();
-                evt.getMat().translate(nameOffsetX - 43 - num, nameOffsetY, 0);
-                if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
-                // TODO: Check This
+                stack.pushPose();
+                stack.translate(nameOffsetX - 43 - num, nameOffsetY, 0);
+                if (num > 10) stack.scale(1.5f * num / 18f, 1, 1);
                 this.blit(Resources.GUI_BATTLE, 0, 0, 0, 27, 15, 15);
-                evt.getMat().popPose();
-                // TODO: Fix This
+                stack.popPose();
                 this.drawString(this.fontRenderer, txt, nameOffsetX - 43 - num + 2, nameOffsetY + 4,
                         GuiDisplayPokecubeInfo.lightGrey);
             }
@@ -524,28 +519,24 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
                     if ((status & IMoveConstants.STATUS_FRZ) != 0) dv = 1 * 14;
                     if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 3 * 14;
                     if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 4 * 14;
-                    // TODO: Check This
                     this.blit(Resources.GUI_BATTLE, statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
                 }
                 if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
                 {
-                    evt.getMat().translate(0, 0, 100);
-                    // TODO: Check This
+                    stack.translate(0, 0, 100);
                     this.blit(Resources.GUI_BATTLE, confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
-                    evt.getMat().translate(0, 0, -100);
+                    stack.translate(0, 0, -100);
                 }
             }
 
             // Render Name
             RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
-            // TODO: Check This
             this.blit(Resources.GUI_BATTLE, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
             final String displayName = entity.getDisplayName().getString();
             if (this.fontRenderer.width(displayName) > 70)
             {
 
             }
-            // TODO: Fix This
             this.drawString(this.fontRenderer, displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
@@ -554,7 +545,6 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             RenderSystem.enableBlend();
             final int mobBoxOffsetX = 0;
             final int mobBoxOffsetY = 0;
-            // TODO: Check This
             this.blit(Resources.GUI_BATTLE, mobBoxOffsetX, mobBoxOffsetY, 0, 0, 42, 42);
             // Render Mob
 
@@ -569,7 +559,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             mob.yBodyRot = mob.yBodyRotO = 180.0F + f * 20.0F;
             mob.yHeadRot = mob.yHeadRotO = mob.yBodyRot;
 
-            GuiPokemobHelper.renderMob(evt.getMat(), entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f,
+            GuiPokemobHelper.renderMob(stack, entity, mobBoxOffsetX - 30, mobBoxOffsetY - 25, 0, 0, 0, 0, 0.75f,
                     Minecraft.getInstance().getFrameTime());
 
             mob.yBodyRot = yBodyRot;
@@ -577,7 +567,7 @@ public class GuiDisplayPokecubeInfo extends GuiGraphics implements IGuiOverlay
             mob.yHeadRot = yHeadRot;
             mob.yHeadRotO = yHeadRotO;
 
-            evt.getMat().popPose();
+            stack.popPose();
         }
     }
 
