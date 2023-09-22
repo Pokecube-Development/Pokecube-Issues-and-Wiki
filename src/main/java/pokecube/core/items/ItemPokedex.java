@@ -12,8 +12,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundLevelParticlesPacket;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -51,7 +49,6 @@ import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 import thut.core.common.handlers.PlayerDataHandler;
 import thut.core.common.network.TerrainUpdate;
-import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 /** @author Manchou */
@@ -191,9 +188,6 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);
             PacketPokedex.sendOpenPacket(splayer, mob, this.watch);
-            var r = player.level.registryAccess().lookup(RegHelper.TEMPLATE_POOL_REGISTRY).get();
-
-            for (var v : r.listElementIds().toList()) System.out.println(v.location());
         }
     }
 

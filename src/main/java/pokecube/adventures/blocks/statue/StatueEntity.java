@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -263,7 +263,7 @@ public class StatueEntity extends InteractableTile
             final BlockHitResult hit)
     {
         ItemStack stack = player.getItemInHand(hand);
-        if (!player.isShiftKeyDown() && stack.is(TagKey.create(Registry.ITEM_REGISTRY, FUELTAG)))
+        if (!player.isShiftKeyDown() && stack.is(TagKey.create(Registries.ITEM, FUELTAG)))
         {
             if (player instanceof ServerPlayer)
             {
