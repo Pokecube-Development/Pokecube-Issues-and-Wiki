@@ -3,10 +3,11 @@ package pokecube.core.client.gui.helper;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+
 import javax.annotation.Nullable;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
 import net.minecraft.network.chat.Component;
@@ -24,14 +25,7 @@ public class TooltipArea extends AbstractWidget
         default void narrateTooltip(Consumer<Component> consumer)
         {}
     }
-
-    @OnlyIn(Dist.CLIENT)
-    public interface OnTooltipB {
-        void onTooltip(Button button, GuiGraphics graphics, int x, int y);
-
-        default void narrateTooltip(Consumer<Component> p_168842_) {
-        }
-    }
+    
     protected static final TooltipArea.CreateNarration DEFAULT_NARRATION = (p_253298_) -> {
         return p_253298_.get();
     };

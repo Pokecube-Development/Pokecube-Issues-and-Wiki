@@ -7,9 +7,9 @@ import com.google.common.collect.Maps;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.ImgRender;
+import pokecube.core.client.gui.helper.TexButton.OnTooltip;
 import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
-import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.lib.TComponent;
 
@@ -26,7 +26,7 @@ public class StartPage extends WatchPage
         public int buttonX = 0;
         public int buttonY = 0;
 
-        public TooltipArea.OnTooltipB hover = TexButton.NAMEONHOVER;
+        public OnTooltip hover = TexButton.NAMEONHOVER;
 
         public ImgRender render = new ImgRender()
         {
@@ -99,13 +99,10 @@ public class StartPage extends WatchPage
                 final WatchPage newPage = this.watch.createPage(index);
                 final UVHolder loc = this.BUTTONLOC.getOrDefault(page, UVHolder.DEFAULT);
                 final ResourceLocation tex = this.BUTTONTEX.getOrDefault(page, GuiPokeWatch.getWidgetTex());
-
-                // TODO: Check hover tooltip
                 final TexButton buttons = this.addRenderableWidget(new TexButton.Builder(newPage.getTitle(), (b) -> {
                     this.watch.changePage(index);
                 }).bounds(offsetX + loc.buttonX, offsetY + loc.buttonY, 24, 24).setTexture(tex)
                         .onTooltip(loc.hover).setRender(loc.render).noName().build());
-
                 this.addRenderableWidget(buttons);
             }
 

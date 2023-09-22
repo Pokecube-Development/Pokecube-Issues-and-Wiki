@@ -2,6 +2,8 @@ package pokecube.core.client.gui.helper;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+
+import java.util.function.Consumer;
 import java.util.function.Function;
 import javax.annotation.Nullable;
 import net.minecraft.client.Minecraft;
@@ -22,7 +24,15 @@ import pokecube.core.utils.Resources;
 
 public class TexButton extends Button
 {
-    private static class Tooltip implements TooltipArea.OnTooltipB
+    public interface OnTooltip
+    {
+        void onTooltip(Button button, GuiGraphics graphics, int x, int y);
+
+        default void narrateTooltip(Consumer<Component> p_168842_)
+        {}
+    }
+
+    private static class Tooltip implements OnTooltip
     {
         @Override
         public void onTooltip(final Button button, final GuiGraphics graphics, final int x, final int y)
@@ -30,14 +40,14 @@ public class TexButton extends Button
             final Minecraft minecraft = Minecraft.getInstance();
             final Font fontrenderer = minecraft.font;
             final int j = button.getFGColor();
-            graphics.drawCenteredString(fontrenderer, button.getMessage(), button.getX() + button.getWidth()
-                    / 2, button.getY() + (button.getHeight() - 8) / 2, j | Mth.ceil(255.0F) << 24);
+            graphics.drawCenteredString(fontrenderer, button.getMessage(), button.getX() + button.getWidth() / 2,
+                    button.getY() + (button.getHeight() - 8) / 2, j | Mth.ceil(255.0F) << 24);
         }
     }
 
-    public static final TooltipArea.OnTooltipB NAMEONHOVER = new Tooltip();
+    public static final OnTooltip NAMEONHOVER = new Tooltip();
 
-    public static class ShiftedTooltip implements TooltipArea.OnTooltipB
+    public static class ShiftedTooltip implements OnTooltip
     {
         int dx;
         int dy;
@@ -69,14 +79,14 @@ public class TexButton extends Button
             final Minecraft minecraft = Minecraft.getInstance();
             final Font fontrenderer = minecraft.font;
             final int j = button.getFGColor();
-            if (this.shadowed) graphics.drawCenteredString(fontrenderer, button.getMessage(), button.getX()
-                    + this.dx, button.getY() + this.dy, j | this.alpha << 24);
+            if (this.shadowed) graphics.drawCenteredString(fontrenderer, button.getMessage(), button.getX() + this.dx,
+                    button.getY() + this.dy, j | this.alpha << 24);
             else
             {
                 final String msg = button.getMessage().getString();
                 final float dx = fontrenderer.width(msg) / 2f;
-                // TODO: Fix this
-                graphics.drawString(fontrenderer, msg, (int) (button.getX() + this.dx - dx), button.getY() + this.dy, j | this.alpha << 24);
+                graphics.drawString(fontrenderer, msg, (int) (button.getX() + this.dx - dx), button.getY() + this.dy,
+                        j | this.alpha << 24);
             }
         }
     }
@@ -97,8 +107,6 @@ public class TexButton extends Button
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
-
-            // TODO: Fix this
             final int i = button.getTextureY();
             graphics.blit(Resources.SLOT_ICON_CUBE, button.getX(), button.getY(),
                     button.uOffset, button.vOffset + i * button.vSize,
@@ -133,9 +141,8 @@ public class TexButton extends Button
             RenderSystem.defaultBlendFunc();
             RenderSystem.enableDepthTest();
             final int i = button.getTextureY();
-
-            // TODO: Check this
-            graphics.blit(GuiPokeWatch.getWidgetTex(), button.getX(), button.getY(), this.u, this.v + i * this.h, this.w, this.h);
+            graphics.blit(GuiPokeWatch.getWidgetTex(), button.getX(), button.getY(), this.u, this.v + i * this.h,
+                    this.w, this.h);
         }
     }
 
@@ -145,16 +152,19 @@ public class TexButton extends Button
 
     int uOffset = 0;
     int vOffset = 46;
-    int vSize   = 20;
+    int vSize = 20;
 
     IntFunc uEnd = IntFunc.DEFAULT;
+    OnTooltip onTooltip = NAMEONHOVER;
 
     ImgRender render = new ImgRender()
-    {};
+    {
+    };
     protected final Button.OnPress onPress;
     protected final Button.CreateNarration createNarration;
 
-    public static Button.Builder builder(Component component, Button.OnPress onPress) {
+    public static Button.Builder builder(Component component, Button.OnPress onPress)
+    {
         return new Button.Builder(component, onPress);
     }
 
@@ -168,8 +178,15 @@ public class TexButton extends Button
 
     public TexButton(Builder builder)
     {
-        this(builder.x, builder.y, builder.width, builder.height, builder.name, builder.onPress, builder.createNarration);
+        this(builder.x, builder.y, builder.width, builder.height, builder.name, builder.onPress,
+                builder.createNarration);
         setTooltip(builder.tooltip);
+        if (!builder.renderName) this.noName();
+        this.setRender(builder.render);
+        this.renderName = builder.renderName;
+        this.render = builder.render;
+        this.texture = builder.texture;
+        this.onTooltip = builder.onTooltip;
     }
 
     public TexButton setTexture(final ResourceLocation texture)
@@ -204,8 +221,23 @@ public class TexButton extends Button
         return this;
     }
 
-    public void renderBg(PoseStack stack, Minecraft minecraft, int mouseX, int mouseY) {
+    public int getTextureY()
+    {
+        int i = 1;
+        if (!this.active)
+        {
+            i = 0;
+        }
+        else if (this.isHoveredOrFocused())
+        {
+            i = 2;
+        }
+
+        return i;
     }
+
+    public void renderBg(PoseStack stack, Minecraft minecraft, int mouseX, int mouseY)
+    {}
 
     @Override
     public void renderWidget(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
@@ -224,16 +256,20 @@ public class TexButton extends Button
             final String msg = this.getMessage().getString();
             final float dx = fontrenderer.width(msg) / 2f;
 
-            graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx), this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24);
+            graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx),
+                    this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24, false);
         }
-        if (this.isHoveredOrFocused()) this.renderBg(graphics.pose(), minecraft, mouseX, mouseY);
+        if (this.isHoveredOrFocused() && this.onTooltip != null)
+            this.onTooltip.onTooltip(this, graphics, mouseX, mouseY);
     }
 
-    public void onPress() {
+    public void onPress()
+    {
         this.onPress.onPress(this);
     }
 
-    protected MutableComponent createNarrationMessage() {
+    protected MutableComponent createNarrationMessage()
+    {
         return this.createNarration.createNarrationMessage(() -> {
             return super.createNarrationMessage();
         });
@@ -243,17 +279,19 @@ public class TexButton extends Button
         return supplier.get();
     };
 
-    public void updateWidgetNarration(NarrationElementOutput output) {
+    public void updateWidgetNarration(NarrationElementOutput output)
+    {
         this.defaultButtonNarrationText(output);
     }
 
     @OnlyIn(Dist.CLIENT)
-    public static class Builder {
+    public static class Builder
+    {
         public final Component name;
         public final Button.OnPress onPress;
         @Nullable
         public net.minecraft.client.gui.components.Tooltip tooltip;
-        public TooltipArea.OnTooltipB onTooltip;
+        public OnTooltip onTooltip;
         public int x;
         public int y;
         public int width = 150;
@@ -262,46 +300,55 @@ public class TexButton extends Button
         public TexButton.CreateNarration createNarration;
         public ResourceLocation texture = AbstractWidget.WIDGETS_LOCATION;
         ImgRender render = new ImgRender()
-        {};
+        {
+        };
 
-        public Builder(Component name, Button.OnPress onPress) {
+        public Builder(Component name, Button.OnPress onPress)
+        {
             this.createNarration = TexButton.DEFAULT_NARRATION;
             this.name = name;
             this.onPress = onPress;
         }
 
-        public TexButton.Builder pos(int x, int y) {
+        public TexButton.Builder pos(int x, int y)
+        {
             this.x = x;
             this.y = y;
             return this;
         }
 
-        public TexButton.Builder width(int width) {
+        public TexButton.Builder width(int width)
+        {
             this.width = width;
             return this;
         }
 
-        public TexButton.Builder size(int width, int height) {
+        public TexButton.Builder size(int width, int height)
+        {
             this.width = width;
             this.height = height;
             return this;
         }
 
-        public TexButton.Builder bounds(int x, int y, int width, int height) {
+        public TexButton.Builder bounds(int x, int y, int width, int height)
+        {
             return this.pos(x, y).size(width, height);
         }
 
-        public TexButton.Builder tooltip(@Nullable net.minecraft.client.gui.components.Tooltip tooltip) {
+        public TexButton.Builder tooltip(@Nullable net.minecraft.client.gui.components.Tooltip tooltip)
+        {
             this.tooltip = tooltip;
             return this;
         }
 
-        public TexButton.Builder onTooltip(@Nullable TooltipArea.OnTooltipB onTooltip) {
+        public TexButton.Builder onTooltip(@Nullable OnTooltip onTooltip)
+        {
             this.onTooltip = onTooltip;
             return this;
         }
 
-        public TexButton.Builder createNarration(TexButton.CreateNarration narration) {
+        public TexButton.Builder createNarration(TexButton.CreateNarration narration)
+        {
             this.createNarration = narration;
             return this;
         }
@@ -324,22 +371,14 @@ public class TexButton extends Button
             return this;
         }
 
-        public TexButton build() {
+        public TexButton build()
+        {
             return this.build(TexButton::new);
         }
 
-        public TexButton build(Function<TexButton.Builder, TexButton> builder) {
+        public TexButton build(Function<TexButton.Builder, TexButton> builder)
+        {
             return builder.apply(this);
         }
     }
-
-//    @OnlyIn(Dist.CLIENT)
-//    public interface OnPress {
-//        void onPress(TexButton var1);
-//    }
-
-//    @OnlyIn(Dist.CLIENT)
-//    public interface CreateNarration {
-//        MutableComponent createNarrationMessage(Supplier<MutableComponent> var1);
-//    }
 }
