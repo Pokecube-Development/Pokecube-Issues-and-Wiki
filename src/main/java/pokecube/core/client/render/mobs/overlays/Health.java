@@ -15,6 +15,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
@@ -354,9 +355,8 @@ public class Health
         mat.scale(20, 20, 20);
         mat.mulPose(Axis.YP.rotationDegrees(180));
         mat.mulPose(Axis.ZP.rotationDegrees(180));
-        // TODO: Check this
-        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.NONE, br, intV, mat, buf,
-                mob.level, 0);
+        Minecraft.getInstance().getItemRenderer().renderStatic(stack, ItemDisplayContext.FIXED, br,
+                OverlayTexture.NO_OVERLAY, mat, buf, mob.level, 0);
         mat.popPose();
     }
 }
