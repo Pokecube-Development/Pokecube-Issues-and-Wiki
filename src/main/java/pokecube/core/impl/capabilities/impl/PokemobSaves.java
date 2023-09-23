@@ -80,7 +80,6 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
                 final int j = CompoundNBT1.getByte("Slot") & 255;
                 if (j < this.getInventory().getContainerSize())
                     this.getInventory().setItem(j, ItemStack.of(CompoundNBT1));
-                this.setHeldItem(this.getInventory().getItem(1));
             }
         }
         // Read Breeding tag

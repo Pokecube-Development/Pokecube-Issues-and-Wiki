@@ -19,7 +19,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -590,8 +589,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default void setHeldItem(final ItemStack stack)
     {
-        this.getEntity().setItemInHand(InteractionHand.MAIN_HAND, stack);
-        if (getEntity().level() instanceof ServerLevel) EntityUpdate.sendEntityUpdate(getEntity());
+        this.getInventory().setItem(1, stack);
     }
 
     /**
