@@ -139,7 +139,7 @@ public class Inventory extends Tab
         h = 10;
         this.addRenderableWidget(this.sit = new Button.Builder(TComponent.translatable("pokemob.gui.sit"),
                 c -> PacketCommand.sendCommand(this.menu.pokemob, Command.STANCE, new StanceHandler(
-                        !this.menu.pokemob.getGeneralState(GeneralStates.STAYING), StanceHandler.STAY))
+                        !this.menu.pokemob.getLogicState(LogicStates.SITTING), StanceHandler.SIT))
         ).bounds(this.width / 2 - xOffset, this.height / 2 - yOffset, w, h)
                 .tooltip(Tooltip.create(sitting ? TComponent.translatable("pokemob.stance.sit")
                         : TComponent.translatable("pokemob.stance.no_sit"))).build());
@@ -252,7 +252,7 @@ public class Inventory extends Tab
         // The held item slot
         graphics.blit(POKEMOB_GUI, k + 63, l + 35, 0, this.imageHeight + 72, 18, 18);
         // The off-hand slot
-        graphics.blit(new ResourceLocation("textures/gui/icons/slot_book.png"), k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
+        graphics.blit(POKEMOB_GUI, k + 63, l + 53, 0, this.imageHeight + 72, 18, 18);
     }
 
     @Override

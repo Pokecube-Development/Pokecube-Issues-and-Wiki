@@ -4,17 +4,15 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.Tooltip;
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
@@ -62,7 +60,6 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
         this.index = index;
         this.entity = entity;
 
-        // TODO: Check these
         this.delete = new Button.Builder(TComponent.literal("X"), this::deleteClicked)
                 .tooltip(Tooltip.create(TComponent.translatable("pokecube.gui.delete.start.desc")))
                 .bounds(-200, 0, 10, 10).build();
@@ -85,7 +82,7 @@ public class GuardEntry extends AbstractSelectionList.Entry<GuardEntry> implemen
 
         this.update = new Button.Builder(TComponent.literal("btn"), b -> this.update())
                 .tooltip(Tooltip.create(TComponent.translatable("pokemob.route.btn.desc")))
-                .bounds(-200, 0, 10, 10).build();
+                .bounds(-200, 0, 20, 10).build();
 
         this.moveUp.active = index > 0 && index < guard.getTasks().size();
         this.moveDown.active = index < guard.getTasks().size() - 1;

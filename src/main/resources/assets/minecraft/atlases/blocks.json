@@ -2,8 +2,8 @@
     "sources": [
         {
             "type": "directory",
-            "source": "gui",
-            "prefix": "gui/icons"
+            "source": "gui/icons",
+            "prefix": "gui/icons/"
         },
         {
             "type": "paletted_permutations",

@@ -1,7 +1,6 @@
 package pokecube.core.impl.entity.impl;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Random;
 
 import com.google.common.collect.Maps;
@@ -61,7 +60,7 @@ public class PersistantStatusEffect extends BaseEffect
             if (targetM == null) targetM = entity;
             float scale = 1;
             final IPokemob user = PokemobCaps.getPokemobFor(targetM);
-            final DamageSource source = new StatusEffectDamageSource((entity.getLastDamageSource()).typeHolder(), targetM);
+            final DamageSource source = new StatusEffectDamageSource(targetM);
             if (pokemob != null)
             {
                 // TODO: Check if correct
