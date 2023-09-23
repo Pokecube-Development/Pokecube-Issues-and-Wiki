@@ -21,7 +21,6 @@ public class TexturedSlot extends CustomSlot
     {
         super(inventoryIn, index, xPosition, yPosition);
         this.setBackground(InventoryMenu.BLOCK_ATLAS, texture);
-        System.out.println(getNoItemIcon());
     }
 
     @Override

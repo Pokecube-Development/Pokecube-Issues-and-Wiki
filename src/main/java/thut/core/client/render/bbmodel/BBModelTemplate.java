@@ -278,8 +278,8 @@ public class BBModelTemplate
                     // We need to translate to rotation point, then rotate, then
                     // translate back.
                     vec.add(origin);
-                    // TODO: Fix this
-                    // vec.transform(quat);
+                    // TODO: check this
+                    quat.transform(vec);
                     vec.sub(origin);
 
                     // Now translate to where it should be

@@ -1,6 +1,5 @@
 package pokecube.core.entity.pokecubes;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Predicate;

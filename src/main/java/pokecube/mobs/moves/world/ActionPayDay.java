@@ -7,7 +7,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
@@ -25,22 +25,20 @@ public class ActionPayDay implements IMoveWorldEffect
     {
         final LivingEntity poke = user.getEntity();
         final LootTable loottable = poke.level().getServer().getLootData().getLootTable(ActionPayDay.lootTable);
-//        TODO: Fix
-//        final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) poke.level())
-//                .withRandom(poke.getRandom());
-//        // Generate the loot list.
-//        final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+        LootParams params = new LootParams.Builder((ServerLevel) poke.level()).create(loottable.getParamSet());
+        // Generate the loot list.
+        final List<ItemStack> list = loottable.getRandomItems(params);
         int num = 0;
-//        for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
-//        {
-//            final ItemStack stack = itemstack.copy();
-//            final ItemEntity item = poke.spawnAtLocation(stack);
-//            if (item != null)
-//            {
-//                location.moveEntity(item);
-//                num++;
-//            }
-//        }
+        for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
+        {
+            final ItemStack stack = itemstack.copy();
+            final ItemEntity item = poke.spawnAtLocation(stack);
+            if (item != null)
+            {
+                location.moveEntity(item);
+                num++;
+            }
+        }
         return num > 0;
     }
 
