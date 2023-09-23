@@ -1,7 +1,6 @@
 package pokecube.adventures.blocks.statue;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 import com.google.common.collect.Maps;

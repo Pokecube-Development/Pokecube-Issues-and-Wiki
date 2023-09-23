@@ -206,14 +206,12 @@ public class Health
             g = color.getGreen();
             b = color.getBlue();
             MutableComponent nameComp = (MutableComponent) pokemob.getDisplayName();
+            final float s = 0.5F;
+            final float namel = mc.font.width(nameComp.getString()) * s;
             final boolean obfuscated = Health.obfuscateName(pokemob);
             if (obfuscated) nameComp = Health.obfuscate(nameComp);
             if (entity instanceof Mob mob && mob.hasCustomName()) nameComp = (MutableComponent) mob.getCustomName();
-
-            final float s = 0.5F;
-            final String name = nameComp.getString();
-            final float namel = mc.font.width(name) * s;
-            if (namel + 20 > size * 2) size = namel / 2F + 10F;
+            if (namel + 20 > size * 2) size = namel / 2f + 10F;
             float healthSize = size * (health / maxHealth);
             mat.mulPose(Axis.YP.rotationDegrees(180));
             mat.mulPose(Axis.XP.rotationDegrees(180));
@@ -223,9 +221,10 @@ public class Health
             if (background)
             {
                 buffer = Utils.makeBuilder(Health.BACKGROUND, buf);
+                buffer = Utils.makeBuilder(RenderType.textBackground(), buf);
                 final int a = 32;
-                Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding, zlevel, 0, 0,
-                        0, a, br);
+                Health.blit(buffer, pos, -size - padding, -bgHeight, size + padding, barHeight1 + padding,
+                        zlevel + .006f, 0, 0, 0, a, br);
                 zlevel += 0.001f;
             }
             buffer = Utils.makeBuilder(Health.TYPE, buf);
