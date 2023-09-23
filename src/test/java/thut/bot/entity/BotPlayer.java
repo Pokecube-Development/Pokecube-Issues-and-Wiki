@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javax.annotation.Nullable;
 
 import com.mojang.authlib.GameProfile;
+import com.mojang.datafixers.util.Pair;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.NbtIo;
@@ -28,6 +29,7 @@ import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.npc.Npc;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraftforge.event.ServerChatEvent;
+import thut.api.Tracker;
 import thut.api.util.PermNodes;
 import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.bot.ThutBot;
@@ -35,7 +37,6 @@ import thut.bot.ThutBot.BotEntry;
 import thut.bot.entity.ai.IBotAI;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
-import thut.lib.TComponent;
 
 public class BotPlayer extends ServerPlayer implements Npc
 {
@@ -47,6 +48,8 @@ public class BotPlayer extends ServerPlayer implements Npc
     private IBotAI routine;
 
     private final BotEntry entry;
+
+    private List<Pair<Long, String>> chat_queue = new ArrayList<>();
 
     public BotPlayer(final ServerLevel world, final GameProfile profile)
     {
@@ -75,6 +78,15 @@ public class BotPlayer extends ServerPlayer implements Npc
     {
         ChunkPos cpos = this.chunkPosition();
         ServerLevel level = (ServerLevel) this.level();
+
+        chat_queue.removeIf(pair -> {
+            var tick = pair.getFirst();
+            if (tick > Tracker.instance().getTick()) return false;
+            String message = pair.getSecond();
+            PlayerChatMessage message2 = PlayerChatMessage.system(message);
+            this.server.getPlayerList().broadcastChatMessage(message2, this, ChatType.bind(ChatType.CHAT, this));
+            return true;
+        });
 
         if (routine != null)
         {
@@ -145,7 +157,8 @@ public class BotPlayer extends ServerPlayer implements Npc
         // Decide if we want to say something back?
         if (!isOrder) return;
 
-        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTORDER, DefaultPermissionLevel.OP, "Allowed to give orders to thutbots");
+        PermNodes.registerBooleanNode(ThutCore.MODID, PERMBOTORDER, DefaultPermissionLevel.OP,
+                "Allowed to give orders to thutbots");
         String s1 = "I Am A Bot";
         chat(s1);
 
@@ -235,9 +248,7 @@ public class BotPlayer extends ServerPlayer implements Npc
 
     public void chat(String message)
     {
-        Component component1 = TComponent.translatable("chat.type.text", this.getDisplayName(), message);
-        PlayerChatMessage message2 = PlayerChatMessage.system(component1.getString());
-        this.server.getPlayerList().broadcastChatMessage(message2, this, ChatType.bind(ChatType.CHAT, this));
+        chat_queue.add(Pair.of(Tracker.instance().getTick() + 1, message));
     }
 
     private static class BotPlayerNetHandler extends ServerGamePacketListenerImpl

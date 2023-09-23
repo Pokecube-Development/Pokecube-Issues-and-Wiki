@@ -650,7 +650,10 @@ public class RoadBuilder extends AbstractBot
             var opt = level.getBlockEntity(p, BlockEntityType.SIGN);
             if (opt.isPresent())
             {
+                // Front side of sign
                 opt.get().updateText(t -> t.setMessage(0, TComponent.translatable(this.subbiome)), true);
+                // Back side of sign
+                opt.get().updateText(t -> t.setMessage(0, TComponent.translatable(this.subbiome)), false);
             }
         }
     }
