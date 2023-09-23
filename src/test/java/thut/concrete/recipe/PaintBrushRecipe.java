@@ -1,35 +1,36 @@
 package thut.concrete.recipe;
 
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
+import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.CustomRecipe;
-import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.Tags;
 import thut.concrete.Concrete;
 import thut.concrete.item.PaintBrush;
+import thut.lib.RegHelper;
 
 public class PaintBrushRecipe extends CustomRecipe
 {
 
-    public static <T extends Recipe<?>> Supplier<SimpleRecipeSerializer<T>> brushDye(
-            final Function<ResourceLocation, T> create)
+    public static <T extends CraftingRecipe> Supplier<SimpleCraftingRecipeSerializer<T>> brushDye(
+            final SimpleCraftingRecipeSerializer.Factory<T> create)
     {
-        return () -> new SimpleRecipeSerializer<>(create);
+        return () -> new SimpleCraftingRecipeSerializer<>(create);
     }
 
     private static Map<DyeColor, TagKey<Item>> DYETAGS = Maps.newHashMap();
@@ -39,14 +40,14 @@ public class PaintBrushRecipe extends CustomRecipe
         if (DYETAGS.isEmpty()) for (final DyeColor colour : DyeColor.values())
         {
             final ResourceLocation tag = new ResourceLocation("forge", "dyes/" + colour.getName());
-            DYETAGS.put(colour, TagKey.create(Registry.ITEM_REGISTRY, tag));
+            DYETAGS.put(colour, TagKey.create(RegHelper.ITEM_REGISTRY, tag));
         }
         return DYETAGS;
     }
 
-    public PaintBrushRecipe(ResourceLocation loc)
+    public PaintBrushRecipe(ResourceLocation loc, CraftingBookCategory bookCategory)
     {
-        super(loc);
+        super(loc, bookCategory);
     }
 
     @Override
@@ -78,7 +79,7 @@ public class PaintBrushRecipe extends CustomRecipe
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer container)
+    public ItemStack assemble(CraftingContainer container, RegistryAccess access)
     {
         ItemStack dye = ItemStack.EMPTY;
         for (int i = 0; i < container.getContainerSize(); i++)

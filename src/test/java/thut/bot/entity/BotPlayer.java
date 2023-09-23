@@ -15,7 +15,6 @@ import net.minecraft.nbt.NbtIo;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.PacketSendListener;
-import net.minecraft.network.chat.ChatMessageContent;
 import net.minecraft.network.chat.ChatType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.PlayerChatMessage;
@@ -51,7 +50,7 @@ public class BotPlayer extends ServerPlayer implements Npc
 
     public BotPlayer(final ServerLevel world, final GameProfile profile)
     {
-        super(world.getServer(), world, profile, null);
+        super(world.getServer(), world, profile);
         this.connection = new BotPlayerNetHandler(world.getServer(), this);
         entry = ThutBot.BOT_MAP.get(profile.getId());
         try
@@ -75,7 +74,7 @@ public class BotPlayer extends ServerPlayer implements Npc
     public void tick()
     {
         ChunkPos cpos = this.chunkPosition();
-        ServerLevel level = this.level();
+        ServerLevel level = (ServerLevel) this.level();
 
         if (routine != null)
         {
@@ -237,7 +236,7 @@ public class BotPlayer extends ServerPlayer implements Npc
     public void chat(String message)
     {
         Component component1 = TComponent.translatable("chat.type.text", this.getDisplayName(), message);
-        PlayerChatMessage message2 = PlayerChatMessage.system(new ChatMessageContent(message, component1));
+        PlayerChatMessage message2 = PlayerChatMessage.system(component1.getString());
         this.server.getPlayerList().broadcastChatMessage(message2, this, ChatType.bind(ChatType.CHAT, this));
     }
 

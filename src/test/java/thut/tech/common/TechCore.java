@@ -6,7 +6,6 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
@@ -14,7 +13,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
 import thut.core.common.network.PacketHandler;
 import thut.tech.Reference;
@@ -58,15 +56,14 @@ public class TechCore
 
         CONTROLTYPE = TechCore.TILEENTITY.register("controller",
                 () -> BlockEntityType.Builder.of(ControllerTile::new, TechCore.LIFTCONTROLLER.get()).build(null));
-        LIFTCONTROLLER = TechCore.BLOCKS.register("controller", () -> new ControllerBlock(
-                Block.Properties.of(Material.METAL).strength(3.5f).dynamicShape().noOcclusion()));
+        LIFTCONTROLLER = TechCore.BLOCKS.register("controller",
+                () -> new ControllerBlock(Block.Properties.of().strength(3.5f).dynamicShape().noOcclusion()));
 
-        LIFT = TechCore.ITEMS.register("lift", () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
-        LINKER = TechCore.ITEMS.register("linker", () -> new ItemLinker(new Item.Properties().tab(ThutCore.THUTITEMS)));
+        LIFT = TechCore.ITEMS.register("lift", () -> new Item(new Item.Properties()));
+        LINKER = TechCore.ITEMS.register("linker", () -> new ItemLinker(new Item.Properties()));
 
         for (final RegistryObject<Block> reg : TechCore.BLOCKS.getEntries())
-            TechCore.ITEMS.register(reg.getId().getPath(),
-                    () -> new BlockItem(reg.get(), new Item.Properties().tab(ThutCore.THUTITEMS)));
+            TechCore.ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), new Item.Properties()));
     }
 
     public TechCore()

@@ -8,9 +8,10 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.joml.Vector3f;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.commands.arguments.EntityAnchorArgument.Anchor;
 import net.minecraft.core.BlockPos;
@@ -33,8 +34,8 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.world.terrain.PokecubeTerrainChecker;
-import thut.api.level.structures.StructureManager;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainManager;
 import thut.bot.entity.BotPlayer;
@@ -53,7 +54,7 @@ public class RoadBuilder extends AbstractBot
 
         public BlockState getReplacement(BlockPos p)
         {
-            ServerLevel level = RoadBuilder.this.player.level();
+            ServerLevel level = (ServerLevel) RoadBuilder.this.player.level();
 
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);
@@ -184,14 +185,14 @@ public class RoadBuilder extends AbstractBot
         }
         if (player.position().distanceToSqr(next) < 256)
         {
-            teleBot(new BlockPos(next));
+            teleBot(BlockPos.containing(next));
             this.mob.getNavigation().stop();
             updateNext();
             pathTicks = 0;
         }
         else if (stuckTicks++ > tpTicks)
         {
-            teleBot(new BlockPos(next));
+            teleBot(BlockPos.containing(next));
             this.mob.getNavigation().stop();
             stuckTicks = 0;
         }
@@ -288,9 +289,9 @@ public class RoadBuilder extends AbstractBot
 
         Vec3 next = this.next;
         List<BlockPos> path_opts = Lists.newArrayList();
-        BlockPos next_pos = new BlockPos(next).atY(0);
+        BlockPos next_pos = BlockPos.containing(next).atY(0);
         path_opts.add(next_pos);
-        BlockPos end_pos = new BlockPos(end).atY(0);
+        BlockPos end_pos = BlockPos.containing(end).atY(0);
         boolean done = false;
         int n = 0;
 
@@ -300,7 +301,7 @@ public class RoadBuilder extends AbstractBot
             final double dx = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
             final double dz = (this.player.getRandom().nextDouble() - 0.5) * lengthVariation;
             Vec3 next_next = next.add(dir.x * length + dx, 0, dir.z * length + dz);
-            BlockPos next_next_pos = new BlockPos(next_next).atY(0);
+            BlockPos next_next_pos = BlockPos.containing(next_next).atY(0);
             path_opts.add(next_next_pos);
             next = next_next;
             next_pos = next_next_pos;
@@ -428,7 +429,7 @@ public class RoadBuilder extends AbstractBot
 
         if (pathTicks++ > tpTicks)
         {
-            teleBot(new BlockPos(next));
+            teleBot(BlockPos.containing(next));
             this.mob.getNavigation().stop();
             pathTicks = 0;
             return;
@@ -471,8 +472,8 @@ public class RoadBuilder extends AbstractBot
             dir = next.subtract(prev);
             dist = dir.length();
             dir = dir.normalize();
-            BlockPos npos = new BlockPos(next);
-            BlockPos epos = new BlockPos(end);
+            BlockPos npos = BlockPos.containing(next);
+            BlockPos epos = BlockPos.containing(end);
             getTag().put("next", NbtUtils.writeBlockPos(npos));
             getTag().put("end", NbtUtils.writeBlockPos(epos));
             buildRoute(prev, dir, dist);
@@ -500,9 +501,9 @@ public class RoadBuilder extends AbstractBot
         BlockPos pos;
         Vec3 vec = start;
 
-        final Vector3f up = Vector3f.YP;
-        final Vector3f dr = new Vector3f(dir);
-        final Vector3f r_h = up.copy();
+        final Vector3f up = new Vector3f(0, 1, 0);
+        final Vector3f dr = new Vector3f((float) dir.x, (float) dir.y, (float) dir.z);
+        final Vector3f r_h = up;
         // This is horizontal direction to the path.
         r_h.cross(dr);
         final Vec3 dir_h = new Vec3(r_h);
@@ -530,7 +531,7 @@ public class RoadBuilder extends AbstractBot
             for (int dh = -3; dh <= 3; dh++)
             {
                 vec = start.add(dir.scale(i).add(dir_h.scale(dh)));
-                pos = new BlockPos(vec);
+                pos = BlockPos.containing(vec);
 
                 // If too close to a structure, skip point
                 final Set<INamedStructure> inside = StructureManager.getNear(level.dimension(), pos, 2, false);
@@ -546,7 +547,7 @@ public class RoadBuilder extends AbstractBot
                 for (int y = -1; y <= 4; y++)
                 {
                     vec = start.add(dir.scale(i).add(dir_h.scale(dh))).add(0, y, 0);
-                    pos = new BlockPos(vec);
+                    pos = BlockPos.containing(vec);
 
                     if (makeTorch && Math.abs(dh) == 2 && y == 1)
                     {
@@ -649,7 +650,7 @@ public class RoadBuilder extends AbstractBot
             var opt = level.getBlockEntity(p, BlockEntityType.SIGN);
             if (opt.isPresent())
             {
-                opt.get().setMessage(0, TComponent.translatable(this.subbiome));
+                opt.get().updateText(t -> t.setMessage(0, TComponent.translatable(this.subbiome)), true);
             }
         }
     }

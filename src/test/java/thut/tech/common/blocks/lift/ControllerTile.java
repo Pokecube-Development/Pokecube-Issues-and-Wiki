@@ -7,12 +7,16 @@ import java.util.Vector;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -280,7 +284,11 @@ public class ControllerTile extends BlockEntity implements ITickTile// ,
         if (par1.contains("state"))
         {
             final CompoundTag state = par1.getCompound("state");
-            this.copiedState = NbtUtils.readBlockState(state);
+            @SuppressWarnings("deprecation")
+            HolderGetter<Block> holdergetter = (HolderGetter<Block>) (this.level != null
+                    ? this.level.holderLookup(Registries.BLOCK)
+                    : BuiltInRegistries.BLOCK.asLookup());
+            this.copiedState = NbtUtils.readBlockState(holdergetter, state);
         }
     }
 

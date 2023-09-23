@@ -13,7 +13,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.SignalGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -96,10 +96,9 @@ public class ControllerBlock extends Block implements EntityBlock
     }
 
     @Override
-    public boolean shouldCheckWeakPower(final BlockState state, final LevelReader world, final BlockPos pos,
-            Direction side)
+    public boolean shouldCheckWeakPower(BlockState state, SignalGetter level, BlockPos pos, Direction side)
     {
-        final ControllerTile te = (ControllerTile) world.getBlockEntity(pos);
+        final ControllerTile te = (ControllerTile) level.getBlockEntity(pos);
         side = side.getOpposite();
         final boolean called = state.getValue(ControllerBlock.CALLED);
         // Note that we do not check if the side is on, as this allows

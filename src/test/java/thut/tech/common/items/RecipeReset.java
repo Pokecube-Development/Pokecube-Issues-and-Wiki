@@ -1,8 +1,10 @@
 package thut.tech.common.items;
 
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -11,13 +13,13 @@ import thut.tech.common.util.RecipeSerializers;
 
 public class RecipeReset extends CustomRecipe
 {
-    public RecipeReset(final ResourceLocation idIn)
+    public RecipeReset(final ResourceLocation location, CraftingBookCategory bookCategory)
     {
-        super(idIn);
+        super(location, bookCategory);
     }
 
     @Override
-    public ItemStack assemble(final CraftingContainer inv)
+    public ItemStack assemble(final CraftingContainer inv, RegistryAccess access)
     {
         int n = 0;
         boolean matched = false;
@@ -84,7 +86,7 @@ public class RecipeReset extends CustomRecipe
     @Override
     public boolean matches(final CraftingContainer inv, final Level worldIn)
     {
-        return !this.assemble(inv).isEmpty();
+        return !this.assemble(inv, worldIn.registryAccess()).isEmpty();
     }
 
     @Override

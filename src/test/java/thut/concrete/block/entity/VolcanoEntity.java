@@ -93,7 +93,8 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 				Set<BlockPos> checked = Sets.newHashSet();
 
 				for (int i = 0; i < length; i++) {
-					BlockPos p = new BlockPos(start.add(dir.scale(i)));
+				    var v = start.add(dir.scale(i));
+					BlockPos p = BlockPos.containing(v);
 					if (checked.contains(p))
 						continue;
 

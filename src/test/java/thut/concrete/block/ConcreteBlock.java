@@ -6,7 +6,7 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.level.BlockGetter;
@@ -35,7 +35,7 @@ public abstract class ConcreteBlock extends SolidBlock implements IDyedBlock
         {
             String name = c.getName() + "_concrete";
             @SuppressWarnings("deprecation")
-            Block b = Registry.BLOCK.get(new ResourceLocation(name));
+            Block b = BuiltInRegistries.BLOCK.get(new ResourceLocation(name));
             VANILLA.put(c, b);
             VANILLAREV.put(b, c);
         }
