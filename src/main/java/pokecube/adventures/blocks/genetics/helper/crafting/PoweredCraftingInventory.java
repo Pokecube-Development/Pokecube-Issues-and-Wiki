@@ -61,7 +61,7 @@ public class PoweredCraftingInventory implements CraftingContainer {
 
     @Override
     public int getContainerSize() {
-        return 0;
+        return this.inventory.getList().size();
     }
 
     @Override
@@ -120,16 +120,16 @@ public class PoweredCraftingInventory implements CraftingContainer {
 
     @Override
     public int getWidth() {
-        return 0;
+        return this.inventory.getList().size();
     }
 
     @Override
     public int getHeight() {
-        return 0;
+        return 1;
     }
 
     @Override
     public List<ItemStack> getItems() {
-        return null;
+        return this.inventory.getList();
     }
 }
