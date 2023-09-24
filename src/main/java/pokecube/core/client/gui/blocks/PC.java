@@ -125,6 +125,22 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     }
 
     @Override
+    protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
+    {
+        String text = this.menu.getPage();
+        if (this.renamePageBox.visible && text.length() > 17 && this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI)
+            graphics.drawString(this.font, "", 8, 6, 0xB2AFD6, false);
+        else if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0xB2AFD6, false);
+        else if (this.renamePageBox.visible && text.length() > 17 && PokecubeCore.getConfig().fancyGUI)
+            graphics.drawString(this.font, "", 8, 6, 0xFFFFFF, false);
+        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0xFFFFFF, false);
+        else graphics.drawString(this.font, text, 8, 6, 4210752, false);
+
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - 94 + 2, 4210752, false);
+    }
+
+    @Override
     protected void renderBg(final GuiGraphics graphics, final float f, final int i, final int j)
     {
         ResourceLocation WIDGETS_DARK_OR_LIGHT = this.darkModeButton.visible ? WIDGETS_LIGHT_GUI : WIDGETS_DARK_GUI;
@@ -138,10 +154,10 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (this.darkModeButton.visible)
-            graphics.blit(PC_LIGHT_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+            graphics.blit(PC_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
-            graphics.blit(PC_DARK_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
-        else graphics.blit(PC_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+            graphics.blit(PC_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        else graphics.blit(PC_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
@@ -216,26 +232,12 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             this.searchBar.setWidth(70);
         }
 
-        if (this.autoButton.isHoveredOrFocused())
+        if (this.autoButton.isHoveredOrFocused() && this.menu.inv.autoToPC)
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 126, 30, 15, 12, 12);
-        else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 30, 0, 11, 11);
+        else if (this.menu.inv.autoToPC) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 30, 0, 11, 11);
+        else if (this.autoButton.isHoveredOrFocused()) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 126, 120, 15, 12, 12);
+        else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 120, 0, 11, 11);
 
-    }
-
-    @Override
-    protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
-    {
-        String text = this.menu.getPage();
-        if (this.renamePageBox.visible && text.length() > 17 && this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI)
-            graphics.drawString(this.font, "", 8, 6, 0xB2AFD6, false);
-        else if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0xB2AFD6, false);
-        else if (this.renamePageBox.visible && text.length() > 17 && PokecubeCore.getConfig().fancyGUI)
-            graphics.drawString(this.font, "", 8, 6, 0xFFFFFF, false);
-        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0xFFFFFF, false);
-        else graphics.drawString(this.font, text, 8, 6, 4210752, false);
-
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
     }
 
     @Override
