@@ -313,6 +313,8 @@ public class ItemPokemobEgg extends Item
         final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
         if (entry != null) tooltip.add(1,
                 TComponent.translatable("item.pokecube.pokemobegg.named", I18n.get(entry.getUnlocalizedName())).withStyle(ChatFormatting.GOLD));
+        else tooltip.add(1,
+                TComponent.translatable("item.pokecube.pokemobegg.command").withStyle(ChatFormatting.RED));
     }
 
     /**

@@ -749,6 +749,7 @@
     "item.pokecube.modelreloader": "Model Reloader",
     "item.pokecube.pokemobegg": "Pokémob Egg",
     "item.pokecube.pokemobegg.named": "Egg of %1$s",
+    "item.pokecube.pokemobegg.command": "Use §l\/pokeegg§r to make a working spawn egg",
     "item.pokecube.berry_null": "Berry",
 
     "pokecube.filled.brn": "%1$s (BRN)",
