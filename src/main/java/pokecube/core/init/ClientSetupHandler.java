@@ -15,6 +15,8 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
@@ -64,6 +66,8 @@ import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
+import pokecube.core.items.pokecubes.Pokecube;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.MovesUtils;
 import pokecube.nbtedit.NBTEdit;
@@ -155,6 +159,21 @@ public class ClientSetupHandler
     public static void loaded(final FMLLoadCompleteEvent event)
     {
         RenderPokemob.register();
+        event.enqueueWork(() -> {
+            for (Item[] arr : PokecubeItems.pokecubes.values())
+            {
+                for (Item i : arr)
+                {
+                    ItemProperties.register(i, new ResourceLocation(PokecubeCore.MODID, "rendering_overlay"),
+                            (stack, level, living, id) ->
+                            {
+                                if (!PokecubeManager.isFilled(stack)) return 0.0f;
+                                boolean renderingOverlay = Pokecube.renderingOverlay;
+                                return renderingOverlay ? 1.0F : 0.0F;
+                            });
+                }
+            }
+        });
     }
 
     @SubscribeEvent

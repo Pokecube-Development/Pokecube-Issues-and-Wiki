@@ -78,6 +78,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.ClientSetupHandler;
+import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.network.pokemobs.PacketBattleTargets;
@@ -261,6 +262,11 @@ public class EventsHandlerClient
     {
         if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
         final Player player = Minecraft.getInstance().player;
+        
+
+        boolean alt = Screen.hasAltDown();
+        boolean ctrl = Screen.hasControlDown();
+        Pokecube.renderingOverlay = alt || ctrl;
 
         boolean validToShow = true;
         var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
@@ -394,7 +400,7 @@ public class EventsHandlerClient
 //                    {
 //                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
 //                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-//                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+//                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y);
 //                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
 //                    }
                     /*else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
@@ -434,7 +440,7 @@ public class EventsHandlerClient
                     {
                         final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
                         Minecraft.getInstance().getItemRenderer().blitOffset += 100;
-                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y);
                         Minecraft.getInstance().getItemRenderer().blitOffset = z;
                     }
                     else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
