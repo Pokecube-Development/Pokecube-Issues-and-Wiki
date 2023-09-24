@@ -289,7 +289,7 @@ public class ClientSetupHandler
             final PokedexEntry entry = ItemPokemobEgg.getEntry(stack);
             if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
             return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
-        }, PokecubeItems.EGG.get());
+        }, PokecubeItems.SPAWN_EGG.get());
 
         for (Item i : ItemMegawearable.INSTANCES)
         {

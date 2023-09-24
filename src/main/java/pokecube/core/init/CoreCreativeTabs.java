@@ -46,7 +46,7 @@ public class CoreCreativeTabs {
                 output.accept(PokecubeItems.CANDY.get());
                 output.accept(PokecubeItems.REVIVE.get());
                 output.accept(PokecubeItems.LUCKYEGG.get());
-                output.accept(PokecubeItems.EGG.get());
+                output.accept(PokecubeItems.SPAWN_EGG.get());
                 output.accept(PokecubeItems.EMERALDSHARD.get());
 
                 output.accept(PokecubeItems.getStack("vitamin_protein"));
@@ -258,7 +258,7 @@ public class CoreCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
         {
-            event.accept(PokecubeItems.EGG.get());
+            event.accept(PokecubeItems.SPAWN_EGG.get());
         }
     }
 }

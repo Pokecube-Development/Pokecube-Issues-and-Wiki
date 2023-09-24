@@ -103,7 +103,7 @@ public class PokecubeItems extends ItemList
     // Items
     public static final RegistryObject<Item> BERRYJUICE;
     public static final RegistryObject<Item> CANDY;
-    public static final RegistryObject<Item> EGG;
+    public static final RegistryObject<Item> SPAWN_EGG;
     public static final RegistryObject<Item> EMERALDSHARD;
     public static final RegistryObject<Item> LUCKYEGG;
     public static final RegistryObject<Item> POKEDEX;
@@ -179,7 +179,7 @@ public class PokecubeItems extends ItemList
         BERRYJUICE = PokecubeCore.ITEMS.register("berryjuice",
                 () -> new Item(new Properties().food(new FoodProperties.Builder().nutrition(4)
                         .saturationMod(0.3F).build())));
-        EGG = PokecubeCore.ITEMS.register("pokemobegg",
+        SPAWN_EGG = PokecubeCore.ITEMS.register("pokemobegg",
                 () -> new ItemPokemobEgg(new Properties()));
         CANDY = PokecubeCore.ITEMS.register("candy",
                 () -> new ItemCandy(new Item.Properties().rarity(Rarity.EPIC)));
