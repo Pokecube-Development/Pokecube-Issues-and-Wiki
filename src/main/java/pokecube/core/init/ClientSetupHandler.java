@@ -29,7 +29,6 @@ import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -67,7 +66,6 @@ import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.Resources;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
 import thut.lib.RegHelper;
@@ -311,19 +309,5 @@ public class ClientSetupHandler
             if (move != null) return move.getType(null).colour;
             return 0xFFFFFFFF;
         }, PokecubeItems.TM.get());
-    }
-
-    @SubscribeEvent
-    public static void textureStitch(final TextureStitchEvent event)
-    {
-        if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Slot Textures");
-        event.getAtlas().getSprite(Resources.SLOT_ICON_CUBE);
-        // TODO: Fix this
-        // event.addSprite(Resources.SLOT_ICON_TM);
-        // event.addSprite(Resources.SLOT_ICON_BOOK);
-        // event.addSprite(Resources.SLOT_ICON_BOTTLE);
-        // event.addSprite(Resources.SLOT_ICON_DNA);
-        // event.addSprite(Resources.SLOT_ICON_EGG);
     }
 }
