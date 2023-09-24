@@ -62,6 +62,7 @@ import thut.lib.TComponent;
 
 public class Pokecube extends Item implements IPokecube
 {
+    public static boolean renderingOverlay = false;
 
     private static final List<Predicate<Entity>> _blacklist = Lists.newArrayList();
 
@@ -264,7 +265,7 @@ public class Pokecube extends Item implements IPokecube
     @Override
     public boolean isDamaged(final ItemStack stack)
     {
-        return PokecubeManager.isFilled(stack);
+        return !renderingOverlay && PokecubeManager.isFilled(stack);
     }
 
     @Override
