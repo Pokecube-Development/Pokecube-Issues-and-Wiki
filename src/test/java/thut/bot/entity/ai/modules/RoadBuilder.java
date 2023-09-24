@@ -68,7 +68,7 @@ public class RoadBuilder extends AbstractBot
             // Lave is replaced with cobble
             else if (fluid.is(FluidTags.LAVA)) return pathsLavaBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsLavaBridge.size()));
             // Desert biomes place sandstone
-            else if (level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT))
+            else if ((level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT)) && !(b.isAir() || shouldClear(b, p)))
                 return pathsSandstone.get(RoadBuilder.this.player.getRandom().nextInt(pathsSandstone.size()));
             // air with planks
             else if (b.isAir() || shouldClear(b, p)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
