@@ -543,7 +543,7 @@ public class RoadBuilder extends AbstractBot
         for (double i = -1; i <= dist + 1; i += 0.25)
         {
             // Make torches every 5 blocks or so.
-            boolean makeTorch = ((int) i) % 10 == 0 && (i - ((int) i)) < 0.25;
+            boolean makeTorch = ((int) i) % 20 == 0 && (i - ((int) i)) < 0.25;
 
             h_loop:
             for (int dh = -3; dh <= 3; dh++)
