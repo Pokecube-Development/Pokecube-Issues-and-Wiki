@@ -42,6 +42,8 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.Key;
+import net.minecraftforge.client.event.RenderBlockScreenEffectEvent;
+import net.minecraftforge.client.event.RenderBlockScreenEffectEvent.OverlayType;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
@@ -130,6 +132,8 @@ public class EventsHandlerClient
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::renderBounds);
         // Used to dismount shoulder mobs
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onLeftClickEmpty);
+        // Used to adjust overlay effects whild riding pokemobs
+        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onRenderFluidOverlay);
 
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();
@@ -370,6 +374,18 @@ public class EventsHandlerClient
                 PacketCommand.sendCommand(current, Command.STANCE,
                         new StanceHandler(!current.getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE)
                                 .setFromOwner(true));
+            }
+        }
+    }
+
+    private static void onRenderFluidOverlay(RenderBlockScreenEffectEvent event)
+    {
+        if (event.getPlayer().getVehicle() instanceof LivingEntity mob && event.getOverlayType() == OverlayType.WATER)
+        {
+            IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+            if (pokemob != null && pokemob.getController().canDive)
+            {
+                event.setCanceled(true);
             }
         }
     }

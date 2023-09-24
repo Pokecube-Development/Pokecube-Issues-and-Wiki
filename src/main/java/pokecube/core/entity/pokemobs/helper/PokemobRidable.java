@@ -20,6 +20,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PlayerRideableJumping;
 import net.minecraft.world.entity.Saddleable;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -28,6 +29,7 @@ import net.minecraft.world.phys.Vec2;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.fluids.FluidType;
 import pokecube.api.data.PokedexEntry;
+import pokecube.core.PokecubeCore;
 import thut.api.entity.IMultiplePassengerEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.entity.multipart.GenericPartEntity.BodyPart;
@@ -52,7 +54,8 @@ public abstract class PokemobRidable extends PokemobHasParts
     {
         final List<Entity> passengers = this.getPassengers();
         if (passengers.isEmpty()) return null;
-        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId()) ? (LivingEntity) this.getPassengers().get(0)
+        return this.getPassengers().get(0).getUUID().equals(this.pokemobCap.getOwnerId())
+                ? (LivingEntity) this.getPassengers().get(0)
                 : null;
     }
 
@@ -66,7 +69,8 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public boolean dismountsUnderwater()
     {
-        return !this.pokemobCap.canUseSurf() && !this.pokemobCap.canUseDive() && !this.getType().is(EntityTypeTags.DISMOUNTS_UNDERWATER);
+        return !this.pokemobCap.canUseSurf() && !this.pokemobCap.canUseDive()
+                && !this.getType().is(EntityTypeTags.DISMOUNTS_UNDERWATER);
     }
 
     // ========== Jumping Mount and Equipable stuff here ==========
@@ -75,9 +79,29 @@ public abstract class PokemobRidable extends PokemobHasParts
     @Override
     public void onPlayerJump(int jumpPowerIn)
     {
+        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        if(shouldFly) return;
+        
         if (jumpPowerIn < 0) jumpPowerIn = 0;
         if (jumpPowerIn >= 90) this.jumpPower = 1;
         else this.jumpPower = 0.4F + 0.4F * jumpPowerIn / 90.0F;
+
+        if (jumpPowerIn >= 90)
+        {
+            this.playerJumpPendingScale = 1.0F;
+        }
+        else
+        {
+            this.playerJumpPendingScale = 0.4F + 0.4F * (float) jumpPowerIn / 90.0F;
+        }
+    }
+    
+    @Override
+    public int getJumpCooldown()
+    {
+        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        if(shouldFly) return 10;
+        return 0;
     }
 
     @Override
@@ -99,44 +123,111 @@ public abstract class PokemobRidable extends PokemobHasParts
         // Horse does nothing here
     }
 
+    protected boolean isJumping;
     protected float playerJumpPendingScale;
-    
-    protected void tickRidden(Player p_278233_, Vec3 p_275693_) {
-        super.tickRidden(p_278233_, p_275693_);
-        Vec2 vec2 = this.getRiddenRotation(p_278233_);
+    protected int gallopSoundCounter;
+    protected boolean canGallop = true;
+
+    public boolean isJumping()
+    {
+        return this.isJumping;
+    }
+
+    public void setIsJumping(boolean p_30656_)
+    {
+        this.isJumping = p_30656_;
+    }
+
+    protected void executeRidersJump(float p_248808_, Vec3 p_275435_)
+    {
+        double d0 = 1.0 * (double) p_248808_ * (double) this.getBlockJumpFactor();
+        double d1 = d0 + (double) this.getJumpBoostPower();
+        Vec3 vec3 = this.getDeltaMovement();
+        this.setDeltaMovement(vec3.x, d1, vec3.z);
+        this.setIsJumping(true);
+        this.hasImpulse = true;
+        net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+        if (p_275435_.z > 0.0D)
+        {
+            float f = Mth.sin(this.getYRot() * ((float) Math.PI / 180F));
+            float f1 = Mth.cos(this.getYRot() * ((float) Math.PI / 180F));
+            this.setDeltaMovement(this.getDeltaMovement().add((double) (-0.4F * f * p_248808_), 0.0D,
+                    (double) (0.4F * f1 * p_248808_)));
+        }
+
+    }
+
+    @Override
+    protected void tickRidden(Player player, Vec3 input_direction)
+    {
+        super.tickRidden(player, input_direction);
+        Vec2 vec2 = this.getRiddenRotation(player);
         this.setRot(vec2.y, vec2.x);
         this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
-        if (this.isControlledByLocalInstance()) {
+        this.yRotO = this.yBodyRot = this.yHeadRot = this.getYRot();
+        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        if (this.isControlledByLocalInstance() && !shouldFly)
+        {
+            if (input_direction.z <= 0.0D)
+            {
+                this.gallopSoundCounter = 0;
+            }
 
-           if (this.onGround()) {
-               // TODO jumping while riding
-//              this.setIsJumping(false);
-//              if (this.playerJumpPendingScale > 0.0F && !this.isJumping()) {
-//                 this.executeRidersJump(this.playerJumpPendingScale, p_275693_);
-//              }
-              this.playerJumpPendingScale = 0.0F;
-           }
+            if (this.onGround())
+            {
+                this.setIsJumping(false);
+                if (this.playerJumpPendingScale > 0.0F && !this.isJumping())
+                {
+                    this.executeRidersJump(this.playerJumpPendingScale, input_direction);
+                }
+                this.playerJumpPendingScale = 0.0F;
+            }
         }
 
-     }
+    }
 
-     protected Vec2 getRiddenRotation(LivingEntity p_275502_) {
+    protected Vec2 getRiddenRotation(LivingEntity p_275502_)
+    {
         return new Vec2(p_275502_.getXRot() * 0.5F, p_275502_.getYRot());
-     }
+    }
 
-     protected Vec3 getRiddenInput(Player p_278278_, Vec3 p_275506_) {
-        if (this.onGround() && this.playerJumpPendingScale == 0.0F) {
-           return Vec3.ZERO;
-        } else {
-           float f = p_278278_.xxa * 0.5F;
-           float f1 = p_278278_.zza;
-           if (f1 <= 0.0F) {
-              f1 *= 0.25F;
-           }
-
-           return new Vec3((double)f, 0.0D, (double)f1);
+    @Override
+    protected float getRiddenSpeed(Player p_278286_)
+    {
+        double scale = PokecubeCore.getConfig().groundSpeedFactor;
+        double base = this.getAttribute(Attributes.MOVEMENT_SPEED).getValue();
+        if (this.pokemobCap.getController().inFluid) scale = PokecubeCore.getConfig().surfSpeedFactor;
+        else if (this.pokemobCap.getController().canFly && !this.pokemobCap.onGround())
+        {
+            scale = PokecubeCore.getConfig().surfSpeedFactor;
+            base = this.getAttribute(Attributes.FLYING_SPEED).getValue();
         }
-     }
+        return (float) (scale * base);
+    }
+
+    @Override
+    protected Vec3 getRiddenInput(Player player, Vec3 original_v)
+    {
+        boolean shouldFly = this.pokemobCap.getController().verticalControl;
+        if (shouldFly)
+        {
+            float f = player.xxa * 0.5F;
+            float f1 = player.zza;
+            if (f1 <= 0.0F)
+            {
+                f1 *= 0.25F;
+            }
+            return new Vec3((double) f, this.pokemobCap.getController().moveUp, (double) f1);
+        }
+        
+        float f = player.xxa * 0.5F;
+        float f1 = player.zza;
+        if (f1 <= 0.0F)
+        {
+            f1 *= 0.25F;
+        }
+        return new Vec3((double) f, 0.0D, (double) f1);
+    }
 
     @Override
     /**

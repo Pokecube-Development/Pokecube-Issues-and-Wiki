@@ -179,11 +179,8 @@ public class LogicMountedControl extends LogicBase
 
         if (waterSpeed && this.pokemob.getPokedexEntry().shouldDive)
         {
-            final MobEffectInstance vision = new MobEffectInstance(MobEffects.NIGHT_VISION, 300, 1, true, false);
             final MobEffectInstance breathing = new MobEffectInstance(MobEffects.WATER_BREATHING, 300, 1, true, false);
-            vision.setCurativeItems(Lists.newArrayList(stack));
             breathing.setCurativeItems(Lists.newArrayList(stack));
-            buffs.add(vision);
             buffs.add(breathing);
         }
 
