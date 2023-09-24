@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
+import net.minecraftforge.common.Tags;
 import org.joml.Vector3f;
 
 import com.google.common.collect.Lists;
@@ -67,6 +69,9 @@ public class RoadBuilder extends AbstractBot
             if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
             // Lave is replaced with cobble
             else if (fluid.is(FluidTags.LAVA)) return pathsLavaBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsLavaBridge.size()));
+            // Desert biomes place sandstone
+            else if (level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT))
+                return pathsSandstone.get(RoadBuilder.this.player.getRandom().nextInt(pathsSandstone.size()));
             // air with planks
             else if (b.isAir() || shouldClear(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
             else if (blocks.contains(b.getBlock())) return null;
@@ -113,7 +118,7 @@ public class RoadBuilder extends AbstractBot
     List<Block> blocks = Lists.newArrayList();
 
     final List<BlockState> paths = Lists.newArrayList(
-    // @formatter:off
+            // @formatter:off
             Blocks.COBBLESTONE.defaultBlockState(),
             Blocks.TUFF.defaultBlockState(),
             Blocks.ANDESITE.defaultBlockState(),
@@ -121,11 +126,26 @@ public class RoadBuilder extends AbstractBot
             Blocks.MOSSY_COBBLESTONE.defaultBlockState()
     );
     // @formatter:on
+
+    final List<BlockState> pathsSandstone = Lists.newArrayList(
+            // @formatter:off
+            Blocks.CUT_SANDSTONE.defaultBlockState(),
+            Blocks.SMOOTH_SANDSTONE.defaultBlockState(),
+            Blocks.CHISELED_SANDSTONE.defaultBlockState()
+    );
+
+    // @formatter:on
     final List<BlockState> slabs = Lists.newArrayList(
-    // @formatter:off
+            // @formatter:off
             Blocks.COBBLESTONE_SLAB.defaultBlockState(),
             Blocks.COBBLED_DEEPSLATE_SLAB.defaultBlockState(),
             Blocks.MOSSY_COBBLESTONE_SLAB.defaultBlockState()
+    );
+    // @formatter:on
+    final List<BlockState> slabsSandstone = Lists.newArrayList(
+            // @formatter:off
+            Blocks.CUT_SANDSTONE_SLAB.defaultBlockState(),
+            Blocks.SMOOTH_SANDSTONE_SLAB.defaultBlockState()
     );
     // @formatter:on
 
@@ -149,6 +169,11 @@ public class RoadBuilder extends AbstractBot
         super(player);
 
         for (final BlockState block : paths)
+        {
+            blocks.add(block.getBlock());
+            pathB.add(block.getBlock());
+        }
+        for (final BlockState block : pathsSandstone)
         {
             blocks.add(block.getBlock());
             pathB.add(block.getBlock());
@@ -625,7 +650,9 @@ public class RoadBuilder extends AbstractBot
                         Integer k = y_cache.get(p);
                         if (k != y)
                         {
-                            toFix.put(here, slabs.contains(replacement) ? slabs : slabsBridge);
+                            toFix.put(here, slabs.contains(replacement) ?
+                                    (level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT)) ?
+                                            slabsSandstone : slabs : slabsBridge);
                             break;
                         }
                     }
