@@ -201,7 +201,6 @@ public class GuiChooseFirstPokemob extends Screen
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
 
-        // TODO: Check this
         RenderSystem.setShaderColor(255f / 255f, 0f / 255f, 0f / 255f, 1.0F);
         graphics.blit(Resources.GUI_POKEMOB, n + k, m + l, 0, 0, this.pokedexEntry.getStatHP(), 13);
         RenderSystem.setShaderColor(1f, 1f, 1f, 1.0F);
