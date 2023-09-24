@@ -1,23 +1,25 @@
 package pokecube.core;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 import java.util.regex.Pattern;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -159,8 +161,8 @@ public class PokecubeItems extends ItemList
 
     public static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
 
-    /** contains pokecubes that should be rendered using the default renderer */
-    private static Set<ResourceLocation> cubeIds = new HashSet<>();
+    /** contains pokecubes by name */
+    public static List<ResourceLocation> cubeIds = new ArrayList<>();
     /**
      * Items to be considered for re-animation, mapped to the pokedex number to
      * reanimate to.
@@ -370,8 +372,7 @@ public class PokecubeItems extends ItemList
         DispenserBlock.registerBehavior(() -> items[0], new DispenserBehaviorPokecube());
         DispenserBlock.registerBehavior(() -> items[1], new DispenserBehaviorPokecube());
 
-        if (defaultRenderer) PokecubeItems.cubeIds.add(id);
-
+        PokecubeItems.cubeIds.add(id);
         PokecubeItems.pokecubes.put(id, items);
     }
 

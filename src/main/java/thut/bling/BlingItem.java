@@ -225,20 +225,20 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     public static ItemStack getStack(final String name, final boolean stacktrace)
     {
         if (!BlingItem.stackExists(name)) return ItemStack.EMPTY;
-        final ResourceLocation loc = BlingItem.toPokecubeResource(name);
+        final ResourceLocation loc = BlingItem.toBlingResource(name);
         return BlingItem.getStack(loc, stacktrace);
     }
 
     public static boolean stackExists(final String name)
     {
         if (name == null) return false;
-        final ResourceLocation loc = BlingItem.toPokecubeResource(name);
+        final ResourceLocation loc = BlingItem.toBlingResource(name);
         final TagKey<Item> old = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
         final Item item = ForgeRegistries.ITEMS.getValue(loc);
         return old != null || ItemList.pendingTags.containsKey(loc) || item != null;
     }
 
-    public static ResourceLocation toPokecubeResource(final String name)
+    public static ResourceLocation toBlingResource(final String name)
     {
         return toResource(name, ThutBling.MODID);
     }
