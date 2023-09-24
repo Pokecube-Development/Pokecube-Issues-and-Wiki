@@ -260,13 +260,12 @@ public class EventsHandlerClient
 
     private static void renderBounds(final RenderLevelStageEvent event)
     {
-        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
-        final Player player = Minecraft.getInstance().player;
-        
-
         boolean alt = Screen.hasAltDown();
         boolean ctrl = Screen.hasControlDown();
         Pokecube.renderingOverlay = alt || ctrl;
+        
+        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
+        final Player player = Minecraft.getInstance().player;
 
         boolean validToShow = true;
         var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
