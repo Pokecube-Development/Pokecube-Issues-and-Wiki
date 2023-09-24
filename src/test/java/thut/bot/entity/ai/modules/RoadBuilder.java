@@ -70,7 +70,7 @@ public class RoadBuilder extends AbstractBot
             // Lave is replaced with cobble
             else if (fluid.is(FluidTags.LAVA)) return pathsLavaBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsLavaBridge.size()));
             // Desert biomes place sandstone
-            else if (level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT))
+            else if ((level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT)) && (b.isAir() || shouldClear(b, p)))
                 return pathsSandstone.get(RoadBuilder.this.player.getRandom().nextInt(pathsSandstone.size()));
             // air with planks
             else if (b.isAir() || shouldClear(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
@@ -115,6 +115,7 @@ public class RoadBuilder extends AbstractBot
 
     List<Block> pathB = Lists.newArrayList();
     List<Block> slabB = Lists.newArrayList();
+    List<Block> wallB = Lists.newArrayList();
     List<Block> blocks = Lists.newArrayList();
 
     final List<BlockState> paths = Lists.newArrayList(
@@ -149,6 +150,14 @@ public class RoadBuilder extends AbstractBot
     );
     // @formatter:on
 
+    final List<BlockState> walls = Lists.newArrayList(
+            // @formatter:off
+            Blocks.COBBLESTONE_WALL.defaultBlockState(),
+            Blocks.ANDESITE_WALL.defaultBlockState(),
+            Blocks.MOSSY_COBBLESTONE_WALL.defaultBlockState(),
+            Blocks.COBBLED_DEEPSLATE_WALL.defaultBlockState()
+    );
+
     final List<BlockState> pathsBridge = Lists.newArrayList(
             // @formatter:off
             Blocks.OAK_PLANKS.defaultBlockState()
@@ -177,6 +186,12 @@ public class RoadBuilder extends AbstractBot
         {
             blocks.add(block.getBlock());
             pathB.add(block.getBlock());
+        }
+
+        for (final BlockState block : walls)
+        {
+            blocks.add(block.getBlock());
+            wallB.add(block.getBlock());
         }
         for (final BlockState block : slabs)
         {
@@ -634,6 +649,7 @@ public class RoadBuilder extends AbstractBot
             {
                 BlockPos here = toEdit.get(j);
                 BlockState state = level.getBlockState(here);
+                FluidState fluid = level.getFluidState(here);
                 BlockState replacement = pathProvider.getReplacement(here);
                 boolean remove = y > 0 && pathProvider.shouldClear(state, here);
                 boolean editable = remove || replacement != null;
@@ -650,9 +666,10 @@ public class RoadBuilder extends AbstractBot
                         Integer k = y_cache.get(p);
                         if (k != y)
                         {
-                            toFix.put(here, slabs.contains(replacement) ?
+                            // TODO: Fix slabs placement
+                            toFix.put(here, (fluid.is(FluidTags.WATER) || state.is(BlockTags.ICE)) ?
                                     (level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT)) ?
-                                            slabsSandstone : slabs : slabsBridge);
+                                            slabsSandstone : slabsBridge : slabs);
                             break;
                         }
                     }
