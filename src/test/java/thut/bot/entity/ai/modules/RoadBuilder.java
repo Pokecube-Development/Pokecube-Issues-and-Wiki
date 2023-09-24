@@ -8,8 +8,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import net.minecraft.core.HolderGetter;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
 import net.minecraftforge.common.Tags;
@@ -74,6 +72,7 @@ public class RoadBuilder extends AbstractBot
                 return pathsSandstone.get(RoadBuilder.this.player.getRandom().nextInt(pathsSandstone.size()));
             // air with planks
             else if (b.isAir() || shouldClear(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
+            else if (b.isAir() || shouldClear(b, p)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
             else if (blocks.contains(b.getBlock())) return null;
             else if (replaceable(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
             return null;
@@ -582,7 +581,8 @@ public class RoadBuilder extends AbstractBot
 
         for (double i = -1; i <= dist + 1; i += 0.25)
         {
-            // Make torches every 5 blocks or so.
+            // TODO: Fix torches placing in groups of 2 or 3
+            // Make torches every 10 blocks or so.
             boolean makeTorch = ((int) i) % 20 == 0 && (i - ((int) i)) < 0.25;
 
             h_loop:
@@ -698,8 +698,8 @@ public class RoadBuilder extends AbstractBot
         // Then place the torches
         for (BlockPos p : torches)
         {
-            this.setBlock(level, p.below(2), Blocks.COBBLESTONE.defaultBlockState(), 2);
-            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
+            this.setBlock(level, p.below(2), paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size())), 2);
+            this.setBlock(level, p.below(), walls.get(RoadBuilder.this.player.getRandom().nextInt(walls.size())), 2);
             this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 2);
         }
 
