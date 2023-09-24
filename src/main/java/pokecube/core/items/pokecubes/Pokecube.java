@@ -366,7 +366,7 @@ public class Pokecube extends Item implements IPokecube
                     && this.getCaptureModifier(target, PokecubeItems.getCubeId(stack)) == 0)
                 target = null;
             boolean used = false;
-            final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 10;
+            final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 5;
             if (target != null && EntityPokecubeBase.SEEKING)
                 used = this.throwPokecubeAt(worldIn, player, stack, targetLocation, target) != null;
             else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
