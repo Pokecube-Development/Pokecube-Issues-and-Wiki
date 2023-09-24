@@ -61,7 +61,7 @@ public class RoadBuilder extends AbstractBot
             // Over sea level water, we place planks
             if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return Blocks.OAK_PLANKS.defaultBlockState();
             // Lave is replaced with cobble
-            else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
+            else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLED_DEEPSLATE.defaultBlockState();
             // air with planks
             else if (b.isAir() || shouldClear(b, p)) return Blocks.OAK_PLANKS.defaultBlockState();
             else if (blocks.contains(b.getBlock())) return null;
@@ -72,7 +72,7 @@ public class RoadBuilder extends AbstractBot
         private boolean replaceable(BlockState b, BlockPos p)
         {
             return shouldClear(b, p) || PokecubeTerrainChecker.isTerrain(b) || PokecubeTerrainChecker.isRock(b)
-                    || PokecubeTerrainChecker.isEdiblePlant(b) || PokecubeTerrainChecker.isEdiblePlant(b);
+                    || PokecubeTerrainChecker.isEdiblePlant(b) || PokecubeTerrainChecker.isCutablePlant(b) || b.canBeReplaced();
         }
 
         public boolean shouldClear(BlockState state, BlockPos pos)
@@ -109,6 +109,8 @@ public class RoadBuilder extends AbstractBot
     final List<BlockState> paths = Lists.newArrayList(
     // @formatter:off
             Blocks.COBBLESTONE.defaultBlockState(),
+            Blocks.TUFF.defaultBlockState(),
+            Blocks.ANDESITE.defaultBlockState(),
             Blocks.COBBLED_DEEPSLATE.defaultBlockState(),
             Blocks.MOSSY_COBBLESTONE.defaultBlockState()
     );
@@ -122,8 +124,12 @@ public class RoadBuilder extends AbstractBot
     // @formatter:on
 
     final List<BlockState> pathsBridge = Lists.newArrayList(
-    // @formatter:off
+            // @formatter:off
             Blocks.OAK_PLANKS.defaultBlockState()
+    );
+    final List<BlockState> pathsLavaBridge = Lists.newArrayList(
+            // @formatter:off
+            Blocks.COBBLED_DEEPSLATE.defaultBlockState()
     );
     // @formatter:on
     final List<BlockState> slabsBridge = Lists.newArrayList(
@@ -148,6 +154,11 @@ public class RoadBuilder extends AbstractBot
         }
 
         for (final BlockState block : pathsBridge)
+        {
+            blocks.add(block.getBlock());
+            pathB.add(block.getBlock());
+        }
+        for (final BlockState block : pathsLavaBridge)
         {
             blocks.add(block.getBlock());
             pathB.add(block.getBlock());
@@ -235,6 +246,7 @@ public class RoadBuilder extends AbstractBot
             initPath();
 
             this.tpTicks = Integer.parseInt(match.group(13));
+
 
             return true;
         }
