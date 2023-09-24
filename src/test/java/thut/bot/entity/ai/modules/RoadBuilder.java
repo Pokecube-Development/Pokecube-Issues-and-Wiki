@@ -8,6 +8,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import org.joml.Vector3f;
 
 import com.google.common.collect.Lists;
@@ -34,6 +37,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.item.ItemList;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
@@ -46,6 +50,7 @@ import thut.lib.TComponent;
 @BotAI(key = "thutbot:road")
 public class RoadBuilder extends AbstractBot
 {
+    public static ResourceLocation PATHS_REPLACEABLE = new ResourceLocation(ThutCore.MODID, "paths_replaceable");
     private class PathStateProvider
     {
 
@@ -59,11 +64,11 @@ public class RoadBuilder extends AbstractBot
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);
             // Over sea level water, we place planks
-            if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return Blocks.OAK_PLANKS.defaultBlockState();
+            if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
             // Lave is replaced with cobble
-            else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLED_DEEPSLATE.defaultBlockState();
+            else if (fluid.is(FluidTags.LAVA)) return pathsLavaBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsLavaBridge.size()));
             // air with planks
-            else if (b.isAir() || shouldClear(b, p)) return Blocks.OAK_PLANKS.defaultBlockState();
+            else if (b.isAir() || shouldClear(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
             else if (blocks.contains(b.getBlock())) return null;
             else if (replaceable(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
             return null;
@@ -72,7 +77,8 @@ public class RoadBuilder extends AbstractBot
         private boolean replaceable(BlockState b, BlockPos p)
         {
             return shouldClear(b, p) || PokecubeTerrainChecker.isTerrain(b) || PokecubeTerrainChecker.isRock(b)
-                    || PokecubeTerrainChecker.isEdiblePlant(b) || PokecubeTerrainChecker.isCutablePlant(b) || b.canBeReplaced();
+                    || PokecubeTerrainChecker.isEdiblePlant(b) || PokecubeTerrainChecker.isCutablePlant(b)
+                    || ItemList.is(PATHS_REPLACEABLE, b) || b.canBeReplaced();
         }
 
         public boolean shouldClear(BlockState state, BlockPos pos)
