@@ -692,7 +692,7 @@ public class RoadBuilder extends AbstractBot
         // Next build cobblestone railings if needed
         for (BlockPos p : railings)
         {
-            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 3);
+            this.setBlock(level, p.below(), walls.get(RoadBuilder.this.player.getRandom().nextInt(walls.size())), 1);
         }
 
         // Then place the torches
