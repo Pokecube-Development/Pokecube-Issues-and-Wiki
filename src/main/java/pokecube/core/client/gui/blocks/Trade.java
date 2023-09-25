@@ -111,11 +111,13 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 0, 190, 20, 20);
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 25, 190, 20, 20);
-            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 190, 20, 20);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 25, 190, 20, 20);
         } else if (this.menu.tile.confirmed[0])
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 0, 165, 19, 19);
-            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 190, 19, 19);
+            if (PokecubeCore.getConfig().fancyGUI)
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 25, 190, 19, 19);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 190, 19, 19);
         } else if (this.tradeButton.isHoveredOrFocused())
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 0, 190, 20, 20);
@@ -132,11 +134,13 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 0, 190, 20, 20);
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 25, 190, 20, 20);
-            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 190, 20, 20);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 25, 190, 20, 20);
         } else if (this.menu.tile.confirmed[1])
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 0, 165, 19, 19);
-            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 190, 19, 19);
+            if (PokecubeCore.getConfig().fancyGUI)
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 25, 190, 19, 19);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 190, 19, 19);
         } else if (this.trade2Button.isHoveredOrFocused())
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 0, 190, 20, 20);
