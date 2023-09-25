@@ -39,17 +39,17 @@ public class SetBlockHandler implements ICmdHandler
             final BlockPos pos = new BlockPos(Integer.parseInt(posStr[0]), Integer.parseInt(posStr[1]),
                     Integer.parseInt(posStr[2]));
             final String block = thing.get("block").getAsString();
-//            TODO: Fix
-//            try
-//            {
-//                final BlockState state = BlockStateArgument.block(new CommandBuildContext(server.registryAccess()))
-//                        .parse(new StringReader(block)).getState();
-//                world.setBlockAndUpdate(pos, state);
-//            }
-//            catch (final CommandSyntaxException e)
-//            {
-//                return e.toString();
-//            }
+            try
+            {
+                final BlockState state = BlockStateArgument
+                        .block(CommandBuildContext.simple(server.registryAccess(), world.enabledFeatures()))
+                        .parse(new StringReader(block)).getState();
+                world.setBlockAndUpdate(pos, state);
+            }
+            catch (final CommandSyntaxException e)
+            {
+                return e.toString();
+            }
             return "block set";
         }
         return null;
