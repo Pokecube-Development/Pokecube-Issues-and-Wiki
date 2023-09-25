@@ -3,7 +3,6 @@ package thut.wearables;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
@@ -154,7 +153,7 @@ public class ThutWearables
             if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             // TODO: Fix this
             // for (int i = 0; i < EnumWearable.BYINDEX.length; i++)
-            //    event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));
+            // event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));
         }
     }
 
@@ -182,17 +181,17 @@ public class ThutWearables
     public static final RegistryObject<MenuType<ContainerWearables>> WEARABLES;
     public static final RegistryObject<CreativeModeTab> WEARABLES_TAB;
 
-    public static Supplier<ItemStack> WORNICON = () -> ItemStack.EMPTY;
-    
+    public static ItemStack WORNICON = ItemStack.EMPTY;
+
     static
     {
         CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Reference.MODID);
         TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
         WEARABLES_TAB = TABS.register("wearables_tab", () -> CreativeModeTab.builder()
-                .title(Component.translatable("itemGroup.thutcore.wearables"))
-                .icon(WORNICON).build());
+                .title(Component.translatable("itemGroup.thutcore.wearables")).icon(() -> WORNICON).build());
         WEARABLES = CONTAINERS.register("wearables",
-                () -> new MenuType<>((IContainerFactory<ContainerWearables>) ContainerWearables::new, FeatureFlags.REGISTRY.allFlags()));
+                () -> new MenuType<>((IContainerFactory<ContainerWearables>) ContainerWearables::new,
+                        FeatureFlags.REGISTRY.allFlags()));
     }
 
     public static PlayerWearables getWearables(final LivingEntity wearer)
@@ -240,6 +239,7 @@ public class ThutWearables
         bus.addListener(ThutWearables.proxy::finish);
         RecipeDye.RECIPE_SERIALIZERS.register(bus);
         CONTAINERS.register(bus);
+        TABS.register(bus);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

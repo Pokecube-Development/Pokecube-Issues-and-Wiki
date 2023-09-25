@@ -75,6 +75,8 @@ public class ThutBling
     {
         if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
         {
+            ThutWearables.WORNICON = BlingItem.getStack("bling_hat");
+
             event.accept(BlingItem.getStack("bling_bag"));
             event.accept(BlingItem.getStack("bling_bag_ender_vanilla"));
             event.accept(BlingItem.getStack("bling_bag_ender_large"));
