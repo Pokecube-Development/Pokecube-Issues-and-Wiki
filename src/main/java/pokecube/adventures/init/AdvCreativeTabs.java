@@ -16,7 +16,9 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
-import pokecube.legends.init.BlockInit;
+import thut.bling.BlingItem;
+import thut.core.init.ThutCreativeTabs;
+import thut.wearables.ThutWearables;
 
 @Mod.EventBusSubscriber(modid = PokecubeAdv.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AdvCreativeTabs extends CoreCreativeTabs
@@ -77,13 +79,23 @@ public class AdvCreativeTabs extends CoreCreativeTabs
         {
             addAfter(event, PokecubeItems.POKEWATCH.get(), PokecubeAdv.LINKER.get());
         }
-
+        
         if (event.getTabKey().equals(AdvCreativeTabs.BADGES_TAB.getKey()))
         {
             for (final PokeType type : PokecubeAdv.BADGES.keySet())
             {
                 add(event, PokecubeAdv.BADGES.get(type));
             }
+        }
+        
+        if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
+        {
+            event.accept(PokecubeItems.getStack("pokecube_adventures:linker"));
+        }
+
+        if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
+        {
+            addAfter(event, BlingItem.getStack("pokecube:pokewatch").getItem(), BlingItem.getStack("pokecube_adventures:bag").getItem());
         }
     }
 }

@@ -1,11 +1,6 @@
 package thut.bling.client;
 
-import java.util.Map;
-
-import com.google.common.collect.Maps;
-
 import net.minecraft.resources.ResourceLocation;
-import pokecube.compat.wearables.sided.Common;
 import thut.api.ModelHolder;
 import thut.bling.ThutBling;
 import thut.bling.client.render.Util;
@@ -16,8 +11,6 @@ import thut.wearables.EnumWearable;
 public class BlingRender extends BlingRenderBase
 {
     public static final BlingRender INSTANCE = new BlingRender();
-
-    public static Map<String, Common.WearablesRenderer> renderers = Maps.newHashMap();
 
     @Override
     protected void initModels()

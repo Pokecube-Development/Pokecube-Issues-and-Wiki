@@ -10,7 +10,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
-import pokecube.api.PokecubeAPI;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
@@ -109,7 +108,7 @@ public interface IModel
             }
             catch (Exception e)
             {
-                PokecubeAPI.LOGGER.error(e);
+                ThutCore.LOGGER.error(e);
             }
         }
         for (final IExtendedModelPart part : this.getParts().values()) part.updateMaterial(mat, material);

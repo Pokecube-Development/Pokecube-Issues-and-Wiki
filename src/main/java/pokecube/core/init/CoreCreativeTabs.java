@@ -17,6 +17,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
+import thut.bling.BlingItem;
+import thut.wearables.ThutWearables;
 
 @Mod.EventBusSubscriber(modid = PokecubeCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CoreCreativeTabs
@@ -179,6 +181,22 @@ public class CoreCreativeTabs
             {
                 add(event, ItemGenerator.leaves.get(type).get());
             }
+        }
+
+        if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
+        {
+            addBefore(event, BlingItem.getStack("bling_bag").getItem(), BlingItem.getStack("pokecube:pokewatch").getItem());
+            addBefore(event, BlingItem.getStack("bling_hat").getItem(), BlingItem.getStack("pokecube:mega_hat").getItem());
+            addBefore(event, BlingItem.getStack("pokecube:mega_hat").getItem(), BlingItem.getStack("pokecube:mega_tiara").getItem());
+            addBefore(event, BlingItem.getStack("bling_eye").getItem(), BlingItem.getStack("pokecube:mega_glasses").getItem());
+            addBefore(event, BlingItem.getStack("bling_neck").getItem(), BlingItem.getStack("pokecube:mega_pendant").getItem());
+            addBefore(event, BlingItem.getStack("bling_ear").getItem(), BlingItem.getStack("pokecube:mega_earring").getItem());
+            addBefore(event, BlingItem.getStack("bling_waist").getItem(), BlingItem.getStack("pokecube:mega_belt").getItem());
+            addBefore(event, BlingItem.getStack("bling_ring").getItem(), BlingItem.getStack("pokecube:mega_ring").getItem());
+            addBefore(event, BlingItem.getStack("bling_ankle").getItem(), BlingItem.getStack("pokecube:mega_ankletzinnia").getItem());
+
+            for (final String type : ItemGenerator.megaWearables.keySet())
+                add(event, ItemGenerator.megaWearables.get(type).get());
         }
     }
 

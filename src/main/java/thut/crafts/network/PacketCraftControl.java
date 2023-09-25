@@ -23,10 +23,10 @@ public class PacketCraftControl extends Packet
     private static final short RLEFT = 64;
     private static final short RRIGHT = 128;
 
-    public static void sendControlPacket(final Entity pokemob, final CraftController controller)
+    public static void sendControlPacket(final Entity craft, final CraftController controller)
     {
         final PacketCraftControl packet = new PacketCraftControl();
-        packet.entityId = pokemob.getId();
+        packet.entityId = craft.getId();
         if (controller.backInputDown) packet.message += PacketCraftControl.BACK;
         if (controller.forwardInputDown) packet.message += PacketCraftControl.FORWARD;
         if (controller.leftInputDown) packet.message += PacketCraftControl.LEFT;

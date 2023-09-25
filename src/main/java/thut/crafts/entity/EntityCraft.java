@@ -84,7 +84,7 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         super(type, par1World);
         // Define the seats
         for (int i = 0; i < SEAT.length; i++)
-            this.dataSync.register(new Data_Seat().setRealtime(), new Seat(new Vec3f(), null));
+            SEAT[i] = this.dataSync.register(new Data_Seat().setRealtime(), new Seat(new Vec3f(), null));
     }
 
     @Override
@@ -120,14 +120,14 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         float destZ = this.toMoveZ ? this.controller.forwardInputDown ? 30 : -30 : 0;
 
         // debug movement
-        final boolean dbug_move = true;
+        final boolean dbug_move = false;
 
         if (dbug_move)
         {
             this.toMoveY = true;
             destY = 1;
         }
-
+        
         if (!(this.toMoveY || this.toMoveX || this.toMoveZ))
         {
             Vec3 v = this.getV();
@@ -182,11 +182,11 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
         seats:
         if (seat != null)
         {
-            final Vector3 rel = new Vector3().addTo(seat.seat.x, seat.seat.y, seat.seat.z);
+            final Vector3 rel = new Vector3(seat.seat.x, seat.seat.y, seat.seat.z);
             final BlockPos pos = rel.getPos();
             BlockState block = this.getFakeWorld().getBlockRelative(pos);
             if (block == null || !block.hasProperty(StairBlock.FACING)) break seats;
-            Vector3 dest = new Vector3().set(destX, destY, destZ);
+            Vector3 dest = new Vector3(destX, destY, destZ);
             switch (block.getValue(StairBlock.FACING))
             {
             case DOWN:
@@ -233,10 +233,20 @@ public class EntityCraft extends BlockEntityBase implements IMultiplePassengerEn
 
     public void addSeat(final Vec3f seat)
     {
-        final Seat toSet = this.getSeat(this.getSeatCount());
-        toSet.seat.set(seat);
-        this.dataSync.set(SEAT[this.getSeatCount()], toSet);
-        this.setSeatCount(this.getSeatCount() + 1);
+        int n = this.getSeatCount();
+        try
+        {
+            final Seat toSet = this.getSeat(n);
+            toSet.seat.set(seat);
+            this.dataSync.set(SEAT[n], toSet);
+            this.setSeatCount(n + 1);
+        }
+        catch (Exception e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println(n);
     }
 
     @Override

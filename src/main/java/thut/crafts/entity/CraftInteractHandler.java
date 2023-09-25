@@ -39,16 +39,22 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         if (passed) return InteractionResult.SUCCESS;
         vec = vec.subtract(craft.position());
 
-        if (this.interactInternal(player, new BlockPos((int) vec.x, (int) vec.y, (int) vec.z), stack, hand) == InteractionResult.SUCCESS)
+        System.out.println(result + " " + passed);
+        if (this.interactInternal(player, new BlockPos((int) vec.x, (int) vec.y, (int) vec.z), stack,
+                hand) == InteractionResult.SUCCESS)
             return InteractionResult.SUCCESS;
-        else if (this.craft.yRot != 0) for (int i = 0; i < this.craft.getSeatCount(); i++)
+        else
         {
-            final Seat seat = this.craft.getSeat(i);
-            if (!this.craft.level.isClientSide && seat.getEntityId().equals(Seat.BLANK))
+            System.out.println(craft.yRot + " " + this.craft.getSeatCount());
+            for (int i = 0; i < this.craft.getSeatCount(); i++)
             {
-                this.craft.setSeatID(i, player.getUUID());
-                player.startRiding(this.craft);
-                return InteractionResult.SUCCESS;
+                final Seat seat = this.craft.getSeat(i);
+                if (!this.craft.level.isClientSide && seat.getEntityId().equals(Seat.BLANK))
+                {
+                    this.craft.setSeatID(i, player.getUUID());
+                    player.startRiding(this.craft);
+                    return InteractionResult.SUCCESS;
+                }
             }
         }
         return InteractionResult.PASS;
@@ -61,40 +67,33 @@ public class CraftInteractHandler extends BlockEntityInteractHandler
         final BlockState state = this.craft.getFakeWorld().getBlockRelative(pos);
         if (state != null && state.getBlock() instanceof StairBlock)
         {
-            if (this.craft.getSeatCount() == 0)
-            {
-                final BlockPos.MutableBlockPos pos1 = new BlockPos.MutableBlockPos();
-                final int sizeX = this.craft.getTiles().length;
-                final int sizeY = this.craft.getTiles()[0].length;
-                final int sizeZ = this.craft.getTiles()[0][0].length;
-                for (int i = 0; i < sizeX; i++) for (int j = 0; j < sizeY; j++) for (int k = 0; k < sizeZ; k++)
-                {
-                    pos1.set(i + this.craft.getX(), j + this.craft.getY(), k + this.craft.getZ());
-                    final BlockState state1 = this.craft.getFakeWorld().getBlock(pos1);
-                    if (state1.getBlock() instanceof StairBlock)
-                    {
-                        final Vec3f seat = new Vec3f(i + 0.5f, j + 0.5f, k + 0.5f);
-                        this.craft.addSeat(seat);
-                    }
-                }
-            }
-
+            System.out.println(pos + " " + state+" "+this.craft.getSeatCount());
+            // First check if a seat exists
             for (int i = 0; i < this.craft.getSeatCount(); i++)
             {
-                final Seat seat = this.craft.getSeat(i);
-                final Vec3f seatPos = seat.seat;
-                final BlockPos pos1 = new BlockPos((int) seatPos.x, (int) seatPos.y, (int) seatPos.z);
+                var seat = this.craft.getSeat(i);
+                var seatPos = seat.seat;
+                var pos1 = new BlockPos((int) seatPos.x, (int) seatPos.y, (int) seatPos.z);
                 if (pos1.equals(pos))
                 {
-                    if (!player.level().isClientSide && !seat.getEntityId().equals(player.getUUID()))
+                    System.out.println("Found Seat!");
+                    if (!seat.getEntityId().equals(player.getUUID()))
                     {
-                        this.craft.setSeatID(i, player.getUUID());
                         player.startRiding(this.craft);
+                        this.craft.setSeatID(i, player.getUUID());
+                        System.out.println("Riding!");
                         return InteractionResult.SUCCESS;
                     }
-                    break;
+                    return InteractionResult.FAIL;
                 }
             }
+            // Otherwise add as a seat, then make player ride
+            final Vec3f seat = new Vec3f(pos.getX() + 0.5f, pos.getY() + 0.5f, pos.getZ() + 0.5f);
+            System.out.println("Adding Seat! "+craft);
+            this.craft.addSeat(seat);
+            this.craft.setSeatID(craft.getSeatCount() - 1, player.getUUID());
+            player.startRiding(this.craft);
+            return InteractionResult.SUCCESS;
         }
         return InteractionResult.PASS;
     }
