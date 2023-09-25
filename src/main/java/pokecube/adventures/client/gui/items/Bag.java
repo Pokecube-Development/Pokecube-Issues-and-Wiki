@@ -17,7 +17,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.items.bag.BagContainer;
-import pokecube.core.impl.PokecubeMod;
+import pokecube.core.PokecubeCore;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -25,6 +25,8 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
 {
     public static ResourceLocation BAG_GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag.png");
     public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/widgets/widgets.png");
+    public static ResourceLocation BAG_GUI_RED = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/pokecube_bag_red.png");
+    public static ResourceLocation WIDGETS_GUI_RED = new ResourceLocation(PokecubeAdv.MODID, "textures/gui/widgets/widgets_red.png");
 
     String page;
     EditBox renamePageBox;
@@ -110,61 +112,66 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
     }
 
     @Override
+    protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
+    {
+        String text = this.menu.getPage();
+        if (this.renamePageBox.visible && text.length() > 17 && PokecubeCore.getConfig().fancyGUI)
+            graphics.drawString(this.font, "", 8, 6, 0x590002, false);
+        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0x590002, false);
+        else graphics.drawString(this.font, text, 8, 6, 4210752, false);
+
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - 94 + 2, 4210752, false);
+    }
+
+    @Override
     protected void renderBg(final GuiGraphics graphics, final float f, final int i, final int j)
     {
+        ResourceLocation WIDGETS_DEFAULT_OR_FANCY = PokecubeCore.getConfig().fancyGUI ? WIDGETS_GUI_RED : WIDGETS_GUI;
+
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, BAG_GUI);
+        RenderSystem.setShaderTexture(0, BAG_GUI_RED);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
         //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
-        graphics.blit(BAG_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+        if (PokecubeCore.getConfig().fancyGUI) graphics.blit(BAG_GUI_RED, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        else graphics.blit(BAG_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.renameButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_GUI, x + 159, y + 5, 30, 15, 10, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 5, 30, 15, 10, 10);
         } else {
-            graphics.blit(WIDGETS_GUI, x + 159, y + 5, 30, 0, 10, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 5, 30, 0, 10, 10);
         }
 
         if (this.renamePageBox.visible)
-            graphics.blit(WIDGETS_GUI, x + 115, y + 5, 0, 60, 43, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 115, y + 5, 0, 60, 43, 10);
 
         if (this.prevButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_GUI, x + 7, y + 127, 45, 15, 10, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 7, y + 127, 45, 15, 10, 10);
         } else {
-            graphics.blit(WIDGETS_GUI, x + 7, y + 127, 45, 0, 10, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 7, y + 127, 45, 0, 10, 10);
         }
 
         if (this.selectedPageBox.visible)
-            graphics.blit(WIDGETS_GUI, x + 18, y + 127, 0, 75, 25, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 18, y + 127, 0, 75, 25, 10);
 
         if (this.nextButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_GUI, x + 44, y + 127, 60, 15, 10, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 44, y + 127, 60, 15, 10, 10);
         } else {
-            graphics.blit(WIDGETS_GUI, x + 44, y + 127, 60, 0, 10, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 44, y + 127, 60, 0, 10, 10);
         }
 
         if (this.searchButton.isHoveredOrFocused())
-            graphics.blit(WIDGETS_GUI, x + 159, y + 127, 15, 15, 10, 10);
-        else graphics.blit(WIDGETS_GUI, x + 159, y + 127, 15, 0, 10, 10);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 15, 15, 10, 10);
+        else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 15, 0, 10, 10);
 
         if (this.searchBar.visible)
-            graphics.blit(WIDGETS_GUI, x + 79, y + 127, 0, 30, 79, 10);
-    }
-
-    @Override
-    protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
-    {
-        String text = this.menu.getPage();
-        if (this.renamePageBox.visible && text.length() > 17)
-            graphics.drawString(this.font, "", 8, 6, 0x590002, false);
-        else graphics.drawString(this.font, text, 8, 6, 0x590002, false);
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 79, y + 127, 0, 30, 79, 10);
     }
 
     @Override
@@ -268,7 +275,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
                 final String name = stack == null ? "" : stack.getHoverName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.searchBar.getValue())))
                 {
-                    final int slotColor = 0x75FFFF00;
+                    final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FFFF00 : 0x55FF0000;
                     graphics.fill(RenderType.guiOverlay(), x, y, x + 16, y + 16, slotColor);
                 } else
                 {

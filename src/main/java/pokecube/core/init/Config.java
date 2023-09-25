@@ -526,7 +526,7 @@ public class Config extends ConfigData
 
     // Gui/client settings
 
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Default to fancy GUIs, such as the PC. Set to false for vanilla style GUIs. [Default: true]")
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Fancy style GUIs. Set to false for vanilla style GUIs. [Default: true]")
     public boolean fancyGUI = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Default to dark mode in certain GUIs, such as the PC. [Default: false]")
     public boolean darkMode = false;
