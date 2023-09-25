@@ -58,8 +58,9 @@ import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.gen.structures.PokecubeStructures;
 import pokecube.world.gen.structures.processors.MarkerToAirProcessor;
 import pokecube.world.gen.structures.processors.NoWaterlogProcessor;
+import thut.api.level.structures.NamedVolumes.INamedPart;
 
-public class ExpandedJigsawPiece extends SinglePoolElement
+public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
 {
     public static Codec<ExpandedJigsawPiece> makeCodec()
     {
@@ -445,5 +446,17 @@ public class ExpandedJigsawPiece extends SinglePoolElement
     public String toString()
     {
         return "PokecubeCustom[" + this.template + "]";
+    }
+
+    @Override
+    public String getName()
+    {
+        return this.name;
+    }
+
+    @Override
+    public BoundingBox getBounds()
+    {
+        return this.getBounds();
     }
 }

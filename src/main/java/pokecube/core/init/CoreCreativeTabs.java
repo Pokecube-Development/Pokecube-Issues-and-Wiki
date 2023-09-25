@@ -16,7 +16,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.legends.init.ItemInit;
+import thut.wearables.ThutWearables;
 
 @Mod.EventBusSubscriber(modid = PokecubeCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CoreCreativeTabs
@@ -180,6 +180,12 @@ public class CoreCreativeTabs
             {
                 add(event, ItemGenerator.leaves.get(type).get());
             }
+        }
+
+        if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
+        {
+            for (final String type : ItemGenerator.megaWearables.keySet())
+                add(event, ItemGenerator.megaWearables.get(type).get());
         }
     }
 

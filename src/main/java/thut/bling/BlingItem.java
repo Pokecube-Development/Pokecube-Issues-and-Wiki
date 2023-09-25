@@ -1,16 +1,18 @@
 package thut.bling;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -36,8 +38,6 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.api.PokecubeAPI;
-import pokecube.legends.Reference;
 import thut.api.item.ItemList;
 import thut.bling.client.BlingitemRenderer;
 import thut.bling.client.ClientSetupHandler;
@@ -47,8 +47,9 @@ import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
+import thut.wearables.ThutWearables;
 
-@Mod.EventBusSubscriber(modid = Reference.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ThutBling.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlingItem extends Item implements IWearable, DyeableLeatherItem
 {
     private static Set<ResourceLocation> errored = Sets.newHashSet();
@@ -81,7 +82,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
             BlingItem.blingWearables.put(type, ThutBling.ITEMS.register("bling_" + type,
                     () -> new BlingItem(type, BlingItem.wearables.get(type))));
         }
-        ThutCore.THUTICON = () -> BlingItem.getStack("bling_hat");
+        ThutWearables.WORNICON = () -> BlingItem.getStack("bling_hat");
     }
 
     public final String name;
@@ -216,7 +217,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
         if (item != null) return new ItemStack(item);
         if (stacktrace && BlingItem.errored.add(loc))
         {
-            PokecubeAPI.LOGGER.error(loc + " Not found in list of items.");
+            ThutCore.LOGGER.error(loc + " Not found in list of items.");
         }
         return ItemStack.EMPTY;
     }

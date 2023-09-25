@@ -14,6 +14,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
+import thut.core.init.ThutCreativeTabs;
 
 @Mod.EventBusSubscriber(modid = PokecubeAdv.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AdvCreativeTabs extends CoreCreativeTabs
@@ -48,13 +49,18 @@ public class AdvCreativeTabs extends CoreCreativeTabs
         {
             add(event, PokecubeItems.getStack("pokecube_adventures:linker"));
         }
-
+        
         if (event.getTabKey().equals(AdvCreativeTabs.BADGES_TAB.getKey()))
         {
             for (final PokeType type : PokecubeAdv.BADGES.keySet())
             {
                 add(event, PokecubeAdv.BADGES.get(type));
             }
+        }
+        
+        if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
+        {
+            event.accept(PokecubeItems.getStack("pokecube_adventures:linker"));
         }
     }
 }
