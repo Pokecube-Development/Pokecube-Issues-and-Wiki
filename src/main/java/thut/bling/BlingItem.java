@@ -42,6 +42,7 @@ import thut.api.item.ItemList;
 import thut.bling.client.BlingitemRenderer;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
+import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
@@ -77,8 +78,10 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     {
         for (final String type : BlingItem.names)
         {
-            BlingItem.blingWearables.put(type, ThutBling.ITEMS.register("bling_" + type, () -> new BlingItem(type, BlingItem.wearables.get(type))));
+            BlingItem.blingWearables.put(type, ThutBling.ITEMS.register("bling_" + type,
+                    () -> new BlingItem(type, BlingItem.wearables.get(type))));
         }
+        ThutCore.THUTICON = () -> BlingItem.getStack("bling_hat");
     }
 
     public final String name;
@@ -196,6 +199,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     {
         return BlingItem.getStack(loc, true);
     }
+
     public static ItemStack getStack(final ResourceLocation loc, final boolean stacktrace)
     {
         final TagKey<Item> tag = TagKey.create(RegHelper.ITEM_REGISTRY, loc);

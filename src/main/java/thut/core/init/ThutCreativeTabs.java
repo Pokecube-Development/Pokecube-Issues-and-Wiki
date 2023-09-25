@@ -13,6 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.init.ItemGenerator;
 import pokecube.legends.Reference;
 import thut.bling.BlingItem;
+import thut.core.common.ThutCore;
 import thut.crafts.ThutCrafts;
 
 @Mod.EventBusSubscriber(modid = Reference.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -21,11 +22,7 @@ public class ThutCreativeTabs {
 
     public static final RegistryObject<CreativeModeTab> WEARABLES_TAB = TABS.register("wearables_tab", () -> CreativeModeTab.builder()
             .title(Component.translatable("itemGroup.thutcore.wearables"))
-            .icon(() -> {
-                for (final String type : BlingItem.blingWearables.keySet())
-                    return new ItemStack(BlingItem.getStack("bling_hat").getItem());
-                return new ItemStack(ThutCrafts.CRAFTMAKER.get());
-            })
+            .icon(ThutCore.THUTICON)
             .displayItems((parameters, output) -> {
                 output.accept(BlingItem.getStack("pokecube:pokewatch"));
                 output.accept(BlingItem.getStack("pokecube_adventures:bag"));

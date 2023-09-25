@@ -1,8 +1,8 @@
 package thut.wearables.client.render.slots;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Matrix3f;
+
+import com.mojang.blaze3d.vertex.PoseStack;
 
 public class Utils
 {

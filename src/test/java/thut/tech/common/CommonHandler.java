@@ -15,7 +15,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.api.maths.Vector3;
-import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 import thut.tech.Reference;
 import thut.tech.common.entity.EntityLift;
@@ -192,6 +191,5 @@ public class CommonHandler
     {
         TechCore.packets.registerMessage(PacketLift.class, PacketLift::new);
         MinecraftForge.EVENT_BUS.register(InteractionHelper.class);
-        ThutCore.THUTICON = new ItemStack(TechCore.LINKER.get());
     }
 }

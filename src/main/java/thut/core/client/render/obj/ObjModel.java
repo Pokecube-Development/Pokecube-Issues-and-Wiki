@@ -1,6 +1,5 @@
 package thut.core.client.render.obj;
 
-import com.mojang.math.Axis;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -17,6 +16,7 @@ import java.util.regex.Pattern;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
@@ -37,7 +37,6 @@ import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public class ObjModel implements IModelCustom, IModel, IRetexturableModel

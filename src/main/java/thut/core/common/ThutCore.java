@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.Random;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -207,7 +208,7 @@ public class ThutCore
 
     public static final ConfigHandler conf = new ConfigHandler();
 
-    public static ItemStack THUTICON = ItemStack.EMPTY;
+    public static Supplier<ItemStack> THUTICON = () -> ItemStack.EMPTY;
 
     private static Map<String, String> trimmed = new Object2ObjectOpenHashMap<String, String>();
 
@@ -292,7 +293,7 @@ public class ThutCore
     {
         ThutCore.LOGGER.info("Setup");
 
-        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(ThutCrafts.CRAFTMAKER.get());
+        if (ThutCore.THUTICON.get().isEmpty()) ThutCore.THUTICON = () -> new ItemStack(ThutCrafts.CRAFTMAKER.get());
 
         // Register the actual packets
         ThutCore.packets.registerMessage(EntityUpdate.class, EntityUpdate::new);
@@ -337,7 +338,7 @@ public class ThutCore
                 Object o = args[i];
                 // TODO regex for {} instead to support number formatting like
                 // {:.2f}
-                if(o instanceof Component c) o = c.getString();
+                if (o instanceof Component c) o = c.getString();
                 key = key.replaceFirst("\\{\\}", o == null ? "null" : o.toString());
             }
             logger.accept(key);
