@@ -102,8 +102,8 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.CANDY.get());
             add(event, PokecubeItems.REVIVE.get());
             add(event, PokecubeItems.LUCKYEGG.get());
-            add(event, PokecubeItems.SPAWN_EGG.get());
             add(event, PokecubeItems.EMERALDSHARD.get());
+            add(event, PokecubeItems.SPAWN_EGG.get());
 
             for (String type : ItemVitamin.vitamins) add(event, PokecubeItems.getStack("vitamin_" + type));
             for (String type : ItemGenerator.fossilVariants) add(event, ItemGenerator.fossils.get(type).get());
