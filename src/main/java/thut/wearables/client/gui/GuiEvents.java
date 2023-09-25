@@ -9,8 +9,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ScreenEvent.Init;
@@ -54,27 +52,26 @@ public class GuiEvents
                 GuiEvents.active = true;
             }
             final EffectRenderingInventoryScreen<?> gui = (EffectRenderingInventoryScreen<?>) event.getScreen();
-            final GuiWearableButton button;
             int x = gui.getGuiLeft() + ThutWearables.config.buttonPos.get(0);
             int y = gui.getGuiTop() + ThutWearables.config.buttonPos.get(1);
-            event.getScreen()
-                    .addRenderableWidget(button = new GuiWearableButton(x, y, 9, 9,
-                            TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
-                            b -> pressButton(gui),
-                            supplier -> TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"), gui));
+            final GuiWearableButton button = new GuiWearableButton(x, y, 9, 9,
+                    TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                    b -> pressButton(gui), supplier -> TComponent
+                            .translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                    gui);
+            event.getScreen().addRenderableWidget(button);
             button.setFGColor(0xFFFF00FF);
         }
         else if (event.getScreen() instanceof CreativeModeInventoryScreen gui)
         {
             GuiEvents.active = event.getScreen() instanceof GuiWearables;
-            GuiWearableButton button;
-            event.getScreen().addRenderableWidget(
-                    button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9, 9,
-                            TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
-                            b -> pressButton(gui),
-                            supplier -> TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"), gui));
-//            TODO: Fix
-//            button.stillVisible = () -> gui.getSelectedTab() == CreativeModeTabs.INVENTORY;
+            GuiWearableButton button = new GuiWearableButton(gui.getGuiLeft() + 43, gui.getGuiTop() + 9, 9, 9,
+                    TComponent.translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                    b -> pressButton(gui), supplier -> TComponent
+                            .translatable(GuiEvents.active ? "button.wearables.off" : "button.wearables.on"),
+                    gui);
+            event.getScreen().addRenderableWidget(button);
+            button.stillVisible = () -> gui.isInventoryOpen();
             button.setFGColor(0xFFFF00FF);
         }
     }
