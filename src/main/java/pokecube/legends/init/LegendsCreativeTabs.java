@@ -1080,7 +1080,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
         {
             addBefore(event, Items.GLASS, BlockInit.FRAMED_DISTORTIC_MIRROR.get());
             addAfter(event, Items.PINK_STAINED_GLASS, BlockInit.SPECTRUM_GLASS.get());
-            addAfter(event, BlockInit.FRAMED_DISTORTIC_MIRROR.get(), BlockInit.MIRAGE_GLASS.get());
+            addAfter(event, BlockInit.SPECTRUM_GLASS.get(), BlockInit.MIRAGE_GLASS.get());
 
             addAfter(event, Items.PINK_STAINED_GLASS_PANE, BlockInit.ONE_WAY_FRAMED_MIRROR.get());
             addAfter(event, BlockInit.ONE_WAY_FRAMED_MIRROR.get(), BlockInit.ONE_WAY_GLASS.get());
