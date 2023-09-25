@@ -212,6 +212,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
                 x + 72, y + 38, 86, 10,
                 TComponent.translatable("block.tm_machine.search_bar.narrate")));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.tm_machine.search_bar.tooltip")));
+        if (!PokecubeCore.getConfig().fancyGUI) this.searchBar.setPosition(x + 72, y + 37);
         if (this.lightModeButton.visible) {
             this.searchBar.setTextColor(0xB2AFD6);
         } else this.searchBar.setTextColor(0xFFFFFF);
