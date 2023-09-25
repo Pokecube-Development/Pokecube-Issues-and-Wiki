@@ -114,6 +114,7 @@ public class RoadBuilder extends AbstractBot
     List<Block> pathB = Lists.newArrayList();
     List<Block> slabB = Lists.newArrayList();
     List<Block> wallB = Lists.newArrayList();
+    List<Block> fenceB = Lists.newArrayList();
     List<Block> blocks = Lists.newArrayList();
 
     final List<BlockState> paths = Lists.newArrayList(
@@ -155,6 +156,10 @@ public class RoadBuilder extends AbstractBot
             Blocks.MOSSY_COBBLESTONE_WALL.defaultBlockState(),
             Blocks.COBBLED_DEEPSLATE_WALL.defaultBlockState()
     );
+    final List<BlockState> fences = Lists.newArrayList(
+            // @formatter:off
+            Blocks.OAK_FENCE.defaultBlockState()
+    );
 
     final List<BlockState> pathsBridge = Lists.newArrayList(
             // @formatter:off
@@ -191,6 +196,12 @@ public class RoadBuilder extends AbstractBot
             blocks.add(block.getBlock());
             wallB.add(block.getBlock());
         }
+        for (final BlockState block : fences)
+        {
+            blocks.add(block.getBlock());
+            fenceB.add(block.getBlock());
+        }
+
         for (final BlockState block : slabs)
         {
             blocks.add(block.getBlock());
@@ -691,15 +702,16 @@ public class RoadBuilder extends AbstractBot
         // Next build cobblestone railings if needed
         for (BlockPos p : railings)
         {
-            this.setBlock(level, p.below(), walls.get(RoadBuilder.this.player.getRandom().nextInt(walls.size())), 1);
+            // TODO: Fix disconnected railings
+            this.setBlock(level, p.below(), fences.get(RoadBuilder.this.player.getRandom().nextInt(fences.size())), 3);
         }
 
         // Then place the torches
         for (BlockPos p : torches)
         {
-            this.setBlock(level, p.below(2), paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size())), 2);
-            this.setBlock(level, p.below(), walls.get(RoadBuilder.this.player.getRandom().nextInt(walls.size())), 2);
-            this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 2);
+            this.setBlock(level, p.below(2), paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size())), 3);
+            this.setBlock(level, p.below(), walls.get(RoadBuilder.this.player.getRandom().nextInt(walls.size())), 3);
+            this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 3);
         }
 
         // Last place signs
