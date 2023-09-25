@@ -120,8 +120,9 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0x590002, false);
         else graphics.drawString(this.font, text, 8, 6, 4210752, false);
 
+        int yOffset = PokecubeCore.getConfig().fancyGUI ? 94 : 96;
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
+                8, this.imageHeight - yOffset + 2, 4210752, false);
     }
 
     @Override

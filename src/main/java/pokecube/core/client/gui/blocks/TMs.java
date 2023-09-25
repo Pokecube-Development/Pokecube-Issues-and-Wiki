@@ -44,7 +44,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     {
         super(container, playerInventory, name);
         this.imageWidth = 176;
-        this.imageHeight = 176;
+        this.imageHeight = PokecubeCore.getConfig().fancyGUI ? 176 : 162;
     }
 
     @Override
@@ -163,8 +163,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     public void init()
     {
         super.init();
-        final int x = this.width / 2 - 88;
-        final int y = this.height / 2 - 88;
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
 
         // Elements placed in order of selection when pressing tab
         final Component darkMode = TComponent.literal("");
@@ -249,8 +249,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset = this.height / 2 - 88;
-            final int xOffset = this.width / 2 - 88;
+            final int yOffset = (this.width - this.imageWidth) / 2;
+            final int xOffset = (this.height - this.imageHeight) / 2;
             String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
 
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, xOffset + 61,

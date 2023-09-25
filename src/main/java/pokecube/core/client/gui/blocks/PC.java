@@ -137,8 +137,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0xFFFFFF, false);
         else graphics.drawString(this.font, text, 8, 6, 4210752, false);
 
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
+        int yOffset = PokecubeCore.getConfig().fancyGUI ? 94 : 96;
+                graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - yOffset + 2, 4210752, false);
     }
 
     @Override
@@ -480,12 +481,12 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 final String name = stack == null ? "" : stack.getHoverName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.searchBar.getValue())))
                 {
-                    final int slotColor = 0x75FF0000;
+                    final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FFFF00 : 0x55FF0000;
                     graphics.fill(x, y, x + 16, y + 16, slotColor);
                 }
                 else
                 {
-                    final int slotColor = 0x7500FF00;
+                    final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FFFF00 : 0x5500FF00;
                     graphics.fill(x, y, x + 16, y + 16, slotColor);
                 }
             }

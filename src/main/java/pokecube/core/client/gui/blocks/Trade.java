@@ -42,7 +42,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     {
         super(container, inventory, name);
         this.imageWidth = 176;
-        this.imageHeight = 192;
+        this.imageHeight = PokecubeCore.getConfig().fancyGUI ? 192 : 186;
     }
 
     /**
@@ -157,8 +157,8 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     public void init()
     {
         super.init();
-        final int x = this.width / 2 - 88;
-        final int y = this.height / 2 - 96;
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
 
         // Elements placed in order of selection when pressing tab
         final Component trade = TComponent.translatable("block.trade_machine.trade");
