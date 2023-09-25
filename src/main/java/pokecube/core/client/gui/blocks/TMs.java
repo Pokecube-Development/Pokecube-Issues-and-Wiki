@@ -83,6 +83,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"),
                 8, 6, 0xFFFFFF, false);
         else graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 4210752, false);
+
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 94 + 2, 4210752, false);
     }
@@ -149,11 +150,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         if (this.applyButton.isHoveredOrFocused() && PokecubeCore.getConfig().fancyGUI)
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 0, 190, 20, 20);
-            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 25, 165, 20, 20);
-        } else if (this.applyButton.isHoveredOrFocused())
-        {
-            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 0, 190, 20, 20);
-            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 20, 20);
+            if (PokecubeCore.getConfig().fancyGUI)
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 25, 165, 20, 20);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 20, 20);
         } else {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 0, 165, 19, 19);
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 19, 19);
