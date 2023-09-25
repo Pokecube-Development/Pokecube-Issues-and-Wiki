@@ -7,7 +7,6 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -17,7 +16,6 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.init.AdvCreativeTabs;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
 import pokecube.legends.Reference;
@@ -861,59 +859,59 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
         {
-            add(event, Items.GOLDEN_CARROT, ItemInit.ICE_CARROT.get());
-            add(event, ItemInit.ICE_CARROT.get(), ItemInit.SHADOW_CARROT.get());
+            addAfter(event, Items.GOLDEN_CARROT, ItemInit.ICE_CARROT.get());
+            addAfter(event, ItemInit.ICE_CARROT.get(), ItemInit.SHADOW_CARROT.get());
 
-            add(event, Items.CAKE, ItemInit.NULL_POKEPUFF.get());
-            add(event, ItemInit.NULL_POKEPUFF.get(), ItemInit.CHERI_POKEPUFF.get());
-            add(event, ItemInit.CHERI_POKEPUFF.get(), ItemInit.CHESTO_POKEPUFF.get());
-            add(event, ItemInit.CHESTO_POKEPUFF.get(), ItemInit.PECHA_POKEPUFF.get());
-            add(event, ItemInit.PECHA_POKEPUFF.get(), ItemInit.RAWST_POKEPUFF.get());
-            add(event, ItemInit.RAWST_POKEPUFF.get(), ItemInit.ASPEAR_POKEPUFF.get());
-            add(event, ItemInit.ASPEAR_POKEPUFF.get(), ItemInit.LEPPA_POKEPUFF.get());
-            add(event, ItemInit.LEPPA_POKEPUFF.get(), ItemInit.ORAN_POKEPUFF.get());
-            add(event, ItemInit.ORAN_POKEPUFF.get(), ItemInit.PERSIM_POKEPUFF.get());
-            add(event, ItemInit.PERSIM_POKEPUFF.get(), ItemInit.LUM_POKEPUFF.get());
-            add(event, ItemInit.LUM_POKEPUFF.get(), ItemInit.SITRUS_POKEPUFF.get());
-            add(event, ItemInit.SITRUS_POKEPUFF.get(), ItemInit.NANAB_POKEPUFF.get());
-            add(event, ItemInit.NANAB_POKEPUFF.get(), ItemInit.PINAP_POKEPUFF.get());
-            add(event, ItemInit.PINAP_POKEPUFF.get(), ItemInit.POMEG_POKEPUFF.get());
-            add(event, ItemInit.POMEG_POKEPUFF.get(), ItemInit.KELPSY_POKEPUFF.get());
-            add(event, ItemInit.KELPSY_POKEPUFF.get(), ItemInit.QUALOT_POKEPUFF.get());
-            add(event, ItemInit.QUALOT_POKEPUFF.get(), ItemInit.HONDEW_POKEPUFF.get());
-            add(event, ItemInit.HONDEW_POKEPUFF.get(), ItemInit.GREPA_POKEPUFF.get());
-            add(event, ItemInit.GREPA_POKEPUFF.get(), ItemInit.TAMATO_POKEPUFF.get());
-            add(event, ItemInit.TAMATO_POKEPUFF.get(), ItemInit.CORNN_POKEPUFF.get());
-            add(event, ItemInit.CORNN_POKEPUFF.get(), ItemInit.ENIGMA_POKEPUFF.get());
-            add(event, ItemInit.ENIGMA_POKEPUFF.get(), ItemInit.JABOCA_POKEPUFF.get());
-            add(event, ItemInit.JABOCA_POKEPUFF.get(), ItemInit.ROWAP_POKEPUFF.get());
+            addAfter(event, Items.CAKE, ItemInit.NULL_POKEPUFF.get());
+            addAfter(event, ItemInit.NULL_POKEPUFF.get(), ItemInit.CHERI_POKEPUFF.get());
+            addAfter(event, ItemInit.CHERI_POKEPUFF.get(), ItemInit.CHESTO_POKEPUFF.get());
+            addAfter(event, ItemInit.CHESTO_POKEPUFF.get(), ItemInit.PECHA_POKEPUFF.get());
+            addAfter(event, ItemInit.PECHA_POKEPUFF.get(), ItemInit.RAWST_POKEPUFF.get());
+            addAfter(event, ItemInit.RAWST_POKEPUFF.get(), ItemInit.ASPEAR_POKEPUFF.get());
+            addAfter(event, ItemInit.ASPEAR_POKEPUFF.get(), ItemInit.LEPPA_POKEPUFF.get());
+            addAfter(event, ItemInit.LEPPA_POKEPUFF.get(), ItemInit.ORAN_POKEPUFF.get());
+            addAfter(event, ItemInit.ORAN_POKEPUFF.get(), ItemInit.PERSIM_POKEPUFF.get());
+            addAfter(event, ItemInit.PERSIM_POKEPUFF.get(), ItemInit.LUM_POKEPUFF.get());
+            addAfter(event, ItemInit.LUM_POKEPUFF.get(), ItemInit.SITRUS_POKEPUFF.get());
+            addAfter(event, ItemInit.SITRUS_POKEPUFF.get(), ItemInit.NANAB_POKEPUFF.get());
+            addAfter(event, ItemInit.NANAB_POKEPUFF.get(), ItemInit.PINAP_POKEPUFF.get());
+            addAfter(event, ItemInit.PINAP_POKEPUFF.get(), ItemInit.POMEG_POKEPUFF.get());
+            addAfter(event, ItemInit.POMEG_POKEPUFF.get(), ItemInit.KELPSY_POKEPUFF.get());
+            addAfter(event, ItemInit.KELPSY_POKEPUFF.get(), ItemInit.QUALOT_POKEPUFF.get());
+            addAfter(event, ItemInit.QUALOT_POKEPUFF.get(), ItemInit.HONDEW_POKEPUFF.get());
+            addAfter(event, ItemInit.HONDEW_POKEPUFF.get(), ItemInit.GREPA_POKEPUFF.get());
+            addAfter(event, ItemInit.GREPA_POKEPUFF.get(), ItemInit.TAMATO_POKEPUFF.get());
+            addAfter(event, ItemInit.TAMATO_POKEPUFF.get(), ItemInit.CORNN_POKEPUFF.get());
+            addAfter(event, ItemInit.CORNN_POKEPUFF.get(), ItemInit.ENIGMA_POKEPUFF.get());
+            addAfter(event, ItemInit.ENIGMA_POKEPUFF.get(), ItemInit.JABOCA_POKEPUFF.get());
+            addAfter(event, ItemInit.JABOCA_POKEPUFF.get(), ItemInit.ROWAP_POKEPUFF.get());
         }
 
         if (event.getTabKey().equals(BERRIES_TAB.getKey()))
         {
-            add(event, PokecubeItems.getStack("pokecube:berry_rowap").getItem(), ItemInit.NULL_POKEPUFF.get());
-            add(event, ItemInit.NULL_POKEPUFF.get(), ItemInit.CHERI_POKEPUFF.get());
-            add(event, ItemInit.CHERI_POKEPUFF.get(), ItemInit.CHESTO_POKEPUFF.get());
-            add(event, ItemInit.CHESTO_POKEPUFF.get(), ItemInit.PECHA_POKEPUFF.get());
-            add(event, ItemInit.PECHA_POKEPUFF.get(), ItemInit.RAWST_POKEPUFF.get());
-            add(event, ItemInit.RAWST_POKEPUFF.get(), ItemInit.ASPEAR_POKEPUFF.get());
-            add(event, ItemInit.ASPEAR_POKEPUFF.get(), ItemInit.LEPPA_POKEPUFF.get());
-            add(event, ItemInit.LEPPA_POKEPUFF.get(), ItemInit.ORAN_POKEPUFF.get());
-            add(event, ItemInit.ORAN_POKEPUFF.get(), ItemInit.PERSIM_POKEPUFF.get());
-            add(event, ItemInit.PERSIM_POKEPUFF.get(), ItemInit.LUM_POKEPUFF.get());
-            add(event, ItemInit.LUM_POKEPUFF.get(), ItemInit.SITRUS_POKEPUFF.get());
-            add(event, ItemInit.SITRUS_POKEPUFF.get(), ItemInit.NANAB_POKEPUFF.get());
-            add(event, ItemInit.NANAB_POKEPUFF.get(), ItemInit.PINAP_POKEPUFF.get());
-            add(event, ItemInit.PINAP_POKEPUFF.get(), ItemInit.POMEG_POKEPUFF.get());
-            add(event, ItemInit.POMEG_POKEPUFF.get(), ItemInit.KELPSY_POKEPUFF.get());
-            add(event, ItemInit.KELPSY_POKEPUFF.get(), ItemInit.QUALOT_POKEPUFF.get());
-            add(event, ItemInit.QUALOT_POKEPUFF.get(), ItemInit.HONDEW_POKEPUFF.get());
-            add(event, ItemInit.HONDEW_POKEPUFF.get(), ItemInit.GREPA_POKEPUFF.get());
-            add(event, ItemInit.GREPA_POKEPUFF.get(), ItemInit.TAMATO_POKEPUFF.get());
-            add(event, ItemInit.TAMATO_POKEPUFF.get(), ItemInit.CORNN_POKEPUFF.get());
-            add(event, ItemInit.CORNN_POKEPUFF.get(), ItemInit.ENIGMA_POKEPUFF.get());
-            add(event, ItemInit.ENIGMA_POKEPUFF.get(), ItemInit.JABOCA_POKEPUFF.get());
-            add(event, ItemInit.JABOCA_POKEPUFF.get(), ItemInit.ROWAP_POKEPUFF.get());
+            addAfter(event, PokecubeItems.getStack("pokecube:berry_rowap").getItem(), ItemInit.NULL_POKEPUFF.get());
+            addAfter(event, ItemInit.NULL_POKEPUFF.get(), ItemInit.CHERI_POKEPUFF.get());
+            addAfter(event, ItemInit.CHERI_POKEPUFF.get(), ItemInit.CHESTO_POKEPUFF.get());
+            addAfter(event, ItemInit.CHESTO_POKEPUFF.get(), ItemInit.PECHA_POKEPUFF.get());
+            addAfter(event, ItemInit.PECHA_POKEPUFF.get(), ItemInit.RAWST_POKEPUFF.get());
+            addAfter(event, ItemInit.RAWST_POKEPUFF.get(), ItemInit.ASPEAR_POKEPUFF.get());
+            addAfter(event, ItemInit.ASPEAR_POKEPUFF.get(), ItemInit.LEPPA_POKEPUFF.get());
+            addAfter(event, ItemInit.LEPPA_POKEPUFF.get(), ItemInit.ORAN_POKEPUFF.get());
+            addAfter(event, ItemInit.ORAN_POKEPUFF.get(), ItemInit.PERSIM_POKEPUFF.get());
+            addAfter(event, ItemInit.PERSIM_POKEPUFF.get(), ItemInit.LUM_POKEPUFF.get());
+            addAfter(event, ItemInit.LUM_POKEPUFF.get(), ItemInit.SITRUS_POKEPUFF.get());
+            addAfter(event, ItemInit.SITRUS_POKEPUFF.get(), ItemInit.NANAB_POKEPUFF.get());
+            addAfter(event, ItemInit.NANAB_POKEPUFF.get(), ItemInit.PINAP_POKEPUFF.get());
+            addAfter(event, ItemInit.PINAP_POKEPUFF.get(), ItemInit.POMEG_POKEPUFF.get());
+            addAfter(event, ItemInit.POMEG_POKEPUFF.get(), ItemInit.KELPSY_POKEPUFF.get());
+            addAfter(event, ItemInit.KELPSY_POKEPUFF.get(), ItemInit.QUALOT_POKEPUFF.get());
+            addAfter(event, ItemInit.QUALOT_POKEPUFF.get(), ItemInit.HONDEW_POKEPUFF.get());
+            addAfter(event, ItemInit.HONDEW_POKEPUFF.get(), ItemInit.GREPA_POKEPUFF.get());
+            addAfter(event, ItemInit.GREPA_POKEPUFF.get(), ItemInit.TAMATO_POKEPUFF.get());
+            addAfter(event, ItemInit.TAMATO_POKEPUFF.get(), ItemInit.CORNN_POKEPUFF.get());
+            addAfter(event, ItemInit.CORNN_POKEPUFF.get(), ItemInit.ENIGMA_POKEPUFF.get());
+            addAfter(event, ItemInit.ENIGMA_POKEPUFF.get(), ItemInit.JABOCA_POKEPUFF.get());
+            addAfter(event, ItemInit.JABOCA_POKEPUFF.get(), ItemInit.ROWAP_POKEPUFF.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
@@ -976,7 +974,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
         {
             add(event, ItemInit.ULTRA_KEY.get());
             add(event, ItemInit.GIRATINA_MIRROR.get());
-            add(event, Items.LAVA_BUCKET, ItemInit.DISTORTIC_WATER_BUCKET.get());
+            addAfter(event, Items.LAVA_BUCKET, ItemInit.DISTORTIC_WATER_BUCKET.get());
             add(event, PokecubeItems.getStack("pokecube_legends:aged_boat"));
             add(event, PokecubeItems.getStack("pokecube_legends:aged_chest_boat"));
             add(event, PokecubeItems.getStack("pokecube_legends:concrete_boat"));
@@ -1148,50 +1146,50 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
         
         if (event.getTabKey().equals(ITEMS_TAB.getKey()))
         {
-            add(event, ItemInit.SPECTRUM_SHARD.get(), PokecubeItems.EMERALDSHARD.get());
+            addAfter(event, ItemInit.SPECTRUM_SHARD.get(), PokecubeItems.EMERALDSHARD.get());
         }
 
         if (event.getTabKey().equals(NATURAL_BLOCKS_TAB.getKey()))
         {
-            add(event, BlockInit.DUSK_COSMIC_ORE.get(), PokecubeItems.FOSSIL_ORE.get());
-            add(event, PokecubeItems.FOSSIL_ORE.get(), PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
+            addAfter(event, BlockInit.DUSK_COSMIC_ORE.get(), PokecubeItems.FOSSIL_ORE.get());
+            addAfter(event, PokecubeItems.FOSSIL_ORE.get(), PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
         }
         
         if (event.getTabKey().equals(FUNCTIONAL_BLOCKS_TAB.getKey()))
         {
-            add(event, ItemInit.ULTRA_BOOTS.get(), PokecubeAdv.BAG.get());
-            add(event, PokecubeAdv.BAG.get(), PokecubeAdv.EXPSHARE.get());
-            add(event, PokecubeAdv.EXPSHARE.get(), PokecubeAdv.LINKER.get());
-            add(event, PokecubeAdv.LINKER.get(), PokecubeItems.TM.get());
-            add(event, PokecubeItems.TM.get(), PokecubeItems.getStack("pokecube:candy").getItem());
-            add(event, PokecubeItems.getStack("pokecube:candy").getItem(), PokecubeItems.getStack("pokecube:revive").getItem());
-            add(event, PokecubeItems.getStack("pokecube:revive").getItem(), PokecubeItems.getStack("pokecube:luckyegg").getItem());
-            add(event, PokecubeItems.getStack("pokecube:luckyegg").getItem(), PokecubeItems.getStack("pokecube:shiny_charm").getItem());
+            addAfter(event, ItemInit.ULTRA_BOOTS.get(), PokecubeAdv.BAG.get());
+            addAfter(event, PokecubeAdv.BAG.get(), PokecubeAdv.EXPSHARE.get());
+            addAfter(event, PokecubeAdv.EXPSHARE.get(), PokecubeAdv.LINKER.get());
+            addAfter(event, PokecubeAdv.LINKER.get(), PokecubeItems.TM.get());
+            addAfter(event, PokecubeItems.TM.get(), PokecubeItems.getStack("pokecube:candy").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube:candy").getItem(), PokecubeItems.getStack("pokecube:revive").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube:revive").getItem(), PokecubeItems.getStack("pokecube:luckyegg").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube:luckyegg").getItem(), PokecubeItems.getStack("pokecube:shiny_charm").getItem());
 
-            add(event, ItemInit.DISTORTIC_WATER_BUCKET.get(), PokecubeItems.DYNAMAX.get());
-            add(event, BlockInit.RAID_SPAWNER.get(), PokecubeAdv.STATUE.get());
-            add(event, PokecubeAdv.STATUE.get(), PokecubeItems.HEALER.get());
-            add(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
-            add(event, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get());
-            add(event, PokecubeItems.PC_BASE.get(), PokecubeItems.TRADER.get());
-            add(event, PokecubeItems.TRADER.get(), PokecubeItems.TM_MACHINE.get());
+            addAfter(event, ItemInit.DISTORTIC_WATER_BUCKET.get(), PokecubeItems.DYNAMAX.get());
+            addAfter(event, BlockInit.RAID_SPAWNER.get(), PokecubeAdv.STATUE.get());
+            addAfter(event, PokecubeAdv.STATUE.get(), PokecubeItems.HEALER.get());
+            addAfter(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
+            addAfter(event, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get());
+            addAfter(event, PokecubeItems.PC_BASE.get(), PokecubeItems.TRADER.get());
+            addAfter(event, PokecubeItems.TRADER.get(), PokecubeItems.TM_MACHINE.get());
 
-            add(event, PokecubeItems.TM_MACHINE.get(), PokecubeAdv.CLONER.get());
-            add(event, PokecubeAdv.CLONER.get(), PokecubeAdv.EXTRACTOR.get());
-            add(event, PokecubeAdv.EXTRACTOR.get(), PokecubeAdv.SPLICER.get());
-            add(event, PokecubeAdv.SPLICER.get(), PokecubeAdv.SIPHON.get());
+            addAfter(event, PokecubeItems.TM_MACHINE.get(), PokecubeAdv.CLONER.get());
+            addAfter(event, PokecubeAdv.CLONER.get(), PokecubeAdv.EXTRACTOR.get());
+            addAfter(event, PokecubeAdv.EXTRACTOR.get(), PokecubeAdv.SPLICER.get());
+            addAfter(event, PokecubeAdv.SPLICER.get(), PokecubeAdv.SIPHON.get());
 
-            add(event, PokecubeAdv.SIPHON.get(), BlockInit.CRAMOMATIC_BLOCK.get());
-            add(event, BlockInit.CRAMOMATIC_BLOCK.get(), BlockInit.MIRAGE_SPOTS.get());
+            addAfter(event, PokecubeAdv.SIPHON.get(), BlockInit.CRAMOMATIC_BLOCK.get());
+            addAfter(event, BlockInit.CRAMOMATIC_BLOCK.get(), BlockInit.MIRAGE_SPOTS.get());
 
-            add(event, BlockInit.REGISTEEL_CORE.get(), PokecubeAdv.WARP_PAD.get());
-            add(event, PokecubeAdv.WARP_PAD.get(), PokecubeAdv.AFA.get());
-            add(event, PokecubeAdv.AFA.get(), PokecubeAdv.COMMANDER.get());
-            add(event, PokecubeAdv.COMMANDER.get(), PokecubeAdv.DAYCARE.get());
+            addAfter(event, BlockInit.REGISTEEL_CORE.get(), PokecubeAdv.WARP_PAD.get());
+            addAfter(event, PokecubeAdv.WARP_PAD.get(), PokecubeAdv.AFA.get());
+            addAfter(event, PokecubeAdv.AFA.get(), PokecubeAdv.COMMANDER.get());
+            addAfter(event, PokecubeAdv.COMMANDER.get(), PokecubeAdv.DAYCARE.get());
 
-            add(event, PokecubeAdv.DAYCARE.get(), PokecubeItems.NEST.get());
-            add(event, PokecubeItems.NEST.get(), PokecubeItems.SECRET_BASE.get());
-            add(event, PokecubeItems.SECRET_BASE.get(), PokecubeItems.REPEL.get());
+            addAfter(event, PokecubeAdv.DAYCARE.get(), PokecubeItems.NEST.get());
+            addAfter(event, PokecubeItems.NEST.get(), PokecubeItems.SECRET_BASE.get());
+            addAfter(event, PokecubeItems.SECRET_BASE.get(), PokecubeItems.REPEL.get());
         }
     }
 }

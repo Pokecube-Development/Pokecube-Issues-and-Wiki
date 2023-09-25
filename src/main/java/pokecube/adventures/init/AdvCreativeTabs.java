@@ -43,12 +43,12 @@ public class AdvCreativeTabs extends CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
         {
-            add(event, Items.WARPED_FUNGUS_ON_A_STICK, PokecubeAdv.LINKER.get());
+            addAfter(event, Items.WARPED_FUNGUS_ON_A_STICK, PokecubeAdv.LINKER.get());
         }
 
         if (event.getTabKey().equals(CoreCreativeTabs.BLOCKS_ITEMS_TAB.getKey()))
         {
-            add(event, PokecubeItems.POKEWATCH.get(), PokecubeAdv.LINKER.get());
+            addAfter(event, PokecubeItems.POKEWATCH.get(), PokecubeAdv.LINKER.get());
         }
 
         if (event.getTabKey().equals(AdvCreativeTabs.BADGES_TAB.getKey()))

@@ -17,7 +17,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.legends.init.ItemInit;
 
 @Mod.EventBusSubscriber(modid = PokecubeCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class CoreCreativeTabs
@@ -45,7 +44,7 @@ public class CoreCreativeTabs
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
         {
             addBefore(event, Items.MILK_BUCKET, PokecubeItems.BERRYJUICE.get());
-            add(event, Items.PUMPKIN_PIE, PokecubeItems.CANDY.get());
+            addAfter(event, Items.PUMPKIN_PIE, PokecubeItems.CANDY.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
@@ -71,7 +70,7 @@ public class CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
         {
-            add(event, Items.EMERALD, PokecubeItems.EMERALDSHARD.get());
+            addAfter(event, Items.EMERALD, PokecubeItems.EMERALDSHARD.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
@@ -200,7 +199,7 @@ public class CoreCreativeTabs
         event.accept(stack);
     }
 
-    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
         event.getEntries().putAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
