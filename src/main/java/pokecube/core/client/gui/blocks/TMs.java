@@ -150,7 +150,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 0, 190, 20, 20);
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 25, 165, 20, 20);
-        } else if (!PokecubeCore.getConfig().fancyGUI)
+        } else if (this.applyButton.isHoveredOrFocused())
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 0, 190, 20, 20);
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 20, 20);

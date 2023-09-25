@@ -414,8 +414,6 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 var _auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
                 b.setMessage(_auto);
               }).bounds(x + 159, y + 127, 10, 10)
-                .tooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.tooltip")
-                        : TComponent.translatable("block.pc.auto_off.tooltip")))
                 .createNarration(supplier -> this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.narrate")
                         : TComponent.translatable("block.pc.auto_off.narrate")).build());
             this.autoButton.setAlpha(0);
@@ -467,6 +465,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     {
         this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, f);
+
+        this.autoButton.setTooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.tooltip")
+                : TComponent.translatable("block.pc.auto_off.tooltip")));
 
         for (int i = 0; i < 54; i++)
         {
