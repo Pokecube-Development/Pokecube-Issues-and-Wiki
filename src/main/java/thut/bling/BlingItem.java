@@ -47,7 +47,6 @@ import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
-import thut.wearables.ThutWearables;
 
 @Mod.EventBusSubscriber(modid = ThutBling.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlingItem extends Item implements IWearable, DyeableLeatherItem
@@ -82,7 +81,6 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
             BlingItem.blingWearables.put(type, ThutBling.ITEMS.register("bling_" + type,
                     () -> new BlingItem(type, BlingItem.wearables.get(type))));
         }
-        ThutWearables.WORNICON = () -> BlingItem.getStack("bling_hat");
     }
 
     public final String name;

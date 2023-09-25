@@ -75,6 +75,8 @@ public class ThutBling
     {
         if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
         {
+            ThutWearables.WORNICON = BlingItem.getStack("bling_hat");
+            
             event.accept(BlingItem.getStack("pokecube:pokewatch"));
             event.accept(BlingItem.getStack("pokecube_adventures:bag"));
             event.accept(BlingItem.getStack("bling_bag"));

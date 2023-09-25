@@ -57,6 +57,7 @@ minecraft {
         client_2 {
             parent runs.client
             taskName 'run_client_2'
+            jvmArg "-Xmx2G" // Set this one to low ram
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
             args '-mixin.config=pokecube.mixins.json', '--username', 'Dev2'

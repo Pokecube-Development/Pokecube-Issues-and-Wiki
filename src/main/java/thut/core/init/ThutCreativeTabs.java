@@ -13,7 +13,5 @@ public class ThutCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ThutCore.MODID);
 
     public static final RegistryObject<CreativeModeTab> UTILITIES_TAB = TABS.register("utilities_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.thutcore.utilities"))
-            .icon(ThutCore.THUTICON)
-            .build());
+            .title(Component.translatable("itemGroup.thutcore.utilities")).icon(() -> ThutCore.THUTICON).build());
 }
