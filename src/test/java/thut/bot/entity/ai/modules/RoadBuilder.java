@@ -129,9 +129,12 @@ public class RoadBuilder extends AbstractBot
 
     final List<BlockState> pathsSandstone = Lists.newArrayList(
             // @formatter:off
-            Blocks.CUT_SANDSTONE.defaultBlockState(),
-            Blocks.SMOOTH_SANDSTONE.defaultBlockState(),
-            Blocks.CHISELED_SANDSTONE.defaultBlockState()
+            Blocks.RED_SANDSTONE.defaultBlockState(),
+            Blocks.SMOOTH_RED_SANDSTONE.defaultBlockState(),
+            Blocks.TERRACOTTA.defaultBlockState(),
+            Blocks.RED_TERRACOTTA.defaultBlockState(),
+            Blocks.ORANGE_TERRACOTTA.defaultBlockState(),
+            Blocks.YELLOW_TERRACOTTA.defaultBlockState()
     );
 
     // @formatter:on
@@ -144,8 +147,8 @@ public class RoadBuilder extends AbstractBot
     // @formatter:on
     final List<BlockState> slabsSandstone = Lists.newArrayList(
             // @formatter:off
-            Blocks.CUT_SANDSTONE_SLAB.defaultBlockState(),
-            Blocks.SMOOTH_SANDSTONE_SLAB.defaultBlockState()
+            Blocks.RED_SANDSTONE_SLAB.defaultBlockState(),
+            Blocks.SMOOTH_RED_SANDSTONE_SLAB.defaultBlockState()
     );
     // @formatter:on
 
