@@ -916,181 +916,193 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
         {
-            add(event, ItemInit.DIAMOND_GEM.get());
-            add(event, ItemInit.RUBY.get());
-            add(event, ItemInit.SAPPHIRE.get());
-            add(event, ItemInit.AQUAMARINE.get());
-            add(event, ItemInit.AQUAMARINE_SHARD.get());
-            add(event, ItemInit.FRACTAL_SHARD.get());
-            add(event, ItemInit.SPECTRUM_SHARD.get());
-            add(event, ItemInit.COSMIC_DUST.get());
-            add(event, ItemInit.PILE_OF_ASH.get());
+            addAfter(event, Items.DIAMOND, ItemInit.DIAMOND_GEM.get());
+            addAfter(event, ItemInit.DIAMOND_GEM.get(), ItemInit.RUBY.get());
+            addAfter(event, ItemInit.RUBY.get(), ItemInit.SAPPHIRE.get());
+            addAfter(event, ItemInit.SAPPHIRE.get(), ItemInit.AQUAMARINE.get());
+            addAfter(event, Items.AMETHYST_SHARD, ItemInit.AQUAMARINE_SHARD.get());
+            addAfter(event, ItemInit.AQUAMARINE_SHARD.get(), ItemInit.FRACTAL_SHARD.get());
+            addAfter(event, ItemInit.FRACTAL_SHARD.get(), ItemInit.SPECTRUM_SHARD.get());
+            addAfter(event, Items.GUNPOWDER, ItemInit.PILE_OF_ASH.get());
+            addAfter(event, ItemInit.PILE_OF_ASH.get(), ItemInit.COSMIC_DUST.get());
 
-            add(event, ItemInit.HEAD_MIRROR.get());
-            add(event, ItemInit.BODY_MIRROR.get());
-            add(event, ItemInit.GLASS_MIRROR.get());
+            addBefore(event, Items.NETHERITE_UPGRADE_SMITHING_TEMPLATE, ItemInit.RUSTED_SHIELD.get());
+            addBefore(event, ItemInit.RUSTED_SHIELD.get(), ItemInit.RUSTED_SWORD.get());
+            addAfter(event, Items.DISC_FRAGMENT_5, ItemInit.HEAD_MIRROR.get());
+            addAfter(event, ItemInit.HEAD_MIRROR.get(), ItemInit.BODY_MIRROR.get());
+            addAfter(event, ItemInit.BODY_MIRROR.get(), ItemInit.GLASS_MIRROR.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS)
         {
-            add(event, PokecubeAdv.WARP_PAD.get());
-            add(event, BlockInit.DISTORTIC_STONE_BARREL.get());
+            addAfter(event, Items.BARREL, BlockInit.DISTORTIC_STONE_BARREL.get());
+            addBefore(event, Items.REDSTONE_LAMP, BlockInit.MAGNETIC_STONE.get());
+            addAfter(event, Items.REDSTONE_LAMP, PokecubeAdv.WARP_PAD.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
         {
-            add(event, BlockInit.RAID_SPAWNER.get());
-            add(event, PokecubeAdv.CLONER.get());
-            add(event, PokecubeAdv.EXTRACTOR.get());
-            add(event, PokecubeAdv.SPLICER.get());
-            add(event, PokecubeAdv.SIPHON.get());
-            add(event, BlockInit.CRAMOMATIC_BLOCK.get());
+            addAfter(event, PokecubeItems.DYNAMAX.get(), BlockInit.RAID_SPAWNER.get());
+            addAfter(event, BlockInit.RAID_SPAWNER.get(), PokecubeAdv.CLONER.get());
+            addAfter(event, PokecubeAdv.CLONER.get(), PokecubeAdv.EXTRACTOR.get());
+            addAfter(event, PokecubeAdv.EXTRACTOR.get(), PokecubeAdv.SPLICER.get());
+            addAfter(event, PokecubeAdv.SPLICER.get(), PokecubeAdv.SIPHON.get());
+            addAfter(event, PokecubeAdv.SIPHON.get(), BlockInit.CRAMOMATIC_BLOCK.get());
 
-            add(event, PokecubeAdv.WARP_PAD.get());
-            add(event, PokecubeAdv.AFA.get());
-            add(event, PokecubeAdv.COMMANDER.get());
-            add(event, PokecubeAdv.DAYCARE.get());
-            add(event, BlockInit.DISTORTIC_STONE_BARREL.get());
-            add(event, BlockInit.MAGNETIC_STONE.get());
-            add(event, BlockInit.DISTORTIC_MIRROR.get());
+            addAfter(event, Items.LODESTONE, PokecubeAdv.WARP_PAD.get());
+            addAfter(event, PokecubeAdv.WARP_PAD.get(), PokecubeAdv.AFA.get());
+            addAfter(event, PokecubeAdv.AFA.get(), PokecubeAdv.COMMANDER.get());
+            addAfter(event, PokecubeAdv.COMMANDER.get(), PokecubeAdv.DAYCARE.get());
+            addAfter(event, Items.BARREL, BlockInit.DISTORTIC_STONE_BARREL.get());
+            addAfter(event, Items.RESPAWN_ANCHOR, BlockInit.MAGNETIC_STONE.get());
+            addBefore(event, Items.LIGHTNING_ROD, BlockInit.DISTORTIC_MIRROR.get());
+            addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.BOOKSHELF_EMPTY.get());
 
-            add(event, BlockInit.AGED_SIGN.get());
-            add(event, BlockInit.CONCRETE_SIGN.get());
-            add(event, BlockInit.CONCRETE_DENSE_SIGN.get());
-            add(event, BlockInit.CORRUPTED_SIGN.get());
-            add(event, BlockInit.DISTORTIC_SIGN.get());
-            add(event, BlockInit.INVERTED_SIGN.get());
-            add(event, BlockInit.MIRAGE_SIGN.get());
-            add(event, BlockInit.TEMPORAL_SIGN.get());
+            addAfter(event, Items.WARPED_HANGING_SIGN, BlockInit.AGED_SIGN.get());
+            addAfter(event, BlockInit.AGED_SIGN.get(), BlockInit.CONCRETE_SIGN.get());
+            addAfter(event, BlockInit.CONCRETE_SIGN.get(), BlockInit.CONCRETE_DENSE_SIGN.get());
+            addAfter(event, BlockInit.CONCRETE_DENSE_SIGN.get(), BlockInit.CORRUPTED_SIGN.get());
+            addAfter(event, BlockInit.CORRUPTED_SIGN.get(), BlockInit.DISTORTIC_SIGN.get());
+            addAfter(event, BlockInit.DISTORTIC_SIGN.get(), BlockInit.INVERTED_SIGN.get());
+            addAfter(event, BlockInit.INVERTED_SIGN.get(), BlockInit.MIRAGE_SIGN.get());
+            addAfter(event, BlockInit.MIRAGE_SIGN.get(), BlockInit.TEMPORAL_SIGN.get());
 
-            add(event, BlockInit.INFECTED_TORCH.get());
-            add(event, BlockInit.INFECTED_LANTERN.get());
-            add(event, BlockInit.INFECTED_CAMPFIRE.get());
+            addAfter(event, Items.SOUL_TORCH, BlockInit.INFECTED_TORCH.get());
+            addAfter(event, Items.SOUL_LANTERN, BlockInit.INFECTED_LANTERN.get());
+            addAfter(event, Items.SOUL_CAMPFIRE, BlockInit.INFECTED_CAMPFIRE.get());
+            addAfter(event, Items.GLOWSTONE, BlockInit.DISTORTIC_GLOWSTONE.get());
 
-            add(event, PokecubeAdv.STATUE.get());
+            addBefore(event, Items.SKELETON_SKULL, PokecubeAdv.STATUE.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
         {
-            add(event, ItemInit.ULTRA_KEY.get());
-            add(event, ItemInit.GIRATINA_MIRROR.get());
             addAfter(event, Items.LAVA_BUCKET, ItemInit.DISTORTIC_WATER_BUCKET.get());
-            add(event, PokecubeItems.getStack("pokecube_legends:aged_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:aged_chest_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:concrete_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:concrete_chest_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:corrupted_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:corrupted_chest_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:distortic_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:distortic_chest_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:inverted_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:inverted_chest_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:mirage_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:mirage_chest_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:temporal_boat"));
-            add(event, PokecubeItems.getStack("pokecube_legends:temporal_chest_boat"));
+            addAfter(event, Items.FLINT_AND_STEEL, ItemInit.ULTRA_KEY.get());
+            addAfter(event, ItemInit.ULTRA_KEY.get(), ItemInit.GIRATINA_MIRROR.get());
+
+            addAfter(event, Items.BAMBOO_CHEST_RAFT, PokecubeItems.getStack("pokecube_legends:aged_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:aged_boat").getItem(), PokecubeItems.getStack("pokecube_legends:aged_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:aged_chest_boat").getItem(), PokecubeItems.getStack("pokecube_legends:concrete_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:concrete_boat").getItem(), PokecubeItems.getStack("pokecube_legends:concrete_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:concrete_chest_boat").getItem(), PokecubeItems.getStack("pokecube_legends:corrupted_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:corrupted_boat").getItem(), PokecubeItems.getStack("pokecube_legends:corrupted_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:corrupted_chest_boat").getItem(), PokecubeItems.getStack("pokecube_legends:distortic_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:distortic_boat").getItem(), PokecubeItems.getStack("pokecube_legends:distortic_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:distortic_chest_boat").getItem(), PokecubeItems.getStack("pokecube_legends:inverted_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:inverted_boat").getItem(), PokecubeItems.getStack("pokecube_legends:inverted_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:inverted_chest_boat").getItem(), PokecubeItems.getStack("pokecube_legends:mirage_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:mirage_boat").getItem(), PokecubeItems.getStack("pokecube_legends:mirage_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:mirage_chest_boat").getItem(), PokecubeItems.getStack("pokecube_legends:temporal_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pokecube_legends:temporal_boat").getItem(), PokecubeItems.getStack("pokecube_legends:temporal_chest_boat").getItem());
         }
 
         if (event.getTabKey() == CreativeModeTabs.COMBAT)
         {
-            add(event, ItemInit.RAINBOW_SWORD.get());
-            add(event, ItemInit.COBALION_SWORD.get());
-            add(event, ItemInit.KELDEO_SWORD.get());
-            add(event, ItemInit.TERRAKION_SWORD.get());
-            add(event, ItemInit.VIRIZION_SWORD.get());
-            add(event, ItemInit.ZACIAN_SWORD.get());
-            add(event, ItemInit.ZAMAZENTA_SHIELD.get());
+            addAfter(event, Items.NETHERITE_SWORD, ItemInit.COBALION_SWORD.get());
+            addAfter(event, ItemInit.COBALION_SWORD.get(), ItemInit.KELDEO_SWORD.get());
+            addAfter(event, ItemInit.KELDEO_SWORD.get(), ItemInit.TERRAKION_SWORD.get());
+            addAfter(event, ItemInit.TERRAKION_SWORD.get(), ItemInit.VIRIZION_SWORD.get());
+            addAfter(event, ItemInit.VIRIZION_SWORD.get(), ItemInit.ZACIAN_SWORD.get());
+            addAfter(event, ItemInit.ZACIAN_SWORD.get(), ItemInit.RAINBOW_SWORD.get());
+            addAfter(event, Items.SHIELD, ItemInit.ZAMAZENTA_SHIELD.get());
 
-            add(event, ItemInit.ULTRA_HELMET.get());
-            add(event, ItemInit.ULTRA_CHESTPLATE.get());
-            add(event, ItemInit.ULTRA_LEGGINGS.get());
-            add(event, ItemInit.ULTRA_BOOTS.get());
+            addAfter(event, Items.NETHERITE_BOOTS, ItemInit.ULTRA_HELMET.get());
+            addAfter(event, ItemInit.ULTRA_HELMET.get(), ItemInit.ULTRA_CHESTPLATE.get());
+            addAfter(event, ItemInit.ULTRA_CHESTPLATE.get(), ItemInit.ULTRA_LEGGINGS.get());
+            addAfter(event, ItemInit.ULTRA_LEGGINGS.get(), ItemInit.ULTRA_BOOTS.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS)
         {
-            add(event, BlockInit.ASH_IRON_ORE.get());
-            add(event, BlockInit.RUBY_ORE.get());
-            add(event, BlockInit.DEEPSLATE_RUBY_ORE.get());
-            add(event, BlockInit.SAPPHIRE_ORE.get());
-            add(event, BlockInit.DEEPSLATE_SAPPHIRE_ORE.get());
-            add(event, BlockInit.METEORITE_COSMIC_ORE.get());
-            add(event, BlockInit.METEORITE_BLOCK.get());
-            add(event, BlockInit.METEORITE_MOLTEN_BLOCK.get());
-            add(event, BlockInit.ASH_BLOCK.get());
-            add(event, BlockInit.METEORITE_LAYER.get());
-            add(event, BlockInit.METEORITE_MOLTEN_LAYER.get());
-            add(event, BlockInit.ASH.get());
+            addAfter(event, Items.DEEPSLATE_IRON_ORE, BlockInit.ASH_IRON_ORE.get());
+            addAfter(event, Items.DEEPSLATE_DIAMOND_ORE, BlockInit.RUBY_ORE.get());
+            addAfter(event, BlockInit.RUBY_ORE.get(), BlockInit.DEEPSLATE_RUBY_ORE.get());
+            addAfter(event, BlockInit.DEEPSLATE_RUBY_ORE.get(), BlockInit.SAPPHIRE_ORE.get());
+            addAfter(event, BlockInit.SAPPHIRE_ORE.get(), BlockInit.DEEPSLATE_SAPPHIRE_ORE.get());
+            addAfter(event, BlockInit.DEEPSLATE_SAPPHIRE_ORE.get(), BlockInit.METEORITE_COSMIC_ORE.get());
+
+            addAfter(event, Items.END_STONE, BlockInit.METEORITE_BLOCK.get());
+            addAfter(event, BlockInit.METEORITE_BLOCK.get(), BlockInit.METEORITE_LAYER.get());
+            addAfter(event, BlockInit.METEORITE_BLOCK.get(), BlockInit.METEORITE_MOLTEN_BLOCK.get());
+            addAfter(event, BlockInit.METEORITE_MOLTEN_BLOCK.get(), BlockInit.METEORITE_MOLTEN_LAYER.get());
+            addAfter(event, BlockInit.METEORITE_MOLTEN_BLOCK.get(), BlockInit.ASH_BLOCK.get());
+            addAfter(event, BlockInit.ASH_BLOCK.get(), BlockInit.ASH.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
         {
-            add(event, BlockInit.BOOKSHELF_EMPTY.get());
+            addAfter(event, Items.STRIPPED_OAK_WOOD, BlockInit.BOOKSHELF_EMPTY.get());
 
-            add(event, BlockInit.DISTORTIC_OAK_PLANKS.get());
-            add(event, BlockInit.DISTORTIC_OAK_STAIRS.get());
-            add(event, BlockInit.DISTORTIC_OAK_SLAB.get());
+            addAfter(event, Items.OAK_SLAB, BlockInit.DISTORTIC_OAK_PLANKS.get());
+            addAfter(event, BlockInit.DISTORTIC_OAK_PLANKS.get(), BlockInit.DISTORTIC_OAK_STAIRS.get());
+            addAfter(event, BlockInit.DISTORTIC_OAK_STAIRS.get(), BlockInit.DISTORTIC_OAK_SLAB.get());
 
-            add(event, BlockInit.DISTORTIC_SPRUCE_PLANKS.get());
-            add(event, BlockInit.DISTORTIC_SPRUCE_STAIRS.get());
-            add(event, BlockInit.DISTORTIC_SPRUCE_SLAB.get());
+            addAfter(event, Items.SPRUCE_SLAB, BlockInit.DISTORTIC_SPRUCE_PLANKS.get());
+            addAfter(event, BlockInit.DISTORTIC_SPRUCE_PLANKS.get(), BlockInit.DISTORTIC_SPRUCE_STAIRS.get());
+            addAfter(event, BlockInit.DISTORTIC_SPRUCE_STAIRS.get(), BlockInit.DISTORTIC_SPRUCE_SLAB.get());
 
-            add(event, BlockInit.DISTORTIC_BIRCH_PLANKS.get());
-            add(event, BlockInit.DISTORTIC_BIRCH_STAIRS.get());
-            add(event, BlockInit.DISTORTIC_BIRCH_SLAB.get());
+            addAfter(event, Items.BIRCH_SLAB, BlockInit.DISTORTIC_BIRCH_PLANKS.get());
+            addAfter(event, BlockInit.DISTORTIC_BIRCH_PLANKS.get(), BlockInit.DISTORTIC_BIRCH_STAIRS.get());
+            addAfter(event, BlockInit.DISTORTIC_BIRCH_STAIRS.get(), BlockInit.DISTORTIC_BIRCH_SLAB.get());
 
-            add(event, BlockInit.DISTORTIC_JUNGLE_PLANKS.get());
-            add(event, BlockInit.DISTORTIC_JUNGLE_STAIRS.get());
-            add(event, BlockInit.DISTORTIC_JUNGLE_SLAB.get());
+            addAfter(event, Items.JUNGLE_SLAB, BlockInit.DISTORTIC_JUNGLE_PLANKS.get());
+            addAfter(event, BlockInit.DISTORTIC_JUNGLE_PLANKS.get(), BlockInit.DISTORTIC_JUNGLE_STAIRS.get());
+            addAfter(event, BlockInit.DISTORTIC_JUNGLE_STAIRS.get(), BlockInit.DISTORTIC_JUNGLE_SLAB.get());
 
-            add(event, BlockInit.DISTORTIC_ACACIA_PLANKS.get());
-            add(event, BlockInit.DISTORTIC_ACACIA_STAIRS.get());
-            add(event, BlockInit.DISTORTIC_ACACIA_SLAB.get());
+            addAfter(event, Items.ACACIA_SLAB, BlockInit.DISTORTIC_ACACIA_PLANKS.get());
+            addAfter(event, BlockInit.DISTORTIC_ACACIA_PLANKS.get(), BlockInit.DISTORTIC_ACACIA_STAIRS.get());
+            addAfter(event, BlockInit.DISTORTIC_ACACIA_STAIRS.get(), BlockInit.DISTORTIC_ACACIA_SLAB.get());
 
-            add(event, BlockInit.DISTORTIC_DARK_OAK_PLANKS.get());
-            add(event, BlockInit.DISTORTIC_DARK_OAK_STAIRS.get());
-            add(event, BlockInit.DISTORTIC_DARK_OAK_SLAB.get());
+            addAfter(event, Items.DARK_OAK_SLAB, BlockInit.DISTORTIC_DARK_OAK_PLANKS.get());
+            addAfter(event, BlockInit.DISTORTIC_DARK_OAK_PLANKS.get(), BlockInit.DISTORTIC_DARK_OAK_STAIRS.get());
+            addAfter(event, BlockInit.DISTORTIC_DARK_OAK_STAIRS.get(), BlockInit.DISTORTIC_DARK_OAK_SLAB.get());
 
-            add(event, BlockInit.METEORITE_BLOCK.get());
-            add(event, BlockInit.METEORITE_STAIRS.get());
-            add(event, BlockInit.METEORITE_SLAB.get());
+            addAfter(event, Items.REINFORCED_DEEPSLATE, BlockInit.METEORITE_BLOCK.get());
+            addAfter(event, BlockInit.METEORITE_BLOCK.get(), BlockInit.METEORITE_STAIRS.get());
+            addAfter(event, BlockInit.METEORITE_STAIRS.get(), BlockInit.METEORITE_SLAB.get());
 
-            add(event, BlockInit.OCEAN_BRICKS.get());
-            add(event, BlockInit.OCEAN_BRICK_STAIRS.get());
-            add(event, BlockInit.OCEAN_BRICK_SLAB.get());
+            addAfter(event, BlockInit.METEORITE_SLAB.get(), BlockInit.OCEAN_BRICKS.get());
+            addAfter(event, BlockInit.OCEAN_BRICKS.get(), BlockInit.OCEAN_BRICK_STAIRS.get());
+            addAfter(event, BlockInit.OCEAN_BRICK_STAIRS.get(), BlockInit.OCEAN_BRICK_SLAB.get());
 
-            add(event, BlockInit.SKY_BRICKS.get());
-            add(event, BlockInit.SKY_BRICK_STAIRS.get());
-            add(event, BlockInit.SKY_BRICK_SLAB.get());
+            addAfter(event, BlockInit.OCEAN_BRICK_SLAB.get(), BlockInit.SKY_BRICKS.get());
+            addAfter(event, BlockInit.SKY_BRICKS.get(), BlockInit.SKY_BRICK_STAIRS.get());
+            addAfter(event, BlockInit.SKY_BRICK_STAIRS.get(), BlockInit.SKY_BRICK_SLAB.get());
 
-            add(event, BlockInit.STORMY_SKY_BRICKS.get());
-            add(event, BlockInit.STORMY_SKY_BRICK_STAIRS.get());
-            add(event, BlockInit.STORMY_SKY_BRICK_SLAB.get());
+            addAfter(event, BlockInit.SKY_BRICK_SLAB.get(), BlockInit.STORMY_SKY_BRICKS.get());
+            addAfter(event, BlockInit.STORMY_SKY_BRICKS.get(), BlockInit.STORMY_SKY_BRICK_STAIRS.get());
+            addAfter(event, BlockInit.STORMY_SKY_BRICK_STAIRS.get(), BlockInit.STORMY_SKY_BRICK_SLAB.get());
 
-            add(event, BlockInit.MAGMA_BRICKS.get());
-            add(event, BlockInit.MAGMA_BRICK_STAIRS.get());
-            add(event, BlockInit.MAGMA_BRICK_SLAB.get());
+            addAfter(event, Items.RED_NETHER_BRICK_WALL, Items.MAGMA_BLOCK);
+            addAfter(event, Items.MAGMA_BLOCK, BlockInit.MAGMA_BRICKS.get());
+            addAfter(event, BlockInit.MAGMA_BRICKS.get(), BlockInit.MAGMA_BRICK_STAIRS.get());
+            addAfter(event, BlockInit.MAGMA_BRICK_STAIRS.get(), BlockInit.MAGMA_BRICK_SLAB.get());
 
-            add(event, BlockInit.PURPUR_BRICKS.get());
-            add(event, BlockInit.PURPUR_BRICK_STAIRS.get());
-            add(event, BlockInit.PURPUR_BRICK_SLAB.get());
+            addAfter(event, Items.PURPUR_SLAB, BlockInit.PURPUR_BRICKS.get());
+            addAfter(event, BlockInit.PURPUR_BRICKS.get(), BlockInit.PURPUR_BRICK_STAIRS.get());
+            addAfter(event, BlockInit.PURPUR_BRICK_STAIRS.get(), BlockInit.PURPUR_BRICK_SLAB.get());
 
-            add(event, BlockInit.TOTEM_BLOCK.get());
-            add(event, BlockInit.GOLEM_STONE.get());
-            add(event, BlockInit.REGICE_CORE.get());
-            add(event, BlockInit.REGIDRAGO_CORE.get());
-            add(event, BlockInit.REGIELEKI_CORE.get());
-            add(event, BlockInit.REGIGIGA_CORE.get());
-            add(event, BlockInit.REGIROCK_CORE.get());
-            add(event, BlockInit.REGISTEEL_CORE.get());
+            addAfter(event, Items.MUD_BRICK_WALL, BlockInit.GOLEM_STONE.get());
+            addAfter(event, BlockInit.GOLEM_STONE.get(), BlockInit.TOTEM_BLOCK.get());
+            addAfter(event, BlockInit.TOTEM_BLOCK.get(), BlockInit.REGICE_CORE.get());
+            addAfter(event, BlockInit.REGICE_CORE.get(), BlockInit.REGIDRAGO_CORE.get());
+            addAfter(event, BlockInit.REGIDRAGO_CORE.get(), BlockInit.REGIELEKI_CORE.get());
+            addAfter(event, BlockInit.REGIELEKI_CORE.get(), BlockInit.REGIGIGA_CORE.get());
+            addAfter(event, BlockInit.REGIGIGA_CORE.get(), BlockInit.REGIROCK_CORE.get());
+            addAfter(event, BlockInit.REGIROCK_CORE.get(), BlockInit.REGISTEEL_CORE.get());
 
-            add(event, BlockInit.COSMIC_DUST_BLOCK.get());
-            add(event, BlockInit.RUBY_BLOCK.get());
-            add(event, BlockInit.RUBY_STAIRS.get());
-            add(event, BlockInit.RUBY_SLAB.get());
-            add(event, BlockInit.SAPPHIRE_BLOCK.get());
-            add(event, BlockInit.SAPPHIRE_STAIRS.get());
-            add(event, BlockInit.SAPPHIRE_SLAB.get());
+            addAfter(event, Items.NETHERITE_BLOCK, BlockInit.FRACTAL_BLOCK.get());
+            addAfter(event, BlockInit.FRACTAL_BLOCK.get(), BlockInit.RUBY_BLOCK.get());
+            addAfter(event, BlockInit.RUBY_BLOCK.get(), BlockInit.RUBY_STAIRS.get());
+            addAfter(event, BlockInit.RUBY_STAIRS.get(), BlockInit.RUBY_SLAB.get());
+            addAfter(event, BlockInit.RUBY_SLAB.get(), BlockInit.SAPPHIRE_BLOCK.get());
+            addAfter(event, BlockInit.SAPPHIRE_BLOCK.get(), BlockInit.SAPPHIRE_STAIRS.get());
+            addAfter(event, BlockInit.SAPPHIRE_STAIRS.get(), BlockInit.SAPPHIRE_SLAB.get());
+            addAfter(event, BlockInit.SAPPHIRE_SLAB.get(), BlockInit.SPECTRUM_BLOCK.get());
+            addAfter(event, BlockInit.SPECTRUM_BLOCK.get(), BlockInit.SPECTRUM_STAIRS.get());
+            addAfter(event, BlockInit.SPECTRUM_STAIRS.get(), BlockInit.SPECTRUM_SLAB.get());
+            addAfter(event, BlockInit.SPECTRUM_SLAB.get(), BlockInit.COSMIC_DUST_BLOCK.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS)

@@ -107,7 +107,7 @@ public class TechCore
         if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS))
         {
             add(event, Items.LODESTONE, LIFT.get());
-            add(event, Items.LODESTONE, LIFTCONTROLLER.get());
+            add(event, LIFT.get(), LIFTCONTROLLER.get());
         }
     }
 
