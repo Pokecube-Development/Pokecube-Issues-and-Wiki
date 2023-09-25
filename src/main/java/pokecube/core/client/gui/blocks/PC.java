@@ -47,8 +47,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     Button renameButton;
     Button searchButton;
 
-    MutableComponent autoOn = TComponent.translatable("block.pc.autoon");
-    MutableComponent autoOff = TComponent.translatable("block.pc.autooff");
+    MutableComponent autoOn = TComponent.translatable("block.pc.auto_on");
+    MutableComponent autoOff = TComponent.translatable("block.pc.auto_off");
 
     private String boxName = "1";
 
@@ -233,9 +233,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
             this.searchBar.setWidth(70);
         }
 
-        if (this.autoButton.isHoveredOrFocused() && this.menu.inv.autoToPC)
+        if (this.autoButton.isHoveredOrFocused() && this.menu.inv.isAutoToPC())
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 126, 30, 15, 12, 12);
-        else if (this.menu.inv.autoToPC) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 30, 0, 11, 11);
+        else if (this.menu.inv.isAutoToPC()) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 30, 0, 11, 11);
         else if (this.autoButton.isHoveredOrFocused()) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 126, 120, 15, 12, 12);
         else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 120, 0, 11, 11);
 
@@ -408,7 +408,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         if (!this.bound)
         {
-            final Component auto = this.menu.inv.isAutoToPC() ? autoOn : autoOn;
+            final Component auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
             this.autoButton = this.addRenderableWidget(new Button.Builder(auto, (b) -> {
                 this.menu.toggleAuto();
                 var _auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
