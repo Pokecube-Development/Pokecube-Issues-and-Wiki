@@ -37,11 +37,10 @@ public class AdvCreativeTabs extends CoreCreativeTabs
         {
             if (event.hasPermissions())
             {
-                event.accept(PokecubeAdv.AFA.get());
-                event.accept(PokecubeAdv.COMMANDER.get());
-                event.accept(PokecubeAdv.DAYCARE.get());
-                event.accept(PokecubeAdv.STATUE.get());
-                event.accept(PokecubeAdv.LINKER.get());
+                addAfter(event, Items.REPEATING_COMMAND_BLOCK, PokecubeAdv.AFA.get());
+                addAfter(event, PokecubeAdv.AFA.get(), PokecubeAdv.COMMANDER.get());
+                addAfter(event, PokecubeAdv.COMMANDER.get(), PokecubeAdv.DAYCARE.get());
+                addBefore(event, Items.DEBUG_STICK, PokecubeAdv.LINKER.get());
             }
         }
 

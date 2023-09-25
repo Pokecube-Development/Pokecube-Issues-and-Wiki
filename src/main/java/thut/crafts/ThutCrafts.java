@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
@@ -105,8 +106,6 @@ public class ThutCrafts
 
         CommonInit.HANDLERS.add(new CraftStickApplier());
     }
-    
-
 
     @SubscribeEvent
     public void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -114,7 +113,7 @@ public class ThutCrafts
         {
             if (event.hasPermissions())
             {
-                event.accept(ThutCrafts.CRAFTMAKER.get());
+                ThutCreativeTabs.addBefore(event, Items.DEBUG_STICK, ThutCrafts.CRAFTMAKER.get());
             }
         }
         if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))

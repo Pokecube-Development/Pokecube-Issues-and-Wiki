@@ -382,29 +382,29 @@ public class Concrete
             event.accept(VOLCANO);
         }
 
-        if (event.getTabKey().equals(CreativeModeTabs.BUILDING_BLOCKS))
+        if (event.getTabKey().equals(CreativeModeTabs.BUILDING_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
         {
-            add(event, Items.CHAIN, BUCKET.get());
-            add(event, BUCKET.get(), REBAR_BLOCK.get());
-            add(event, REBAR_BLOCK.get(), FORMWORK_BLOCK.get());
-            add(event, FORMWORK_BLOCK.get(), WET_BLOCK_ITEM.get());
+            addAfter(event, Items.CHAIN, BUCKET.get());
+            addAfter(event, BUCKET.get(), REBAR_BLOCK.get());
+            addAfter(event, REBAR_BLOCK.get(), FORMWORK_BLOCK.get());
+            addAfter(event, FORMWORK_BLOCK.get(), WET_BLOCK_ITEM.get());
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
         {
-            add(event, Items.LAVA_BUCKET, BUCKET.get());
+            addAfter(event, Items.LAVA_BUCKET, BUCKET.get());
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.OP_BLOCKS))
         {
             if (event.hasPermissions())
             {
-                add(event, Items.COMMAND_BLOCK, VOLCANO.get());
+                addAfter(event, Items.BARRIER, VOLCANO.get());
             }
         }
     }
 
-    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
         event.getEntries().putAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
