@@ -13,11 +13,15 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -376,6 +380,31 @@ public class Concrete
             
             event.accept(VOLCANO);
         }
+
+        if (event.getTabKey().equals(CreativeModeTabs.BUILDING_BLOCKS))
+        {
+            add(event, Items.CHAIN, BUCKET.get());
+            add(event, BUCKET.get(), REBAR_BLOCK.get());
+            add(event, REBAR_BLOCK.get(), FORMWORK_BLOCK.get());
+            add(event, FORMWORK_BLOCK.get(), WET_BLOCK_ITEM.get());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES))
+        {
+            add(event, Items.LAVA_BUCKET, BUCKET.get());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.OP_BLOCKS))
+        {
+            if (event.hasPermissions())
+            {
+                add(event, Items.COMMAND_BLOCK, VOLCANO.get());
+            }
+        }
+    }
+
+    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
+        event.getEntries().putAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
     public void loadComplete(FMLLoadCompleteEvent event)

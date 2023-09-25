@@ -975,7 +975,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
         {
             add(event, ItemInit.ULTRA_KEY.get());
             add(event, ItemInit.GIRATINA_MIRROR.get());
-            add(event, ItemInit.DISTORTIC_WATER_BUCKET.get());
+            add(event, Items.LAVA_BUCKET, ItemInit.DISTORTIC_WATER_BUCKET.get());
             add(event, PokecubeItems.getStack("pokecube_legends:aged_boat"));
             add(event, PokecubeItems.getStack("pokecube_legends:aged_chest_boat"));
             add(event, PokecubeItems.getStack("pokecube_legends:concrete_boat"));

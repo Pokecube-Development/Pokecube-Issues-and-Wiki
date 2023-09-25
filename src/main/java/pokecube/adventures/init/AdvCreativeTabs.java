@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -42,11 +43,12 @@ public class AdvCreativeTabs extends CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
         {
-            event.accept(PokecubeAdv.LINKER.get());
+            add(event, Items.WARPED_FUNGUS_ON_A_STICK, PokecubeAdv.LINKER.get());
         }
+
         if (event.getTabKey().equals(CoreCreativeTabs.BLOCKS_ITEMS_TAB.getKey()))
         {
-            add(event, PokecubeItems.getStack("pokecube_adventures:linker"));
+            add(event, PokecubeItems.POKEWATCH.get(), PokecubeAdv.LINKER.get());
         }
 
         if (event.getTabKey().equals(AdvCreativeTabs.BADGES_TAB.getKey()))
