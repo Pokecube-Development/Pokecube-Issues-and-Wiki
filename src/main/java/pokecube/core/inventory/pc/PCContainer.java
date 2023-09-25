@@ -213,11 +213,11 @@ public class PCContainer extends BaseContainer
 
     public void toggleAuto()
     {
-        this.inv.autoToPC = !this.inv.autoToPC;
+        this.inv.setAutoToPC(!this.inv.isAutoToPC());
         if (ThutCore.proxy.isClientSide())
         {
             final PacketPC packet = new PacketPC(PacketPC.TOGGLEAUTO, this.inv.getOwner());
-            packet.data.putBoolean("A", this.inv.autoToPC);
+            packet.data.putBoolean("A", this.inv.isAutoToPC());
             PokecubeCore.packets.sendToServer(packet);
         }
     }
