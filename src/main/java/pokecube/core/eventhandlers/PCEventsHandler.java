@@ -235,7 +235,7 @@ public class PCEventsHandler
             final PCInventory pc = PCInventory.getPC(id);
             final int num = inv.getFreeSlot();
             if (evt.getFilledCube() == null || pc == null) System.err.println("Cube is null");
-            else if (num == -1 || pc.autoToPC || !player.isAlive() || player.getHealth() <= 0)
+            else if (num == -1 || pc.isAutoToPC() || !player.isAlive() || player.getHealth() <= 0)
                 PCInventory.addPokecubeToPC(evt.getFilledCube(), catcher.getLevel());
             else
             {

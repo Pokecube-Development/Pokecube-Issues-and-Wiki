@@ -57,8 +57,8 @@ public class PCInventory extends BigInventory
         return PCManager.INSTANCE.get(uuid);
     }
 
-    public boolean autoToPC = false;
-    public boolean seenOwner = false;
+    private boolean autoToPC = false;
+    private boolean seenOwner = false;
 
     public PCInventory(final Manager<? extends BigInventory> manager, final UUID id)
     {
@@ -68,11 +68,20 @@ public class PCInventory extends BigInventory
     public PCInventory(final Manager<? extends BigInventory> manager, final CompoundTag tag)
     {
         super(manager, tag);
+        CompoundTag boxes = tag.getCompound("boxes");
+        this.deserializeBoxInfo(boxes);
     }
 
     public PCInventory(final Manager<? extends BigInventory> manager, final FriendlyByteBuf buffer)
     {
         super(manager, buffer);
+        if (buffer != null)
+        {
+            buffer.resetReaderIndex();
+            CompoundTag tag = buffer.readNbt();
+            CompoundTag boxes = tag.getCompound("boxes");
+            this.deserializeBoxInfo(boxes);
+        }
     }
 
     @Override
@@ -85,16 +94,36 @@ public class PCInventory extends BigInventory
     public void serializeBoxInfo(final CompoundTag boxes)
     {
         super.serializeBoxInfo(boxes);
-        boxes.putBoolean("seenOwner", this.seenOwner);
-        boxes.putBoolean("autoSend", this.autoToPC);
+        boxes.putBoolean("seenOwner", this.hasSeenOwner());
+        boxes.putBoolean("autoSend", this.isAutoToPC());
     }
 
     @Override
     public void deserializeBoxInfo(final CompoundTag boxes)
     {
         super.deserializeBoxInfo(boxes);
-        this.autoToPC = boxes.getBoolean("autoSend");
-        this.seenOwner = boxes.getBoolean("seenOwner");
+        this.setAutoToPC(boxes.getBoolean("autoSend"));
+        this.setSeenOwner(boxes.getBoolean("seenOwner"));
+    }
+
+    public boolean isAutoToPC()
+    {
+        return autoToPC;
+    }
+
+    public void setAutoToPC(boolean autoToPC)
+    {
+        this.autoToPC = autoToPC;
+    }
+
+    public boolean hasSeenOwner()
+    {
+        return seenOwner;
+    }
+
+    public void setSeenOwner(boolean seenOwner)
+    {
+        this.seenOwner = seenOwner;
     }
 
 }
