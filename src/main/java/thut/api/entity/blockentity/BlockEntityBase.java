@@ -15,7 +15,6 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -66,7 +65,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 {
     public static class BlockEntityType<T extends BlockEntityBase> extends EntityType<T>
     {
-        // TODO: Check this
         public BlockEntityType(final EntityType.EntityFactory<T> factory)
         {
             super(factory, MobCategory.MISC, true, false, true, true, ImmutableSet.of(),
@@ -557,7 +555,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (nbt.contains("Blocks"))
         {
-            ListTag paletteNbt = nbt.getList("palette", 10);
             final CompoundTag blockTag = nbt.getCompound("Blocks");
             int sizeX = blockTag.getInt("BlocksLengthX");
             int sizeZ = blockTag.getInt("BlocksLengthZ");
