@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -43,8 +44,8 @@ public class CoreCreativeTabs
     {
         if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
         {
-            add(event, PokecubeItems.BERRYJUICE.get());
-            add(event, PokecubeItems.CANDY.get());
+            addBefore(event, Items.MILK_BUCKET, PokecubeItems.BERRYJUICE.get());
+            add(event, Items.PUMPKIN_PIE, PokecubeItems.CANDY.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
@@ -70,7 +71,7 @@ public class CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
         {
-            add(event, PokecubeItems.EMERALDSHARD.get());
+            add(event, Items.EMERALD, PokecubeItems.EMERALDSHARD.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
@@ -197,5 +198,13 @@ public class CoreCreativeTabs
             return;
         }
         event.accept(stack);
+    }
+
+    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
+        event.getEntries().putAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+
+    public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemLike beforeItem, ItemLike item) {
+        event.getEntries().putBefore(new ItemStack(beforeItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 }
