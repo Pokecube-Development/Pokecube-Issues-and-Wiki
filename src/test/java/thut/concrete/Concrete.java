@@ -61,6 +61,7 @@ import thut.concrete.item.PaintBrush;
 import thut.concrete.item.RebarBlockItem;
 import thut.concrete.item.SmootherItem;
 import thut.concrete.recipe.PaintBrushRecipe;
+import thut.core.common.ThutCore;
 import thut.core.init.ThutCreativeTabs;
 import thut.lib.RegHelper;
 
@@ -389,7 +390,7 @@ public class Concrete
             add(event, FORMWORK_BLOCK.get(), WET_BLOCK_ITEM.get());
         }
 
-        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES))
+        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
         {
             add(event, Items.LAVA_BUCKET, BUCKET.get());
         }

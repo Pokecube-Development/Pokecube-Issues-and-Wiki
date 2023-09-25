@@ -196,6 +196,8 @@ public class Config extends ConfigData
     public boolean pvpExp = false;
     @Configure(category = Config.misc, comment = "Mobs marked as \"cloned\" will drop items on death. [Default: false]")
     public boolean clonesDrop = false;
+    @Configure(category = Config.misc, comment = "Add items to vanilla tabs. [Default: true]")
+    public boolean itemsInVanillaTabs = true;
 
     @Configure(category = Config.misc, comment = "A list of custom sounds to register")
     public List<String> customSounds = Lists.newArrayList();

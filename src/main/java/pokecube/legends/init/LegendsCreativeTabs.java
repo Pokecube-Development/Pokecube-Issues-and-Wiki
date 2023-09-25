@@ -16,6 +16,7 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.init.AdvCreativeTabs;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
 import pokecube.legends.Reference;
@@ -442,10 +443,10 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.DISTORTIC_MIRROR.get());
                 output.accept(BlockInit.DISTORTIC_GLOWSTONE.get());
                 output.accept(BlockInit.METEORITE_BLOCK.get());
-                output.accept(BlockInit.METEORITE_MOLTEN_BLOCK.get());
-                output.accept(BlockInit.ASH_BLOCK.get());
                 output.accept(BlockInit.METEORITE_LAYER.get());
+                output.accept(BlockInit.METEORITE_MOLTEN_BLOCK.get());
                 output.accept(BlockInit.METEORITE_MOLTEN_LAYER.get());
+                output.accept(BlockInit.ASH_BLOCK.get());
                 output.accept(BlockInit.ASH.get());
 
                 output.accept(BlockInit.TURQUOISE_GRAVEL.get());
@@ -857,7 +858,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.GOLDEN_CARROT, ItemInit.ICE_CARROT.get());
             addAfter(event, ItemInit.ICE_CARROT.get(), ItemInit.SHADOW_CARROT.get());
@@ -887,34 +888,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, ItemInit.JABOCA_POKEPUFF.get(), ItemInit.ROWAP_POKEPUFF.get());
         }
 
-        if (event.getTabKey().equals(BERRIES_TAB.getKey()))
-        {
-            addAfter(event, PokecubeItems.getStack("pokecube:berry_rowap").getItem(), ItemInit.NULL_POKEPUFF.get());
-            addAfter(event, ItemInit.NULL_POKEPUFF.get(), ItemInit.CHERI_POKEPUFF.get());
-            addAfter(event, ItemInit.CHERI_POKEPUFF.get(), ItemInit.CHESTO_POKEPUFF.get());
-            addAfter(event, ItemInit.CHESTO_POKEPUFF.get(), ItemInit.PECHA_POKEPUFF.get());
-            addAfter(event, ItemInit.PECHA_POKEPUFF.get(), ItemInit.RAWST_POKEPUFF.get());
-            addAfter(event, ItemInit.RAWST_POKEPUFF.get(), ItemInit.ASPEAR_POKEPUFF.get());
-            addAfter(event, ItemInit.ASPEAR_POKEPUFF.get(), ItemInit.LEPPA_POKEPUFF.get());
-            addAfter(event, ItemInit.LEPPA_POKEPUFF.get(), ItemInit.ORAN_POKEPUFF.get());
-            addAfter(event, ItemInit.ORAN_POKEPUFF.get(), ItemInit.PERSIM_POKEPUFF.get());
-            addAfter(event, ItemInit.PERSIM_POKEPUFF.get(), ItemInit.LUM_POKEPUFF.get());
-            addAfter(event, ItemInit.LUM_POKEPUFF.get(), ItemInit.SITRUS_POKEPUFF.get());
-            addAfter(event, ItemInit.SITRUS_POKEPUFF.get(), ItemInit.NANAB_POKEPUFF.get());
-            addAfter(event, ItemInit.NANAB_POKEPUFF.get(), ItemInit.PINAP_POKEPUFF.get());
-            addAfter(event, ItemInit.PINAP_POKEPUFF.get(), ItemInit.POMEG_POKEPUFF.get());
-            addAfter(event, ItemInit.POMEG_POKEPUFF.get(), ItemInit.KELPSY_POKEPUFF.get());
-            addAfter(event, ItemInit.KELPSY_POKEPUFF.get(), ItemInit.QUALOT_POKEPUFF.get());
-            addAfter(event, ItemInit.QUALOT_POKEPUFF.get(), ItemInit.HONDEW_POKEPUFF.get());
-            addAfter(event, ItemInit.HONDEW_POKEPUFF.get(), ItemInit.GREPA_POKEPUFF.get());
-            addAfter(event, ItemInit.GREPA_POKEPUFF.get(), ItemInit.TAMATO_POKEPUFF.get());
-            addAfter(event, ItemInit.TAMATO_POKEPUFF.get(), ItemInit.CORNN_POKEPUFF.get());
-            addAfter(event, ItemInit.CORNN_POKEPUFF.get(), ItemInit.ENIGMA_POKEPUFF.get());
-            addAfter(event, ItemInit.ENIGMA_POKEPUFF.get(), ItemInit.JABOCA_POKEPUFF.get());
-            addAfter(event, ItemInit.JABOCA_POKEPUFF.get(), ItemInit.ROWAP_POKEPUFF.get());
-        }
-
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.DIAMOND, ItemInit.DIAMOND_GEM.get());
             addAfter(event, ItemInit.DIAMOND_GEM.get(), ItemInit.RUBY.get());
@@ -933,26 +907,17 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, ItemInit.BODY_MIRROR.get(), ItemInit.GLASS_MIRROR.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.REDSTONE_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.BARREL, BlockInit.DISTORTIC_STONE_BARREL.get());
             addBefore(event, Items.REDSTONE_LAMP, BlockInit.MAGNETIC_STONE.get());
-            addAfter(event, Items.REDSTONE_LAMP, PokecubeAdv.WARP_PAD.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, PokecubeItems.DYNAMAX.get(), BlockInit.RAID_SPAWNER.get());
-            addAfter(event, BlockInit.RAID_SPAWNER.get(), PokecubeAdv.CLONER.get());
-            addAfter(event, PokecubeAdv.CLONER.get(), PokecubeAdv.EXTRACTOR.get());
-            addAfter(event, PokecubeAdv.EXTRACTOR.get(), PokecubeAdv.SPLICER.get());
-            addAfter(event, PokecubeAdv.SPLICER.get(), PokecubeAdv.SIPHON.get());
-            addAfter(event, PokecubeAdv.SIPHON.get(), BlockInit.CRAMOMATIC_BLOCK.get());
+            addAfter(event, BlockInit.RAID_SPAWNER.get(), BlockInit.CRAMOMATIC_BLOCK.get());
 
-            addAfter(event, Items.LODESTONE, PokecubeAdv.WARP_PAD.get());
-            addAfter(event, PokecubeAdv.WARP_PAD.get(), PokecubeAdv.AFA.get());
-            addAfter(event, PokecubeAdv.AFA.get(), PokecubeAdv.COMMANDER.get());
-            addAfter(event, PokecubeAdv.COMMANDER.get(), PokecubeAdv.DAYCARE.get());
             addAfter(event, Items.BARREL, BlockInit.DISTORTIC_STONE_BARREL.get());
             addAfter(event, Items.RESPAWN_ANCHOR, BlockInit.MAGNETIC_STONE.get());
             addBefore(event, Items.LIGHTNING_ROD, BlockInit.DISTORTIC_MIRROR.get());
@@ -971,11 +936,9 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, Items.SOUL_LANTERN, BlockInit.INFECTED_LANTERN.get());
             addAfter(event, Items.SOUL_CAMPFIRE, BlockInit.INFECTED_CAMPFIRE.get());
             addAfter(event, Items.GLOWSTONE, BlockInit.DISTORTIC_GLOWSTONE.get());
-
-            addBefore(event, Items.SKELETON_SKULL, PokecubeAdv.STATUE.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.LAVA_BUCKET, ItemInit.DISTORTIC_WATER_BUCKET.get());
             addAfter(event, Items.FLINT_AND_STEEL, ItemInit.ULTRA_KEY.get());
@@ -997,7 +960,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, PokecubeItems.getStack("pokecube_legends:temporal_boat").getItem(), PokecubeItems.getStack("pokecube_legends:temporal_chest_boat").getItem());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.COMBAT)
+        if (event.getTabKey() == CreativeModeTabs.COMBAT && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.NETHERITE_SWORD, ItemInit.COBALION_SWORD.get());
             addAfter(event, ItemInit.COBALION_SWORD.get(), ItemInit.KELDEO_SWORD.get());
@@ -1013,7 +976,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, ItemInit.ULTRA_LEGGINGS.get(), ItemInit.ULTRA_BOOTS.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.DEEPSLATE_IRON_ORE, BlockInit.ASH_IRON_ORE.get());
             addAfter(event, Items.DEEPSLATE_DIAMOND_ORE, BlockInit.RUBY_ORE.get());
@@ -1024,13 +987,21 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
             addAfter(event, Items.END_STONE, BlockInit.METEORITE_BLOCK.get());
             addAfter(event, BlockInit.METEORITE_BLOCK.get(), BlockInit.METEORITE_LAYER.get());
-            addAfter(event, BlockInit.METEORITE_BLOCK.get(), BlockInit.METEORITE_MOLTEN_BLOCK.get());
+            addAfter(event, BlockInit.METEORITE_LAYER.get(), BlockInit.METEORITE_MOLTEN_BLOCK.get());
             addAfter(event, BlockInit.METEORITE_MOLTEN_BLOCK.get(), BlockInit.METEORITE_MOLTEN_LAYER.get());
-            addAfter(event, BlockInit.METEORITE_MOLTEN_BLOCK.get(), BlockInit.ASH_BLOCK.get());
+            addAfter(event, BlockInit.METEORITE_MOLTEN_LAYER.get(), BlockInit.ASH_BLOCK.get());
             addAfter(event, BlockInit.ASH_BLOCK.get(), BlockInit.ASH.get());
+
+            addAfter(event, Items.AMETHYST_CLUSTER, BlockInit.UNREFINED_AQUAMARINE.get());
+            addAfter(event, BlockInit.UNREFINED_AQUAMARINE.get(), BlockInit.BUDDING_AQUAMARINE.get());
+            addAfter(event, BlockInit.BUDDING_AQUAMARINE.get(), BlockInit.SMALL_AQUAMARINE_BUD.get());
+            addAfter(event, BlockInit.SMALL_AQUAMARINE_BUD.get(), BlockInit.MEDIUM_AQUAMARINE_BUD.get());
+            addAfter(event, BlockInit.MEDIUM_AQUAMARINE_BUD.get(), BlockInit.LARGE_AQUAMARINE_BUD.get());
+            addAfter(event, BlockInit.LARGE_AQUAMARINE_BUD.get(), BlockInit.AQUAMARINE_CLUSTER.get());
+            addAfter(event, BlockInit.AQUAMARINE_CLUSTER.get(), BlockInit.AQUAMARINE_CRYSTAL.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.STRIPPED_OAK_WOOD, BlockInit.BOOKSHELF_EMPTY.get());
 
@@ -1105,35 +1076,34 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, BlockInit.SPECTRUM_SLAB.get(), BlockInit.COSMIC_DUST_BLOCK.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            add(event, BlockInit.SPECTRUM_GLASS.get());
-            add(event, PokecubeAdv.LAB_GLASS.get());
-            add(event, BlockInit.MIRAGE_GLASS.get());
-            add(event, BlockInit.FRAMED_DISTORTIC_MIRROR.get());
+            addBefore(event, Items.GLASS, BlockInit.FRAMED_DISTORTIC_MIRROR.get());
+            addAfter(event, Items.PINK_STAINED_GLASS, BlockInit.SPECTRUM_GLASS.get());
+            addAfter(event, BlockInit.FRAMED_DISTORTIC_MIRROR.get(), BlockInit.MIRAGE_GLASS.get());
 
-            add(event, BlockInit.ONE_WAY_FRAMED_MIRROR.get());
-            add(event, BlockInit.ONE_WAY_GLASS.get());
-            add(event, BlockInit.ONE_WAY_GLASS_TINTED.get());
-            add(event, BlockInit.ONE_WAY_GLASS_WHITE.get());
-            add(event, BlockInit.ONE_WAY_GLASS_LIGHT_GRAY.get());
-            add(event, BlockInit.ONE_WAY_GLASS_GRAY.get());
-            add(event, BlockInit.ONE_WAY_GLASS_BLACK.get());
-            add(event, BlockInit.ONE_WAY_GLASS_BROWN.get());
-            add(event, BlockInit.ONE_WAY_GLASS_RED.get());
-            add(event, BlockInit.ONE_WAY_GLASS_ORANGE.get());
-            add(event, BlockInit.ONE_WAY_GLASS_YELLOW.get());
-            add(event, BlockInit.ONE_WAY_GLASS_LIME.get());
-            add(event, BlockInit.ONE_WAY_GLASS_GREEN.get());
-            add(event, BlockInit.ONE_WAY_GLASS_CYAN.get());
-            add(event, BlockInit.ONE_WAY_GLASS_LIGHT_BLUE.get());
-            add(event, BlockInit.ONE_WAY_GLASS_BLUE.get());
-            add(event, BlockInit.ONE_WAY_GLASS_PURPLE.get());
-            add(event, BlockInit.ONE_WAY_GLASS_MAGENTA.get());
-            add(event, BlockInit.ONE_WAY_GLASS_PINK.get());
-            add(event, BlockInit.ONE_WAY_GLASS_SPECTRUM.get());
-            add(event, BlockInit.ONE_WAY_GLASS_LAB.get());
-            add(event, BlockInit.ONE_WAY_GLASS_MIRAGE.get());
+            addAfter(event, Items.PINK_STAINED_GLASS_PANE, BlockInit.ONE_WAY_FRAMED_MIRROR.get());
+            addAfter(event, BlockInit.ONE_WAY_FRAMED_MIRROR.get(), BlockInit.ONE_WAY_GLASS.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS.get(), BlockInit.ONE_WAY_GLASS_TINTED.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_TINTED.get(), BlockInit.ONE_WAY_GLASS_WHITE.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_WHITE.get(), BlockInit.ONE_WAY_GLASS_LIGHT_GRAY.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_LIGHT_GRAY.get(), BlockInit.ONE_WAY_GLASS_GRAY.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_GRAY.get(), BlockInit.ONE_WAY_GLASS_BLACK.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_BLACK.get(), BlockInit.ONE_WAY_GLASS_BROWN.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_BROWN.get(), BlockInit.ONE_WAY_GLASS_RED.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_RED.get(), BlockInit.ONE_WAY_GLASS_ORANGE.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_ORANGE.get(), BlockInit.ONE_WAY_GLASS_YELLOW.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_YELLOW.get(), BlockInit.ONE_WAY_GLASS_LIME.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_LIME.get(), BlockInit.ONE_WAY_GLASS_GREEN.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_GREEN.get(), BlockInit.ONE_WAY_GLASS_CYAN.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_CYAN.get(), BlockInit.ONE_WAY_GLASS_LIGHT_BLUE.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_LIGHT_BLUE.get(), BlockInit.ONE_WAY_GLASS_BLUE.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_BLUE.get(), BlockInit.ONE_WAY_GLASS_PURPLE.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_PURPLE.get(), BlockInit.ONE_WAY_GLASS_MAGENTA.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_MAGENTA.get(), BlockInit.ONE_WAY_GLASS_PINK.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_PINK.get(), BlockInit.ONE_WAY_GLASS_SPECTRUM.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_SPECTRUM.get(), BlockInit.ONE_WAY_GLASS_MIRAGE.get());
+            addAfter(event, BlockInit.ONE_WAY_GLASS_MIRAGE.get(), BlockInit.ONE_WAY_GLASS_LAB.get());
 
             for (int i = 0; i < BlockInit.totemKeys.length; i++)
             {
@@ -1202,6 +1172,33 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, PokecubeAdv.DAYCARE.get(), PokecubeItems.NEST.get());
             addAfter(event, PokecubeItems.NEST.get(), PokecubeItems.SECRET_BASE.get());
             addAfter(event, PokecubeItems.SECRET_BASE.get(), PokecubeItems.REPEL.get());
+        }
+
+        if (event.getTabKey().equals(BERRIES_TAB.getKey()))
+        {
+            addAfter(event, PokecubeItems.getStack("pokecube:berry_rowap").getItem(), ItemInit.NULL_POKEPUFF.get());
+            addAfter(event, ItemInit.NULL_POKEPUFF.get(), ItemInit.CHERI_POKEPUFF.get());
+            addAfter(event, ItemInit.CHERI_POKEPUFF.get(), ItemInit.CHESTO_POKEPUFF.get());
+            addAfter(event, ItemInit.CHESTO_POKEPUFF.get(), ItemInit.PECHA_POKEPUFF.get());
+            addAfter(event, ItemInit.PECHA_POKEPUFF.get(), ItemInit.RAWST_POKEPUFF.get());
+            addAfter(event, ItemInit.RAWST_POKEPUFF.get(), ItemInit.ASPEAR_POKEPUFF.get());
+            addAfter(event, ItemInit.ASPEAR_POKEPUFF.get(), ItemInit.LEPPA_POKEPUFF.get());
+            addAfter(event, ItemInit.LEPPA_POKEPUFF.get(), ItemInit.ORAN_POKEPUFF.get());
+            addAfter(event, ItemInit.ORAN_POKEPUFF.get(), ItemInit.PERSIM_POKEPUFF.get());
+            addAfter(event, ItemInit.PERSIM_POKEPUFF.get(), ItemInit.LUM_POKEPUFF.get());
+            addAfter(event, ItemInit.LUM_POKEPUFF.get(), ItemInit.SITRUS_POKEPUFF.get());
+            addAfter(event, ItemInit.SITRUS_POKEPUFF.get(), ItemInit.NANAB_POKEPUFF.get());
+            addAfter(event, ItemInit.NANAB_POKEPUFF.get(), ItemInit.PINAP_POKEPUFF.get());
+            addAfter(event, ItemInit.PINAP_POKEPUFF.get(), ItemInit.POMEG_POKEPUFF.get());
+            addAfter(event, ItemInit.POMEG_POKEPUFF.get(), ItemInit.KELPSY_POKEPUFF.get());
+            addAfter(event, ItemInit.KELPSY_POKEPUFF.get(), ItemInit.QUALOT_POKEPUFF.get());
+            addAfter(event, ItemInit.QUALOT_POKEPUFF.get(), ItemInit.HONDEW_POKEPUFF.get());
+            addAfter(event, ItemInit.HONDEW_POKEPUFF.get(), ItemInit.GREPA_POKEPUFF.get());
+            addAfter(event, ItemInit.GREPA_POKEPUFF.get(), ItemInit.TAMATO_POKEPUFF.get());
+            addAfter(event, ItemInit.TAMATO_POKEPUFF.get(), ItemInit.CORNN_POKEPUFF.get());
+            addAfter(event, ItemInit.CORNN_POKEPUFF.get(), ItemInit.ENIGMA_POKEPUFF.get());
+            addAfter(event, ItemInit.ENIGMA_POKEPUFF.get(), ItemInit.JABOCA_POKEPUFF.get());
+            addAfter(event, ItemInit.JABOCA_POKEPUFF.get(), ItemInit.ROWAP_POKEPUFF.get());
         }
     }
 }

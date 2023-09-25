@@ -41,13 +41,13 @@ public class CoreCreativeTabs
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addBefore(event, Items.MILK_BUCKET, PokecubeItems.BERRYJUICE.get());
             addAfter(event, Items.PUMPKIN_PIE, PokecubeItems.CANDY.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.BLAST_FURNACE, PokecubeItems.HEALER.get());
             addAfter(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
@@ -57,18 +57,18 @@ public class CoreCreativeTabs
             addAfter(event, PokecubeItems.TM_MACHINE.get(), PokecubeItems.TM.get());
             addAfter(event, PokecubeItems.TM.get(), PokecubeItems.DYNAMAX.get());
             addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE.get());
-            addAfter(event, Items.BEE_NEST, PokecubeItems.NEST.get());
-            addAfter(event, Items.BEEHIVE, PokecubeItems.REPEL.get());
+            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
+            addBefore(event, Items.SUSPICIOUS_SAND, PokecubeItems.REPEL.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.DEEPSLATE_COAL_ORE, PokecubeItems.FOSSIL_ORE.get());
             addAfter(event, PokecubeItems.FOSSIL_ORE.get(), PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
             addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.EMERALD, PokecubeItems.EMERALDSHARD.get());
         }

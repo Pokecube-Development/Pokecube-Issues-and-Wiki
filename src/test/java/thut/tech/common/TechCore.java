@@ -19,6 +19,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
 import thut.core.common.network.PacketHandler;
 import thut.core.init.ThutCreativeTabs;
@@ -99,12 +100,12 @@ public class TechCore
             event.accept(LIFTCONTROLLER);
         }
 
-        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES))
+        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
         {
             add(event, Items.WARPED_FUNGUS_ON_A_STICK, LINKER.get());
         }
 
-        if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS))
+        if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
         {
             add(event, Items.LODESTONE, LIFT.get());
             add(event, LIFT.get(), LIFTCONTROLLER.get());
