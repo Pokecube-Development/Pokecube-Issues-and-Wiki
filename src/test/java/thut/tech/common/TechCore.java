@@ -7,6 +7,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -15,6 +16,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import thut.core.common.config.Config;
 import thut.core.common.network.PacketHandler;
+import thut.core.init.ThutCreativeTabs;
 import thut.tech.Reference;
 import thut.tech.common.blocks.lift.ControllerBlock;
 import thut.tech.common.blocks.lift.ControllerTile;
@@ -77,8 +79,19 @@ public class TechCore
         TechCore.BLOCKS.register(modEventBus);
         TechCore.TILEENTITY.register(modEventBus);
         TechCore.ENTITY.register(modEventBus);
+        modEventBus.addListener(this::addCreative);
 
         // Register Config stuff
         Config.setupConfigs(TechCore.config, Reference.MOD_ID, Reference.MOD_ID);
+    }
+
+    void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
+        {
+            event.accept(LIFT);
+            event.accept(LINKER);
+            event.accept(LIFTCONTROLLER);
+        }
     }
 }

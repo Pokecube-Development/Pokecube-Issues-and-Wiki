@@ -1,8 +1,10 @@
 package pokecube.core.client.gui.blocks;
 
+import org.lwjgl.glfw.GLFW;
+
 import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.Tooltip;
@@ -13,7 +15,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.glfw.GLFW;
 import pokecube.core.PokecubeCore;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pc.PCContainer;
@@ -407,16 +408,15 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         if (!this.bound)
         {
-            final Component auto = this.menu.inv.autoToPC ? TComponent.translatable("block.pc.auto_on")
-                    : TComponent.translatable("block.pc.auto_off");
-
-            // TODO: Causes the / by 0 crash
-            /*this.renderables.add(*/this.autoButton = this.addRenderableWidget(new Button.Builder(auto, (b) -> {
-            this.menu.toggleAuto();
-        }).bounds(x + 159, y + 127, 10, 10)
-                .tooltip(Tooltip.create(this.menu.inv.autoToPC ? TComponent.translatable("block.pc.auto_on.tooltip")
+            final Component auto = this.menu.inv.isAutoToPC() ? autoOn : autoOn;
+            this.autoButton = this.addRenderableWidget(new Button.Builder(auto, (b) -> {
+                this.menu.toggleAuto();
+                var _auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
+                b.setMessage(_auto);
+              }).bounds(x + 159, y + 127, 10, 10)
+                .tooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.tooltip")
                         : TComponent.translatable("block.pc.auto_off.tooltip")))
-                .createNarration(supplier -> this.menu.inv.autoToPC ? TComponent.translatable("block.pc.auto_on.narrate")
+                .createNarration(supplier -> this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.narrate")
                         : TComponent.translatable("block.pc.auto_off.narrate")).build());
             this.autoButton.setAlpha(0);
         }
@@ -450,16 +450,6 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 //            // this.container.pcTile.toggleBound();
 //            this.minecraft.player.closeContainer();
 //        }).bounds(x + 137, y + 125, 1, 1).build());
-    }
-
-    // TODO: Fix check, had to be disabled
-    // Causes search button to disable when the
-    // release button was clicked for some reason
-    private void checkReleaseButton()
-    {
-        AbstractWidget button = (AbstractWidget) this.renderables.get(6);
-        button.visible = this.release;
-        button.active = this.release;
     }
 
     /**

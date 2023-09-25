@@ -16,24 +16,22 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.init.CoreCreativeTabs;
 
 @Mod.EventBusSubscriber(modid = PokecubeAdv.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class AdvCreativeTabs {
-    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, PokecubeAdv.MODID);
-    public static final RegistryObject<CreativeModeTab> BADGES_TAB = TABS.register("badges_tab", () -> CreativeModeTab.builder()
-            .title(Component.translatable("itemGroup.pokecube_adventures.badges"))
-            .icon(() -> new ItemStack(PokecubeItems.getStack("pokecube_adventures:badge_rock").getItem()))
-            .withTabsBefore(CoreCreativeTabs.BERRIES_TAB.getId())
-            .displayItems((parameters, output) -> {
-
-                for (final PokeType type : PokecubeAdv.BADGES.keySet())
-                {
-                    output.accept(PokecubeAdv.BADGES.get(type));
-                }
-            }).build());
+public class AdvCreativeTabs extends CoreCreativeTabs
+{
+    public static final DeferredRegister<CreativeModeTab> TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB,
+            PokecubeAdv.MODID);
+    public static final RegistryObject<CreativeModeTab> BADGES_TAB = TABS.register("badges_tab",
+            () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.pokecube_adventures.badges"))
+                    .icon(() -> new ItemStack(PokecubeItems.getStack("pokecube_adventures:badge_rock").getItem()))
+                    .withTabsBefore(CoreCreativeTabs.BERRIES_TAB.getId()).build());
 
     @SubscribeEvent
-    public static void addCreative(BuildCreativeModeTabContentsEvent event) {
-        if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS) {
-            if (event.hasPermissions()) {
+    public static void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS)
+        {
+            if (event.hasPermissions())
+            {
                 event.accept(PokecubeAdv.AFA.get());
                 event.accept(PokecubeAdv.COMMANDER.get());
                 event.accept(PokecubeAdv.DAYCARE.get());
@@ -42,8 +40,21 @@ public class AdvCreativeTabs {
             }
         }
 
-        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES) {
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES)
+        {
             event.accept(PokecubeAdv.LINKER.get());
+        }
+        if (event.getTabKey().equals(CoreCreativeTabs.BLOCKS_ITEMS_TAB.getKey()))
+        {
+            add(event, PokecubeItems.getStack("pokecube_adventures:linker"));
+        }
+
+        if (event.getTabKey().equals(AdvCreativeTabs.BADGES_TAB.getKey()))
+        {
+            for (final PokeType type : PokecubeAdv.BADGES.keySet())
+            {
+                add(event, PokecubeAdv.BADGES.get(type));
+            }
         }
     }
 }

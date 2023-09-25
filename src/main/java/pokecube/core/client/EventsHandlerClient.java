@@ -42,6 +42,8 @@ import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.event.InputEvent;
 import net.minecraftforge.client.event.InputEvent.Key;
+import net.minecraftforge.client.event.RenderBlockScreenEffectEvent;
+import net.minecraftforge.client.event.RenderBlockScreenEffectEvent.OverlayType;
 import net.minecraftforge.client.event.RenderGuiOverlayEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent;
 import net.minecraftforge.client.event.RenderLevelStageEvent.Stage;
@@ -78,6 +80,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.ClientSetupHandler;
+import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.network.pokemobs.PacketBattleTargets;
@@ -129,6 +132,8 @@ public class EventsHandlerClient
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::renderBounds);
         // Used to dismount shoulder mobs
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onLeftClickEmpty);
+        // Used to adjust overlay effects whild riding pokemobs
+        MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::onRenderFluidOverlay);
 
         // Initialise this gui
         GuiDisplayPokecubeInfo.instance();
@@ -259,6 +264,10 @@ public class EventsHandlerClient
 
     private static void renderBounds(final RenderLevelStageEvent event)
     {
+        boolean alt = Screen.hasAltDown();
+        boolean ctrl = Screen.hasControlDown();
+        Pokecube.renderingOverlay = alt || ctrl;
+        
         if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
         final Player player = Minecraft.getInstance().player;
 
@@ -369,6 +378,18 @@ public class EventsHandlerClient
         }
     }
 
+    private static void onRenderFluidOverlay(RenderBlockScreenEffectEvent event)
+    {
+        if (event.getPlayer().getVehicle() instanceof LivingEntity mob && event.getOverlayType() == OverlayType.WATER)
+        {
+            IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+            if (pokemob != null && pokemob.getController().canDive)
+            {
+                event.setCanceled(true);
+            }
+        }
+    }
+
     private static void onRenderGUIScreenPre(final Render.Post event)
     {
         try
@@ -394,7 +415,7 @@ public class EventsHandlerClient
 //                    {
 //                        final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
 //                        Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-//                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+//                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y);
 //                        Minecraft.getInstance().getItemRenderer().blitOffset = z;
 //                    }
                     /*else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
@@ -434,7 +455,7 @@ public class EventsHandlerClient
                     {
                         final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
                         Minecraft.getInstance().getItemRenderer().blitOffset += 100;
-                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y);
                         Minecraft.getInstance().getItemRenderer().blitOffset = z;
                     }
                     else*/ EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);

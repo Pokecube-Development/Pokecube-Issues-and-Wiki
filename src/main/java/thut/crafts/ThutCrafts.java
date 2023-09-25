@@ -22,6 +22,8 @@ import thut.core.common.config.Config;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.network.PacketHandler;
+import thut.core.init.CommonInit;
+import thut.crafts.entity.CraftStickApplier;
 import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
@@ -95,5 +97,7 @@ public class ThutCrafts
 
         // SEtup proxy
         MinecraftForge.EVENT_BUS.register(ThutCrafts.class);
+
+        CommonInit.HANDLERS.add(new CraftStickApplier());
     }
 }

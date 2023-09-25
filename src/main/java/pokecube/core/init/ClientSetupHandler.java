@@ -15,6 +15,8 @@ import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.BlockItem;
@@ -29,7 +31,6 @@ import net.minecraftforge.client.event.EntityRenderersEvent.RegisterRenderers;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
 import net.minecraftforge.client.event.RegisterGuiOverlaysEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.TextureStitchEvent;
 import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -65,9 +66,10 @@ import pokecube.core.inventory.trade.TradeContainer;
 import pokecube.core.items.ItemTM;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.megastuff.ItemMegawearable;
+import pokecube.core.items.pokecubes.Pokecube;
+import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.utils.Resources;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.nbtedit.forge.ClientProxy;
 import thut.lib.RegHelper;
@@ -157,6 +159,21 @@ public class ClientSetupHandler
     public static void loaded(final FMLLoadCompleteEvent event)
     {
         RenderPokemob.register();
+        event.enqueueWork(() -> {
+            for (Item[] arr : PokecubeItems.pokecubes.values())
+            {
+                for (Item i : arr)
+                {
+                    ItemProperties.register(i, new ResourceLocation(PokecubeCore.MODID, "rendering_overlay"),
+                            (stack, level, living, id) ->
+                            {
+                                if (!PokecubeManager.isFilled(stack)) return 0.0f;
+                                boolean renderingOverlay = Pokecube.renderingOverlay;
+                                return renderingOverlay ? 1.0F : 0.0F;
+                            });
+                }
+            }
+        });
     }
 
     @SubscribeEvent
@@ -311,19 +328,5 @@ public class ClientSetupHandler
             if (move != null) return move.getType(null).colour;
             return 0xFFFFFFFF;
         }, PokecubeItems.TM.get());
-    }
-
-    @SubscribeEvent
-    public static void textureStitch(final TextureStitchEvent event)
-    {
-        if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
-        if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Slot Textures");
-        event.getAtlas().getSprite(Resources.SLOT_ICON_CUBE);
-        // TODO: Fix this
-        // event.addSprite(Resources.SLOT_ICON_TM);
-        // event.addSprite(Resources.SLOT_ICON_BOOK);
-        // event.addSprite(Resources.SLOT_ICON_BOTTLE);
-        // event.addSprite(Resources.SLOT_ICON_DNA);
-        // event.addSprite(Resources.SLOT_ICON_EGG);
     }
 }

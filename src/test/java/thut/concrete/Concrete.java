@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -56,6 +57,7 @@ import thut.concrete.item.PaintBrush;
 import thut.concrete.item.RebarBlockItem;
 import thut.concrete.item.SmootherItem;
 import thut.concrete.recipe.PaintBrushRecipe;
+import thut.core.init.ThutCreativeTabs;
 import thut.lib.RegHelper;
 
 @Mod(value = Concrete.MODID)
@@ -355,6 +357,25 @@ public class Concrete
         FLUID_TYPES.register(modEventBus);
         TILES.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
+        modEventBus.addListener(this::addCreative);
+    }
+
+    void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
+        {
+            event.accept(BUCKET);
+            event.accept(DUST_ITEM);
+            event.accept(CEMENT_ITEM);
+            event.accept(CAO_ITEM);
+            event.accept(CACO3_ITEM);
+            
+            event.accept(REBAR_BLOCK);
+            event.accept(FORMWORK_BLOCK);
+            event.accept(WET_BLOCK_ITEM);
+            
+            event.accept(VOLCANO);
+        }
     }
 
     public void loadComplete(FMLLoadCompleteEvent event)
