@@ -17,6 +17,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.IDyedBlock;
@@ -68,6 +71,20 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(NORTH, EAST, WEST, SOUTH, UP, DOWN, IFlowingBlock.WATERLOGGED, LAYERS, RUSTY);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    {
+        int amt = getAmount(state);
+        if (amt < 16) return Shapes.or(this.shapeByIndex[this.getAABBIndex(state)], IFlowingBlock.SHAPES[amt - 1]);
+        else return Shapes.block();
+    }
+
+    @Override
+    public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    {
+        return this.getShape(state, level, pos, context);
     }
 
     @Override
