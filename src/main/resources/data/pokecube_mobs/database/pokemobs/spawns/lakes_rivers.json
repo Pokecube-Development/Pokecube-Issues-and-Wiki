@@ -64,7 +64,7 @@
       ]
     },
     {
-      "and_preset": "river_ground, dry_areas",
+      "and_preset": "river_ground, hot_areas",
       "entries": [
         {"key": "smoliv","min": 1,"max": 4,"rate": 0.3}
       ]
@@ -89,7 +89,7 @@
       ]
     },
     {
-      "and_preset": "lake_ground, dry_areas",
+      "and_preset": "lake_ground, hot_areas",
       "entries": [
         {"key": "smoliv","min": 1,"max": 4,"rate": 0.4}
       ]
