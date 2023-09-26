@@ -210,7 +210,7 @@ public interface IFlowingBlock
                 BlockState newBelow;
                 if (total <= 16)
                 {
-                    newBelow = getMergeResult(setAmount(state, total), b, belowPos, level);
+                    newBelow = getFlowResult(setAmount(state, total), b, belowPos, level);
                     if (newBelow != b)
                     {
                         state = setAmount(state, 0);
@@ -231,7 +231,7 @@ public interface IFlowingBlock
                 {
                     BlockState b2 = getAlternate().defaultBlockState();
                     b2 = copyValidTo(state, b2);
-                    newBelow = getMergeResult(b2, b, belowPos, level);
+                    newBelow = getFlowResult(b2, b, belowPos, level);
 
                     if (newBelow != b)
                     {
@@ -316,7 +316,7 @@ public interface IFlowingBlock
                     BlockPos pos2 = v.getPos();
 
                     BlockState nextState = setAmount(state, next);
-                    BlockState newState = getMergeResult(nextState, b, pos2, level);
+                    BlockState newState = getFlowResult(nextState, b, pos2, level);
                     if (newState != b)
                     {
 
@@ -366,20 +366,31 @@ public interface IFlowingBlock
         if (state.canBeReplaced(Fluids.FLOWING_WATER)) return true;
         return ItemList.is(DUSTREPLACEABLE, state);
     }
-
-    default BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    
+    /**
+     * 
+     * @param flowState - This is the fractional state which would be placed if
+     *                  destState is air
+     * @param destState - This is the state we are flowing into
+     * @param posTo     - Location of the state we are flowing int
+     * @param level     - level involved in the slow
+     * @return flowState modified based on destState, or destState if no flow
+     *         should occur
+     */
+    default BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        FluidState into = mergeInto.getFluidState();
-        if ((into.is(Fluids.WATER) || (mergeInto.hasProperty(WATERLOGGED) && mergeInto.getValue(WATERLOGGED)))
-                && mergeFrom.hasProperty(WATERLOGGED))
+        FluidState into = destState.getFluidState();
+        // first lets ensure waterlogging is kept if we are flowing into water.
+        if ((into.is(Fluids.WATER) || (destState.hasProperty(WATERLOGGED) && destState.getValue(WATERLOGGED)))
+                && flowState.hasProperty(WATERLOGGED))
         {
-            mergeFrom = mergeFrom.setValue(WATERLOGGED, true);
+            flowState = flowState.setValue(WATERLOGGED, true);
         }
-        if (canMergeInto(mergeFrom, mergeInto, posTo, level)) return mergeFrom;
-        return mergeInto;
+        if (canFlowInto(flowState, destState, posTo, level)) return flowState;
+        return destState;
     }
 
-    default boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
+    default boolean canFlowInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
     {
         return canReplace(other, posTo, level) || other.getBlock() == here.getBlock();
     }

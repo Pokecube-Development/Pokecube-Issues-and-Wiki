@@ -29,6 +29,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.flowing.FlowingBlock;
+import thut.api.block.flowing.IFlowingBlock;
 import thut.api.block.flowing.MoltenBlock;
 import thut.api.item.ItemList;
 import thut.concrete.Concrete;
@@ -143,15 +144,16 @@ public abstract class WetConcreteBlock extends MoltenBlock
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (mergeInto.getBlock() instanceof RebarBlock)
+        if (destState.getBlock() instanceof RebarBlock)
         {
-            BlockState ret = Concrete.REBAR_BLOCK.get().defaultBlockState().setValue(RebarBlock.LEVEL,
-                    this.getExistingAmount(mergeFrom, posTo, level));
-            return ret;
+            var newFlowState = Concrete.REBAR_BLOCK.get().defaultBlockState();
+            newFlowState = IFlowingBlock.copyValidTo(destState, newFlowState);
+            newFlowState = newFlowState.setValue(RebarBlock.LEVEL, this.getExistingAmount(flowState, posTo, level));
+            return newFlowState;
         }
-        return super.getMergeResult(mergeFrom, mergeInto, posTo, level);
+        return super.getFlowResult(flowState, destState, posTo, level);
     }
 
     @Override
