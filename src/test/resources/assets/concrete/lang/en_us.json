@@ -15,10 +15,10 @@
   "block.concrete.concrete_layer_red": "Red Concrete Layer",
   "block.concrete.concrete_layer_white": "White Concrete Layer",
   "block.concrete.concrete_layer_yellow": "Yellow Concrete Layer",
-  "block.concrete.dust_block": "Dust block",
-  "block.concrete.dust_layer": "Dust layer",
-  "block.concrete.molten_block": "Lava block",
-  "block.concrete.molten_layer": "Lava layer",
+  "block.concrete.dust_block": "Dust Block",
+  "block.concrete.dust_layer": "Dust Layer",
+  "block.concrete.molten_block": "Lava Block",
+  "block.concrete.molten_layer": "Lava Layer",
   "block.concrete.rebar": "Rebar",
   "block.concrete.formwork": "Formwork",
   "block.concrete.reinforced_concrete_block_black": "Reinforced Black Concrete Block",
@@ -81,6 +81,6 @@
   "item.concrete.paint_brush_red": "Red Paint Brush",
   "item.concrete.paint_brush_white": "White Paint Brush",
   "item.concrete.paint_brush_yellow": "Yellow Paint Brush",
-  "item.concrete.smoother": "Rock smoother",
+  "item.concrete.smoother": "Rock Smoother",
   "fluid_type.concrete.liquid_concrete": "Liquid Concrete"
 }

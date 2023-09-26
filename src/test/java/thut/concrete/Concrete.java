@@ -375,6 +375,7 @@ public class Concrete
         if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
         {
             event.accept(BUCKET);
+            event.accept(SMOOTHER);
 
             event.accept(getItem(Concrete.MODID, "paint_brush"));
             event.accept(getItem(Concrete.MODID, "paint_brush_white"));
@@ -410,6 +411,44 @@ public class Concrete
             event.accept(WET_BLOCK_ITEM);
             
             event.accept(VOLCANO);
+            event.accept(getItem(Concrete.MODID, "molten_block"));
+            event.accept(getItem(Concrete.MODID, "solid_block"));
+            event.accept(getItem(Concrete.MODID, "dust_block"));
+
+            // Items listed in order of rainbow like vanilla. This is why the for statement for DyeColor isn't used
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_white"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_gray"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_black"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_brown"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_red"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_orange"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_yellow"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_lime"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_green"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_cyan"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_light_blue"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_blue"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_purple"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_magenta"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_pink"));
+
+            event.accept(getItem(Concrete.MODID, "concrete_layer_white"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_light_gray"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_gray"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_black"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_brown"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_red"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_orange"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_yellow"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_lime"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_green"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_cyan"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_light_blue"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_blue"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_purple"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_magenta"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_pink"));
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.BUILDING_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
@@ -418,6 +457,16 @@ public class Concrete
             addAfter(event, BUCKET.get(), REBAR_BLOCK.get());
             addAfter(event, REBAR_BLOCK.get(), FORMWORK_BLOCK.get());
             addAfter(event, FORMWORK_BLOCK.get(), WET_BLOCK_ITEM.get());
+            addAfter(event, Items.SMOOTH_BASALT, getItem(Concrete.MODID, "molten_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "molten_block").getItem(), getItem(Concrete.MODID, "solid_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "solid_block").getItem(), getItem(Concrete.MODID, "dust_block").getItem());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.NATURAL_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            addAfter(event, Items.SMOOTH_BASALT, getItem(Concrete.MODID, "molten_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "molten_block").getItem(), getItem(Concrete.MODID, "solid_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "solid_block").getItem(), getItem(Concrete.MODID, "dust_block").getItem());
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
@@ -441,12 +490,51 @@ public class Concrete
             addAfter(event, getItem(Concrete.MODID, "paint_brush_blue").getItem(), getItem(Concrete.MODID, "paint_brush_purple").getItem());
             addAfter(event, getItem(Concrete.MODID, "paint_brush_purple").getItem(), getItem(Concrete.MODID, "paint_brush_magenta").getItem());
             addAfter(event, getItem(Concrete.MODID, "paint_brush_magenta").getItem(), getItem(Concrete.MODID, "paint_brush_pink").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_pink").getItem(), SMOOTHER.get());
 
             for (DyeColor colour : DyeColor.values())
             {
                 int i = colour.ordinal();
                 addAfter(event, Items.BRUSH, BRUSHES[i].get());
             }
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.COLORED_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            // Items listed in order of rainbow like vanilla. This is why the for statement for DyeColor isn't used
+            addAfter(event, Items.PINK_CONCRETE_POWDER, getItem(Concrete.MODID, "reinforced_concrete_layer_white").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_white").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_black").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_black").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_brown").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_brown").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_red").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_red").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_orange").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_orange").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_yellow").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_yellow").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_lime").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_lime").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_green").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_green").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_cyan").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_cyan").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_light_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_light_blue").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_blue").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_purple").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_purple").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_magenta").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_magenta").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_pink").getItem());
+
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_pink").getItem(), getItem(Concrete.MODID, "concrete_layer_white").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_white").getItem(), getItem(Concrete.MODID, "concrete_layer_light_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_light_gray").getItem(), getItem(Concrete.MODID, "concrete_layer_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_gray").getItem(), getItem(Concrete.MODID, "concrete_layer_black").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_black").getItem(), getItem(Concrete.MODID, "concrete_layer_brown").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_brown").getItem(), getItem(Concrete.MODID, "concrete_layer_red").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_red").getItem(), getItem(Concrete.MODID, "concrete_layer_orange").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_orange").getItem(), getItem(Concrete.MODID, "concrete_layer_yellow").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_yellow").getItem(), getItem(Concrete.MODID, "concrete_layer_lime").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_lime").getItem(), getItem(Concrete.MODID, "concrete_layer_green").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_green").getItem(), getItem(Concrete.MODID, "concrete_layer_cyan").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_cyan").getItem(), getItem(Concrete.MODID, "concrete_layer_light_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_light_blue").getItem(), getItem(Concrete.MODID, "concrete_layer_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_blue").getItem(), getItem(Concrete.MODID, "concrete_layer_purple").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_purple").getItem(), getItem(Concrete.MODID, "concrete_layer_magenta").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_magenta").getItem(), getItem(Concrete.MODID, "concrete_layer_pink").getItem());
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.OP_BLOCKS))
