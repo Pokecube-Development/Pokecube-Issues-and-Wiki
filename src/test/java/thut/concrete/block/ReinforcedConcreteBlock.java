@@ -6,12 +6,15 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -153,6 +156,36 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     public DyeColor getColour()
     {
         return colour;
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState state = context.getLevel().getBlockState(context.getClickedPos());
+        if (state.is(this)) {
+            if (context.getPlayer() != null && context.getPlayer().isCreative())
+            {
+                int i = state.getValue(LAYERS);
+                return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
+            }
+        } else {
+            return super.getStateForPlacement(context);
+        }
+        return super.getStateForPlacement(context);
+    }
+
+    @Override
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        int i = state.getValue(LAYERS);
+        if (context.getItemInHand().is(this.asItem()) && i < 16 && context.getPlayer() != null && context.getPlayer().isCreative()) {
+            if (context.replacingClickedOnBlock()) {
+                return context.getClickedFace() == Direction.UP;
+            } else {
+                return true;
+            }
+        } else {
+            return i == 1;
+        }
     }
 
     public static class FullDry extends Block implements IDyedBlock
