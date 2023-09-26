@@ -1024,31 +1024,11 @@ public class PokedexEntryLoader
 
                 try
                 {
-                    PokedexEntryLoader.postIniStats(entry, stats);
-                    if (xmlEntry.formeItems != null) entry._forme_items = xmlEntry.formeItems;
-
-                    // Now handle dyable stuff
-                    if (xmlEntry.dye != null) xmlEntry.dye.accept(entry);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error with stats for " + entry, e);
-                }
-                try
-                {
                     PokedexEntryLoader.parseSpawns(entry, stats);
                 }
                 catch (final Exception e)
                 {
                     PokecubeAPI.LOGGER.error("Error with spawns for " + entry, e);
-                }
-                try
-                {
-                    PokedexEntryLoader.parseEvols(entry, stats.evolutions, true);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error with evols for " + entry, e);
                 }
             }
         }
