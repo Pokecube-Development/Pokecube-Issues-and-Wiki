@@ -115,9 +115,9 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        return mergeInto;
+        return destState;
     }
 
     @Override

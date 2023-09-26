@@ -187,19 +187,19 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (!(mergeInto.getBlock() instanceof IFlowingBlock))
+        if (!(destState.getBlock() instanceof IFlowingBlock))
         {
-            mergeInto = Concrete.WET_LAYER.get().defaultBlockState();
-            mergeInto = IFlowingBlock.copyValidTo(mergeFrom, mergeInto);
-            mergeInto = this.setAmount(mergeInto, this.getExistingAmount(mergeFrom, posTo, level));
+            destState = Concrete.WET_LAYER.get().defaultBlockState();
+            destState = IFlowingBlock.copyValidTo(flowState, destState);
+            destState = this.setAmount(destState, this.getExistingAmount(flowState, posTo, level));
         }
-        BlockState ret = IFlowingBlock.super.getMergeResult(mergeFrom, mergeInto, posTo, level);
-        if (ret.getBlock() instanceof RebarBlock)
+        BlockState ret = IFlowingBlock.super.getFlowResult(flowState, destState, posTo, level);
+        if (ret.getBlock() instanceof RebarBlock rebar)
         {
-            ret = IFlowingBlock.copyValidTo(mergeFrom, ret);
-            ret = this.setAmount(ret, this.getExistingAmount(ret, posTo, level));
+            ret = IFlowingBlock.copyValidTo(flowState, ret);
+            ret = rebar.setAmount(ret, this.getExistingAmount(flowState, posTo, level));
         }
         return ret;
     }
