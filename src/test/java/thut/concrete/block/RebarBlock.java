@@ -55,7 +55,8 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     protected void initStateDefinition()
     {
         registerDefaultState(getStateDefinition().any().setValue(IFlowingBlock.WATERLOGGED, false).setValue(LEVEL, 0)
-                .setValue(RUSTY, false));
+                .setValue(RUSTY, false).setValue(UP, false).setValue(DOWN, false).setValue(NORTH, false)
+                .setValue(SOUTH, false).setValue(EAST, false).setValue(WEST, false));
     }
 
     @Override
