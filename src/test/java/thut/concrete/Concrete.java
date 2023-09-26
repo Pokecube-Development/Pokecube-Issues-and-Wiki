@@ -365,11 +365,41 @@ public class Concrete
         modEventBus.addListener(this::addCreative);
     }
 
+    public ItemStack getItem(String modID, String name)
+    {
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(modID, name)).getDefaultInstance();
+    }
+
     void addCreative(BuildCreativeModeTabContentsEvent event)
     {
         if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
         {
             event.accept(BUCKET);
+
+            event.accept(getItem(Concrete.MODID, "paint_brush"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_white"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_light_gray"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_gray"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_black"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_brown"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_red"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_orange"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_yellow"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_lime"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_green"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_cyan"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_light_blue"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_blue"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_purple"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_magenta"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_pink"));
+
+            for (DyeColor colour : DyeColor.values())
+            {
+                int i = colour.ordinal();
+                event.accept(BRUSHES[i]);
+            }
+
             event.accept(DUST_ITEM);
             event.accept(CEMENT_ITEM);
             event.accept(CAO_ITEM);
@@ -393,13 +423,37 @@ public class Concrete
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
         {
             addAfter(event, Items.LAVA_BUCKET, BUCKET.get());
+
+            addAfter(event, Items.BRUSH, getItem(Concrete.MODID, "paint_brush").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush").getItem(), getItem(Concrete.MODID, "paint_brush_white").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_white").getItem(), getItem(Concrete.MODID, "paint_brush_light_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_light_gray").getItem(), getItem(Concrete.MODID, "paint_brush_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_gray").getItem(), getItem(Concrete.MODID, "paint_brush_black").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_black").getItem(), getItem(Concrete.MODID, "paint_brush_brown").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_brown").getItem(), getItem(Concrete.MODID, "paint_brush_red").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_red").getItem(), getItem(Concrete.MODID, "paint_brush_orange").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_orange").getItem(), getItem(Concrete.MODID, "paint_brush_yellow").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_yellow").getItem(), getItem(Concrete.MODID, "paint_brush_lime").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_lime").getItem(), getItem(Concrete.MODID, "paint_brush_green").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_green").getItem(), getItem(Concrete.MODID, "paint_brush_cyan").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_cyan").getItem(), getItem(Concrete.MODID, "paint_brush_light_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_light_blue").getItem(), getItem(Concrete.MODID, "paint_brush_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_blue").getItem(), getItem(Concrete.MODID, "paint_brush_purple").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_purple").getItem(), getItem(Concrete.MODID, "paint_brush_magenta").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_magenta").getItem(), getItem(Concrete.MODID, "paint_brush_pink").getItem());
+
+            for (DyeColor colour : DyeColor.values())
+            {
+                int i = colour.ordinal();
+                addAfter(event, Items.BRUSH, BRUSHES[i].get());
+            }
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.OP_BLOCKS))
         {
             if (event.hasPermissions())
             {
-                addAfter(event, Items.BARRIER, VOLCANO.get());
+                addAfter(event, Items.DEBUG_STICK, VOLCANO.get());
             }
         }
     }
