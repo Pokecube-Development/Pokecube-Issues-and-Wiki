@@ -6,17 +6,23 @@ import java.util.function.Supplier;
 
 import com.google.common.collect.Maps;
 
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.IDyedBlock;
@@ -68,6 +74,20 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(NORTH, EAST, WEST, SOUTH, UP, DOWN, IFlowingBlock.WATERLOGGED, LAYERS, RUSTY);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    {
+        int amt = getAmount(state);
+        if (amt < 16) return Shapes.or(this.shapeByIndex[this.getAABBIndex(state)], IFlowingBlock.SHAPES[amt - 1]);
+        else return Shapes.block();
+    }
+
+    @Override
+    public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    {
+        return this.getShape(state, level, pos, context);
     }
 
     @Override
@@ -136,6 +156,36 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     public DyeColor getColour()
     {
         return colour;
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState state = context.getLevel().getBlockState(context.getClickedPos());
+        if (state.is(this)) {
+            if (context.getPlayer() != null && context.getPlayer().isCreative())
+            {
+                int i = state.getValue(LAYERS);
+                return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
+            }
+        } else {
+            return super.getStateForPlacement(context);
+        }
+        return super.getStateForPlacement(context);
+    }
+
+    @Override
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        int i = state.getValue(LAYERS);
+        if (context.getItemInHand().is(this.asItem()) && i < 16 && context.getPlayer() != null && context.getPlayer().isCreative()) {
+            if (context.replacingClickedOnBlock()) {
+                return context.getClickedFace() == Direction.UP;
+            } else {
+                return true;
+            }
+        } else {
+            return i == 1;
+        }
     }
 
     public static class FullDry extends Block implements IDyedBlock

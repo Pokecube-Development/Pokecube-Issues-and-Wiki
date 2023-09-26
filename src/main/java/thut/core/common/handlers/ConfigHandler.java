@@ -68,6 +68,11 @@ public class ConfigHandler extends ConfigData
     public boolean autoBlacklistErroredTEs = true;
     @Configure(category = ConfigHandler.MISC)
     public boolean supress_warns = false;
+    @Configure(category = ConfigHandler.MISC, comment = "Add items to vanilla tabs. [Default: true]")
+    public boolean itemsInCreativeTabs = true;
+
+    @Configure(category = ConfigHandler.CLIENT, comment = "Fancy style GUIs. Set to false for vanilla style GUIs. [Default: true]")
+    public boolean fancyGUI = true;
 
     @Configure(category = ConfigHandler.CLIENT)
     public boolean asyncModelLoads = true;

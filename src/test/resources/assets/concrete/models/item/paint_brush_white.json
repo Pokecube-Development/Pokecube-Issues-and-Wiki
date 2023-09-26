@@ -1,5 +1,5 @@
 {
-    "parent": "item/generated",
+	"parent": "concrete:item/paint_brush_brushing",
 	"textures": {
 		"layer0": "concrete:item/paint_brush_white"
 	}

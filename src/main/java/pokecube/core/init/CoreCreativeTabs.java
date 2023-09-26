@@ -5,6 +5,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -16,6 +17,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
+import thut.bling.BlingItem;
 import thut.wearables.ThutWearables;
 
 @Mod.EventBusSubscriber(modid = PokecubeCore.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
@@ -33,7 +35,6 @@ public class CoreCreativeTabs
             () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.pokecube.cubes"))
                     .icon(() -> new ItemStack(PokecubeItems.POKECUBE_CUBES.getItem()))
                     .withTabsBefore(BLOCKS_ITEMS_TAB.getId()).build());
-
     public static final RegistryObject<CreativeModeTab> BERRIES_TAB = TABS.register("berries_tab",
             () -> CreativeModeTab.builder().title(Component.translatable("itemGroup.pokecube.berries"))
                     .icon(() -> new ItemStack(BerryManager.getBerryItem("cheri"))).withTabsBefore(POKECUBES_TAB.getId())
@@ -42,41 +43,41 @@ public class CoreCreativeTabs
     @SubscribeEvent
     public static void addCreative(BuildCreativeModeTabContentsEvent event)
     {
-        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS)
+        if (event.getTabKey() == CreativeModeTabs.FOOD_AND_DRINKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            add(event, PokecubeItems.BERRYJUICE.get());
-            add(event, PokecubeItems.CANDY.get());
+            addBefore(event, Items.MILK_BUCKET, PokecubeItems.BERRYJUICE.get());
+            addAfter(event, Items.PUMPKIN_PIE, PokecubeItems.CANDY.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            add(event, PokecubeItems.SECRET_BASE.get());
-            add(event, PokecubeItems.NEST.get());
-            add(event, PokecubeItems.REPEL.get());
-            add(event, PokecubeItems.HEALER.get());
-            add(event, PokecubeItems.PC_TOP.get());
-            add(event, PokecubeItems.PC_BASE.get());
-            add(event, PokecubeItems.TRADER.get());
-            add(event, PokecubeItems.TM_MACHINE.get());
-            add(event, PokecubeItems.TM.get());
-            add(event, PokecubeItems.DYNAMAX.get());
+            addAfter(event, Items.BLAST_FURNACE, PokecubeItems.HEALER.get());
+            addAfter(event, PokecubeItems.HEALER.get(), PokecubeItems.PC_TOP.get());
+            addAfter(event, PokecubeItems.PC_TOP.get(), PokecubeItems.PC_BASE.get());
+            addAfter(event, PokecubeItems.PC_BASE.get(), PokecubeItems.TRADER.get());
+            addAfter(event, PokecubeItems.TRADER.get(), PokecubeItems.TM_MACHINE.get());
+            addAfter(event, PokecubeItems.TM_MACHINE.get(), PokecubeItems.TM.get());
+            addAfter(event, PokecubeItems.TM.get(), PokecubeItems.DYNAMAX.get());
+            addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE.get());
+            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
+            addBefore(event, Items.SUSPICIOUS_SAND, PokecubeItems.REPEL.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS)
+        if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            add(event, PokecubeItems.NEST.get());
-            add(event, PokecubeItems.FOSSIL_ORE.get());
-            add(event, PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
+            addAfter(event, Items.DEEPSLATE_COAL_ORE, PokecubeItems.FOSSIL_ORE.get());
+            addAfter(event, PokecubeItems.FOSSIL_ORE.get(), PokecubeItems.DEEPSLATE_FOSSIL_ORE.get());
+            addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
         }
 
-        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS)
+        if (event.getTabKey() == CreativeModeTabs.INGREDIENTS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            add(event, PokecubeItems.EMERALDSHARD.get());
+            addAfter(event, Items.EMERALD, PokecubeItems.EMERALDSHARD.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS)
         {
-            add(event, PokecubeItems.EGG.get());
+            add(event, PokecubeItems.SPAWN_EGG.get());
         }
 
         if (event.getTabKey().equals(BLOCKS_ITEMS_TAB.getKey()))
@@ -102,8 +103,8 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.CANDY.get());
             add(event, PokecubeItems.REVIVE.get());
             add(event, PokecubeItems.LUCKYEGG.get());
-            add(event, PokecubeItems.EGG.get());
             add(event, PokecubeItems.EMERALDSHARD.get());
+            add(event, PokecubeItems.SPAWN_EGG.get());
 
             for (String type : ItemVitamin.vitamins) add(event, PokecubeItems.getStack("vitamin_" + type));
             for (String type : ItemGenerator.fossilVariants) add(event, ItemGenerator.fossils.get(type).get());
@@ -184,6 +185,16 @@ public class CoreCreativeTabs
 
         if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
         {
+            addBefore(event, BlingItem.getStack("bling_bag").getItem(), BlingItem.getStack("pokecube:pokewatch").getItem());
+            addBefore(event, BlingItem.getStack("bling_hat").getItem(), BlingItem.getStack("pokecube:mega_hat").getItem());
+            addBefore(event, BlingItem.getStack("pokecube:mega_hat").getItem(), BlingItem.getStack("pokecube:mega_tiara").getItem());
+            addBefore(event, BlingItem.getStack("bling_eye").getItem(), BlingItem.getStack("pokecube:mega_glasses").getItem());
+            addBefore(event, BlingItem.getStack("bling_neck").getItem(), BlingItem.getStack("pokecube:mega_pendant").getItem());
+            addBefore(event, BlingItem.getStack("bling_ear").getItem(), BlingItem.getStack("pokecube:mega_earring").getItem());
+            addBefore(event, BlingItem.getStack("bling_waist").getItem(), BlingItem.getStack("pokecube:mega_belt").getItem());
+            addBefore(event, BlingItem.getStack("bling_ring").getItem(), BlingItem.getStack("pokecube:mega_ring").getItem());
+            addBefore(event, BlingItem.getStack("bling_ankle").getItem(), BlingItem.getStack("pokecube:mega_ankletzinnia").getItem());
+
             for (final String type : ItemGenerator.megaWearables.keySet())
                 add(event, ItemGenerator.megaWearables.get(type).get());
         }
@@ -204,5 +215,13 @@ public class CoreCreativeTabs
             return;
         }
         event.accept(stack);
+    }
+
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
+        event.getEntries().putAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+
+    public static void addBefore(BuildCreativeModeTabContentsEvent event, ItemLike beforeItem, ItemLike item) {
+        event.getEntries().putBefore(new ItemStack(beforeItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 }

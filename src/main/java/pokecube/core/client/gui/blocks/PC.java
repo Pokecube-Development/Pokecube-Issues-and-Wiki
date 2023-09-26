@@ -27,6 +27,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 {
     public static ResourceLocation PC_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui.png");
     public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets.png");
+    public static ResourceLocation PC_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_gui_light.png");
+    public static ResourceLocation WIDGETS_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets_light.png");
     public static ResourceLocation PC_DARK_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/pc_dark_gui.png");
     public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets_dark.png");
 
@@ -45,8 +47,8 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     Button renameButton;
     Button searchButton;
 
-    MutableComponent autoOn = TComponent.translatable("block.pc.autoon");
-    MutableComponent autoOff = TComponent.translatable("block.pc.autooff");
+    MutableComponent autoOn = TComponent.translatable("block.pc.auto_on");
+    MutableComponent autoOff = TComponent.translatable("block.pc.auto_off");
 
     private String boxName = "1";
 
@@ -124,21 +126,40 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
     }
 
     @Override
+    protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
+    {
+        String text = this.menu.getPage();
+        if (this.renamePageBox.visible && text.length() > 17 && this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI)
+            graphics.drawString(this.font, "", 8, 6, 0xB2AFD6, false);
+        else if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0xB2AFD6, false);
+        else if (this.renamePageBox.visible && text.length() > 17 && PokecubeCore.getConfig().fancyGUI)
+            graphics.drawString(this.font, "", 8, 6, 0xFFFFFF, false);
+        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, text, 8, 6, 0xFFFFFF, false);
+        else graphics.drawString(this.font, text, 8, 6, 4210752, false);
+
+        int yOffset = PokecubeCore.getConfig().fancyGUI ? 94 : 96;
+                graphics.drawString(this.font, this.playerInventoryTitle.getString(),
+                8, this.imageHeight - yOffset + 2, 4210752, false);
+    }
+
+    @Override
     protected void renderBg(final GuiGraphics graphics, final float f, final int i, final int j)
     {
-        ResourceLocation WIDGETS_DARK_OR_LIGHT_GUI = this.darkModeButton.visible ? WIDGETS_GUI : WIDGETS_DARK_GUI;
+        ResourceLocation WIDGETS_DARK_OR_LIGHT = this.darkModeButton.visible ? WIDGETS_LIGHT_GUI : WIDGETS_DARK_GUI;
+        ResourceLocation WIDGETS_DEFAULT_OR_FANCY = PokecubeCore.getConfig().fancyGUI ? WIDGETS_DARK_OR_LIGHT : WIDGETS_GUI;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, PC_GUI);
+        RenderSystem.setShaderTexture(0, PC_LIGHT_GUI);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
         //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (this.darkModeButton.visible)
-            graphics.blit(PC_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+            graphics.blit(PC_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
-            graphics.blit(PC_DARK_GUI, x, y, 0, 0, this.imageWidth + 1, this.imageHeight + 1);
+            graphics.blit(PC_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        else graphics.blit(PC_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
@@ -149,88 +170,76 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         if (this.lightModeButton.isHoveredOrFocused() && this.lightModeButton.visible)
         {
-            graphics.blit(WIDGETS_GUI, x - 17, y + 1, 240, 20, 15, 13);
+            graphics.blit(WIDGETS_LIGHT_GUI, x - 17, y + 1, 240, 20, 15, 13);
         } else if (this.lightModeButton.visible) {
-            graphics.blit(WIDGETS_GUI, x - 16, y + 1, 240, 0, 14, 13);
+            graphics.blit(WIDGETS_LIGHT_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.renameButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 158, y + 4, 60, 15, 12, 12);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 4, 60, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 159, y + 5, 60, 0, 11, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 5, 60, 0, 11, 11);
         }
 
         if (this.renamePageBox.visible)
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 115, y + 5, 0, 60, 43, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 115, y + 5, 0, 60, 43, 11);
 
         if (this.prevButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 6, y + 126, 75, 15, 12, 12);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 6, y + 126, 75, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 7, y + 127, 75, 0, 11, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 7, y + 127, 75, 0, 11, 11);
         }
 
         if (this.selectedPageBox.visible)
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 19, y + 127, 0, 75, 24, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 19, y + 127, 0, 75, 24, 11);
 
         if (this.nextButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 43, y + 126, 90, 15, 12, 12);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 43, y + 126, 90, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 44, y + 127, 90, 0, 11, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 44, y + 127, 90, 0, 11, 11);
         }
 
         if (this.releaseButton.isHoveredOrFocused())
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 146, y + 126, 15, 15, 12, 12);
-        else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 147, y + 127, 15, 0, 11, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 146, y + 126, 15, 15, 12, 12);
+        else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 147, y + 127, 15, 0, 11, 11);
 
         if (this.confirmButton.isHoveredOrFocused() && this.confirmButton.visible)
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 134, y + 126, 105, 15, 12, 12);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 134, y + 126, 105, 15, 12, 12);
         } else if (this.confirmButton.visible) {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 135, y + 127, 105, 0, 11, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 135, y + 127, 105, 0, 11, 11);
         }
 
         if (this.confirmButton.visible)
         {
             if (this.searchButton.isHoveredOrFocused())
-                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 122, y + 126, 45, 15, 12, 12);
-            else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 123, y + 127, 45, 0, 11, 11);
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 122, y + 126, 45, 15, 12, 12);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 123, y + 127, 45, 0, 11, 11);
             this.searchButton.setPosition(x + 122, y + 126);
 
             if (this.searchBar.visible)
-                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 61, y + 127, 0, 45, 61, 11);
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 61, y + 127, 0, 45, 61, 11);
             this.searchBar.setWidth(58);
         } else {
             if (this.searchButton.isHoveredOrFocused())
-                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 134, y + 126, 45, 15, 12, 12);
-            else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 135, y + 127, 45, 0, 11, 11);
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 134, y + 126, 45, 15, 12, 12);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 135, y + 127, 45, 0, 11, 11);
             this.searchButton.setPosition(x + 134, y + 126);
 
             if (this.searchBar.visible)
-                graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 61, y + 127, 0, 30, 73, 11);
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 61, y + 127, 0, 30, 73, 11);
             this.searchBar.setWidth(70);
         }
 
-        if (this.autoButton.isHoveredOrFocused())
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 158, y + 126, 30, 15, 12, 12);
-        else graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 159, y + 127, 30, 0, 11, 11);
+        if (this.autoButton.isHoveredOrFocused() && this.menu.inv.isAutoToPC())
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 126, 30, 15, 12, 12);
+        else if (this.menu.inv.isAutoToPC()) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 30, 0, 11, 11);
+        else if (this.autoButton.isHoveredOrFocused()) graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 126, 120, 15, 12, 12);
+        else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 127, 120, 0, 11, 11);
 
-    }
-
-    @Override
-    protected void renderLabels(final GuiGraphics graphics, final int par1, final int par2)
-    {
-        String text = this.menu.getPage();
-        if (this.renamePageBox.visible && text.length() > 17 && this.lightModeButton.visible)
-            graphics.drawString(this.font, "", 8, 6, 0xB2AFD6, false);
-        else if (this.lightModeButton.visible) graphics.drawString(this.font, text, 8, 6, 0xB2AFD6, false);
-        else if (this.renamePageBox.visible && text.length() > 17)
-            graphics.drawString(this.font, "", 8, 6, 0xFFFFFF, false);
-        else graphics.drawString(this.font, text, 8, 6, 0xFFFFFF, false);
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
     }
 
     @Override
@@ -248,7 +257,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         }).bounds(x - 16, y + 1, 14, 13)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.dark_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pc.dark_mode.narrate")).build());
-        this.darkModeButton.visible = !PokecubeCore.getConfig().darkMode;
+        this.darkModeButton.visible = (!PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.darkModeButton.setAlpha(0);
 
         final Component lightMode = TComponent.literal("");
@@ -258,11 +267,12 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         }).bounds(x - 16, y + 1, 14, 13)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.light_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pc.light_mode.narrate")).build());
-        this.lightModeButton.visible = PokecubeCore.getConfig().darkMode;
+        this.lightModeButton.visible = (PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.lightModeButton.setAlpha(0);
 
         this.renamePageBox = new EditBox(this.font, x + 117, y + 7, 40, 10, TComponent.translatable("block.pc.rename.narrate"));
         this.renamePageBox.setTooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")));
+        if (!PokecubeCore.getConfig().fancyGUI) this.renamePageBox.setPosition(x + 117, y + 6);
         if (this.lightModeButton.visible)
             this.renamePageBox.setTextColor(0xB2AFD6);
         else this.renamePageBox.setTextColor(0xFFFFFF);
@@ -301,6 +311,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.selectedPageBox = new EditBox(this.font,
                 x + 21, y + 129, 21, 10, TComponent.translatable("block.pc.page.tooltip.narrate"));
         this.selectedPageBox.setTooltip(Tooltip.create(Component.translatable("block.pc.page.tooltip")));
+        if (!PokecubeCore.getConfig().fancyGUI) this.selectedPageBox.setPosition(x + 21, y + 128);
         if (this.lightModeButton.visible)
             this.selectedPageBox.setTextColor(0xB2AFD6);
         else this.selectedPageBox.setTextColor(0xFFFFFF);
@@ -322,6 +333,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.searchBar = new EditBox(this.font,
                 x + 63, y + 129, 72, 10, TComponent.translatable("block.pc.search.narrate"));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.pc.search.tooltip")));
+        if (!PokecubeCore.getConfig().fancyGUI) this.searchBar.setPosition(x + 63, y + 128);
         if (this.lightModeButton.visible)
             this.searchBar.setTextColor(0xB2AFD6);
         else this.searchBar.setTextColor(0xFFFFFF);
@@ -397,14 +409,12 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         if (!this.bound)
         {
-            final Component auto = this.menu.inv.isAutoToPC() ? autoOn : autoOn;
+            final Component auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
             this.autoButton = this.addRenderableWidget(new Button.Builder(auto, (b) -> {
                 this.menu.toggleAuto();
                 var _auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
                 b.setMessage(_auto);
               }).bounds(x + 159, y + 127, 10, 10)
-                .tooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.tooltip")
-                        : TComponent.translatable("block.pc.auto_off.tooltip")))
                 .createNarration(supplier -> this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.narrate")
                         : TComponent.translatable("block.pc.auto_off.narrate")).build());
             this.autoButton.setAlpha(0);
@@ -457,6 +467,9 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, f);
 
+        this.autoButton.setTooltip(Tooltip.create(this.menu.inv.isAutoToPC() ? TComponent.translatable("block.pc.auto_on.tooltip")
+                : TComponent.translatable("block.pc.auto_off.tooltip")));
+
         for (int i = 0; i < 54; i++)
         {
             final int x = i % 9 * 18 + this.width / 2 - 80;
@@ -468,12 +481,12 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 final String name = stack == null ? "" : stack.getHoverName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.searchBar.getValue())))
                 {
-                    final int slotColor = 0x75FF0000;
+                    final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FFFF00 : 0x55FF0000;
                     graphics.fill(x, y, x + 16, y + 16, slotColor);
                 }
                 else
                 {
-                    final int slotColor = 0x7500FF00;
+                    final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FFFF00 : 0x5500FF00;
                     graphics.fill(x, y, x + 16, y + 16, slotColor);
                 }
             }

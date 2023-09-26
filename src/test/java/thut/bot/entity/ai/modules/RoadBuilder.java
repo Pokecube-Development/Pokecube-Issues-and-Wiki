@@ -8,6 +8,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BiomeTags;
+import net.minecraftforge.common.Tags;
 import org.joml.Vector3f;
 
 import com.google.common.collect.Lists;
@@ -34,6 +37,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.item.ItemList;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
@@ -46,6 +50,7 @@ import thut.lib.TComponent;
 @BotAI(key = "thutbot:road")
 public class RoadBuilder extends AbstractBot
 {
+    public static ResourceLocation PATHS_REPLACEABLE = new ResourceLocation(ThutCore.MODID, "paths_replaceable");
     private class PathStateProvider
     {
 
@@ -59,11 +64,14 @@ public class RoadBuilder extends AbstractBot
             final FluidState fluid = level.getFluidState(p);
             final BlockState b = level.getBlockState(p);
             // Over sea level water, we place planks
-            if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return Blocks.OAK_PLANKS.defaultBlockState();
+            if (fluid.is(FluidTags.WATER) || b.is(BlockTags.ICE)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
             // Lave is replaced with cobble
-            else if (fluid.is(FluidTags.LAVA)) return Blocks.COBBLESTONE.defaultBlockState();
+            else if (fluid.is(FluidTags.LAVA)) return pathsLavaBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsLavaBridge.size()));
+            // Desert biomes place sandstone
+            else if ((level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT)) && !(b.isAir() || shouldClear(b, p)))
+                return pathsSandstone.get(RoadBuilder.this.player.getRandom().nextInt(pathsSandstone.size()));
             // air with planks
-            else if (b.isAir() || shouldClear(b, p)) return Blocks.OAK_PLANKS.defaultBlockState();
+            else if (b.isAir() || shouldClear(b, p)) return pathsBridge.get(RoadBuilder.this.player.getRandom().nextInt(pathsBridge.size()));
             else if (blocks.contains(b.getBlock())) return null;
             else if (replaceable(b, p)) return paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size()));
             return null;
@@ -72,7 +80,8 @@ public class RoadBuilder extends AbstractBot
         private boolean replaceable(BlockState b, BlockPos p)
         {
             return shouldClear(b, p) || PokecubeTerrainChecker.isTerrain(b) || PokecubeTerrainChecker.isRock(b)
-                    || PokecubeTerrainChecker.isEdiblePlant(b) || PokecubeTerrainChecker.isEdiblePlant(b);
+                    || PokecubeTerrainChecker.isEdiblePlant(b) || PokecubeTerrainChecker.isCutablePlant(b)
+                    || ItemList.is(PATHS_REPLACEABLE, b) || b.canBeReplaced();
         }
 
         public boolean shouldClear(BlockState state, BlockPos pos)
@@ -104,26 +113,64 @@ public class RoadBuilder extends AbstractBot
 
     List<Block> pathB = Lists.newArrayList();
     List<Block> slabB = Lists.newArrayList();
+    List<Block> wallB = Lists.newArrayList();
+    List<Block> fenceB = Lists.newArrayList();
     List<Block> blocks = Lists.newArrayList();
 
     final List<BlockState> paths = Lists.newArrayList(
-    // @formatter:off
+            // @formatter:off
             Blocks.COBBLESTONE.defaultBlockState(),
+            Blocks.TUFF.defaultBlockState(),
+            Blocks.ANDESITE.defaultBlockState(),
             Blocks.COBBLED_DEEPSLATE.defaultBlockState(),
             Blocks.MOSSY_COBBLESTONE.defaultBlockState()
     );
     // @formatter:on
+
+    final List<BlockState> pathsSandstone = Lists.newArrayList(
+            // @formatter:off
+            Blocks.RED_SANDSTONE.defaultBlockState(),
+            Blocks.SMOOTH_RED_SANDSTONE.defaultBlockState(),
+            Blocks.TERRACOTTA.defaultBlockState(),
+            Blocks.RED_TERRACOTTA.defaultBlockState(),
+            Blocks.ORANGE_TERRACOTTA.defaultBlockState(),
+            Blocks.YELLOW_TERRACOTTA.defaultBlockState()
+    );
+
+    // @formatter:on
     final List<BlockState> slabs = Lists.newArrayList(
-    // @formatter:off
+            // @formatter:off
             Blocks.COBBLESTONE_SLAB.defaultBlockState(),
             Blocks.COBBLED_DEEPSLATE_SLAB.defaultBlockState(),
             Blocks.MOSSY_COBBLESTONE_SLAB.defaultBlockState()
     );
     // @formatter:on
+    final List<BlockState> slabsSandstone = Lists.newArrayList(
+            // @formatter:off
+            Blocks.RED_SANDSTONE_SLAB.defaultBlockState(),
+            Blocks.SMOOTH_RED_SANDSTONE_SLAB.defaultBlockState()
+    );
+    // @formatter:on
+
+    final List<BlockState> walls = Lists.newArrayList(
+            // @formatter:off
+            Blocks.COBBLESTONE_WALL.defaultBlockState(),
+            Blocks.ANDESITE_WALL.defaultBlockState(),
+            Blocks.MOSSY_COBBLESTONE_WALL.defaultBlockState(),
+            Blocks.COBBLED_DEEPSLATE_WALL.defaultBlockState()
+    );
+    final List<BlockState> fences = Lists.newArrayList(
+            // @formatter:off
+            Blocks.OAK_FENCE.defaultBlockState()
+    );
 
     final List<BlockState> pathsBridge = Lists.newArrayList(
-    // @formatter:off
+            // @formatter:off
             Blocks.OAK_PLANKS.defaultBlockState()
+    );
+    final List<BlockState> pathsLavaBridge = Lists.newArrayList(
+            // @formatter:off
+            Blocks.COBBLED_DEEPSLATE.defaultBlockState()
     );
     // @formatter:on
     final List<BlockState> slabsBridge = Lists.newArrayList(
@@ -141,6 +188,23 @@ public class RoadBuilder extends AbstractBot
             blocks.add(block.getBlock());
             pathB.add(block.getBlock());
         }
+        for (final BlockState block : pathsSandstone)
+        {
+            blocks.add(block.getBlock());
+            pathB.add(block.getBlock());
+        }
+
+        for (final BlockState block : walls)
+        {
+            blocks.add(block.getBlock());
+            wallB.add(block.getBlock());
+        }
+        for (final BlockState block : fences)
+        {
+            blocks.add(block.getBlock());
+            fenceB.add(block.getBlock());
+        }
+
         for (final BlockState block : slabs)
         {
             blocks.add(block.getBlock());
@@ -148,6 +212,11 @@ public class RoadBuilder extends AbstractBot
         }
 
         for (final BlockState block : pathsBridge)
+        {
+            blocks.add(block.getBlock());
+            pathB.add(block.getBlock());
+        }
+        for (final BlockState block : pathsLavaBridge)
         {
             blocks.add(block.getBlock());
             pathB.add(block.getBlock());
@@ -235,6 +304,7 @@ public class RoadBuilder extends AbstractBot
             initPath();
 
             this.tpTicks = Integer.parseInt(match.group(13));
+
 
             return true;
         }
@@ -524,8 +594,9 @@ public class RoadBuilder extends AbstractBot
 
         for (double i = -1; i <= dist + 1; i += 0.25)
         {
-            // Make torches every 5 blocks or so.
-            boolean makeTorch = ((int) i) % 10 == 0 && (i - ((int) i)) < 0.25;
+            // TODO: Fix torches placing in groups of 2 or 3
+            // Make torches every 10 blocks or so.
+            boolean makeTorch = ((int) i) % 20 == 0 && (i - ((int) i)) < 0.25;
 
             h_loop:
             for (int dh = -3; dh <= 3; dh++)
@@ -591,6 +662,7 @@ public class RoadBuilder extends AbstractBot
             {
                 BlockPos here = toEdit.get(j);
                 BlockState state = level.getBlockState(here);
+                FluidState fluid = level.getFluidState(here);
                 BlockState replacement = pathProvider.getReplacement(here);
                 boolean remove = y > 0 && pathProvider.shouldClear(state, here);
                 boolean editable = remove || replacement != null;
@@ -607,7 +679,10 @@ public class RoadBuilder extends AbstractBot
                         Integer k = y_cache.get(p);
                         if (k != y)
                         {
-                            toFix.put(here, slabs.contains(replacement) ? slabs : slabsBridge);
+                            // TODO: Fix slabs placement
+                            toFix.put(here, (fluid.is(FluidTags.WATER) || state.is(BlockTags.ICE)) ?
+                                    (level.getBiome(p).is(BiomeTags.IS_BADLANDS) || level.getBiome(p).is(Tags.Biomes.IS_DESERT)) ?
+                                            slabsSandstone : slabsBridge : slabs);
                             break;
                         }
                     }
@@ -630,15 +705,16 @@ public class RoadBuilder extends AbstractBot
         // Next build cobblestone railings if needed
         for (BlockPos p : railings)
         {
-            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 3);
+            // TODO: Fix disconnected railings
+            this.setBlock(level, p.below(), fences.get(RoadBuilder.this.player.getRandom().nextInt(fences.size())), 3);
         }
 
         // Then place the torches
         for (BlockPos p : torches)
         {
-            this.setBlock(level, p.below(2), Blocks.COBBLESTONE.defaultBlockState(), 2);
-            this.setBlock(level, p.below(), Blocks.COBBLESTONE_WALL.defaultBlockState(), 2);
-            this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 2);
+            this.setBlock(level, p.below(2), paths.get(RoadBuilder.this.player.getRandom().nextInt(paths.size())), 3);
+            this.setBlock(level, p.below(), walls.get(RoadBuilder.this.player.getRandom().nextInt(walls.size())), 3);
+            this.setBlock(level, p, Blocks.TORCH.defaultBlockState(), 3);
         }
 
         // Last place signs
@@ -651,9 +727,9 @@ public class RoadBuilder extends AbstractBot
             if (opt.isPresent())
             {
                 // Front side of sign
-                opt.get().updateText(t -> t.setMessage(0, TComponent.translatable(this.subbiome)), true);
+                opt.get().updateText(t -> t.setMessage(1, TComponent.translatable(this.subbiome)), true);
                 // Back side of sign
-                opt.get().updateText(t -> t.setMessage(0, TComponent.translatable(this.subbiome)), false);
+                opt.get().updateText(t -> t.setMessage(1, TComponent.translatable(this.subbiome)), false);
             }
         }
     }

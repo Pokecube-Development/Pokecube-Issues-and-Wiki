@@ -3,7 +3,12 @@ package thut.tech.common;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
@@ -14,6 +19,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import thut.core.common.ThutCore;
 import thut.core.common.config.Config;
 import thut.core.common.network.PacketHandler;
 import thut.core.init.ThutCreativeTabs;
@@ -89,9 +95,24 @@ public class TechCore
     {
         if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
         {
-            event.accept(LIFT);
             event.accept(LINKER);
+            event.accept(LIFT);
             event.accept(LIFTCONTROLLER);
         }
+
+        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            add(event, Items.WARPED_FUNGUS_ON_A_STICK, LINKER.get());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            add(event, Items.LODESTONE, LIFT.get());
+            add(event, LIFT.get(), LIFTCONTROLLER.get());
+        }
+    }
+
+    public static void add(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
+        event.getEntries().putAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 }

@@ -11,7 +11,7 @@
       "item": "minecraft:light_gray_concrete"
     },
     "A": {
-      "item": "minecraft:terracotta"
+      "item": "minecraft:packed_mud"
     },
     "4": {
       "tag": "forge:dyes/gray"

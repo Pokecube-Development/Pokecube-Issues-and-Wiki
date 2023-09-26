@@ -76,28 +76,18 @@ public class ThutBling
         if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
         {
             ThutWearables.WORNICON = BlingItem.getStack("bling_hat");
-            
-            event.accept(BlingItem.getStack("pokecube:pokewatch"));
-            event.accept(BlingItem.getStack("pokecube_adventures:bag"));
+
             event.accept(BlingItem.getStack("bling_bag"));
             event.accept(BlingItem.getStack("bling_bag_ender_vanilla"));
             event.accept(BlingItem.getStack("bling_bag_ender_large"));
             event.accept(BlingItem.getStack("bling_hat"));
-            event.accept(BlingItem.getStack("pokecube:mega_hat"));
-            event.accept(BlingItem.getStack("pokecube:mega_tiara"));
             event.accept(BlingItem.getStack("bling_eye"));
-            event.accept(BlingItem.getStack("pokecube:mega_glasses"));
             event.accept(BlingItem.getStack("bling_neck"));
-            event.accept(BlingItem.getStack("pokecube:mega_pendant"));
             event.accept(BlingItem.getStack("bling_ear"));
-            event.accept(BlingItem.getStack("pokecube:mega_earring"));
             event.accept(BlingItem.getStack("bling_waist"));
-            event.accept(BlingItem.getStack("pokecube:mega_belt"));
             event.accept(BlingItem.getStack("bling_ring"));
-            event.accept(BlingItem.getStack("pokecube:mega_ring"));
             event.accept(BlingItem.getStack("bling_wrist"));
             event.accept(BlingItem.getStack("bling_ankle"));
-            event.accept(BlingItem.getStack("pokecube:mega_ankletzinnia"));
 
             for (final String type : BlingItem.blingWearables.keySet())
                 event.accept(BlingItem.blingWearables.get(type).get());
