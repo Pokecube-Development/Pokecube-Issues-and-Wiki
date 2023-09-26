@@ -1107,23 +1107,27 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
             for (int i = 0; i < BlockInit.totemKeys.length; i++)
             {
-                add(event, BlockInit.BULU[i].get());
+                addBefore(event, Items.WHITE_BED, BlockInit.LELE[i].get());
             }
+            addBefore(event, PokecubeItems.getStack("pokecube_legends:lele_white_totem").getItem(), BlockInit.TAPU_LELE_CORE.get());
 
             for (int i = 0; i < BlockInit.totemKeys.length; i++)
             {
-                add(event, BlockInit.KOKO[i].get());
+                addBefore(event, BlockInit.TAPU_LELE_CORE.get(), BlockInit.FINI[i].get());
             }
+            addBefore(event, PokecubeItems.getStack("pokecube_legends:fini_white_totem").getItem(), BlockInit.TAPU_FINI_CORE.get());
 
             for (int i = 0; i < BlockInit.totemKeys.length; i++)
             {
-                add(event, BlockInit.FINI[i].get());
+                addBefore(event, BlockInit.TAPU_FINI_CORE.get(), BlockInit.KOKO[i].get());
             }
+            addBefore(event, PokecubeItems.getStack("pokecube_legends:koko_white_totem").getItem(), BlockInit.TAPU_KOKO_CORE.get());
 
             for (int i = 0; i < BlockInit.totemKeys.length; i++)
             {
-                add(event, BlockInit.LELE[i].get());
+                addBefore(event, BlockInit.TAPU_KOKO_CORE.get(), BlockInit.BULU[i].get());
             }
+            addBefore(event, PokecubeItems.getStack("pokecube_legends:bulu_white_totem").getItem(), BlockInit.TAPU_BULU_CORE.get());
         }
         
         if (event.getTabKey().equals(ITEMS_TAB.getKey()))

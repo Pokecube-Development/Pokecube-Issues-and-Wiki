@@ -491,12 +491,6 @@ public class Concrete
             addAfter(event, getItem(Concrete.MODID, "paint_brush_purple").getItem(), getItem(Concrete.MODID, "paint_brush_magenta").getItem());
             addAfter(event, getItem(Concrete.MODID, "paint_brush_magenta").getItem(), getItem(Concrete.MODID, "paint_brush_pink").getItem());
             addAfter(event, getItem(Concrete.MODID, "paint_brush_pink").getItem(), SMOOTHER.get());
-
-            for (DyeColor colour : DyeColor.values())
-            {
-                int i = colour.ordinal();
-                addAfter(event, Items.BRUSH, BRUSHES[i].get());
-            }
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.COLORED_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
