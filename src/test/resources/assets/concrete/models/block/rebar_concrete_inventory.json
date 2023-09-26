@@ -5,7 +5,7 @@
 	"textures": {
 		"particle": "concrete:block/rebar",
 		"rebar": "concrete:block/rebar",
-		"concrete": "minecraft:block/black_concrete"
+		"concrete": "block/black_concrete"
 	},
 	"elements": [
 		{
@@ -175,10 +175,10 @@
 			"from": [0, 0, 0],
 			"to": [16, 4, 16],
 			"faces": {
-				"north": {"uv": [0, 0, 16, 4], "texture": "#concrete", "cullface": "north"},
-				"east": {"uv": [0, 0, 16, 4], "texture": "#concrete", "cullface": "east"},
-				"south": {"uv": [0, 0, 16, 4], "texture": "#concrete", "cullface": "south"},
-				"west": {"uv": [0, 0, 16, 4], "texture": "#concrete", "cullface": "west"},
+				"north": {"uv": [0, 12, 16, 16], "texture": "#concrete", "cullface": "north"},
+				"east": {"uv": [0, 12, 16, 16], "texture": "#concrete", "cullface": "east"},
+				"south": {"uv": [0, 12, 16, 16], "texture": "#concrete", "cullface": "south"},
+				"west": {"uv": [0, 12, 16, 16], "texture": "#concrete", "cullface": "west"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#concrete"},
 				"down": {"uv": [0, 0, 16, 16], "texture": "#concrete", "cullface": "down"}
 			}
