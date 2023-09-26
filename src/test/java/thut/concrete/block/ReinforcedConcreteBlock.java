@@ -4,9 +4,10 @@ import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Maps;
 
-import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -15,6 +16,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -27,6 +29,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.IDyedBlock;
 import thut.api.block.flowing.IFlowingBlock;
+import thut.concrete.Concrete;
 
 public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDyedBlock
 {
@@ -67,7 +70,8 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     protected void initStateDefinition()
     {
         registerDefaultState(getStateDefinition().any().setValue(IFlowingBlock.WATERLOGGED, false).setValue(LAYERS, 1)
-                .setValue(RUSTY, true));
+                .setValue(RUSTY, true).setValue(UP, false).setValue(DOWN, false).setValue(NORTH, false)
+                .setValue(SOUTH, false).setValue(EAST, false).setValue(WEST, false));
     }
 
     @Override
@@ -221,6 +225,14 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
         {
             super(properties, colour);
         }
-
+        
+        @SuppressWarnings("deprecation")
+        @Override
+        public void onRemove(BlockState state, Level level, BlockPos pos, BlockState p_60518_,
+                boolean p_60519_)
+        {
+            super.onRemove(state, level, pos, p_60518_, p_60519_);
+            level.setBlockAndUpdate(pos, Concrete.REBAR_BLOCK.get().defaultBlockState());
+        }
     }
 }
