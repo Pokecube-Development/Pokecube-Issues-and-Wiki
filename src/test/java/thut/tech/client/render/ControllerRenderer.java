@@ -38,15 +38,15 @@ import thut.tech.common.entity.EntityLift;
 public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
 {
 
-    private static final ResourceLocation overlay = new ResourceLocation("thuttech:textures/blocks/overlay.png");
-    private static final ResourceLocation overlay_1 = new ResourceLocation("thuttech:textures/blocks/overlay_1.png");
-    private static final ResourceLocation font = new ResourceLocation("thuttech:textures/blocks/font.png");
+    private static final ResourceLocation overlay = new ResourceLocation("thuttech:textures/block/overlay.png");
+    private static final ResourceLocation overlay_1 = new ResourceLocation("thuttech:textures/block/overlay_1.png");
+    private static final ResourceLocation font = new ResourceLocation("thuttech:textures/block/font.png");
 
     // Buttons for edit mode
-    private static final ResourceLocation call = new ResourceLocation("thuttech:textures/blocks/overlay_call.png");
-    private static final ResourceLocation disp = new ResourceLocation("thuttech:textures/blocks/overlay_display.png");
-    private static final ResourceLocation exit = new ResourceLocation("thuttech:textures/blocks/overlay_exit.png");
-    private static final ResourceLocation unlink = new ResourceLocation("thuttech:textures/blocks/overlay_unlink.png");
+    private static final ResourceLocation call = new ResourceLocation("thuttech:textures/block/overlay_call.png");
+    private static final ResourceLocation disp = new ResourceLocation("thuttech:textures/block/overlay_display.png");
+    private static final ResourceLocation exit = new ResourceLocation("thuttech:textures/block/overlay_exit.png");
+    private static final ResourceLocation unlink = new ResourceLocation("thuttech:textures/block/overlay_unlink.png");
 
     private static void render(final RenderType type, final PoseStack mat, final MultiBufferSource buff, final float x1,
             final float y1, final float x2, final float y2, final float r, final float g, final float b, final float a,
