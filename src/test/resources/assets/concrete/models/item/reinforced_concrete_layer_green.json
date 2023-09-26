@@ -1,3 +1,6 @@
 {
-   "parent": "concrete:block/rebar_post"
+   "parent": "concrete:block/rebar_concrete_inventory",
+   "textures": {
+      "concrete": "minecraft:block/green_concrete"
+   }
 }
