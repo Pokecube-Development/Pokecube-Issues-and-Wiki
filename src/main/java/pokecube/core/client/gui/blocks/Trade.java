@@ -70,13 +70,9 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
                 false);
 
         ItemStack stack = this.menu.getInv().getItem(0);
-        if (PokecubeManager.isFilled(stack))
-        {
-            this.renderMob(0, 0);
-            this.renderMob(1, 0);
-        }
+        if (PokecubeManager.isFilled(stack)) this.renderMob(0, Minecraft.getInstance().getPartialTick());
         stack = this.menu.getInv().getItem(1);
-        if (PokecubeManager.isFilled(stack)) this.renderMob(1, 0);
+        if (PokecubeManager.isFilled(stack)) this.renderMob(1, Minecraft.getInstance().getPartialTick());
     }
 
     @Override
@@ -252,7 +248,7 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 
     protected void renderMob(final int index, float partialTicks)
     {
-        final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(0),
+        final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(index),
                 PokecubeCore.proxy.getWorld());
 
         final int x = 00 + (this.width - this.imageWidth) / 2;
