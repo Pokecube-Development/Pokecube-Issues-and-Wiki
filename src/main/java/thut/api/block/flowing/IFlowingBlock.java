@@ -266,15 +266,15 @@ public interface IFlowingBlock
         return state;
     }
 
-    default BlockState trySpread(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    default BlockState trySpread(BlockState flowFrom, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        int dust = getExistingAmount(state, pos, level);
-        int slope = getSlope(state);
+        int dust = getExistingAmount(flowFrom, pos, level);
+        int slope = getSlope(flowFrom);
 
         if (dust >= slope)
         {
             Vector3 v = new Vector3().set(pos);
-            BlockState b = null;
+            BlockState flowInto = null;
             Direction dir = null;
 
             int existing = dust;
@@ -288,8 +288,8 @@ public interface IFlowingBlock
                 Direction d = Direction.values()[index];
                 if (d == Direction.DOWN || d == Direction.UP) continue;
                 v.set(d).addTo(pos.getX(), pos.getY(), pos.getZ());
-                b = v.getBlockState(level);
-                amt = getExistingAmount(b, v.getPos(), level);
+                flowInto = v.getBlockState(level);
+                amt = getExistingAmount(flowInto, v.getPos(), level);
                 if (amt == -1 || amt > dust - slope) continue;
                 existing += amt;
                 dir = d;
@@ -312,30 +312,31 @@ public interface IFlowingBlock
 
                 if (next > 0 && left != dust)
                 {
-                    BlockState oldState = setAmount(state, left);
+                    BlockState flowRemains = setAmount(flowFrom, left);
                     BlockPos pos2 = v.getPos();
 
-                    BlockState nextState = setAmount(state, next);
-                    BlockState newState = getFlowResult(nextState, b, pos2, level);
-                    if (newState != b)
+                    BlockState flowState = setAmount(flowFrom, next);
+                    BlockState destState = getFlowResult(flowState, flowInto, pos2, level);
+                    
+                    if (destState != flowInto)
                     {
 
-                        int aB = getAmount(newState);
-                        int aH = getAmount(oldState);
+                        int aB = getAmount(destState);
+                        int aH = getAmount(flowRemains);
 
                         if (aB + aH != existing)
                             ThutCore.LOGGER.error("Error falling down {}, fluid not conserved!", this);
 
-                        level.setBlock(pos, oldState, 2);
-                        level.setBlock(pos2, newState, 2);
-                        level.scheduleTick(pos.immutable(), oldState.getBlock(), getFlowRate());
-                        level.scheduleTick(pos2, newState.getBlock(), getFlowRate());
-                        return newState;
+                        level.setBlock(pos, flowRemains, 2);
+                        level.setBlock(pos2, destState, 2);
+                        level.scheduleTick(pos.immutable(), flowRemains.getBlock(), getFlowRate());
+                        level.scheduleTick(pos2, destState.getBlock(), getFlowRate());
+                        return destState;
                     }
                 }
             }
         }
-        return state;
+        return flowFrom;
     }
 
     default int getExistingAmount(BlockState state, BlockPos pos, ServerLevel level)

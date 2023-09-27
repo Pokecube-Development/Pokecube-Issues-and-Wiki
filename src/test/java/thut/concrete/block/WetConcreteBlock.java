@@ -153,6 +153,10 @@ public abstract class WetConcreteBlock extends MoltenBlock
             newFlowState = newFlowState.setValue(RebarBlock.LEVEL, this.getExistingAmount(flowState, posTo, level));
             return newFlowState;
         }
+        else if (flowState.getBlock() instanceof RebarBlock)
+        {
+            return this.setAmount(destState, this.getAmount(flowState));
+        }
         return super.getFlowResult(flowState, destState, posTo, level);
     }
 

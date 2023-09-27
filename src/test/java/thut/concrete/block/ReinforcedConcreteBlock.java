@@ -164,30 +164,42 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
 
     @Override
     @Nullable
-    public BlockState getStateForPlacement(BlockPlaceContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context)
+    {
         BlockState state = context.getLevel().getBlockState(context.getClickedPos());
-        if (state.is(this)) {
+        if (state.is(this))
+        {
             if (context.getPlayer() != null && context.getPlayer().isCreative())
             {
                 int i = state.getValue(LAYERS);
                 return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
             }
-        } else {
+        }
+        else
+        {
             return super.getStateForPlacement(context);
         }
         return super.getStateForPlacement(context);
     }
 
     @Override
-    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context)
+    {
         int i = state.getValue(LAYERS);
-        if (context.getItemInHand().is(this.asItem()) && i < 16 && context.getPlayer() != null && context.getPlayer().isCreative()) {
-            if (context.replacingClickedOnBlock()) {
+        if (context.getItemInHand().is(this.asItem()) && i < 16 && context.getPlayer() != null
+                && context.getPlayer().isCreative())
+        {
+            if (context.replacingClickedOnBlock())
+            {
                 return context.getClickedFace() == Direction.UP;
-            } else {
+            }
+            else
+            {
                 return true;
             }
-        } else {
+        }
+        else
+        {
             return i == 1;
         }
     }
@@ -225,14 +237,16 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
         {
             super(properties, colour);
         }
-        
+
         @SuppressWarnings("deprecation")
         @Override
-        public void onRemove(BlockState state, Level level, BlockPos pos, BlockState p_60518_,
-                boolean p_60519_)
+        public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean bool)
         {
-            super.onRemove(state, level, pos, p_60518_, p_60519_);
-            level.setBlockAndUpdate(pos, Concrete.REBAR_BLOCK.get().defaultBlockState());
+            super.onRemove(state, level, pos, state2, bool);
+            if (!(state2.getBlock() instanceof PartialDry))
+            {
+                level.setBlockAndUpdate(pos, Concrete.REBAR_BLOCK.get().defaultBlockState());
+            }
         }
     }
 }
