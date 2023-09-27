@@ -16,9 +16,9 @@ public class Location implements MatchChecker
     @Override
     public MatchResult matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
-        _parser.setVarValue("x", checker.location.x);
-        _parser.setVarValue("y", checker.location.y);
-        _parser.setVarValue("z", checker.location.z);
+        _parser.setVarValue("x", checker.pos.getX());
+        _parser.setVarValue("y", checker.pos.getY());
+        _parser.setVarValue("z", checker.pos.getZ());
         return _parser.getValue() > 0 ? MatchResult.SUCCEED : MatchResult.FAIL;
     }
 
