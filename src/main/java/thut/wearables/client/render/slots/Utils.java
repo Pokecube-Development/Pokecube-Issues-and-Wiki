@@ -14,10 +14,9 @@ public class Utils
         else y = -1;
         if (z == 0) z = 1;
         else z = -1;
-        // TODO: Check this
-        final Matrix3f norms = poseStack.last().normal()/*.copy()*/;
+        Matrix3f norms = new Matrix3f(poseStack.last().normal());
         poseStack.scale(x, y, z);
-        poseStack.last().normal().add(norms);
+        poseStack.last().normal().set(norms);
 
     }
 }
