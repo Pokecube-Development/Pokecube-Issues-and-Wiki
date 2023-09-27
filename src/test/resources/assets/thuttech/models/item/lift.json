@@ -1,6 +1,6 @@
 {
-	"parent": "minecraft:block/cube_all",
+	"parent": "item/generated",
 	"textures": {
-		"all": "thuttech:item/lift"
+		"layer0": "thuttech:item/lift"
 	}
 }

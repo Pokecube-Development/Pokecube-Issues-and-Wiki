@@ -6,7 +6,7 @@
     "block.thuttech.controller": "Elevator Controller Block",
 
     "_comment": "Items",
-    "item.thuttech.lift": "Elevator",
+    "item.thuttech.lift": "Elevator Builder",
     "item.thuttech.linker": "Device Linker (Unlinked)",
     "item.thuttech.linker.linked": "Device Linker (Linked)",
 
