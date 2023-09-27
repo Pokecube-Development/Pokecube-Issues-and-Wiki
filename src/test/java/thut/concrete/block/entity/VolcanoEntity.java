@@ -283,7 +283,7 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide || !(this.level instanceof ServerLevel level))
+		if (this.level.isClientSide || !(this.level instanceof ServerLevel level) || !Concrete.config.volcanoes_tick)
 			return;
 		if (mainChamber.tubes.isEmpty()) {
 			WorldgenRandom rand = new WorldgenRandom(new LegacyRandomSource(0L));
