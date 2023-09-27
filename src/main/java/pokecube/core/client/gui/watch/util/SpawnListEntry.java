@@ -99,7 +99,7 @@ public class SpawnListEntry
                 float val = 0;
                 try
                 {
-                    val = Float.parseFloat(matcher.spawnRule.values.get("Local_Rate"));
+                    val = Float.parseFloat(matcher.spawnRule.getString("Local_Rate"));
                 }
                 catch (final Exception e)
                 {
@@ -126,7 +126,7 @@ public class SpawnListEntry
                 float val = 0;
                 try
                 {
-                    val = Float.parseFloat(matcher.spawnRule.values.get("rate"));
+                    val = Float.parseFloat(matcher.spawnRule.getString("rate"));
                 }
                 catch (final Exception e)
                 {
@@ -248,7 +248,7 @@ public class SpawnListEntry
                 float val = 0;
                 try
                 {
-                    val = Float.parseFloat(matcher.spawnRule.values.get("Local_Rate"));
+                    val = Float.parseFloat(matcher.spawnRule.getString("Local_Rate"));
                 }
                 catch (final Exception e)
                 {
@@ -275,7 +275,7 @@ public class SpawnListEntry
                 float val = 0;
                 try
                 {
-                    val = Float.parseFloat(matcher.spawnRule.values.get("rate"));
+                    val = Float.parseFloat(matcher.spawnRule.getString("rate"));
                 }
                 catch (final Exception e)
                 {

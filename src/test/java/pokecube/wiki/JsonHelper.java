@@ -439,7 +439,7 @@ public class JsonHelper
                 // from here.
                 if (r.values.containsKey("rate"))
                 {
-                    final String val2 = r.values.get("rate");
+                    final String val2 = r.getString("rate");
                     rate = Float.parseFloat(val2);
                 }
                 return rate <= 0;

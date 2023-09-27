@@ -109,9 +109,9 @@ public class BerryGenManager
         Integer p1 = 50;
         Integer p2 = 50;
         if (o1.spawnRule.values.containsKey(BerryGenManager.prior))
-            p1 = Integer.parseInt(o1.spawnRule.values.get(BerryGenManager.prior));
+            p1 = Integer.parseInt(o1.spawnRule.getString(BerryGenManager.prior));
         if (o2.spawnRule.values.containsKey(BerryGenManager.prior))
-            p2 = Integer.parseInt(o2.spawnRule.values.get(BerryGenManager.prior));
+            p2 = Integer.parseInt(o2.spawnRule.getString(BerryGenManager.prior));
         return p1.compareTo(p2);
     };
 

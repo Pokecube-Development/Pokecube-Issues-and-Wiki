@@ -34,6 +34,8 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.api.data.spawns.SpawnCheck.Weather;
+import pokecube.api.data.spawns.matchers.MatchChecker;
+import pokecube.api.data.spawns.matchers.StructureMatcher;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
@@ -229,6 +231,10 @@ public class SpawnBiomeMatcher
     public Set<Predicate<SpawnCheck>> _additionalConditions = Sets.newHashSet();
 
     public StructureMatcher _structs = new StructureMatcher()
+    {
+    };
+
+    public MatchChecker _customChecks = new MatchChecker()
     {
     };
 
@@ -493,6 +499,7 @@ public class SpawnBiomeMatcher
         if (checker.night && !this.night) return false;
         if (checker.dusk && !this.dusk) return false;
         if (checker.dawn && !this.dawn) return false;
+        if (_customChecks.matches(this, checker) != MatchResult.SUCCEED) return false;
         if (!_validTerrain.contains(checker.terrain)) return false;
         final BlockState state = checker.state;
         final boolean isWater = state.getFluidState().is(FluidTags.WATER);
@@ -522,43 +529,43 @@ public class SpawnBiomeMatcher
         if (rule.values.containsKey(SpawnBiomeMatcher.DAY))
         {
             changed = true;
-            this.day = Boolean.parseBoolean(rule.values.get(SpawnBiomeMatcher.DAY));
+            this.day = Boolean.parseBoolean(rule.getString(SpawnBiomeMatcher.DAY));
         }
         if (rule.values.containsKey(SpawnBiomeMatcher.NIGHT))
         {
             changed = true;
-            this.night = Boolean.parseBoolean(rule.values.get(SpawnBiomeMatcher.NIGHT));
+            this.night = Boolean.parseBoolean(rule.getString(SpawnBiomeMatcher.NIGHT));
         }
         if (rule.values.containsKey(SpawnBiomeMatcher.DUSK))
         {
             changed = true;
-            this.dusk = Boolean.parseBoolean(rule.values.get(SpawnBiomeMatcher.DUSK));
+            this.dusk = Boolean.parseBoolean(rule.getString(SpawnBiomeMatcher.DUSK));
         }
         if (rule.values.containsKey(SpawnBiomeMatcher.DAWN))
         {
             changed = true;
-            this.dawn = Boolean.parseBoolean(rule.values.get(SpawnBiomeMatcher.DAWN));
+            this.dawn = Boolean.parseBoolean(rule.getString(SpawnBiomeMatcher.DAWN));
         }
         if (rule.values.containsKey(SpawnBiomeMatcher.WATER))
         {
             changed = true;
-            this.water = Boolean.parseBoolean(rule.values.get(SpawnBiomeMatcher.WATER));
+            this.water = Boolean.parseBoolean(rule.getString(SpawnBiomeMatcher.WATER));
         }
         if (rule.values.containsKey(SpawnBiomeMatcher.AIR))
         {
             changed = true;
-            this.air = Boolean.parseBoolean(rule.values.get(SpawnBiomeMatcher.AIR));
+            this.air = Boolean.parseBoolean(rule.getString(SpawnBiomeMatcher.AIR));
             if (!this.air && !this.water) this.water = true;
         }
         if (rule.values.containsKey(SpawnBiomeMatcher.MINLIGHT))
         {
             changed = true;
-            this.minLight = Float.parseFloat(rule.values.get(SpawnBiomeMatcher.MINLIGHT));
+            this.minLight = Float.parseFloat(rule.getString(SpawnBiomeMatcher.MINLIGHT));
         }
         if (rule.values.containsKey(SpawnBiomeMatcher.MAXLIGHT))
         {
             changed = true;
-            this.maxLight = Float.parseFloat(rule.values.get(SpawnBiomeMatcher.MAXLIGHT));
+            this.maxLight = Float.parseFloat(rule.getString(SpawnBiomeMatcher.MAXLIGHT));
         }
         return changed;
     }
@@ -574,7 +581,7 @@ public class SpawnBiomeMatcher
         SpawnRule spawnRule = this.spawnRule.copy();
         if (spawnRule.values.containsKey(PRESET))
         {
-            String key = spawnRule.values.remove(PRESET);
+            String key = spawnRule.removeString(PRESET);
             SpawnRule preset = PRESETS.get(key);
             if (preset != null)
             {
@@ -588,9 +595,9 @@ public class SpawnBiomeMatcher
             }
         }
 
-        String or_presets = spawnRule.values.remove(SpawnBiomeMatcher.ORPRESET);
-        String and_presets = spawnRule.values.remove(SpawnBiomeMatcher.ANDPRESET);
-        String not_presets = spawnRule.values.remove(SpawnBiomeMatcher.NOTPRESET);
+        String or_presets = spawnRule.removeString(SpawnBiomeMatcher.ORPRESET);
+        String and_presets = spawnRule.removeString(SpawnBiomeMatcher.ANDPRESET);
+        String not_presets = spawnRule.removeString(SpawnBiomeMatcher.NOTPRESET);
 
         if (or_presets != null)
         {
@@ -668,10 +675,10 @@ public class SpawnBiomeMatcher
 
     private boolean initRawLists()
     {
-        final String typeString = spawnRule.values.get(SpawnBiomeMatcher.TYPES);
-        final String typeBlacklistString = spawnRule.values.get(SpawnBiomeMatcher.TYPESBLACKLIST);
-        final String validStructures = spawnRule.values.get(SpawnBiomeMatcher.STRUCTURES);
-        final String terrain = spawnRule.values.get(SpawnBiomeMatcher.TERRAIN);
+        final String typeString = spawnRule.getString(SpawnBiomeMatcher.TYPES);
+        final String typeBlacklistString = spawnRule.getString(SpawnBiomeMatcher.TYPESBLACKLIST);
+        final String validStructures = spawnRule.getString(SpawnBiomeMatcher.STRUCTURES);
+        final String terrain = spawnRule.getString(SpawnBiomeMatcher.TERRAIN);
 
         if (validStructures != null)
         {
@@ -770,6 +777,10 @@ public class SpawnBiomeMatcher
         this._structs = new StructureMatcher()
         {
         };
+        this._customChecks = new MatchChecker()
+        {
+        };
+
         MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Init(this));
 
         if (spawnRule.biomes != null)
@@ -803,6 +814,15 @@ public class SpawnBiomeMatcher
             this._and_children.remove(_and_base);
         }
 
+        spawnRule.initMatchers();
+
+        for (var pair : spawnRule.matchers.entrySet())
+        {
+            var matcher = pair.getValue();
+            if (matcher instanceof MatchChecker _match) this._customChecks = this._customChecks.and(_match);
+        }
+        this._customChecks.init();
+
         if (this._or_children.size() > 0 || this._and_children.size() > 0)
         {
             boolean or_valid = this._or_children.size() > 0;
@@ -822,7 +842,7 @@ public class SpawnBiomeMatcher
         }
 
         // Lets deal with the weather checks
-        String weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHER);
+        String weather = spawnRule.getString(SpawnBiomeMatcher.WEATHER);
         if (weather != null)
         {
             final String[] args = weather.split(",");
@@ -837,7 +857,7 @@ public class SpawnBiomeMatcher
                 if (w != null) this._neededWeather.add(w);
             }
         }
-        weather = spawnRule.values.get(SpawnBiomeMatcher.WEATHERNOT);
+        weather = spawnRule.getString(SpawnBiomeMatcher.WEATHERNOT);
         if (weather != null)
         {
             final String[] args = weather.split(",");
@@ -875,7 +895,7 @@ public class SpawnBiomeMatcher
 
     private void preParseSubBiomes(SpawnRule rule)
     {
-        final String typeString = rule.values.get(SpawnBiomeMatcher.TYPES);
+        final String typeString = rule.getString(SpawnBiomeMatcher.TYPES);
         if (typeString != null)
         {
             final String[] args = typeString.split(",");
