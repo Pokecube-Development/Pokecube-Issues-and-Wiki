@@ -33,7 +33,7 @@ public class SpawnCheck
             final BlockPos position = location.getPos();
             boolean outside = world.canSeeSky(position);
             outside = outside
-                    && world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY() > position.getY();
+                    && position.getY() + 1 > world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY();
             if (!outside) return NONE;
             if (globalRain)
             {
