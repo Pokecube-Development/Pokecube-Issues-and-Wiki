@@ -249,8 +249,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset = (this.width - this.imageWidth) / 2;
-            final int xOffset = (this.height - this.imageHeight) / 2;
+            final int yOffset =-95 + (this.width - this.imageWidth) / 2;
+            final int xOffset = 98 + (this.height - this.imageHeight) / 2;
             String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
 
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, xOffset + 61,

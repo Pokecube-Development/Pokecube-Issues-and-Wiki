@@ -2,17 +2,23 @@ package thut.concrete.block;
 
 import java.util.function.Supplier;
 
+import org.joml.Vector3f;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.biome.Biome.Precipitation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -23,6 +29,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import thut.api.block.flowing.IFlowingBlock;
@@ -72,6 +79,21 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     }
 
     @Override
+    public void handlePrecipitation(BlockState state, Level level, BlockPos pos, Precipitation precip)
+    {
+        super.handlePrecipitation(state, level, pos, precip);
+        if (precip == Precipitation.RAIN && level.getRandom().nextDouble() > 0.02)
+        {
+            boolean rusty = state.getValue(RUSTY);
+            if (!rusty)
+            {
+                state = state.setValue(RUSTY, true);
+                level.setBlockAndUpdate(pos, state);
+            }
+        }
+    }
+
+    @Override
     @Deprecated
     public VoxelShape getOcclusionShape(BlockState state, BlockGetter level, BlockPos pos)
     {
@@ -86,19 +108,6 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         return this.getShape(state, level, pos, context);
     }
 
-    public boolean connectsTo(BlockState state, boolean sturdy_face)
-    {
-        if (isSameFence(state)) return true;
-        if (state.getBlock() instanceof FormworkBlock) return false;
-        if (sturdy_face && !isExceptionForConnection(state)) return true;
-        return false;
-    }
-
-    private boolean isSameFence(BlockState state)
-    {
-        return state.getBlock() instanceof RebarBlock || state.getBlock() instanceof ReinforcedConcreteBlock.FullDry;
-    }
-
     @Override
     public BlockState getStateForPlacement(BlockPlaceContext context)
     {
@@ -107,23 +116,92 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         FluidState fluidstate = context.getLevel().getFluidState(context.getClickedPos());
         BlockState prev = super.getStateForPlacement(context).setValue(IFlowingBlock.WATERLOGGED,
                 Boolean.valueOf(fluidstate.getType() == Fluids.WATER));
+        {
+            var dir = context.getClickedFace().getOpposite();
+
+            prev = prev.setValue(PROPERTY_BY_DIRECTION.get(dir), true);
+            dir = dir.getOpposite();
+            BlockPos pos = blockpos.relative(dir);
+            BlockState clicked = blockgetter.getBlockState(pos);
+            if (clicked.getBlock() instanceof RebarBlock)
+            {
+                prev = prev.setValue(PROPERTY_BY_DIRECTION.get(dir), true);
+                dir = dir.getOpposite();
+                blockgetter.setBlockAndUpdate(pos, clicked.setValue(PROPERTY_BY_DIRECTION.get(dir), true));
+            }
+        }
+
         for (Direction dir : Direction.values())
         {
+            dir = dir.getOpposite();
             BlockPos pos = blockpos.relative(dir);
-            BlockState state = blockgetter.getBlockState(pos);
-            boolean sturdy = state.isFaceSturdy(blockgetter, pos, dir.getOpposite());
-            prev = prev.setValue(PROPERTY_BY_DIRECTION.get(dir), this.connectsTo(state, sturdy));
-            if (isSameFence(state)) state.updateShape(dir, prev, blockgetter, blockpos, pos);
+            BlockState clicked = blockgetter.getBlockState(pos);
+            if (clicked.getBlock() instanceof RebarBlock)
+            {
+                prev = prev.setValue(PROPERTY_BY_DIRECTION.get(dir), true);
+                dir = dir.getOpposite();
+                blockgetter.setBlockAndUpdate(pos, clicked.setValue(PROPERTY_BY_DIRECTION.get(dir), true));
+            }
         }
+
         return prev;
+    }
+
+    @Override
+    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand,
+            BlockHitResult hitresult)
+    {
+        if (!player.getItemInHand(hand).isEmpty()) return InteractionResult.PASS;
+        var relPos = hitresult.getLocation().subtract(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        var dir = hitresult.getDirection();
+        float size = 0.1875f;// This is in the constructor for this class.
+        var r = new Vector3f((float) relPos.x, (float) relPos.y, (float) relPos.z);
+        var r_hat = dir.step().mul(size);
+        // Get location along the face
+        r_hat.absolute();
+        r.setComponent(r_hat.maxComponent(), 0);
+        // If it is inside the central square, we are adding a segment.
+        var r_abs = new Vector3f();
+        r.absolute(r_abs);
+        if (r_abs.get(r_abs.maxComponent()) < size)
+        {
+            if (player.isShiftKeyDown()) dir = dir.getOpposite();
+            var prop = PROPERTY_BY_DIRECTION.get(dir);
+            boolean value = state.getValue(prop);
+            level.setBlockAndUpdate(pos, state.setValue(prop, !value));
+            return InteractionResult.SUCCESS;
+        }
+        Direction max = dir;
+        float max_dot = 0;
+
+        // Otherwise find which face we are
+        for (Direction d : Direction.values())
+        {
+            if (d == dir || d == dir.getOpposite()) continue;
+            float dot = r.dot(d.step());
+            if (dot > max_dot)
+            {
+                max_dot = dot;
+                max = d;
+            }
+        }
+        if (max != dir)
+        {
+            if (player.isShiftKeyDown()) max = max.getOpposite();
+            var prop = PROPERTY_BY_DIRECTION.get(max);
+            boolean value = state.getValue(prop);
+            level.setBlockAndUpdate(pos, state.setValue(prop, !value));
+            return InteractionResult.SUCCESS;
+        }
+
+        return InteractionResult.PASS;
     }
 
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState otherState, LevelAccessor level,
             BlockPos pos_1, BlockPos pos_2)
     {
-        boolean sturdy = otherState.isFaceSturdy(level, pos_2, direction.getOpposite());
-        return state.setValue(PROPERTY_BY_DIRECTION.get(direction), this.connectsTo(otherState, sturdy));
+        return state;
     }
 
     @Override
@@ -187,19 +265,24 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (!(mergeInto.getBlock() instanceof IFlowingBlock))
+        if (!(destState.getBlock() instanceof IFlowingBlock))
         {
-            mergeInto = Concrete.WET_LAYER.get().defaultBlockState();
-            mergeInto = IFlowingBlock.copyValidTo(mergeFrom, mergeInto);
-            mergeInto = this.setAmount(mergeInto, this.getExistingAmount(mergeFrom, posTo, level));
+            var newFlowState = Concrete.WET_LAYER.get().defaultBlockState();
+            newFlowState = IFlowingBlock.copyValidTo(flowState, newFlowState);
+            flowState = this.setAmount(newFlowState, this.getExistingAmount(flowState, posTo, level));
         }
-        BlockState ret = IFlowingBlock.super.getMergeResult(mergeFrom, mergeInto, posTo, level);
-        if (ret.getBlock() instanceof RebarBlock)
+        else if (flowState.getBlock() instanceof RebarBlock rebar)
         {
-            ret = IFlowingBlock.copyValidTo(mergeFrom, ret);
-            ret = this.setAmount(ret, this.getExistingAmount(ret, posTo, level));
+            destState = this.setAmount(destState, this.getExistingAmount(flowState, posTo, level));
+            return destState;
+        }
+        BlockState ret = IFlowingBlock.super.getFlowResult(flowState, destState, posTo, level);
+        if (destState.getBlock() instanceof RebarBlock rebar)
+        {
+            ret = IFlowingBlock.copyValidTo(flowState, ret);
+            ret = rebar.setAmount(ret, this.getExistingAmount(flowState, posTo, level));
         }
         return ret;
     }

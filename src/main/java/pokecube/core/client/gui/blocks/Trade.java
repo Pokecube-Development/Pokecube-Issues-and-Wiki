@@ -2,6 +2,7 @@ package pokecube.core.client.gui.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -27,12 +28,18 @@ import thut.lib.TComponent;
 
 public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
 {
-    public static ResourceLocation TRADE_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "trade_machine.png");
-    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
-    public static ResourceLocation TRADE_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "trade_machine_light.png");
-    public static ResourceLocation WIDGETS_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_light.png");
-    public static ResourceLocation TRADE_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "trade_machine_dark.png");
-    public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_dark.png");
+    public static ResourceLocation TRADE_GUI = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "trade_machine.png");
+    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+    public static ResourceLocation TRADE_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "trade_machine_light.png");
+    public static ResourceLocation WIDGETS_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_light.png");
+    public static ResourceLocation TRADE_DARK_GUI = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "trade_machine_dark.png");
+    public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID,
+            Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_dark.png");
     Button darkModeButton;
     Button lightModeButton;
     Button tradeButton;
@@ -52,26 +59,28 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int p_146979_1_, final int p_146979_2_)
     {
-        if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, TComponent.translatable("block.pokecube.trade_machine"),
-                8, 6, 0xB2AFD6, false);
-        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, TComponent.translatable("block.pokecube.trade_machine"),
-                8, 6, 0xFFFFFF, false);
-        else graphics.drawString(this.font, TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 4210752, false);
-        
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 94 + 2, 4210752, false);
+        if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font,
+                TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 0xB2AFD6, false);
+        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font,
+                TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 0xFFFFFF, false);
+        else graphics.drawString(this.font, TComponent.translatable("block.pokecube.trade_machine"), 8, 6, 4210752,
+                false);
+
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8, this.imageHeight - 94 + 2, 4210752,
+                false);
 
         ItemStack stack = this.menu.getInv().getItem(0);
-        if (PokecubeManager.isFilled(stack)) this.renderMob(0, 0);
+        if (PokecubeManager.isFilled(stack)) this.renderMob(0, Minecraft.getInstance().getPartialTick());
         stack = this.menu.getInv().getItem(1);
-        if (PokecubeManager.isFilled(stack)) this.renderMob(1, 0);
+        if (PokecubeManager.isFilled(stack)) this.renderMob(1, Minecraft.getInstance().getPartialTick());
     }
 
     @Override
     protected void renderBg(final GuiGraphics graphics, final float f, final int i, final int j)
     {
         ResourceLocation WIDGETS_DARK_OR_LIGHT = this.darkModeButton.visible ? WIDGETS_LIGHT_GUI : WIDGETS_DARK_GUI;
-        ResourceLocation WIDGETS_DEFAULT_OR_FANCY = PokecubeCore.getConfig().fancyGUI ? WIDGETS_DARK_OR_LIGHT : WIDGETS_GUI;
+        ResourceLocation WIDGETS_DEFAULT_OR_FANCY = PokecubeCore.getConfig().fancyGUI ? WIDGETS_DARK_OR_LIGHT
+                : WIDGETS_GUI;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -79,9 +88,9 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
-        if (this.darkModeButton.visible)
-            graphics.blit(TRADE_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        // Blit format: Texture location, gui x pos, gui y position, texture x
+        // pos, texture y pos, texture x size, texture y size
+        if (this.darkModeButton.visible) graphics.blit(TRADE_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
             graphics.blit(TRADE_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else graphics.blit(TRADE_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
@@ -95,14 +104,18 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
             graphics.blit(WIDGETS_DARK_GUI, x - 17, y + 1, 240, 20, 15, 13);
-        } else if (this.darkModeButton.visible) {
+        }
+        else if (this.darkModeButton.visible)
+        {
             graphics.blit(WIDGETS_DARK_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.lightModeButton.isHoveredOrFocused() && this.lightModeButton.visible)
         {
             graphics.blit(WIDGETS_LIGHT_GUI, x - 17, y + 1, 240, 20, 15, 13);
-        } else if (this.lightModeButton.visible) {
+        }
+        else if (this.lightModeButton.visible)
+        {
             graphics.blit(WIDGETS_LIGHT_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
@@ -112,19 +125,23 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 25, 190, 20, 20);
             else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 190, 20, 20);
-        } else if (this.menu.tile.confirmed[0])
+        }
+        else if (this.menu.tile.confirmed[0])
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 0, 165, 19, 19);
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 190, 19, 19);
             else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 190, 19, 19);
-        } else if (this.tradeButton.isHoveredOrFocused())
+        }
+        else if (this.tradeButton.isHoveredOrFocused())
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 0, 190, 20, 20);
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 24, y + 70, 25, 165, 20, 20);
             else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 165, 20, 20);
-        } else {
+        }
+        else
+        {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 0, 165, 19, 19);
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 25, y + 71, 25, 165, 19, 19);
         }
@@ -135,19 +152,23 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 25, 190, 20, 20);
             else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 190, 20, 20);
-        } else if (this.menu.tile.confirmed[1])
+        }
+        else if (this.menu.tile.confirmed[1])
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 0, 165, 19, 19);
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 190, 19, 19);
             else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 190, 19, 19);
-        } else if (this.trade2Button.isHoveredOrFocused())
+        }
+        else if (this.trade2Button.isHoveredOrFocused())
         {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 0, 190, 20, 20);
             if (PokecubeCore.getConfig().fancyGUI)
                 graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 132, y + 70, 25, 165, 20, 20);
             else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 165, 20, 20);
-        } else {
+        }
+        else
+        {
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 0, 165, 19, 19);
             graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 133, y + 71, 25, 165, 19, 19);
         }
@@ -215,12 +236,12 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
         super.render(graphics, i, j, f);
         if (this.menu.tile.confirmed[0]) ((AbstractWidget) this.renderables.get(0))
                 .setTooltip(Tooltip.create(Component.translatable("block.trade_machine.trade_confirmed.tooltip")));
-        else ((AbstractWidget) this.renderables.get(0))
+        else((AbstractWidget) this.renderables.get(0))
                 .setTooltip(Tooltip.create(Component.translatable("block.trade_machine.trade.tooltip")));
 
         if (this.menu.tile.confirmed[1]) ((AbstractWidget) this.renderables.get(1))
                 .setTooltip(Tooltip.create(Component.translatable("block.trade_machine.trade_confirmed.tooltip")));
-        else ((AbstractWidget) this.renderables.get(1))
+        else((AbstractWidget) this.renderables.get(1))
                 .setTooltip(Tooltip.create(Component.translatable("block.trade_machine.trade.tooltip")));
         this.renderTooltip(graphics, i, j);
     }
@@ -229,50 +250,60 @@ public class Trade<T extends TradeContainer> extends AbstractContainerScreen<T>
     {
         final LivingEntity mob = PokecubeManager.itemToMob(this.menu.getInv().getItem(index),
                 PokecubeCore.proxy.getWorld());
+
+        final int x = 00 + (this.width - this.imageWidth) / 2;
+        final int y = 16 + (this.height - this.imageHeight) / 2;
+
+        int guiX = x;
+        int guiY = y;
+
         int dx = 0;
         float rotX = 0;
         float rotY = 50;
         float rotZ = 0;
         final int dy = -10;
 
-        final float size = 0.5f;
+        float size = 1.5f;
 
         final IPokemob poke = PokemobCaps.getPokemobFor(mob);
         switch (index)
         {
         case 0:
             dx = -10;
-            rotX = 0;
+            rotX = +(Minecraft.getInstance().level.getGameTime() + partialTicks);
             rotY = -40;
             rotZ = 0;
             break;
         case 1:
             dx = 80;
-            rotX = 0;
+            rotX = -(Minecraft.getInstance().level.getGameTime() + partialTicks);
             rotY = 260;
             rotZ = 0;
             break;
         }
 
-        GuiPokemobHelper.renderMob(mob, dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
+        GuiPokemobHelper.renderMob(mob, dx + guiX, dy + guiY, 5, rotX, rotY, rotZ, size, partialTicks);
+
+        // Below is rendering the player
+        size = 0.5f;
 
         switch (index)
         {
         case 0:
-            dx = -30;
-            rotX = 0;
+            dx = -35;
+            rotX = 180;
             rotY = -40;
             rotZ = 0;
             break;
         case 1:
             dx = 100;
-            rotX = 0;
+            rotX = 180;
             rotY = 260;
             rotZ = 0;
             break;
         }
 
         if (poke != null && poke.getOwner() instanceof Player)
-            GuiPokemobHelper.renderMob(poke.getOwner(), dx, dy, 0, rotX, rotY, rotZ, size, partialTicks);
+            GuiPokemobHelper.renderMob(poke.getOwner(), dx + guiX, dy + guiY, 5, rotX, rotY, rotZ, size, partialTicks);
     }
 }

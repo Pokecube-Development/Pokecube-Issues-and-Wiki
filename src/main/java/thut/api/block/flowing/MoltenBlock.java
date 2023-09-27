@@ -179,16 +179,16 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState mergeInto, BlockPos posTo, ServerLevel level)
     {
-        BlockState ret = super.getMergeResult(mergeFrom, mergeInto, posTo, level);
+        BlockState ret = super.getFlowResult(flowState, mergeInto, posTo, level);
         // The result from the merge won't be heated, even if we are!
         if (ret != mergeInto && ret.hasProperty(HEATED)) ret = ret.setValue(HEATED, false);
         return ret;
     }
 
     @Override
-    public boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
+    public boolean canFlowInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
     {
         checkSolid();
         if (solid_full.isAir()) return false;
@@ -202,7 +202,7 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
             if (amt_from != amt_to) return true;
         }
 
-        return super.canMergeInto(here, other, posTo, level);
+        return super.canFlowInto(here, other, posTo, level);
     }
 
     @Override
