@@ -79,10 +79,18 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     }
 
     @Override
-    public void handlePrecipitation(BlockState p_152450_, Level p_152451_, BlockPos p_152452_, Precipitation p_152453_)
+    public void handlePrecipitation(BlockState state, Level level, BlockPos pos, Precipitation precip)
     {
-        // TODO Auto-generated method stub
-        super.handlePrecipitation(p_152450_, p_152451_, p_152452_, p_152453_);
+        super.handlePrecipitation(state, level, pos, precip);
+        if (precip == Precipitation.RAIN && level.getRandom().nextDouble() > 0.02)
+        {
+            boolean rusty = state.getValue(RUSTY);
+            if (!rusty)
+            {
+                state = state.setValue(RUSTY, true);
+                level.setBlockAndUpdate(pos, state);
+            }
+        }
     }
 
     @Override
