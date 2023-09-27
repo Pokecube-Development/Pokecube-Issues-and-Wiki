@@ -56,6 +56,7 @@ public class DefaultFormeHolder
     public String tex = null;
     public String model = null;
     public String anim = null;
+    public boolean hasShiny = true;
 
     public String parent = null;
 
@@ -193,6 +194,7 @@ public class DefaultFormeHolder
 
             final FormeHolder holder = FormeHolder.get(baseEntry, modell, texl, animl, key);
             holder.loaded_from = this;
+            holder.hasShiny = this.hasShiny;
             Database.registerFormeHolder(baseEntry, holder);
             return holder;
         }

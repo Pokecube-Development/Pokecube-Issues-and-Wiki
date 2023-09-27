@@ -18,7 +18,6 @@ import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -61,6 +60,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             final String anim = nbt.contains("anim") ? nbt.getString("anim") : null;
             final String model = nbt.contains("model") ? nbt.getString("model") : null;
             final String tex = nbt.contains("tex") ? nbt.getString("tex") : null;
+            boolean shiny = nbt.contains("hasShiny") ? nbt.getBoolean("hasShiny") : true;
             String entry_name = nbt.getString("entry");
 
             final ResourceLocation _model = model != null ? PokecubeItems.toPokecubeResource(model) : null;
@@ -71,6 +71,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
             final FormeHolder holder = FormeHolder.get(entry, _model, _tex, _anim,
                     PokecubeItems.toPokecubeResource(name));
+            holder.hasShiny = shiny;
             return holder;
         }
 
@@ -87,6 +88,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         // initialization.
         public ResourceLocation key;
         public DefaultFormeHolder loaded_from;
+        public boolean hasShiny = true;
 
         public boolean _is_item_forme = false;
         public PokedexEntry _entry = Database.missingno;
@@ -123,16 +125,16 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
                 if (gendered)
                 {
                     this.icons[0][0] = new ResourceLocation(texture + ".png");
-                    this.icons[0][1] = new ResourceLocation(texture + "s.png");
+                    this.icons[0][1] = new ResourceLocation(texture + "_s.png");
                     this.icons[1][0] = new ResourceLocation(texture + ".png");
-                    this.icons[1][1] = new ResourceLocation(texture + "s.png");
+                    this.icons[1][1] = new ResourceLocation(texture + "_s.png");
                 }
                 else
                 {
                     this.icons[0][0] = new ResourceLocation(texture + "_male.png");
-                    this.icons[0][1] = new ResourceLocation(texture + "_males.png");
+                    this.icons[0][1] = new ResourceLocation(texture + "_male_s.png");
                     this.icons[1][0] = new ResourceLocation(texture + "_female.png");
-                    this.icons[1][1] = new ResourceLocation(texture + "_females.png");
+                    this.icons[1][1] = new ResourceLocation(texture + "_female_s.png");
                 }
             }
             final int i = male ? 0 : 1;
@@ -147,6 +149,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             if (this.model != null) ret.putString("model", this.model.toString());
             if (this.animation != null) ret.putString("anim", this.animation.toString());
             if (this.texture != null) ret.putString("tex", this.texture.toString());
+            // Only save this if it is not the default.
+            if (!this.hasShiny) ret.putBoolean("hasShiny", false);
             ret.putString("entry", this._entry.getTrimmedName());
             return ret;
         }
@@ -584,7 +588,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default void setHeldItem(final ItemStack stack)
     {
-        this.getEntity().setItemInHand(InteractionHand.MAIN_HAND, stack);
+        this.getInventory().setItem(1, stack);
     }
 
     /**

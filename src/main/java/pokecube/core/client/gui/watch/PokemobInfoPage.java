@@ -243,8 +243,12 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             dy = 60;
 
             // Click for toggling if it is shiny
-            if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
-                if (this.pokemob.getPokedexEntry().hasShiny) this.pokemob.setShiny(!this.pokemob.isShiny());
+            if (mx > ox && mx < ox + dx && my > oy && my < oy + dy) if (this.pokemob.getPokedexEntry().hasShiny)
+            {
+                this.pokemob.setShiny(!this.pokemob.isShiny());
+                this.pokemob.onGenesChanged();
+                return ret;
+            }
         }
         return ret;
     }

@@ -119,10 +119,14 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
 
         if (!this.bound)
         {
-            final Component auto = this.menu.inv.autoToPC ? TComponent.translatable("block.pc.autoon")
-                    : TComponent.translatable("block.pc.autooff");
-            this.renderables.add(new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset + 10, 50, 10, auto,
-                    b -> this.menu.toggleAuto()));
+            final Component auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
+            this.addRenderableWidget(
+                    new Button(this.width / 2 - xOffset + 30, this.height / 2 - yOffset + 10, 50, 10, auto, button ->
+                    {
+                        this.menu.toggleAuto();
+                        var _auto = this.menu.inv.isAutoToPC() ? autoOn : autoOff;
+                        button.setMessage(_auto);
+                    }));
         }
         if (!this.bound)
         {

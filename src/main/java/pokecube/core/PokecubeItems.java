@@ -192,7 +192,7 @@ public class PokecubeItems extends ItemList
     public static boolean resetTimeTags = false;
     public static Vector<Long> times = new Vector<>();
 
-    private static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
+    public static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
 
     /** contains pokecubes that should be rendered using the default renderer */
     private static Set<ResourceLocation> cubeIds = new HashSet<>();

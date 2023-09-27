@@ -280,6 +280,7 @@ public class Pokemob extends Page
                     {
                         this.shiny = !this.pokemob.isShiny();
                         this.pokemob.setShiny(this.shiny);
+                        this.pokemob.onGenesChanged();
                         b.setMessage(TComponent.literal(this.shiny ? "Y" : "N"));
                         this.onChanged();
                     }
