@@ -62,6 +62,7 @@ import thut.concrete.item.RebarBlockItem;
 import thut.concrete.item.SmootherItem;
 import thut.concrete.recipe.PaintBrushRecipe;
 import thut.core.common.ThutCore;
+import thut.core.common.config.Config;
 import thut.core.init.ThutCreativeTabs;
 import thut.lib.RegHelper;
 
@@ -349,6 +350,8 @@ public class Concrete
             ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), use));
         }
     }
+    
+    public static final ConcreteConfig config = new ConcreteConfig(Concrete.MODID);
 
     public Concrete()
     {
@@ -363,6 +366,9 @@ public class Concrete
         TILES.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
         modEventBus.addListener(this::addCreative);
+        
+        // Register Config stuff
+        Config.setupConfigs(Concrete.config, Concrete.MODID, Concrete.MODID);
     }
 
     public ItemStack getItem(String modID, String name)
