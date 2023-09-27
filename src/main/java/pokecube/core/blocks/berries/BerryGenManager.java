@@ -71,33 +71,33 @@ public class BerryGenManager
             if (event.getName() != null)
             {
                 ResourceKey<Biome> key = ResourceKey.create(Registry.BIOME_REGISTRY, event.getName());
-                String no_specific_biomes = spawn.values.get("no_biomes");
+                String no_specific_biomes = spawn.getString("no_biomes");
                 if (no_specific_biomes != null)
                 {
                     String[] ts = no_specific_biomes.split(",");
                     for (String s : ts) if (s.equals(event.getName().toString())) return false;
                 }
-                String no_biome_types = spawn.values.get("no_biome_types");
+                String no_biome_types = spawn.getString("no_biome_types");
                 if (no_biome_types != null)
                 {
                     String[] ts = no_biome_types.split(",");
                     for (String s : ts) if (BiomeDatabase.contains(key, s)) return false;
                 }
                 String catName = event.getCategory().getName();
-                String no_biome_cats = spawn.values.get("no_biome_category");
+                String no_biome_cats = spawn.getString("no_biome_category");
                 if (no_biome_cats != null)
                 {
                     String[] ts = no_biome_cats.split(",");
                     for (String s : ts) if (catName.equals(s)) return false;
                 }
-                String specific_biomes = spawn.values.get("biomes");
+                String specific_biomes = spawn.getString("biomes");
                 if (specific_biomes != null)
                 {
                     String[] ts = specific_biomes.split(",");
                     for (String s : ts) if (s.equals(event.getName().toString())) return true;
                     return false;
                 }
-                String biome_types = spawn.values.get("biome_types");
+                String biome_types = spawn.getString("biome_types");
                 boolean correctType = biome_types == null || biome_types.isBlank();
                 if (!correctType)
                 {
@@ -105,7 +105,7 @@ public class BerryGenManager
                     for (String s : ts) if (!BiomeDatabase.contains(key, s)) return false;
                     correctType = true;
                 }
-                String biome_cats = spawn.values.get("biome_category");
+                String biome_cats = spawn.getString("biome_category");
                 boolean correctCategory = biome_cats == null || biome_cats.isBlank();
                 if (!correctCategory)
                 {
@@ -177,9 +177,9 @@ public class BerryGenManager
         Integer p1 = 50;
         Integer p2 = 50;
         if (o1.spawnRule.values.containsKey(BerryGenManager.prior))
-            p1 = Integer.parseInt(o1.spawnRule.values.get(BerryGenManager.prior));
+            p1 = Integer.parseInt(o1.spawnRule.getString(BerryGenManager.prior));
         if (o2.spawnRule.values.containsKey(BerryGenManager.prior))
-            p2 = Integer.parseInt(o2.spawnRule.values.get(BerryGenManager.prior));
+            p2 = Integer.parseInt(o2.spawnRule.getString(BerryGenManager.prior));
         return p1.compareTo(p2);
     };
 
