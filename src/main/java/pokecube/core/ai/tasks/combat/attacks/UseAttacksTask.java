@@ -17,6 +17,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
+import pokecube.core.ai.tasks.IMoveUseAI;
 import pokecube.core.ai.tasks.combat.CombatTask;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.moves.MovesUtils;
@@ -34,7 +35,7 @@ import thut.lib.TComponent;
  * decided to battle, as well as dealing with combat between rivals over a mate.
  * It is the one to queue the attack for the pokemob to perform.
  */
-public class UseAttacksTask extends CombatTask implements IAICombat
+public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
 {
     /** IPokemob version of entityTarget. */
     IPokemob pokemobTarget;
@@ -70,21 +71,9 @@ public class UseAttacksTask extends CombatTask implements IAICombat
     @Override
     public void reset()
     {
-        this.clearUseMove();
+        this.clearUseMove(this.pokemob);
         this.waitingToStart = false;
         leapDelay = -1;
-    }
-
-    private void setUseMove()
-    {
-        this.pokemob.setCombatState(CombatStates.EXECUTINGMOVE, true);
-        BrainUtils.setMoveUseTarget(this.entity, this.targetLoc);
-    }
-
-    private void clearUseMove()
-    {
-        this.pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
-        BrainUtils.clearMoveUseTarget(this.entity);
     }
 
     @Override
@@ -136,7 +125,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
         BehaviorUtils.lookAtEntity(this.entity, this.target);
 
         // No executing move state with no target location.
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove();
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove(this.pokemob);
 
         double var1 = (this.entity.getBbWidth() + 0.75) * (this.entity.getBbWidth() + 0.75);
         boolean distanced = false;
@@ -196,13 +185,13 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                 delay = true;
             }
             shouldPath = false;
-            if (!self) this.setUseMove();
-            else this.clearUseMove();
+            if (!self) this.setUseMove(this.pokemob, this.targetLoc);
+            else this.clearUseMove(this.pokemob);
         }
 
         if (!self && (!inRange || !distanced))
         {
-            this.setUseMove();
+            this.setUseMove(this.pokemob, this.targetLoc);
             if (BrainUtils.getLeapTarget(this.entity) == null && leapDelay-- < 0)
             {
                 BrainUtils.setLeapTarget(this.entity, new EntityTracker(this.target, false));
@@ -228,7 +217,7 @@ public class UseAttacksTask extends CombatTask implements IAICombat
                 this.pokemob.executeMove(this.target, this.targetLoc.copy(), f);
                 // Reset executing move and no item use status now that we have
                 // used a move.
-                this.clearUseMove();
+                this.clearUseMove(this.pokemob);
                 this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
                 this.targetLoc.clear();
                 shouldPath = false;
