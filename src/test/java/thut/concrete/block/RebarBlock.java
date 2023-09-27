@@ -197,7 +197,6 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         }
         else if (flowState.getBlock() instanceof RebarBlock rebar)
         {
-//            destState = IFlowingBlock.copyValidTo(flowState, destState);
             destState = this.setAmount(destState, this.getExistingAmount(flowState, posTo, level));
             return destState;
         }
