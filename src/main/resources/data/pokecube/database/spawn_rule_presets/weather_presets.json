@@ -1,0 +1,39 @@
+{
+  "rules": [
+    {
+      "values": {
+        "preset": "sunny",
+        "weather": "sun",
+        "types": "all"
+      }
+    },
+    {
+      "values": {
+        "preset": "cloudy",
+        "weather": "cloud",
+        "types": "all"
+      }
+    },
+    {
+      "values": {
+        "preset": "raining",
+        "weather": "rain",
+        "types": "all"
+      }
+    },
+    {
+      "values": {
+        "preset": "snowing",
+        "weather": "snow",
+        "types": "all"
+      }
+    },
+    {
+      "values": {
+        "preset": "thundering",
+        "weather": "thunder",
+        "types": "all"
+      }
+    }
+  ]
+}
