@@ -4,6 +4,11 @@ import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 
+/**
+ * Base matcher class, includes the json key: "negate", which inverts the
+ * condition.
+ *
+ */
 public abstract class BaseMatcher implements MatchChecker
 {
     public boolean negate = false;

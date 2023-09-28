@@ -6,6 +6,15 @@ import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 
+/**
+ * 
+ * This class matches the block position for a location. <br>
+ * <br>
+ * Matcher key: "location" <br>
+ * Json keys: <br>
+ * "f" - String, function of x, y, z to check. Valid if the result is > 0 <br>
+ *
+ */
 @MatcherFunction(name = "location")
 public class Location extends BaseMatcher
 {

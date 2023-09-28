@@ -6,6 +6,18 @@ import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.core.utils.TimePeriod;
 
+/**
+ * 
+ * This class matches the time for a condition. <br>
+ * <br>
+ * Matcher key: "light" <br>
+ * Json keys: <br>
+ * "start" - float, start time of day (fraction of day, 0-1) <br>
+ * "end" - float, end time of day (fraction of day, 0-1) <br>
+ * "preset" - String, Optional, "day", "dawn", "dusk" or "night" to apply the
+ * default times
+ *
+ */
 @MatcherFunction(name = "time")
 public class Time extends BaseMatcher
 {
