@@ -187,7 +187,13 @@ public class BlockInit
     // Tapus Totems
     public static final RegistryObject<Block> TOTEM_BLOCK;
 
-    private static final Map<String, MapColor> totemColours = Maps.newHashMap();
+    public static final Map<String, MapColor> totemColours = Maps.newHashMap();
+    public static final String[] totemDyeColours =
+            {
+                    "_white_totem", "_lightgray_totem", "_gray_totem", "_black_totem", "_brown_totem", "_red_totem",
+                    "_orange_totem", "_yellow_totem", "_lime_totem", "_green_totem", "_cyan_totem",
+                    "_lightblue_totem", "_blue_totem", "_purple_totem", "_magenta_totem", "_pink_totem"
+            };
     public static final String[] totemKeys =
     {
             "_white_totem", "_lightgray_totem", "_gray_totem", "_black_totem", "_brown_totem", "_red_totem",

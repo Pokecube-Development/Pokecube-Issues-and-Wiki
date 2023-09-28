@@ -407,10 +407,10 @@ public class Concrete
                 event.accept(BRUSHES[i]);
             }
 
+            event.accept(CACO3_ITEM);
+            event.accept(CAO_ITEM);
             event.accept(DUST_ITEM);
             event.accept(CEMENT_ITEM);
-            event.accept(CAO_ITEM);
-            event.accept(CACO3_ITEM);
             
             event.accept(REBAR_BLOCK);
             event.accept(FORMWORK_BLOCK);
