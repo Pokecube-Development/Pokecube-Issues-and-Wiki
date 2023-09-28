@@ -334,11 +334,11 @@ public class ItemInit
         ELECTRIC_WING = PokecubeLegends.ITEMS.register("electric_wing",
                 () -> new ItemBase("electric_wing", PokecubeLegends.TAB_LEGENDS, 1));
         FIRE_WING = PokecubeLegends.ITEMS.register("fire_wing",
-                () -> new ItemBase("fire_wing", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("fire_wing", 1, PokecubeLegends.TAB_LEGENDS, 1));
         ICE_DARK_WING = PokecubeLegends.ITEMS.register("ice_dark_wing",
                 () -> new ItemBase("ice_dark_wing", PokecubeLegends.TAB_LEGENDS, 1));
         ICE_WING = PokecubeLegends.ITEMS.register("ice_wing",
-                () -> new ItemBase("ice_wing", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("ice_wing", 1, PokecubeLegends.TAB_LEGENDS, 1));
         LUNAR_WING = PokecubeLegends.ITEMS.register("lunar_wing",
                 () -> new ItemBase("lunar_wing", PokecubeLegends.TAB_LEGENDS, 1));
         RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing",
