@@ -7,7 +7,7 @@ import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.core.utils.TimePeriod;
 
 @MatcherFunction(name = "time")
-public class Time implements MatchChecker
+public class Time extends BaseMatcher
 {
     public float start = 0;
     public float end = 0;
@@ -16,7 +16,7 @@ public class Time implements MatchChecker
     private TimePeriod _time;
 
     @Override
-    public MatchResult matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
+    public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
         return _time.contains(checker.time) ? MatchResult.SUCCEED : MatchResult.FAIL;
     }

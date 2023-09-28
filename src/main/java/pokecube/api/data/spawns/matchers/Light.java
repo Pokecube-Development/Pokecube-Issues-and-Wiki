@@ -5,13 +5,13 @@ import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 
 @MatcherFunction(name = "light")
-public class Light implements MatchChecker
+public class Light extends BaseMatcher
 {
     public float min;
     public float max;
 
     @Override
-    public MatchResult matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
+    public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
         return checker.light < max && checker.light >= min ? MatchResult.SUCCEED : MatchResult.FAIL;
     }

@@ -7,14 +7,14 @@ import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 
 @MatcherFunction(name = "location")
-public class Location implements MatchChecker
+public class Location extends BaseMatcher
 {
     public String f;
 
     private JEP _parser = new JEP();
 
     @Override
-    public MatchResult matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
+    public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
         _parser.setVarValue("x", checker.location.x);
         _parser.setVarValue("y", checker.location.y);
