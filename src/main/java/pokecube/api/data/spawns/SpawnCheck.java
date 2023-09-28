@@ -73,6 +73,7 @@ public class SpawnCheck
     public final boolean night;
     public final Material material;
     public final float light;
+    public final float time;
     public final Holder<Biome> biome;
     public final BiomeType type;
     public final Weather weather;
@@ -95,7 +96,7 @@ public class SpawnCheck
         this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
-        final double time = TimePeriod.getTime(level);
+        this.time = (float) TimePeriod.getTime(level);
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
         this.light = lightBlock / 15f;
         this.weather = Weather.getForWorld(level, location);
