@@ -4,10 +4,8 @@ import java.util.List;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -90,17 +88,17 @@ public class ItemBase extends Item
         if (!this.hasTooltip) return;
         if (Screen.hasShiftDown())
         {
-            tooltip.add(Component.translatable("legends." + this.tooltip_block_id + ".tooltip", ChatFormatting.GOLD,
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip", ChatFormatting.GOLD,
                     ChatFormatting.BOLD, ChatFormatting.RESET).withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
             {
-                tooltip.add(Component.translatable("legends." + this.tooltip_block_id + ".tooltip.line" + lineAmt, ChatFormatting.GOLD,
+                tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip.line" + lineAmt, ChatFormatting.GOLD,
                         ChatFormatting.BOLD, ChatFormatting.RESET));
                 lineAmt++;
             }
         }
         else {
-            tooltip.add(Component.translatable("pokecube.tooltip.advanced"));
+            tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
         }
     }
 }
