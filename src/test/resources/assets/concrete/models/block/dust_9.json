@@ -1,6 +1,6 @@
 {
     "parent": "concrete:block/layered_9",
     "textures": {
-        "texture": "minecraft:block/tuff"
+        "texture": "concrete:block/dust_block"
     }
 }
