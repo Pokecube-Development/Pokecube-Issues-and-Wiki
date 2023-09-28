@@ -267,7 +267,7 @@ public class Concrete
         REBAR_BLOCK = BLOCKS.register("rebar",
                 () -> new RebarBlock(Properties.of().dynamicShape().randomTicks().strength(1.0F, 1200.0F)));
         FORMWORK_BLOCK = BLOCKS.register("formwork",
-                () -> new FormworkBlock(Properties.of().sound(SoundType.SCAFFOLDING)));
+                () -> new FormworkBlock(Properties.of().sound(SoundType.SCAFFOLDING).noOcclusion()));
         // This gets a custom item instead
         NOITEM.add(REBAR_BLOCK);
         NOITEM.add(FORMWORK_BLOCK);

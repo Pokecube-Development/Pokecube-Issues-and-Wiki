@@ -1,6 +1,7 @@
 {
   "parent": "minecraft:block/cube_all",
+  "render_type": "cutout_mipped",
   "textures": {
-    "all": "minecraft:block/oak_log_top"
+    "all": "concrete:block/formwork"
   }
 }
