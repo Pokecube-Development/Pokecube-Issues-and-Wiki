@@ -412,16 +412,33 @@ public class Concrete
             event.accept(DUST_ITEM);
             event.accept(CEMENT_ITEM);
             
-            event.accept(REBAR_BLOCK);
-            event.accept(FORMWORK_BLOCK);
-            event.accept(WET_BLOCK_ITEM);
-            
             event.accept(VOLCANO);
             event.accept(getItem(Concrete.MODID, "molten_block"));
             event.accept(getItem(Concrete.MODID, "solid_block"));
             event.accept(getItem(Concrete.MODID, "dust_block"));
 
+            event.accept(REBAR_BLOCK);
+            event.accept(FORMWORK_BLOCK);
+            event.accept(WET_BLOCK_ITEM);
+
             // Items listed in order of rainbow like vanilla. This is why the for statement for DyeColor isn't used
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_white"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_light_gray"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_gray"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_black"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_brown"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_red"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_orange"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_yellow"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_lime"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_green"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_cyan"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_light_blue"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_blue"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_purple"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_magenta"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_block_pink"));
+
             event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_white"));
             event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray"));
             event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_gray"));
@@ -502,7 +519,24 @@ public class Concrete
         if (event.getTabKey().equals(CreativeModeTabs.COLORED_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
         {
             // Items listed in order of rainbow like vanilla. This is why the for statement for DyeColor isn't used
-            addAfter(event, Items.PINK_CONCRETE_POWDER, getItem(Concrete.MODID, "reinforced_concrete_layer_white").getItem());
+            addAfter(event, Items.PINK_CONCRETE_POWDER, getItem(Concrete.MODID, "reinforced_concrete_block_white").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_white").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_light_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_light_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_black").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_black").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_brown").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_brown").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_red").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_red").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_orange").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_orange").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_yellow").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_yellow").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_lime").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_lime").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_green").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_green").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_cyan").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_cyan").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_light_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_light_blue").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_blue").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_purple").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_purple").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_magenta").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_magenta").getItem(), getItem(Concrete.MODID, "reinforced_concrete_block_pink").getItem());
+
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_block_pink").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_white").getItem());
             addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_white").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray").getItem());
             addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_gray").getItem());
             addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_black").getItem());
