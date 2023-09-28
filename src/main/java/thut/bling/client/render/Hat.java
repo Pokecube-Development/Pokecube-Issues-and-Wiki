@@ -8,9 +8,6 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Wearable;
-import pokecube.compat.wearables.sided.Client;
-import thut.bling.BlingItem;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.parts.Material;
 

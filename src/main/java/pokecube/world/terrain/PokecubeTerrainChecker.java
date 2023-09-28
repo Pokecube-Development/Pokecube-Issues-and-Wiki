@@ -19,8 +19,8 @@ import net.minecraft.world.level.material.Material;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.configs.ExpandedJigsawConfiguration;
-import thut.api.level.structures.StructureManager;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.StructureManager;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.TerrainChecker;
 import thut.api.level.terrain.TerrainSegment;
@@ -160,7 +160,6 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             BlockState state = temp1.set(i, j, k).getBlockState(world);
             if (state.isAir()) continue;
             boolean isIndustrial = PokecubeTerrainChecker.isIndustrial(state);
-            if (isIndustrial) System.out.println(state);
             boolean isFlower = PokecubeTerrainChecker.isFlower(state);
             if (isIndustrial) industrial++;
             if (isFlower) flower++;

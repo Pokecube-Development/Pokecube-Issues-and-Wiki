@@ -22,8 +22,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
@@ -57,6 +55,7 @@ import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
 import pokecube.core.utils.Permissions;
+import thut.api.entity.event.BreakTestEvent;
 import thut.api.maths.Vector3;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
@@ -224,10 +223,8 @@ public class MoveEventsHandler
             return false;
         }
         final Player player = (Player) owner;
-        final BreakEvent evt = new BreakEvent(player.getLevel(), location.getPos(),
-                location.getBlockState(player.getLevel()), player);
-        MinecraftForge.EVENT_BUS.post(evt);
-        if (evt.isCanceled())
+        if (!BreakTestEvent.testBreak(player.getLevel(), location.getPos(), location.getBlockState(player.getLevel()),
+                player))
         {
             final MutableComponent message = TComponent.translatable("pokemob.createbase.deny.noperms");
             if (!user.inCombat() && denyMessage) thut.lib.ChatHelper.sendSystemMessage(player, message);

@@ -1,5 +1,6 @@
 package pokecube.api.data.spawns;
 
+import java.util.Collection;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -8,6 +9,8 @@ import com.google.gson.JsonObject;
 
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
+import pokecube.api.data.spawns.matchers.MatchChecker;
+import pokecube.api.data.spawns.matchers.MatcherLoaders;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import thut.api.util.JsonUtil;
 
@@ -18,7 +21,8 @@ public class SpawnRule
     public String and_preset = "";
     public String not_preset = "";
     public String or_preset = "";
-    public Map<String, String> values = Maps.newHashMap();
+    public Map<String, Object> matchers = Maps.newHashMap();
+    public Map<String, Object> values = Maps.newHashMap();
 
     public DefaultFormeHolder model = null;
 
@@ -46,6 +50,40 @@ public class SpawnRule
         return null;
     }
 
+    public String getString(String key)
+    {
+        Object o = this.values.get(key);
+        if (o instanceof String s) return s;
+        return null;
+    }
+
+    public String removeString(String key)
+    {
+        Object o = this.values.remove(key);
+        if (o instanceof String s) return s;
+        if (o != null) this.values.put(key, o);
+        return null;
+    }
+
+    public void initMatchers()
+    {
+        this.matchers.replaceAll((key, value) -> {
+            // Leave the match checkers alone after further runs of this
+            if (value instanceof MatchChecker) return value;
+
+            // Now look up classes
+            Class<?> clazz = MatcherLoaders.matchClasses.get(key);
+
+            // And convert from strings as needed
+            if (clazz != null)
+            {
+                String json = JsonUtil.gson.toJson(value);
+                return JsonUtil.gson.fromJson(json, clazz);
+            }
+            return null;
+        });
+    }
+
     public boolean isValid()
     {
         if (!this.preset.isBlank()) this.values.put(SpawnBiomeMatcher.PRESET, this.preset);
@@ -53,8 +91,12 @@ public class SpawnRule
         if (!this.or_preset.isBlank()) this.values.put(SpawnBiomeMatcher.ORPRESET, this.or_preset);
         if (!this.not_preset.isBlank()) this.values.put(SpawnBiomeMatcher.NOTPRESET, this.not_preset);
         for (String s : Lists.newArrayList(this.values.keySet()))
-            if (this.values.get(s).isBlank()) this.values.remove(s);
-        return !this.values.isEmpty() || this.biomes != null;
+        {
+            Object o = this.values.get(s);
+            if (o == null || (o instanceof String s2 && s2.isBlank()) || (o instanceof Collection<?> c && c.isEmpty()))
+                this.values.remove(s);
+        }
+        return !this.values.isEmpty() || this.biomes != null || !matchers.isEmpty();
     }
 
     public SpawnRule copy()

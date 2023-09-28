@@ -25,6 +25,7 @@ import thut.api.maths.vecmath.Vec3f;
 import thut.api.particle.ParticleBase;
 import thut.api.particle.ParticleNoGravity;
 import thut.api.particle.ThutParticles;
+import thut.lib.AxisAngles;
 
 @OnlyIn(value = Dist.CLIENT)
 public class ParticleFactories
@@ -97,7 +98,7 @@ public class ParticleFactories
             {
                 quaternion = new Quaternion(renderInfo.rotation());
                 final float f3 = Mth.lerp(partialTicks, this.oRoll, this.roll);
-                quaternion.mul(com.mojang.math.Vector3f.ZP.rotation(f3));
+                quaternion.mul(AxisAngles.ZP.rotation(f3));
             }
 
             this.particle.renderParticle(buffer, renderInfo, partialTicks, source);

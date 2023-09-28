@@ -863,7 +863,7 @@ public final class SpawnHandler
                         }
                         else if (matcher.spawnRule.values.containsKey(SpawnBiomeMatcher.SPAWNCOMMAND))
                         {
-                            final String[] args = matcher.spawnRule.values.get(SpawnBiomeMatcher.SPAWNCOMMAND)
+                            final String[] args = matcher.spawnRule.getString(SpawnBiomeMatcher.SPAWNCOMMAND)
                                     .split(" ");
                             Pokemake.setToArgs(args, pokemob, 0, v, false);
                         }

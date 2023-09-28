@@ -50,6 +50,28 @@
         "preset": "underground",
         "types": "#forge:is_underground,all"
       }
+    },
+    {
+      "values": {
+        "preset": "deep_down",
+        "types": "all"
+      },
+      "matchers": { 
+      	"location": { 
+  			"f": "-y"
+      	}
+      }
+    },
+    {
+      "values": {
+        "preset": "sky_high",
+        "types": "all"
+      },
+      "matchers": { 
+      	"location": { 
+  			"f": "y - 150"
+      	}
+      }
     }
   ]
 }

@@ -3,40 +3,41 @@
     {
       "and_preset": "nether_forests",
       "entries": [
-        {"key": "ponyta-galar","min": 2,"max": 4,"rate": 0.3},
-        {"key": "misdreavus","min": 2,"max": 4,"rate": 0.3},
-        {"key": "phantump","min": 2,"max": 4,"rate": 0.3},
+        {"key": "ponyta-galar","min": 1,"max": 4,"rate": 0.3},
+        {"key": "misdreavus","min": 1,"max": 4,"rate": 0.3},
+        {"key": "phantump","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "pumpkaboo-average","min": 2,"max": 4,"rate": 0.08},
-        {"key": "pumpkaboo-large","min": 2,"max": 4,"rate": 0.08},
-        {"key": "pumpkaboo-small","min": 2,"max": 4,"rate": 0.08},
-        {"key": "pumpkaboo-super","min": 2,"max": 4,"rate": 0.08}
+        {"key": "pumpkaboo-average","min": 1,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo-large","min": 1,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo-small","min": 1,"max": 4,"rate": 0.08},
+        {"key": "pumpkaboo-super","min": 1,"max": 4,"rate": 0.08}
       ]
     },
     {
       "and_preset": "nether",
       "not_preset": "forests",
       "entries": [
-        {"key": "slugma","min": 2,"max": 4,"rate": 0.5},
-        {"key": "magmar","min": 2,"max": 4,"rate": 0.2}
+        {"key": "slugma","min": 1,"max": 4,"rate": 0.5},
+        {"key": "magmar","min": 1,"max": 4,"rate": 0.2}
       ]
     },
     {
       "and_preset": "nether",
       "entries": [
-        {"key": "koffing","min": 2,"max": 4,"rate": 0.8},
-        {"key": "gastly","min": 2,"max": 4,"rate": 0.4},
-        {"key": "litwick","min": 2,"max": 4,"rate": 0.4},
+        {"key": "koffing","min": 1,"max": 4,"rate": 0.8},
+        {"key": "gastly","min": 1,"max": 4,"rate": 0.4},
+        {"key": "litwick","min": 1,"max": 4,"rate": 0.4},
         
-        {"key": "houndour","min": 2,"max": 4,"rate": 0.2},
+        {"key": "houndour","min": 1,"max": 4,"rate": 0.2},
+        {"key": "greavard","min": 1,"max": 2,"rate": 0.2},
         
-        {"key": "shuppet","min": 2,"max": 4,"rate": 0.2},
-        {"key": "duskull","min": 2,"max": 4,"rate": 0.2},
+        {"key": "shuppet","min": 1,"max": 4,"rate": 0.2},
+        {"key": "duskull","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "yamask","min": 2,"max": 4,"rate": 0.1},
-        {"key": "yamask-galar","min": 2,"max": 4,"rate": 0.1},
-        {"key": "zorua","min": 2,"max": 4,"rate": 0.1},
-        {"key": "golett","min": 2,"max": 4,"rate": 0.1},
+        {"key": "yamask","min": 1,"max": 4,"rate": 0.1},
+        {"key": "yamask-galar","min": 1,"max": 4,"rate": 0.1},
+        {"key": "zorua","min": 1,"max": 4,"rate": 0.1},
+        {"key": "golett","min": 1,"max": 4,"rate": 0.1},
         
         {"key": "entei","min": 1,"max": 1,"rate": 0.02}
       ]
@@ -44,23 +45,23 @@
     {
       "and_preset": "spooky_areas",
       "entries": [
-        {"key": "gastly","min": 2,"max": 4,"rate": 0.4},
-        {"key": "litwick","min": 2,"max": 4,"rate": 0.4},
+        {"key": "gastly","min": 1,"max": 4,"rate": 0.4},
+        {"key": "litwick","min": 1,"max": 4,"rate": 0.4},
         
-        {"key": "shuppet","min": 2,"max": 4,"rate": 0.3},
-        {"key": "duskull","min": 2,"max": 4,"rate": 0.3},
+        {"key": "shuppet","min": 1,"max": 4,"rate": 0.3},
+        {"key": "duskull","min": 1,"max": 4,"rate": 0.3},
         
-        {"key": "hatenna","min": 2,"max": 4,"rate": 0.2},
-        {"key": "impidimp","min": 2,"max": 4,"rate": 0.2},
-        {"key": "ponyta-galar","min": 2,"max": 4,"rate": 0.2},
+        {"key": "hatenna","min": 1,"max": 4,"rate": 0.2},
+        {"key": "impidimp","min": 1,"max": 4,"rate": 0.2},
+        {"key": "ponyta-galar","min": 1,"max": 4,"rate": 0.2},
         
-        {"key": "zorua","min": 2,"max": 4,"rate": 0.1},
-        {"key": "misdreavus","min": 2,"max": 4,"rate": 0.1},
-        {"key": "drifloon","min": 2,"max": 4,"rate": 0.1},
+        {"key": "zorua","min": 1,"max": 4,"rate": 0.1},
+        {"key": "misdreavus","min": 1,"max": 4,"rate": 0.1},
+        {"key": "drifloon","min": 1,"max": 4,"rate": 0.1},
         
-        {"key": "corsola-galar","min": 2,"max": 4,"rate": 0.08},
+        {"key": "corsola-galar","min": 1,"max": 4,"rate": 0.08},
         
-        {"key": "spiritomb","min": 2,"max": 4,"rate": 0.05},
+        {"key": "spiritomb","min": 1,"max": 4,"rate": 0.05},
         
         {"key": "marshadow","min": 1,"max": 1,"rate": 0.002}
       ]
@@ -68,15 +69,16 @@
     {
       "and_preset": "spooky_areas,caves",
       "entries": [
-        {"key": "spiritomb","min": 2,"max": 4,"rate": 0.2}
+        {"key": "spiritomb","min": 1,"max": 4,"rate": 0.2},
+        {"key": "greavard","min": 1,"max": 1,"rate": 0.2}
       ]
     },
     {
       "and_preset": "spooky_areas",
       "not_preset": "cold_areas",
       "entries": [
-        {"key": "sinistea","min": 2,"max": 4,"rate": 0.2, "variant": "sinistea-phony"},
-        {"key": "sinistea","min": 2,"max": 4,"rate": 0.02, "variant": "sinistea-antique"}
+        {"key": "sinistea","min": 1,"max": 4,"rate": 0.2, "variant": "sinistea-phony"},
+        {"key": "sinistea","min": 1,"max": 4,"rate": 0.02, "variant": "sinistea-antique"}
       ]
     }
   ]

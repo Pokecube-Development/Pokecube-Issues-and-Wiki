@@ -54,6 +54,12 @@ public class PokemobSpawns extends ResourceData
         public int level = -1;
         public String variance;
         public String variant = "";
+        
+        @Override
+        public String toString()
+        {
+            return JsonUtil.gson.toJson(this);
+        }
     }
 
     private static final SpawnList MASTER_LIST = new SpawnList();

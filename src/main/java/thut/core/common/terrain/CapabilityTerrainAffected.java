@@ -3,6 +3,7 @@ package thut.core.common.terrain;
 import java.util.Collection;
 
 import net.minecraft.core.Direction;
+import net.minecraft.core.SectionPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -64,10 +65,19 @@ public class CapabilityTerrainAffected
         public void onTerrainTick()
         {
             if (this.theMob == null) return;
-            final TerrainSegment current = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
-            if (current != this.terrain)
+            if (this.terrain == null)
             {
-                this.onTerrainEntry(current);
+                this.terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
+                this.onTerrainEntry(this.terrain);
+                return;
+            }
+            var mobPos = SectionPos.of(this.theMob.blockPosition());
+            boolean samePos = mobPos.x() == this.terrain.chunkX && mobPos.y() == this.terrain.chunkY
+                    && mobPos.y() == this.terrain.chunkY;
+            if (!samePos)
+            {
+                this.terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
+                this.onTerrainEntry(this.terrain);
                 return;
             }
             if (this.effects == null) return;

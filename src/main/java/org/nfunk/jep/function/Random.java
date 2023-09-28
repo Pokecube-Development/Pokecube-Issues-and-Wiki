@@ -13,12 +13,13 @@ import org.nfunk.jep.ParseException;
 /**
  * Encapsulates the Math.random() function.
  */
-@SuppressWarnings({ "rawtypes", "unchecked" })
+@SuppressWarnings(
+{ "rawtypes", "unchecked" })
 public class Random extends PostfixMathCommand
 {
     public Random()
     {
-        this.numberOfParameters = 0;
+        this.numberOfParameters = -1;
 
     }
 
@@ -26,7 +27,27 @@ public class Random extends PostfixMathCommand
     public void run(Stack inStack) throws ParseException
     {
         this.checkStack(inStack);// check the stack
-        inStack.push(Double.valueOf(Math.random()));
-        return;
+
+        var rand = Math.random();
+        switch (this.curNumberOfParameters)
+        {
+        case 0:
+            inStack.push(Double.valueOf(rand));
+            return;
+        case 1:
+            var r = inStack.pop();
+            if (r instanceof Number n) inStack.push(Double.valueOf(rand * n.doubleValue()));
+            return;
+        case 2:
+            var max = inStack.pop();
+            var min = inStack.pop();
+            if (max instanceof Number max2 && min instanceof Number min2)
+            {
+                var min_ = min2.doubleValue();
+                var range = max2.doubleValue() - min_;
+                inStack.push(Double.valueOf(rand * range + min_));
+            }
+            return;
+        }
     }
 }

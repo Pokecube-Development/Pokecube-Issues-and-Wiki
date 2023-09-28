@@ -768,7 +768,7 @@ public class PokedexEntry
     public static final String MODELPATH = "models/entity/pokemob/";
 
     public static TimePeriod dawn = new TimePeriod(0.85, 0.05);
-    public static TimePeriod day = new TimePeriod(0.0, 0.5);
+    public static TimePeriod day = new TimePeriod(0.05, 0.45);
     public static TimePeriod dusk = new TimePeriod(0.45, 0.6);
     public static TimePeriod night = new TimePeriod(0.6, 0.85);
 
@@ -2033,6 +2033,7 @@ public class PokedexEntry
     public void onHeldItemChange(final ItemStack oldStack, final ItemStack newStack, final IPokemob pokemob)
     {
         if (newStack.isEmpty() && oldStack.isEmpty()) return;
+        if (!ThutCore.proxy.isServerSide()) return;
         boolean isChangedForme = pokemob.getCustomHolder() != null && pokemob.getCustomHolder()._is_item_forme;
         PokedexEntry base = this;
         if (!isChangedForme && this.formeItems.isEmpty() && this.getBaseForme() != null)

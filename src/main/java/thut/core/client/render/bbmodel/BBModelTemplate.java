@@ -18,6 +18,7 @@ import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public class BBModelTemplate
 {
@@ -247,9 +248,9 @@ public class BBModelTemplate
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
-                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(Vector3f.YP.rotationDegrees(z));
-                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(AxisAngles.YP.rotationDegrees(z));
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(origin_offset);
@@ -301,20 +302,28 @@ public class BBModelTemplate
         private boolean brokenQuad(MeshFace face, Map<String, Vertex> verts)
         {
             if (face.vertices.size() != 4) return false;
-            Vertex tmp1 = new Vertex(0, 0);
-            Vertex tmp2 = new Vertex(0, 0);
-            Vertex tmp3 = new Vertex(0, 0);
+            Vertex toNext = new Vertex(0, 0);
+            Vertex toPrev = new Vertex(0, 0);
+            Vertex toOpp = new Vertex(0, 0);
             var vert = verts.get(face.vertices.get(0));
             var next = verts.get(face.vertices.get((1)));
             var crnr = verts.get(face.vertices.get((2)));
             var prev = verts.get(face.vertices.get((3)));
 
-            tmp1.sub(next, vert);
-            tmp2.sub(prev, vert);
-            tmp3.sub(crnr, vert);
+            toNext.sub(next, vert);
+            toPrev.sub(prev, vert);
+            toOpp.sub(crnr, vert);
 
-            double d1 = tmp1.angle(tmp2);
-            double d2 = tmp1.angle(tmp3);
+            double d1 = toNext.angle(toPrev);
+            double d2 = toNext.angle(toOpp);
+            double d3 = toPrev.angle(toOpp);
+            // If it is a square sided quad, this is a text of squareness.
+            if (Math.abs(d2 + d3 - d1) > 1e-5)
+            {
+                return true;
+            }
+            // Otherwise check if the angle is larger between sides than to
+            // opposite.
             return d2 > d1;
         }
 
@@ -330,9 +339,9 @@ public class BBModelTemplate
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
-                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
-                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
+                if (z != 0) quat.mul(AxisAngles.YN.rotationDegrees(z));
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(b.origin);
@@ -353,7 +362,11 @@ public class BBModelTemplate
                 vec.transform(quat);
                 vec.add(origin);
 
-                v.set(vec.x() / 16, -vec.z() / 16, vec.y() / 16);
+                float x = vec.x() / 16f;
+                float y = -vec.z() / 16f;
+                float z = vec.y() / 16f;
+
+                v.set(x, y, z);
                 verts.put(key, v);
             }
 
@@ -375,9 +388,27 @@ public class BBModelTemplate
                         var other_b = other_meshs.get(0) == b ? other_meshs.get(1) : other_meshs.get(0);
                         MeshFace face_2 = JsonUtil.gson.fromJson(other_b.faces.get(key), MeshFace.class);
                         map_order = face_2.vertices;
+
+                        // Now check if the face is also broken, if so, fix it
+                        // manually
+                        var borked = brokenQuad(face_2, verts);
+                        if (borked)
+                        {
+                            map_order = face.vertices;
+                            var a = face.vertices.get(1);
+                            face.vertices.set(1, face.vertices.get(2));
+                            face.vertices.set(2, a);
+                            same = true;
+                        }
                     }
                     else
-                    {}
+                    {
+                        map_order = face.vertices;
+                        var a = face.vertices.get(2);
+                        face.vertices.set(2, face.vertices.get(3));
+                        face.vertices.set(3, a);
+                        same = true;
+                    }
                 }
 
                 for (int j = 0; j < face.vertices.size(); j++)

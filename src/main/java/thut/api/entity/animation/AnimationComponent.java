@@ -27,8 +27,8 @@ public class AnimationComponent
     public double opacityOffset = 1.0D;
 
     public String name = "";
-    public int length = 0;
-    public int startKey = 0;
+    public float length = 0;
+    public float startKey = 0;
     public boolean hidden = false;
     public boolean limbBased = false;
     public String identifier = "";

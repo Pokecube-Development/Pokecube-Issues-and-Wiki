@@ -8,12 +8,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 
 public class PokemobInventory extends SimpleContainer implements Nameable
 {
@@ -30,12 +33,14 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     Container start = null;
 
     public final LivingEntity entity;
+    public final IPokemob pokemob;
 
     private int startSize = 0;
 
     public PokemobInventory(LivingEntity entity)
     {
         this.entity = entity;
+        this.pokemob = PokemobCaps.getPokemobFor(entity);
 
         start = new SimpleContainer(MAIN_INVENTORY_SIZE);
         int i = start.getContainerSize();
@@ -78,6 +83,7 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     public ItemStack getItem(int slot)
     {
         if (SLOTMAP.containsKey(slot)) return entity.getItemBySlot(SLOTMAP.get(slot));
+        if (slot == 1) return entity.getMainHandItem();
         return start.getItem(slot);
     }
 
@@ -90,6 +96,12 @@ public class PokemobInventory extends SimpleContainer implements Nameable
             list.set(0, getItem(slot));
             return list != null && !list.get(0).isEmpty() ? ContainerHelper.removeItem(list, 0, amount)
                     : ItemStack.EMPTY;
+        }
+        if (slot == 1)
+        {
+            ItemStack stack = entity.getMainHandItem();
+            entity.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+            return stack;
         }
         return start.removeItem(slot, amount);
     }
@@ -112,13 +124,24 @@ public class PokemobInventory extends SimpleContainer implements Nameable
                 return ItemStack.EMPTY;
             }
         }
+        if (slot == 1)
+        {
+            ItemStack stack = entity.getMainHandItem();
+            entity.setItemInHand(InteractionHand.MAIN_HAND, ItemStack.EMPTY);
+            return stack;
+        }
         return start.removeItemNoUpdate(slot);
     }
 
     @Override
     public void setItem(int slot, ItemStack stack)
     {
-        if (SLOTMAP.containsKey(slot)) entity.setItemSlot(SLOTMAP.get(slot), stack);
+        if (slot == 1) entity.setItemSlot(EquipmentSlot.MAINHAND, stack);
+        else if (SLOTMAP.containsKey(slot))
+        {
+            EquipmentSlot _slot = SLOTMAP.get(slot);
+            entity.setItemSlot(_slot, stack);
+        }
         else start.setItem(slot, stack);
     }
 

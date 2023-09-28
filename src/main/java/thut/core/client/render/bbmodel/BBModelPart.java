@@ -7,7 +7,6 @@ import java.util.Set;
 
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
@@ -22,6 +21,7 @@ import thut.core.client.render.model.parts.Part;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.client.render.x3d.X3dMesh;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public class BBModelPart extends Part
 {
@@ -167,6 +167,14 @@ public class BBModelPart extends Part
         super.resetToInit();
         rx = ry = rz = 0;
     }
+    
+    @Override
+    public void setDefaultAngles(float rx, float ry, float rz)
+    {
+        this.rotations.x += rx;
+        this.rotations.y += ry;
+        this.rotations.z += rz;
+    }
 
     @Override
     public void setAnimAngles(float rx, float ry, float rz)
@@ -191,9 +199,9 @@ public class BBModelPart extends Part
         float ry = this.ry + rotations.y;
         float rz = this.rz + rotations.z;
 
-        if (rz != 0) mat.mulPose(Vector3f.YN.rotationDegrees(rz));
-        if (ry != 0) mat.mulPose(Vector3f.ZP.rotationDegrees(ry));
-        if (rx != 0) mat.mulPose(Vector3f.XP.rotationDegrees(rx));
+        if (rz != 0) mat.mulPose(AxisAngles.YN.rotationDegrees(rz));
+        if (ry != 0) mat.mulPose(AxisAngles.ZP.rotationDegrees(ry));
+        if (rx != 0) mat.mulPose(AxisAngles.XP.rotationDegrees(rx));
 
         // Translate by post-PreOffset amount.
         mat.translate(this.postTrans.x, this.postTrans.y, this.postTrans.z);

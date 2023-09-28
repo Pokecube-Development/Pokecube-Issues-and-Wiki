@@ -382,6 +382,13 @@ public abstract class PokemobMoves extends PokemobStats
             }
             break battle_check;
         }
+        // Client side we pull them from the ids.
+        else
+        {
+            Entity e = entity.getLevel().getEntity(this.getTargetID());
+            if (e instanceof LivingEntity living) target = living;
+        }
+
         // Then both sides update targetEnemy and targetAlly
         this.getMoveStats().targetEnemy = target;
         Entity e = entity.getLevel().getEntity(this.getAllyID());

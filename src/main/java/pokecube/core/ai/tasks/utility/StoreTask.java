@@ -24,9 +24,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.event.world.BlockEvent.BreakEvent;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -34,6 +32,7 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import thut.api.ThutCaps;
+import thut.api.entity.event.BreakTestEvent;
 import thut.api.item.ItemList;
 import thut.lib.ItemStackTools;
 
@@ -467,9 +466,7 @@ public class StoreTask extends UtilTask implements INBTSerializable<CompoundTag>
         // TODO decide on what to do here later, for now, only let this run if
         // owner is online.
         if (!(pokemob.getOwner() instanceof Player player)) return false;
-        final BreakEvent evt = new BreakEvent(player.getLevel(), pos, world.getBlockState(pos), player);
-        MinecraftForge.EVENT_BUS.post(evt);
-        if (evt.isCanceled()) return false;
+        if (!BreakTestEvent.testBreak(player.getLevel(), pos, world.getBlockState(pos), player)) return false;
         this.knownValid.add(pos.immutable());
         return true;
     }

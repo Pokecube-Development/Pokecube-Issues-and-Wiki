@@ -51,6 +51,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
     private boolean changing = false;
 
+    private boolean _shinyCache = false;
+
     @Override
     public Ability getAbility()
     {
@@ -398,15 +400,17 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                                 : gene);
                 this.genesShiny.refreshExpressed();
             }
+            final ShinyGene gene = this.genesShiny.getExpressed();
+            boolean shiny = gene.getValue();
+            if (shiny && !this.getPokedexEntry().hasShiny)
+            {
+                shiny = false;
+                gene.setValue(false);
+            }
+            if (this.getCustomHolder() != null && !this.getCustomHolder().hasShiny) shiny = false;
+            _shinyCache = shiny;
         }
-        final ShinyGene gene = this.genesShiny.getExpressed();
-        boolean shiny = gene.getValue();
-        if (shiny && !this.getPokedexEntry().hasShiny)
-        {
-            shiny = false;
-            gene.setValue(false);
-        }
-        return shiny;
+        return _shinyCache;
     }
 
     @Override

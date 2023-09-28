@@ -68,7 +68,7 @@ public class Animators
         default void setColours(int... rgba)
         {}
 
-        int getLength();
+        float getLength();
 
         boolean hasLimbBased();
 
@@ -143,7 +143,7 @@ public class Animators
 
         public static enum CHANNEL
         {
-            POS("position"), ROT("rotation"), SCALE("scale"), OPACITY("opacity"), COLOUR("colour");
+            POS("position"), ROT("rotation"), SCALE("scale"), OPACITY("opacity"), COLOUR("colour"), HIDDEN("hidden");
 
             private final String name;
 
@@ -158,7 +158,7 @@ public class Animators
             }
         }
 
-        private static record AnimChannel(String channel, List<AnimationComponent> components, int length)
+        private static record AnimChannel(String channel, List<AnimationComponent> components, float length)
         {
         };
 
@@ -170,7 +170,7 @@ public class Animators
         public final List<AnimationComponent> components;
         public final List<AnimChannel> channels = new ArrayList<>();
         private final Set<CHANNEL> channelSet = new HashSet<>();
-        private int length = -1;
+        private float length = -1;
         private boolean limbBased;
         private boolean hidden = false;
 
@@ -184,7 +184,7 @@ public class Animators
             this(components, false, -1);
         }
 
-        public KeyframeAnimator(List<AnimationComponent> components, boolean preComputed, int baseLength)
+        public KeyframeAnimator(List<AnimationComponent> components, boolean preComputed, float baseLength)
         {
             this.components = components;
             this.length = -1;
@@ -230,6 +230,7 @@ public class Animators
                 if (scale_channel) component._valid_channels.add("scale");
                 if (opac_channel) component._valid_channels.add("opacity");
                 if (colour_channel) component._valid_channels.add("colour");
+                if (component.hidden) component._valid_channels.add("hidden");
 
                 component._needJEPInit = component._opacFunction != DEFAULTS._opacFunction;
                 component._needJEPInit |= !Arrays.equals(component._posFunctions, DEFAULTS._posFunctions);
@@ -274,7 +275,7 @@ public class Animators
                 var list = by_channel.get(key);
                 if (list != null)
                 {
-                    int len = 1;
+                    float len = 1;
                     for (var comp : list) len = Math.max(len, comp.startKey + comp.length);
                     AnimChannel channel = new AnimChannel(key, list, len);
                     this.channels.add(channel);
@@ -450,7 +451,7 @@ public class Animators
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    int l = animChannel.length();
+                    float l = animChannel.length();
                     if (l > 1)
                     {
                         t1 = time1 % l;
@@ -479,7 +480,7 @@ public class Animators
 
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
-                final int length = component.length == 0 ? 1 : component.length;
+                final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
                 rx += component.rotChange[0] * ratio + component.rotOffset[0];
@@ -496,7 +497,7 @@ public class Animators
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    int l = animChannel.length();
+                    float l = animChannel.length();
                     if (l > 1)
                     {
                         t1 = time1 % l;
@@ -525,7 +526,7 @@ public class Animators
 
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
-                final int length = component.length == 0 ? 1 : component.length;
+                final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
                 px += component.posChange[0] * ratio + component.posOffset[0];
@@ -542,7 +543,7 @@ public class Animators
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    int l = animChannel.length();
+                    float l = animChannel.length();
                     if (l > 1)
                     {
                         t1 = time1 % l;
@@ -571,7 +572,7 @@ public class Animators
 
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
-                final int length = component.length == 0 ? 1 : component.length;
+                final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
                 sx *= component.scaleChange[0] * ratio + component.scaleOffset[0];
@@ -588,7 +589,7 @@ public class Animators
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    int l = animChannel.length();
+                    float l = animChannel.length();
                     if (l > 1)
                     {
                         t1 = time1 % l;
@@ -616,7 +617,7 @@ public class Animators
 
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
-                final int length = component.length == 0 ? 1 : component.length;
+                final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
                 alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
@@ -631,7 +632,7 @@ public class Animators
                 float t1 = time1, t2 = time2;
                 if (animation.loops)
                 {
-                    int l = animChannel.length();
+                    float l = animChannel.length();
                     if (l > 1)
                     {
                         t1 = time1 % l;
@@ -660,7 +661,7 @@ public class Animators
 
                 float componentTimer = time - component.startKey;
                 if (componentTimer > component.length) componentTimer = component.length;
-                final int length = component.length == 0 ? 1 : component.length;
+                final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
                 red_scale *= component.colChange[0] * ratio + component.colOffset[0];
@@ -670,6 +671,32 @@ public class Animators
                 red_scale *= dc[0];
                 green_scale *= dc[1];
                 blue_scale *= dc[2];
+            }
+
+            channel = CHANNEL.HIDDEN;
+            // colour set
+            hidden:
+            {
+                var animChannel = channels.get(channel.ordinal());
+                if (animChannel == null) break hidden;
+                float t1 = time1, t2 = time2;
+                if (animation.loops)
+                {
+                    float l = animChannel.length();
+                    if (l > 1)
+                    {
+                        t1 = time1 % l;
+                        t2 = time2 % l;
+                    }
+                }
+                else
+                {
+                    t1 = Math.min(time1, animChannel.length());
+                    t2 = Math.min(time2, animChannel.length());
+                }
+                AnimationComponent component = getNext(t1, t2, animation.loops, animChannel);
+                if (component == null) break hidden;
+                any_hidden = true;
             }
 
             // Apply hidden like this so last hidden state is kept
@@ -699,7 +726,7 @@ public class Animators
         }
 
         @Override
-        public int getLength()
+        public float getLength()
         {
             return this.length;
         }

@@ -404,6 +404,8 @@ public class PokemobEventsHandler
 
         // This gets set by the mixin in pokecube.mixin.entity.BeeHiveFix
         if (!BEE_RELEASE_TICK.contains(world.dimension())) return;
+        // It is called for each bee added, so remove it now.
+        PokemobEventsHandler.BEE_RELEASE_TICK.remove(world.dimension());
 
         final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
         // Not a valid inhabitor of things, so return.
@@ -750,7 +752,7 @@ public class PokemobEventsHandler
     private static void onMobTick(final LivingUpdateEvent evt)
     {
         final LivingEntity living = evt.getEntityLiving();
-        
+
         if (living.isRemoved()) return;
 
         // Have this tick to manage the target's target.
@@ -1145,9 +1147,11 @@ public class PokemobEventsHandler
         if (!fits && pokemob.getEntity() instanceof EntityPokemob mob) fits = mob.canAddPassenger(player);
         final boolean saddled = PokemobEventsHandler.tryStartRiding(player, pokemob);
 
-        final boolean guiAllowed = pokemob.getPokedexEntry().stock || held.getItem() == PokecubeItems.POKEDEX.get();
+        boolean guiAllowed = pokemob.getPokedexEntry().stock || held.getItem() == PokecubeItems.POKEDEX.get();
+        guiAllowed = guiAllowed && entity.isAlive();
 
-        final boolean saddleCheck = !player.isShiftKeyDown() && held.isEmpty() && fits && saddled;
+        boolean saddleCheck = !player.isShiftKeyDown() && held.isEmpty() && fits && saddled;
+        saddleCheck = saddleCheck && entity.isAlive();
 
         // Check if favourte berry and sneaking, if so, do breeding stuff.
         if (isOwner || player instanceof FakePlayer)

@@ -56,6 +56,7 @@ import thut.api.entity.ShearableCaps;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityInventory;
 import thut.api.entity.blockentity.IBlockEntity;
+import thut.api.entity.event.BreakTestEvent;
 import thut.api.level.structures.StructureManager;
 import thut.api.util.PermNodes;
 import thut.core.common.config.Config;
@@ -274,6 +275,7 @@ public class ThutCore
         Tracker.init();
         LootLayerFunction.init();
         RegistryObjects.init();
+        BreakTestEvent.init();
 
         // Register Config stuff
         Config.setupConfigs(ThutCore.conf, ThutCore.MODID, ThutCore.MODID);

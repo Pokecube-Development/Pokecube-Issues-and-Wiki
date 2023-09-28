@@ -14,7 +14,6 @@ import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Quaternion;
-import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -30,6 +29,7 @@ import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
+import thut.lib.AxisAngles;
 
 public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
@@ -384,12 +384,24 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     }
 
     @Override
+    public void setDefaultAngles(float rx, float ry, float rz)
+    {
+        _quat.set(0, 0, 0, 1);
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
+        _rot.set(_quat);
+        this.preRot.mul(rotations, _rot);
+        this.rotations.set(preRot.x, preRot.y, preRot.z, preRot.w);
+    }
+
+    @Override
     public void setAnimAngles(float rx, float ry, float rz)
     {
         _quat.set(0, 0, 0, 1);
-        if (rz != 0) _quat.mul(Vector3f.YN.rotationDegrees(rz));
-        if (rx != 0) _quat.mul(Vector3f.XP.rotationDegrees(rx));
-        if (ry != 0) _quat.mul(Vector3f.ZP.rotationDegrees(ry));
+        if (rz != 0) _quat.mul(AxisAngles.YN.rotationDegrees(rz));
+        if (rx != 0) _quat.mul(AxisAngles.XP.rotationDegrees(rx));
+        if (ry != 0) _quat.mul(AxisAngles.ZP.rotationDegrees(ry));
         this.setPreRotations(_rot.set(_quat));
     }
 
@@ -467,46 +479,32 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (mat.meshs == null) mat.meshs = "";
         if (mat.meshs.equals(this.getName()))
         {
-            for (final Mesh mesh : this.shapes)
-            {
-                if (mesh.material != null)
-                {
-                    this.matcache.remove(mesh.material);
-                    this.materials.remove(mesh.material);
-                    this.namedMaterials.remove(mesh.material.name);
-                }
-                mesh.setMaterial(material);
-            }
+            for (final Mesh mesh : this.shapes) mesh.setMaterial(material);
         }
         else for (final String s : parts) for (final Mesh mesh : this.shapes)
         {
             if (mesh.name == null) mesh.name = this.getName();
-            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name) || mat.meshs.contains(mesh.name))
+            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name))
             {
-                if (mesh.material != null)
-                {
-                    this.matcache.remove(mesh.material);
-                    this.materials.remove(mesh.material);
-                    this.namedMaterials.remove(mesh.material.name);
-                }
                 mesh.setMaterial(material);
             }
-        }
-        for (final Material m : this.materials) if (m.name.equals(mat.name))
-        {
-            this.matcache.remove(m);
-            this.materials.remove(m);
-            this.namedMaterials.remove(m.name);
-            break;
         }
         if (material == null)
         {
             ThutCore.LOGGER.error("Error loading a material, trying to set it to null: {}", JsonUtil.gson.toJson(mat));
             ThutCore.LOGGER.error(new IllegalAccessException());
         }
-        this.matcache.add(material);
-        this.materials.add(material);
-        this.namedMaterials.put(material.name, material);
+        this.matcache.clear();
+        this.materials.clear();
+        this.namedMaterials.clear();
+        for (Mesh shape : this.shapes)
+        {
+            if (this.matcache.add(shape.material))
+            {
+                this.materials.add(shape.material);
+                this.namedMaterials.put(shape.material.name, shape.material);
+            }
+        }
     }
 
     @Override

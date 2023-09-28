@@ -14,7 +14,6 @@ import javax.xml.namespace.QName;
 import org.w3c.dom.Node;
 
 import com.google.common.collect.Sets;
-import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -24,7 +23,6 @@ import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
-import thut.api.maths.Vector4;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.AnimationXML.Merge;
@@ -68,58 +66,35 @@ public class AnimationLoader
         return vect;
     }
 
-    public static Vector5 getRotation(final String rotation, String time, final Vector5 default_)
+    public static Vector3f getRotation(final String rotation, final Vector3f default_)
     {
         if (rotation == null || rotation.isEmpty()) return default_;
-        time = time == null ? "0" : time;
 
-        final Vector4 ro = new Vector4();
-        int t = 0;
-        String[] r;
-        r = rotation.split(",");
-        try
+        float x = 0;
+        float y = 0;
+        float z = 0;
+        String[] r = rotation.split(",");
+        if (rotation.contains("x:") || rotation.contains("y:") || rotation.contains("z:"))
         {
-            if (rotation.contains("x:") || rotation.contains("y:") || rotation.contains("z:"))
+            for (String s : r)
             {
-                float x = 0;
-                float y = 0;
-                float z = 0;
-
-                for (String s : r)
+                s = s.trim();
+                if (s.contains("x:"))
                 {
-                    s = s.trim();
-                    if (s.contains("x:"))
-                    {
-                        x = Float.parseFloat(s.replace("x:", ""));
-                    }
-                    else if (s.contains("y:"))
-                    {
-                        y = Float.parseFloat(s.replace("y:", ""));
-                    }
-                    else if (s.contains("z:"))
-                    {
-                        z = Float.parseFloat(s.replace("z:", ""));
-                    }
+                    x = Float.parseFloat(s.replace("x:", ""));
                 }
-                final Quaternion quat = new Quaternion(0, 0, 0, 1);
-                if (z != 0) quat.mul(Vector3f.YN.rotationDegrees(z));
-                if (x != 0) quat.mul(Vector3f.XP.rotationDegrees(x));
-                if (y != 0) quat.mul(Vector3f.ZP.rotationDegrees(y));
-                ro.set(quat);
-            }
-            else
-            {
-                t = Integer.parseInt(time);
-                ro.set(Float.parseFloat(r[0].trim()), Float.parseFloat(r[1].trim()), Float.parseFloat(r[2].trim()),
-                        Float.parseFloat(r[3].trim()));
-                ro.toQuaternion();
+                else if (s.contains("y:"))
+                {
+                    y = Float.parseFloat(s.replace("y:", ""));
+                }
+                else if (s.contains("z:"))
+                {
+                    z = Float.parseFloat(s.replace("z:", ""));
+                }
             }
         }
-        catch (final Exception e)
-        {
-            ro.set(0, 0, 0, 1);
-        }
-        return new Vector5(ro, t);
+        else return default_;
+        return new Vector3f(x, y, z);
     }
 
     public static void parse(@Nonnull InputStream stream, @Nonnull ModelHolder holder, @Nonnull IModel model,
@@ -141,11 +116,11 @@ public class AnimationLoader
 
             if (file.model.customTex != null) file.model.customTex.init();
 
-            Vector5 noRotation = new Vector5();
+            Vector3f noRotation = new Vector3f();
 
             // Global model transforms
             Vector3 offset = new Vector3();
-            Vector5 rotation = noRotation;
+            Vector3f rotation = noRotation;
             Vector3 scale = new Vector3(1, 1, 1);
 
             // Custom tagged parts.
@@ -185,7 +160,7 @@ public class AnimationLoader
                 {
                     offset = AnimationLoader.getVector3(phase.values.get(new QName("offset")), offset);
                     scale = AnimationLoader.getVector3(phase.values.get(new QName("scale")), scale);
-                    rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), null, rotation);
+                    rotation = AnimationLoader.getRotation(phase.values.get(new QName("rotation")), rotation);
                 }
                 else if (name.equals("textures")) texPhases.add(phase);
                 else if (AnimationRegistry.animations.containsKey(name))
@@ -295,7 +270,6 @@ public class AnimationLoader
                 // Set the global transforms
                 renderer.setRotationOffset(offset);
                 renderer.setScale(scale);
-                renderer.setRotations(rotation);
 
                 model.getHeadParts().addAll(headNames);
 
@@ -359,6 +333,12 @@ public class AnimationLoader
                 animator.init(allAnims);
                 for (final Animation anim : allAnims)
                 {
+                    if (anim.name.contains("faint") || anim.name.contains("dead"))
+                    {
+                        anim.loops = false;
+                        anim.holdWhenDone = true;
+                    }
+
                     if (!renderer.getAnimations().containsKey(anim.name))
                     {
                         List<Animation> anims = new ArrayList<>();
@@ -436,7 +416,7 @@ public class AnimationLoader
                     {
                         p.setPreScale(scale);
                         p.setPreTranslations(offset);
-                        if (noRotation != rotation) p.setPreRotations(rotation.rotations);
+                        if (noRotation != rotation) p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
                     }
                 }
 

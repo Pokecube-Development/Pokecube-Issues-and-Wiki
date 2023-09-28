@@ -591,13 +591,13 @@ public class PokedexEntryLoader
         final SpawnEntry spawnEntry = new SpawnEntry();
         String val;
         SpawnRule rule = matcher.spawnRule.copy();
-        if ((val = rule.values.remove(MIN)) != null) spawnEntry.min = Integer.parseInt(val);
-        if ((val = rule.values.remove(MAX)) != null) spawnEntry.max = Integer.parseInt(val);
-        if ((val = rule.values.remove(MINY)) != null) spawnEntry.minY = Integer.parseInt(val);
-        if ((val = rule.values.remove(MAXY)) != null) spawnEntry.maxY = Integer.parseInt(val);
-        if ((val = rule.values.remove(RATE)) != null) spawnEntry.rate = Float.parseFloat(val);
-        if ((val = rule.values.remove(LEVEL)) != null) spawnEntry.level = Integer.parseInt(val);
-        if ((val = rule.values.remove(VARIANCE)) != null) spawnEntry.variance = new FunctionVariance(val);
+        if ((val = rule.removeString(MIN)) != null) spawnEntry.min = Integer.parseInt(val);
+        if ((val = rule.removeString(MAX)) != null) spawnEntry.max = Integer.parseInt(val);
+        if ((val = rule.removeString(MINY)) != null) spawnEntry.minY = Integer.parseInt(val);
+        if ((val = rule.removeString(MAXY)) != null) spawnEntry.maxY = Integer.parseInt(val);
+        if ((val = rule.removeString(RATE)) != null) spawnEntry.rate = Float.parseFloat(val);
+        if ((val = rule.removeString(LEVEL)) != null) spawnEntry.level = Integer.parseInt(val);
+        if ((val = rule.removeString(VARIANCE)) != null) spawnEntry.variance = new FunctionVariance(val);
         if (entry.getSpawnData() == null) entry.setSpawnData(new SpawnData(entry));
         matcher = SpawnBiomeMatcher.get(rule);
         entry.getSpawnData().matchers.put(matcher, spawnEntry);
@@ -1024,31 +1024,11 @@ public class PokedexEntryLoader
 
                 try
                 {
-                    PokedexEntryLoader.postIniStats(entry, stats);
-                    if (xmlEntry.formeItems != null) entry._forme_items = xmlEntry.formeItems;
-
-                    // Now handle dyable stuff
-                    if (xmlEntry.dye != null) xmlEntry.dye.accept(entry);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error with stats for " + entry, e);
-                }
-                try
-                {
                     PokedexEntryLoader.parseSpawns(entry, stats);
                 }
                 catch (final Exception e)
                 {
                     PokecubeAPI.LOGGER.error("Error with spawns for " + entry, e);
-                }
-                try
-                {
-                    PokedexEntryLoader.parseEvols(entry, stats.evolutions, true);
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error with evols for " + entry, e);
                 }
             }
         }
