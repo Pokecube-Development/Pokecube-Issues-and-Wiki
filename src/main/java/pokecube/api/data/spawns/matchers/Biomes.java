@@ -75,6 +75,8 @@ public class Biomes extends BaseMatcher
     @Override
     public void init()
     {
+        _validBiomes.clear();
+        _validSubBiomes.clear();
         if (!biome_tags.isBlank())
         {
             String[] args = biome_tags.split(",");
@@ -96,7 +98,7 @@ public class Biomes extends BaseMatcher
         _allValid = false;
         if (!sub_biomes.isBlank())
         {
-            String[] args = biome_tags.split(",");
+            String[] args = sub_biomes.split(",");
             for (String s : args)
             {
                 s = Database.trim(s);

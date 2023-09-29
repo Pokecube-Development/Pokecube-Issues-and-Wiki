@@ -85,6 +85,7 @@ public class SpawnBiomeMatcher
     {
         final SpawnRule orig = rule;
         rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
+        rule.initMatchers();
         return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
     }
 
@@ -237,6 +238,8 @@ public class SpawnBiomeMatcher
     public MatchChecker _compoundMatcher = new MatchChecker()
     {
     };
+
+    protected boolean _hasMaterialMatcher = false;
 
     // Biomes are tracked separately for the checks needed in worldgen.
     public List<Biomes> _biomeMatchers = new ArrayList<>();
@@ -428,17 +431,27 @@ public class SpawnBiomeMatcher
             or_valid = _or_children.stream().anyMatch(m -> m.matches(checker));
         }
         if (!or_valid) return false;
+        boolean andValid = true;
         if (!this._and_children.isEmpty())
         {
-            return _and_children.stream().allMatch(m -> m.matches(checker));
+            andValid = _and_children.stream().allMatch(m -> m.matches(checker));
         }
+        if (!andValid) return false;
         if (!this._or_children.isEmpty()) return or_valid;
 
         // If we use a matcher, then it means we should have some for biomes,
         // have those manually check here.
         if (this._usesMatchers)
         {
-            return this._compoundMatcher.matches(this, checker) != MatchResult.FAIL;
+            var result = this._compoundMatcher.matches(this, checker);
+            if (result == MatchResult.SUCCEED)
+            {
+                boolean subCondition = true;
+                for (final Predicate<SpawnCheck> c : this._additionalConditions) subCondition &= c.apply(checker);
+                if (!subCondition) return false;
+                return !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
+            }
+            return false;
         }
 
         if (!this.weatherMatches(checker)) return false;
@@ -619,6 +632,7 @@ public class SpawnBiomeMatcher
             {
                 preset = preset.copy();
                 preset.values.putAll(spawnRule.values);
+                preset.matchers.putAll(spawnRule.matchers);
                 spawnRule = preset;
             }
             else
@@ -836,16 +850,14 @@ public class SpawnBiomeMatcher
         }
 
         spawnRule.initMatchers();
-
         if (!spawnRule.matchers.isEmpty())
         {
             for (var matcher : spawnRule._matchers)
             {
                 this._compoundMatcher = this._compoundMatcher.and(matcher);
                 this._allMatchers.add(matcher);
+                if (matcher instanceof Biomes biomes) this._biomeMatchers.add(biomes);
             }
-            if (!spawnRule.matchers.containsKey("material"))
-                this._compoundMatcher = this._compoundMatcher.and(DEFAULT_MATERIAL);
             this._compoundMatcher = this._compoundMatcher.and(_structs);
             this._compoundMatcher.init();
             this._usesMatchers = true;

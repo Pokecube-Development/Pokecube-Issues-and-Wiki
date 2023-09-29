@@ -14,21 +14,23 @@ import pokecube.api.data.spawns.SpawnCheck.MatchResult;
  * <br>
  * Matcher key: "material" <br>
  * Json keys: <br>
- * "material" - String, Fluid or material to spawn in, default is "air" <br>
- * default times
+ * "type" - String, Fluid or material to spawn in, default is "air" <br>
+ * using "all" will match any material or fluid.
  *
  */
 @MatcherFunction(name = "material")
 public class Material extends BaseMatcher
 {
-    public String material = "air";
+    public String type = "air";
 
     private boolean _air = true;
+    private boolean _all = false;
     private TagKey<Fluid> _tag;
 
     @Override
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
+        if (_all) return MatchResult.SUCCEED;
         if (_air) return checker.fluid.isEmpty() ? MatchResult.SUCCEED : MatchResult.FAIL;
         return checker.fluid.is(_tag) ? MatchResult.SUCCEED : MatchResult.FAIL;
     }
@@ -36,11 +38,18 @@ public class Material extends BaseMatcher
     @Override
     public void init()
     {
-        if ("air".equals(material))
+        _air = false;
+        _all = false;
+        if ("all".equals(type) || "any".equals(type))
+        {
+            _all = true;
+            return;
+        }
+        if ("air".equals(type))
         {
             _air = true;
             return;
         }
-        _tag = TagKey.create(ForgeRegistries.FLUIDS.getRegistryKey(), new ResourceLocation(material));
+        _tag = TagKey.create(ForgeRegistries.FLUIDS.getRegistryKey(), new ResourceLocation(type));
     }
 }

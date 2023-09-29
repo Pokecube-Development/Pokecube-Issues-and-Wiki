@@ -32,10 +32,10 @@ public class TerrainMatch extends BaseMatcher
     @Override
     public void init()
     {
-        this._terrain = getWeather(type);
+        this._terrain = getTerrain(type);
     }
 
-    private TerrainType getWeather(final String name)
+    private TerrainType getTerrain(final String name)
     {
         for (final TerrainType c : TerrainType.values()) if (c.name().equalsIgnoreCase(name)) return c;
         return TerrainType.FLAT;
