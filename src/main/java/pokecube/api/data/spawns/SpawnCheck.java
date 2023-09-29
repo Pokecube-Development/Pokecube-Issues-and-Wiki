@@ -1,11 +1,12 @@
 package pokecube.api.data.spawns;
 
+import java.util.Set;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
@@ -16,6 +17,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.ITerrainProvider;
 import thut.api.level.terrain.TerrainManager;
@@ -82,9 +84,12 @@ public class SpawnCheck
     public final Weather weather;
     public final TerrainType terrain;
     public final boolean thundering;
-    public final LevelAccessor world;
+    public final ServerLevelAccessor world;
     public final ChunkAccess chunk;
     public final BlockPos pos;
+    // These are only looked up if needed, but then cached for further uses of
+    // the spawnCheck
+    public Set<INamedStructure> namedStructures = null;
 
     public SpawnCheck(final Vector3 location, final ServerLevelAccessor world)
     {

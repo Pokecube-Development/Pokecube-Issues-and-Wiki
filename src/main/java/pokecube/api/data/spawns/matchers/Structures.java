@@ -30,9 +30,10 @@ public class Structures extends BaseMatcher
     @Override
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
-        final Set<INamedStructure> set = StructureManager.getFor(((Level) checker.world).dimension(), checker.pos,
-                false);
-        for (var i : set) if (_validStructures.contains(i.getName())) return MatchResult.SUCCEED;
+        Set<INamedStructure> set = checker.namedStructures;
+        if (set == null) set = checker.namedStructures = StructureManager.getFor(((Level) checker.world).dimension(),
+                checker.pos, false);
+        for (var j : this._validStructures) for (var i : set) if (i.is(j)) return MatchResult.SUCCEED;
         return MatchResult.FAIL;
     }
 
