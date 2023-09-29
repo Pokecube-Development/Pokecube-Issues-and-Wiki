@@ -10,6 +10,14 @@
       }
     },
     {
+      "preset":"villages",
+      "matchers":{
+        "structures":{
+          "names":"#minecraft:village"
+        }
+      }
+    },
+    {
       "preset":"ocean_monument",
       "and_preset":"in_water",
       "matchers":{
