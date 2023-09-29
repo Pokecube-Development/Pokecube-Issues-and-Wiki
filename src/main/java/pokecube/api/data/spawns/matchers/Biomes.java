@@ -82,6 +82,7 @@ public class Biomes extends BaseMatcher
             String[] args = biome_tags.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 if (BiomeDatabase.isBiomeTag(s))
                 {
                     TagKey<Biome> tag = TagKey.create(Registries.BIOME, new ResourceLocation(s.replace("#", "")));

@@ -228,7 +228,7 @@ public class PacketPokedex extends NBTPacket
             String match = PacketPokedex.serialize(matcher);
             if (match == null)
             {
-                System.out.println("Error with " + e);
+                System.out.println("Error with spawn entry for " + e);
                 continue;
             }
             spawns.putString("e" + n, e.getName());
@@ -543,9 +543,6 @@ public class PacketPokedex extends NBTPacket
     {
         // Initialise the client lists of biomes/types
         SpawnBiomeMatcher.populateClientValues(matcher);
-        // If no biomes or subbiomes, just throw null string, usually means this
-        // spawn is not possible due to settings, etc.
-        if (!matcher._valid || matcher.clientStuff.isEmpty()) return null;
         // Then serialise it
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards

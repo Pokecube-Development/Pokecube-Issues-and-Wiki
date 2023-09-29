@@ -58,14 +58,6 @@
       }
     },
     {
-      "preset":"villages",
-      "matchers":{
-        "biome":{
-          "sub_biomes":"village"
-        }
-      }
-    },
-    {
       "preset":"ruins",
       "matchers":{
         "biome":{
