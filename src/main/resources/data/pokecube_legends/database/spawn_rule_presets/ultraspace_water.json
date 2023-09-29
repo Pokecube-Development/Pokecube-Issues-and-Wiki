@@ -1,49 +1,53 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "is_ultraspace_river_water",
-        "types": "#pokecube_world:is_ultraspace/is_river",
-        "air": "false",
-        "and_preset": "is_ultraspace"
+      "preset":"is_ultraspace_river_water",
+      "and_preset":"is_ultraspace,in_water",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_world:is_ultraspace/is_river"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_ultraspace_beach_water",
-        "types": "#pokecube_world:is_ultraspace/is_beach",
-        "air": "false",
-        "and_preset": "is_ultraspace"
+      "preset":"is_ultraspace_beach_water",
+      "and_preset":"is_ultraspace,in_water",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_world:is_ultraspace/is_beach"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_ultraspace_ocean_water",
-        "types": "#pokecube_world:is_ultraspace/is_ocean",
-        "air": "false",
-        "and_preset": "is_ultraspace"
+      "preset":"is_ultraspace_ocean_water",
+      "and_preset":"is_ultraspace,in_water",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_world:is_ultraspace/is_ocean"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_ultraspace_cave_water",
-        "types": "cavewater",
-        "air": "false",
-        "and_preset": "is_ultraspace"
+      "preset":"is_ultraspace_cave_water",
+      "and_preset":"is_ultraspace,in_water",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"cavewater"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_ultraspace_cave_lake_shore",
-        "types": "cavewater",
-        "and_preset": "is_ultraspace"
+      "preset":"is_ultraspace_cave_lake_shore",
+      "and_preset":"is_ultraspace,in_air",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"cavewater"
+        }
       }
     },
     {
-      "values": {
-        "preset": "any_water",
-        "or_preset": "is_ultraspace_ocean_water,is_ultraspace_beach_water,is_ultraspace_lake_water,is_ultraspace_river_water,is_ultraspace_cave_water"
-      }
+      "preset":"any_ultraspace_water",
+      "or_preset":"is_ultraspace_ocean_water,is_ultraspace_beach_water,is_ultraspace_lake_water,is_ultraspace_river_water,is_ultraspace_cave_water"
     }
   ]
 }
