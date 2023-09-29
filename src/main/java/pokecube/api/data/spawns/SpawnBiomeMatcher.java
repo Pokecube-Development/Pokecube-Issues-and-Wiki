@@ -30,6 +30,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.api.data.spawns.SpawnCheck.Weather;
+import pokecube.api.data.spawns.matchers.Biomes;
 import pokecube.api.data.spawns.matchers.MatchChecker;
 import pokecube.api.data.spawns.matchers.StructureMatcher;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
@@ -196,6 +197,8 @@ public class SpawnBiomeMatcher
 
     public static Set<TagKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
 
+    public static MatchChecker DEFAULT_MATERIAL = new pokecube.api.data.spawns.matchers.Material();
+
     private static boolean loadedIn = false;
 
     public static final Map<String, SpawnRule> PRESETS = Maps.newHashMap();
@@ -229,9 +232,14 @@ public class SpawnBiomeMatcher
     {
     };
 
-    public MatchChecker _customChecks = new MatchChecker()
+    public List<MatchChecker> _allMatchers = new ArrayList<>();
+
+    public MatchChecker _compoundMatcher = new MatchChecker()
     {
     };
+
+    // Biomes are tracked separately for the checks needed in worldgen.
+    public List<Biomes> _biomeMatchers = new ArrayList<>();
 
     private boolean __client__ = false;
 
@@ -254,6 +262,7 @@ public class SpawnBiomeMatcher
 
     public boolean _parsed = false;
     public boolean _valid = true;
+    public boolean _usesMatchers = false;
 
     public MutableComponent _description = null;
 
@@ -327,6 +336,16 @@ public class SpawnBiomeMatcher
             return and_valid;
         }
         if (!this._or_children.isEmpty()) return or_valid;
+
+        // If we use a matcher, then it means we should have some for biomes,
+        // have those manually check here.
+        if (this._usesMatchers)
+        {
+            boolean valid = true;
+            for (var matcher : this._biomeMatchers) valid = valid && matcher.matches(biome);
+            return valid;
+        }
+
         if (this.getInvalidBiomes().stream().anyMatch(biome::is)) return false;
         if (this.getValidBiomes().stream().anyMatch(biome::is)) return true;
         if (SpawnBiomeMatcher.SOFTBLACKLIST.stream().anyMatch(biome::is)) return false;
@@ -377,6 +396,16 @@ public class SpawnBiomeMatcher
             return and_valid;
         }
         if (!this._or_children.isEmpty()) return or_valid;
+
+        // If we use a matcher, then it means we should have some for biomes,
+        // have those manually check here.
+        if (this._usesMatchers)
+        {
+            boolean valid = true;
+            for (var matcher : this._biomeMatchers) valid = valid && matcher.matches(biome);
+            return valid;
+        }
+
         if (this._blackListSubBiomes.stream().anyMatch(biome::equals)) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         if (this._validSubBiomes.stream().anyMatch(biome::equals)) return true;
@@ -404,6 +433,14 @@ public class SpawnBiomeMatcher
             return _and_children.stream().allMatch(m -> m.matches(checker));
         }
         if (!this._or_children.isEmpty()) return or_valid;
+
+        // If we use a matcher, then it means we should have some for biomes,
+        // have those manually check here.
+        if (this._usesMatchers)
+        {
+            return this._compoundMatcher.matches(this, checker) != MatchResult.FAIL;
+        }
+
         if (!this.weatherMatches(checker)) return false;
         final boolean biome = this.biomeMatches(checker);
         if (!biome) return false;
@@ -494,7 +531,7 @@ public class SpawnBiomeMatcher
         if (checker.night && !this.night) return false;
         if (checker.dusk && !this.dusk) return false;
         if (checker.dawn && !this.dawn) return false;
-        if (_customChecks.matches(this, checker) != MatchResult.SUCCEED) return false;
+        if (_compoundMatcher.matches(this, checker) == MatchResult.FAIL) return false;
         if (!_validTerrain.contains(checker.terrain)) return false;
         final Material m = checker.material;
         final boolean isWater = m == Material.WATER;
@@ -772,7 +809,7 @@ public class SpawnBiomeMatcher
         this._structs = new StructureMatcher()
         {
         };
-        this._customChecks = new MatchChecker()
+        this._compoundMatcher = new MatchChecker()
         {
         };
 
@@ -800,14 +837,21 @@ public class SpawnBiomeMatcher
 
         spawnRule.initMatchers();
 
-        for (var pair : spawnRule.matchers.entrySet())
+        if (!spawnRule.matchers.isEmpty())
         {
-            var matcher = pair.getValue();
-            if (matcher instanceof MatchChecker _match) this._customChecks = this._customChecks.and(_match);
+            for (var matcher : spawnRule._matchers)
+            {
+                this._compoundMatcher = this._compoundMatcher.and(matcher);
+                this._allMatchers.add(matcher);
+            }
+            if (!spawnRule.matchers.containsKey("material"))
+                this._compoundMatcher = this._compoundMatcher.and(DEFAULT_MATERIAL);
+            this._compoundMatcher = this._compoundMatcher.and(_structs);
+            this._compoundMatcher.init();
+            this._usesMatchers = true;
         }
-        this._customChecks.init();
 
-        if (this._or_children.size() > 0 || this._and_children.size() > 0)
+        if (this._or_children.size() > 0 || this._and_children.size() > 0 || this._usesMatchers)
         {
             boolean or_valid = this._or_children.size() > 0;
             boolean and_valid = this._and_children.size() > 0;
@@ -815,7 +859,7 @@ public class SpawnBiomeMatcher
             for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child._valid;
             for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid || child._valid;
 
-            this._valid = or_valid || and_valid;
+            this._valid = or_valid || and_valid || this._usesMatchers;
 
             if (!this._valid && SpawnBiomeMatcher.loadedIn && !__client__)
             {
@@ -973,6 +1017,8 @@ public class SpawnBiomeMatcher
         if (this._and_children == null) this._and_children = new ArrayList<>();
         if (this._or_children == null) this._or_children = new ArrayList<>();
         if (this._not_children == null) this._not_children = new ArrayList<>();
+        if (this._allMatchers == null) this._allMatchers = new ArrayList<>();
+        if (this._biomeMatchers == null) this._biomeMatchers = new ArrayList<>();
 
         // Now lets ensure they are empty.
         this._validBiomes.clear();
@@ -985,6 +1031,8 @@ public class SpawnBiomeMatcher
         this._and_children.clear();
         this._or_children.clear();
         this._not_children.clear();
+        this._allMatchers.clear();
+        this._biomeMatchers.clear();
 
         minLight = 0;
         maxLight = 1;
@@ -996,6 +1044,7 @@ public class SpawnBiomeMatcher
         air = true;
         water = false;
 
+        this._usesMatchers = false;
         this._biomeHolderset = null;
 
         _validTerrain = ALL_TERRAIN;
