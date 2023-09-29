@@ -5,7 +5,7 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.biome.Biome;
@@ -84,8 +84,7 @@ public class Biomes extends BaseMatcher
             {
                 if (BiomeDatabase.isBiomeTag(s))
                 {
-                    TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
-                            new ResourceLocation(s.replace("#", "")));
+                    TagKey<Biome> tag = TagKey.create(Registries.BIOME, new ResourceLocation(s.replace("#", "")));
                     this._validBiomes.add(tag);
                     continue;
                 }
