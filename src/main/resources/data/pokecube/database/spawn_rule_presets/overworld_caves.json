@@ -45,6 +45,13 @@
     },
     {
       "values": {
+        "preset": "lush_caves",
+        "types": "#forge:is_lush,all",
+        "and_preset": "caves"
+      }
+    },
+    {
+      "values": {
         "preset": "caves",
         "or_preset": "underground,cave_subbiome",
         "and_preset": "overworld"
