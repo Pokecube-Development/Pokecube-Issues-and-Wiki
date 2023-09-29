@@ -823,8 +823,8 @@ public class SpawnBiomeMatcher
     {
         if (this._parsed || __client__) return;
 
-        if (this.spawnRule.values.isEmpty())
-            PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());
+        if (!this.spawnRule.isValid())
+            PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException(this.spawnRule.toString()));
 
         SpawnRule spawnRule = this.spawnRule.copy();
         if (!spawnRule.preset.isBlank())
