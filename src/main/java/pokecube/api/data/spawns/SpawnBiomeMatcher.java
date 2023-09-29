@@ -166,7 +166,7 @@ public class SpawnBiomeMatcher
                 }
 
                 boolean noChildBiomes = m._or_children.isEmpty() && m._and_children.isEmpty();
-                noChildBiomes = noChildBiomes && m._validBiomes.isEmpty();
+                noChildBiomes = noChildBiomes && (m._validBiomes.isEmpty() || m._biomeMatchers.isEmpty());
                 if (noChildBiomes || s.clientBiomes.size() == reg.keySet().size()) s.clientBiomes.clear();
             }
             catch (Exception e)
@@ -642,8 +642,6 @@ public class SpawnBiomeMatcher
 
         if (!or_presets.isBlank())
         {
-            String[] args = or_presets.split(",");
-
             SpawnRule base = spawnRule.copy();
             base.or_preset = "";
             base.preset = "";
@@ -660,8 +658,10 @@ public class SpawnBiomeMatcher
                 this._or_children.add(_or_base);
             }
 
+            String[] args = or_presets.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 SpawnRule rule = PRESETS.get(s);
                 check:
                 if (rule != null)
@@ -681,8 +681,6 @@ public class SpawnBiomeMatcher
         }
         if (!and_presets.isBlank())
         {
-            String[] args = and_presets.split(",");
-
             SpawnRule base = spawnRule.copy();
             base.and_preset = "";
             base.preset = "";
@@ -699,8 +697,10 @@ public class SpawnBiomeMatcher
                 this._and_children.add(_and_base);
             }
 
+            String[] args = and_presets.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 SpawnRule rule = PRESETS.get(s);
                 check:
                 if (rule != null)
@@ -724,6 +724,7 @@ public class SpawnBiomeMatcher
             String[] args = not_presets.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 SpawnRule rule = PRESETS.get(s);
                 check:
                 if (rule != null)
@@ -754,7 +755,7 @@ public class SpawnBiomeMatcher
         if (validStructures != null)
         {
             final String[] args = validStructures.split(",");
-            for (final String s : args) this._validStructures.add(s);
+            for (final String s : args) this._validStructures.add(s.strip());
         }
         if (typeString != null)
         {
@@ -778,6 +779,7 @@ public class SpawnBiomeMatcher
             String[] args = typeBlacklistString.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 if (BiomeDatabase.isBiomeTag(s))
                 {
                     TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,

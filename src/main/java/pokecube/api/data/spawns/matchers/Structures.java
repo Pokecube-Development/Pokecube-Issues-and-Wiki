@@ -42,6 +42,10 @@ public class Structures extends BaseMatcher
     {
         this._validStructures.clear();
         final String[] args = names.split(",");
-        for (final String s : args) this._validStructures.add(s.replace("#", ""));
+        for (String s : args)
+        {
+            s = s.strip();
+            this._validStructures.add(s.replace("#", ""));
+        }
     }
 }
