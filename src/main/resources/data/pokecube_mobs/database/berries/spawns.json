@@ -42,9 +42,9 @@
           "and_preset": "forests,hills"
         },
         {
+          "preset": "all",
           "values": {
-            "priority": "100",
-            "types": "all"
+            "priority": "100"
           }
         }
       ]

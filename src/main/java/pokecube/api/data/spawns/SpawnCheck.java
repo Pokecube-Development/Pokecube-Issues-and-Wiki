@@ -8,8 +8,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Material;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
@@ -33,7 +35,7 @@ public class SpawnCheck
             final BlockPos position = location.getPos();
             boolean outside = world.canSeeSky(position);
             outside = outside
-                    && world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY() > position.getY();
+                    && position.getY() + 1 > world.getHeightmapPos(Heightmap.Types.MOTION_BLOCKING, position).getY();
             if (!outside) return NONE;
             if (globalRain)
             {
@@ -73,7 +75,10 @@ public class SpawnCheck
     public final boolean night;
     public final Material material;
     public final float light;
+    public final float time;
     public final Holder<Biome> biome;
+    public final BlockState blockState;
+    public final FluidState fluid;
     public final BiomeType type;
     public final Weather weather;
     public final TerrainType terrain;
@@ -95,7 +100,9 @@ public class SpawnCheck
         this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
-        final double time = TimePeriod.getTime(level);
+        this.time = (float) TimePeriod.getTime(level);
+        this.blockState = location.getBlockState(world);
+        this.fluid = world.getFluidState(location.getPos());
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
         this.light = lightBlock / 15f;
         this.weather = Weather.getForWorld(level, location);

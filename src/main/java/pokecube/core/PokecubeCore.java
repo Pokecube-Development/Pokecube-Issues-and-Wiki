@@ -40,6 +40,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.data.spawns.matchers.MatcherLoaders;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.moves.Battle;
@@ -100,6 +101,7 @@ public class PokecubeCore
             final InitDatabase.Pre pre = new InitDatabase.Pre();
             PokecubeAPI.POKEMOB_BUS.post(pre);
             pre.modIDs.add(PokecubeCore.MODID);
+            MatcherLoaders.init();
             Database.preInit();
             Sounds.initMoveSounds();
             Sounds.initConfigSounds();
