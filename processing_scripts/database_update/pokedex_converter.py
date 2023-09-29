@@ -24,6 +24,7 @@ advancements_dir = '../../src/generated/resources/data/pokecube_mobs/advancement
 # tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
 # advancements_dir = './new/advancements/'
 
+UPDATE_EXAMPLE = False
 WARN_NO_EXP = True
 WARN_NO_OLD_ENTRY = False
 
@@ -677,13 +678,14 @@ def convert_pokedex():
         make_advancments(var["name"], advancements_dir)
 
         # Now lets make a template file which will remove each entry.
-        file = f'../../example_datapacks/_removal_template_/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
-        var = {"remove": True,"priority":0}
-        if not os.path.exists(os.path.dirname(file)):
-            os.makedirs(os.path.dirname(file))
-        file = open(file, 'w')
-        json.dump(var, file, indent=2)
-        file.close()
+        if UPDATE_EXAMPLE:
+            file = f'../../example_datapacks/_removal_template_/data/pokecube_mobs/database/pokemobs/pokedex_entries/{var["name"]}.json'
+            var = {"remove": True,"priority":0}
+            if not os.path.exists(os.path.dirname(file)):
+                os.makedirs(os.path.dirname(file))
+            file = open(file, 'w')
+            json.dump(var, file, indent=2)
+            file.close()
 
     for file in os.listdir('./data/pokemobs/materials'):
         original = f'./data/pokemobs/materials/{file}'
