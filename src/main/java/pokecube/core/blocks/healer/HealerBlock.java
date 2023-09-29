@@ -47,6 +47,8 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
     {
     	HealerBlock.POKECENTER.put(Direction.NORTH, Shapes.or(
             Block.box(1, 0, 0, 15, 13, 16),
+            Block.box(1, 13, 14, 15, 16, 16),
+            Block.box(2, 13, 0, 14, 15, 1),
             Block.box(9, 13, 10, 12, 14, 13),
             Block.box(4, 13, 10, 7, 14, 13),
             Block.box(9, 13, 6, 12, 14, 9),
@@ -55,6 +57,8 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
             Block.box(9, 13, 2, 12, 14, 5)).optimize());
     	HealerBlock.POKECENTER.put(Direction.EAST, Shapes.or(
             Block.box(0, 0, 1, 16, 13, 15),
+            Block.box(0, 13, 1, 2, 16, 15),
+            Block.box(15, 13, 2, 16, 15, 14),
             Block.box(3, 13, 9, 6, 14, 12),
             Block.box(3, 13, 4, 6, 14, 7),
             Block.box(7, 13, 9, 10, 14, 12),
@@ -63,6 +67,8 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
             Block.box(11, 13, 7, 14, 14, 7)).optimize());
     	HealerBlock.POKECENTER.put(Direction.SOUTH, Shapes.or(
             Block.box(1, 0, 0, 15, 13, 16),
+            Block.box(1, 13, 0, 15, 16, 2),
+            Block.box(2, 13, 15, 14, 15, 16),
             Block.box(4, 13, 3, 7, 14, 6),
             Block.box(9, 13, 3, 12, 14, 6),
             Block.box(4, 13, 7, 7, 14, 10),
@@ -71,6 +77,8 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
             Block.box(9, 13, 11, 12, 14, 14)).optimize());
     	HealerBlock.POKECENTER.put(Direction.WEST, Shapes.or(
 		    Block.box(0, 0, 1, 16, 13, 15),
+            Block.box(14, 13, 1, 16, 16, 15),
+            Block.box(0, 13, 2, 1, 15, 14),
             Block.box(10, 13, 4, 13, 14, 7),
             Block.box(10, 13, 9, 13, 14, 12),
             Block.box(6, 13, 4, 9, 14, 7),
