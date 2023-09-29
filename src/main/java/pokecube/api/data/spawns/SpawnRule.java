@@ -69,7 +69,7 @@ public class SpawnRule
         return null;
     }
 
-    public void initMatchers()
+    public void loadMatchers()
     {
         this._matchers.clear();
         this.matchers.forEach((key, value) -> {
@@ -102,10 +102,8 @@ public class SpawnRule
 
     public boolean isValid()
     {
-        if (!this.preset.isBlank()) this.values.put(SpawnBiomeMatcher.PRESET, this.preset);
-        if (!this.and_preset.isBlank()) this.values.put(SpawnBiomeMatcher.ANDPRESET, this.and_preset);
-        if (!this.or_preset.isBlank()) this.values.put(SpawnBiomeMatcher.ORPRESET, this.or_preset);
-        if (!this.not_preset.isBlank()) this.values.put(SpawnBiomeMatcher.NOTPRESET, this.not_preset);
+        boolean hasPresets = !(preset.isBlank() && and_preset.isBlank() && or_preset.isBlank() && not_preset.isBlank());
+        if (hasPresets) return true;
         for (String s : Lists.newArrayList(this.values.keySet()))
         {
             Object o = this.values.get(s);

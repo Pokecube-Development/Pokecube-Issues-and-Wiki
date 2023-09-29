@@ -33,6 +33,7 @@ import pokecube.api.data.spawns.SpawnCheck.Weather;
 import pokecube.api.data.spawns.matchers.Biomes;
 import pokecube.api.data.spawns.matchers.MatchChecker;
 import pokecube.api.data.spawns.matchers.StructureMatcher;
+import pokecube.api.data.spawns.matchers.Structures;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
@@ -68,12 +69,6 @@ public class SpawnBiomeMatcher
 
     public static final String SPAWNCOMMAND = "command";
 
-    public static final String PRESET = "preset";
-
-    public static final String ANDPRESET = "and_preset";
-    public static final String ORPRESET = "or_preset";
-    public static final String NOTPRESET = "not_preset";
-
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;
 
@@ -85,7 +80,7 @@ public class SpawnBiomeMatcher
     {
         final SpawnRule orig = rule;
         rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
-        rule.initMatchers();
+        rule.loadMatchers();
         return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
     }
 
@@ -624,9 +619,9 @@ public class SpawnBiomeMatcher
     private void createChildren()
     {
         SpawnRule spawnRule = this.spawnRule.copy();
-        if (spawnRule.values.containsKey(PRESET))
+        String key = spawnRule.preset;
+        if (!key.isBlank())
         {
-            String key = spawnRule.removeString(PRESET);
             SpawnRule preset = PRESETS.get(key);
             if (preset != null)
             {
@@ -641,20 +636,26 @@ public class SpawnBiomeMatcher
             }
         }
 
-        String or_presets = spawnRule.removeString(SpawnBiomeMatcher.ORPRESET);
-        String and_presets = spawnRule.removeString(SpawnBiomeMatcher.ANDPRESET);
-        String not_presets = spawnRule.removeString(SpawnBiomeMatcher.NOTPRESET);
+        String or_presets = spawnRule.or_preset;
+        String and_presets = spawnRule.and_preset;
+        String not_presets = spawnRule.not_preset;
 
-        if (or_presets != null)
+        if (!or_presets.isBlank())
         {
             String[] args = or_presets.split(",");
 
             SpawnRule base = spawnRule.copy();
-            base.values.remove(SpawnBiomeMatcher.ORPRESET);
-            base.values.remove(PRESET);
-            if (!base.values.isEmpty())
+            base.or_preset = "";
+            base.preset = "";
+            check:
+            if (!base.values.isEmpty() || !base.matchers.isEmpty())
             {
                 _or_base = SpawnBiomeMatcher.get(base).setClient(__client__);
+                if (_or_base == this)
+                {
+                    PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                    break check;
+                }
                 _or_base.reset();
                 this._or_children.add(_or_base);
             }
@@ -662,26 +663,38 @@ public class SpawnBiomeMatcher
             for (String s : args)
             {
                 SpawnRule rule = PRESETS.get(s);
+                check:
                 if (rule != null)
                 {
                     rule = rule.copy();
                     SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    if (child == this)
+                    {
+                        PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                        break check;
+                    }
                     child.reset();
                     this._or_children.add(child);
                 }
                 else if (!__client__) PokecubeAPI.LOGGER.error("No preset found for or_preset {} in {}", s, or_presets);
             }
         }
-        if (and_presets != null)
+        if (!and_presets.isBlank())
         {
             String[] args = and_presets.split(",");
 
             SpawnRule base = spawnRule.copy();
-            base.values.remove(SpawnBiomeMatcher.ANDPRESET);
-            base.values.remove(PRESET);
+            base.and_preset = "";
+            base.preset = "";
+            check:
             if (!base.values.isEmpty())
             {
                 _and_base = SpawnBiomeMatcher.get(base).setClient(__client__);
+                if (_and_base == this)
+                {
+                    PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                    break check;
+                }
                 _and_base.reset();
                 this._and_children.add(_and_base);
             }
@@ -689,10 +702,16 @@ public class SpawnBiomeMatcher
             for (String s : args)
             {
                 SpawnRule rule = PRESETS.get(s);
+                check:
                 if (rule != null)
                 {
                     rule = rule.copy();
                     SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    if (child == this)
+                    {
+                        PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                        break check;
+                    }
                     child.reset();
                     this._and_children.add(child);
                 }
@@ -700,16 +719,22 @@ public class SpawnBiomeMatcher
                     PokecubeAPI.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
-        if (not_presets != null)
+        if (!not_presets.isBlank())
         {
             String[] args = not_presets.split(",");
             for (String s : args)
             {
                 SpawnRule rule = PRESETS.get(s);
+                check:
                 if (rule != null)
                 {
                     rule = rule.copy();
                     SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    if (child == this)
+                    {
+                        PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                        break check;
+                    }
                     child.reset();
                     this._not_children.add(child);
                 }
@@ -802,9 +827,9 @@ public class SpawnBiomeMatcher
             PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());
 
         SpawnRule spawnRule = this.spawnRule.copy();
-        if (spawnRule.values.containsKey(PRESET))
+        if (!spawnRule.preset.isBlank())
         {
-            SpawnRule preset = PRESETS.get(spawnRule.values.remove(PRESET));
+            SpawnRule preset = PRESETS.get(spawnRule.preset);
             if (preset != null)
             {
                 preset = preset.copy();
@@ -849,8 +874,25 @@ public class SpawnBiomeMatcher
             this._and_children.remove(_and_base);
         }
 
-        spawnRule.initMatchers();
-        if (!spawnRule.matchers.isEmpty())
+        spawnRule.loadMatchers();
+        // Auto-add structures from values
+        if (spawnRule.values.containsKey(STRUCTURES))
+        {
+            String structs = spawnRule.getString(STRUCTURES);
+            Structures match = new Structures();
+            match.names = structs;
+            spawnRule._matchers.add(match);
+        }
+        if (spawnRule.values.containsKey(STRUCTURESBLACK))
+        {
+            String structs = spawnRule.getString(STRUCTURESBLACK);
+            Structures match = new Structures();
+            match.negate = true;
+            match.names = structs;
+            spawnRule._matchers.add(match);
+        }
+
+        if (!spawnRule._matchers.isEmpty())
         {
             for (var matcher : spawnRule._matchers)
             {
@@ -880,6 +922,8 @@ public class SpawnBiomeMatcher
             this.initFields();
             return;
         }
+
+        PokecubeAPI.LOGGER.warn("Warning, Old format for spawn rules: " + this.spawnRule);
 
         // Lets deal with the weather checks
         String weather = spawnRule.getString(SpawnBiomeMatcher.WEATHER);
