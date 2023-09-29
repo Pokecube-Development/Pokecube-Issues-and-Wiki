@@ -1,33 +1,36 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "end",
-        "or_preset": "end_surface,end_caves"
+      "preset":"end",
+      "or_preset":"end_surface,end_caves"
+    },
+    {
+      "preset":"end_surface",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_end"
+        }
       }
     },
     {
-      "values": {
-        "preset": "end_surface",
-        "types": "#minecraft:is_end"
+      "preset":"end_caves",
+      "or_preset":"end_cave_a,end_cave_b"
+    },
+    {
+      "preset":"end_cave_a",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_end",
+          "sub_biomes":"cave"
+        }
       }
     },
     {
-      "values": {
-        "preset": "end_caves",
-        "or_preset": "end_cave_a,end_cave_b"
-      }
-    },
-    {
-      "values": {
-        "preset": "end_cave_a",
-        "types": "#minecraft:is_end,cave"
-      }
-    },
-    {
-      "values": {
-        "preset": "end_cave_b",
-        "types": "#minecraft:is_end,#forge:is_underground"
+      "preset":"end_cave_b",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_end,#forge:is_underground"
+        }
       }
     }
   ]

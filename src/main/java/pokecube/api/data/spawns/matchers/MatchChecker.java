@@ -30,12 +30,13 @@ public interface MatchChecker
             public MatchResult matches(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
             {
                 final MatchResult resA = A.matches(matcher, checker);
-                if (resA != MatchResult.SUCCEED) return resA == MatchResult.FAIL ? MatchResult.FAIL : MatchResult.PASS;
+                if (resA == MatchResult.FAIL) return MatchResult.FAIL;
                 final MatchResult resB = B.matches(matcher, checker);
-                if (resB != MatchResult.SUCCEED) return resB == MatchResult.FAIL ? MatchResult.FAIL : MatchResult.PASS;
-                return MatchResult.SUCCEED;
+                if (resB == MatchResult.FAIL) return MatchResult.FAIL;
+                boolean succeed = resA == MatchResult.SUCCEED || resB == MatchResult.SUCCEED;
+                return succeed ? MatchResult.SUCCEED : MatchResult.PASS;
             }
-            
+
             @Override
             public void init()
             {
@@ -53,9 +54,14 @@ public interface MatchChecker
 
     default MatchResult matches(final SpawnBiomeMatcher matcher, final SpawnCheck checker)
     {
-        return MatchResult.SUCCEED;
+        return MatchResult.PASS;
     }
 
     default void init()
     {}
+
+    default String makeDescription()
+    {
+        return "Missingno";
+    }
 }
