@@ -33,9 +33,6 @@ public class ConfigHandler extends ConfigData
     @Configure(category = WORLD, comment = "Structures listed here will have the relevant subbiome applied for if minecraft thinks that the block is inside the structure.")
     public List<String> structure_subbiomes = Lists.newArrayList(
     //@formatter:off pokecube_world:meteorites
-            "{\"struct\":\"#pokecube_world:village\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"#pokecube_world:town\",\"subbiome\":\"village\"}",
-            "{\"struct\":\"#minecraft:village\",\"subbiome\":\"village\"}",
             "{\"struct\":\"#minecraft:on_ocean_explorer_maps\",\"subbiome\":\"monument\"}"
             );
     //@formatter:on
