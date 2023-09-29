@@ -47,48 +47,36 @@ public class HealerBlock extends HorizontalDirectionalBlock implements SimpleWat
     {
     	HealerBlock.POKECENTER.put(Direction.NORTH, Shapes.or(
             Block.box(1, 0, 0, 15, 13, 16),
-            Block.box(2, 13, 0, 14, 15, 1),
-            Block.box(7, 13, 1, 9, 14, 15),
-            Block.box(2, 13, 15, 14, 15, 16),
-            Block.box(10, 13, 11, 13, 14, 14),
-            Block.box(3, 13, 11, 6, 14, 14),
-            Block.box(10, 13, 6.5, 13, 14, 9.5),
-            Block.box(3, 13, 6.5, 6, 14, 9.5),
-            Block.box(10, 13, 2, 13, 14, 5),
-            Block.box(3, 13, 2, 6, 14, 5)).optimize());
+            Block.box(9, 13, 10, 12, 14, 13),
+            Block.box(4, 13, 10, 7, 14, 13),
+            Block.box(9, 13, 6, 12, 14, 9),
+            Block.box(4, 13, 6, 7, 14, 9),
+            Block.box(4, 13, 2, 7, 14, 5),
+            Block.box(9, 13, 2, 12, 14, 5)).optimize());
     	HealerBlock.POKECENTER.put(Direction.EAST, Shapes.or(
             Block.box(0, 0, 1, 16, 13, 15),
-            Block.box(15, 13, 2, 16, 15, 14),
-            Block.box(1, 13, 7, 15, 14, 9),
-            Block.box(0, 13, 2, 1, 15, 14),
-            Block.box(2, 13, 10, 5, 14, 13),
-            Block.box(2, 13, 3, 5, 14, 6),
-            Block.box(6.5, 13, 10, 9.5, 14, 13),
-            Block.box(6.5, 13, 3, 9.5, 14, 6),
-            Block.box(11, 13, 10, 14, 14, 13),
-            Block.box(11, 13, 3, 14, 14, 6)).optimize());
+            Block.box(3, 13, 9, 6, 14, 12),
+            Block.box(3, 13, 4, 6, 14, 7),
+            Block.box(7, 13, 9, 10, 14, 12),
+            Block.box(7, 13, 4, 10, 14, 7),
+            Block.box(11, 13, 9, 14, 14, 12),
+            Block.box(11, 13, 7, 14, 14, 7)).optimize());
     	HealerBlock.POKECENTER.put(Direction.SOUTH, Shapes.or(
-		    Block.box(1, 0, 0, 15, 13, 16),
-            Block.box(2, 13, 0, 14, 15, 1),
-            Block.box(7, 13, 1, 9, 14, 15),
-            Block.box(2, 13, 15, 14, 15, 16),
-            Block.box(10, 13, 11, 13, 14, 14),
-            Block.box(3, 13, 11, 6, 14, 14),
-            Block.box(10, 13, 6.5, 13, 14, 9.5),
-            Block.box(3, 13, 6.5, 6, 14, 9.5),
-            Block.box(10, 13, 2, 13, 14, 5),
-            Block.box(3, 13, 2, 6, 14, 5)).optimize());
+            Block.box(1, 0, 0, 15, 13, 16),
+            Block.box(4, 13, 3, 7, 14, 6),
+            Block.box(9, 13, 3, 12, 14, 6),
+            Block.box(4, 13, 7, 7, 14, 10),
+            Block.box(9, 13, 7, 12, 14, 10),
+            Block.box(4, 13, 11, 7, 14, 14),
+            Block.box(9, 13, 11, 12, 14, 14)).optimize());
     	HealerBlock.POKECENTER.put(Direction.WEST, Shapes.or(
 		    Block.box(0, 0, 1, 16, 13, 15),
-            Block.box(15, 13, 2, 16, 15, 14),
-            Block.box(1, 13, 7, 15, 14, 9),
-            Block.box(0, 13, 2, 1, 15, 14),
-            Block.box(2, 13, 10, 5, 14, 13),
-            Block.box(2, 13, 3, 5, 14, 6),
-            Block.box(6.5, 13, 10, 9.5, 14, 13),
-            Block.box(6.5, 13, 3, 9.5, 14, 6),
-            Block.box(11, 13, 10, 14, 14, 13),
-            Block.box(11, 13, 3, 14, 14, 6)).optimize());
+            Block.box(10, 13, 4, 13, 14, 7),
+            Block.box(10, 13, 9, 13, 14, 12),
+            Block.box(6, 13, 4, 9, 14, 7),
+            Block.box(6, 13, 9, 9, 14, 12),
+            Block.box(2, 13, 4, 5, 14, 7),
+            Block.box(2, 13, 9, 5, 14, 12)).optimize());
     }
 
     // Precise selection box

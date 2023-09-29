@@ -259,6 +259,7 @@ public class ClientSetupHandler
             ItemBlockRenderTypes.setRenderLayer(berry.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.NEST.get(), RenderType.cutoutMipped());
         ItemBlockRenderTypes.setRenderLayer(PokecubeItems.DYNAMAX.get(), RenderType.cutoutMipped());
+        ItemBlockRenderTypes.setRenderLayer(PokecubeItems.HEALER.get(), RenderType.cutoutMipped());
 
         ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
 
