@@ -1,16 +1,20 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "nether_forests",
-        "types": "#minecraft:is_forest",
-        "and_preset": "nether"
+      "preset":"nether_forests",
+      "and_preset":"nether",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_forest"
+        }
       }
     },
     {
-      "values": {
-        "preset": "nether",
-        "types": "#minecraft:is_nether"
+      "preset":"nether",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_nether"
+        }
       }
     }
   ]

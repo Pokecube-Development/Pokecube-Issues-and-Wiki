@@ -1,38 +1,43 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "sunny",
-        "weather": "sun",
-        "types": "all"
+      "preset":"sunny",
+      "matchers":{
+        "weather":{
+          "type":"sun"
+        }
       }
     },
     {
-      "values": {
-        "preset": "cloudy",
-        "weather": "cloud",
-        "types": "all"
+      "preset":"cloudy",
+      "matchers":{
+        "weather":{
+          "type":"cloud"
+        }
       }
     },
     {
-      "values": {
-        "preset": "raining",
-        "weather": "rain",
-        "types": "all"
+      "preset":"raining",
+      "matchers":{
+        "weather":{
+          "type":"rain"
+        }
       }
     },
     {
-      "values": {
-        "preset": "snowing",
-        "weather": "snow",
-        "types": "all"
+      "preset":"snowing",
+      "matchers":{
+        "weather":{
+          "type":"snow"
+        }
       }
     },
     {
-      "values": {
-        "preset": "thundering",
-        "weather": "thunder",
-        "types": "all"
+      "preset":"thundering",
+      "matchers":{
+        "weather":{
+          "type":"thunder"
+        }
       }
     }
   ]

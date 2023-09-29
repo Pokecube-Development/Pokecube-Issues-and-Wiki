@@ -1,6 +1,8 @@
 package pokecube.api.data.spawns;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -27,6 +29,8 @@ public class SpawnRule
     public DefaultFormeHolder model = null;
 
     public JsonObject biomes = null;
+
+    public List<MatchChecker> _matchers = new ArrayList<>();
 
     private String __cache__ = null;
 
@@ -67,20 +71,32 @@ public class SpawnRule
 
     public void initMatchers()
     {
-        this.matchers.replaceAll((key, value) -> {
+        this._matchers.clear();
+        this.matchers.forEach((key, value) -> {
             // Leave the match checkers alone after further runs of this
-            if (value instanceof MatchChecker) return value;
+            if (value instanceof MatchChecker match)
+            {
+                this._matchers.add(match);
+                return;
+            }
 
             // Now look up classes
-            Class<?> clazz = MatcherLoaders.matchClasses.get(key);
+            Class<? extends MatchChecker> clazz = MatcherLoaders.matchClasses.get(key);
 
+            // If it is a list, load for each in list
+            if (value instanceof List<?> list)
+            {
+                list.forEach(value2 -> {
+                    String json = JsonUtil.gson.toJson(value2);
+                    this._matchers.add(JsonUtil.gson.fromJson(json, clazz));
+                });
+            }
             // And convert from strings as needed
-            if (clazz != null)
+            else if (clazz != null)
             {
                 String json = JsonUtil.gson.toJson(value);
-                return JsonUtil.gson.fromJson(json, clazz);
+                this._matchers.add(JsonUtil.gson.fromJson(json, clazz));
             }
-            return null;
         });
     }
 

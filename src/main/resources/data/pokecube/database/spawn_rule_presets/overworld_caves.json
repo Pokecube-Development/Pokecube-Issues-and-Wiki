@@ -1,61 +1,64 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "desert_caves",
-        "types": "#forge:is_sandy,all",
-        "and_preset": "caves"
+      "preset":"desert_caves",
+      "and_preset":"caves",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_sandy"
+        }
       }
     },
     {
-      "values": {
-        "preset": "forest_caves",
-        "types": "#minecraft:is_forest,all",
-        "and_preset": "caves"
+      "preset":"forest_caves",
+      "and_preset":"caves",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_forest"
+        }
       }
     },
     {
-      "values": {
-        "preset": "mountain_caves",
-        "types": "#minecraft:is_mountain,all",
-        "or_preset": "peaks_caves",
-        "and_preset": "caves"
+      "preset":"mountain_caves",
+      "or_preset":"peaks_caves",
+      "and_preset":"caves",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_mountain"
+        }
       }
     },
     {
-      "values": {
-        "preset": "peaks_caves",
-        "types": "#forge:is_peak,all",
-        "and_preset": "caves"
+      "preset":"peaks_caves",
+      "and_preset":"caves",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_peak"
+        }
       }
     },
     {
-      "values": {
-        "preset": "jungle_caves",
-        "types": "#minecraft:is_jungle,all",
-        "and_preset": "caves"
+      "preset":"jungle_caves",
+      "and_preset":"caves",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_jungle"
+        }
       }
     },
     {
-      "values": {
-        "preset": "plains_caves",
-        "types": "#forge:is_plains,all",
-        "and_preset": "caves"
+      "preset":"plains_caves",
+      "and_preset":"caves",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_plains"
+        }
       }
     },
     {
-      "values": {
-        "preset": "lush_caves",
-        "types": "#forge:is_lush,all",
-        "and_preset": "caves"
-      }
-    },
-    {
-      "values": {
-        "preset": "caves",
-        "or_preset": "underground,cave_subbiome",
-        "and_preset": "overworld"
-      }
+      "preset":"caves",
+      "or_preset":"underground,cave_subbiome",
+      "and_preset":"overworld"
     }
   ]
 }
