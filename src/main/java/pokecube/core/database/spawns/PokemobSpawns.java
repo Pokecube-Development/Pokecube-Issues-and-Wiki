@@ -54,6 +54,12 @@ public class PokemobSpawns extends ResourceData
         public int level = -1;
         public String variance;
         public String variant = "";
+        
+        @Override
+        public String toString()
+        {
+            return JsonUtil.gson.toJson(this);
+        }
     }
 
     private static final SpawnList MASTER_LIST = new SpawnList();
@@ -110,7 +116,7 @@ public class PokemobSpawns extends ResourceData
                     // In this case, we merge all of the other rules in via
                     // ANDPRESETS
                     rule = new SpawnRule();
-                    rule.values.put(SpawnBiomeMatcher.ANDPRESET, entry.and_preset);
+                    rule.and_preset = entry.and_preset;
                 }
             }
 
@@ -128,12 +134,12 @@ public class PokemobSpawns extends ResourceData
                         // In this case, we merge all of the other rules in via
                         // ORPRESETS
                         rule = new SpawnRule();
-                        rule.values.put(SpawnBiomeMatcher.ORPRESET, entry.or_preset);
+                        rule.or_preset = entry.or_preset;
                     }
                 }
                 else
                 {
-                    rule.values.put(SpawnBiomeMatcher.ORPRESET, entry.or_preset);
+                    rule.or_preset = entry.or_preset;
                 }
             }
 
@@ -143,7 +149,7 @@ public class PokemobSpawns extends ResourceData
                 if (entry.not_preset != null)
                 {
                     // Finally add in the NOTPRESET
-                    rule.values.put(SpawnBiomeMatcher.NOTPRESET, entry.not_preset);
+                    rule.not_preset = entry.not_preset;
                 }
 
                 // Final instance of rule so that it works in the below lambda

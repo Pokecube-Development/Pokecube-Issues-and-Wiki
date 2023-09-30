@@ -51,9 +51,7 @@ public class RecipeExtract extends PoweredRecipe
     public boolean complete(final IPoweredProgress tile, Level world)
     {
         final List<ItemStack> remaining = this.getRemainingItems(tile.getCraftMatrix());
-
-        // TODO: Check this
-        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), world.registryAccess()));
+        var output = this.assemble(tile.getCraftMatrix(), world.registryAccess());
         for (int i = 0; i < remaining.size(); i++)
         {
             final ItemStack old = tile.getItem(i);
@@ -69,6 +67,7 @@ public class RecipeExtract extends PoweredRecipe
                 tile.removeItem(i, 1);
             }
         }
+        tile.setItem(tile.getOutputSlot(), output);
         if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.broadcastChanges();
         return true;
     }

@@ -8,9 +8,6 @@ import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import net.minecraft.world.phys.Vec3;
 import thut.api.block.flowing.IFlowingBlock;
 
 public class SmootherItem extends Item
@@ -46,12 +43,7 @@ public class SmootherItem extends Item
                         int diff = amt2 - (amt - 1);
                         level.setBlock(pos, b2.setAmount(state, amt - 1), 3);
                         BlockState removed = b2.setAmount(state, diff);
-                        LootContext.Builder builder = (new LootContext.Builder(slevel)).withRandom(slevel.random)
-                                .withParameter(LootContextParams.ORIGIN, Vec3.atCenterOf(pos))
-                                .withParameter(LootContextParams.TOOL, context.getItemInHand())
-                                .withOptionalParameter(LootContextParams.THIS_ENTITY, context.getPlayer())
-                                .withOptionalParameter(LootContextParams.BLOCK_ENTITY, null);
-                        Block.dropResources(removed, builder);
+                        Block.dropResources(removed, level, pos, null, context.getPlayer(),  context.getItemInHand());
                     }
                     n++;
                 }

@@ -93,7 +93,8 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 				Set<BlockPos> checked = Sets.newHashSet();
 
 				for (int i = 0; i < length; i++) {
-					BlockPos p = new BlockPos(start.add(dir.scale(i)));
+				    var v = start.add(dir.scale(i));
+					BlockPos p = BlockPos.containing(v);
 					if (checked.contains(p))
 						continue;
 
@@ -282,7 +283,7 @@ public class VolcanoEntity extends BlockEntity implements ITickTile {
 
 	@Override
 	public void tick() {
-		if (this.level.isClientSide || !(this.level instanceof ServerLevel level))
+		if (this.level.isClientSide || !(this.level instanceof ServerLevel level) || !Concrete.config.volcanoes_tick)
 			return;
 		if (mainChamber.tubes.isEmpty()) {
 			WorldgenRandom rand = new WorldgenRandom(new LegacyRandomSource(0L));

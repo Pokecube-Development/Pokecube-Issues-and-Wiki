@@ -24,10 +24,12 @@ import thut.lib.TComponent;
 public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 {
     public static ResourceLocation TM_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine.png");
+    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+    public static ResourceLocation TM_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine_light.png");
+    public static ResourceLocation WIDGETS_LIGHT_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_light.png");
     public static ResourceLocation TM_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine_dark.png");
-    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets.png");
 
-    public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID, "textures/gui/widgets/pc_widgets_dark.png");
+    public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_dark.png");
 
     private EditBox searchBar;
     Button applyButton;
@@ -42,7 +44,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     {
         super(container, playerInventory, name);
         this.imageWidth = 176;
-        this.imageHeight = 176;
+        this.imageHeight = PokecubeCore.getConfig().fancyGUI ? 176 : 162;
     }
 
     @Override
@@ -76,10 +78,12 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderLabels(final GuiGraphics graphics, final int x, final int y)
     {
-        if (this.lightModeButton.visible) graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"),
+        if (this.lightModeButton.visible && PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"),
                 8, 6, 0xB2AFD6, false);
-        else graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"),
+        else if (PokecubeCore.getConfig().fancyGUI) graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"),
                 8, 6, 0xFFFFFF, false);
+        else graphics.drawString(this.font, TComponent.translatable("block.pokecube.tm_machine"), 8, 6, 4210752, false);
+
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
                 8, this.imageHeight - 94 + 2, 4210752, false);
     }
@@ -87,28 +91,30 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     @Override
     protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
     {
-        ResourceLocation WIDGETS_DARK_OR_LIGHT_GUI = this.darkModeButton.visible ? WIDGETS_GUI : WIDGETS_DARK_GUI;
+        ResourceLocation WIDGETS_DARK_OR_LIGHT = this.darkModeButton.visible ? WIDGETS_LIGHT_GUI : WIDGETS_DARK_GUI;
+        ResourceLocation WIDGETS_DEFAULT_OR_FANCY = PokecubeCore.getConfig().fancyGUI ? WIDGETS_DARK_OR_LIGHT : WIDGETS_GUI;
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TMs.TM_GUI);
+        RenderSystem.setShaderTexture(0, TMs.TM_LIGHT_GUI);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
         //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (this.darkModeButton.visible)
-            graphics.blit(TM_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
+            graphics.blit(TM_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
             graphics.blit(TM_DARK_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
+        else graphics.blit(TM_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         // Background for moves list
-        graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 58, y + 16, 0, 90, 112, 19);
+        graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 58, y + 16, 0, 90, 112, 19);
 
         // TM slot icon
-        graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 7, y + 16, 50, 165, 18, 18);
+        graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 7, y + 16, 50, 165, 18, 18);
 
         // PokeCube slot icon
-        graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 7, y + 48, 75, 165, 18, 18);
+        graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 7, y + 48, 75, 165, 18, 18);
 
         if (this.darkModeButton.isHoveredOrFocused() && this.darkModeButton.visible)
         {
@@ -119,35 +125,37 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
 
         if (this.lightModeButton.isHoveredOrFocused() && this.lightModeButton.visible)
         {
-            graphics.blit(WIDGETS_GUI, x - 17, y + 1, 240, 20, 15, 13);
+            graphics.blit(WIDGETS_LIGHT_GUI, x - 17, y + 1, 240, 20, 15, 13);
         } else if (this.lightModeButton.visible) {
-            graphics.blit(WIDGETS_GUI, x - 16, y + 1, 240, 0, 14, 13);
+            graphics.blit(WIDGETS_LIGHT_GUI, x - 16, y + 1, 240, 0, 14, 13);
         }
 
         if (this.prevButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 57, y + 35, 75, 15, 12, 12);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 57, y + 35, 75, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 58, y + 36, 75, 0, 11, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 58, y + 36, 75, 0, 11, 11);
         }
 
         if (this.searchBar.visible)
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 70, y + 36, 75, 30, 88, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 70, y + 36, 75, 30, 88, 11);
 
         if (this.nextButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 158, y + 35, 90, 15, 12, 12);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 158, y + 35, 90, 15, 12, 12);
         } else {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 159, y + 36, 90, 0, 11, 11);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 159, y + 36, 90, 0, 11, 11);
         }
 
         if (this.applyButton.isHoveredOrFocused())
         {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 104, y + 47, 0, 190, 20, 20);
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 104, y + 47, 25, 165, 20, 20);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 0, 190, 20, 20);
+            if (PokecubeCore.getConfig().fancyGUI)
+                graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 104, y + 47, 25, 165, 20, 20);
+            else graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 20, 20);
         } else {
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 105, y + 48, 0, 165, 19, 19);
-            graphics.blit(WIDGETS_DARK_OR_LIGHT_GUI, x + 105, y + 48, 25, 165, 19, 19);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 0, 165, 19, 19);
+            graphics.blit(WIDGETS_DEFAULT_OR_FANCY, x + 105, y + 48, 25, 165, 19, 19);
         }
     }
 
@@ -155,8 +163,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     public void init()
     {
         super.init();
-        final int x = this.width / 2 - 88;
-        final int y = this.height / 2 - 88;
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
 
         // Elements placed in order of selection when pressing tab
         final Component darkMode = TComponent.literal("");
@@ -166,7 +174,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         }).bounds(x - 16, y + 1, 14, 13)
                 .tooltip(Tooltip.create(Component.translatable("block.tm_machine.dark_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.tm_machine.dark_mode.narrate")).build());
-        this.darkModeButton.visible = !PokecubeCore.getConfig().darkMode;
+        this.darkModeButton.visible = (!PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.darkModeButton.setAlpha(0);
 
         final Component lightMode = TComponent.literal("");
@@ -176,7 +184,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         }).bounds(x - 16, y + 1, 14, 13)
                 .tooltip(Tooltip.create(Component.translatable("block.tm_machine.light_mode.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.tm_machine.light_mode.narrate")).build());
-        this.lightModeButton.visible = PokecubeCore.getConfig().darkMode;
+        this.lightModeButton.visible = (PokecubeCore.getConfig().darkMode && PokecubeCore.getConfig().fancyGUI);
         this.lightModeButton.setAlpha(0);
 
         final String[] moves1 = this.menu.moves;
@@ -203,6 +211,7 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
                 x + 72, y + 38, 86, 10,
                 TComponent.translatable("block.tm_machine.search_bar.narrate")));
         this.searchBar.setTooltip(Tooltip.create(Component.translatable("block.tm_machine.search_bar.tooltip")));
+        if (!PokecubeCore.getConfig().fancyGUI) this.searchBar.setPosition(x + 72, y + 37);
         if (this.lightModeButton.visible) {
             this.searchBar.setTextColor(0xB2AFD6);
         } else this.searchBar.setTextColor(0xFFFFFF);
@@ -240,8 +249,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset = this.height / 2 - 88;
-            final int xOffset = this.width / 2 - 88;
+            final int yOffset =-95 + (this.width - this.imageWidth) / 2;
+            final int xOffset = 98 + (this.height - this.imageHeight) / 2;
             String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
 
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, xOffset + 61,

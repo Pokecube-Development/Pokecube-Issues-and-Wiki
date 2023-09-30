@@ -15,6 +15,8 @@ import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -43,6 +45,7 @@ import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.eventbus.api.Event.Result;
+import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
@@ -636,5 +639,11 @@ public class EntityPokemob extends PokemobRidable
         }
         if (animationHolder != null) return animationHolder.getChoices().contains("flying");
         return false;
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket()
+    {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

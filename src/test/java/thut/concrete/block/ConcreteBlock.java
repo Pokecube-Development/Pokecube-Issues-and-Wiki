@@ -5,10 +5,13 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 
+import javax.annotation.Nullable;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Registry;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
@@ -35,7 +38,7 @@ public abstract class ConcreteBlock extends SolidBlock implements IDyedBlock
         {
             String name = c.getName() + "_concrete";
             @SuppressWarnings("deprecation")
-            Block b = Registry.BLOCK.get(new ResourceLocation(name));
+            Block b = BuiltInRegistries.BLOCK.get(new ResourceLocation(name));
             VANILLA.put(c, b);
             VANILLAREV.put(b, c);
         }
@@ -57,6 +60,36 @@ public abstract class ConcreteBlock extends SolidBlock implements IDyedBlock
         arr[0] = layer_reg;
 
         return arr;
+    }
+
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
+        BlockState state = context.getLevel().getBlockState(context.getClickedPos());
+        if (state.is(this)) {
+            if (context.getPlayer() != null && context.getPlayer().isCreative())
+            {
+                int i = state.getValue(LAYERS);
+                return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
+            }
+        } else {
+            return super.getStateForPlacement(context);
+        }
+        return super.getStateForPlacement(context);
+    }
+
+    @Override
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context) {
+        int i = state.getValue(LAYERS);
+        if (context.getItemInHand().is(this.asItem()) && i < 16) {
+            if (context.replacingClickedOnBlock()) {
+                return context.getClickedFace() == Direction.UP;
+            } else {
+                return true;
+            }
+        } else {
+            return i == 1;
+        }
     }
 
     private final DyeColor colour;

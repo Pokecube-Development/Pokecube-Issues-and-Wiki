@@ -7,6 +7,8 @@ import net.minecraft.world.item.ItemStack;
 
 public class TexturedSlot extends CustomSlot
 {
+    public static final ResourceLocation BLOCK_ATLAS = new ResourceLocation("pokecube:textures/atlas/slots.png");
+    
     public TexturedSlot(final Container inventoryIn, final int index, final int xPosition, final int yPosition,
             final String texture)
     {

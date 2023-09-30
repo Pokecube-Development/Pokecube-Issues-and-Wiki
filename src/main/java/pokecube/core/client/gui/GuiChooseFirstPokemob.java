@@ -200,26 +200,30 @@ public class GuiChooseFirstPokemob extends Screen
         }
 
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
 
-        // TODO: Check this
         RenderSystem.setShaderColor(255f / 255f, 0f / 255f, 0f / 255f, 1.0F);
-        graphics.blit(BACKGROUND_LOCATION, n + k, m + l, 0, 0, this.pokedexEntry.getStatHP(), 13);
+        graphics.blit(Resources.GUI_POKEMOB, n + k, m + l, 0, 0, this.pokedexEntry.getStatHP(), 13);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1.0F);
 
         RenderSystem.setShaderColor(234f / 255f, 125f / 255f, 46f / 255f, 1.0F);
-        graphics.blit(BACKGROUND_LOCATION, n + k, m + l + 13, 0, 0, this.pokedexEntry.getStatATT(), 13);
+        graphics.blit(Resources.GUI_POKEMOB, n + k, m + l + 13, 0, 0, this.pokedexEntry.getStatATT(), 13);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1.0F);
 
         RenderSystem.setShaderColor(242f / 255f, 203f / 255f, 46f / 255f, 1.0F);
-        graphics.blit(BACKGROUND_LOCATION, n + k, m + l + 26, 0, 0, this.pokedexEntry.getStatDEF(), 13);
+        graphics.blit(Resources.GUI_POKEMOB, n + k, m + l + 26, 0, 0, this.pokedexEntry.getStatDEF(), 13);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1.0F);
 
         RenderSystem.setShaderColor(102f / 255f, 140f / 255f, 234f / 255f, 1.0F);
-        graphics.blit(BACKGROUND_LOCATION, n + k, m + l + 39, 0, 0, this.pokedexEntry.getStatATTSPE(), 13);
+        graphics.blit(Resources.GUI_POKEMOB, n + k, m + l + 39, 0, 0, this.pokedexEntry.getStatATTSPE(), 13);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1.0F);
 
         RenderSystem.setShaderColor(118f / 255f, 198f / 255f, 78f / 255f, 1.0F);
-        graphics.blit(BACKGROUND_LOCATION, n + k, m + l + 52, 0, 0, this.pokedexEntry.getStatDEFSPE(), 13);
+        graphics.blit(Resources.GUI_POKEMOB, n + k, m + l + 52, 0, 0, this.pokedexEntry.getStatDEFSPE(), 13);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1.0F);
 
         RenderSystem.setShaderColor(243f / 255f, 86f / 255f, 132f / 255f, 1.0F);
-        graphics.blit(BACKGROUND_LOCATION, n + k, m + l + 65, 0, 0, this.pokedexEntry.getStatVIT(), 13);
+        graphics.blit(Resources.GUI_POKEMOB, n + k, m + l + 65, 0, 0, this.pokedexEntry.getStatVIT(), 13);
+        RenderSystem.setShaderColor(1f, 1f, 1f, 1.0F);
 
         final String H = I18n.get("pokewatch.HP");
         final String A = I18n.get("pokewatch.ATT");

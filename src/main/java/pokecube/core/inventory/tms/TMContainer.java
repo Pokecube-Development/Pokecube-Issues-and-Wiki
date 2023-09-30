@@ -74,7 +74,8 @@ public class TMContainer extends BaseContainer
                 return playerIn.getStringUUID().equals(owner);
             }
         });
-        this.bindPlayerInventory(inv, -9);
+        int yOffset = PokecubeCore.getConfig().fancyGUI ? -9 : -23;
+        this.bindPlayerInventory(inv, yOffset);
     }
 
     @Override

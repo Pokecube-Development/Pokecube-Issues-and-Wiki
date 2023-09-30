@@ -60,7 +60,6 @@ public abstract class AbstractBot implements IBotAI
         this.key = key;
     }
 
-    @SuppressWarnings("deprecation")
     protected void preBotTick(final ServerLevel world)
     {
         this.player.setGameMode(GameType.CREATIVE);
@@ -115,7 +114,7 @@ public abstract class AbstractBot implements IBotAI
     protected void tryPath(final Vec3 targ)
     {
         final PathNavigation navi = this.mob.getNavigation();
-        final BlockPos pos = new BlockPos(targ);
+        final BlockPos pos = BlockPos.containing(targ);
 
         if (navi.isInProgress() && navi.getTargetPos().closerThan(pos, 1)) return;
 

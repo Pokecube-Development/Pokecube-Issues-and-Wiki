@@ -1,19 +1,14 @@
 package thut.wearables.client.gui;
 
-import java.awt.*;
 import java.util.function.Supplier;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import thut.lib.TComponent;
-import thut.wearables.ThutWearables;
 
 public class GuiWearableButton extends Button
 {

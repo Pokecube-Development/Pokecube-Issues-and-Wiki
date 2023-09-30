@@ -113,10 +113,10 @@ public class Storage extends Tab
             return PokecubeCore.getConfig().pokemobGuiTooltips;
         }, (b, graphics, x, y) ->
         {
-            // TODO: Fix tooltips
             Component tooltip = b.getMessage();
             var split = parent.font.split(tooltip, this.imageWidth);
-            parent.renderTooltip(graphics, x, y);
+            // TODO: Fix tooltips
+            parent.setTooltipForNextRenderPass(split);
         }).bounds(k + 64, l + 54, 16, 16).build()).noAuto();
     }
 
@@ -191,11 +191,11 @@ public class Storage extends Tab
         int x = 83;
         int y = 20;
         
-        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.berry"), x, y, 4210752);
-        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.store"), x, y + 10, 4210752);
-        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.face"), x, y + 20, 4210752);
-        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.empty"), x, y + 30, 4210752);
-        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.face"), x, y + 40, 4210752);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.berry"), x, y, 4210752, false);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.store"), x, y + 10, 4210752, false);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.face"), x, y + 20, 4210752, false);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.empty"), x, y + 30, 4210752, false);
+        graphics.drawString(this.parent.font, I18n.get("pokemob.gui.face"), x, y + 40, 4210752, false);
         y -= 5;
 
         if (this.berry.isMouseOver(mouseX, mouseY))

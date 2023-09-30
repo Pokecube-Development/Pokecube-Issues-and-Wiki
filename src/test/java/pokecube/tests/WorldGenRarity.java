@@ -26,6 +26,7 @@ import net.minecraftforge.fml.common.Mod;
 import pokecube.api.PokecubeAPI;
 import thut.api.maths.Cruncher.SquareLoopCruncher;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 @Mod.EventBusSubscriber
 public class WorldGenRarity
@@ -59,7 +60,7 @@ public class WorldGenRarity
                     int radius)
             {
                 if (max_n == 25310) ThutCore.LOGGER.info("Checking {}", name);
-                final ResourceKey<Structure> structure = ResourceKey.create(Registry.STRUCTURE_REGISTRY, name);
+                final ResourceKey<Structure> structure = ResourceKey.create(RegHelper.STRUCTURE_REGISTRY, name);
                 var holder = registry.getHolderOrThrow(structure);
 
                 if (points.isEmpty())
@@ -141,7 +142,7 @@ public class WorldGenRarity
         public boolean tick(ServerLevel level)
         {
             if (level.players().isEmpty()) return false;
-            var registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+            var registry = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
             if (this.entries.isEmpty())
             {
                 var list = registry.stream().toList();
@@ -202,7 +203,6 @@ public class WorldGenRarity
     @SubscribeEvent
     public static void onChat(final ServerChatEvent chat)
     {
-        if (chat instanceof ServerChatEvent.Preview) return;
         if (chat.getMessage().getString().startsWith("Start:Debug_Structures"))
         {
             LOG = new Logger();

@@ -1,119 +1,158 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "is_badlands",
-        "types": "#pokecube_legends:can_spawn/is_badlands"
+      "preset":"is_badlands",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_badlands"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_beach",
-        "types": "#pokecube_legends:can_spawn/is_beach"
+      "preset":"is_beach",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_beach"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_burnt",
-        "types": "#pokecube_legends:can_spawn/is_burnt"
+      "preset":"is_burnt",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_burnt"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_corrupted",
-        "types": "#pokecube_legends:can_spawn/is_corrupted"
+      "preset":"is_corrupted",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_corrupted"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_crystallized",
-        "types": "#pokecube_legends:can_spawn/is_crystallized"
+      "preset":"is_crystallized",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_crystallized"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_dead",
-        "types": "#pokecube_legends:can_spawn/is_dead"
+      "preset":"is_dead",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_dead"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_deltas",
-        "types": "#pokecube_legends:can_spawn/is_deltas"
+      "preset":"is_deltas",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_deltas"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_desert",
-        "types": "#pokecube_legends:can_spawn/is_desert"
+      "preset":"is_desert",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_desert"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_forbidden",
-        "types": "#pokecube_legends:can_spawn/is_forbidden"
+      "preset":"is_forbidden",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_forbidden"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_fungal",
-        "types": "#pokecube_legends:can_spawn/is_fungal"
+      "preset":"is_fungal",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_fungal"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_jungle",
-        "types": "#pokecube_legends:can_spawn/is_jungle"
+      "preset":"is_jungle",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_jungle"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_meteorite",
-        "types": "#pokecube_legends:can_spawn/is_meteorite"
+      "preset":"is_meteorite",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_meteorite"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_mountain",
-        "types": "#pokecube_legends:can_spawn/is_mountain"
+      "preset":"is_mountain",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_mountain"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_ocean",
-        "types": "#pokecube_legends:can_spawn/is_ocean"
+      "preset":"is_ocean",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_ocean"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_polluted",
-        "types": "#pokecube_legends:can_spawn/is_polluted"
+      "preset":"is_polluted",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_polluted"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_river",
-        "types": "#pokecube_legends:can_spawn/is_river"
+      "preset":"is_river",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_river"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_snowy",
-        "types": "#pokecube_legends:can_spawn/is_snowy"
+      "preset":"is_snowy",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_snowy"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_ultraspace",
-        "types": "#pokecube_legends:can_spawn/is_ultraspace,all",
-        "air": "true",
-        "water": "true"
+      "preset":"is_ultraspace",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_ultraspace"
+        },
+        "material":{
+          "type":"all"
+        }
       }
     },
     {
-      "values": {
-        "preset": "is_underground",
-        "types": "#pokecube_legends:can_spawn/is_underground"
+      "preset":"is_underground",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_underground"
+        }
       }
     }
   ]

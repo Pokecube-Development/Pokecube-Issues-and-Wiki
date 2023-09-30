@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:mushrooms",
+    "#minecraft:flowers",
+    "minecraft:brown_mushroom",
+    "minecraft:red_mushroom",
+    { "id": "#pokecube:berry_fruits", "required": false }
+  ]
+}

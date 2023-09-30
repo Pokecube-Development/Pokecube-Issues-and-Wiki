@@ -1,13 +1,12 @@
 package thut.wearables.client.render.slots;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-
 import com.mojang.math.Axis;
+
 import net.minecraft.client.model.HeadedModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import thut.lib.AxisAngles;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 import thut.wearables.ThutWearables;

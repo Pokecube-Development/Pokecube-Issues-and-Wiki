@@ -120,8 +120,8 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
             final thut.api.maths.vecmath.Vec3f offset)
     {
         final Vector3f vector3f1 = new Vector3f(-1.0F, -1.0F, 0.0F);
-        // TODO: Find replacement
-        // vector3f1.transform(quaternion);
+        // TODO: check this
+        quaternion.transform(vector3f1);
         final Vector3f[] verts = new Vector3f[] { //@formatter:off
                 new Vector3f(-1.0F, -1.0F, 0.0F),
                 new Vector3f(-1.0F, 1.0F, 0.0F),
@@ -133,8 +133,7 @@ public class ParticleBase extends ParticleType<ParticleBase> implements IParticl
         for (int i = 0; i < 4; ++i)
         {
             final Vector3f vector3f = verts[i];
-            // TODO: Find replacement
-            // vector3f.transform(quaternion);
+            quaternion.transform(vector3f);
             vector3f.mul(f4);
             vector3f.add(offset.x, offset.y, offset.z);
         }

@@ -1,34 +1,37 @@
 package pokecube.core.client.gui.pokemob;
 
-import com.google.common.collect.Lists;
-import com.mojang.blaze3d.systems.RenderSystem;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import org.lwjgl.glfw.GLFW;
+
+import com.google.common.collect.Lists;
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
-import org.lwjgl.glfw.GLFW;
+import net.minecraft.world.inventory.InventoryMenu;
 import pokecube.core.client.gui.helper.Rectangle;
 import pokecube.core.client.gui.helper.TooltipArea;
 import pokecube.core.client.gui.pokemob.tabs.AI;
 import pokecube.core.client.gui.pokemob.tabs.Routes;
 import pokecube.core.client.gui.pokemob.tabs.Storage;
 import pokecube.core.client.gui.pokemob.tabs.Tab;
-import pokecube.core.impl.PokecubeMod;
 import pokecube.core.inventory.pokemob.PokemobContainer;
 import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
 {
-    private static final ResourceLocation TAB_TEXTURE =
-            new ResourceLocation("textures/gui/container/creative_inventory/tabs.png");
+    private static final ResourceLocation TAB_TEXTURE = new ResourceLocation(
+            "textures/gui/container/creative_inventory/tabs.png");
 
     List<Tab> modules = Lists.newArrayList();
     List<Rectangle> tabs = Lists.newArrayList();
@@ -63,9 +66,9 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         int tabCount = Math.min(6, modules.size());
         for (int i = 0; i < tabCount; i++)
         {
-            int x0 = k + i * 28;
+            int x0 = k + i * 24;
             int y0 = l - 28;
-            int x1 = x0 + 28;
+            int x1 = x0 + 24;
             int y1 = y0 + 32;
             tabs.add(new Rectangle(x0, y0, x1, y1));
         }
@@ -125,20 +128,13 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
             t.updateHovored(mx, my);
             if (i == moduleIndex) continue;
             RenderSystem.setShader(GameRenderer::getPositionTexShader);
-            RenderSystem.setShaderTexture(0, TAB_TEXTURE);
             RenderSystem.enableBlend();
-            graphics.blit(TAB_TEXTURE, r.x0, r.y0, 28, 0, r.w, r.h);
+            graphics.blit(TAB_TEXTURE, r.x0, r.y0, 24, 0, r.w, r.h);
             if (t.icon != null)
             {
-                RenderSystem.setShaderTexture(0, t.icon);
-                RenderSystem.enableBlend();
-                graphics.pose().pushPose();
-                graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
-                float s = 1 / 8f;
-                graphics.pose().scale(s, s, s);
-                // Tab icons
-                graphics.blit(Resources.TAB_ICON_INVENTORY, 0, 0, 0, 0, 256, 256);
-                graphics.pose().popPose();
+                TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
+                        .apply(t.icon);
+                graphics.blit(r.x0 - 2, r.y0 - 1, 0, 32, 32, textureatlassprite);
             }
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
@@ -148,18 +144,13 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
         RenderSystem.enableBlend();
         Tab t = modules.get(moduleIndex);
         Rectangle r = this.tabs.get(moduleIndex);
-        int dx = moduleIndex == 0 ? 0 : 28;
-        graphics.blit(Resources.GUI_POKEMOB, r.x0, r.y0, dx, 32, r.w, r.h);
+        int dx = moduleIndex == 0 ? 0 : 24;
+        graphics.blit(TAB_TEXTURE, r.x0, r.y0, dx, 32, r.w, r.h);
         if (t.icon != null)
         {
-            RenderSystem.setShaderTexture(0, t.icon);
-            RenderSystem.enableBlend();
-            graphics.pose().pushPose();
-            graphics.pose().translate(r.x0 - 2, r.y0 - 1, 0);
-            float s = 1 / 8f;
-            graphics.pose().scale(s, s, s);
-            graphics.blit(Resources.GUI_POKEMOB, 0, 0, 0, 0, 256, 256);
-            graphics.pose().popPose();
+            TextureAtlasSprite textureatlassprite = this.minecraft.getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
+                    .apply(t.icon);
+            graphics.blit(r.x0 - 2, r.y0 - 1, 0, 32, 32, textureatlassprite);
         }
         RenderSystem.setShaderTexture(0, Resources.GUI_POKEMOB);
         modules.get(moduleIndex).renderBg(graphics, tick, mx, my);
@@ -174,7 +165,8 @@ public class GuiPokemob extends AbstractContainerScreen<PokemobContainer>
     @Override
     protected void renderLabels(GuiGraphics graphics, int p_97809_, int p_97810_)
     {
-        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8.0F, this.imageHeight - 96 + 2, 4210752, false);
+        graphics.drawString(this.font, this.playerInventoryTitle.getString(), 8.0F, this.imageHeight - 96 + 2, 4210752,
+                false);
 
         final int k = 6;
         final int l = this.imageHeight - 152;

@@ -5,11 +5,11 @@ package pokecube.core.moves.damage;
 
 import javax.annotation.Nullable;
 
-import net.minecraft.core.Holder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.DamageType;
+import net.minecraft.world.damagesource.DamageTypes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
@@ -21,8 +21,7 @@ import thut.api.OwnableCaps;
 import thut.lib.TComponent;
 
 /**
- * This class extends {@link DamageSource} and only modifies the death
- * message.
+ * This class extends {@link DamageSource} and only modifies the death message.
  *
  * @author Manchou
  */
@@ -31,18 +30,18 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
 
     private final LivingEntity sourceMob;
     /**
-     * This is the type of the used move, can be different from
-     * move.getType()
+     * This is the type of the used move, can be different from move.getType()
      */
-    public IPokemob            user;
+    public IPokemob user;
 
     /**
      * @param par1Str
      * @param mob
      */
-    public StatusEffectDamageSource(Holder<DamageType> damageTypeHolder, final LivingEntity mob)
+    public StatusEffectDamageSource(final LivingEntity mob)
     {
-        super(damageTypeHolder);
+        super(mob.level().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE)
+                .getHolderOrThrow(DamageTypes.MOB_ATTACK));
         this.sourceMob = mob;
         this.user = PokemobCaps.getPokemobFor(mob);
     }
@@ -51,27 +50,25 @@ public class StatusEffectDamageSource extends DamageSource implements IPokedamag
     @Override
     public Component getLocalizedDeathMessage(final LivingEntity died)
     {
-        final ItemStack localObject = this.sourceMob != null ? this.sourceMob.getMainHandItem()
-                : ItemStack.EMPTY;
-        if (!localObject.isEmpty() && localObject.hasCustomHoverName()) return TComponent.translatable("death.attack."
-                + this.type().msgId(), new Object[] { died.getDisplayName(), this.sourceMob
-                        .getDisplayName(), localObject.getDisplayName() });
+        final ItemStack localObject = this.sourceMob != null ? this.sourceMob.getMainHandItem() : ItemStack.EMPTY;
+        if (!localObject.isEmpty() && localObject.hasCustomHoverName())
+            return TComponent.translatable("death.attack." + this.type().msgId(), new Object[]
+            { died.getDisplayName(), this.sourceMob.getDisplayName(), localObject.getDisplayName() });
         final IPokemob sourceMob = PokemobCaps.getPokemobFor(this.sourceMob);
         if (sourceMob != null && sourceMob.getOwner() != null)
         {
-            final MutableComponent message = TComponent.translatable("pokemob.killed.tame",
-                    died.getDisplayName(), sourceMob.getOwner().getDisplayName(), this.sourceMob
-                            .getDisplayName());
+            final MutableComponent message = TComponent.translatable("pokemob.killed.tame", died.getDisplayName(),
+                    sourceMob.getOwner().getDisplayName(), this.sourceMob.getDisplayName());
             return message;
         }
         else if (sourceMob != null && sourceMob.getOwner() == null && !sourceMob.getGeneralState(GeneralStates.TAMED))
         {
-            final MutableComponent message = TComponent.translatable("pokemob.killed.wild",
-                    died.getDisplayName(), this.sourceMob.getDisplayName());
+            final MutableComponent message = TComponent.translatable("pokemob.killed.wild", died.getDisplayName(),
+                    this.sourceMob.getDisplayName());
             return message;
         }
-        return TComponent.translatable("death.attack." + this.type().msgId(), new Object[] { died
-                .getDisplayName(), this.sourceMob.getDisplayName() });
+        return TComponent.translatable("death.attack." + this.type().msgId(), new Object[]
+        { died.getDisplayName(), this.sourceMob.getDisplayName() });
     }
 
     @Nullable

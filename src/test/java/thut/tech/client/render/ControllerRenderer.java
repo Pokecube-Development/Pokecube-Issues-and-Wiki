@@ -2,13 +2,14 @@ package thut.tech.client.render;
 
 import java.awt.Color;
 
+import org.joml.Matrix4f;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
@@ -286,7 +287,7 @@ public class ControllerRenderer implements BlockEntityRenderer<ControllerTile>
             mat.pushPose();
             final float f = dir.toYRot();
             mat.translate(0.5D, 0.5D, 0.5D);
-            mat.mulPose(Vector3f.YN.rotationDegrees(f + 180));
+            mat.mulPose(Axis.YN.rotationDegrees(f + 180));
             mat.translate(-0.5D, -0.5D, -0.5D);
 
             int a = 64;

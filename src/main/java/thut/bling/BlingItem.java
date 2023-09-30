@@ -1,16 +1,18 @@
 package thut.bling;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
-import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Consumer;
+
 import javax.annotation.Nullable;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.renderer.BlockEntityWithoutLevelRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -36,18 +38,17 @@ import net.minecraftforge.client.extensions.common.IClientItemExtensions;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.api.PokecubeAPI;
-import pokecube.legends.Reference;
 import thut.api.item.ItemList;
 import thut.bling.client.BlingitemRenderer;
 import thut.bling.client.ClientSetupHandler;
 import thut.bling.network.PacketBag;
+import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
 import thut.wearables.EnumWearable;
 import thut.wearables.IWearable;
 
-@Mod.EventBusSubscriber(modid = Reference.ID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = ThutBling.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class BlingItem extends Item implements IWearable, DyeableLeatherItem
 {
     private static Set<ResourceLocation> errored = Sets.newHashSet();
@@ -77,7 +78,8 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     {
         for (final String type : BlingItem.names)
         {
-            BlingItem.blingWearables.put(type, ThutBling.ITEMS.register("bling_" + type, () -> new BlingItem(type, BlingItem.wearables.get(type))));
+            BlingItem.blingWearables.put(type, ThutBling.ITEMS.register("bling_" + type,
+                    () -> new BlingItem(type, BlingItem.wearables.get(type))));
         }
     }
 
@@ -196,6 +198,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     {
         return BlingItem.getStack(loc, true);
     }
+
     public static ItemStack getStack(final ResourceLocation loc, final boolean stacktrace)
     {
         final TagKey<Item> tag = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
@@ -212,7 +215,7 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
         if (item != null) return new ItemStack(item);
         if (stacktrace && BlingItem.errored.add(loc))
         {
-            PokecubeAPI.LOGGER.error(loc + " Not found in list of items.");
+            ThutCore.LOGGER.error(loc + " Not found in list of items.");
         }
         return ItemStack.EMPTY;
     }
@@ -225,20 +228,20 @@ public class BlingItem extends Item implements IWearable, DyeableLeatherItem
     public static ItemStack getStack(final String name, final boolean stacktrace)
     {
         if (!BlingItem.stackExists(name)) return ItemStack.EMPTY;
-        final ResourceLocation loc = BlingItem.toPokecubeResource(name);
+        final ResourceLocation loc = BlingItem.toBlingResource(name);
         return BlingItem.getStack(loc, stacktrace);
     }
 
     public static boolean stackExists(final String name)
     {
         if (name == null) return false;
-        final ResourceLocation loc = BlingItem.toPokecubeResource(name);
+        final ResourceLocation loc = BlingItem.toBlingResource(name);
         final TagKey<Item> old = TagKey.create(RegHelper.ITEM_REGISTRY, loc);
         final Item item = ForgeRegistries.ITEMS.getValue(loc);
         return old != null || ItemList.pendingTags.containsKey(loc) || item != null;
     }
 
-    public static ResourceLocation toPokecubeResource(final String name)
+    public static ResourceLocation toBlingResource(final String name)
     {
         return toResource(name, ThutBling.MODID);
     }

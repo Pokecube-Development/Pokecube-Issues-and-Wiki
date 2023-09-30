@@ -35,8 +35,8 @@ public class PacketPC extends Packet
         final PCInventory inv = PCInventory.getPC(sendTo.getUUID());
         final PacketPC packet = new PacketPC(PacketPC.PCINIT, sendTo.getUUID());
         packet.data.putInt("N", inv.boxes.length);
-        packet.data.putBoolean("A", inv.autoToPC);
-        packet.data.putBoolean("O", inv.seenOwner);
+        packet.data.putBoolean("A", inv.isAutoToPC());
+        packet.data.putBoolean("O", inv.hasSeenOwner());
         packet.data.putInt("C", inv.getPage());
         for (int i = 0; i < inv.boxes.length; i++)
             packet.data.putString("N" + i, inv.boxes[i]);
@@ -89,8 +89,8 @@ public class PacketPC extends Packet
         {
         case PCINIT:
             pc = PCInventory.getPC(this.data.getUUID(PacketPC.OWNER));
-            pc.seenOwner = this.data.getBoolean("O");
-            pc.autoToPC = this.data.getBoolean("A");
+            pc.setSeenOwner(this.data.getBoolean("O"));
+            pc.setAutoToPC(this.data.getBoolean("A"));
             if (this.data.contains("C")) pc.setPage(this.data.getInt("C"));
             if (this.data.contains("N"))
             {
@@ -166,7 +166,7 @@ public class PacketPC extends Packet
         case TOGGLEAUTO:
             id = this.data.getUUID(PacketPC.OWNER);
             pc = PCInventory.getPC(id);
-            pc.autoToPC = this.data.getBoolean("A");
+            pc.setAutoToPC(this.data.getBoolean("A"));
             break;
         default:
             break;

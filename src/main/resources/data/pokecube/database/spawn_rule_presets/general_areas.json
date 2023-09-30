@@ -1,54 +1,101 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "wet_areas",
-        "typesBlacklist": "#forge:is_cold,#forge:is_dry",
-        "types": "#forge:is_wet,all"
+      "preset":"wet_areas",
+      "matchers":{
+        "biome":[
+          {
+            "biome_tags":"#forge:is_wet"
+          },
+          {
+            "negate":true,
+            "biome_tags":"#forge:is_cold,#forge:is_dry"
+          }
+        ]
       }
     },
     {
-      "values": {
-        "preset": "dry_areas",
-        "typesBlacklist": "#forge:is_cold,#forge:is_wet",
-        "types": "#forge:is_dry,all"
+      "preset":"dry_areas",
+      "matchers":{
+        "biome":[
+          {
+            "biome_tags":"#forge:is_dry"
+          },
+          {
+            "negate":true,
+            "biome_tags":"#forge:is_cold,#forge:is_wet"
+          }
+        ]
       }
     },
     {
-      "values": {
-        "preset": "hot_areas",
-        "typesBlacklist": "#forge:is_cold,#forge:is_wet",
-        "types": "#forge:is_hot,all"
+      "preset":"hot_areas",
+      "matchers":{
+        "biome":[
+          {
+            "biome_tags":"#forge:is_hot"
+          },
+          {
+            "negate":true,
+            "biome_tags":"#forge:is_cold,#forge:is_wet"
+          }
+        ]
       }
     },
     {
-      "values": {
-        "preset": "cold_areas",
-        "types": "#forge:is_cold,all"
+      "preset":"cold_areas",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_cold"
+        }
       }
     },
     {
-      "values": {
-        "preset": "sandy_areas",
-        "types": "#forge:is_sandy,all"
+      "preset":"sandy_areas",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_sandy"
+        }
       }
     },
     {
-      "values": {
-        "preset": "snowy_areas",
-        "types": "#forge:is_snowy,all"
+      "preset":"snowy_areas",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_snowy"
+        }
       }
     },
     {
-      "values": {
-        "preset": "spooky_areas",
-        "types": "#forge:is_spooky,all"
+      "preset":"spooky_areas",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_spooky"
+        }
       }
     },
     {
-      "values": {
-        "preset": "underground",
-        "types": "#forge:is_underground,all"
+      "preset":"underground",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_underground"
+        }
+      }
+    },
+    {
+      "preset":"deep_down",
+      "matchers":{
+        "location":{
+          "f":"-y"
+        }
+      }
+    },
+    {
+      "preset":"sky_high",
+      "matchers":{
+        "location":{
+          "f":"y - 150"
+        }
       }
     }
   ]

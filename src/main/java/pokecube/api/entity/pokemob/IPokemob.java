@@ -15,10 +15,10 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -47,6 +47,7 @@ import thut.api.entity.IShearable;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
+import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
 
 /** @author Manchou */
@@ -576,9 +577,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     /**
      * Sets the experience.
      *
-     * @param exp
-     * notifyLevelUp should be false in an initialize step and true in a
-     *                      true exp earning
+     * @param exp notifyLevelUp should be false in an initialize step and true
+     *            in a true exp earning
      */
     default IPokemob setForSpawn(final int exp)
     {
@@ -589,7 +589,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     default void setHeldItem(final ItemStack stack)
     {
-        this.getEntity().setItemInHand(InteractionHand.MAIN_HAND, stack);
+        this.getInventory().setItem(1, stack);
     }
 
     /**

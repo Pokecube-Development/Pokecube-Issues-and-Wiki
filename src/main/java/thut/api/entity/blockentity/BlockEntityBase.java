@@ -15,10 +15,11 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
@@ -43,6 +44,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.network.NetworkHooks;
 import net.minecraftforge.network.PlayMessages.SpawnEntity;
 import thut.api.ThutCaps;
 import thut.api.entity.blockentity.block.TempBlock;
@@ -63,7 +65,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 {
     public static class BlockEntityType<T extends BlockEntityBase> extends EntityType<T>
     {
-        // TODO: Check this
         public BlockEntityType(final EntityType.EntityFactory<T> factory)
         {
             super(factory, MobCategory.MISC, true, false, true, true, ImmutableSet.of(),
@@ -97,8 +98,7 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
         DataSync data = DataSync_Impl.getData(event);
         if (data == null)
         {
-            data = new DataSync_Impl();
-            event.addCapability(DATASCAP, (DataSync_Impl) data);
+            event.addCapability(DATASCAP, new DataSync_Impl());
         }
     }
 
@@ -344,12 +344,11 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
 
     abstract protected BlockEntityInteractHandler createInteractHandler();
 
-//    TODO: Find Replacement
-//    @Override
-//    public Packet<?> getAddEntityPacket()
-//    {
-//        return NetworkHooks.getEntitySpawningPacket(this);
-//    }
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket()
+    {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
 
     public final void doMotion()
     {
@@ -556,7 +555,6 @@ public abstract class BlockEntityBase extends Entity implements IEntityAdditiona
     {
         if (nbt.contains("Blocks"))
         {
-            ListTag paletteNbt = nbt.getList("palette", 10);
             final CompoundTag blockTag = nbt.getCompound("Blocks");
             int sizeX = blockTag.getInt("BlocksLengthX");
             int sizeZ = blockTag.getInt("BlocksLengthZ");

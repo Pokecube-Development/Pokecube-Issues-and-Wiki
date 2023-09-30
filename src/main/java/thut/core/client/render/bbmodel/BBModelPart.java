@@ -9,7 +9,6 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 
-import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
 import thut.core.client.render.bbmodel.BBModelTemplate.Element;
 import thut.core.client.render.bbmodel.BBModelTemplate.IBBPart;
@@ -114,7 +113,7 @@ public class BBModelPart extends Part
         b.toMeshs(t, quads_materials, tris_materials);
 
         if (quads_materials.isEmpty() && tris_materials.isEmpty())
-            PokecubeAPI.logDebug("No parts for " + t.name + " " + b.name);
+            ThutCore.logDebug("No parts for " + t.name + " " + b.name);
         Map<String, Material> mats = Maps.newHashMap();
 
         quads_materials.forEach((key, lists) -> {

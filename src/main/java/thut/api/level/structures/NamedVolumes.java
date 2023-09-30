@@ -14,7 +14,6 @@ import net.minecraft.world.level.levelgen.structure.PoolElementStructurePiece;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructurePiece;
 import net.minecraft.world.level.levelgen.structure.StructureStart;
-import pokecube.world.gen.structures.pool_elements.ExpandedJigsawPiece;
 import thut.lib.RegHelper;
 
 public class NamedVolumes
@@ -179,9 +178,9 @@ public class NamedVolumes
         {
             this.part = part;
             if (source != null && part instanceof PoolElementStructurePiece p
-                    && p.getElement() instanceof ExpandedJigsawPiece exp)
+                    && p.getElement() instanceof INamedPart exp)
             {
-                this.name = exp.name;
+                this.name = exp.getName();
             }
             else this.name = "unk_part";
         }

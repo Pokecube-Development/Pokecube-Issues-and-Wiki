@@ -208,9 +208,9 @@ public class StructureBuilder implements IWorldTickListener
 
                 for (var info : infos)
                 {
-                    if (info.state != null)
+                    if (info.state() != null)
                     {
-                        Integer y = info.pos.getY();
+                        Integer y = info.pos().getY();
                         removeOrder.compute(y, (i, l) -> {
                             List<StructureBlockInfo> atY = l;
                             if (atY == null)
@@ -258,15 +258,15 @@ public class StructureBuilder implements IWorldTickListener
 
     public CanPlace canPlace(StructureBlockInfo info)
     {
-        if (info.state == null || info.state.isAir()) return CanPlace.YES;
+        if (info.state() == null || info.state().isAir()) return CanPlace.YES;
         ItemStack stack = StructureTemplateTools.getForInfo(info);
         if (!stack.isEmpty())
         {
-            ItemStack needed = neededItems.get(info.pos);
+            ItemStack needed = neededItems.get(info.pos());
             for (int i = 1; i < itemSource.getSlots(); i++)
             {
                 ItemStack inSlot = itemSource.getStackInSlot(i);
-                if (ItemStack.isSame(stack, inSlot))
+                if (ItemStack.isSameItem(stack, inSlot))
                 {
                     inSlot.shrink(1);
                     if (needed != null) needed.shrink(1);
@@ -299,14 +299,14 @@ public class StructureBuilder implements IWorldTickListener
             {
                 return false;
             }
-            BlockState placeState = info.state.mirror(settings.getMirror()).rotate(level, info.pos,
+            BlockState placeState = info.state().mirror(settings.getMirror()).rotate(level, info.pos(),
                     settings.getRotation());
-            BlockState old = level.getBlockState(info.pos);
+            BlockState old = level.getBlockState(info.pos());
             boolean same = old.isAir() & placeState.isAir();
             if (same) continue;
 
             placeOrder.remove(info);
-            StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos, level);
+            StructureTemplateTools.getPlacer(placeState).placeBlock(placeState, info.pos(), level);
             return false;
         }
         return true;

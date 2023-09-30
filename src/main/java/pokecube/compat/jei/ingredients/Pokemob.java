@@ -82,8 +82,7 @@ public class Pokemob implements IIngredientType<PokedexEntry>
             {
                 final byte gender = pokemob.gender;
                 Vector4f test = new Vector4f(1, 1, 1, 1);
-                // TODO: Find replacement
-                // test.transform(graphics.pose().last());
+                test.mul(graphics.pose().last().pose());
                 int x = (int) test.x();
                 int y = (int) test.y();
                 EventsHandlerClient.renderIcon(pokemob.entry, pokemob.holder, gender == IPokemob.MALE, x, y, 16, 16,

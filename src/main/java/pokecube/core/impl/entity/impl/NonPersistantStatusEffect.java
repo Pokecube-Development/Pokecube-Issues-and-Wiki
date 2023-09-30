@@ -5,7 +5,6 @@ import java.util.Map;
 import com.google.common.collect.Maps;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
-import java.util.Objects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -33,7 +32,7 @@ public class NonPersistantStatusEffect extends BaseEffect
     public static class DefaultEffects implements IEffect
     {
         public final Effect status;
-        int                 tick;
+        int tick;
 
         public DefaultEffects(final Effect status)
         {
@@ -53,8 +52,8 @@ public class NonPersistantStatusEffect extends BaseEffect
             case CURSED:
                 if (pokemob != null)
                 {
-                    final Component mess = TComponent.translatable("pokemob.status.curse.ours", pokemob
-                            .getDisplayName());
+                    final Component mess = TComponent.translatable("pokemob.status.curse.ours",
+                            pokemob.getDisplayName());
                     pokemob.displayMessageToOwner(mess);
                 }
                 LivingEntity targetM = entity.getKillCredit();
@@ -63,12 +62,13 @@ public class NonPersistantStatusEffect extends BaseEffect
                 if (targetM == null) targetM = entity;
                 float scale = 1;
                 final IPokemob user = PokemobCaps.getPokemobFor(targetM);
-                final DamageSource source = new StatusEffectDamageSource((entity.getLastDamageSource()).typeHolder(), targetM);
+                final DamageSource source = new StatusEffectDamageSource(targetM);
                 if (pokemob != null)
                 {
                     // TODO: Check if correct
                     source.is(DamageTypeTags.BYPASSES_ARMOR);
-                    source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as .bypassMagic?
+                    source.is(DamageTypeTags.BYPASSES_ENCHANTMENTS); // Same as
+                                                                     // .bypassMagic?
                 }
                 else if (entity instanceof Player) scale = (float) (user != null && user.isPlayerOwned()
                         ? PokecubeCore.getConfig().ownedPlayerDamageRatio
@@ -95,8 +95,8 @@ public class NonPersistantStatusEffect extends BaseEffect
 
     public static enum Effect implements IMoveConstants
     {
-        CONFUSED(IMoveConstants.CHANGE_CONFUSED), CURSED(IMoveConstants.CHANGE_CURSE), FLINCH(
-                IMoveConstants.CHANGE_FLINCH);
+        CONFUSED(IMoveConstants.CHANGE_CONFUSED), CURSED(IMoveConstants.CHANGE_CURSE),
+        FLINCH(IMoveConstants.CHANGE_FLINCH);
 
         public static Effect getStatus(final int mask)
         {

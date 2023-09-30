@@ -13,11 +13,15 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SimpleRecipeSerializer;
+import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -28,8 +32,8 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockBehaviour.Properties;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -58,6 +62,8 @@ import thut.concrete.item.RebarBlockItem;
 import thut.concrete.item.SmootherItem;
 import thut.concrete.recipe.PaintBrushRecipe;
 import thut.core.common.ThutCore;
+import thut.core.common.config.Config;
+import thut.core.init.ThutCreativeTabs;
 import thut.lib.RegHelper;
 
 @Mod(value = Concrete.MODID)
@@ -78,7 +84,7 @@ public class Concrete
 
     public static final DeferredRegister<BlockEntityType<?>> TILES;
 
-    public static final RegistryObject<SimpleRecipeSerializer<PaintBrushRecipe>> BRUSH_DYE_RECIPE;
+    public static final RegistryObject<SimpleCraftingRecipeSerializer<PaintBrushRecipe>> BRUSH_DYE_RECIPE;
 
     public static final RegistryObject<BlockEntityType<VolcanoEntity>> VOLCANO_TYPE;
     public static final RegistryObject<VolcanoBlock> VOLCANO;
@@ -171,8 +177,7 @@ public class Concrete
     public static RegistryObject<FlowingFluid> CONCRETE_FLUID_FLOWING = FLUIDS.register("concrete_flowing",
             () -> new ForgeFlowingFluid.Flowing(makeProperties()));
     public static final RegistryObject<DummyLiquidBlock> CONCRETE_FLUID_BLOCK = BLOCKS.register("concrete_fluid_block",
-            () -> new DummyLiquidBlock(CONCRETE_FLUID, getWetBlock(),
-                    Properties.of(Material.WATER).noCollission().strength(100.0F)));
+            () -> new DummyLiquidBlock(CONCRETE_FLUID, getWetBlock(), Properties.of().noCollission().strength(100.0F)));
 
     private static final Set<RegistryObject<?>> NOTAB = Sets.newHashSet();
     private static final Set<RegistryObject<?>> NOITEM = Sets.newHashSet();
@@ -201,9 +206,9 @@ public class Concrete
 
         VOLCANO_BIOME = ResourceKey.create(RegHelper.BIOME_REGISTRY, new ResourceLocation(MODID, "volcano"));
 
-        BlockBehaviour.Properties layer_props = BlockBehaviour.Properties.of(Material.STONE).noOcclusion().randomTicks()
+        BlockBehaviour.Properties layer_props = BlockBehaviour.Properties.of().noOcclusion().randomTicks()
                 .requiresCorrectToolForDrops();
-        BlockBehaviour.Properties block_props = BlockBehaviour.Properties.of(Material.STONE).randomTicks()
+        BlockBehaviour.Properties block_props = BlockBehaviour.Properties.of().randomTicks()
                 .requiresCorrectToolForDrops();
 
         RegistryObject<FlowingBlock>[] regs = FlowingBlock.makeDust(BLOCKS, MODID, "dust_layer", "dust_block",
@@ -220,9 +225,9 @@ public class Concrete
         SOLID_LAYER = regs[0];
         SOLID_BLOCK = regs[1];
 
-        layer_props = BlockBehaviour.Properties.of(Material.LAVA).strength(2.0F).noOcclusion().randomTicks()
+        layer_props = BlockBehaviour.Properties.of().strength(2.0F).noOcclusion().randomTicks()
                 .requiresCorrectToolForDrops().lightLevel(s -> 15);
-        block_props = BlockBehaviour.Properties.of(Material.LAVA).strength(2.0F).noOcclusion().randomTicks()
+        block_props = BlockBehaviour.Properties.of().strength(2.0F).noOcclusion().randomTicks()
                 .requiresCorrectToolForDrops().lightLevel(s -> 15);
 
         ResourceLocation solid_layer = new ResourceLocation(MODID, "solid_layer");
@@ -236,16 +241,15 @@ public class Concrete
 
         NOITEM.add(MOLTEN_LAYER);
 
-        BlockBehaviour.Properties volc_props = BlockBehaviour.Properties.of(Material.BARRIER);
+        BlockBehaviour.Properties volc_props = BlockBehaviour.Properties.of();
         VOLCANO = BLOCKS.register("volcano", () -> new VolcanoBlock(volc_props));
 
         VOLCANO_TYPE = TILES.register("volcano",
                 () -> BlockEntityType.Builder.of(VolcanoEntity::new, VOLCANO.get()).build(null));
 
-        layer_props = BlockBehaviour.Properties.of(Material.STONE).strength(100.0F).noOcclusion().randomTicks()
+        layer_props = BlockBehaviour.Properties.of().strength(100.0F).noOcclusion().randomTicks()
                 .requiresCorrectToolForDrops();
-        block_props = BlockBehaviour.Properties.of(Material.STONE).strength(100.0F).randomTicks()
-                .requiresCorrectToolForDrops();
+        block_props = BlockBehaviour.Properties.of().strength(100.0F).randomTicks().requiresCorrectToolForDrops();
 
         solid_layer = new ResourceLocation(MODID, "concrete_layer_" + DyeColor.LIGHT_GRAY.getName());
         solid_block = new ResourceLocation(MODID, "concrete_block_" + DyeColor.LIGHT_GRAY.getName());
@@ -260,10 +264,10 @@ public class Concrete
         NOITEM.add(WET_LAYER);
         NOITEM.add(CONCRETE_FLUID_BLOCK);
 
-        REBAR_BLOCK = BLOCKS.register("rebar", () -> new RebarBlock(
-                Properties.of(Material.METAL).dynamicShape().randomTicks().strength(1.0F, 1200.0F)));
+        REBAR_BLOCK = BLOCKS.register("rebar",
+                () -> new RebarBlock(Properties.of().dynamicShape().randomTicks().strength(1.0F, 1200.0F)));
         FORMWORK_BLOCK = BLOCKS.register("formwork",
-                () -> new FormworkBlock(Properties.of(Material.WOOD).sound(SoundType.SCAFFOLDING)));
+                () -> new FormworkBlock(Properties.of().sound(SoundType.SCAFFOLDING)));
         // This gets a custom item instead
         NOITEM.add(REBAR_BLOCK);
         NOITEM.add(FORMWORK_BLOCK);
@@ -274,10 +278,8 @@ public class Concrete
         {
             int i = colour.ordinal();
 
-            layer_props = BlockBehaviour.Properties.of(Material.STONE, colour).requiresCorrectToolForDrops()
-                    .strength(1.8F).noOcclusion();
-            block_props = BlockBehaviour.Properties.of(Material.STONE, colour).requiresCorrectToolForDrops()
-                    .strength(1.8F);
+            layer_props = BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(1.8F).noOcclusion();
+            block_props = BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(1.8F);
 
             regs = ConcreteBlock.makeDry(BLOCKS, MODID, "concrete_layer_" + colour.getName(),
                     "concrete_block_" + colour.getName(), layer_props, block_props, colour);
@@ -289,10 +291,9 @@ public class Concrete
         {
             int i = colour.ordinal();
 
-            layer_props = BlockBehaviour.Properties.of(Material.STONE, colour).requiresCorrectToolForDrops()
-                    .strength(50.0F, 1200.0F).noOcclusion();
-            block_props = BlockBehaviour.Properties.of(Material.STONE, colour).requiresCorrectToolForDrops()
-                    .strength(50.0F, 1200.0F);
+            layer_props = BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(50.0F, 1200.0F)
+                    .noOcclusion();
+            block_props = BlockBehaviour.Properties.of().requiresCorrectToolForDrops().strength(50.0F, 1200.0F);
 
             RegistryObject<Block>[] refs = ReinforcedConcreteBlock.makeDry(BLOCKS, MODID,
                     "reinforced_concrete_layer_" + colour.getName(), "reinforced_concrete_block_" + colour.getName(),
@@ -309,48 +310,48 @@ public class Concrete
         for (DyeColor colour : DyeColor.values())
         {
             int i = colour.ordinal();
-            Item.Properties props = new Item.Properties().durability(64).tab(ThutCore.THUTITEMS);
+            Item.Properties props = new Item.Properties().durability(64);
             BRUSHES[i] = ITEMS.register("paint_brush_" + colour.getName(), () -> new PaintBrush(props, colour));
         }
 
-        Item.Properties props = new Item.Properties().tab(ThutCore.THUTITEMS);
+        Item.Properties props = new Item.Properties();
         Item.Properties no_paint = props;
         BRUSHES[DyeColor.values().length] = ITEMS.register("paint_brush", () -> new PaintBrush(no_paint, null));
 
-        BUCKET = ITEMS.register("concrete_bucket", () -> new BucketItem(CONCRETE_FLUID,
-                new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(ThutCore.THUTITEMS)));
+        BUCKET = ITEMS.register("concrete_bucket",
+                () -> new BucketItem(CONCRETE_FLUID, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
-        Item.Properties smoother = new Item.Properties().tab(ThutCore.THUTITEMS).durability(256);
+        Item.Properties smoother = new Item.Properties().durability(256);
         SMOOTHER = ITEMS.register("smoother", () -> new SmootherItem(smoother));
 
-        DUST_ITEM = ITEMS.register("dust", () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
-        CEMENT_ITEM = ITEMS.register("cement", () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
+        DUST_ITEM = ITEMS.register("dust", () -> new Item(new Item.Properties()));
+        CEMENT_ITEM = ITEMS.register("cement", () -> new Item(new Item.Properties()));
 
-        CAO_ITEM = ITEMS.register("dust_cao", () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
-        CACO3_ITEM = ITEMS.register("dust_caco3", () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
+        CAO_ITEM = ITEMS.register("dust_cao", () -> new Item(new Item.Properties()));
+        CACO3_ITEM = ITEMS.register("dust_caco3", () -> new Item(new Item.Properties()));
 
         // Register the item blocks.
 
         // First the custom item blocks
         ITEMS.register(REBAR_BLOCK.getId().getPath(),
-                () -> new RebarBlockItem(REBAR_BLOCK.get(), new Item.Properties().tab(ThutCore.THUTITEMS)));
+                () -> new RebarBlockItem(REBAR_BLOCK.get(), new Item.Properties()));
         ITEMS.register(FORMWORK_BLOCK.getId().getPath(),
-                () -> new FormworkBlockItem(FORMWORK_BLOCK.get(), new Item.Properties().tab(ThutCore.THUTITEMS)));
+                () -> new FormworkBlockItem(FORMWORK_BLOCK.get(), new Item.Properties()));
 
         // Wet block gets an item, for intermediate crafting, not placement.
-        WET_BLOCK_ITEM = ITEMS.register(WET_BLOCK.getId().getPath(),
-                () -> new Item(new Item.Properties().tab(ThutCore.THUTITEMS)));
+        WET_BLOCK_ITEM = ITEMS.register(WET_BLOCK.getId().getPath(), () -> new Item(new Item.Properties()));
 
         // Then the rest
         for (final RegistryObject<Block> reg : BLOCKS.getEntries())
         {
             if (NOITEM.contains(reg)) continue;
             props = new Item.Properties();
-            if (!NOTAB.contains(reg)) props = props.tab(ThutCore.THUTITEMS);
             Item.Properties use = props;
             ITEMS.register(reg.getId().getPath(), () -> new BlockItem(reg.get(), use));
         }
     }
+    
+    public static final ConcreteConfig config = new ConcreteConfig(Concrete.MODID);
 
     public Concrete()
     {
@@ -364,6 +365,189 @@ public class Concrete
         FLUID_TYPES.register(modEventBus);
         TILES.register(modEventBus);
         RECIPE_SERIALIZERS.register(modEventBus);
+        modEventBus.addListener(this::addCreative);
+        
+        // Register Config stuff
+        Config.setupConfigs(Concrete.config, Concrete.MODID, Concrete.MODID);
+    }
+
+    public ItemStack getItem(String modID, String name)
+    {
+        return ForgeRegistries.ITEMS.getValue(new ResourceLocation(modID, name)).getDefaultInstance();
+    }
+
+    void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
+        {
+            event.accept(BUCKET);
+            event.accept(SMOOTHER);
+
+            event.accept(getItem(Concrete.MODID, "paint_brush"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_white"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_light_gray"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_gray"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_black"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_brown"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_red"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_orange"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_yellow"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_lime"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_green"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_cyan"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_light_blue"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_blue"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_purple"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_magenta"));
+            event.accept(getItem(Concrete.MODID, "paint_brush_pink"));
+
+            for (DyeColor colour : DyeColor.values())
+            {
+                int i = colour.ordinal();
+                event.accept(BRUSHES[i]);
+            }
+
+            event.accept(DUST_ITEM);
+            event.accept(CEMENT_ITEM);
+            event.accept(CAO_ITEM);
+            event.accept(CACO3_ITEM);
+            
+            event.accept(REBAR_BLOCK);
+            event.accept(FORMWORK_BLOCK);
+            event.accept(WET_BLOCK_ITEM);
+            
+            event.accept(VOLCANO);
+            event.accept(getItem(Concrete.MODID, "molten_block"));
+            event.accept(getItem(Concrete.MODID, "solid_block"));
+            event.accept(getItem(Concrete.MODID, "dust_block"));
+
+            // Items listed in order of rainbow like vanilla. This is why the for statement for DyeColor isn't used
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_white"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_gray"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_black"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_brown"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_red"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_orange"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_yellow"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_lime"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_green"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_cyan"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_light_blue"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_blue"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_purple"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_magenta"));
+            event.accept(getItem(Concrete.MODID, "reinforced_concrete_layer_pink"));
+
+            event.accept(getItem(Concrete.MODID, "concrete_layer_white"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_light_gray"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_gray"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_black"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_brown"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_red"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_orange"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_yellow"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_lime"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_green"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_cyan"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_light_blue"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_blue"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_purple"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_magenta"));
+            event.accept(getItem(Concrete.MODID, "concrete_layer_pink"));
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.BUILDING_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            addAfter(event, Items.CHAIN, BUCKET.get());
+            addAfter(event, BUCKET.get(), REBAR_BLOCK.get());
+            addAfter(event, REBAR_BLOCK.get(), FORMWORK_BLOCK.get());
+            addAfter(event, FORMWORK_BLOCK.get(), WET_BLOCK_ITEM.get());
+            addAfter(event, Items.SMOOTH_BASALT, getItem(Concrete.MODID, "molten_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "molten_block").getItem(), getItem(Concrete.MODID, "solid_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "solid_block").getItem(), getItem(Concrete.MODID, "dust_block").getItem());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.NATURAL_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            addAfter(event, Items.SMOOTH_BASALT, getItem(Concrete.MODID, "molten_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "molten_block").getItem(), getItem(Concrete.MODID, "solid_block").getItem());
+            addAfter(event, getItem(Concrete.MODID, "solid_block").getItem(), getItem(Concrete.MODID, "dust_block").getItem());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            addAfter(event, Items.LAVA_BUCKET, BUCKET.get());
+
+            addAfter(event, Items.BRUSH, getItem(Concrete.MODID, "paint_brush").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush").getItem(), getItem(Concrete.MODID, "paint_brush_white").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_white").getItem(), getItem(Concrete.MODID, "paint_brush_light_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_light_gray").getItem(), getItem(Concrete.MODID, "paint_brush_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_gray").getItem(), getItem(Concrete.MODID, "paint_brush_black").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_black").getItem(), getItem(Concrete.MODID, "paint_brush_brown").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_brown").getItem(), getItem(Concrete.MODID, "paint_brush_red").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_red").getItem(), getItem(Concrete.MODID, "paint_brush_orange").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_orange").getItem(), getItem(Concrete.MODID, "paint_brush_yellow").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_yellow").getItem(), getItem(Concrete.MODID, "paint_brush_lime").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_lime").getItem(), getItem(Concrete.MODID, "paint_brush_green").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_green").getItem(), getItem(Concrete.MODID, "paint_brush_cyan").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_cyan").getItem(), getItem(Concrete.MODID, "paint_brush_light_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_light_blue").getItem(), getItem(Concrete.MODID, "paint_brush_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_blue").getItem(), getItem(Concrete.MODID, "paint_brush_purple").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_purple").getItem(), getItem(Concrete.MODID, "paint_brush_magenta").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_magenta").getItem(), getItem(Concrete.MODID, "paint_brush_pink").getItem());
+            addAfter(event, getItem(Concrete.MODID, "paint_brush_pink").getItem(), SMOOTHER.get());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.COLORED_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)
+        {
+            // Items listed in order of rainbow like vanilla. This is why the for statement for DyeColor isn't used
+            addAfter(event, Items.PINK_CONCRETE_POWDER, getItem(Concrete.MODID, "reinforced_concrete_layer_white").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_white").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_light_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_gray").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_black").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_black").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_brown").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_brown").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_red").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_red").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_orange").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_orange").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_yellow").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_yellow").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_lime").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_lime").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_green").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_green").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_cyan").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_cyan").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_light_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_light_blue").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_blue").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_purple").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_purple").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_magenta").getItem());
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_magenta").getItem(), getItem(Concrete.MODID, "reinforced_concrete_layer_pink").getItem());
+
+            addAfter(event, getItem(Concrete.MODID, "reinforced_concrete_layer_pink").getItem(), getItem(Concrete.MODID, "concrete_layer_white").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_white").getItem(), getItem(Concrete.MODID, "concrete_layer_light_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_light_gray").getItem(), getItem(Concrete.MODID, "concrete_layer_gray").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_gray").getItem(), getItem(Concrete.MODID, "concrete_layer_black").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_black").getItem(), getItem(Concrete.MODID, "concrete_layer_brown").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_brown").getItem(), getItem(Concrete.MODID, "concrete_layer_red").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_red").getItem(), getItem(Concrete.MODID, "concrete_layer_orange").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_orange").getItem(), getItem(Concrete.MODID, "concrete_layer_yellow").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_yellow").getItem(), getItem(Concrete.MODID, "concrete_layer_lime").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_lime").getItem(), getItem(Concrete.MODID, "concrete_layer_green").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_green").getItem(), getItem(Concrete.MODID, "concrete_layer_cyan").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_cyan").getItem(), getItem(Concrete.MODID, "concrete_layer_light_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_light_blue").getItem(), getItem(Concrete.MODID, "concrete_layer_blue").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_blue").getItem(), getItem(Concrete.MODID, "concrete_layer_purple").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_purple").getItem(), getItem(Concrete.MODID, "concrete_layer_magenta").getItem());
+            addAfter(event, getItem(Concrete.MODID, "concrete_layer_magenta").getItem(), getItem(Concrete.MODID, "concrete_layer_pink").getItem());
+        }
+
+        if (event.getTabKey().equals(CreativeModeTabs.OP_BLOCKS))
+        {
+            if (event.hasPermissions())
+            {
+                addAfter(event, Items.DEBUG_STICK, VOLCANO.get());
+            }
+        }
+    }
+
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, ItemLike afterItem, ItemLike item) {
+        event.getEntries().putAfter(new ItemStack(afterItem), new ItemStack(item), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
     }
 
     public void loadComplete(FMLLoadCompleteEvent event)

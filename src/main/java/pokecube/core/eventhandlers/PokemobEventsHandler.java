@@ -405,6 +405,8 @@ public class PokemobEventsHandler
 
         // This gets set by the mixin in pokecube.mixin.entity.BeeHiveFix
         if (!BEE_RELEASE_TICK.contains(world.dimension())) return;
+        // It is called for each bee added, so remove it now.
+        PokemobEventsHandler.BEE_RELEASE_TICK.remove(world.dimension());
 
         final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
         // Not a valid inhabitor of things, so return.

@@ -86,7 +86,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         {
             try
             {
-                final Float value = Float.parseFloat(PacketPokedex.selectedLoc.get(e).spawnRule.values.get(local));
+                final Float value = Float.parseFloat(PacketPokedex.selectedLoc.get(e).spawnRule.getString(local));
                 rates.put(e, value);
             }
             catch (Exception e1)

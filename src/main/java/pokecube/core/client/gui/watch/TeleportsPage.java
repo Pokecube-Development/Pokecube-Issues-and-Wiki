@@ -3,16 +3,15 @@ package pokecube.core.client.gui.watch;
 import java.util.List;
 import java.util.function.Consumer;
 
-import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.client.gui.helper.INotifiedEntry;

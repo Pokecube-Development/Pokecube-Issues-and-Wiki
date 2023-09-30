@@ -210,7 +210,7 @@ public interface IFlowingBlock
                 BlockState newBelow;
                 if (total <= 16)
                 {
-                    newBelow = getMergeResult(setAmount(state, total), b, belowPos, level);
+                    newBelow = getFlowResult(setAmount(state, total), b, belowPos, level);
                     if (newBelow != b)
                     {
                         state = setAmount(state, 0);
@@ -231,7 +231,7 @@ public interface IFlowingBlock
                 {
                     BlockState b2 = getAlternate().defaultBlockState();
                     b2 = copyValidTo(state, b2);
-                    newBelow = getMergeResult(b2, b, belowPos, level);
+                    newBelow = getFlowResult(b2, b, belowPos, level);
 
                     if (newBelow != b)
                     {
@@ -266,15 +266,15 @@ public interface IFlowingBlock
         return state;
     }
 
-    default BlockState trySpread(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
+    default BlockState trySpread(BlockState flowFrom, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        int dust = getExistingAmount(state, pos, level);
-        int slope = getSlope(state);
+        int dust = getExistingAmount(flowFrom, pos, level);
+        int slope = getSlope(flowFrom);
 
         if (dust >= slope)
         {
             Vector3 v = new Vector3().set(pos);
-            BlockState b = null;
+            BlockState flowInto = null;
             Direction dir = null;
 
             int existing = dust;
@@ -288,8 +288,8 @@ public interface IFlowingBlock
                 Direction d = Direction.values()[index];
                 if (d == Direction.DOWN || d == Direction.UP) continue;
                 v.set(d).addTo(pos.getX(), pos.getY(), pos.getZ());
-                b = v.getBlockState(level);
-                amt = getExistingAmount(b, v.getPos(), level);
+                flowInto = v.getBlockState(level);
+                amt = getExistingAmount(flowInto, v.getPos(), level);
                 if (amt == -1 || amt > dust - slope) continue;
                 existing += amt;
                 dir = d;
@@ -312,30 +312,31 @@ public interface IFlowingBlock
 
                 if (next > 0 && left != dust)
                 {
-                    BlockState oldState = setAmount(state, left);
+                    BlockState flowRemains = setAmount(flowFrom, left);
                     BlockPos pos2 = v.getPos();
 
-                    BlockState nextState = setAmount(state, next);
-                    BlockState newState = getMergeResult(nextState, b, pos2, level);
-                    if (newState != b)
+                    BlockState flowState = setAmount(flowFrom, next);
+                    BlockState destState = getFlowResult(flowState, flowInto, pos2, level);
+                    
+                    if (destState != flowInto)
                     {
 
-                        int aB = getAmount(newState);
-                        int aH = getAmount(oldState);
+                        int aB = getAmount(destState);
+                        int aH = getAmount(flowRemains);
 
                         if (aB + aH != existing)
                             ThutCore.LOGGER.error("Error falling down {}, fluid not conserved!", this);
 
-                        level.setBlock(pos, oldState, 2);
-                        level.setBlock(pos2, newState, 2);
-                        level.scheduleTick(pos.immutable(), oldState.getBlock(), getFlowRate());
-                        level.scheduleTick(pos2, newState.getBlock(), getFlowRate());
-                        return newState;
+                        level.setBlock(pos, flowRemains, 2);
+                        level.setBlock(pos2, destState, 2);
+                        level.scheduleTick(pos.immutable(), flowRemains.getBlock(), getFlowRate());
+                        level.scheduleTick(pos2, destState.getBlock(), getFlowRate());
+                        return destState;
                     }
                 }
             }
         }
-        return state;
+        return flowFrom;
     }
 
     default int getExistingAmount(BlockState state, BlockPos pos, ServerLevel level)
@@ -366,20 +367,31 @@ public interface IFlowingBlock
         if (state.canBeReplaced(Fluids.FLOWING_WATER)) return true;
         return ItemList.is(DUSTREPLACEABLE, state);
     }
-
-    default BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    
+    /**
+     * 
+     * @param flowState - This is the fractional state which would be placed if
+     *                  destState is air
+     * @param destState - This is the state we are flowing into
+     * @param posTo     - Location of the state we are flowing int
+     * @param level     - level involved in the slow
+     * @return flowState modified based on destState, or destState if no flow
+     *         should occur
+     */
+    default BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        FluidState into = mergeInto.getFluidState();
-        if ((into.is(Fluids.WATER) || (mergeInto.hasProperty(WATERLOGGED) && mergeInto.getValue(WATERLOGGED)))
-                && mergeFrom.hasProperty(WATERLOGGED))
+        FluidState into = destState.getFluidState();
+        // first lets ensure waterlogging is kept if we are flowing into water.
+        if ((into.is(Fluids.WATER) || (destState.hasProperty(WATERLOGGED) && destState.getValue(WATERLOGGED)))
+                && flowState.hasProperty(WATERLOGGED))
         {
-            mergeFrom = mergeFrom.setValue(WATERLOGGED, true);
+            flowState = flowState.setValue(WATERLOGGED, true);
         }
-        if (canMergeInto(mergeFrom, mergeInto, posTo, level)) return mergeFrom;
-        return mergeInto;
+        if (canFlowInto(flowState, destState, posTo, level)) return flowState;
+        return destState;
     }
 
-    default boolean canMergeInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
+    default boolean canFlowInto(BlockState here, BlockState other, BlockPos posTo, ServerLevel level)
     {
         return canReplace(other, posTo, level) || other.getBlock() == here.getBlock();
     }

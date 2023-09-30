@@ -8,6 +8,8 @@ import com.google.common.collect.Maps;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -19,10 +21,13 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.utils.Tools;
@@ -256,12 +261,10 @@ public class EntityPokecube extends EntityPokecubeBase
                     else if (this.lootTable != null)
                     {
                         final LootTable loottable = this.level().getServer().getLootData().getLootTable(this.lootTable);
-//                        TODO: Fix
-//                        final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-//                                (ServerLevel) this.level()).withParameter(LootContextParams.THIS_ENTITY, this);
-//                        for (final ItemStack itemstack : loottable
-//                                .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
-//                            if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
+                        LootParams params = new LootParams.Builder((ServerLevel) this.level())
+                                .withParameter(LootContextParams.THIS_ENTITY, this).create(loottable.getParamSet());
+                        for (final ItemStack itemstack : loottable.getRandomItems(params))
+                            if (!itemstack.isEmpty()) Tools.giveItem(player, itemstack.copy());
                         did = true;
                     }
                     if (did)
@@ -377,6 +380,12 @@ public class EntityPokecube extends EntityPokecubeBase
         nbt.put("loot", ListNBT);
         if (this.lootTable != null) nbt.putString("lootTable", this.lootTable.toString());
         else nbt.putString("lootTable", "");
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getAddEntityPacket()
+    {
+        return NetworkHooks.getEntitySpawningPacket(this);
     }
 
 }

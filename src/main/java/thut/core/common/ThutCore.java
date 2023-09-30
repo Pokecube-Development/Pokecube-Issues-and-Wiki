@@ -20,7 +20,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -293,7 +292,10 @@ public class ThutCore
     {
         ThutCore.LOGGER.info("Setup");
 
-        if (ThutCore.THUTICON.isEmpty()) ThutCore.THUTICON = new ItemStack(ThutCrafts.CRAFTMAKER.get());
+        if (ThutCore.THUTICON.isEmpty())
+        {
+            ThutCore.THUTICON = new ItemStack(ThutCrafts.CRAFTMAKER.get());
+        }
 
         // Register the actual packets
         ThutCore.packets.registerMessage(EntityUpdate.class, EntityUpdate::new);
@@ -338,7 +340,7 @@ public class ThutCore
                 Object o = args[i];
                 // TODO regex for {} instead to support number formatting like
                 // {:.2f}
-                if(o instanceof Component c) o = c.getString();
+                if (o instanceof Component c) o = c.getString();
                 key = key.replaceFirst("\\{\\}", o == null ? "null" : o.toString());
             }
             logger.accept(key);

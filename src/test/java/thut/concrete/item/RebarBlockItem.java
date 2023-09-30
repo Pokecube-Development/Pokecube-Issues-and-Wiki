@@ -39,7 +39,7 @@ public class RebarBlockItem extends BlockItem
         Level level = context.getLevel();
         BlockState blockstate = level.getBlockState(blockpos);
         Block block = this.getBlock();
-        BlockState usedOn = level.getBlockState(blockpos = new BlockPos(context.getClickLocation()));
+        BlockState usedOn = level.getBlockState(blockpos = BlockPos.containing(context.getClickLocation()));
 
         if (!usedOn.is(block))
         {

@@ -4,6 +4,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -49,9 +50,11 @@ public class ThutBling
         ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, ThutBling.MODID);
 
         BIG_BAG = CONTAINERS.register("bling_bag_ender_large",
-                () -> new MenuType<>((IContainerFactory<LargeContainer>) LargeContainer::new, FeatureFlags.REGISTRY.allFlags()));
+                () -> new MenuType<>((IContainerFactory<LargeContainer>) LargeContainer::new,
+                        FeatureFlags.REGISTRY.allFlags()));
         SMALL_BAG = CONTAINERS.register("bling_bag",
-                () -> new MenuType<>((IContainerFactory<SmallContainer>) SmallContainer::new, FeatureFlags.REGISTRY.allFlags()));
+                () -> new MenuType<>((IContainerFactory<SmallContainer>) SmallContainer::new,
+                        FeatureFlags.REGISTRY.allFlags()));
     }
 
     public ThutBling()
@@ -63,8 +66,32 @@ public class ThutBling
         GemRecipe.RECIPE_SERIALIZERS.register(modEventBus);
         ITEMS.register(modEventBus);
         CONTAINERS.register(modEventBus);
+        modEventBus.addListener(this::addCreative);
 
         BlingItem.init();
     }
 
+    public void addCreative(BuildCreativeModeTabContentsEvent event)
+    {
+        if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))
+        {
+            ThutWearables.WORNICON = BlingItem.getStack("bling_hat");
+
+            event.accept(BlingItem.getStack("bling_bag"));
+            event.accept(BlingItem.getStack("bling_bag_ender_vanilla"));
+            event.accept(BlingItem.getStack("bling_bag_ender_large"));
+            event.accept(BlingItem.getStack("bling_hat"));
+            event.accept(BlingItem.getStack("bling_eye"));
+            event.accept(BlingItem.getStack("bling_neck"));
+            event.accept(BlingItem.getStack("bling_ear"));
+            event.accept(BlingItem.getStack("bling_waist"));
+            event.accept(BlingItem.getStack("bling_ring"));
+            event.accept(BlingItem.getStack("bling_wrist"));
+            event.accept(BlingItem.getStack("bling_ankle"));
+
+            for (final String type : BlingItem.blingWearables.keySet())
+                event.accept(BlingItem.blingWearables.get(type).get());
+        }
+
+    }
 }

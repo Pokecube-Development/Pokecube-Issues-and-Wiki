@@ -33,7 +33,7 @@ public class TerrainChecker
     public static ResourceLocation LEAVES = new ResourceLocation("minecraft:leaves");
     public static ResourceLocation FLOWERS = new ResourceLocation("minecraft:small_flowers");
 
-    public static final String tagKey = "structure_subbiomes";
+    public static final String tagKey = "thutcore:structure_subbiomes";
 
     public static void initStructMap()
     {
@@ -75,25 +75,14 @@ public class TerrainChecker
         return ItemList.is(TerrainChecker.INDUSTRIAL_TAG, state);
     }
 
-//    TODO: Find replacement
-//    private static boolean isPlant(final Material m)
-//    {
-//        return m == Material.PLANT || m == Material.REPLACEABLE_PLANT || m == Material.REPLACEABLE_WATER_PLANT
-//                || m == Material.WATER_PLANT;
-//    }
-
     public static boolean isEdiblePlant(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.PLANTS_EDIBLE_TAG, state)
-                // TODO: Find replacement
-                /*|| ThutCore.getConfig().autoPopulateLists && TerrainChecker.isPlant(state.is(BlockTags.FLOWERS))*/;
+        return ItemList.is(TerrainChecker.PLANTS_EDIBLE_TAG, state) || state.is(BlockTags.FLOWERS);
     }
 
     public static boolean isCutablePlant(final BlockState state)
     {
-        return ItemList.is(TerrainChecker.PLANTS_CUTABLE_TAG, state) || ItemList.is(BlockTags.LEAVES.location(), state)
-                // TODO: Find replacement
-                /*|| ThutCore.getConfig().autoPopulateLists && TerrainChecker.isPlant(state.getMaterial())*/;
+        return ItemList.is(TerrainChecker.PLANTS_CUTABLE_TAG, state) || ItemList.is(BlockTags.LEAVES.location(), state);
     }
 
     public static boolean isRock(final BlockState state)

@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 import java.util.Map;
 import java.util.function.Supplier;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.Maps;
 
 import net.minecraft.core.BlockPos;
@@ -12,15 +14,22 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import thut.api.block.IDyedBlock;
 import thut.api.block.flowing.IFlowingBlock;
+import thut.concrete.Concrete;
 
 public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDyedBlock
 {
@@ -61,13 +70,28 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     protected void initStateDefinition()
     {
         registerDefaultState(getStateDefinition().any().setValue(IFlowingBlock.WATERLOGGED, false).setValue(LAYERS, 1)
-                .setValue(RUSTY, true));
+                .setValue(RUSTY, true).setValue(UP, false).setValue(DOWN, false).setValue(NORTH, false)
+                .setValue(SOUTH, false).setValue(EAST, false).setValue(WEST, false));
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder)
     {
         builder.add(NORTH, EAST, WEST, SOUTH, UP, DOWN, IFlowingBlock.WATERLOGGED, LAYERS, RUSTY);
+    }
+
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    {
+        int amt = getAmount(state);
+        if (amt < 16) return Shapes.or(this.shapeByIndex[this.getAABBIndex(state)], IFlowingBlock.SHAPES[amt - 1]);
+        else return Shapes.block();
+    }
+
+    @Override
+    public VoxelShape getVisualShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context)
+    {
+        return this.getShape(state, level, pos, context);
     }
 
     @Override
@@ -91,9 +115,9 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     }
 
     @Override
-    public BlockState getMergeResult(BlockState mergeFrom, BlockState mergeInto, BlockPos posTo, ServerLevel level)
+    public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        return mergeInto;
+        return destState;
     }
 
     @Override
@@ -138,6 +162,48 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
         return colour;
     }
 
+    @Override
+    @Nullable
+    public BlockState getStateForPlacement(BlockPlaceContext context)
+    {
+        BlockState state = context.getLevel().getBlockState(context.getClickedPos());
+        if (state.is(this))
+        {
+            if (context.getPlayer() != null && context.getPlayer().isCreative())
+            {
+                int i = state.getValue(LAYERS);
+                return state.setValue(LAYERS, Integer.valueOf(Math.min(16, i + 1)));
+            }
+        }
+        else
+        {
+            return super.getStateForPlacement(context);
+        }
+        return super.getStateForPlacement(context);
+    }
+
+    @Override
+    public boolean canBeReplaced(BlockState state, BlockPlaceContext context)
+    {
+        int i = state.getValue(LAYERS);
+        if (context.getItemInHand().is(this.asItem()) && i < 16 && context.getPlayer() != null
+                && context.getPlayer().isCreative())
+        {
+            if (context.replacingClickedOnBlock())
+            {
+                return context.getClickedFace() == Direction.UP;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else
+        {
+            return i == 1;
+        }
+    }
+
     public static class FullDry extends Block implements IDyedBlock
     {
         private static final Map<DyeColor, FullDry> BYCOLOR = Maps.newHashMap();
@@ -172,5 +238,15 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
             super(properties, colour);
         }
 
+        @SuppressWarnings("deprecation")
+        @Override
+        public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean bool)
+        {
+            super.onRemove(state, level, pos, state2, bool);
+            if (!(state2.getBlock() instanceof PartialDry))
+            {
+                level.setBlockAndUpdate(pos, Concrete.REBAR_BLOCK.get().defaultBlockState());
+            }
+        }
     }
 }

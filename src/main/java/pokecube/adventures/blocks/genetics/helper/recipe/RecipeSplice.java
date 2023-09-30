@@ -43,15 +43,14 @@ public class RecipeSplice extends PoweredRecipe
     public boolean complete(final IPoweredProgress tile, Level world)
     {
         final List<ItemStack> remaining = Lists.newArrayList(this.getRemainingItems(tile.getCraftMatrix()));
-
-        // TODO: Check this
-        tile.setItem(tile.getOutputSlot(), this.assemble(tile.getCraftMatrix(), world.registryAccess()));
+        var output = this.assemble(tile.getCraftMatrix(), world.registryAccess());
         for (int i = 0; i < remaining.size(); i++)
         {
             final ItemStack stack = remaining.get(i);
             if (!stack.isEmpty()) tile.setItem(i, stack);
             else tile.removeItem(i, 1);
         }
+        tile.setItem(tile.getOutputSlot(), output);
         if (tile.getCraftMatrix().eventHandler != null) tile.getCraftMatrix().eventHandler.broadcastChanges();
         return true;
     }

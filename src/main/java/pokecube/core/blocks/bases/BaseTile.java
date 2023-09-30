@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.GlobalPos;
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
@@ -15,6 +17,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -76,7 +79,6 @@ public class BaseTile extends InteractableTile
         return InteractionResult.SUCCESS;
     }
 
-
     @Override
     public void load(final CompoundTag compound)
     {
@@ -87,7 +89,11 @@ public class BaseTile extends InteractableTile
         if (compound.contains("revert_to"))
         {
             final CompoundTag tag = compound.getCompound("revert_to");
-            this.original = NbtUtils.readBlockState(this.getLevel().holderLookup(Registries.BLOCK), tag);
+            @SuppressWarnings("deprecation")
+            HolderGetter<Block> holdergetter = (HolderGetter<Block>) (this.level != null
+                    ? this.level.holderLookup(Registries.BLOCK)
+                    : BuiltInRegistries.BLOCK.asLookup());
+            this.original = NbtUtils.readBlockState(holdergetter, tag);
         }
     }
 

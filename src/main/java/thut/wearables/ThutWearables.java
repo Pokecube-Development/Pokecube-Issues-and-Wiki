@@ -8,7 +8,9 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
@@ -18,6 +20,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
@@ -150,7 +153,7 @@ public class ThutWearables
             if (!event.getAtlas().location().toString().equals("minecraft:textures/atlas/blocks.png")) return;
             // TODO: Fix this
             // for (int i = 0; i < EnumWearable.BYINDEX.length; i++)
-            //    event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));
+            // event.addSprite(new ResourceLocation(EnumWearable.getIcon(i)));
         }
     }
 
@@ -173,14 +176,22 @@ public class ThutWearables
     public static final Config config = new Config();
 
     public static final DeferredRegister<MenuType<?>> CONTAINERS;
+    public static final DeferredRegister<CreativeModeTab> TABS;
 
     public static final RegistryObject<MenuType<ContainerWearables>> WEARABLES;
+    public static final RegistryObject<CreativeModeTab> WEARABLES_TAB;
+
+    public static ItemStack WORNICON = ItemStack.EMPTY;
 
     static
     {
         CONTAINERS = DeferredRegister.create(ForgeRegistries.MENU_TYPES, Reference.MODID);
+        TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+        WEARABLES_TAB = TABS.register("wearables_tab", () -> CreativeModeTab.builder()
+                .title(Component.translatable("itemGroup.thutcore.wearables")).icon(() -> WORNICON).build());
         WEARABLES = CONTAINERS.register("wearables",
-                () -> new MenuType<>((IContainerFactory<ContainerWearables>) ContainerWearables::new, FeatureFlags.REGISTRY.allFlags()));
+                () -> new MenuType<>((IContainerFactory<ContainerWearables>) ContainerWearables::new,
+                        FeatureFlags.REGISTRY.allFlags()));
     }
 
     public static PlayerWearables getWearables(final LivingEntity wearer)
@@ -228,6 +239,7 @@ public class ThutWearables
         bus.addListener(ThutWearables.proxy::finish);
         RecipeDye.RECIPE_SERIALIZERS.register(bus);
         CONTAINERS.register(bus);
+        TABS.register(bus);
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)

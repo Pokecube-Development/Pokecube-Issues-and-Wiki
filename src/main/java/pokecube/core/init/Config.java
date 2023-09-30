@@ -196,6 +196,8 @@ public class Config extends ConfigData
     public boolean pvpExp = false;
     @Configure(category = Config.misc, comment = "Mobs marked as \"cloned\" will drop items on death. [Default: false]")
     public boolean clonesDrop = false;
+    @Configure(category = Config.misc, comment = "Add items to vanilla tabs. [Default: true]")
+    public boolean itemsInVanillaTabs = true;
 
     @Configure(category = Config.misc, comment = "A list of custom sounds to register")
     public List<String> customSounds = Lists.newArrayList();
@@ -524,7 +526,9 @@ public class Config extends ConfigData
 
     // Gui/client settings
 
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Default to dark mode in certain guis, such as the PC. [Default: false]")
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Fancy style GUIs. Set to false for vanilla style GUIs. [Default: true]")
+    public boolean fancyGUI = true;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Default to dark mode in certain GUIs, such as the PC. [Default: false]")
     public boolean darkMode = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Positioning of the tamed pokemob GUI. [Default: \"top_left\"]")
     public String guiRef = "top_left";

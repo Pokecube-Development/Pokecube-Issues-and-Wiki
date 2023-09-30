@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -28,6 +27,7 @@ import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.api.world.WorldTickManager;
+import thut.lib.RegHelper;
 import thut.lib.TComponent;
 
 @Mod.EventBusSubscriber
@@ -97,7 +97,7 @@ public class DebugInteractions
         Vector3 v = new Vector3().set(player);
         if (isStructureDebug)
         {
-            var registry = level.registryAccess().registryOrThrow(Registry.STRUCTURE_REGISTRY);
+            var registry = level.registryAccess().registryOrThrow(RegHelper.STRUCTURE_REGISTRY);
             var list = registry.stream().toList();
             List<ResourceLocation> found = Lists.newArrayList();
             List<ResourceLocation> not_found = Lists.newArrayList();
@@ -109,7 +109,7 @@ public class DebugInteractions
                 if (name.toString().startsWith("pokecube"))
                 {
                     thut.lib.ChatHelper.sendSystemMessage(player, TComponent.literal("Checking " + name));
-                    final ResourceKey<Structure> structure = ResourceKey.create(Registry.STRUCTURE_REGISTRY, name);
+                    final ResourceKey<Structure> structure = ResourceKey.create(RegHelper.STRUCTURE_REGISTRY, name);
                     var holder = registry.getHolderOrThrow(structure);
                     HolderSet<Structure> holderset = HolderSet.direct(holder);
                     Pair<BlockPos, Holder<Structure>> thing = level.getChunkSource().getGenerator()

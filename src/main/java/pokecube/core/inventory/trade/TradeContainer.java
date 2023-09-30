@@ -10,6 +10,7 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.wrapper.InvWrapper;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.trade.TraderTile;
 import pokecube.core.init.MenuTypes;
@@ -55,7 +56,9 @@ public class TradeContainer extends BaseContainer
 
         this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 0, 26, 23));
         this.addSlot(new TradeSlot(this.inv, inv.player, this.tile, 1, 134, 23));
-        this.bindPlayerInventory(inv, 7);
+
+        int yOffset = PokecubeCore.getConfig().fancyGUI ? 7 : 1;
+                this.bindPlayerInventory(inv, yOffset);
         this.addDataSlots(this.tile.syncValues);
     }
 

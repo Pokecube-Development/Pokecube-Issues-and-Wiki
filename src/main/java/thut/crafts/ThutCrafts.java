@@ -2,11 +2,15 @@ package thut.crafts;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig.Type;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -22,6 +26,9 @@ import thut.core.common.config.Config;
 import thut.core.common.config.Config.ConfigData;
 import thut.core.common.config.Configure;
 import thut.core.common.network.PacketHandler;
+import thut.core.init.CommonInit;
+import thut.core.init.ThutCreativeTabs;
+import thut.crafts.entity.CraftStickApplier;
 import thut.crafts.entity.EntityCraft;
 import thut.crafts.network.PacketCraftControl;
 
@@ -78,6 +85,7 @@ public class ThutCrafts
         final IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         // Register the setup method for modloading
         bus.addListener(this::setup);
+        bus.addListener(this::addCreative);
 
         ThutCrafts.ITEMS.register(bus);
         ThutCrafts.BLOCKS.register(bus);
@@ -95,5 +103,25 @@ public class ThutCrafts
 
         // SEtup proxy
         MinecraftForge.EVENT_BUS.register(ThutCrafts.class);
+
+        CommonInit.HANDLERS.add(new CraftStickApplier());
+    }
+
+    @SubscribeEvent
+    public void addCreative(BuildCreativeModeTabContentsEvent event) {
+        if (event.getTabKey() == CreativeModeTabs.OP_BLOCKS)
+        {
+            if (event.hasPermissions())
+            {
+                ThutCreativeTabs.addBefore(event, Items.DEBUG_STICK, ThutCrafts.CRAFTMAKER.get());
+            }
+        }
+        if (event.getTabKey().equals(ThutCreativeTabs.UTILITIES_TAB.getKey()))
+        {
+            if (event.hasPermissions())
+            {
+                event.accept(ThutCrafts.CRAFTMAKER.get());
+            }
+        }
     }
 }

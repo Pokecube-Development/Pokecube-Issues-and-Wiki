@@ -33,7 +33,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.protocol.game.ClientboundPlayerInfoPacket;
+import net.minecraft.network.protocol.game.ClientboundPlayerInfoUpdatePacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
@@ -382,7 +382,7 @@ public class ThutBot
         }
         else serverlevel1 = serverlevel;
 
-        player.setLevel(serverlevel1);
+        player.setServerLevel(serverlevel1);
         String s1 = "local";
         if (connection.getRemoteAddress() != null) s1 = connection.getRemoteAddress().toString();
 
@@ -407,7 +407,7 @@ public class ThutBot
         players.add(player);
         playerMap.put(player.getUUID(), player);
 
-        list.broadcastAll(new ClientboundPlayerInfoPacket(ClientboundPlayerInfoPacket.Action.ADD_PLAYER, player));
+        list.broadcastAll(ClientboundPlayerInfoUpdatePacket.createPlayerInitializing(List.of(player)));
 
         serverlevel1.addNewPlayer(player);
         serverlevel1.getChunkSource().move(player);

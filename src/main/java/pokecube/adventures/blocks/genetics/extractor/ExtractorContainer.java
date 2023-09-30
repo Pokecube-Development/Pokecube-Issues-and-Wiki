@@ -1,5 +1,6 @@
 package pokecube.adventures.blocks.genetics.extractor;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
@@ -49,7 +50,7 @@ public class ExtractorContainer extends PoweredContainer<ExtractorTile>
         final int dj = 32;
 
         // DNA Container
-        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, Resources.SLOT_ICON_BOTTLE));
+        this.addSlot(new TexturedSlot(this.tile, 0, dj + dj2, di, new ResourceLocation("pokecube", "gui/icons/slot_bottle")));
         // Stabiliser
         this.addSlot(new TexturedSlot(this.tile, 1, dj + dj2, di + 35, Resources.SLOT_ICON_BOOK));
         // DNA Source

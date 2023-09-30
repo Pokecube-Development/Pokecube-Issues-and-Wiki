@@ -154,7 +154,6 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
             BlockState state = temp1.set(i, j, k).getBlockState(world);
             if (state.isAir()) continue;
             boolean isIndustrial = PokecubeTerrainChecker.isIndustrial(state);
-            if (isIndustrial) System.out.println(state);
             boolean isFlower = PokecubeTerrainChecker.isFlower(state);
             if (isIndustrial) industrial++;
             if (isFlower) flower++;
