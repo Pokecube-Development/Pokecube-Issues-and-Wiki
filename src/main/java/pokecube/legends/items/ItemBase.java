@@ -2,9 +2,7 @@ package pokecube.legends.items;
 
 import java.util.List;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,7 +17,7 @@ import thut.lib.TComponent;
 
 public class ItemBase extends Item
 {
-    String tooltip_block_id;
+    String tooltip_id;
     boolean hasTooltip = false;
     boolean hasShiny = false;
     int tooltipLineAmt = 0;
@@ -29,14 +27,14 @@ public class ItemBase extends Item
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
         this.hasTooltip = true;
-        this.tooltip_block_id = tooltipName;
+        this.tooltip_id = tooltipName;
     }
 
     public ItemBase(final String tooltipName, final int tooltipExtraLineAmt, final CreativeModeTab tab, final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
         this.hasTooltip = true;
-        this.tooltip_block_id = tooltipName;
+        this.tooltip_id = tooltipName;
         this.tooltipLineAmt = tooltipExtraLineAmt;
     }
 
@@ -44,7 +42,7 @@ public class ItemBase extends Item
                     final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
-        this.tooltip_block_id = tooltipName;
+        this.tooltip_id = tooltipName;
         this.hasTooltip = true;
     }
 
@@ -52,7 +50,7 @@ public class ItemBase extends Item
                     final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
-        this.tooltip_block_id = tooltipName;
+        this.tooltip_id = tooltipName;
         this.hasTooltip = true;
         this.tooltipLineAmt = tooltipExtraLineAmt;
     }
@@ -90,10 +88,10 @@ public class ItemBase extends Item
         if (!this.hasTooltip) return;
         if (Screen.hasShiftDown())
         {
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip"));
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
             {
-                tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip.line" + lineAmt));
+                tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
                 lineAmt++;
             }
         }
