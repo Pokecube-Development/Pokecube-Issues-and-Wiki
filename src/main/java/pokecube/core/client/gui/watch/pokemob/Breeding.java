@@ -2,6 +2,8 @@ package pokecube.core.client.gui.watch.pokemob;
 
 import java.util.Collections;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
@@ -23,8 +25,8 @@ import thut.lib.TComponent;
 
 public class Breeding extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_breeding");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_breeding_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_breeding");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_breeding_nm");
 
     int last = 0;
     final PokemobInfoPage parent;
@@ -79,8 +81,8 @@ public class Breeding extends ListPage<LineEntry>
         final int colour = 0xFFFFFFFF;
 
         width = 90;
-        final int dx = 55;
-        final int dy = 10;
+        final int dx = 65; //55
+        final int dy = 15; //10
         offsetY += dy;
         offsetX += dx;
 
@@ -96,8 +98,7 @@ public class Breeding extends ListPage<LineEntry>
             @Override
             public void handleHovor(final GuiGraphics graphics, final Style component, final int x, final int y)
             {
-                // TODO: Check this
-                // thisObj.renderComponentHoverEffect(graphics, component, x, y);
+                //thisObj.renderComponentHoverEffect(mat, component, x, y);
             }
         };
         final PokedexEntry ourEntry = this.parent.pokemob.getPokedexEntry();
@@ -110,7 +111,7 @@ public class Breeding extends ListPage<LineEntry>
             final PokedexEntry entry = Database.getEntry(name);
             if (entry == null) continue;
             main = TComponent.translatable(entry.getUnlocalizedName());
-            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+            main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_GRAY))
                     .withClickEvent(new ClickEvent(Action.CHANGE_PAGE, entry.getName())));
             this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
                     .setClickListner(listener));

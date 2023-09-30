@@ -1,16 +1,19 @@
 package pokecube.core.client.gui.watch;
 
-import com.mojang.math.Axis;
 import java.util.Map;
 import java.util.Set;
+
+import org.joml.Matrix4f;
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -21,7 +24,6 @@ import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
-import org.joml.Matrix4f;
 import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
@@ -113,21 +115,21 @@ public class SecretBaseRadarPage extends WatchPage
     public void onPageOpened()
     {
         super.onPageOpened();
-        final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 5;
-
-        // TODO: Check this
-        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), (b) -> {
-            SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
-                % RadarMode.values().length];
-        }).bounds(x + 95, y - 70, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(200, 0, 12, 12)).build());
+        //final int x = this.watch.width / 2;
+        //final int y = this.watch.height / 2 - 5;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""),
+                b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
+                        % RadarMode.values().length]).bounds(x + 136, y + 90, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
+                                .setRender(new UVImgRender(212, 123, 17, 17)).build());
     }
 
     @Override
     public void render(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-        graphics.pose().pushPose();
+    	graphics.pose().pushPose();
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
 
