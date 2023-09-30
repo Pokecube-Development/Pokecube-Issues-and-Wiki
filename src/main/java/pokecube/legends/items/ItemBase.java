@@ -25,34 +25,34 @@ public class ItemBase extends Item
     int tooltipLineAmt = 0;
 
     // Info
-    public ItemBase(final String name, final CreativeModeTab tab, final int maxStackSize)
+    public ItemBase(final String tooltipName, final CreativeModeTab tab, final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
         this.hasTooltip = true;
-        this.tooltip_block_id = name;
+        this.tooltip_block_id = tooltipName;
     }
 
-    public ItemBase(final String name, final int tooltipExtraLineAmt, final CreativeModeTab tab, final int maxStackSize)
+    public ItemBase(final String tooltipName, final int tooltipExtraLineAmt, final CreativeModeTab tab, final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
         this.hasTooltip = true;
-        this.tooltip_block_id = name;
+        this.tooltip_block_id = tooltipName;
         this.tooltipLineAmt = tooltipExtraLineAmt;
     }
 
-    public ItemBase(final String name, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
+    public ItemBase(final String tooltipName, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
                     final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
-        this.tooltip_block_id = name;
+        this.tooltip_block_id = tooltipName;
         this.hasTooltip = true;
     }
 
-    public ItemBase(final String name, final int tooltipExtraLineAmt, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
+    public ItemBase(final String tooltipName, final int tooltipExtraLineAmt, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
                     final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
-        this.tooltip_block_id = name;
+        this.tooltip_block_id = tooltipName;
         this.hasTooltip = true;
         this.tooltipLineAmt = tooltipExtraLineAmt;
     }
@@ -90,12 +90,10 @@ public class ItemBase extends Item
         if (!this.hasTooltip) return;
         if (Screen.hasShiftDown())
         {
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip", ChatFormatting.GOLD,
-                    ChatFormatting.BOLD, ChatFormatting.RESET).withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip"));
             for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
             {
-                tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip.line" + lineAmt, ChatFormatting.GOLD,
-                        ChatFormatting.BOLD, ChatFormatting.RESET));
+                tooltip.add(TComponent.translatable("legends." + this.tooltip_block_id + ".tooltip.line" + lineAmt));
                 lineAmt++;
             }
         }

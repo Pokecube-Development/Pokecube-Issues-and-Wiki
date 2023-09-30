@@ -238,119 +238,124 @@ public class ItemInit
         // listed in
         // Orbs
         BLUE_ORB = PokecubeLegends.ITEMS.register("blueorb",
-                () -> new ItemBase("blueorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("blueorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         COSMIC_ORB = PokecubeLegends.ITEMS.register("cosmic_orb",
-                () -> new ItemBase("cosmic_orb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("cosmic_orb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         DESTRUCT_ORB = PokecubeLegends.ITEMS.register("destructorb",
-                () -> new ItemBase("destructorb", PokecubeLegends.TAB_LEGENDS, 1));
-        GRAY_ORB = PokecubeLegends.ITEMS.register("grayorb", () -> new ItemBase(PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("destructorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
+        GRAY_ORB = PokecubeLegends.ITEMS.register("grayorb",
+                () -> new ItemBase("grayorb", 1, PokecubeLegends.TAB_LEGENDS, 1));
         GREEN_ORB = PokecubeLegends.ITEMS.register("greenorb",
-                () -> new ItemBase("greenorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("greenorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         LIFE_ORB = PokecubeLegends.ITEMS.register("lifeorb",
-                () -> new ItemBase("lifeorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("lifeorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         LUSTROUS_ORB = PokecubeLegends.ITEMS.register("lustrousorb",
-                () -> new ItemBase("lustrousorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("lustrousorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         OCEAN_ORB = PokecubeLegends.ITEMS.register("oceanorb",
-                () -> new ItemBase("oceanorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("oceanorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         RAINBOW_ORB = PokecubeLegends.ITEMS.register("legendaryorb",
-                () -> new ItemBase("legendaryorb", PokecubeLegends.TAB_LEGENDS, 1).setShiny());
+                () -> new ItemBase("legendaryorb", 2, PokecubeLegends.TAB_LEGENDS, 1).setShiny());
         RED_ORB = PokecubeLegends.ITEMS.register("redorb",
-                () -> new ItemBase("redorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("redorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         REGIS_ORB = PokecubeLegends.ITEMS.register("regisorb",
-                () -> new ItemBase("regisorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("regisorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         BULU_ORB = PokecubeLegends.ITEMS.register("bulu_orb",
-                () -> new ItemBase("bulu_orb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("bulu_orb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         FINI_ORB = PokecubeLegends.ITEMS.register("fini_orb",
-                () -> new ItemBase("fini_orb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("fini_orb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         KOKO_ORB = PokecubeLegends.ITEMS.register("koko_orb",
-                () -> new ItemBase("koko_orb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("koko_orb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         LELE_ORB = PokecubeLegends.ITEMS.register("lele_orb",
-                () -> new ItemBase("lele_orb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("lele_orb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         SOUL_DEW = PokecubeLegends.ITEMS.register("soul_dew",
-                () -> new ItemBase("soul_dew", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("soul_dew", 2, PokecubeLegends.TAB_LEGENDS, 1));
         SOUL_HEART = PokecubeLegends.ITEMS.register("soul_heart",
-                () -> new ItemBase("soul_heart", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("soul_heart", 2, PokecubeLegends.TAB_LEGENDS, 1));
         ADAMANT_ORB = PokecubeLegends.ITEMS.register("adamantorb",
-                () -> new ItemBase("adamantorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("adamantorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         GRISEOUS_ORB = PokecubeLegends.ITEMS.register("griseousorb",
-                () -> new ItemBase("griseousorb", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("griseousorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         // Gem
         AZELF_GEM = PokecubeLegends.ITEMS.register("azelf_gem",
-                () -> new ItemBase("azelf_gem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("azelf_gem", 2, PokecubeLegends.TAB_LEGENDS, 1));
         DIAMOND_GEM = PokecubeLegends.ITEMS.register("diamond_gem",
-                () -> new ItemBase("diamond_gem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("diamond_gem", 2, PokecubeLegends.TAB_LEGENDS, 1));
         FLAME_GEM = PokecubeLegends.ITEMS.register("flame_gem",
-                () -> new ItemBase("flame_gem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("flame_gem", 2, PokecubeLegends.TAB_LEGENDS, 1));
         MESPRIT_GEM = PokecubeLegends.ITEMS.register("mesprit_gem",
-                () -> new ItemBase("mesprit_gem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("mesprit_gem", 2, PokecubeLegends.TAB_LEGENDS, 1));
         THUNDER_GEM = PokecubeLegends.ITEMS.register("thunder_gem",
-                () -> new ItemBase("thunder_gem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("thunder_gem", 2, PokecubeLegends.TAB_LEGENDS, 1));
         UXIE_GEM = PokecubeLegends.ITEMS.register("uxie_gem",
-                () -> new ItemBase("uxie_gem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("uxie_gem", 2, PokecubeLegends.TAB_LEGENDS, 1));
         WATER_GEM = PokecubeLegends.ITEMS.register("water_gem",
-                () -> new ItemBase("water_gem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("water_gem", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         // Stones
         ANCIENT_STONE = PokecubeLegends.ITEMS.register("ancient_stone",
-                () -> new ItemBase("ancient_stone", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("ancient_stone", 2, PokecubeLegends.TAB_LEGENDS, 1));
         DARK_STONE = PokecubeLegends.ITEMS.register("darkstone",
-                () -> new ItemBase("darkstone", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("darkstone", 2, PokecubeLegends.TAB_LEGENDS, 1));
         LIGHT_STONE = PokecubeLegends.ITEMS.register("lightstone",
-                () -> new ItemBase("lightstone", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("lightstone", 2, PokecubeLegends.TAB_LEGENDS, 1));
         ROCK_CORE = PokecubeLegends.ITEMS.register("rockcore",
-                () -> new ItemBase("rockcore", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("rockcore", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         // Cores
         DRAGO_CORE = PokecubeLegends.ITEMS.register("dragocore",
-                () -> new ItemBase("dragocore", PokecubeLegends.TAB_LEGENDS, 1));
-        EMBLEM = PokecubeLegends.ITEMS.register("emblem", () -> new ItemBase("emblem", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("dragocore", 2, PokecubeLegends.TAB_LEGENDS, 1));
+        EMBLEM = PokecubeLegends.ITEMS.register("emblem",
+                () -> new ItemBase("emblem", 2, PokecubeLegends.TAB_LEGENDS, 1));
         ICE_CORE = PokecubeLegends.ITEMS.register("icecore",
-                () -> new ItemBase("icecore", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("icecore", 2, PokecubeLegends.TAB_LEGENDS, 1));
         KYUREM_CORE = PokecubeLegends.ITEMS.register("kyurem_core",
-                () -> new ItemBase("kyurem_core", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("kyurem_core", 2, PokecubeLegends.TAB_LEGENDS, 1));
         MAGMA_CORE = PokecubeLegends.ITEMS.register("magmacore",
-                () -> new ItemBase("magmacore", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("magmacore", 2, PokecubeLegends.TAB_LEGENDS, 1));
         STAR_CORE = PokecubeLegends.ITEMS.register("star_core",
-                () -> new ItemBase("star_core", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("star_core", 2, PokecubeLegends.TAB_LEGENDS, 1));
         STEAM_CORE = PokecubeLegends.ITEMS.register("steam_core",
-                () -> new ItemBase("steam_core", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("steam_core", 2, PokecubeLegends.TAB_LEGENDS, 1));
         STEEL_CORE = PokecubeLegends.ITEMS.register("steelcore",
-                () -> new ItemBase("steelcore", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("steelcore", 2, PokecubeLegends.TAB_LEGENDS, 1));
         THUNDER_CORE = PokecubeLegends.ITEMS.register("thundercore",
-                () -> new ItemBase("thundercore", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("thundercore", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         // Runes
         BLUE_RUNE = PokecubeLegends.ITEMS.register("blue_rune",
-                () -> new ItemBase("blue_rune", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("blue_rune", 2, PokecubeLegends.TAB_LEGENDS, 1));
         GREEN_RUNE = PokecubeLegends.ITEMS.register("green_rune",
-                () -> new ItemBase("green_rune", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("green_rune", 2, PokecubeLegends.TAB_LEGENDS, 1));
         ORANGE_RUNE = PokecubeLegends.ITEMS.register("orange_rune",
-                () -> new ItemBase("orange_rune", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("orange_rune", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         // Wings
         DARK_FIRE_WING = PokecubeLegends.ITEMS.register("dark_fire_wing",
-                () -> new ItemBase("dark_fire_wing", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("dark_fire_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
         ELECTRIC_WING = PokecubeLegends.ITEMS.register("electric_wing",
-                () -> new ItemBase("electric_wing", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("electric_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
         FIRE_WING = PokecubeLegends.ITEMS.register("fire_wing",
-                () -> new ItemBase("fire_wing", 1, PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("fire_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
         ICE_DARK_WING = PokecubeLegends.ITEMS.register("ice_dark_wing",
-                () -> new ItemBase("ice_dark_wing", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("ice_dark_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
         ICE_WING = PokecubeLegends.ITEMS.register("ice_wing",
-                () -> new ItemBase("ice_wing", 1, PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("ice_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
         LUNAR_WING = PokecubeLegends.ITEMS.register("lunar_wing",
-                () -> new ItemBase("lunar_wing", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("lunar_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
         RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing",
-                () -> new ItemBase(PokecubeLegends.TAB_LEGENDS, 1).setShiny());
-        SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing", () -> new ItemBase(PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("rainbow_wing", 1, PokecubeLegends.TAB_LEGENDS, 1).setShiny());
+        SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing",
+                () -> new ItemBase("silver_wing", 1, PokecubeLegends.TAB_LEGENDS, 1));
         STATIC_WING = PokecubeLegends.ITEMS.register("static_wing",
-                () -> new ItemBase("static_wing", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("static_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         ICE_CARROT = PokecubeLegends.ITEMS.register("ice_carrot",
-                () -> new ItemBase("ice_carrot", PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.ICE_CARROT, 16));
-        SHADOW_CARROT = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot",
-                PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.SHADOW_CARROT, 16));
+                () -> new ItemBase("ice_carrot", 2, PokecubeLegends.TAB_LEGENDS,
+                        Rarity.RARE, FoodInit.ICE_CARROT, 16));
+        SHADOW_CARROT = PokecubeLegends.ITEMS.register("shadow_carrot",
+                () -> new ItemBase("shadow_carrot", 2, PokecubeLegends.TAB_LEGENDS,
+                        Rarity.RARE, FoodInit.SHADOW_CARROT, 16));
 
         // Misc
         AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute",
@@ -362,7 +367,7 @@ public class ItemInit
         GRACIDEA = PokecubeLegends.ITEMS.register("gracidea",
                 () -> new ItemBase("gracidea", PokecubeItems.TAB_ITEMS, 10));
         GRAY_SCARF = PokecubeLegends.ITEMS.register("kubfu_spawn",
-                () -> new ItemBase("kubfu_spawn", PokecubeLegends.TAB_LEGENDS, 1));
+                () -> new ItemBase("kubfu_spawn", 2, PokecubeLegends.TAB_LEGENDS, 1));
         LIGHTING_CRYSTAL = PokecubeLegends.ITEMS.register("lighting_crystal",
                 () -> new ItemBase("lighting_crystal", PokecubeLegends.TAB_LEGENDS, 1));
         MANAPHY_NECKLACE = PokecubeLegends.ITEMS.register("manaphy_necklace",

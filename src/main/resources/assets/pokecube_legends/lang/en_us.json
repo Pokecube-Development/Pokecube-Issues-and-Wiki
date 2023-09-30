@@ -983,7 +983,7 @@
     "item.pokecube_legends.z_unknown": "Incomununium Z",
 
     "_comment30": "Orbs",
-    "item.pokecube_legends.grayorb": "Gray Orb",
+    "item.pokecube_legends.grayorb": "Blank Orb",
     "item.pokecube_legends.redorb": "Red Orb",
     "item.pokecube_legends.greenorb": "Green Orb",
     "item.pokecube_legends.blueorb": "Blue Orb",
@@ -1184,13 +1184,35 @@
     "legends.tamato_pokepuff.tooltip": "Increases %1$s[Fire type] §rdamage, edible",
 
     "_comment43": "Spawner Item Tooltips",
-    "legends.kubfu_spawn.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Kubfu",
-    "legends.soul_heart.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Magearna Spawner- to spawn Magearna",
-    "legends.fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s",
-    "legends.fire_wing.tooltip.line1": "Use on a %l$s-Legendary Spawner-%r$s to spawn Moltres",
-    "legends.dark_fire_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Moltres Galar",
-    "legends.ice_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s",
-    "legends.ice_wing.tooltip.line1": "Use on a -Legendary Spawner- to spawn Articuno",
+    "legends.grayorb.tooltip": "§6§n§lCraftable",
+    "legends.grayorb.tooltip.line1": "§aUse:§r §7Crafting Ingredient",
+
+    "legends.kubfu_spawn.tooltip": "§6§n§lPurchasable",
+    "legends.kubfu_spawn.tooltip.line1": "§aUse On: §7Legendary Spawner",
+    "legends.kubfu_spawn.tooltip.line2": "§bSpawns: §7Kubfu",
+
+    "legends.soul_heart.tooltip": "§6§n§lPurchasable",
+    "legends.soul_heart.tooltip.line1": "§aUse On: §7Magearna Spawner",
+    "legends.soul_heart.tooltip.line2": "§bSpawns: §7Magearna",
+
+    "legends.rainbow_wing.tooltip": "§6§n§lCapture Ho-Oh",
+    "legends.rainbow_wing.tooltip.line1": "§aUse: §7Crafting Ingredient",
+
+    "legends.silver_wing.tooltip": "§6§n§lCapture Lugia",
+    "legends.silver_wing.tooltip.line1": "§aUse: §7Crafting Ingredient",
+
+    "legends.fire_wing.tooltip": "§6§n§lPurchasable",
+    "legends.fire_wing.tooltip.line1": "§aUse On: §7Legendary Spawner",
+    "legends.fire_wing.tooltip.line2": "§bSpawns: §7Moltres",
+
+    "legends.dark_fire_wing.tooltip": "§6§n§lPurchasable",
+    "legends.dark_fire_wing.tooltip.line1": "§aUse on: §7Legendary Spawner",
+    "legends.dark_fire_wing.tooltip.line2": "§bSpawns: §7Galar Moltres",
+
+    "legends.ice_wing.tooltip": "§6§n§lPurchasable",
+    "legends.ice_wing.tooltip.line1": "§aUse On: §7Legendary Spawner",
+    "legends.ice_wing.tooltip.line2": "§bSpawns: §7Articuno",
+
     "legends.ice_dark_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Articuno Galar",
     "legends.electric_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zapdos",
     "legends.static_wing.tooltip": "%1$s%2$s[Purchase]%3$s %1$sCan only be purchased!%3$s\nUse on a -Legendary Spawner- to spawn Zapdos Galar",
