@@ -34,7 +34,7 @@ public class TerrainChecker
     public static ResourceLocation LEAVES = new ResourceLocation("minecraft:leaves");
     public static ResourceLocation FLOWERS = new ResourceLocation("minecraft:small_flowers");
 
-    public static final String tagKey = "structure_subbiomes";
+    public static final String tagKey = "thutcore:structure_subbiomes";
 
     public static void initStructMap()
     {
