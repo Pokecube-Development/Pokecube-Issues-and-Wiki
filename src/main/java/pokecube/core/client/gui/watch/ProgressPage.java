@@ -45,8 +45,8 @@ public class ProgressPage extends PageWithSubPages<Progress>
         }
     }
 
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_trainer");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_trainer_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_wiki");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_wiki_nm");
 
     public ProgressPage(final GuiPokeWatch watch)
     {
@@ -72,13 +72,13 @@ public class ProgressPage extends PageWithSubPages<Progress>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 10, colour);
-        GuiComponent.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 20,
+        GuiComponent.drawCenteredString(mat, this.font, this.getTitle().getString(), x + 135, y + 5, colour);
+        GuiComponent.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 135, y + 18,
                 colour);
 
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
-        GuiComponent.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 30, colour);
+        GuiComponent.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 36, colour);
     }
 
     @Override
