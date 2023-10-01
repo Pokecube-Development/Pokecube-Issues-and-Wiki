@@ -27,7 +27,7 @@ public class FluidInit
         DISTORTIC_WATER_FLOWING = PokecubeLegends.FLUIDS.register("distortic_water_flowing", () ->
                         new ForgeFlowingFluid.Flowing(DistorticWaterType.makeProperties()));
 
-        DISTORTIC_WATER_BLOCK = PokecubeLegends.DIMENSIONS_TAB.register("distortic_water_block", () ->
+        DISTORTIC_WATER_BLOCK = PokecubeLegends.BLOCKS.register("distortic_water_block", () ->
                         new LiquidBlock(DISTORTIC_WATER, BlockBehaviour.Properties.of()
                                 .mapColor(MapColor.COLOR_LIGHT_BLUE).noCollission().strength(100.0F).noLootTable()));
 
