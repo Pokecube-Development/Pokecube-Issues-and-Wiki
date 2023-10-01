@@ -132,7 +132,8 @@
 			"to": [4.9, 10, 5],
 			"faces": {
 				"north": {"uv": [11, 6, 12, 16], "texture": "#back_overlay"},
-				"west": {"uv": [0, 6, 5, 16], "texture": "#side_overlay"}
+				"west": {"uv": [0, 6, 5, 16], "texture": "#side_overlay"},
+				"up": {"uv": [4, 0, 5, 5], "texture": "#top_overlay"}
 			}
 		},
 		{
@@ -141,7 +142,8 @@
 			"to": [12.1, 10, 5],
 			"faces": {
 				"north": {"uv": [4, 6, 5, 16], "texture": "#back_overlay"},
-				"east": {"uv": [5, 6, 0, 16], "texture": "#side_overlay"}
+				"east": {"uv": [5, 6, 0, 16], "texture": "#side_overlay"},
+				"up": {"uv": [11, 0, 12, 5], "texture": "#top_overlay"}
 			}
 		},
 		{
@@ -184,7 +186,7 @@
 					"name": "straps",
 					"origin": [0, 0, 0],
 					"color": 0,
-					"children": [8, 9, 9, 10, 11, 12]
+					"children": [8, 9, 10, 11, 12]
 				}
 			]
 		}

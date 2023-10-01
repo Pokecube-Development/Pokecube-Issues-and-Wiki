@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/cube_all",
   "textures": {
-    "all": "minecraft:block/oak_log_top"
+    "all": "concrete:block/formwork"
   }
 }
