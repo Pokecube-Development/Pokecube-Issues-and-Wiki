@@ -12,6 +12,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Matrix4f;
+import com.mojang.math.Vector3f;
 
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -26,7 +27,6 @@ import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import thut.api.maths.Vector3;
-import thut.lib.AxisAngles;
 import thut.lib.TComponent;
 
 public class SecretBaseRadarPage extends WatchPage
@@ -114,12 +114,15 @@ public class SecretBaseRadarPage extends WatchPage
     public void onPageOpened()
     {
         super.onPageOpened();
-        final int x = this.watch.width / 2;
-        final int y = this.watch.height / 2 - 5;
-        this.addRenderableWidget(new TexButton(x + 95, y - 70, 12, 12, TComponent.literal(""),
+        //final int x = this.watch.width / 2;
+        //final int y = this.watch.height / 2 - 5;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
+        
+        this.addRenderableWidget(new TexButton(x + 136, y + 90, 17, 17, TComponent.literal(""),
                 b -> SecretBaseRadarPage.mode = RadarMode.values()[(SecretBaseRadarPage.mode.ordinal() + 1)
                         % RadarMode.values().length]).setTex(GuiPokeWatch.getWidgetTex())
-                                .setRender(new UVImgRender(200, 0, 12, 12)));
+                                .setRender(new UVImgRender(212, 123, 17, 17)));
     }
 
     @Override
@@ -151,7 +154,7 @@ public class SecretBaseRadarPage extends WatchPage
         final Vector3 here = new Vector3().set(this.watch.player);
         final float angle = -this.watch.player.yRot % 360 + 180;
         // GL11.glRotated(angle, 0, 0, 1);
-        mat.mulPose(AxisAngles.ZP.rotationDegrees(angle));
+        mat.mulPose(Vector3f.ZP.rotationDegrees(angle));
 
         final Set<BlockPos> coords = SecretBaseRadarPage.radar_hits.get(SecretBaseRadarPage.mode);
         final float scale = SecretBaseRadarPage.mode.rangeScale;

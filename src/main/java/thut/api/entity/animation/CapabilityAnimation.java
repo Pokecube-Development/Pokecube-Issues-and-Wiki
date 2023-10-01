@@ -176,7 +176,19 @@ public class CapabilityAnimation
                         }
                         for (Animation a : this.transients)
                         {
-                            if (this.playingList.contains(a)) continue;
+                            existing:
+                            if (this.playingList.contains(a))
+                            {
+                                // Check if we need to clean it up
+                                float started = this.start_times.getFloat(a._uuid);
+                                float shouldEnd = started + a.getLength();
+                                if (this._ageInTicks > shouldEnd)
+                                {
+                                    this.playingList.remove(a);
+                                    break existing;
+                                }
+                                continue;
+                            }
                             this.playingList.add(0, a);
                             this.non_static.put(a._uuid, 0);
                             this.start_times.removeFloat(a._uuid);

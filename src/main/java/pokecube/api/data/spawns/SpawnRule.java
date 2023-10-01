@@ -1,6 +1,8 @@
 package pokecube.api.data.spawns;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
@@ -27,6 +29,8 @@ public class SpawnRule
     public DefaultFormeHolder model = null;
 
     public JsonObject biomes = null;
+
+    public List<MatchChecker> _matchers = new ArrayList<>();
 
     private String __cache__ = null;
 
@@ -65,31 +69,41 @@ public class SpawnRule
         return null;
     }
 
-    public void initMatchers()
+    public void loadMatchers()
     {
-        this.matchers.replaceAll((key, value) -> {
+        this._matchers.clear();
+        this.matchers.forEach((key, value) -> {
             // Leave the match checkers alone after further runs of this
-            if (value instanceof MatchChecker) return value;
+            if (value instanceof MatchChecker match)
+            {
+                this._matchers.add(match);
+                return;
+            }
 
             // Now look up classes
-            Class<?> clazz = MatcherLoaders.matchClasses.get(key);
+            Class<? extends MatchChecker> clazz = MatcherLoaders.matchClasses.get(key);
 
+            // If it is a list, load for each in list
+            if (value instanceof List<?> list)
+            {
+                list.forEach(value2 -> {
+                    String json = JsonUtil.gson.toJson(value2);
+                    this._matchers.add(JsonUtil.gson.fromJson(json, clazz));
+                });
+            }
             // And convert from strings as needed
-            if (clazz != null)
+            else if (clazz != null)
             {
                 String json = JsonUtil.gson.toJson(value);
-                return JsonUtil.gson.fromJson(json, clazz);
+                this._matchers.add(JsonUtil.gson.fromJson(json, clazz));
             }
-            return null;
         });
     }
 
     public boolean isValid()
     {
-        if (!this.preset.isBlank()) this.values.put(SpawnBiomeMatcher.PRESET, this.preset);
-        if (!this.and_preset.isBlank()) this.values.put(SpawnBiomeMatcher.ANDPRESET, this.and_preset);
-        if (!this.or_preset.isBlank()) this.values.put(SpawnBiomeMatcher.ORPRESET, this.or_preset);
-        if (!this.not_preset.isBlank()) this.values.put(SpawnBiomeMatcher.NOTPRESET, this.not_preset);
+        boolean hasPresets = !(preset.isBlank() && and_preset.isBlank() && or_preset.isBlank() && not_preset.isBlank());
+        if (hasPresets) return true;
         for (String s : Lists.newArrayList(this.values.keySet()))
         {
             Object o = this.values.get(s);

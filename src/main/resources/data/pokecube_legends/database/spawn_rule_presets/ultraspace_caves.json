@@ -1,10 +1,13 @@
 {
   "rules": [
     {
-      "values": {
-        "preset": "ultraspace_caves",
-        "or_preset": "underground,cave_subbiome",
-        "types": "#pokecube_legends:can_spawn/is_underground,all"
+      "preset": "ultraspace_caves",
+      "or_preset": "underground,cave_subbiome",
+      "not_preset": "overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_legends:can_spawn/is_underground"
+        }
       }
     }
   ]

@@ -30,8 +30,10 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.api.data.spawns.SpawnCheck.Weather;
+import pokecube.api.data.spawns.matchers.Biomes;
 import pokecube.api.data.spawns.matchers.MatchChecker;
 import pokecube.api.data.spawns.matchers.StructureMatcher;
+import pokecube.api.data.spawns.matchers.Structures;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
@@ -67,12 +69,6 @@ public class SpawnBiomeMatcher
 
     public static final String SPAWNCOMMAND = "command";
 
-    public static final String PRESET = "preset";
-
-    public static final String ANDPRESET = "and_preset";
-    public static final String ORPRESET = "or_preset";
-    public static final String NOTPRESET = "not_preset";
-
     public static final SpawnBiomeMatcher ALLMATCHER;
     public static final SpawnBiomeMatcher NONEMATCHER;
 
@@ -84,6 +80,7 @@ public class SpawnBiomeMatcher
     {
         final SpawnRule orig = rule;
         rule = RULES.computeIfAbsent(rule.toString(), s -> orig.copy());
+        rule.loadMatchers();
         return MATCHERS.computeIfAbsent(rule, r -> new SpawnBiomeMatcher(r));
     }
 
@@ -169,7 +166,7 @@ public class SpawnBiomeMatcher
                 }
 
                 boolean noChildBiomes = m._or_children.isEmpty() && m._and_children.isEmpty();
-                noChildBiomes = noChildBiomes && m._validBiomes.isEmpty();
+                noChildBiomes = noChildBiomes && (m._validBiomes.isEmpty() || m._biomeMatchers.isEmpty());
                 if (noChildBiomes || s.clientBiomes.size() == reg.keySet().size()) s.clientBiomes.clear();
             }
             catch (Exception e)
@@ -195,6 +192,8 @@ public class SpawnBiomeMatcher
     }
 
     public static Set<TagKey<Biome>> SOFTBLACKLIST = Sets.newHashSet();
+
+    public static MatchChecker DEFAULT_MATERIAL = new pokecube.api.data.spawns.matchers.Material();
 
     private static boolean loadedIn = false;
 
@@ -229,9 +228,16 @@ public class SpawnBiomeMatcher
     {
     };
 
-    public MatchChecker _customChecks = new MatchChecker()
+    public List<MatchChecker> _allMatchers = new ArrayList<>();
+
+    public MatchChecker _compoundMatcher = new MatchChecker()
     {
     };
+
+    protected boolean _hasMaterialMatcher = false;
+
+    // Biomes are tracked separately for the checks needed in worldgen.
+    public List<Biomes> _biomeMatchers = new ArrayList<>();
 
     private boolean __client__ = false;
 
@@ -254,6 +260,7 @@ public class SpawnBiomeMatcher
 
     public boolean _parsed = false;
     public boolean _valid = true;
+    public boolean _usesMatchers = false;
 
     public MutableComponent _description = null;
 
@@ -327,6 +334,16 @@ public class SpawnBiomeMatcher
             return and_valid;
         }
         if (!this._or_children.isEmpty()) return or_valid;
+
+        // If we use a matcher, then it means we should have some for biomes,
+        // have those manually check here.
+        if (this._usesMatchers)
+        {
+            boolean valid = true;
+            for (var matcher : this._biomeMatchers) valid = valid && matcher.matches(biome);
+            return valid;
+        }
+
         if (this.getInvalidBiomes().stream().anyMatch(biome::is)) return false;
         if (this.getValidBiomes().stream().anyMatch(biome::is)) return true;
         if (SpawnBiomeMatcher.SOFTBLACKLIST.stream().anyMatch(biome::is)) return false;
@@ -377,6 +394,16 @@ public class SpawnBiomeMatcher
             return and_valid;
         }
         if (!this._or_children.isEmpty()) return or_valid;
+
+        // If we use a matcher, then it means we should have some for biomes,
+        // have those manually check here.
+        if (this._usesMatchers)
+        {
+            boolean valid = true;
+            for (var matcher : this._biomeMatchers) valid = valid && matcher.matches(biome);
+            return valid;
+        }
+
         if (this._blackListSubBiomes.stream().anyMatch(biome::equals)) return false;
         if (this._validSubBiomes.contains(BiomeType.ALL)) return true;
         if (this._validSubBiomes.stream().anyMatch(biome::equals)) return true;
@@ -399,11 +426,33 @@ public class SpawnBiomeMatcher
             or_valid = _or_children.stream().anyMatch(m -> m.matches(checker));
         }
         if (!or_valid) return false;
+        boolean andValid = true;
         if (!this._and_children.isEmpty())
         {
-            return _and_children.stream().allMatch(m -> m.matches(checker));
+            andValid = _and_children.stream().allMatch(m -> m.matches(checker));
         }
+        if (!andValid) return false;
         if (!this._or_children.isEmpty()) return or_valid;
+
+        // If we use a matcher, then it means we should have some for biomes,
+        // have those manually check here.
+        if (this._usesMatchers)
+        {
+            var result = this._compoundMatcher.matches(this, checker);
+            if (result == MatchResult.SUCCEED)
+            {
+                boolean subCondition = true;
+                for (final Predicate<SpawnCheck> c : this._additionalConditions) subCondition &= c.apply(checker);
+                if (!subCondition) return false;
+                boolean eventResult = !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
+                return eventResult;
+            }
+            return false;
+        }
+        // If we didn't have matchers, but also no spawn rules, then it means we
+        // passed entirely via the and/not/or presets above.
+        else if (this.spawnRule.values.isEmpty()) return true;
+
         if (!this.weatherMatches(checker)) return false;
         final boolean biome = this.biomeMatches(checker);
         if (!biome) return false;
@@ -494,7 +543,7 @@ public class SpawnBiomeMatcher
         if (checker.night && !this.night) return false;
         if (checker.dusk && !this.dusk) return false;
         if (checker.dawn && !this.dawn) return false;
-        if (_customChecks.matches(this, checker) != MatchResult.SUCCEED) return false;
+        if (_compoundMatcher.matches(this, checker) == MatchResult.FAIL) return false;
         if (!_validTerrain.contains(checker.terrain)) return false;
         final Material m = checker.material;
         final boolean isWater = m == Material.WATER;
@@ -574,14 +623,15 @@ public class SpawnBiomeMatcher
     private void createChildren()
     {
         SpawnRule spawnRule = this.spawnRule.copy();
-        if (spawnRule.values.containsKey(PRESET))
+        String key = spawnRule.preset;
+        if (!key.isBlank())
         {
-            String key = spawnRule.removeString(PRESET);
             SpawnRule preset = PRESETS.get(key);
             if (preset != null)
             {
                 preset = preset.copy();
                 preset.values.putAll(spawnRule.values);
+                preset.matchers.putAll(spawnRule.matchers);
                 spawnRule = preset;
             }
             else
@@ -590,58 +640,82 @@ public class SpawnBiomeMatcher
             }
         }
 
-        String or_presets = spawnRule.removeString(SpawnBiomeMatcher.ORPRESET);
-        String and_presets = spawnRule.removeString(SpawnBiomeMatcher.ANDPRESET);
-        String not_presets = spawnRule.removeString(SpawnBiomeMatcher.NOTPRESET);
+        String or_presets = spawnRule.or_preset;
+        String and_presets = spawnRule.and_preset;
+        String not_presets = spawnRule.not_preset;
 
-        if (or_presets != null)
+        if (!or_presets.isBlank())
         {
-            String[] args = or_presets.split(",");
-
             SpawnRule base = spawnRule.copy();
-            base.values.remove(SpawnBiomeMatcher.ORPRESET);
-            base.values.remove(PRESET);
-            if (!base.values.isEmpty())
+            base.or_preset = "";
+            base.preset = "";
+            check:
+            if (!base.values.isEmpty() || !base.matchers.isEmpty())
             {
                 _or_base = SpawnBiomeMatcher.get(base).setClient(__client__);
+                if (_or_base == this)
+                {
+                    PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                    break check;
+                }
                 _or_base.reset();
                 this._or_children.add(_or_base);
             }
 
+            String[] args = or_presets.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 SpawnRule rule = PRESETS.get(s);
+                check:
                 if (rule != null)
                 {
                     rule = rule.copy();
                     SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    if (child == this)
+                    {
+                        PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                        break check;
+                    }
                     child.reset();
                     this._or_children.add(child);
                 }
                 else if (!__client__) PokecubeAPI.LOGGER.error("No preset found for or_preset {} in {}", s, or_presets);
             }
         }
-        if (and_presets != null)
+        if (!and_presets.isBlank())
         {
-            String[] args = and_presets.split(",");
-
             SpawnRule base = spawnRule.copy();
-            base.values.remove(SpawnBiomeMatcher.ANDPRESET);
-            base.values.remove(PRESET);
+            base.and_preset = "";
+            base.preset = "";
+            check:
             if (!base.values.isEmpty())
             {
                 _and_base = SpawnBiomeMatcher.get(base).setClient(__client__);
+                if (_and_base == this)
+                {
+                    PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                    break check;
+                }
                 _and_base.reset();
                 this._and_children.add(_and_base);
             }
 
+            String[] args = and_presets.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 SpawnRule rule = PRESETS.get(s);
+                check:
                 if (rule != null)
                 {
                     rule = rule.copy();
                     SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    if (child == this)
+                    {
+                        PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                        break check;
+                    }
                     child.reset();
                     this._and_children.add(child);
                 }
@@ -649,16 +723,23 @@ public class SpawnBiomeMatcher
                     PokecubeAPI.LOGGER.error("No preset found for and_preset {} in {}", s, and_presets);
             }
         }
-        if (not_presets != null)
+        if (!not_presets.isBlank())
         {
             String[] args = not_presets.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 SpawnRule rule = PRESETS.get(s);
+                check:
                 if (rule != null)
                 {
                     rule = rule.copy();
                     SpawnBiomeMatcher child = SpawnBiomeMatcher.get(rule).setClient(__client__);
+                    if (child == this)
+                    {
+                        PokecubeAPI.LOGGER.error(this.spawnRule, new IllegalStateException("Cannot be own child"));
+                        break check;
+                    }
                     child.reset();
                     this._not_children.add(child);
                 }
@@ -678,7 +759,7 @@ public class SpawnBiomeMatcher
         if (validStructures != null)
         {
             final String[] args = validStructures.split(",");
-            for (final String s : args) this._validStructures.add(s);
+            for (final String s : args) this._validStructures.add(s.strip());
         }
         if (typeString != null)
         {
@@ -702,6 +783,7 @@ public class SpawnBiomeMatcher
             String[] args = typeBlacklistString.split(",");
             for (String s : args)
             {
+                s = s.strip();
                 if (BiomeDatabase.isBiomeTag(s))
                 {
                     TagKey<Biome> tag = TagKey.create(Registry.BIOME_REGISTRY,
@@ -747,13 +829,13 @@ public class SpawnBiomeMatcher
     {
         if (this._parsed || __client__) return;
 
-        if (this.spawnRule.values.isEmpty())
-            PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException());
+        if (!this.spawnRule.isValid())
+            PokecubeAPI.LOGGER.error("No rules found!", new IllegalArgumentException(this.spawnRule.toString()));
 
         SpawnRule spawnRule = this.spawnRule.copy();
-        if (spawnRule.values.containsKey(PRESET))
+        if (!spawnRule.preset.isBlank())
         {
-            SpawnRule preset = PRESETS.get(spawnRule.values.remove(PRESET));
+            SpawnRule preset = PRESETS.get(spawnRule.preset);
             if (preset != null)
             {
                 preset = preset.copy();
@@ -772,7 +854,7 @@ public class SpawnBiomeMatcher
         this._structs = new StructureMatcher()
         {
         };
-        this._customChecks = new MatchChecker()
+        this._compoundMatcher = new MatchChecker()
         {
         };
 
@@ -798,16 +880,38 @@ public class SpawnBiomeMatcher
             this._and_children.remove(_and_base);
         }
 
-        spawnRule.initMatchers();
-
-        for (var pair : spawnRule.matchers.entrySet())
+        spawnRule.loadMatchers();
+        // Auto-add structures from values
+        if (spawnRule.values.containsKey(STRUCTURES))
         {
-            var matcher = pair.getValue();
-            if (matcher instanceof MatchChecker _match) this._customChecks = this._customChecks.and(_match);
+            String structs = spawnRule.getString(STRUCTURES);
+            Structures match = new Structures();
+            match.names = structs;
+            spawnRule._matchers.add(match);
         }
-        this._customChecks.init();
+        if (spawnRule.values.containsKey(STRUCTURESBLACK))
+        {
+            String structs = spawnRule.getString(STRUCTURESBLACK);
+            Structures match = new Structures();
+            match.negate = true;
+            match.names = structs;
+            spawnRule._matchers.add(match);
+        }
 
-        if (this._or_children.size() > 0 || this._and_children.size() > 0)
+        if (!spawnRule._matchers.isEmpty())
+        {
+            for (var matcher : spawnRule._matchers)
+            {
+                this._compoundMatcher = this._compoundMatcher.and(matcher);
+                this._allMatchers.add(matcher);
+                if (matcher instanceof Biomes biomes) this._biomeMatchers.add(biomes);
+            }
+            this._compoundMatcher = this._compoundMatcher.and(_structs);
+            this._compoundMatcher.init();
+            this._usesMatchers = true;
+        }
+
+        if (this._or_children.size() > 0 || this._and_children.size() > 0 || this._usesMatchers)
         {
             boolean or_valid = this._or_children.size() > 0;
             boolean and_valid = this._and_children.size() > 0;
@@ -815,7 +919,7 @@ public class SpawnBiomeMatcher
             for (final SpawnBiomeMatcher child : this._and_children) and_valid = and_valid && child._valid;
             for (final SpawnBiomeMatcher child : this._or_children) or_valid = or_valid || child._valid;
 
-            this._valid = or_valid || and_valid;
+            this._valid = or_valid || and_valid || this._usesMatchers;
 
             if (!this._valid && SpawnBiomeMatcher.loadedIn && !__client__)
             {
@@ -824,6 +928,8 @@ public class SpawnBiomeMatcher
             this.initFields();
             return;
         }
+
+        PokecubeAPI.LOGGER.warn("Warning, Old format for spawn rules: " + this.spawnRule);
 
         // Lets deal with the weather checks
         String weather = spawnRule.getString(SpawnBiomeMatcher.WEATHER);
@@ -973,6 +1079,8 @@ public class SpawnBiomeMatcher
         if (this._and_children == null) this._and_children = new ArrayList<>();
         if (this._or_children == null) this._or_children = new ArrayList<>();
         if (this._not_children == null) this._not_children = new ArrayList<>();
+        if (this._allMatchers == null) this._allMatchers = new ArrayList<>();
+        if (this._biomeMatchers == null) this._biomeMatchers = new ArrayList<>();
 
         // Now lets ensure they are empty.
         this._validBiomes.clear();
@@ -985,6 +1093,8 @@ public class SpawnBiomeMatcher
         this._and_children.clear();
         this._or_children.clear();
         this._not_children.clear();
+        this._allMatchers.clear();
+        this._biomeMatchers.clear();
 
         minLight = 0;
         maxLight = 1;
@@ -996,6 +1106,7 @@ public class SpawnBiomeMatcher
         air = true;
         water = false;
 
+        this._usesMatchers = false;
         this._biomeHolderset = null;
 
         _validTerrain = ALL_TERRAIN;

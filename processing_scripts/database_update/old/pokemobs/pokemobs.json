@@ -59655,10 +59655,8 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "typesBlacklist": "cold",
-                "or_preset": "oceans,beaches"
-              }
+              "or_preset": "oceans,beaches",
+              "not_preset": "cold_areas"
             },
             "evoMoves": "gust",
             "model": {
@@ -59702,8 +59700,8 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "types": "#pokecube_mobs:vivillon_polar"
+              "matchers": {
+                "biome": {"biome_tags":"#pokecube_mobs:vivillon_polar"}
               }
             },
             "evoMoves": "gust",
@@ -59759,10 +59757,8 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
-              "values": {
-                "typesBlacklist": "cold,hot,mountain",
-                "or_preset": "plains,forests"
-              }
+              "or_preset": "plains,forests",
+              "not_preset": "cold_areas,hot_areas,mountains"
             },
             "evoMoves": "gust",
             "form_from": "vivillon_el",
