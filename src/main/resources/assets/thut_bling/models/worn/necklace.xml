@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ModelAnimator>
  <model>
-  <phase name="global" scale="1.15" offset="0,-1.125,0" rotation="x:-90,z:0"/>
+  <phase name="global" scale="1.15" offset="0,-1.13,0" rotation="x:-90,z:0"/>
   <material name="necklace" meshs="necklace" tex="textures/worn/necklace.png"/>
   <material name="necklace_back" meshs="necklace_back" tex="textures/worn/necklace_back.png"/>
   <material name="necklace_top" meshs="necklace_top" tex="textures/worn/necklace_top.png"/>

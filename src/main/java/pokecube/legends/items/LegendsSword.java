@@ -2,9 +2,7 @@ package pokecube.legends.items;
 
 import java.util.List;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
@@ -20,10 +18,11 @@ import thut.lib.TComponent;
 
 public class LegendsSword extends SwordItem
 {
-	String  tooltipname;
+	String tooltip_id;
 	boolean hasTooltip = true;
 	boolean hasShiny = false;
     Item isRepairItem;
+    int tooltipLineAmt = 0;
 
     public LegendsSword(final Tier material, final int bonusDamage, final float attackSpeed, Item repairItem, final Properties properties)
     {
@@ -38,7 +37,13 @@ public class LegendsSword extends SwordItem
 
     public LegendsSword setTooltipName(final String tooltipname)
     {
-        this.tooltipname = tooltipname;
+        this.tooltip_id = tooltipname;
+        return this;
+    }
+
+    public LegendsSword setTooltipExtraLine(final int tooltipExtraLineAmt)
+    {
+        this.tooltipLineAmt = tooltipExtraLineAmt;
         return this;
     }
 
@@ -59,10 +64,16 @@ public class LegendsSword extends SwordItem
             final TooltipFlag flagIn)
     {
         if (!this.hasTooltip) return;
-        String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", ChatFormatting.GOLD, ChatFormatting.BOLD, ChatFormatting.RESET);
-        else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        if (Screen.hasShiftDown())
+        {
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
+            {
+                tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                lineAmt++;
+            }
+        }
+        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     @Override

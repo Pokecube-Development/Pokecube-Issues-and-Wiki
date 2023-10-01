@@ -2,9 +2,7 @@ package pokecube.legends.items.tools;
 
 import java.util.List;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
@@ -19,21 +17,29 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.legends.items.LegendsSword;
 import thut.lib.TComponent;
 
 public class ZamazentaShieldItem extends ShieldItem {
 
     public final Tier tier;
-	String  tooltipname;
+	String tooltip_id;
     boolean hasTooltip = false;
+    int tooltipLineAmt = 0;
 
 	public ZamazentaShieldItem(final Tier material, final String name, final Properties properties) {
 		super(properties);
 		DispenserBlock.registerBehavior(this, ArmorItem.DISPENSE_ITEM_BEHAVIOR);
         this.tier = material;
 		this.hasTooltip = true;
-        this.tooltipname = name;
+        this.tooltip_id = name;
 	}
+
+    public ZamazentaShieldItem setTooltipExtraLine(final int tooltipExtraLineAmt)
+    {
+        this.tooltipLineAmt = tooltipExtraLineAmt;
+        return this;
+    }
 
 	@Override
     public String getDescriptionId(final ItemStack stack) {
@@ -68,9 +74,15 @@ public class ZamazentaShieldItem extends ShieldItem {
          final TooltipFlag flagIn)
     {
         if (!this.hasTooltip) return;
-        String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltipname + ".tooltip", ChatFormatting.GOLD, ChatFormatting.BOLD, ChatFormatting.RESET);
-        else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        if (Screen.hasShiftDown())
+        {
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
+            {
+                tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                lineAmt++;
+            }
+        }
+        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 }
