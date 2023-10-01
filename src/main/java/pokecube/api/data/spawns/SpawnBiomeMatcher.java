@@ -444,10 +444,14 @@ public class SpawnBiomeMatcher
                 boolean subCondition = true;
                 for (final Predicate<SpawnCheck> c : this._additionalConditions) subCondition &= c.apply(checker);
                 if (!subCondition) return false;
-                return !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
+                boolean eventResult = !MinecraftForge.EVENT_BUS.post(new SpawnCheckEvent.Check(this, checker));
+                return eventResult;
             }
             return false;
         }
+        // If we didn't have matchers, but also no spawn rules, then it means we
+        // passed entirely via the and/not/or presets above.
+        else if (this.spawnRule.values.isEmpty()) return true;
 
         if (!this.weatherMatches(checker)) return false;
         final boolean biome = this.biomeMatches(checker);
