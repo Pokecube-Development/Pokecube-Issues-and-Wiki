@@ -1,0 +1,32 @@
+{
+  "rules":[
+    {
+      "preset":"in_water",
+      "matchers":{
+        "material":{
+          "type":"minecraft:water"
+        }
+      }
+    },
+    {
+      "preset":"in_air",
+      "matchers":{
+        "material":{
+          "type":"air"
+        }
+      }
+    },
+    {
+      "preset":"in_lava",
+      "matchers":{
+        "material":{
+          "type":"minecraft:lava"
+        }
+      }
+    },
+    {
+      "preset":"in_water_or_air",
+      "or_preset": "in_water,in_air"
+    }
+  ]
+}

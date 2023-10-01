@@ -640,6 +640,8 @@ public class LogicMiscUpdate extends LogicBase
         {
             transients.add("blink");
         }
+        else transients.remove("blink");
+        
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();

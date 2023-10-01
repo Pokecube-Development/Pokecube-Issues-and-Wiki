@@ -18,7 +18,7 @@ import thut.lib.CompatParser.ClassFinder;
 public class MatcherLoaders
 {
     private static Set<Package> packages = Sets.newHashSet();
-    public static Map<String, Class<?>> matchClasses = new HashMap<>();
+    public static Map<String, Class<? extends MatchChecker>> matchClasses = new HashMap<>();
 
     public static void registerMatcherPackage(Package pack)
     {
@@ -30,6 +30,7 @@ public class MatcherLoaders
         registerMatcherPackage(MatcherLoaders.class.getPackage());
     }
 
+    @SuppressWarnings("unchecked")
     public static void init()
     {
         List<Class<?>> foundClasses = Lists.newArrayList();
@@ -63,7 +64,7 @@ public class MatcherLoaders
                 final MatcherFunction details = candidateClass.getAnnotation(MatcherFunction.class);
                 if (details == null) continue;
                 String key = details.name();
-                matchClasses.put(key, candidateClass);
+                matchClasses.put(key, (Class<? extends MatchChecker>) candidateClass);
             }
         }
         catch (Exception e)

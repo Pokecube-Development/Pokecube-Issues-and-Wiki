@@ -31,7 +31,7 @@ public abstract class Progress extends WatchPage
     {
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2; //+80
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2; //+30
-        int dy = 43;
+        int dy = 50;
         final int dx = 130;
         final int colour = 0x55FF55;
         for (final String s : this.lines)

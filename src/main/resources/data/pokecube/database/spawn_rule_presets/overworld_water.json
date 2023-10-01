@@ -1,65 +1,71 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "river_water",
-        "types": "#minecraft:is_river",
-        "air": "false",
-        "and_preset": "overworld"
+      "preset":"river_water",
+      "and_preset":"overworld,in_water",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_river"
+        }
       }
     },
     {
-      "values": {
-        "preset": "lake_water",
-        "types": "lake",
-        "air": "false",
-        "and_preset": "overworld"
+      "preset":"lake_water",
+      "and_preset":"overworld,in_water",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"lake"
+        }
       }
     },
     {
-      "values": {
-        "preset": "beach_water",
-        "types": "#pokecube_world:is_beach",
-        "air": "false",
-        "and_preset": "overworld"
+      "preset":"beach_water",
+      "and_preset":"overworld,in_water",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_world:is_beach"
+        }
       }
     },
     {
-      "values": {
-        "preset": "ocean_water",
-        "types": "#minecraft:is_ocean",
-        "air": "false",
-        "and_preset": "overworld"
+      "preset":"ocean_water",
+      "and_preset":"overworld,in_water",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_ocean"
+        }
       }
     },
     {
-      "values": {
-        "preset": "cave_water",
-        "types": "cavewater",
-        "air": "false",
-        "and_preset": "overworld"
+      "preset":"cave_water",
+      "and_preset":"overworld,in_water",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"cavewater"
+        }
       }
     },
     {
-      "values": {
-        "preset": "swamp_water",
-        "types": "#forge:is_swamp",
-        "air": "false",
-        "and_preset": "overworld"
+      "preset":"swamp_water",
+      "and_preset":"overworld,in_water",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_swamp"
+        }
       }
     },
     {
-      "values": {
-        "preset": "cave_lake_shore",
-        "types": "cavewater",
-        "and_preset": "overworld"
+      "preset":"cave_lake_shore",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"cavewater"
+        }
       }
     },
     {
-      "values": {
-        "preset": "any_water",
-        "or_preset": "ocean_water,beach_water,lake_water,river_water,cave_water"
-      }
+      "preset":"any_water",
+      "or_preset":"ocean_water,beach_water,lake_water,river_water,cave_water"
     }
   ]
 }
