@@ -5,6 +5,8 @@ import java.util.function.Consumer;
 
 import org.lwjgl.glfw.GLFW;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
@@ -12,6 +14,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.commandhandlers.TeleportHandler;
 import pokecube.core.client.gui.helper.INotifiedEntry;
@@ -47,9 +50,7 @@ public class TeleportsPage extends ListPage<TeleOption>
             this.offsetY = offsetY;
             this.guiHeight = height;
             this.parent = parent;
-
-            // TODO: Fix tooltips
-            this.confirm = new Button.Builder(TComponent.literal("Y"), (b) -> {
+            this.confirm = new Button.Builder(TComponent.literal("Y"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 // Send packet for removal server side
                 PacketPokedex.sendRemoveTelePacket(this.dest.index);
@@ -57,50 +58,50 @@ public class TeleportsPage extends ListPage<TeleOption>
                 TeleportHandler.unsetTeleport(this.dest.index, this.parent.watch.player.getStringUUID());
                 // Update the list for the page.
                 this.parent.initList();
-            })/*.tooltip((b, graphics, x, y) -> {
+            })/*, (b, pose, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.delete.confirm.desc");
-                GuiGraphics.renderTooltip(graphics, tooltip, x, y);
-            })*/.bounds(0, 0, 10, 10).build();
-
-            this.delete = new Button.Builder(TComponent.literal("X"), (b) -> {
+                parent.renderTooltip(pose, tooltip, x, y);
+            });*/.bounds(0, 0, 10, 10).build();
+            
+            this.delete = new Button.Builder(TComponent.literal("x"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.confirm.active = !this.confirm.active;
-            })/*.tooltip((b, graphics, x, y) -> {
+            })/*, (b, pose, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.delete.start.desc");
-                parent.renderTooltip(graphics, tooltip, x, y);
-            })*/.bounds(0, 0, 10, 10).build();
-
+                parent.renderTooltip(pose, tooltip, x, y);
+            });*/.bounds(0, 0, 10, 10).build();
+            
             this.delete.setFGColor(0xFFFF0000);
             this.confirm.active = false;
-
-            this.moveUp = new Button.Builder(TComponent.literal("\u21e7"), (b) -> {
+            
+            this.moveUp = new Button.Builder(TComponent.literal("\u21e7"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index - 1);
                     // Update the list for the page.
                     this.parent.initList();
                 });
-            })/*.tooltip((b, graphics, x, y) -> {
+            })/*, (b, pose, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.move.up.desc");
-                parent.renderTooltip(graphics, tooltip, x, y);
-            })*/.bounds(0, 0, 10, 10).build();
-
-            this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), (b) -> {
+                parent.renderTooltip(pose, tooltip, x, y);
+            });*/.bounds(0, 0, 10, 10).build();
+            		
+            this.moveDown = new Button.Builder(TComponent.literal("\u21e9"), b -> {
                 b.playDownSound(this.mc.getSoundManager());
                 this.parent.scheduleUpdate(() -> {
                     PacketPokedex.sendReorderTelePacket(this.dest.index, this.dest.index + 1);
                     // Update the list for the page.
                     this.parent.initList();
                 });
-            })/*.tooltip((b, graphics, x, y) -> {
+            })/*, (b, pose, x, y) -> {
                 if (!b.active) return;
                 Component tooltip = TComponent.translatable("pokecube.gui.move.down.desc");
-                parent.renderTooltip(graphics, tooltip, x, y);
-            })*/.bounds(0, 0, 10, 10).build();
-
+                parent.renderTooltip(pose, tooltip, x, y);
+            });*/.bounds(0, 0, 10, 10).build();
+            
             this.moveUp.active = dest.index != 0;
             this.moveDown.active = dest.index != parent.locations.size() - 1;
 
@@ -176,8 +177,8 @@ public class TeleportsPage extends ListPage<TeleOption>
 
         @Override
         public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
-                           final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
-                           final float partialTicks)
+                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+                final float partialTicks)
         {
             this.delete.visible = true;
             this.confirm.visible = true;
@@ -218,8 +219,8 @@ public class TeleportsPage extends ListPage<TeleOption>
         this.locations = TeleportHandler.getTeleports(this.watch.player.getStringUUID());
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 55;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = 90;
-        final int width = 146;
+        final int height = 100; //90
+        final int width = 150; //146
         this.list = new ScrollGui<>(this, this.minecraft, width, height, 10, offsetX, offsetY);
         for (final TeleDest d : this.locations)
         {
