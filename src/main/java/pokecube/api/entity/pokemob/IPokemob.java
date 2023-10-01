@@ -586,9 +586,14 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     IPokemob setForSpawn(int exp, boolean evolve);
 
-    default void setHeldItem(final ItemStack stack)
+    default void setHeldItem(ItemStack stack)
     {
         this.getInventory().setItem(1, stack);
+    }
+
+    default ItemStack onHeldItemChanged(ItemStack newStack)
+    {
+        return newStack;
     }
 
     /**
