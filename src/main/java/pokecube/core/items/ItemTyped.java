@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +33,6 @@ public class ItemTyped extends Item
     public void appendHoverText(ItemStack stack, @Nullable Level playerIn, List<Component> list,
             TooltipFlag advanced)
     {
-        list.add(TComponent.literal(this.type));
+        list.add(TComponent.literal(this.type).withStyle(ChatFormatting.GRAY));
     }
 }
