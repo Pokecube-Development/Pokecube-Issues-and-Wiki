@@ -592,6 +592,7 @@ public class TrainerEventHandler
     {
         final boolean isPlayerOrUnknown = evt.owner == null || evt.players;
         if (isPlayerOrUnknown) return;
+        if (PokecubeMod.fakeUUID.equals(evt.owner)) return;
         // This prevents the cube from ending up on the ground when recalled
         evt.setCanceled(true);
     }

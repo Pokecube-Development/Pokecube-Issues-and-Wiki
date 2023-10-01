@@ -193,7 +193,7 @@ public class PokecubeManager
         float maxHP = mob.getMaxHealth();
         if (pokemob != null)
         {
-            pokemob.revive();
+            pokemob.revive(true);
             maxHP = pokemob.getStat(Stats.HP, false);
         }
         mob.hurtTime = 0;

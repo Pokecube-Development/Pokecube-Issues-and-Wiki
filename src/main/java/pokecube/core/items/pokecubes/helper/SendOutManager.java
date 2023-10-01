@@ -100,7 +100,10 @@ public class SendOutManager
         final boolean hasMob = mob != null;
         final boolean hasPokemob = pokemob != null;
         final boolean isPlayers = cube.shootingEntity instanceof ServerPlayer
-                && !(cube.shootingEntity instanceof FakePlayer);
+                && !(cube.shootingEntity instanceof FakePlayer) || hasPokemob && pokemob.isPlayerOwned();
+
+        if (!isPlayers && (mob instanceof LivingEntity living && living.getHealth() <= 0)) return null;
+
         final ServerPlayer user = isPlayers ? (ServerPlayer) cube.shootingEntity : null;
         final boolean checkPerms = isPlayers && hasPokemob;
         boolean hasPerms = true;
