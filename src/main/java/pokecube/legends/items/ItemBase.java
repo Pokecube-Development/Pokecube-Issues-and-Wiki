@@ -2,9 +2,7 @@ package pokecube.legends.items;
 
 import java.util.List;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,30 +17,48 @@ import thut.lib.TComponent;
 
 public class ItemBase extends Item
 {
-    String tooltip_block_id;
+    String tooltip_id;
     boolean hasTooltip = false;
     boolean hasShiny = false;
+    int tooltipLineAmt = 0;
 
     // Info
-    public ItemBase(final String name, final CreativeModeTab tab, final int maxStackSize)
+    public ItemBase(final String tooltipName, final CreativeModeTab tab, final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
         this.hasTooltip = true;
-        this.tooltip_block_id = name;
+        this.tooltip_id = tooltipName;
+    }
+
+    public ItemBase(final String tooltipName, final int tooltipExtraLineAmt, final CreativeModeTab tab, final int maxStackSize)
+    {
+        super(new Properties().tab(tab).stacksTo(maxStackSize));
+        this.hasTooltip = true;
+        this.tooltip_id = tooltipName;
+        this.tooltipLineAmt = tooltipExtraLineAmt;
+    }
+
+    public ItemBase(final String tooltipName, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
+                    final int maxStackSize)
+    {
+        super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
+        this.tooltip_id = tooltipName;
+        this.hasTooltip = true;
+    }
+
+    public ItemBase(final String tooltipName, final int tooltipExtraLineAmt, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
+                    final int maxStackSize)
+    {
+        super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
+        this.tooltip_id = tooltipName;
+        this.hasTooltip = true;
+        this.tooltipLineAmt = tooltipExtraLineAmt;
     }
 
     // No Info
     public ItemBase(final CreativeModeTab tab, final int maxStackSize)
     {
         super(new Properties().tab(tab).stacksTo(maxStackSize));
-    }
-
-    public ItemBase(final String name, final CreativeModeTab tab, final Rarity rarity, final FoodProperties food,
-            final int maxStackSize)
-    {
-        super(new Properties().tab(tab).stacksTo(maxStackSize).rarity(rarity).food(food));
-        this.tooltip_block_id = name;
-        this.hasTooltip = true;
     }
 
     public ItemBase(final CreativeModeTab tab, final int maxStackSize, final FoodProperties food)
@@ -70,10 +86,15 @@ public class ItemBase extends Item
             final TooltipFlag flagIn)
     {
         if (!this.hasTooltip) return;
-        String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_block_id + ".tooltip", ChatFormatting.GOLD,
-                ChatFormatting.BOLD, ChatFormatting.RESET).translateEscapes();
-        else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        if (Screen.hasShiftDown())
+        {
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            for (int lineAmt = 1; lineAmt <= tooltipLineAmt;)
+            {
+                tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line" + lineAmt));
+                lineAmt++;
+            }
+        }
+        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 }
