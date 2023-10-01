@@ -11,7 +11,6 @@ import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.ClickEvent;
@@ -106,16 +105,16 @@ public class WikiPage extends ListPage<LineEntry>
         final int y = this.watch.height / 2 - 5;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 94, y - 70, 12, 12, next, b -> {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 64, y - 75, 12, 12, next, b -> {
             this.index++;
             this.setList();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 94, y - 70, 12, 12, prev, b -> {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 69, y - 75, 12, 12, prev, b -> {
             this.index--;
             this.setList();
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
         this.setList();
-
+        
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
     }
@@ -124,11 +123,6 @@ public class WikiPage extends ListPage<LineEntry>
     public void renderBackground(final PoseStack matrixStack)
     {
         super.renderBackground(matrixStack);
-
-        final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2;
-        final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        GuiComponent.fill(matrixStack, offsetX + 55, offsetY + 30, offsetX + 200, offsetY + 120, 0xFFFDF8EC);
-
     }
 
     private void setList()
@@ -141,11 +135,12 @@ public class WikiPage extends ListPage<LineEntry>
         books.sort((o1, o2) -> o1.key.compareTo(o2.key));
         final int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 70;
         final int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = 85; // 100
+        final int height = 90; // 100
 
         if (this.list != null) this.children.remove(this.list);
 
-        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.lineHeight + 2, offsetX - 5, offsetY);
+        this.list = new ScrollGui<>(this, this.minecraft, 135, height, this.font.lineHeight + 2, offsetX - 40, offsetY + 18);
+        // x - 5 / y
         if (books.isEmpty()) return;
         if (this.index < 0) this.index = books.size() - 1;
         if (this.index >= books.size()) this.index = 0;

@@ -15,9 +15,9 @@
 	<material name="Glow" light="1" transluscent="false" shader="alpha_shader"/>
 	<material name="Eye" light="1" transluscent="false" shader="alpha_shader"/>
 	<customTex default="walking_wake">
-     <part name="Eye" tex="walking-wake_eye"/>
+     <part name="Eye" tex="walking_wake_eye"/>
      <animation diffs="0,0.5" part="Eye" trigger="random:0.005:2"/>
-	 <part name="Glow" tex="walking-wake"/>
+	 <part name="Glow" tex="walking_wake"/>
     </customTex>
 	<phase type="sitting">
 		<part name="body">

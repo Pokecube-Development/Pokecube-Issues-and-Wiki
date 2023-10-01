@@ -29,8 +29,8 @@ import thut.lib.TComponent;
 
 public class Description extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_desc");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_desc_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_desc");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_desc_nm");
 
     final PokemobInfoPage parent;
 
@@ -50,7 +50,7 @@ public class Description extends ListPage<LineEntry>
             final int x = this.watch.width / 2 + 10;
             final int y = this.watch.height / 2 + 22;
             final Component check_conditions = TComponent.translatable("pokewatch.capture.check");
-            final TexButton button = this.addRenderableWidget(new TexButton(x, y, 100, 12, check_conditions, b -> {
+            final TexButton button = this.addRenderableWidget(new TexButton(x+2, y+15, 100, 12, check_conditions, b -> {
                 PacketPokedex.sendCaptureCheck(e);
             }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(0, 72, 100, 12)));
             button.setFGColor(0x444444);
@@ -81,9 +81,9 @@ public class Description extends ListPage<LineEntry>
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
 
-        final int height = this.font.lineHeight * 8;
-        final int dx = 49;
-        final int dy = -1;
+        final int height = this.font.lineHeight * 9; //8
+        final int dx = 51; //49
+        final int dy = 10; //-1
         offsetY += dy;
         offsetX += dx;
 

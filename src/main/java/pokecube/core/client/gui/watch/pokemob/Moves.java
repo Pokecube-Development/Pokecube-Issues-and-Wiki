@@ -30,8 +30,8 @@ import thut.lib.TComponent;
 
 public class Moves extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_moves");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_moves_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_moves");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_moves_nm");
 
     private int[][] moveOffsets;
 
