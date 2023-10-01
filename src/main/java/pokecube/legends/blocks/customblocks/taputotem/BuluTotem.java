@@ -15,7 +15,8 @@ import pokecube.legends.PokecubeLegends;
 import pokecube.legends.blocks.customblocks.TapuBuluCore;
 import thut.api.item.ItemList;
 
-public class BuluTotem extends TapuBuluCore{
+public class BuluTotem extends TapuBuluCore
+{
 
 	public BuluTotem(final Properties props) {
 		super(props);

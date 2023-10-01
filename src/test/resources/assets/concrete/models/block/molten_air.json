@@ -1,7 +1,7 @@
 {
-  "parent": "minecraft:block/cube_all",
+  "parent": "minecraft:block/cross",
   "render_type": "cutout_mipped",
   "textures": {
-    "all": "concrete:block/molten_air"
+    "cross": "concrete:block/molten_air"
   }
 }

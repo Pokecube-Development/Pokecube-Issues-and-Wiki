@@ -30,7 +30,6 @@ import thut.api.block.flowing.SolidBlock;
 public abstract class ConcreteBlock extends SolidBlock implements IDyedBlock
 {
     public static final Map<DyeColor, Block> VANILLA = Maps.newHashMap();
-    public static final Map<Block, DyeColor> VANILLAREV = Maps.newHashMap();
 
     static
     {
@@ -40,7 +39,6 @@ public abstract class ConcreteBlock extends SolidBlock implements IDyedBlock
             @SuppressWarnings("deprecation")
             Block b = BuiltInRegistries.BLOCK.get(new ResourceLocation(name));
             VANILLA.put(c, b);
-            VANILLAREV.put(b, c);
         }
     }
 

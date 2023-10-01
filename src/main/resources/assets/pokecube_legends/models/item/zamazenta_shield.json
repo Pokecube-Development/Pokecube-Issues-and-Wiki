@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+    "gui_light": "front",
 	"texture_size": [32, 32],
 	"textures": {
 		"particle": "pokecube_legends:item/zamazenta_shield/shield",

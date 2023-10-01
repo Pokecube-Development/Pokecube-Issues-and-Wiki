@@ -36,6 +36,7 @@ public class ConfigHandler extends ConfigData
             "{\"struct\":\"#minecraft:on_ocean_explorer_maps\",\"subbiome\":\"monument\"}"
             );
     //@formatter:on
+
     @Configure(category = WORLD, comment = "Does a blanket \"plant material\" check for cuttable and edible plants, rather than relying entirely on the block tags. [Default: true]")
     public boolean autoPopulateLists = true;
 
