@@ -445,7 +445,7 @@ public class ItemInit
         GALARCUFF = PokecubeLegends.ITEMS.register("galarcuff", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
         GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard",
-                () -> new ItemBase("gigantic_shard", 1, PokecubeItems.TAB_ITEMS, 1).setShiny());
+                () -> new ItemBase("gigantic_shard", PokecubeItems.TAB_ITEMS, 1).setShiny());
         PDARK = PokecubeLegends.ITEMS.register("pdark",
                 () -> new ItemBase("pdark", 1, PokecubeItems.TAB_ITEMS, 1));
         PWATER = PokecubeLegends.ITEMS.register("pwater",
@@ -453,7 +453,7 @@ public class ItemInit
         REINS_U = PokecubeLegends.ITEMS.register("reins_u",
                 () -> new ItemBase("reins_u", 1, PokecubeItems.TAB_ITEMS, 1));
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece",
-                () -> new ItemBase("wishing_piece", 1, PokecubeItems.TAB_ITEMS, 1));
+                () -> new ItemBase("wishing_piece", PokecubeItems.TAB_ITEMS, 1));
 
         RAINBOW_SWORD = PokecubeLegends.ITEMS.register("rainbow_sword",
                 () -> new RainbowSword(ItemTiers.RAINBOW_WING, PokecubeItems.TAB_ITEMS, 2, -2.4F));
