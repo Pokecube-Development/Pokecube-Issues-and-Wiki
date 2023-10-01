@@ -65,9 +65,12 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
             final TooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("pokecube_legends." + this.infoName +".tooltip", ChatFormatting.GOLD, ChatFormatting.RESET);
-        else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+		if (Screen.hasShiftDown())
+		{
+			tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));
+			tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip.line1"));
+		}
+		else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     // Precise selection box

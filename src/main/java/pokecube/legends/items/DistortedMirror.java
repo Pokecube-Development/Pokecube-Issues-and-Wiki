@@ -39,7 +39,7 @@ public class DistortedMirror extends ItemBase
             final TooltipFlag flagIn)
     {
         String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_block_id + ".tooltip");
+        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_id + ".tooltip");
         else message = I18n.get("pokecube.tooltip.advanced");
         tooltip.add(TComponent.translatable(message));
     }

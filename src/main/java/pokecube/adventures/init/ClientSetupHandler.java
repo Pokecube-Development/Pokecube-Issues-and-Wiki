@@ -6,6 +6,7 @@ import java.util.Set;
 
 import com.mojang.blaze3d.platform.InputConstants;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -116,7 +117,7 @@ public class ClientSetupHandler
                     {
                         ResourceLocation id = new ResourceLocation(modelTag.getString("id"));
                         final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
-                        evt.getToolTip().add(type.getDescription());
+                        evt.getToolTip().add(1, type.getDescription().copy().withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
                     }
                     else if (blockTag.contains("ForgeCaps"))
                     {
@@ -128,7 +129,7 @@ public class ClientSetupHandler
                             {
                                 ResourceLocation id = new ResourceLocation(capsTag.getString("id"));
                                 final EntityType<?> type = ForgeRegistries.ENTITY_TYPES.getValue(id);
-                                evt.getToolTip().add(type.getDescription());
+                                evt.getToolTip().add(1, type.getDescription().copy().withStyle(ChatFormatting.GOLD).withStyle(ChatFormatting.BOLD));
                             }
                         }
                     }
