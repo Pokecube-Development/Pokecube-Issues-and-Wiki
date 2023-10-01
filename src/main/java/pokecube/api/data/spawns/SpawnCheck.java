@@ -1,20 +1,23 @@
 package pokecube.api.data.spawns;
 
+import java.util.Set;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.utils.TimePeriod;
 import pokecube.mixin.accessors.WorldGenRegionAccessor;
 import pokecube.world.terrain.PokecubeTerrainChecker;
+import thut.api.level.structures.NamedVolumes.INamedStructure;
 import thut.api.level.terrain.BiomeType;
 import thut.api.level.terrain.ITerrainProvider;
 import thut.api.level.terrain.TerrainManager;
@@ -73,14 +76,20 @@ public class SpawnCheck
     public final boolean night;
     public final BlockState state;
     public final float light;
+    public final float time;
     public final Holder<Biome> biome;
+    public final BlockState blockState;
+    public final FluidState fluid;
     public final BiomeType type;
     public final Weather weather;
     public final TerrainType terrain;
     public final boolean thundering;
-    public final LevelAccessor world;
+    public final ServerLevelAccessor world;
     public final ChunkAccess chunk;
     public final BlockPos pos;
+    // These are only looked up if needed, but then cached for further uses of
+    // the spawnCheck
+    public Set<INamedStructure> namedStructures = null;
 
     public SpawnCheck(final Vector3 location, final ServerLevelAccessor world)
     {
@@ -94,7 +103,9 @@ public class SpawnCheck
         this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);
         this.type = t.getBiome(location);
-        final double time = TimePeriod.getTime(level);
+        this.time = (float) TimePeriod.getTime(level);
+        this.blockState = location.getBlockState(world);
+        this.fluid = world.getFluidState(location.getPos());
         final int lightBlock = world.getMaxLocalRawBrightness(location.getPos());
         this.light = lightBlock / 15f;
         this.weather = Weather.getForWorld(level, location);

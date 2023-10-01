@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
@@ -55,31 +56,29 @@ public abstract class PokeInfoPage extends WatchPage
         final int y = this.watch.height / 2 - 3;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
-        final Component form = TComponent.literal("\u2500");
-        final Component cry = TComponent.literal("\u266B");
-
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, (b) -> {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton.Builder(next, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
-        }).bounds(x - 66, y + 35, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(212, 0, 12, 20)).build());
-
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, (b) -> {
+        }).bounds(x - 28, y - 30, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
+        		.setRender(new UVImgRender(212, 0, 12, 20)).build());
+        
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton.Builder(prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
             PacketPokedex.selectedMob.clear();
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.level());
             this.parent.initPages(this.parent.pokemob);
-        }).bounds(x - 96, y + 35, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(212, 0, 12, 20)).build());
-
-        final TexButton formBtn = this.addRenderableWidget(new TexButton.Builder(form, (b) -> {
-            // Cycle Form, only if not a real mob
+        }).bounds(x - 115, y - 30, 12, 20).setTexture(GuiPokeWatch.getWidgetTex())
+        		.setRender(new UVImgRender(212, 0, 12, 20)).build());
+        
+        //Change Forms
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> { 
+        	 // Cycle Form only if not a real mob
             if (this.parent.pokemob.getEntity().isAddedToWorld()) return;
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             FormeHolder holder = null;
@@ -106,18 +105,16 @@ public abstract class PokeInfoPage extends WatchPage
             // This ensures the textures/etc are reset to account for the new
             // model holder.
             this.parent.pokemob.onGenesChanged();
-        }).bounds(x - 85, y + 35, 20, 10).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(224, 0, 20, 10)).build());
-
-        final TexButton cryBtn = this.addRenderableWidget(new TexButton.Builder(cry, (b) -> {
+        }).bounds(x - 71, y + 43, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
+        		.setRender(new UVImgRender(241, 72, 12, 12)).build());
+        
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
-        }).bounds(x - 85, y + 45, 20, 10).setTexture(GuiPokeWatch.getWidgetTex())
-                .setRender(new UVImgRender(224, 0, 20, 10)).build());
-
+        }).bounds(x - 93, y + 43, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
+        		.setRender(new UVImgRender(229, 72, 12, 12)).build());
+        
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
-        formBtn.setFGColor(0x444444);
-        cryBtn.setFGColor(0x444444);
     }
 
     @Override

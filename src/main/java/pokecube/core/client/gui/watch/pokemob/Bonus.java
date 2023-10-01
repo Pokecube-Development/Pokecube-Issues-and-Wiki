@@ -14,8 +14,8 @@ import thut.lib.TComponent;
 
 public class Bonus extends PokeInfoPage
 {
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_battle");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_battle_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_battle");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_battle_nm");
 
     int last = 0;
     final PokemobInfoPage parent;
@@ -39,36 +39,36 @@ public class Bonus extends PokeInfoPage
     // Your Pokemob
     private void drawInfo(final GuiGraphics graphics, final int x, final int y)
     {
-        final int offsetX = 120; // -52
+        final int offsetX = 120;
         int dx = 20 + offsetX;
 
         // Draw ability, Happiness and Size
         final String ability = this.parent.pokemob.getAbilityName();
         final Nature nature = this.parent.pokemob.getNature();
-        dx = 145; // 55
-        int dy = 40; // 25
+        dx = 145;
+        int dy = 40;
 
-        final int abilitycolour = GuiPokeWatch.nightMode ? 0x444444 : 0x444444;
-        final int sizeColour = GuiPokeWatch.nightMode ? 0x444444 : 0x444444;
-        final int natureColour = GuiPokeWatch.nightMode ? 0x444444 : 0x444444;
+        final int abilitycolour = 0x000080;
+        final int sizeColour = 0x333333;
+        final int natureColour = 0x9ACD32;
 
         // Draw ability
         if (!ability.isEmpty())
         {
             final String abilityName = I18n.get(ability);
-            graphics.drawString(font, abilityName, x + dx, y + dy, abilitycolour, false);
+            graphics.drawString(font, I18n.get("pokewatch.ability", abilityName), x + dx, y + dy, abilitycolour);
         }
         final int happiness = this.parent.pokemob.getHappiness();
         MutableComponent message = TComponent.literal("");
 
         // Draw size
-        dy += 10; // 50
+        dy += 15; // 50 //10
         message = TComponent.translatable("pokewatch.size", "%.2f".formatted(this.parent.pokemob.getSize()));
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
         this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
 
         // Draw Nature
-        dy += 11; // 50
+        dy += 14; // 50 //11
         if (nature != null)
         {
             message = TComponent.translatable("pokewatch.nature", this.parent.pokemob.getNature());
@@ -84,9 +84,9 @@ public class Bonus extends PokeInfoPage
         if (happiness > 199) message = TComponent.translatable("pokemob.info.happy5");
         if (happiness > 254) message = TComponent.translatable("pokemob.info.happy6");
         // Draw Happiness
-        dy += 16; // 50
+        dy += 19; // 50 //16
         this.splitRenderer = MultiLineLabel.create(this.fontRender, message, 100);
-        this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, abilitycolour);
+        this.splitRenderer.renderLeftAlignedNoShadow(graphics, x + dx, y + dy, 12, sizeColour);
     }
 
     @Override

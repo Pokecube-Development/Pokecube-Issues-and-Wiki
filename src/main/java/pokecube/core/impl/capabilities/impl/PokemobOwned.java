@@ -388,11 +388,20 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {
         if (ThutCore.proxy.isServerSide())
         {
+            this.dataSync().set(this.params.HELDITEMDW, itemStack);
+        }
+        super.setHeldItem(itemStack);
+    }
+    
+    @Override
+    public ItemStack onHeldItemChanged(ItemStack itemStack)
+    {
+        if (ThutCore.proxy.isServerSide())
+        {
             ItemStack oldStack = this.getHeldItem();
             // If we have a cache of last held, swap over to that.
             if (!_lastHeld.isEmpty()) oldStack = _lastHeld;
             this.getPokedexEntry().onHeldItemChange(oldStack, itemStack, this);
-            super.setHeldItem(itemStack);
             this.dataSync().set(this.params.HELDITEMDW, itemStack);
             // Now check if we need to cancel any mega evolutions, etc.
             // megaRevert handles checking if we are mega evolved, etc
@@ -400,6 +409,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             // Copy the item over as the actual item gets invalidated.
             _lastHeld = itemStack.copy();
         }
+        return itemStack;
     }
 
     @Override

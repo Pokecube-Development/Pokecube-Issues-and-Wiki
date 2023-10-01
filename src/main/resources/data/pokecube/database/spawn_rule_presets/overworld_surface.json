@@ -1,155 +1,192 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "forests",
-        "types": "#minecraft:is_forest",
-        "and_preset": "overworld"
+      "preset":"forests",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_forest"
+        }
       }
     },
     {
-      "values": {
-        "preset": "taigas",
-        "types": "#minecraft:is_taiga",
-        "and_preset": "overworld"
+      "preset":"taigas",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_taiga"
+        }
       }
     },
     {
-      "values": {
-        "preset": "jungles",
-        "types": "#minecraft:is_jungle",
-        "and_preset": "overworld"
+      "preset":"jungles",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_jungle"
+        }
       }
     },
     {
-      "values": {
-        "preset": "plains",
-        "types": "#forge:is_plains",
-        "and_preset": "overworld"
+      "preset":"plains",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_plains"
+        }
       }
     },
     {
-      "values": {
-        "preset": "savannas",
-        "types": "#minecraft:is_savanna",
-        "and_preset": "overworld"
+      "preset":"savannas",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_savanna"
+        }
       }
     },
     {
-      "values": {
-        "preset": "deserts",
-        "types": "all",
-        "and_preset": "overworld,dry_areas,sandy_areas"
+      "preset":"deserts",
+      "not_preset": "caves",
+      "and_preset":"overworld,dry_areas,sandy_areas"
+    },
+    {
+      "preset":"badlands",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_badlands"
+        }
       }
     },
     {
-      "values": {
-        "preset": "badlands",
-        "types": "#minecraft:is_badlands",
-        "and_preset": "overworld"
+      "preset":"mesa_forests",
+      "not_preset": "caves",
+      "and_preset":"overworld,badlands",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_sparse"
+        }
       }
     },
     {
-      "values": {
-        "preset": "mesa_forests",
-        "types": "#forge:is_sparse",
-        "and_preset": "overworld,badlands"
+      "preset":"mountains",
+      "not_preset": "caves",
+      "or_preset":"extreme_hills",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_mountain"
+        }
       }
     },
     {
-      "values": {
-        "preset": "mountains",
-        "types": "#minecraft:is_mountain",
-        "or_preset": "extreme_hills",
-        "and_preset": "overworld"
+      "preset":"extreme_hills",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_peak"
+        }
       }
     },
     {
-      "values": {
-        "preset": "extreme_hills",
-        "types": "#forge:is_peak",
-        "and_preset": "overworld"
+      "preset":"mushrooms",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_mushroom"
+        }
       }
     },
     {
-      "values": {
-        "preset": "mushrooms",
-        "types": "#forge:is_mushroom",
-        "and_preset": "overworld"
+      "preset":"swamps",
+      "not_preset": "caves",
+      "or_preset":"swamp_ground,swamp_water",
+      "and_preset":"overworld"
+    },
+    {
+      "preset":"swamp_ground",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#forge:is_swamp"
+        }
       }
     },
     {
-      "values": {
-        "preset": "swamps",
-        "or_preset": "swamp_ground,swamp_water",
-        "and_preset": "overworld"
+      "preset":"river_ground",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_river"
+        }
       }
     },
     {
-      "values": {
-        "preset": "swamp_ground",
-        "types": "#forge:is_swamp",
-        "and_preset": "overworld"
+      "preset":"rivers",
+      "or_preset":"river_ground,river_water"
+    },
+    {
+      "preset":"lake_ground",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"lake"
+        }
       }
     },
     {
-      "values": {
-        "preset": "river_ground",
-        "types": "#minecraft:is_river",
-        "and_preset": "overworld"
+      "preset":"lakes",
+      "or_preset":"lake_ground,lake_water"
+    },
+    {
+      "preset":"beach_ground",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#pokecube_world:is_beach"
+        }
       }
     },
     {
-      "values": {
-        "preset": "rivers",
-        "or_preset": "river_ground,river_water"
+      "preset":"beaches",
+      "or_preset":"beach_ground,beach_water"
+    },
+    {
+      "preset":"ocean_ground",
+      "not_preset": "caves",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_ocean"
+        }
       }
     },
     {
-      "values": {
-        "preset": "lake_ground",
-        "types": "lake",
-        "and_preset": "overworld"
-      }
+      "preset":"oceans",
+      "or_preset":"ocean_ground,ocean_water"
     },
     {
-      "values": {
-        "preset": "lakes",
-        "or_preset": "lake_ground,lake_water"
-      }
-    },
-    {
-      "values": {
-        "preset": "beach_ground",
-        "types": "#pokecube_world:is_beach",
-        "and_preset": "overworld"
-      }
-    },
-    {
-      "values": {
-        "preset": "beaches",
-        "or_preset": "beach_ground,beach_water"
-      }
-    },
-    {
-      "values": {
-        "preset": "ocean_ground",
-        "types": "#minecraft:is_ocean",
-        "and_preset": "overworld"
-      }
-    },
-    {
-      "values": {
-        "preset": "oceans",
-        "or_preset": "ocean_ground,ocean_water"
-      }
-    },
-    {
-      "values": {
-        "preset": "overworld",
-        "types": "#minecraft:is_overworld,all",
-        "air": "true",
-        "water": "true"
+      "preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_overworld"
+        },
+        "material":{
+          "type":"all"
+        }
       }
     }
   ]

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
+import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -29,11 +30,10 @@ import thut.lib.TComponent;
 
 public class Moves extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_moves");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_moves_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_moves");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_moves_nm");
 
     private int[][] moveOffsets;
-    public pokecube.api.data.moves.Moves.Move moveEffects;
 
     public Moves(final PokemobInfoPage parent)
     {
@@ -366,10 +366,9 @@ public class Moves extends ListPage<LineEntry>
         return super.mouseReleased(mouseX, mouseY, mouseButton);
     }
 
-    protected void renderComponentHoverEffect(final GuiGraphics graphics, final Style component, final int x,
-            final int y)
+    protected void renderComponentHoverEffect(final GuiGraphics graphics, final Style component, final int x, final int y)
     {
-        if (this.watch.canEdit(this.parent.pokemob)) return;
+    	if (this.watch.canEdit(this.parent.pokemob)) return;
         tooltip:
         if (component.getHoverEvent() != null)
         {
@@ -397,5 +396,4 @@ public class Moves extends ListPage<LineEntry>
             graphics.pose().popPose();
         }
     }
-
 }

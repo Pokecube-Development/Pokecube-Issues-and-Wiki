@@ -99,7 +99,7 @@ public class SpawnPresets extends ResourceData
                 final List<SpawnRule> conds = m.rules;
                 for (final SpawnRule rule : conds)
                 {
-                    String preset = rule.preset.isBlank() ? rule.values.get(SpawnBiomeMatcher.PRESET) : rule.preset;
+                    String preset = rule.preset.isBlank() ? null : rule.preset;
                     if (preset == null)
                     {
                         PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.values);

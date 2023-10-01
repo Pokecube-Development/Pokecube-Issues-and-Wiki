@@ -34,8 +34,8 @@ public class SpawnsPage extends ListPage<LineEntry>
     int index = 1;
     boolean repel = false;
 
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_location");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_location_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_spawns");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_spawns_nm");
 
     public SpawnsPage(final GuiPokeWatch watch)
     {
@@ -74,7 +74,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int height = max * 6;
 
         final int dx = 55;
-        final int dy = 40;
+        final int dy = 45;
         offsetX += dx;
         offsetY += dy;
 
@@ -86,7 +86,7 @@ public class SpawnsPage extends ListPage<LineEntry>
         {
             try
             {
-                final Float value = Float.parseFloat(PacketPokedex.selectedLoc.get(e).spawnRule.values.get(local));
+                final Float value = Float.parseFloat(PacketPokedex.selectedLoc.get(e).spawnRule.getString(local));
                 rates.put(e, value);
             }
             catch (Exception e1)
@@ -159,7 +159,8 @@ public class SpawnsPage extends ListPage<LineEntry>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
         final int colour = 0xFF78C850;
-        graphics.drawCenteredString(this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 30, colour);
+        //Draw Tile Page
+        graphics.drawCenteredString(this.font, I18n.get("pokewatch.spawns.info"), x + 130, y + 8, colour);
 
         if (Minecraft.getInstance().level.getDifficulty() == Difficulty.PEACEFUL)
         {
@@ -167,7 +168,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             var list = this.font.split(comp, 120);
             int n = 0;
             for (var entry : list)
-                graphics.drawCenteredString(this.font, entry, x + 130, y + 100 + 10 * n++, 0);
+            	graphics.drawCenteredString(this.font, entry, x + 130, y + 118 + 8 * n++, 0); //100
         }
         else if (this.repel = PacketPokedex.repelled)
         {
@@ -175,7 +176,7 @@ public class SpawnsPage extends ListPage<LineEntry>
             var list = this.font.split(comp, 120);
             int n = 0;
             for (var entry : list)
-                graphics.drawCenteredString(this.font, entry, x + 130, y + 100 + 10 * n++, 0);
+            	graphics.drawCenteredString(this.font, entry, x + 130, y + 118 + 8 * n++, 0); //100
         }
 
         super.render(graphics, mouseX, mouseY, partialTicks);

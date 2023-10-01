@@ -117,7 +117,7 @@ public class Database
         public Boolean isStarter()
         {
             if (!this.values.containsKey(XMLSpawnEntry.STARTER)) return null;
-            return Boolean.parseBoolean(this.values.get(XMLSpawnEntry.STARTER));
+            return Boolean.parseBoolean(this.getString(XMLSpawnEntry.STARTER));
         }
     }
 

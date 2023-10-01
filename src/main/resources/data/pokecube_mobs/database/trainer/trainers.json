@@ -5,10 +5,10 @@
       "pokemon": "weedle,caterpie,ledyba,wurmple,kricketot,paras,nincada,burmy,venonat,yanma,spinarak,volbeat,illumise,pinsir,scyther,heracross,surskit",
       "spawns": [
         {
+  		  "not_preset": "cold_areas",
+          "and_preset": "forests",
           "values": {
-            "rate": "0.05",
-      		  "not_preset": "cold_areas",
-            "and_preset": "forests"
+            "rate": "0.05"
           }
         }
       ],
@@ -19,9 +19,9 @@
       "pokemon": "rattata,zubat,nidoranm,poochyena,taillow,zigzagoon,starly,kricketot,magikarp,bidoof,ekans,sandshrew,wooper,seedot,geodude,lotad,electrike,burmy,slowpoke,spearow,mankey,diglett,machop,bellsprout,growlithe,aron,trapinch,shroomish,onix,gastly,gligar,buizel",
       "spawns": [
         {
+          "preset": "all_not_caves",
           "values": {
-            "rate": "0.5",
-            "preset": "all_not_caves"
+            "rate": "0.5"
           }
         }
       ],
@@ -32,9 +32,9 @@
       "pokemon": "nidoranm,nidoranf,pidgey,rattata,pikachu,meowth,bellsprout,oddish,clefairy,jigglypuff,paras,chingling,buneary,pachirisu,budew,abra,starly,psyduck,bidoof,hoppip,luvdisc,wailmer,lotad,shroomish,marill,skitty,purrloin,woobat,seedot,deerling,gothita,ducklett,vulpix,lillipup",
       "spawns": [
         {
+          "preset": "all_not_caves",
           "values": {
-            "rate": "0.5",
-            "preset": "all_not_caves"
+            "rate": "0.5"
           }
         }
       ],
@@ -45,9 +45,9 @@
       "pokemon": "geodude,onix,machop,diglett,sandshrew,swinub,nosepass,numel,baltoy,zubat,bronzor,dunsparce,woobat,timburr,roggenrola,aron",
       "spawns": [
         {
+          "and_preset": "caves,mountains",
           "values": {
-            "rate": "1.0",
-            "and_preset": "caves,mountains"
+            "rate": "1.0"
           }
         }
       ],
@@ -69,9 +69,9 @@
       "pokemon": "tentacool,magikarp,goldeen,poliwag,staryu,shellder,horsea,qwilfish,remoraid,carvanha,feebas,barboach,wailmer,finneon,basculin,stunfisk,frillish,krabby",
       "spawns": [
         {
+          "or_preset": "lake_ground,river_ground,beach_ground,ocean_ground",
           "values": {
-            "rate": "0.25",
-            "or_preset": "lake_ground,river_ground,beach_ground,ocean_ground"
+            "rate": "0.25"
           }
         }
       ],
@@ -85,9 +85,9 @@
       "pokemon": "-all",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -98,9 +98,9 @@
       "pokemon": "-psychic",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -111,9 +111,9 @@
       "pokemon": "-dragon",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -124,9 +124,9 @@
       "pokemon": "grimer,magnemite,voltorb,koffing,growlithe,vulpix,porygon,slowpoke,ponyta",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -137,15 +137,15 @@
       "pokemon": "grimer,magnemite,voltorb,koffing,porygon,ditto,abra,ralts,munna,drowzee,klink,deerling,elgyem",
       "spawns": [
         {
+          "preset": "industrial",
           "values": {
-            "rate": "0.05",
-            "preset": "industrial"
+            "rate": "0.05"
           }
         },
         {
+          "preset": "villages",
           "values": {
-            "rate": "0.05",
-            "preset": "villages"
+            "rate": "0.05"
           }
         }
       ],
@@ -156,9 +156,9 @@
       "pokemon": "pidgey,spearow,taillow,wingull,starly,pidove,fletchling,natu,skarmory,doduo,farfetch'd,swablu,hoothoot,murkrow",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -169,9 +169,9 @@
       "pokemon": "bellsprout,oddish,exeggcute,rattata,clefairy,meowth,jigglypuff,goldeen,poliwag,staryu,horsea,cloyster,paras,corsola,hoppip,sentret,marill,wailmer,kecleon,seviper,lotad,shroomish,numel,carvanha,clamperl,corphish,luvdisc,glameow,burmy,skitty,finneon,buneary,fletchling,espurr,roserade,blitzle,mareep",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -182,9 +182,9 @@
       "pokemon": "grimer,koffing,voltorb,magmar,gulpin,ekans,seviper,croagunk,skorupi",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -195,9 +195,9 @@
       "pokemon": "-Fighting",
       "spawns": [
         {
+          "and_preset": "caves,mountains",
           "values": {
-            "rate": "0.75",
-            "and_preset": "caves,mountains"
+            "rate": "0.75"
           }
         }
       ],
@@ -208,9 +208,9 @@
       "pokemon": "koffing,magmar,growlithe,vulpix",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -221,9 +221,9 @@
       "pokemon": "gastly",
       "spawns": [
         {
+          "preset": "nether",
           "values": {
-            "rate": "0.5",
-            "preset": "nether"
+            "rate": "0.5"
           }
         }
       ],
@@ -234,9 +234,9 @@
       "pokemon": "machop,mankey,sandile,scraggy",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -247,15 +247,15 @@
       "pokemon": "magnemite",
       "spawns": [
         {
+          "preset": "industrial",
           "values": {
-            "rate": "0.05",
-            "preset": "industrial"
+            "rate": "0.05"
           }
         },
         {
+          "preset": "villages",
           "values": {
-            "rate": "0.05",
-            "preset": "villages"
+            "rate": "0.05"
           }
         }
       ],
@@ -266,9 +266,9 @@
       "pokemon": "poliwag,growlithe,vulpix,goldeen",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -279,9 +279,9 @@
       "pokemon": "growlithe,pikachu,electrike,zigzagoon,chatot",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -292,9 +292,9 @@
       "pokemon": "diglett,rattata,sandshrew,ekans,mankey,zubat,zigzagoon,taillow,seedot,baltoy,spearow,nidoranM",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -305,9 +305,9 @@
       "pokemon": "goldeen,pidgey,rattata,pikachu,poliwag,meowth,oddish,ponyta,hoppip,bellsprout,shroomish,marill,swablu,lotad,clefairy,nidoranF,paras,pachirisu,bidoof,psyduck,shinx,cherubi",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -318,9 +318,9 @@
       "pokemon": "abra,drowzee,mrmime,voltorb",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -331,9 +331,9 @@
       "pokemon": "cubone,slowpoke,kangaskhan,lickitung,nidoranM,nidoranF,rhyhorn,aron",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -344,9 +344,9 @@
       "pokemon": "voltorb,magnemite,mareep,zigzagoongalar,toxel,grookey",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -357,9 +357,9 @@
       "pokemon": "machop,tentacool,cloyster,horsea,krabby,poliwag,rattata,wingull,spheal,wailmer,mantine,shellos,magikarp,marill,wooper",
       "spawns": [
         {
+          "or_preset": "beach_ground,ocean_ground",
           "values": {
-            "rate": "0.25",
-            "or_preset": "beach_ground,ocean_ground"
+            "rate": "0.25"
           }
         }
       ],
@@ -370,9 +370,9 @@
       "pokemon": "horsea,cloyster,goldeen,staryu,poliwag,tentacool,psyduck,remoraid,magikarp,wingull,wailmer,marill,carvanha,luvdisc,spheal,chinchou,mantine,seel,finneon,buizel,qwilfish,bidoof,lapras,frillish,clamperl,skrelp",
       "spawns": [
         {
+          "or_preset": "lakes,beaches,oceans,rivers",
           "values": {
-            "rate": "0.25",
-            "or_preset": "lakes,beaches,oceans,rivers"
+            "rate": "0.25"
           }
         }
       ],
@@ -383,9 +383,9 @@
       "pokemon": "ekans,sandshrew",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
@@ -396,9 +396,9 @@
       "pokemon": "arceus",
       "spawns": [
         {
+          "types": "sky",
           "values": {
-            "rate": "0.05",
-            "types": "sky"
+            "rate": "0.05"
           }
         }
       ],
@@ -409,9 +409,9 @@
       "pokemon": "omanyte,pidgey,lapras,nidoranm,venonat,zapdos",
       "spawns": [
         {
+          "preset": "all",
           "values": {
-            "rate": "0.05",
-            "preset": "all"
+            "rate": "0.05"
           }
         }
       ],
