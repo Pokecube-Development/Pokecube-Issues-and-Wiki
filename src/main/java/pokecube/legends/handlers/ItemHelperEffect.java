@@ -29,13 +29,14 @@ public class ItemHelperEffect
                     .is(new ResourceLocation(Reference.ID, "poffin_" + moveuse.getMove().getType(pokemob)), stack))
             {
                 moveuse.pwr *= 1.2;
+                stack.shrink(1);
                 return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
             }
             return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
         }
     }
 
-    public static final ResourceLocation USABLE_EFFECTS = new ResourceLocation(Reference.ID, "usables_effects");
+    public static final ResourceLocation USABLE_EFFECTS = new ResourceLocation(Reference.ID, "usable_effects");
 
     public static void init()
     {

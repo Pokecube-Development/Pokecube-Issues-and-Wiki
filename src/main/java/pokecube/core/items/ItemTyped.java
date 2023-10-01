@@ -33,6 +33,6 @@ public class ItemTyped extends Item
     public void appendHoverText(ItemStack stack, @Nullable Level playerIn, List<Component> list,
             TooltipFlag advanced)
     {
-        list.add(TComponent.literal(this.type).withStyle(ChatFormatting.GRAY));
+        list.add(TComponent.literal(this.type).withStyle(ChatFormatting.GRAY).withStyle(ChatFormatting.ITALIC));
     }
 }
