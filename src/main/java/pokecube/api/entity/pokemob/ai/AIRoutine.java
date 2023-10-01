@@ -18,6 +18,8 @@ public enum AIRoutine
     BURROWS(true, IMoveConstants.burrows),
     //Does the pokemob store its inventory when full.
     STORE(false),
+    //Does the pokemob return to inventory when dead
+    POOFS,
    //Does the pokemob wander around randomly
     WANDER,
     //Does the pokemob breed.
