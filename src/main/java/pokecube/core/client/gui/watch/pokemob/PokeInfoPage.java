@@ -55,9 +55,7 @@ public abstract class PokeInfoPage extends WatchPage
         final int y = this.watch.height / 2 - 3;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
-        final Component form = TComponent.literal("\u2500");
-        final Component cry = TComponent.literal("\u266B");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 66, y + 35, 12, 20, next, b -> {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x - 28, y - 30, 12, 20, next, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getNext(entry, i);
@@ -65,7 +63,7 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 96, y + 35, 12, 20, prev, b -> {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 115, y - 30, 12, 20, prev, b -> {
             PokedexEntry entry = this.parent.pokemob.getPokedexEntry();
             final int i = Screen.hasShiftDown() ? Screen.hasControlDown() ? 100 : 10 : 1;
             entry = Pokedex.getInstance().getPrevious(entry, i);
@@ -73,7 +71,10 @@ public abstract class PokeInfoPage extends WatchPage
             this.parent.pokemob = EventsHandlerClient.getRenderMob(entry, this.watch.player.getLevel());
             this.parent.initPages(this.parent.pokemob);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(212, 0, 12, 20)));
-        final TexButton formBtn = this.addRenderableWidget(new TexButton(x - 85, y + 35, 20, 10, form, b -> { // Cycle
+        
+        //Change Forms
+        this.addRenderableWidget(new TexButton(x - 71, y + 43, 12, 12,TComponent.literal(""), b -> { 
+        																									  // Cycle
                                                                                                               // Form,
                                                                                                               // only
                                                                                                               // if
@@ -107,15 +108,13 @@ public abstract class PokeInfoPage extends WatchPage
             // This ensures the textures/etc are reset to account for the new
             // model holder.
             this.parent.pokemob.onGenesChanged();
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
-        final TexButton cryBtn = this.addRenderableWidget(new TexButton(x - 85, y + 45, 20, 10, cry, b -> {
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(241, 72, 12, 12)));
+        this.addRenderableWidget(new TexButton(x - 93, y + 43, 12, 12, TComponent.literal(""), b -> {
             this.watch.player.playSound(this.parent.pokemob.getSound(), 0.5f, 1.0F);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(224, 0, 20, 10)));
-
+        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(229, 72, 12, 12)));
+        
         nextBtn.setFGColor(0x444444);
         prevBtn.setFGColor(0x444444);
-        formBtn.setFGColor(0x444444);
-        cryBtn.setFGColor(0x444444);
     }
 
     @Override
