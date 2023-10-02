@@ -643,7 +643,7 @@ public class BlockInit
     public static final RegistryObject<Block> AGED_HANGING_SIGN;
     public static final RegistryObject<Block> AGED_WALL_HANGING_SIGN;
     public static final RegistryObject<Block> CONCRETE_HANGING_SIGN;
-    public static final RegistryObject<Block> CONCRETE_WALL_HANGING_SIGN;=
+    public static final RegistryObject<Block> CONCRETE_WALL_HANGING_SIGN;
     public static final RegistryObject<Block> CORRUPTED_HANGING_SIGN;
     public static final RegistryObject<Block> CORRUPTED_WALL_HANGING_SIGN;
     public static final RegistryObject<Block> DISTORTIC_HANGING_SIGN;
