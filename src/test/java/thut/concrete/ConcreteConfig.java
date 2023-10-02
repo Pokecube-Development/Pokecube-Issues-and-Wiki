@@ -11,7 +11,7 @@ public class ConcreteConfig extends ConfigData
     @Configure(category = "Volcanoes", comment = "Are volcanoes active, set to false to prevent them from growing. [Default: true]")
     public boolean volcanoes_tick = true;
 
-    @Configure(category = "Painting", comment = "Blocks listed here will be dyeable with the paint brush.")
+    @Configure(category = "Painting", comment = "Blocks listed here will be dyeable with the paint brush. \nBlocks must include \"red\" in the id for this to function.")
     public List<String> dyeable_blocks = Lists.newArrayList(
             //@formatter:off
             "minecraft:red_banner",
