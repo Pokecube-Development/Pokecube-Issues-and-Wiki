@@ -152,7 +152,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     public void postPageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {}
 
-    @SuppressWarnings("resource")
 	@Override
     public void prePageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {

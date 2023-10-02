@@ -12,6 +12,8 @@ import java.util.function.Consumer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -36,6 +38,7 @@ import pokecube.core.database.resources.PackFinder;
 import pokecube.core.legacy.RegistryChangeFixer;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.util.JsonUtil;
+import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
 public class JsonPokedexEntry
@@ -309,7 +312,7 @@ public class JsonPokedexEntry
             if (anim == null) anim = model;
             entry.texturePath = tex;
             entry.modelPath = model;
-            
+
             entry.model = new ResourceLocation(this.modid, model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(this.modid, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(this.modid, anim + entry.getTrimmedName() + ".xml");
@@ -369,12 +372,14 @@ public class JsonPokedexEntry
         resources.forEach((l, r) -> {
             try
             {
-                final JsonPokedexEntry entry = loadDatabase(ResourceHelper.getStream(r));
-                toLoad.compute(entry.name, (key, list) -> {
-                    var ret = list;
-                    if (ret == null) ret = Lists.newArrayList();
-                    ret.add(entry);
-                    return ret;
+                List<JsonPokedexEntry> entries = loadDatabase(ResourceHelper.getStream(r), l);
+                entries.forEach(entry -> {
+                    toLoad.compute(entry.name, (key, list) -> {
+                        var ret = list;
+                        if (ret == null) ret = Lists.newArrayList();
+                        ret.add(entry);
+                        return ret;
+                    });
                 });
             }
             catch (Exception e)
@@ -428,12 +433,47 @@ public class JsonPokedexEntry
 
     public static List<JsonPokedexEntry> LOADED = Lists.newArrayList();
 
-    private static JsonPokedexEntry loadDatabase(final InputStream stream) throws Exception
+    private static List<JsonPokedexEntry> loadDatabase(final InputStream stream, ResourceLocation source)
+            throws Exception
     {
         JsonPokedexEntry database = null;
+        ArrayList<JsonPokedexEntry> list = new ArrayList<>();
         final InputStreamReader reader = new InputStreamReader(stream);
-        database = JsonUtil.gson.fromJson(reader, JsonPokedexEntry.class);
+        JsonElement json = JsonUtil.gson.fromJson(reader, JsonElement.class);
         reader.close();
-        return database;
+        if (json.isJsonArray())
+        {
+            var array = json.getAsJsonArray();
+            int priorities = Integer.MIN_VALUE;
+            int start_i = 0;
+            var firstEntry = array.get(0).getAsJsonObject();
+            if (firstEntry.has("priority"))
+            {
+                priorities = firstEntry.get("priority").getAsInt();
+                if (!firstEntry.has("name")) start_i = 1;
+            }
+            for (int i = start_i; i < array.size(); i++)
+            {
+                json = array.get(i);
+
+                try
+                {
+                    database = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
+                    if (priorities != Integer.MIN_VALUE) database.priority = priorities;
+                    database.name = ThutCore.trim(database.name);
+                    list.add(database);
+                }
+                catch (JsonSyntaxException e)
+                {
+                    PokecubeAPI.LOGGER.error("Error with pokemob entry in file {}, {}", source, json, e);
+                }
+            }
+        }
+        else
+        {
+            database = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
+            list.add(database);
+        }
+        return list;
     }
 }
