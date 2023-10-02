@@ -481,7 +481,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 final String name = stack == null ? "" : stack.getHoverName().getString();
                 if (name.isEmpty() || !ThutCore.trim(name).contains(ThutCore.trim(this.searchBar.getValue())))
                 {
-                    final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FFFF00 : 0x55FF0000;
+                    final int slotColor = PokecubeCore.getConfig().fancyGUI ? 0x75FF0000 : 0x55FF0000;
                     graphics.fill(x, y, x + 16, y + 16, slotColor);
                 }
                 else
