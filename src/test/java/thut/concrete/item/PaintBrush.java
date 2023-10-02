@@ -105,8 +105,6 @@ public class PaintBrush extends BrushItem
     @Override
     public InteractionResult useOn(UseOnContext context)
     {
-        Level world = context.getLevel();
-        BlockPos pos = context.getClickedPos();
         Player player = context.getPlayer();
         if (player != null && this.calculateHitResult(player).getType() == HitResult.Type.BLOCK) {
             player.startUsingItem(context.getHand());
@@ -162,14 +160,15 @@ public class PaintBrush extends BrushItem
                                     if (painted.hasBlockEntity())
                                     {
                                         BlockEntity blockEntity = world.getBlockEntity(pos);
-                                        if (blockEntity != null)
+                                        if (blockEntity != null && !world.isClientSide)
                                         {
                                             CompoundTag tag = blockEntity.saveWithFullMetadata();
                                             world.setBlockEntity(blockEntity);
                                             world.setBlock(pos, painted, 3);
                                         }
                                     }
-                                    world.setBlock(pos, painted, 3);
+                                    if (!world.isClientSide)
+                                        world.setBlock(pos, painted, 3);
                                 }
                                 if (player instanceof ServerPlayer serverPlayer && !serverPlayer.isCreative())
                                 {
