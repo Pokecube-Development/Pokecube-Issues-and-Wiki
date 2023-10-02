@@ -239,7 +239,6 @@ public class ItemInit
     // Hanging Signs
     public static final RegistryObject<Item> AGED_HANGING_SIGN;
     public static final RegistryObject<Item> CONCRETE_HANGING_SIGN;
-    public static final RegistryObject<Item> CONCRETE_DENSE_HANGING_SIGN;
     public static final RegistryObject<Item> CORRUPTED_HANGING_SIGN;
     public static final RegistryObject<Item> DISTORTIC_HANGING_SIGN;
     public static final RegistryObject<Item> INVERTED_HANGING_SIGN;
