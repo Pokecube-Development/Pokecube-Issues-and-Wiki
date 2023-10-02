@@ -673,6 +673,23 @@
     "block.pokecube_legends.mirage_wall_sign": "Mirage Wall Sign",
     "block.pokecube_legends.temporal_wall_sign": "Temporal Wall Sign",
 
+    "_comment51": "Hanging Signs",
+    "block.pokecube_legends.aged_hanging_sign": "Aged Hanging Sign",
+    "block.pokecube_legends.concrete_hanging_sign": "Concrete Hanging Sign",
+    "block.pokecube_legends.corrupted_hanging_sign": "Corrupted Hanging Sign",
+    "block.pokecube_legends.distortic_hanging_sign": "Distortic Hanging Sign",
+    "block.pokecube_legends.inverted_hanging_sign": "Inverted Hanging Sign",
+    "block.pokecube_legends.mirage_hanging_sign": "Mirage Hanging Sign",
+    "block.pokecube_legends.temporal_hanging_sign": "Temporal Hanging Sign",
+
+    "block.pokecube_legends.aged_wall_hanging_sign": "Aged Wall Hanging Sign",
+    "block.pokecube_legends.concrete_wall_hanging_sign": "Concrete Wall Hanging Sign",
+    "block.pokecube_legends.corrupted_wall_hanging_sign": "Corrupted Wall Hanging Sign",
+    "block.pokecube_legends.distortic_wall_hanging_sign": "Distortic Wall Hanging Sign",
+    "block.pokecube_legends.inverted_wall_hanging_sign": "Inverted Wall Hanging Sign",
+    "block.pokecube_legends.mirage_wall_hanging_sign": "Mirage Wall Hanging Sign",
+    "block.pokecube_legends.temporal_wall_hanging_sign": "Temporal Wall Hanging Sign",
+
     "_comment50": "Boats",
     "item.pokecube_legends.aged_boat": "Aged Boat",
     "item.pokecube_legends.concrete_boat": "Concrete Boat",
