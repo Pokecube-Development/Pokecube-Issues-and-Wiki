@@ -45,6 +45,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.AGED_FENCE.get());
                 output.accept(BlockInit.AGED_FENCE_GATE.get());
                 output.accept(BlockInit.AGED_SIGN.get());
+                output.accept(BlockInit.AGED_HANGING_SIGN.get());
                 output.accept(BlockInit.AGED_DOOR.get());
                 output.accept(BlockInit.AGED_TRAPDOOR.get());
                 output.accept(BlockInit.AGED_PR_PLATE.get());
@@ -63,6 +64,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.CORRUPTED_FENCE.get());
                 output.accept(BlockInit.CORRUPTED_FENCE_GATE.get());
                 output.accept(BlockInit.CORRUPTED_SIGN.get());
+                output.accept(BlockInit.CORRUPTED_HANGING_SIGN.get());
                 output.accept(BlockInit.CORRUPTED_DOOR.get());
                 output.accept(BlockInit.CORRUPTED_TRAPDOOR.get());
                 output.accept(BlockInit.CORRUPTED_PR_PLATE.get());
@@ -81,6 +83,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.DISTORTIC_FENCE.get());
                 output.accept(BlockInit.DISTORTIC_FENCE_GATE.get());
                 output.accept(BlockInit.DISTORTIC_SIGN.get());
+                output.accept(BlockInit.DISTORTIC_HANGING_SIGN.get());
                 output.accept(BlockInit.DISTORTIC_DOOR.get());
                 output.accept(BlockInit.DISTORTIC_TRAPDOOR.get());
                 output.accept(BlockInit.DISTORTIC_PR_PLATE.get());
@@ -99,6 +102,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.INVERTED_FENCE.get());
                 output.accept(BlockInit.INVERTED_FENCE_GATE.get());
                 output.accept(BlockInit.INVERTED_SIGN.get());
+                output.accept(BlockInit.INVERTED_HANGING_SIGN.get());
                 output.accept(BlockInit.INVERTED_DOOR.get());
                 output.accept(BlockInit.INVERTED_TRAPDOOR.get());
                 output.accept(BlockInit.INVERTED_PR_PLATE.get());
@@ -117,6 +121,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.MIRAGE_FENCE.get());
                 output.accept(BlockInit.MIRAGE_FENCE_GATE.get());
                 output.accept(BlockInit.MIRAGE_SIGN.get());
+                output.accept(BlockInit.MIRAGE_HANGING_SIGN.get());
                 output.accept(BlockInit.MIRAGE_DOOR.get());
                 output.accept(BlockInit.MIRAGE_TRAPDOOR.get());
                 output.accept(BlockInit.MIRAGE_PR_PLATE.get());
@@ -135,6 +140,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.TEMPORAL_FENCE.get());
                 output.accept(BlockInit.TEMPORAL_FENCE_GATE.get());
                 output.accept(BlockInit.TEMPORAL_SIGN.get());
+                output.accept(BlockInit.TEMPORAL_HANGING_SIGN.get());
                 output.accept(BlockInit.TEMPORAL_DOOR.get());
                 output.accept(BlockInit.TEMPORAL_TRAPDOOR.get());
                 output.accept(BlockInit.TEMPORAL_PR_PLATE.get());
@@ -153,6 +159,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.CONCRETE_FENCE.get());
                 output.accept(BlockInit.CONCRETE_FENCE_GATE.get());
                 output.accept(BlockInit.CONCRETE_SIGN.get());
+                output.accept(BlockInit.CONCRETE_HANGING_SIGN.get());
                 output.accept(BlockInit.CONCRETE_DOOR.get());
                 output.accept(BlockInit.CONCRETE_TRAPDOOR.get());
                 output.accept(BlockInit.CONCRETE_PR_PLATE.get());
@@ -653,13 +660,20 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.INFECTED_CAMPFIRE.get());
 
                 output.accept(BlockInit.AGED_SIGN.get());
+                output.accept(BlockInit.AGED_HANGING_SIGN.get());
                 output.accept(BlockInit.CONCRETE_SIGN.get());
                 output.accept(BlockInit.CONCRETE_DENSE_SIGN.get());
+                output.accept(BlockInit.CONCRETE_HANGING_SIGN.get());
                 output.accept(BlockInit.CORRUPTED_SIGN.get());
+                output.accept(BlockInit.CORRUPTED_HANGING_SIGN.get());
                 output.accept(BlockInit.DISTORTIC_SIGN.get());
+                output.accept(BlockInit.DISTORTIC_HANGING_SIGN.get());
                 output.accept(BlockInit.INVERTED_SIGN.get());
+                output.accept(BlockInit.INVERTED_HANGING_SIGN.get());
                 output.accept(BlockInit.MIRAGE_SIGN.get());
+                output.accept(BlockInit.MIRAGE_HANGING_SIGN.get());
                 output.accept(BlockInit.TEMPORAL_SIGN.get());
+                output.accept(BlockInit.TEMPORAL_HANGING_SIGN.get());
 
                 output.accept(PokecubeItems.getStack("pokecube_legends:aged_boat"));
                 output.accept(PokecubeItems.getStack("pokecube_legends:aged_chest_boat"));
@@ -924,13 +938,20 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.BOOKSHELF_EMPTY.get());
 
             addAfter(event, Items.WARPED_HANGING_SIGN, BlockInit.AGED_SIGN.get());
-            addAfter(event, BlockInit.AGED_SIGN.get(), BlockInit.CONCRETE_SIGN.get());
+            addAfter(event, BlockInit.AGED_SIGN.get(), BlockInit.AGED_HANGING_SIGN.get());
+            addAfter(event, BlockInit.AGED_HANGING_SIGN.get(), BlockInit.CONCRETE_SIGN.get());
             addAfter(event, BlockInit.CONCRETE_SIGN.get(), BlockInit.CONCRETE_DENSE_SIGN.get());
-            addAfter(event, BlockInit.CONCRETE_DENSE_SIGN.get(), BlockInit.CORRUPTED_SIGN.get());
-            addAfter(event, BlockInit.CORRUPTED_SIGN.get(), BlockInit.DISTORTIC_SIGN.get());
-            addAfter(event, BlockInit.DISTORTIC_SIGN.get(), BlockInit.INVERTED_SIGN.get());
-            addAfter(event, BlockInit.INVERTED_SIGN.get(), BlockInit.MIRAGE_SIGN.get());
-            addAfter(event, BlockInit.MIRAGE_SIGN.get(), BlockInit.TEMPORAL_SIGN.get());
+            addAfter(event, BlockInit.CONCRETE_DENSE_SIGN.get(), BlockInit.CONCRETE_HANGING_SIGN.get());
+            addAfter(event, BlockInit.CONCRETE_HANGING_SIGN.get(), BlockInit.CORRUPTED_SIGN.get());
+            addAfter(event, BlockInit.CORRUPTED_SIGN.get(), BlockInit.CORRUPTED_HANGING_SIGN.get());
+            addAfter(event, BlockInit.CORRUPTED_HANGING_SIGN.get(), BlockInit.DISTORTIC_SIGN.get());
+            addAfter(event, BlockInit.DISTORTIC_SIGN.get(), BlockInit.DISTORTIC_HANGING_SIGN.get());
+            addAfter(event, BlockInit.DISTORTIC_HANGING_SIGN.get(), BlockInit.INVERTED_SIGN.get());
+            addAfter(event, BlockInit.INVERTED_SIGN.get(), BlockInit.INVERTED_HANGING_SIGN.get());
+            addAfter(event, BlockInit.INVERTED_HANGING_SIGN.get(), BlockInit.MIRAGE_SIGN.get());
+            addAfter(event, BlockInit.MIRAGE_SIGN.get(), BlockInit.MIRAGE_HANGING_SIGN.get());
+            addAfter(event, BlockInit.MIRAGE_HANGING_SIGN.get(), BlockInit.TEMPORAL_SIGN.get());
+            addAfter(event, BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_HANGING_SIGN.get());
 
             addAfter(event, Items.SOUL_TORCH, BlockInit.INFECTED_TORCH.get());
             addAfter(event, Items.SOUL_LANTERN, BlockInit.INFECTED_LANTERN.get());
