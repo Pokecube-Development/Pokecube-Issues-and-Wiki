@@ -445,7 +445,7 @@ public class ItemGenerator
                     () -> new GenericWallHangingSign(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .strength(1.0F).noOcclusion().noCollission().forceSolidOn().ignitedByLava()
-                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
+                                    .dropsLike(ceiling_hanging_sign.get()).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.berry_wall_hanging_signs.put(name, block);
