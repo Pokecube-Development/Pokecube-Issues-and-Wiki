@@ -129,7 +129,7 @@ public class PaintBrush extends BrushItem
                 if (hitresult.getType() == HitResult.Type.BLOCK)
                 {
                     int i = this.getUseDuration(stack) - ticks + 1;
-                    boolean flag = i % 10 == 5;
+                    boolean flag = i % 4 == 2;
                     if (flag)
                     {
                         BlockPos pos = hitResult.getBlockPos();
