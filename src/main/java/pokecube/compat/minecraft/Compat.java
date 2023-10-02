@@ -118,7 +118,7 @@ public class Compat
     {
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
         List<JsonPokedexEntry> entries = new ArrayList<>();
-        ForgeRegistries.ENTITIES.forEach(t -> {
+        ForgeRegistries.ENTITY_TYPES.forEach(t -> {
             Entity e = t.create(testLevel);
             if (e instanceof Mob && makePokemob.test(t))
             {
@@ -144,7 +144,7 @@ public class Compat
 
             String metacontents = "{\r\n" + "  \"pack\": {\r\n"
                     + "    \"pack_format\": 8,\r\n".replace("8",
-                            "" + PackType.SERVER_DATA.getVersion(SharedConstants.getCurrentVersion()))
+                            "" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA))
                     + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
             File mcmeta = new File(root, "pack.mcmeta");
 
