@@ -97,6 +97,7 @@ public class PokecubeLegends
     public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.ID);
     public static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(Keys.FLUID_TYPES, Reference.ID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
+    public static final DeferredRegister<Block> NO_ITEM_BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.ID);
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.ID);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister
             .create(ForgeRegistries.PARTICLE_TYPES, Reference.ID);
@@ -161,6 +162,7 @@ public class PokecubeLegends
         PokecubeLegends.FLUIDS.register(modEventBus);
         PokecubeLegends.FLUID_TYPES.register(modEventBus);
         PokecubeLegends.BLOCKS.register(modEventBus);
+        PokecubeLegends.NO_ITEM_BLOCKS.register(modEventBus);
         PokecubeLegends.ITEMS.register(modEventBus);
         PokecubeLegends.RECIPE_SERIALIZER.register(modEventBus);
         PokecubeLegends.RECIPE_TYPE.register(modEventBus);

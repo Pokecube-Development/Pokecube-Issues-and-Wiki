@@ -149,7 +149,7 @@ public class PlantsInit
                 BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
 
-        GOLDEN_SHROOM_PLANT = PokecubeLegends.BLOCKS.register("golden_shroom_plant",
+        GOLDEN_SHROOM_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("golden_shroom_plant",
                 () -> new MushroomBase(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD)
                         .noCollission().randomTicks().instabreak().ignitedByLava()
                         .sound(SoundType.GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY), 
@@ -183,25 +183,25 @@ public class PlantsInit
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.WET_GRASS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
 
-        PINK_TAINTED_LILY_PAD = PokecubeLegends.BLOCKS.register("pink_blossom_tainted_lily_pad", () -> new BlossomLilyPadBlock(
+        PINK_TAINTED_LILY_PAD = PokecubeLegends.NO_ITEM_BLOCKS.register("pink_blossom_tainted_lily_pad", () -> new BlossomLilyPadBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noOcclusion().instabreak().ignitedByLava()
                         .sound(SoundType.LILY_PAD).pushReaction(PushReaction.DESTROY)));
 
-        TAINTED_LILY_PAD = PokecubeLegends.BLOCKS.register("tainted_lily_pad", () -> new LilyPadBlock(
+        TAINTED_LILY_PAD = PokecubeLegends.NO_ITEM_BLOCKS.register("tainted_lily_pad", () -> new LilyPadBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noOcclusion().instabreak().ignitedByLava()
                         .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)));
 
         HANGING_TENDRILS = PokecubeLegends.BLOCKS.register("hanging_tendrils", () -> new HangingTendrilsBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).randomTicks().noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY).lightLevel(HangingTendrilsBlock.emission(5))));
-        HANGING_TENDRILS_PLANT = PokecubeLegends.BLOCKS.register("hanging_tendrils_plant", () -> new HangingTendrilsPlantBlock(
+        HANGING_TENDRILS_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("hanging_tendrils_plant", () -> new HangingTendrilsPlantBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY).lightLevel(HangingTendrilsBlock.emission(5))));
 
         PURPLE_WISTERIA_VINES = PokecubeLegends.BLOCKS.register("purple_wisteria_vines", () -> new PurpleWisteriaVinesBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).randomTicks().noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY)));
-        PURPLE_WISTERIA_VINES_PLANT = PokecubeLegends.BLOCKS.register("purple_wisteria_vines_plant", () -> new PurpleWisteriaVinesPlantBlock(
+        PURPLE_WISTERIA_VINES_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("purple_wisteria_vines_plant", () -> new PurpleWisteriaVinesPlantBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE).noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.CAVE_VINES).pushReaction(PushReaction.DESTROY)));
 
@@ -213,11 +213,11 @@ public class PlantsInit
                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_PURPLE).replaceable().instabreak().ignitedByLava()
                         .sound(SoundType.WET_GRASS).pushReaction(PushReaction.DESTROY)));
 
-        TEMPORAL_BAMBOO = PokecubeLegends.BLOCKS.register("temporal_bamboo", () -> new TemporalBambooStalkBlock(
+        TEMPORAL_BAMBOO = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_bamboo", () -> new TemporalBambooStalkBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
                         .strength(1.2f).noOcclusion().randomTicks().ignitedByLava().dynamicShape().forceSolidOn()
                         .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ).isRedstoneConductor(PlantsInit::never)));
-        TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.BLOCKS.register("temporal_bamboo_shoot", () -> new TemporalBambooShootBlock(
+        TEMPORAL_BAMBOO_SHOOT = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_bamboo_shoot", () -> new TemporalBambooShootBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
                         .strength(1.2f).noOcclusion().randomTicks().instabreak().ignitedByLava().dynamicShape().forceSolidOn()
                         .sound(SoundType.BAMBOO).pushReaction(PushReaction.DESTROY).offsetType(BlockBehaviour.OffsetType.XZ)));
@@ -226,10 +226,10 @@ public class PlantsInit
                 BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).noCollission().replaceable().instabreak().ignitedByLava()
                         .sound(SoundType.ROOTS).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
         
-        DISTORTIC_VINES = PokecubeLegends.BLOCKS.register("distortic_vines", () -> new DistortedVinesTopBlock(
+        DISTORTIC_VINES = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_vines", () -> new DistortedVinesTopBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).randomTicks().noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.WEEPING_VINES).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
-        DISTORTIC_VINES_PLANT = PokecubeLegends.BLOCKS.register("distortic_vines_plant", () -> new DistortedVinesBlock(
+        DISTORTIC_VINES_PLANT = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_vines_plant", () -> new DistortedVinesBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA).noCollission().instabreak().ignitedByLava()
                         .sound(SoundType.WEEPING_VINES).offsetType(BlockBehaviour.OffsetType.XZ).pushReaction(PushReaction.DESTROY)));
     }

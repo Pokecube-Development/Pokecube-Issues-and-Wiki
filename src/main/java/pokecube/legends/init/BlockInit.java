@@ -1368,7 +1368,7 @@ public class BlockInit
                 () -> new BigContaminatedDripleafBlock(
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED).strength(0.1F)
                                 .sound(SoundType.BIG_DRIPLEAF)));
-        BIG_CONTAMINATED_DRIPLEAF_STEM = PokecubeLegends.BLOCKS.register("big_contaminated_dripleaf_stem",
+        BIG_CONTAMINATED_DRIPLEAF_STEM = PokecubeLegends.NO_ITEM_BLOCKS.register("big_contaminated_dripleaf_stem",
                 () -> new BigContaminatedDripleafStemBlock(
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_RED).noCollission()
                                 .strength(0.1F).sound(SoundType.BIG_DRIPLEAF)));
@@ -1733,10 +1733,10 @@ public class BlockInit
                         .sound(SoundType.AMETHYST_CLUSTER).noCollission().instabreak()));
 
         // Decorations Creative Tab -
-        INFECTED_TORCH = PokecubeLegends.BLOCKS.register("infected_torch",
+        INFECTED_TORCH = PokecubeLegends.NO_ITEM_BLOCKS.register("infected_torch",
                 () -> new InfectedTorch(ParticleTypes.DRAGON_BREATH, ParticleTypes.SMOKE, BlockBehaviour.Properties.of()
                         .noCollission().instabreak().lightLevel(i -> 10).sound(SoundType.WOOD).pushReaction(PushReaction.DESTROY)));
-        INFECTED_TORCH_WALL = PokecubeLegends.BLOCKS.register("infected_torch_wall",
+        INFECTED_TORCH_WALL = PokecubeLegends.NO_ITEM_BLOCKS.register("infected_torch_wall",
                 () -> new InfectedTorchWall(ParticleTypes.DRAGON_BREATH, ParticleTypes.SMOKE, BlockBehaviour.Properties.of()
                         .noCollission().instabreak().lightLevel(i -> 10).sound(SoundType.WOOD).dropsLike(INFECTED_TORCH.get())));
 
@@ -1856,7 +1856,7 @@ public class BlockInit
 
         // Concrete Blocks
         CONCRETE_LOG = PokecubeLegends.BLOCKS.register("concrete_log",
-                () -> StoneLogBase.concreteLog(MapColor.SNOW, MapColor.COLOR_GRAY, 
+                () -> StoneLogBase.concreteLog(MapColor.SNOW, MapColor.COLOR_GRAY,
                         SoundType.STONE, NoteBlockInstrument.BASEDRUM, 10.0f, 500.0f));
         CONCRETE_WOOD = PokecubeLegends.BLOCKS.register("concrete_wood",
                 () -> StoneLogBase.concreteLog(MapColor.COLOR_GRAY, MapColor.COLOR_GRAY,
@@ -1865,7 +1865,7 @@ public class BlockInit
                 () -> StoneLogBase.concreteLog(MapColor.SNOW, MapColor.SNOW,
                         SoundType.STONE, NoteBlockInstrument.BASEDRUM, 10.0f, 500.0f));
         STRIP_CONCRETE_WOOD = PokecubeLegends.BLOCKS.register("stripped_concrete_wood",
-                () -> StoneLogBase.concreteLog(MapColor.SNOW, MapColor.SNOW, 
+                () -> StoneLogBase.concreteLog(MapColor.SNOW, MapColor.SNOW,
                         SoundType.STONE, NoteBlockInstrument.BASEDRUM, 10.0f, 500.0f));
 
         CONCRETE_BARREL = PokecubeLegends.BLOCKS.register("concrete_barrel",
@@ -2450,75 +2450,72 @@ public class BlockInit
 
         // No Creative Tab
         // Signs
-        AGED_SIGN = PokecubeLegends.BLOCKS.register("aged_sign",
+        AGED_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("aged_sign",
                 () -> new GenericStandingSign(
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN).strength(1.0F)
                                 .noCollission().sound(SoundType.WOOD),
                         LegendsWoodType.AGED));
-        AGED_WALL_SIGN = PokecubeLegends.BLOCKS.register("aged_wall_sign",
+        AGED_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("aged_wall_sign",
                 () -> new GenericWallSign(BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN)
                         .strength(1.0F).noCollission().sound(SoundType.WOOD).lootFrom(AGED_SIGN),
                         LegendsWoodType.AGED));
-        CONCRETE_SIGN = PokecubeLegends.BLOCKS
-                .register("concrete_sign",
+        CONCRETE_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("concrete_sign",
                         () -> new GenericStandingSign(BlockBehaviour.Properties.of().mapColor(MapColor.SNOW)
                                 .strength(10.0F, 500.0F).noCollission().sound(SoundType.STONE),
                                 LegendsWoodType.CONCRETE));
-        CONCRETE_WALL_SIGN = PokecubeLegends.BLOCKS.register("concrete_wall_sign",
+        CONCRETE_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("concrete_wall_sign",
                 () -> new GenericWallSign(
                         BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).strength(10.0F, 500.0F)
                                 .noCollission().sound(SoundType.STONE).lootFrom(CONCRETE_SIGN),
                         LegendsWoodType.CONCRETE));
-        CONCRETE_DENSE_SIGN = PokecubeLegends.BLOCKS.register("concrete_dense_sign",
+        CONCRETE_DENSE_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("concrete_dense_sign",
                 () -> new GenericStandingSign(BlockBehaviour.Properties.of().mapColor(MapColor.SNOW)
                         .strength(20.0F, 1200.0F).noCollission().sound(SoundType.STONE),
                         LegendsWoodType.CONCRETE_DENSE));
-        CONCRETE_DENSE_WALL_SIGN = PokecubeLegends.BLOCKS.register("concrete_dense_wall_sign",
+        CONCRETE_DENSE_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("concrete_dense_wall_sign",
                 () -> new GenericWallSign(
                         BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).strength(20.0F, 1200.0F)
                                 .noCollission().sound(SoundType.STONE).lootFrom(CONCRETE_DENSE_SIGN),
                         LegendsWoodType.CONCRETE_DENSE));
-        CORRUPTED_SIGN = PokecubeLegends.BLOCKS.register("corrupted_sign",
+        CORRUPTED_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("corrupted_sign",
                 () -> new GenericStandingSign(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
                         .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.CORRUPTED));
-        CORRUPTED_WALL_SIGN = PokecubeLegends.BLOCKS
-                .register("corrupted_wall_sign",
+        CORRUPTED_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("corrupted_wall_sign",
                         () -> new GenericWallSign(
                                 BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(1.0F)
                                         .noCollission().sound(SoundType.WOOD).lootFrom(CORRUPTED_SIGN),
                                 LegendsWoodType.CORRUPTED));
-        DISTORTIC_SIGN = PokecubeLegends.BLOCKS.register("distortic_sign",
+        DISTORTIC_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_sign",
                 () -> new GenericStandingSign(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE)
                         .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.DISTORTIC));
-        DISTORTIC_WALL_SIGN = PokecubeLegends.BLOCKS.register("distortic_wall_sign",
+        DISTORTIC_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("distortic_wall_sign",
                 () -> new GenericWallSign(
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLUE).strength(1.0F)
                                 .noCollission().sound(SoundType.WOOD).lootFrom(DISTORTIC_SIGN),
                         LegendsWoodType.DISTORTIC));
-        INVERTED_SIGN = PokecubeLegends.BLOCKS
+        INVERTED_SIGN = PokecubeLegends.NO_ITEM_BLOCKS
                 .register("inverted_sign",
                         () -> new GenericStandingSign(
                                 BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_BLUE)
                                         .strength(1.0F, 1.5F).noCollission().sound(SoundType.WOOD),
                                 LegendsWoodType.INVERTED));
-        INVERTED_WALL_SIGN = PokecubeLegends.BLOCKS.register("inverted_wall_sign",
+        INVERTED_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("inverted_wall_sign",
                 () -> new GenericWallSign(
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_LIGHT_BLUE)
                                 .strength(1.0F, 1.5F).noCollission().sound(SoundType.WOOD).lootFrom(INVERTED_SIGN),
                         LegendsWoodType.INVERTED));
-        MIRAGE_SIGN = PokecubeLegends.BLOCKS.register("mirage_sign",
+        MIRAGE_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("mirage_sign",
                 () -> new GenericStandingSign(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
                         .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.MIRAGE));
-        MIRAGE_WALL_SIGN = PokecubeLegends.BLOCKS
-                .register("mirage_wall_sign",
-                        () -> new GenericWallSign(
-                                BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(1.0F)
-                                        .noCollission().sound(SoundType.WOOD).lootFrom(MIRAGE_SIGN),
-                                LegendsWoodType.MIRAGE));
-        TEMPORAL_SIGN = PokecubeLegends.BLOCKS.register("temporal_sign",
+        MIRAGE_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("mirage_wall_sign",
+                () -> new GenericWallSign(
+                        BlockBehaviour.Properties.of().mapColor(MapColor.SAND).strength(1.0F)
+                                .noCollission().sound(SoundType.WOOD).lootFrom(MIRAGE_SIGN),
+                        LegendsWoodType.MIRAGE));
+        TEMPORAL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_sign",
                 () -> new GenericStandingSign(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
                         .strength(1.0F).noCollission().sound(SoundType.WOOD), LegendsWoodType.TEMPORAL));
-        TEMPORAL_WALL_SIGN = PokecubeLegends.BLOCKS.register("temporal_wall_sign",
+        TEMPORAL_WALL_SIGN = PokecubeLegends.NO_ITEM_BLOCKS.register("temporal_wall_sign",
                 () -> new GenericWallSign(
                         BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM).strength(1.0F)
                                 .noCollission().sound(SoundType.WOOD).lootFrom(TEMPORAL_SIGN),
@@ -2549,39 +2546,20 @@ public class BlockInit
         return false;
     }
 
-
-    public static RegistryObject<Block> registerBlock(String name, Supplier<? extends Block> block)
-    {
-        RegistryObject<Block> blocks = PokecubeLegends.BLOCKS.register(name, block);
-        PokecubeLegends.ITEMS.register(name, () -> new BlockItem(blocks.get(), new Item.Properties()));
-        return blocks;
-    }
-
     public static void init()
     {
         PlantsInit.registry();
         PottedPlantsInit.registry();
 
         for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
-            PokecubeLegends.ITEMS.register(reg.getId().getPath(),
-                    () -> new BlockItem(reg.get(), new Item.Properties()));
-
-        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
         {
             // These are registered separately, so skip them.
-            if (reg == BlockInit.BIG_CONTAMINATED_DRIPLEAF_STEM || reg == PlantsInit.DISTORTIC_VINES_PLANT
-                    || reg == PlantsInit.DISTORTIC_VINES || reg == PlantsInit.GOLDEN_SHROOM_PLANT
-                    || reg == PlantsInit.HANGING_TENDRILS_PLANT || reg == PlantsInit.PURPLE_WISTERIA_VINES_PLANT
-                    || reg == PlantsInit.TEMPORAL_BAMBOO || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT
-                    || reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD)
-                continue;
-            PokecubeLegends.ITEMS.register(reg.getId().getPath(),
-                    () -> new BlockItem(reg.get(), new Item.Properties()));
-        }
-
-        for (final RegistryObject<Block> reg : PokecubeLegends.BLOCKS.getEntries())
-        {
-            if (reg == BlockInit.INFECTED_TORCH || reg == BlockInit.INFECTED_TORCH_WALL) continue;
+//            if (reg == PlantsInit.DISTORTIC_VINES_PLANT
+//                    || reg == PlantsInit.DISTORTIC_VINES || reg == PlantsInit.GOLDEN_SHROOM_PLANT
+//                    || reg == PlantsInit.HANGING_TENDRILS_PLANT || reg == PlantsInit.PURPLE_WISTERIA_VINES_PLANT
+//                    || reg == PlantsInit.TEMPORAL_BAMBOO || reg == PlantsInit.TEMPORAL_BAMBOO_SHOOT
+//                    || reg == PlantsInit.PINK_TAINTED_LILY_PAD || reg == PlantsInit.TAINTED_LILY_PAD)
+//                continue;
             PokecubeLegends.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties()));
         }
