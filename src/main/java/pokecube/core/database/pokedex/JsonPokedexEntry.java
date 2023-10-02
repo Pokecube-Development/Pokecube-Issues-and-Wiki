@@ -94,6 +94,16 @@ public class JsonPokedexEntry
             { hp, attack, defense, special_attack, special_defense, speed };
             t.stats = stats;
         }
+
+        public void set(int[] stats)
+        {
+            this.hp = stats[0];
+            this.attack = stats[0];
+            this.defense = stats[0];
+            this.special_attack = stats[0];
+            this.special_defense = stats[0];
+            this.speed = stats[0];
+        }
     }
 
     /**
@@ -108,6 +118,16 @@ public class JsonPokedexEntry
             byte[] stats =
             { (byte) hp, (byte) attack, (byte) defense, (byte) special_attack, (byte) special_defense, (byte) speed };
             t.evs = stats;
+        }
+
+        public void set(byte[] stats)
+        {
+            this.hp = stats[0];
+            this.attack = stats[0];
+            this.defense = stats[0];
+            this.special_attack = stats[0];
+            this.special_defense = stats[0];
+            this.speed = stats[0];
         }
     }
 
@@ -174,15 +194,36 @@ public class JsonPokedexEntry
 
     public static JsonPokedexEntry fromPokedexEntry(PokedexEntry e)
     {
-        JsonPokedexEntry made = new JsonPokedexEntry();
-        made.name = e.getTrimmedName();
-        made.modid = e.getModId();
-        made.stock = e.stock;
-        made.id = e.pokedexNb;
-        made.is_default = e.base;
+        JsonPokedexEntry made = null;
+
         if (e._root_json != null)
         {
-            made.mergeFrom(e._root_json);
+            made = e._root_json;
+        }
+        else
+        {
+            made = new JsonPokedexEntry();
+            made.name = e.getTrimmedName();
+            made.modid = e.getModId();
+            made.stock = e.stock;
+            made.id = e.pokedexNb;
+            made.is_default = e.base;
+
+            made.size = new Sizes();
+            made.size.height = e.height;
+            made.size.width = e.width;
+            made.size.length = e.length;
+
+            made.stats = new Stats();
+            made.stats.set(e.stats);
+
+            made.evs = new EVs();
+            made.evs.set(e.evs);
+
+            made.gender_rate = e.sexeRatio;
+            made.capture_rate = e.catchRate;
+            made.base_experience = e.baseXP;
+            made.mass = (float) e.mass;
         }
         return made;
     }
