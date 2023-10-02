@@ -61,6 +61,35 @@ public class CoreCreativeTabs
             addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE.get());
             addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
             addBefore(event, Items.SUSPICIOUS_SAND, PokecubeItems.REPEL.get());
+
+            addAfter(event, Items.WARPED_HANGING_SIGN, PokecubeItems.getStack("enigma_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("enigma_sign").getItem(), PokecubeItems.getStack("enigma_hanging_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("enigma_hanging_sign").getItem(), PokecubeItems.getStack("leppa_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("leppa_sign").getItem(), PokecubeItems.getStack("leppa_hanging_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("leppa_hanging_sign").getItem(), PokecubeItems.getStack("nanab_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("nanab_sign").getItem(), PokecubeItems.getStack("nanab_hanging_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("nanab_hanging_sign").getItem(), PokecubeItems.getStack("oran_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("oran_sign").getItem(), PokecubeItems.getStack("oran_hanging_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("oran_hanging_sign").getItem(), PokecubeItems.getStack("pecha_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("pecha_sign").getItem(), PokecubeItems.getStack("pecha_hanging_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("pecha_hanging_sign").getItem(), PokecubeItems.getStack("sitrus_sign").getItem());
+            addAfter(event, PokecubeItems.getStack("sitrus_sign").getItem(), PokecubeItems.getStack("sitrus_hanging_sign").getItem());
+        }
+
+        if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES && PokecubeCore.getConfig().itemsInVanillaTabs)
+        {
+            addAfter(event, Items.BAMBOO_CHEST_RAFT, PokecubeItems.getStack("enigma_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("enigma_boat").getItem(), PokecubeItems.getStack("enigma_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("enigma_chest_boat").getItem(), PokecubeItems.getStack("leppa_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("leppa_boat").getItem(), PokecubeItems.getStack("leppa_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("leppa_chest_boat").getItem(), PokecubeItems.getStack("nanab_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("nanab_boat").getItem(), PokecubeItems.getStack("nanab_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("nanab_chest_boat").getItem(), PokecubeItems.getStack("oran_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("oran_boat").getItem(), PokecubeItems.getStack("oran_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("oran_chest_boat").getItem(), PokecubeItems.getStack("pecha_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pecha_boat").getItem(), PokecubeItems.getStack("pecha_chest_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("pecha_chest_boat").getItem(), PokecubeItems.getStack("sitrus_boat").getItem());
+            addAfter(event, PokecubeItems.getStack("sitrus_boat").getItem(), PokecubeItems.getStack("sitrus_chest_boat").getItem());
         }
 
         if (event.getTabKey() == CreativeModeTabs.NATURAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
@@ -129,21 +158,22 @@ public class CoreCreativeTabs
 
             add(event, PokecubeItems.getStack("enigma_boat"));
             add(event, PokecubeItems.getStack("enigma_chest_boat"));
-            add(event, PokecubeItems.getStack("enigma_sign"));
             add(event, PokecubeItems.getStack("leppa_boat"));
             add(event, PokecubeItems.getStack("leppa_chest_boat"));
-            add(event, PokecubeItems.getStack("leppa_sign"));
             add(event, PokecubeItems.getStack("nanab_boat"));
             add(event, PokecubeItems.getStack("nanab_chest_boat"));
-            add(event, PokecubeItems.getStack("nanab_sign"));
             add(event, PokecubeItems.getStack("oran_boat"));
             add(event, PokecubeItems.getStack("oran_chest_boat"));
-            add(event, PokecubeItems.getStack("oran_sign"));
             add(event, PokecubeItems.getStack("pecha_boat"));
             add(event, PokecubeItems.getStack("pecha_chest_boat"));
-            add(event, PokecubeItems.getStack("pecha_sign"));
             add(event, PokecubeItems.getStack("sitrus_boat"));
             add(event, PokecubeItems.getStack("sitrus_chest_boat"));
+
+            add(event, PokecubeItems.getStack("enigma_sign"));
+            add(event, PokecubeItems.getStack("leppa_sign"));
+            add(event, PokecubeItems.getStack("nanab_sign"));
+            add(event, PokecubeItems.getStack("oran_sign"));
+            add(event, PokecubeItems.getStack("pecha_sign"));
             add(event, PokecubeItems.getStack("sitrus_sign"));
 
             for (final String type : ItemGenerator.berryWoods.keySet())

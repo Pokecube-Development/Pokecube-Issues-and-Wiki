@@ -3,6 +3,7 @@ package pokecube.core.init;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -42,6 +43,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.hanging_signs.GenericHangingSignBlockEntity;
 import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
@@ -267,6 +269,8 @@ public class ClientSetupHandler
 
         if (GenericSignBlockEntity.SIGN_TYPE != null)
             event.registerBlockEntityRenderer(GenericSignBlockEntity.SIGN_TYPE.get(), SignRenderer::new);
+        if (GenericHangingSignBlockEntity.SIGN_TYPE != null)
+            event.registerBlockEntityRenderer(GenericHangingSignBlockEntity.SIGN_TYPE.get(), HangingSignRenderer::new);
     }
 
     public static void registerLayerDefinition(final BiConsumer<ModelLayerLocation, Supplier<LayerDefinition>> consumer)
