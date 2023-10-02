@@ -1,5 +1,8 @@
 package pokecube.compat.minecraft;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -8,10 +11,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.packs.PackType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.MinecraftForge;
@@ -20,6 +27,8 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.Config;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -31,12 +40,14 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
 import pokecube.core.commands.Kill.KillCommandEvent;
 import pokecube.core.database.Database;
+import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.eventhandlers.EventsHandler;
 import thut.api.OwnableCaps;
 import thut.api.item.ItemList;
+import thut.api.util.JsonUtil;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.lib.RegHelper;
 
@@ -105,57 +116,64 @@ public class Compat
 
     private static void onServerStarted(final ServerStartedEvent event)
     {
-//        ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
-//        PokemobsJson database = new PokemobsJson();
-//        database.priority = 1;
-//        ForgeRegistries.ENTITIES.forEach(t -> {
-//            Entity e = t.create(testLevel);
-//            if (e instanceof Mob && makePokemob.test(t))
-//            {
-//                @SuppressWarnings("unchecked")
-//                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) t;
-//                final String name = RegHelper.getKey(mobType).toString().replace(":", "_");
-//                PokedexEntry newDerp = Database.getEntry(name);
-//                if (newDerp != null && !newDerp.stock && generated.contains(newDerp))
-//                {
-//                    database.addEntry(new XMLPokedexEntry(newDerp));
-//                }
-//            }
-//        });
-//        if (!database.pokemon.isEmpty())
-//        {
-//            File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
-//                    .resolve("__vanilla_template__").toFile();
-//            root.mkdirs();
-//            File data = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
-//                    .resolve("__vanilla_template__").resolve("data").resolve("my_addon").resolve("database")
-//                    .resolve("pokemobs").toFile();
-//            data.mkdirs();
-//
-//            String metacontents = "{\r\n" + "  \"pack\": {\r\n"
-//                    + "    \"pack_format\": 8,\r\n".replace("8",
-//                            "" + PackType.SERVER_DATA.getVersion(SharedConstants.getCurrentVersion()))
-//                    + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
-//            File mcmeta = new File(root, "pack.mcmeta");
-//            File pokemobs = new File(data, "_template_.json");
-//
-//            try
-//            {
-//                FileOutputStream writer = new FileOutputStream(mcmeta);
-//                writer.write(metacontents.getBytes());
-//                writer.close();
-//                TODO template file for each one.
-//                String json = PokedexEntryLoader.getCompoundDatabaseJson(database);
-//                writer = new FileOutputStream(pokemobs);
-//                writer.write(json.getBytes());
-//                writer.close();
-//            }
-//            catch (Exception e)
-//            {
-//                e.printStackTrace();
-//            }
-//
-//        }
+        ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
+        List<JsonPokedexEntry> entries = new ArrayList<>();
+        ForgeRegistries.ENTITIES.forEach(t -> {
+            Entity e = t.create(testLevel);
+            if (e instanceof Mob && makePokemob.test(t))
+            {
+                @SuppressWarnings("unchecked")
+                final EntityType<? extends Mob> mobType = (EntityType<? extends Mob>) t;
+                final String name = RegHelper.getKey(mobType).toString().replace(":", "_");
+                PokedexEntry newDerp = Database.getEntry(name);
+                if (newDerp != null && !newDerp.stock && generated.contains(newDerp))
+                {
+                    entries.add(JsonPokedexEntry.fromPokedexEntry(newDerp));
+                }
+            }
+        });
+        if (!entries.isEmpty())
+        {
+            File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
+                    .resolve("__vanilla_template__").toFile();
+            root.mkdirs();
+            File data = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
+                    .resolve("__vanilla_template__").resolve("data").resolve("my_addon").resolve("database")
+                    .resolve("pokemobs").resolve("pokedex_entries").toFile();
+            data.mkdirs();
+
+            String metacontents = "{\r\n" + "  \"pack\": {\r\n"
+                    + "    \"pack_format\": 8,\r\n".replace("8",
+                            "" + PackType.SERVER_DATA.getVersion(SharedConstants.getCurrentVersion()))
+                    + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
+            File mcmeta = new File(root, "pack.mcmeta");
+
+            try
+            {
+                FileOutputStream writer = new FileOutputStream(mcmeta);
+                writer.write(metacontents.getBytes());
+                writer.close();
+                entries.forEach(entry -> {
+                    File pokemobs = new File(data, entry.name + ".json");
+                    String json = JsonUtil.gson.toJson(entry);
+                    try
+                    {
+                        var writer2 = new FileOutputStream(pokemobs);
+                        writer2.write(json.getBytes());
+                        writer2.close();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private static void onKillCommand(final KillCommandEvent event)
