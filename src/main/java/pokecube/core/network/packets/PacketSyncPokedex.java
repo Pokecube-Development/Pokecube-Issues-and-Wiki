@@ -5,8 +5,6 @@ import net.minecraftforge.event.OnDatapackSyncEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.pokedex.PokemobsJson;
-import thut.api.util.JsonUtil;
 import thut.core.common.network.bigpacket.JsonPacket;
 import thut.core.common.network.bigpacket.PacketAssembly;
 
@@ -28,11 +26,6 @@ public class PacketSyncPokedex extends JsonPacket
     public PacketSyncPokedex(final FriendlyByteBuf buffer)
     {
         super(buffer);
-    }
-
-    public PacketSyncPokedex(PokemobsJson database)
-    {
-        super(JsonUtil.gson.toJsonTree(database));
     }
 
     @Override
