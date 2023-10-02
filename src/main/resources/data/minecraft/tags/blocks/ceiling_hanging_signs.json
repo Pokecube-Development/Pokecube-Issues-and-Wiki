@@ -8,7 +8,6 @@
     "pokecube:sitrus_hanging_sign",
     {"id": "pokecube_legends:aged_hanging_sign", "required": false},
     {"id": "pokecube_legends:concrete_hanging_sign", "required": false},
-    {"id": "pokecube_legends:concrete_dense_hanging_sign", "required": false},
     {"id": "pokecube_legends:corrupted_hanging_sign", "required": false},
     {"id": "pokecube_legends:distortic_hanging_sign", "required": false},
     {"id": "pokecube_legends:inverted_hanging_sign", "required": false},
