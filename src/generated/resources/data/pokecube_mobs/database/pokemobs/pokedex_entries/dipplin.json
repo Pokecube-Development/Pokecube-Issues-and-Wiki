@@ -1,0 +1,150 @@
+{
+  "name": "dipplin",
+  "id": 1011,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.4
+  },
+  "mass": 9.7,
+  "is_default": true,
+  "capture_rate": 45,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 80,
+    "defense": 110,
+    "special_attack": 95,
+    "special_defense": 80,
+    "speed": 40
+  },
+  "evs": {
+    "defense": 2
+  },
+  "types": [
+    "grass",
+    "dragon"
+  ],
+  "abilities": {
+    "normal": [
+      "supersweet-syrup",
+      "gluttony"
+    ],
+    "hidden": [
+      "sticky-hold"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 8,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "recover"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "withdraw",
+          "sweet-scent",
+          "recycle",
+          "astonish",
+          "double-hit"
+        ]
+      },
+      {
+        "L": 44,
+        "moves": [
+          "substitute"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "protect"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "dragon-breath"
+        ]
+      },
+      {
+        "L": 20,
+        "moves": [
+          "bullet-seed"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "dragon-pulse"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "energy-ball"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "dragon-tail"
+        ]
+      },
+      {
+        "L": 28,
+        "moves": [
+          "syrup-bomb"
+        ]
+      }
+    ],
+    "misc": [
+      "body-slam",
+      "take-down",
+      "hyper-beam",
+      "solar-beam",
+      "defense-curl",
+      "reflect",
+      "rest",
+      "substitute",
+      "protect",
+      "outrage",
+      "giga-drain",
+      "endure",
+      "rollout",
+      "sleep-talk",
+      "sunny-day",
+      "facade",
+      "recycle",
+      "bullet-seed",
+      "gyro-ball",
+      "sucker-punch",
+      "seed-bomb",
+      "dragon-pulse",
+      "energy-ball",
+      "giga-impact",
+      "draco-meteor",
+      "leaf-storm",
+      "grass-knot",
+      "bug-bite",
+      "dragon-tail",
+      "grassy-terrain",
+      "infestation",
+      "pollen-puff",
+      "grassy-glide",
+      "tera-blast",
+      "pounce"
+    ]
+  }
+}
