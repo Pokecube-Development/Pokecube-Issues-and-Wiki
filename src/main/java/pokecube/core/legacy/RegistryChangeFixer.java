@@ -80,7 +80,7 @@ public class RegistryChangeFixer
                 PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key, Database.formeToEntry.get(m.key));
                 m.remap(Database.formeToEntry.get(m.key).getEntityType());
             }
-            else
+            else if(m.key.getNamespace().contains("pokecube"))
             {
                 PokecubeAPI.LOGGER.warn("Remapping {} to {}", m.key, Database.missingno);
                 m.remap(Database.missingno.getEntityType());
