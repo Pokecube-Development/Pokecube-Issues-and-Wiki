@@ -475,8 +475,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void updateMaterial(final Mat mat, final Material material)
     {
-        String[] parts = mat.name.split(":");
         if (mat.meshs == null) mat.meshs = "";
+        String[] parts = mat.meshs.split(":");
         if (mat.meshs.equals(this.getName()))
         {
             for (final Mesh mesh : this.shapes) mesh.setMaterial(material);
