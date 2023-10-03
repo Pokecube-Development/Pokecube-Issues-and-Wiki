@@ -245,7 +245,10 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
             super.onRemove(state, level, pos, state2, bool);
             if (!(state2.getBlock() instanceof PartialDry))
             {
-                level.setBlockAndUpdate(pos, Concrete.REBAR_BLOCK.get().defaultBlockState());
+                BlockState newState = Concrete.REBAR_BLOCK.get().defaultBlockState();
+                newState = IFlowingBlock.copyValidTo(state, newState);
+                newState = this.setAmount(newState, 0);
+                level.setBlockAndUpdate(pos, newState);
             }
         }
     }

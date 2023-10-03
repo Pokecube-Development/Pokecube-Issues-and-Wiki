@@ -146,16 +146,19 @@ public abstract class WetConcreteBlock extends MoltenBlock
     @Override
     public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (destState.getBlock() instanceof RebarBlock)
+        boolean destRebar = destState.getBlock() instanceof RebarBlock;
+        boolean fromRebar = flowState.getBlock() instanceof RebarBlock;
+
+        if (fromRebar)
+        {
+            return this.setAmount(destState, this.getAmount(flowState));
+        }
+        else if (destRebar)
         {
             var newFlowState = Concrete.REBAR_BLOCK.get().defaultBlockState();
             newFlowState = IFlowingBlock.copyValidTo(destState, newFlowState);
             newFlowState = newFlowState.setValue(RebarBlock.LEVEL, this.getExistingAmount(flowState, posTo, level));
             return newFlowState;
-        }
-        else if (flowState.getBlock() instanceof RebarBlock)
-        {
-            return this.setAmount(destState, this.getAmount(flowState));
         }
         return super.getFlowResult(flowState, destState, posTo, level);
     }

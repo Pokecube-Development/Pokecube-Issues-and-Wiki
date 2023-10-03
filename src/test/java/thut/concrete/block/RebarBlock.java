@@ -267,24 +267,15 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     @Override
     public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (!(destState.getBlock() instanceof IFlowingBlock))
+        boolean fromRebar = flowState.getBlock() instanceof RebarBlock;
+        BlockState fluidContents = flowState;
+        if (fromRebar)
         {
-            var newFlowState = Concrete.WET_LAYER.get().defaultBlockState();
-            newFlowState = IFlowingBlock.copyValidTo(flowState, newFlowState);
-            flowState = this.setAmount(newFlowState, this.getExistingAmount(flowState, posTo, level));
+            fluidContents = Concrete.WET_LAYER.get().defaultBlockState();
+            fluidContents = IFlowingBlock.copyValidTo(flowState, fluidContents);
+            fluidContents = this.setAmount(fluidContents, this.getAmount(flowState));
         }
-        else if (flowState.getBlock() instanceof RebarBlock rebar)
-        {
-            destState = this.setAmount(destState, this.getExistingAmount(flowState, posTo, level));
-            return destState;
-        }
-        BlockState ret = IFlowingBlock.super.getFlowResult(flowState, destState, posTo, level);
-        if (destState.getBlock() instanceof RebarBlock rebar)
-        {
-            ret = IFlowingBlock.copyValidTo(flowState, ret);
-            ret = rebar.setAmount(ret, this.getExistingAmount(flowState, posTo, level));
-        }
-        return ret;
+        return Concrete.WET_LAYER.get().getFlowResult(fluidContents, destState, posTo, level);
     }
 
     @Override

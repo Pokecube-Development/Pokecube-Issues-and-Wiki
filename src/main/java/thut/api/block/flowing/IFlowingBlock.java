@@ -317,7 +317,7 @@ public interface IFlowingBlock
 
                     BlockState flowState = setAmount(flowFrom, next);
                     BlockState destState = getFlowResult(flowState, flowInto, pos2, level);
-                    
+
                     if (destState != flowInto)
                     {
 
@@ -331,7 +331,7 @@ public interface IFlowingBlock
                         level.setBlock(pos2, destState, 2);
                         level.scheduleTick(pos.immutable(), flowRemains.getBlock(), getFlowRate());
                         level.scheduleTick(pos2, destState.getBlock(), getFlowRate());
-                        return destState;
+                        return flowRemains;
                     }
                 }
             }
@@ -367,7 +367,7 @@ public interface IFlowingBlock
         if (state.canBeReplaced(Fluids.FLOWING_WATER)) return true;
         return ItemList.is(DUSTREPLACEABLE, state);
     }
-    
+
     /**
      * 
      * @param flowState - This is the fractional state which would be placed if
@@ -411,18 +411,21 @@ public interface IFlowingBlock
         boolean debug = false;
         if (debug) level.getProfiler().push("flowing_block:" + this.getClass());
         int amt = getAmount(state);
+        IFlowingBlock flower = this;
 
         // Try down first;
         if (debug) level.getProfiler().push("fall_check");
-        BlockState rem = tryFall(state, level, pos, random);
+        BlockState rem = flower.tryFall(state, level, pos, random);
+        if (rem.getBlock() instanceof IFlowingBlock flow) flower = flow;
         if (debug) level.getProfiler().pop();
         // Next try spreading sideways
         if (debug) level.getProfiler().push("spread_check");
-        if (getAmount(rem) > 0) rem = trySpread(rem, level, pos, random);
+        if (getAmount(rem) > 0) rem = flower.trySpread(rem, level, pos, random);
+        if (rem.getBlock() instanceof IFlowingBlock flow) flower = flow;
         // Then apply any checks for if we were stable
-        if (debug) level.getProfiler().push("stability_check:" + this.getClass());
-        if (getAmount(rem) == amt) onStableTick(rem, level, pos, random);
-        else if (getAmount(rem) > 0) reScheduleTick(rem, level, pos);
+        if (debug) level.getProfiler().push("stability_check:" + flower.getClass());
+        if (getAmount(rem) == amt) flower.onStableTick(rem, level, pos, random);
+        else if (getAmount(rem) > 0) flower.reScheduleTick(rem, level, pos);
         if (debug) level.getProfiler().pop();
 
         if (debug) level.getProfiler().pop();

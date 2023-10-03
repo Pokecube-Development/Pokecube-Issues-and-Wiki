@@ -1,15 +1,14 @@
 package thut.concrete.item;
 
-import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.function.Function;
 
+import com.google.common.collect.Maps;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -31,13 +30,13 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraftforge.common.ForgeMod;
 import thut.api.block.IDyedBlock;
 import thut.api.block.flowing.IFlowingBlock;
 import thut.concrete.Concrete;
 
 public class PaintBrush extends BrushItem
 {
-    private static final double MAX_BRUSH_DISTANCE = Math.sqrt(ServerGamePacketListenerImpl.MAX_INTERACTION_DISTANCE) - 1.0D;
     private final DyeColor colour;
     public static final Map<Block, IDyedBlock> PAINTABLE_BLOCKS = Maps.newHashMap();
 
@@ -162,7 +161,6 @@ public class PaintBrush extends BrushItem
                                         BlockEntity blockEntity = world.getBlockEntity(pos);
                                         if (blockEntity != null && !world.isClientSide)
                                         {
-                                            CompoundTag tag = blockEntity.saveWithFullMetadata();
                                             world.setBlockEntity(blockEntity);
                                             world.setBlock(pos, painted, 3);
                                         }
@@ -191,6 +189,6 @@ public class PaintBrush extends BrushItem
     public HitResult calculateHitResult(LivingEntity entity) {
         return ProjectileUtil.getHitResultOnViewVector(entity, (player) -> {
             return !player.isSpectator() && player.isPickable();
-        }, MAX_BRUSH_DISTANCE);
+        }, ForgeMod.BLOCK_REACH.get().getDefaultValue());
     }
 }
