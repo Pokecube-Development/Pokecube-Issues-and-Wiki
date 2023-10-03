@@ -36,17 +36,7 @@ public class BlockEntityChunkProvider extends ChunkSource
     public BlockEntityChunkProvider(final WorldEntity worldIn)
     {
         this.world = worldIn;
-
-        try
-        {
-            this.lightManager = new LevelLightEngine(this, true, worldIn.getWorld().dimensionType().hasSkyLight());
-        }
-        catch (Exception e)
-        {
-            ThutCore.LOGGER.error("Error making new light manager!");
-            ThutCore.LOGGER.error(e);
-            this.lightManager = worldIn.getLightEngine();
-        }
+        this.lightManager = worldIn.getLightEngine();
     }
 
     @Override

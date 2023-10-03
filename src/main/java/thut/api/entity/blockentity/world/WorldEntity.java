@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ChunkPos;
+import net.minecraft.world.level.ColorResolver;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.BiomeManager;
@@ -92,8 +93,9 @@ public class WorldEntity extends Level implements IBlockEntityWorld
 
     public WorldEntity(final Level level)
     {
-        super((WritableLevelData) level.getLevelData(), level.dimension(), level.registryAccess(), level.dimensionTypeRegistration(),
-                level.getProfilerSupplier(), level.isClientSide(), level.isDebug(), 0, 1000);
+        super((WritableLevelData) level.getLevelData(), level.dimension(), level.registryAccess(),
+                level.dimensionTypeRegistration(), level.getProfilerSupplier(), level.isClientSide(), level.isDebug(),
+                0, 1000);
         this.world = level;
         this.chunks = new BlockEntityChunkProvider(this);
     }
@@ -152,6 +154,28 @@ public class WorldEntity extends Level implements IBlockEntityWorld
         IBlockEntityWorld.super.setBlockEntity(mob);
         this.mob = mob;
     }
+
+    // Start of Section for BlockAndTintGetter
+
+    @Override
+    public float getShade(final Direction direction, final boolean p_230487_2_)
+    {
+        return this.world.getShade(direction, p_230487_2_);
+    }
+
+    @Override
+    public LevelLightEngine getLightEngine()
+    {
+        return this.world.getLightEngine();
+    }
+
+    @Override
+    public int getBlockTint(BlockPos pos, ColorResolver colours)
+    {
+        return this.world.getBlockTint(pos, colours);
+    }
+
+    // End of section for BlockAndTintGetter
 
     @Override
     public FluidState getFluidState(final BlockPos pos)
@@ -247,12 +271,6 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
-    public LevelLightEngine getLightEngine()
-    {
-        return this.world.getLightEngine();
-    }
-
-    @Override
     public WorldBorder getWorldBorder()
     {
         return this.world.getWorldBorder();
@@ -271,20 +289,15 @@ public class WorldEntity extends Level implements IBlockEntityWorld
     }
 
     @Override
-    public FeatureFlagSet enabledFeatures() {
-        return null;
-    }
-
-    @Override
-    public float getShade(final Direction p_230487_1_, final boolean p_230487_2_)
+    public FeatureFlagSet enabledFeatures()
     {
-        return this.world.getShade(p_230487_1_, p_230487_2_);
+        return this.world.enabledFeatures();
     }
 
     @Override
     public boolean isStateAtPosition(final BlockPos p_217375_1_, final Predicate<BlockState> p_217375_2_)
     {
-        return false;
+        return this.world.isStateAtPosition(p_217375_1_, p_217375_2_);
     }
 
     @Override
@@ -438,7 +451,7 @@ public class WorldEntity extends Level implements IBlockEntityWorld
 
     @Override
     public void playSeededSound(@Nullable Player player, double v, double v1, double v2, Holder<SoundEvent> holder,
-                                SoundSource soundSource, float v3, float v4, long l)
+            SoundSource soundSource, float v3, float v4, long l)
     {
         world.playSeededSound(player, v, v1, v2, holder, soundSource, v3, v4, l);
     }
