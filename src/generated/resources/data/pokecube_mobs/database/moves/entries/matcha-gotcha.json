@@ -1,0 +1,11 @@
+{
+  "name": "matcha-gotcha",
+  "id": 902,
+  "power": 80,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

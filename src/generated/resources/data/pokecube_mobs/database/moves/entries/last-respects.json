@@ -1,0 +1,11 @@
+{
+  "name": "last-respects",
+  "id": 854,
+  "power": 50,
+  "pp": 10,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

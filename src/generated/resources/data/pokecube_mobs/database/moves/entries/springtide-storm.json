@@ -1,0 +1,11 @@
+{
+  "name": "springtide-storm",
+  "id": 831,
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 80,
+  "target": "all-opponents",
+  "damage_class": "special"
+}

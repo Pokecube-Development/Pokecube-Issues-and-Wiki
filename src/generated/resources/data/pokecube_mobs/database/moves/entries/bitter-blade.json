@@ -1,0 +1,11 @@
+{
+  "name": "bitter-blade",
+  "id": 891,
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

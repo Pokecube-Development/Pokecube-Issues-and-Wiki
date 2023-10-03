@@ -1,0 +1,11 @@
+{
+  "name": "sandsear-storm",
+  "id": 848,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "ground",
+  "accuracy": 80,
+  "target": "all-opponents",
+  "damage_class": "special"
+}

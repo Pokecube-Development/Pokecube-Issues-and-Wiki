@@ -1,0 +1,11 @@
+{
+  "name": "chilling-water",
+  "id": 886,
+  "power": 50,
+  "pp": 20,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

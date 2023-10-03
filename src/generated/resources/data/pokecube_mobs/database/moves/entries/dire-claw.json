@@ -1,0 +1,11 @@
+{
+  "name": "dire-claw",
+  "id": 827,
+  "power": 80,
+  "pp": 15,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

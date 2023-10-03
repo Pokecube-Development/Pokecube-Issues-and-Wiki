@@ -1,0 +1,11 @@
+{
+  "name": "syrup-bomb",
+  "id": 903,
+  "power": 60,
+  "pp": 10,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "jet-punch",
+  "id": 857,
+  "power": 60,
+  "pp": 15,
+  "priority": 1,
+  "type": "water",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

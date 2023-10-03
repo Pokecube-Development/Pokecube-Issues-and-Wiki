@@ -1,0 +1,11 @@
+{
+  "name": "wildbolt-storm",
+  "id": 847,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "electric",
+  "accuracy": 80,
+  "target": "all-opponents",
+  "damage_class": "special"
+}

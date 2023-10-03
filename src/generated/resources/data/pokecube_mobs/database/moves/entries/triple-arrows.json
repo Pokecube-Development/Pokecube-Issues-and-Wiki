@@ -1,0 +1,11 @@
+{
+  "name": "triple-arrows",
+  "id": 843,
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}
