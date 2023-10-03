@@ -20,7 +20,6 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.phys.AABB;
 import thut.api.entity.blockentity.IBlockEntity;
-import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 public class BlockEntityChunkProvider extends ChunkSource
