@@ -125,6 +125,8 @@ public class BBModelPart extends Part
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = new Material(m.name);
+            mat.expectedTexH = t.resolution.height;
+            mat.expectedTexW = t.resolution.width;
             mats.put(m.name, mat);
             if (b.box_uv || t.meta.box_uv) mat.cull = true;
             m.setMaterial(mat);
@@ -139,6 +141,8 @@ public class BBModelPart extends Part
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            mat.expectedTexH = t.resolution.height;
+            mat.expectedTexW = t.resolution.width;
             if (b.box_uv || t.meta.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);

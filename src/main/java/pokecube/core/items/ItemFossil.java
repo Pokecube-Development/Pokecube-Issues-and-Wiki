@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -36,6 +37,6 @@ public class ItemFossil extends Item
             TooltipFlag advanced)
     {
         if (this.entry == null) this.entry = Database.getEntry(this.type);
-        list.add(TComponent.translatable(this.entry.getUnlocalizedName()));
+        list.add(TComponent.translatable(this.entry.getUnlocalizedName()).withStyle(ChatFormatting.GOLD));
     }
 }

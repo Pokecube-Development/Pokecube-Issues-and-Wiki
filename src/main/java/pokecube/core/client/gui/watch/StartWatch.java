@@ -151,8 +151,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     public void postPageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {}
 
-    @SuppressWarnings("resource")
-	@Override
+    @Override
     public void prePageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.current_page != null) this.current_page.renderBackground(mat);

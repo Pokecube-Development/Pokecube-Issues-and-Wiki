@@ -7,7 +7,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.ShaderInstance;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
+import thut.core.client.render.model.parts.textures.BaseTexture;
+import thut.core.client.render.model.parts.textures.TextureFactory;
 
 public interface RenderTypeProvider
 {
@@ -19,6 +22,17 @@ public interface RenderTypeProvider
         public RenderType makeRenderType(Material material, ResourceLocation tex, Mode mode)
         {
             material.tex = tex;
+            TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
+            var tex_obj = texturemanager.getTexture(tex, null);
+            if (tex_obj instanceof BaseTexture baseTex)
+            {
+                material.texture_object = baseTex;
+            }
+            else
+            {
+                material.texture_object = TextureFactory.create(texturemanager, tex, material.expectedTexH,
+                        material.expectedTexW);
+            }
             if (material.types.containsKey(tex)) return material.types.get(tex);
             if (material.render_name.contains("water_mask_"))
             {

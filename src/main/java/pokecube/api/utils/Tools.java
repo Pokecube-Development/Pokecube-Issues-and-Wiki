@@ -375,7 +375,12 @@ public class Tools
         {
             pwr *= Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
             if (mob.getAbility() != null)
-                pwr = mob.getAbility().beforeDamage(mob, new MoveApplication(attack, user, target), pwr);
+            {
+                MoveApplication test = new MoveApplication(attack, user, target);
+                pwr = mob.getAbility().beforeDamage(mob, test, pwr);
+                mob.getAbility().preMoveUse(mob, test);
+                if (test.canceled) pwr = 0;
+            }
         }
         return pwr;
     }

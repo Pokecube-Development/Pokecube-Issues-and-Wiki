@@ -12,6 +12,9 @@ import java.util.function.Consumer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonSyntaxException;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
@@ -36,11 +39,23 @@ import pokecube.core.database.resources.PackFinder;
 import pokecube.core.legacy.RegistryChangeFixer;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.util.JsonUtil;
+import thut.core.common.ThutCore;
 import thut.lib.ResourceHelper;
 
+/**
+ * This class is the primary data structure used to load the pokedex entries
+ * from json files, and to convert them back into json.
+ *
+ */
 public class JsonPokedexEntry
         implements Consumer<PokedexEntry>, IMergeable<JsonPokedexEntry>, Comparable<JsonPokedexEntry>
 {
+    /**
+     * Holder for the physical size of the pokemob, this is intended as the
+     * outer extent of their hitboxes, and should be generally based on their
+     * pokedex listed size.
+     *
+     */
     public static class Sizes implements Consumer<PokedexEntry>
     {
         float height;
@@ -59,6 +74,10 @@ public class JsonPokedexEntry
         }
     }
 
+    /**
+     * Holder for stats for the pokemob, standard pokemon stats listings.
+     *
+     */
     public static class Stats implements Consumer<PokedexEntry>
     {
         int hp = 0;
@@ -75,8 +94,22 @@ public class JsonPokedexEntry
             { hp, attack, defense, special_attack, special_defense, speed };
             t.stats = stats;
         }
+
+        public void set(int[] stats)
+        {
+            this.hp = stats[0];
+            this.attack = stats[0];
+            this.defense = stats[0];
+            this.special_attack = stats[0];
+            this.special_defense = stats[0];
+            this.speed = stats[0];
+        }
     }
 
+    /**
+     * Holder for EVs provided by the pokemob on death, same format as Stats.
+     *
+     */
     public static class EVs extends Stats
     {
         @Override
@@ -86,8 +119,24 @@ public class JsonPokedexEntry
             { (byte) hp, (byte) attack, (byte) defense, (byte) special_attack, (byte) special_defense, (byte) speed };
             t.evs = stats;
         }
+
+        public void set(byte[] stats)
+        {
+            this.hp = stats[0];
+            this.attack = stats[0];
+            this.defense = stats[0];
+            this.special_attack = stats[0];
+            this.special_defense = stats[0];
+            this.speed = stats[0];
+        }
     }
 
+    /**
+     * Abilities for the pokemon, split into lists for normal abilities and
+     * hidden abilities. Normal abilities have higher probability of occuring
+     * naturally.
+     *
+     */
     public static class Abilities implements Consumer<PokedexEntry>
     {
         public List<String> normal = new ArrayList<>();
@@ -103,6 +152,12 @@ public class JsonPokedexEntry
         }
     }
 
+    /**
+     * moves listings holder, this contains level up moves, which the mob learns
+     * while levelling, and misc moves, which are all other moves the mob should
+     * be able to know, via breeding, move tutor, tm, etc.
+     *
+     */
     public static class Moves implements Consumer<PokedexEntry>
     {
         public static class LevelMoves
@@ -136,6 +191,51 @@ public class JsonPokedexEntry
             t.addMoves(_allMoves, lvlUpMoves);
         }
     }
+
+    public static JsonPokedexEntry fromPokedexEntry(PokedexEntry e)
+    {
+        JsonPokedexEntry made = null;
+
+        if (e._root_json != null)
+        {
+            made = e._root_json;
+        }
+        else
+        {
+            made = new JsonPokedexEntry();
+            made.name = e.getTrimmedName();
+            made.modid = e.getModId();
+            made.stock = e.stock;
+            made.id = e.pokedexNb;
+            made.is_default = e.base;
+
+            made.size = new Sizes();
+            made.size.height = e.height;
+            made.size.width = e.width;
+            made.size.length = e.length;
+
+            made.stats = new Stats();
+            made.stats.set(e.stats);
+
+            made.evs = new EVs();
+            made.evs.set(e.evs);
+
+            made.gender_rate = e.sexeRatio;
+            made.capture_rate = e.catchRate;
+            made.base_experience = e.baseXP;
+            made.mass = (float) e.mass;
+        }
+        return made;
+    }
+
+    public static void loadFromJson(JsonPokedexEntry json)
+    {
+        var entry = json.toPokedexEntry();
+        json.initStage2(entry);
+        json.postInit(entry);
+    }
+
+    public static String ENTIRE_DATABASE_CACHE = "";
 
     public boolean replace = false;
     public boolean remove = false;
@@ -309,7 +409,7 @@ public class JsonPokedexEntry
             if (anim == null) anim = model;
             entry.texturePath = tex;
             entry.modelPath = model;
-            
+
             entry.model = new ResourceLocation(this.modid, model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(this.modid, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(this.modid, anim + entry.getTrimmedName() + ".xml");
@@ -369,12 +469,14 @@ public class JsonPokedexEntry
         resources.forEach((l, r) -> {
             try
             {
-                final JsonPokedexEntry entry = loadDatabase(ResourceHelper.getStream(r));
-                toLoad.compute(entry.name, (key, list) -> {
-                    var ret = list;
-                    if (ret == null) ret = Lists.newArrayList();
-                    ret.add(entry);
-                    return ret;
+                List<JsonPokedexEntry> entries = loadDatabase(ResourceHelper.getStream(r), l);
+                entries.forEach(entry -> {
+                    toLoad.compute(entry.name, (key, list) -> {
+                        var ret = list;
+                        if (ret == null) ret = Lists.newArrayList();
+                        ret.add(entry);
+                        return ret;
+                    });
                 });
             }
             catch (Exception e)
@@ -410,6 +512,9 @@ public class JsonPokedexEntry
         });
         loaded.sort(null);
 
+        // Now we init the cache for telling clients about it
+        ENTIRE_DATABASE_CACHE = JsonUtil.smol_gson.toJson(loaded);
+
         // Stage 1, create the pokedex entries
         for (var load : loaded) load.toPokedexEntry();
         // Stage 2 initialise them
@@ -428,12 +533,53 @@ public class JsonPokedexEntry
 
     public static List<JsonPokedexEntry> LOADED = Lists.newArrayList();
 
-    private static JsonPokedexEntry loadDatabase(final InputStream stream) throws Exception
+    public static void populateFromArray(JsonArray array, List<JsonPokedexEntry> list, ResourceLocation source)
     {
         JsonPokedexEntry database = null;
+        int priorities = Integer.MIN_VALUE;
+        int start_i = 0;
+        var firstEntry = array.get(0).getAsJsonObject();
+        if (firstEntry.has("priority"))
+        {
+            priorities = firstEntry.get("priority").getAsInt();
+            if (!firstEntry.has("name")) start_i = 1;
+        }
+        for (int i = start_i; i < array.size(); i++)
+        {
+            var json = array.get(i);
+
+            try
+            {
+                database = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
+                if (priorities != Integer.MIN_VALUE) database.priority = priorities;
+                database.name = ThutCore.trim(database.name);
+                list.add(database);
+            }
+            catch (JsonSyntaxException e)
+            {
+                PokecubeAPI.LOGGER.error("Error with pokemob entry in file {}, {}", source, json, e);
+            }
+        }
+    }
+
+    private static List<JsonPokedexEntry> loadDatabase(final InputStream stream, ResourceLocation source)
+            throws Exception
+    {
+        JsonPokedexEntry database = null;
+        ArrayList<JsonPokedexEntry> list = new ArrayList<>();
         final InputStreamReader reader = new InputStreamReader(stream);
-        database = JsonUtil.gson.fromJson(reader, JsonPokedexEntry.class);
+        JsonElement json = JsonUtil.gson.fromJson(reader, JsonElement.class);
         reader.close();
-        return database;
+        if (json.isJsonArray())
+        {
+            var array = json.getAsJsonArray();
+            populateFromArray(array, list, source);
+        }
+        else
+        {
+            database = JsonUtil.gson.fromJson(json, JsonPokedexEntry.class);
+            list.add(database);
+        }
+        return list;
     }
 }

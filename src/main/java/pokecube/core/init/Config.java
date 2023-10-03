@@ -696,6 +696,8 @@ public class Config extends ConfigData
     public int deadDespawnTimer = 60;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "If they did not vanish by this time, they will revive instead, wild ones at full hp, tame ones at 1 hp. [Default: 600]")
     public int deadReviveTimer = 600;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Pokemobs with poof disabled will revive after this time, at full hp. [Default: 600]")
+    public int noPoofReviveTimer = 600;
 
     // ridden Speed multipliers
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 1.0]")

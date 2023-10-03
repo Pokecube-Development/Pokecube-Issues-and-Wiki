@@ -99,6 +99,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -591,6 +592,7 @@ public class TrainerEventHandler
     {
         final boolean isPlayerOrUnknown = evt.owner == null || evt.players;
         if (isPlayerOrUnknown) return;
+        if (PokecubeMod.fakeUUID.equals(evt.owner)) return;
         // This prevents the cube from ending up on the ground when recalled
         evt.setCanceled(true);
     }

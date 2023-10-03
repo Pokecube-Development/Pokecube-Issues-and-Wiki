@@ -56,9 +56,8 @@ public class DispenserBehaviorPokecube implements DispenseItemBehavior
             stack.useOn(context);
             player.getInventory().clearContent();
         }
-        else if (stack.getItem() instanceof IPokecube)
+        else if (stack.getItem() instanceof IPokecube cube)
         {
-            final IPokecube cube = (IPokecube) stack.getItem();
             final Vector3 direction = new Vector3().set(dir);
             final EntityPokecubeBase pokecube = cube.throwPokecube(source.getLevel(), player, stack, direction, 0.25f);
             if (pokecube != null)
