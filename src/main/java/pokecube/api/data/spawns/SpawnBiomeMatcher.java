@@ -261,6 +261,7 @@ public class SpawnBiomeMatcher
     public boolean _parsed = false;
     public boolean _valid = true;
     public boolean _usesMatchers = false;
+    public boolean _noConditions = true;
 
     public MutableComponent _description = null;
 
@@ -911,7 +912,8 @@ public class SpawnBiomeMatcher
             this._usesMatchers = true;
         }
 
-        if (this._or_children.size() > 0 || this._and_children.size() > 0 || this._usesMatchers)
+        if (this._or_children.size() > 0 || this._and_children.size() > 0 || this._usesMatchers
+                || this._not_children.size() > 0)
         {
             boolean or_valid = this._or_children.size() > 0;
             boolean and_valid = this._and_children.size() > 0;
@@ -928,6 +930,7 @@ public class SpawnBiomeMatcher
             this.initFields();
             return;
         }
+        this._noConditions = false;
 
         PokecubeAPI.LOGGER.warn("Warning, Old format for spawn rules: " + this.spawnRule);
 
@@ -1065,6 +1068,7 @@ public class SpawnBiomeMatcher
     {
         this._parsed = false;
         this._valid = false;
+        this._noConditions = true;
         this._description = null;
 
         // Somehow these can end up null after the gson parsing, so we need to
