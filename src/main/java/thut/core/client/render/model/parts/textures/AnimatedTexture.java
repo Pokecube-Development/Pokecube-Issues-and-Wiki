@@ -21,7 +21,7 @@ public class AnimatedTexture extends BaseTexture implements Tickable
 
     public static class AnimInfo
     {
-        public int frametime = 20;
+        public int frametime = 3;
         public float width = -1;
         public float height = -1;
         public boolean interpolate = false;
@@ -103,24 +103,32 @@ public class AnimatedTexture extends BaseTexture implements Tickable
     private int subFrame = 0;
     private int frame = 0;
 
-    public AnimatedTexture(ResourceLocation location, float expectedH, float expectedW)
+    public AnimatedTexture(ResourceLocation location, int img_h, float expectedH, float expectedW, boolean hasMeta)
     {
         super(location);
-        var manager = Minecraft.getInstance().getResourceManager();
         try
         {
-            var img = this.getTextureImage(manager).getImage();
-            int img_h = img.getHeight();
-            ResourceLocation mcmeta = new ResourceLocation(location.getNamespace(), location.getPath() + ".mcmeta");
-            var reader = ResourceHelper.getReader(mcmeta, manager);
-            info = JsonUtil.gson.fromJson(reader, McMeta.class).animation;
-            if (info != null)
+            var manager = Minecraft.getInstance().getResourceManager();
+            if (img_h < 0) img_h = this.getImageHeight();
+            if (hasMeta)
             {
-                if (info.width < 0) info.width = expectedW;
-                if (info.height < 0) info.height = expectedH;
-                info.init(img_h);
+                ResourceLocation mcmeta = new ResourceLocation(location.getNamespace(), location.getPath() + ".mcmeta");
+                var reader = ResourceHelper.getReader(mcmeta, manager);
+                info = JsonUtil.gson.fromJson(reader, McMeta.class).animation;
+                if (info != null)
+                {
+                    if (info.width < 0) info.width = expectedW;
+                    if (info.height < 0) info.height = expectedH;
+                    info.init(img_h);
+                }
+                else this.info = new AnimInfo();
             }
-            else this.info = new AnimInfo();
+            else
+            {
+                if (this.info.width < 0) this.info.width = expectedW;
+                if (this.info.height < 0) this.info.height = expectedH;
+                this.info.init(img_h);
+            }
         }
         catch (Exception e)
         {
@@ -133,9 +141,13 @@ public class AnimatedTexture extends BaseTexture implements Tickable
     {
         // Error occured on load, we had no frames!
         if (this.info._size == 0) return;
+
+        // see AtlasTextureSprite for vanilla's very similar implementation of
+        // this.
         this.subFrame++;
+        int timer = this.subFrame;
         AnimFrame frame = this.info._frames.get(this.frame);
-        if (this.subFrame >= frame.time)
+        if (timer >= frame.time)
         {
             this.frame = (this.frame + 1) % this.info._size;
             this.subFrame = 0;
