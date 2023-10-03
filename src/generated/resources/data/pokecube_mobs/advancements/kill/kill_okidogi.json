@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.okidogi"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.okidogi"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_okidogi": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "okidogi"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

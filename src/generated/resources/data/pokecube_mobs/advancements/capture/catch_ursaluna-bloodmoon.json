@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.catch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ursaluna-bloodmoon"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.catch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ursaluna-bloodmoon"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "catch_ursaluna-bloodmoon": {
+      "trigger": "pokecube:catch",
+      "conditions": {
+        "entry": "ursaluna-bloodmoon"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:capture/get_first_pokemob"
+}
