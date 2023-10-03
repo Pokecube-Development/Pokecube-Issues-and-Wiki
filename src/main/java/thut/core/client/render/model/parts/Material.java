@@ -68,8 +68,8 @@ public class Material
     public boolean flat = true;
     public int[] rgbabro = new int[6];
 
-    public float expectedTexH = 16;
-    public float expectedTexW = 16;
+    public float expectedTexH = -1;
+    public float expectedTexW = -1;
 
     public BaseTexture texture_object;
 
