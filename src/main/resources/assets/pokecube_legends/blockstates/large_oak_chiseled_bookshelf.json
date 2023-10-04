@@ -665,7 +665,7 @@
       }
     },
     {
-      "apply": { "model": "minecraft:block/chiseled_bookshelf", "uvlock": true, "y": 0 },
+      "apply": { "model": "pokecube:block/generic_chiseled_bookshelf", "uvlock": true, "y": 0 },
       "when": {
         "facing": "north"
       }
