@@ -5,6 +5,7 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraftforge.network.IContainerFactory;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
+import pokecube.core.inventory.bookshelves.LargeChiseledBookshelfMenu;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.pokemob.PokemobContainer;
@@ -16,6 +17,7 @@ public class MenuTypes
 
     public static final RegistryObject<MenuType<PokemobContainer>> POKEMOB;
     public static final RegistryObject<MenuType<HealerContainer>> HEALER;
+    public static final RegistryObject<MenuType<LargeChiseledBookshelfMenu>> LARGE_CHISELED_BOOKSHELF;
     public static final RegistryObject<MenuType<PCContainer>> PC;
     public static final RegistryObject<MenuType<TMContainer>> TMS;
     public static final RegistryObject<MenuType<TradeContainer>> TRADE;
@@ -28,6 +30,7 @@ public class MenuTypes
         PC = PokecubeCore.MENU.register("pc", () -> new MenuType<>((IContainerFactory<PCContainer>) PCContainer::new, FeatureFlags.REGISTRY.allFlags()));
         TMS = PokecubeCore.MENU.register("tm_machine", () -> new MenuType<>(TMContainer::new, FeatureFlags.REGISTRY.allFlags()));
         TRADE = PokecubeCore.MENU.register("trade_machine", () -> new MenuType<>(TradeContainer::new, FeatureFlags.REGISTRY.allFlags()));
+        LARGE_CHISELED_BOOKSHELF = PokecubeCore.MENU.register("large_chiseled_bookshelf", () -> new MenuType<>(LargeChiseledBookshelfMenu::twoRows, FeatureFlags.REGISTRY.allFlags()));
     }
 
     public static void init()

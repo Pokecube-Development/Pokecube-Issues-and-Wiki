@@ -3,6 +3,7 @@ package pokecube.core.blocks.bookshelves;
 import com.mojang.logging.LogUtils;
 import java.util.Objects;
 import javax.annotation.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
@@ -19,9 +20,6 @@ import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.item.BookItem;
-import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -32,7 +30,7 @@ import org.slf4j.Logger;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ModTags;
-import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
+import pokecube.core.inventory.bookshelves.LargeChiseledBookshelfMenu;
 import thut.lib.TComponent;
 
 public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer
@@ -120,10 +118,9 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
         return -1;
     }
 
-    @Override
     protected AbstractContainerMenu createMenu(final int i, Inventory playerInventory)
     {
-        return new GenericBookshelfMenu(i, playerInventory, this);
+        return LargeChiseledBookshelfMenu.twoRows(i, playerInventory, this);
     }
 
     @Override
@@ -185,9 +182,8 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
     @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        final Item book = stack.getItem();
-        return (book instanceof BookItem || book instanceof EnchantedBookItem || stack.is(ItemTags.BOOKSHELF_BOOKS)
-                || stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS) && this.items.isEmpty());
+        return (stack.is(ItemTags.BOOKSHELF_BOOKS) || stack.is(ModTags.BOOKS) ||
+                stack.is(ModTags.BOOKSHELF_ITEMS) && this.items.isEmpty());
     }
 
     public ItemStack getItem(int i) {
@@ -210,13 +206,8 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
 
     public void setItem(int i, ItemStack stack)
     {
-        final Item book = stack.getItem();
-//        if (book instanceof BookItem || book instanceof EnchantedBookItem || stack.is(ItemTags.BOOKSHELF_BOOKS)
-//                || stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS))
-//        {
-            this.items.set(i, stack);
-            this.updateState(i);
-//        }
+        this.items.set(i, stack);
+        this.updateState(i);
     }
 
     public boolean canTakeItem(Container container, int i, ItemStack stack)

@@ -751,6 +751,7 @@
 
     "container.pokecube.generic_barrel": "Barrel",
     "container.pokecube.generic_bookshelf": "Bookshelf",
+    "container.pokecube.large_chiseled_bookshelf": "Large Chiseled Bookshelf",
 
     "_comment": "Items",
     "item.pokecube.pokedex": "Pokédex",
