@@ -5,7 +5,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.Component;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.util.WatchPage;
@@ -29,14 +28,14 @@ public abstract class Progress extends WatchPage
     @Override
     public void render(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
-        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2; //+80
-        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2; //+30
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2; // +80
+        final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2; // +30
         int dy = 50;
         final int dx = 130;
-        final int colour = 0x55FF55;
+        final int colour = 0x336633;
         for (final String s : this.lines)
         {
-            GuiComponent.drawCenteredString(mat, this.font, s, x + dx, y + dy, colour);
+            this.font.draw(mat, s, x + dx - this.font.width(s) / 2, y + dy, colour);
             dy += this.font.lineHeight;
             if (s.isEmpty()) dy -= this.font.lineHeight / 1.25f;
         }

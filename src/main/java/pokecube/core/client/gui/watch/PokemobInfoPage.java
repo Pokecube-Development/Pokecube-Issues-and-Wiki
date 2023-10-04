@@ -349,8 +349,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 - 5;
         int colour = 0x30D64C;
         // Draw Subtitle Page
-        GuiComponent.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 103, y + 34,
-                colour);
+        var title = this.current_page.getTitle();
+        this.font.draw(mat, title, x + 103 - this.font.width(title) / 2, y + 34, colour);
         int dx = -76;
         int dy = 10;
 
