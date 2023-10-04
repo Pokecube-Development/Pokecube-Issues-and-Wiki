@@ -88,9 +88,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             gui.addRenderableWidget(new TexButton.Builder(page.getTitle(), b -> {
                 gui.changePage(this.index);
                 PokemobInfoPage.savedIndex = this.index;
-            }).bounds(x + buttonX, y + buttonY, 17, 17).onTooltip(new ShiftedTooltip(-buttonX, 20-y-buttonY))
-                    .setTexture(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(uOffset, vOffset, 17, 17))
-                    .build());
+            }).bounds(x + buttonX, y + buttonY, 17, 17).onTooltip(new ShiftedTooltip(-buttonX, 20 - y - buttonY))
+                    .setTexture(GuiPokeWatch.getWidgetTex()).noName()
+                    .setRender(new UVImgRender(uOffset, vOffset, 17, 17)).build());
         }
     }
 
@@ -310,12 +310,11 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 int box = 0;
                 for (final String s : text) box = Math.max(box, this.font.width(s) + 2);
 
-                graphics.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1,
-                        0xFF78C850);
+                graphics.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1, 0xFF78C850);
                 for (final String s : text)
                 {
-                	graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-                	graphics.drawString(this.font, s, x + mx + 1, y + my, 0xFFFFFFFF);
+                    graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
+                    graphics.drawString(this.font, s, x + mx + 1, y + my, 0xFFFFFFFF);
                     my += dy;
                 }
                 GlStateManager._enableDepthTest();
@@ -348,8 +347,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 - 5;
         int colour = 0x30D64C;
-        //Draw Subtitle Page
-        graphics.drawCenteredString(this.font, this.current_page.getTitle().getString(), x + 103, y + 34, colour);
+        // Draw Subtitle Page
+        var title = this.current_page.getTitle();
+        graphics.drawString(this.font, title, x + 103 - this.font.width(title) / 2, y + 34, colour, false);
         int dx = -76;
         int dy = 10;
 
@@ -466,12 +466,13 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
         // Shiny Button
         this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-        	if (this.pokemob.getPokedexEntry().hasShiny) {
-        		this.pokemob.setShiny(!this.pokemob.isShiny());
-        		this.pokemob.onGenesChanged();
-        	}
+            if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld())
+            {
+                this.pokemob.setShiny(!this.pokemob.isShiny());
+                this.pokemob.onGenesChanged();
+            }
         }).bounds(x - 50, y + 45, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(241, 36, 12, 12)).build());
+                .setRender(new UVImgRender(241, 36, 12, 12)).build());
 
         this.addRenderableWidget(this.search);
     }

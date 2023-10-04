@@ -75,14 +75,15 @@ public class ProgressPage extends PageWithSubPages<Progress>
 
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
-        graphics.drawCenteredString(this.font, player.getDisplayName().getString(), x + 135, y + 36, colour);
+        var title = player.getDisplayName();
+        graphics.drawCenteredString(this.font, title, x + 135 - this.font.width(title) / 2, y + 36, colour);
     }
 
     @Override
     public void onPageOpened()
     {
         super.onPageOpened();
-        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected()/*.getCode()*/);
+        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected());
     }
 
     @Override

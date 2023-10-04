@@ -39,6 +39,7 @@ import pokecube.api.data.spawns.matchers.MatchChecker;
 import pokecube.api.data.spawns.matchers.StructureMatcher;
 import pokecube.api.data.spawns.matchers.Structures;
 import pokecube.api.events.pokemobs.SpawnCheckEvent;
+import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.api.level.terrain.BiomeDatabase;
@@ -420,25 +421,45 @@ public class SpawnBiomeMatcher
     {
         this.parse();
         if (!this._valid) return false;
+        if (PokecubeCore.getConfig().debug_spawning) PokecubeAPI.logInfo("Starting Spawn check for {}", this.spawnRule);
+
         // First check children
         if (!this._not_children.isEmpty())
         {
             boolean any = _not_children.stream().anyMatch(m -> m.matches(checker));
-            if (any) return false;
+            if (any)
+            {
+                if (PokecubeCore.getConfig().debug_spawning)
+                    PokecubeAPI.logInfo("Failed Spawn check due to not_presets for {}", this.spawnRule.not_preset);
+                return false;
+            }
         }
         boolean or_valid = true;
         if (!this._or_children.isEmpty())
         {
             or_valid = _or_children.stream().anyMatch(m -> m.matches(checker));
         }
-        if (!or_valid) return false;
+        if (!or_valid)
+        {
+            if (PokecubeCore.getConfig().debug_spawning)
+                PokecubeAPI.logInfo("Failed Spawn check due to or_presets for {}", this.spawnRule.or_preset);
+            return false;
+        }
         boolean andValid = true;
         if (!this._and_children.isEmpty())
         {
             andValid = _and_children.stream().allMatch(m -> m.matches(checker));
         }
-        if (!andValid) return false;
-        if (!this._or_children.isEmpty()) return or_valid;
+        if (!andValid)
+        {
+            if (PokecubeCore.getConfig().debug_spawning)
+                PokecubeAPI.logInfo("Failed Spawn check due to and_presets for {}", this.spawnRule.and_preset);
+            return false;
+        }
+        if (!this._or_children.isEmpty())
+        {
+            return or_valid;
+        }
 
         // If we use a matcher, then it means we should have some for biomes,
         // have those manually check here.
@@ -457,7 +478,7 @@ public class SpawnBiomeMatcher
         }
         // If we didn't have matchers, but also no spawn rules, then it means we
         // passed entirely via the and/not/or presets above.
-        else if (this.spawnRule.values.isEmpty()) return true;
+        else if (this._noConditions) return true;
 
         if (!this.weatherMatches(checker)) return false;
         final boolean biome = this.biomeMatches(checker);

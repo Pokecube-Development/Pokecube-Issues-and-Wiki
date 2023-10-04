@@ -26,9 +26,9 @@ public class StatsInfo extends PokeInfoPage
         final int ATTSPE = this.parent.pokemob.getPokedexEntry().getStatATTSPE();
         final int DEFSPE = this.parent.pokemob.getPokedexEntry().getStatDEFSPE();
         final int VIT = this.parent.pokemob.getPokedexEntry().getStatVIT();
-        final int statYOffSet = y + 35;
-        final int offsetX = 120;
-        int dx = 15 + offsetX;
+        final int statYOffSet = y + 35; // 0 //45
+        final int offsetX = 120; // -50 //135
+        int dx = 15 + offsetX; // 20
 
         final String H = I18n.get("pokewatch.HP");
         final String A = I18n.get("pokewatch.ATT");
@@ -37,20 +37,20 @@ public class StatsInfo extends PokeInfoPage
         final String DS = I18n.get("pokewatch.DEFSP");
         final String S = I18n.get("pokewatch.VIT");
 
-        graphics.drawString(this.font, H, x + dx, statYOffSet + 18, 0xFF0000);
-        graphics.drawString(this.font, A, x + dx, statYOffSet + 27, 0xF08030);
-        graphics.drawString(this.font, D, x + dx, statYOffSet + 36, 0xF8D030);
-        graphics.drawString(this.font, AS, x + dx, statYOffSet + 45, 0x6890F0);
-        graphics.drawString(this.font, DS, x + dx, statYOffSet + 54, 0x78C850);
-        graphics.drawString(this.font, S, x + dx, statYOffSet + 63, 0xF85888);
+        graphics.drawString(this.font, H, x + dx, statYOffSet + 18, 0xFF0000, false);
+        graphics.drawString(this.font, A, x + dx, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, D, x + dx, statYOffSet + 36, 0xF8D030, false);
+        graphics.drawString(this.font, AS, x + dx, statYOffSet + 45, 0x6890F0, false);
+        graphics.drawString(this.font, DS, x + dx, statYOffSet + 54, 0x78C850, false);
+        graphics.drawString(this.font, S, x + dx, statYOffSet + 63, 0xF85888, false);
 
         dx = 80 + offsetX;
-        graphics.drawString(this.font, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
-        graphics.drawString(this.font, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
-        graphics.drawString(this.font, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
-        graphics.drawString(this.font, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
-        graphics.drawString(this.font, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
-        graphics.drawString(this.font, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
+        graphics.drawString(this.font, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000, false);
+        graphics.drawString(this.font, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030, false);
+        graphics.drawString(this.font, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0, false);
+        graphics.drawString(this.font, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850, false);
+        graphics.drawString(this.font, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888, false);
     }
 
     // Your Pokemob
@@ -100,21 +100,21 @@ public class StatsInfo extends PokeInfoPage
 
         final String Header = I18n.get("pokewatch.TVIVEV");
 
-        graphics.drawString(this.font, Header, 43 + x + dx, statYOffSet + 9, 0xFFFFFF);
-        graphics.drawString(this.font, H, x + dx, statYOffSet + 18, 0xFF0000);
-        graphics.drawString(this.font, A, x + dx, statYOffSet + 27, 0xF08030);
-        graphics.drawString(this.font, D, x + dx, statYOffSet + 36, 0xF8D030);
-        graphics.drawString(this.font, AS, x + dx, statYOffSet + 45, 0x6890F0);
-        graphics.drawString(this.font, DS, x + dx, statYOffSet + 54, 0x78C850);
-        graphics.drawString(this.font, S, x + dx, statYOffSet + 63, 0xF85888);
+        graphics.drawString(this.font, Header, 43 + x + dx, statYOffSet + 9, 0xFFFFFF, false);
+        graphics.drawString(this.font, H, x + dx, statYOffSet + 18, 0xFF0000, false);
+        graphics.drawString(this.font, A, x + dx, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, D, x + dx, statYOffSet + 36, 0xF8D030, false);
+        graphics.drawString(this.font, AS, x + dx, statYOffSet + 45, 0x6890F0, false);
+        graphics.drawString(this.font, DS, x + dx, statYOffSet + 54, 0x78C850, false);
+        graphics.drawString(this.font, S, x + dx, statYOffSet + 63, 0xF85888, false);
 
         dx = 50 + offsetX;
-        graphics.drawString(this.font, nat[0] + ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
-        graphics.drawString(this.font, nat[1] + ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
-        graphics.drawString(this.font, nat[2] + ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
-        graphics.drawString(this.font, nat[3] + ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
-        graphics.drawString(this.font, nat[4] + ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
-        graphics.drawString(this.font, nat[5] + ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
+        graphics.drawString(this.font, nat[0] + ": " + HP, x + dx, statYOffSet + 18, 0xFF0000, false);
+        graphics.drawString(this.font, nat[1] + ": " + ATT, x + dx, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, nat[2] + ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030, false);
+        graphics.drawString(this.font, nat[3] + ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0, false);
+        graphics.drawString(this.font, nat[4] + ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850, false);
+        graphics.drawString(this.font, nat[5] + ": " + VIT, x + dx, statYOffSet + 63, 0xF85888, false);
 
         dx = 15 + offsetX;
         byte[] stats2 = this.parent.pokemob.getIVs();
@@ -132,20 +132,20 @@ public class StatsInfo extends PokeInfoPage
         final int DEFSPE2 = stats2[4] + 128;
         final int VIT2 = stats2[5] + 128;
 
-        int shift = 88 + offsetX;
-        graphics.drawString(this.font, "" + HP, x + shift, statYOffSet + 18, 0xFF0000);
-        graphics.drawString(this.font, "" + ATT, x + shift, statYOffSet + 27, 0xF08030);
-        graphics.drawString(this.font, "" + DEF, x + shift, statYOffSet + 36, 0xF8D030);
-        graphics.drawString(this.font, "" + ATTSPE, x + shift, statYOffSet + 45, 0x6890F0);
-        graphics.drawString(this.font, "" + DEFSPE, x + shift, statYOffSet + 54, 0x78C850);
-        graphics.drawString(this.font, "" + VIT, x + shift, statYOffSet + 63, 0xF85888);
-        shift += 16;
-        graphics.drawString(this.font, "" + HP2, x + shift, statYOffSet + 18, 0xFF0000);
-        graphics.drawString(this.font, "" + ATT2, x + shift, statYOffSet + 27, 0xF08030);
-        graphics.drawString(this.font, "" + DEF2, x + shift, statYOffSet + 36, 0xF8D030);
-        graphics.drawString(this.font, "" + ATTSPE2, x + shift, statYOffSet + 45, 0x6890F0);
-        graphics.drawString(this.font, "" + DEFSPE2, x + shift, statYOffSet + 54, 0x78C850);
-        graphics.drawString(this.font, "" + VIT2, x + shift, statYOffSet + 63, 0xF85888);
+        int shift = 83 + offsetX;
+        graphics.drawString(this.font, "" + HP, x + shift, statYOffSet + 18, 0xFF0000, false);
+        graphics.drawString(this.font, "" + ATT, x + shift, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, "" + DEF, x + shift, statYOffSet + 36, 0xF8D030, false);
+        graphics.drawString(this.font, "" + ATTSPE, x + shift, statYOffSet + 45, 0x6890F0, false);
+        graphics.drawString(this.font, "" + DEFSPE, x + shift, statYOffSet + 54, 0x78C850, false);
+        graphics.drawString(this.font, "" + VIT, x + shift, statYOffSet + 63, 0xF85888, false);
+        shift += 21;
+        graphics.drawString(this.font, "" + HP2, x + shift, statYOffSet + 18, 0xFF0000, false);
+        graphics.drawString(this.font, "" + ATT2, x + shift, statYOffSet + 27, 0xF08030, false);
+        graphics.drawString(this.font, "" + DEF2, x + shift, statYOffSet + 36, 0xF8D030, false);
+        graphics.drawString(this.font, "" + ATTSPE2, x + shift, statYOffSet + 45, 0x6890F0, false);
+        graphics.drawString(this.font, "" + DEFSPE2, x + shift, statYOffSet + 54, 0x78C850, false);
+        graphics.drawString(this.font, "" + VIT2, x + shift, statYOffSet + 63, 0xF85888, false);
     }
 
     @Override
