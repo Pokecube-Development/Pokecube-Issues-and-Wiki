@@ -226,10 +226,15 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
             tickRateFall = 1;
             tickRateFlow = 1;
         }
-        double rng = random.nextDouble();
+
+        if (!canHarden(state, pos, level, random))
+        {
+            reScheduleTick(state, level, pos);
+            return;
+        }
 
         harden:
-        if ((!state.hasProperty(HEATED) || !state.getValue(HEATED)) && rng < hardenRate && !isFalling(state))
+        if ((!state.hasProperty(HEATED) || !state.getValue(HEATED)) && !isFalling(state))
         {
             checkSolid();
 
@@ -249,22 +254,23 @@ public abstract class MoltenBlock extends FlowingBlock implements SimpleWaterlog
             {
                 solidTo = solid_layer;
             }
-            
+
             solidTo = IFlowingBlock.copyValidTo(state, solidTo);
             solidTo = this.setAmount(solidTo, dust);
             level.setBlock(pos, solidTo, 2);
             onHarden(state, solidTo, level, pos, random);
             return;
         }
-        else if (rng > hardenRate)
-        {
-            reScheduleTick(state, level, pos);
-            return;
-        }
         super.onStableTick(state, level, pos, random);
         // This is called when lighting changes, We do not want to do this, as
         // it lags everything.
         if (state.getLightBlock(level, pos) != 0) level.getChunk(pos).setUnsaved(false);
+    }
+
+    protected boolean canHarden(BlockState state, BlockPos pos, ServerLevel level, RandomSource random)
+    {
+        double rng = random.nextDouble();
+        return rng < hardenRate;
     }
 
     protected void onHarden(BlockState state, BlockState solidTo, ServerLevel level, BlockPos pos, RandomSource random)

@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -161,6 +162,12 @@ public abstract class WetConcreteBlock extends MoltenBlock
             return newFlowState;
         }
         return super.getFlowResult(flowState, destState, posTo, level);
+    }
+
+    @Override
+    protected boolean canHarden(BlockState state, BlockPos pos, ServerLevel level, RandomSource random)
+    {
+        return level.isRaining();
     }
 
     @Override

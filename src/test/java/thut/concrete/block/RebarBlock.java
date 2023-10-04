@@ -246,6 +246,7 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     @Override
     public int getAmount(BlockState state)
     {
+        if (state.hasProperty(LAYERS)) return state.getValue(LAYERS);
         if (state.hasProperty(LEVEL)) return state.getValue(LEVEL);
         return IFlowingBlock.super.getAmount(state);
     }
@@ -260,7 +261,12 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     @Override
     public BlockState setAmount(BlockState state, int amt)
     {
-        if (state.hasProperty(LEVEL)) return state.setValue(LEVEL, amt);
+        if (state.getBlock() instanceof RebarBlock)
+        {
+            if (state.hasProperty(LAYERS)) state = state.setValue(LAYERS, amt);
+            if (state.hasProperty(LEVEL)) state = state.setValue(LEVEL, amt);
+            return state;
+        }
         return IFlowingBlock.super.setAmount(state, amt);
     }
 
@@ -311,7 +317,7 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     @Override
     public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        if (random.nextDouble() > hardenRate)
+        if (!canHarden(state, pos, level, random))
         {
             reScheduleTick(state, level, pos);
             return;
@@ -322,6 +328,11 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         BlockState stateTo = IFlowingBlock.copyValidTo(state, blockTo.defaultBlockState());
         if (amt != 16) stateTo = setAmount(stateTo, amt);
         level.setBlock(pos, stateTo, 3);
+    }
+
+    protected boolean canHarden(BlockState state, BlockPos pos, ServerLevel level, RandomSource random)
+    {
+        return level.isRaining();
     }
 
     @Override
