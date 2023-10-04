@@ -53,7 +53,7 @@ public class LargeChiseledBookshelfMenu extends AbstractContainerMenu
 		{
 			for(int j = 0; j < 3; ++j)
 			{
-				this.addSlot(new Slot(inventory, j + i + 6 * 3, 98 + j * 18, 24 + i * 18) {
+				this.addSlot(new Slot(inventory, j + i + 2 * 3, 98 + j * 18, 24 + i * 18) {
 					public boolean mayPlace(ItemStack stack) {
 						return stack.is(ItemTags.BOOKSHELF_BOOKS) || stack.is(ModTags.BOOKS) ||
 								stack.is(ModTags.BOOKSHELF_ITEMS);
