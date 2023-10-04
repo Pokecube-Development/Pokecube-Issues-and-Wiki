@@ -50,7 +50,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.core.handlers.ModTags;
 
-public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements SimpleWaterloggedBlock
+public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
 {
     private static final int MAX_BOOKS_IN_STORAGE = 12;
     public static final int BOOKS_PER_ROW = 3;
@@ -65,107 +65,48 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
                     BlockStateProperties.CHISELED_BOOKSHELF_SLOT_2_OCCUPIED, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_3_OCCUPIED,
                     BlockStateProperties.CHISELED_BOOKSHELF_SLOT_4_OCCUPIED, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_5_OCCUPIED,
                     SLOT_6, SLOT_7, SLOT_8, SLOT_9, SLOT_10, SLOT_11);
-    public static final IntegerProperty BOOKS = IntegerProperty.create("books", 0, 12);
-    private static final Map<Direction, VoxelShape> EMPTY = new HashMap<>();
-//    private static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-//    private static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
-
-    // Precise selection box @formatter:off
-    static
-    {
-    	LargeChiseledBookshelf.EMPTY.put(Direction.NORTH, Shapes.or(
-            Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(1, 7, 0, 15, 9, 16),
-            Block.box(0, 1, 0, 1, 15, 16),
-            Block.box(15, 1, 0, 16, 15, 16),
-            Block.box(1, 1, 7, 15, 15, 9),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	LargeChiseledBookshelf.EMPTY.put(Direction.EAST, Shapes.or(
-		    Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(0, 7, 1, 16, 9, 15),
-            Block.box(0, 1, 15, 16, 15, 16),
-            Block.box(0, 1, 0, 16, 15, 1),
-            Block.box(7, 1, 1, 9, 15, 15),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	LargeChiseledBookshelf.EMPTY.put(Direction.SOUTH, Shapes.or(
-			Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(1, 7, 0, 15, 9, 16),
-            Block.box(0, 1, 0, 1, 15, 16),
-            Block.box(15, 1, 0, 16, 15, 16),
-            Block.box(1, 1, 7, 15, 15, 9),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	LargeChiseledBookshelf.EMPTY.put(Direction.WEST, Shapes.or(
-			Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(0, 7, 1, 16, 9, 15),
-            Block.box(0, 1, 15, 16, 15, 16),
-            Block.box(0, 1, 0, 16, 15, 1),
-            Block.box(7, 1, 1, 9, 15, 15),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    }
-
-    // Precise selection box @formatter:on
-    @Override
-    public VoxelShape getShape(final BlockState state, final BlockGetter world, final BlockPos pos,
-            final CollisionContext context)
-    {
-        final Direction direction = state.getValue(HorizontalDirectionalBlock.FACING);
-        return Shapes.block();
-    }
 
     public LargeChiseledBookshelf(final Properties props)
     {
         super(props);
         BlockState state = this.stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
-                /*.setValue(GenericBookshelfEmpty.WATERLOGGED, false)*/.setValue(LargeChiseledBookshelf.BOOKS, 0);
-
-        for(BooleanProperty booleanproperty : SLOT_OCCUPIED_PROPERTIES) {
-            state = state.setValue(booleanproperty, Boolean.valueOf(false));
-        }
+                .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_0_OCCUPIED, Boolean.FALSE)
+                .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_1_OCCUPIED, Boolean.FALSE)
+                .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_2_OCCUPIED, Boolean.FALSE)
+                .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_3_OCCUPIED, Boolean.FALSE)
+                .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_4_OCCUPIED, Boolean.FALSE)
+                .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_5_OCCUPIED, Boolean.FALSE)
+                .setValue(SLOT_6, Boolean.FALSE).setValue(SLOT_7, Boolean.FALSE)
+                .setValue(SLOT_8, Boolean.FALSE).setValue(SLOT_9, Boolean.FALSE)
+                .setValue(SLOT_10, Boolean.FALSE).setValue(SLOT_11, Boolean.FALSE);
         this.registerDefaultState(state);
     }
 
     @Override
     protected void createBlockStateDefinition(final StateDefinition.Builder<Block, BlockState> builder)
     {
-        builder.add(LargeChiseledBookshelf.BOOKS, HorizontalDirectionalBlock.FACING, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_0_OCCUPIED,
+        builder.add(HorizontalDirectionalBlock.FACING, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_0_OCCUPIED,
                 BlockStateProperties.CHISELED_BOOKSHELF_SLOT_1_OCCUPIED, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_2_OCCUPIED,
                 BlockStateProperties.CHISELED_BOOKSHELF_SLOT_3_OCCUPIED, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_4_OCCUPIED,
                 BlockStateProperties.CHISELED_BOOKSHELF_SLOT_5_OCCUPIED, SLOT_6,
-                SLOT_7, SLOT_8, SLOT_9, SLOT_10, SLOT_11/*, GenericBookshelfEmpty.WATERLOGGED*/);
-//        SLOT_OCCUPIED_PROPERTIES.forEach((property) -> {
-//            builder.add(property);
-//        });
+                SLOT_7, SLOT_8, SLOT_9, SLOT_10, SLOT_11);
     }
 
     @Override
     public BlockEntity newBlockEntity(final BlockPos pos, final BlockState state)
     {
-        return new GenericBookshelfEmptyTile(pos, state);
+        return new LargeChiseledBookshelfBlockEntity(pos, state);
     }
 
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
-        final FluidState ifluidstate = context.getLevel().getFluidState(context.getClickedPos());
 
         int number = context.getItemInHand().getOrCreateTagElement("BlockEntityTag").getList("Items", 10).size();
         if (context.getItemInHand().getOrCreateTagElement("BlockEntityTag").contains("LootTable")) number = MAX_BOOKS_IN_STORAGE;
 
         return this.defaultBlockState()
-                .setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection().getOpposite())
-//                .setValue(GenericBookshelfEmpty.WATERLOGGED, ifluidstate.is(FluidTags.WATER)
-//                        && ifluidstate.getAmount() == 8)
-                .setValue(LargeChiseledBookshelf.BOOKS, number);
-    }
-
-    @Override
-    @SuppressWarnings("deprecation")
-    public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
-            final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
-    {
-//        if (state.getValue(GenericBookshelfEmpty.WATERLOGGED))
-//            world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
-        return super.updateShape(state, facing, facingState, world, currentPos, facingPos);
+                .setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection().getOpposite());
     }
 
     @Override
@@ -174,17 +115,8 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
     {
         final BlockEntity tile = world.getBlockEntity(pos);
         if (stack.hasCustomHoverName())
-            if (tile instanceof GenericBookshelfEmptyTile shelf) shelf.setCustomName(stack.getHoverName());
+            if (tile instanceof LargeChiseledBookshelfBlockEntity shelf) shelf.setCustomName(stack.getHoverName());
     }
-
-    // Adds Waterlogging
-//    @SuppressWarnings("deprecation")
-//    @Override
-//    public FluidState getFluidState(final BlockState state)
-//    {
-//        return state.getValue(GenericBookshelfEmpty.WATERLOGGED) ? Fluids.WATER.getSource(false)
-//                : super.getFluidState(state);
-//    }
 
     @Deprecated
     @Override
@@ -222,18 +154,12 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
         }
     }
 
-    @Override
-    public float getEnchantPowerBonus(final BlockState state, final LevelReader world, final BlockPos pos)
-    {
-        final int books = this.getBooks(state);
-        return books / 3f;
-    }
-
-    public int getBooks(final BlockState state)
-    {
-        if (state.hasProperty(LargeChiseledBookshelf.BOOKS)) return state.getValue(LargeChiseledBookshelf.BOOKS);
-        else return 0;
-    }
+//    @Override
+//    public float getEnchantPowerBonus(final BlockState state, final LevelReader world, final BlockPos pos)
+//    {
+//        final int books = this.getBooks(state);
+//        return books / 3f;
+//    }
 
     private static int getHitSlot(Vec2 vec2) {
         int i = vec2.y >= 0.5F ? 0 : 1;
@@ -257,7 +183,7 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
             final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
-        if (tile instanceof GenericBookshelfEmptyTile shelf && !player.isShiftKeyDown())
+        if (tile instanceof LargeChiseledBookshelfBlockEntity shelf && !player.isShiftKeyDown())
         {
             Optional<Vec2> optional = getRelativeHitCoordinatesForBlockFace(hit, state.getValue(HorizontalDirectionalBlock.FACING));
             Optional<Vec2> optional2 = getHitCoordinatesForBlockFace(hit, state.getValue(HorizontalDirectionalBlock.FACING));
@@ -295,7 +221,7 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
         }
 //            return shelf.interact(player, hand, world);
         if (world.isClientSide) return InteractionResult.SUCCESS;
-        else if (tile instanceof GenericBookshelfEmptyTile shelf && player.isShiftKeyDown())
+        else if (tile instanceof LargeChiseledBookshelfBlockEntity shelf && player.isShiftKeyDown())
         {
             player.openMenu(shelf);
             PiglinAi.angerNearbyPiglins(player, true);
@@ -310,11 +236,11 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
         {
             return Optional.empty();
         } else {
-            BlockPos blockpos = hitResult.getBlockPos().relative(hitDirection);
-            Vec3 vec3 = hitResult.getLocation().add((double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ());
-            double d0 = vec3.x();
+            BlockPos posRelative = hitResult.getBlockPos().relative(hitDirection);
+            Vec3 vec3 = hitResult.getLocation().subtract((double)posRelative.getX(), (double)posRelative.getY(), (double)posRelative.getZ());
+            double d0 = -vec3.x();
             double d1 = vec3.y();
-            double d2 = vec3.z();
+            double d2 = -vec3.z();
             Optional optional;
             switch (hitDirection) {
                 case NORTH:
@@ -341,7 +267,7 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
         }
     }
 
-    private static void addBook(Level world, BlockPos pos, Player player, GenericBookshelfEmptyTile tile, ItemStack stack, int i)
+    private static void addBook(Level world, BlockPos pos, Player player, LargeChiseledBookshelfBlockEntity tile, ItemStack stack, int i)
     {
         if (!world.isClientSide)
         {
@@ -359,7 +285,7 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock implements Si
         }
     }
 
-    private static void removeBook(Level world, BlockPos pos, Player player, GenericBookshelfEmptyTile tile, int i)
+    private static void removeBook(Level world, BlockPos pos, Player player, LargeChiseledBookshelfBlockEntity tile, int i)
     {
         if (!world.isClientSide)
         {

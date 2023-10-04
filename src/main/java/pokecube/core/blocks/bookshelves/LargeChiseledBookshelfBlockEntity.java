@@ -52,7 +52,7 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
 
     public LargeChiseledBookshelfBlockEntity(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.BOOKSHELF_EMPTY_TYPE.get(), pos, state);
+        this(PokecubeItems.LARGE_CHISELED_BOOKSHELF_TYPE.get(), pos, state);
     }
 
     private void updateState(int j) {
@@ -98,7 +98,7 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
     @Override
     protected Component getDefaultName()
     {
-        return TComponent.translatable("container." + PokecubeCore.MODID + ".generic_bookshelf");
+        return TComponent.translatable("container." + PokecubeCore.MODID + ".large_chiseled_bookshelf");
     }
 
     @Override
@@ -263,7 +263,7 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
             int number = 0;
             for (final ItemStack stack : this.getItems()) if (!stack.isEmpty()) number++;
             if (this.lootTable != null) number = MAX_BOOKS_IN_STORAGE;
-            this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(GenericBookshelfEmpty.BOOKS, number),
+            this.level.setBlock(this.getBlockPos(), this.getBlockState(),
                     3);
         }
         super.setChanged();
