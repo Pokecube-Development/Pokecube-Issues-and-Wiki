@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.blaze3d.platform.NativeImage;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.Tickable;
@@ -33,11 +34,13 @@ public class AnimatedTexture extends BaseTexture implements Tickable
         public float[] _uvScale =
         { 1, 1 };
 
-        public void init(float img_height)
+        public void init(NativeImage img)
         {
             if (frames.isEmpty())
             {
-                _size = (int) Math.ceil(img_height / height);
+                double expectedAspectRatio = height / width;
+                double imgAspectRatio = img.getHeight() / ((double) img.getWidth());
+                _size = (int) Math.ceil(imgAspectRatio / expectedAspectRatio);
                 for (int i = 0; i < _size; i++)
                 {
                     AnimFrame frame = new AnimFrame();
@@ -103,13 +106,17 @@ public class AnimatedTexture extends BaseTexture implements Tickable
     private int subFrame = 0;
     private int frame = 0;
 
-    public AnimatedTexture(ResourceLocation location, int img_h, float expectedH, float expectedW, boolean hasMeta)
+    public AnimatedTexture(ResourceLocation location, NativeImage img, float expectedH, float expectedW,
+            boolean hasMeta)
     {
         super(location);
         try
         {
             var manager = Minecraft.getInstance().getResourceManager();
-            if (img_h < 0) img_h = this.getImageHeight();
+            if (img == null)
+            {
+                img = this.getImage();
+            }
             if (hasMeta)
             {
                 ResourceLocation mcmeta = new ResourceLocation(location.getNamespace(), location.getPath() + ".mcmeta");
@@ -119,7 +126,7 @@ public class AnimatedTexture extends BaseTexture implements Tickable
                 {
                     if (info.width < 0) info.width = expectedW;
                     if (info.height < 0) info.height = expectedH;
-                    info.init(img_h);
+                    info.init(img);
                 }
                 else this.info = new AnimInfo();
             }
@@ -127,7 +134,7 @@ public class AnimatedTexture extends BaseTexture implements Tickable
             {
                 if (this.info.width < 0) this.info.width = expectedW;
                 if (this.info.height < 0) this.info.height = expectedH;
-                this.info.init(img_h);
+                this.info.init(img);
             }
         }
         catch (Exception e)
