@@ -58,6 +58,7 @@ import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.bases.BaseTile;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmptyTile;
+import pokecube.core.blocks.bookshelves.LargeChiseledBookshelfBlockEntity;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.maxspot.MaxBlock;
@@ -145,6 +146,7 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<BlockEntityType<?>> BARREL_TYPE;
     public static final RegistryObject<BlockEntityType<?>> BASE_TYPE;
     public static final RegistryObject<BlockEntityType<?>> BOOKSHELF_EMPTY_TYPE;
+    public static final RegistryObject<BlockEntityType<?>> LARGE_CHISELED_BOOKSHELF_TYPE;
     public static final RegistryObject<BlockEntityType<?>> HEALER_TYPE;
     public static final RegistryObject<BlockEntityType<?>> MAX_TYPE;
     public static final RegistryObject<BlockEntityType<?>> NEST_TYPE;
@@ -296,10 +298,12 @@ public class PokecubeItems extends ItemList
                 () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
         BOOKSHELF_EMPTY_TYPE = PokecubeCore.TILES.register("generic_bookshelf_empty",
                 () -> BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new,
-                        PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get(), PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get(),
-                        PokecubeItems.NANAB_BOOKSHELF_EMPTY.get(), PokecubeItems.ORAN_BOOKSHELF_EMPTY.get(),
-                        PokecubeItems.PECHA_BOOKSHELF_EMPTY.get(), PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get())
+                                PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get(), PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get(),
+                                PokecubeItems.NANAB_BOOKSHELF_EMPTY.get(), PokecubeItems.ORAN_BOOKSHELF_EMPTY.get(),
+                                PokecubeItems.PECHA_BOOKSHELF_EMPTY.get(), PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get())
                         .build(null));
+        LARGE_CHISELED_BOOKSHELF_TYPE = PokecubeCore.TILES.register("large_chiseled_bookshelf",
+                () -> BlockEntityType.Builder.of(LargeChiseledBookshelfBlockEntity::new).build(null));
         MAX_TYPE = PokecubeCore.TILES.register("dynamax",
                 () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
         NEST_TYPE = PokecubeCore.TILES.register("nest",

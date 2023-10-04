@@ -13,6 +13,7 @@ public class TileEntityInit
     public static final RegistryObject<BlockEntityType<InfectedCampfireBlockEntity>> CAMPFIRE_ENTITY;
     public static final RegistryObject<BlockEntityType<GenericBarrelTile>> BARREL_ENTITY;
     public static final RegistryObject<BlockEntityType<GenericBookshelfEmptyTile>> BOOKSHELF_EMPTY_ENTITY;
+    public static final RegistryObject<BlockEntityType<GenericBookshelfEmptyTile>> LARGE_CHISELED_BOOKSHELF_ENTITY;
 
     static
     {
@@ -32,6 +33,9 @@ public class TileEntityInit
                         BlockInit.CORRUPTED_BOOKSHELF_EMPTY.get(), BlockInit.DISTORTIC_BOOKSHELF_EMPTY.get(),
                         BlockInit.INVERTED_BOOKSHELF_EMPTY.get(), BlockInit.MIRAGE_BOOKSHELF_EMPTY.get(),
                         BlockInit.TEMPORAL_BOOKSHELF_EMPTY.get()).build(null));
+
+        LARGE_CHISELED_BOOKSHELF_ENTITY = PokecubeLegends.TILES.register("large_chiseled_bookshelf",
+                () -> BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get()).build(null));
     }
 
     public static void init()

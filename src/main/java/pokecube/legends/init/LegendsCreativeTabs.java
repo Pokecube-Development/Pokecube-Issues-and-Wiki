@@ -178,6 +178,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.CONCRETE_DENSE_BUTTON.get());
 
                 output.accept(BlockInit.BOOKSHELF_EMPTY.get());
+                output.accept(BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get());
 
                 output.accept(BlockInit.DISTORTIC_OAK_PLANKS.get());
                 output.accept(BlockInit.DISTORTIC_OAK_STAIRS.get());
@@ -637,6 +638,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.TEMPORAL_BARREL.get());
                 output.accept(BlockInit.DISTORTIC_STONE_BARREL.get());
 
+                output.accept(BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get());
                 output.accept(BlockInit.BOOKSHELF_EMPTY.get());
                 output.accept(BlockInit.AGED_BOOKSHELF.get());
                 output.accept(BlockInit.AGED_BOOKSHELF_EMPTY.get());
@@ -936,6 +938,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, Items.RESPAWN_ANCHOR, BlockInit.MAGNETIC_STONE.get());
             addBefore(event, Items.LIGHTNING_ROD, BlockInit.DISTORTIC_MIRROR.get());
             addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.BOOKSHELF_EMPTY.get());
+            addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get());
 
             addAfter(event, Items.WARPED_HANGING_SIGN, BlockInit.AGED_SIGN.get());
             addAfter(event, BlockInit.AGED_SIGN.get(), BlockInit.AGED_HANGING_SIGN.get());
@@ -1025,6 +1028,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
         if (event.getTabKey() == CreativeModeTabs.BUILDING_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.STRIPPED_OAK_WOOD, BlockInit.BOOKSHELF_EMPTY.get());
+            addAfter(event, Items.STRIPPED_OAK_WOOD, BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get());
 
             addAfter(event, Items.OAK_SLAB, BlockInit.DISTORTIC_OAK_PLANKS.get());
             addAfter(event, BlockInit.DISTORTIC_OAK_PLANKS.get(), BlockInit.DISTORTIC_OAK_STAIRS.get());
