@@ -257,7 +257,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
         //Shiny Button
        this.addRenderableWidget(new TexButton(x - 78, y + 93, 12, 12, TComponent.literal(""), b -> {
-        	if (this.pokemob.getPokedexEntry().hasShiny) {
+           if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
         		this.pokemob.setShiny(!this.pokemob.isShiny());
         		this.pokemob.onGenesChanged();
         	}
