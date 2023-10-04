@@ -35,7 +35,7 @@ public class TextureFactory
         double expectedAspectRatio = expectedH / expectedW;
         double imgAspectRatio = expectedAspectRatio;
 
-        if (img != null)
+        if (img != null && expectedH > 0 && expectedW > 0)
         {
             imgAspectRatio = img.getHeight() / ((double) img.getWidth());
         }
