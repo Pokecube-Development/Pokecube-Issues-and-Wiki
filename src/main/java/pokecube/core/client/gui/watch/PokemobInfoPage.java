@@ -89,7 +89,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             gui.addRenderableWidget(new TexButton(x + buttonX, y + buttonY, 17, 17, page.getTitle(), b -> {
                 gui.changePage(this.index);
                 PokemobInfoPage.savedIndex = this.index;
-            }, new ShiftedTooltip(-buttonX, 20-y-buttonY)).setTex(GuiPokeWatch.getWidgetTex()).noName()
+            }, new ShiftedTooltip(-buttonX, 20 - y - buttonY)).setTex(GuiPokeWatch.getWidgetTex()).noName()
                     .setRender(new UVImgRender(uOffset, vOffset, 17, 17)));
         }
     }
@@ -349,8 +349,8 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 - 5;
         int colour = 0x30D64C;
         // Draw Subtitle Page
-        GuiComponent.drawCenteredString(mat, this.font, this.current_page.getTitle().getString(), x + 103, y + 34,
-                colour);
+        var title = this.current_page.getTitle();
+        this.font.draw(mat, title, x + 103 - this.font.width(title) / 2, y + 34, colour);
         int dx = -76;
         int dy = 10;
 
@@ -467,7 +467,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
 
         // Shiny Button
         this.addRenderableWidget(new TexButton(x - 50, y + 45, 12, 12, TComponent.literal(""), b -> {
-            if (this.pokemob.getPokedexEntry().hasShiny)
+            if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld())
             {
                 this.pokemob.setShiny(!this.pokemob.isShiny());
                 this.pokemob.onGenesChanged();

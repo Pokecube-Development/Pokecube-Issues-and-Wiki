@@ -46,7 +46,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
@@ -494,11 +494,11 @@ public final class SpawnHandler
     public static Vector3 getSpawnSurface(final Level world, final Vector3 loc, final int range)
     {
         int tries = 0;
-        BlockState state;
+        FluidState fluid;
         if (loc.y > 0) while (tries++ <= range)
         {
-            state = loc.getBlockState(world);
-            if (state.getMaterial() == Material.WATER) return loc.copy();
+            fluid = world.getFluidState(loc.getPos());
+            if (!fluid.isEmpty()) return loc.copy();
             final boolean clear = loc.isClearOfBlocks(world);
             if (clear && !loc.offsetBy(Direction.DOWN).isClearOfBlocks(world)) return loc.copy();
             loc.offsetBy(Direction.DOWN);
@@ -914,8 +914,7 @@ public final class SpawnHandler
                 final long time = System.nanoTime();
                 this.spawn(world);
                 final double dt = (System.nanoTime() - time) / 1000d;
-                if (PokecubeCore.getConfig().debug_spawning && dt > 100)
-                    PokecubeAPI.logInfo("SpawnTick took " + dt);
+                if (PokecubeCore.getConfig().debug_spawning && dt > 100) PokecubeAPI.logInfo("SpawnTick took " + dt);
             }
             this.doMeteor(world);
         }

@@ -1,8 +1,10 @@
 package pokecube.api.data.spawns.matchers;
 
+import net.minecraft.network.chat.Component;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
+import thut.lib.TComponent;
 
 public interface MatchChecker
 {
@@ -60,8 +62,8 @@ public interface MatchChecker
     default void init()
     {}
 
-    default String makeDescription()
+    default Component makeDescription()
     {
-        return "Missingno";
+        return TComponent.literal("Missingno");
     }
 }
