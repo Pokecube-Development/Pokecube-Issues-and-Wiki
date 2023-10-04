@@ -4,8 +4,7 @@
 	"textures": {
 		"particle": "block/chiseled_bookshelf_top",
 		"top": "block/chiseled_bookshelf_top",
-		"side": "block/chiseled_bookshelf_side",
-		"front": "block/chiseled_bookshelf_empty"
+		"side": "block/chiseled_bookshelf_side"
 	},
 	"elements": [
 		{
@@ -13,9 +12,7 @@
 			"from": [0, 0, 0],
 			"to": [16, 16, 16],
 			"faces": {
-				"north": {"uv": [0, 0, 16, 16], "texture": "#front"},
 				"east": {"uv": [0, 0, 16, 16], "texture": "#side"},
-				"south": {"uv": [0, 0, 16, 16], "texture": "#front"},
 				"west": {"uv": [0, 0, 16, 16], "texture": "#side"},
 				"up": {"uv": [0, 0, 16, 16], "texture": "#top"},
 				"down": {"uv": [0, 0, 16, 16], "texture": "#top"}
