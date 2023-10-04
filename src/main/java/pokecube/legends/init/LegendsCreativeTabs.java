@@ -927,6 +927,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
         {
             addAfter(event, Items.BARREL, BlockInit.DISTORTIC_STONE_BARREL.get());
             addBefore(event, Items.REDSTONE_LAMP, BlockInit.MAGNETIC_STONE.get());
+            addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get());
         }
 
         if (event.getTabKey() == CreativeModeTabs.FUNCTIONAL_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
