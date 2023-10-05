@@ -1,7 +1,7 @@
 package thut.api.maths.vecmath;
 
-import net.minecraft.world.phys.Vec3;
 import org.joml.Vector3f;
+
 import thut.api.maths.Vector3;
 
 /**

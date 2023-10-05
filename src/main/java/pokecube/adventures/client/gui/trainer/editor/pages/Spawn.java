@@ -3,7 +3,6 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;

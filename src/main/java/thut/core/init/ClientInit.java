@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
+
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -43,8 +46,6 @@ import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import org.joml.Matrix4f;
-import org.joml.Vector3f;
 import thut.api.entity.CopyCaps;
 import thut.api.entity.ICopyMob;
 import thut.api.level.structures.NamedVolumes.INamedStructure;

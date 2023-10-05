@@ -2,11 +2,11 @@ package pokecube.adventures.client.gui.blocks;
 
 import java.util.List;
 
-import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;

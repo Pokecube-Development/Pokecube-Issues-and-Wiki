@@ -2,13 +2,12 @@ package pokecube.core.client.gui.pokemob.tabs;
 
 import java.util.List;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -16,6 +15,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.IPokemob;

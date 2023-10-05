@@ -1,11 +1,8 @@
 package pokecube.adventures.client.gui.trainer.editor.pages.util;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import net.minecraft.client.gui.components.Button;
-import thut.lib.TComponent;
 
 public class PageEntry extends AbstractSelectionList.Entry<PageEntry>
 {

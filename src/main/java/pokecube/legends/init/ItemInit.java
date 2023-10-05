@@ -1,8 +1,9 @@
 package pokecube.legends.init;
 
-import com.google.common.collect.Maps;
 import java.util.Locale;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.Direction;

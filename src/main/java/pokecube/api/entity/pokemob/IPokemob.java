@@ -15,7 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.Container;
@@ -47,7 +46,6 @@ import thut.api.entity.IShearable;
 import thut.api.entity.ai.IAIRunnable;
 import thut.api.maths.Vector3;
 import thut.api.world.mobs.data.DataSync;
-import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
 
 /** @author Manchou */

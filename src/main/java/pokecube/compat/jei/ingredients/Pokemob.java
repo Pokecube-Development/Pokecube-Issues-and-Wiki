@@ -1,11 +1,15 @@
 package pokecube.compat.jei.ingredients;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import org.joml.Vector4f;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredientType;
@@ -14,7 +18,6 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.TooltipFlag;
-import org.joml.Vector4f;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;

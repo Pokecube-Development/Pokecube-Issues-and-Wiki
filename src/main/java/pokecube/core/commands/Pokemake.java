@@ -9,24 +9,19 @@ import java.util.Locale;
 
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.CommandDispatcher;
-import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.suggestion.SuggestionProvider;
 
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
-import net.minecraft.commands.arguments.item.ItemArgument;
-import net.minecraft.commands.arguments.item.ItemInput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.abilities.AbilityManager;

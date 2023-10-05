@@ -1,9 +1,8 @@
 package pokecube.legends.blocks;
 
-import java.util.function.Supplier;
+import org.jetbrains.annotations.NotNull;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.LevelReader;
@@ -15,7 +14,6 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.PlantType;
-import org.jetbrains.annotations.NotNull;
 import pokecube.legends.init.PlantsInit;
 
 public class MushroomBase extends MushroomBlock

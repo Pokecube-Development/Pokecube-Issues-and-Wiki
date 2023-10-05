@@ -1,6 +1,7 @@
 package pokecube.adventures.advancements.triggers;
 
 import com.google.gson.JsonObject;
+
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;

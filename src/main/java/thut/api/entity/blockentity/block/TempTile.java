@@ -3,6 +3,8 @@ package thut.api.entity.blockentity.block;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.joml.Vector3f;
+
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
@@ -22,7 +24,6 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import org.joml.Vector3f;
 import thut.api.block.ITickTile;
 import thut.api.entity.blockentity.BlockEntityBase;
 import thut.api.entity.blockentity.BlockEntityBase.RelativeEntityPos;

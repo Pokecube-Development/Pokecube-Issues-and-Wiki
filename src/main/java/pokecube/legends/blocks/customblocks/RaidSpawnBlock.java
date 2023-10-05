@@ -1,7 +1,6 @@
 package pokecube.legends.blocks.customblocks;
 
 import java.util.List;
-import java.util.Objects;
 
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;

@@ -1,19 +1,20 @@
 package thut.core.client.render.bbmodel;
 
-import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonObject;
+import com.mojang.math.Axis;
 
 import net.minecraft.core.Direction;
-import org.joml.Quaternionf;
-import org.joml.Vector3f;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;

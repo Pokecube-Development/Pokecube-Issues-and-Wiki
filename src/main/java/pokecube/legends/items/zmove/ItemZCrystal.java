@@ -3,7 +3,6 @@ package pokecube.legends.items.zmove;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.utils.PokeType;
-import pokecube.core.PokecubeItems;
 
 public class ItemZCrystal extends Item
 {

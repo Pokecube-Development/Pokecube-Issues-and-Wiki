@@ -1,10 +1,12 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
-import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
+
 import org.lwjgl.glfw.GLFW;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;

@@ -1,7 +1,6 @@
 package thut.api.maths.vecmath;
 
 import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 
 /**
  * A single precision floating point 3 by 3 matrix.

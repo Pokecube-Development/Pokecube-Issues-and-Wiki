@@ -1,6 +1,5 @@
 package pokecube.mobs.client.smd;
 
-import com.mojang.math.Axis;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,6 +12,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -38,7 +38,6 @@ import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;
 import thut.core.common.ThutCore;
-import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
 public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFakeExtendedPart

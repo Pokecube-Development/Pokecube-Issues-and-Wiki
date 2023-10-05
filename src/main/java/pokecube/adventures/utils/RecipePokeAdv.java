@@ -1,6 +1,7 @@
 package pokecube.adventures.utils;
 
 import java.util.function.Supplier;
+
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;

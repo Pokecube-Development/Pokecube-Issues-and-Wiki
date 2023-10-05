@@ -2,7 +2,6 @@ package pokecube.core.blocks.pc;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -2,7 +2,6 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 
 import java.util.function.Predicate;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.brigadier.StringReader;
 
 import net.minecraft.client.Minecraft;

@@ -8,8 +8,8 @@ import net.minecraft.world.level.Level;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
-import thut.api.level.structures.StructureManager;
 import thut.api.level.structures.NamedVolumes.INamedStructure;
+import thut.api.level.structures.StructureManager;
 
 /**
  * 

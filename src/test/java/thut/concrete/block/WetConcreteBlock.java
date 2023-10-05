@@ -149,7 +149,6 @@ public abstract class WetConcreteBlock extends MoltenBlock
     {
         boolean destRebar = destState.getBlock() instanceof RebarBlock;
         boolean fromRebar = flowState.getBlock() instanceof RebarBlock;
-        var oldFlow = flowState;
 
         if (fromRebar)
         {

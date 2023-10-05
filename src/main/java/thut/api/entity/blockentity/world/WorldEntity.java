@@ -3,6 +3,8 @@ package thut.api.entity.blockentity.world;
 import java.util.List;
 import java.util.function.Predicate;
 
+import org.jetbrains.annotations.Nullable;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -46,7 +48,6 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.scores.Scoreboard;
 import net.minecraft.world.ticks.LevelTickAccess;
-import org.jetbrains.annotations.Nullable;
 import thut.api.entity.blockentity.IBlockEntity;
 import thut.core.common.network.EntityUpdate;
 

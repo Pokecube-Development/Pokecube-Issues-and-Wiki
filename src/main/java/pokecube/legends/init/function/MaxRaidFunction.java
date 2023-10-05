@@ -1,6 +1,5 @@
 package pokecube.legends.init.function;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -13,9 +12,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -24,7 +21,6 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;

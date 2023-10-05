@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.Sheets;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.properties.BlockSetType;
 import net.minecraft.world.level.block.state.properties.WoodType;
-import pokecube.core.PokecubeCore;
 import pokecube.legends.Reference;
 
 public class LegendsWoodType
