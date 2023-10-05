@@ -158,23 +158,21 @@ public interface IFlowingBlock
         boolean falling = isFalling(state);
 
         // Try down first;
-        int dust = getExistingAmount(state, pos, level);
+        int amountHere = getExistingAmount(state, pos, level);
 
         BlockPos belowPos = pos.below();
-        BlockState b = level.getBlockState(belowPos);
-        int below = getExistingAmount(b, belowPos, level);
-        boolean belowFalling = isFalling(b);
+        BlockState stateBelow = level.getBlockState(belowPos);
+        int amountBelow = getExistingAmount(stateBelow, belowPos, level);
+        boolean belowFalling = isFalling(stateBelow);
 
-        if (!this.canReplace(b))
+        if (!this.canReplace(stateBelow))
         {
-            int dustBelow = getAmount(b);
-
             FluidState us = state.getFluidState();
             FluidState belowFluid = level.getFluidState(belowPos);
             boolean fluidCheck = us.holder().value() != belowFluid.holder().value();
             fluidCheck &= !level.getFluidState(belowPos).isEmpty();
 
-            boolean shouldBeFalling = belowFalling || fluidCheck || (dustBelow < 16 && dustBelow > 0);
+            boolean shouldBeFalling = belowFalling || fluidCheck || (amountBelow < 16 && amountBelow > 0);
             if (shouldBeFalling && !falling)
             {
                 BlockState fall = makeFalling(state, true);
@@ -195,23 +193,26 @@ public interface IFlowingBlock
 
         if (falling || !state.hasProperty(FALLING))
         {
-            if ((below < 0 || below == 16))
+            if ((amountBelow < 0 || amountBelow == 16))
             {
                 if (!belowFalling)
                 {
-                    level.setBlock(pos, state = makeFalling(state, false), 2);
+                    if (falling)
+                    {
+                        level.setBlock(pos, state = makeFalling(state, false), 2);
+                    }
                     return state;
                 }
             }
             else
             {
-                int total = dust + below;
-                int diff = 16 - below;
+                int total = amountHere + amountBelow;
+                int diff = 16 - amountBelow;
                 BlockState newBelow;
                 if (total <= 16)
                 {
-                    newBelow = getFlowResult(setAmount(state, total), b, belowPos, level);
-                    if (newBelow != b)
+                    newBelow = getFlowResult(setAmount(state, total), stateBelow, belowPos, level);
+                    if (newBelow != stateBelow)
                     {
                         state = setAmount(state, 0);
                         // Sanity check:
@@ -227,16 +228,16 @@ public interface IFlowingBlock
                         return state;
                     }
                 }
-                else if (dust - diff >= 0)
+                else if (amountHere - diff >= 0)
                 {
                     BlockState b2 = getAlternate().defaultBlockState();
                     b2 = copyValidTo(state, b2);
-                    newBelow = getFlowResult(b2, b, belowPos, level);
+                    newBelow = getFlowResult(b2, stateBelow, belowPos, level);
 
-                    if (newBelow != b)
+                    if (newBelow != stateBelow)
                     {
                         newBelow = setAmount(newBelow, 16);
-                        state = setAmount(state, dust - diff);
+                        state = setAmount(state, amountHere - diff);
 
                         // Sanity check:
                         int aB = getAmount(newBelow);
@@ -247,14 +248,14 @@ public interface IFlowingBlock
 
                         level.setBlock(belowPos, newBelow, 2);
                         level.setBlock(pos, state, 2);
-                        level.scheduleTick(pos.immutable(), thisBlock(), getFallRate());
+                        level.scheduleTick(pos, thisBlock(), getFallRate());
                         level.scheduleTick(belowPos, newBelow.getBlock(), getFallRate());
                         return state;
                     }
                 }
             }
         }
-        if (below >= 0 && below < 16)
+        if (amountBelow >= 0 && amountBelow < 16)
         {
             BlockState fall = makeFalling(state, true);
             if (fall != state)

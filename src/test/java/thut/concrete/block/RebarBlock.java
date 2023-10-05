@@ -290,7 +290,7 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         if (!(state.getBlock() instanceof RebarBlock)) return IFlowingBlock.super.empty(state);
         BlockState empty = Concrete.REBAR_BLOCK.get().defaultBlockState();
         empty = IFlowingBlock.copyValidTo(state, empty);
-        empty = empty.setValue(LEVEL, 0);
+        empty = setAmount(empty, 0);
         return empty;
     }
 
