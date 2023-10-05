@@ -1,5 +1,6 @@
 package pokecube.legends.init.function;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -12,7 +13,9 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -21,6 +24,7 @@ import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
@@ -66,12 +70,10 @@ public class MaxRaidFunction
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 
-//            TODO: Fix
             final LootTable loottable = pokemob.getEntity().level().getServer().getLootData().getLootTable(MaxRaidFunction.lootTable);
-//            final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-//                    (ServerLevel) pokemob.getEntity().level()).withRandom(poke.getRandom());
-//            // Generate the loot list.
-//            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+            LootParams params = new LootParams.Builder((ServerLevel) poke.level()).create(loottable.getParamSet());
+            // Generate the loot list.
+            final List<ItemStack> list = loottable.getRandomItems(params);
 
             final List<AIRoutine> bannedAI = Lists.newArrayList();
 
@@ -101,16 +103,15 @@ public class MaxRaidFunction
             entity.setPos(v.x, v.y + 3, v.z);
             world.addFreshEntity(entity);
             entity.setHealth(entity.getMaxHealth());
-//            TODO: Fix
-//            if (!list.isEmpty()) Collections.shuffle(list);
+            if (!list.isEmpty()) Collections.shuffle(list);
             final int n = 1 + world.getRandom().nextInt(4);
             int i = 0;
-//            for (final ItemStack itemstack : list)
-//            {
-//                if (i == 0) pokemob.setHeldItem(itemstack);
-//                else new InventoryChange(entity, 2, itemstack, true).run(world);
-//                if (i++ >= n) break;
-//            }
+            for (final ItemStack itemstack : list)
+            {
+                if (i == 0) pokemob.setHeldItem(itemstack);
+                else new InventoryChange(entity, 2, itemstack, true).run(world);
+                if (i++ >= n) break;
+            }
             world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.NEUTRAL, 1, 1, false);
 
         }

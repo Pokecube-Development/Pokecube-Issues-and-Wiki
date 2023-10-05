@@ -517,18 +517,16 @@ public class PokedexEntry
             ItemStack result = null;
             if (action.lootTable != null)
             {
-                final LootTable loottable = pokemob.getEntity().level().getServer().getLootData().getLootTable(action.lootTable);
-//                TODO: Fix this
-//                final LootContext.Builder lootcontext$builder =
-//                        new LootContext.Builder((ServerLevel) pokemob.getEntity().level())
-//                                .withParameter(LootContextParams.THIS_ENTITY, pokemob.getEntity());
-//                for (final ItemStack itemstack : loottable
-//                        .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
-//                    if (!itemstack.isEmpty())
-//                    {
-//                        result = itemstack;
-//                        break;
-//                    }
+                final LootTable loottable = pokemob.getEntity().level().getServer().getLootData()
+                        .getLootTable(action.lootTable);
+                LootParams params = new LootParams.Builder((ServerLevel) player.level()).create(loottable.getParamSet());
+                // Generate the loot list.
+                final List<ItemStack> list = loottable.getRandomItems(params);
+                for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
+                {
+                    result = itemstack.copy();
+                    break;
+                }
             }
             else
             {
@@ -748,6 +746,7 @@ public class PokedexEntry
          * Only checks one biome type for vailidity
          *
          * b
+         * 
          * @return
          */
         public boolean isValid(final SpawnContext context, SpawnCheck checker)
