@@ -175,11 +175,17 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.getStack("sitrus_chest_boat"));
 
             add(event, PokecubeItems.getStack("enigma_sign"));
+            add(event, PokecubeItems.getStack("enigma_hanging_sign"));
             add(event, PokecubeItems.getStack("leppa_sign"));
+            add(event, PokecubeItems.getStack("leppa_hanging_sign"));
             add(event, PokecubeItems.getStack("nanab_sign"));
+            add(event, PokecubeItems.getStack("nanab_hanging_sign"));
             add(event, PokecubeItems.getStack("oran_sign"));
+            add(event, PokecubeItems.getStack("oran_hanging_sign"));
             add(event, PokecubeItems.getStack("pecha_sign"));
+            add(event, PokecubeItems.getStack("pecha_hanging_sign"));
             add(event, PokecubeItems.getStack("sitrus_sign"));
+            add(event, PokecubeItems.getStack("sitrus_hanging_sign"));
 
             for (final String type : ItemGenerator.berryWoods.keySet())
             {
