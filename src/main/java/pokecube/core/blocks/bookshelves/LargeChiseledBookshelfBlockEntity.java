@@ -253,8 +253,8 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
         {
             int number = 0;
             for (final ItemStack stack : this.getItems()) if (!stack.isEmpty()) number++;
-            if (this.lootTable != null) number = 12;
-            this.level.setBlock(this.getBlockPos(), this.getBlockState().setValue(LargeChiseledBookshelf.BOOKS, number),
+            if (this.lootTable != null) number = MAX_BOOKS_IN_STORAGE;
+            this.level.setBlock(this.getBlockPos(), this.getBlockState(),
                     3);
         }
         super.setChanged();
