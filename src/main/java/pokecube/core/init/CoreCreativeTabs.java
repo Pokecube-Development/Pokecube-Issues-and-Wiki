@@ -63,9 +63,17 @@ public class CoreCreativeTabs
             addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
             addBefore(event, Items.SUSPICIOUS_SAND, PokecubeItems.REPEL.get());
 
-            for (final String type : ItemGenerator.berryWoods.keySet()) {
-                addAfter(event, Items.CHISELED_BOOKSHELF, ItemGenerator.large_chiseled_bookshelves.get(type).get());
-            }
+            addAfter(event, Items.CHISELED_BOOKSHELF, PokecubeItems.getStack("large_enigma_chiseled_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("large_enigma_chiseled_bookshelf").getItem(),
+                    PokecubeItems.getStack("large_leppa_chiseled_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("large_leppa_chiseled_bookshelf").getItem(),
+                    PokecubeItems.getStack("large_nanab_chiseled_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("large_nanab_chiseled_bookshelf").getItem(),
+                    PokecubeItems.getStack("large_oran_chiseled_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("large_oran_chiseled_bookshelf").getItem(),
+                    PokecubeItems.getStack("large_pecha_chiseled_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("large_pecha_chiseled_bookshelf").getItem(),
+                    PokecubeItems.getStack("large_sitrus_chiseled_bookshelf").getItem());
 
             addAfter(event, Items.WARPED_HANGING_SIGN, PokecubeItems.getStack("enigma_sign").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_sign").getItem(), PokecubeItems.getStack("enigma_hanging_sign").getItem());
