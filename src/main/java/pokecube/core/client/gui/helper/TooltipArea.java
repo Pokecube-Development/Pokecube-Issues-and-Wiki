@@ -107,13 +107,15 @@ public class TooltipArea extends AbstractWidget
     @Override
     public void render(final GuiGraphics graphics, final int mx, final int my, final float tick)
     {
+        super.render(graphics, mx, my, tick);
         if (autoShow) this.renderWidget(graphics, mx, my, tick);
     }
 
     @Override
     public void renderWidget(GuiGraphics graphics, int x, int y, final float tick)
     {
-        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) onTooltip.onTooltip(this, graphics, x, y);
+        if (this.isHoveredOrFocused() && doTooltip.doTooltip(x, y)) 
+            onTooltip.onTooltip(this, graphics, x, y);
     }
 
     protected MutableComponent createNarrationMessage() {
