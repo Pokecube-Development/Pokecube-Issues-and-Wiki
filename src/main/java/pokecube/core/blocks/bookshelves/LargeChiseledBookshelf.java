@@ -34,6 +34,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec2;
@@ -46,6 +47,7 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
 {
     private static final int MAX_BOOKS_IN_STORAGE = 12;
     public static final int BOOKS_PER_ROW = 3;
+    public static final IntegerProperty BOOKS = IntegerProperty.create("books", 0, 12);
     public static final BooleanProperty SLOT_6 = BooleanProperty.create("slot_6_occupied");
     public static final BooleanProperty SLOT_7 = BooleanProperty.create("slot_7_occupied");
     public static final BooleanProperty SLOT_8 = BooleanProperty.create("slot_8_occupied");
@@ -70,7 +72,8 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
                 .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_5_OCCUPIED, Boolean.FALSE)
                 .setValue(SLOT_6, Boolean.FALSE).setValue(SLOT_7, Boolean.FALSE)
                 .setValue(SLOT_8, Boolean.FALSE).setValue(SLOT_9, Boolean.FALSE)
-                .setValue(SLOT_10, Boolean.FALSE).setValue(SLOT_11, Boolean.FALSE);
+                .setValue(SLOT_10, Boolean.FALSE).setValue(SLOT_11, Boolean.FALSE)
+                .setValue(BOOKS, 0);;
         this.registerDefaultState(state);
     }
 
@@ -81,7 +84,7 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
                 BlockStateProperties.CHISELED_BOOKSHELF_SLOT_1_OCCUPIED, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_2_OCCUPIED,
                 BlockStateProperties.CHISELED_BOOKSHELF_SLOT_3_OCCUPIED, BlockStateProperties.CHISELED_BOOKSHELF_SLOT_4_OCCUPIED,
                 BlockStateProperties.CHISELED_BOOKSHELF_SLOT_5_OCCUPIED, SLOT_6,
-                SLOT_7, SLOT_8, SLOT_9, SLOT_10, SLOT_11);
+                SLOT_7, SLOT_8, SLOT_9, SLOT_10, SLOT_11, BOOKS);
     }
 
     @Override
@@ -93,12 +96,15 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
     @Override
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
+        int number = context.getItemInHand().getOrCreateTagElement("BlockEntityTag").getList("Items", 10).size();
+        if (context.getItemInHand().getOrCreateTagElement("BlockEntityTag").contains("LootTable")) number = 12;
 
         boolean filled = false;
-        if (context.getItemInHand().getOrCreateTagElement("BlockEntityTag").contains("LootTable")) filled = true;
+        if (number == 1) filled = true;
 
         return this.defaultBlockState()
                 .setValue(HorizontalDirectionalBlock.FACING, context.getHorizontalDirection().getOpposite())
+
                 .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_0_OCCUPIED, filled)
                 .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_1_OCCUPIED, filled)
                 .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_2_OCCUPIED, filled)
@@ -107,7 +113,8 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
                 .setValue(BlockStateProperties.CHISELED_BOOKSHELF_SLOT_5_OCCUPIED, filled)
                 .setValue(SLOT_6, filled).setValue(SLOT_7, filled)
                 .setValue(SLOT_8, filled).setValue(SLOT_9, filled)
-                .setValue(SLOT_10, filled).setValue(SLOT_11, filled);
+                .setValue(SLOT_10, filled).setValue(SLOT_11, filled)
+                .setValue(BOOKS, number);
     }
 
     @Override
@@ -153,6 +160,19 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
                 return 0;
             }
         }
+    }
+
+    @Override
+    public float getEnchantPowerBonus(final BlockState state, final LevelReader world, final BlockPos pos)
+    {
+        final int books = this.getBooks(state);
+        return books / 3f;
+    }
+
+    public int getBooks(final BlockState state)
+    {
+        if (state.hasProperty(BOOKS)) return state.getValue(BOOKS);
+        else return 0;
     }
 
     private static int getHitSlot(Vec2 vec2) {
