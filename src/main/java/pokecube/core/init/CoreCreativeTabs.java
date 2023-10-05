@@ -17,6 +17,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
+import pokecube.legends.init.BlockInit;
 import thut.bling.BlingItem;
 import thut.wearables.ThutWearables;
 
@@ -61,6 +62,10 @@ public class CoreCreativeTabs
             addAfter(event, Items.LODESTONE, PokecubeItems.SECRET_BASE.get());
             addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
             addBefore(event, Items.SUSPICIOUS_SAND, PokecubeItems.REPEL.get());
+
+            for (final String type : ItemGenerator.berryWoods.keySet()) {
+                addAfter(event, Items.CHISELED_BOOKSHELF, ItemGenerator.large_chiseled_bookshelves.get(type).get());
+            }
 
             addAfter(event, Items.WARPED_HANGING_SIGN, PokecubeItems.getStack("enigma_sign").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_sign").getItem(), PokecubeItems.getStack("enigma_hanging_sign").getItem());
@@ -183,6 +188,7 @@ public class CoreCreativeTabs
                 add(event, ItemGenerator.woods.get(type).get());
                 add(event, ItemGenerator.stripped_logs.get(type).get());
                 add(event, ItemGenerator.stripped_woods.get(type).get());
+                add(event, ItemGenerator.large_chiseled_bookshelves.get(type).get());
                 add(event, ItemGenerator.planks.get(type).get());
                 add(event, ItemGenerator.stairs.get(type).get());
                 add(event, ItemGenerator.slabs.get(type).get());

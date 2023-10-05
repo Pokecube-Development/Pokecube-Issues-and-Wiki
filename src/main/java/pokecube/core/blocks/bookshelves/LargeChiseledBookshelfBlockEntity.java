@@ -26,15 +26,18 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ModTags;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.bookshelves.LargeChiseledBookshelfMenu;
 import thut.lib.TComponent;
 
 public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
+    public static RegistryObject<BlockEntityType<LargeChiseledBookshelfBlockEntity>> LARGE_SHELF_TYPE;
     public static final int MAX_BOOKS_IN_STORAGE = 12;
     public NonNullList<ItemStack> items = NonNullList.withSize(12, ItemStack.EMPTY);
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -50,7 +53,7 @@ public class LargeChiseledBookshelfBlockEntity extends RandomizableContainerBloc
 
     public LargeChiseledBookshelfBlockEntity(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.LARGE_CHISELED_BOOKSHELF_TYPE.get(), pos, state);
+        this(LARGE_SHELF_TYPE.get(), pos, state);
     }
 
     private void updateState(int j) {
