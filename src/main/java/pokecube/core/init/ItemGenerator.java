@@ -198,7 +198,6 @@ public class ItemGenerator
         BerryManager.berryFruits.put(id, reg);
     }
 
-    // TODO: Check this
     private static void makePottedBerry(int id, int index, String name)
     {
         var reg = PokecubeCore.BLOCKS.register("potted_" + name + "_berry", () -> {
@@ -854,14 +853,16 @@ public class ItemGenerator
     {
         // Initialize the nullberry
         ItemBerry.registerBerryType("null", null, 0, 0, 0, 0, 0, 0);
+        
         // Fire event so that others can initialize their berries.
         PokecubeAPI.POKEMOB_BUS.post(new RegisterMiscItems());
+
         // Make the berries here.
-        ItemGenerator.makeBarrels();
         ItemGenerator.makeBerries();
         ItemGenerator.makeBerryBlocks();
-        ItemGenerator.makeHangingSigns();
+        ItemGenerator.makeBarrels();
         ItemGenerator.makeLargeChiseledBookshelves();
+        ItemGenerator.makeHangingSigns();
         ItemGenerator.makeSigns();
     }
 }

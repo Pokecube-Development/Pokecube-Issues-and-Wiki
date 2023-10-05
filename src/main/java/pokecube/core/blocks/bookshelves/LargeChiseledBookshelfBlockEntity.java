@@ -29,9 +29,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.handlers.ModTags;
-import pokecube.core.init.ItemGenerator;
 import pokecube.core.inventory.bookshelves.LargeChiseledBookshelfMenu;
 import thut.lib.TComponent;
 
