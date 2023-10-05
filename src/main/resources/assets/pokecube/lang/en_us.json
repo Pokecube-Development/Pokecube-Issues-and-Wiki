@@ -648,6 +648,13 @@
     "block.pokecube.pecha_bookshelf_empty": "Pecha Bookshelf",
     "block.pokecube.sitrus_bookshelf_empty": "Sitrus Bookshelf",
 
+    "block.pokecube.large_enigma_chiseled_bookshelf": "Large Enigma Chiseled Bookshelf",
+    "block.pokecube.large_leppa_chiseled_bookshelf": "Large Leppa Chiseled Bookshelf",
+    "block.pokecube.large_nanab_chiseled_bookshelf": "Large Nanab Chiseled Bookshelf",
+    "block.pokecube.large_oran_chiseled_bookshelf": "Large Oran Chiseled Bookshelf",
+    "block.pokecube.large_pecha_chiseled_bookshelf": "Large Pecha Chiseled Bookshelf",
+    "block.pokecube.large_sitrus_chiseled_bookshelf": "Large Sitrus Chiseled Bookshelf",
+
     "block.pokecube.enigma_slab": "Enigma Slab",
     "block.pokecube.leppa_slab": "Leppa Slab",
     "block.pokecube.nanab_slab": "Nanab Slab",
