@@ -21,13 +21,15 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.inventory.barrels.GenericBarrelMenu;
 import thut.lib.TComponent;
 
 public class GenericBarrelTile extends RandomizableContainerBlockEntity
 {
+    public static RegistryObject<BlockEntityType<GenericBarrelTile>> BARREL_TYPE;
+
     private NonNullList<ItemStack> items = NonNullList.withSize(27, ItemStack.EMPTY);
     private Component name;
     private int openCount;
@@ -39,7 +41,7 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
 
     public GenericBarrelTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.BARREL_TYPE.get(), pos, state);
+        this(BARREL_TYPE.get(), pos, state);
     }
 
     @Override

@@ -58,6 +58,8 @@ import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.barrels.GenericBarrel;
+import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
@@ -113,6 +115,7 @@ public class ItemGenerator
     public static Map<String, RegistryObject<Block>> stripped_logs = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> stripped_woods = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> bookshelves = Maps.newHashMap();
+    public static Map<String, RegistryObject<Block>> barrels = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> large_chiseled_bookshelves = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> planks = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> stairs = Maps.newHashMap();
@@ -124,7 +127,6 @@ public class ItemGenerator
     public static Map<String, RegistryObject<Block>> trapdoors = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> doors = Maps.newHashMap();
 
-    public static Map<String, RegistryObject<Block>> berry_large_chiseled_shelves = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> berry_wall_signs = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> berry_signs = Maps.newHashMap();
     public static Map<String, RegistryObject<Item>> berry_sign_items = Maps.newHashMap();
@@ -139,6 +141,7 @@ public class ItemGenerator
     public static List<RegistryObject<Block>> SIGN_BLOCKS = Lists.newArrayList();
     public static List<RegistryObject<Block>> HANGING_SIGN_BLOCKS = Lists.newArrayList();
     public static List<RegistryObject<Block>> LARGE_CHISELED_BOOKSHELVES = Lists.newArrayList();
+    public static List<RegistryObject<Block>> BARRELS = Lists.newArrayList();
 
     public static List<BoatRegister> BOATS = Lists.newArrayList();
 
@@ -259,6 +262,7 @@ public class ItemGenerator
         BERRY_WOOD_THINGS.add(name -> name + "_wall_hanging_sign");
 
         BERRY_WOOD_THINGS.add(name -> "large_" + name + "_chiseled_bookshelf");
+        BERRY_WOOD_THINGS.add(name -> name + "_barrel");
 
         // Make the logs and planks.
         final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
@@ -317,6 +321,18 @@ public class ItemGenerator
                     {
                         ItemGenerator.bookshelves.put(name, block);
                     });
+
+            // Barrels
+            var barrels = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(20).apply(name),
+                    () -> new GenericBarrel(BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
+                            .strength(2.5F).sound(SoundType.WOOD)
+                            .instrument(NoteBlockInstrument.BASS)),
+                    block ->
+                    {
+                        ItemGenerator.barrels.put(name, block);
+                    });
+            ItemGenerator.BARRELS.add(barrels);
 
             // Large Chiseled Bookshelves
             var large_chiseled_bookshelves = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(19).apply(name),
@@ -636,6 +652,20 @@ public class ItemGenerator
         }
     }
 
+    public static void makeBarrels()
+    {
+        if (!BARRELS.isEmpty())
+        {
+            GenericBarrelTile.BARREL_TYPE = PokecubeCore.TILES.register("generic_barrel", () -> {
+                List<Block> regs = Lists.newArrayList();
+                BARRELS.forEach(r -> regs.add(r.get()));
+                Block[] blocks = regs.toArray(new Block[0]);
+                var type = BlockEntityType.Builder.of(GenericBarrelTile::new, blocks).build(null);
+                return type;
+            });
+        }
+    }
+
     public static class GenericStairs extends StairBlock
     {
         @SuppressWarnings("deprecation")
@@ -827,10 +857,11 @@ public class ItemGenerator
         // Fire event so that others can initialize their berries.
         PokecubeAPI.POKEMOB_BUS.post(new RegisterMiscItems());
         // Make the berries here.
+        ItemGenerator.makeBarrels();
         ItemGenerator.makeBerries();
         ItemGenerator.makeBerryBlocks();
-        ItemGenerator.makeSigns();
         ItemGenerator.makeHangingSigns();
         ItemGenerator.makeLargeChiseledBookshelves();
+        ItemGenerator.makeSigns();
     }
 }

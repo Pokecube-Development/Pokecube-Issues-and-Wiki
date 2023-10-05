@@ -75,6 +75,18 @@ public class CoreCreativeTabs
             addAfter(event, PokecubeItems.getStack("large_pecha_chiseled_bookshelf").getItem(),
                     PokecubeItems.getStack("large_sitrus_chiseled_bookshelf").getItem());
 
+            addAfter(event, Items.BARREL, PokecubeItems.getStack("enigma_barrel").getItem());
+            addAfter(event, PokecubeItems.getStack("enigma_barrel").getItem(),
+                    PokecubeItems.getStack("leppa_barrel").getItem());
+            addAfter(event, PokecubeItems.getStack("leppa_barrel").getItem(),
+                    PokecubeItems.getStack("nanab_barrel").getItem());
+            addAfter(event, PokecubeItems.getStack("nanab_barrel").getItem(),
+                    PokecubeItems.getStack("oran_barrel").getItem());
+            addAfter(event, PokecubeItems.getStack("oran_barrel").getItem(),
+                    PokecubeItems.getStack("pecha_barrel").getItem());
+            addAfter(event, PokecubeItems.getStack("pecha_barrel").getItem(),
+                    PokecubeItems.getStack("sitrus_barrel").getItem());
+
             addAfter(event, Items.WARPED_HANGING_SIGN, PokecubeItems.getStack("enigma_sign").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_sign").getItem(), PokecubeItems.getStack("enigma_hanging_sign").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_hanging_sign").getItem(), PokecubeItems.getStack("leppa_sign").getItem());
@@ -202,6 +214,7 @@ public class CoreCreativeTabs
                 add(event, ItemGenerator.woods.get(type).get());
                 add(event, ItemGenerator.stripped_logs.get(type).get());
                 add(event, ItemGenerator.stripped_woods.get(type).get());
+                add(event, ItemGenerator.barrels.get(type).get());
                 add(event, ItemGenerator.large_chiseled_bookshelves.get(type).get());
                 add(event, ItemGenerator.planks.get(type).get());
                 add(event, ItemGenerator.stairs.get(type).get());
@@ -214,17 +227,11 @@ public class CoreCreativeTabs
                 add(event, ItemGenerator.buttons.get(type).get());
             }
 
-            add(event, PokecubeItems.ENIGMA_BARREL.get());
             add(event, PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.LEPPA_BARREL.get());
             add(event, PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.NANAB_BARREL.get());
             add(event, PokecubeItems.NANAB_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.ORAN_BARREL.get());
             add(event, PokecubeItems.ORAN_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.PECHA_BARREL.get());
             add(event, PokecubeItems.PECHA_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.SITRUS_BARREL.get());
             add(event, PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get());
 
             for (final String type : ItemGenerator.onlyBerryLeaves.keySet())
