@@ -22,6 +22,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -154,13 +155,6 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
         }
     }
 
-//    @Override
-//    public float getEnchantPowerBonus(final BlockState state, final LevelReader world, final BlockPos pos)
-//    {
-//        final int books = this.getBooks(state);
-//        return books / 3f;
-//    }
-
     private static int getHitSlot(Vec2 vec2) {
         int i = vec2.y >= 0.5F ? 0 : 1;
         int j = getSection(vec2.x);
@@ -187,10 +181,7 @@ public class LargeChiseledBookshelf extends ChiseledBookShelfBlock
         {
             Optional<Vec2> optional = getRelativeHitCoordinatesForBlockFace(hit, state.getValue(HorizontalDirectionalBlock.FACING));
             Optional<Vec2> optional2 = getHitCoordinatesForBlockFace(hit, state.getValue(HorizontalDirectionalBlock.FACING));
-//            if (optional.isEmpty() && optional2.isEmpty())
-//            {
-//                return InteractionResult.PASS;
-//            }
+
             if (optional.isPresent()) {
                 int i = getHitSlot(optional.get());
                 if (state.getValue(SLOT_OCCUPIED_PROPERTIES.get(i)))

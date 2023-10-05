@@ -39,7 +39,7 @@ public class LargeChiseledBookshelf<T extends LargeChiseledBookshelfMenu> extend
         graphics.drawString(this.font, this.getTitle().getString(),
                 8, 6, 4210752, false);
         graphics.drawString(this.font, this.playerInventoryTitle.getString(),
-                8, this.imageHeight - 102 + 2, 4210752, false);
+                8, this.imageHeight - 100 + 2, 4210752, false);
     }
 
     @Override
