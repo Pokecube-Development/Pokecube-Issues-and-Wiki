@@ -92,7 +92,7 @@ public class LargeChiseledBookshelfMenu extends AbstractContainerMenu
 		{
 			ItemStack itemstack1 = slot.getItem();
 			itemstack = itemstack1.copy();
-			if (index < 9)
+			if (index < 12)
 			{
 				if (!this.moveItemStackTo(itemstack1, 9, this.slots.size(), true))
 				{
