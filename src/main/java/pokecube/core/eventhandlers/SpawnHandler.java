@@ -36,7 +36,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.SpawnPlacements.Type;
-import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
@@ -351,15 +350,6 @@ public final class SpawnHandler
                                            final double posZ, final Vector3 spawnPoint, final SpawnData entry,
                                            final SpawnBiomeMatcher matcher, CompoundTag spawnTag)
     {
-        final BaseSpawner spawner = new BaseSpawner()
-        {
-            @Override
-            public void broadcastEvent(final Level world, final BlockPos pos, final int i)
-            {
-                // TODO Auto-generated method stub
-
-            }
-        };
         IPokemob pokemob = PokemobCaps.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
@@ -876,7 +866,7 @@ public final class SpawnHandler
                         }
                         final SpawnEvent.Post evt = new SpawnEvent.Post(pokemob);
                         PokecubeAPI.POKEMOB_BUS.post(evt);
-                        entity.finalizeSpawn(level, level.getCurrentDifficultyAt(v.getPos()), MobSpawnType.NATURAL,
+                        ForgeEventFactory.onFinalizeSpawn(entity, level, level.getCurrentDifficultyAt(v.getPos()), MobSpawnType.NATURAL,
                                 null, null);
                         entity = pokemob.onAddedInit().getEntity();
                         level.addFreshEntity(entity);
