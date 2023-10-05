@@ -1,7 +1,7 @@
 {
   "multipart": [
     {
-      "apply": { "model": "pokecube:block/generic_chiseled_bookshelf", "uvlock": true, "y": 90 },
+      "apply": { "model": "pokecube:block/template_large_chiseled_bookshelf", "uvlock": true, "y": 90 },
       "when": { "facing": "east" }
     },
     {
@@ -221,7 +221,7 @@
       }
     },
     {
-      "apply": { "model": "pokecube:block/generic_chiseled_bookshelf", "uvlock": true, "y": 270 },
+      "apply": { "model": "pokecube:block/template_large_chiseled_bookshelf", "uvlock": true, "y": 270 },
       "when": {
         "facing": "west"
       }
@@ -443,7 +443,7 @@
       }
     },
     {
-      "apply": { "model": "pokecube:block/generic_chiseled_bookshelf", "uvlock": true, "y": 180 },
+      "apply": { "model": "pokecube:block/template_large_chiseled_bookshelf", "uvlock": true, "y": 180 },
       "when": {
         "facing": "south"
       }
@@ -665,7 +665,7 @@
       }
     },
     {
-      "apply": { "model": "pokecube:block/generic_chiseled_bookshelf", "uvlock": true, "y": 0 },
+      "apply": { "model": "pokecube:block/template_large_chiseled_bookshelf", "uvlock": true, "y": 0 },
       "when": {
         "facing": "north"
       }
