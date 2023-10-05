@@ -2,6 +2,11 @@
   "replace": false,
   "values": [
     "pokecube:large_enigma_chiseled_bookshelf",
+    "pokecube:large_leppa_chiseled_bookshelf",
+    "pokecube:large_nanab_chiseled_bookshelf",
+    "pokecube:large_oran_chiseled_bookshelf",
+    "pokecube:large_pecha_chiseled_bookshelf",
+    "pokecube:large_sitrus_chiseled_bookshelf",
     {"id": "pokecube_legends:large_oak_chiseled_bookshelf", "required": false}
   ]
 }
