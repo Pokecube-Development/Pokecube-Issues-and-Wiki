@@ -1,0 +1,7 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:large_enigma_chiseled_bookshelf",
+    {"id": "pokecube_legends:large_oak_chiseled_bookshelf", "required": false}
+  ]
+}
