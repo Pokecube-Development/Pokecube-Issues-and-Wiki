@@ -63,6 +63,18 @@ public class CoreCreativeTabs
             addBefore(event, Items.BEE_NEST, PokecubeItems.NEST.get());
             addBefore(event, Items.SUSPICIOUS_SAND, PokecubeItems.REPEL.get());
 
+            addAfter(event, Items.BOOKSHELF, PokecubeItems.getStack("enigma_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("enigma_bookshelf").getItem(),
+                    PokecubeItems.getStack("leppa_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("leppa_bookshelf").getItem(),
+                    PokecubeItems.getStack("nanab_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("nanab_bookshelf").getItem(),
+                    PokecubeItems.getStack("oran_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("oran_bookshelf").getItem(),
+                    PokecubeItems.getStack("pecha_bookshelf").getItem());
+            addAfter(event, PokecubeItems.getStack("pecha_bookshelf").getItem(),
+                    PokecubeItems.getStack("sitrus_bookshelf").getItem());
+
             addAfter(event, Items.CHISELED_BOOKSHELF, PokecubeItems.getStack("large_enigma_chiseled_bookshelf").getItem());
             addAfter(event, PokecubeItems.getStack("large_enigma_chiseled_bookshelf").getItem(),
                     PokecubeItems.getStack("large_leppa_chiseled_bookshelf").getItem());
@@ -220,6 +232,7 @@ public class CoreCreativeTabs
                 add(event, ItemGenerator.stripped_logs.get(type).get());
                 add(event, ItemGenerator.stripped_woods.get(type).get());
                 add(event, ItemGenerator.barrels.get(type).get());
+                add(event, ItemGenerator.bookshelves.get(type).get());
                 add(event, ItemGenerator.large_chiseled_bookshelves.get(type).get());
                 add(event, ItemGenerator.planks.get(type).get());
                 add(event, ItemGenerator.stairs.get(type).get());

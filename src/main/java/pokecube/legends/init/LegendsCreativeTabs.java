@@ -940,6 +940,15 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.BOOKSHELF_EMPTY.get());
             addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get());
 
+            addAfter(event, Items.BOOKSHELF, BlockInit.AGED_BOOKSHELF.get());
+            addAfter(event, BlockInit.AGED_BOOKSHELF.get(), BlockInit.CONCRETE_BOOKSHELF.get());
+            addAfter(event, BlockInit.CONCRETE_BOOKSHELF.get(), BlockInit.CONCRETE_DENSE_BOOKSHELF.get());
+            addAfter(event, BlockInit.CONCRETE_DENSE_BOOKSHELF.get(), BlockInit.CORRUPTED_BOOKSHELF.get());
+            addAfter(event, BlockInit.CORRUPTED_BOOKSHELF.get(), BlockInit.DISTORTIC_BOOKSHELF.get());
+            addAfter(event, BlockInit.DISTORTIC_BOOKSHELF.get(), BlockInit.INVERTED_BOOKSHELF.get());
+            addAfter(event, BlockInit.INVERTED_BOOKSHELF.get(), BlockInit.MIRAGE_BOOKSHELF.get());
+            addAfter(event, BlockInit.MIRAGE_BOOKSHELF.get(), BlockInit.TEMPORAL_BOOKSHELF.get());
+
             addAfter(event, Items.BARREL, BlockInit.DISTORTIC_STONE_BARREL.get());
             addAfter(event, BlockInit.DISTORTIC_STONE_BARREL.get(), BlockInit.AGED_BARREL.get());
             addAfter(event, BlockInit.AGED_BARREL.get(), BlockInit.CONCRETE_BARREL.get());
