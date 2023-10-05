@@ -37,6 +37,7 @@ public class GenericBarrelTile extends RandomizableContainerBlockEntity
     private GenericBarrelTile(final BlockEntityType<?> tileEntityType, final BlockPos pos, final BlockState state)
     {
         super(tileEntityType, pos, state);
+        this.items = NonNullList.withSize(27, ItemStack.EMPTY);
     }
 
     public GenericBarrelTile(final BlockPos pos, final BlockState state)

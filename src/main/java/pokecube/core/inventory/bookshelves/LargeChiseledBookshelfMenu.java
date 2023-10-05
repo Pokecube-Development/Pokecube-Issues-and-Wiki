@@ -98,7 +98,7 @@ public class LargeChiseledBookshelfMenu extends AbstractContainerMenu
 				{
 					return ItemStack.EMPTY;
 				}
-			} else if (!this.moveItemStackTo(itemstack1, 0, 9, false))
+			} else if (!this.moveItemStackTo(itemstack1, 0, 12, false))
 			{
 				return ItemStack.EMPTY;
 			}
