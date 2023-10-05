@@ -940,7 +940,8 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.BOOKSHELF_EMPTY.get());
             addAfter(event, Items.CHISELED_BOOKSHELF, BlockInit.LARGE_OAK_CHISELED_BOOKSHELF.get());
 
-            addAfter(event, Items.BARREL, BlockInit.AGED_BARREL.get());
+            addAfter(event, Items.BARREL, BlockInit.DISTORTIC_STONE_BARREL.get());
+            addAfter(event, BlockInit.DISTORTIC_STONE_BARREL.get(), BlockInit.AGED_BARREL.get());
             addAfter(event, BlockInit.AGED_BARREL.get(), BlockInit.CONCRETE_BARREL.get());
             addAfter(event, BlockInit.CONCRETE_BARREL.get(), BlockInit.CONCRETE_DENSE_BARREL.get());
             addAfter(event, BlockInit.CONCRETE_DENSE_BARREL.get(), BlockInit.CORRUPTED_BARREL.get());
@@ -948,7 +949,6 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, BlockInit.DISTORTIC_BARREL.get(), BlockInit.INVERTED_BARREL.get());
             addAfter(event, BlockInit.INVERTED_BARREL.get(), BlockInit.MIRAGE_BARREL.get());
             addAfter(event, BlockInit.MIRAGE_BARREL.get(), BlockInit.TEMPORAL_BARREL.get());
-            addAfter(event, BlockInit.TEMPORAL_BARREL.get(), BlockInit.DISTORTIC_STONE_BARREL.get());
 
             addAfter(event, Items.WARPED_HANGING_SIGN, BlockInit.AGED_SIGN.get());
             addAfter(event, BlockInit.AGED_SIGN.get(), BlockInit.AGED_HANGING_SIGN.get());
