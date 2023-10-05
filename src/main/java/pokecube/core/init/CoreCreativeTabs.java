@@ -207,6 +207,11 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.getStack("sitrus_sign"));
             add(event, PokecubeItems.getStack("sitrus_hanging_sign"));
 
+            for (final String type : ItemGenerator.onlyBerryLeaves.keySet())
+            {
+                add(event, ItemGenerator.leaves.get(type).get());
+            }
+
             for (final String type : ItemGenerator.berryWoods.keySet())
             {
                 add(event, ItemGenerator.leaves.get(type).get());
@@ -233,11 +238,6 @@ public class CoreCreativeTabs
             add(event, PokecubeItems.ORAN_BOOKSHELF_EMPTY.get());
             add(event, PokecubeItems.PECHA_BOOKSHELF_EMPTY.get());
             add(event, PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get());
-
-            for (final String type : ItemGenerator.onlyBerryLeaves.keySet())
-            {
-                add(event, ItemGenerator.leaves.get(type).get());
-            }
         }
 
         if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))

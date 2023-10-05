@@ -853,13 +853,15 @@ public class ItemGenerator
     {
         // Initialize the nullberry
         ItemBerry.registerBerryType("null", null, 0, 0, 0, 0, 0, 0);
-        
+
         // Fire event so that others can initialize their berries.
         PokecubeAPI.POKEMOB_BUS.post(new RegisterMiscItems());
 
         // Make the berries here.
         ItemGenerator.makeBerries();
         ItemGenerator.makeBerryBlocks();
+
+        // Register after berry blocks
         ItemGenerator.makeBarrels();
         ItemGenerator.makeLargeChiseledBookshelves();
         ItemGenerator.makeHangingSigns();
