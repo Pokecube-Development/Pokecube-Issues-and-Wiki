@@ -2186,7 +2186,7 @@ public class BlockInit
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
-        MIRAGE_GLASS_PANE = PokecubeAdv.DECORATIONS.register("mirage_glass_pane",
+        MIRAGE_GLASS_PANE = PokecubeLegends.BLOCKS.register("mirage_glass_pane",
                 () -> new MirageGlassPaneBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.3f).noOcclusion()
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
@@ -2198,7 +2198,7 @@ public class BlockInit
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
-        SPECTRUM_GLASS_PANE = PokecubeAdv.DECORATIONS.register("spectrum_glass_pane",
+        SPECTRUM_GLASS_PANE = PokecubeLegends.BLOCKS.register("spectrum_glass_pane",
                 () -> new SpectrumGlassPaneBlock(DyeColor.ORANGE, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.COLOR_ORANGE).strength(0.3f).noOcclusion()
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
@@ -2210,7 +2210,7 @@ public class BlockInit
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
-        DISTORTIC_FRAMED_MIRROR_PANE = PokecubeAdv.DECORATIONS.register("distortic_framed_mirror_pane",
+        DISTORTIC_FRAMED_MIRROR_PANE = PokecubeLegends.BLOCKS.register("distortic_framed_mirror_pane",
                 () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.SNOW).strength(0.3f).noOcclusion()
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
