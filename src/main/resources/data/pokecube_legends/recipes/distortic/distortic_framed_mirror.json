@@ -3,7 +3,7 @@
   "group": "pokecube_legends:distortic_framed_mirror",
   "pattern": [
     "0A0",
-    "AAA",
+    "AGA",
     "0A0"
   ],
   "key": {
@@ -12,10 +12,13 @@
     },
     "A": {
       "item": "pokecube_legends:distortic_mirror"
+    },
+    "G": {
+      "tag": "forge:glass"
     }
   },
   "result": {
     "item": "pokecube_legends:distortic_framed_mirror",
-    "count": 5
+    "count": 8
   }
 }
