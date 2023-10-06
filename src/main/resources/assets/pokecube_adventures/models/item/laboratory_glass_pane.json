@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "minecraft:block/laboratory_glass"
+    "layer0": "pokecube_adventures:block/laboratory_glass"
   }
 }
