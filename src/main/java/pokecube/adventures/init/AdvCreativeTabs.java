@@ -72,6 +72,7 @@ public class AdvCreativeTabs extends CoreCreativeTabs
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
             addAfter(event, Items.PINK_STAINED_GLASS, PokecubeAdv.LAB_GLASS.get());
+            addAfter(event, Items.PINK_STAINED_GLASS_PANE, PokecubeAdv.LAB_GLASS_PANE.get());
         }
 
         if (event.getTabKey().equals(CoreCreativeTabs.BLOCKS_ITEMS_TAB.getKey()))

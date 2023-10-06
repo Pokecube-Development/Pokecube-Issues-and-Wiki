@@ -357,10 +357,11 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
                 output.accept(BlockInit.MAGNETIC_STONE.get());
 
-                output.accept(BlockInit.SPECTRUM_GLASS.get());
-                output.accept(PokecubeAdv.LAB_GLASS.get());
-                output.accept(BlockInit.MIRAGE_GLASS.get());
                 output.accept(BlockInit.FRAMED_DISTORTIC_MIRROR.get());
+                output.accept(BlockInit.SPECTRUM_GLASS.get());
+                output.accept(BlockInit.MIRAGE_GLASS.get());
+                output.accept(PokecubeAdv.LAB_GLASS.get());
+                output.accept(PokecubeAdv.LAB_GLASS_PANE.get());
 
                 output.accept(BlockInit.ONE_WAY_FRAMED_MIRROR.get());
                 output.accept(BlockInit.ONE_WAY_GLASS.get());

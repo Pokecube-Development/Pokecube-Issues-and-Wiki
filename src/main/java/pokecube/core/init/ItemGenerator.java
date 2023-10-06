@@ -87,6 +87,7 @@ import pokecube.core.items.megastuff.ItemMegawearable;
 
 public class ItemGenerator
 {
+
     public static interface IMoveModifier
     {
         void processHeldItemUse(MoveApplication moveUse, IPokemob mob, ItemStack held);
@@ -274,7 +275,7 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(0).apply(name),
                     () -> new BerryLeaf(BlockBehaviour.Properties
                             .of().mapColor(ItemGenerator.berryLeaves.get(name)).strength(0.2F).randomTicks().noOcclusion()
-                            .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).isValidSpawn(ItemGenerator::ocelotOrParrot)
+                            .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).isValidSpawn(PokecubeItems::ocelotOrParrot)
                             .isSuffocating((s, r, p) -> false).isViewBlocking((s, r, p) -> false), index),
                     block ->
                     {
@@ -399,7 +400,7 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(13).apply(name),
                     () -> new GenericTrapDoor(BlockSetType.OAK,
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).noOcclusion().ignitedByLava().isValidSpawn(ItemGenerator::never)
+                                    .strength(2.0F).noOcclusion().ignitedByLava().isValidSpawn(PokecubeItems::never)
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
@@ -511,7 +512,7 @@ public class ItemGenerator
                             .strength(0.2F).randomTicks().noOcclusion().ignitedByLava()
                             .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                             .isSuffocating((s, r, p) -> false).isViewBlocking((s, r, p) -> false)
-                            .isRedstoneConductor((s, r, p) -> false).isValidSpawn(ItemGenerator::ocelotOrParrot), index),
+                            .isRedstoneConductor((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot), index),
                     block ->
                     {
                         ItemGenerator.leaves.put(name, block);
@@ -815,17 +816,6 @@ public class ItemGenerator
                 ItemGenerator.flammableBlocks(ItemGenerator.bookshelves.get(name).get(), 5, 20);
             }
         });
-    }
-
-    public static Boolean ocelotOrParrot(final BlockState state, final BlockGetter reader, final BlockPos pos,
-            final EntityType<?> entity)
-    {
-        return entity == EntityType.OCELOT || entity == EntityType.PARROT;
-    }
-
-    public static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
-    {
-        return Boolean.FALSE;
     }
 
     public static void postInitItems()

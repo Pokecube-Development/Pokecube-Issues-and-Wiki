@@ -20,11 +20,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.MenuType;
@@ -34,6 +36,7 @@ import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -187,7 +190,7 @@ public class PokecubeItems extends ItemList
 
         NEST = PokecubeCore.BLOCKS.register("nest",
                 () -> new NestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN)
-                        .strength(0.5F).isValidSpawn(ItemGenerator::ocelotOrParrot)
+                        .strength(0.5F).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .sound(SoundType.GRASS).instrument(NoteBlockInstrument.HARP).pushReaction(PushReaction.NORMAL)));
         SECRET_BASE = PokecubeCore.BLOCKS.register("secret_base",
                 () -> new BaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
@@ -250,6 +253,22 @@ public class PokecubeItems extends ItemList
             PokecubeCore.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties()));
         }
+    }
+
+    public static Boolean ocelotOrParrot(final BlockState state, final BlockGetter reader, final BlockPos pos,
+                                         final EntityType<?> entity)
+    {
+        return entity == EntityType.OCELOT || entity == EntityType.PARROT;
+    }
+
+    public static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
+    {
+        return Boolean.FALSE;
+    }
+
+    public static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos)
+    {
+        return Boolean.FALSE;
     }
 
     /**

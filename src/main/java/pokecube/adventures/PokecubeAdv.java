@@ -18,9 +18,11 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
@@ -40,6 +42,7 @@ import pokecube.adventures.ai.brain.MemoryTypes;
 import pokecube.adventures.ai.poi.PointsOfInterest;
 import pokecube.adventures.ai.poi.Professions;
 import pokecube.adventures.blocks.LaboratoryGlassBlock;
+import pokecube.adventures.blocks.LaboratoryGlassPaneBlock;
 import pokecube.adventures.blocks.afa.AfaBlock;
 import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.blocks.afa.AfaTile;
@@ -78,6 +81,8 @@ import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
+import pokecube.core.init.ItemGenerator;
 import pokecube.core.utils.EntityTools;
 import thut.api.entity.CopyCaps;
 import thut.core.common.commands.CommandConfigs;
@@ -116,6 +121,7 @@ public class PokecubeAdv
     public static final RegistryObject<Block> WARP_PAD;
     public static final RegistryObject<Block> STATUE;
     public static final RegistryObject<Block> LAB_GLASS;
+    public static final RegistryObject<Block> LAB_GLASS_PANE;
 
     public static final RegistryObject<Item> EXPSHARE;
     public static final RegistryObject<Item> LINKER;
@@ -193,7 +199,14 @@ public class PokecubeAdv
                         .requiresCorrectToolForDrops()));
         LAB_GLASS = PokecubeAdv.DECORATIONS.register("laboratory_glass",
                 () -> new LaboratoryGlassBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
-                        .strength(0.3f, 0.3f).sound(SoundType.GLASS).noOcclusion()));
+                        .strength(0.3f).noOcclusion().isValidSpawn(PokecubeItems::never).isRedstoneConductor(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
+        LAB_GLASS_PANE = PokecubeAdv.DECORATIONS.register("laboratory_glass_pane",
+                () -> new LaboratoryGlassPaneBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
+                        .strength(0.3f).noOcclusion().isValidSpawn(PokecubeItems::never).isRedstoneConductor(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
 
         // Items
         EXPSHARE = PokecubeAdv.ITEMS.register("exp_share",

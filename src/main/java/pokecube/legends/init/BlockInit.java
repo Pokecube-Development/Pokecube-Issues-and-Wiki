@@ -42,6 +42,7 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.barrels.GenericBarrel;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
@@ -1316,7 +1317,7 @@ public class BlockInit
         AGED_LEAVES = PokecubeLegends.BLOCKS.register("aged_leaves",
                 () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(0.2f)
                         .sound(SoundType.GRASS).noOcclusion().isSuffocating((s, r, p) -> false)
-                        .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
+                        .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         AGED_LOG = PokecubeLegends.BLOCKS.register("aged_log",
                 () -> Blocks.log(MapColor.TERRACOTTA_GREEN, MapColor.COLOR_BROWN));
@@ -1365,7 +1366,7 @@ public class BlockInit
                 () -> new ItemGenerator.GenericTrapDoor(BlockSetType.OAK,
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN)
                                 .strength(2.0f, 3.0f).noOcclusion().ignitedByLava()
-                                .isValidSpawn(ItemGenerator::never).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)));
+                                .isValidSpawn(PokecubeItems::never).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)));
         AGED_DOOR = PokecubeLegends.BLOCKS.register("aged_door",
                 () -> new ItemGenerator.GenericDoor(BlockSetType.OAK,
                         BlockBehaviour.Properties.of().mapColor(MapColor.TERRACOTTA_GREEN)
@@ -1397,7 +1398,7 @@ public class BlockInit
         CORRUPTED_LEAVES = PokecubeLegends.BLOCKS.register("corrupted_leaves",
                 () -> new CorruptedLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_GRAY)
                         .sound(SoundType.SOUL_SAND).strength(0.5f).noOcclusion().isSuffocating((s, r, p) -> false)
-                        .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
+                        .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         CORRUPTED_LOG = PokecubeLegends.BLOCKS.register("corrupted_log",
                 () -> Blocks.log(MapColor.WOOD, MapColor.COLOR_GRAY, SoundType.STEM));
@@ -1459,7 +1460,7 @@ public class BlockInit
         DISTORTIC_LEAVES = PokecubeLegends.BLOCKS.register("distortic_leaves",
                 () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PURPLE)
                         .strength(0.2f).sound(SoundType.GRASS).noOcclusion().isSuffocating((s, r, p) -> false)
-                        .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
+                        .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         DISTORTIC_LOG = PokecubeLegends.BLOCKS.register("distortic_log",
                 () -> Blocks.log(MapColor.COLOR_BLUE, MapColor.COLOR_BLUE, SoundType.STEM));
@@ -1525,7 +1526,7 @@ public class BlockInit
         INVERTED_LEAVES = PokecubeLegends.BLOCKS.register("inverted_leaves",
                 () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
                         .strength(0.2f).sound(SoundType.GRASS).noOcclusion().isSuffocating((s, r, p) -> false)
-                        .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
+                        .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         INVERTED_LOG = PokecubeLegends.BLOCKS.register("inverted_log",
                 () -> Blocks.log(MapColor.TERRACOTTA_LIGHT_BLUE, MapColor.TERRACOTTA_LIGHT_BLUE));
@@ -1595,7 +1596,7 @@ public class BlockInit
                 () -> new MirageLeavesBlock(9032191,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
                                 .sound(SoundType.NYLIUM).strength(0.2f).noOcclusion().isSuffocating((s, r, p) -> false)
-                                .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
+                                .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         MIRAGE_LOG = PokecubeLegends.BLOCKS.register("mirage_log",
                 () -> Blocks.log(MapColor.SAND, MapColor.COLOR_LIGHT_BLUE));
@@ -1661,7 +1662,7 @@ public class BlockInit
         TEMPORAL_LEAVES = PokecubeLegends.BLOCKS.register("temporal_leaves",
                 () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.WARPED_NYLIUM)
                         .strength(0.2f).sound(SoundType.GRASS).noOcclusion().isSuffocating((s, r, p) -> false)
-                        .isValidSpawn(ItemGenerator::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
+                        .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
         TEMPORAL_LOG = PokecubeLegends.BLOCKS.register("temporal_log",
                 () -> Blocks.log(MapColor.WARPED_NYLIUM, MapColor.COLOR_BROWN));
@@ -1722,17 +1723,17 @@ public class BlockInit
         DYNA_LEAVES_RED = PokecubeLegends.BLOCKS.register("dyna_leaves_red",
                 () -> new DynaLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
                         .strength(0.2f).sound(SoundType.AZALEA_LEAVES).noOcclusion()
-                        .isSuffocating((s, r, p) -> false).isValidSpawn(ItemGenerator::ocelotOrParrot)
+                        .isSuffocating((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES_PINK = PokecubeLegends.BLOCKS.register("dyna_leaves_pink",
                 () -> new DynaLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
                         .strength(0.2f).sound(SoundType.AZALEA_LEAVES).noOcclusion()
-                        .isSuffocating((s, r, p) -> false).isValidSpawn(ItemGenerator::ocelotOrParrot)
+                        .isSuffocating((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES_PASTEL_PINK = PokecubeLegends.BLOCKS.register("dyna_leaves_pastel_pink",
                 () -> new DynaLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
                         .strength(0.2f).sound(SoundType.AZALEA_LEAVES).noOcclusion()
-                        .isSuffocating((s, r, p) -> false).isValidSpawn(ItemGenerator::ocelotOrParrot)
+                        .isSuffocating((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .isViewBlocking((s, r, p) -> false)));
 
         DYNA_SHRUB = PokecubeLegends.BLOCKS.register("dyna_shrub", () -> new DynaShrubBlock(

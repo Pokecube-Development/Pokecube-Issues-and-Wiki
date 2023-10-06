@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "pokecube_adventures:laboratory_glass",
-    "pokecube_legends:distortic_one_way_laboratory_glass",
-    "pokecube_legends:distortic_one_way_light_blue_stained_glass",
-    "pokecube_legends:distortic_one_way_mirage_glass",
-    "pokecube_legends:mirage_glass"
+    { "id": "pokecube_adventures:laboratory_glass", "required": false },
+    { "id": "pokecube_legends:distortic_one_way_laboratory_glass", "required": false },
+    { "id": "pokecube_legends:distortic_one_way_light_blue_stained_glass", "required": false },
+    { "id": "pokecube_legends:distortic_one_way_mirage_glass", "required": false },
+    { "id": "pokecube_legends:mirage_glass", "required": false }
   ]
 }

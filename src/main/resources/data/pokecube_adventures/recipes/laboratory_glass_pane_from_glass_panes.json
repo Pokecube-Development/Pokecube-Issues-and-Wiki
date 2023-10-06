@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_adventures:laboratory_glass_pane",
+  "pattern": [
+    "GGG",
+    "GAG",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "tag": "forge:glass_panes"
+    },
+    "A": {
+      "item": "pokecube_legends:aquamarine_shard"
+    }
+  },
+  "result": {
+    "item": "pokecube_adventures:laboratory_glass_pane",
+    "count": 8
+  }
+}

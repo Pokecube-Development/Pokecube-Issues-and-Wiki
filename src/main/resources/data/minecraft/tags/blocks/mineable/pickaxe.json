@@ -16,6 +16,7 @@
     {"id": "pokecube_adventures:daycare", "required": false},
     {"id": "pokecube_adventures:extractor", "required": false},
     {"id": "pokecube_adventures:laboratory_glass", "required": false},
+    {"id": "pokecube_adventures:laboratory_glass_pane", "required": false},
     {"id": "pokecube_adventures:siphon", "required": false},
     {"id": "pokecube_adventures:splicer", "required": false},
     {"id": "pokecube_legends:aquamarine_block", "required": false},
