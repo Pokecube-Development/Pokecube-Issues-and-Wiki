@@ -1,15 +1,7 @@
 {
   "replace": false,
   "values": [
-    "minecraft:chiseled_bookshelf",
     "pokecube:enigma_bookshelf",
-    "pokecube:large_enigma_chiseled_bookshelf",
-    "pokecube:large_enigma_chiseled_bookshelf",
-    "pokecube:large_leppa_chiseled_bookshelf",
-    "pokecube:large_nanab_chiseled_bookshelf",
-    "pokecube:large_oran_chiseled_bookshelf",
-    "pokecube:large_pecha_chiseled_bookshelf",
-    "pokecube:large_sitrus_chiseled_bookshelf",
     "pokecube:leppa_bookshelf",
     "pokecube:nanab_bookshelf",
     "pokecube:oran_bookshelf",
@@ -21,7 +13,6 @@
     {"id": "pokecube_legends:corrupted_bookshelf", "required": false },
     {"id": "pokecube_legends:distortic_bookshelf", "required": false },
     {"id": "pokecube_legends:inverted_bookshelf", "required": false },
-    {"id": "pokecube_legends:large_oak_chiseled_bookshelf", "required": false },
     {"id": "pokecube_legends:mirage_bookshelf", "required": false },
     {"id": "pokecube_legends:temporal_bookshelf", "required": false }
   ]
