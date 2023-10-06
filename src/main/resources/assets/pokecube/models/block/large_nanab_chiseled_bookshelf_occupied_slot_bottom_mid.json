@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/template_chiseled_bookshelf_slot_bottom_mid",
-  "textures": {
-    "texture": "pokecube:block/nanab_chiseled_bookshelf_occupied"
-  }
-}
