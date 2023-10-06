@@ -1,5 +1,6 @@
 {
   "parent": "minecraft:item/generated",
+  "render_type": "translucent",
   "textures": {
     "layer0": "pokecube_adventures:block/laboratory_glass"
   }
