@@ -2296,7 +2296,7 @@ public class BlockInit
                         .noOcclusion().sound(SoundType.GLASS).strength(0.3f).noOcclusion()
                         .isValidSpawn(BlockInit::never).isRedstoneConductor(BlockInit::never)
                         .isSuffocating(BlockInit::never).isViewBlocking(BlockInit::never)));
-        ONE_WAY_GLASS_LAB = PokecubeLegends.BLOCKS.register("distortic_one_way_laboratory_glass",
+        ONE_WAY_GLASS_LAB = PokecubeLegends.BLOCKS.register("one_way_laboratory_glass",
                 () -> new OneWayLaboratoryGlass(DyeColor.LIGHT_BLUE,
                         BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).noOcclusion()
                                 .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never)

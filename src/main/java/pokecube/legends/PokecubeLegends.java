@@ -77,6 +77,7 @@ import pokecube.legends.init.function.RaidCapture;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
+import pokecube.legends.legacy.LegendsRegistryChangeFixer;
 import pokecube.legends.recipes.LegendsDistorticRecipeManager;
 import pokecube.legends.recipes.LegendsLootingRecipeManager;
 import pokecube.legends.worldgen.UltraSpaceSurfaceRules;
@@ -140,6 +141,8 @@ public class PokecubeLegends
 
     public PokecubeLegends()
     {
+        // Register the data fixer for registry changes.
+        MinecraftForge.EVENT_BUS.register(LegendsRegistryChangeFixer.class);
 
         thut.core.common.config.Config.setupConfigs(PokecubeLegends.config, PokecubeCore.MODID, Reference.ID);
         MinecraftForge.EVENT_BUS.register(this);

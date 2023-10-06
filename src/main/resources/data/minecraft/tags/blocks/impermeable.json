@@ -22,7 +22,7 @@
     { "id": "pokecube_legends:distortic_one_way_black_stained_glass", "required": false },
     { "id": "pokecube_legends:distortic_one_way_spectrum_glass", "required": false },
     { "id": "pokecube_legends:distortic_one_way_tinted_glass", "required": false },
-    { "id": "pokecube_legends:distortic_one_way_laboratory_glass", "required": false },
+    { "id": "pokecube_legends:one_way_laboratory_glass", "required": false },
     { "id": "pokecube_legends:framed_distortic_mirror", "required": false },
     { "id": "pokecube_legends:mirage_glass", "required": false },
     { "id": "pokecube_legends:spectrum_glass", "required": false }
