@@ -1131,7 +1131,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
             addAfter(event, Items.PINK_STAINED_GLASS, BlockInit.SPECTRUM_GLASS.get());
             addAfter(event, BlockInit.SPECTRUM_GLASS.get(), BlockInit.MIRAGE_GLASS.get());
 
-            addAfter(event, Items.PINK_STAINED_GLASS_PANE, BlockInit.ONE_WAY_FRAMED_MIRROR.get());
+            addAfter(event, PokecubeAdv.LAB_GLASS_PANE.get(), BlockInit.ONE_WAY_FRAMED_MIRROR.get());
             addAfter(event, BlockInit.ONE_WAY_FRAMED_MIRROR.get(), BlockInit.ONE_WAY_GLASS.get());
             addAfter(event, BlockInit.ONE_WAY_GLASS.get(), BlockInit.ONE_WAY_GLASS_TINTED.get());
             addAfter(event, BlockInit.ONE_WAY_GLASS_TINTED.get(), BlockInit.ONE_WAY_GLASS_WHITE.get());
