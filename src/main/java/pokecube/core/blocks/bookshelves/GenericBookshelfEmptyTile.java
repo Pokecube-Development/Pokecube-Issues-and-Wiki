@@ -25,14 +25,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.handlers.ModTags;
 import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
 import thut.lib.TComponent;
 
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
+    public static RegistryObject<BlockEntityType<GenericBookshelfEmptyTile>> FILLABLE_SHELVES_TYPE;
     public NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
     private Component name;
 
@@ -45,7 +48,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
 
     public GenericBookshelfEmptyTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.BOOKSHELF_EMPTY_TYPE.get(), pos, state);
+        this(FILLABLE_SHELVES_TYPE.get(), pos, state);
     }
 
     @Override

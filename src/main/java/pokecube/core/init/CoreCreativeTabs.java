@@ -75,6 +75,18 @@ public class CoreCreativeTabs
             addAfter(event, PokecubeItems.getStack("pecha_bookshelf").getItem(),
                     PokecubeItems.getStack("sitrus_bookshelf").getItem());
 
+            addAfter(event, Items.CHISELED_BOOKSHELF, PokecubeItems.getStack("enigma_bookshelf_empty").getItem());
+            addAfter(event, PokecubeItems.getStack("enigma_bookshelf_empty").getItem(),
+                    PokecubeItems.getStack("leppa_bookshelf_empty").getItem());
+            addAfter(event, PokecubeItems.getStack("leppa_bookshelf_empty").getItem(),
+                    PokecubeItems.getStack("nanab_bookshelf_empty").getItem());
+            addAfter(event, PokecubeItems.getStack("nanab_bookshelf_empty").getItem(),
+                    PokecubeItems.getStack("oran_bookshelf_empty").getItem());
+            addAfter(event, PokecubeItems.getStack("oran_bookshelf_empty").getItem(),
+                    PokecubeItems.getStack("pecha_bookshelf_empty").getItem());
+            addAfter(event, PokecubeItems.getStack("pecha_bookshelf_empty").getItem(),
+                    PokecubeItems.getStack("sitrus_bookshelf_empty").getItem());
+
             addAfter(event, Items.BARREL, PokecubeItems.getStack("enigma_barrel").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_barrel").getItem(),
                     PokecubeItems.getStack("leppa_barrel").getItem());
@@ -221,6 +233,7 @@ public class CoreCreativeTabs
                 add(event, ItemGenerator.stripped_woods.get(type).get());
                 add(event, ItemGenerator.barrels.get(type).get());
                 add(event, ItemGenerator.bookshelves.get(type).get());
+                add(event, ItemGenerator.fillable_shelves.get(type).get());
                 add(event, ItemGenerator.planks.get(type).get());
                 add(event, ItemGenerator.stairs.get(type).get());
                 add(event, ItemGenerator.slabs.get(type).get());
@@ -231,13 +244,6 @@ public class CoreCreativeTabs
                 add(event, ItemGenerator.pressure_plates.get(type).get());
                 add(event, ItemGenerator.buttons.get(type).get());
             }
-
-            add(event, PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.NANAB_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.ORAN_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.PECHA_BOOKSHELF_EMPTY.get());
-            add(event, PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get());
         }
 
         if (event.getTabKey().equals(ThutWearables.WEARABLES_TAB.getKey()))

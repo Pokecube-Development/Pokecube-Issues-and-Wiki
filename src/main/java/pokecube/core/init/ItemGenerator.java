@@ -65,6 +65,8 @@ import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmptyTile;
 import pokecube.core.blocks.hanging_signs.GenericCeilingHangingSign;
 import pokecube.core.blocks.hanging_signs.GenericHangingSignBlockEntity;
 import pokecube.core.blocks.hanging_signs.GenericWallHangingSign;
@@ -113,6 +115,7 @@ public class ItemGenerator
     public static Map<String, RegistryObject<Block>> stripped_logs = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> stripped_woods = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> bookshelves = Maps.newHashMap();
+    public static Map<String, RegistryObject<Block>> fillable_shelves = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> barrels = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> planks = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> stairs = Maps.newHashMap();
@@ -138,6 +141,7 @@ public class ItemGenerator
     public static List<RegistryObject<Block>> SIGN_BLOCKS = Lists.newArrayList();
     public static List<RegistryObject<Block>> HANGING_SIGN_BLOCKS = Lists.newArrayList();
     public static List<RegistryObject<Block>> BARRELS = Lists.newArrayList();
+    public static List<RegistryObject<Block>> FILLABLE_SHELVES = Lists.newArrayList();
 
     public static List<BoatRegister> BOATS = Lists.newArrayList();
 
@@ -256,7 +260,7 @@ public class ItemGenerator
         BERRY_WOOD_THINGS.add(name -> name + "_hanging_sign");
         BERRY_WOOD_THINGS.add(name -> name + "_wall_hanging_sign");
 
-        BERRY_WOOD_THINGS.add(name -> "large_" + name + "_chiseled_bookshelf");
+        BERRY_WOOD_THINGS.add(name -> name + "_bookshelf_empty");
         BERRY_WOOD_THINGS.add(name -> name + "_barrel");
 
         // Make the logs and planks.
@@ -316,18 +320,6 @@ public class ItemGenerator
                     {
                         ItemGenerator.bookshelves.put(name, block);
                     });
-
-            // Barrels
-            var barrels = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(20).apply(name),
-                    () -> new GenericBarrel(BlockBehaviour.Properties.of()
-                            .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
-                            .strength(2.5F).sound(SoundType.WOOD)
-                            .instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.barrels.put(name, block);
-                    });
-            ItemGenerator.BARRELS.add(barrels);
 
             // Planks
             var plank_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(6).apply(name),
@@ -468,6 +460,31 @@ public class ItemGenerator
                     {
                         ItemGenerator.berry_wall_hanging_signs.put(name, block);
                     });
+
+            // Fillable Bookshelves
+            var fillable_shelves = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(19).apply(name),
+                    () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
+                            .strength(1.5F).sound(SoundType.WOOD)
+                            .instrument(NoteBlockInstrument.BASS)),
+                    block ->
+                    {
+                        ItemGenerator.fillable_shelves.put(name, block);
+                    });
+            ItemGenerator.FILLABLE_SHELVES.add(fillable_shelves);
+
+            // Barrels
+            var barrels = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(20).apply(name),
+                    () -> new GenericBarrel(BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
+                            .strength(2.5F).sound(SoundType.WOOD)
+                            .instrument(NoteBlockInstrument.BASS)),
+                    block ->
+                    {
+                        ItemGenerator.barrels.put(name, block);
+                    });
+            ItemGenerator.BARRELS.add(barrels);
+
             NO_ITEMS.add(BERRY_WOOD_THINGS.get(15).apply(name));
             NO_ITEMS.add(BERRY_WOOD_THINGS.get(16).apply(name));
             NO_ITEMS.add(BERRY_WOOD_THINGS.get(17).apply(name));
@@ -616,6 +633,20 @@ public class ItemGenerator
                 HANGING_SIGN_BLOCKS.forEach(r -> regs.add(r.get()));
                 Block[] blocks = regs.toArray(new Block[0]);
                 var type = BlockEntityType.Builder.of(GenericHangingSignBlockEntity::new, blocks).build(null);
+                return type;
+            });
+        }
+    }
+
+    public static void makeFillableShelves()
+    {
+        if (!FILLABLE_SHELVES.isEmpty())
+        {
+            GenericBookshelfEmptyTile.FILLABLE_SHELVES_TYPE = PokecubeCore.TILES.register("generic_bookshelf_empty", () -> {
+                List<Block> regs = Lists.newArrayList();
+                BARRELS.forEach(r -> regs.add(r.get()));
+                Block[] blocks = regs.toArray(new Block[0]);
+                var type = BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, blocks).build(null);
                 return type;
             });
         }
@@ -833,6 +864,7 @@ public class ItemGenerator
 
         // Register after berry blocks
         ItemGenerator.makeBarrels();
+        ItemGenerator.makeFillableShelves();
         ItemGenerator.makeHangingSigns();
         ItemGenerator.makeSigns();
     }
