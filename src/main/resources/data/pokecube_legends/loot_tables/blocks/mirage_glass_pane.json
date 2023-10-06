@@ -21,11 +21,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:mirage_glass"
+          "name": "pokecube_legends:mirage_glass_pane"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "pokecube_legends:blocks/mirage_glass"
+  "random_sequence": "pokecube_legends:blocks/mirage_glass_pane"
 }

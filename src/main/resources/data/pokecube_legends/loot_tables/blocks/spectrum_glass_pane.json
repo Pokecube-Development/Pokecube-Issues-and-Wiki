@@ -7,7 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "pokecube_legends:spectrum_glass"
+          "name": "pokecube_legends:spectrum_glass_pane"
         }
       ],
       "conditions": [
@@ -17,5 +17,5 @@
       ]
     }
   ],
-  "random_sequence": "pokecube_legends:blocks/spectrum_glass"
+  "random_sequence": "pokecube_legends:blocks/spectrum_glass_pane"
 }
