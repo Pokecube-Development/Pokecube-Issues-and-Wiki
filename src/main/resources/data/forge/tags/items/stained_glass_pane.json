@@ -2,7 +2,7 @@
   "replace": false,
   "values": [
     { "id": "pokecube_adventures:laboratory_glass_pane", "required": false },
-    { "id": "pokecube_legends:framed_distortic_mirror_pane", "required": false },
+    { "id": "pokecube_legends:distortic_framed_mirror_pane", "required": false },
     { "id": "pokecube_legends:mirage_glass_pane", "required": false },
     { "id": "pokecube_legends:spectrum_glass_pane", "required": false }
   ]

@@ -2,6 +2,6 @@
   "parent": "block/cube_all",
   "render_type": "translucent",
   "textures": {
-    "all": "pokecube_legends:block/framed_distortic_mirror"
+    "all": "pokecube_legends:block/distortic_framed_mirror"
   }
 }

@@ -4,7 +4,7 @@
         "type":"CTM",
         "layer":"TRANSLUCENT",
         "textures":[
-            "pokecube_legends:block/framed_distortic_mirror_ctm"
+            "pokecube_legends:block/distortic_framed_mirror_ctm"
         ],
         "extra":{
         	"ignore_states":true,

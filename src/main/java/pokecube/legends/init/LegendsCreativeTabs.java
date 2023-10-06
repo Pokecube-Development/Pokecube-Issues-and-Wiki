@@ -357,17 +357,17 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
                 output.accept(BlockInit.MAGNETIC_STONE.get());
 
-                output.accept(BlockInit.FRAMED_DISTORTIC_MIRROR.get());
+                output.accept(BlockInit.DISTORTIC_FRAMED_MIRROR.get());
                 output.accept(BlockInit.SPECTRUM_GLASS.get());
                 output.accept(BlockInit.MIRAGE_GLASS.get());
                 output.accept(PokecubeAdv.LAB_GLASS.get());
-                
-                output.accept(BlockInit.FRAMED_DISTORTIC_MIRROR_PANE.get());
+
+                output.accept(BlockInit.DISTORTIC_FRAMED_MIRROR_PANE.get());
                 output.accept(BlockInit.SPECTRUM_GLASS_PANE.get());
                 output.accept(BlockInit.MIRAGE_GLASS_PANE.get());
                 output.accept(PokecubeAdv.LAB_GLASS_PANE.get());
 
-                output.accept(BlockInit.ONE_WAY_FRAMED_MIRROR.get());
+                output.accept(BlockInit.ONE_WAY_DISTORTIC_FRAMED_MIRROR.get());
                 output.accept(BlockInit.ONE_WAY_GLASS.get());
                 output.accept(BlockInit.ONE_WAY_GLASS_TINTED.get());
                 output.accept(BlockInit.ONE_WAY_GLASS_WHITE.get());
@@ -1131,16 +1131,16 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
 
         if (event.getTabKey() == CreativeModeTabs.COLORED_BLOCKS && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
-            addBefore(event, Items.GLASS, BlockInit.FRAMED_DISTORTIC_MIRROR.get());
+            addBefore(event, Items.GLASS, BlockInit.DISTORTIC_FRAMED_MIRROR.get());
             addAfter(event, Items.PINK_STAINED_GLASS, BlockInit.SPECTRUM_GLASS.get());
             addAfter(event, BlockInit.SPECTRUM_GLASS.get(), BlockInit.MIRAGE_GLASS.get());
 
-            addBefore(event, Items.GLASS_PANE, BlockInit.FRAMED_DISTORTIC_MIRROR_PANE.get());
+            addBefore(event, Items.GLASS_PANE, BlockInit.DISTORTIC_FRAMED_MIRROR_PANE.get());
             addAfter(event, Items.PINK_STAINED_GLASS_PANE, BlockInit.SPECTRUM_GLASS_PANE.get());
             addAfter(event, BlockInit.SPECTRUM_GLASS_PANE.get(), BlockInit.MIRAGE_GLASS_PANE.get());
 
-            addAfter(event, PokecubeAdv.LAB_GLASS_PANE.get(), BlockInit.ONE_WAY_FRAMED_MIRROR.get());
-            addAfter(event, BlockInit.ONE_WAY_FRAMED_MIRROR.get(), BlockInit.ONE_WAY_GLASS.get());
+            addAfter(event, PokecubeAdv.LAB_GLASS_PANE.get(), BlockInit.ONE_WAY_DISTORTIC_FRAMED_MIRROR.get());
+            addAfter(event, BlockInit.ONE_WAY_DISTORTIC_FRAMED_MIRROR.get(), BlockInit.ONE_WAY_GLASS.get());
             addAfter(event, BlockInit.ONE_WAY_GLASS.get(), BlockInit.ONE_WAY_GLASS_TINTED.get());
             addAfter(event, BlockInit.ONE_WAY_GLASS_TINTED.get(), BlockInit.ONE_WAY_GLASS_WHITE.get());
             addAfter(event, BlockInit.ONE_WAY_GLASS_WHITE.get(), BlockInit.ONE_WAY_GLASS_LIGHT_GRAY.get());

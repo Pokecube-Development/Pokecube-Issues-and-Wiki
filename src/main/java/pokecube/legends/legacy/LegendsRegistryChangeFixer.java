@@ -1,9 +1,7 @@
 package pokecube.legends.legacy;
 
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -16,6 +14,8 @@ import pokecube.legends.init.BlockInit;
 
 public class LegendsRegistryChangeFixer
 {
+    private static final Set<ResourceLocation> distortic_framed_mirror =
+            Sets.newHashSet(new ResourceLocation("pokecube_legends:framed_distortic_mirror"));
     private static final Set<ResourceLocation> one_way_framed_mirror =
             Sets.newHashSet(new ResourceLocation("pokecube_legends:distortic_one_way_framed_mirror"));
     private static final Set<ResourceLocation> one_way_glass =
@@ -69,7 +69,7 @@ public class LegendsRegistryChangeFixer
         {
             List<Mapping<Block>> mappings = event.getAllMappings(Keys.BLOCKS);
             mappings.forEach(m -> {
-                if (one_way_framed_mirror.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_FRAMED_MIRROR.get());
+                if (distortic_framed_mirror.contains(m.getKey())) m.remap(BlockInit.DISTORTIC_FRAMED_MIRROR.get());
                 if (one_way_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS.get());
                 if (one_way_tinted_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_TINTED.get());
                 if (one_way_white_stained_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_WHITE.get());
@@ -99,7 +99,7 @@ public class LegendsRegistryChangeFixer
         {
             List<Mapping<Item>> mappings = event.getAllMappings(Keys.ITEMS);
             mappings.forEach(m -> {
-                if (one_way_framed_mirror.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_FRAMED_MIRROR.get().asItem());
+                if (distortic_framed_mirror.contains(m.getKey())) m.remap(BlockInit.DISTORTIC_FRAMED_MIRROR.get().asItem());
                 if (one_way_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS.get().asItem());
                 if (one_way_tinted_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_TINTED.get().asItem());
                 if (one_way_white_stained_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_WHITE.get().asItem());

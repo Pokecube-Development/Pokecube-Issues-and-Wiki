@@ -415,7 +415,7 @@
     "block.pokecube_legends.cracked_distortic_stone": "裂纹扭曲石",
     "block.pokecube_legends.distortic_glowstone": "扭曲荧石",
     "block.pokecube_legends.chiseled_distortic_mirror": "堑制扭曲镜",
-    "block.pokecube_legends.framed_distortic_mirror": "扭曲带框镜",
+    "block.pokecube_legends.distortic_framed_mirror": "扭曲带框镜",
     "block.pokecube_legends.distortic_oak_planks": "扭曲橡木木板",
     "block.pokecube_legends.distortic_dark_oak_planks": "扭曲深色橡木木板",
     "block.pokecube_legends.distortic_spruce_planks": "扭曲杉木板",
@@ -715,7 +715,7 @@
     "block.pokecube_legends.one_way_mirage_glass": "单向幻象玻璃",
     "block.pokecube_legends.one_way_spectrum_glass": "单向光谱玻璃",
     "block.pokecube_legends.one_way_tinted_glass": "单向着色玻璃",
-    "block.pokecube_legends.one_way_framed_mirror": "单向镜",
+    "block.pokecube_legends.one_way_distortic_framed_mirror": "单向镜",
     "block.pokecube_legends.mirage_glass": "幻象玻璃",
     "block.pokecube_legends.spectrum_glass": "光谱玻璃",
 

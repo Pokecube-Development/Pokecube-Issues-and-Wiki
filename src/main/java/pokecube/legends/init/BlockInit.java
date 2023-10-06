@@ -45,7 +45,6 @@ import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.registries.RegistryObject;
 import pokecube.adventures.PokecubeAdv;
-import pokecube.adventures.blocks.LaboratoryGlassPaneBlock;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.barrels.GenericBarrel;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
@@ -284,8 +283,8 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_MIRROR;
     public static final RegistryObject<Block> CHISELED_DISTORTIC_MIRROR;
 
-    public static final RegistryObject<Block> FRAMED_DISTORTIC_MIRROR;
-    public static final RegistryObject<Block> FRAMED_DISTORTIC_MIRROR_PANE;
+    public static final RegistryObject<Block> DISTORTIC_FRAMED_MIRROR;
+    public static final RegistryObject<Block> DISTORTIC_FRAMED_MIRROR_PANE;
     public static final RegistryObject<Block> SPECTRUM_GLASS;
     public static final RegistryObject<Block> SPECTRUM_GLASS_PANE;
     public static final RegistryObject<Block> MIRAGE_GLASS;
@@ -312,7 +311,7 @@ public class BlockInit
     public static final RegistryObject<Block> ONE_WAY_GLASS_MIRAGE;
     public static final RegistryObject<Block> ONE_WAY_GLASS_SPECTRUM;
     public static final RegistryObject<Block> ONE_WAY_GLASS_TINTED;
-    public static final RegistryObject<Block> ONE_WAY_FRAMED_MIRROR;
+    public static final RegistryObject<Block> ONE_WAY_DISTORTIC_FRAMED_MIRROR;
 
     public static final RegistryObject<Block> DISTORTIC_STONE_BRICKS;
     public static final RegistryObject<Block> DISTORTIC_STONE_BRICK_SLAB;
@@ -2205,13 +2204,13 @@ public class BlockInit
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
-        FRAMED_DISTORTIC_MIRROR = PokecubeLegends.BLOCKS.register("framed_distortic_mirror",
+        DISTORTIC_FRAMED_MIRROR = PokecubeLegends.BLOCKS.register("distortic_framed_mirror",
                 () -> new StainedGlassBlock(DyeColor.WHITE, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.SNOW).strength(0.3f).noOcclusion()
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
-        FRAMED_DISTORTIC_MIRROR_PANE = PokecubeAdv.DECORATIONS.register("framed_distortic_mirror_pane",
+        DISTORTIC_FRAMED_MIRROR_PANE = PokecubeAdv.DECORATIONS.register("distortic_framed_mirror_pane",
                 () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.of()
                         .mapColor(MapColor.SNOW).strength(0.3f).noOcclusion()
                         .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
@@ -2342,7 +2341,7 @@ public class BlockInit
                                 .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never)
                                 .isRedstoneConductor(BlockInit::never).isSuffocating(BlockInit::never)
                                 .isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
-        ONE_WAY_FRAMED_MIRROR = PokecubeLegends.BLOCKS.register("one_way_framed_mirror",
+        ONE_WAY_DISTORTIC_FRAMED_MIRROR = PokecubeLegends.BLOCKS.register("one_way_distortic_framed_mirror",
                 () -> new OneWayStainedGlass(DyeColor.WHITE,
                         BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).noOcclusion()
                                 .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never)
