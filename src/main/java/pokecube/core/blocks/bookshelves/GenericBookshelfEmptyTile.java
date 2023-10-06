@@ -156,7 +156,6 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        final Item book = stack.getItem();
         return stack.is(ItemTags.BOOKSHELF_BOOKS) || stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS);
     }
 
