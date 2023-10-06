@@ -203,8 +203,9 @@ public class PokecubeAdv
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
         LAB_GLASS_PANE = PokecubeAdv.DECORATIONS.register("laboratory_glass_pane",
-                () -> new LaboratoryGlassPaneBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
-                        .strength(0.3f).noOcclusion().isValidSpawn(PokecubeItems::never).isRedstoneConductor(PokecubeItems::never)
+                () -> new LaboratoryGlassPaneBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.3f).noOcclusion()
+                        .isValidSpawn(PokecubeItems::never).isRedstoneConductor(PokecubeItems::never)
                         .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
                         .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
 

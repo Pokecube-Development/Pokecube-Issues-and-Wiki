@@ -31,6 +31,8 @@ import net.minecraft.world.level.block.SandBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.SnowyDirtBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.StainedGlassBlock;
+import net.minecraft.world.level.block.StainedGlassPaneBlock;
 import net.minecraft.world.level.block.WallBlock;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -42,6 +44,8 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.registries.RegistryObject;
+import pokecube.adventures.PokecubeAdv;
+import pokecube.adventures.blocks.LaboratoryGlassPaneBlock;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.barrels.GenericBarrel;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
@@ -104,6 +108,7 @@ import pokecube.legends.blocks.normalblocks.InfectedTorchWall;
 import pokecube.legends.blocks.normalblocks.JungleGrassBlock;
 import pokecube.legends.blocks.normalblocks.MagneticBlock;
 import pokecube.legends.blocks.normalblocks.MirageGlassBlock;
+import pokecube.legends.blocks.normalblocks.MirageGlassPaneBlock;
 import pokecube.legends.blocks.normalblocks.MirageLeavesBlock;
 import pokecube.legends.blocks.normalblocks.MushroomGrassBlock;
 import pokecube.legends.blocks.normalblocks.OneWayGlass;
@@ -113,6 +118,7 @@ import pokecube.legends.blocks.normalblocks.OneWaySpectrumGlass;
 import pokecube.legends.blocks.normalblocks.OneWayStainedGlass;
 import pokecube.legends.blocks.normalblocks.OneWayTintedGlass;
 import pokecube.legends.blocks.normalblocks.SpectrumGlassBlock;
+import pokecube.legends.blocks.normalblocks.SpectrumGlassPaneBlock;
 import pokecube.legends.blocks.normalblocks.UnrefinedAquamarineBlock;
 import pokecube.legends.blocks.normalblocks.WallGateBlock;
 import pokecube.legends.blocks.plants.BigContaminatedDripleafBlock;
@@ -279,6 +285,12 @@ public class BlockInit
     public static final RegistryObject<Block> CHISELED_DISTORTIC_MIRROR;
 
     public static final RegistryObject<Block> FRAMED_DISTORTIC_MIRROR;
+    public static final RegistryObject<Block> FRAMED_DISTORTIC_MIRROR_PANE;
+    public static final RegistryObject<Block> SPECTRUM_GLASS;
+    public static final RegistryObject<Block> SPECTRUM_GLASS_PANE;
+    public static final RegistryObject<Block> MIRAGE_GLASS;
+    public static final RegistryObject<Block> MIRAGE_GLASS_PANE;
+
     public static final RegistryObject<Block> ONE_WAY_GLASS;
     public static final RegistryObject<Block> ONE_WAY_GLASS_WHITE;
     public static final RegistryObject<Block> ONE_WAY_GLASS_ORANGE;
@@ -369,7 +381,6 @@ public class BlockInit
     public static final RegistryObject<Block> ROOTED_MUSHROOM_DIRT;
 
     public static final RegistryObject<Block> MAGNETIC_STONE;
-    public static final RegistryObject<Block> SPECTRUM_GLASS;
 
     // Aquamarine Blocks
     public static final RegistryObject<Block> AQUAMARINE_BLOCK;
@@ -580,7 +591,6 @@ public class BlockInit
     public static final RegistryObject<Block> INVERTED_BOOKSHELF;
     public static final RegistryObject<Block> INVERTED_BOOKSHELF_EMPTY;
 
-    public static final RegistryObject<Block> MIRAGE_GLASS;
     public static final RegistryObject<Block> MIRAGE_LOG;
     public static final RegistryObject<Block> MIRAGE_PLANKS;
     public static final RegistryObject<Block> MIRAGE_LEAVES;
@@ -1304,6 +1314,10 @@ public class BlockInit
                 () -> new BlockBase(MapColor.SNOW,
                         SoundType.GLASS, NoteBlockInstrument.HAT, true, 0.3f, 0.3f));
 
+        CHISELED_DISTORTIC_MIRROR = PokecubeLegends.BLOCKS.register("chiseled_distortic_mirror",
+                () -> new BlockBase(MapColor.SNOW,
+                        SoundType.GLASS, NoteBlockInstrument.HAT, true, 1.5f, 1.5f));
+
         DISTORTIC_GLOWSTONE = PokecubeLegends.BLOCKS.register("distortic_glowstone",
                 () -> new Block(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
                         .strength(1.5f, 1.5f).sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)
@@ -1868,10 +1882,6 @@ public class BlockInit
         DISTORTIC_JUNGLE_SLAB = PokecubeLegends.BLOCKS.register("distortic_jungle_slab", () -> new SlabBlock(
                 BlockBehaviour.Properties.of().mapColor(MapColor.WOOD).strength(2.0f).sound(SoundType.WOOD)));
 
-        CHISELED_DISTORTIC_MIRROR = PokecubeLegends.BLOCKS.register("chiseled_distortic_mirror",
-                () -> new BlockBase(MapColor.SNOW,
-                        SoundType.GLASS, NoteBlockInstrument.HAT, true, 1.5f, 1.5f));
-
         // Concrete Blocks
         CONCRETE_LOG = PokecubeLegends.BLOCKS.register("concrete_log",
                 () -> StoneLogBase.concreteLog(MapColor.SNOW, MapColor.COLOR_GRAY,
@@ -2172,23 +2182,41 @@ public class BlockInit
 
         // Glass
         MIRAGE_GLASS = PokecubeLegends.BLOCKS.register("mirage_glass",
-                () -> new MirageGlassBlock(DyeColor.LIGHT_BLUE,
-                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.3F)
-                                .sound(SoundType.GLASS).noOcclusion().isValidSpawn(BlockInit::never)
-                                .isRedstoneConductor(BlockInit::never).isSuffocating(BlockInit::never)
-                                .isViewBlocking(BlockInit::never)));
+                () -> new MirageGlassBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.3f).noOcclusion()
+                        .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
+        MIRAGE_GLASS_PANE = PokecubeAdv.DECORATIONS.register("mirage_glass_pane",
+                () -> new MirageGlassPaneBlock(DyeColor.LIGHT_BLUE, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_LIGHT_BLUE).strength(0.3f).noOcclusion()
+                        .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
         SPECTRUM_GLASS = PokecubeLegends.BLOCKS.register("spectrum_glass",
-                () -> new SpectrumGlassBlock(DyeColor.ORANGE,
-                        BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_ORANGE).strength(0.3F)
-                                .sound(SoundType.GLASS).noOcclusion().isValidSpawn(BlockInit::never)
-                                .isRedstoneConductor(BlockInit::never).isSuffocating(BlockInit::never)
-                                .isViewBlocking(BlockInit::never)));
+                () -> new SpectrumGlassBlock(DyeColor.ORANGE, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_ORANGE).strength(0.3f).noOcclusion()
+                        .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
+        SPECTRUM_GLASS_PANE = PokecubeAdv.DECORATIONS.register("spectrum_glass_pane",
+                () -> new SpectrumGlassPaneBlock(DyeColor.ORANGE, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.COLOR_ORANGE).strength(0.3f).noOcclusion()
+                        .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
         FRAMED_DISTORTIC_MIRROR = PokecubeLegends.BLOCKS.register("framed_distortic_mirror",
-                () -> new OneWayStainedGlass(DyeColor.WHITE,
-                        BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).noOcclusion()
-                                .sound(SoundType.GLASS).strength(0.3f).noOcclusion().isValidSpawn(BlockInit::never)
-                                .isRedstoneConductor(BlockInit::never).isSuffocating(BlockInit::never)
-                                .isViewBlocking(BlockInit::never).requiresCorrectToolForDrops()));
+                () -> new StainedGlassBlock(DyeColor.WHITE, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.SNOW).strength(0.3f).noOcclusion()
+                        .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
+        FRAMED_DISTORTIC_MIRROR_PANE = PokecubeAdv.DECORATIONS.register("framed_distortic_mirror_pane",
+                () -> new StainedGlassPaneBlock(DyeColor.WHITE, BlockBehaviour.Properties.of()
+                        .mapColor(MapColor.SNOW).strength(0.3f).noOcclusion()
+                        .isRedstoneConductor(PokecubeItems::never).isValidSpawn(PokecubeItems::never)
+                        .isSuffocating(PokecubeItems::never).isViewBlocking(PokecubeItems::never)
+                        .sound(SoundType.GLASS).instrument(NoteBlockInstrument.HAT)));
 
         ONE_WAY_GLASS = PokecubeLegends.BLOCKS.register("one_way_glass",
                 () -> new OneWayGlass(BlockBehaviour.Properties.of().mapColor(MapColor.SNOW).noOcclusion()
