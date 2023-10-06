@@ -70,6 +70,7 @@ public class LegendsRegistryChangeFixer
             List<Mapping<Block>> mappings = event.getAllMappings(Keys.BLOCKS);
             mappings.forEach(m -> {
                 if (distortic_framed_mirror.contains(m.getKey())) m.remap(BlockInit.DISTORTIC_FRAMED_MIRROR.get());
+                if (one_way_framed_mirror.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_DISTORTIC_FRAMED_MIRROR.get());
                 if (one_way_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS.get());
                 if (one_way_tinted_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_TINTED.get());
                 if (one_way_white_stained_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_WHITE.get());
@@ -100,6 +101,7 @@ public class LegendsRegistryChangeFixer
             List<Mapping<Item>> mappings = event.getAllMappings(Keys.ITEMS);
             mappings.forEach(m -> {
                 if (distortic_framed_mirror.contains(m.getKey())) m.remap(BlockInit.DISTORTIC_FRAMED_MIRROR.get().asItem());
+                if (one_way_framed_mirror.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_DISTORTIC_FRAMED_MIRROR.get().asItem());
                 if (one_way_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS.get().asItem());
                 if (one_way_tinted_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_TINTED.get().asItem());
                 if (one_way_white_stained_glass.contains(m.getKey())) m.remap(BlockInit.ONE_WAY_GLASS_WHITE.get().asItem());
