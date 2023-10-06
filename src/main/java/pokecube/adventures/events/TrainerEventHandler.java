@@ -90,6 +90,7 @@ import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SendOut;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
+import pokecube.api.moves.Battle;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
@@ -612,6 +613,28 @@ public class TrainerEventHandler
         if (pokemobHolder != null)
         {
             if (recalled == pokemobHolder.getOutMob()) pokemobHolder.setOutMob(null);
+
+            // If the npc was battling, we need to ensure that the target
+            // pokemob has a cooldown set, otherwise it might auto-switch to us
+            // directly.
+            if (recalled.getMoveStats().targetEnemy != null)
+            {
+                IPokemob targetMob = PokemobCaps.getPokemobFor(recalled.getMoveStats().targetEnemy);
+                if (targetMob != null)
+                {
+                    // If we have a new pokemob to send out, add an attack cooldown for the pokemob.
+                    if (!pokemobHolder.getNextPokemob().isEmpty())
+                    {
+                        targetMob.setAttackCooldown(PokecubeAdv.config.trainerSendOutDelay);
+                    }
+                    else
+                    {
+                        // Otherwise, remove us from the battle.
+                        Battle b = Battle.getBattle(owner);
+                        if (b != null) b.removeFromBattle(owner);
+                    }
+                }
+            }
             pokemobHolder.addPokemob(PokecubeManager.pokemobToItem(recalled));
             evt.setCanceled(true);
             recalled.markRemoved();

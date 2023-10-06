@@ -255,7 +255,7 @@ public class Battle
         s2.sort(BATTLESORTER);
     }
 
-    private void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
+    public void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         final String teamA = TeamManager.getTeam(mobA);
         final String teamB = TeamManager.getTeam(mobB);
