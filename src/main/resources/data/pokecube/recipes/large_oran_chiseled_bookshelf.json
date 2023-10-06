@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "large_chiseled_bookshelf",
+  "key": {
+    "#": {
+      "item": "pokecube:plank_oran"
+    },
+    "X": {
+      "item": "pokecube:oran_slab"
+    }
+  },
+  "pattern": [
+    "###",
+    "X#X",
+    "###"
+  ],
+  "result": {
+    "item": "pokecube:large_oran_chiseled_bookshelf"
+  },
+  "show_notification": true
+}

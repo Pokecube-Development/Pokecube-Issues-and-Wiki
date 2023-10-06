@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/template_chiseled_bookshelf_slot_top_mid",
+  "textures": {
+    "texture": "pokecube:block/oran_chiseled_bookshelf_back_occupied"
+  }
+}
