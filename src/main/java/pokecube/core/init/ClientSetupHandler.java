@@ -48,7 +48,6 @@ import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
 import pokecube.core.client.gui.blocks.Healer;
-import pokecube.core.client.gui.blocks.LargeChiseledBookshelf;
 import pokecube.core.client.gui.blocks.PC;
 import pokecube.core.client.gui.blocks.TMs;
 import pokecube.core.client.gui.blocks.Trade;
@@ -62,7 +61,6 @@ import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.entity.boats.GenericBoat.BoatType;
-import pokecube.core.inventory.bookshelves.LargeChiseledBookshelfMenu;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.inventory.pc.PCContainer;
 import pokecube.core.inventory.tms.TMContainer;
@@ -245,7 +243,6 @@ public class ClientSetupHandler
         MenuScreens.register(MenuTypes.PC.get(), PC<PCContainer>::new);
         MenuScreens.register(MenuTypes.TRADE.get(), Trade<TradeContainer>::new);
         MenuScreens.register(MenuTypes.TMS.get(), TMs<TMContainer>::new);
-        MenuScreens.register(MenuTypes.LARGE_CHISELED_BOOKSHELF.get(), LargeChiseledBookshelf<LargeChiseledBookshelfMenu>::new);
 
         ClientSetupHandler.registerLayerDefinition(ForgeHooksClient::registerLayerDefinition);
 

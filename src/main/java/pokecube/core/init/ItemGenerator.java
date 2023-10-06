@@ -65,8 +65,6 @@ import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
-import pokecube.core.blocks.bookshelves.LargeChiseledBookshelf;
-import pokecube.core.blocks.bookshelves.LargeChiseledBookshelfBlockEntity;
 import pokecube.core.blocks.hanging_signs.GenericCeilingHangingSign;
 import pokecube.core.blocks.hanging_signs.GenericHangingSignBlockEntity;
 import pokecube.core.blocks.hanging_signs.GenericWallHangingSign;
@@ -116,7 +114,6 @@ public class ItemGenerator
     public static Map<String, RegistryObject<Block>> stripped_woods = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> bookshelves = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> barrels = Maps.newHashMap();
-    public static Map<String, RegistryObject<Block>> large_chiseled_bookshelves = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> planks = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> stairs = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> slabs = Maps.newHashMap();
@@ -140,7 +137,6 @@ public class ItemGenerator
 
     public static List<RegistryObject<Block>> SIGN_BLOCKS = Lists.newArrayList();
     public static List<RegistryObject<Block>> HANGING_SIGN_BLOCKS = Lists.newArrayList();
-    public static List<RegistryObject<Block>> LARGE_CHISELED_BOOKSHELVES = Lists.newArrayList();
     public static List<RegistryObject<Block>> BARRELS = Lists.newArrayList();
 
     public static List<BoatRegister> BOATS = Lists.newArrayList();
@@ -332,18 +328,6 @@ public class ItemGenerator
                         ItemGenerator.barrels.put(name, block);
                     });
             ItemGenerator.BARRELS.add(barrels);
-
-            // Large Chiseled Bookshelves
-            var large_chiseled_bookshelves = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(19).apply(name),
-                    () -> new LargeChiseledBookshelf(BlockBehaviour.Properties.of()
-                            .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
-                            .strength(1.5F).sound(SoundType.CHISELED_BOOKSHELF)
-                            .instrument(NoteBlockInstrument.BASS)),
-                    block ->
-                    {
-                        ItemGenerator.large_chiseled_bookshelves.put(name, block);
-                    });
-            ItemGenerator.LARGE_CHISELED_BOOKSHELVES.add(large_chiseled_bookshelves);
 
             // Planks
             var plank_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(6).apply(name),
@@ -637,20 +621,6 @@ public class ItemGenerator
         }
     }
 
-    public static void makeLargeChiseledBookshelves()
-    {
-        if (!LARGE_CHISELED_BOOKSHELVES.isEmpty())
-        {
-            LargeChiseledBookshelfBlockEntity.LARGE_SHELF_TYPE = PokecubeCore.TILES.register("large_chiseled_bookshelf", () -> {
-                List<Block> regs = Lists.newArrayList();
-                LARGE_CHISELED_BOOKSHELVES.forEach(r -> regs.add(r.get()));
-                Block[] blocks = regs.toArray(new Block[0]);
-                var type = BlockEntityType.Builder.of(LargeChiseledBookshelfBlockEntity::new, blocks).build(null);
-                return type;
-            });
-        }
-    }
-
     public static void makeBarrels()
     {
         if (!BARRELS.isEmpty())
@@ -863,7 +833,6 @@ public class ItemGenerator
 
         // Register after berry blocks
         ItemGenerator.makeBarrels();
-        ItemGenerator.makeLargeChiseledBookshelves();
         ItemGenerator.makeHangingSigns();
         ItemGenerator.makeSigns();
     }

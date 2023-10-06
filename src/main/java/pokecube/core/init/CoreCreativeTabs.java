@@ -75,18 +75,6 @@ public class CoreCreativeTabs
             addAfter(event, PokecubeItems.getStack("pecha_bookshelf").getItem(),
                     PokecubeItems.getStack("sitrus_bookshelf").getItem());
 
-            addAfter(event, Items.CHISELED_BOOKSHELF, PokecubeItems.getStack("large_enigma_chiseled_bookshelf").getItem());
-            addAfter(event, PokecubeItems.getStack("large_enigma_chiseled_bookshelf").getItem(),
-                    PokecubeItems.getStack("large_leppa_chiseled_bookshelf").getItem());
-            addAfter(event, PokecubeItems.getStack("large_leppa_chiseled_bookshelf").getItem(),
-                    PokecubeItems.getStack("large_nanab_chiseled_bookshelf").getItem());
-            addAfter(event, PokecubeItems.getStack("large_nanab_chiseled_bookshelf").getItem(),
-                    PokecubeItems.getStack("large_oran_chiseled_bookshelf").getItem());
-            addAfter(event, PokecubeItems.getStack("large_oran_chiseled_bookshelf").getItem(),
-                    PokecubeItems.getStack("large_pecha_chiseled_bookshelf").getItem());
-            addAfter(event, PokecubeItems.getStack("large_pecha_chiseled_bookshelf").getItem(),
-                    PokecubeItems.getStack("large_sitrus_chiseled_bookshelf").getItem());
-
             addAfter(event, Items.BARREL, PokecubeItems.getStack("enigma_barrel").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_barrel").getItem(),
                     PokecubeItems.getStack("leppa_barrel").getItem());
@@ -233,7 +221,6 @@ public class CoreCreativeTabs
                 add(event, ItemGenerator.stripped_woods.get(type).get());
                 add(event, ItemGenerator.barrels.get(type).get());
                 add(event, ItemGenerator.bookshelves.get(type).get());
-                add(event, ItemGenerator.large_chiseled_bookshelves.get(type).get());
                 add(event, ItemGenerator.planks.get(type).get());
                 add(event, ItemGenerator.stairs.get(type).get());
                 add(event, ItemGenerator.slabs.get(type).get());

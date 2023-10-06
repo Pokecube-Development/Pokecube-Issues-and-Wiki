@@ -45,7 +45,6 @@ import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.blocks.barrels.GenericBarrel;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
 import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
-import pokecube.core.blocks.bookshelves.LargeChiseledBookshelf;
 import pokecube.core.blocks.hanging_signs.GenericCeilingHangingSign;
 import pokecube.core.blocks.hanging_signs.GenericWallHangingSign;
 import pokecube.core.blocks.signs.GenericStandingSign;
@@ -340,7 +339,6 @@ public class BlockInit
     public static final RegistryObject<Block> DISTORTIC_JUNGLE_STAIRS;
 
     public static final RegistryObject<Block> BOOKSHELF_EMPTY;
-    public static final RegistryObject<Block> LARGE_OAK_CHISELED_BOOKSHELF;
 
     public static final RegistryObject<Block> INFECTED_CAMPFIRE;
     public static final RegistryObject<Block> INFECTED_FIRE;
@@ -1817,10 +1815,6 @@ public class BlockInit
 
         BOOKSHELF_EMPTY = PokecubeLegends.BLOCKS.register("bookshelf_empty",
                 () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
-                        .strength(2f, 4f).sound(SoundType.WOOD).dynamicShape()));
-
-        LARGE_OAK_CHISELED_BOOKSHELF = PokecubeLegends.BLOCKS.register("large_oak_chiseled_bookshelf",
-                () -> new LargeChiseledBookshelf(BlockBehaviour.Properties.of().mapColor(MapColor.WOOD)
                         .strength(2f, 4f).sound(SoundType.WOOD).dynamicShape()));
 
         DISTORTIC_OAK_PLANKS = PokecubeLegends.BLOCKS.register("distortic_oak_planks", () -> new Block(
