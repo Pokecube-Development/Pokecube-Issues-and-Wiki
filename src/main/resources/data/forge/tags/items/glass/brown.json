@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    { "id": "pokecube_legends:distortic_one_way_brown_stained_glass", "required": false }
+    { "id": "pokecube_legends:one_way_brown_stained_glass", "required": false }
   ]
 }

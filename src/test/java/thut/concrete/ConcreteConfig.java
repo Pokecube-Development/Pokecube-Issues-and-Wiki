@@ -30,7 +30,7 @@ public class ConcreteConfig extends ConfigData
             "minecraft:red_wool",
             "pokecube_legends:bulu_red_totem",
             "pokecube_legends:dyna_leaves_red",
-            "pokecube_legends:distortic_one_way_red_stained_glass",
+            "pokecube_legends:one_way_red_stained_glass",
             "pokecube_legends:fini_red_totem",
             "pokecube_legends:koko_red_totem",
             "pokecube_legends:lele_red_totem",

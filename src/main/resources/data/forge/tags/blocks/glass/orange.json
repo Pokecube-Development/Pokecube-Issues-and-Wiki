@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    { "id": "pokecube_legends:distortic_one_way_orange_stained_glass", "required": false },
-    { "id": "pokecube_legends:distortic_one_way_spectrum_glass", "required": false },, "required": false }
+    { "id": "pokecube_legends:one_way_orange_stained_glass", "required": false },
+    { "id": "pokecube_legends:one_way_spectrum_glass", "required": false },, "required": false }
     { "id": "pokecube_legends:spectrum_glass", "required": false }
   ]
 }
