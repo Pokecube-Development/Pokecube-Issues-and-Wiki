@@ -278,14 +278,24 @@ public abstract class PokemobMoves extends PokemobStats
         {
             Battle b = Battle.getBattle(entity);
 
-            // If we have no battle, but owner does, we join owner's battle
-            if (b == null && owner != null)
+            if (owner != null)
             {
-                b = Battle.getBattle(owner);
-                if (b != null)
+                Battle b2 = Battle.getBattle(owner);
+                if (b2 != b)
                 {
-                    var mobs = b.getEnemies(owner);
-                    if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.get(0));
+                    // If owner has no battle, but we do, owner joins our battle
+                    if (b2 == null)
+                    {
+                        var mobs = b.getEnemies(entity);
+                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(owner, mobs.get(0));
+                    }
+                    else if (b == null)
+                    {
+                        // If we have no battle, but owner does, we join owner's battle
+                        b = b2;
+                        var mobs = b.getEnemies(owner);
+                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.get(0));
+                    }
                 }
             }
             this.setBattle(b);
