@@ -44,6 +44,7 @@ These are arranged into three groupings:
     - `SelectMoveTask`
     - `UseAttacksTask`
     - `DodgeTask`
+    - `LeapTask`
     - `CicleTask`
     - `ForgetTargetTask`
     - `CallForHelpTask`
@@ -65,3 +66,16 @@ These are presently as follows:
 - `LogicInMaterials` - Handles additional effects for when the pokemob is inside a material (damage from water, etc)
 - `LogicFloatFlySwim` - deals with switching path finders/navigators for mobs which swim/fly/etc
 - `LogicMiscUpdate` - ticks inventory items, validates AI states, checks for particle effects and animations for the mob
+
+## Combat Structure
+
+Combat consists of a `Battle`, where there are 2 lists of `LivingEntity` which are listed as on opposing teams. A `Battle` ends when one of the teams is empty.
+
+The `PokemobMoveStats` for the `IPokemob` contains a tracker for both the current enemy `LivingEntity`, and the index of the `LivingEntity` in the list in the `Battle`. The owner of the `IPokemob` can change the target by setting that index.
+
+Once a `IPokemob` has a target, it is up to the `COMBAT` AI tasks to deal with what to do, and that is where the actual combat is done. The default behaviour is as follows:
+
+- `UseAttacksTask` - Queues up a move use for the pokemob if the position/timing conditions are correct
+- `DodgeTask` - Attempts to dodge incoming moves
+- `LeapTask` - Attempts to jump at the enemy if a contact move is being executed
+- `CicleTask` - Keeps the pokemob close to the general center of where the fight started
