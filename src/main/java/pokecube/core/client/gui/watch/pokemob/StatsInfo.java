@@ -30,7 +30,7 @@ public class StatsInfo extends PokeInfoPage
         final int VIT = this.parent.pokemob.getPokedexEntry().getStatVIT();
         final int statYOffSet = y + 35; // 0 //45
         final int offsetX = 120; // -50 //135
-        int dx = 15 + offsetX; //20
+        int dx = 15 + offsetX; // 20
 
         final String H = I18n.get("pokewatch.HP");
         final String A = I18n.get("pokewatch.ATT");
@@ -39,20 +39,20 @@ public class StatsInfo extends PokeInfoPage
         final String DS = I18n.get("pokewatch.DEFSP");
         final String S = I18n.get("pokewatch.VIT");
 
-        GuiComponent.drawString(mat, this.font, H, x + dx, statYOffSet + 18, 0xFF0000);
-        GuiComponent.drawString(mat, this.font, A, x + dx, statYOffSet + 27, 0xF08030);
-        GuiComponent.drawString(mat, this.font, D, x + dx, statYOffSet + 36, 0xF8D030);
-        GuiComponent.drawString(mat, this.font, AS, x + dx, statYOffSet + 45, 0x6890F0);
-        GuiComponent.drawString(mat, this.font, DS, x + dx, statYOffSet + 54, 0x78C850);
-        GuiComponent.drawString(mat, this.font, S, x + dx, statYOffSet + 63, 0xF85888);
+        this.font.draw(mat, H, x + dx, statYOffSet + 18, 0xFF0000);
+        this.font.draw(mat, A, x + dx, statYOffSet + 27, 0xF08030);
+        this.font.draw(mat, D, x + dx, statYOffSet + 36, 0xF8D030);
+        this.font.draw(mat, AS, x + dx, statYOffSet + 45, 0x6890F0);
+        this.font.draw(mat, DS, x + dx, statYOffSet + 54, 0x78C850);
+        this.font.draw(mat, S, x + dx, statYOffSet + 63, 0xF85888);
 
-        dx = 80 + offsetX; //60
-        GuiComponent.drawString(mat, this.font, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
-        GuiComponent.drawString(mat, this.font, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
-        GuiComponent.drawString(mat, this.font, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
-        GuiComponent.drawString(mat, this.font, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
-        GuiComponent.drawString(mat, this.font, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
-        GuiComponent.drawString(mat, this.font, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
+        dx = 80 + offsetX; // 60
+        this.font.draw(mat, ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
+        this.font.draw(mat, ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
+        this.font.draw(mat, ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
+        this.font.draw(mat, ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
+        this.font.draw(mat, ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
+        this.font.draw(mat, ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
     }
 
     // Your Pokemob
@@ -102,23 +102,23 @@ public class StatsInfo extends PokeInfoPage
 
         final String Header = I18n.get("pokewatch.TVIVEV");
 
-        GuiComponent.drawString(mat, this.font, Header, 43 + x + dx, statYOffSet + 9, 0xFFFFFF);
-        GuiComponent.drawString(mat, this.font, H, x + dx, statYOffSet + 18, 0xFF0000);
-        GuiComponent.drawString(mat, this.font, A, x + dx, statYOffSet + 27, 0xF08030);
-        GuiComponent.drawString(mat, this.font, D, x + dx, statYOffSet + 36, 0xF8D030);
-        GuiComponent.drawString(mat, this.font, AS, x + dx, statYOffSet + 45, 0x6890F0);
-        GuiComponent.drawString(mat, this.font, DS, x + dx, statYOffSet + 54, 0x78C850);
-        GuiComponent.drawString(mat, this.font, S, x + dx, statYOffSet + 63, 0xF85888);
+        this.font.draw(mat, Header, 43 + x + dx, statYOffSet + 9, 0x666666);
+        this.font.draw(mat, H, x + dx, statYOffSet + 18, 0xFF0000);
+        this.font.draw(mat, A, x + dx, statYOffSet + 27, 0xF08030);
+        this.font.draw(mat, D, x + dx, statYOffSet + 36, 0xF8D030);
+        this.font.draw(mat, AS, x + dx, statYOffSet + 45, 0x6890F0);
+        this.font.draw(mat, DS, x + dx, statYOffSet + 54, 0x78C850);
+        this.font.draw(mat, S, x + dx, statYOffSet + 63, 0xF85888);
 
-        dx = 50 + offsetX; //56
-        GuiComponent.drawString(mat, this.font, nat[0] + ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
-        GuiComponent.drawString(mat, this.font, nat[1] + ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
-        GuiComponent.drawString(mat, this.font, nat[2] + ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
-        GuiComponent.drawString(mat, this.font, nat[3] + ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
-        GuiComponent.drawString(mat, this.font, nat[4] + ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
-        GuiComponent.drawString(mat, this.font, nat[5] + ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
+        dx = 50 + offsetX; // 56
+        this.font.draw(mat, nat[0] + ": " + HP, x + dx, statYOffSet + 18, 0xFF0000);
+        this.font.draw(mat, nat[1] + ": " + ATT, x + dx, statYOffSet + 27, 0xF08030);
+        this.font.draw(mat, nat[2] + ": " + DEF, x + dx, statYOffSet + 36, 0xF8D030);
+        this.font.draw(mat, nat[3] + ": " + ATTSPE, x + dx, statYOffSet + 45, 0x6890F0);
+        this.font.draw(mat, nat[4] + ": " + DEFSPE, x + dx, statYOffSet + 54, 0x78C850);
+        this.font.draw(mat, nat[5] + ": " + VIT, x + dx, statYOffSet + 63, 0xF85888);
 
-        dx = 15 + offsetX; //20
+        dx = 15 + offsetX; // 20
         byte[] stats2 = this.parent.pokemob.getIVs();
         HP = stats2[0];
         ATT = stats2[1];
@@ -134,20 +134,20 @@ public class StatsInfo extends PokeInfoPage
         final int DEFSPE2 = stats2[4] + 128;
         final int VIT2 = stats2[5] + 128;
 
-        int shift = 88 + offsetX; //44
-        GuiComponent.drawString(mat, this.font, "" + HP, x + shift, statYOffSet + 18, 0xFF0000);
-        GuiComponent.drawString(mat, this.font, "" + ATT, x + shift, statYOffSet + 27, 0xF08030);
-        GuiComponent.drawString(mat, this.font, "" + DEF, x + shift, statYOffSet + 36, 0xF8D030);
-        GuiComponent.drawString(mat, this.font, "" + ATTSPE, x + shift, statYOffSet + 45, 0x6890F0);
-        GuiComponent.drawString(mat, this.font, "" + DEFSPE, x + shift, statYOffSet + 54, 0x78C850);
-        GuiComponent.drawString(mat, this.font, "" + VIT, x + shift, statYOffSet + 63, 0xF85888);
-        shift += 16; //21
-        GuiComponent.drawString(mat, this.font, "" + HP2, x + shift, statYOffSet + 18, 0xFF0000);
-        GuiComponent.drawString(mat, this.font, "" + ATT2, x + shift, statYOffSet + 27, 0xF08030);
-        GuiComponent.drawString(mat, this.font, "" + DEF2, x + shift, statYOffSet + 36, 0xF8D030);
-        GuiComponent.drawString(mat, this.font, "" + ATTSPE2, x + shift, statYOffSet + 45, 0x6890F0);
-        GuiComponent.drawString(mat, this.font, "" + DEFSPE2, x + shift, statYOffSet + 54, 0x78C850);
-        GuiComponent.drawString(mat, this.font, "" + VIT2, x + shift, statYOffSet + 63, 0xF85888);
+        int shift = 83 + offsetX; // 44
+        this.font.draw(mat, "" + HP, x + shift, statYOffSet + 18, 0xFF0000);
+        this.font.draw(mat, "" + ATT, x + shift, statYOffSet + 27, 0xF08030);
+        this.font.draw(mat, "" + DEF, x + shift, statYOffSet + 36, 0xF8D030);
+        this.font.draw(mat, "" + ATTSPE, x + shift, statYOffSet + 45, 0x6890F0);
+        this.font.draw(mat, "" + DEFSPE, x + shift, statYOffSet + 54, 0x78C850);
+        this.font.draw(mat, "" + VIT, x + shift, statYOffSet + 63, 0xF85888);
+        shift += 21; // 21
+        this.font.draw(mat, "" + HP2, x + shift, statYOffSet + 18, 0xFF0000);
+        this.font.draw(mat, "" + ATT2, x + shift, statYOffSet + 27, 0xF08030);
+        this.font.draw(mat, "" + DEF2, x + shift, statYOffSet + 36, 0xF8D030);
+        this.font.draw(mat, "" + ATTSPE2, x + shift, statYOffSet + 45, 0x6890F0);
+        this.font.draw(mat, "" + DEFSPE2, x + shift, statYOffSet + 54, 0x78C850);
+        this.font.draw(mat, "" + VIT2, x + shift, statYOffSet + 63, 0xF85888);
     }
 
     @Override

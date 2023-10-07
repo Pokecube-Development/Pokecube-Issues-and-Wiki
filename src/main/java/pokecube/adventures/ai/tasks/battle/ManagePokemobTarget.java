@@ -2,19 +2,15 @@ package pokecube.adventures.ai.tasks.battle;
 
 import java.util.List;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.behavior.EntityTracker;
-import net.minecraft.world.entity.ai.memory.WalkTarget;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.moves.Battle;
-import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.ai.brain.MemoryModules;
-import pokecube.core.utils.PokemobTracker;
+import pokecube.core.utils.AITools;
 
 public class ManagePokemobTarget extends BaseBattleTask
 {
@@ -31,28 +27,36 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (other != null) other.onSetTarget(this.entity, true);
 
         final IPokemob mob = this.trainer.getOutMob();
-        if (mob == null || this.target == null) return;
-        final LivingEntity mobTarget = BrainUtils.getAttackTarget(mob.getEntity());
-        LivingEntity newTarget = this.target;
-        final IPokemob target = PokemobCaps.getPokemobFor(mobTarget);
 
-        // Try to send our mob after the target's nearest mob instead.
-        if (target == null)
+        if (mob == null || this.target == null) return;
+        LivingEntity ourMob = mob.getEntity();
+
+        Battle ourBattle = Battle.getBattle(owner);
+        Battle battle = mob.getBattle();
+        // Ensure we are still in battle with the target.
+        if (ourBattle == null)
         {
-            newTarget = this.target;
-            final List<Entity> alternates = PokemobTracker.getMobs(this.target,
-                    e -> e.distanceToSqr(this.entity) < 64 && PokemobCaps.getPokemobFor(e) != null);
-            if (!alternates.isEmpty()) newTarget = (LivingEntity) alternates.get(0);
+            if (Battle.createOrAddToBattle(owner, target)) ourBattle = Battle.getBattle(owner);
         }
-        // check if pokemob's target is same as trainers.
-        if (mobTarget != newTarget && newTarget != null)
+
+        if (battle != null)
         {
-            final boolean canSee = BrainUtils.canSee(mob.getEntity(), newTarget);
-            if (canSee) Battle.createOrAddToBattle(mob.getEntity(), newTarget);
-            else
+            LivingEntity enemy = mob.getMoveStats().targetEnemy;
+            enemy_check:
+            if (enemy == this.target)
             {
-                final WalkTarget walk = new WalkTarget(new EntityTracker(newTarget, false), 1.5f, 0);
-                mob.getEntity().getBrain().setMemory(MemoryModules.WALK_TARGET, walk);
+                List<LivingEntity> mobs = Lists.newArrayList(battle.getEnemies(entity));
+                // Ensure that the mobs are valid targets.
+                mobs.removeIf(t2 -> !AITools.shouldBeAbleToAgro(ourMob, t2));
+                for (int i = 0; i < mobs.size(); i++)
+                {
+                    enemy = mobs.get(i);
+                    if (enemy == this.target) continue;
+                    mob.getMoveStats().enemyIndex = i;
+                    mob.updateBattleInfo();
+                    break enemy_check;
+                }
+                mob.onSetTarget(target, true);
             }
         }
     }
@@ -61,11 +65,5 @@ public class ManagePokemobTarget extends BaseBattleTask
     protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {
         return super.checkExtraStartConditions(worldIn, entityIn);
-    }
-
-    @Override
-    protected boolean checkExtraStartConditions(final ServerLevel worldIn, final LivingEntity owner)
-    {
-        return super.checkExtraStartConditions(worldIn, owner);
     }
 }

@@ -91,6 +91,8 @@ public interface IModel
     {
         mat.name = ThutCore.trim(mat.name);
         final Material material = new Material(mat.name);
+        material.expectedTexH = mat.height;
+        material.expectedTexW = mat.width;
         material.diffuseColor = new Vec3f(1, 1, 1);
         material.emissiveColor = new Vec3f(mat.light, mat.light, mat.light);
         material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);

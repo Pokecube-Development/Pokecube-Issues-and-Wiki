@@ -255,7 +255,7 @@ public class Battle
         s2.sort(BATTLESORTER);
     }
 
-    private void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
+    public void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         final String teamA = TeamManager.getTeam(mobA);
         final String teamB = TeamManager.getTeam(mobB);
@@ -268,6 +268,9 @@ public class Battle
 
         final boolean bIs1 = this.side1.containsKey(mobB.getUUID());
         final boolean bIs2 = this.side2.containsKey(mobB.getUUID());
+
+        // Already in the battle, so skip.
+        if ((aIs1 || aIs2) && (bIs1 || bIs2)) return;
 
         if (aIs1 || bIs2)
         {

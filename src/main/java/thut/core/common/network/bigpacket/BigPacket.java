@@ -26,7 +26,7 @@ public abstract class BigPacket extends Packet
     {
         this();
         this.tag = buffer.readNbt();
-        if (this.assembler != null) this.assembler.onRead(this.getTag());
+        if (this.assembler != null) this.data = this.assembler.onRead(this.getTag());
     }
 
     public byte[] getData()
@@ -64,7 +64,7 @@ public abstract class BigPacket extends Packet
     @Override
     public final void handleClient()
     {
-        final byte[] complete = this.assembler.onRead(this.getTag());
+        final byte[] complete = this.data == null ? this.assembler.onRead(this.getTag()) : this.data;
         if (complete != null)
         {
             this.setData(complete);

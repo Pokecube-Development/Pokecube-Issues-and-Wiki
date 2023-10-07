@@ -641,7 +641,7 @@ public class LogicMiscUpdate extends LogicBase
             transients.add("blink");
         }
         else transients.remove("blink");
-        
+
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();
@@ -654,6 +654,11 @@ public class LogicMiscUpdate extends LogicBase
                 if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
                     addAnimation(transients, "attack_ranged", isRidden);
             }
+        }
+
+        if (this.pokemob.inCombat())
+        {
+            addAnimation(transients, "battling", isRidden);
         }
     }
 
