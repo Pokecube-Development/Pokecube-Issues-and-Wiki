@@ -103,7 +103,7 @@ public class DeAgro extends BaseBattleTask
                 this.trainer.onWin(this.target);
                 if (other.getTarget() == this.entity) other.onLose(this.entity);
             }
-            this.trainer.deAgro(this.trainer, TrainerCaps.getHasPokemobs(this.target));
+            this.trainer.deAgro(TrainerCaps.getHasPokemobs(this.target));
         }
     }
 

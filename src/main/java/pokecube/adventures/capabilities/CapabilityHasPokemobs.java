@@ -530,7 +530,7 @@ public class CapabilityHasPokemobs
             // Apply this first to remove any memory of the battle.
             // This clears the revenge/attacked values, to truely cancel
             // agression
-            this.deAgro(this, defeatingTrainer);
+            this.deAgro(defeatingTrainer);
             // If we were defeated by another trainer, lets forget about the
             // battle.
             if (defeatingTrainer != null)
@@ -565,6 +565,12 @@ public class CapabilityHasPokemobs
                 // If applicable, increase reputation for winning the battle.
                 if (this.user instanceof Villager villager)
                     villager.getGossips().add(won.getUUID(), GossipType.MINOR_POSITIVE, 20);
+            }
+
+            // Give the item rewards on defeat.
+            if (this.rewards.getRewards() != null && won instanceof LivingEntity mob)
+            {
+                this.rewards.giveReward(mob, this.user);
             }
 
             if (won != null)

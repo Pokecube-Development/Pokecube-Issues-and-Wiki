@@ -4,17 +4,26 @@ import java.util.List;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.api.entity.trainers.actions.ActionContext;
 import pokecube.api.entity.trainers.actions.MessageState;
 import thut.core.common.ThutCore;
 
+/**
+ * This is a general capability interface for a mob which gives rewards.
+ *
+ */
 public interface IHasRewards extends INBTSerializable<ListTag>
 {
+    /**
+     * Base reward class, presently is just an ItemStack with a particular
+     * chance.
+     *
+     */
     public static class Reward
     {
         public final ItemStack stack;
@@ -32,27 +41,40 @@ public interface IHasRewards extends INBTSerializable<ListTag>
         }
     }
 
+    /**
+     * @return All of the rewards we will check to give.
+     */
     List<Reward> getRewards();
 
-    default void giveReward(final Player player, final LivingEntity rewarder)
+    /**
+     * @param rewardee - The entity getting the rewards
+     * @param rewarder - The entity giving the rewards.
+     */
+    default void giveReward(final LivingEntity rewardee, final LivingEntity rewarder)
     {
         for (final Reward reward : this.getRewards())
         {
             final ItemStack i = reward.stack;
             if (i.isEmpty()) continue;
             if (ThutCore.newRandom().nextFloat() > reward.chance) continue;
-            if (!player.getInventory().add(i.copy()))
+            boolean drop = true;
+            if (rewardee instanceof ServerPlayer player)
             {
-                final ItemEntity item = player.spawnAtLocation(i.copy(), 0.5f);
+                var inventory = player.getInventory();
+                drop = !inventory.add(i.copy());
+            }
+            if (drop)
+            {
+                final ItemEntity item = rewardee.spawnAtLocation(i.copy(), 0.5f);
                 if (item == null) continue;
                 item.setPickUpDelay(0);
             }
             final IHasMessages messageSender = TrainerCaps.getMessages(rewarder);
             if (messageSender != null)
             {
-                messageSender.sendMessage(MessageState.GIVEITEM, player, rewarder.getDisplayName(), i.getHoverName(),
-                        player.getDisplayName());
-                messageSender.doAction(MessageState.GIVEITEM, new ActionContext(player, rewarder));
+                messageSender.sendMessage(MessageState.GIVEITEM, rewardee, rewarder.getDisplayName(), i.getHoverName(),
+                        rewardee.getDisplayName());
+                messageSender.doAction(MessageState.GIVEITEM, new ActionContext(rewardee, rewarder));
             }
         }
     }

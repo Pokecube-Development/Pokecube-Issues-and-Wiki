@@ -24,44 +24,95 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.PCEventsHandler;
 import thut.api.world.mobs.data.DataSync;
 
+/**
+ * This is a general capability interface for a mob which is a "trainer", ie a
+ * mob that has and can control pokemobs.
+ *
+ */
 public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Container
 {
+    /**
+     * LevelModes as follows:<br>
+     * <br>
+     * CONFIG - follow the config value in Config.instance.trainerslevel<br>
+     * YES - we can have our mobs lvl up during battle<br>
+     * NO - our mobs won't level up during battle.
+     *
+     */
     public static enum LevelMode
     {
         CONFIG, YES, NO;
     }
 
+    /**
+     * AllowedBattle enum, for determining cause of the battle request.<br>
+     * <br>
+     * YES - We can battle now<br>
+     * NOWNOW - We cannot battle, due to temporary conditions<br>
+     * NO - We presently cannot battle.
+     *
+     */
     public static enum AllowedBattle
     {
         YES, NOTNOW, NO;
 
+        /**
+         * @return if we are YES
+         */
         public boolean test()
         {
             return this == YES;
         }
     }
 
+    /**
+     * Used to keep track of battle targets, including whether we can battle.
+     *
+     */
     public static interface ITargetWatcher
     {
+        /**
+         * Called when we are attached to the IHasPokemobs
+         */
         default void onAdded(final IHasPokemobs pokemobs)
         {}
 
+        /**
+         * Called when we are de-attached from the IHasPokemobs
+         */
         default void onRemoved(final IHasPokemobs pokemobs)
         {}
 
+        /**
+         * This checks if the target is valid for battle.
+         * 
+         * @param target - mob to check
+         * @return Whether would want to battle this.
+         */
         boolean isValidTarget(LivingEntity target);
 
+        /**
+         * @param target - mob to check
+         * @return Whether we should ignore whether we have already battled the
+         *         target.
+         */
         default boolean ignoreHasBattled(final LivingEntity target)
         {
             return false;
         }
 
+        /**
+         * Called when we have a new combat target.
+         * 
+         * @param target - mob we are trying to battle.
+         */
         default void onSet(final LivingEntity target)
-        {
-
-        }
+        {}
     }
 
+    /**
+     * @return The living entity we are attached to.
+     */
     LivingEntity getTrainer();
 
     /** Adds the pokemob back into the inventory, healing it as needed. */
@@ -128,6 +179,11 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         return found;
     }
 
+    /**
+     * Adds a target watcher for combat validity checks.
+     * 
+     * @param watcher
+     */
     default void addTargetWatcher(final ITargetWatcher watcher)
     {
         watcher.onAdded(this);
@@ -142,6 +198,10 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
     /** If we are agressive, is this a valid target? */
     AllowedBattle canBattle(final LivingEntity target, final boolean checkWatchers);
 
+    /**
+     * 
+     * @return whether our pokemobs can level up.
+     */
     default boolean canLevel()
     {
         final LevelMode type = this.getLevelMode();
@@ -149,6 +209,10 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         return type == LevelMode.YES ? true : false;
     }
 
+    /**
+     * 
+     * @return whether we can mega evolve our pokemobs.
+     */
     boolean canMegaEvolve();
 
     @Override
@@ -162,8 +226,15 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         return true;
     }
 
+    /**
+     * 
+     * @return our current number of pokemobs
+     */
     int countPokemon();
 
+    /**
+     * Initialises the count of pokemobs.
+     */
     void initCount();
 
     /** The distance to see for attacking players */
@@ -186,8 +257,14 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
     /** 1 = male 2= female */
     byte getGender();
 
+    /**
+     * @return our present {@link LevelMode}.
+     */
     LevelMode getLevelMode();
 
+    /**
+     * @return maximum pokemobs we can have on us at a time.
+     */
     default int getMaxPokemobCount()
     {
         return 6;
@@ -212,13 +289,25 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
     /** The next slot to be sent out. */
     int getNextSlot();
 
+    /**
+     * @return UUID of the pokemob we have presently out in the world.
+     */
     UUID getOutID();
 
     /** If we have a mob out, this should be it. */
     IPokemob getOutMob();
 
+    /**
+     * 
+     * @param slot - slot to check
+     * @return Pokecube containing a pokemob at the slot, or empty.
+     */
     ItemStack getPokemob(int slot);
 
+    /**
+     * 
+     * @return our present combat target
+     */
     LivingEntity getTarget();
 
     /**
@@ -228,11 +317,21 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
      */
     LivingEntity getTargetRaw();
 
+    /**
+     * 
+     * @return collection of ITargetWatchers we use for determining valid combat
+     *         targets.
+     */
     default Set<ITargetWatcher> getTargetWatchers()
     {
         return Collections.emptySet();
     }
 
+    /**
+     * 
+     * @return the TypeTrainer we presently have, used for default trades,
+     *         pokemob selection, etc.
+     */
     TypeTrainer getType();
 
     /** Whether we should look for their target to attack. */
@@ -241,63 +340,176 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         return true;
     }
 
+    /**
+     * Target sensitive version of isAgressive
+     * 
+     * @param target
+     * @return if we should attack it.
+     */
     default boolean isAgressive(final Entity target)
     {
         return this.isAgressive();
     }
 
+    /**
+     * Ticks the cooldowns. These are:<br>
+     * <br>
+     * attackCooldown - cooldown for sending mobs<br>
+     * friendlyCooldown - cooldown for allowing trades<br>
+     */
     void lowerCooldowns();
 
+    /**
+     * Called when we have added a pokemob, generally used for tracking combat
+     * states, etc.
+     */
     void onAddMob();
 
+    /**
+     * Called when we lose to a mob, this is used to give rewards, etc.
+     * 
+     * @param won - the mob that defeated us.
+     */
     void onLose(Entity won);
 
+    /**
+     * Called when we defeat a mob, this is used for additional cooldowns, etc.
+     * 
+     * @param lost - the mob that we defeated.
+     */
     void onWin(Entity lost);
 
+    /**
+     * Removes a ITargetWatcher from our collection of watchers.
+     * 
+     * @param watcher
+     */
     default void removeTargetWatcher(final ITargetWatcher watcher)
     {
         watcher.onRemoved(this);
     }
 
+    /**
+     * Resets our status for who we defeated, and who defeated us.
+     */
     void resetDefeatList();
 
     /** Resets the pokemobs; */
     void resetPokemob();
 
+    /**
+     * Sets the cooldown for sending our new pokemobs in battle.
+     * 
+     * @param value
+     */
     void setAttackCooldown(int value);
 
+    /**
+     * Sets whether we can use mega evolution
+     * 
+     * @param flag
+     */
     void setCanMegaEvolve(boolean flag);
 
+    /**
+     * Sets the cooldown for between battles, This should be set to a tick time,
+     * so rather than a cooldown time, it is the next time we can battle.
+     * 
+     * @param value - {@link thut.api.Tracker}.instance().getTick() + cooldown
+     *              time you want to set.
+     */
     void setCooldown(long value);
 
     /** 1 = male 2= female */
     void setGender(byte value);
 
+    /**
+     * Sets our LevelMode
+     * 
+     * @param type - see {@link LevelMode} for details
+     */
     void setLevelMode(LevelMode type);
 
+    /**
+     * Sets the next slot for the pokemob we should send in battle.
+     * 
+     * @param value
+     */
     void setNextSlot(int value);
 
+    /**
+     * Sets the uuid of the primary pokemob we have out in the world.
+     * 
+     * @param mob - mob's uuid
+     */
     void setOutID(UUID mob);
 
+    /**
+     * Sets the primary pokemob we have out in the world.
+     * 
+     * @param mob - our pokemob
+     */
     void setOutMob(IPokemob mob);
 
+    /**
+     * Sets the pokecube for a slot.
+     * 
+     * @param slot - where to put the cube
+     * @param cube - the pokemob's pokecube
+     */
     void setPokemob(int slot, ItemStack cube);
 
+    /**
+     * Called when we have a new combat target.
+     * 
+     * @param target
+     */
     default void onSetTarget(final LivingEntity target)
     {
         this.onSetTarget(target, false);
     }
 
+    /**
+     * 
+     * @return whether we are currently in a battle.
+     */
     boolean isInBattle();
 
+    /**
+     * Called when we have a new combat target.
+     * 
+     * @param target
+     * @param ignoreCanBattle - if true, will ignore if we should be able to
+     *                        battle.
+     */
     void onSetTarget(LivingEntity target, boolean ignoreCanBattle);
 
+    /**
+     * Sets our trainer type, see {@link #getType()} for details
+     * 
+     * @param type
+     */
     void setType(TypeTrainer type);
 
+    /**
+     * Throws our currently selected pokecube ({@link #getNextSlot()},
+     * {@link #getNextPokemob()}) at a target.
+     * 
+     * @param target - who we toss a cube at
+     */
     void throwCubeAt(Entity target);
 
+    /**
+     * Sets our {@link DataSync} object used to synchronize values between
+     * client and server
+     * 
+     * @param sync
+     */
     void setDataSync(DataSync sync);
 
+    /**
+     * Called each tick of our trainer.
+     */
     default void onTick()
     {
         final boolean serverSide = this.getTrainer().level instanceof ServerLevel;
@@ -331,14 +543,17 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         this.lowerCooldowns();
     }
 
-    default void deAgro(final IHasPokemobs us, final IHasPokemobs them)
+    /**
+     * Called to end a battle between two {@link IHasPokemobs}
+     * 
+     * @param us
+     * @param them
+     */
+    default void deAgro(final IHasPokemobs them)
     {
-        if (us != null)
-        {
-            us.getTrainer().setLastHurtByMob(null);
-            us.getTrainer().setLastHurtMob(null);
-            us.onSetTarget(null);
-        }
+        this.getTrainer().setLastHurtByMob(null);
+        this.getTrainer().setLastHurtMob(null);
+        this.onSetTarget(null);
         if (them != null)
         {
             them.getTrainer().setLastHurtByMob(null);
@@ -347,7 +562,20 @@ public interface IHasPokemobs extends ICapabilitySerializable<CompoundTag>, Cont
         }
     }
 
+    /**
+     * The last {@link ActionContext} is cached for later checks for valid
+     * combat targets later, or for trades, etc.
+     * 
+     * @return our last used {@link ActionContext}
+     */
     ActionContext getLatestContext();
 
+    /**
+     * This returns the passed in argument to allow chain results after
+     * processing the set.
+     * 
+     * @param our last used {@link ActionContext}
+     * @return our last used {@link ActionContext}
+     */
     ActionContext setLatestContext(ActionContext context);
 }
