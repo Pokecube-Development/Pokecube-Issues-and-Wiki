@@ -204,11 +204,6 @@ public class CapabilityHasPokemobs
         public long resetTimeWin = 0;
         public int friendlyCooldown = 0;
 
-        @Deprecated // These will be removed later, left in for now
-        private DefeatList defeated = new DefeatList();
-        @Deprecated // These will be removed later, left in for now
-        private DefeatList defeatedBy = new DefeatList();
-
         // Should the client be notified of the defeat via a packet?
         public boolean notifyDefeat = false;
 
@@ -310,20 +305,6 @@ public class CapabilityHasPokemobs
             this.defeatResetKey = nbt.getShort("defeatResetKey");
             if (nbt.contains("resetTime")) this.resetTimeLose = nbt.getLong("resetTime");
             if (nbt.contains("resetTimeWin")) this.resetTimeWin = nbt.getLong("resetTimeWin");
-            // Load these for legacy support
-            if (nbt.contains("defeated", 9))
-            {
-                final ListTag list = nbt.getList("defeated", 10);
-                this.defeated.clear();
-                this.defeated.load(list);
-            }
-            // Load these for legacy support
-            if (nbt.contains("defeatedBy", 9))
-            {
-                final ListTag list = nbt.getList("defeatedBy", 10);
-                this.defeatedBy.clear();
-                this.defeatedBy.load(list);
-            }
             this.notifyDefeat = nbt.getBoolean("notifyDefeat");
             this.friendlyCooldown = nbt.getInt("friendly");
             if (nbt.contains("levelMode")) this.setLevelMode(LevelMode.valueOf(nbt.getString("levelMode")));
@@ -443,7 +424,7 @@ public class CapabilityHasPokemobs
 
         public boolean defeated(final Entity e)
         {
-            boolean defeated = this.defeated.isValid(e, this.resetTimeWin, this.defeatResetKey);
+            boolean defeated = false;
             if (e instanceof Player player)
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(e.getStringUUID(),
@@ -455,7 +436,7 @@ public class CapabilityHasPokemobs
 
         public boolean defeatedBy(final Entity e)
         {
-            boolean defeated = this.defeatedBy.isValid(e, this.resetTimeWin, this.defeatResetKey);
+            boolean defeated = false;
             if (e instanceof Player player)
             {
                 DefeatList defeatedList = PokecubePlayerDataHandler.getCustomDataValue(e.getStringUUID(),
@@ -494,6 +475,7 @@ public class CapabilityHasPokemobs
                 return;
             }
             if (this.friendlyCooldown-- >= 0) return;
+            this.friendlyCooldown = -1;
             final boolean done = this.getAttackCooldown() <= 0;
             if (done)
             {
@@ -610,8 +592,6 @@ public class CapabilityHasPokemobs
         @Override
         public void resetDefeatList()
         {
-            this.defeated.clear();
-            this.defeatedBy.clear();
             this.defeatResetKey++;
         }
 
@@ -644,9 +624,6 @@ public class CapabilityHasPokemobs
             if (this.getType() != null) nbt.putString("type", this.getType().getName());
             nbt.putLong("nextBattle", this.getCooldown());
             nbt.putByte("gender", this.getGender());
-            // Save these for legacy support.
-            nbt.put("defeated", this.defeated.save());
-            nbt.put("defeatedBy", this.defeatedBy.save());
             if (this.battleCooldown < 0) this.battleCooldown = Config.instance.trainerCooldown;
             nbt.putInt("battleCD", this.battleCooldown);
             nbt.putBoolean("notifyDefeat", this.notifyDefeat);
@@ -861,7 +838,7 @@ public class CapabilityHasPokemobs
                     thrown.autoRelease = 20;
                     thrown.canBePickedUp = false;
                     this.aiStates.setAIState(AIState.THROWING, true);
-                    this.attackCooldown = Config.instance.trainerSendOutDelay;
+                    this.setAttackCooldown(Config.instance.trainerSendOutDelay);
                     this.messages.sendMessage(MessageState.SENDOUT, target, this.user.getDisplayName(),
                             i.getHoverName(), target.getDisplayName());
                     if (target instanceof LivingEntity) this.messages.doAction(MessageState.SENDOUT,
