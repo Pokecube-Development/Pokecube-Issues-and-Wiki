@@ -14,6 +14,7 @@ import pokecube.adventures.client.gui.trainer.editor.pages.util.ListPage;
 import pokecube.adventures.network.PacketTrainer;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.actions.Action;
+import pokecube.api.entity.trainers.actions.IAction;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.client.gui.helper.INotifiedEntry;
 import pokecube.core.client.gui.helper.ScrollGui;
@@ -57,13 +58,13 @@ public class Messages extends ListPage<MessageOption>
 
             final MessageState state = MessageState.values()[this.index];
             this.message.setValue(this.messages.getMessage(state));
-            final Action act = this.messages.getAction(state);
-            if (act != null)
+            final IAction act = this.messages.getAction(state);
+            if (act instanceof Action action)
             {
-                String msg = act.getCommand();
-                if (act instanceof BattleAction) msg = "action:initiate_battle";
+                String msg = action.getCommand();
                 this.action.setValue(msg);
             }
+            if (act instanceof BattleAction) this.action.setValue("action:initiate_battle");
 
             this.message.setMaxLength(1024);
             this.action.setMaxLength(1024);
@@ -122,7 +123,7 @@ public class Messages extends ListPage<MessageOption>
         public void onUpdated()
         {
             final String act = this.action.getValue();
-            Action newAction = null;
+            IAction newAction = null;
             if (act.equals("action:initiate_battle")) newAction = new BattleAction();
             else if (!act.isEmpty()) newAction = new Action(act);
             final String msg = this.message.getValue();

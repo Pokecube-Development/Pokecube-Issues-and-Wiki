@@ -23,6 +23,11 @@ import net.minecraftforge.event.server.ServerStartedEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import thut.core.common.ThutCore;
 
+/**
+ * Time tick tracker, Used for a global timer which does not reset with world
+ * time, etc.
+ *
+ */
 public class Tracker
 {
     private static Tracker INSTANCE = new Tracker();
