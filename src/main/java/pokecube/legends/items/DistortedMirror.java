@@ -48,7 +48,7 @@ public class DistortedMirror extends ItemBase
     @Override
     public InteractionResultHolder<ItemStack> use(final Level world, final Player entity, final InteractionHand hand)
     {
-        final InteractionResultHolder<ItemStack> ar = super.use(world, entity, hand);
+        ItemStack stack = new ItemStack(this);
         final ResourceKey<Level> dim = world.dimension();
         RandomSource random = world.getRandom();
         final double x = entity.getX();
@@ -81,7 +81,7 @@ public class DistortedMirror extends ItemBase
             if (entity instanceof Player) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
-            return ar;
+            return InteractionResultHolder.success(stack);
         }
         else if (dim == FeaturesInit.DISTORTEDWORLD_KEY)
         {
@@ -108,14 +108,13 @@ public class DistortedMirror extends ItemBase
             if (entity instanceof Player) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
-
-            return ar;
+            return InteractionResultHolder.success(stack);
         }
         else
         {
             world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_DEACTIVATE,
                     SoundSource.PLAYERS, 1, 1, false);
+            return InteractionResultHolder.success(stack);
         }
-        return ar;
     }
 }

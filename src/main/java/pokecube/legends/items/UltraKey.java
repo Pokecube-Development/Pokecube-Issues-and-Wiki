@@ -51,13 +51,17 @@ public class UltraKey extends ItemBase
     @Override
     public InteractionResultHolder<ItemStack> use(final Level world, final Player entity, final InteractionHand hand)
     {
-        final InteractionResultHolder<ItemStack> ar = super.use(world, entity, hand);
+        ItemStack stack = new ItemStack(this);
 
         if (PokecubeLegends.config.ultraKeyRequireFuel)
+        {
             UltraKey.dimensionTPRequireFuel(entity, world);
-        else UltraKey.dimensionTP(entity, world);
-
-        return ar;
+            return InteractionResultHolder.success(stack);
+        }
+        else {
+            UltraKey.dimensionTP(entity, world);
+            return InteractionResultHolder.success(stack);
+        }
     }
 
     public static void dimensionTP(final Entity entity, final Level world)
@@ -102,7 +106,6 @@ public class UltraKey extends ItemBase
                         PokecubeLegends.config.ultraKeyRequiredFuelAmount, ((Player) entity).inventoryMenu.getCraftSlots());
 
                 if (entity instanceof ServerPlayer) DimensionTranserHelper.sentToUltraspace((ServerPlayer) entity);
-                teleportEffects(entity, world, ParticleTypes.SCRAPE, SoundEvents.BEACON_DEACTIVATE);
 
                 ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRA_KEY.get(), PokecubeLegends.config.ultraKeyCooldown);
 
@@ -113,7 +116,6 @@ public class UltraKey extends ItemBase
                 ((Player) entity).getInventory().clearOrCountMatchingItems(
                         p -> new ItemStack(ItemInit.COSMIC_DUST.get(), 1).getItem() == p.getItem(),
                         PokecubeLegends.config.ultraKeyRequiredFuelAmount, ((Player) entity).inventoryMenu.getCraftSlots());
-                teleportEffects(entity, world, ParticleTypes.WAX_OFF, SoundEvents.BEACON_DEACTIVATE);
 
                 if (entity instanceof ServerPlayer) DimensionTranserHelper.sendToOverworld((ServerPlayer) entity);
 
