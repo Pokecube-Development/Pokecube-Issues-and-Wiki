@@ -1,10 +1,11 @@
 package thut.api.boom;
 
-import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
-import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+import it.unimi.dsi.fastutil.objects.Object2FloatMap.Entry;
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;

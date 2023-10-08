@@ -2,6 +2,7 @@ package pokecube.compat.minecraft;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -10,6 +11,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.packs.PackType;
@@ -38,15 +40,14 @@ import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.ai.tasks.bees.BeeTasks.BeeHabitat;
 import pokecube.core.commands.Kill.KillCommandEvent;
 import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
-import pokecube.core.database.pokedex.PokemobsJson;
+import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager.GeneticsProvider;
 import pokecube.core.eventhandlers.EventsHandler;
 import thut.api.OwnableCaps;
 import thut.api.item.ItemList;
+import thut.api.util.JsonUtil;
 import thut.core.common.world.mobs.data.DataSync_Impl;
 import thut.lib.RegHelper;
 
@@ -116,8 +117,7 @@ public class Compat
     private static void onServerStarted(final ServerStartedEvent event)
     {
         ServerLevel testLevel = event.getServer().getLevel(Level.OVERWORLD);
-        PokemobsJson database = new PokemobsJson();
-        database.priority = 1;
+        List<JsonPokedexEntry> entries = new ArrayList<>();
         ForgeRegistries.ENTITY_TYPES.forEach(t -> {
             Entity e = t.create(testLevel);
             if (e instanceof Mob && makePokemob.test(t))
@@ -128,38 +128,45 @@ public class Compat
                 PokedexEntry newDerp = Database.getEntry(name);
                 if (newDerp != null && !newDerp.stock && generated.contains(newDerp))
                 {
-                    database.addEntry(new XMLPokedexEntry(newDerp));
+                    entries.add(JsonPokedexEntry.fromPokedexEntry(newDerp));
                 }
             }
         });
-        if (!database.pokemon.isEmpty())
+        if (!entries.isEmpty())
         {
             File root = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
                     .resolve("__vanilla_template__").toFile();
             root.mkdirs();
             File data = FMLPaths.CONFIGDIR.get().resolve(PokecubeCore.MODID).resolve("datapacks")
                     .resolve("__vanilla_template__").resolve("data").resolve("my_addon").resolve("database")
-                    .resolve("pokemobs").toFile();
+                    .resolve("pokemobs").resolve("pokedex_entries").toFile();
             data.mkdirs();
 
-            // TODO: Find replacement for .getVersion()
             String metacontents = "{\r\n" + "  \"pack\": {\r\n"
                     + "    \"pack_format\": 8,\r\n".replace("8",
-                            "" + PackType.SERVER_DATA/*.getVersion(SharedConstants.getCurrentVersion())*/)
+                            "" + SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA))
                     + "    \"description\": \"Sample Adding Mobs for Pokecube \\n (MC 1.16.4+)\"\r\n" + "  }\r\n" + "}";
             File mcmeta = new File(root, "pack.mcmeta");
-            File pokemobs = new File(data, "_template_.json");
 
             try
             {
                 FileOutputStream writer = new FileOutputStream(mcmeta);
                 writer.write(metacontents.getBytes());
                 writer.close();
-
-                String json = PokedexEntryLoader.getCompoundDatabaseJson(database);
-                writer = new FileOutputStream(pokemobs);
-                writer.write(json.getBytes());
-                writer.close();
+                entries.forEach(entry -> {
+                    File pokemobs = new File(data, entry.name + ".json");
+                    String json = JsonUtil.gson.toJson(entry);
+                    try
+                    {
+                        var writer2 = new FileOutputStream(pokemobs);
+                        writer2.write(json.getBytes());
+                        writer2.close();
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                });
             }
             catch (Exception e)
             {

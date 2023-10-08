@@ -34,6 +34,7 @@ public class ExtendedRuleProcessor extends RuleProcessor
             final StructureBlockInfo blockInfo1, final StructureBlockInfo blockInfo2,
             final StructurePlaceSettings placementSettingsIn)
     {
+        @SuppressWarnings("deprecation")
         RandomSource random = RandomSource.create(Mth.getSeed(blockInfo2.pos()));
         final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos());
         final BlockState state_below = worldReaderIn.getBlockState(blockInfo2.pos().below());

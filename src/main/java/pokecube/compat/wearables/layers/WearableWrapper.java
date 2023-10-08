@@ -1,6 +1,5 @@
 package pokecube.compat.wearables.layers;
 
-import com.mojang.math.Axis;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -9,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;

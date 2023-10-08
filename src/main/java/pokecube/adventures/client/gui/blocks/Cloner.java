@@ -10,7 +10,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.cloner.ClonerContainer;
-import pokecube.core.PokecubeCore;
 import thut.lib.TComponent;
 
 public class Cloner extends AbstractContainerScreen<ClonerContainer>

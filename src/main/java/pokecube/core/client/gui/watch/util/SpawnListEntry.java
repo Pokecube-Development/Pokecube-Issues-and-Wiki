@@ -164,6 +164,13 @@ public class SpawnListEntry
         }
         final String ind = entry != null ? "  " : "";
 
+        matcher.parse();
+        if (matcher._usesMatchers)
+        {
+            if (matcher._description != null) output.add(matcher._description.getVisualOrderText());
+            return output;
+        }
+
         for (var stuff : matcher.clientStuff)
         {
             final List<Component> biomes = Lists.newArrayList();

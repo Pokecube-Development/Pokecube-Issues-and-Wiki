@@ -39,6 +39,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -516,18 +517,16 @@ public class PokedexEntry
             ItemStack result = null;
             if (action.lootTable != null)
             {
-                final LootTable loottable = pokemob.getEntity().level().getServer().getLootData().getLootTable(action.lootTable);
-//                TODO: Fix this
-//                final LootContext.Builder lootcontext$builder =
-//                        new LootContext.Builder((ServerLevel) pokemob.getEntity().level())
-//                                .withParameter(LootContextParams.THIS_ENTITY, pokemob.getEntity());
-//                for (final ItemStack itemstack : loottable
-//                        .getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
-//                    if (!itemstack.isEmpty())
-//                    {
-//                        result = itemstack;
-//                        break;
-//                    }
+                final LootTable loottable = pokemob.getEntity().level().getServer().getLootData()
+                        .getLootTable(action.lootTable);
+                LootParams params = new LootParams.Builder((ServerLevel) player.level()).create(loottable.getParamSet());
+                // Generate the loot list.
+                final List<ItemStack> list = loottable.getRandomItems(params);
+                for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
+                {
+                    result = itemstack.copy();
+                    break;
+                }
             }
             else
             {
@@ -747,6 +746,7 @@ public class PokedexEntry
          * Only checks one biome type for vailidity
          *
          * b
+         * 
          * @return
          */
         public boolean isValid(final SpawnContext context, SpawnCheck checker)
@@ -1747,13 +1747,13 @@ public class PokedexEntry
         if (this.heldTable != null)
         {
             final LootTable loottable = mob.level().getServer().getLootData().getLootTable(this.heldTable);
-//            TODO: Fix this
-//            final LootContext.Builder lootcontext$builder = new LootContext.Builder((ServerLevel) mob.level())
-//                    .withParameter(LootContextParams.THIS_ENTITY, mob)
-//                    .withParameter(LootContextParams.DAMAGE_SOURCE, mob.damageSources().generic())
-//                    .withParameter(LootContextParams.ORIGIN, mob.position());
-//            for (final ItemStack itemstack : loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet())))
-//                if (!itemstack.isEmpty()) return itemstack;
+            LootParams params = new LootParams.Builder((ServerLevel) mob.level()).create(loottable.getParamSet());
+            // Generate the loot list.
+            final List<ItemStack> list = loottable.getRandomItems(params);
+            for (final ItemStack itemstack : list) if (!itemstack.isEmpty())
+            {
+                return itemstack.copy();
+            }
         }
         return ItemStack.EMPTY;
     }

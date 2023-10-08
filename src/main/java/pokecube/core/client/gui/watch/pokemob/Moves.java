@@ -4,9 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
-import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -177,11 +175,11 @@ public class Moves extends ListPage<LineEntry>
                     added.add(s);
                     final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                     final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i, moveName);
-                    main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                    main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                     this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                            .setClickListner(listener).shadow());
+                            .setClickListner(listener));
                 }
             }
             for (final String s : entry.getMoves())
@@ -192,11 +190,11 @@ public class Moves extends ListPage<LineEntry>
                 added.add(s);
                 final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                 final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
-                main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                        .setClickListner(listener).shadow());
+                        .setClickListner(listener));
             }
         }
     }

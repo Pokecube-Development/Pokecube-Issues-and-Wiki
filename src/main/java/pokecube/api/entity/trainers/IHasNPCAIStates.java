@@ -3,6 +3,10 @@ package pokecube.api.entity.trainers;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraftforge.common.util.INBTSerializable;
 
+/**
+ * General capability for an NPC or similar entity which has AI states.
+ *
+ */
 public interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
 {
     public static enum AIState
@@ -49,13 +53,26 @@ public interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
         }
     }
 
+    /**
+     * 
+     * @param state
+     * @return whether the state is enabled.
+     */
     boolean getAIState(AIState state);
 
     /** @return Direction to face if FIXEDDIRECTION */
     public float getDirection();
 
+    /**
+     * @return integer cache of the total AI state, used for compressed storage.
+     */
     int getTotalState();
 
+    /**
+     * 
+     * @param state - {@link AIState} to set
+     * @param flag  - whether it is enabled
+     */
     void setAIState(AIState state, boolean flag);
 
     /**
@@ -63,5 +80,10 @@ public interface IHasNPCAIStates extends INBTSerializable<CompoundTag>
      */
     public void setDirection(float direction);
 
+    /**
+     * Restores state from the compressed cache from {@link #getTotalState()}
+     * 
+     * @param state
+     */
     void setTotalState(int state);
 }

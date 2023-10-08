@@ -20,14 +20,15 @@ public class PlayerInfo extends PokeStartPage
     @Override
     void drawInfo(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
-    	final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
+        final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2;
-        
+
         final int colour = ChatFormatting.GOLD.getColor();
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
-        
-        //Name Player
-        graphics.drawString(this.font, player.getDisplayName().getString(), x + 130, y + 129, colour, false);
+
+        // Name Player
+        var title = player.getDisplayName();
+        graphics.drawString(this.font, title, x + 135 - this.font.width(title) / 2, y + 129, colour, false);
     }
 }

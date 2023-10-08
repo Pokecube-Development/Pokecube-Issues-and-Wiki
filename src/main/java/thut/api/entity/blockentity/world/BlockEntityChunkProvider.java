@@ -20,7 +20,6 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.lighting.LevelLightEngine;
 import net.minecraft.world.phys.AABB;
 import thut.api.entity.blockentity.IBlockEntity;
-import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 
 public class BlockEntityChunkProvider extends ChunkSource
@@ -36,17 +35,7 @@ public class BlockEntityChunkProvider extends ChunkSource
     public BlockEntityChunkProvider(final WorldEntity worldIn)
     {
         this.world = worldIn;
-
-        try
-        {
-            this.lightManager = new LevelLightEngine(this, true, worldIn.getWorld().dimensionType().hasSkyLight());
-        }
-        catch (Exception e)
-        {
-            ThutCore.LOGGER.error("Error making new light manager!");
-            ThutCore.LOGGER.error(e);
-            this.lightManager = worldIn.getLightEngine();
-        }
+        this.lightManager = worldIn.getLightEngine();
     }
 
     @Override

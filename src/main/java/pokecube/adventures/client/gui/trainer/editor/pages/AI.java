@@ -3,16 +3,13 @@ package pokecube.adventures.client.gui.trainer.editor.pages;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-import net.minecraft.client.gui.GuiGraphics;
 import org.lwjgl.glfw.GLFW;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;

@@ -1,7 +1,6 @@
 package pokecube.world.gen.features.trees.foliage;
 
 import java.util.List;
-import java.util.function.BiConsumer;
 
 import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
@@ -11,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.level.LevelSimulatedReader;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.foliageplacers.FoliagePlacerType;

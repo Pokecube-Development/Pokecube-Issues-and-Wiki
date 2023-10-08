@@ -1,10 +1,10 @@
 package pokecube.core.client.render.mobs.overlays;
 
-import com.mojang.math.Axis;
 import java.util.Set;
 
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
@@ -20,7 +20,6 @@ import pokecube.core.utils.Resources;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
-import thut.lib.AxisAngles;
 
 public class Status
 {

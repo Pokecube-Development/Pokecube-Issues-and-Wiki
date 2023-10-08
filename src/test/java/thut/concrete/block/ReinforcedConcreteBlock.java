@@ -98,7 +98,6 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     public BlockState updateShape(BlockState state, Direction direction, BlockState otherState, LevelAccessor level,
             BlockPos pos_1, BlockPos pos_2)
     {
-//        return super.updateShape(state, direction, otherState, level, pos_1, pos_2);
         return state;
     }
 
@@ -117,7 +116,7 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
     @Override
     public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        return destState;
+        return super.getFlowResult(flowState, destState, posTo, level);
     }
 
     @Override
@@ -243,9 +242,12 @@ public abstract class ReinforcedConcreteBlock extends RebarBlock implements IDye
         public void onRemove(BlockState state, Level level, BlockPos pos, BlockState state2, boolean bool)
         {
             super.onRemove(state, level, pos, state2, bool);
-            if (!(state2.getBlock() instanceof PartialDry))
+            if (!(state2.getBlock() instanceof RebarBlock))
             {
-                level.setBlockAndUpdate(pos, Concrete.REBAR_BLOCK.get().defaultBlockState());
+                BlockState newState = Concrete.REBAR_BLOCK.get().defaultBlockState();
+                newState = IFlowingBlock.copyValidTo(state, newState);
+                newState = this.setAmount(newState, 0);
+                level.setBlockAndUpdate(pos, newState);
             }
         }
     }

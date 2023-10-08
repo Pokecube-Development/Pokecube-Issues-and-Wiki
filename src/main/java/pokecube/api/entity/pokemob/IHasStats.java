@@ -147,6 +147,9 @@ public interface IHasStats extends IHasEntry
         return Tools.xpToLevel(this.getExperienceMode(), this.getExp());
     }
 
+    /**
+     * @return maximum health for our mob.
+     */
     default float getMaxHealth()
     {
         return this.getEntity().getMaxHealth();
@@ -277,6 +280,11 @@ public interface IHasStats extends IHasEntry
      */
     IPokemob setExp(int exp, boolean notifyLevelUp);
 
+    /**
+     * Sets current health for our mob.
+     * 
+     * @param health - value to set for health, should be at most {@link #getMaxHealth()}
+     */
     default void setHealth(final float health)
     {
         this.getEntity().setHealth(health);

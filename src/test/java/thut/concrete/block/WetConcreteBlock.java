@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -146,18 +147,28 @@ public abstract class WetConcreteBlock extends MoltenBlock
     @Override
     public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (destState.getBlock() instanceof RebarBlock)
+        boolean destRebar = destState.getBlock() instanceof RebarBlock;
+        boolean fromRebar = flowState.getBlock() instanceof RebarBlock;
+
+        if (fromRebar)
+        {
+            flowState = this.setAmount(destState, this.getAmount(flowState));
+        }
+        else if (destRebar)
         {
             var newFlowState = Concrete.REBAR_BLOCK.get().defaultBlockState();
             newFlowState = IFlowingBlock.copyValidTo(destState, newFlowState);
             newFlowState = newFlowState.setValue(RebarBlock.LEVEL, this.getExistingAmount(flowState, posTo, level));
-            return newFlowState;
+            flowState = newFlowState;
         }
-        else if (flowState.getBlock() instanceof RebarBlock)
-        {
-            return this.setAmount(destState, this.getAmount(flowState));
-        }
-        return super.getFlowResult(flowState, destState, posTo, level);
+        else flowState = super.getFlowResult(flowState, destState, posTo, level);
+        return flowState;
+    }
+
+    @Override
+    protected boolean canHarden(BlockState state, BlockPos pos, ServerLevel level, RandomSource random)
+    {
+        return level.isRaining();
     }
 
     @Override

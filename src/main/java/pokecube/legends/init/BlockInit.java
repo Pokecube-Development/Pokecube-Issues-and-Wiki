@@ -1,9 +1,10 @@
 package pokecube.legends.init;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import java.util.Map;
 import java.util.function.ToIntFunction;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;

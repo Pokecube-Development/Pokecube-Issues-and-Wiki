@@ -34,6 +34,7 @@ public class NotRuleProcessor extends RuleProcessor
             final StructureBlockInfo blockInfo1, final StructureBlockInfo blockInfo2,
             final StructurePlaceSettings placementSettingsIn)
     {
+        @SuppressWarnings("deprecation")
         RandomSource random = RandomSource.create(Mth.getSeed(blockInfo2.pos()));
         final BlockState blockstate = worldReaderIn.getBlockState(blockInfo2.pos());
         if (blockstate != null && blockstate.getBlock() != Blocks.AIR) for (final ProcessorRule ruleentry : this.rules)

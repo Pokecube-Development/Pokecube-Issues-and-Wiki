@@ -3,7 +3,6 @@ package pokecube.legends.items.natureedit;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.entity.pokemob.Nature;
-import pokecube.core.PokecubeItems;
 
 public class ItemNature extends Item
 {

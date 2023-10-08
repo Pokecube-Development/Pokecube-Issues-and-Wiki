@@ -27,7 +27,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
@@ -37,7 +36,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.SpawnPlacements.Type;
-import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.NaturalSpawner;
@@ -48,6 +46,7 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.MinecraftForge;
@@ -351,15 +350,6 @@ public final class SpawnHandler
                                            final double posZ, final Vector3 spawnPoint, final SpawnData entry,
                                            final SpawnBiomeMatcher matcher, CompoundTag spawnTag)
     {
-        final BaseSpawner spawner = new BaseSpawner()
-        {
-            @Override
-            public void broadcastEvent(final Level world, final BlockPos pos, final int i)
-            {
-                // TODO Auto-generated method stub
-
-            }
-        };
         IPokemob pokemob = PokemobCaps.getPokemobFor(MobEntity);
         if (pokemob != null)
         {
@@ -500,11 +490,11 @@ public final class SpawnHandler
     public static Vector3 getSpawnSurface(final Level world, final Vector3 loc, final int range)
     {
         int tries = 0;
-        BlockState state;
+        FluidState fluid;
         if (loc.y > 0) while (tries++ <= range)
         {
-            state = loc.getBlockState(world);
-            if (state.getFluidState().is(FluidTags.WATER)) return loc.copy();
+            fluid = world.getFluidState(loc.getPos());
+            if (!fluid.isEmpty()) return loc.copy();
             final boolean clear = loc.isClearOfBlocks(world);
             if (clear && !loc.offsetBy(Direction.DOWN).isClearOfBlocks(world)) return loc.copy();
             loc.offsetBy(Direction.DOWN);
@@ -876,7 +866,7 @@ public final class SpawnHandler
                         }
                         final SpawnEvent.Post evt = new SpawnEvent.Post(pokemob);
                         PokecubeAPI.POKEMOB_BUS.post(evt);
-                        entity.finalizeSpawn(level, level.getCurrentDifficultyAt(v.getPos()), MobSpawnType.NATURAL,
+                        ForgeEventFactory.onFinalizeSpawn(entity, level, level.getCurrentDifficultyAt(v.getPos()), MobSpawnType.NATURAL,
                                 null, null);
                         entity = pokemob.onAddedInit().getEntity();
                         level.addFreshEntity(entity);
@@ -921,8 +911,7 @@ public final class SpawnHandler
                 final long time = System.nanoTime();
                 this.spawn(world);
                 final double dt = (System.nanoTime() - time) / 1000d;
-                if (PokecubeCore.getConfig().debug_spawning && dt > 100)
-                    PokecubeAPI.logInfo("SpawnTick took " + dt);
+                if (PokecubeCore.getConfig().debug_spawning && dt > 100) PokecubeAPI.logInfo("SpawnTick took " + dt);
             }
             this.doMeteor(world);
         }

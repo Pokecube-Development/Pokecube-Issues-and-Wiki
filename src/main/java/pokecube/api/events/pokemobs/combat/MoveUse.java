@@ -52,9 +52,9 @@ public class MoveUse extends Event
          * <br>
          * this is fired on the {@link pokecube.core.PokecubeAPI#MOVE_BUS}
          */
-        public static class Pre extends ActualMoveUse
+        public static class PreMoveStatus extends ActualMoveUse
         {
-            public Pre(IPokemob user, MoveEntry move, Entity target)
+            public PreMoveStatus(IPokemob user, MoveEntry move, Entity target)
             {
                 super(user, move, target);
             }

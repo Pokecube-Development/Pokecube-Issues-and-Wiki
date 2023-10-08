@@ -1,5 +1,7 @@
 package pokecube.api.utils;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
@@ -23,6 +25,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -44,6 +47,7 @@ import pokecube.core.utils.EntityTools;
 import thut.api.maths.Cruncher;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.RegHelper;
 
 public class Tools
 {
@@ -371,7 +375,12 @@ public class Tools
         {
             pwr *= Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
             if (mob.getAbility() != null)
-                pwr = mob.getAbility().beforeDamage(mob, new MoveApplication(attack, user, target), pwr);
+            {
+                MoveApplication test = new MoveApplication(attack, user, target);
+                pwr = mob.getAbility().beforeDamage(mob, test, pwr);
+                mob.getAbility().preMoveUse(mob, test);
+                if (test.canceled) pwr = 0;
+            }
         }
         return pwr;
     }
@@ -423,22 +432,19 @@ public class Tools
         if (isTable && world != null)
         {
             final LootTable loottable = world.getServer().getLootData().getLootTable(new ResourceLocation(table));
-//            TODO: Fix this
-//            final LootContext.Builder lootcontext$builder = new LootContext.Builder(world)
-//                    .withRandom(world.getRandom());
-//            // Generate the loot list.
-//            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
-            // Shuffle the list.
-//            if (!list.isEmpty()) Collections.shuffle(list);
-//            for (final ItemStack itemstack : list)
-                // Pick first valid item in it.
-//                if (!itemstack.isEmpty())
-//            {
-//                final ItemStack stack = itemstack.copy();
-//                if (RegHelper.getKey(stack).equals(new ResourceLocation("pokecube", "candy")))
-//                    PokecubeItems.makeStackValid(stack);
-//                return stack;
-//            }
+            LootParams params = new LootParams.Builder(world).create(loottable.getParamSet());
+            final List<ItemStack> list = loottable.getRandomItems(params);
+//             Shuffle the list.
+            if (!list.isEmpty()) Collections.shuffle(list);
+            for (final ItemStack itemstack : list)
+//                 Pick first valid item in it.
+                if (!itemstack.isEmpty())
+            {
+                final ItemStack stack = itemstack.copy();
+                if (RegHelper.getKey(stack).equals(new ResourceLocation("pokecube", "candy")))
+                    PokecubeItems.makeStackValid(stack);
+                return stack;
+            }
         }
 
         if (id.isEmpty()) return ItemStack.EMPTY;
@@ -522,8 +528,8 @@ public class Tools
         final boolean flag = PlayerEntity.getInventory().add(itemstack);
         if (flag)
         {
-            PlayerEntity.level().playSound((Player) null, PlayerEntity.getX(), PlayerEntity.getY(),
-                    PlayerEntity.getZ(), SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
+            PlayerEntity.level().playSound((Player) null, PlayerEntity.getX(), PlayerEntity.getY(), PlayerEntity.getZ(),
+                    SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS, 0.2F,
                     ((PlayerEntity.getRandom().nextFloat() - PlayerEntity.getRandom().nextFloat()) * 0.7F + 1.0F)
                             * 2.0F);
             PlayerEntity.inventoryMenu.broadcastChanges();

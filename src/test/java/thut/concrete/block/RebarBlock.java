@@ -246,6 +246,7 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     @Override
     public int getAmount(BlockState state)
     {
+        if (state.hasProperty(LAYERS)) return state.getValue(LAYERS);
         if (state.hasProperty(LEVEL)) return state.getValue(LEVEL);
         return IFlowingBlock.super.getAmount(state);
     }
@@ -260,31 +261,27 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     @Override
     public BlockState setAmount(BlockState state, int amt)
     {
-        if (state.hasProperty(LEVEL)) return state.setValue(LEVEL, amt);
+        if (state.getBlock() instanceof RebarBlock)
+        {
+            if (state.hasProperty(LAYERS)) state = state.setValue(LAYERS, amt);
+            if (state.hasProperty(LEVEL)) state = state.setValue(LEVEL, amt);
+            return state;
+        }
         return IFlowingBlock.super.setAmount(state, amt);
     }
 
     @Override
     public BlockState getFlowResult(BlockState flowState, BlockState destState, BlockPos posTo, ServerLevel level)
     {
-        if (!(destState.getBlock() instanceof IFlowingBlock))
+        boolean fromRebar = flowState.getBlock() instanceof RebarBlock;
+        BlockState fluidContents = flowState;
+        if (fromRebar)
         {
-            var newFlowState = Concrete.WET_LAYER.get().defaultBlockState();
-            newFlowState = IFlowingBlock.copyValidTo(flowState, newFlowState);
-            flowState = this.setAmount(newFlowState, this.getExistingAmount(flowState, posTo, level));
+            fluidContents = Concrete.WET_LAYER.get().defaultBlockState();
+            fluidContents = IFlowingBlock.copyValidTo(flowState, fluidContents);
+            fluidContents = this.setAmount(fluidContents, this.getAmount(flowState));
         }
-        else if (flowState.getBlock() instanceof RebarBlock rebar)
-        {
-            destState = this.setAmount(destState, this.getExistingAmount(flowState, posTo, level));
-            return destState;
-        }
-        BlockState ret = IFlowingBlock.super.getFlowResult(flowState, destState, posTo, level);
-        if (destState.getBlock() instanceof RebarBlock rebar)
-        {
-            ret = IFlowingBlock.copyValidTo(flowState, ret);
-            ret = rebar.setAmount(ret, this.getExistingAmount(flowState, posTo, level));
-        }
-        return ret;
+        return Concrete.WET_LAYER.get().getFlowResult(fluidContents, destState, posTo, level);
     }
 
     @Override
@@ -293,7 +290,7 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         if (!(state.getBlock() instanceof RebarBlock)) return IFlowingBlock.super.empty(state);
         BlockState empty = Concrete.REBAR_BLOCK.get().defaultBlockState();
         empty = IFlowingBlock.copyValidTo(state, empty);
-        empty = empty.setValue(LEVEL, 0);
+        empty = setAmount(empty, 0);
         return empty;
     }
 
@@ -320,7 +317,7 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
     @Override
     public void onStableTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random)
     {
-        if (random.nextDouble() > hardenRate)
+        if (!canHarden(state, pos, level, random))
         {
             reScheduleTick(state, level, pos);
             return;
@@ -331,6 +328,11 @@ public class RebarBlock extends PipeBlock implements SimpleWaterloggedBlock, IFl
         BlockState stateTo = IFlowingBlock.copyValidTo(state, blockTo.defaultBlockState());
         if (amt != 16) stateTo = setAmount(stateTo, amt);
         level.setBlock(pos, stateTo, 3);
+    }
+
+    protected boolean canHarden(BlockState state, BlockPos pos, ServerLevel level, RandomSource random)
+    {
+        return level.isRaining();
     }
 
     @Override

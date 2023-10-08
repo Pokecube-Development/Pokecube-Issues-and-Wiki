@@ -3,16 +3,10 @@ package pokecube.core.client.gui.watch.pokemob;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.network.chat.TextColor;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
@@ -22,7 +16,6 @@ import pokecube.core.client.gui.helper.TexButton;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.StartWatch;
-import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.network.packets.PacketPokedex;
 import thut.lib.TComponent;

@@ -38,6 +38,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -109,7 +110,6 @@ public class SpawnEventsHandler
     {
         Vector3 v = event.getLocation();
         final ServerLevel world = event.level();
-        BlockPos blockPos = v.getPos();
         BlockState state = v.getBlockState(world);
         final List<PokedexEntry> entries = Lists.newArrayList(Database.spawnables);
 
@@ -251,10 +251,9 @@ public class SpawnEventsHandler
 
             if (entity instanceof Mob mob) mob.setPersistenceRequired();
             entity.moveTo(event.pos, 0.0F, 0.0F);
-            if (entity instanceof Mob mob) mob.finalizeSpawn((ServerLevelAccessor) event.worldBlocks,
-                    event.worldBlocks.getCurrentDifficultyAt(event.pos), MobSpawnType.STRUCTURE, (SpawnGroupData) null,
-                    (CompoundTag) null);
-
+            if (entity instanceof Mob mob) ForgeEventFactory.onFinalizeSpawn(mob,
+                    (ServerLevelAccessor) event.worldBlocks, event.worldBlocks.getCurrentDifficultyAt(event.pos),
+                    MobSpawnType.STRUCTURE, (SpawnGroupData) null, (CompoundTag) null);
             if (entity instanceof NpcMob npc) SpawnEventsHandler.spawnNpc(event, npc, thing);
             else if (entity instanceof Mob mob) SpawnEventsHandler.spawnMob(event, mob, thing);
             else PokecubeAPI.LOGGER.warn("Unsupported Entity for spawning! {}", function);

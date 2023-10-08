@@ -24,6 +24,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.PokeType;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.pokemob.GuiPokemobHelper;
 import pokecube.core.client.gui.watch.pokemob.Bonus;
@@ -34,6 +35,7 @@ import pokecube.core.client.gui.watch.pokemob.PokeInfoPage;
 import pokecube.core.client.gui.watch.pokemob.Spawns;
 import pokecube.core.client.gui.watch.pokemob.StatsInfo;
 import pokecube.core.client.gui.watch.util.PageWithSubPages;
+import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -57,7 +59,39 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         PokemobInfoPage.PAGELIST.add(Spawns.class);
         PokemobInfoPage.PAGELIST.add(Breeding.class);
         PokemobInfoPage.PAGELIST.add(Description.class);
-    
+    }
+
+    public static class UVHolder
+    {
+        private int uOffset = 0;
+        private int vOffset = 0;
+
+        private int buttonX = 0;
+        private int buttonY = 0;
+
+        private int index = 0;
+
+        public UVHolder(int x, int y, int u, int v, int index)
+        {
+            this.buttonX = x;
+            this.buttonY = y;
+            this.uOffset = u;
+            this.vOffset = v;
+            this.index = index;
+        }
+
+        public void makeButton(PokemobInfoPage gui)
+        {
+            final int x = gui.watch.width / 2;
+            final int y = gui.watch.height / 2 - 5;
+            WatchPage page = gui.createPage(index);
+            gui.addRenderableWidget(new TexButton.Builder(page.getTitle(), b -> {
+                gui.changePage(this.index);
+                PokemobInfoPage.savedIndex = this.index;
+            }).bounds(x + buttonX, y + buttonY, 17, 17).onTooltip(new ShiftedTooltip(-buttonX, 20 - y - buttonY))
+                    .setTexture(GuiPokeWatch.getWidgetTex()).noName()
+                    .setRender(new UVImgRender(uOffset, vOffset, 17, 17)).build());
+        }
     }
 
     private static PokeInfoPage makePage(final Class<? extends PokeInfoPage> clazz, final PokemobInfoPage parent)
@@ -242,7 +276,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             dy = 60;
 
             // Click for toggling if it is shiny
-            //if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
+            // if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
         }
         return ret;
     }
@@ -270,18 +304,17 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 if (!this.pokemob.getPokemonNickname().isEmpty())
                     text.add("\"" + this.pokemob.getPokemonNickname() + "\"");
                 GlStateManager._disableDepthTest();
-                mx = -40; //50
+                mx = -40; // 50
                 my = 20;
                 final int dy = this.font.lineHeight;
                 int box = 0;
                 for (final String s : text) box = Math.max(box, this.font.width(s) + 2);
 
-                graphics.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1,
-                        0xFF78C850);
+                graphics.fill(x + mx - 1, y + my - 1, x + mx + box + 1, y + my + dy * text.size() + 1, 0xFF78C850);
                 for (final String s : text)
                 {
-                	graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
-                	graphics.drawString(this.font, s, x + mx + 1, y + my, 0xFFFFFFFF);
+                    graphics.fill(x + mx, y + my, x + mx + box, y + my + dy, 0xFF000000);
+                    graphics.drawString(this.font, s, x + mx + 1, y + my, 0xFFFFFFFF);
                     my += dy;
                 }
                 GlStateManager._enableDepthTest();
@@ -314,8 +347,9 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int x = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         final int y = (this.watch.height - GuiPokeWatch.GUIH) / 2 - 5;
         int colour = 0x30D64C;
-        //Draw Subtitle Page
-        graphics.drawCenteredString(this.font, this.current_page.getTitle().getString(), x + 103, y + 34, colour);
+        // Draw Subtitle Page
+        var title = this.current_page.getTitle();
+        graphics.drawString(this.font, title, x + 103 - this.font.width(title) / 2, y + 34, colour, false);
         int dx = -76;
         int dy = 10;
 
@@ -364,7 +398,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             pokemob.setSize(1);
 
             final float yaw = Util.getMillis() / 20;
-            dx = -80; //90
+            dx = -80; // 90
             dy = 27;
 
             // Draw the actual pokemob
@@ -395,7 +429,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             graphics.drawString(this.font, gender, x + dx, y + dy, genderColor, false);
             pokemob.getType1();
             final String type1 = PokeType.getTranslatedName(pokemob.getType1()).getString();
-            dx = -70; //72
+            dx = -70; // 72
             dy = 115;
             colour = pokemob.getType1().colour;
             graphics.drawString(this.font, type1, x + dx, y + dy, colour, false);
@@ -421,51 +455,24 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
         final int x = this.watch.width / 2;
         final int y = this.watch.height / 2 - 5;
 
-        //Stats
-        final TexButton infoStats = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-            this.changePage(0);
-            PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 12, y - 82, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(127, 72, 17, 17)).build());
-        //Battle
-        final TexButton infoBattle = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-            this.changePage(1);
-            PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 28, y - 82, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(144, 72, 17, 17)).build());
-        //
-        final TexButton infoMoves = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-            this.changePage(2);
-            PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 44, y - 82, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(161, 72, 17, 17)).build());
-        //Spawns
-        final TexButton infoSpawn = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-            this.changePage(3);
-            PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 60, y - 82, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(178, 72, 17, 17)).build());
-        //Mates
-        final TexButton infoMates = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-            this.changePage(4);
-            PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 76, y - 82, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(195, 72, 17, 17)).build());
-        //Description
-        final TexButton infoDescr = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-            this.changePage(5);
-            PokemobInfoPage.savedIndex = this.index;
-        }).bounds(x + 92, y - 82, 17, 17).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(212, 72, 17, 17)).build());
+        List<UVHolder> buttons = new ArrayList<>();
+        buttons.add(new UVHolder(12, -82, 127, 72, 0)); // infoStats
+        buttons.add(new UVHolder(28, -82, 144, 72, 1)); // infoBattle
+        buttons.add(new UVHolder(44, -82, 161, 72, 2)); // infoMoves
+        buttons.add(new UVHolder(60, -82, 178, 72, 3)); // infoSpawn
+        buttons.add(new UVHolder(76, -82, 195, 72, 4)); // infoMates
+        buttons.add(new UVHolder(92, -82, 212, 72, 5)); // infoDescr
+        buttons.forEach(uv -> uv.makeButton(this));
 
-        //Shiny Button
-        final TexButton shinyButton = this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-        	if (this.pokemob.getPokedexEntry().hasShiny) {
-        		this.pokemob.setShiny(!this.pokemob.isShiny());
-        		this.pokemob.onGenesChanged();
-        	}
+        // Shiny Button
+        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
+            if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld())
+            {
+                this.pokemob.setShiny(!this.pokemob.isShiny());
+                this.pokemob.onGenesChanged();
+            }
         }).bounds(x - 50, y + 45, 12, 12).setTexture(GuiPokeWatch.getWidgetTex())
-        		.setRender(new UVImgRender(241, 36, 12, 12)).build());
+                .setRender(new UVImgRender(241, 36, 12, 12)).build());
 
         this.addRenderableWidget(this.search);
     }

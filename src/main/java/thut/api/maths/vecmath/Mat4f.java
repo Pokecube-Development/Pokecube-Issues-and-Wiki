@@ -28,6 +28,7 @@ package thut.api.maths.vecmath;
 
 import java.io.Serializable;
 import java.nio.FloatBuffer;
+
 import org.joml.Matrix4f;
 
 /**

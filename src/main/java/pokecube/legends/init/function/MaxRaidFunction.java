@@ -15,7 +15,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -70,12 +70,10 @@ public class MaxRaidFunction
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             final LivingEntity poke = pokemob.getEntity();
 
-//            TODO: Fix
             final LootTable loottable = pokemob.getEntity().level().getServer().getLootData().getLootTable(MaxRaidFunction.lootTable);
-//            final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-//                    (ServerLevel) pokemob.getEntity().level()).withRandom(poke.getRandom());
-//            // Generate the loot list.
-//            final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+            LootParams params = new LootParams.Builder((ServerLevel) poke.level()).create(loottable.getParamSet());
+            // Generate the loot list.
+            final List<ItemStack> list = loottable.getRandomItems(params);
 
             final List<AIRoutine> bannedAI = Lists.newArrayList();
 
@@ -105,16 +103,15 @@ public class MaxRaidFunction
             entity.setPos(v.x, v.y + 3, v.z);
             world.addFreshEntity(entity);
             entity.setHealth(entity.getMaxHealth());
-//            TODO: Fix
-//            if (!list.isEmpty()) Collections.shuffle(list);
+            if (!list.isEmpty()) Collections.shuffle(list);
             final int n = 1 + world.getRandom().nextInt(4);
             int i = 0;
-//            for (final ItemStack itemstack : list)
-//            {
-//                if (i == 0) pokemob.setHeldItem(itemstack);
-//                else new InventoryChange(entity, 2, itemstack, true).run(world);
-//                if (i++ >= n) break;
-//            }
+            for (final ItemStack itemstack : list)
+            {
+                if (i == 0) pokemob.setHeldItem(itemstack);
+                else new InventoryChange(entity, 2, itemstack, true).run(world);
+                if (i++ >= n) break;
+            }
             world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.NEUTRAL, 1, 1, false);
 
         }

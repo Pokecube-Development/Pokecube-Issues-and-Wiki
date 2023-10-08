@@ -1,6 +1,7 @@
 package thut.bling;
 
 import java.util.function.Supplier;
+
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.nbt.CompoundTag;

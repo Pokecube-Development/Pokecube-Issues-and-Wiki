@@ -188,6 +188,14 @@ public class ItemPokedex extends Item implements DyeableLeatherItem
             if (pokemob != null) PlayerDataHandler.getInstance().getPlayerData(player)
                     .getData(PokecubePlayerStats.class).inspect(player, pokemob);
             PacketPokedex.sendOpenPacket(splayer, mob, this.watch);
+
+//            var pidgey = Database.getEntry("pidgey");
+//            var matchers = pidgey.getSpawnData().matchers.keySet();
+//            var check = new SpawnCheck(new Vector3(player), splayer.getLevel());
+//            var bak = PokecubeCore.getConfig().debug_spawning;
+//            PokecubeCore.getConfig().debug_spawning = true;
+//            for (var m : matchers) System.out.println(m.spawnRule+" "+m.matches(check));
+//            PokecubeCore.getConfig().debug_spawning = bak;
         }
     }
 

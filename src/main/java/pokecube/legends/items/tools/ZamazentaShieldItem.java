@@ -17,7 +17,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import pokecube.legends.items.LegendsSword;
 import thut.lib.TComponent;
 
 public class ZamazentaShieldItem extends ShieldItem {

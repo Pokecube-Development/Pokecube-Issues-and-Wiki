@@ -4,6 +4,10 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Context for right click or other interactions between entities.
+ *
+ */
 public class ActionContext
 {
     // The player or similar doing the interaction

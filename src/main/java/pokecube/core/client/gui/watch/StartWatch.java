@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
@@ -152,7 +151,6 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     public void postPageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {}
 
-    @SuppressWarnings("resource")
 	@Override
     public void prePageDraw(final GuiGraphics graphics, final int mouseX, final int mouseY, final float partialTicks)
     {
@@ -259,7 +257,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
         //Shiny Button
        this.addRenderableWidget(new TexButton.Builder(TComponent.literal(""), b -> {
-        	if (this.pokemob.getPokedexEntry().hasShiny) {
+        	if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
         		this.pokemob.setShiny(!this.pokemob.isShiny());
         		this.pokemob.onGenesChanged();
         	}

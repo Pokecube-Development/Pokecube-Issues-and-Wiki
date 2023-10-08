@@ -121,6 +121,36 @@ public class TypeTrainer extends NpcType
         return null;
     }
 
+    public static Predicate<LivingEntity> validPlayerTarget(Mob npc)
+    {
+        return e -> {
+            boolean isPlayer = e instanceof Player;
+            if (!isPlayer && PokecubeCore.getConfig().debug_ai)
+                PokecubeAPI.logDebug("NPC {} not agroing due to not being a player", npc);
+            return isPlayer;
+        };
+    }
+
+    public static Predicate<LivingEntity> validPokemobTarget(Mob npc)
+    {
+        return e -> {
+            boolean isPokemob = PokemobCaps.getPokemobFor(e) != null;
+//            if (!isPokemob && PokecubeCore.getConfig().debug_ai)
+//                PokecubeAPI.logDebug("NPC {} not agroing due to not being a pokemob", npc);
+            return isPokemob;
+        };
+    }
+
+    public static Predicate<LivingEntity> validZombieTarget(Mob npc)
+    {
+        return e -> {
+            boolean isZombie = e instanceof Zombie;
+//            if (!isZombie && PokecubeCore.getConfig().debug_ai)
+//                PokecubeAPI.logDebug("NPC {} not agroing due to not being a zombie", npc);
+            return isZombie;
+        };
+    }
+
     // Register default instance.
     static
     {
@@ -153,14 +183,24 @@ public class TypeTrainer extends NpcType
                 if (npc instanceof LeaderNpc) return true;
                 final int dist = PokecubeAdv.config.trainer_crowding_radius;
                 final int num = PokecubeAdv.config.trainer_crowding_number;
-                if (TrainerTracker.countTrainers(e.level(), new Vector3().set(e), dist) > num) return false;
+                if (TrainerTracker.countTrainers(e.level(), new Vector3().set(e), dist) > num)
+                {
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.logDebug("NPC {} not agroing due to crowds", npc);
+                    return false;
+                }
                 return true;
             };
             final Predicate<LivingEntity> noRunWhileRest = e -> {
                 if (npc instanceof LeaderNpc) return true;
                 if (e instanceof Villager villager)
                 {
-                    if (villager.isSleeping()) return false;
+                    if (villager.isSleeping())
+                    {
+                        if (PokecubeCore.getConfig().debug_ai)
+                            PokecubeAPI.logDebug("NPC {} not agroing due to sleeping", npc);
+                        return false;
+                    }
                 }
                 return noRunIfCrowded.test(e);
             };
@@ -170,7 +210,12 @@ public class TypeTrainer extends NpcType
                 {
                     final Schedule s = villager.getBrain().getSchedule();
                     final Activity a = s.getActivityAt((int) (e.level.getDayTime() % 24000L));
-                    if (a == Activity.MEET) return false;
+                    if (a == Activity.MEET)
+                    {
+                        if (PokecubeCore.getConfig().debug_ai)
+                            PokecubeAPI.logDebug("NPC {} not agroing due to meeting", npc);
+                        return false;
+                    }
                 }
                 return noRunIfCrowded.test(e);
             };
@@ -179,7 +224,13 @@ public class TypeTrainer extends NpcType
                 if (other == null) return noRunIfCrowded.test(e);
                 final boolean hasMob = !other.getNextPokemob().isEmpty();
                 if (hasMob) return noRunIfCrowded.test(e);
-                return other.getOutID() != null;
+                if (other.getOutID() == null)
+                {
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.logDebug("NPC {} not agroing due to no mobs on target", npc);
+                    return false;
+                }
+                return noRunIfCrowded.test(e);
             };
             final Predicate<LivingEntity> notNearHealer = e -> {
                 if (npc instanceof LeaderNpc) return true;
@@ -189,17 +240,23 @@ public class TypeTrainer extends NpcType
                 final PoiManager pois = world.getPoiManager();
                 final long num = pois.getCountInRange(PointsOfInterest.HEALER, blockpos,
                         PokecubeAdv.config.pokecenter_radius, Occupancy.ANY);
+                if (num > 0)
+                {
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.logDebug("NPC {} not agroing due to nearby pokecenter", npc);
+                    return false;
+                }
                 return num == 0;
             };
 
             final List<Pair<Integer, Behavior<? super LivingEntity>>> list = Lists.newArrayList();
-            Behavior<?> task = new AgroTargets(npc, 1, 0, z -> z instanceof Zombie);
+            Behavior<?> task = new AgroTargets(npc, 1, 0, validZombieTarget(npc));
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
 
             // Only trainers specifically target players.
             if (npc instanceof TrainerBase)
             {
-                final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(e -> e instanceof Player);
+                final Predicate<LivingEntity> validPlayer = onlyIfHasMobs.and(validPlayerTarget(npc));
                 final Predicate<LivingEntity> shouldRun = noRunWhileRest;
                 task = new AgroTargets(npc, 1, 0, validPlayer.and(notNearHealer)).setRunCondition(shouldRun);
                 list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
@@ -208,8 +265,7 @@ public class TypeTrainer extends NpcType
             // 5% chance of battling a random nearby pokemob if they see it.
             if (Config.instance.trainersBattlePokemobs)
             {
-                task = new AgroTargets(npc, 0.005f, 1200, z -> PokemobCaps.getPokemobFor(z) != null)
-                        .setRunCondition(noRunWhileRest);
+                task = new AgroTargets(npc, 0.005f, 1200, validPokemobTarget(npc)).setRunCondition(noRunWhileRest);
                 list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
                 task = new CaptureMob(npc, 1);
                 list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
