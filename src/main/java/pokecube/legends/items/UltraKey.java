@@ -47,7 +47,7 @@ public class UltraKey extends ItemBase
         {
             tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
             tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line1",
-                    PokecubeLegends.config.ultraKeyRequiredFuelAmount));
+                    PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD));
         }
         else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }

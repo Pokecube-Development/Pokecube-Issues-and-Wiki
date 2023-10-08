@@ -1158,7 +1158,7 @@
     "_comment40": "Key Tooltips",
     "legends.giratina_mirror.tooltip": "§6Teleport to the Distorted World.",
     "legends.ultrakey.tooltip": "§6Teleport to Ultra Space.",
-    "legends.ultrakey.tooltip.line1": "§dRequires: %1$s Cosmic Dust",
+    "legends.ultrakey.tooltip.line1": "§dRequires: %2$s%3$s%1$s§r §dCosmic Dust",
 
     "_comment41": "Food Tooltips",
     "legends.aspear_pokepuff.tooltip": "§a§l+ §a§lBug type§r §7damage",
