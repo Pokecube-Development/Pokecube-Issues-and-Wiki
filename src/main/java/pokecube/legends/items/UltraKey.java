@@ -46,8 +46,8 @@ public class UltraKey extends ItemBase
         if (Screen.hasShiftDown())
         {
             tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
-            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line1",
-                    PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD));
+            tooltip.add(TComponent.translatable(I18n.get("legends." + this.tooltip_id + ".tooltip.line1",
+                    PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD)));
         }
         else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
@@ -134,8 +134,8 @@ public class UltraKey extends ItemBase
                 .countItem(ItemInit.COSMIC_DUST.get()) < PokecubeLegends.config.ultraKeyRequiredFuelAmount
                 && !player.isCreative())
         {
-            final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust", ChatFormatting.RED,
-                    PokecubeLegends.config.ultraKeyRequiredFuelAmount);
+            final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust",
+                    PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.RED, ChatFormatting.BOLD);
             player.displayClientMessage(TComponent.translatable(message), true);
 
             teleportFailEffects(entity, world, ParticleTypes.WAX_ON, SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
