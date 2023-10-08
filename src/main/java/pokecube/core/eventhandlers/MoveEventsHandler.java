@@ -397,7 +397,7 @@ public class MoveEventsHandler
             final float chance = count != 0 ? Math.max(0.125f, 1 / count) : 1;
             if (chance > Math.random()) move.failed = true;
         }
-        if (attack.getName().equals(IMoveNames.MOVE_PROTECT) || attack.getName().equals(IMoveNames.MOVE_DETECT))
+        if (blockMove)
         {
             target.getMoveStats().blockTimer = PokecubeCore.getConfig().attackCooldown * 2;
             target.getMoveStats().blocked = true;

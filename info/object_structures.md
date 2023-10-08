@@ -79,3 +79,87 @@ Once a `IPokemob` has a target, it is up to the `COMBAT` AI tasks to deal with w
 - `DodgeTask` - Attempts to dodge incoming moves
 - `LeapTask` - Attempts to jump at the enemy if a contact move is being executed
 - `CicleTask` - Keeps the pokemob close to the general center of where the fight started
+
+## Attack Use and Order
+
+A move gets excuted normally via the `IHasMoves.executeMove` method, which takes parameters for a target entity, as well as a target location. The target location is more important in this case, but both parameters can be null, the following then occur:
+
+### Attack Use
+
+1. pokemob's selected move is determined, to ensure it is not on cooldown or disabled
+2. Next the attack cooldown for the pokemob is set (call to `IPokemob.setAttackCooldown`)
+3. `ActualMoveUse.PreMoveStatus` event is fired on `PokecubeAPI.MOVE_BUS` to determine if the test for status effects
+  - If cancelled, skips to step 4.
+  - Otherwise if the pokemob has flinched, is confused, or is infatuated, that is then checked next, and if the negative condition occurs, we exit here
+4. Finally `MovesUtils.useMove` is called to generate and start application of the move.
+
+In `MovesUtils.useMove` a `MoveApplication` is made for the attack, and it is applied to targets based on the result of testing targets via `MoveApplicationRegistry.getValidator`. The targets are selected either from the active `Battle` that the pokemob is in, or from just the target location and given user (for cases of out of combat move use). Before queueing the attack for application, a `MoveUse.ActualMoveUse.Init` event is fired on the `PokecubeAPI.MOVE_BUS`, and if it is cancelled, the attack will not be queued.
+
+Queueing of the move consists of constructing a `EntityMoveUse`, and marking it as ready to start applying next tick. Here is also where the `CombatStates.USEDZMOVE` for the mob is recorded if nessisary. The queued moves get executed the next tick, and are sorted by priority there (including checks to `VIT` stat), this however is not generally relevant. The `EntityMoveUse` is then added to the level, and the move's hunger cost is applied to the pokemob, and a message about the move use is sent to those involved.
+
+### EntityMoveUse
+
+The `EntityMoveUse` is a `ThrowableProjectile` object and then works as follows:
+1. Initialises start/end/target/user information, and determines if it is a contact move or not. 
+  - If contact/self, it will wrap around the user
+  - if AOE move, it is a 8m wide projectile
+  - if it has a custom size defined in the `MoveEntry`, it uses that.
+  - otherwise is a 0.75m wide projectile
+2. Next the `EntityMoveUse` continues to move depending on if projectile or contact/self move, checking other targets it comes into contact with, as well as applying particle effects.
+3. Once the `EntityMoveUse` has reached the age in ticks defined by the move's `IMoveAnimation`'s `getApplicationTick`, it will start applying to each hit target once.
+4. Once the move has reached the end destination, or has timed out, or hit for a contact move, the `EntityMoveUse` is removed.
+ - If the move hits the target end destination, or is sufficiently close for a hit contact move, then it will attempt to apply any in-world effects, via the `MoveEntry.doWorldAction`
+
+### Applying to a target
+
+Applying the move effects is done as follows for each `LivingEntity` found during step 2 above:
+1. Check if the target is generally valid to hit, this checks that it was not already hit, if not valid, exit.
+2. Check if the move is allowed to hit others (`MoveEntry.canHitNonTarget`), and exit if target is not valid for that.
+3. If we are not server side, exit.
+4. then initiate a battle if the target is not the original target
+5. mark the target as having been hurt by the user
+6. Call `MovesUtils.doAttack` to apply further
+7. If the move is not AOE, and the target is not blocking, Apply the `MoveEntry.doWorldAction` and mark as finished, and remove the `EntityMoveUse`.
+
+`MovesUtils.doAttack` validates the `MoveEntry`, and then forwards the call to `MoveEntry.applyMove`, which calls `MoveApplicationRegistry.apply`
+
+`MoveApplicationRegistry.apply` initialises the `MoveApplication` for use via `MoveApplicationRegistry.preApply`, where registered `MOVE_MODIFIERS` are applied to the move, and the `EFFECT_REGISTRY` is used to check of the move should have lasting effects. Next `MoveApplication.preApply()` is called once to reset counters, and `MoveApplication.apply()` is called for each time the move is expected to hit.
+
+### Final Move Application
+
+`MoveApplication.apply()` does the following:
+
+1.  Fires the `DuringUse.Pre` event on the `PokecubeAPI.MOVE_BUS`, if cancelled, exits.
+2.  Checks if the `MoveApplication` is `cancelled` or `failed`.
+  - If not failed, checks the `PreApplyTests` for the `MoveApplication`
+  - If either of these failed, or there is no target for the move:
+    1. Send messages to those involved in the battle
+    2. Play sounds if we got here only because of no target
+    3. Call our `OnMoveFail.onMoveFail`
+    4. Fires a `DuringUse.Post` event on the `PokecubeAPI.MOVE_BUS` then exits
+3.  Plays the move sounds if present
+4.  Checks if we should `infatuate`, if so and the target is the pokemob, apply the infatuation
+5.  Constructs a `MoveApplication.Damage` via call to our `DamageApplier.applyDamage`
+6.  If the `efficiency` for the `Damage` is <= 0 skip to step applying `PostMoveUse`
+7.  Apply stats effects/checks via `StatApplier.applyStats`
+8.  Apply status effects/checks via `StatusApplier.applyStatus`
+9.  Apply recoil via `RecoilApplier.applyRecoil`
+10. Apply healing via `HealProvider.applyHealing`
+11. Apply ongoing effects if present via `OngoingApplier.applyOngoingEffects`
+12. Apply `PostMoveUse.applyPostMove`
+13. Fires a `DuringUse.Post` event on the `PokecubeAPI.MOVE_BUS` then exits
+
+The various appliers mentioned above do the following for their default behaviour:
+
+- `PreApplyTests` - checks status effects `SLP`, `PAR`, `FRZ` and returns false if they apply
+- `StatusApplier` - Applies any status effects the move should have to the target
+- `StatApplier` - Applies stat modifications to the target, and sets the `applied_stat_effects` accordingly
+- `DamageApplier` - Calculates damage to apply to the target, and applies it, also apply lightning bolt effects for appropriate moves, and makes psychic moves detonate creepers
+  - Checks the `AccuracyProvider` to get the `efficiency` for the move.
+- `OngoingApplier` - no default actions
+- `RecoilApplier` - Checks for damage/healing which occurs on move use, and applies to the user it based on the damage dealt
+- `HealProvider` - Checks for healing effects on the target, and applies it accordingly
+- `PostMoveUse` - no default actions
+- `OnMoveFail` - no default actions
+
+These appliers can by replaced by registering appropriate classes in `pokecube.mobs.moves.attacks` and including a `@MoveProvider` annotation to declare which move it applies to. These will then replace the default appliers in the `MoveApplicationRegistry.preApply` step above. There is some default parsing which occurs from loading in `pokecube.api.data.moves.Moves` objects from json files, which attempts to generate appropriate effects for most moves, but for now custom logic needs to be implemented manually.
