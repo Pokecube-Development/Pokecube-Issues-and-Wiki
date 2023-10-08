@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:one_way_distortic_framed_mirror",
+  "pattern": [
+    "LDL",
+    "DDD",
+    "LDL"
+  ],
+  "key": {
+    "D": {
+      "tag": "pokecube_legends:glass/one_way"
+    },
+    "L": {
+      "tag": "pokecube_legends:distortic_logs"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:one_way_distortic_framed_mirror",
+    "count": 5
+  }
+}

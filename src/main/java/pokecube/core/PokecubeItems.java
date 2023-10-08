@@ -20,11 +20,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap.Entry;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.valueproviders.UniformInt;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlagSet;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.inventory.MenuType;
@@ -34,6 +36,7 @@ import net.minecraft.world.item.Item.Properties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -52,12 +55,8 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.utils.Tools;
-import pokecube.core.blocks.barrels.GenericBarrel;
-import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.bases.BaseTile;
-import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
-import pokecube.core.blocks.bookshelves.GenericBookshelfEmptyTile;
 import pokecube.core.blocks.healer.HealerBlock;
 import pokecube.core.blocks.healer.HealerTile;
 import pokecube.core.blocks.maxspot.MaxBlock;
@@ -127,24 +126,8 @@ public class PokecubeItems extends ItemList
     public static final RegistryObject<Block> TM_MACHINE;
     public static final RegistryObject<Block> TRADER;
 
-    public static final RegistryObject<Block> ENIGMA_BARREL;
-    public static final RegistryObject<Block> LEPPA_BARREL;
-    public static final RegistryObject<Block> NANAB_BARREL;
-    public static final RegistryObject<Block> ORAN_BARREL;
-    public static final RegistryObject<Block> PECHA_BARREL;
-    public static final RegistryObject<Block> SITRUS_BARREL;
-
-    public static final RegistryObject<Block> ENIGMA_BOOKSHELF_EMPTY;
-    public static final RegistryObject<Block> LEPPA_BOOKSHELF_EMPTY;
-    public static final RegistryObject<Block> NANAB_BOOKSHELF_EMPTY;
-    public static final RegistryObject<Block> ORAN_BOOKSHELF_EMPTY;
-    public static final RegistryObject<Block> PECHA_BOOKSHELF_EMPTY;
-    public static final RegistryObject<Block> SITRUS_BOOKSHELF_EMPTY;
-
     // Tile Entities
-    public static final RegistryObject<BlockEntityType<?>> BARREL_TYPE;
     public static final RegistryObject<BlockEntityType<?>> BASE_TYPE;
-    public static final RegistryObject<BlockEntityType<?>> BOOKSHELF_EMPTY_TYPE;
     public static final RegistryObject<BlockEntityType<?>> HEALER_TYPE;
     public static final RegistryObject<BlockEntityType<?>> MAX_TYPE;
     public static final RegistryObject<BlockEntityType<?>> NEST_TYPE;
@@ -207,7 +190,7 @@ public class PokecubeItems extends ItemList
 
         NEST = PokecubeCore.BLOCKS.register("nest",
                 () -> new NestBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN)
-                        .strength(0.5F).isValidSpawn(ItemGenerator::ocelotOrParrot)
+                        .strength(0.5F).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .sound(SoundType.GRASS).instrument(NoteBlockInstrument.HARP).pushReaction(PushReaction.NORMAL)));
         SECRET_BASE = PokecubeCore.BLOCKS.register("secret_base",
                 () -> new BaseBlock(BlockBehaviour.Properties.of().mapColor(MapColor.STONE)
@@ -235,71 +218,9 @@ public class PokecubeItems extends ItemList
                 () -> new MaxBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
                         .strength(0.8F).requiresCorrectToolForDrops().sound(SoundType.AMETHYST_CLUSTER)));
 
-        ENIGMA_BARREL = PokecubeCore.BERRY_BLOCKS.register("enigma_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
-                        .strength(2.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        LEPPA_BARREL = PokecubeCore.BERRY_BLOCKS.register("leppa_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .strength(2.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        NANAB_BARREL = PokecubeCore.BERRY_BLOCKS.register("nanab_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN)
-                        .strength(2.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        ORAN_BARREL = PokecubeCore.BERRY_BLOCKS.register("oran_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
-                        .strength(2.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        PECHA_BARREL = PokecubeCore.BERRY_BLOCKS.register("pecha_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
-                        .strength(2.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        SITRUS_BARREL = PokecubeCore.BERRY_BLOCKS.register("sitrus_barrel",
-                () -> new GenericBarrel(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW)
-                        .strength(2.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-
-        ENIGMA_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("enigma_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BLACK)
-                        .strength(1.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        LEPPA_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("leppa_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
-                        .strength(1.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        NANAB_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("nanab_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_BROWN)
-                        .strength(1.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        ORAN_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("oran_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
-                        .strength(1.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        PECHA_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("pecha_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
-                        .strength(1.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-        SITRUS_BOOKSHELF_EMPTY = PokecubeCore.BERRY_BLOCKS.register("sitrus_bookshelf_empty",
-                () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_YELLOW)
-                        .strength(1.5F).ignitedByLava().sound(SoundType.WOOD)
-                        .instrument(NoteBlockInstrument.BASS)));
-
         // Tile Entity Types
-        BARREL_TYPE = PokecubeCore.TILES
-                .register("generic_barrel",
-                        () -> BlockEntityType.Builder.of(GenericBarrelTile::new, PokecubeItems.ENIGMA_BARREL.get(),
-                                PokecubeItems.LEPPA_BARREL.get(), PokecubeItems.NANAB_BARREL.get(),
-                                PokecubeItems.ORAN_BARREL.get(), PokecubeItems.PECHA_BARREL.get(),
-                                PokecubeItems.SITRUS_BARREL.get()).build(null));
         BASE_TYPE = PokecubeCore.TILES.register("secret_base",
                 () -> BlockEntityType.Builder.of(BaseTile::new, PokecubeItems.SECRET_BASE.get()).build(null));
-        BOOKSHELF_EMPTY_TYPE = PokecubeCore.TILES.register("generic_bookshelf_empty",
-                () -> BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new,
-                        PokecubeItems.ENIGMA_BOOKSHELF_EMPTY.get(), PokecubeItems.LEPPA_BOOKSHELF_EMPTY.get(),
-                        PokecubeItems.NANAB_BOOKSHELF_EMPTY.get(), PokecubeItems.ORAN_BOOKSHELF_EMPTY.get(),
-                        PokecubeItems.PECHA_BOOKSHELF_EMPTY.get(), PokecubeItems.SITRUS_BOOKSHELF_EMPTY.get())
-                        .build(null));
         MAX_TYPE = PokecubeCore.TILES.register("dynamax",
                 () -> BlockEntityType.Builder.of(MaxTile::new, PokecubeItems.DYNAMAX.get()).build(null));
         NEST_TYPE = PokecubeCore.TILES.register("nest",
@@ -332,6 +253,22 @@ public class PokecubeItems extends ItemList
             PokecubeCore.ITEMS.register(reg.getId().getPath(),
                     () -> new BlockItem(reg.get(), new Item.Properties()));
         }
+    }
+
+    public static Boolean ocelotOrParrot(final BlockState state, final BlockGetter reader, final BlockPos pos,
+                                         final EntityType<?> entity)
+    {
+        return entity == EntityType.OCELOT || entity == EntityType.PARROT;
+    }
+
+    public static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
+    {
+        return Boolean.FALSE;
+    }
+
+    public static boolean never(BlockState state, BlockGetter blockGetter, BlockPos pos)
+    {
+        return Boolean.FALSE;
     }
 
     /**

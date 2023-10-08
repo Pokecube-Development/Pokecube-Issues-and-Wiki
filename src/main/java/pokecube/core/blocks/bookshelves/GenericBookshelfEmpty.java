@@ -53,40 +53,40 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     // Precise selection box @formatter:off
     static
     {
-    	GenericBookshelfEmpty.EMPTY.put(Direction.NORTH, Shapes.or(
-            Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(1, 7, 0, 15, 9, 16),
-            Block.box(0, 1, 0, 1, 15, 16),
-            Block.box(15, 1, 0, 16, 15, 16),
-            Block.box(1, 1, 7, 15, 15, 9),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	GenericBookshelfEmpty.EMPTY.put(Direction.EAST, Shapes.or(
-		    Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(0, 7, 1, 16, 9, 15),
-            Block.box(0, 1, 15, 16, 15, 16),
-            Block.box(0, 1, 0, 16, 15, 1),
-            Block.box(7, 1, 1, 9, 15, 15),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	GenericBookshelfEmpty.EMPTY.put(Direction.SOUTH, Shapes.or(
-			Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(1, 7, 0, 15, 9, 16),
-            Block.box(0, 1, 0, 1, 15, 16),
-            Block.box(15, 1, 0, 16, 15, 16),
-            Block.box(1, 1, 7, 15, 15, 9),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
-    	GenericBookshelfEmpty.EMPTY.put(Direction.WEST, Shapes.or(
-			Block.box(0, 0, 0, 16, 1, 16),
-            Block.box(0, 7, 1, 16, 9, 15),
-            Block.box(0, 1, 15, 16, 15, 16),
-            Block.box(0, 1, 0, 16, 15, 1),
-            Block.box(7, 1, 1, 9, 15, 15),
-            Block.box(0, 15, 0, 16, 16, 16)).optimize());
+        GenericBookshelfEmpty.EMPTY.put(Direction.NORTH, Shapes.or(
+                Block.box(0, 0, 0, 16, 1, 16),
+                Block.box(1, 7, 0, 15, 9, 16),
+                Block.box(0, 1, 0, 1, 15, 16),
+                Block.box(15, 1, 0, 16, 15, 16),
+                Block.box(1, 1, 7, 15, 15, 9),
+                Block.box(0, 15, 0, 16, 16, 16)).optimize());
+        GenericBookshelfEmpty.EMPTY.put(Direction.EAST, Shapes.or(
+                Block.box(0, 0, 0, 16, 1, 16),
+                Block.box(0, 7, 1, 16, 9, 15),
+                Block.box(0, 1, 15, 16, 15, 16),
+                Block.box(0, 1, 0, 16, 15, 1),
+                Block.box(7, 1, 1, 9, 15, 15),
+                Block.box(0, 15, 0, 16, 16, 16)).optimize());
+        GenericBookshelfEmpty.EMPTY.put(Direction.SOUTH, Shapes.or(
+                Block.box(0, 0, 0, 16, 1, 16),
+                Block.box(1, 7, 0, 15, 9, 16),
+                Block.box(0, 1, 0, 1, 15, 16),
+                Block.box(15, 1, 0, 16, 15, 16),
+                Block.box(1, 1, 7, 15, 15, 9),
+                Block.box(0, 15, 0, 16, 16, 16)).optimize());
+        GenericBookshelfEmpty.EMPTY.put(Direction.WEST, Shapes.or(
+                Block.box(0, 0, 0, 16, 1, 16),
+                Block.box(0, 7, 1, 16, 9, 15),
+                Block.box(0, 1, 15, 16, 15, 16),
+                Block.box(0, 1, 0, 16, 15, 1),
+                Block.box(7, 1, 1, 9, 15, 15),
+                Block.box(0, 15, 0, 16, 16, 16)).optimize());
     }
 
     // Precise selection box @formatter:on
     @Override
     public VoxelShape getShape(final BlockState state, final BlockGetter world, final BlockPos pos,
-            final CollisionContext context)
+                               final CollisionContext context)
     {
         final Direction direction = state.getValue(GenericBookshelfEmpty.FACING);
         return GenericBookshelfEmpty.EMPTY.get(direction);
@@ -123,7 +123,7 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     @Override
     @SuppressWarnings("deprecation")
     public BlockState updateShape(final BlockState state, final Direction facing, final BlockState facingState,
-            final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
+                                  final LevelAccessor world, final BlockPos currentPos, final BlockPos facingPos)
     {
         if (state.getValue(GenericBookshelfEmpty.WATERLOGGED))
             world.scheduleTick(currentPos, Fluids.WATER, Fluids.WATER.getTickDelay(world));
@@ -132,7 +132,7 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
 
     @Override
     public void setPlacedBy(final Level world, final BlockPos pos, final BlockState state,
-            @Nullable final LivingEntity entity, final ItemStack stack)
+                            @Nullable final LivingEntity entity, final ItemStack stack)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
         if (stack.hasCustomHoverName())
@@ -196,7 +196,7 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
 
     @Override
     public InteractionResult use(final BlockState state, final Level world, final BlockPos pos, final Player player,
-            final InteractionHand hand, final BlockHitResult hit)
+                                 final InteractionHand hand, final BlockHitResult hit)
     {
         final BlockEntity tile = world.getBlockEntity(pos);
         if (tile instanceof GenericBookshelfEmptyTile shelf && !player.isShiftKeyDown())
@@ -232,7 +232,7 @@ public class GenericBookshelfEmpty extends BaseEntityBlock implements SimpleWate
     @SuppressWarnings("deprecation")
     @Override
     public void onRemove(final BlockState state, final Level world, final BlockPos pos, final BlockState state1,
-            final boolean b)
+                         final boolean b)
     {
         if (!state.is(state1.getBlock()))
         {

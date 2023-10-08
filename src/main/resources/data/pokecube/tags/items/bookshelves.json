@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:enigma_bookshelf",
+    "pokecube:leppa_bookshelf",
+    "pokecube:nanab_bookshelf",
+    "pokecube:oran_bookshelf",
+    "pokecube:pecha_bookshelf",
+    "pokecube:sitrus_bookshelf",
+    {"id": "pokecube_legends:aged_bookshelf", "required": false },
+    {"id": "pokecube_legends:concrete_bookshelf", "required": false },
+    {"id": "pokecube_legends:concrete_dense_bookshelf", "required": false },
+    {"id": "pokecube_legends:corrupted_bookshelf", "required": false },
+    {"id": "pokecube_legends:distortic_bookshelf", "required": false },
+    {"id": "pokecube_legends:inverted_bookshelf", "required": false },
+    {"id": "pokecube_legends:mirage_bookshelf", "required": false },
+    {"id": "pokecube_legends:temporal_bookshelf", "required": false }
+  ]
+}

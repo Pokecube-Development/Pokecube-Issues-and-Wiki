@@ -8,14 +8,14 @@
   ],
   "key": {
     "D": {
-      "item": "pokecube_legends:distortic_one_way_glass"
+      "item": "pokecube_legends:one_way_glass"
     },
     "A": {
       "item": "minecraft:amethyst_shard"
     }
   },
   "result": {
-    "item": "pokecube_legends:distortic_one_way_tinted_glass",
+    "item": "pokecube_legends:one_way_tinted_glass",
     "count": 2
   }
 }

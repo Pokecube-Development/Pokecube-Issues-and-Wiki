@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "render_type": "translucent",
+  "textures": {
+    "layer0": "pokecube_legends:block/distortic_framed_mirror"
+  }
+}

@@ -648,6 +648,13 @@
     "block.pokecube.pecha_bookshelf_empty": "Pecha Bookshelf",
     "block.pokecube.sitrus_bookshelf_empty": "Sitrus Bookshelf",
 
+    "block.pokecube.large_enigma_chiseled_bookshelf": "Large Enigma Chiseled Bookshelf",
+    "block.pokecube.large_leppa_chiseled_bookshelf": "Large Leppa Chiseled Bookshelf",
+    "block.pokecube.large_nanab_chiseled_bookshelf": "Large Nanab Chiseled Bookshelf",
+    "block.pokecube.large_oran_chiseled_bookshelf": "Large Oran Chiseled Bookshelf",
+    "block.pokecube.large_pecha_chiseled_bookshelf": "Large Pecha Chiseled Bookshelf",
+    "block.pokecube.large_sitrus_chiseled_bookshelf": "Large Sitrus Chiseled Bookshelf",
+
     "block.pokecube.enigma_slab": "Enigma Slab",
     "block.pokecube.leppa_slab": "Leppa Slab",
     "block.pokecube.nanab_slab": "Nanab Slab",
@@ -718,6 +725,20 @@
     "block.pokecube.pecha_wall_sign": "Pecha Wall Sign",
     "block.pokecube.sitrus_wall_sign": "Sitrus Wall Sign",
 
+    "block.pokecube.enigma_hanging_sign": "Enigma Hanging Sign",
+    "block.pokecube.leppa_hanging_sign": "Leppa Hanging Sign",
+    "block.pokecube.nanab_hanging_sign": "Nanab Hanging Sign",
+    "block.pokecube.oran_hanging_sign": "Oran Hanging Sign",
+    "block.pokecube.pecha_hanging_sign": "Pecha Hanging Sign",
+    "block.pokecube.sitrus_hanging_sign": "Sitrus Hanging Sign",
+
+    "block.pokecube.enigma_wall_hanging_sign": "Enigma Wall Hanging Sign",
+    "block.pokecube.leppa_wall_hanging_sign": "Leppa Wall Hanging Sign",
+    "block.pokecube.nanab_wall_hanging_sign": "Nanab Wall Hanging Sign",
+    "block.pokecube.oran_wall_hanging_sign": "Oran Wall Hanging Sign",
+    "block.pokecube.pecha_wall_hanging_sign": "Pecha Wall Hanging Sign",
+    "block.pokecube.sitrus_wall_hanging_sign": "Sitrus Wall Hanging Sign",
+
     "item.pokecube.enigma_boat": "Enigma Boat",
     "item.pokecube.leppa_boat": "Leppa Boat",
     "item.pokecube.nanab_boat": "Nanab Boat",
@@ -737,6 +758,7 @@
 
     "container.pokecube.generic_barrel": "Barrel",
     "container.pokecube.generic_bookshelf": "Bookshelf",
+    "container.pokecube.large_chiseled_bookshelf": "Large Chiseled Bookshelf",
 
     "_comment": "Items",
     "item.pokecube.pokedex": "Pokédex",

@@ -47,7 +47,6 @@ public class RegistryChangeFixer
     @SubscribeEvent
     public static void onRegistryMissingEvent(MissingMappingsEvent event)
     {
-
         // Remap the TMs.
         if (event.getKey().equals(Keys.ITEMS))
         {

@@ -25,14 +25,17 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.registries.RegistryObject;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.handlers.ModTags;
 import pokecube.core.inventory.bookshelves.GenericBookshelfMenu;
 import thut.lib.TComponent;
 
 public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity implements WorldlyContainer
 {
+    public static RegistryObject<BlockEntityType<GenericBookshelfEmptyTile>> FILLABLE_SHELVES_TYPE;
     public NonNullList<ItemStack> items = NonNullList.withSize(9, ItemStack.EMPTY);
     private Component name;
 
@@ -45,7 +48,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
 
     public GenericBookshelfEmptyTile(final BlockPos pos, final BlockState state)
     {
-        this(PokecubeItems.BOOKSHELF_EMPTY_TYPE.get(), pos, state);
+        this(FILLABLE_SHELVES_TYPE.get(), pos, state);
     }
 
     @Override
@@ -156,9 +159,7 @@ public class GenericBookshelfEmptyTile extends RandomizableContainerBlockEntity 
     @Override
     public boolean canPlaceItem(final int index, final ItemStack stack)
     {
-        final Item book = stack.getItem();
-        return book instanceof BookItem || book instanceof EnchantedBookItem || stack.is(ItemTags.LECTERN_BOOKS)
-                || stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS);
+        return stack.is(ItemTags.BOOKSHELF_BOOKS) || stack.is(ModTags.BOOKS) || stack.is(ModTags.BOOKSHELF_ITEMS);
     }
 
     @Override

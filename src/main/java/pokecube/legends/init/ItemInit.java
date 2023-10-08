@@ -13,6 +13,7 @@ import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
@@ -235,6 +236,16 @@ public class ItemInit
     public static final RegistryObject<Item> INVERTED_SIGN;
     public static final RegistryObject<Item> MIRAGE_SIGN;
     public static final RegistryObject<Item> TEMPORAL_SIGN;
+
+    // Hanging Signs
+    public static final RegistryObject<Item> AGED_HANGING_SIGN;
+    public static final RegistryObject<Item> CONCRETE_HANGING_SIGN;
+    public static final RegistryObject<Item> CORRUPTED_HANGING_SIGN;
+    public static final RegistryObject<Item> DISTORTIC_HANGING_SIGN;
+    public static final RegistryObject<Item> INVERTED_HANGING_SIGN;
+    public static final RegistryObject<Item> MIRAGE_HANGING_SIGN;
+    public static final RegistryObject<Item> TEMPORAL_HANGING_SIGN;
+
     public static Map<Nature, RegistryObject<Item>> mints = Maps.newHashMap();
     public static Map<PokeType, RegistryObject<Item>> zCrystals = Maps.newHashMap();
 
@@ -497,6 +508,22 @@ public class ItemInit
                 () -> new SignItem(new Item.Properties().stacksTo(16), BlockInit.MIRAGE_SIGN.get(), BlockInit.MIRAGE_WALL_SIGN.get()));
         TEMPORAL_SIGN = PokecubeLegends.ITEMS.register("temporal_sign",
                 () -> new SignItem(new Item.Properties().stacksTo(16), BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
+
+        // Hanging Signs
+        AGED_HANGING_SIGN = PokecubeLegends.ITEMS.register("aged_hanging_sign",
+                () -> new HangingSignItem(BlockInit.AGED_HANGING_SIGN.get(), BlockInit.AGED_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+        CONCRETE_HANGING_SIGN = PokecubeLegends.ITEMS.register("concrete_hanging_sign",
+                () -> new HangingSignItem(BlockInit.CONCRETE_HANGING_SIGN.get(), BlockInit.CONCRETE_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+        CORRUPTED_HANGING_SIGN = PokecubeLegends.ITEMS.register("corrupted_hanging_sign",
+                () -> new HangingSignItem(BlockInit.CORRUPTED_HANGING_SIGN.get(), BlockInit.CORRUPTED_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+        DISTORTIC_HANGING_SIGN = PokecubeLegends.ITEMS.register("distortic_hanging_sign",
+                () -> new HangingSignItem(BlockInit.DISTORTIC_HANGING_SIGN.get(), BlockInit.DISTORTIC_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+        INVERTED_HANGING_SIGN = PokecubeLegends.ITEMS.register("inverted_hanging_sign",
+                () -> new HangingSignItem(BlockInit.INVERTED_HANGING_SIGN.get(), BlockInit.INVERTED_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+        MIRAGE_HANGING_SIGN = PokecubeLegends.ITEMS.register("mirage_hanging_sign",
+                () -> new HangingSignItem(BlockInit.MIRAGE_HANGING_SIGN.get(), BlockInit.MIRAGE_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
+        TEMPORAL_HANGING_SIGN = PokecubeLegends.ITEMS.register("temporal_hanging_sign",
+                () -> new HangingSignItem(BlockInit.TEMPORAL_HANGING_SIGN.get(), BlockInit.TEMPORAL_WALL_HANGING_SIGN.get(), new Item.Properties().stacksTo(16)));
 
         ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.AGED_PLANKS, "aged", PokecubeLegends.ITEMS));
         ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CONCRETE_PLANKS, "concrete", PokecubeLegends.ITEMS));

@@ -20,6 +20,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.HangingSignItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SignItem;
@@ -57,11 +58,18 @@ import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.blocks.barrels.GenericBarrel;
+import pokecube.core.blocks.barrels.GenericBarrelTile;
 import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmpty;
+import pokecube.core.blocks.bookshelves.GenericBookshelfEmptyTile;
+import pokecube.core.blocks.hanging_signs.GenericCeilingHangingSign;
+import pokecube.core.blocks.hanging_signs.GenericHangingSignBlockEntity;
+import pokecube.core.blocks.hanging_signs.GenericWallHangingSign;
 import pokecube.core.blocks.signs.GenericSignBlockEntity;
 import pokecube.core.blocks.signs.GenericStandingSign;
 import pokecube.core.blocks.signs.GenericWallSign;
@@ -79,6 +87,7 @@ import pokecube.core.items.megastuff.ItemMegawearable;
 
 public class ItemGenerator
 {
+
     public static interface IMoveModifier
     {
         void processHeldItemUse(MoveApplication moveUse, IPokemob mob, ItemStack held);
@@ -107,6 +116,8 @@ public class ItemGenerator
     public static Map<String, RegistryObject<Block>> stripped_logs = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> stripped_woods = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> bookshelves = Maps.newHashMap();
+    public static Map<String, RegistryObject<Block>> fillable_shelves = Maps.newHashMap();
+    public static Map<String, RegistryObject<Block>> barrels = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> planks = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> stairs = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> slabs = Maps.newHashMap();
@@ -120,12 +131,18 @@ public class ItemGenerator
     public static Map<String, RegistryObject<Block>> berry_wall_signs = Maps.newHashMap();
     public static Map<String, RegistryObject<Block>> berry_signs = Maps.newHashMap();
     public static Map<String, RegistryObject<Item>> berry_sign_items = Maps.newHashMap();
+    public static Map<String, RegistryObject<Block>> berry_hanging_signs = Maps.newHashMap();
+    public static Map<String, RegistryObject<Block>> berry_wall_hanging_signs = Maps.newHashMap();
+    public static Map<String, RegistryObject<Item>> berry_hanging_sign_items = Maps.newHashMap();
 
     private static Map<String, RegistryObject<Block>> berry_wood_things = Maps.newHashMap();
 
     public static Map<Item, RegistryObject<Block>> potted_berries = Maps.newHashMap();
 
     public static List<RegistryObject<Block>> SIGN_BLOCKS = Lists.newArrayList();
+    public static List<RegistryObject<Block>> HANGING_SIGN_BLOCKS = Lists.newArrayList();
+    public static List<RegistryObject<Block>> BARRELS = Lists.newArrayList();
+    public static List<RegistryObject<Block>> FILLABLE_SHELVES = Lists.newArrayList();
 
     public static List<BoatRegister> BOATS = Lists.newArrayList();
 
@@ -182,7 +199,6 @@ public class ItemGenerator
         BerryManager.berryFruits.put(id, reg);
     }
 
-    // TODO: Check this
     private static void makePottedBerry(int id, int index, String name)
     {
         var reg = PokecubeCore.BLOCKS.register("potted_" + name + "_berry", () -> {
@@ -242,6 +258,11 @@ public class ItemGenerator
         // Signs
         BERRY_WOOD_THINGS.add(name -> name + "_wall_sign");
         BERRY_WOOD_THINGS.add(name -> name + "_sign");
+        BERRY_WOOD_THINGS.add(name -> name + "_hanging_sign");
+        BERRY_WOOD_THINGS.add(name -> name + "_wall_hanging_sign");
+
+        BERRY_WOOD_THINGS.add(name -> name + "_bookshelf_empty");
+        BERRY_WOOD_THINGS.add(name -> name + "_barrel");
 
         // Make the logs and planks.
         final List<String> names = Lists.newArrayList(ItemGenerator.berryWoods.keySet());
@@ -254,7 +275,7 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(0).apply(name),
                     () -> new BerryLeaf(BlockBehaviour.Properties
                             .of().mapColor(ItemGenerator.berryLeaves.get(name)).strength(0.2F).randomTicks().noOcclusion()
-                            .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).isValidSpawn(ItemGenerator::ocelotOrParrot)
+                            .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY).isValidSpawn(PokecubeItems::ocelotOrParrot)
                             .isSuffocating((s, r, p) -> false).isViewBlocking((s, r, p) -> false), index),
                     block ->
                     {
@@ -379,7 +400,7 @@ public class ItemGenerator
             makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(13).apply(name),
                     () -> new GenericTrapDoor(BlockSetType.OAK,
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).noOcclusion().ignitedByLava().isValidSpawn(ItemGenerator::never)
+                                    .strength(2.0F).noOcclusion().ignitedByLava().isValidSpawn(PokecubeItems::never)
                                     .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS)),
                     block ->
                     {
@@ -398,37 +419,87 @@ public class ItemGenerator
                     });
 
             // Sign stuff, first make the wood type.
-            WoodType type = BerriesWoodType.addWoodTypes(name);
+            WoodType woodType = BerriesWoodType.addWoodTypes(name);
             // sign_blocks
             var standing_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(16).apply(name),
                     () -> new GenericStandingSign(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).noOcclusion().noCollission().forceSolidOn().ignitedByLava()
-                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS),
-                            type),
+                                    .strength(1.0F).noCollission().forceSolidOn().ignitedByLava()
+                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.berry_signs.put(name, block);
                     });
-            // TODO: Check this
             // wall_sign_blocks
             var wall_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(15).apply(name),
                     () -> new GenericWallSign(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
-                                    .strength(2.0F).noOcclusion().noCollission().forceSolidOn().ignitedByLava()
-                                    .dropsLike(standing_sign.get()).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS),
-                            type),
+                                    .strength(1.0F).noCollission().forceSolidOn().ignitedByLava()
+                                    .lootFrom(standing_sign).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
                     block ->
                     {
                         ItemGenerator.berry_wall_signs.put(name, block);
                     });
+
+            // hanging sign blocks
+            var ceiling_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(17).apply(name),
+                    () -> new GenericCeilingHangingSign(
+                            BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
+                                    .strength(1.0F).noCollission().forceSolidOn().ignitedByLava()
+                                    .sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
+                    block ->
+                    {
+                        ItemGenerator.berry_hanging_signs.put(name, block);
+                    });
+            // wall hanging sign blocks
+            var wall_hanging_sign = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(18).apply(name),
+                    () -> new GenericWallHangingSign(
+                            BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
+                                    .strength(1.0F).noCollission().forceSolidOn().ignitedByLava()
+                                    .lootFrom(ceiling_hanging_sign).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS), woodType),
+                    block ->
+                    {
+                        ItemGenerator.berry_wall_hanging_signs.put(name, block);
+                    });
+
+            // Fillable Bookshelves
+            var fillable_shelves = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(19).apply(name),
+                    () -> new GenericBookshelfEmpty(BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
+                            .strength(1.5F).sound(SoundType.WOOD)
+                            .instrument(NoteBlockInstrument.BASS)),
+                    block ->
+                    {
+                        ItemGenerator.fillable_shelves.put(name, block);
+                    });
+            ItemGenerator.FILLABLE_SHELVES.add(fillable_shelves);
+
+            // Barrels
+            var barrels = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(20).apply(name),
+                    () -> new GenericBarrel(BlockBehaviour.Properties.of()
+                            .mapColor(ItemGenerator.berryWoods.get(name)).ignitedByLava()
+                            .strength(2.5F).sound(SoundType.WOOD)
+                            .instrument(NoteBlockInstrument.BASS)),
+                    block ->
+                    {
+                        ItemGenerator.barrels.put(name, block);
+                    });
+            ItemGenerator.BARRELS.add(barrels);
+
             NO_ITEMS.add(BERRY_WOOD_THINGS.get(15).apply(name));
+            NO_ITEMS.add(BERRY_WOOD_THINGS.get(16).apply(name));
+            NO_ITEMS.add(BERRY_WOOD_THINGS.get(17).apply(name));
+            NO_ITEMS.add(BERRY_WOOD_THINGS.get(18).apply(name));
             ItemGenerator.SIGN_BLOCKS.add(standing_sign);
             ItemGenerator.SIGN_BLOCKS.add(wall_sign);
-            NO_ITEMS.add(BERRY_WOOD_THINGS.get(16).apply(name));
+            ItemGenerator.HANGING_SIGN_BLOCKS.add(ceiling_hanging_sign);
+            ItemGenerator.HANGING_SIGN_BLOCKS.add(wall_hanging_sign);
             PokecubeCore.ITEMS.register(BERRY_WOOD_THINGS.get(16).apply(name),
                     () -> new SignItem(new Item.Properties().stacksTo(16),
                             standing_sign.get(), wall_sign.get()));
+            PokecubeCore.ITEMS.register(BERRY_WOOD_THINGS.get(17).apply(name),
+                    () -> new HangingSignItem(ceiling_hanging_sign.get(), wall_hanging_sign.get(),
+                            new Item.Properties().stacksTo(16)));
         }
 
         final List<String> leaves = Lists.newArrayList(ItemGenerator.onlyBerryLeaves.keySet());
@@ -441,7 +512,7 @@ public class ItemGenerator
                             .strength(0.2F).randomTicks().noOcclusion().ignitedByLava()
                             .sound(SoundType.GRASS).pushReaction(PushReaction.DESTROY)
                             .isSuffocating((s, r, p) -> false).isViewBlocking((s, r, p) -> false)
-                            .isRedstoneConductor((s, r, p) -> false).isValidSpawn(ItemGenerator::ocelotOrParrot), index),
+                            .isRedstoneConductor((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot), index),
                     block ->
                     {
                         ItemGenerator.leaves.put(name, block);
@@ -549,6 +620,48 @@ public class ItemGenerator
                 SIGN_BLOCKS.forEach(r -> regs.add(r.get()));
                 Block[] blocks = regs.toArray(new Block[0]);
                 var type = BlockEntityType.Builder.of(GenericSignBlockEntity::new, blocks).build(null);
+                return type;
+            });
+        }
+    }
+
+    public static void makeHangingSigns()
+    {
+        if (!HANGING_SIGN_BLOCKS.isEmpty())
+        {
+            GenericHangingSignBlockEntity.SIGN_TYPE = PokecubeCore.TILES.register("hanging_sign", () -> {
+                List<Block> regs = Lists.newArrayList();
+                HANGING_SIGN_BLOCKS.forEach(r -> regs.add(r.get()));
+                Block[] blocks = regs.toArray(new Block[0]);
+                var type = BlockEntityType.Builder.of(GenericHangingSignBlockEntity::new, blocks).build(null);
+                return type;
+            });
+        }
+    }
+
+    public static void makeFillableShelves()
+    {
+        if (!FILLABLE_SHELVES.isEmpty())
+        {
+            GenericBookshelfEmptyTile.FILLABLE_SHELVES_TYPE = PokecubeCore.TILES.register("generic_bookshelf_empty", () -> {
+                List<Block> regs = Lists.newArrayList();
+                BARRELS.forEach(r -> regs.add(r.get()));
+                Block[] blocks = regs.toArray(new Block[0]);
+                var type = BlockEntityType.Builder.of(GenericBookshelfEmptyTile::new, blocks).build(null);
+                return type;
+            });
+        }
+    }
+
+    public static void makeBarrels()
+    {
+        if (!BARRELS.isEmpty())
+        {
+            GenericBarrelTile.BARREL_TYPE = PokecubeCore.TILES.register("generic_barrel", () -> {
+                List<Block> regs = Lists.newArrayList();
+                BARRELS.forEach(r -> regs.add(r.get()));
+                Block[] blocks = regs.toArray(new Block[0]);
+                var type = BlockEntityType.Builder.of(GenericBarrelTile::new, blocks).build(null);
                 return type;
             });
         }
@@ -705,17 +818,6 @@ public class ItemGenerator
         });
     }
 
-    public static Boolean ocelotOrParrot(final BlockState state, final BlockGetter reader, final BlockPos pos,
-            final EntityType<?> entity)
-    {
-        return entity == EntityType.OCELOT || entity == EntityType.PARROT;
-    }
-
-    public static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
-    {
-        return Boolean.FALSE;
-    }
-
     public static void postInitItems()
     {
         for (final String type : ItemGenerator.fossilVariants)
@@ -742,11 +844,18 @@ public class ItemGenerator
     {
         // Initialize the nullberry
         ItemBerry.registerBerryType("null", null, 0, 0, 0, 0, 0, 0);
+
         // Fire event so that others can initialize their berries.
         PokecubeAPI.POKEMOB_BUS.post(new RegisterMiscItems());
+
         // Make the berries here.
         ItemGenerator.makeBerries();
         ItemGenerator.makeBerryBlocks();
+
+        // Register after berry blocks
+        ItemGenerator.makeBarrels();
+        ItemGenerator.makeFillableShelves();
+        ItemGenerator.makeHangingSigns();
         ItemGenerator.makeSigns();
     }
 }

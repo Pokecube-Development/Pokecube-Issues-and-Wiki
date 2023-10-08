@@ -1,0 +1,13 @@
+{
+    "parent": "block/cube",
+    "render_type": "translucent",
+    "textures": {
+        "down": "pokecube_legends:block/distortic_mirror",
+        "up": "pokecube_legends:block/distortic_mirror",
+        "north": "pokecube_legends:block/distortic_framed_mirror",
+        "east": "pokecube_legends:block/distortic_mirror",
+        "south": "pokecube_legends:block/distortic_mirror",
+        "west": "pokecube_legends:block/distortic_mirror",
+        "particle": "pokecube_legends:block/distortic_mirror"
+    }
+}

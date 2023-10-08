@@ -62,6 +62,7 @@
     "block.pokecube_adventures.commander": "Pokémob Command Block",
     "block.pokecube_adventures.siphon": "Energy Siphon",
     "block.pokecube_adventures.laboratory_glass": "Laboratory Glass",
+    "block.pokecube_adventures.laboratory_glass_pane": "Laboratory Glass Pane",
     "block.pokecube_adventures.statue": "Pokedoll",
     
     "gui.pokecube_adventures.cloner.warning_0": "WARNING!",

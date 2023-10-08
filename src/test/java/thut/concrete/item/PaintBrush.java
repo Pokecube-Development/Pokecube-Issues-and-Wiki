@@ -105,7 +105,8 @@ public class PaintBrush extends BrushItem
     public InteractionResult useOn(UseOnContext context)
     {
         Player player = context.getPlayer();
-        if (player != null && this.calculateHitResult(player).getType() == HitResult.Type.BLOCK) {
+        HitResult hitresult = this.calculateHitResult(player);
+        if (player != null && (hitresult.getType() == HitResult.Type.BLOCK || hitresult.getType() == HitResult.Type.ENTITY)) {
             player.startUsingItem(context.getHand());
         }
         return InteractionResult.CONSUME;
@@ -125,7 +126,7 @@ public class PaintBrush extends BrushItem
             HitResult hitresult = this.calculateHitResult(entity);
             if (hitresult instanceof BlockHitResult hitResult)
             {
-                if (hitresult.getType() == HitResult.Type.BLOCK)
+                if (hitresult.getType() == HitResult.Type.BLOCK || hitresult.getType() == HitResult.Type.ENTITY)
                 {
                     int i = this.getUseDuration(stack) - ticks + 1;
                     boolean flag = i % 4 == 2;
