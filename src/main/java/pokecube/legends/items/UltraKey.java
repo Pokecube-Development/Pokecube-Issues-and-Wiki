@@ -56,17 +56,6 @@ public class UltraKey extends ItemBase
         final double y = entity.getY();
         final double z = entity.getZ();
         UltraKey.dimensionTP(entity, x, y, z, world);
-
-        world.playLocalSound(x, y, z, SoundEvents.BEACON_DEACTIVATE,
-                SoundSource.PLAYERS, 1, 1, false);
-
-        for (int i = 0; i < 25; ++i)
-        {
-            world.addParticle(ParticleTypes.SCRAPE,
-                    entity.getRandomX(1.5D), entity.getRandomY(), entity.getRandomZ(1.5D),
-                    (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
-                    (random.nextDouble() - 0.5D) * 2.0D);
-        }
         return ar;
     }
 
@@ -85,8 +74,7 @@ public class UltraKey extends ItemBase
                         .countItem(ItemInit.COSMIC_DUST.get()) >= PokecubeLegends.config.ultraKeyConsumeAmount
                     || ((Player) entity).isCreative())
             {
-
-                world.playLocalSound(x, y, z, SoundEvents.BEACON_POWER_SELECT,
+                world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_POWER_SELECT,
                         SoundSource.PLAYERS, 1, 1, false);
 
                 for (int i = 0; i < 25; ++i)
@@ -107,8 +95,6 @@ public class UltraKey extends ItemBase
             }
             else
             {
-                world.playLocalSound(x, y, z, SoundEvents.AXE_SCRAPE,
-                        SoundSource.NEUTRAL, 1, 1, false);
 
                 if (((Player) entity).getInventory()
                         .countItem(ItemInit.COSMIC_DUST.get()) < PokecubeLegends.config.ultraKeyConsumeAmount)
@@ -117,6 +103,20 @@ public class UltraKey extends ItemBase
                     final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust", ChatFormatting.RED,
                             PokecubeLegends.config.ultraKeyConsumeAmount);
                     player.displayClientMessage(TComponent.translatable(message), true);
+
+                    world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.AXE_SCRAPE,
+                            SoundSource.NEUTRAL, 1, 1, false);
+
+                    world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_DEACTIVATE,
+                            SoundSource.PLAYERS, 1, 1, false);
+
+                    for (int i = 0; i < 25; ++i)
+                    {
+                        world.addParticle(ParticleTypes.WAX_ON,
+                                entity.getRandomX(1.5D), entity.getRandomY(), entity.getRandomZ(1.5D),
+                                (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
+                                (random.nextDouble() - 0.5D) * 2.0D);
+                    }
                 }
             }
         }
@@ -128,7 +128,7 @@ public class UltraKey extends ItemBase
                         .countItem(ItemInit.COSMIC_DUST.get()) >= PokecubeLegends.config.ultraKeyConsumeAmount
                     || ((Player) entity).isCreative())
             {
-                world.playLocalSound(x, y, z, SoundEvents.BEACON_POWER_SELECT,
+                world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_POWER_SELECT,
                         SoundSource.PLAYERS, 1, 1, false);
 
                 for (int i = 0; i < 25; ++i)
@@ -147,20 +147,40 @@ public class UltraKey extends ItemBase
 
                 ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRA_KEY.get(), 200);
             }
+            else
+            {
+
+                if (entity instanceof Player && ((Player) entity).getInventory()
+                        .countItem(ItemInit.COSMIC_DUST.get()) < PokecubeLegends.config.ultraKeyConsumeAmount)
+                {
+                    final Player player = (Player) entity;
+                    final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust", ChatFormatting.RED,
+                            PokecubeLegends.config.ultraKeyConsumeAmount);
+                    player.displayClientMessage(TComponent.translatable(message), true);
+
+                    world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.AXE_SCRAPE,
+                            SoundSource.NEUTRAL, 1, 1, false);
+
+                    world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_DEACTIVATE,
+                            SoundSource.PLAYERS, 1, 1, false);
+
+                    for (int i = 0; i < 25; ++i)
+                    {
+                        world.addParticle(ParticleTypes.WAX_ON,
+                                entity.getRandomX(1.5D), entity.getRandomY(), entity.getRandomZ(1.5D),
+                                (random.nextDouble() - 0.5D) * 2.0D, -random.nextDouble(),
+                                (random.nextDouble() - 0.5D) * 2.0D);
+                    }
+                }
+            }
         }
         else
         {
-            world.playLocalSound(x, y, z, SoundEvents.AXE_SCRAPE,
+            world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.AXE_SCRAPE,
                     SoundSource.NEUTRAL, 1, 1, false);
-
-            if (entity instanceof Player && ((Player) entity).getInventory()
-                    .countItem(ItemInit.COSMIC_DUST.get()) < PokecubeLegends.config.ultraKeyConsumeAmount)
-            {
-                final Player player = (Player) entity;
-                final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust", ChatFormatting.RED,
-                        PokecubeLegends.config.ultraKeyConsumeAmount);
-                player.displayClientMessage(TComponent.translatable(message), true);
-            }
+            
+            world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_DEACTIVATE,
+                    SoundSource.PLAYERS, 1, 1, false);
         }
 
         // Comsume Item Disable
@@ -168,7 +188,7 @@ public class UltraKey extends ItemBase
         {
             if (dim == Level.OVERWORLD)
             {
-                world.playLocalSound(x, y, z, SoundEvents.BEACON_POWER_SELECT,
+                world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_POWER_SELECT,
                         SoundSource.PLAYERS, 1, 1, false);
 
                 for (int i = 0; i < 25; ++i)
@@ -186,7 +206,7 @@ public class UltraKey extends ItemBase
 
             } else if (dim == FeaturesInit.ULTRASPACE_KEY)
             {
-                world.playLocalSound(x, y, z, SoundEvents.BEACON_POWER_SELECT,
+                world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), SoundEvents.BEACON_POWER_SELECT,
                         SoundSource.PLAYERS, 1, 1, false);
 
                 for (int i = 0; i < 25; ++i)
