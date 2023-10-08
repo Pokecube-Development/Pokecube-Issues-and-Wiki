@@ -88,11 +88,10 @@ public class UltraKey extends ItemBase
     {
         final ResourceKey<Level> dimension = world.dimension();
 
-        if (entity instanceof ServerPlayer serverPlayer
-                /*&& serverPlayer.getInventory().contains(new ItemStack(ItemInit.COSMIC_DUST.get()))*/
-                && serverPlayer.getInventory()
+        if (entity instanceof Player player
+                && player.getInventory()
                     .countItem(ItemInit.COSMIC_DUST.get()) >= PokecubeLegends.config.ultraKeyRequiredFuelAmount
-                || (entity instanceof ServerPlayer serverPlayerC && serverPlayerC.isCreative()))
+                || (entity instanceof Player playerC && playerC.isCreative()))
         {
             if (dimension == Level.OVERWORLD)
             {
@@ -103,6 +102,7 @@ public class UltraKey extends ItemBase
                         PokecubeLegends.config.ultraKeyRequiredFuelAmount, ((Player) entity).inventoryMenu.getCraftSlots());
 
                 if (entity instanceof ServerPlayer) DimensionTranserHelper.sentToUltraspace((ServerPlayer) entity);
+                teleportEffects(entity, world, ParticleTypes.SCRAPE, SoundEvents.BEACON_DEACTIVATE);
 
                 ((Player) entity).getCooldowns().addCooldown(ItemInit.ULTRA_KEY.get(), PokecubeLegends.config.ultraKeyCooldown);
 
@@ -113,6 +113,7 @@ public class UltraKey extends ItemBase
                 ((Player) entity).getInventory().clearOrCountMatchingItems(
                         p -> new ItemStack(ItemInit.COSMIC_DUST.get(), 1).getItem() == p.getItem(),
                         PokecubeLegends.config.ultraKeyRequiredFuelAmount, ((Player) entity).inventoryMenu.getCraftSlots());
+                teleportEffects(entity, world, ParticleTypes.WAX_OFF, SoundEvents.BEACON_DEACTIVATE);
 
                 if (entity instanceof ServerPlayer) DimensionTranserHelper.sendToOverworld((ServerPlayer) entity);
 
@@ -131,6 +132,9 @@ public class UltraKey extends ItemBase
                     PokecubeLegends.config.ultraKeyRequiredFuelAmount);
             player.displayClientMessage(TComponent.translatable(message), true);
 
+            teleportFailEffects(entity, world, ParticleTypes.WAX_ON, SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
+        } else
+        {
             teleportFailEffects(entity, world, ParticleTypes.WAX_ON, SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
         }
     }
