@@ -43,11 +43,13 @@ public class UltraKey extends ItemBase
     public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {
-        String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_id + ".tooltip",
-                ChatFormatting.LIGHT_PURPLE, PokecubeLegends.config.ultraKeyRequiredFuelAmount);
-        else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        if (Screen.hasShiftDown())
+        {
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip.line1",
+                    PokecubeLegends.config.ultraKeyRequiredFuelAmount));
+        }
+        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     @Override
