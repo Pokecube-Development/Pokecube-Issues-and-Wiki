@@ -361,7 +361,6 @@ public class MoveEntry implements IMoveConstants
     public MoveApplication applyMove(IPokemob user, @Nullable LivingEntity target, @Nullable Vector3 targetPos)
     {
         MoveApplication apply = new MoveApplication(this, user, target);
-        MoveApplicationRegistry.preApply(apply);
         MoveApplicationRegistry.apply(apply);
         return apply;
     }
