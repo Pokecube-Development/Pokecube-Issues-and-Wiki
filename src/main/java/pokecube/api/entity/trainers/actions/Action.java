@@ -3,7 +3,7 @@ package pokecube.api.entity.trainers.actions;
 import net.minecraft.commands.Commands;
 import net.minecraft.world.entity.LivingEntity;
 
-public class Action
+public class Action implements IAction
 {
     final String command;
 
@@ -12,6 +12,7 @@ public class Action
         this.command = command;
     }
 
+    @Override
     public boolean doAction(final ActionContext action)
     {
         if (this.command == null || this.command.trim().isEmpty()) return false;

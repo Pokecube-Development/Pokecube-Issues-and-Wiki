@@ -10,6 +10,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import pokecube.core.PokecubeCore;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import thut.api.inventory.big.BigInventory;
 import thut.api.inventory.big.Manager;
@@ -17,23 +18,28 @@ import thut.lib.TComponent;
 
 public class PCInventory extends BigInventory
 {
-    public static void addPokecubeToPC(final ItemStack mob, final Level world)
+    public static boolean addPokecubeToPC(final ItemStack mob, final Level world)
     {
-        if (!PokecubeManager.isFilled(mob)) return;
+        if (!PokecubeManager.isFilled(mob)) return false;
         final UUID id = PokecubeManager.getOwnerId(mob);
-        if (id != null) PCInventory.addStackToPC(id, mob, world);
+        if (id != null)
+        {
+            if (id.equals(PokecubeMod.fakeUUID)) return false;
+            return PCInventory.addStackToPC(id, mob, world);
+        }
+        return false;
     }
 
-    public static void addStackToPC(final UUID uuid, final ItemStack mob, final Level world)
+    public static boolean addStackToPC(final UUID uuid, final ItemStack mob, final Level world)
     {
         if (uuid == null || mob.isEmpty())
         {
             System.err.println("Could not find the owner of this item " + mob + " " + uuid);
-            return;
+            return false;
         }
         final PCInventory pc = PCInventory.getPC(uuid);
 
-        if (pc == null) return;
+        if (pc == null) return false;
 
         if (PokecubeManager.isFilled(mob))
         {
@@ -45,6 +51,7 @@ public class PCInventory extends BigInventory
                     TComponent.translatable("block.pc.sentto", mob.getHoverName()));
         }
         pc.addItem(mob.copy());
+        return true;
     }
 
     public static PCInventory getPC(final Entity player)

@@ -48,9 +48,9 @@ import pokecube.api.events.init.InitDatabase;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
+import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.resources.PackFinder;
@@ -422,15 +422,6 @@ public class Database
         // loaded.
         MinecraftForge.EVENT_BUS.post(new InitDatabase.Load());
 
-        // Make the pokedex entries with what was in database.
-        try
-        {
-            PokedexEntryLoader.makeEntries(true);
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.error("Error with databases ", e);
-        }
         // Init the lists of what all forms are loaded.
         Database.initFormLists();
 
@@ -825,9 +816,6 @@ public class Database
         Database.needs_reload = false;
         dt = System.nanoTime() - time;
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 5: {}s", dt / 1e9d);
-
-        // Generate debug file with entries
-        if (PokecubeCore.getConfig().debug_data) PokedexEntryLoader.writeCompoundDatabase(PokemobsDatabases.compound);
     }
 
     /**
@@ -918,7 +906,7 @@ public class Database
         CombatTypeLoader.loadTypes();
         // Load in the various databases, starting with moves, then pokemobs.
         MovesAdder.registerMoves();
-        PokemobsDatabases.preInitLoad();
+        JsonPokedexEntry.loadPokedex();
         // Finally load in the abilities
         AbilityManager.init();
 

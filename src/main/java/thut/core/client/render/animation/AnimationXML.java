@@ -112,6 +112,10 @@ public class AnimationXML
         public String shader = "";
         @XmlAttribute(name = "tex")
         public String tex = "";
+        @XmlAttribute(name = "height")
+        public float height = -1;
+        @XmlAttribute(name = "width")
+        public float width = -1;
     }
 
     @XmlRootElement(name = "merges")

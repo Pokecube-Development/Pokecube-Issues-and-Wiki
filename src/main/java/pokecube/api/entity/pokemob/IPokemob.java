@@ -52,6 +52,9 @@ import thut.lib.TComponent;
 public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOwner, IHasStats, IHungrymob,
         IHasCommands, IMobColourable, IShearable, ICopyMob
 {
+    /**
+     * Holder object for custom models/textures/etc for a pokemob.
+     */
     public static class FormeHolder extends ModelHolder
     {
         public static FormeHolder load(final CompoundTag nbt)
@@ -111,6 +114,14 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         private List<PokeType> _types = Lists.newArrayList();
         public double _mass = -1;
 
+        /**
+         * Returns the inventory icon for the pokemob.
+         * 
+         * @param male  - Whether to look for male icon for gendered mobs
+         * @param shiny - whether to look for shiny icon
+         * @param base  - The base pokedex entry to get the icons for
+         * @return the icon
+         */
         public ResourceLocation getIcon(final boolean male, final boolean shiny, final PokedexEntry base)
         {
             if (this.icons[0][0] == null)
@@ -142,6 +153,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             return this.icons[i][j];
         }
 
+        /**
+         * Serialises to NBT
+         * 
+         * @return the nbt containing our data.
+         */
         public CompoundTag save()
         {
             final CompoundTag ret = new CompoundTag();
@@ -168,6 +184,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             return this.key.hashCode();
         }
 
+        /**
+         * @param baseEntry - Base pokedex entry to check for
+         * @return Possibly modified list of types
+         */
         public List<PokeType> getTypes(PokedexEntry baseEntry)
         {
             if (this.loaded_from == null)
@@ -182,6 +202,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             else return this.loaded_from.getTypes(baseEntry);
         }
 
+        /**
+         * 
+         * @param baseEntry - Base pokedex entry to check for
+         * @return Possibly modified list of abilities
+         */
         public List<String> getAbilities(PokedexEntry baseEntry)
         {
             if (this.loaded_from != null) return this.loaded_from.getAbilities(baseEntry);
@@ -205,7 +230,30 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     public static enum HappinessType
     {
-        TIME(2, 2, 1), LEVEL(5, 3, 2), BERRY(3, 2, 1), EVBERRY(10, 5, 2), FAINT(-1, -1, -1), TRADE(0, 0, 0);
+        /**
+         * Happiness gain over time
+         */
+        TIME(2, 2, 1),
+        /**
+         * Happiness gain from levelling
+         */
+        LEVEL(5, 3, 2),
+        /**
+         * Happiness gain from eating a berry while not in combat
+         */
+        BERRY(3, 2, 1),
+        /**
+         * Happiness gain from eating an EV reducing berry
+         */
+        EVBERRY(10, 5, 2),
+        /**
+         * Happiness gain (loss) from faining
+         */
+        FAINT(-1, -1, -1),
+        /**
+         * Happiness gain from trading.
+         */
+        TRADE(0, 0, 0);
 
         public static void applyHappiness(final IPokemob mob, final HappinessType type)
         {
@@ -232,14 +280,53 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         }
     }
 
+    /**
+     * This is the interface which an AI which is used to locate combat targets
+     * for the pokemob implements.
+     *
+     */
     public static interface ITargetFinder
     {
+        /**
+         * Clears any tracking for our combat target.
+         */
         void clear();
     }
 
     public static enum Stats
     {
-        HP, ATTACK, DEFENSE, SPATTACK, SPDEFENSE, VIT, ACCURACY, EVASION,
+        /**
+         * Stat responsibly for pokemob's maximum health
+         */
+        HP, 
+        /**
+         * Stat responsible for damage caused by physical attacks
+         */
+        ATTACK, 
+        /**
+         * Stat responsible for reducing damage by physical attacks
+         */
+        DEFENSE, 
+        /**
+         * Stat responsible for damage caused by special attacks
+         */
+        SPATTACK, 
+        /**
+         * Stat responsible for reducing damage caused by special attacks
+         */
+        SPDEFENSE, 
+        /**
+         * Stat responsible for some aspects of move use order in combat
+         */
+        VIT, 
+        /**
+         * Stat responsible for whether our attacks hit
+         */
+        ACCURACY, 
+        /**
+         * Stat responsible for whether we can dodge attacks.
+         */
+        EVASION,
     }
 
     static final UUID FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
@@ -263,10 +350,22 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     int TYPE_CRIT = 2;
 
+    /**
+     * Sets our {@link ITargetFinder} instance
+     * 
+     * @param tracker
+     */
     void setTargetFinder(ITargetFinder tracker);
 
+    /**
+     * @return our {@link ITargetFinder} instance
+     */
     ITargetFinder getTargetFinder();
 
+    /**
+     * Called each tick of the mob, the default implementation ticks
+     * {@link #timeSinceCombat()} and {@link #updateBattleInfo()}
+     */
     default void onTick()
     {
         this.tickTimeSinceCombat();
@@ -304,16 +403,26 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
                 || this.isType(PokeType.getType("water"));
     }
 
+    /**
+     * @return our {@link DataSync} object used to synchronize values between
+     *         client and server
+     */
     DataSync dataSync();
 
+    /**
+     * @return Whether we float above the ground.
+     */
     default boolean floats()
     {
         return this.getPokedexEntry().floats() && !this.isGrounded();
     }
 
-    // TODO also include effects from external float reasons here
+    /**
+     * @return Whether we can fly.
+     */
     default boolean flys()
     {
+        // TODO also include effects from external float reasons here
         return (this.getPokedexEntry().flys() || this.canUseFly() && this.getEntity().isVehicle())
                 && !this.isGrounded();
     }
@@ -373,6 +482,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     void tickTimeSinceCombat();
 
+    /**
+     * 
+     * @return whether we are in combat.
+     */
     default boolean inCombat()
     {
         return this.timeSinceCombat() > -20;
@@ -386,6 +499,9 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     int getFlavourAmount(int index);
 
+    /**
+     * @return how far above the ground we float, if {@link #floats()} is true.
+     */
     default double getFloatHeight()
     {
         return this.getPokedexEntry().preferedHeight;
@@ -394,20 +510,38 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     /** @return how happy is the pokemob, see {@link HappinessType} */
     int getHappiness();
 
+    /**
+     * @return our held item.
+     */
     default ItemStack getHeldItem()
     {
         if (this.getEntity() == null) return ItemStack.EMPTY;
         return this.getEntity().getMainHandItem();
     }
 
+    /**
+     * @return the location we consider to be "home"
+     */
     BlockPos getHome();
 
+    /**
+     * @return How far we should wander from {@link #getHome()}
+     */
     float getHomeDistance();
 
+    /**
+     * @return the Container holding our inventory
+     */
     Container getInventory();
 
+    /**
+     * @return the length/width/height of our mob.
+     */
     Vector3 getMobSizes();
 
+    /**
+     * @return How fast we should move
+     */
     default double getMovementSpeed()
     {
         final AttributeInstance iattributeinstance = this.getEntity().getAttribute(Attributes.MOVEMENT_SPEED);
@@ -428,6 +562,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         return speed;
     }
 
+    /**
+     * @return All of our loaded AI tasks, this can be used to edit/adjust AI
+     *         for combat, etc.
+     */
     List<IAIRunnable> getTasks();
 
     /**
@@ -454,6 +592,9 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     byte getSexe();
 
+    /**
+     * @return the sound we should play while idle.
+     */
     default SoundEvent getSound()
     {
         return this.getPokedexEntry().getSoundEvent();
@@ -473,13 +614,22 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     short getStatusTimer();
 
+    /**
+     * @return whether we have a valid {@link #getHome()}
+     */
     boolean hasHomeArea();
 
     /** Removes the current status. */
     void healStatus();
 
+    /**
+     * @return whether we are forced to not be able to fly or float.
+     */
     boolean isGrounded();
 
+    /**
+     * @return whether we are presently on the ground.
+     */
     boolean isOnGround();
 
     /**
@@ -501,8 +651,18 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     void setCustomHolder(FormeHolder holder);
 
     @Nullable
+    /**
+     * 
+     * @return the {@link FormeHolder} which we presently have.
+     */
     FormeHolder getCustomHolder();
 
+    /**
+     * Moves us to the player's shoulder.
+     * 
+     * @param player - player to put us on
+     * @return whether we ended up on the shoulder.
+     */
     default boolean moveToShoulder(final Player player)
     {
         if (this.getEntity() instanceof ShoulderRidingEntity mob)
@@ -531,6 +691,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     }
 
+    /**
+     * called when we return to the pokecube
+     * 
+     * @param onDeath - whether this occured on death
+     */
     void onRecall(boolean onDeath);
 
     /** The mob returns to its pokecube. */
@@ -547,14 +712,30 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     /** Called to init the mob after it went out of its pokecube. */
     void onSendOut();
 
+    /**
+     * Loads values from nbt
+     * 
+     * @param tag - the nbt tag to load from.
+     */
     void read(CompoundTag tag);
 
     /** Sets the value obtained by getAttackCooldown() */
     @Override
     void setAttackCooldown(int timer);
 
+    /**
+     * Sets our {@link DataSync} object used to synchronize values between
+     * client and server
+     * 
+     * @param sync
+     */
     void setDataSync(DataSync sync);
 
+    /**
+     * Sets our pitch heading direction.
+     * 
+     * @param pitch
+     */
     void setDirectionPitch(float pitch);
 
     /**
@@ -575,22 +756,41 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     /**
      * Sets the experience.
      *
-     * @param exp
-     * @param notifyLevelUp should be false in an initialize step and true in a
-     *                      true exp earning
+     * @param exp - exp to set
+     * @return The IPokemob after the exp setting, may not be this if we
+     *         evolved.
      */
     default IPokemob setForSpawn(final int exp)
     {
         return this.setForSpawn(exp, true);
     }
 
+    /**
+     * Sets the experience.
+     *
+     * @param exp    - exp to set
+     * @param evolve - whether we should try to evolve if possible.
+     * @return The IPokemob after the exp setting, may not be this if we
+     *         evolved.
+     */
     IPokemob setForSpawn(int exp, boolean evolve);
 
+    /**
+     * Sets our held item stack
+     * 
+     * @param stack - item to hold
+     */
     default void setHeldItem(ItemStack stack)
     {
         this.getInventory().setItem(1, stack);
     }
 
+    /**
+     * Called when held item is changed, allows modifying the stack.
+     * 
+     * @param newStack - stack to hold
+     * @return possibly modified stack to hold
+     */
     default ItemStack onHeldItemChanged(ItemStack newStack)
     {
         return newStack;
@@ -617,6 +817,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     void setSexe(byte sexe);
 
+    /**
+     * Sets if we are a "shiny" pokemob, ie return value of {@link #isShiny()}
+     * 
+     * @param shiny
+     */
     void setShiny(boolean shiny);
 
     /**
@@ -653,8 +858,17 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     boolean isRemoved();
 
+    /**
+     * Called when we are spawning from a SpawnRule
+     * 
+     * @param info - spawn rule which may modify us.
+     * @return this or otherwise modified pokemob
+     */
     IPokemob spawnInit(SpawnRule info);
 
+    /**
+     * @return whether we can swim under water well.
+     */
     default boolean swims()
     {
         return this.getPokedexEntry().swims();
@@ -671,7 +885,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         return this.getPokedexEntry().getRandomHeldItem(mob);
     }
 
-    default void revive()
+    /**
+     * Brings us back from fainted/dead status.
+     * 
+     * @param fullHp - if true, we will recover to full health.
+     */
+    default void revive(boolean fullHp)
     {
         this.setCombatState(CombatStates.FAINTED, false);
         this.setHungerTime(0);
@@ -679,15 +898,27 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         this.healStatus();
         this.healChanges();
         final Mob mob = this.getEntity();
-        mob.setHealth(this.getOwnerId() == null ? this.getStat(Stats.HP, false) : 1);
+        mob.setHealth(fullHp ? this.getStat(Stats.HP, false) : 1);
         mob.hurtTime = 0;
         mob.deathTime = 0;
     }
 
+    /**
+     * Saves our state to NBT
+     * 
+     * @return nbt containing our info.
+     */
     CompoundTag write();
 
+    /**
+     * @return the {@link Battle} we are presently in.
+     */
     public Battle getBattle();
 
+    /**
+     * 
+     * @param battle - the {@link Battle} we are presently in.
+     */
     public void setBattle(Battle battle);
 
     /**
@@ -696,7 +927,16 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     ICopyMob getCopy();
 
+    /**
+     * @return current ServerBossEvent for us, this allows giving server-side
+     *         boss health bars for custom pokemobs.
+     */
     ServerBossEvent getBossInfo();
 
+    /**
+     * Sets the return value of {@link #getBossInfo()}
+     * 
+     * @param event
+     */
     void setBossInfo(ServerBossEvent event);
 }

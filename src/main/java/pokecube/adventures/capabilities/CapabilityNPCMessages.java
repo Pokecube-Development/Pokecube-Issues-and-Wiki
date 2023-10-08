@@ -18,7 +18,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.trainers.IHasMessages;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.entity.trainers.actions.Action;
-import pokecube.api.entity.trainers.actions.ActionContext;
+import pokecube.api.entity.trainers.actions.IAction;
 import pokecube.api.entity.trainers.actions.MessageState;
 import pokecube.core.PokecubeCore;
 import thut.lib.TComponent;
@@ -29,7 +29,7 @@ public class CapabilityNPCMessages
     {
         private final LazyOptional<IHasMessages> holder = LazyOptional.of(() -> this);
         Map<MessageState, String> messages = Maps.newHashMap();
-        Map<MessageState, Action> actions = Maps.newHashMap();
+        Map<MessageState, IAction> actions = Maps.newHashMap();
 
         public DefaultMessager()
         {
@@ -59,15 +59,7 @@ public class CapabilityNPCMessages
         }
 
         @Override
-        public boolean doAction(final MessageState state, final ActionContext context)
-        {
-            final Action action = this.actions.get(state);
-            if (action != null) return action.doAction(context);
-            return false;
-        }
-
-        @Override
-        public Action getAction(final MessageState state)
+        public IAction getAction(final MessageState state)
         {
             return this.actions.get(state);
         }
@@ -106,9 +98,9 @@ public class CapabilityNPCMessages
             {
                 final String message = this.getMessage(state);
                 if (message != null && !message.isEmpty()) messTag.putString(state.name(), message);
-                final Action action = this.getAction(state);
-                if (action != null && !action.getCommand().isEmpty())
-                    actionTag.putString(state.name(), action.getCommand());
+                final IAction action = this.getAction(state);
+                if (action instanceof Action a1 && !a1.getCommand().isEmpty())
+                    actionTag.putString(state.name(), a1.getCommand());
             }
             nbt.put("messages", messTag);
             nbt.put("actions", actionTag);
@@ -116,7 +108,7 @@ public class CapabilityNPCMessages
         }
 
         @Override
-        public void setAction(final MessageState state, final Action action)
+        public void setAction(final MessageState state, final IAction action)
         {
             this.actions.put(state, action);
         }

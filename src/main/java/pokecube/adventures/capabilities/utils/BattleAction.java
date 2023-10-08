@@ -3,15 +3,14 @@ package pokecube.adventures.capabilities.utils;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.trainers.IHasPokemobs;
 import pokecube.api.entity.trainers.TrainerCaps;
-import pokecube.api.entity.trainers.actions.Action;
 import pokecube.api.entity.trainers.actions.ActionContext;
+import pokecube.api.entity.trainers.actions.IAction;
 
-public class BattleAction extends Action
+public class BattleAction implements IAction
 {
 
     public BattleAction()
     {
-        super("");
     }
 
     @Override

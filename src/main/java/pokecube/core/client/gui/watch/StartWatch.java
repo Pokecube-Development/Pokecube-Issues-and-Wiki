@@ -151,8 +151,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
     public void postPageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {}
 
-    @SuppressWarnings("resource")
-	@Override
+    @Override
     public void prePageDraw(final PoseStack mat, final int mouseX, final int mouseY, final float partialTicks)
     {
         if (this.current_page != null) this.current_page.renderBackground(mat);
@@ -258,7 +257,7 @@ public class StartWatch extends PageWithSubPages<PokeStartPage>
 
         //Shiny Button
        this.addRenderableWidget(new TexButton(x - 78, y + 93, 12, 12, TComponent.literal(""), b -> {
-        	if (this.pokemob.getPokedexEntry().hasShiny) {
+           if (this.pokemob.getPokedexEntry().hasShiny && !this.pokemob.getEntity().isAddedToWorld()) {
         		this.pokemob.setShiny(!this.pokemob.isShiny());
         		this.pokemob.onGenesChanged();
         	}

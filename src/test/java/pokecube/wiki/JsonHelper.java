@@ -1,19 +1,14 @@
 package pokecube.wiki;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.Charset;
-import java.nio.file.Path;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
+import org.apache.commons.lang3.NotImplementedException;
+
 import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -22,16 +17,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.fml.loading.FMLPaths;
 import pokecube.api.data.Pokedex;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.core.database.Database;
-import pokecube.core.database.pokedex.PokedexEntryLoader;
-import pokecube.core.database.pokedex.PokedexEntryLoader.XMLPokedexEntry;
-import pokecube.core.database.pokedex.PokemobsDatabases;
-import pokecube.core.database.pokedex.PokemobsJson;
-import pokecube.core.moves.MovesUtils;
 import thut.core.common.ThutCore;
 
 public class JsonHelper
@@ -321,278 +308,279 @@ public class JsonHelper
 
     public static void load(final ResourceLocation location)
     {
-        final List<PokedexEntry> pokedexEntries = Database.getSortedFormes();
-        for (final PokedexEntry entry : pokedexEntries)
-        {
-            JsonHelper.makeTrofers(entry, "pokecube", "trofers");
-            JsonHelper.makeLootTable(entry, "pokecube", "loot_tables/entities");
-            JsonHelper.makePokemobDrops(entry, "pokecube", "loot_tables/drops");
-        }
-
-        final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("json_tests");
-        path.toFile().mkdirs();
-
-        final Map<String, String[][]> tags = Maps.newHashMap();
-
-        tags.put("pokemobs_spawns", new String[][]
-        {
-                { "stats", "spawnRules" } });
-        tags.put("pokemobs_formes", new String[][]
-        {
-            // @formatter:off
-            { "models" },
-            { "male_model" },
-            { "female_model" },
-            { "model" },
-            { "mega" },
-            { "gmax" },
-            { "baseForm" }
-            // @formatter:on
-        });
-        tags.put("pokemobs_drops", new String[][]
-        {
-                { "stats", "lootTable" },
-                { "stats", "heldTable" } });
-        tags.put("pokemobs_moves", new String[][]
-        {
-                { "moves" } });
-
-        tags.put("pokemobs_interacts", new String[][]
-        {
-            // @formatter:off
-            { "dye" },
-            { "stats", "evolutions" },
-            { "stats", "formeItems" } ,
-            { "stats", "foodMat" } ,
-            { "stats", "megaRules" } ,
-            { "stats", "hatedMaterials" } ,
-            { "stats", "activeTimes" } ,
-            { "stats", "prey" } ,
-            { "stats", "interactions" }
-            // @formatter:on
-        });
-        tags.put("pokemobs_offsets", new String[][]
-        {
-                { "ridden_offsets" } });
-
-        PokemobsDatabases.compound.pokemon.forEach(e -> {
-            final PokedexEntry entry = Database.getEntry(e.name);
-            entry.setGMax(entry.isGMax() || e.name.contains("_gigantamax"));
-
-            e.mega = entry.isMega();
-            e.gmax = entry.isGMax();
-
-            if (!e.mega) e.mega = null;
-            if (!e.gmax) e.gmax = null;
-
-            if (entry.isMega() || entry.isGMax() || entry.isGenderForme) e.baseForm = entry.getBaseName();
-        });
-
-        try
-        {
-            final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokemobsDatabases.compound);
-
-            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
-
-            iter.forEachRemaining(e -> {
-                final JsonObject o = e.getAsJsonObject();
-
-                // Cleanup some values if present
-                JsonHelper.cleanEntry(o);
-
-            });
-
-            final String json = PokedexEntryLoader.gson.toJson(obj);
-            final File dir = path.resolve("pokemobs_all" + ".json").toFile();
-            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
-                    Charset.forName("UTF-8").newEncoder());
-            out.write(json);
-            out.close();
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
-
-        JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokemobsDatabases.compound);
-        final PokemobsJson data = PokedexEntryLoader.gson.fromJson(obj, PokemobsJson.class);
-
-        {
-            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
-
-            iter.forEachRemaining(e -> {
-                final JsonObject o = e.getAsJsonObject();
-
-                // Cleanup some values if present
-                JsonHelper.cleanEntry(o);
-
-            });
-        }
-
-        for (final XMLPokedexEntry val : data.pokemon)
-        {
-            if (val.stats == null) continue;
-
-            if (val.stats.spawnRules != null && !val.stats.spawnRules.isEmpty()) val.stats.spawnRules.removeIf(r -> {
-                double rate = 0;
-                // 0 spawn rate rules are done by legends, so lets remove them
-                // from here.
-                if (r.values.containsKey("rate"))
-                {
-                    final String val2 = r.getString("rate");
-                    rate = Float.parseFloat(val2);
-                }
-                return rate <= 0;
-            });
-        }
-
-        obj = PokedexEntryLoader.gson.toJsonTree(data);
-
-        final JsonArray mobs = new JsonArray();
-        final List<PokedexEntry> formes = Database.getSortedFormes();
-        formes.forEach(e -> {
-            mobs.add(e.getTrimmedName());
-            final PokedexEntry male = e.getForGender(IPokemob.MALE);
-            final PokedexEntry female = e.getForGender(IPokemob.FEMALE);
-            if (!formes.contains(male)) mobs.add(male.getTrimmedName());
-            if (!formes.contains(female)) mobs.add(female.getTrimmedName());
-        });
-
-        if (mobs.size() > 0)
-        {
-            final String json = PokedexEntryLoader.gson.toJson(mobs);
-            final File dir = path.resolve("pokemobs_names.py").toFile();
-            try
-            {
-                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
-                        Charset.forName("UTF-8").newEncoder());
-                out.write("pokemobs = ");
-                out.write(json);
-                out.close();
-            }
-            catch (final FileNotFoundException e1)
-            {
-                e1.printStackTrace();
-            }
-            catch (final IOException e1)
-            {
-                e1.printStackTrace();
-            }
-        }
-
-        final JsonArray moves = new JsonArray();
-        MovesUtils.getKnownMoves().forEach(e -> {
-            moves.add(e.name);
-        });
-        if (moves.size() > 0)
-        {
-            final String json = PokedexEntryLoader.gson.toJson(moves);
-            final File dir = path.resolve("moves_names.py").toFile();
-            try
-            {
-                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
-                        Charset.forName("UTF-8").newEncoder());
-                out.write("moves = ");
-                out.write(json);
-                out.close();
-            }
-            catch (final FileNotFoundException e1)
-            {
-                e1.printStackTrace();
-            }
-            catch (final IOException e1)
-            {
-                e1.printStackTrace();
-            }
-        }
-
-        final JsonObject starters = new JsonObject();
-        final JsonObject legends = new JsonObject();
-
-        starters.addProperty("replace", false);
-        legends.addProperty("replace", false);
-
-        starters.add("values", new JsonArray());
-        legends.add("values", new JsonArray());
-
-        for (final PokedexEntry e : Database.getSortedFormes())
-        {
-            if (e.isStarter) starters.getAsJsonArray("values").add(e.getTrimmedName());
-            if (e.isLegendary()) legends.getAsJsonArray("values").add(e.getTrimmedName());
-        }
-
-        if (moves.size() > 0) try
-        {
-            File dir = path.resolve("starters.json").toFile();
-            // String json = PokedexEntryLoader.gson.toJson(starters);
-            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
-                    Charset.forName("UTF-8").newEncoder());
-            // out.write(json);
-            out.close();
-
-            dir = path.resolve("legends.json").toFile();
-            // json = PokedexEntryLoader.gson.toJson(legends);
-            out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8").newEncoder());
-            // out.write(json);
-            out.close();
-
-        }
-        catch (final FileNotFoundException e1)
-        {
-            e1.printStackTrace();
-        }
-        catch (final IOException e1)
-        {
-            e1.printStackTrace();
-        }
-
-        for (final Entry<String, String[][]> entries : tags.entrySet())
-        {
-            final String[][] toMerge = entries.getValue();
-            final String filename = entries.getKey();
-            final JsonObject newDatabase = new JsonObject();
-            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
-            newDatabase.add("pokemon", new JsonArray());
-            try
-            {
-                iter.forEachRemaining(e -> {
-                    final JsonObject o = e.getAsJsonObject();
-
-                    // Cleanup some values if present
-                    JsonHelper.cleanEntry(o);
-
-                    final JsonObject o1 = new JsonObject();
-                    if (!JsonHelper.mergeIn(o, o1, "name")) return;
-                    boolean did = false;
-                    for (final String[] var : toMerge) did = JsonHelper.mergeIn(o, o1, var) || did;
-                    if (did) newDatabase.getAsJsonArray("pokemon").add(o1);
-                });
-                final String json = PokedexEntryLoader.gson.toJson(newDatabase);
-                final File dir = path.resolve(filename + ".json").toFile();
-                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
-                        Charset.forName("UTF-8").newEncoder());
-                out.write(json);
-                out.close();
-            }
-            catch (final Exception e1)
-            {
-                e1.printStackTrace();
-            }
-        }
-
-        try
-        {
-            final String json = PokedexEntryLoader.gson.toJson(obj);
-            final File dir = path.resolve("pokemobs_pokedex" + ".json").toFile();
-            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
-                    Charset.forName("UTF-8").newEncoder());
-            out.write(json);
-            out.close();
-        }
-        catch (final Exception e)
-        {
-            e.printStackTrace();
-        }
+        throw new NotImplementedException("Need to re-implement this!");
+//        final List<PokedexEntry> pokedexEntries = Database.getSortedFormes();
+//        for (final PokedexEntry entry : pokedexEntries)
+//        {
+//            JsonHelper.makeTrofers(entry, "pokecube", "trofers");
+//            JsonHelper.makeLootTable(entry, "pokecube", "loot_tables/entities");
+//            JsonHelper.makePokemobDrops(entry, "pokecube", "loot_tables/drops");
+//        }
+//
+//        final Path path = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("json_tests");
+//        path.toFile().mkdirs();
+//
+//        final Map<String, String[][]> tags = Maps.newHashMap();
+//
+//        tags.put("pokemobs_spawns", new String[][]
+//        {
+//                { "stats", "spawnRules" } });
+//        tags.put("pokemobs_formes", new String[][]
+//        {
+//            // @formatter:off
+//            { "models" },
+//            { "male_model" },
+//            { "female_model" },
+//            { "model" },
+//            { "mega" },
+//            { "gmax" },
+//            { "baseForm" }
+//            // @formatter:on
+//        });
+//        tags.put("pokemobs_drops", new String[][]
+//        {
+//                { "stats", "lootTable" },
+//                { "stats", "heldTable" } });
+//        tags.put("pokemobs_moves", new String[][]
+//        {
+//                { "moves" } });
+//
+//        tags.put("pokemobs_interacts", new String[][]
+//        {
+//            // @formatter:off
+//            { "dye" },
+//            { "stats", "evolutions" },
+//            { "stats", "formeItems" } ,
+//            { "stats", "foodMat" } ,
+//            { "stats", "megaRules" } ,
+//            { "stats", "hatedMaterials" } ,
+//            { "stats", "activeTimes" } ,
+//            { "stats", "prey" } ,
+//            { "stats", "interactions" }
+//            // @formatter:on
+//        });
+//        tags.put("pokemobs_offsets", new String[][]
+//        {
+//                { "ridden_offsets" } });
+//
+//        PokemobsDatabases.compound.pokemon.forEach(e -> {
+//            final PokedexEntry entry = Database.getEntry(e.name);
+//            entry.setGMax(entry.isGMax() || e.name.contains("_gigantamax"));
+//
+//            e.mega = entry.isMega();
+//            e.gmax = entry.isGMax();
+//
+//            if (!e.mega) e.mega = null;
+//            if (!e.gmax) e.gmax = null;
+//
+//            if (entry.isMega() || entry.isGMax() || entry.isGenderForme) e.baseForm = entry.getBaseName();
+//        });
+//
+//        try
+//        {
+//            final JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokemobsDatabases.compound);
+//
+//            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
+//
+//            iter.forEachRemaining(e -> {
+//                final JsonObject o = e.getAsJsonObject();
+//
+//                // Cleanup some values if present
+//                JsonHelper.cleanEntry(o);
+//
+//            });
+//
+//            final String json = PokedexEntryLoader.gson.toJson(obj);
+//            final File dir = path.resolve("pokemobs_all" + ".json").toFile();
+//            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+//                    Charset.forName("UTF-8").newEncoder());
+//            out.write(json);
+//            out.close();
+//        }
+//        catch (final Exception e)
+//        {
+//            e.printStackTrace();
+//        }
+//
+//        JsonElement obj = PokedexEntryLoader.gson.toJsonTree(PokemobsDatabases.compound);
+//        final PokemobsJson data = PokedexEntryLoader.gson.fromJson(obj, PokemobsJson.class);
+//
+//        {
+//            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
+//
+//            iter.forEachRemaining(e -> {
+//                final JsonObject o = e.getAsJsonObject();
+//
+//                // Cleanup some values if present
+//                JsonHelper.cleanEntry(o);
+//
+//            });
+//        }
+//
+//        for (final XMLPokedexEntry val : data.pokemon)
+//        {
+//            if (val.stats == null) continue;
+//
+//            if (val.stats.spawnRules != null && !val.stats.spawnRules.isEmpty()) val.stats.spawnRules.removeIf(r -> {
+//                double rate = 0;
+//                // 0 spawn rate rules are done by legends, so lets remove them
+//                // from here.
+//                if (r.values.containsKey("rate"))
+//                {
+//                    final String val2 = r.getString("rate");
+//                    rate = Float.parseFloat(val2);
+//                }
+//                return rate <= 0;
+//            });
+//        }
+//
+//        obj = PokedexEntryLoader.gson.toJsonTree(data);
+//
+//        final JsonArray mobs = new JsonArray();
+//        final List<PokedexEntry> formes = Database.getSortedFormes();
+//        formes.forEach(e -> {
+//            mobs.add(e.getTrimmedName());
+//            final PokedexEntry male = e.getForGender(IPokemob.MALE);
+//            final PokedexEntry female = e.getForGender(IPokemob.FEMALE);
+//            if (!formes.contains(male)) mobs.add(male.getTrimmedName());
+//            if (!formes.contains(female)) mobs.add(female.getTrimmedName());
+//        });
+//
+//        if (mobs.size() > 0)
+//        {
+//            final String json = PokedexEntryLoader.gson.toJson(mobs);
+//            final File dir = path.resolve("pokemobs_names.py").toFile();
+//            try
+//            {
+//                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+//                        Charset.forName("UTF-8").newEncoder());
+//                out.write("pokemobs = ");
+//                out.write(json);
+//                out.close();
+//            }
+//            catch (final FileNotFoundException e1)
+//            {
+//                e1.printStackTrace();
+//            }
+//            catch (final IOException e1)
+//            {
+//                e1.printStackTrace();
+//            }
+//        }
+//
+//        final JsonArray moves = new JsonArray();
+//        MovesUtils.getKnownMoves().forEach(e -> {
+//            moves.add(e.name);
+//        });
+//        if (moves.size() > 0)
+//        {
+//            final String json = PokedexEntryLoader.gson.toJson(moves);
+//            final File dir = path.resolve("moves_names.py").toFile();
+//            try
+//            {
+//                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+//                        Charset.forName("UTF-8").newEncoder());
+//                out.write("moves = ");
+//                out.write(json);
+//                out.close();
+//            }
+//            catch (final FileNotFoundException e1)
+//            {
+//                e1.printStackTrace();
+//            }
+//            catch (final IOException e1)
+//            {
+//                e1.printStackTrace();
+//            }
+//        }
+//
+//        final JsonObject starters = new JsonObject();
+//        final JsonObject legends = new JsonObject();
+//
+//        starters.addProperty("replace", false);
+//        legends.addProperty("replace", false);
+//
+//        starters.add("values", new JsonArray());
+//        legends.add("values", new JsonArray());
+//
+//        for (final PokedexEntry e : Database.getSortedFormes())
+//        {
+//            if (e.isStarter) starters.getAsJsonArray("values").add(e.getTrimmedName());
+//            if (e.isLegendary()) legends.getAsJsonArray("values").add(e.getTrimmedName());
+//        }
+//
+//        if (moves.size() > 0) try
+//        {
+//            File dir = path.resolve("starters.json").toFile();
+//            // String json = PokedexEntryLoader.gson.toJson(starters);
+//            OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+//                    Charset.forName("UTF-8").newEncoder());
+//            // out.write(json);
+//            out.close();
+//
+//            dir = path.resolve("legends.json").toFile();
+//            // json = PokedexEntryLoader.gson.toJson(legends);
+//            out = new OutputStreamWriter(new FileOutputStream(dir), Charset.forName("UTF-8").newEncoder());
+//            // out.write(json);
+//            out.close();
+//
+//        }
+//        catch (final FileNotFoundException e1)
+//        {
+//            e1.printStackTrace();
+//        }
+//        catch (final IOException e1)
+//        {
+//            e1.printStackTrace();
+//        }
+//
+//        for (final Entry<String, String[][]> entries : tags.entrySet())
+//        {
+//            final String[][] toMerge = entries.getValue();
+//            final String filename = entries.getKey();
+//            final JsonObject newDatabase = new JsonObject();
+//            final Iterator<JsonElement> iter = obj.getAsJsonObject().getAsJsonArray("pokemon").iterator();
+//            newDatabase.add("pokemon", new JsonArray());
+//            try
+//            {
+//                iter.forEachRemaining(e -> {
+//                    final JsonObject o = e.getAsJsonObject();
+//
+//                    // Cleanup some values if present
+//                    JsonHelper.cleanEntry(o);
+//
+//                    final JsonObject o1 = new JsonObject();
+//                    if (!JsonHelper.mergeIn(o, o1, "name")) return;
+//                    boolean did = false;
+//                    for (final String[] var : toMerge) did = JsonHelper.mergeIn(o, o1, var) || did;
+//                    if (did) newDatabase.getAsJsonArray("pokemon").add(o1);
+//                });
+//                final String json = PokedexEntryLoader.gson.toJson(newDatabase);
+//                final File dir = path.resolve(filename + ".json").toFile();
+//                final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+//                        Charset.forName("UTF-8").newEncoder());
+//                out.write(json);
+//                out.close();
+//            }
+//            catch (final Exception e1)
+//            {
+//                e1.printStackTrace();
+//            }
+//        }
+//
+//        try
+//        {
+//            final String json = PokedexEntryLoader.gson.toJson(obj);
+//            final File dir = path.resolve("pokemobs_pokedex" + ".json").toFile();
+//            final OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(dir),
+//                    Charset.forName("UTF-8").newEncoder());
+//            out.write(json);
+//            out.close();
+//        }
+//        catch (final Exception e)
+//        {
+//            e.printStackTrace();
+//        }
 
     }
 }

@@ -218,6 +218,22 @@ public abstract class Mesh
         Vertex normal;
         TextureCoordinate textureCoordinate;
 
+        float du = (float) this.uvShift[0];
+        float dv = (float) this.uvShift[1];
+        float su = 1;
+        float sv = 1;
+
+        if (this.material.getTexture() != null)
+        {
+            float[] ouv = this.material.getTexture().getTexOffset();
+            float[] suv = this.material.getTexture().getTexScale();
+            du += ouv[0];
+            dv += ouv[1];
+
+            su *= suv[0];
+            sv *= suv[1];
+        }
+
         // Loop over this rather than the array directly, so that we can skip by
         // more than 1 if culling.
         for (int i0 = 0; i0 < this.order.length; i0++)
@@ -247,8 +263,9 @@ public abstract class Mesh
             dp.set(x, y, z, 1);
             dp.transform(pos);
 
-            u = textureCoordinate.u + (float) this.uvShift[0];
-            v = textureCoordinate.v + (float) this.uvShift[1];
+            // This results in u * su + du
+            u = Math.fma(textureCoordinate.u, su, du);
+            v = Math.fma(textureCoordinate.v, sv, dv);
 
             // We use the default mob format, since that is what mobs use.
             // This means we need these in this order!

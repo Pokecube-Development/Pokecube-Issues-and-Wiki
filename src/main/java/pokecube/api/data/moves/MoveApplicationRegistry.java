@@ -134,17 +134,9 @@ public class MoveApplicationRegistry
 
     public static void apply(MoveApplication moveApplication)
     {
-        String name = moveApplication.getName();
         // Initialise things which may have been changed via addons, etc. This
         // step now runs it incase changes were needed for different targets.
-        if (MOVE_MODIFIERS.containsKey(name))
-        {
-            MOVE_MODIFIERS.get(name).accept(moveApplication);
-        }
-        if (EFFECT_REGISTRY.containsKey(name))
-        {
-            moveApplication.applyOngoing = EFFECT_REGISTRY.get(name);
-        }
+        preApply(moveApplication);
 
         // TODO hit rate checker in MoveApplication
         int hits = moveApplication.getMove().root_entry._max_hits;

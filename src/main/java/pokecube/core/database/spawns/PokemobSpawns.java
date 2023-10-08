@@ -54,7 +54,7 @@ public class PokemobSpawns extends ResourceData
         public int level = -1;
         public String variance;
         public String variant = "";
-        
+
         @Override
         public String toString()
         {
@@ -111,7 +111,7 @@ public class PokemobSpawns extends ResourceData
                 rule = SpawnPresets.PRESETS.get(preset);
                 if (rule != null) rule = rule.copy();
 
-                if (presets.length > 1)
+                if (presets.length > 0)
                 {
                     // In this case, we merge all of the other rules in via
                     // ANDPRESETS
@@ -129,7 +129,7 @@ public class PokemobSpawns extends ResourceData
                     rule = SpawnPresets.PRESETS.get(preset);
                     if (rule != null) rule = rule.copy();
 
-                    if (presets.length > 1)
+                    if (presets.length > 0)
                     {
                         // In this case, we merge all of the other rules in via
                         // ORPRESETS
@@ -226,7 +226,7 @@ public class PokemobSpawns extends ResourceData
                 final List<SpawnEntry> conds = m.rules;
                 for (final SpawnEntry rule : conds)
                 {
-                    if (rule.and_preset == null && rule.or_preset == null)
+                    if (rule.and_preset == null && rule.or_preset == null && rule.not_preset == null)
                     {
                         PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.entries);
                         continue;

@@ -78,15 +78,15 @@ public class ProgressPage extends PageWithSubPages<Progress>
 
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
-        GuiComponent.drawCenteredString(mat, this.font, player.getDisplayName().getString(), x + 135, y + 36, colour);
+        var title = player.getDisplayName();
+        this.font.draw(mat, title, x + 135 - this.font.width(title) / 2, y + 36, colour);
     }
 
     @Override
     public void onPageOpened()
     {
         super.onPageOpened();
-        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected()
-                .getCode());
+        PacketPokedex.sendInspectPacket(false, Minecraft.getInstance().getLanguageManager().getSelected().getCode());
     }
 
     @Override
@@ -96,12 +96,10 @@ public class ProgressPage extends PageWithSubPages<Progress>
         final int y = this.watch.height / 2 - 5;
         final Component next = TComponent.literal(">");
         final Component prev = TComponent.literal("<");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 90, y - 70, 12, 12, next, b ->
-        {
+        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 90, y - 70, 12, 12, next, b -> {
             this.changePage(this.index + 1);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 90, y - 70, 12, 12, prev, b ->
-        {
+        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 90, y - 70, 12, 12, prev, b -> {
             this.changePage(this.index - 1);
         }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(200, 0, 12, 12)));
 
