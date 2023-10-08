@@ -269,6 +269,9 @@ public class Battle
         final boolean bIs1 = this.side1.containsKey(mobB.getUUID());
         final boolean bIs2 = this.side2.containsKey(mobB.getUUID());
 
+        // Already in the battle, so skip.
+        if ((aIs1 || aIs2) && (bIs1 || bIs2)) return;
+
         if (aIs1 || bIs2)
         {
             if (aIs1) this.addToSide(this.side2, this.teams2, mobB, teamB, mobA);

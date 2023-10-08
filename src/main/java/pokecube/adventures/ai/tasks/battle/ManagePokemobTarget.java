@@ -27,26 +27,16 @@ public class ManagePokemobTarget extends BaseBattleTask
         if (other != null) other.onSetTarget(this.entity, true);
 
         final IPokemob mob = this.trainer.getOutMob();
-        
+
         if (mob == null || this.target == null) return;
         LivingEntity ourMob = mob.getEntity();
 
         Battle ourBattle = Battle.getBattle(owner);
+        Battle battle = mob.getBattle();
+        // Ensure we are still in battle with the target.
         if (ourBattle == null)
         {
-            Battle.createOrAddToBattle(owner, target);
-            ourBattle = Battle.getBattle(owner);
-        }
-
-        Battle battle = mob.getBattle();
-        if (battle != ourBattle)
-        {
-            if (battle != null && ourBattle != null)
-            {
-                battle.removeFromBattle(ourMob);
-                ourBattle.addToBattle(ourMob, target);
-                battle = ourBattle;
-            }
+            if (Battle.createOrAddToBattle(owner, target)) ourBattle = Battle.getBattle(owner);
         }
 
         if (battle != null)
@@ -70,7 +60,7 @@ public class ManagePokemobTarget extends BaseBattleTask
             }
         }
     }
-    
+
     @Override
     protected boolean canStillUse(final ServerLevel worldIn, final LivingEntity entityIn, final long gameTimeIn)
     {

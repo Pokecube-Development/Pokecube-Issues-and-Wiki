@@ -522,15 +522,24 @@ public class TrainerEventHandler
                 if (canTrade) state = MessageState.INTERACT;
             }
             final int timer = player.tickCount;
-            if (player.getPersistentData().getInt("__msg_sent_last_") != timer)
-                messages.sendMessage(state, player, target.getDisplayName(), player.getDisplayName());
-            player.getPersistentData().putInt("__msg_sent_last_", timer);
-            if (messages.doAction(state,
-                    pokemobs.setLatestContext(new ActionContext(player, living, evt.getItemStack()))))
+            if (player.getPersistentData().getInt("__msg_sent_last_") == timer)
             {
                 evt.setCanceled(true);
                 evt.setCancellationResult(succeed);
             }
+            else
+            {
+                if (player.getPersistentData().getInt("__msg_sent_last_") != timer)
+                    messages.sendMessage(state, player, target.getDisplayName(), player.getDisplayName());
+                player.getPersistentData().putInt("__msg_sent_last_", timer);
+                if (messages.doAction(state,
+                        pokemobs.setLatestContext(new ActionContext(player, living, evt.getItemStack()))))
+                {
+                    evt.setCanceled(true);
+                    evt.setCancellationResult(succeed);
+                }
+            }
+
         }
     }
 
@@ -622,7 +631,8 @@ public class TrainerEventHandler
                 IPokemob targetMob = PokemobCaps.getPokemobFor(recalled.getMoveStats().targetEnemy);
                 if (targetMob != null)
                 {
-                    // If we have a new pokemob to send out, add an attack cooldown for the pokemob.
+                    // If we have a new pokemob to send out, add an attack
+                    // cooldown for the pokemob.
                     if (!pokemobHolder.getNextPokemob().isEmpty())
                     {
                         targetMob.setAttackCooldown(PokecubeAdv.config.trainerSendOutDelay);
@@ -651,8 +661,15 @@ public class TrainerEventHandler
     {
         final IPokemob sent = evt.pokemob;
         final LivingEntity owner = sent.getOwner();
-        if (owner == null || owner instanceof Player) return;
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(owner);
+        if (owner == null || owner instanceof Player)
+        {
+            if (pokemobHolder != null)
+            {
+                pokemobHolder.setOutMob(evt.pokemob);
+            }
+            return;
+        }
         if (pokemobHolder != null)
         {
             if (pokemobHolder.getOutMob() != null && pokemobHolder.getOutMob() != evt.pokemob)
