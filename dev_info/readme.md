@@ -11,7 +11,7 @@ These files are general descriptions of the code/data structures used in Pokecub
     -   [npc AI](npcs.md#trainer-combat-ai)
     -   npc data
 -   [Pokecubes](pokecubes.md) - information about pokecubes and capturing
-    -   [registering pokecubes](pokecube.md#registering-pokecubes)
+    -   [registering pokecubes](pokecubes.md#registering-pokecubes)
     -   [capture behaviour](pokecubes.md#capturing-pokemobs)
     -   [sending out behaviour](pokecubes.md#sending-out-pokemobs)
     -   [Loot cubes](pokecubes.md#loot-pokecubes)
