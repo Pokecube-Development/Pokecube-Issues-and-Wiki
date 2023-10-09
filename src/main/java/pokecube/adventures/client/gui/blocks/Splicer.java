@@ -18,7 +18,7 @@ import thut.lib.TComponent;
 
 public class Splicer extends AbstractContainerScreen<SplicerContainer>
 {
-    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "icons/warning_icon.png");
     Button warningButton;
 
     public Splicer(final SplicerContainer screenContainer, final Inventory inv, final Component titleIn)
@@ -43,7 +43,7 @@ public class Splicer extends AbstractContainerScreen<SplicerContainer>
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/splicer.png"), x + 79, y + 35, 176, 0, l1 + 1, 16);
 
         // Warning Button
-        graphics.blit(WIDGETS_GUI, x + 155, y + 4, 50, 190, 17, 17);
+        graphics.blit(WIDGETS_GUI, x + 155, y + 4, 8, 8, 17, 17);
     }
 
     @Override

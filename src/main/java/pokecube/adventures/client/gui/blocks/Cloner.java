@@ -14,11 +14,10 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.cloner.ClonerContainer;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class Cloner extends AbstractContainerScreen<ClonerContainer>
 {
-    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "icons/warning_icon.png");
     Button warningButton;
 
     public Cloner(final ClonerContainer screenContainer, final Inventory inv, final Component titleIn)
@@ -44,7 +43,7 @@ public class Cloner extends AbstractContainerScreen<ClonerContainer>
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/cloner.png"), x + 90, y + 34, 176, 0, l1 + 1, 16);
 
         // Warning Button
-        graphics.blit(WIDGETS_GUI, x + 155, y + 4, 50, 190, 17, 17);
+        graphics.blit(WIDGETS_GUI, x + 155, y + 4, 8, 8, 17, 17);
     }
 
     @Override
