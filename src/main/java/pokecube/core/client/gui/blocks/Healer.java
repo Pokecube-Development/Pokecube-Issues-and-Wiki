@@ -4,11 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import pokecube.core.PokecubeCore;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.init.Sounds;
 import pokecube.core.inventory.healer.HealerContainer;
 import pokecube.core.network.packets.PacketHeal;
@@ -17,6 +20,8 @@ import thut.lib.TComponent;
 
 public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T>
 {
+    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/heal_button.png");
+    Button healButton;
     Inventory inventory;
 
     public Healer(final T container, final Inventory ivplay, final Component name)
@@ -31,10 +36,16 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         RenderSystem.setShaderTexture(0, Resources.GUI_HEAL_TABLE);
-        // bind texture
-        final int j2 = (this.width - this.imageWidth) / 2;
-        final int k2 = (this.height - this.imageHeight) / 2;
-        graphics.blit(Resources.GUI_HEAL_TABLE, j2, k2, 0, 0, this.imageWidth, this.imageHeight);
+
+        // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
+        graphics.blit(Resources.GUI_HEAL_TABLE, x, y, 0, 0, this.imageWidth, this.imageHeight);
+
+        // Heal Button
+        if (this.healButton.isHoveredOrFocused())
+            graphics.blit(WIDGETS_GUI, x + 155, y + 4, 7, 39, 18, 18);
+        else graphics.blit(WIDGETS_GUI, x + 155, y + 4, 7, 7, 18, 18);
     }
 
     @Override
@@ -50,13 +61,18 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     public void init()
     {
         super.init();
-        final Component heal = TComponent.translatable("block.pokecenter.heal");
+        final int x = (this.width - this.imageWidth) / 2;
+        final int y = (this.height - this.imageHeight) / 2;
 
-        this.addRenderableWidget(new Button.Builder(heal, (b) -> {
+        final Component heal = Component.translatable("block.pokecenter.heal");
+        this.healButton = this.addRenderableWidget(new Button.Builder(heal, (b) -> {
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
             this.inventory.player.playSound(Sounds.HEAL_SOUND.get(), 1, 1);
-        }).bounds(this.width / 2 - 81, this.height / 2 - 50, 54, 20).build());
+        }).bounds(x + 43, y + 34, 18, 18)
+                .tooltip(Tooltip.create(Component.translatable("block.pokecenter.heal.tooltip")))
+                .createNarration(supplier -> Component.translatable("block.pokecenter.heal.narrate")).build());
+        this.healButton.setAlpha(0);
     }
 
     @Override

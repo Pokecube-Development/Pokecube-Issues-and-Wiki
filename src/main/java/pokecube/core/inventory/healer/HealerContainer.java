@@ -30,7 +30,7 @@ public class HealerContainer extends BaseContainer implements IHealer
         this.pos = pos;
         int index = 0;
         for (int i = 0; i < 3; ++i)
-            for (int j = 0; j < 2; ++j) this.addSlot(new Slot(this.inv, index++, 116 + j * 18, 17 + i * 18)
+            for (int j = 0; j < 2; ++j) this.addSlot(new Slot(this.inv, index++, 71 + j * 18, 17 + i * 18)
             {
                 @Override
                 public boolean mayPlace(final ItemStack stack)

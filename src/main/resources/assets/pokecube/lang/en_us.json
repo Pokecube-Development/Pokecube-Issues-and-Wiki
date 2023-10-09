@@ -504,7 +504,9 @@
     "_comment": "Blocks",
 
     "block.pokecube.pokecenter": "Pokécenter",
-    "block.pokecenter.heal": "Heal",
+    "block.pokecenter.heal": "",
+    "block.pokecenter.heal.tooltip": "Heal",
+    "block.pokecenter.heal.narrate": "Heal Pokémobs",
     "block.pokecube.nest": "Nest",
     "block.pokecube.dynamax": "Dynamax Power Spot",
     "block.pokecube.secret_base": "Secret Base Entrance",
