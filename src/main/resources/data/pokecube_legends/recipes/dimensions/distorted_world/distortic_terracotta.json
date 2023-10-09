@@ -3,7 +3,7 @@
   "blockId": "pokecube_legends:distortic_mirror",
   "dimId": "pokecube_legends:distorted_world",
   "input": {
-    "item": "minecraft:terracotta"
+    "tag": "minecraft:terracotta"
   },
   "output": {
     "item": "pokecube_legends:distortic_terracotta"
