@@ -36,6 +36,7 @@ public class Extractor extends AbstractContainerScreen<ExtractorContainer>
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         // TODO: Fix - Draw the progress bar.
+        // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
         final int i = this.menu.tile.progress;
         final int j = this.menu.tile.total;
