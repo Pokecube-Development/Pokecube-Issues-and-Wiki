@@ -65,8 +65,9 @@
     "block.pokecube_adventures.laboratory_glass_pane": "Laboratory Glass Pane",
     "block.pokecube_adventures.statue": "Pokedoll",
     
-    "gui.pokecube_adventures.cloner.warning_0": "WARNING!",
-    "gui.pokecube_adventures.cloner.warning_1": "Read Manual Before Use!",
+    "gui.pokecube_adventures.cloner.warning_0": "§cWARNING!\n§7Read manual before use!",
+    "gui.pokecube_adventures.cloner.warning_1": "§7Read manual before use!",
+    "gui.pokecube_adventures.cloner.warning_0.narrate": "WARNING! Read manual before use!",
 
 
     "_comment": "Named NPCs",
