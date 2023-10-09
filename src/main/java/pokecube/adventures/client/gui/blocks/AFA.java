@@ -2,23 +2,33 @@ package pokecube.adventures.client.gui.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import java.util.List;
 import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.CyclingSlotBackground;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.afa.AfaContainer;
 import pokecube.adventures.network.PacketAFA;
+import pokecube.core.impl.PokecubeMod;
+import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
 public class AFA extends AbstractContainerScreen<AfaContainer>
 {
+    private static final ResourceLocation CUBE_ICON_SLOT = Resources.SLOT_ICON_CUBE;
+    private static final ResourceLocation SHINY_ICON_SLOT =
+            new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_ICON_FOLDER + "slot_shiny_charm");
+    private static final List<ResourceLocation> ICON_SLOTS = List.of(CUBE_ICON_SLOT, SHINY_ICON_SLOT);
+    private final CyclingSlotBackground slotIcons = new CyclingSlotBackground(0);
 
     public AFA(final AfaContainer screenContainer, final Inventory inv, final Component titleIn)
     {
@@ -26,16 +36,23 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     }
 
     @Override
+    protected void containerTick() {
+        super.containerTick();
+        this.slotIcons.tick(ICON_SLOTS);
+    }
+
+    @Override
     protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID,
-                "textures/gui/afa.png"));
+        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/afa.png"));
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
-        // TODO: Check this
-        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/afa.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(new ResourceLocation(PokecubeAdv.MODID,
+                "textures/gui/afa.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
+
+        this.slotIcons.render(this.menu, graphics, partialTicks, x, y);
     }
 
     @Override

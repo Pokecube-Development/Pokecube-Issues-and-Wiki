@@ -14,7 +14,6 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.adventures.blocks.genetics.splicer.SplicerContainer;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.utils.Resources;
-import thut.lib.TComponent;
 
 public class Splicer extends AbstractContainerScreen<SplicerContainer>
 {
