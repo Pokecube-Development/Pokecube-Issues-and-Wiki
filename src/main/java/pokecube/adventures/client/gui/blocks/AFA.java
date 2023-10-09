@@ -2,6 +2,7 @@ package pokecube.adventures.client.gui.blocks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
+import java.util.Optional;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
@@ -66,6 +67,7 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
     {
         this.renderBackground(graphics);
         super.render(graphics, mouseX, mouseY, partialTicks);
+        this.renderOnboardingTooltips(graphics, mouseX, mouseY);
         this.renderTooltip(graphics, mouseX, mouseY);
     }
 
@@ -97,4 +99,21 @@ public class AFA extends AbstractContainerScreen<AfaContainer>
                 .createNarration(supplier -> Component.translatable("block.ability_field_amplifier.next.narrate")).build());
     }
 
+
+    private void renderOnboardingTooltips(GuiGraphics graphics, int mouseX, int mouseY) {
+        Optional<Component> optional = Optional.empty();
+
+        if (this.hoveredSlot != null) {
+            ItemStack stack = this.menu.getSlot(0).getItem();
+            if (stack.isEmpty()) {
+                if (this.hoveredSlot.index == 0) {
+                    optional = Optional.of(Component.translatable("block.ability_field_amplifier.slot_tooltip"));
+                }
+            }
+        }
+
+        optional.ifPresent((component) -> {
+            graphics.renderTooltip(this.font, this.font.split(component, 115), mouseX, mouseY);
+        });
+    }
 }

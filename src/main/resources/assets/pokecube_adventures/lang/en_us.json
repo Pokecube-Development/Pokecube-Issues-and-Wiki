@@ -1,5 +1,5 @@
 {
-    "_comment": "Pokecube Adventures translation",
+    "_comment": "Pokécube Adventures translation",
 
     "itemGroup.pokecube_adventures.badges": "Adventures: Badges",
 
@@ -12,6 +12,7 @@
     "block.ability_field_amplifier.next.narrate": "Next",
     "block.ability_field_amplifier.previous": "<",
     "block.ability_field_amplifier.previous.narrate": "Previous",
+    "block.ability_field_amplifier.slot_tooltip": "Add PokéCube or Shiny Charm",
 
     "item.pokecube_adventures.target": "Target",
     "item.pokecube_adventures.linker": "Location Linker",
