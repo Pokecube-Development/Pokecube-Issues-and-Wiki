@@ -4,6 +4,8 @@ Pokecubes are the items used to capture Pokemobs. They are primarily governed by
 [IPokecube](../src/main/java/pokecube/api/items/IPokecube.java)
 [IPokecube](../src/main/java/pokecube/api/items/IPokecube.java)s are used to determine capture rates, as well as to provide the functions needed to throw pokecubes at things.
 
+## Registering Pokecubes
+
 By default, the capture rates are defined by registering `PokecubeBehaviour` for the pokecube, these are stored in a map that uses a `ResourceLocation` as the key, and are registered during the `RegisterPokecubes` event, which is fired on the `PokecubeAPI.POKEMOB_BUS`.
 
 The `PokecubeBehaviour` provides the standard capture modifier (1, 1.5, 2 for example for poke, great, ultra), as well as additional modifications post/pre capture. The default implementations are set in `PokecubeMobs::registerPokecubes`, and should provide examples for using all of the functions.
