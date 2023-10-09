@@ -69,9 +69,9 @@ These are presently as follows:
 
 ## Combat Structure
 
-Combat consists of a `Battle`, where there are 2 lists of `LivingEntity` which are listed as on opposing teams. A `Battle` ends when one of the teams is empty.
+Combat consists of a [Battle](../src/main/java/pokecube/api/moves/Battle.java), where there are 2 lists of `LivingEntity` which are listed as on opposing teams. A [Battle](../src/main/java/pokecube/api/moves/Battle.java) ends when one of the teams is empty.
 
-The `PokemobMoveStats` for the [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) contains a tracker for both the current enemy `LivingEntity`, and the index of the `LivingEntity` in the list in the `Battle`. The owner of the [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) can change the target by setting that index.
+The `PokemobMoveStats` for the [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) contains a tracker for both the current enemy `LivingEntity`, and the index of the `LivingEntity` in the list in the [Battle](../src/main/java/pokecube/api/moves/Battle.java). The owner of the [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) can change the target by setting that index.
 
 Once a [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) has a target, it is up to the `COMBAT` AI tasks to deal with what to do, and that is where the actual combat is done. The default behaviour is as follows:
 
@@ -93,7 +93,7 @@ A move gets excuted normally via the `IHasMoves.executeMove` method, which takes
   - Otherwise if the pokemob has flinched, is confused, or is infatuated, that is then checked next, and if the negative condition occurs, we exit here
 4. Finally `MovesUtils.useMove` is called to generate and start application of the move.
 
-In `MovesUtils.useMove` a `MoveApplication` is made for the attack, and it is applied to targets based on the result of testing targets via `MoveApplicationRegistry.getValidator`. The targets are selected either from the active `Battle` that the pokemob is in, or from just the target location and given user (for cases of out of combat move use). Before queueing the attack for application, a `MoveUse.ActualMoveUse.Init` event is fired on the `PokecubeAPI.MOVE_BUS`, and if it is cancelled, the attack will not be queued.
+In `MovesUtils.useMove` a `MoveApplication` is made for the attack, and it is applied to targets based on the result of testing targets via `MoveApplicationRegistry.getValidator`. The targets are selected either from the active [Battle](../src/main/java/pokecube/api/moves/Battle.java) that the pokemob is in, or from just the target location and given user (for cases of out of combat move use). Before queueing the attack for application, a `MoveUse.ActualMoveUse.Init` event is fired on the `PokecubeAPI.MOVE_BUS`, and if it is cancelled, the attack will not be queued.
 
 Queueing of the move consists of constructing a `EntityMoveUse`, and marking it as ready to start applying next tick. Here is also where the `CombatStates.USEDZMOVE` for the mob is recorded if nessisary. The queued moves get executed the next tick, and are sorted by priority there (including checks to `VIT` stat), this however is not generally relevant. The `EntityMoveUse` is then added to the level, and the move's hunger cost is applied to the pokemob, and a message about the move use is sent to those involved.
 
@@ -204,8 +204,8 @@ Abilities are implemented via classes which extend the `Ability` class, they wil
 
 Abilities have the following methods:
 
-- `startCombat` - called when a pokemob is added to a `Battle`
-- `endCombat` - called when the pokemob is removed from the `Battle`
+- `startCombat` - called when a pokemob is added to a [Battle](../src/main/java/pokecube/api/moves/Battle.java)
+- `endCombat` - called when the pokemob is removed from the [Battle](../src/main/java/pokecube/api/moves/Battle.java)
 - `beforeDamage` - called from the `DamageApplier.applyDamage` to possibly modify damage dealt
 - `canChange` - Ability dependant check for mega evolution
 - `onAgress` - called when combat target is set
