@@ -2,14 +2,19 @@ These files are general descriptions of the code/data structures used in Pokecub
 
 # Index
 
--   [pokemobs](pokemobs.md) - information about the pokemobs system
+-   [Pokemobs](pokemobs.md) - information about the pokemobs system
     -   pokemob AI
     -   pokemob combat 
--   [npcs](npcs.md) - information about interactable NPCs and Trainers
+    -   pokemob abilities
+-   [NPCs](npcs.md) - information about interactable NPCs and Trainers
     -   npc AI
     -   npc settings
--   [pokecubes](pokecubes.md) - information about pokecubes and capturing
+-   [Pokecubes](pokecubes.md) - information about pokecubes and capturing
     -   registering pokecubes
     -   capture behaviour
     -   sending out behaviour
     -   Loot cubes
+-   [Tags](custom_tags.md) - info about various custom tags
+    -   Moves tags
+    -   Ability tags
+    -   Pokemob tags
