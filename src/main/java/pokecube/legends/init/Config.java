@@ -65,7 +65,7 @@ public class Config extends ConfigData
     public int ticksPortalDespawn = 1200;
 
     // Ultra Space
-    @Configure(category = "ultraspace", comment = "Requires the Ultra key to consume Cosmic Dust. [Default: true]")
+    @Configure(category = "ultraspace", comment = "Requires the Ultra Key to consume Cosmic Dust. [Default: true]")
     public boolean ultraKeyRequireFuel = true;
     @Configure(category = "ultraspace", comment = "Amount of Cosmic Dust for the Ultra Key to consume. [Default: 5]")
     public int ultraKeyRequiredFuelAmount = 5;

@@ -41,11 +41,13 @@ public class UltraKey extends ItemBase
     public void appendHoverText(final ItemStack stack, final Level worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {
-        String message;
-        if (Screen.hasShiftDown()) message = I18n.get("legends." + this.tooltip_id + ".tooltip",
-                ChatFormatting.LIGHT_PURPLE, PokecubeLegends.config.ultraKeyRequiredFuelAmount);
-        else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+        if (Screen.hasShiftDown())
+        {
+            tooltip.add(TComponent.translatable("legends." + this.tooltip_id + ".tooltip"));
+            tooltip.add(TComponent.translatable(I18n.get("legends." + this.tooltip_id + ".tooltip.line1",
+                    PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.LIGHT_PURPLE, ChatFormatting.BOLD)));
+        }
+        else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     @Override
@@ -94,7 +96,7 @@ public class UltraKey extends ItemBase
 
         if (entity instanceof Player player
                 && player.getInventory()
-                    .countItem(ItemInit.COSMIC_DUST.get()) >= PokecubeLegends.config.ultraKeyRequiredFuelAmount
+                .countItem(ItemInit.COSMIC_DUST.get()) >= PokecubeLegends.config.ultraKeyRequiredFuelAmount
                 || (entity instanceof Player playerC && playerC.isCreative()))
         {
             if (dimension == Level.OVERWORLD)
@@ -130,8 +132,8 @@ public class UltraKey extends ItemBase
                 .countItem(ItemInit.COSMIC_DUST.get()) < PokecubeLegends.config.ultraKeyRequiredFuelAmount
                 && !player.isCreative())
         {
-            final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust", ChatFormatting.RED,
-                    PokecubeLegends.config.ultraKeyRequiredFuelAmount);
+            final String message = I18n.get("msg.pokecube_legends.ultrakey.no_dust",
+                    PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.RED, ChatFormatting.BOLD);
             player.displayClientMessage(TComponent.translatable(message), true);
 
             teleportFailEffects(entity, world, ParticleTypes.WAX_ON, SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);

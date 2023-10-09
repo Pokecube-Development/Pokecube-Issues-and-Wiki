@@ -125,25 +125,35 @@ Applying the move effects is done as follows for each `LivingEntity` found durin
 
 `MoveApplicationRegistry.apply` initialises the `MoveApplication` for use via `MoveApplicationRegistry.preApply`, where registered `MOVE_MODIFIERS` are applied to the move, and the `EFFECT_REGISTRY` is used to check of the move should have lasting effects. Next `MoveApplication.preApply()` is called once to reset counters, and `MoveApplication.apply()` is called for each time the move is expected to hit.
 
+### World Actions
+
+Some moves have effects which occur during `MoveEntry.doWorldAction`, which works as follows:
+
+1. `MoveWorldAction.PreAction` is fired on `PokecubeAPI.MOVE_BUS`, if cancelled, exit
+2. `MoveWorldAction.OnAction` is fired on `PokecubeAPI.MOVE_BUS`
+3. `MoveWorldAction.PostAction` is fired on `PokecubeAPI.MOVE_BUS`
+
+The default actions are applied during a low priority event listener in step 2.
+
 ### Final Move Application
 
 `MoveApplication.apply()` does the following:
 
-1.  Fires the `DuringUse.Pre` event on the `PokecubeAPI.MOVE_BUS`, if cancelled, exits.
-2.  Checks if the `MoveApplication` is `cancelled` or `failed`.
+1. Fires the `DuringUse.Pre` event on the `PokecubeAPI.MOVE_BUS`, if cancelled, exits.
+2. Checks if the `MoveApplication` is `cancelled` or `failed`.
   - If not failed, checks the `PreApplyTests` for the `MoveApplication`
   - If either of these failed, or there is no target for the move:
     1. Send messages to those involved in the battle
     2. Play sounds if we got here only because of no target
     3. Call our `OnMoveFail.onMoveFail`
     4. Fires a `DuringUse.Post` event on the `PokecubeAPI.MOVE_BUS` then exits
-3.  Plays the move sounds if present
-4.  Checks if we should `infatuate`, if so and the target is the pokemob, apply the infatuation
-5.  Constructs a `MoveApplication.Damage` via call to our `DamageApplier.applyDamage`
-6.  If the `efficiency` for the `Damage` is <= 0 skip to step applying `PostMoveUse`
-7.  Apply stats effects/checks via `StatApplier.applyStats`
-8.  Apply status effects/checks via `StatusApplier.applyStatus`
-9.  Apply recoil via `RecoilApplier.applyRecoil`
+3. Plays the move sounds if present
+4. Checks if we should `infatuate`, if so and the target is the pokemob, apply the infatuation
+5. Constructs a `MoveApplication.Damage` via call to our `DamageApplier.applyDamage`
+6. If the `efficiency` for the `Damage` is <= 0 skip to step applying `PostMoveUse`
+7. Apply stats effects/checks via `StatApplier.applyStats`
+8. Apply status effects/checks via `StatusApplier.applyStatus`
+9. Apply recoil via `RecoilApplier.applyRecoil`
 10. Apply healing via `HealProvider.applyHealing`
 11. Apply ongoing effects if present via `OngoingApplier.applyOngoingEffects`
 12. Apply `PostMoveUse.applyPostMove`
@@ -163,3 +173,44 @@ The various appliers mentioned above do the following for their default behaviou
 - `OnMoveFail` - no default actions
 
 These appliers can by replaced by registering appropriate classes in `pokecube.mobs.moves.attacks` and including a `@MoveProvider` annotation to declare which move it applies to. These will then replace the default appliers in the `MoveApplicationRegistry.preApply` step above. There is some default parsing which occurs from loading in `pokecube.api.data.moves.Moves` objects from json files, which attempts to generate appropriate effects for most moves, but for now custom logic needs to be implemented manually.
+
+### Default Event Results
+
+The `DuringUse.Post`, `DuringUse.Pre` and `MoveWorldAction.OnAction` events have `LOWEST` priority event handlers to do further processing. If they are cancelled before, they will not gety to the default processing.
+
+- `DuringUse.Post`
+  1. ticks held items after move use
+  2. calls `postMoveUse` for abilities of involved pokemobs
+
+- `DuringUse.Pre`
+  1. ticks held items before move use
+  2. Checks for `substitute` effects and fails the move accordingly
+  3. second step of held item use checks
+  4. Check for false-swipe
+  5. Check for block moves (like protect) via the `block-move` moves tag
+  6. Check for un-blockable moves via the `no-block-move` moves tag
+  7. Decrement counter for using block moves
+
+- `MoveWorldAction.OnAction`
+  1. Looks up the move actions for the given attack.
+  2. if no move actions, checks if it should have defaults applied for water, ice, electric or fire types
+  3. if permissions are enabled, checks if owner has permission to use the action
+  4. If in combat, applies `IMoveWorldEffect.applyInCombat`, otherwise apply `IMoveWorldEffect.applyOutOfCombat`
+
+
+## Abilities and their effects
+
+Abilities are implemented via classes which extend the `Ability` class, they will be automatically loaded in from classes defined in `pokecube.mobs.abilities`, and annotated with `@AbilityProvider`. Addons can register other places to load from as done in `pokecube.mobs.abilities.AbilityRegister::init`
+
+Abilities have the following methods:
+
+- `startCombat` - called when a pokemob is added to a `Battle`
+- `endCombat` - called when the pokemob is removed from the `Battle`
+- `beforeDamage` - called from the `DamageApplier.applyDamage` to possibly modify damage dealt
+- `canChange` - Ability dependant check for mega evolution
+- `onAgress` - called when combat target is set
+- `preMoveUse` - called during an event handler for `DuringUse.Pre` events
+- `postMoveUse` - called during an event handler for `DuringUse.Post` events
+- `onUpdate` - called each tick by `LogicMovesUpdates` 
+- `onRecall` - called when we recall to a pokecube, either via death or command
+- `destroy` - cleanup of ability for when mob is removed, only needed for abilities which register event listeners (like `Damp`)

@@ -1069,7 +1069,7 @@
     "item.pokecube_legends.rainbow_sword": "Rainbow Sword",
     "item.pokecube_legends.wishing_piece": "Wishing Piece",
     "item.pokecube_legends.gigantic_shard": "Gigant Shard",
-    "item.pokecube_legends.giratina_mirror": "Distortic Mirror",
+    "item.pokecube_legends.giratina_mirror": "Giratina Mirror Portal",
     "item.pokecube_legends.ultrakey": "Ultra Dimensional Key",
 
     "_comment33": "Misc Blocks",
@@ -1197,12 +1197,13 @@
     "legends.cramobot.tooltip.line1": "§9Feed me: §bDiamonds§7, §aEmeralds§7, §3Ender Pearls",
 
     "_comment39": "Messages",
-    "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %1$s%2$s Cosmic Dust",
-    "msg.pokecube_legends.cramomatic.fail": "§cFeed me gems & pearls",
+    "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %2$s%3$s%1$s§r §cCosmic Dust",
+    "msg.pokecube_legends.cramomatic.fail": "§cFeed me valuables",
     
     "_comment40": "Key Tooltips",
-    "legends.giratina_mirror.tooltip": "§6Used to teleport to the Distorted World.",
-    "legends.ultrakey.tooltip": "§6Used to teleport to Ultra Space.\n%1$s[Requires %2$s Cosmic Dust]",
+    "legends.giratina_mirror.tooltip": "§6Teleport to the Distorted World.",
+    "legends.ultrakey.tooltip": "§6Teleport to Ultra Space.",
+    "legends.ultrakey.tooltip.line1": "§dRequires: §d§l%1$s§r §dCosmic Dust",
 
     "_comment41": "Food Tooltips",
     "legends.aspear_pokepuff.tooltip": "§a§l+ §a§lBug type§r §7damage",

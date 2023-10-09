@@ -532,7 +532,7 @@ public class EntityPokemob extends PokemobRidable
         }
         if (!this.level.isClientSide)
         {
-            boolean climb = this.horizontalCollision && this.getNavigation().isInProgress();
+            boolean climb = this.horizontalCollision;
             if (climb && climbDelay-- < 0)
             {
                 final Path p = this.getNavigation().getPath();

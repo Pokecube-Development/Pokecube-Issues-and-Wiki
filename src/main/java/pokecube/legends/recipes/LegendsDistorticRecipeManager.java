@@ -52,11 +52,18 @@ public class LegendsDistorticRecipeManager
                 if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock())
                         && dim == blockRecipe.dimId)
                 {
-
-
-                    for (heldItem.getCount();  heldItem.getCount() > 0;) {
+                    var regAccess = event.getLevel().registryAccess();
+                    if (event.getEntity().isShiftKeyDown())
+                    {
+                        for (int i = heldItem.getCount(); i > 0;)
+                        {
+                            ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(regAccess).copy());
+                            i--;
+                        }
+                        heldItem.shrink(heldItem.getCount());
+                    } else {
+                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(regAccess).copy());
                         heldItem.shrink(1);
-                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem(event.getLevel().registryAccess()).copy());
                     }
                     event.setCanceled(true);
                     break;
