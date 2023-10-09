@@ -20,7 +20,8 @@ import thut.lib.TComponent;
 
 public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T>
 {
-    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/heal_button.png");
+    public static ResourceLocation WIDGETS_GUI =
+            new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
     Button healButton;
     Inventory inventory;
 
@@ -44,8 +45,8 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
 
         // Heal Button
         if (this.healButton.isHoveredOrFocused())
-            graphics.blit(WIDGETS_GUI, x + 155, y + 4, 7, 39, 18, 18);
-        else graphics.blit(WIDGETS_GUI, x + 155, y + 4, 7, 7, 18, 18);
+            graphics.blit(WIDGETS_GUI, x + 43, y + 34, 0, 230, 18, 18);
+        else graphics.blit(WIDGETS_GUI, x + 43, y + 34, 0, 210, 18, 18);
     }
 
     @Override

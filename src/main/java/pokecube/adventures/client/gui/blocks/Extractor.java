@@ -18,7 +18,10 @@ import thut.lib.TComponent;
 
 public class Extractor extends AbstractContainerScreen<ExtractorContainer>
 {
-    public static ResourceLocation WIDGETS_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "icons/warning_icon.png");
+    public static ResourceLocation WIDGETS_GUI =
+            new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
+    public static ResourceLocation GUI =
+            new ResourceLocation(PokecubeAdv.MODID, Resources.TEXTURE_GUI_FOLDER + "extractor.png");
     Button warningButton;
 
     public Extractor(final ExtractorContainer screenContainer, final Inventory inv, final Component titleIn)
@@ -30,21 +33,21 @@ public class Extractor extends AbstractContainerScreen<ExtractorContainer>
     protected void renderBg(final GuiGraphics graphics, final float partialTicks, final int mouseX, final int mouseY)
     {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"));
+        RenderSystem.setShaderTexture(0, GUI);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
-        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         // TODO: Fix - Draw the progress bar.
         // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
-        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x, y, 0, 0, this.imageWidth, this.imageHeight);
+        graphics.blit(GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         final int i = this.menu.tile.progress;
         final int j = this.menu.tile.total;
         final int l1 = j != 0 && i != 0 ? i * 24 / j : 0;
-        graphics.blit(new ResourceLocation(PokecubeAdv.MODID, "textures/gui/extractor.png"), x + 79, y + 35, 176, 0, l1 + 1, 16);
+        graphics.blit(GUI, x + 79, y + 35, 176, 0, l1 + 1, 16);
 
         // Warning Button
-        graphics.blit(WIDGETS_GUI, x + 155, y + 4, 8, 8, 17, 17);
+        graphics.blit(WIDGETS_GUI, x + 155, y + 4, 50, 190, 17, 17);
     }
 
     @Override
@@ -63,10 +66,9 @@ public class Extractor extends AbstractContainerScreen<ExtractorContainer>
         final int y = (this.height - this.imageHeight) / 2;
 
         final Component warning0 = Component.translatable("gui.pokecube_adventures.cloner.warning_0");
-        final Component warning1 = Component.translatable("gui.pokecube_adventures.cloner.warning_1");
         this.warningButton = this.addRenderableWidget(new Button.Builder(Component.literal(""), (b) -> {})
                 .bounds(x + 155, y + 4, 17, 17)
-                .tooltip(Tooltip.create(warning0, warning1))
+                .tooltip(Tooltip.create(warning0))
                 .createNarration(supplier -> Component.translatable("gui.pokecube_adventures.cloner.warning_0.narrate")).build());
         this.warningButton.active = false;
         this.warningButton.setAlpha(0);

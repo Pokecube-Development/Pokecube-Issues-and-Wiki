@@ -32,6 +32,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     public static ResourceLocation TM_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine_dark.png");
 
     public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_dark.png");
+    public static ResourceLocation WARNING_ICON =
+            new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "icons/warning_icon.png");
 
     private EditBox searchBar;
     Button applyButton;
@@ -101,6 +103,9 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         RenderSystem.setShaderTexture(0, TMs.TM_LIGHT_GUI);
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
+
+        // Warning Button
+        graphics.blit(WARNING_ICON, x + 155, y + 4, 8, 8, 17, 17);
 
         // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (this.darkModeButton.visible)
@@ -251,8 +256,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset = (this.width - this.imageWidth) / 2;
-            final int xOffset = (this.height - this.imageHeight) / 2;
+            final int yOffset = this.width / 2 - 88;
+            final int xOffset = this.height / 2 - 88;
             String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
 
             graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, xOffset + 61,
