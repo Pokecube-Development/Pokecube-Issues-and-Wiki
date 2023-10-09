@@ -23,6 +23,7 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
     public static ResourceLocation WIDGETS_GUI =
             new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets.png");
     Button healButton;
+    Button healButton2;
     Inventory inventory;
 
     public Healer(final T container, final Inventory ivplay, final Component name)
@@ -44,9 +45,9 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
         graphics.blit(Resources.GUI_HEAL_TABLE, x, y, 0, 0, this.imageWidth, this.imageHeight);
 
         // Heal Button
-        if (this.healButton.isHoveredOrFocused())
-            graphics.blit(WIDGETS_GUI, x + 43, y + 34, 0, 230, 18, 18);
-        else graphics.blit(WIDGETS_GUI, x + 43, y + 34, 0, 210, 18, 18);
+        if (this.healButton.isHoveredOrFocused() || this.healButton2.isHoveredOrFocused())
+            graphics.blit(WIDGETS_GUI, x + 16, y + 25, 45, 215, 36, 36);
+        else graphics.blit(WIDGETS_GUI, x + 16, y + 25, 0, 215, 36, 36);
     }
 
     @Override
@@ -70,10 +71,19 @@ public class Healer<T extends HealerContainer> extends AbstractContainerScreen<T
             final PacketHeal packet = new PacketHeal();
             PokecubeCore.packets.sendToServer(packet);
             this.inventory.player.playSound(Sounds.HEAL_SOUND.get(), 1, 1);
-        }).bounds(x + 43, y + 34, 18, 18)
+        }).bounds(x + 16, y + 37, 36, 12)
                 .tooltip(Tooltip.create(Component.translatable("block.pokecenter.heal.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pokecenter.heal.narrate")).build());
         this.healButton.setAlpha(0);
+
+        this.healButton2 = this.addRenderableWidget(new Button.Builder(heal, (b) -> {
+            final PacketHeal packet = new PacketHeal();
+            PokecubeCore.packets.sendToServer(packet);
+            this.inventory.player.playSound(Sounds.HEAL_SOUND.get(), 1, 1);
+        }).bounds(x + 28, y + 25, 12, 36)
+                .tooltip(Tooltip.create(Component.translatable("block.pokecenter.heal.tooltip")))
+                .createNarration(supplier -> Component.translatable("block.pokecenter.heal.narrate")).build());
+        this.healButton2.setAlpha(0);
     }
 
     @Override
