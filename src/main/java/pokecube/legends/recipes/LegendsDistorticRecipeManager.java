@@ -53,10 +53,18 @@ public class LegendsDistorticRecipeManager
                 if (blockRecipe.isValid(heldItem, event.getLevel().getBlockState(event.getPos()).getBlock())
                         && dim == blockRecipe.dimId)
                 {
-
-                    heldItem.shrink(1);
-
-                    ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem().copy());
+                    if (event.getEntity().isShiftKeyDown())
+                    {
+                        for (int i = heldItem.getCount(); i > 0;)
+                        {
+                            ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem().copy());
+                            i--;
+                        }
+                        heldItem.shrink(heldItem.getCount());
+                    } else {
+                        ItemHandlerHelper.giveItemToPlayer(event.getEntity(), blockRecipe.getResultItem().copy());
+                        heldItem.shrink(1);
+                    }
                     event.setCanceled(true);
                     break;
                 }
