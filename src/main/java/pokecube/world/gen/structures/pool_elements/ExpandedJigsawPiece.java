@@ -23,7 +23,6 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.StructureManager;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.LiquidBlockContainer;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -45,7 +44,6 @@ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureProc
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplate.StructureBlockInfo;
 import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.Event.Result;
@@ -278,13 +276,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
                 .processBlockInfos(level, pos1, pos2, placementsettings, list, template))
         {
             BlockPos blockpos = structuretemplate$structureblockinfo.pos();
+            BlockState to_place = structuretemplate$structureblockinfo.state();
             if (box == null || box.isInside(blockpos))
             {
-                @SuppressWarnings("deprecation")
-                BlockState to_place = structuretemplate$structureblockinfo.state().mirror(placementsettings.getMirror())
-                        .rotate(placementsettings.getRotation());
-                if (!(to_place.hasProperty(BlockStateProperties.WATERLOGGED)
-                        && to_place.getValue(BlockStateProperties.WATERLOGGED)))
+                if (to_place.hasProperty(BlockStateProperties.WATERLOGGED)
+                        && !to_place.getValue(BlockStateProperties.WATERLOGGED))
                     unWaterlog.put(blockpos, level.getBlockState(blockpos));
             }
         }
@@ -315,13 +311,11 @@ public class ExpandedJigsawPiece extends SinglePoolElement implements INamedPart
             {
                 unWaterlog.forEach((pos, state) -> {
                     BlockState newState = level.getBlockState(pos);
-                    LiquidBlockContainer cont = newState.getBlock() instanceof LiquidBlockContainer c ? c : null;
-                    boolean worked = cont != null
-                            && cont.placeLiquid(level, pos, newState, Fluids.EMPTY.defaultFluidState());
-                    if (!worked && newState.hasProperty(BlockStateProperties.WATERLOGGED))
+                    if (newState.hasProperty(BlockStateProperties.WATERLOGGED)
+                            && newState.getValue(BlockStateProperties.WATERLOGGED))
                     {
-                        worked = level.setBlock(pos, newState.setValue(BlockStateProperties.WATERLOGGED, false),
-                                placeFlags & -2 | 16);
+                        newState = newState.setValue(BlockStateProperties.WATERLOGGED, false);
+                        level.setBlock(pos, newState, placeFlags & -2 | 16);
                     }
                 });
             }
