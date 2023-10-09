@@ -581,8 +581,6 @@ public class Config extends ConfigData
     public boolean riddenMobsAscendWithLook = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs may try to automatically path while ridden. [Default: true]")
     public boolean riddenMobsTryPathing = false;
-    @Configure(category = Config.client, type = Type.CLIENT)
-    public boolean extraberries = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Moves the battle log from the pokemob message gui to the chat. [Default: false]")
     public boolean battleLogInChat = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Music from the Pokecenter if powered. [Default: true]")
