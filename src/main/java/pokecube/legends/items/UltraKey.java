@@ -2,7 +2,6 @@ package pokecube.legends.items;
 
 import java.util.List;
 
-import java.util.Random;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -14,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.Entity;
@@ -147,7 +147,7 @@ public class UltraKey extends ItemBase
 
     public static void teleportEffects(final Entity entity, final Level world, ParticleOptions particle, SoundEvent sound)
     {
-        Random random = world.getRandom();
+        RandomSource random = world.getRandom();
         world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), sound,
                 SoundSource.PLAYERS, 1, 1, false);
 
@@ -162,7 +162,7 @@ public class UltraKey extends ItemBase
 
     public static void teleportFailEffects(final Entity entity, final Level world, ParticleOptions particle, SoundEvent sound, SoundEvent sound2)
     {
-        Random random = world.getRandom();
+        RandomSource random = world.getRandom();
 
         world.playLocalSound(entity.getX(), entity.getY(), entity.getZ(), sound,
                 SoundSource.PLAYERS, 1, 1, false);
