@@ -517,7 +517,7 @@ public class Config extends ConfigData
     public List<String> softSpawnBiomeBlacklist = Lists.newArrayList("the_bumblezone:sugar_water_floor",
             "the_bumblezone:hive_wall", "the_bumblezone:hive_pillar");
 
-    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 2]")
+    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 3]")
     public int spawnRate = 3;
     @Configure(category = Config.spawning, comment = "Default radius of effect for repels, also applies to dynamax spots. [Default: 16]")
     public int repelRadius = 16;
