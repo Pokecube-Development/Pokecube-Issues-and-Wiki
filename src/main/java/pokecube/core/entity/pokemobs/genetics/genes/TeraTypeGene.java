@@ -228,7 +228,7 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
                 holder.setType2(PokeType.unknown);
             }
         }
-        if (entity.getLevel().isClientSide() && entity instanceof LivingEntity living)
+        if (entity.level().isClientSide() && entity instanceof LivingEntity living)
         {
             if (worn == null)
             {
