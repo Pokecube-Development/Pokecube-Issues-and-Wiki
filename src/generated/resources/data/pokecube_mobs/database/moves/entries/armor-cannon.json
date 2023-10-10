@@ -1,0 +1,11 @@
+{
+  "name": "armor-cannon",
+  "id": 890,
+  "power": 120,
+  "pp": 5,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

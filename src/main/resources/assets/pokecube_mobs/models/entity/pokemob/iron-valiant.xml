@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="0.8"/>
+  <metadata head="head" headCap="-60,60"/>
+  <material name="GLOW" meshs="eyeleft" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="eyeright" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="cheston" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="cheston" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="hairon" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="hairon2" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="blade_drawn" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="blade_drawn2" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="dressonright" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="dressonleft" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="dressonright2" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="dressonleft2" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="dressbackon" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="bladeonright" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="bladeonleft" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="footrighton" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <material name="GLOW" meshs="footlefton" tex="textures/entity/pokemob/iron-valiant.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <customTex default="iron-valiant">
+  </customTex>
+ </model>
+</ModelAnimator>

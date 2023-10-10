@@ -1,0 +1,11 @@
+{
+  "name": "lumina-crash",
+  "id": 855,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

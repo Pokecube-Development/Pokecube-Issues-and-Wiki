@@ -1,0 +1,10 @@
+{
+  "name": "kowtow-cleave",
+  "id": 869,
+  "power": 85,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

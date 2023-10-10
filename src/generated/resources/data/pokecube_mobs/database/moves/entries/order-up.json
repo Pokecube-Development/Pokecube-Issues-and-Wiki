@@ -1,0 +1,11 @@
+{
+  "name": "order-up",
+  "id": 856,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "dragon",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

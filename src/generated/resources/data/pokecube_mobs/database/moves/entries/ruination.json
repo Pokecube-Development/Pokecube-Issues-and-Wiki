@@ -1,0 +1,11 @@
+{
+  "name": "ruination",
+  "id": 877,
+  "power": 1,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

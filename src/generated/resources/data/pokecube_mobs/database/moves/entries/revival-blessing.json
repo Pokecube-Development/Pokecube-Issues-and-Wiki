@@ -1,0 +1,10 @@
+{
+  "name": "revival-blessing",
+  "id": 863,
+  "power": 0,
+  "pp": 1,
+  "priority": 0,
+  "type": "normal",
+  "target": "fainting-pokemon",
+  "damage_class": "status"
+}

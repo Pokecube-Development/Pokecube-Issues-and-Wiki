@@ -1,0 +1,11 @@
+{
+  "name": "mortal-spin",
+  "id": 866,
+  "power": 30,
+  "pp": 15,
+  "priority": 0,
+  "type": "poison",
+  "accuracy": 100,
+  "target": "all-opponents",
+  "damage_class": "physical"
+}

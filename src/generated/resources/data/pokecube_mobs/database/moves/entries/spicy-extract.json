@@ -1,0 +1,10 @@
+{
+  "name": "spicy-extract",
+  "id": 858,
+  "power": 0,
+  "pp": 15,
+  "priority": 0,
+  "type": "grass",
+  "target": "selected-pokemon",
+  "damage_class": "status"
+}

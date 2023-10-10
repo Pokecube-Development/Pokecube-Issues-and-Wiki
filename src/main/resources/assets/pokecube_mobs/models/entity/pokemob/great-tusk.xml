@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="2.0"/>
+  <material name="face" meshs="face" tex="textures/entity/pokemob/great-tusk-face.png" light="0" transluscent="false" cull="false"/>
+  <customTex default="great-tusk">
+   <part name="face" tex="great-tusk-face"/>
+  </customTex>
+ </model>
+</ModelAnimator>

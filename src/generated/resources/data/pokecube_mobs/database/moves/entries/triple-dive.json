@@ -1,0 +1,11 @@
+{
+  "name": "triple-dive",
+  "id": 865,
+  "power": 30,
+  "pp": 10,
+  "priority": 0,
+  "type": "water",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

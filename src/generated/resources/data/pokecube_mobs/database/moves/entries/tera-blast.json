@@ -1,0 +1,11 @@
+{
+  "name": "tera-blast",
+  "id": 851,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

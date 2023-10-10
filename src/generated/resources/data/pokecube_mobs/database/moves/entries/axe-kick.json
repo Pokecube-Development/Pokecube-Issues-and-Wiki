@@ -1,0 +1,11 @@
+{
+  "name": "axe-kick",
+  "id": 853,
+  "power": 120,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

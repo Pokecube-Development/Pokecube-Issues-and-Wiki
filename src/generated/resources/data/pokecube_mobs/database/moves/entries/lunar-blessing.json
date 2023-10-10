@@ -1,0 +1,10 @@
+{
+  "name": "lunar-blessing",
+  "id": 849,
+  "power": 0,
+  "pp": 5,
+  "priority": 0,
+  "type": "psychic",
+  "target": "all-allies",
+  "damage_class": "status"
+}

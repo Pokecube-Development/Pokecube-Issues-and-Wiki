@@ -1,0 +1,11 @@
+{
+  "name": "magical-torque",
+  "id": 900,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "fairy",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

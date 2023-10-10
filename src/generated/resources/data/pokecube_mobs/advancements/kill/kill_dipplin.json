@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.dipplin"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.dipplin"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_dipplin": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "dipplin"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}
