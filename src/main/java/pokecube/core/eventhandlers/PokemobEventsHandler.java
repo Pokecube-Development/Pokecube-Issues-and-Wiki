@@ -792,6 +792,10 @@ public class PokemobEventsHandler
         if (tick == Tracker.instance().getTick()) return;
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
 
+        // Tick the genes
+        IMobGenetics genes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        if (genes != null) genes.onUpdateTick(living);
+
         final Level dim = living.getLevel();
         // Prevent moving if it is liable to take us out of a loaded area
         double dist = Math.sqrt(living.getDeltaMovement().x * living.getDeltaMovement().x

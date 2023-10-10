@@ -34,6 +34,7 @@ import pokecube.core.entity.pokemobs.genetics.genes.NatureGene;
 import pokecube.core.entity.pokemobs.genetics.genes.ShinyGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SizeGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
+import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.GeneRegistry;
@@ -86,6 +87,7 @@ public class GeneticsManager
     public static final ResourceLocation IVSGENE = new ResourceLocation(PokecubeMod.ID, "ivs");
     public static final ResourceLocation EVSGENE = new ResourceLocation(PokecubeMod.ID, "evs");
     public static final ResourceLocation GMAXGENE = new ResourceLocation(PokecubeMod.ID, "gmax");
+    public static final ResourceLocation TERAGENE = new ResourceLocation(PokecubeMod.ID, "tera");
 
     public static final ResourceLocation SPECIESGENE = new ResourceLocation(PokecubeMod.ID, "species");
 
@@ -125,19 +127,6 @@ public class GeneticsManager
         return ret;
     }
 
-    public static void handleEpigenetics(final IPokemob pokemob)
-    {
-        // pokemob.onGenesChanged();
-    }
-
-    public static void handleLoad(final IPokemob pokemob)
-    {
-        final Entity mob = pokemob.getEntity();
-        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-        if (!genes.getAlleles().isEmpty()) return;
-        GeneticsManager.initMob(mob);
-    }
-
     private static void init()
     {
         GeneRegistry.register(AbilityGene.class);
@@ -150,6 +139,8 @@ public class GeneticsManager
         GeneRegistry.register(ShinyGene.class);
         GeneRegistry.register(SizeGene.class);
         GeneRegistry.register(DynamaxGene.class);
+        
+        TeraTypeGene.init();
     }
 
     public static void initEgg(final IMobGenetics eggs, final IMobGenetics mothers, final IMobGenetics fathers)
