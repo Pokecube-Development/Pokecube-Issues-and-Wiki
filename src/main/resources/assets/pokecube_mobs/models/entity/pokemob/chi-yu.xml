@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="1"/>
+  <metadata head="head" headCap="-60,60"/>
+  <material name="GLOW" meshs="eyefireleft:eyefireright:eyes:fire:fire2:fire3:fire4:headfire:headfire2:headfire3:headfire4" tex="textures/entity/pokemob/charcadet.png" light="1" transluscent="false" cull="false" shader="eyes_shader"/>
+  <customTex default="chi-yu">
+  </customTex>
+ </model>
+</ModelAnimator>

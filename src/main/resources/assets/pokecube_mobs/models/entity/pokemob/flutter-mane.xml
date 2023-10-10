@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.85"/>
+  <material name="eyes" meshs="eyes" tex="textures/entity/pokemob/flutter-mane-eye.png" light="0" transluscent="false" cull="false"/>
+  <customTex default="flutter-mane">
+  </customTex>
+ </model>
+</ModelAnimator>
