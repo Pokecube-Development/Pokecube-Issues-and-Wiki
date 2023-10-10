@@ -10,7 +10,7 @@ Pokemobs consist of an [IPokemob](../src/main/java/pokecube/api/entity/pokemob/I
   - `IHasMoves` - provides ability to use attacks, combat tracking, etc
   - `ICanEvolve` - provies ability to change to different [IPokemob](../src/main/java/pokecube/api/entity/pokemob/IPokemob.java) types
   - `IHasOwner` - provides tracking for an owner, as well as for sending messages to the owner, also tracks traded status and the pokecube the pokemob is in, as well as the controller for when ridden
-    - `IOwnable` - Thutcore api for generic ownable things
+    - `IOwnable` - [ThutAPI](thut_api.md#generic-ownable-objects) for generic ownable things
   - `IHasStats` - Tracks the pokemob's `Ability`, `Nature`, `PokeType`s, combat stats, etc
   - `IHungrymob` - Used for deciding on what the pokemob eats, and when it needs to
   - `IHasCommands` - Handles commands issued to the mob, usually from the owner
@@ -214,6 +214,22 @@ Abilities have the following methods:
 - `onUpdate` - called each tick by `LogicMovesUpdates` 
 - `onRecall` - called when we recall to a pokecube, either via death or command
 - `destroy` - cleanup of ability for when mob is removed, only needed for abilities which register event listeners (like `Damp`)
+
+## Pokemob Genetics
+
+Pokemobs use the [genetics system](thut_api.md#genetics-system) provided by ThutAPI. Pokemobs by default track the following genes:
+
+- [AbilityGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/AbilityGene.java)
+- [ColourGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/ColourGene.java)
+- [SpeciesGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/SpeciesGene.java)
+- [IVsGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/IVsGene.java)
+- [EVsGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/epigenes/EVsGene.java)
+- [MovesGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/epigenes/MovesGene.java)
+- [NatureGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/NatureGene.java)
+- [ShinyGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/ShinyGene.java)
+- [SizeGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/SizeGene.java)
+- [DynamaxGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/DynamaxGene.java)
+- [TeraTypeGene](../src/main/java/pokecube/core/entity/pokemobs/genetics/genes/TeraTypeGene.java)
 
 ## Pokemob Data Structure
 
