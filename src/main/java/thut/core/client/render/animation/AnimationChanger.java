@@ -18,6 +18,7 @@ import thut.api.entity.IMobColourable;
 import thut.api.entity.IShearable;
 import thut.api.entity.ShearableCaps;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 
 public class AnimationChanger implements IAnimationChanger
 {
