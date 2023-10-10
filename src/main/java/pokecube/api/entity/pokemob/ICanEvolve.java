@@ -25,7 +25,6 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
@@ -396,8 +395,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
             // Flag the mob as evolving.
             evoMob.setGeneralState(GeneralStates.EVOLVING, true);
-
-            GeneticsManager.handleEpigenetics(evoMob);
 
             evoMob.onGenesChanged();
 

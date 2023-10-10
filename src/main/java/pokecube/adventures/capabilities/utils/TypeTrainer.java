@@ -125,8 +125,8 @@ public class TypeTrainer extends NpcType
     {
         return e -> {
             boolean isPlayer = e instanceof Player;
-            if (!isPlayer && PokecubeCore.getConfig().debug_ai)
-                PokecubeAPI.logDebug("NPC {} not agroing due to not being a player", npc);
+//            if (!isPlayer && PokecubeCore.getConfig().debug_ai)
+//                PokecubeAPI.logDebug("NPC {} not agroing due to not being a player", npc);
             return isPlayer;
         };
     }

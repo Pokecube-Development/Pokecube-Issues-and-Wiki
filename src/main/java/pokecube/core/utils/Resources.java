@@ -22,6 +22,7 @@ public class Resources
 
     public final static ResourceLocation STATUS_PAR;
     public final static ResourceLocation STATUS_FRZ;
+    public final static ResourceLocation STATUS_TERA;
 
     public final static ResourceLocation PARTICLES;
 
@@ -52,6 +53,8 @@ public class Resources
         STATUS_PAR = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "par.png");
 
         STATUS_FRZ = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "frz.png");
+
+        STATUS_TERA = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "tera.png");
 
         GUI_POKEMOB = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "pokemob.png");
 
