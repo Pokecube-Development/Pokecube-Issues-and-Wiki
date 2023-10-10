@@ -396,8 +396,8 @@ public class Config extends ConfigData
 
     @Configure(category = Config.mobAI, comment = "Scaling factor on pokemob flight speed while pathing normally. [Default: 1.25]")
     public double flyPathingSpeedFactor = 1.25f;
-    @Configure(category = Config.mobAI, comment = "Scaling factor on pokemob swim speed while pathing normally. [Default: 1.25]")
-    public double swimPathingSpeedFactor = 1.25f;
+    @Configure(category = Config.mobAI, comment = "Scaling factor on pokemob swim speed while pathing normally. [Default: 0.65]")
+    public double swimPathingSpeedFactor = 0.65f;
     @Configure(category = Config.mobAI, comment = "Pokemobs will refuse to enter the pokecube again for this many ticks after a failed capture. [Default: 0]")
     public int captureDelayTicks = 0;
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will need to execute an attack after breaking out of a cube before they can go into another for capture. [Default: true]")
@@ -715,7 +715,7 @@ public class Config extends ConfigData
     public int attackCooldown = 20;
 
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for ranged attacks. [Default: 1]")
-    public double attackCooldownRangedScale = 1.75;
+    public double attackCooldownRangedScale = 2.0;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for contact attacks. [Default: 1]")
     public double attackCooldownContactScale = 1.0;
 
