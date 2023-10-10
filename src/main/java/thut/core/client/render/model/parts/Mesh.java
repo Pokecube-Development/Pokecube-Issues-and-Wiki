@@ -49,7 +49,8 @@ public abstract class Mesh
     final int iter;
 
     private final float len;
-    public float scale = 1;
+    public float cullScale = 1;
+    public float renderScale = 1;
 
     private final TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
     public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
@@ -176,7 +177,7 @@ public abstract class Mesh
         if (modelCullThreshold > 0)
         {
             float a = windowScale;
-            float s = len * scale;
+            float s = len * cullScale;
 
             dp.set(s, s, s, 0);
             dp.mul(pos);
@@ -234,9 +235,70 @@ public abstract class Mesh
             sv *= suv[1];
         }
 
-        // Loop over this rather than the array directly, so that we can skip by
-        // more than 1 if culling.
-        for (int i0 = 0; i0 < this.order.length; i0++)
+        if (this.renderScale != 1)
+        {
+//            System.out.println(scale);
+            
+            
+            float dx = (max.x - min.x) / 2;
+            float mx = min.x + dx;
+
+            float dy = (max.y - min.y) / 2;
+            float my = min.y + dy;
+
+            float dz = (max.z - min.z) / 2;
+            float mz = min.z + dz;
+
+            // This loop is copied here vs below for performance reasons, we
+            // can't guarentee compiler flags are set properly.
+            for (int i0 = 0; i0 < this.order.length; i0++)
+            {
+                int i = this.order[i0];
+
+                verts++;
+
+                normal = normals[i0];
+
+                // Normals first, as they define culling.
+                nx = normal.x;
+                ny = normal.y;
+                nz = normal.z;
+
+                dn.set(nx, ny, nz);
+                dn.transform(norms);
+
+                // Next we can pull out the coordinates if not culled.
+                textureCoordinate = this.textureCoordinates[i];
+                vertex = this.vertices[i];
+
+                x = this.renderScale * (vertex.x - mx) + mx;
+                y = this.renderScale * (vertex.y - my) + my;
+                z = this.renderScale * (vertex.z - mz) + mz;
+
+                dp.set(x, y, z, 1);
+                dp.transform(pos);
+
+                // This results in u * su + du
+                u = Math.fma(textureCoordinate.u, su, du);
+                v = Math.fma(textureCoordinate.v, sv, dv);
+
+                // We use the default mob format, since that is what mobs use.
+                // This means we need these in this order!
+                buffer.vertex(
+                //@formatter:off
+                    dp.x(), dp.y(), dp.z(),
+                    red, green, blue, alpha,
+                    u, v,
+                    overlayUV, lightmapUV,
+                    dn.x(), dn.y(), dn.z());
+                //@formatter:on
+            }
+        }
+        else
+            // Loop over this rather than the array directly, so that we can
+            // skip by
+            // more than 1 if culling.
+            for (int i0 = 0; i0 < this.order.length; i0++)
         {
             int i = this.order[i0];
 

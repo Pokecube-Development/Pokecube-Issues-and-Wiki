@@ -187,6 +187,8 @@ public interface IExtendedModelPart extends IModelCustom
 
     void setPreScale(Vector3 scale);
 
+    void setPostScale(Vector3 scale);
+
     void setPreTranslations(Vector3 translations);
 
     void setColorScales(float r, float g, float b, float a);

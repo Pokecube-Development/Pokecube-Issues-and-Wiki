@@ -78,10 +78,10 @@ public class Util
                 if (model != null)
                 {
                     Util.customModels.put(model, imodel);
-                    return imodel;
+                    return imodel.isValid() ? imodel : null;
                 }
             }
-            else return imodel;
+            else return imodel.isValid() ? imodel : null;
         }
         return null;
     }
@@ -142,11 +142,14 @@ public class Util
         if (!model.isLoaded() || !model.isValid()) return;
         if (model.getParts().containsKey("gem"))
         {
-            Util.renderStandardModelWithGem(mat, buff, stack, colorpart, itempart, model, brightness, overlay, IS_OVERLAY);
+            Util.renderStandardModelWithGem(mat, buff, stack, colorpart, itempart, model, brightness, overlay,
+                    IS_OVERLAY);
         }
         else
         {
+            int alpha = 255;
             Color colour;
+            if (stack.hasTag() && stack.getTag().contains("alpha")) alpha = stack.getTag().getInt("alpha");
             if (stack.getItem() instanceof DyeableLeatherItem dyed)
             {
                 colour = new Color(dyed.getColor(stack));
@@ -165,8 +168,8 @@ public class Util
             {
                 for (final IExtendedModelPart part1 : model.getParts().values())
                 {
-                    part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-                    part1.setRGBABrO(notColurable, 255, 255, 255, 255, brightness, overlay);
+                    part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha, brightness, overlay);
+                    part1.setRGBABrO(notColurable, 255, 255, 255, alpha, brightness, overlay);
                 }
                 renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
             }
@@ -185,6 +188,8 @@ public class Util
         ResourceLocation tex0 = null;
         ItemStack gem = ItemStack.EMPTY;
         Color colour;
+        int alpha = 255;
+        if (stack.hasTag() && stack.getTag().contains("alpha")) alpha = stack.getTag().getInt("alpha");
 
         if (stack.hasTag() && stack.getTag().contains("gemTag"))
         {
@@ -213,7 +218,6 @@ public class Util
             }
             colour = new Color(ret.getTextColor());
         }
-
         Map<Material, ResourceLocation> toReset = Maps.newHashMap();
         List<Material> toClear = new ArrayList<>();
         for (final IExtendedModelPart part : model.getParts().values())
@@ -229,10 +233,10 @@ public class Util
             // Overlay texture is the fixed one, the rest can be recoloured.
             if (!isGem)
             {
-                part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), 255, brightness, overlay);
-                part.setRGBABrO(notColurable, 255, 255, 255, 255, brightness, overlay);
+                part.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha, brightness, overlay);
+                part.setRGBABrO(notColurable, 255, 255, 255, alpha, brightness, overlay);
             }
-            else part.setRGBABrO(255, 255, 255, 255, brightness, overlay);
+            else part.setRGBABrO(255, 255, 255, alpha, brightness, overlay);
         }
         renderable.renderAll(mat, Util.makeBuilder(buff, Util.DUMMY));
 

@@ -21,6 +21,7 @@ import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene;
 import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene.TeraType;
 import pokecube.core.utils.Resources;
+import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
@@ -60,7 +61,7 @@ public class Status
         @Override
         public void bindObject(final Object thing)
         {
-            this.time += rate * Minecraft.getInstance().getFrameTime() / 10000;
+            this.time += rate * Minecraft.getInstance().getFrameTime() / 1000;
         }
 
         @Override
@@ -94,7 +95,7 @@ public class Status
 
     public static final StatusOverlay FRZTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_FRZ), 0.05f);
     public static final StatusOverlay PARTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_PAR), 0.05f);
-    public static final StatusOverlay TERATEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_TERA), 0.075f);
+    public static final StatusOverlay TERATEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_TERA), 0.15f);
 
     public static final List<Function<IPokemob, StatusOverlay>> PROVIDERS = new ArrayList<>();
 
@@ -155,12 +156,13 @@ public class Status
             }
             mat.mulPose(AxisAngles.YP.rotationDegrees(180.0F - f));
 
-            final float ds = effects.scale();
+            float ds = effects.scale();
 
-            final float s = 1 + ds;
-            mat.scale(s, s, s);
+            final float s = (1 + ds) / 1.73205081f;
+
+            Vector3 scale = new Vector3(s, s, s);
             mat.scale(-1.0F, -1.0F, 1.0F);
-            mat.translate(0.0D, -1.501F, 0.0D);
+            mat.translate(0.0D, -1.50F, 0.0d);
             final StatusTexturer statusTexturer = effects.texturer();
 
             final ResourceLocation default_ = effects.texturer().tex;
@@ -176,9 +178,12 @@ public class Status
             }
             renderer.getModel().prepareMobModel(mob, f5, f8, partialTicks);
             renderer.getModel().setupAnim(mob, f5, f8, f7, f2, f6);
+            for (var p : wrap.getParts().values())
+            {
+                p.setPostScale(scale);
+            }
             renderer.getModel().renderToBuffer(mat, buf.getBuffer(wrap.renderType(default_)), light,
                     OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.5f);
-
             if (texer != null)
             {
                 final ResourceLocation orig_ = renderer.getTextureLocation(mob);

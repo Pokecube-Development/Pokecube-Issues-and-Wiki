@@ -418,4 +418,11 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public void setPostScale(Vector3 scale)
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }
