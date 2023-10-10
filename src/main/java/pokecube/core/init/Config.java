@@ -519,8 +519,8 @@ public class Config extends ConfigData
     public List<String> softSpawnBiomeBlacklist = Lists.newArrayList("the_bumblezone:sugar_water_floor",
             "the_bumblezone:hive_wall", "the_bumblezone:hive_pillar");
 
-    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 2]")
-    public int spawnRate = 2;
+    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 3]")
+    public int spawnRate = 3;
     @Configure(category = Config.spawning, comment = "Default radius of effect for repels, also applies to dynamax spots. [Default: 16]")
     public int repelRadius = 16;
 
@@ -696,16 +696,16 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "If true, dead tamed pokemobs will vanish like normal mobs do on death, but they will return to their pokecubes when they vanish. [Default: true]")
     public boolean tameDeadDespawn = true;
 
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "The time in ticks it takes for the dead mobs to vanish if allowed. [Default: 20]")
-    public int deadDespawnTimer = 20;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "The time in ticks it takes for the dead mobs to vanish if allowed. [Default: 60]")
+    public int deadDespawnTimer = 60;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "If they did not vanish by this time, they will revive instead, wild ones at full hp, tame ones at 1 hp. [Default: 600]")
     public int deadReviveTimer = 600;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Pokemobs with poof disabled will revive after this time, at full hp. [Default: 600]")
     public int noPoofReviveTimer = 600;
 
     // ridden Speed multipliers
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 1.0]")
-    public double flySpeedFactor = 1;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 0.3]")
+    public double flySpeedFactor = 0.3;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while in water. [Default: 1.0]")
     public double surfSpeedFactor = 1;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while on the ground. [Default: 1.0]")
@@ -718,8 +718,8 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Approximate cooldown for attacks in ticks, larger values will slow down combat. [Default: 20]")
     public int attackCooldown = 20;
 
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for ranged attacks. [Default: 1]")
-    public double attackCooldownRangedScale = 1.5;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for ranged attacks. [Default: 1.75]")
+    public double attackCooldownRangedScale = 1.75;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for contact attacks. [Default: 1]")
     public double attackCooldownContactScale = 1.0;
 
@@ -737,8 +737,8 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, type = Type.SERVER, comment = "Number of pages in the PC. [Default: 32]")
     public int pcPageCount = 32;
 
-    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Time in ticks it takes for a pokemob to evolve, note that recalling during this time will cancel the evolution! [Default: 50]")
-    public int evolutionTicks = 50;
+    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Time in ticks it takes for a pokemob to evolve, note that recalling during this time will cancel the evolution! [Default: 100]")
+    public int evolutionTicks = 100;
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "Distance that secret base radar works within. [Default: 64]")
     public int baseRadarRange = 64;
 

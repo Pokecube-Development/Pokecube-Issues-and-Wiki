@@ -62,7 +62,6 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
     public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {
-        String message;
 		if (Screen.hasShiftDown())
 		{
 			tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));

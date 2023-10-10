@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="1"/>
+  <material name="shade" meshs="shadefrontright:shadefrontleft:shadeleft:shaderight:shadeback" tex="textures/entity/pokemob/brute-bonnet-shade.png" light="0" transluscent="false" cull="false"/>
+  <material name="eyes" meshs="eyes" tex="textures/entity/pokemob/brute-bonnet-eyes.png" light="0" transluscent="false" cull="false"/>
+  <customTex default="brute-bonnet">
+  </customTex>
+ </model>
+</ModelAnimator>

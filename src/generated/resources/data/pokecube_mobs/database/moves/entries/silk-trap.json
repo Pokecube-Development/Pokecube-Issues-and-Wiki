@@ -1,0 +1,10 @@
+{
+  "name": "silk-trap",
+  "id": 852,
+  "power": 0,
+  "pp": 10,
+  "priority": 4,
+  "type": "bug",
+  "target": "user",
+  "damage_class": "status"
+}

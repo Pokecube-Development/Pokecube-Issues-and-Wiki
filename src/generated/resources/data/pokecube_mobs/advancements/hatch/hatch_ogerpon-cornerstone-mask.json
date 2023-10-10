@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-cornerstone-mask"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-cornerstone-mask"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_ogerpon-cornerstone-mask": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "ogerpon-cornerstone-mask"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

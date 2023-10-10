@@ -13,6 +13,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.core.client.render.animation.AnimationXML.SubAnim;
 
 public class AnimationRandomizer implements IAnimationChanger

@@ -95,7 +95,7 @@ public class BBModel extends BaseModel
             { 0, 0, 0 };
             main.children.addAll(t.elements);
         }
-
+        t._materials.clear();
         for (int i = 0; i < t.outliner.size(); i++)
         {
             JsonGroup b = t.outliner.get(i);

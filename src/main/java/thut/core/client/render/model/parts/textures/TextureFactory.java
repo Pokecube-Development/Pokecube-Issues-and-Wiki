@@ -41,9 +41,12 @@ public class TextureFactory
         }
 
         // If we were higher than expected, then it means it is probably a strip
-        // texture, but if we got here, no mcmeta file.
-        if (Math.abs(imgAspectRatio - expectedAspectRatio) > 1e-3)
+        // texture, but if we got here, no mcmeta file. Rounded to 1 decimal
+        // place to account for strange aspect ratios which are not animations.
+        if (Math.round(10 * imgAspectRatio / expectedAspectRatio) >= 20)
+        {
             texture = new AnimatedTexture(tex, img, expectedH, expectedW, false);
+        }
 
         // Now register the texture and return. For animated ones, this
         // registers the time ticker for animations.

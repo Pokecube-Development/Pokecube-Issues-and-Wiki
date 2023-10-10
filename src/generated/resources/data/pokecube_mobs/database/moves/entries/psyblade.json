@@ -1,0 +1,11 @@
+{
+  "name": "psyblade",
+  "id": 875,
+  "power": 80,
+  "pp": 15,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

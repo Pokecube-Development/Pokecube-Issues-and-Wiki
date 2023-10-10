@@ -1,0 +1,11 @@
+{
+  "name": "infernal-parade",
+  "id": 844,
+  "power": 60,
+  "pp": 15,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

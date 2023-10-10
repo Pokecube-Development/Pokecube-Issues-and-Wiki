@@ -1,4 +1,4 @@
-package thut.core.client.render.animation;
+package thut.api.entity.animation;
 
 import java.util.Collection;
 import java.util.List;
@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.IAnimationHolder;
-import thut.api.entity.animation.Animation;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 

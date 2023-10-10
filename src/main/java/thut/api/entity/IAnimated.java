@@ -12,6 +12,7 @@ import org.nfunk.jep.JEP;
 
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 
 public interface IAnimated
 {
@@ -179,6 +180,8 @@ public interface IAnimated
         List<Animation> getPlaying();
 
         void setContext(IAnimated context);
+        
+        void setAnimationChanger(IAnimationChanger changer);
 
         /**
          * This is the animation about to be run.

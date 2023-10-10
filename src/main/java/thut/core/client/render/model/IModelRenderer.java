@@ -12,9 +12,9 @@ import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.texturing.IPartTexturer;
 
 public interface IModelRenderer<T extends Entity>
@@ -87,6 +87,7 @@ public interface IModelRenderer<T extends Entity>
         if (holder != null)
         {
             final List<Animation> anim = this.getAnimations(entity, phase);
+            holder.setAnimationChanger(getAnimationChanger());
             if (getAnimations() != null) holder.initAnimations(getAnimations(), IModelRenderer.DEFAULTPHASE);
             if (anim != null && !anim.isEmpty() || (anim != null && phase.equals("none")))
                 holder.setPendingAnimations(anim, phase);
