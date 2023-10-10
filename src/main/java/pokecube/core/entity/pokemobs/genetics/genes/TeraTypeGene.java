@@ -56,7 +56,7 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
             alleles.setAllele(1, new TeraTypeGene().mutate());
             alleles.getExpressed();
             genes.getAlleles().put(GeneticsManager.TERAGENE, alleles);
-            if (mob.getLevel() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
+            if (mob.level() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
         }
         try
         {
