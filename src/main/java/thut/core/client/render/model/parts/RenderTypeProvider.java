@@ -22,6 +22,7 @@ public interface RenderTypeProvider
         public RenderType makeRenderType(Material material, ResourceLocation tex, Mode mode)
         {
             material.tex = tex;
+            String key = tex.toString() + mode;
             TextureManager texturemanager = Minecraft.getInstance().getTextureManager();
             var tex_obj = texturemanager.getTexture(tex, null);
             if (tex_obj instanceof BaseTexture baseTex)
@@ -33,16 +34,16 @@ public interface RenderTypeProvider
                 material.texture_object = TextureFactory.create(texturemanager, tex, material.expectedTexH,
                         material.expectedTexW);
             }
-            if (material.types.containsKey(tex)) return material.types.get(tex);
+            if (material.types.containsKey(key)) return material.types.get(key);
             if (material.render_name.contains("water_mask_"))
             {
                 material.cull = false;
-                material.types.put(tex, Material.WATER_MASK);
+                material.types.put(key, Material.WATER_MASK);
                 return Material.WATER_MASK;
             }
 
             RenderType type = null;
-            final String id = material.render_name + tex;
+            final String id = material.render_name + "_" + mode + "_" + tex;
             final RenderType.CompositeState.CompositeStateBuilder builder = RenderType.CompositeState.builder();
             // No blur, No MipMap
             builder.setTextureState(new RenderStateShard.TextureStateShard(tex, false, false));
@@ -87,7 +88,7 @@ public interface RenderTypeProvider
             final RenderType.CompositeState rendertype$state = builder.createCompositeState(true);
             type = RenderType.create(id, DefaultVertexFormat.NEW_ENTITY, mode, 256, true, false, rendertype$state);
 
-            material.types.put(tex, type);
+            material.types.put(key, type);
             return type;
         }
     };

@@ -1,0 +1,11 @@
+{
+  "name": "hyper-drill",
+  "id": 887,
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

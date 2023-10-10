@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.poltchageist"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.poltchageist"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_poltchageist": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "poltchageist"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

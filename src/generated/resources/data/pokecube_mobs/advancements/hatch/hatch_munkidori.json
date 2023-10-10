@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.hatch",
+      "with": [
+        {
+          "translate": "entity.pokecube.munkidori"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.hatch.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.munkidori"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "hatch_munkidori": {
+      "trigger": "pokecube:hatch",
+      "conditions": {
+        "entry": "munkidori"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:hatch/root"
+}

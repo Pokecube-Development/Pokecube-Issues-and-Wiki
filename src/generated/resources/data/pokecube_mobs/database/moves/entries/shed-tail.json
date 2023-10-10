@@ -1,0 +1,10 @@
+{
+  "name": "shed-tail",
+  "id": 880,
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "target": "user",
+  "damage_class": "status"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "population-bomb",
+  "id": 860,
+  "power": 20,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

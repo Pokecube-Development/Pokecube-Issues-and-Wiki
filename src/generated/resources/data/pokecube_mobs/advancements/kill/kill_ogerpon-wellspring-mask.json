@@ -1,0 +1,32 @@
+{
+  "display": {
+    "icon": {
+      "item": "pokecube:pokecube"
+    },
+    "title": {
+      "translate": "achievement.pokecube.kill",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-wellspring-mask"
+        }
+      ]
+    },
+    "description": {
+      "translate": "achievement.pokecube.kill.desc",
+      "with": [
+        {
+          "translate": "entity.pokecube.ogerpon-wellspring-mask"
+        }
+      ]
+    }
+  },
+  "criteria": {
+    "kill_ogerpon-wellspring-mask": {
+      "trigger": "pokecube:kill",
+      "conditions": {
+        "entry": "ogerpon-wellspring-mask"
+      }
+    }
+  },
+  "parent": "pokecube_mobs:kill/root"
+}

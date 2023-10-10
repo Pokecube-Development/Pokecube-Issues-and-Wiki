@@ -1,0 +1,11 @@
+{
+  "name": "ceaseless-edge",
+  "id": 845,
+  "power": 65,
+  "pp": 15,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

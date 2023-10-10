@@ -1,5 +1,6 @@
 package thut.api.entity.animation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -34,6 +35,7 @@ public class CapabilityAnimation
         Map<String, List<Animation>> anims = Maps.newHashMap();
 
         List<Animation> playingList = DefaultImpl.EMPTY;
+        List<String> tmpTransients = new ArrayList<>();
         Set<Animation> transients = new HashSet<>();
 
         Object2FloatOpenHashMap<UUID> non_static = new Object2FloatOpenHashMap<>();
@@ -54,6 +56,7 @@ public class CapabilityAnimation
         float _ageInTicks;
 
         IAnimated context;
+        IAnimationChanger changer;
 
         @Override
         public void clean()
@@ -160,16 +163,28 @@ public class CapabilityAnimation
         @Override
         public void preRunAll()
         {
-            if (context != null)
+            if (context != null && context.getContext() instanceof Entity e && e.tickCount % 10 == 0)
             {
                 var transients = context.transientAnimations();
                 synchronized (transients)
                 {
                     if (!transients.isEmpty() && this.playingList != EMPTY)
                     {
+
                         for (var anim : transients)
                         {
-                            if (this.anims.containsKey(anim))
+                            this.tmpTransients.clear();
+                            if (this.changer != null)
+                            {
+                                this.changer.getAlternates(tmpTransients, anims.keySet(), e, anim);
+                                for (String s : tmpTransients)
+                                {
+                                    var animList = anims.get(s);
+                                    int index = animList.size() > 1 ? e.random.nextInt(animList.size()) : 0;
+                                    this.transients.add(animList.get(index));
+                                }
+                            }
+                            else if (this.anims.containsKey(anim))
                             {
                                 this.transients.addAll(anims.get(anim));
                             }
@@ -236,8 +251,7 @@ public class CapabilityAnimation
             }
             else
             {
-                boolean dontCleanup = this.transients.contains(animation)
-                        || (animation.loops || animation.hasLimbBased || animation.holdWhenDone);
+                boolean dontCleanup = (animation.loops || animation.hasLimbBased || animation.holdWhenDone);
                 if (i >= animation.length && !dontCleanup)
                 {
                     this.non_static.removeFloat(animation._uuid);
@@ -313,6 +327,12 @@ public class CapabilityAnimation
         public void setContext(IAnimated context)
         {
             this.context = context;
+        }
+
+        @Override
+        public void setAnimationChanger(IAnimationChanger changer)
+        {
+            this.changer = changer;
         }
     }
 }

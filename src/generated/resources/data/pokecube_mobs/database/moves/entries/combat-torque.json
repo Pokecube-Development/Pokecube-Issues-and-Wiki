@@ -1,0 +1,11 @@
+{
+  "name": "combat-torque",
+  "id": 899,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

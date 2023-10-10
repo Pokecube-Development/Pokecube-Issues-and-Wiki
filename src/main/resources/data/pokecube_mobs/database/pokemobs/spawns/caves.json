@@ -136,6 +136,41 @@
       ]
     },
     {
+      "and_preset": "lush_caves",
+      "entries": [
+        {"key": "gulpin", "min": 2, "max": 4, "rate": 0.4},
+        {"key": "lotad", "min": 2, "max": 4, "rate": 0.4},
+        {"key": "wooper", "min": 2, "max": 4, "rate": 0.4},
+        {"key": "surskit", "min": 2, "max": 4, "rate": 0.4},
+        {"key": "tympole", "min": 2, "max": 4, "rate": 0.4},
+
+        {"key": "wooper-paldea", "min": 1, "max": 3, "rate": 0.3},
+
+        {"key": "caterpie", "min": 4, "max": 8, "rate": 0.2},
+        {"key": "weedle", "min": 4, "max": 8, "rate": 0.2},
+        {"key": "wurmple", "min": 4, "max": 8, "rate": 0.2},
+        {"key": "dewpider", "min": 4, "max": 8, "rate": 0.2},
+        {"key": "grubbin", "min": 4, "max": 8, "rate": 0.2},
+        {"key": "yanma", "min": 2, "max": 4, "rate": 0.2},
+        {"key": "munna", "min": 1, "max": 4, "rate": 0.2},
+
+        {"key": "croagunk", "min": 2, "max": 4, "rate": 0.1},
+        {"key": "pancham", "min": 1, "max": 4, "rate": 0.1},
+        {"key": "sewaddle", "min": 1, "max": 5, "rate": 0.1},
+        {"key": "ledyba", "min": 1, "max": 5, "rate": 0.1},
+
+        {"key": "dreepy", "min": 2, "max": 4, "rate": 0.08},
+
+        {"key": "goomy", "min": 2, "max": 4, "rate": 0.05},
+        {"key": "marill", "min": 2, "max": 4, "rate": 0.05},
+
+        {"key": "karrablast", "min": 2, "max": 4, "rate": 0.04},
+
+        {"key": "froakie", "min": 1, "max": 2, "rate": 0.01},
+        {"key": "mudkip", "min": 1, "max": 2, "rate": 0.01}
+      ]
+    },
+    {
       "and_preset": "caves,snowy_areas",
       "entries": [
         {"key": "snover","min": 1,"max": 4,"rate": 0.5},

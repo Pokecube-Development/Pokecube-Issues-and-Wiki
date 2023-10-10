@@ -1,0 +1,10 @@
+{
+  "name": "shelter",
+  "id": 842,
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "steel",
+  "target": "user",
+  "damage_class": "status"
+}

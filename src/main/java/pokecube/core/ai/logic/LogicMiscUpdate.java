@@ -589,6 +589,7 @@ public class LogicMiscUpdate extends LogicBase
         final Pose pose = this.entity.getPose();
         final boolean walking = this.floatTimer < 2 && moving;
         boolean noBlink = false;
+        boolean guarding = pokemob.getCombatState(CombatStates.GUARDING);
         if (pose == Pose.DYING || entity.deathTime > 0)
         {
             addAnimation(anims, "dead", isRidden);
@@ -626,8 +627,16 @@ public class LogicMiscUpdate extends LogicBase
         default:
             break;
         }
-        if (this.entity.isSprinting()) addAnimation(anims, "sprinting", isRidden);
-        if (walking) addAnimation(anims, "walking", isRidden);
+        if (this.entity.isSprinting())
+        {
+            if (guarding) addAnimation(anims, "guarding_sprinting", isRidden);
+            addAnimation(anims, "sprinting", isRidden);
+        }
+        if (walking)
+        {
+            if (guarding) addAnimation(anims, "guarding_walking", isRidden);
+            addAnimation(anims, "walking", isRidden);
+        }
         for (final CombatStates state : CombatStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
@@ -638,10 +647,8 @@ public class LogicMiscUpdate extends LogicBase
         float blink_rate = 0.5f;
         if (!noBlink && entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
         {
-            transients.add("blink");
+            if (!transients.contains("blink")) transients.add("blink");
         }
-        else transients.remove("blink");
-
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();
