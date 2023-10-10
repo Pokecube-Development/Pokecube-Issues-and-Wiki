@@ -265,7 +265,7 @@ public abstract class Mesh
                 nz = normal.z;
 
                 dn.set(nx, ny, nz);
-                dn.transform(norms);
+                dn.mul(norms);
 
                 // Next we can pull out the coordinates if not culled.
                 textureCoordinate = this.textureCoordinates[i];
@@ -276,7 +276,7 @@ public abstract class Mesh
                 z = this.renderScale * (vertex.z - mz) + mz;
 
                 dp.set(x, y, z, 1);
-                dp.transform(pos);
+                dp.mul(pos);
 
                 // This results in u * su + du
                 u = Math.fma(textureCoordinate.u, su, du);
