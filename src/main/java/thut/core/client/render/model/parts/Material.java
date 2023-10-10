@@ -72,6 +72,7 @@ public class Material
     public float expectedTexW = -1;
 
     public BaseTexture texture_object;
+    public Mode vertexMode = null;
 
     public String shader = "";
 
@@ -125,6 +126,7 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
     {
+        this.vertexMode = mode;
         if (Material.lastImpl == null) Material.lastImpl = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || Material.lastImpl == null) return buffer;
         final RenderType type = this.makeRenderType(this.tex, mode);
