@@ -32,6 +32,8 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
     public static ResourceLocation TM_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "tm_machine_dark.png");
 
     public static ResourceLocation WIDGETS_DARK_GUI = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "widgets/pc_widgets_dark.png");
+    public static ResourceLocation WARNING_ICON =
+            new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "icons/warning_icon.png");
 
     private EditBox searchBar;
     Button applyButton;
@@ -102,7 +104,10 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
+        // Warning Button
+        graphics.blit(WARNING_ICON, x + 155, y + 4, 8, 8, 17, 17);
+
+        // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (this.darkModeButton.visible)
             graphics.blit(TM_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
@@ -251,14 +256,14 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset =-95 + (this.width - this.imageWidth) / 2;
-            final int xOffset = 98 + (this.height - this.imageHeight) / 2;
+            final int x = (this.width - this.imageWidth) / 2;
+            final int y = (this.height - this.imageHeight) / 2;
             String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
 
-            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, xOffset + 61,
-                    yOffset + 22, move.getType(null).colour);
-            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 166 - this.font.width("" + move.getPWR()),
-                    yOffset + 22, 0xFFFFFF);
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, x + 61,
+                    y + 22, move.getType(null).colour);
+            graphics.drawString(this.font, "" + move.getPWR(), x + 167 - this.font.width("" + move.getPWR()),
+                    y + 22, 0xFFFFFF);
         }
         this.renderTooltip(graphics, mouseX, mouseY);
     }

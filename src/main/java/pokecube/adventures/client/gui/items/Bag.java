@@ -136,7 +136,7 @@ public class Bag<T extends BagContainer> extends AbstractContainerScreen<T>
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
+        // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (PokecubeCore.getConfig().fancyGUI) graphics.blit(BAG_GUI_RED, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else graphics.blit(BAG_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
 

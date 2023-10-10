@@ -48,7 +48,7 @@ public class Resources
 
         GUI_BATTLE = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "battlegui.png");
 
-        GUI_HEAL_TABLE = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "pokecentergui.png");
+        GUI_HEAL_TABLE = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_GUI_FOLDER + "pokecenter_gui.png");
 
         STATUS_PAR = new ResourceLocation(PokecubeMod.ID, Resources.TEXTURE_FOLDER + "par.png");
 

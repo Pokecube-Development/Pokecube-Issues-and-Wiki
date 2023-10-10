@@ -18,6 +18,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
 import pokecube.legends.init.BlockInit;
+import pokecube.legends.init.ItemInit;
 import thut.bling.BlingItem;
 import thut.wearables.ThutWearables;
 
@@ -115,6 +116,10 @@ public class CoreCreativeTabs
 
         if (event.getTabKey() == CreativeModeTabs.TOOLS_AND_UTILITIES && PokecubeCore.getConfig().itemsInVanillaTabs)
         {
+            addAfter(event, Items.WARPED_FUNGUS_ON_A_STICK, PokecubeItems.REVIVE.get());
+            addAfter(event, PokecubeItems.REVIVE.get(), PokecubeItems.LUCKYEGG.get());
+            addAfter(event, PokecubeItems.LUCKYEGG.get(), PokecubeItems.TM.get());
+
             addAfter(event, Items.BAMBOO_CHEST_RAFT, PokecubeItems.getStack("enigma_boat").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_boat").getItem(), PokecubeItems.getStack("enigma_chest_boat").getItem());
             addAfter(event, PokecubeItems.getStack("enigma_chest_boat").getItem(), PokecubeItems.getStack("leppa_boat").getItem());

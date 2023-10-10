@@ -103,6 +103,7 @@ public class TechCore
         if (event.getTabKey().equals(CreativeModeTabs.TOOLS_AND_UTILITIES) && ThutCore.getConfig().itemsInCreativeTabs)
         {
             add(event, Items.WARPED_FUNGUS_ON_A_STICK, LINKER.get());
+            add(event, LINKER.get(), LIFT.get());
         }
 
         if (event.getTabKey().equals(CreativeModeTabs.FUNCTIONAL_BLOCKS) && ThutCore.getConfig().itemsInCreativeTabs)

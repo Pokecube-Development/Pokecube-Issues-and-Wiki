@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "tag": "forge:ingots/netherite"
+  },
+  "base": {
+    "tag": "pokecube:pokecubes"
+  },
+  "template": {
+    "item": "pokecube_legends:wishing_piece"
+  },
+  "result": {
+    "item": "pokecube:dynacube"
+  }
+}

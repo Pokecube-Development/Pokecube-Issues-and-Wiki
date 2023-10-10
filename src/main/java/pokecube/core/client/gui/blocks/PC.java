@@ -154,7 +154,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         final int x = (this.width - this.imageWidth) / 2;
         final int y = (this.height - this.imageHeight) / 2;
 
-        //  Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
+        // Blit format: Texture location, gui x pos, gui y position, texture x pos, texture y pos, texture x size, texture y size
         if (this.darkModeButton.visible)
             graphics.blit(PC_LIGHT_GUI, x, y, 0, 0, this.imageWidth, this.imageHeight);
         else if (this.lightModeButton.visible)
@@ -293,7 +293,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
                 }
 
                 this.renamePageBox.setVisible(!this.renamePageBox.visible);
-            }).bounds(x + 157, y + 3, 10, 10)
+            }).bounds(x + 158, y + 4, 10, 10)
                     .tooltip(Tooltip.create(Component.translatable("block.pc.rename.tooltip")))
                     .createNarration(supplier -> TComponent.translatable("block.pc.rename.narrate")).build());
             this.renameButton.setAlpha(0);
@@ -303,7 +303,7 @@ public class PC<T extends PCContainer> extends AbstractContainerScreen<T>
         this.prevButton = this.addRenderableWidget(new Button.Builder(prev, (b) -> {
             this.menu.updateInventoryPages((byte) -1, this.minecraft.player.getInventory());
             this.selectedPageBox.setValue(this.menu.getPageNb());
-        }).bounds(x + 5, y + 127, 10, 10)
+        }).bounds(x + 6, y + 128, 10, 10)
                 .tooltip(Tooltip.create(Component.translatable("block.pc.previous.tooltip")))
                 .createNarration(supplier -> Component.translatable("block.pc.previous.narrate")).build());
         this.prevButton.setAlpha(0);

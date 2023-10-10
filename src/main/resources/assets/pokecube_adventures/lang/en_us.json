@@ -1,5 +1,5 @@
 {
-    "_comment": "Pokecube Adventures translation",
+    "_comment": "Pokécube Adventures translation",
 
     "itemGroup.pokecube_adventures.badges": "Adventures: Badges",
 
@@ -12,6 +12,7 @@
     "block.ability_field_amplifier.next.narrate": "Next",
     "block.ability_field_amplifier.previous": "<",
     "block.ability_field_amplifier.previous.narrate": "Previous",
+    "block.ability_field_amplifier.slot_tooltip": "Add Pokécube or Shiny Charm",
 
     "item.pokecube_adventures.target": "Target",
     "item.pokecube_adventures.linker": "Location Linker",
@@ -65,8 +66,8 @@
     "block.pokecube_adventures.laboratory_glass_pane": "Laboratory Glass Pane",
     "block.pokecube_adventures.statue": "Pokedoll",
     
-    "gui.pokecube_adventures.cloner.warning_0": "WARNING!",
-    "gui.pokecube_adventures.cloner.warning_1": "Read Manual Before Use!",
+    "gui.pokecube_adventures.cloner.warning_0": "§cWARNING!\n§7Read manual before use!",
+    "gui.pokecube_adventures.cloner.warning_0.narrate": "WARNING! Read manual before use!",
 
 
     "_comment": "Named NPCs",
