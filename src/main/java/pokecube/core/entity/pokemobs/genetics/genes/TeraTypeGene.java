@@ -1,5 +1,7 @@
 package pokecube.core.entity.pokemobs.genetics.genes;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 import javax.annotation.Nullable;
@@ -8,6 +10,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.DyeableLeatherItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -19,6 +24,7 @@ import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import thut.api.ThutCaps;
@@ -27,9 +33,14 @@ import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
+import thut.wearables.EnumWearable;
+import thut.wearables.ThutWearables;
+import thut.wearables.inventory.IWearableInventory;
 
 public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
 {
+    public static final Map<PokeType, ItemStack> SILLY_HATS = new HashMap<>();
+
     public static void init()
     {
         // Register the genes
@@ -41,6 +52,26 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOW, false, TeraTypeGene::duringPreMoveUse);
         // Add listener for removing tera when recalled
         PokecubeAPI.POKEMOB_BUS.addListener(TeraTypeGene::onRecall);
+    }
+
+    private static void checkHats()
+    {
+        if (SILLY_HATS.isEmpty())
+        {
+            for (PokeType type : PokeType.values())
+            {
+                ItemStack HAT = PokecubeItems.getStack(new ResourceLocation("thut_bling:bling_hat"));
+                String name = type.name.equals("???") ? "unknown" : type.name;
+                ItemStack ZCRYSTAL = PokecubeItems.getStack("pokecube_legends:z_" + name);
+                CompoundTag tag = new CompoundTag();
+                tag.put("gemTag", ZCRYSTAL.serializeNBT());
+                tag.putInt("alpha", 128);
+                tag.putString("model", "pokecube:worn/tera_hats/" + name);
+                HAT.setTag(tag);
+                if (HAT.getItem() instanceof DyeableLeatherItem dye) dye.setColor(HAT, type.colour);
+                SILLY_HATS.put(type, HAT);
+            }
+        }
     }
 
     @Nullable
@@ -153,6 +184,8 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     Random rand = ThutCore.newRandom();
     private TeraType value = new TeraType();
     private IPokemob holder = null;
+    private IWearableInventory worn = null;
+    private boolean hadHat = false;
 
     @Override
     public ResourceLocation getKey()
@@ -181,6 +214,8 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     @Override
     public void onUpdateTick(Entity entity)
     {
+        if (entity.tickCount % 20 != 0) return;
+
         if (this.getValue().isTera)
         {
             if (holder == null)
@@ -191,6 +226,30 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
             {
                 holder.setType1(this.getValue().teraType);
                 holder.setType2(PokeType.unknown);
+            }
+        }
+        if (entity.getLevel().isClientSide() && entity instanceof LivingEntity living)
+        {
+            if (worn == null)
+            {
+                worn = ThutWearables.getWearables(living);
+            }
+            if (worn != null)
+            {
+                checkHats();
+                ItemStack HAT = SILLY_HATS.get(this.getValue().teraType);
+                if (!HAT.isEmpty())
+                {
+                    if (this.getValue().isTera)
+                    {
+                        worn.setWearable(EnumWearable.HAT, HAT, 0);
+                        hadHat = true;
+                    }
+                    else if (hadHat)
+                    {
+                        worn.setWearable(EnumWearable.HAT, ItemStack.EMPTY);
+                    }
+                }
             }
         }
     }
