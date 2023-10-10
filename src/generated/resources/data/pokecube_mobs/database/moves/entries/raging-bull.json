@@ -1,0 +1,11 @@
+{
+  "name": "raging-bull",
+  "id": 873,
+  "power": 90,
+  "pp": 10,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

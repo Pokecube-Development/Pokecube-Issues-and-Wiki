@@ -1,0 +1,11 @@
+{
+  "name": "wicked-torque",
+  "id": 897,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "dark",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

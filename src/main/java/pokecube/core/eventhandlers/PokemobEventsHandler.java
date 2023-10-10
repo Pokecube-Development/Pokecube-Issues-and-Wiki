@@ -402,35 +402,34 @@ public class PokemobEventsHandler
         // We only want to run this from execution thread.
         if (!mob.getServer().isSameThread() || !(mob.level instanceof ServerLevel world)) return;
 
-        // This gets set by the mixin in pokecube.mixin.entity.BeeHiveFix
-        if (!BEE_RELEASE_TICK.contains(world.dimension())) return;
-        // It is called for each bee added, so remove it now.
-        PokemobEventsHandler.BEE_RELEASE_TICK.remove(world.dimension());
-
         final IInhabitor inhabitor = mob.getCapability(CapabilityInhabitor.CAPABILITY).orElse(null);
         // Not a valid inhabitor of things, so return.
         if (inhabitor == null) return;
 
-        // Vanilla breaks things here, by deleting the memory tag in the brain,
-        // we need that, so restore it.
-        if (mob.getPersistentData().contains("__bee_fix__"))
+        // This gets set by the mixin in pokecube.mixin.entity.BeeHiveFix
+        if (BEE_RELEASE_TICK.contains(world.dimension()))
         {
-            CompoundTag tag = mob.getPersistentData().getCompound("__bee_fix__");
-            mob.getPersistentData().remove("__bee_fix__");
-            CompoundTag old = mob.saveWithoutId(new CompoundTag());
-            for (String s : tag.getAllKeys())
+            // It is called for each bee added, so remove it now.
+            PokemobEventsHandler.BEE_RELEASE_TICK.remove(world.dimension());
+            // Vanilla breaks things here, by deleting the memory tag in the
+            // brain,
+            // we need that, so restore it.
+            if (mob.getPersistentData().contains("__bee_fix__"))
             {
-                old.put(s, tag.get(s));
+                CompoundTag tag = mob.getPersistentData().getCompound("__bee_fix__");
+                mob.getPersistentData().remove("__bee_fix__");
+                CompoundTag old = mob.saveWithoutId(new CompoundTag());
+                for (String s : tag.getAllKeys())
+                {
+                    old.put(s, tag.get(s));
+                }
+                mob.load(old);
+                // Some cases we end up with this occuring, so let's deal with
+                // it
+                Entity oldEntity = world.getEntity(mob.getUUID());
+                if (oldEntity != null) oldEntity.remove(RemovalReason.DISCARDED);
             }
-            mob.load(old);
-            // Some cases we end up with this occuring, so let's deal with it
-            Entity oldEntity = world.getEntity(mob.getUUID());
-            if (oldEntity != null) oldEntity.remove(RemovalReason.DISCARDED);
         }
-        // If it didn't have a fix tag, it definitely was not a bee being
-        // removed from a hive, regardless of what the release tick said.
-        else return;
-
         // No Home spot, so definitely not leaving home
         if (inhabitor.getHome() == null) return;
 
@@ -792,6 +791,10 @@ public class PokemobEventsHandler
         long tick = living.getPersistentData().getLong("__i__");
         if (tick == Tracker.instance().getTick()) return;
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
+
+        // Tick the genes
+        IMobGenetics genes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        if (genes != null) genes.onUpdateTick(living);
 
         final Level dim = living.getLevel();
         // Prevent moving if it is liable to take us out of a loaded area

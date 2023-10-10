@@ -1,0 +1,155 @@
+{
+  "name": "sinistcha",
+  "id": 1013,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.2
+  },
+  "mass": 2.2,
+  "is_default": true,
+  "capture_rate": 60,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 71,
+    "attack": 60,
+    "defense": 106,
+    "special_attack": 121,
+    "special_defense": 80,
+    "speed": 70
+  },
+  "evs": {
+    "special_attack": 2
+  },
+  "types": [
+    "grass",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "hospitality"
+    ],
+    "hidden": [
+      "heatproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 6,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "stun-spore",
+          "withdraw",
+          "astonish",
+          "matcha-gotcha"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "rage-powder"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "foul-play"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "hex"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "strength-sap"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "life-dew"
+        ]
+      }
+    ],
+    "misc": [
+      "hyper-beam",
+      "solar-beam",
+      "night-shade",
+      "reflect",
+      "rest",
+      "substitute",
+      "spite",
+      "protect",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "shadow-ball",
+      "uproar",
+      "imprison",
+      "iron-defense",
+      "magical-leaf",
+      "calm-mind",
+      "energy-ball",
+      "nasty-plot",
+      "trick-room",
+      "leaf-storm",
+      "foul-play",
+      "scald",
+      "hex",
+      "phantom-force",
+      "grassy-terrain",
+      "poltergeist",
+      "tera-blast"
+    ]
+  },
+  "model": {
+    "key": "sinistcha-artisan",
+    "tex": "sinistcha",
+    "model": "sinistcha-artisan",
+    "anim": "sinistcha"
+  },
+  "models": [
+    {
+      "key": "sinistcha-counterfeit",
+      "tex": "sinistcha",
+      "model": "sinistcha-counterfeit",
+      "anim": "sinistcha"
+    }
+  ]
+}

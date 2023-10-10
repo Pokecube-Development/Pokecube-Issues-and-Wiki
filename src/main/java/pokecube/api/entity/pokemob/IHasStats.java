@@ -182,19 +182,36 @@ public interface IHasStats extends IHasEntry
     }
 
     /**
+     * @return type 1 before any combat modifications
+     */
+    default PokeType originalType1()
+    {
+        IPokemob us = (IPokemob) this;
+        FormeHolder holder = us.getCustomHolder();
+        return holder == null ? this.getPokedexEntry().getType1() : holder.getTypes(getPokedexEntry()).get(0);
+    }
+
+    /**
+     * @return type 2 before any combat modifications
+     */
+    default PokeType originalType2()
+    {
+        IPokemob us = (IPokemob) this;
+        FormeHolder holder = us.getCustomHolder();
+        return holder == null ? this.getPokedexEntry().getType2() : holder.getTypes(getPokedexEntry()).get(1);
+    }
+    
+    /**
      * Returns 1st type.
      *
      * @see PokeType
-     * @return the byte type
+     * @return the first type
      */
     default PokeType getType1()
     {
         if (this.getModifiers().type1 == null)
         {
-            IPokemob us = (IPokemob) this;
-            FormeHolder holder = us.getCustomHolder();
-            this.getModifiers().type1 = holder == null ? this.getPokedexEntry().getType1()
-                    : holder.getTypes(getPokedexEntry()).get(0);
+            this.getModifiers().type1 = originalType1();
         }
         return this.getModifiers().type1;
     }
@@ -203,16 +220,13 @@ public interface IHasStats extends IHasEntry
      * Returns 2nd type.
      *
      * @see PokeType
-     * @return the byte type
+     * @return the second type
      */
     default PokeType getType2()
     {
         if (this.getModifiers().type2 == null)
         {
-            IPokemob us = (IPokemob) this;
-            FormeHolder holder = us.getCustomHolder();
-            this.getModifiers().type2 = holder == null ? this.getPokedexEntry().getType2()
-                    : holder.getTypes(getPokedexEntry()).get(1);
+            this.getModifiers().type2 = originalType2();
         }
         return this.getModifiers().type2;
     }

@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -99,8 +98,7 @@ public class SendOutManager
 
         final boolean hasMob = mob != null;
         final boolean hasPokemob = pokemob != null;
-        final boolean isPlayers = cube.shootingEntity instanceof ServerPlayer
-                && !(cube.shootingEntity instanceof FakePlayer) || hasPokemob && pokemob.isPlayerOwned();
+        final boolean isPlayers = hasPokemob && pokemob.isPlayerOwned();
 
         if (!isPlayers && (mob instanceof LivingEntity living && living.getHealth() <= 0)) return null;
 
@@ -219,7 +217,7 @@ public class SendOutManager
         if (pokemob != null)
         {
             pokemob.onSendOut();
-            pokemob.setGeneralState(GeneralStates.TAMED, true);
+            if (pokemob.getOwnerId() != null) pokemob.setGeneralState(GeneralStates.TAMED, true);
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
             pokemob.setEvolutionTicks(50 + PokecubeCore.getConfig().exitCubeDuration);
             final Entity owner = pokemob.getOwner();

@@ -62,6 +62,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private float ds = 1;
     public float ds0 = 1;
     public float ds1 = 1;
+    private float ds2 = 1;
 
     public float[] colour_scales =
     { 1f, 1f, 1f, 1f };
@@ -252,7 +253,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
-            s.scale = ds / ds1;
+            s.renderScale = ds2;
+            s.cullScale = ds / ds2;
             // Render each Shape
             s.renderShape(mat, buffer, this.texturer);
         }
@@ -327,6 +329,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.colour_scales[2] = 1;
         this.colour_scales[3] = 1;
         this.hidden = false;
+        ds2 = 1;
     }
 
     @Override
@@ -535,6 +538,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public boolean isDisabled()
     {
         return disabled;
+    }
+
+    @Override
+    public void setPostScale(Vector3 scale)
+    {
+        ds2 = (float) scale.mag();
     }
 
     @Override

@@ -1,6 +1,9 @@
 package pokecube.core.client.render.mobs.overlays;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
 
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -15,7 +18,10 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene;
+import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene.TeraType;
 import pokecube.core.utils.Resources;
+import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
@@ -23,16 +29,14 @@ import thut.lib.AxisAngles;
 
 public class Status
 {
-    public static final ResourceLocation FRZ = Resources.STATUS_FRZ;
-    public static final ResourceLocation PAR = Resources.STATUS_PAR;
-
     public static class StatusTexturer implements IPartTexturer
     {
-        private final ResourceLocation tex;
+        protected final ResourceLocation tex;
 
         public IPartTexturer wrapped;
 
         public float time = 0;
+        public float rate = 1;
         public int alpha = 128;
 
         public boolean animated = true;
@@ -57,7 +61,7 @@ public class Status
         @Override
         public void bindObject(final Object thing)
         {
-            this.time += Minecraft.getInstance().getFrameTime() / 10000;
+            this.time += rate * Minecraft.getInstance().getFrameTime() / 1000;
         }
 
         @Override
@@ -85,77 +89,107 @@ public class Status
 
     public static final Set<String> EXCLUDED_PARTS = Sets.newHashSet();
 
-    public static final StatusTexturer FRZTEX = new StatusTexturer(Status.FRZ);
-    public static final StatusTexturer PARTEX = new StatusTexturer(Status.PAR);
+    public static record StatusOverlay(StatusTexturer texturer, float scale)
+    {
+    };
+
+    public static final StatusOverlay FRZTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_FRZ), 0.05f);
+    public static final StatusOverlay PARTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_PAR), 0.05f);
+    public static final StatusOverlay TERATEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_TERA), 0.15f);
+
+    public static final List<Function<IPokemob, StatusOverlay>> PROVIDERS = new ArrayList<>();
+
+    static
+    {
+        PROVIDERS.add(pokemob -> {
+            int status = pokemob.getStatus();
+            status = (status & IMoveConstants.STATUS_PAR) > 0 ? IMoveConstants.STATUS_PAR
+                    : (status & IMoveConstants.STATUS_FRZ) > 0 ? IMoveConstants.STATUS_FRZ : 0;
+            if (status == 0) return null;
+            return status == IMoveConstants.STATUS_FRZ ? FRZTEX : PARTEX;
+        });
+
+        TERATEX.texturer.rate = 0;
+
+        PROVIDERS.add(pokemob -> {
+            TeraType type = TeraTypeGene.getTera(pokemob.getEntity());
+            if (type != null && type.isTera)
+            {
+                return TERATEX;
+            }
+            return null;
+        });
+    }
 
     public static void render(final LivingEntityRenderer<Mob, EntityModel<Mob>> renderer, final PoseStack mat,
             final MultiBufferSource buf, final IPokemob pokemob, final float partialTicks, final int light)
     {
-        int status = pokemob.getStatus();
-        if (status == IMoveConstants.STATUS_NON || !(renderer.getModel() instanceof ModelWrapper<?> wrap)) return;
-
+        if (!(renderer.getModel() instanceof ModelWrapper<?> wrap)) return;
         final Mob mob = pokemob.getEntity();
-
-        status = (status & IMoveConstants.STATUS_PAR) > 0 ? IMoveConstants.STATUS_PAR
-                : (status & IMoveConstants.STATUS_FRZ) > 0 ? IMoveConstants.STATUS_FRZ : 0;
-        if (status == 0) return;
-        final boolean frz = status == IMoveConstants.STATUS_FRZ;
-
-        mat.pushPose();
-
-        final float f = Mth.rotLerp(partialTicks, mob.yBodyRotO, mob.yBodyRot);
-        final float f1 = Mth.rotLerp(partialTicks, mob.yHeadRotO, mob.yHeadRot);
-        final float f2 = f1 - f;
-
-        final float f6 = Mth.lerp(partialTicks, mob.xRotO, mob.xRot);
-
-        final float f7 = mob.tickCount + partialTicks;
-        float f8 = 0.0F;
-        float f5 = 0.0F;
+        for (var func : PROVIDERS)
         {
-            f8 = Mth.lerp(partialTicks, mob.animationSpeedOld, mob.animationSpeed);
-            f5 = mob.animationPosition - mob.animationSpeed * (1.0F - partialTicks);
+            var effects = func.apply(pokemob);
+            if (effects == null) continue;
+            mat.pushPose();
 
-            if (f8 > 1.0F) f8 = 1.0F;
+            final float f = Mth.rotLerp(partialTicks, mob.yBodyRotO, mob.yBodyRot);
+            final float f1 = Mth.rotLerp(partialTicks, mob.yHeadRotO, mob.yHeadRot);
+            final float f2 = f1 - f;
+
+            final float f6 = Mth.lerp(partialTicks, mob.xRotO, mob.xRot);
+
+            final float f7 = mob.tickCount + partialTicks;
+            float f8 = 0.0F;
+            float f5 = 0.0F;
+            {
+                f8 = Mth.lerp(partialTicks, mob.animationSpeedOld, mob.animationSpeed);
+                f5 = mob.animationPosition - mob.animationSpeed * (1.0F - partialTicks);
+
+                if (f8 > 1.0F) f8 = 1.0F;
+            }
+            mat.mulPose(AxisAngles.YP.rotationDegrees(180.0F - f));
+
+            float ds = effects.scale();
+
+            final float s = (1 + ds) / 1.73205081f;
+
+            Vector3 scale = new Vector3(s, s, s);
+            mat.scale(-1.0F, -1.0F, 1.0F);
+            mat.translate(0.0D, -1.50F, 0.0d);
+            final StatusTexturer statusTexturer = effects.texturer();
+
+            final ResourceLocation default_ = effects.texturer().tex;
+            final IPartTexturer texer = wrap.renderer.getTexturer();
+            wrap.renderer.setTexturer(statusTexturer);
+            if (statusTexturer != null)
+            {
+                statusTexturer.bindObject(mob);
+                wrap.getParts().forEach((n, p) -> {
+                    p.applyTexture(buf, default_, statusTexturer);
+                    if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
+                });
+            }
+            renderer.getModel().prepareMobModel(mob, f5, f8, partialTicks);
+            renderer.getModel().setupAnim(mob, f5, f8, f7, f2, f6);
+            for (var p : wrap.getParts().values())
+            {
+                p.setPostScale(scale);
+            }
+            renderer.getModel().renderToBuffer(mat, buf.getBuffer(wrap.renderType(default_)), light,
+                    OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.5f);
+            if (texer != null)
+            {
+                final ResourceLocation orig_ = renderer.getTextureLocation(mob);
+                texer.bindObject(mob);
+                wrap.getParts().forEach((n, p) -> {
+                    p.applyTexture(buf, orig_, texer);
+                    if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(false);
+                });
+            }
+
+            wrap.renderer.setTexturer(texer);
+            mat.popPose();
         }
-        mat.mulPose(AxisAngles.YP.rotationDegrees(180.0F - f));
-
-        final float ds = frz ? 0.05f : 0.05f;
-
-        final float s = 1 + ds;
-        mat.scale(s, s, s);
-        mat.scale(-1.0F, -1.0F, 1.0F);
-        mat.translate(0.0D, -1.501F, 0.0D);
-        final StatusTexturer statusTexturer = frz ? Status.FRZTEX : Status.PARTEX;
-
-        final ResourceLocation default_ = frz ? Resources.STATUS_FRZ : Resources.STATUS_PAR;
-        final IPartTexturer texer = wrap.renderer.getTexturer();
-        wrap.renderer.setTexturer(statusTexturer);
-        if (statusTexturer != null)
-        {
-            statusTexturer.bindObject(mob);
-            wrap.getParts().forEach((n, p) -> {
-                p.applyTexture(buf, default_, statusTexturer);
-                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
-            });
-        }
-        renderer.getModel().prepareMobModel(mob, f5, f8, partialTicks);
-        renderer.getModel().setupAnim(mob, f5, f8, f7, f2, f6);
-        renderer.getModel().renderToBuffer(mat, buf.getBuffer(wrap.renderType(default_)), light,
-                OverlayTexture.NO_OVERLAY, 1, 1, 1, 0.5f);
-
-        if (texer != null)
-        {
-            final ResourceLocation orig_ = renderer.getTextureLocation(mob);
-            texer.bindObject(mob);
-            wrap.getParts().forEach((n, p) -> {
-                p.applyTexture(buf, orig_, texer);
-                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(false);
-            });
-        }
-
-        wrap.renderer.setTexturer(texer);
-        mat.popPose();
     }
 
 }

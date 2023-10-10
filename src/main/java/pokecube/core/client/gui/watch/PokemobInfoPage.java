@@ -381,6 +381,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                         || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
 
             IPokemob pokemob = this.pokemob;
+            
+            PokeType _type1 = pokemob.getType1();
+            PokeType _type2 = pokemob.getType2();
+            
             // Copy the stuff to the render mob if this mob is in world
             if (pokemob.getEntity().isAddedToWorld())
             {
@@ -428,20 +432,19 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             dx = -73;
             dy = 34;
             this.font.draw(mat, gender, x + dx, y + dy, genderColor);
-            pokemob.getType1();
-            final String type1 = PokeType.getTranslatedName(pokemob.getType1()).getString();
+            final String type1 = PokeType.getTranslatedName(_type1).getString();
             dx = -70; // 72
             dy = 115;
-            colour = pokemob.getType1().colour;
+            colour = _type1.colour;
             this.font.draw(mat, type1, x + dx, y + dy, colour);
             dy = 115;
-            if (pokemob.getType2() != PokeType.unknown)
+            if (_type2 != PokeType.unknown)
             {
                 final String slash = "/";
-                colour = pokemob.getType2().colour;
+                colour = _type2.colour;
                 dx += this.font.width(type1);
                 this.font.draw(mat, slash, x + dx, y + dy, 0x444444);
-                final String type2 = PokeType.getTranslatedName(pokemob.getType2()).getString();
+                final String type2 = PokeType.getTranslatedName(_type2).getString();
                 dx += this.font.width(slash);
                 this.font.draw(mat, type2, x + dx, y + dy, colour);
             }

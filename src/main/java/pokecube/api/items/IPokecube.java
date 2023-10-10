@@ -133,6 +133,12 @@ public interface IPokecube
         }
     }
 
+    /**
+     * 
+     * @param e - mob to try to capture
+     * @param cube - the item we are attached to
+     * @return whether the capture is allowed
+     */
     default boolean canCapture(final Entity e, final ItemStack cube)
     {
         return PokemobCaps.getPokemobFor(e) != null;
