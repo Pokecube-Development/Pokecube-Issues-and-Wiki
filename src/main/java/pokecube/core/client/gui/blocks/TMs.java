@@ -256,14 +256,14 @@ public class TMs<T extends TMContainer> extends AbstractContainerScreen<T>
         final MoveEntry move = MovesUtils.getMove(s);
         if (move != null)
         {
-            final int yOffset = this.width / 2 - 88;
-            final int xOffset = this.height / 2 - 88;
+            final int x = (this.width - this.imageWidth) / 2;
+            final int y = (this.height - this.imageHeight) / 2;
             String append = MovesUtils.getMoveName(s, null).getString().length() >= 15 ? "".concat("...") : "";
 
-            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, xOffset + 61,
-                    yOffset + 22, move.getType(null).colour);
-            graphics.drawString(this.font, "" + move.getPWR(), xOffset + 166 - this.font.width("" + move.getPWR()),
-                    yOffset + 22, 0xFFFFFF);
+            graphics.drawString(this.font, MovesUtils.getMoveName(s, null).getString(15) + append, x + 61,
+                    y + 22, move.getType(null).colour);
+            graphics.drawString(this.font, "" + move.getPWR(), x + 167 - this.font.width("" + move.getPWR()),
+                    y + 22, 0xFFFFFF);
         }
         this.renderTooltip(graphics, mouseX, mouseY);
     }
