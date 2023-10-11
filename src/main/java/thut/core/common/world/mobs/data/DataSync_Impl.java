@@ -63,6 +63,11 @@ public class DataSync_Impl implements DataSync, ICapabilityProvider
         return null;
     }
 
+    public static DataSync getData(Entity mob)
+    {
+        return mob.getCapability(ThutCaps.DATASYNC).orElse(null);
+    }
+
     @SuppressWarnings("deprecation")
     public static int getID(final Data<?> data)
     {

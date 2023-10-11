@@ -103,7 +103,7 @@ public class ManageOutMob extends BaseBattleTask
 
         // check if can mega evolve
         final IPokemob out = this.trainer.getOutMob();
-        if (this.trainer.canMegaEvolve() && out != null && out.getPokedexEntry().hasMegaForm)
+        if (this.trainer.canMegaEvolve() && out != null)
         {
             final List<PokedexEntry> formes = Database.getFormes(out.getPokedexEntry());
             if (!formes.isEmpty())
@@ -114,7 +114,7 @@ public class ManageOutMob extends BaseBattleTask
                     final PokedexEntry mega = formes.get((i + start) % formes.size());
                     if (mega.isMega())
                     {
-                        out.megaEvolve(mega);
+                        out.changeForm(mega);
                         break;
                     }
                 }

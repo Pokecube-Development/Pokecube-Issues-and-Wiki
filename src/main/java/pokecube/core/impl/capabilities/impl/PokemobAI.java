@@ -63,14 +63,6 @@ public abstract class PokemobAI extends PokemobEvolves
     private Battle battle;
 
     @Override
-    public boolean getCombatState(final CombatStates state)
-    {
-        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
-            return this.getGenesDynamax().getExpressed().getValue().gigantamax;
-        return super.getCombatState(state);
-    }
-
-    @Override
     public float getPitch()
     {
         return this.dataSync().get(this.params.DIRECTIONPITCHDW);
@@ -184,14 +176,6 @@ public abstract class PokemobAI extends PokemobEvolves
 
         // Update/add cache.
         if (this.isPlayerOwned() && this.getOwnerId() != null) PlayerPokemobCache.UpdateCache(this);
-    }
-
-    @Override
-    public void setCombatState(final CombatStates state, final boolean flag)
-    {
-        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
-            this.getGenesDynamax().getExpressed().getValue().gigantamax = flag;
-        super.setCombatState(state, flag);
     }
 
     @Override

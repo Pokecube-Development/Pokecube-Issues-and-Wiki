@@ -87,6 +87,13 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             return this.getEntry() + " " + this.getSexe();
         }
 
+        public PokedexEntry getBaseEntry()
+        {
+            // this inits the forme's entry if it exists.
+            getForme();
+            return this.forme != null ? this.forme._entry : this.entry;
+        }
+
         public PokedexEntry getEntry()
         {
             var forme = this.getForme();
@@ -111,8 +118,8 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
         public @Nullable FormeHolder getForme()
         {
-            if (this.tmpForme != null) return tmpForme;
             if (this.forme != null && this.forme._entry == null) this.forme._entry = this.entry;
+            if (this.tmpForme != null) return tmpForme;
             return forme;
         }
 
@@ -193,8 +200,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         if (this.info.getSexe() == otherG.info.getSexe()) mother = this.rand.nextFloat() < 0.5 ? this : otherG;
         final SpeciesGene father = mother == otherG ? this : otherG;
         newGene.setValue(mother.info.clone());
-        if (newGene.info.getEntry().isMega()) newGene.info.setEntry(newGene.info.getEntry().getBaseForme());
-        newGene.info.setEntry(newGene.info.getEntry().getChild(father.info.getEntry()));
+        newGene.info.setEntry(newGene.info.getBaseEntry().getChild(father.info.getBaseEntry()));
 
         // First get out whatever the default choice was here.
         newGene.mutate();
@@ -206,12 +212,12 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
             // These are the possile combinations of mutations, we will check
             // them in this order.
-            opts.add(mother.info.getEntry().getTrimmedName() + "+" + father.info.getEntry().getTrimmedName());
-            opts.add(father.info.getEntry().getTrimmedName() + "+" + mother.info.getEntry().getTrimmedName());
-            opts.add("null+" + mother.info.getEntry().getTrimmedName());
-            opts.add("null+" + father.info.getEntry().getTrimmedName());
-            opts.add(mother.info.getEntry().getTrimmedName() + "+null");
-            opts.add(father.info.getEntry().getTrimmedName() + "+null");
+            opts.add(mother.info.getBaseEntry().getTrimmedName() + "+" + father.info.getBaseEntry().getTrimmedName());
+            opts.add(father.info.getBaseEntry().getTrimmedName() + "+" + mother.info.getBaseEntry().getTrimmedName());
+            opts.add("null+" + mother.info.getBaseEntry().getTrimmedName());
+            opts.add("null+" + father.info.getBaseEntry().getTrimmedName());
+            opts.add(mother.info.getBaseEntry().getTrimmedName() + "+null");
+            opts.add(father.info.getBaseEntry().getTrimmedName() + "+null");
             opts.add("");
 
             Collections.shuffle(opts);
@@ -220,7 +226,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             for (String s : opts)
             {
                 if (!s.isEmpty()) s = s + "->";
-                s = s + newGene.info.getEntry().getTrimmedName();
+                s = s + newGene.info.getBaseEntry().getTrimmedName();
                 mutated = mutations.containsKey(s);
                 if (mutated)
                 {

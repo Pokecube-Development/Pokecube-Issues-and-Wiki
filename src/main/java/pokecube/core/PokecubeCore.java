@@ -42,6 +42,8 @@ import pokecube.api.data.spawns.matchers.MatcherLoaders;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.moves.Battle;
+import pokecube.api.utils.DynamaxHelper;
+import pokecube.api.utils.MegaEvolveHelper;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -294,6 +296,8 @@ public class PokecubeCore
         EntityTypes.init();
         Sounds.init();
         PaintingsHandler.init();
+        MegaEvolveHelper.init();
+        DynamaxHelper.init();
 
         // Register the battle managers
         Battle.register();

@@ -14,6 +14,7 @@ import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
@@ -82,7 +83,7 @@ public class SetupHandler
 
         final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
                 .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D)
-                .add(Attributes.FLYING_SPEED, 0.6);
+                .add(Attributes.FLYING_SPEED, 0.6).add(SharedAttributes.MOB_SIZE_SCALE.get());
         event.put(EntityTypes.getPokecube(), attribs.build());
         event.put(EntityTypes.getEgg(), attribs.build());
         event.put(EntityTypes.getNpc(), attribs.build());

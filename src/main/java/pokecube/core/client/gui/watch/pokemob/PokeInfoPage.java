@@ -97,7 +97,7 @@ public abstract class PokeInfoPage extends WatchPage
                 PokeInfoPage.formIndex = -1;
                 entry = PokeInfoPage.entries.get(PokeInfoPage.entryIndex++ % PokeInfoPage.entries.size());
                 holder = entry.getModel(this.parent.pokemob.getSexe());
-                this.parent.initPages(this.parent.pokemob.megaEvolve(entry));
+                this.parent.initPages(this.parent.pokemob.changeForm(entry));
             }
             // This initializes the model holder
             this.parent.pokemob.setCustomHolder(holder);

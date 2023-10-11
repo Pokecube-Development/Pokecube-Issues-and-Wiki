@@ -19,7 +19,6 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.pokemobs.CaptureEvent;
@@ -191,14 +190,10 @@ public class CaptureManager
             cube.setItem(pokemobStack);
             HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
             if (cube.shooter != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(cube.shooter);
-            if (pokemob.getCombatState(CombatStates.MEGAFORME) || pokemob.getPokedexEntry().isMega())
-            {
-                pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                final IPokemob revert = pokemob.megaRevert();
-                if (revert != null) pokemob = revert;
-                if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(
-                        AbilityManager.getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
-            }
+            final IPokemob revert = pokemob.resetForm(false);
+            if (revert != null) pokemob = revert;
+            if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(
+                    AbilityManager.getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
             if (cube.shootingEntity instanceof Player player && !(cube.shootingEntity instanceof FakePlayer))
             {
                 final Component mess = TComponent.translatable("pokecube.caught", pokemob.getDisplayName());

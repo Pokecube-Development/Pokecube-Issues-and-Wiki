@@ -8,7 +8,6 @@ import com.google.common.collect.Maps;
 
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.PowerProvider;
 import pokecube.api.utils.PokeType;
@@ -148,7 +147,7 @@ public class GZMoveManager
     public static String getGMove(final IPokemob user, final String base_move, boolean gigant)
     {
         if (base_move == null) return null;
-        if (!user.getCombatState(CombatStates.DYNAMAX)) return null;
+        if (!user.getEntity().getPersistentData().contains("pokecube:dynatime")) return null;
         final MoveEntry move = MovesUtils.getMove(base_move);
         if (move == null) return null;
         gigant = gigant && GZMoveManager.g_max_moves_map.containsKey(base_move);
