@@ -38,6 +38,7 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -660,6 +661,10 @@ public class LogicMiscUpdate extends LogicBase
                     addAnimation(transients, "attack_contact", isRidden);
                 if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
                     addAnimation(transients, "attack_ranged", isRidden);
+                if (move.getCategory(pokemob) == AttackCategory.STATUS)
+                    addAnimation(transients, "attack_status", isRidden);
+                if (move.getCategory(pokemob) == AttackCategory.OTHER)
+                    addAnimation(transients, "attack_other", isRidden);
             }
         }
 
