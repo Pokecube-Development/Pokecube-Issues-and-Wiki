@@ -233,5 +233,9 @@
       }
     }
   ],
-  "loot_table": "pokecube:entities/coal_cow_2"
+  "loot_table": "pokecube:entities/coal_cow_2",
+  "ridden_offsets":[ 
+      [ 0, 0.55, -0.15],
+      [ 0, 0.55, -0.3]
+  ]
 }

@@ -35,6 +35,18 @@
       "regenerator"
     ]
   },
+    "pose_shapes": {
+      "idle":{ 
+        "parts":[
+          {
+            "name": "seat",
+            "offset": "0,0,0",
+            "size": "1,1.6,1.6",
+            "ride": "0,0.55,-0.1"
+          }
+        ]
+      }
+    },
   "moves": {
     "level_up": [
       {
