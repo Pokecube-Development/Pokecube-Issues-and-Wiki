@@ -811,9 +811,8 @@ public class Database
                 if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
                     PokecubeAPI.logInfo("No egg group assigned for {}", entry.getTrimmedName());
             }
-            for (final PokedexEntry entry : Database.getSortedFormes())
-                if (entry.lootTable == null && !(entry.isMega() || entry.isGMax()))
-                    PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
+            for (final PokedexEntry entry : Database.getSortedFormes()) if (entry.lootTable == null && !entry.generated)
+                PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
         }
 
         // This gets re-set to true if listener hears a reload

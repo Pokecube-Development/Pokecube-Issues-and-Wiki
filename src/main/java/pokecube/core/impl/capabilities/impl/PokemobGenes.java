@@ -603,7 +603,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         final SpeciesInfo info = gene.getValue();
         if (newEntry == null || newEntry == entry) return this;
         IPokemob ret = this;
-        if (this.changing || !this.getEntity().isAddedToWorld())
+        if (this.changing)
+        {
+            info.setTmpEntry(newEntry);
+            return this;
+        }
+        if (!this.getEntity().isAddedToWorld())
         {
             if (newEntry.generated)
             {
@@ -614,9 +619,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             return ret;
         }
         this.changing = true;
-        ret = this.megaEvolve(newEntry);
+        ret = this.changeForm(newEntry);
 
-        // These need to be set after mega evolve call, as that also does a
+        // These need to be set after change form call, as that also does a
         // validation of old entry.
         info.setTmpEntry(newEntry);
 
@@ -631,13 +636,16 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     {
         if (this._speciesCache == null) this.getPokedexEntry();
         this._speciesCache.getValue().entry = newEntry;
+        FormeHolder form = Database.formeHoldersByKey.getOrDefault(newEntry.getTrimmedName(),
+                newEntry.getModel(this.getSexe()));
+        this._speciesCache.getValue().setForme(form);
     }
 
     @Override
     public PokedexEntry getBasePokedexEntry()
     {
         if (this._speciesCache == null) this.getPokedexEntry();
-        return this._speciesCache.getValue().entry;
+        return this._speciesCache.getValue().getBaseEntry();
     }
 
     @Override

@@ -69,8 +69,7 @@ public class ChangeFormHandler extends DefaultHandler
         boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX);
         if (isMaxSpot)
         {
-            isDyna = isDyna || entry.isMega();
-            PokedexEntry newEntry = entry.isMega() ? pokemob.getMegaBase() : entry;
+            PokedexEntry newEntry = entry;
 
             if (gigant && !isDyna)
             {
@@ -107,7 +106,7 @@ public class ChangeFormHandler extends DefaultHandler
             }
         }
 
-        PokedexEntry newEntry = entry.isMega() ? pokemob.getMegaBase() : entry;
+        PokedexEntry newEntry = entry;
         if (gigant && !isDyna)
         {
             newEntry = Database.getEntry(newEntry.getTrimmedName() + "-gmax");
@@ -149,7 +148,7 @@ public class ChangeFormHandler extends DefaultHandler
         {
             Component mess = TComponent.translatable("pokemob.megaevolve.command.revert", oldName);
             pokemob.displayMessageToOwner(mess);
-            newEntry = pokemob.getMegaBase();
+            newEntry = pokemob.getBasePokedexEntry();
             pokemob.setCombatState(CombatStates.MEGAFORME, false);
             mess = TComponent.translatable("pokemob.megaevolve.revert", oldName,
                     TComponent.translatable(newEntry.getUnlocalizedName()));

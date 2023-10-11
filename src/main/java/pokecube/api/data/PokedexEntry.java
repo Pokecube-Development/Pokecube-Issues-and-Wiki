@@ -565,7 +565,7 @@ public class PokedexEntry
                 if (action == null) return false;
                 if (!doInteract) return true;
                 final PokedexEntry forme = action.forme;
-                pokemob.megaEvolve(forme);
+                pokemob.changeForm(forme);
                 return true;
             }
             final CompoundTag data = entity.getPersistentData();
@@ -950,9 +950,6 @@ public class PokedexEntry
      */
     public boolean isGenderForme = false;
 
-    /** Can it megaevolve */
-    @CopyToGender
-    public boolean hasMegaForm = false;
     @CopyToGender
     public boolean hasShiny = true;
     /** Materials which will hurt or make it despawn. */
@@ -960,10 +957,6 @@ public class PokedexEntry
     public List<IMaterialAction> materialActions = Lists.newArrayList();
     @CopyToGender
     public float height = -1;
-    @CopyToGender
-    private boolean isMega = false;
-    @CopyToGender
-    private boolean isGMax = false;
     @CopyToGender
     public boolean ridable = true;
     /**
@@ -1057,6 +1050,9 @@ public class PokedexEntry
 
     @CopyToGender
     public boolean isHeatProof = false;
+
+    @CopyToGender
+    public boolean isMega = false;
 
     @CopyToGender
     public ResourceLocation sound;
@@ -1269,7 +1265,6 @@ public class PokedexEntry
                     mrule.stack = stack;
                     PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
                 }
-                formeEntry.setMega(true);
                 this.megaRules.put(formeEntry, mrule);
                 if (PokecubeCore.getConfig().debug_data)
                     PokecubeAPI.logInfo("Added Mega: " + this + " -> " + formeEntry);
@@ -1339,6 +1334,7 @@ public class PokedexEntry
         this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
         this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
         this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
+        this.isMega = Tags.POKEMOB.isIn("mega_gmax", this.getTrimmedName());
 
         // Breeding whitelist is generally for legends that are explicitly
         // allowed to breed, like manaphy
@@ -1364,7 +1360,6 @@ public class PokedexEntry
         if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
-        if (this.isMega() || this.isGMax()) this.breeds = false;
         this.copyToGenderFormes();
     }
 
@@ -2257,25 +2252,8 @@ public class PokedexEntry
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
     }
 
-    public boolean isGMax()
-    {
-        return this.isGMax;
-    }
-
-    public void setGMax(final boolean isGMax)
-    {
-        this.isGMax = isGMax;
-        // Mark gmax as mega as well.
-        this.isMega = isGMax;
-    }
-
     public boolean isMega()
     {
         return this.isMega;
-    }
-
-    public void setMega(final boolean isMega)
-    {
-        this.isMega = isMega;
     }
 }

@@ -248,10 +248,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         this.returning = true;
 
-        final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega();
-
-        IPokemob base = this;
-        if (megaForm) base = this.megaRevert();
+        IPokemob base = this.resetForm();
 
         final Ability ab = this.getAbility();
         if (ab != null) base = ab.onRecall(base);
@@ -392,7 +389,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         }
         super.setHeldItem(itemStack);
     }
-    
+
     @Override
     public ItemStack onHeldItemChanged(ItemStack itemStack)
     {
@@ -405,7 +402,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             this.dataSync().set(this.params.HELDITEMDW, itemStack);
             // Now check if we need to cancel any mega evolutions, etc.
             // megaRevert handles checking if we are mega evolved, etc
-            if (!itemStack.isEmpty()) this.megaRevert();
+            if (!itemStack.isEmpty()) this.resetForm();
             // Copy the item over as the actual item gets invalidated.
             _lastHeld = itemStack.copy();
         }

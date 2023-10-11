@@ -265,8 +265,6 @@ public class JsonPokedexEntry
 
     public DyeInfo dye = null;
 
-    public Boolean mega = null;
-    public Boolean gmax = null;
     public Boolean no_shiny = null;
 
     public String sound = null;
@@ -315,6 +313,7 @@ public class JsonPokedexEntry
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
+        entry.generated = !this.is_default;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
         if (entry.base && !registered)
         {
@@ -382,8 +381,6 @@ public class JsonPokedexEntry
         if (this.interactions != null) entry.addInteractions(this.interactions);
         if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
-        if (this.mega != null) entry.setMega(this.mega);
-        if (this.gmax != null) entry.setGMax(this.gmax);
         if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 
         if (this.size != null) this.size.accept(entry);

@@ -156,7 +156,7 @@ public class LogicMiscUpdate extends LogicBase
                         this.pokemob.getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
 
-                final PokedexEntry newEntry = this.pokemob.getMegaBase();
+                final PokedexEntry newEntry = this.pokemob.getBasePokedexEntry();
                 if (newEntry != this.pokemob.getPokedexEntry())
                     ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
 

@@ -248,6 +248,7 @@ public class PokemobEventsHandler
         final long evoTime;
         boolean dynamaxing = false;
         boolean set = false;
+        public boolean permanent = false;
 
         public MegaEvoTicker(final PokedexEntry mega, final long evoTime, final IPokemob evolver,
                 final Component message, final boolean dynamaxing)
@@ -291,7 +292,7 @@ public class PokemobEventsHandler
                     Triggers.MEGAEVOLVEPOKEMOB.trigger(player, this.pokemob);
                 final int evoTicks = this.pokemob.getEvolutionTicks();
                 final float hp = this.pokemob.getHealth();
-                this.pokemob = this.pokemob.megaEvolve(this.mega, true);
+                this.pokemob = this.pokemob.changeForm(this.mega, true, this.permanent);
                 this.pokemob.setHealth(hp);
                 /**
                  * Flag the new mob as evolving to continue the animation
