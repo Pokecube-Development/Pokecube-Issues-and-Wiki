@@ -10,19 +10,24 @@ import os
 from glob import glob
 import shutil
 
-entry_generate_dir = '../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/'
-materials_generate_dir = '../../src/generated/resources/data/pokecube_mobs/database/pokemobs/materials/'
-ability_lang_generate_dir = '../../src/generated/resources/assets/pokecube_abilities/lang/'
-mob_lang_generate_dir = '../../src/generated/resources/assets/pokecube_mobs/lang/'
-tag_generate_dir = '../../src/generated/resources/data/pokecube/tags/entity_types/'
-advancements_dir = '../../src/generated/resources/data/pokecube_mobs/advancements/'
+# Uncomment these to generate all of the files in the correct spots
+#
+# If just updating pokedex entries, leave these commented out, and instead use pokedex_updater.py after running this script.
+#
+#
+# entry_generate_dir = '../../src/generated/resources/data/pokecube_mobs/database/pokemobs/pokedex_entries/'
+# materials_generate_dir = '../../src/generated/resources/data/pokecube_mobs/database/pokemobs/materials/'
+# ability_lang_generate_dir = '../../src/generated/resources/assets/pokecube_abilities/lang/'
+# mob_lang_generate_dir = '../../src/generated/resources/assets/pokecube_mobs/lang/'
+# tag_generate_dir = '../../src/generated/resources/data/pokecube/tags/entity_types/'
+# advancements_dir = '../../src/generated/resources/data/pokecube_mobs/advancements/'
 
-# entry_generate_dir = './new/pokemobs/pokedex_entries/'
-# materials_generate_dir = './new/pokemobs/materials/'
-# ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
-# mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
-# tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
-# advancements_dir = './new/advancements/'
+entry_generate_dir = './new/pokemobs/pokedex_entries/'
+materials_generate_dir = './new/pokemobs/materials/'
+ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
+mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
+tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
+advancements_dir = './new/advancements/'
 
 UPDATE_EXAMPLE = False
 WARN_NO_EXP = True

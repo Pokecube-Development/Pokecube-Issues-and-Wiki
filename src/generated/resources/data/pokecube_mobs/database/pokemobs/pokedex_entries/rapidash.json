@@ -205,6 +205,18 @@
       "scorching-sands"
     ]
   },
+  "ridden_offsets": [
+    [
+      0,
+      -0.15,
+      0.55
+    ],
+    [
+      0,
+      -0.3,
+      0.55
+    ]
+  ],
   "interactions": [
     {
       "male": false,
@@ -233,9 +245,5 @@
       }
     }
   ],
-  "loot_table": "pokecube:entities/coal_cow_2",
-  "ridden_offsets":[ 
-      [ 0, 0.55, -0.15],
-      [ 0, 0.55, -0.3]
-  ]
+  "loot_table": "pokecube:entities/coal_cow_2"
 }
