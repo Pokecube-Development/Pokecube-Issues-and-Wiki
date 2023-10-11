@@ -39,6 +39,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
@@ -129,7 +130,8 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
-            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes();
+            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
+                    .add(SharedAttributes.MOB_SIZE_SCALE.get());
             event.put(EntityInit.WORMHOLE.get(), attribs.build());
         }
     }

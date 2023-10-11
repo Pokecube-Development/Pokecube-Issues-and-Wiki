@@ -183,8 +183,8 @@ public abstract class PokemobMoves extends PokemobStats
         // We can do processing here to see what moves to supply.
         final String[] g_z_moves = super.getGZMoves();
         final String[] moves = this.getMoves();
-        boolean gigant = this.getCombatState(CombatStates.DYNAMAX)
-                && this.getPokedexEntry().getTrimmedName().contains("-gmax");
+        boolean gigant = this.getEntity().getPersistentData().contains("pokecube:dynatime")
+                && this.getPokedexEntry().isMega();
         for (int i = 0; i < 4; i++)
         {
             final String gmove = GZMoveManager.getGMove(this, moves[i], gigant);

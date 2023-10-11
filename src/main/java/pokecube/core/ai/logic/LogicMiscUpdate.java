@@ -38,12 +38,15 @@ import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
+import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
+import pokecube.api.utils.DynamaxHelper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.nests.NestTile;
+import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
@@ -141,31 +144,26 @@ public class LogicMiscUpdate extends LogicBase
     {
         final boolean angry = this.pokemob.inCombat();
 
-        boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX);
-
+        boolean isDyna = DynamaxHelper.isDynamax(this.pokemob);
         // check dynamax timer for cooldown.
         if (isDyna)
         {
             final long time = Tracker.instance().getTick();
-            if (this.dynatime == -1)
-                this.dynatime = this.pokemob.getEntity().getPersistentData().getLong("pokecube:dynatime");
-            if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
+            int dynaEnd = this.entity.getPersistentData().getInt("pokecube:dynaend");
+            this.dynatime = this.entity.getPersistentData().getInt("pokecube:dynatime");
+            if (!this.de_dyna && time - dynaEnd > this.dynatime)
             {
                 Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",
                         this.pokemob.getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
 
-                final PokedexEntry newEntry = this.pokemob.getMegaBase();
-                if (newEntry != this.pokemob.getPokedexEntry())
-                    ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
-
-                pokemob.setCombatState(CombatStates.MEGAFORME, false);
+                final PokedexEntry newEntry = this.pokemob.getBasePokedexEntry();
                 mess = TComponent.translatable("pokemob.dynamax.revert", this.pokemob.getDisplayName());
-                ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
-
+                MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
                 if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
 
                 this.de_dyna = true;
+                this.dynatime = -1;
             }
         }
         else
@@ -589,6 +587,7 @@ public class LogicMiscUpdate extends LogicBase
         final Pose pose = this.entity.getPose();
         final boolean walking = this.floatTimer < 2 && moving;
         boolean noBlink = false;
+        boolean guarding = pokemob.getCombatState(CombatStates.GUARDING);
         if (pose == Pose.DYING || entity.deathTime > 0)
         {
             addAnimation(anims, "dead", isRidden);
@@ -626,8 +625,16 @@ public class LogicMiscUpdate extends LogicBase
         default:
             break;
         }
-        if (this.entity.isSprinting()) addAnimation(anims, "sprinting", isRidden);
-        if (walking) addAnimation(anims, "walking", isRidden);
+        if (this.entity.isSprinting())
+        {
+            if (guarding) addAnimation(anims, "guarding_sprinting", isRidden);
+            addAnimation(anims, "sprinting", isRidden);
+        }
+        if (walking)
+        {
+            if (guarding) addAnimation(anims, "guarding_walking", isRidden);
+            addAnimation(anims, "walking", isRidden);
+        }
         for (final CombatStates state : CombatStates.values())
         {
             final String anim = ThutCore.trim(state.toString());
@@ -638,10 +645,8 @@ public class LogicMiscUpdate extends LogicBase
         float blink_rate = 0.5f;
         if (!noBlink && entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
         {
-            transients.add("blink");
+            if (!transients.contains("blink")) transients.add("blink");
         }
-        else transients.remove("blink");
-
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
             final int index = this.pokemob.getMoveIndex();
@@ -653,6 +658,10 @@ public class LogicMiscUpdate extends LogicBase
                     addAnimation(transients, "attack_contact", isRidden);
                 if (move.getAttackCategory(pokemob) == ContactCategory.RANGED)
                     addAnimation(transients, "attack_ranged", isRidden);
+                if (move.getCategory(pokemob) == AttackCategory.STATUS)
+                    addAnimation(transients, "attack_status", isRidden);
+                if (move.getCategory(pokemob) == AttackCategory.OTHER)
+                    addAnimation(transients, "attack_other", isRidden);
             }
         }
 
@@ -660,6 +669,7 @@ public class LogicMiscUpdate extends LogicBase
         {
             addAnimation(transients, "battling", isRidden);
         }
+        if (isRidden) addAnimation(anims, "idle", isRidden);
     }
 
     @Override

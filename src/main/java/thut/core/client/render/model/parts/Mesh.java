@@ -1,5 +1,7 @@
 package thut.core.client.render.model.parts;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -90,18 +92,15 @@ public abstract class Mesh
         Vec3f maxs = new Vec3f(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
         final Vec3f c = new Vec3f();
 
+        // In this case, just fill all with dummy tex.
+        if (tex == null) Arrays.fill(textureCoordinates, dummyTex);
+        // Fill the order array first.
+        for (int i = 0; i < order.length; i++) this.order[i] = order[i];
+
         int i_1, i_2, i_3, i_4 = 0;
         // Calculate the normals for each triangle.
         for (int i = 0; i < this.order.length; i += iter)
         {
-            for (int j = i; j < i + iter; j++)
-            {
-                this.order[j] = order[j];
-
-                // In this case, just fill all with dummy tex.
-                if (tex == null) textureCoordinates[j] = dummyTex;
-            }
-
             i_1 = this.order[i + 0];
             i_2 = this.order[i + 1];
             i_3 = this.order[i + 2];
@@ -161,6 +160,7 @@ public abstract class Mesh
 
         // Initialize a "default" material for us
         this.material = new Material("auto:" + this.name);
+        this.material.vertexMode = this.vertexMode;
     }
 
     private final Vector3f dummy3 = new Vector3f();
@@ -212,7 +212,7 @@ public abstract class Mesh
 
         final boolean flat = this.material.flat;
         Vertex[] normals = flat ? this.normalList : this.normals;
-        final com.mojang.math.Vector3f dn = this.dummy3;
+        final Vector3f dn = this.dummy3;
         final Matrix3f norms = matrixstack$entry.normal();
 
         Vertex vertex;
@@ -237,9 +237,6 @@ public abstract class Mesh
 
         if (this.renderScale != 1)
         {
-//            System.out.println(scale);
-            
-            
             float dx = (max.x - min.x) / 2;
             float mx = min.x + dx;
 
@@ -294,11 +291,7 @@ public abstract class Mesh
                 //@formatter:on
             }
         }
-        else
-            // Loop over this rather than the array directly, so that we can
-            // skip by
-            // more than 1 if culling.
-            for (int i0 = 0; i0 < this.order.length; i0++)
+        else for (int i0 = 0; i0 < this.order.length; i0++)
         {
             int i = this.order[i0];
 

@@ -81,6 +81,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
+import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.TimePeriod;
@@ -92,6 +93,7 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
@@ -564,7 +566,7 @@ public class PokedexEntry
                 if (action == null) return false;
                 if (!doInteract) return true;
                 final PokedexEntry forme = action.forme;
-                pokemob.megaEvolve(forme);
+                pokemob.changeForm(forme);
                 return true;
             }
             final CompoundTag data = entity.getPersistentData();
@@ -818,6 +820,8 @@ public class PokedexEntry
      */
     public boolean stock = true;
 
+    public boolean generated = false;
+
     // Values in Stats
 
     @CopyToGender
@@ -947,9 +951,6 @@ public class PokedexEntry
      */
     public boolean isGenderForme = false;
 
-    /** Can it megaevolve */
-    @CopyToGender
-    public boolean hasMegaForm = false;
     @CopyToGender
     public boolean hasShiny = true;
     /** Materials which will hurt or make it despawn. */
@@ -957,10 +958,6 @@ public class PokedexEntry
     public List<IMaterialAction> materialActions = Lists.newArrayList();
     @CopyToGender
     public float height = -1;
-    @CopyToGender
-    private boolean isMega = false;
-    @CopyToGender
-    private boolean isGMax = false;
     @CopyToGender
     public boolean ridable = true;
     /**
@@ -1054,6 +1051,9 @@ public class PokedexEntry
 
     @CopyToGender
     public boolean isHeatProof = false;
+
+    @CopyToGender
+    public boolean isMega = false;
 
     @CopyToGender
     public ResourceLocation sound;
@@ -1157,6 +1157,15 @@ public class PokedexEntry
         this.megaRules.clear();
         if (this._forme_items != null)
         {
+            List<FormeItem> rules = new ArrayList<>();
+            Set<String> uniques = Sets.newHashSet();
+            for (final FormeItem rule : this._forme_items)
+            {
+                if (uniques.add(JsonUtil.smol_gson.toJson(rule))) rules.add(rule);
+            }
+            this._forme_items.clear();
+            this._forme_items.addAll(rules);
+
             for (FormeItem i : _forme_items)
             {
                 PokedexEntry output = i.getOutput();
@@ -1197,6 +1206,16 @@ public class PokedexEntry
                 }
             }
         }
+
+        List<BaseMegaRule> rules = new ArrayList<>();
+        Set<String> uniques = Sets.newHashSet();
+        for (final BaseMegaRule rule : this._loaded_megarules)
+        {
+            if (uniques.add(JsonUtil.smol_gson.toJson(rule))) rules.add(rule);
+        }
+        this._loaded_megarules.clear();
+        this._loaded_megarules.addAll(rules);
+
         for (final BaseMegaRule rule : this._loaded_megarules)
         {
             String forme = rule.name != null ? rule.name : null;
@@ -1247,8 +1266,6 @@ public class PokedexEntry
                     mrule.stack = stack;
                     PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
                 }
-                formeEntry.setMega(true);
-                formeEntry.setBaseForme(this);
                 this.megaRules.put(formeEntry, mrule);
                 if (PokecubeCore.getConfig().debug_data)
                     PokecubeAPI.logInfo("Added Mega: " + this + " -> " + formeEntry);
@@ -1318,6 +1335,7 @@ public class PokedexEntry
         this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
         this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
         this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
+        this.isMega = Tags.POKEMOB.isIn("mega_gmax", this.getTrimmedName());
 
         // Breeding whitelist is generally for legends that are explicitly
         // allowed to breed, like manaphy
@@ -1343,7 +1361,6 @@ public class PokedexEntry
         if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
-        if (this.isMega() || this.isGMax()) this.breeds = false;
         this.copyToGenderFormes();
     }
 
@@ -1509,7 +1526,6 @@ public class PokedexEntry
     public Ability getAbility(final int number, final IPokemob pokemob)
     {
         List<String> abilities = this.abilities;
-        if (pokemob.getCustomHolder() != null) abilities = pokemob.getCustomHolder().getAbilities(this);
         if (number < abilities.size()) return AbilityManager.getAbility(abilities.get(number));
         if (number == 2) return this.getHiddenAbility(pokemob);
         return null;
@@ -1577,8 +1593,8 @@ public class PokedexEntry
         ResourceLocation key = holder == null ? _base_description : holder.key;
         return _descriptions.computeIfAbsent(key, k -> {
 
-            PokeType type1 = holder == null ? this.type1 : holder.getTypes(this).get(0);
-            PokeType type2 = holder == null ? this.type2 : holder.getTypes(this).get(1);
+            PokeType type1 = this.type1;
+            PokeType type2 = this.type2;
 
             final PokedexEntry entry = this;
             final MutableComponent typeString = PokeType.getTranslatedName(type1);
@@ -1604,6 +1620,8 @@ public class PokedexEntry
 
     public EntityType<? extends Mob> getEntityType()
     {
+        if (this.entity_type == null && this.getBaseForme() != null)
+            this.entity_type = this.getBaseForme().getEntityType();
         return this.entity_type;
     }
 
@@ -2072,7 +2090,7 @@ public class PokedexEntry
         // Set the custom holder regardless incase it was needed.
         if (newHolder != null) pokemob.setCustomHolder(newHolder);
         if (newForme != null && newForme != pokemob.getPokedexEntry())
-            ICanEvolve.setDelayedMegaEvolve(pokemob, newForme, null);
+            MegaEvoTicker.scheduleEvolve(newForme, pokemob, null);
     }
 
     public void setBaseForme(final PokedexEntry baseForme)
@@ -2235,25 +2253,8 @@ public class PokedexEntry
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
     }
 
-    public boolean isGMax()
-    {
-        return this.isGMax;
-    }
-
-    public void setGMax(final boolean isGMax)
-    {
-        this.isGMax = isGMax;
-        // Mark gmax as mega as well.
-        this.isMega = isGMax;
-    }
-
     public boolean isMega()
     {
         return this.isMega;
-    }
-
-    public void setMega(final boolean isMega)
-    {
-        this.isMega = isMega;
     }
 }

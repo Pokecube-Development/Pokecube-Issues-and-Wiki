@@ -1,7 +1,6 @@
 package pokecube.api.entity.pokemob;
 
 import pokecube.api.data.abilities.Ability;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -186,9 +185,7 @@ public interface IHasStats extends IHasEntry
      */
     default PokeType originalType1()
     {
-        IPokemob us = (IPokemob) this;
-        FormeHolder holder = us.getCustomHolder();
-        return holder == null ? this.getPokedexEntry().getType1() : holder.getTypes(getPokedexEntry()).get(0);
+        return this.getPokedexEntry().getType1();
     }
 
     /**
@@ -196,11 +193,9 @@ public interface IHasStats extends IHasEntry
      */
     default PokeType originalType2()
     {
-        IPokemob us = (IPokemob) this;
-        FormeHolder holder = us.getCustomHolder();
-        return holder == null ? this.getPokedexEntry().getType2() : holder.getTypes(getPokedexEntry()).get(1);
+        return this.getPokedexEntry().getType2();
     }
-    
+
     /**
      * Returns 1st type.
      *
@@ -240,8 +235,6 @@ public interface IHasStats extends IHasEntry
     default double getWeight()
     {
         double mass = this.getPokedexEntry().mass;
-        if (((IPokemob) this).getCustomHolder() != null)
-            mass = ((IPokemob) this).getCustomHolder().getMass(this.getPokedexEntry());
         return this.getSize() * this.getSize() * this.getSize() * mass;
     }
 
@@ -297,7 +290,8 @@ public interface IHasStats extends IHasEntry
     /**
      * Sets current health for our mob.
      * 
-     * @param health - value to set for health, should be at most {@link #getMaxHealth()}
+     * @param health - value to set for health, should be at most
+     *               {@link #getMaxHealth()}
      */
     default void setHealth(final float health)
     {

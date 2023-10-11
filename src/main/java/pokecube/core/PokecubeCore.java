@@ -44,6 +44,8 @@ import pokecube.api.data.spawns.matchers.MatcherLoaders;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.moves.Battle;
+import pokecube.api.utils.DynamaxHelper;
+import pokecube.api.utils.MegaEvolveHelper;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.brain.Sensors;
 import pokecube.core.ai.npc.Activities;
@@ -187,7 +189,19 @@ public class PokecubeCore
         if (world == null) return null;
         EntityType<? extends Mob> type = entry.getEntityType();
         if (type == null && entry.getBaseForme() != null) type = entry.getBaseForme().getEntityType();
-        if (type != null) return type.create(world);
+        if (type != null)
+        {
+            Mob mob = null;
+            if (entry.stock && type.toString().equals("entity.minecraft.pig"))
+            {
+                type = Database.missingno.getEntityType();
+                mob = type.create(world);
+                return mob;
+            }
+            else mob = type.create(world);
+            PokemobCaps.getPokemobFor(mob).setPokedexEntry(entry);
+            return mob;
+        }
         return null;
     }
 
@@ -282,6 +296,8 @@ public class PokecubeCore
         EntityTypes.init();
         Sounds.init();
         PaintingsHandler.init();
+        MegaEvolveHelper.init();
+        DynamaxHelper.init();
 
         // Register the battle managers
         Battle.register();

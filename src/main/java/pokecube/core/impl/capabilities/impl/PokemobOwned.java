@@ -238,7 +238,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.setEvolutionTicks(0);
         this.setGeneralState(GeneralStates.EXITINGCUBE, false);
         this.setGeneralState(GeneralStates.EVOLVING, false);
-        this.setCombatState(CombatStates.DYNAMAX, false);
 
         if (this.returning)
         {
@@ -248,10 +247,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         this.returning = true;
 
-        final boolean megaForm = this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega();
-
-        IPokemob base = this;
-        if (megaForm) base = this.megaRevert();
+        IPokemob base = this.resetForm(true);
 
         final Ability ab = this.getAbility();
         if (ab != null) base = ab.onRecall(base);
@@ -392,7 +388,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         }
         super.setHeldItem(itemStack);
     }
-    
+
     @Override
     public ItemStack onHeldItemChanged(ItemStack itemStack)
     {
@@ -405,7 +401,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             this.dataSync().set(this.params.HELDITEMDW, itemStack);
             // Now check if we need to cancel any mega evolutions, etc.
             // megaRevert handles checking if we are mega evolved, etc
-            if (!itemStack.isEmpty()) this.megaRevert();
+            if (!itemStack.isEmpty()) this.resetForm(false);
             // Copy the item over as the actual item gets invalidated.
             _lastHeld = itemStack.copy();
         }
@@ -519,8 +515,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (forme != null)
         {
             // Sync these to PGs as well
-            this.genesSpecies.getAllele(0).getValue().forme = forme;
-            this.genesSpecies.getAllele(1).getValue().forme = forme;
+            this.genesSpecies.getAllele(0).getValue().setForme(forme);
+            this.genesSpecies.getAllele(1).getValue().setForme(forme);
         }
         return pokemob;
     }

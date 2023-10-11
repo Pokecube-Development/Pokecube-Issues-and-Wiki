@@ -42,11 +42,11 @@ import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
@@ -410,6 +410,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
+            if (entry.generated) continue;
             final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
             final Holder holder = new Holder(entry);
             RenderPokemob.holderMap.put(type, holder);
@@ -478,7 +479,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             holder = temp;
         }
         if (holder.failTimer > 50) holder = MISSNGNO;
-
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();
