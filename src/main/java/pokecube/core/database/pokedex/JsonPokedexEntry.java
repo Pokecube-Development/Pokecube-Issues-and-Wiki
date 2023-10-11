@@ -465,8 +465,8 @@ public class JsonPokedexEntry
                         e.printStackTrace();
                     }
                     entry.passengerOffsets[i][0] = x;
-                    entry.passengerOffsets[i][1] = y;
-                    entry.passengerOffsets[i][2] = z;
+                    entry.passengerOffsets[i][1] = z;
+                    entry.passengerOffsets[i][2] = y;
                 }
                 i++;
             }
