@@ -16,11 +16,13 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.maxspot.MaxTile;
+import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
@@ -80,18 +82,35 @@ public class DynamaxHelper
                     final long dynatime = PokecubePlayerDataHandler.getCustomDataTag(owner.getUUID())
                             .getLong("pokecube:dynatime");
                     final long time = Tracker.instance().getTick();
-                    final long dynaagain = dynatime + PokecubeCore.getConfig().dynamax_cooldown;
-                    if (dynatime != 0 && time < dynaagain)
+                    if (dynatime != 0 && time - dynatime < PokecubeCore.getConfig().dynamax_cooldown)
                     {
                         thut.lib.ChatHelper.sendSystemMessage(player,
                                 TComponent.translatable("pokemob.dynamax.too_soon", pokemob.getDisplayName()));
                         return true;
                     }
+                    var info = DynamaxGene.getDyna(mob);
+                    if (info.gigantamax)
+                    {
+                        var gEntry = Database.getEntry(entry.getName() + "-gmax");
+                        if (gEntry != null) newEntry = gEntry;
+                    }
+
                     Component mess = TComponent.translatable("pokemob.dynamax.command.evolve", oldName);
                     pokemob.displayMessageToOwner(mess);
                     mess = TComponent.translatable("pokemob.dynamax.success", oldName);
-                    DynamaxHelper.dynamax(pokemob, PokecubeCore.getConfig().dynamax_duration);
-                    MegaEvoTicker.scheduleEvolve(newEntry, pokemob, mess);
+                    PokecubePlayerDataHandler.getCustomDataTag(owner.getUUID()).putLong("pokecube:dynatime", time);
+                    MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, newEntry, pokemob, mess,
+                            () ->
+                            {
+                                // Flag as evolving
+                                pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+                                pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                                pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
+                            }, () -> {
+                                DynamaxHelper.dynamax(pokemob, PokecubeCore.getConfig().dynamax_duration);
+                                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+                            });
                     return true;
                 }
             }
@@ -124,7 +143,15 @@ public class DynamaxHelper
     private static void onDynaRevert(IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
-        entity.getPersistentData().remove("pokecube:dynatime");
+        entity.getPersistentData().remove("pokecube:dynadur");
+        var hpAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+        hpAttr.removeModifier(DYNAMOD);
+
+        if (entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
+        {
+            var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get());
+            scaleAttr.removeModifier(DYNAMOD);
+        }
     }
 
     private static void onFormRevert(ChangeForm.Revert event)
@@ -144,23 +171,30 @@ public class DynamaxHelper
         var entity = pokemob.getEntity();
         long time = Tracker.instance().getTick();
         entity.getPersistentData().putLong("pokecube:dynatime", time);
-        entity.getPersistentData().putInt("pokecube:dynaend", duration);
+        entity.getPersistentData().putInt("pokecube:dynadur", duration);
         var info = DynamaxGene.getDyna(entity);
         float scale = 1.5f + 0.05f * info.dynaLevel;
         var hpBoost = makeHealthBoost(scale);
-        entity.getAttribute(Attributes.MAX_HEALTH).addTransientModifier(hpBoost);
+        var hpAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+        hpAttr.removeModifier(DYNAMOD);
+        float health = entity.getMaxHealth();
+        hpAttr.addPermanentModifier(hpBoost);
+        float toAdd = entity.getMaxHealth() - health;
+        entity.heal(toAdd);
 
         if (entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
         {
+            var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get());
             var sizeBoost = new AttributeModifier(DYNAMOD, "pokecube:dynamax", PokecubeCore.getConfig().dynamax_scale,
-                    Operation.MULTIPLY_TOTAL);
-            entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get()).addTransientModifier(sizeBoost);
+                    Operation.MULTIPLY_BASE);
+            scaleAttr.removeModifier(DYNAMOD);
+            scaleAttr.addPermanentModifier(sizeBoost);
         }
     }
 
     public static boolean isDynamax(IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
-        return entity.getPersistentData().contains("pokecube:dynatime");
+        return entity.getPersistentData().contains("pokecube:dynadur");
     }
 }

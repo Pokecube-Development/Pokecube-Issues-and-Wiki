@@ -149,8 +149,8 @@ public class LogicMiscUpdate extends LogicBase
         if (isDyna)
         {
             final long time = Tracker.instance().getTick();
-            int dynaEnd = this.entity.getPersistentData().getInt("pokecube:dynaend");
-            this.dynatime = this.entity.getPersistentData().getInt("pokecube:dynatime");
+            int dynaEnd = this.entity.getPersistentData().getInt("pokecube:dynadur");
+            this.dynatime = this.entity.getPersistentData().getLong("pokecube:dynatime");
             if (!this.de_dyna && time - dynaEnd > this.dynatime)
             {
                 Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",

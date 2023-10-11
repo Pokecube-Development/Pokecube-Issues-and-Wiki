@@ -33,15 +33,7 @@ public class MegaEvolveHelper
             Player player = owner instanceof Player p ? p : null;
             PokedexEntry newEntry = entry;
             newEntry = pokemob.getPokedexEntry().getMegaEvo(pokemob);
-            if (newEntry != null && !isMega)
-            {
-                Component mess = TComponent.translatable("pokemob.megaevolve.command.evolve", oldName);
-                pokemob.displayMessageToOwner(mess);
-                mess = TComponent.translatable("pokemob.megaevolve.success", oldName,
-                        TComponent.translatable(newEntry.getUnlocalizedName()));
-                MegaEvolveHelper.megaEvolve(pokemob, newEntry, mess);
-            }
-            else if (isMega)
+            if (isMega)
             {
                 Component mess = TComponent.translatable("pokemob.megaevolve.command.revert", oldName);
                 pokemob.displayMessageToOwner(mess);
@@ -49,7 +41,14 @@ public class MegaEvolveHelper
                 mess = TComponent.translatable("pokemob.megaevolve.revert", oldName,
                         TComponent.translatable(newEntry.getUnlocalizedName()));
                 MegaEvoTicker.scheduleRevert(newEntry, pokemob, mess);
-
+            }
+            else if (newEntry != null)
+            {
+                Component mess = TComponent.translatable("pokemob.megaevolve.command.evolve", oldName);
+                pokemob.displayMessageToOwner(mess);
+                mess = TComponent.translatable("pokemob.megaevolve.success", oldName,
+                        TComponent.translatable(newEntry.getUnlocalizedName()));
+                MegaEvolveHelper.megaEvolve(pokemob, newEntry, mess);
             }
             else thut.lib.ChatHelper.sendSystemMessage(player,
                     TComponent.translatable("pokemob.megaevolve.failed", pokemob.getDisplayName()));

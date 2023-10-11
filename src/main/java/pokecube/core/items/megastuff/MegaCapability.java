@@ -113,10 +113,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
         {
             PokedexEntry e;
             if (stack.hasTag() && stack.getTag().contains("mega_entry"))
-            {
                 e = Database.getEntry(stack.getTag().getString("mega_entry"));
-                System.out.println(e);
-            }
             else e = Database.getEntry(RegHelper.getKey(stack).getPath());
             if (e == null) e = Database.missingno;
             return e;
