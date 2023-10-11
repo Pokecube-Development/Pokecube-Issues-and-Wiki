@@ -7,9 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import com.mojang.math.Quaternion;
 import com.mojang.math.Vector3f;
 
@@ -144,7 +142,7 @@ public class BBModelPart extends Part
 
         if (quads_materials.isEmpty() && tris_materials.isEmpty())
             PokecubeAPI.logDebug("No parts for " + t.name + " " + b.name);
-        Map<String, Material> mats = Maps.newHashMap();
+        var mats = t._materials;
 
         quads_materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);
@@ -153,8 +151,7 @@ public class BBModelPart extends Part
             Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]),
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
-            Material mat = new Material(m.name);
-            mat.vertexMode = Mode.QUADS;
+            Material mat = mats.getOrDefault(m.name, new Material(m.name));
             mat.expectedTexH = t.resolution.height;
             mat.expectedTexW = t.resolution.width;
             mats.put(m.name, mat);
@@ -172,18 +169,9 @@ public class BBModelPart extends Part
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
-
-            // This means we were loaded earlier, but for quads, so we want
-            // a new material for triangles, so the render types do not
-            // conflict
-            if (mat.vertexMode == Mode.QUADS)
-            {
-                m.name = m.name + "_tris";
-                mat = mats.getOrDefault(m.name, new Material(m.name));
-                mat.vertexMode = Mode.TRIANGLES;
-            }
             mat.expectedTexH = t.resolution.height;
             mat.expectedTexW = t.resolution.width;
+            mats.put(m.name, mat);
             if (b.box_uv || t.meta.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);

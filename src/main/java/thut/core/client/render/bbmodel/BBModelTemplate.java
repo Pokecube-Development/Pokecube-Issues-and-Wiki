@@ -16,6 +16,7 @@ import net.minecraft.core.Direction;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
+import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
@@ -40,15 +41,12 @@ public class BBModelTemplate
     public Resolution resolution = new Resolution();
 
     public Map<String, Object> _by_uuid = new HashMap<>();
-    public Map<String, List<Element>> _unique_mesh_owners = new HashMap<>();
+    Map<String, Material> _materials = Maps.newHashMap();
 
     public void init()
     {
         elements.forEach(e -> {
             _by_uuid.put(e.uuid, e);
-            if (e.type.equals("mesh")) e.faces.forEach((key, json) -> {
-                _unique_mesh_owners.computeIfAbsent(key, var -> new ArrayList<>()).add(e);
-            });
         });
         textures.forEach(e -> _by_uuid.put(e.uuid, e));
         outliner.forEach(e -> e.init(this));
@@ -248,9 +246,9 @@ public class BBModelTemplate
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
                 if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
                 if (z != 0) quat.mul(AxisAngles.YP.rotationDegrees(z));
-                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(origin_offset);
@@ -394,15 +392,14 @@ public class BBModelTemplate
                         map_order.set(2, a);
                     }
                 }
-                
+
                 for (int j = 0; j < map_order.size(); j++)
                 {
                     int i = same ? j : map_order.size() - j - 1;
                     String vert_key = map_order.get(i);
                     Vertex v = verts.get(vert_key);
                     float[] uv = uv_order.get(vert_key);
-                    if(b.name.equals("Mirror") && map_order.size()==3)
-                        System.out.println(vert_key+" "+v+" "+Arrays.toString(uv));
+                    quad.texture = face.texture;
                     quad.points[j] = v;
                     quad.tex[j] = new TextureCoordinate(uv[0] / us, uv[1] / vs);
                 }

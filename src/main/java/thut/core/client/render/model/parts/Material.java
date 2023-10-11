@@ -80,7 +80,7 @@ public class Material
 
     static MultiBufferSource.BufferSource lastImpl = null;
 
-    final Map<ResourceLocation, RenderType> types = new Object2ObjectOpenHashMap<>(2);
+    final Map<String, RenderType> types = new Object2ObjectOpenHashMap<>(2);
     final Map<ResourceLocation, double[]> uv_scales = new Object2ObjectOpenHashMap<>(2);
 
     public Material(final String name)
@@ -126,9 +126,9 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
     {
-        this.vertexMode = mode;
         if (Material.lastImpl == null) Material.lastImpl = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || Material.lastImpl == null) return buffer;
+        this.vertexMode = mode;
         final RenderType type = this.makeRenderType(this.tex, mode);
         VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
         return newBuffer;

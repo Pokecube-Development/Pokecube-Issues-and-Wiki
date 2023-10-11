@@ -40,7 +40,7 @@ public class AnimatedTexture extends BaseTexture implements Tickable
             {
                 double expectedAspectRatio = height / width;
                 double imgAspectRatio = img.getHeight() / ((double) img.getWidth());
-                _size = (int) Math.ceil(imgAspectRatio / expectedAspectRatio);
+                _size = (int) Math.round(imgAspectRatio / expectedAspectRatio);
                 for (int i = 0; i < _size; i++)
                 {
                     AnimFrame frame = new AnimFrame();
