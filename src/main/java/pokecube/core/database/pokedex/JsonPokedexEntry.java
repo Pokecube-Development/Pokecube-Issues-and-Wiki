@@ -272,7 +272,8 @@ public class JsonPokedexEntry
 
     public String sound = null;
 
-    public Map<String, BodyNode> pose_shapes = null;
+    public Map<String, JsonElement> pose_shapes = null;
+    public List<JsonElement> ridden_offsets = null;
 
     public List<FormeItem> forme_items = null;
 
@@ -420,9 +421,55 @@ public class JsonPokedexEntry
 
         if (this.pose_shapes != null && !this.pose_shapes.isEmpty())
         {
-            entry.poseShapes = null;
-            this.pose_shapes.forEach((s, n) -> n.onLoad());
-            entry.poseShapes = this.pose_shapes;
+            entry.poseShapes = Maps.newHashMap();
+            this.pose_shapes.forEach((s, n) -> {
+                try
+                {
+                    BodyNode b = JsonUtil.gson.fromJson(n, BodyNode.class);
+                    b.onLoad();
+                    entry.poseShapes.put(s, b);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            });
+        }
+        if (this.ridden_offsets != null && !this.ridden_offsets.isEmpty())
+        {
+            entry.passengerOffsets = new double[this.ridden_offsets.size()][3];
+            int i = 0;
+            for (var obj : this.ridden_offsets)
+            {
+                if (obj.isJsonArray())
+                {
+                    double x = 0, y = 0, z = 0;
+                    try
+                    {
+                        var arr = obj.getAsJsonArray();
+
+                        if (arr.size() == 1)
+                        {
+                            y = arr.get(0).getAsDouble();
+                        }
+                        else if (arr.size() == 3)
+                        {
+                            x = arr.get(0).getAsDouble();
+                            y = arr.get(1).getAsDouble();
+                            z = arr.get(2).getAsDouble();
+                        }
+                        else throw new IllegalArgumentException("Needs 1 or 3 entries for a ridden_offset!");
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    entry.passengerOffsets[i][0] = x;
+                    entry.passengerOffsets[i][1] = y;
+                    entry.passengerOffsets[i][2] = z;
+                }
+                i++;
+            }
         }
 
         if (this.base_form != null)

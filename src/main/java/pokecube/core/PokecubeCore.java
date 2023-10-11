@@ -187,7 +187,18 @@ public class PokecubeCore
         if (world == null) return null;
         EntityType<? extends Mob> type = entry.getEntityType();
         if (type == null && entry.getBaseForme() != null) type = entry.getBaseForme().getEntityType();
-        if (type != null) return type.create(world);
+        if (type != null)
+        {
+            if (entry.stock && type.toString().equals("entity.minecraft.pig"))
+            {
+                type = Database.missingno.getEntityType();
+                var mob = type.create(world);
+                PokemobCaps.getPokemobFor(mob).setPokedexEntry(entry);
+                return mob;
+            }
+            var mob = type.create(world);
+            return mob;
+        }
         return null;
     }
 

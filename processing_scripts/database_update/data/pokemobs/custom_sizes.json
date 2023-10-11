@@ -1,3617 +1,5364 @@
 [
   {
-    "name": "venusaur",
-    "size": {
-      "height": 2.0,
-      "width": 1.5
-    }
-  },
-  {
-    "name": "venusaur-mega",
-    "size": {
-      "height": 2.4,
-      "width": 1.9
-    }
-  },
-  {
-    "name": "venusaur-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.0
-    }
-  },
-  {
-    "name": "charmander",
-    "size": {
-      "height": 0.6,
-      "width": 0.4
-    }
-  },
-  {
-    "name": "charmeleon",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
-    }
-  },
-  {
-    "name": "charizard-gmax",
-    "size": {
-      "height": 7.0,
-      "width": 3.0
-    }
-  },
-  {
-    "name": "squirtle",
-    "size": {
-      "height": 0.5,
-      "width": 0.3
-    }
-  },
-  {
-    "name": "wartortle",
-    "size": {
-      "height": 1.0,
-      "width": 0.7
-    }
-  },
-  {
-    "name": "blastoise",
-    "size": {
-      "height": 1.6,
-      "width": 1.5
-    }
-  },
-  {
-    "name": "blastoise-mega",
-    "size": {
-      "height": 1.6,
-      "width": 1.5
-    }
-  },
-  {
-    "name": "blastoise-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.0
-    }
-  },
-  {
-    "name": "caterpie",
-    "size": {
-      "height": 0.2,
-      "width": 0.3
-    }
-  },
-  {
-    "name": "butterfree-gmax",
-    "size": {
-      "height": 3.0,
-      "width": 2.0
-    }
-  },
-  {
-    "name": "weedle",
-    "size": {
-      "height": 0.2,
-      "width": 0.3
-    }
-  },
-  {
-    "name": "kakuna",
-    "size": {
-      "height": 0.7,
-      "width": 0.5
-    }
-  },
-  {
-    "name": "pidgeotto",
-    "size": {
-      "height": 1.1,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "pidgeot",
-    "size": {
-      "height": 1.5,
-      "width": 1.3
-    }
-  },
-  {
-    "name": "ekans",
-    "size": {
-      "height": 0.6,
-      "length": 2.0
-    }
-  },
-  {
-    "name": "arbok",
-    "size": {
-      "height": 1.3,
-      "length": 3.5
-    }
-  },
-  {
-    "name": "sandslash-alola",
-    "size": {
-      "height": 1.2,
-      "width": 1.0,
-      "length": 1.2
-    }
-  },
-  {
-    "name": "nidorina",
-    "size": {
-      "height": 0.4,
-      "length": 0.8
-    }
-  },
-  {
-    "name": "nidoqueen",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "nidorino",
-    "size": {
-      "height": 0.5,
-      "width": 0.9
-    }
-  },
-  {
-    "name": "nidoking",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "clefable",
-    "size": {
-      "height": 1.3,
-      "width": 0.85
-    }
-  },
-  {
-    "name": "ninetales",
-    "size": {
-      "height": 1.1,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "vileplume",
-    "size": {
-      "height": 1.4,
-      "width": 1.2
-    }
-  },
-  {
-    "name": "paras",
-    "size": {
-      "height": 0.2,
-      "width": 0.3
-    }
-  },
-  {
-    "name": "meowth",
-    "size": {
-      "height": 0.4,
-      "width": 0.35
-    }
-  },
-  {
-    "name": "meowth-galar",
-    "size": {
-      "height": 0.4,
-      "width": 0.3
-    }
-  },
-  {
-    "name": "meowth-gmax",
-    "size": {
-      "height": 6.0,
-      "width": 3.0
-    }
-  },
-  {
-    "name": "persian-alola",
-    "size": {
-      "height": 1.0,
-      "length": 1.1
-    }
-  },
-  {
-    "name": "golduck",
-    "size": {
-      "height": 1.7,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "arcanine",
-    "size": {
-      "height": 1.9,
-      "width": 1.0,
-      "length": 1.9
-    }
-  },
-  {
-    "name": "arcanine-hisui",
-    "size": {
-      "height": 2.0,
-      "width": 1.0,
-      "length": 2.0
-    }
-  },
-  {
-    "name": "machop",
-    "size": {
-      "height": 0.8,
-      "width": 0.6
-    }
-  },
-  {
-    "name": "machoke",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "machamp",
-    "size": {
-      "height": 1.6,
-      "width": 1.3
-    }
-  },
-  {
-    "name": "machamp-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.5,
-      "length": 3.0
-    }
-  },
-  {
-    "name": "tentacruel",
-    "size": {
-      "height": 1.6,
-      "width": 1.2
-    }
-  },
-  {
-    "name": "golem",
-    "size": {
-      "height": 1.4,
-      "width": 1.3
-    }
-  },
-  {
-    "name": "golem-alola",
-    "size": {
-      "height": 1.7,
-      "width": 1.5
-    }
-  },
-  {
-    "name": "ponyta",
-    "size": {
-      "height": 1.0,
-      "width": 0.8
-    }
-  },
-  {
-    "name": "rapidash",
-    "size": {
-      "height": 1.7,
-      "width": 1.0,
-      "length": 1.5
-    }
-  },
-  {
-    "name": "slowpoke",
-    "size": {
-      "height": 1.0,
-      "length": 1.2
-    }
-  },
-  {
-    "name": "slowpoke-galar",
-    "size": {
-      "height": 1.0,
-      "length": 1.2
-    }
-  },
-  {
-    "name": "slowbro",
-    "size": {
-      "height": 1.6,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "slowbro-galar",
-    "size": {
-      "height": 1.6,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "doduo",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "dodrio",
-    "size": {
-      "height": 1.8,
-      "width": 1.2
-    }
-  },
-  {
-    "name": "seel",
-    "size": {
-      "height": 1.0,
-      "length": 1.1
-    }
-  },
-  {
-    "name": "dewgong",
-    "size": {
-      "height": 1.3,
-      "width": 1.0,
-      "length": 1.7
-    }
-  },
-  {
-    "name": "shellder",
-    "size": {
-      "height": 0.3,
-      "width": 0.5
-    }
-  },
-  {
-    "name": "cloyster",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "haunter",
-    "size": {
-      "height": 1.6,
-      "width": 1.3
-    }
-  },
-  {
-    "name": "gengar",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "gengar-mega",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "gengar-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 4.0
-    }
-  },
-  {
-    "name": "onix",
-    "size": {
-      "height": 8.8,
-      "width": 1.0,
-      "length": 1.3
-    }
-  },
-  {
-    "name": "hypno",
-    "size": {
-      "height": 1.6,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "kingler",
-    "size": {
-      "height": 1.3,
-      "length": 1.0
-    }
-  },
-  {
-    "name": "kingler-gmax",
-    "size": {
-      "height": 5.3,
-      "width": 2.3,
-      "length": 2.0
-    }
-  },
-  {
-    "name": "exeggcute",
-    "size": {
-      "height": 0.4,
-      "width": 0.6
-    }
-  },
-  {
-    "name": "exeggutor",
-    "size": {
-      "height": 2.0,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "exeggutor-alola",
-    "size": {
-      "height": 10.9,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "marowak",
-    "size": {
-      "height": 1.0,
-      "width": 0.7
-    }
-  },
-  {
-    "name": "hitmonlee",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "hitmonchan",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "lickitung",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "weezing-galar",
-    "size": {
-      "height": 3.0,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "rhyhorn",
-    "size": {
-      "height": 0.5,
-      "width": 0.8,
-      "length": 1.0
-    }
-  },
-  {
-    "name": "rhydon",
-    "size": {
-      "height": 1.9,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "chansey",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
-    }
-  },
-  {
-    "name": "kangaskhan",
-    "size": {
-      "height": 2.2,
-      "width": 1.5
-    }
-  },
-  {
-    "name": "kangaskhan-mega",
-    "size": {
-      "height": 2.2,
-      "width": 1.5
-    }
-  },
-  {
-    "name": "seadra",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "starmie",
-    "size": {
-      "height": 1.1,
-      "length": 1.0
-    }
-  },
-  {
-    "name": "mr-mime",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "mr-mime-galar",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "scyther",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "jynx",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "electabuzz",
-    "size": {
-      "height": 1.1,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "magmar",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "pinsir",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "pinsir-mega",
-    "size": {
-      "height": 1.7,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "tauros",
-    "size": {
-      "height": 1.4,
-      "width": 1.0,
-      "length": 1.4
-    }
-  },
-  {
-    "name": "magikarp",
-    "size": {
-      "height": 0.7,
-      "width": 0.4,
-      "length": 0.9
-    }
-  },
-  {
-    "name": "gyarados",
-    "size": {
-      "height": 1.0,
-      "length": 6.5
-    }
-  },
-  {
-    "name": "gyarados-mega",
-    "size": {
-      "height": 1.0,
-      "length": 6.5
-    }
-  },
-  {
-    "name": "lapras-gmax",
-    "size": {
-      "height": 5.5,
-      "width": 4.0
-    }
-  },
-  {
-    "name": "vaporeon",
-    "size": {
-      "height": 0.9,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "jolteon",
-    "size": {
-      "height": 0.8,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "flareon",
-    "size": {
-      "height": 0.9,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "kabutops",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "aerodactyl",
-    "size": {
-      "height": 1.8,
-      "width": 2.0
-    }
-  },
-  {
-    "name": "aerodactyl-mega",
-    "size": {
-      "height": 2.1,
-      "width": 2.0
-    }
-  },
-  {
-    "name": "snorlax-gmax",
-    "size": {
-      "height": 4.0,
-      "width": 6.0
-    }
-  },
-  {
-    "name": "articuno",
-    "size": {
-      "height": 1.7,
-      "width": 2.0
-    }
-  },
-  {
-    "name": "articuno-galar",
-    "size": {
-      "height": 1.7,
-      "width": 2.0
-    }
-  },
-  {
-    "name": "zapdos",
-    "size": {
-      "height": 1.6,
-      "width": 2.0
-    }
-  },
-  {
-    "name": "zapdos-galar",
-    "size": {
-      "height": 1.6,
-      "width": 1.0,
-      "length": 1.3
-    }
-  },
-  {
-    "name": "dratini",
-    "size": {
-      "height": 1.0,
-      "length": 1.8
-    }
-  },
-  {
-    "name": "dragonair",
-    "size": {
-      "height": 1.0,
-      "length": 4.0
-    }
-  },
-  {
-    "name": "dragonite",
-    "size": {
-      "height": 2.2,
-      "width": 1.5
-    }
-  },
-  {
-    "name": "mewtwo",
-    "size": {
-      "height": 2.0,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "mewtwo-mega-x",
-    "size": {
-      "height": 2.3,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "mewtwo-mega-y",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "chikorita",
-    "size": {
-      "height": 0.9,
-      "width": 0.8
-    }
-  },
-  {
-    "name": "bayleef",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "meganium",
-    "size": {
-      "height": 1.8,
-      "width": 1.4
-    }
-  },
-  {
-    "name": "quilava",
-    "size": {
-      "height": 0.6,
-      "width": 0.9
-    }
-  },
-  {
-    "name": "typhlosion",
-    "size": {
-      "height": 1.7,
-      "width": 0.9
-    }
-  },
-  {
-    "name": "typhlosion-hisui",
-    "size": {
-      "height": 1.6,
-      "width": 0.9
-    }
-  },
-  {
-    "name": "totodile",
-    "size": {
-      "height": 0.6,
-      "width": 0.4
-    }
-  },
-  {
-    "name": "croconaw",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
-    }
-  },
-  {
-    "name": "feraligatr",
-    "size": {
-      "height": 2.3,
-      "width": 1.7
-    }
-  },
-  {
-    "name": "sentret",
-    "size": {
-      "height": 0.8,
-      "width": 0.5
-    }
-  },
-  {
-    "name": "furret",
-    "size": {
-      "height": 1.2,
-      "width": 1.8
-    }
-  },
-  {
-    "name": "noctowl",
-    "size": {
-      "height": 1.6,
-      "width": 0.6,
-      "length": 1.1
-    }
-  },
-  {
-    "name": "ledian",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
-    }
-  },
-  {
-    "name": "spinarak",
-    "size": {
-      "height": 0.2,
-      "width": 0.5
-    }
-  },
-  {
-    "name": "crobat",
-    "size": {
-      "height": 1.2,
-      "width": 1.8
-    }
-  },
-  {
-    "name": "lanturn",
-    "size": {
-      "height": 0.6,
-      "width": 1.2
-    }
-  },
-  {
-    "name": "xatu",
-    "size": {
-      "height": 1.5,
-      "width": 0.8
-    }
-  },
-  {
-    "name": "flaaffy",
-    "size": {
-      "height": 0.8,
-      "width": 0.6
-    }
-  },
-  {
-    "name": "ampharos",
-    "size": {
-      "height": 1.4,
-      "width": 0.7
-    }
-  },
-  {
-    "name": "ampharos-mega",
-    "size": {
-      "height": 1.4,
-      "width": 0.7
-    }
-  },
-  {
-    "name": "azumarill",
-    "size": {
-      "height": 0.8,
-      "width": 0.7
-    }
-  },
-  {
-    "name": "sudowoodo",
-    "size": {
-      "height": 1.2,
-      "width": 0.7
-    }
+    "name":"venusaur",
+    "size":{
+      "height":2.0,
+      "width":1.5
+    }
+  },
+  {
+    "name":"venusaur-mega",
+    "size":{
+      "height":2.4,
+      "width":1.9
+    }
+  },
+  {
+    "name":"venusaur-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-4,0,-4",
+            "size":"8,7,5",
+            "ride":"4,6.5,4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"charmander",
+    "size":{
+      "height":0.6,
+      "width":0.4
+    }
+  },
+  {
+    "name":"charmeleon",
+    "size":{
+      "height":1.1,
+      "width":0.8
+    }
+  },
+  {
+    "name":"charizard-gmax",
+    "size":{
+      "height":7.0,
+      "width":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"tail",
+            "offset":"-1,1,3",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail1",
+            "offset":"-1,1,5",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail2",
+            "offset":"-1,1,7",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail3",
+            "offset":"-1,1,9",
+            "size":"2,2,2"
+          },
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,5,4"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,5,-1.3",
+            "size":"3,3,3",
+            "ride":"1.5,1,1.5"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,8,-2.3",
+            "size":"2,2,2.5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"tail",
+            "offset":"-1,1,3",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail1",
+            "offset":"-1,1,5",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail2",
+            "offset":"-1,1,7",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail3",
+            "offset":"-1,1,9",
+            "size":"2,2,2"
+          },
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,5,4"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,5,-1.3",
+            "size":"3,3,3",
+            "ride":"1.5,1,1.5"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,8,-2.3",
+            "size":"2,2,2.5"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"tail",
+            "offset":"-1,1,3",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail1",
+            "offset":"-1,1,5",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail2",
+            "offset":"-1,1,7",
+            "size":"2,2,2"
+          },
+          {
+            "name":"tail3",
+            "offset":"-1,1,9",
+            "size":"2,2,2"
+          },
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,5,4"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,3.5,-4.5",
+            "size":"3,3,3",
+            "ride":"1.5,1,5.5"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,4.5,-7.3",
+            "size":"2,2,2.5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"squirtle",
+    "size":{
+      "height":0.5,
+      "width":0.3
+    }
+  },
+  {
+    "name":"wartortle",
+    "size":{
+      "height":1.0,
+      "width":0.7
+    }
+  },
+  {
+    "name":"blastoise",
+    "size":{
+      "height":1.6,
+      "width":1.5
+    }
+  },
+  {
+    "name":"blastoise-mega",
+    "size":{
+      "height":1.6,
+      "width":1.5
+    }
+  },
+  {
+    "name":"blastoise-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3.5,0,-3.5",
+            "size":"7.0,11.0,7.0",
+            "ride":"3.5,10,3.5"
+          }
+        ]
+      },
+      "swimming":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3.5,0,-4.5",
+            "size":"7,7.5,9",
+            "ride":"3.5,7,4.5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"caterpie",
+    "size":{
+      "height":0.2,
+      "width":0.3
+    }
+  },
+  {
+    "name":"butterfree-gmax",
+    "size":{
+      "height":3.0,
+      "width":2.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,0.8,1"
+          },
+          {
+            "name":"head",
+            "offset":"-0.5,0.8,-0.5",
+            "size":"1,0.6,1",
+            "ride":"0.5,1,0.8"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,0.8,1"
+          },
+          {
+            "name":"head",
+            "offset":"-0.5,0.8,-0.9",
+            "size":"1,0.6,1",
+            "ride":"0.5,1,1.8"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"weedle",
+    "size":{
+      "height":0.2,
+      "width":0.3
+    }
+  },
+  {
+    "name":"kakuna",
+    "size":{
+      "height":0.7,
+      "width":0.5
+    }
+  },
+  {
+    "name":"pidgeotto",
+    "size":{
+      "height":1.1,
+      "width":1.0
+    }
+  },
+  {
+    "name":"pidgeot",
+    "size":{
+      "height":1.5,
+      "width":1.3
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"wing1",
+            "offset":"-2,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          },
+          {
+            "name":"wing2",
+            "offset":"0.5,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"fearow",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"wing1",
+            "offset":"-2,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          },
+          {
+            "name":"wing2",
+            "offset":"0.5,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"ekans",
+    "size":{
+      "height":0.6,
+      "length":2.0
+    }
+  },
+  {
+    "name":"arbok",
+    "size":{
+      "height":1.3,
+      "length":3.5
+    }
+  },
+  {
+    "name":"pikachu-gmax",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,5,4",
+            "ride":"2,7,3"
+          },
+          {
+            "name":"head",
+            "offset":"-2.2,5,-2.3",
+            "size":"3,4,4.5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,5,4",
+            "ride":"2,5,3"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,1.5,-5",
+            "size":"3,3,3"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"sandslash-alola",
+    "size":{
+      "height":1.2,
+      "width":1.0,
+      "length":1.2
+    }
+  },
+  {
+    "name":"nidorina",
+    "size":{
+      "height":0.4,
+      "length":0.8
+    }
+  },
+  {
+    "name":"nidoqueen",
+    "size":{
+      "height":1.3,
+      "width":1.0
+    }
+  },
+  {
+    "name":"nidorino",
+    "size":{
+      "height":0.5,
+      "width":0.9
+    }
+  },
+  {
+    "name":"nidoking",
+    "size":{
+      "height":1.4,
+      "width":1.0
+    }
+  },
+  {
+    "name":"clefable",
+    "size":{
+      "height":1.3,
+      "width":0.85
+    }
+  },
+  {
+    "name":"ninetales",
+    "size":{
+      "height":1.1,
+      "width":1.0
+    }
+  },
+  {
+    "name":"vileplume",
+    "size":{
+      "height":1.4,
+      "width":1.2
+    }
+  },
+  {
+    "name":"paras",
+    "size":{
+      "height":0.2,
+      "width":0.3
+    }
+  },
+  {
+    "name":"meowth",
+    "size":{
+      "height":0.4,
+      "width":0.35
+    }
+  },
+  {
+    "name":"meowth-galar",
+    "size":{
+      "height":0.4,
+      "width":0.3
+    }
+  },
+  {
+    "name":"meowth-gmax",
+    "size":{
+      "height":6.0,
+      "width":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,5,3"
+          },
+          {
+            "name":"body1",
+            "offset":"-1.5,5,-1.5",
+            "size":"3,3,3"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,8.5,-1.5",
+            "size":"3,3,3",
+            "ride":"1.5,0,2"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,5,3"
+          },
+          {
+            "name":"body1",
+            "offset":"-1.5,5,2.5",
+            "size":"3,3,3"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,8.5,3.5",
+            "size":"3,3,3",
+            "ride":"1.5,-2.4,-4"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"persian-alola",
+    "size":{
+      "height":1.0,
+      "length":1.1
+    }
+  },
+  {
+    "name":"golduck",
+    "size":{
+      "height":1.7,
+      "width":1.0
+    }
+  },
+  {
+    "name":"arcanine",
+    "size":{
+      "height":1.9,
+      "width":1.0,
+      "length":1.9
+    }
+  },
+  {
+    "name":"arcanine-hisui",
+    "size":{
+      "height":2.0,
+      "width":1.0,
+      "length":2.0
+    }
+  },
+  {
+    "name":"machop",
+    "size":{
+      "height":0.8,
+      "width":0.6
+    }
+  },
+  {
+    "name":"machoke",
+    "size":{
+      "height":1.5,
+      "width":1.0
+    }
+  },
+  {
+    "name":"machamp",
+    "size":{
+      "height":1.6,
+      "width":1.3
+    }
+  },
+  {
+    "name":"machamp-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.5,
+      "length":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4.0,9,4.0",
+            "ride":"3.2,7,2.8"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"tentacruel",
+    "size":{
+      "height":1.6,
+      "width":1.2
+    }
+  },
+  {
+    "name":"golem",
+    "size":{
+      "height":1.4,
+      "width":1.3
+    }
+  },
+  {
+    "name":"golem-alola",
+    "size":{
+      "height":1.7,
+      "width":1.5
+    }
+  },
+  {
+    "name":"ponyta",
+    "size":{
+      "height":1.0,
+      "width":0.8
+    }
+  },
+  {
+    "name":"rapidash",
+    "size":{
+      "height":1.7,
+      "width":1.0,
+      "length":1.5
+    },
+    "ridden_offsets":[ 
+      [ 0, -0.15, 0.55],
+      [ 0, -0.3, 0.55]
+    ]
+  },
+  {
+    "name":"slowpoke",
+    "size":{
+      "height":1.0,
+      "length":1.2
+    }
+  },
+  {
+    "name":"slowpoke-galar",
+    "size":{
+      "height":1.0,
+      "length":1.2
+    }
+  },
+  {
+    "name":"slowbro",
+    "size":{
+      "height":1.6,
+      "width":1.0
+    }
+  },
+  {
+    "name":"slowbro-galar",
+    "size":{
+      "height":1.6,
+      "width":1.0
+    }
+  },
+  {
+    "name":"doduo",
+    "size":{
+      "height":1.4,
+      "width":1.0
+    }
+  },
+  {
+    "name":"dodrio",
+    "size":{
+      "height":1.8,
+      "width":1.2
+    }
+  },
+  {
+    "name":"seel",
+    "size":{
+      "height":1.0,
+      "length":1.1
+    }
+  },
+  {
+    "name":"dewgong",
+    "size":{
+      "height":1.3,
+      "width":1.0,
+      "length":1.7
+    }
+  },
+  {
+    "name":"shellder",
+    "size":{
+      "height":0.3,
+      "width":0.5
+    }
+  },
+  {
+    "name":"cloyster",
+    "size":{
+      "height":1.5,
+      "width":1.0
+    }
+  },
+  {
+    "name":"haunter",
+    "size":{
+      "height":1.6,
+      "width":1.3
+    }
+  },
+  {
+    "name":"gengar",
+    "size":{
+      "height":1.5,
+      "width":1.0
+    }
+  },
+  {
+    "name":"gengar-mega",
+    "size":{
+      "height":1.4,
+      "width":1.0
+    }
+  },
+  {
+    "name":"gengar-gmax",
+    "size":{
+      "height":5.0,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "sitting":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-4,0,-4",
+            "size":"8,3,2"
+          }
+        ]
+      },
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-4,0,-4",
+            "size":"8,7.5,2",
+            "ride":"4,3,5"
+          },
+          {
+            "name":"mouth",
+            "offset":"-4,0,-7",
+            "size":"8,7.5,2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"onix",
+    "size":{
+      "height":8.8,
+      "width":1.0,
+      "length":1.3
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"tail_1",
+            "offset":"-0.5,0,0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"base",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,1.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,2.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"core",
+            "offset":"-0.75,3.5,-1.5",
+            "size":"1.5,1.5,1.5",
+            "ride":"0.75,1.25,1.5"
+          },
+          {
+            "name":"neck_1",
+            "offset":"-0.5,4.0,-2.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"head",
+            "offset":"-0.75,4.0,-3.5",
+            "size":"1.5,1.5,1.5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"core",
+            "offset":"-0.75,0,0",
+            "size":"1.5,1.5,1.5",
+            "ride":"0.75,1.5,-1"
+          },
+          {
+            "name":"part_1",
+            "offset":"-0.5,0,1",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,0,2",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_3",
+            "offset":"-0.5,0,3",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_4",
+            "offset":"-0.5,0,4",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_5",
+            "offset":"-0.5,0,5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"neck_1",
+            "offset":"-0.5,0.75,-1",
+            "size":"1,1,1"
+          },
+          {
+            "name":"neck_2",
+            "offset":"-0.5,1.5,-2",
+            "size":"1,1,1"
+          },
+          {
+            "name":"head",
+            "offset":"-0.75,2,-3.5",
+            "size":"1.5,1.5,1.5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"hypno",
+    "size":{
+      "height":1.6,
+      "width":1.0
+    }
+  },
+  {
+    "name":"kingler",
+    "size":{
+      "height":1.3,
+      "length":1.0
+    }
+  },
+  {
+    "name":"kingler-gmax",
+    "size":{
+      "height":5.3,
+      "width":2.3,
+      "length":2.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2.5,0,-2.5",
+            "size":"5.0,8,5.0",
+            "ride":"2.5,6.6,2.8"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2.5,0,-2.5",
+            "size":"5.0,8,5.0",
+            "ride":"3.5,6.6,2.8"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"exeggcute",
+    "size":{
+      "height":0.4,
+      "width":0.6
+    }
+  },
+  {
+    "name":"exeggutor",
+    "size":{
+      "height":2.0,
+      "width":1.0
+    }
+  },
+  {
+    "name":"exeggutor-alola",
+    "size":{
+      "height":10.9,
+      "width":1.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"tail_1",
+            "offset":"-0.5,1,1.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_2",
+            "offset":"-0.5,1.5,2.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_3",
+            "offset":"-0.5,1.9,3.6",
+            "size":"1,1,1"
+          },
+          {
+            "name":"base",
+            "offset":"-1,0,-1",
+            "size":"2,2,2"
+          },
+          {
+            "name":"base_1",
+            "offset":"-0.85,2.1,-0.85",
+            "size":"1.7,1.5,1.7"
+          },
+          {
+            "name":"neck_1",
+            "offset":"-0.5,3.6,-0.5",
+            "size":"0.9,1.3,0.9"
+          },
+          {
+            "name":"neck_2",
+            "offset":"-0.5,4.9,-0.5",
+            "size":"0.9,1.3,0.9"
+          },
+          {
+            "name":"neck_3",
+            "offset":"-0.5,6.2,-0.5",
+            "size":"0.9,1.3,0.9"
+          },
+          {
+            "name":"neck_4",
+            "offset":"-0.5,7.5,-0.5",
+            "size":"0.9,1.3,0.9"
+          },
+          {
+            "name":"neck_5",
+            "offset":"-0.5,8.8,-0.5",
+            "size":"0.9,1.8,0.9"
+          },
+          {
+            "name":"head",
+            "offset":"-1.2,10.7,-1.2",
+            "size":"2.6,2.6,2.6"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"marowak",
+    "size":{
+      "height":1.0,
+      "width":0.7
+    }
+  },
+  {
+    "name":"hitmonlee",
+    "size":{
+      "height":1.5,
+      "width":1.0
+    }
+  },
+  {
+    "name":"hitmonchan",
+    "size":{
+      "height":1.4,
+      "width":1.0
+    }
+  },
+  {
+    "name":"lickitung",
+    "size":{
+      "height":1.2,
+      "width":1.0
+    }
+  },
+  {
+    "name":"weezing-galar",
+    "size":{
+      "height":3.0,
+      "width":1.0
+    }
+  },
+  {
+    "name":"rhyhorn",
+    "size":{
+      "height":0.5,
+      "width":0.8,
+      "length":1.0
+    }
+  },
+  {
+    "name":"rhydon",
+    "size":{
+      "height":1.9,
+      "width":1.0
+    }
+  },
+  {
+    "name":"chansey",
+    "size":{
+      "height":1.1,
+      "width":0.8
+    }
+  },
+  {
+    "name":"kangaskhan",
+    "size":{
+      "height":2.2,
+      "width":1.5
+    }
+  },
+  {
+    "name":"kangaskhan-mega",
+    "size":{
+      "height":2.2,
+      "width":1.5
+    }
+  },
+  {
+    "name":"seadra",
+    "size":{
+      "height":1.2,
+      "width":1.0
+    }
+  },
+  {
+    "name":"starmie",
+    "size":{
+      "height":1.1,
+      "length":1.0
+    }
+  },
+  {
+    "name":"mr-mime",
+    "size":{
+      "height":1.3,
+      "width":1.0
+    }
+  },
+  {
+    "name":"mr-mime-galar",
+    "size":{
+      "height":1.4,
+      "width":1.0
+    }
+  },
+  {
+    "name":"scyther",
+    "size":{
+      "height":1.5,
+      "width":1.0
+    }
+  },
+  {
+    "name":"jynx",
+    "size":{
+      "height":1.4,
+      "width":1.0
+    }
+  },
+  {
+    "name":"electabuzz",
+    "size":{
+      "height":1.1,
+      "width":1.0
+    }
+  },
+  {
+    "name":"magmar",
+    "size":{
+      "height":1.3,
+      "width":1.0
+    }
+  },
+  {
+    "name":"pinsir",
+    "size":{
+      "height":1.5,
+      "width":1.0
+    }
+  },
+  {
+    "name":"pinsir-mega",
+    "size":{
+      "height":1.7,
+      "width":1.0
+    }
+  },
+  {
+    "name":"tauros",
+    "size":{
+      "height":1.4,
+      "width":1.0,
+      "length":1.4
+    }
+  },
+  {
+    "name":"magikarp",
+    "size":{
+      "height":0.7,
+      "width":0.4,
+      "length":0.9
+    }
+  },
+  {
+    "name":"gyarados",
+    "size":{
+      "height":1.0,
+      "length":6.5
+    },
+    "pose_shapes":{
+      "sitting":{
+        "parts":[
+          {
+            "name":"tail_1",
+            "offset":"-0.5,0,0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"base",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,1.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,2.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"core",
+            "offset":"-0.75,2.5,-1.5",
+            "size":"1.5,1.5,1.5",
+            "ride":"0.75,1.25,1.5"
+          },
+          {
+            "name":"head",
+            "offset":"-0.75,2.6,-3.0",
+            "size":"1.5,1.5,1.5"
+          }
+        ]
+      },
+      "idle":{
+        "parts":[
+          {
+            "name":"tail_1",
+            "offset":"-0.5,0,0.6",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_2",
+            "offset":"-0.5,0.6,1.65",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_3",
+            "offset":"-0.5,1.2,2.65",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_3",
+            "offset":"-0.5,1.5,3.65",
+            "size":"1,1,1"
+          },
+          {
+            "name":"base",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,1.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,2.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"core",
+            "offset":"-0.75,2.5,-1.5",
+            "size":"1.5,1.5,1.5",
+            "ride":"0.75,1.25,1.5"
+          },
+          {
+            "name":"head",
+            "offset":"-0.75,2.6,-3.0",
+            "size":"1.5,1.5,1.5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"tail_1",
+            "offset":"-0.5,0,0.6",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_2",
+            "offset":"-0.5,0,1.65",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_3",
+            "offset":"-0.5,0,2.65",
+            "size":"1,1,1"
+          },
+          {
+            "name":"tail_4",
+            "offset":"-0.5,0,3.65",
+            "size":"1,1,1"
+          },
+          {
+            "name":"base",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,1.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"part_2",
+            "offset":"-0.5,2.5,-0.5",
+            "size":"1,1,1"
+          },
+          {
+            "name":"core",
+            "offset":"-0.75,2.5,-1.5",
+            "size":"1.5,1.5,1.5",
+            "ride":"0.75,1.25,1.5"
+          },
+          {
+            "name":"head",
+            "offset":"-0.75,2.6,-3.0",
+            "size":"1.5,1.5,1.5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"gyarados-mega",
+    "size":{
+      "height":1.0,
+      "length":6.5
+    }
+  },
+  {
+    "name":"lapras-gmax",
+    "size":{
+      "height":5.5,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3.5,0,-3",
+            "size":"7.0,7,7.0",
+            "ride":"3.5,7,2.5"
+          },
+          {
+            "name":"neck",
+            "offset":"-2,0,-6",
+            "size":"4,7,2"
+          },
+          {
+            "name":"neck1",
+            "offset":"-2,7,-6.5",
+            "size":"4,4,2"
+          }
+        ]
+      },
+      "swimming":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3.5,0,-3",
+            "size":"7.0,7,7.0",
+            "ride":"3.5,7,2.5"
+          },
+          {
+            "name":"neck",
+            "offset":"-2,0,-6",
+            "size":"4,7,2"
+          },
+          {
+            "name":"neck1",
+            "offset":"-2,5,-7.5",
+            "size":"4,4,2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"eevee-gmax",
+    "pose_shapes":{
+      "sitting":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,4,4"
+          },
+          {
+            "name":"body1",
+            "offset":"-2.5,2.5,-4.5",
+            "size":"5,4,4"
+          },
+          {
+            "name":"tail",
+            "offset":"-2,0,2.5",
+            "size":"4,4,4"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,5,-4",
+            "size":"3,3,3"
+          }
+        ]
+      },
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,4,4"
+          },
+          {
+            "name":"body1",
+            "offset":"-2.5,2.5,-4.5",
+            "size":"5,4,4"
+          },
+          {
+            "name":"tail",
+            "offset":"-2,2.5,2.5",
+            "size":"4,4,4"
+          },
+          {
+            "name":"head",
+            "offset":"-1.5,5.1,-5",
+            "size":"3,3,3",
+            "ride":"1.5,2.2,8.5"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"vaporeon",
+    "size":{
+      "height":0.9,
+      "width":1.0
+    }
+  },
+  {
+    "name":"jolteon",
+    "size":{
+      "height":0.8,
+      "width":1.0
+    }
+  },
+  {
+    "name":"flareon",
+    "size":{
+      "height":0.9,
+      "width":1.0
+    }
+  },
+  {
+    "name":"kabutops",
+    "size":{
+      "height":1.3,
+      "width":1.0
+    }
+  },
+  {
+    "name":"aerodactyl",
+    "size":{
+      "height":1.8,
+      "width":2.0
+    }
+  },
+  {
+    "name":"aerodactyl-mega",
+    "size":{
+      "height":2.1,
+      "width":2.0
+    }
+  },
+  {
+    "name":"snorlax-gmax",
+    "size":{
+      "height":4.0,
+      "width":6.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-5,0,-5",
+            "size":"10,5,10"
+          },
+          {
+            "name":"body2",
+            "offset":"-4,4,-4",
+            "size":"8,4,8",
+            "ride":"3,6,5"
+          },
+          {
+            "name":"tree",
+            "offset":"-1.5,8,-1.5",
+            "size":"3,4,3"
+          },
+          {
+            "name":"head",
+            "offset":"-2,1,2.9",
+            "size":"4,4,2"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "name":"articuno",
+    "size":{
+      "height":1.7,
+      "width":2.0
+    }
+  },
+  {
+    "name":"articuno-galar",
+    "size":{
+      "height":1.7,
+      "width":2.0
+    }
+  },
+  {
+    "name":"zapdos",
+    "size":{
+      "height":1.6,
+      "width":2.0
+    }
+  },
+  {
+    "name":"zapdos-galar",
+    "size":{
+      "height":1.6,
+      "width":1.0,
+      "length":1.3
+    }
+  },
+  {
+    "name":"dratini",
+    "size":{
+      "height":1.0,
+      "length":1.8
+    }
+  },
+  {
+    "name":"dragonair",
+    "size":{
+      "height":1.0,
+      "length":4.0
+    }
+  },
+  {
+    "name":"dragonite",
+    "size":{
+      "height":2.2,
+      "width":1.5
+    }
+  },
+  {
+    "name":"mewtwo",
+    "size":{
+      "height":2.0,
+      "width":1.0
+    }
+  },
+  {
+    "name":"mewtwo-mega-x",
+    "size":{
+      "height":2.3,
+      "width":1.0
+    }
+  },
+  {
+    "name":"mewtwo-mega-y",
+    "size":{
+      "height":1.5,
+      "width":1.0
+    }
+  },
+  {
+    "name":"chikorita",
+    "size":{
+      "height":0.9,
+      "width":0.8
+    }
+  },
+  {
+    "name":"bayleef",
+    "size":{
+      "height":1.2,
+      "width":1.0
+    }
+  },
+  {
+    "name":"meganium",
+    "size":{
+      "height":1.8,
+      "width":1.4
+    }
+  },
+  {
+    "name":"quilava",
+    "size":{
+      "height":0.6,
+      "width":0.9
+    }
+  },
+  {
+    "name":"typhlosion",
+    "size":{
+      "height":1.7,
+      "width":0.9
+    }
+  },
+  {
+    "name":"typhlosion-hisui",
+    "size":{
+      "height":1.6,
+      "width":0.9
+    }
+  },
+  {
+    "name":"totodile",
+    "size":{
+      "height":0.6,
+      "width":0.4
+    }
+  },
+  {
+    "name":"croconaw",
+    "size":{
+      "height":1.1,
+      "width":0.8
+    }
+  },
+  {
+    "name":"feraligatr",
+    "size":{
+      "height":2.3,
+      "width":1.7
+    }
+  },
+  {
+    "name":"sentret",
+    "size":{
+      "height":0.8,
+      "width":0.5
+    }
+  },
+  {
+    "name":"furret",
+    "size":{
+      "height":1.2,
+      "width":1.8
+    }
+  },
+  {
+    "name":"noctowl",
+    "size":{
+      "height":1.6,
+      "width":0.6,
+      "length":1.1
+    }
+  },
+  {
+    "name":"ledian",
+    "size":{
+      "height":1.4,
+      "width":1.0
+    }
+  },
+  {
+    "name":"spinarak",
+    "size":{
+      "height":0.2,
+      "width":0.5
+    }
+  },
+  {
+    "name":"crobat",
+    "size":{
+      "height":1.2,
+      "width":1.8
+    }
+  },
+  {
+    "name":"lanturn",
+    "size":{
+      "height":0.6,
+      "width":1.2
+    }
+  },
+  {
+    "name":"xatu",
+    "size":{
+      "height":1.5,
+      "width":0.8
+    }
+  },
+  {
+    "name":"flaaffy",
+    "size":{
+      "height":0.8,
+      "width":0.6
+    }
+  },
+  {
+    "name":"ampharos",
+    "size":{
+      "height":1.4,
+      "width":0.7
+    }
+  },
+  {
+    "name":"ampharos-mega",
+    "size":{
+      "height":1.4,
+      "width":0.7
+    }
+  },
+  {
+    "name":"azumarill",
+    "size":{
+      "height":0.8,
+      "width":0.7
+    }
+  },
+  {
+    "name":"sudowoodo",
+    "size":{
+      "height":1.2,
+      "width":0.7
+    }
+  },
+  {
+    "name":"politoed",
+    "size":{
+      "height":1.1,
+      "width":0.8
+    }
+  },
+  {
+    "name":"jumpluff",
+    "size":{
+      "height":0.8,
+      "width":1.0
+    }
+  },
+  {
+    "name":"yanma",
+    "size":{
+      "height":0.5,
+      "width":1.2
+    }
+  },
+  {
+    "name":"quagsire",
+    "size":{
+      "height":1.4,
+      "width":0.8
+    }
+  },
+  {
+    "name":"umbreon",
+    "size":{
+      "height":1.0,
+      "width":0.9
+    }
+  },
+  {
+    "name":"slowking",
+    "size":{
+      "height":2.0,
+      "width":1.0
+    }
+  },
+  {
+    "name":"slowking-galar",
+    "size":{
+      "height":1.8,
+      "width":1.0
+    }
+  },
+  {
+    "name":"wobbuffet",
+    "size":{
+      "height":1.3,
+      "width":0.7
+    }
   },
   {
-    "name": "politoed",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
+    "name":"girafarig",
+    "size":{
+      "height":1.5,
+      "width":0.8,
+      "length":1.5
     }
   },
   {
-    "name": "jumpluff",
-    "size": {
-      "height": 0.8,
-      "width": 1.0
+    "name":"pineco",
+    "size":{
+      "height":0.6,
+      "width":0.5
     }
   },
   {
-    "name": "yanma",
-    "size": {
-      "height": 0.5,
-      "width": 1.2
+    "name":"dunsparce",
+    "size":{
+      "height":0.5,
+      "width":0.8,
+      "length":1.5
     }
   },
   {
-    "name": "quagsire",
-    "size": {
-      "height": 1.4,
-      "width": 0.8
+    "name":"gligar",
+    "size":{
+      "height":1.1,
+      "width":1.0
     }
   },
   {
-    "name": "umbreon",
-    "size": {
-      "height": 1.0,
-      "width": 0.9
+    "name":"steelix",
+    "size":{
+      "height":9.2,
+      "width":1.5
     }
   },
   {
-    "name": "slowking",
-    "size": {
-      "height": 2.0,
-      "width": 1.0
+    "name":"steelix-mega",
+    "size":{
+      "height":10.5,
+      "width":1.5
     }
   },
   {
-    "name": "slowking-galar",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"granbull",
+    "size":{
+      "height":1.4,
+      "width":0.8
     }
   },
   {
-    "name": "wobbuffet",
-    "size": {
-      "height": 1.3,
-      "width": 0.7
+    "name":"scizor",
+    "size":{
+      "height":1.8,
+      "width":0.9
     }
   },
   {
-    "name": "girafarig",
-    "size": {
-      "height": 1.5,
-      "width": 0.8,
-      "length": 1.5
+    "name":"scizor-mega",
+    "size":{
+      "height":2.0,
+      "width":0.9
     }
   },
   {
-    "name": "pineco",
-    "size": {
-      "height": 0.6,
-      "width": 0.5
+    "name":"shuckle",
+    "size":{
+      "height":0.4,
+      "width":0.6
     }
   },
   {
-    "name": "dunsparce",
-    "size": {
-      "height": 0.5,
-      "width": 0.8,
-      "length": 1.5
+    "name":"heracross",
+    "size":{
+      "height":1.5,
+      "width":0.9
     }
   },
   {
-    "name": "gligar",
-    "size": {
-      "height": 1.1,
-      "width": 1.0
+    "name":"heracross-mega",
+    "size":{
+      "height":1.7,
+      "width":0.9
     }
   },
   {
-    "name": "steelix",
-    "size": {
-      "height": 9.2,
-      "width": 1.5
+    "name":"sneasel",
+    "size":{
+      "height":0.9,
+      "width":0.6
     }
   },
   {
-    "name": "steelix-mega",
-    "size": {
-      "height": 10.5,
-      "width": 1.5
+    "name":"sneasel-hisui",
+    "size":{
+      "height":0.9,
+      "width":0.6
     }
   },
   {
-    "name": "granbull",
-    "size": {
-      "height": 1.4,
-      "width": 0.8
+    "name":"ursaring",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "scizor",
-    "size": {
-      "height": 1.8,
-      "width": 0.9
+    "name":"magcargo",
+    "size":{
+      "height":0.8,
+      "width":1.0
     }
   },
   {
-    "name": "scizor-mega",
-    "size": {
-      "height": 2.0,
-      "width": 0.9
+    "name":"piloswine",
+    "size":{
+      "height":1.1,
+      "width":1.0
     }
   },
   {
-    "name": "shuckle",
-    "size": {
-      "height": 0.4,
-      "width": 0.6
+    "name":"corsola",
+    "size":{
+      "height":0.5,
+      "width":0.6
     }
   },
   {
-    "name": "heracross",
-    "size": {
-      "height": 1.5,
-      "width": 0.9
+    "name":"delibird",
+    "size":{
+      "height":0.9,
+      "width":0.7
     }
   },
   {
-    "name": "heracross-mega",
-    "size": {
-      "height": 1.7,
-      "width": 0.9
+    "name":"mantine",
+    "size":{
+      "height":0.75,
+      "width":2.1
     }
   },
   {
-    "name": "sneasel",
-    "size": {
-      "height": 0.9,
-      "width": 0.6
+    "name":"skarmory",
+    "size":{
+      "height":1.7,
+      "width":1.5
     }
   },
   {
-    "name": "sneasel-hisui",
-    "size": {
-      "height": 0.9,
-      "width": 0.6
+    "name":"houndoom",
+    "size":{
+      "height":1.4,
+      "width":0.6,
+      "length":1.4
     }
   },
   {
-    "name": "ursaring",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"houndoom-mega",
+    "size":{
+      "height":1.9,
+      "width":1.2,
+      "length":1.7
     }
   },
   {
-    "name": "magcargo",
-    "size": {
-      "height": 0.8,
-      "width": 1.0
+    "name":"kingdra",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "piloswine",
-    "size": {
-      "height": 1.1,
-      "width": 1.0
+    "name":"stantler",
+    "size":{
+      "height":1.4,
+      "width":0.8,
+      "length":1.0
     }
   },
   {
-    "name": "corsola",
-    "size": {
-      "height": 0.5,
-      "width": 0.6
+    "name":"smeargle",
+    "size":{
+      "height":1.2,
+      "width":0.8
     }
   },
   {
-    "name": "delibird",
-    "size": {
-      "height": 0.9,
-      "width": 0.7
+    "name":"tyrogue",
+    "size":{
+      "height":0.7,
+      "width":0.6
     }
   },
   {
-    "name": "mantine",
-    "size": {
-      "height": 0.75,
-      "width": 2.1
+    "name":"hitmontop",
+    "size":{
+      "height":1.4,
+      "width":0.8
     }
   },
   {
-    "name": "skarmory",
-    "size": {
-      "height": 1.7,
-      "width": 1.5
+    "name":"elekid",
+    "size":{
+      "height":0.6,
+      "width":0.5
     }
   },
   {
-    "name": "houndoom",
-    "size": {
-      "height": 1.4,
-      "width": 0.6,
-      "length": 1.4
+    "name":"miltank",
+    "size":{
+      "height":1.2,
+      "width":0.9
     }
   },
   {
-    "name": "houndoom-mega",
-    "size": {
-      "height": 1.9,
-      "width": 1.2,
-      "length": 1.7
+    "name":"blissey",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "kingdra",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"raikou",
+    "size":{
+      "height":1.9,
+      "width":1.7
     }
   },
   {
-    "name": "stantler",
-    "size": {
-      "height": 1.4,
-      "width": 0.8,
-      "length": 1.0
+    "name":"entei",
+    "size":{
+      "height":2.1,
+      "width":1.7
     }
   },
   {
-    "name": "smeargle",
-    "size": {
-      "height": 1.2,
-      "width": 0.8
+    "name":"suicune",
+    "size":{
+      "height":2.0,
+      "width":1.7
     }
   },
   {
-    "name": "tyrogue",
-    "size": {
-      "height": 0.7,
-      "width": 0.6
+    "name":"pupitar",
+    "size":{
+      "height":1.2,
+      "width":0.8
     }
   },
   {
-    "name": "hitmontop",
-    "size": {
-      "height": 1.4,
-      "width": 0.8
+    "name":"tyranitar",
+    "size":{
+      "height":2.0,
+      "width":1.0
     }
   },
   {
-    "name": "elekid",
-    "size": {
-      "height": 0.6,
-      "width": 0.5
+    "name":"tyranitar-mega",
+    "size":{
+      "height":2.5,
+      "width":1.0
     }
   },
   {
-    "name": "miltank",
-    "size": {
-      "height": 1.2,
-      "width": 0.9
+    "name":"lugia",
+    "size":{
+      "height":4.0,
+      "width":5.2
     }
   },
   {
-    "name": "blissey",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"celebi",
+    "size":{
+      "height":0.6,
+      "width":0.5
     }
   },
   {
-    "name": "raikou",
-    "size": {
-      "height": 1.9,
-      "width": 1.7
+    "name":"grovyle",
+    "size":{
+      "height":0.9,
+      "width":0.5
     }
   },
   {
-    "name": "entei",
-    "size": {
-      "height": 2.1,
-      "width": 1.7
+    "name":"sceptile",
+    "size":{
+      "height":1.7,
+      "width":1.0
     }
   },
   {
-    "name": "suicune",
-    "size": {
-      "height": 2.0,
-      "width": 1.7
+    "name":"sceptile-mega",
+    "size":{
+      "height":1.9,
+      "width":1.0
     }
   },
   {
-    "name": "pupitar",
-    "size": {
-      "height": 1.2,
-      "width": 0.8
+    "name":"combusken",
+    "size":{
+      "height":0.9,
+      "width":0.7
     }
   },
   {
-    "name": "tyranitar",
-    "size": {
-      "height": 2.0,
-      "width": 1.0
+    "name":"blaziken",
+    "size":{
+      "height":1.9,
+      "width":1.0
     }
   },
   {
-    "name": "tyranitar-mega",
-    "size": {
-      "height": 2.5,
-      "width": 1.0
+    "name":"blaziken-mega",
+    "size":{
+      "height":1.9,
+      "width":1.0
     }
   },
   {
-    "name": "lugia",
-    "size": {
-      "height": 4.0,
-      "width": 5.2
+    "name":"swampert",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "celebi",
-    "size": {
-      "height": 0.6,
-      "width": 0.5
+    "name":"linoone",
+    "size":{
+      "height":0.5,
+      "width":1.0
     }
   },
   {
-    "name": "grovyle",
-    "size": {
-      "height": 0.9,
-      "width": 0.5
+    "name":"lombre",
+    "size":{
+      "height":1.2,
+      "width":1.0
     }
   },
   {
-    "name": "sceptile",
-    "size": {
-      "height": 1.7,
-      "width": 1.0
+    "name":"ludicolo",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "sceptile-mega",
-    "size": {
-      "height": 1.9,
-      "width": 1.0
+    "name":"nuzleaf",
+    "size":{
+      "height":1.0,
+      "width":0.6
     }
   },
   {
-    "name": "combusken",
-    "size": {
-      "height": 0.9,
-      "width": 0.7
+    "name":"shiftry",
+    "size":{
+      "height":1.3,
+      "width":1.0
     }
   },
   {
-    "name": "blaziken",
-    "size": {
-      "height": 1.9,
-      "width": 1.0
+    "name":"kirlia",
+    "size":{
+      "height":0.8,
+      "width":0.5
     }
   },
   {
-    "name": "blaziken-mega",
-    "size": {
-      "height": 1.9,
-      "width": 1.0
+    "name":"gardevoir",
+    "size":{
+      "height":1.6,
+      "width":0.6
     }
   },
   {
-    "name": "swampert",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"gardevoir-mega",
+    "size":{
+      "height":1.6,
+      "width":0.6
     }
   },
   {
-    "name": "linoone",
-    "size": {
-      "height": 0.5,
-      "width": 1.0
+    "name":"breloom",
+    "size":{
+      "height":1.2,
+      "width":0.8
     }
   },
   {
-    "name": "lombre",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
+    "name":"vigoroth",
+    "size":{
+      "height":1.4,
+      "width":0.9
     }
   },
   {
-    "name": "ludicolo",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"slaking",
+    "size":{
+      "height":2.0,
+      "width":1.0
     }
   },
   {
-    "name": "nuzleaf",
-    "size": {
-      "height": 1.0,
-      "width": 0.6
+    "name":"hariyama",
+    "size":{
+      "height":2.3,
+      "width":2.0
     }
   },
   {
-    "name": "shiftry",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
+    "name":"sableye",
+    "size":{
+      "height":0.5,
+      "width":0.45
     }
   },
   {
-    "name": "kirlia",
-    "size": {
-      "height": 0.8,
-      "width": 0.5
+    "name":"sableye-mega",
+    "size":{
+      "height":0.5,
+      "width":0.45
     }
   },
   {
-    "name": "gardevoir",
-    "size": {
-      "height": 1.6,
-      "width": 0.6
+    "name":"aggron",
+    "size":{
+      "height":2.1,
+      "width":1.6
     }
   },
   {
-    "name": "gardevoir-mega",
-    "size": {
-      "height": 1.6,
-      "width": 0.6
+    "name":"aggron-mega",
+    "size":{
+      "height":2.2,
+      "width":1.6
     }
   },
   {
-    "name": "breloom",
-    "size": {
-      "height": 1.2,
-      "width": 0.8
+    "name":"medicham",
+    "size":{
+      "height":1.3,
+      "width":0.9
     }
   },
   {
-    "name": "vigoroth",
-    "size": {
-      "height": 1.4,
-      "width": 0.9
+    "name":"manectric",
+    "size":{
+      "height":1.5,
+      "width":0.8,
+      "length":1.0
     }
   },
   {
-    "name": "slaking",
-    "size": {
-      "height": 2.0,
-      "width": 1.0
+    "name":"swalot",
+    "size":{
+      "height":1.7,
+      "width":1.0
     }
   },
   {
-    "name": "hariyama",
-    "size": {
-      "height": 2.3,
-      "width": 2.0
+    "name":"sharpedo",
+    "size":{
+      "height":1.0,
+      "width":1.8
     }
   },
   {
-    "name": "sableye",
-    "size": {
-      "height": 0.5,
-      "width": 0.45
+    "name":"wailord",
+    "size":{
+      "height":5.0,
+      "width":10.0,
+      "length":14.5
     }
   },
   {
-    "name": "sableye-mega",
-    "size": {
-      "height": 0.5,
-      "width": 0.45
+    "name":"camerupt",
+    "size":{
+      "height":1.9,
+      "width":1.0,
+      "length":1.9
     }
   },
   {
-    "name": "aggron",
-    "size": {
-      "height": 2.1,
-      "width": 1.6
+    "name":"spoink",
+    "size":{
+      "height":0.7,
+      "width":0.5
     }
   },
   {
-    "name": "aggron-mega",
-    "size": {
-      "height": 2.2,
-      "width": 1.6
+    "name":"grumpig",
+    "size":{
+      "height":0.9,
+      "width":0.8
     }
   },
   {
-    "name": "medicham",
-    "size": {
-      "height": 1.3,
-      "width": 0.9
+    "name":"spinda",
+    "size":{
+      "height":1.1,
+      "width":0.8
     }
   },
   {
-    "name": "manectric",
-    "size": {
-      "height": 1.5,
-      "width": 0.8,
-      "length": 1.0
+    "name":"vibrava",
+    "size":{
+      "height":0.8,
+      "width":1.1
     }
   },
   {
-    "name": "swalot",
-    "size": {
-      "height": 1.7,
-      "width": 1.0
+    "name":"flygon",
+    "size":{
+      "height":2.0,
+      "width":1.7
     }
   },
   {
-    "name": "sharpedo",
-    "size": {
-      "height": 1.0,
-      "width": 1.8
+    "name":"cacturne",
+    "size":{
+      "height":1.3,
+      "width":0.5
     }
   },
   {
-    "name": "wailord",
-    "size": {
-      "height": 5.0,
-      "width": 10.0,
-      "length": 14.5
+    "name":"zangoose",
+    "size":{
+      "height":1.3,
+      "width":0.7
     }
   },
   {
-    "name": "camerupt",
-    "size": {
-      "height": 1.9,
-      "width": 1.0,
-      "length": 1.9
+    "name":"seviper",
+    "size":{
+      "height":0.8,
+      "length":2.7
     }
   },
   {
-    "name": "spoink",
-    "size": {
-      "height": 0.7,
-      "width": 0.5
+    "name":"whiscash",
+    "size":{
+      "height":0.5,
+      "width":0.9
     }
   },
   {
-    "name": "grumpig",
-    "size": {
-      "height": 0.9,
-      "width": 0.8
+    "name":"baltoy",
+    "size":{
+      "height":0.5,
+      "width":0.3
     }
   },
   {
-    "name": "spinda",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
+    "name":"claydol",
+    "size":{
+      "height":1.5,
+      "width":0.7
     }
   },
   {
-    "name": "vibrava",
-    "size": {
-      "height": 0.8,
-      "width": 1.1
+    "name":"lileep",
+    "size":{
+      "height":1.0,
+      "width":0.8
     }
   },
   {
-    "name": "flygon",
-    "size": {
-      "height": 2.0,
-      "width": 1.7
+    "name":"cradily",
+    "size":{
+      "height":1.5,
+      "width":0.8
     }
   },
   {
-    "name": "cacturne",
-    "size": {
-      "height": 1.3,
-      "width": 0.5
+    "name":"anorith",
+    "size":{
+      "height":0.4,
+      "width":0.7
     }
   },
   {
-    "name": "zangoose",
-    "size": {
-      "height": 1.3,
-      "width": 0.7
+    "name":"armaldo",
+    "size":{
+      "height":1.5,
+      "width":1.4
     }
   },
   {
-    "name": "seviper",
-    "size": {
-      "height": 0.8,
-      "length": 2.7
+    "name":"milotic",
+    "size":{
+      "height":1.2,
+      "width":1.0,
+      "length":6.2
     }
   },
   {
-    "name": "whiscash",
-    "size": {
-      "height": 0.5,
-      "width": 0.9
+    "name":"banette",
+    "size":{
+      "height":1.1,
+      "width":0.7
     }
   },
   {
-    "name": "baltoy",
-    "size": {
-      "height": 0.5,
-      "width": 0.3
+    "name":"banette-mega",
+    "size":{
+      "height":1.2,
+      "width":0.7
     }
   },
   {
-    "name": "claydol",
-    "size": {
-      "height": 1.5,
-      "width": 0.7
+    "name":"tropius",
+    "size":{
+      "height":2.0,
+      "width":1.0,
+      "length":2.0
     }
   },
   {
-    "name": "lileep",
-    "size": {
-      "height": 1.0,
-      "width": 0.8
+    "name":"chimecho",
+    "size":{
+      "height":0.6,
+      "width":0.4
     }
   },
   {
-    "name": "cradily",
-    "size": {
-      "height": 1.5,
-      "width": 0.8
+    "name":"wynaut",
+    "size":{
+      "height":0.6,
+      "width":0.3
     }
   },
   {
-    "name": "anorith",
-    "size": {
-      "height": 0.4,
-      "width": 0.7
+    "name":"snorunt",
+    "size":{
+      "height":0.7,
+      "width":0.6
     }
   },
   {
-    "name": "armaldo",
-    "size": {
-      "height": 1.5,
-      "width": 1.4
+    "name":"sealeo",
+    "size":{
+      "height":1.0,
+      "width":1.1
     }
   },
   {
-    "name": "milotic",
-    "size": {
-      "height": 1.2,
-      "width": 1.0,
-      "length": 6.2
+    "name":"walrein",
+    "size":{
+      "height":1.3,
+      "width":0.8,
+      "length":1.4
     }
   },
   {
-    "name": "banette",
-    "size": {
-      "height": 1.1,
-      "width": 0.7
+    "name":"huntail",
+    "size":{
+      "height":0.8,
+      "length":1.7
     }
   },
   {
-    "name": "banette-mega",
-    "size": {
-      "height": 1.2,
-      "width": 0.7
+    "name":"gorebyss",
+    "size":{
+      "height":0.8,
+      "length":1.8
     }
   },
   {
-    "name": "tropius",
-    "size": {
-      "height": 2.0,
-      "width": 1.0,
-      "length": 2.0
+    "name":"relicanth",
+    "size":{
+      "height":0.5,
+      "length":1.0
     }
   },
   {
-    "name": "chimecho",
-    "size": {
-      "height": 0.6,
-      "width": 0.4
+    "name":"beldum",
+    "size":{
+      "height":0.5,
+      "width":0.6
     }
   },
   {
-    "name": "wynaut",
-    "size": {
-      "height": 0.6,
-      "width": 0.3
+    "name":"metang",
+    "size":{
+      "height":0.6,
+      "width":1.2
     }
   },
   {
-    "name": "snorunt",
-    "size": {
-      "height": 0.7,
-      "width": 0.6
+    "name":"regirock",
+    "size":{
+      "height":1.7,
+      "width":1.0
     }
   },
   {
-    "name": "sealeo",
-    "size": {
-      "height": 1.0,
-      "width": 1.1
+    "name":"regice",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "walrein",
-    "size": {
-      "height": 1.3,
-      "width": 0.8,
-      "length": 1.4
+    "name":"registeel",
+    "size":{
+      "height":1.9,
+      "width":1.0
     }
   },
   {
-    "name": "huntail",
-    "size": {
-      "height": 0.8,
-      "length": 1.7
+    "name":"latias",
+    "size":{
+      "height":1.0,
+      "width":1.4
     }
   },
   {
-    "name": "gorebyss",
-    "size": {
-      "height": 0.8,
-      "length": 1.8
+    "name":"latias-mega",
+    "size":{
+      "height":1.4,
+      "width":1.8
     }
   },
   {
-    "name": "relicanth",
-    "size": {
-      "height": 0.5,
-      "length": 1.0
+    "name":"latios",
+    "size":{
+      "height":1.5,
+      "width":2.0
     }
   },
   {
-    "name": "beldum",
-    "size": {
-      "height": 0.5,
-      "width": 0.6
+    "name":"latios-mega",
+    "size":{
+      "height":1.5,
+      "width":2.3
     }
   },
   {
-    "name": "metang",
-    "size": {
-      "height": 0.6,
-      "width": 1.2
+    "name":"kyogre",
+    "size":{
+      "height":2.0,
+      "width":4.5
     }
   },
   {
-    "name": "regirock",
-    "size": {
-      "height": 1.7,
-      "width": 1.0
+    "name":"kyogre-primal",
+    "size":{
+      "height":4.0,
+      "width":8.0,
+      "length":9.8
     }
   },
   {
-    "name": "regice",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"groudon",
+    "size":{
+      "height":3.5,
+      "width":2.2
     }
   },
   {
-    "name": "registeel",
-    "size": {
-      "height": 1.9,
-      "width": 1.0
+    "name":"groudon-primal",
+    "size":{
+      "height":5.0,
+      "width":3.0
     }
   },
   {
-    "name": "latias",
-    "size": {
-      "height": 1.0,
-      "width": 1.4
+    "name":"rayquaza",
+    "size":{
+      "height":1.0,
+      "length":7.0
     }
   },
   {
-    "name": "latias-mega",
-    "size": {
-      "height": 1.4,
-      "width": 1.8
+    "name":"rayquaza-mega",
+    "size":{
+      "height":1.5,
+      "length":10.8
     }
   },
   {
-    "name": "latios",
-    "size": {
-      "height": 1.5,
-      "width": 2.0
+    "name":"deoxys-normal",
+    "size":{
+      "height":1.7,
+      "width":0.8
     }
   },
   {
-    "name": "latios-mega",
-    "size": {
-      "height": 1.5,
-      "width": 2.3
+    "name":"deoxys-attack",
+    "size":{
+      "height":1.7,
+      "width":0.8
     }
   },
   {
-    "name": "kyogre",
-    "size": {
-      "height": 2.0,
-      "width": 4.5
+    "name":"deoxys-defense",
+    "size":{
+      "height":1.7,
+      "width":0.8
     }
   },
   {
-    "name": "kyogre-primal",
-    "size": {
-      "height": 4.0,
-      "width": 8.0,
-      "length": 9.8
+    "name":"deoxys-speed",
+    "size":{
+      "height":1.7,
+      "width":0.8
     }
   },
   {
-    "name": "groudon",
-    "size": {
-      "height": 3.5,
-      "width": 2.2
+    "name":"torterra",
+    "size":{
+      "height":1.9,
+      "width":2.2
     }
   },
   {
-    "name": "groudon-primal",
-    "size": {
-      "height": 5.0,
-      "width": 3.0
+    "name":"chimchar",
+    "size":{
+      "height":0.5,
+      "width":0.4
     }
   },
   {
-    "name": "rayquaza",
-    "size": {
-      "height": 1.0,
-      "length": 7.0
+    "name":"monferno",
+    "size":{
+      "height":0.9,
+      "width":0.7
     }
   },
   {
-    "name": "rayquaza-mega",
-    "size": {
-      "height": 1.5,
-      "length": 10.8
+    "name":"infernape",
+    "size":{
+      "height":1.2,
+      "width":0.9
     }
   },
   {
-    "name": "deoxys-normal",
-    "size": {
-      "height": 1.7,
-      "width": 0.8
+    "name":"prinplup",
+    "size":{
+      "height":0.8,
+      "width":0.6
     }
   },
   {
-    "name": "deoxys-attack",
-    "size": {
-      "height": 1.7,
-      "width": 0.8
+    "name":"empoleon",
+    "size":{
+      "height":1.7,
+      "width":1.0
     }
   },
   {
-    "name": "deoxys-defense",
-    "size": {
-      "height": 1.7,
-      "width": 0.8
+    "name":"staraptor",
+    "size":{
+      "height":1.2,
+      "width":1.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"wing1",
+            "offset":"-2,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          },
+          {
+            "name":"wing2",
+            "offset":"0.5,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "deoxys-speed",
-    "size": {
-      "height": 1.7,
-      "width": 0.8
+    "name":"luxray",
+    "size":{
+      "height":1.4,
+      "width":0.8,
+      "length":1.4
     }
   },
   {
-    "name": "torterra",
-    "size": {
-      "height": 1.9,
-      "width": 2.2
+    "name":"roserade",
+    "size":{
+      "height":0.9,
+      "width":0.6
     }
   },
   {
-    "name": "chimchar",
-    "size": {
-      "height": 0.5,
-      "width": 0.4
+    "name":"cranidos",
+    "size":{
+      "height":0.9,
+      "width":0.8
     }
   },
   {
-    "name": "monferno",
-    "size": {
-      "height": 0.9,
-      "width": 0.7
+    "name":"rampardos",
+    "size":{
+      "height":1.6,
+      "width":1.4
     }
   },
   {
-    "name": "infernape",
-    "size": {
-      "height": 1.2,
-      "width": 0.9
+    "name":"vespiquen",
+    "size":{
+      "height":1.2,
+      "width":0.6
     }
   },
   {
-    "name": "prinplup",
-    "size": {
-      "height": 0.8,
-      "width": 0.6
+    "name":"floatzel",
+    "size":{
+      "height":1.1,
+      "width":0.7
     }
   },
   {
-    "name": "empoleon",
-    "size": {
-      "height": 1.7,
-      "width": 1.0
+    "name":"drifblim",
+    "size":{
+      "height":1.2,
+      "width":1.0
     }
   },
   {
-    "name": "staraptor",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
+    "name":"lopunny",
+    "size":{
+      "height":1.2,
+      "width":0.7
     }
   },
   {
-    "name": "luxray",
-    "size": {
-      "height": 1.4,
-      "width": 0.8,
-      "length": 1.4
+    "name":"lopunny-mega",
+    "size":{
+      "height":1.3,
+      "width":0.7
     }
   },
   {
-    "name": "roserade",
-    "size": {
-      "height": 0.9,
-      "width": 0.6
+    "name":"mismagius",
+    "size":{
+      "height":0.9,
+      "width":0.8
     }
   },
   {
-    "name": "cranidos",
-    "size": {
-      "height": 0.9,
-      "width": 0.8
+    "name":"bronzong",
+    "size":{
+      "height":1.3,
+      "width":1.0
     }
   },
   {
-    "name": "rampardos",
-    "size": {
-      "height": 1.6,
-      "width": 1.4
+    "name":"mime-jr",
+    "size":{
+      "height":0.6,
+      "width":0.5
     }
   },
   {
-    "name": "vespiquen",
-    "size": {
-      "height": 1.2,
-      "width": 0.6
+    "name":"happiny",
+    "size":{
+      "height":0.6,
+      "width":0.5
     }
   },
   {
-    "name": "floatzel",
-    "size": {
-      "height": 1.1,
-      "width": 0.7
+    "name":"gabite",
+    "size":{
+      "height":1.4,
+      "width":0.8
     }
   },
   {
-    "name": "drifblim",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
+    "name":"garchomp",
+    "size":{
+      "height":1.9,
+      "width":0.9
     }
   },
   {
-    "name": "lopunny",
-    "size": {
-      "height": 1.2,
-      "width": 0.7
+    "name":"garchomp-mega",
+    "size":{
+      "height":1.9,
+      "width":0.9
     }
   },
   {
-    "name": "lopunny-mega",
-    "size": {
-      "height": 1.3,
-      "width": 0.7
+    "name":"riolu",
+    "size":{
+      "height":0.7,
+      "width":0.6
     }
   },
   {
-    "name": "mismagius",
-    "size": {
-      "height": 0.9,
-      "width": 0.8
+    "name":"lucario",
+    "size":{
+      "height":1.2,
+      "width":0.8
     }
   },
   {
-    "name": "bronzong",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
+    "name":"hippowdon",
+    "size":{
+      "height":1.0,
+      "width":2.0
     }
   },
   {
-    "name": "mime-jr",
-    "size": {
-      "height": 0.6,
-      "width": 0.5
+    "name":"drapion",
+    "size":{
+      "height":1.3,
+      "width":1.0,
+      "length":1.3
     }
   },
   {
-    "name": "happiny",
-    "size": {
-      "height": 0.6,
-      "width": 0.5
+    "name":"toxicroak",
+    "size":{
+      "height":1.3,
+      "width":0.8
     }
   },
   {
-    "name": "gabite",
-    "size": {
-      "height": 1.4,
-      "width": 0.8
+    "name":"carnivine",
+    "size":{
+      "height":1.4,
+      "width":0.8
     }
   },
   {
-    "name": "garchomp",
-    "size": {
-      "height": 1.9,
-      "width": 0.9
+    "name":"abomasnow",
+    "size":{
+      "height":2.2,
+      "width":1.5
     }
   },
   {
-    "name": "garchomp-mega",
-    "size": {
-      "height": 1.9,
-      "width": 0.9
+    "name":"abomasnow-mega",
+    "size":{
+      "height":2.7,
+      "width":1.5
     }
   },
   {
-    "name": "riolu",
-    "size": {
-      "height": 0.7,
-      "width": 0.6
+    "name":"weavile",
+    "size":{
+      "height":1.1,
+      "width":0.8
     }
   },
   {
-    "name": "lucario",
-    "size": {
-      "height": 1.2,
-      "width": 0.8
+    "name":"magnezone",
+    "size":{
+      "height":0.8,
+      "width":1.2
     }
   },
   {
-    "name": "hippowdon",
-    "size": {
-      "height": 1.0,
-      "width": 2.0
+    "name":"lickilicky",
+    "size":{
+      "height":1.7,
+      "width":1.0
     }
   },
   {
-    "name": "drapion",
-    "size": {
-      "height": 1.3,
-      "width": 1.0,
-      "length": 1.3
+    "name":"rhyperior",
+    "size":{
+      "height":2.4,
+      "width":1.0
     }
   },
   {
-    "name": "toxicroak",
-    "size": {
-      "height": 1.3,
-      "width": 0.8
+    "name":"tangrowth",
+    "size":{
+      "height":2.0,
+      "width":1.0
     }
   },
   {
-    "name": "carnivine",
-    "size": {
-      "height": 1.4,
-      "width": 0.8
+    "name":"electivire",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "abomasnow",
-    "size": {
-      "height": 2.2,
-      "width": 1.5
+    "name":"magmortar",
+    "size":{
+      "height":1.6,
+      "width":1.0
     }
   },
   {
-    "name": "abomasnow-mega",
-    "size": {
-      "height": 2.7,
-      "width": 1.5
+    "name":"togekiss",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "weavile",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
+    "name":"yanmega",
+    "size":{
+      "height":1.0,
+      "width":1.9
     }
   },
   {
-    "name": "magnezone",
-    "size": {
-      "height": 0.8,
-      "width": 1.2
+    "name":"gliscor",
+    "size":{
+      "height":2.0,
+      "width":1.8
     }
   },
   {
-    "name": "lickilicky",
-    "size": {
-      "height": 1.7,
-      "width": 1.0
+    "name":"gallade",
+    "size":{
+      "height":1.6,
+      "width":0.6
     }
   },
   {
-    "name": "rhyperior",
-    "size": {
-      "height": 2.4,
-      "width": 1.0
+    "name":"probopass",
+    "size":{
+      "height":1.4,
+      "width":0.8
     }
   },
   {
-    "name": "tangrowth",
-    "size": {
-      "height": 2.0,
-      "width": 1.0
+    "name":"froslass",
+    "size":{
+      "height":1.3,
+      "width":0.6
     }
   },
   {
-    "name": "electivire",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"dialga",
+    "size":{
+      "height":5.4,
+      "width":4.0,
+      "length":5.4
     }
   },
   {
-    "name": "magmortar",
-    "size": {
-      "height": 1.6,
-      "width": 1.0
+    "name":"dialga-origin",
+    "size":{
+      "height":5.4,
+      "width":4.0,
+      "length":5.4
     }
   },
   {
-    "name": "togekiss",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"palkia",
+    "size":{
+      "height":4.2,
+      "width":3.0
     }
   },
   {
-    "name": "yanmega",
-    "size": {
-      "height": 1.0,
-      "width": 1.9
+    "name":"palkia-origin",
+    "size":{
+      "height":4.2,
+      "width":3.0
     }
   },
   {
-    "name": "gliscor",
-    "size": {
-      "height": 2.0,
-      "width": 1.8
+    "name":"regigigas",
+    "size":{
+      "height":3.7,
+      "length":2.0
     }
   },
   {
-    "name": "gallade",
-    "size": {
-      "height": 1.6,
-      "width": 0.6
+    "name":"giratina-origin",
+    "size":{
+      "height":3.0,
+      "length":6.9
     }
   },
   {
-    "name": "probopass",
-    "size": {
-      "height": 1.4,
-      "width": 0.8
+    "name":"darkrai",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "froslass",
-    "size": {
-      "height": 1.3,
-      "width": 0.6
+    "name":"arceus",
+    "size":{
+      "height":3.2,
+      "width":2.0,
+      "length":3.2
     }
   },
   {
-    "name": "dialga",
-    "size": {
-      "height": 5.4,
-      "width": 4.0,
-      "length": 5.4
+    "name":"snivy",
+    "size":{
+      "height":0.6,
+      "width":0.5
     }
   },
   {
-    "name": "dialga-origin",
-    "size": {
-      "height": 5.4,
-      "width": 4.0,
-      "length": 5.4
+    "name":"servine",
+    "size":{
+      "height":0.8,
+      "width":0.6
     }
   },
   {
-    "name": "palkia",
-    "size": {
-      "height": 4.2,
-      "width": 3.0
+    "name":"serperior",
+    "size":{
+      "height":1.6,
+      "width":2.3,
+      "length":3.3
     }
   },
   {
-    "name": "palkia-origin",
-    "size": {
-      "height": 4.2,
-      "width": 3.0
+    "name":"pignite",
+    "size":{
+      "height":1.0,
+      "width":0.8
     }
   },
   {
-    "name": "regigigas",
-    "size": {
-      "height": 3.7,
-      "length": 2.0
+    "name":"emboar",
+    "size":{
+      "height":1.6,
+      "width":1.4
     }
   },
   {
-    "name": "giratina-origin",
-    "size": {
-      "height": 3.0,
-      "length": 6.9
+    "name":"oshawott",
+    "size":{
+      "height":0.5,
+      "width":0.4
     }
   },
   {
-    "name": "darkrai",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"dewott",
+    "size":{
+      "height":0.8,
+      "width":0.6
     }
   },
   {
-    "name": "arceus",
-    "size": {
-      "height": 3.2,
-      "width": 2.0,
-      "length": 3.2
+    "name":"samurott",
+    "size":{
+      "height":1.5,
+      "width":1.2
     }
   },
   {
-    "name": "snivy",
-    "size": {
-      "height": 0.6,
-      "width": 0.5
+    "name":"samurott-hisui",
+    "size":{
+      "height":1.5,
+      "width":1.2
     }
   },
   {
-    "name": "servine",
-    "size": {
-      "height": 0.8,
-      "width": 0.6
+    "name":"watchog",
+    "size":{
+      "height":1.1,
+      "width":0.6
     }
   },
   {
-    "name": "serperior",
-    "size": {
-      "height": 1.6,
-      "width": 2.3,
-      "length": 3.3
+    "name":"stoutland",
+    "size":{
+      "height":1.2,
+      "width":0.8,
+      "length":1.2
     }
   },
   {
-    "name": "pignite",
-    "size": {
-      "height": 1.0,
-      "width": 0.8
+    "name":"liepard",
+    "size":{
+      "height":1.1,
+      "width":0.6,
+      "length":1.1
     }
   },
   {
-    "name": "emboar",
-    "size": {
-      "height": 1.6,
-      "width": 1.4
+    "name":"zebstrika",
+    "size":{
+      "height":1.6,
+      "width":1.0
     }
   },
   {
-    "name": "oshawott",
-    "size": {
-      "height": 0.5,
-      "width": 0.4
+    "name":"audino",
+    "size":{
+      "height":1.1,
+      "width":0.7
     }
   },
   {
-    "name": "dewott",
-    "size": {
-      "height": 0.8,
-      "width": 0.6
+    "name":"audino-mega",
+    "size":{
+      "height":1.5,
+      "width":0.7
     }
   },
   {
-    "name": "samurott",
-    "size": {
-      "height": 1.5,
-      "width": 1.2
+    "name":"gurdurr",
+    "size":{
+      "height":1.2,
+      "width":1.0
     }
   },
   {
-    "name": "samurott-hisui",
-    "size": {
-      "height": 1.5,
-      "width": 1.2
+    "name":"conkeldurr",
+    "size":{
+      "height":1.4,
+      "width":1.0
     }
   },
   {
-    "name": "watchog",
-    "size": {
-      "height": 1.1,
-      "width": 0.6
+    "name":"seismitoad",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "stoutland",
-    "size": {
-      "height": 1.2,
-      "width": 0.8,
-      "length": 1.2
+    "name":"throh",
+    "size":{
+      "height":1.3,
+      "width":0.8
     }
   },
   {
-    "name": "liepard",
-    "size": {
-      "height": 1.1,
-      "width": 0.6,
-      "length": 1.1
+    "name":"sawk",
+    "size":{
+      "height":1.4,
+      "width":1.0
     }
   },
   {
-    "name": "zebstrika",
-    "size": {
-      "height": 1.6,
-      "width": 1.0
+    "name":"leavanny",
+    "size":{
+      "height":1.2,
+      "width":0.6
     }
   },
   {
-    "name": "audino",
-    "size": {
-      "height": 1.1,
-      "width": 0.7
+    "name":"scolipede",
+    "size":{
+      "height":2.5,
+      "width":1.0,
+      "length":2.5
     }
   },
   {
-    "name": "audino-mega",
-    "size": {
-      "height": 1.5,
-      "width": 0.7
+    "name":"lilligant",
+    "size":{
+      "height":1.1,
+      "width":0.8
     }
   },
   {
-    "name": "gurdurr",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
+    "name":"lilligant-hisui",
+    "size":{
+      "height":1.2,
+      "width":0.8
     }
   },
   {
-    "name": "conkeldurr",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
+    "name":"sandile",
+    "size":{
+      "height":0.5,
+      "width":0.7
     }
   },
   {
-    "name": "seismitoad",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"krokorok",
+    "size":{
+      "height":1.0,
+      "width":0.7
     }
   },
   {
-    "name": "throh",
-    "size": {
-      "height": 1.3,
-      "width": 0.8
+    "name":"krookodile",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "sawk",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
+    "name":"toucannon",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,1.5,1"
+          },
+          {
+            "name":"wing1",
+            "offset":"-2,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          },
+          {
+            "name":"wing2",
+            "offset":"0.5,0.3,-0.4",
+            "size":"1.4,0.7,1.4"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "leavanny",
-    "size": {
-      "height": 1.2,
-      "width": 0.6
+    "name":"darmanitan-standard",
+    "size":{
+      "height":1.3,
+      "width":1.0
     }
   },
   {
-    "name": "scolipede",
-    "size": {
-      "height": 2.5,
-      "width": 1.0,
-      "length": 2.5
+    "name":"darmanitan-galar-standard",
+    "size":{
+      "height":1.7,
+      "width":0.9
     }
   },
   {
-    "name": "lilligant",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
+    "name":"darmanitan-galar-zen",
+    "size":{
+      "height":1.7,
+      "width":0.9
     }
   },
   {
-    "name": "lilligant-hisui",
-    "size": {
-      "height": 1.2,
-      "width": 0.8
+    "name":"maractus",
+    "size":{
+      "height":1.0,
+      "width":0.6
     }
   },
   {
-    "name": "sandile",
-    "size": {
-      "height": 0.5,
-      "width": 0.7
+    "name":"scrafty",
+    "size":{
+      "height":1.1,
+      "width":0.9
     }
   },
   {
-    "name": "krokorok",
-    "size": {
-      "height": 1.0,
-      "width": 0.7
+    "name":"sigilyph",
+    "size":{
+      "height":1.4,
+      "width":1.0
     }
   },
   {
-    "name": "krookodile",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"cofagrigus",
+    "size":{
+      "height":1.7,
+      "length":1.0
     }
   },
   {
-    "name": "darmanitan-standard",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
+    "name":"garbodor-gmax",
+    "size":{
+      "height":5.9,
+      "width":3.9
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-5,0,-5",
+            "size":"10,4,10"
+          },
+          {
+            "name":"body1",
+            "offset":"-4,4,-4",
+            "size":"8,4,8"
+          },
+          {
+            "name":"head",
+            "offset":"-4,8,-4",
+            "size":"8,4,8",
+            "ride":"4,1,5"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "darmanitan-galar-standard",
-    "size": {
-      "height": 1.7,
-      "width": 0.9
+    "name":"zoroark",
+    "size":{
+      "height":1.6,
+      "width":0.9
     }
   },
   {
-    "name": "darmanitan-galar-zen",
-    "size": {
-      "height": 1.7,
-      "width": 0.9
+    "name":"zoroark-hisui",
+    "size":{
+      "height":1.6,
+      "width":0.9
     }
   },
   {
-    "name": "maractus",
-    "size": {
-      "height": 1.0,
-      "width": 0.6
+    "name":"gothitelle",
+    "size":{
+      "height":1.5,
+      "width":0.9
     }
   },
   {
-    "name": "scrafty",
-    "size": {
-      "height": 1.1,
-      "width": 0.9
+    "name":"eelektrik",
+    "size":{
+      "height":1.1,
+      "width":1.2
     }
   },
   {
-    "name": "sigilyph",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
+    "name":"eelektross",
+    "size":{
+      "height":2.0,
+      "length":2.1
     }
   },
   {
-    "name": "cofagrigus",
-    "size": {
-      "height": 1.7,
-      "length": 1.0
+    "name":"fraxure",
+    "size":{
+      "height":1.0,
+      "width":0.9
     }
   },
   {
-    "name": "garbodor-gmax",
-    "size": {
-      "height": 5.9,
-      "width": 3.9
+    "name":"haxorus",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "zoroark",
-    "size": {
-      "height": 1.6,
-      "width": 0.9
+    "name":"beartic",
+    "size":{
+      "height":2.6,
+      "width":1.5
     }
   },
   {
-    "name": "zoroark-hisui",
-    "size": {
-      "height": 1.6,
-      "width": 0.9
+    "name":"stunfisk",
+    "size":{
+      "height":0.2,
+      "width":0.7
     }
   },
   {
-    "name": "gothitelle",
-    "size": {
-      "height": 1.5,
-      "width": 0.9
+    "name":"stunfisk-galar",
+    "size":{
+      "height":0.2,
+      "width":0.7
     }
   },
   {
-    "name": "eelektrik",
-    "size": {
-      "height": 1.1,
-      "width": 1.2
+    "name":"mienshao",
+    "size":{
+      "height":1.4,
+      "width":0.8
     }
   },
   {
-    "name": "eelektross",
-    "size": {
-      "height": 2.0,
-      "length": 2.1
+    "name":"golurk",
+    "size":{
+      "height":2.8,
+      "length":2.0
     }
   },
   {
-    "name": "fraxure",
-    "size": {
-      "height": 1.0,
-      "width": 0.9
+    "name":"bisharp",
+    "size":{
+      "height":1.6,
+      "width":0.9
     }
   },
   {
-    "name": "haxorus",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"bouffalant",
+    "size":{
+      "height":1.6,
+      "width":1.0,
+      "length":1.6
     }
   },
   {
-    "name": "beartic",
-    "size": {
-      "height": 2.6,
-      "width": 1.5
+    "name":"braviary-hisui",
+    "size":{
+      "height":1.7,
+      "width":1.5
     }
   },
   {
-    "name": "stunfisk",
-    "size": {
-      "height": 0.2,
-      "width": 0.7
+    "name":"durant",
+    "size":{
+      "height":0.2,
+      "width":0.3
     }
   },
   {
-    "name": "stunfisk-galar",
-    "size": {
-      "height": 0.2,
-      "width": 0.7
+    "name":"larvesta",
+    "size":{
+      "height":0.9,
+      "width":1.1
     }
   },
   {
-    "name": "mienshao",
-    "size": {
-      "height": 1.4,
-      "width": 0.8
+    "name":"cobalion",
+    "size":{
+      "height":2.1,
+      "width":1.0,
+      "length":2.1
     }
   },
   {
-    "name": "golurk",
-    "size": {
-      "height": 2.8,
-      "length": 2.0
+    "name":"terrakion",
+    "size":{
+      "height":1.9,
+      "width":1.0,
+      "length":1.9
     }
   },
   {
-    "name": "bisharp",
-    "size": {
-      "height": 1.6,
-      "width": 0.9
+    "name":"virizion",
+    "size":{
+      "height":2.0,
+      "width":1.0,
+      "length":2.0
     }
   },
   {
-    "name": "bouffalant",
-    "size": {
-      "height": 1.6,
-      "width": 1.0,
-      "length": 1.6
+    "name":"tornadus-incarnate",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "braviary-hisui",
-    "size": {
-      "height": 1.7,
-      "width": 1.5
+    "name":"tornadus-therian",
+    "size":{
+      "height":1.4,
+      "width":1.0
     }
   },
   {
-    "name": "durant",
-    "size": {
-      "height": 0.2,
-      "width": 0.3
+    "name":"thundurus-incarnate",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "larvesta",
-    "size": {
-      "height": 0.9,
-      "width": 1.1
+    "name":"thundurus-therian",
+    "size":{
+      "height":3.0,
+      "width":2.0
     }
   },
   {
-    "name": "cobalion",
-    "size": {
-      "height": 2.1,
-      "width": 1.0,
-      "length": 2.1
+    "name":"landorus-incarnate",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "terrakion",
-    "size": {
-      "height": 1.9,
-      "width": 1.0,
-      "length": 1.9
+    "name":"landorus-therian",
+    "size":{
+      "height":1.3,
+      "width":1.0
     }
   },
   {
-    "name": "virizion",
-    "size": {
-      "height": 2.0,
-      "width": 1.0,
-      "length": 2.0
+    "name":"chesnaught",
+    "size":{
+      "height":1.6,
+      "width":1.0
     }
   },
   {
-    "name": "tornadus-incarnate",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"braixen",
+    "size":{
+      "height":1.0,
+      "width":0.8
     }
   },
   {
-    "name": "tornadus-therian",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
+    "name":"delphox",
+    "size":{
+      "height":1.5,
+      "width":0.9
     }
   },
   {
-    "name": "thundurus-incarnate",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"frogadier",
+    "size":{
+      "height":0.6,
+      "width":0.5
     }
   },
   {
-    "name": "thundurus-therian",
-    "size": {
-      "height": 3.0,
-      "width": 2.0
+    "name":"greninja",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "landorus-incarnate",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"pyroar",
+    "size":{
+      "height":1.5,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "landorus-therian",
-    "size": {
-      "height": 1.3,
-      "width": 1.0
+    "name":"florges",
+    "size":{
+      "height":1.1,
+      "width":1.0
     }
   },
   {
-    "name": "chesnaught",
-    "size": {
-      "height": 1.6,
-      "width": 1.0
+    "name":"gogoat",
+    "size":{
+      "height":1.7,
+      "width":1.0,
+      "length":1.7
     }
   },
   {
-    "name": "braixen",
-    "size": {
-      "height": 1.0,
-      "width": 0.8
+    "name":"pangoro",
+    "size":{
+      "height":2.1,
+      "width":1.5
     }
   },
   {
-    "name": "delphox",
-    "size": {
-      "height": 1.5,
-      "width": 0.9
+    "name":"furfrou",
+    "size":{
+      "height":1.2,
+      "width":1.0,
+      "length":1.2
     }
   },
   {
-    "name": "frogadier",
-    "size": {
-      "height": 0.6,
-      "width": 0.5
+    "name":"aegislash-shield",
+    "size":{
+      "height":1.7,
+      "width":1.4
     }
   },
   {
-    "name": "greninja",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"aegislash-blade",
+    "size":{
+      "height":1.7,
+      "width":1.4
     }
   },
   {
-    "name": "pyroar",
-    "size": {
-      "height": 1.5,
-      "width": 1.0,
-      "length": 1.5
+    "name":"malamar",
+    "size":{
+      "height":1.5,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "florges",
-    "size": {
-      "height": 1.1,
-      "width": 1.0
+    "name":"barbaracle",
+    "size":{
+      "height":0.9,
+      "length":1.3
     }
   },
   {
-    "name": "gogoat",
-    "size": {
-      "height": 1.7,
-      "width": 1.0,
-      "length": 1.7
+    "name":"dragalge",
+    "size":{
+      "height":1.8,
+      "width":1.0,
+      "length":1.8
     }
   },
   {
-    "name": "pangoro",
-    "size": {
-      "height": 2.1,
-      "width": 1.5
+    "name":"tyrantrum",
+    "size":{
+      "height":2.5,
+      "width":2.0,
+      "length":2.5
     }
   },
   {
-    "name": "furfrou",
-    "size": {
-      "height": 1.2,
-      "width": 1.0,
-      "length": 1.2
+    "name":"amaura",
+    "size":{
+      "height":1.3,
+      "width":1.0,
+      "length":1.3
     }
   },
   {
-    "name": "aegislash-shield",
-    "size": {
-      "height": 1.7,
-      "width": 1.4
+    "name":"aurorus",
+    "size":{
+      "height":2.7,
+      "width":2.0,
+      "length":2.7
     }
   },
   {
-    "name": "aegislash-blade",
-    "size": {
-      "height": 1.7,
-      "width": 1.4
+    "name":"sliggoo",
+    "size":{
+      "height":0.8,
+      "width":0.6,
+      "length":0.8
     }
   },
   {
-    "name": "malamar",
-    "size": {
-      "height": 1.5,
-      "width": 1.0,
-      "length": 1.5
+    "name":"sliggoo-hisui",
+    "size":{
+      "height":0.7,
+      "length":0.6
     }
   },
   {
-    "name": "barbaracle",
-    "size": {
-      "height": 0.9,
-      "length": 1.3
+    "name":"goodra",
+    "size":{
+      "height":2.0,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "dragalge",
-    "size": {
-      "height": 1.8,
-      "width": 1.0,
-      "length": 1.8
+    "name":"goodra-hisui",
+    "size":{
+      "height":1.7,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "tyrantrum",
-    "size": {
-      "height": 2.5,
-      "width": 2.0,
-      "length": 2.5
+    "name":"trevenant",
+    "size":{
+      "height":1.5,
+      "width":1.0
     }
   },
   {
-    "name": "amaura",
-    "size": {
-      "height": 1.3,
-      "width": 1.0,
-      "length": 1.3
+    "name":"xerneas",
+    "size":{
+      "height":3.0,
+      "width":1.0,
+      "length":3.0
     }
   },
   {
-    "name": "aurorus",
-    "size": {
-      "height": 2.7,
-      "width": 2.0,
-      "length": 2.7
+    "name":"yveltal",
+    "size":{
+      "height":2.8,
+      "width":5.8,
+      "length":3.0
     }
   },
   {
-    "name": "sliggoo",
-    "size": {
-      "height": 0.8,
-      "width": 0.6,
-      "length": 0.8
+    "name":"zygarde-complete",
+    "size":{
+      "height":4.5,
+      "width":3.0
     }
   },
   {
-    "name": "sliggoo-hisui",
-    "size": {
-      "height": 0.7,
-      "length": 0.6
+    "name":"zygarde-10",
+    "size":{
+      "height":1.2,
+      "width":0.8,
+      "length":1.2
     }
   },
   {
-    "name": "goodra",
-    "size": {
-      "height": 2.0,
-      "width": 1.0,
-      "length": 1.5
+    "name":"diancie-mega",
+    "size":{
+      "height":1.1,
+      "width":0.7
     }
   },
   {
-    "name": "goodra-hisui",
-    "size": {
-      "height": 1.7,
-      "width": 1.0,
-      "length": 1.5
+    "name":"hoopa-unbound",
+    "size":{
+      "height":6.5,
+      "width":3.0
     }
   },
   {
-    "name": "trevenant",
-    "size": {
-      "height": 1.5,
-      "width": 1.0
+    "name":"dartrix",
+    "size":{
+      "height":0.7,
+      "width":0.4
     }
   },
   {
-    "name": "xerneas",
-    "size": {
-      "height": 3.0,
-      "width": 1.0,
-      "length": 3.0
+    "name":"decidueye",
+    "size":{
+      "height":1.6,
+      "width":0.9
     }
   },
   {
-    "name": "yveltal",
-    "size": {
-      "height": 2.8,
-      "width": 5.8,
-      "length": 3.0
+    "name":"decidueye-hisui",
+    "size":{
+      "height":1.6,
+      "width":0.9
     }
   },
   {
-    "name": "zygarde-complete",
-    "size": {
-      "height": 4.5,
-      "width": 3.0
+    "name":"torracat",
+    "size":{
+      "height":0.7,
+      "width":0.5,
+      "length":0.7
     }
   },
   {
-    "name": "zygarde-10",
-    "size": {
-      "height": 1.2,
-      "width": 0.8,
-      "length": 1.2
+    "name":"incineroar",
+    "size":{
+      "height":1.8,
+      "width":0.9
     }
   },
   {
-    "name": "diancie-mega",
-    "size": {
-      "height": 1.1,
-      "width": 0.7
+    "name":"primarina",
+    "size":{
+      "height":1.8,
+      "width":1.0,
+      "length":1.8
     }
   },
   {
-    "name": "hoopa-unbound",
-    "size": {
-      "height": 6.5,
-      "width": 3.0
+    "name":"yungoos",
+    "size":{
+      "height":0.2,
+      "length":0.4
     }
   },
   {
-    "name": "dartrix",
-    "size": {
-      "height": 0.7,
-      "width": 0.4
+    "name":"gumshoos",
+    "size":{
+      "height":0.7,
+      "width":0.3,
+      "length":0.7
     }
   },
   {
-    "name": "decidueye",
-    "size": {
-      "height": 1.6,
-      "width": 0.9
+    "name":"lycanroc-midnight",
+    "size":{
+      "height":1.1,
+      "width":0.8
     }
   },
   {
-    "name": "decidueye-hisui",
-    "size": {
-      "height": 1.6,
-      "width": 0.9
+    "name":"wishiwashi-school",
+    "size":{
+      "height":4.0,
+      "length":8.2
     }
   },
   {
-    "name": "torracat",
-    "size": {
-      "height": 0.7,
-      "width": 0.5,
-      "length": 0.7
+    "name":"lurantis",
+    "size":{
+      "height":0.9,
+      "width":0.5
     }
   },
   {
-    "name": "incineroar",
-    "size": {
-      "height": 1.8,
-      "width": 0.9
+    "name":"bewear",
+    "size":{
+      "height":2.1,
+      "width":1.1
     }
   },
   {
-    "name": "primarina",
-    "size": {
-      "height": 1.8,
-      "width": 1.0,
-      "length": 1.8
+    "name":"passimian",
+    "size":{
+      "height":2.0,
+      "length":1.0
     }
   },
   {
-    "name": "yungoos",
-    "size": {
-      "height": 0.2,
-      "length": 0.4
+    "name":"type-null",
+    "size":{
+      "height":1.9,
+      "width":0.9,
+      "length":1.9
     }
   },
   {
-    "name": "gumshoos",
-    "size": {
-      "height": 0.7,
-      "width": 0.3,
-      "length": 0.7
+    "name":"silvally",
+    "size":{
+      "height":2.3,
+      "width":1.0,
+      "length":2.3
     }
   },
   {
-    "name": "lycanroc-midnight",
-    "size": {
-      "height": 1.1,
-      "width": 0.8
+    "name":"jangmo-o",
+    "size":{
+      "height":0.6,
+      "width":0.3,
+      "length":0.6
     }
   },
   {
-    "name": "wishiwashi-school",
-    "size": {
-      "height": 4.0,
-      "length": 8.2
+    "name":"hakamo-o",
+    "size":{
+      "height":1.2,
+      "width":1.0,
+      "length":1.2
     }
   },
   {
-    "name": "lurantis",
-    "size": {
-      "height": 0.9,
-      "width": 0.5
+    "name":"kommo-o",
+    "size":{
+      "height":1.6,
+      "width":1.0,
+      "length":1.6
     }
   },
   {
-    "name": "bewear",
-    "size": {
-      "height": 2.1,
-      "width": 1.1
+    "name":"tapu-koko",
+    "size":{
+      "height":1.8,
+      "width":1.3,
+      "length":1.0
     }
   },
   {
-    "name": "passimian",
-    "size": {
-      "height": 2.0,
-      "length": 1.0
+    "name":"tapu-lele",
+    "size":{
+      "height":1.2,
+      "width":0.8
     }
   },
   {
-    "name": "type-null",
-    "size": {
-      "height": 1.9,
-      "width": 0.9,
-      "length": 1.9
+    "name":"tapu-bulu",
+    "size":{
+      "height":1.9,
+      "width":1.4,
+      "length":1.0
     }
   },
   {
-    "name": "silvally",
-    "size": {
-      "height": 2.3,
-      "width": 1.0,
-      "length": 2.3
+    "name":"tapu-fini",
+    "size":{
+      "height":1.3,
+      "width":0.9,
+      "length":1.3
     }
   },
   {
-    "name": "jangmo-o",
-    "size": {
-      "height": 0.6,
-      "width": 0.3,
-      "length": 0.6
+    "name":"lunala",
+    "size":{
+      "height":4.0,
+      "length":1.0
     }
   },
   {
-    "name": "hakamo-o",
-    "size": {
-      "height": 1.2,
-      "width": 1.0,
-      "length": 1.2
+    "name":"nihilego",
+    "size":{
+      "height":1.2,
+      "width":0.8
     }
   },
   {
-    "name": "kommo-o",
-    "size": {
-      "height": 1.6,
-      "width": 1.0,
-      "length": 1.6
+    "name":"buzzwole",
+    "size":{
+      "height":2.4,
+      "width":2.0,
+      "length":1.5
     }
   },
   {
-    "name": "tapu-koko",
-    "size": {
-      "height": 1.8,
-      "width": 1.3,
-      "length": 1.0
+    "name":"pheromosa",
+    "size":{
+      "height":1.8,
+      "width":0.8
     }
   },
   {
-    "name": "tapu-lele",
-    "size": {
-      "height": 1.2,
-      "width": 0.8
+    "name":"xurkitree",
+    "size":{
+      "height":3.8,
+      "width":1.0,
+      "length":2.0
     }
   },
   {
-    "name": "tapu-bulu",
-    "size": {
-      "height": 1.9,
-      "width": 1.4,
-      "length": 1.0
+    "name":"celesteela",
+    "size":{
+      "height":9.2,
+      "width":4.0
     }
   },
   {
-    "name": "tapu-fini",
-    "size": {
-      "height": 1.3,
-      "width": 0.9,
-      "length": 1.3
+    "name":"necrozma",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,3.0,1"
+          },
+          {
+            "name":"arm1",
+            "offset":"-2,0.3,-0.4",
+            "size":"1.4,2.0,1.4"
+          },
+          {
+            "name":"arm2",
+            "offset":"0.5,0.3,-0.4",
+            "size":"1.4,2.0,1.4"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,3.0,1"
+          },
+          {
+            "name":"arm1",
+            "offset":"-2,0.3,-0.8",
+            "size":"1.4,2.0,1.4"
+          },
+          {
+            "name":"arm2",
+            "offset":"0.5,0.3,-0.8",
+            "size":"1.4,2.0,1.4"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-0.5,0,-0.5",
+            "size":"1,3.0,1"
+          },
+          {
+            "name":"arm1",
+            "offset":"-2,0.3,0.6",
+            "size":"1.4,2.0,1.4"
+          },
+          {
+            "name":"arm2",
+            "offset":"0.5,0.3,0.6",
+            "size":"1.4,2.0,1.4"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "lunala",
-    "size": {
-      "height": 4.0,
-      "length": 1.0
+    "name":"necrozma-dawn",
+    "size":{
+      "height":4.2,
+      "length":1.0
     }
   },
   {
-    "name": "nihilego",
-    "size": {
-      "height": 1.2,
-      "width": 0.8
+    "name":"necrozma-ultra",
+    "size":{
+      "height":7.5,
+      "width":2.4
     }
   },
   {
-    "name": "buzzwole",
-    "size": {
-      "height": 2.4,
-      "width": 2.0,
-      "length": 1.5
+    "name":"magearna",
+    "size":{
+      "height":1.0,
+      "width":0.7
     }
   },
   {
-    "name": "pheromosa",
-    "size": {
-      "height": 1.8,
-      "width": 0.8
+    "name":"blacephalon",
+    "size":{
+      "height":1.8,
+      "width":0.8
     }
   },
   {
-    "name": "xurkitree",
-    "size": {
-      "height": 3.8,
-      "width": 1.0,
-      "length": 2.0
+    "name":"zeraora",
+    "size":{
+      "height":1.5,
+      "width":0.9
     }
   },
   {
-    "name": "celesteela",
-    "size": {
-      "height": 9.2,
-      "width": 4.0
+    "name":"melmetal-gmax",
+    "size":{
+      "height":6.0,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1,0,-1",
+            "size":"2,4,2"
+          },
+          {
+            "name":"body1",
+            "offset":"-1,4,-1",
+            "size":"2,4,2"
+          },
+          {
+            "name":"head",
+            "offset":"-2,8,-2",
+            "size":"4,3,4",
+            "ride":"2,1,1"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "necrozma-dawn",
-    "size": {
-      "height": 4.2,
-      "length": 1.0
+    "name":"rillaboom-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.5
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"extra_bl",
+            "offset":"3.5,0,-1.8",
+            "size":"4,6,4"
+          },
+          {
+            "name":"extra_b2",
+            "offset":"3.5,6,-1.8",
+            "size":"4,6,4"
+          },
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,6,4"
+          },
+          {
+            "name":"head",
+            "offset":"-2,6,-2",
+            "size":"4,3,4",
+            "ride":"2,0,3"
+          },
+          {
+            "name":"extra_al",
+            "offset":"-8.5,0,-3",
+            "size":"4,6,4"
+          },
+          {
+            "name":"extra_a2",
+            "offset":"-8.5,6,-3",
+            "size":"4,6,4"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "necrozma-ultra",
-    "size": {
-      "height": 7.5,
-      "width": 2.4
+    "name":"cinderace",
+    "size":{
+      "height":1.4,
+      "width":1.0
     }
   },
   {
-    "name": "magearna",
-    "size": {
-      "height": 1.0,
-      "width": 0.7
+    "name":"cinderace-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.5
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-4,0,-4",
+            "size":"8,5,8"
+          },
+          {
+            "name":"body1",
+            "offset":"-4,5,-4",
+            "size":"8,5,8",
+            "ride":"4,6,4"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "blacephalon",
-    "size": {
-      "height": 1.8,
-      "width": 0.8
+    "name":"inteleon",
+    "size":{
+      "height":1.9,
+      "width":1.0,
+      "length":1.1
     }
   },
   {
-    "name": "zeraora",
-    "size": {
-      "height": 1.5,
-      "width": 0.9
+    "name":"inteleon-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1,0,-1",
+            "size":"2,4,2"
+          },
+          {
+            "name":"body1",
+            "offset":"-1,4,-1",
+            "size":"2,4,2"
+          },
+          {
+            "name":"body2",
+            "offset":"-1,8,-1",
+            "size":"2,4,2"
+          },
+          {
+            "name":"body3",
+            "offset":"-2,12,-2",
+            "size":"4,5,4",
+            "ride":"1.3,1.5,3"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1,0,-1",
+            "size":"2,4,2",
+            "ride":"1,2.5,1.3"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "melmetal-gmax",
-    "size": {
-      "height": 6.0,
-      "width": 4.0
+    "name":"corviknight",
+    "size":{
+      "height":2.2,
+      "width":2.1,
+      "length":2.2
     }
   },
   {
-    "name": "rillaboom-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.5
+    "name":"corviknight-gmax",
+    "size":{
+      "height":5.0,
+      "width":4.0,
+      "length":4.2
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3,0,-3",
+            "size":"6,8,6",
+            "ride":"4,5.5,4"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3,0,-3",
+            "size":"6,8,6",
+            "ride":"3,5,4"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "cinderace",
-    "size": {
-      "height": 1.4,
-      "width": 1.0
+    "name":"thievul",
+    "size":{
+      "height":1.2,
+      "width":0.9,
+      "length":1.0
     }
   },
   {
-    "name": "cinderace-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.5
+    "name":"dubwool",
+    "size":{
+      "height":1.3,
+      "width":1.2,
+      "length":1.3
     }
   },
   {
-    "name": "inteleon",
-    "size": {
-      "height": 1.9,
-      "width": 1.0,
-      "length": 1.1
+    "name":"drednaw",
+    "size":{
+      "height":1.0,
+      "width":0.9,
+      "length":1.0
     }
   },
   {
-    "name": "inteleon-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.0
+    "name":"drednaw-gmax",
+    "size":{
+      "height":5.0,
+      "width":4.0,
+      "length":3.5
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3.5,0,-3.5",
+            "size":"7.0,11.0,7.0",
+            "ride":"3.5,10,3.5"
+          }
+        ]
+      },
+      "swimming":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3.5,0,-4.5",
+            "size":"7,7.5,9",
+            "ride":"3.5,7,4.5"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "corviknight",
-    "size": {
-      "height": 2.2,
-      "width": 2.1,
-      "length": 2.2
+    "name":"boltund",
+    "size":{
+      "height":1.0,
+      "width":0.8,
+      "length":1.0
     }
   },
   {
-    "name": "corviknight-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 4.0,
-      "length": 4.2
+    "name":"carkol",
+    "size":{
+      "height":1.1,
+      "width":1.0,
+      "length":1.1
     }
   },
   {
-    "name": "thievul",
-    "size": {
-      "height": 1.2,
-      "width": 0.9,
-      "length": 1.0
+    "name":"coalossal",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,3,3",
+            "ride":"1.5,2.3,2.1"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,3,3",
+            "ride":"1.5,2.3,2.2"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "dubwool",
-    "size": {
-      "height": 1.3,
-      "width": 1.2,
-      "length": 1.3
+    "name":"coalossal-gmax",
+    "size":{
+      "height":5.0,
+      "width":4.5
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"5,4,5"
+          },
+          {
+            "name":"body1",
+            "offset":"-2,4,-2",
+            "size":"5,4,5",
+            "ride":"2,2.6,4.4"
+          },
+          {
+            "name":"body2",
+            "offset":"-2,8,-2",
+            "size":"4,4,4"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "drednaw",
-    "size": {
-      "height": 1.0,
-      "width": 0.9,
-      "length": 1.0
+    "name":"flapple-gmax",
+    "size":{
+      "height":5.0,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,4,4",
+            "ride":"2,4.5,2.8"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,4,-1.5",
+            "size":"3,3,3"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1.5,8,-1.5",
+            "size":"3,2,3"
+          }
+        ]
+      },
+      "sitting":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,4,4"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,4,-1.5",
+            "size":"3,3,3"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "drednaw-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 4.0,
-      "length": 3.5
+    "name":"appletun-gmax",
+    "size":{
+      "height":5.0,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,4,4",
+            "ride":"2,4.5,2.8"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,4,-1.5",
+            "size":"3,3,3"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1.5,8,-1.5",
+            "size":"3,2,3"
+          }
+        ]
+      },
+      "sitting":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4,4,4"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,4,-1.5",
+            "size":"3,3,3"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "boltund",
-    "size": {
-      "height": 1.0,
-      "width": 0.8,
-      "length": 1.0
+    "name":"sandaconda",
+    "size":{
+      "height":1.8,
+      "width":1.4,
+      "length":3.8
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"1,1,3",
+            "ride":"1.5,1,2.1"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "carkol",
-    "size": {
-      "height": 1.1,
-      "width": 1.0,
-      "length": 1.1
+    "name":"sandaconda-gmax",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,3,3"
+          },
+          {
+            "name":"body1",
+            "offset":"-2,3,-2",
+            "size":"4,4,4"
+          },
+          {
+            "name":"body2",
+            "offset":"-2.5,6,-2.5",
+            "size":"5,3,5",
+            "ride":"2.5,3,4.9"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.9",
+            "size":"3,3,3"
+          },
+          {
+            "name":"body1",
+            "offset":"-2,3,-3",
+            "size":"4,4,4"
+          },
+          {
+            "name":"body2",
+            "offset":"-2.5,6,-4.5",
+            "size":"5,3,5",
+            "ride":"2.5,3.4,4.5"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "coalossal-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 4.5
+    "name":"cramorant",
+    "size":{
+      "height":0.8,
+      "width":0.4,
+      "length":0.8
     }
   },
   {
-    "name": "flapple-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 4.0
+    "name":"arrokuda",
+    "size":{
+      "height":0.5,
+      "width":0.3,
+      "length":0.5
     }
   },
   {
-    "name": "appletun-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 4.0
+    "name":"toxtricity-amped",
+    "size":{
+      "height":1.6,
+      "width":1.1,
+      "length":1.6
     }
   },
   {
-    "name": "sandaconda",
-    "size": {
-      "height": 1.8,
-      "width": 1.4,
-      "length": 3.8
+    "name":"toxtricity-low-key",
+    "size":{
+      "height":1.6,
+      "width":1.1,
+      "length":1.6
     }
   },
   {
-    "name": "cramorant",
-    "size": {
-      "height": 0.8,
-      "width": 0.4,
-      "length": 0.8
+    "name":"toxtricity-amped-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.5,
+      "length":4.3
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-1",
+            "size":"4,5,4"
+          },
+          {
+            "name":"body1",
+            "offset":"-2,0,-6",
+            "size":"4,5,4",
+            "ride":"2,6,7.5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4.0,9,4.0",
+            "ride":"3.2,7,2.8"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "arrokuda",
-    "size": {
-      "height": 0.5,
-      "width": 0.3,
-      "length": 0.5
+    "name":"toxtricity-low-key-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.5,
+      "length":4.3
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-1",
+            "size":"4,5,4"
+          },
+          {
+            "name":"body1",
+            "offset":"-2,0,-6",
+            "size":"4,5,4",
+            "ride":"2,6,7.5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4.0,9,4.0",
+            "ride":"3.2,7,2.8"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "toxtricity-amped",
-    "size": {
-      "height": 1.6,
-      "width": 1.1,
-      "length": 1.6
+    "name":"sizzlipede",
+    "size":{
+      "height":0.3,
+      "length":0.7
     }
   },
   {
-    "name": "toxtricity-low-key",
-    "size": {
-      "height": 1.6,
-      "width": 1.1,
-      "length": 1.6
+    "name":"centiskorch",
+    "size":{
+      "height":2.0,
+      "width":1.1,
+      "length":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,2,3",
+            "ride":"1.5,1.5,1.5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.8,0,-1.3",
+            "size":"1,1,3.5",
+            "ride":"1.8,0.2,1.3"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "toxtricity-amped-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.5,
-      "length": 4.3
+    "name":"centiskorch-gmax",
+    "size":{
+      "height":4.0,
+      "width":3.0,
+      "length":3.5
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,2,3"
+          },
+          {
+            "name":"neck",
+            "offset":"-1,2,-2",
+            "size":"2,2,2"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1,4,-2.9",
+            "size":"2,2,2",
+            "ride":"1,3,1"
+          },
+          {
+            "name":"tail",
+            "offset":"-1.5,0,2",
+            "size":"3,2,3"
+          },
+          {
+            "name":"tail1",
+            "offset":"-1.5,0,3.5",
+            "size":"3,2,3"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.8,0,-1.3",
+            "size":"1,1,3.5",
+            "ride":"1.8,0.2,1.3"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "toxtricity-low-key-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.5,
-      "length": 4.3
+    "name":"grapploct",
+    "size":{
+      "height":1.6,
+      "width":1.2
     }
   },
   {
-    "name": "sizzlipede",
-    "size": {
-      "height": 0.3,
-      "length": 0.7
+    "name":"hatterene",
+    "size":{
+      "height":2.1,
+      "width":1.0
     }
   },
   {
-    "name": "centiskorch",
-    "size": {
-      "height": 2.0,
-      "width": 1.1,
-      "length": 3.0
+    "name":"hatterene-gmax",
+    "size":{
+      "height":6.0,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2.5,0,-2.5",
+            "size":"5,5,5"
+          },
+          {
+            "name":"body1",
+            "offset":"-2.5,5,-2.5",
+            "size":"5,5,5",
+            "ride":"2.5,1,3.1"
+          },
+          {
+            "name":"head",
+            "offset":"-2.5,10,-2.5",
+            "size":"5,2,5"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "centiskorch-gmax",
-    "size": {
-      "height": 4.0,
-      "width": 3.0,
-      "length": 3.5
+    "name":"morgrem",
+    "size":{
+      "height":0.8,
+      "width":0.6,
+      "length":0.5
     }
   },
   {
-    "name": "grapploct",
-    "size": {
-      "height": 1.6,
-      "width": 1.2
+    "name":"grimmsnarl-gmax",
+    "size":{
+      "height":6.0,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1,0,-1",
+            "size":"2,4,2"
+          },
+          {
+            "name":"body1",
+            "offset":"-1,4,-1",
+            "size":"2,4,2"
+          },
+          {
+            "name":"head",
+            "offset":"-1.2,8,-1.2",
+            "size":"3,4,3",
+            "ride":"1,0,1"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "hatterene",
-    "size": {
-      "height": 2.1,
-      "width": 1.0
+    "name":"obstagoon",
+    "size":{
+      "height":1.6,
+      "width":1.4,
+      "length":1.2
     }
   },
   {
-    "name": "hatterene-gmax",
-    "size": {
-      "height": 6.0,
-      "width": 4.0
+    "name":"perrserker",
+    "size":{
+      "height":0.8,
+      "width":0.6,
+      "length":0.5
     }
   },
   {
-    "name": "morgrem",
-    "size": {
-      "height": 0.8,
-      "width": 0.6,
-      "length": 0.5
+    "name":"cursola",
+    "size":{
+      "height":1.0,
+      "width":0.7,
+      "length":0.6
     }
   },
   {
-    "name": "grimmsnarl-gmax",
-    "size": {
-      "height": 6.0,
-      "width": 4.0
+    "name":"runerigus",
+    "size":{
+      "height":1.6,
+      "width":1.3,
+      "length":1.2
     }
   },
   {
-    "name": "obstagoon",
-    "size": {
-      "height": 1.6,
-      "width": 1.4,
-      "length": 1.2
+    "name":"alcremie-gmax",
+    "size":{
+      "height":6.0,
+      "width":4.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3.5,0,-3.5",
+            "size":"5,5,5"
+          },
+          {
+            "name":"body1",
+            "offset":"-2,5,-2",
+            "size":"4,4,4",
+            "ride":"2,2.5,3.3"
+          },
+          {
+            "name":"body2",
+            "offset":"-1.5,9,-1.5",
+            "size":"3,5,3"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "perrserker",
-    "size": {
-      "height": 0.8,
-      "width": 0.6,
-      "length": 0.5
+    "name":"stonjourner",
+    "size":{
+      "height":2.5,
+      "length":1.5
     }
   },
   {
-    "name": "cursola",
-    "size": {
-      "height": 1.0,
-      "width": 0.7,
-      "length": 0.6
+    "name":"eiscue-ice",
+    "size":{
+      "height":1.4,
+      "length":1.1
     }
   },
   {
-    "name": "runerigus",
-    "size": {
-      "height": 1.6,
-      "width": 1.3,
-      "length": 1.2
+    "name":"copperajah-gmax",
+    "size":{
+      "height":5.5,
+      "width":4.0,
+      "length":4.1
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3,0,-2",
+            "size":"6,5,4"
+          },
+          {
+            "name":"body1",
+            "offset":"-3,5,-2",
+            "size":"6,6,4",
+            "ride":"3,5.5,2"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,6,-4.5",
+            "size":"3,2,2"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1.5,5,-8.5",
+            "size":"3,2,2"
+          },
+          {
+            "name":"neck2",
+            "offset":"-2.5,1,-13.5",
+            "size":"5,5,5"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-3,0,-2",
+            "size":"6,5,4"
+          },
+          {
+            "name":"body1",
+            "offset":"-3,5,-2",
+            "size":"6,6,4",
+            "ride":"3,5.5,2"
+          },
+          {
+            "name":"neck",
+            "offset":"-1.5,5,-5",
+            "size":"3,2,2"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1.5,4,-8",
+            "size":"3,2,2"
+          },
+          {
+            "name":"neck2",
+            "offset":"-2.5,3,-13.5",
+            "size":"5,5,5"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "alcremie-gmax",
-    "size": {
-      "height": 6.0,
-      "width": 4.0
+    "name":"dracozolt",
+    "size":{
+      "height":1.8,
+      "width":1.2,
+      "length":1.8
     }
   },
   {
-    "name": "stonjourner",
-    "size": {
-      "height": 2.5,
-      "length": 1.5
+    "name":"arctozolt",
+    "size":{
+      "height":2.3,
+      "width":2.0,
+      "length":2.3
     }
   },
   {
-    "name": "eiscue-ice",
-    "size": {
-      "height": 1.4,
-      "length": 1.1
+    "name":"dracovish",
+    "size":{
+      "height":2.3,
+      "width":2.0,
+      "length":2.3
     }
   },
   {
-    "name": "copperajah-gmax",
-    "size": {
-      "height": 5.5,
-      "width": 4.0,
-      "length": 4.1
+    "name":"arctovish",
+    "size":{
+      "height":2.0,
+      "width":1.9,
+      "length":2.0
     }
   },
   {
-    "name": "dracozolt",
-    "size": {
-      "height": 1.8,
-      "width": 1.2,
-      "length": 1.8
+    "name":"orbeetle-gmax",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,2,3",
+            "ride":"1.5,0,1.5"
+          },
+          {
+            "name":"body1",
+            "offset":"-3,2,-2",
+            "size":"6,4,6"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "arctozolt",
-    "size": {
-      "height": 2.3,
-      "width": 2.0,
-      "length": 2.3
+    "name":"duraludon",
+    "size":{
+      "height":1.8,
+      "width":1.6,
+      "length":1.8
     }
   },
   {
-    "name": "dracovish",
-    "size": {
-      "height": 2.3,
-      "width": 2.0,
-      "length": 2.3
+    "name":"duraludon-gmax",
+    "size":{
+      "height":5.5,
+      "width":4.5,
+      "length":3.5
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2.5,0,-2.5",
+            "size":"5,5,5"
+          },
+          {
+            "name":"body1",
+            "offset":"-2.5,5,-2.5",
+            "size":"5,5,5",
+            "ride":"2.5,0,3.3"
+          },
+          {
+            "name":"head",
+            "offset":"-2.5,10,-2.5",
+            "size":"5,3.5,5"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "arctovish",
-    "size": {
-      "height": 2.0,
-      "width": 1.9,
-      "length": 2.0
+    "name":"drakloak",
+    "size":{
+      "height":1.4,
+      "width":1.2,
+      "length":1.4
     }
   },
   {
-    "name": "duraludon",
-    "size": {
-      "height": 1.8,
-      "width": 1.6,
-      "length": 1.8
+    "name":"dragapult",
+    "size":{
+      "height":3.0,
+      "width":2.7,
+      "length":2.8
     }
   },
   {
-    "name": "duraludon-gmax",
-    "size": {
-      "height": 5.5,
-      "width": 4.5,
-      "length": 3.5
+    "name":"zacian",
+    "size":{
+      "height":2.8,
+      "width":2.3,
+      "length":2.5
     }
   },
   {
-    "name": "drakloak",
-    "size": {
-      "height": 1.4,
-      "width": 1.2,
-      "length": 1.4
+    "name":"zacian-crowned",
+    "size":{
+      "height":2.8,
+      "width":2.3,
+      "length":2.5
     }
   },
   {
-    "name": "dragapult",
-    "size": {
-      "height": 3.0,
-      "width": 2.7,
-      "length": 2.8
+    "name":"zamazenta",
+    "size":{
+      "height":2.9,
+      "width":2.6,
+      "length":2.4
     }
   },
   {
-    "name": "zacian",
-    "size": {
-      "height": 2.8,
-      "width": 2.3,
-      "length": 2.5
+    "name":"zamazenta-crowned",
+    "size":{
+      "height":2.9,
+      "width":2.6,
+      "length":2.4
     }
   },
   {
-    "name": "zacian-crowned",
-    "size": {
-      "height": 2.8,
-      "width": 2.3,
-      "length": 2.5
+    "name":"urshifu-single-strike",
+    "size":{
+      "height":1.9,
+      "width":1.0
     }
   },
   {
-    "name": "zamazenta",
-    "size": {
-      "height": 2.9,
-      "width": 2.6,
-      "length": 2.4
+    "name":"urshifu-rapid-strike",
+    "size":{
+      "height":1.9,
+      "width":1.0
     }
   },
   {
-    "name": "zamazenta-crowned",
-    "size": {
-      "height": 2.9,
-      "width": 2.6,
-      "length": 2.4
+    "name":"urshifu-single-strike-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4.0,7,4.0",
+            "ride":"1.8,6.6,3"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4.0,9,4.0",
+            "ride":"3.2,6.8,2.8"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "urshifu-single-strike",
-    "size": {
-      "height": 1.9,
-      "width": 1.0
+    "name":"urshifu-rapid-strike-gmax",
+    "size":{
+      "height":5.0,
+      "width":3.0
+    },
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4.0,7,4.0",
+            "ride":"3.5,5,2.4"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,0,-2",
+            "size":"4.0,9,4.0",
+            "ride":"3.2,6.8,2.8"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "urshifu-rapid-strike",
-    "size": {
-      "height": 1.9,
-      "width": 1.0
+    "name":"zarude",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "urshifu-single-strike-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.0
+    "name":"regieleki",
+    "size":{
+      "height":1.2,
+      "width":1.0
     }
   },
   {
-    "name": "urshifu-rapid-strike-gmax",
-    "size": {
-      "height": 5.0,
-      "width": 3.0
+    "name":"regidrago",
+    "size":{
+      "height":2.1,
+      "width":1.0
     }
   },
   {
-    "name": "zarude",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"glastrier",
+    "size":{
+      "height":2.2,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "regieleki",
-    "size": {
-      "height": 1.2,
-      "width": 1.0
+    "name":"spectrier",
+    "size":{
+      "height":2.0,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "regidrago",
-    "size": {
-      "height": 2.1,
-      "width": 1.0
+    "name":"calyrex",
+    "size":{
+      "height":1.1,
+      "width":0.9
     }
   },
   {
-    "name": "glastrier",
-    "size": {
-      "height": 2.2,
-      "width": 1.0,
-      "length": 1.5
+    "name":"calyrex-ice",
+    "size":{
+      "height":2.2,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "spectrier",
-    "size": {
-      "height": 2.0,
-      "width": 1.0,
-      "length": 1.5
+    "name":"calyrex-shadow",
+    "size":{
+      "height":2.0,
+      "width":1.0,
+      "length":1.5
     }
   },
   {
-    "name": "calyrex",
-    "size": {
-      "height": 1.1,
-      "width": 0.9
+    "name":"eternatus",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,1,-1.5",
+            "size":"3,3,3",
+            "ride":"1.5,4,1.5"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1.5,2.5,-4",
+            "size":"3,3,3"
+          },
+          {
+            "name":"neck2",
+            "offset":"-1.5,2,-7",
+            "size":"3,3,3"
+          },
+          {
+            "name":"tail",
+            "offset":"-1.5,1,2",
+            "size":"3,3,3"
+          },
+          {
+            "name":"tail1",
+            "offset":"-1.5,0,5",
+            "size":"3,3,3"
+          }
+        ]
+      },
+      "walking":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,3,3",
+            "ride":"1.5,4,1.5"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1.5,0,-4",
+            "size":"3,3,3"
+          },
+          {
+            "name":"neck2",
+            "offset":"-1.5,0,-7",
+            "size":"3,3,3"
+          },
+          {
+            "name":"tail",
+            "offset":"-1.5,0,2",
+            "size":"3,3,3"
+          },
+          {
+            "name":"tail1",
+            "offset":"-1.5,0,5",
+            "size":"3,3,3"
+          }
+        ]
+      },
+      "flying":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-1.5,0,-1.5",
+            "size":"3,3,3",
+            "ride":"1.5,3,1.5"
+          },
+          {
+            "name":"neck1",
+            "offset":"-1.5,1,-4",
+            "size":"3,3,3"
+          },
+          {
+            "name":"neck2",
+            "offset":"-1.5,1,-7",
+            "size":"3,3,3"
+          },
+          {
+            "name":"tail",
+            "offset":"-1.5,1,2",
+            "size":"3,3,3"
+          },
+          {
+            "name":"tail1",
+            "offset":"-1.5,1,5",
+            "size":"3,3,3"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "calyrex-ice",
-    "size": {
-      "height": 2.2,
-      "width": 1.0,
-      "length": 1.5
+    "name":"eternatus-eternamax",
+    "pose_shapes":{
+      "idle":{
+        "parts":[
+          {
+            "name":"body",
+            "offset":"-2,1,-2",
+            "size":"4,4,4",
+            "ride":"2,7,2"
+          },
+          {
+            "name":"body1",
+            "offset":"-2,10,5",
+            "size":"8,8,8"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "calyrex-shadow",
-    "size": {
-      "height": 2.0,
-      "width": 1.0,
-      "length": 1.5
+    "name":"wyrdeer",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "wyrdeer",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"kleavor",
+    "size":{
+      "height":1.8,
+      "width":1.0
     }
   },
   {
-    "name": "kleavor",
-    "size": {
-      "height": 1.8,
-      "width": 1.0
+    "name":"ursaluna",
+    "size":{
+      "height":2.4,
+      "width":1.5
     }
   },
   {
-    "name": "ursaluna",
-    "size": {
-      "height": 2.4,
-      "width": 1.5
+    "name":"basculegion-male",
+    "size":{
+      "height":3.0,
+      "width":2.0
     }
   },
   {
-    "name": "basculegion-male",
-    "size": {
-      "height": 3.0,
-      "width": 2.0
+    "name":"basculegion-female",
+    "size":{
+      "height":3.0,
+      "width":2.0
     }
   },
   {
-    "name": "basculegion-female",
-    "size": {
-      "height": 3.0,
-      "width": 2.0
+    "name":"sneasler",
+    "size":{
+      "height":1.3,
+      "width":0.6
     }
   },
   {
-    "name": "sneasler",
-    "size": {
-      "height": 1.3,
-      "width": 0.6
+    "name":"enamorus-incarnate",
+    "size":{
+      "height":1.6,
+      "width":1.0
     }
   },
   {
-    "name": "enamorus-incarnate",
-    "size": {
-      "height": 1.6,
-      "width": 1.0
+    "name":"enamorus-therian",
+    "size":{
+      "height":1.6,
+      "width":2.0
     }
   },
   {
-    "name": "enamorus-therian",
-    "size": {
-      "height": 1.6,
-      "width": 2.0
+    "name": "cyclizar",
+    "pose_shapes": {
+      "idle":{ 
+        "parts":[
+          {
+            "name": "seat",
+            "offset": "0,0,0",
+            "size": "1,1.6,1.6",
+            "ride": "0,0.55,-0.1"
+          }
+        ]
+      }
     }
   },
   {
-    "name": "finizen",
-    "size": {
-      "height": 0.9,
-      "width": 0.6,
-      "length": 1.3
+    "name":"finizen",
+    "size":{
+      "height":0.9,
+      "width":0.6,
+      "length":1.3
     }
   },
   {
-    "name": "clodsire",
-    "size": {
-      "height": 0.8,
-      "width": 0.8,
-      "length": 1.8
+    "name":"clodsire",
+    "size":{
+      "height":0.8,
+      "width":0.8,
+      "length":1.8
     }
   },
   {
-    "name": "farigiraf",
-    "size": {
-      "height": 3.2,
-      "width": 0.6,
-      "length": 0.6
+    "name":"farigiraf",
+    "size":{
+      "height":3.2,
+      "width":0.6,
+      "length":0.6
     }
   }
 ]

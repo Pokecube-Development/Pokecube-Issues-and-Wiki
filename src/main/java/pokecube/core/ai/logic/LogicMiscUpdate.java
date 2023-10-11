@@ -667,6 +667,7 @@ public class LogicMiscUpdate extends LogicBase
         {
             addAnimation(transients, "battling", isRidden);
         }
+        if (isRidden) addAnimation(anims, "idle", isRidden);
     }
 
     @Override
