@@ -1,5 +1,6 @@
 package thut.api.world;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
@@ -14,10 +15,33 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.WorldTickEvent;
 import net.minecraftforge.event.world.WorldEvent;
+import thut.api.Tracker;
 import thut.core.common.ThutCore;
 
 public class WorldTickManager
 {
+    public static class DelayedTask implements Runnable
+    {
+        private final long tick;
+        private final Runnable runnable;
+
+        public DelayedTask(long runTick, Runnable runnable)
+        {
+            this.tick = runTick;
+            this.runnable = runnable;
+        }
+
+        public long getTick()
+        {
+            return this.tick;
+        }
+
+        public void run()
+        {
+            this.runnable.run();
+        }
+    }
+
     private static class WorldData
     {
         private final List<IWorldTickListener> data = Lists.newArrayList();
@@ -26,6 +50,7 @@ public class WorldTickManager
 
         private final List<IWorldTickListener> pendingRemove = Lists.newArrayList();
         private final List<IWorldTickListener> pendingAdd = Lists.newArrayList();
+        private final List<DelayedTask> delayed = new ArrayList<>();
 
         private boolean ticking = false;
 
@@ -54,6 +79,15 @@ public class WorldTickManager
             for (final IWorldTickListener data : this.pendingAdd) this.addData(data);
             this.pendingRemove.clear();
             this.pendingAdd.clear();
+
+            synchronized (delayed)
+            {
+                delayed.removeIf(task -> {
+                    if (task.getTick() > Tracker.instance().getTick()) return false;
+                    task.run();
+                    return true;
+                });
+            }
         }
 
         public void addData(final IWorldTickListener data)
@@ -72,6 +106,14 @@ public class WorldTickManager
                 data.onDetach(this.world);
             }
             else this.pendingRemove.add(data);
+        }
+
+        public void addDelayedTask(DelayedTask task)
+        {
+            synchronized (this.delayed)
+            {
+                this.delayed.add(task);
+            }
         }
 
         public void detach()
@@ -114,6 +156,17 @@ public class WorldTickManager
             return;
         }
         holder.addData(data);
+    }
+
+    public static void scheduleTask(final ResourceKey<Level> key, final DelayedTask task)
+    {
+        final WorldData holder = WorldTickManager.dataMap.get(key);
+        if (holder == null)
+        {
+            ThutCore.LOGGER.error("Adding Data before load???");
+            return;
+        }
+        holder.addDelayedTask(task);
     }
 
     public static void removeWorldData(final ResourceKey<Level> key, final IWorldTickListener data)

@@ -83,6 +83,7 @@ import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.CustomInteractEvent;
+import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.InteractEvent;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
 import pokecube.api.events.pokemobs.combat.KillEvent;
@@ -124,6 +125,8 @@ import thut.api.item.ItemList;
 import thut.api.level.terrain.TerrainManager;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
+import thut.api.world.WorldTickManager;
+import thut.api.world.WorldTickManager.DelayedTask;
 import thut.core.common.ThutCore;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
@@ -238,90 +241,94 @@ public class PokemobEventsHandler
     }
 
     /** Simlar to EvoTicker, but for more general form changing. */
-    public static class MegaEvoTicker
+    public static class MegaEvoTicker implements Runnable
     {
-        final Level world;
-        final Entity mob;
-        IPokemob pokemob;
-        final PokedexEntry mega;
-        final Component message;
-        final long evoTime;
-        boolean dynamaxing = false;
-        boolean set = false;
-        public boolean permanent = false;
+        public static void scheduleChange(int delay, PokedexEntry mega, IPokemob evolver, Component message,
+                Runnable pre, Runnable post)
+        {
 
-        public MegaEvoTicker(final PokedexEntry mega, final long evoTime, final IPokemob evolver,
-                final Component message, final boolean dynamaxing)
+            final Entity mob = evolver.getEntity();
+            if (!(mob.level instanceof ServerLevel level)) return;
+
+            DelayedTask preRun = new DelayedTask(0, pre);
+            long tick = Tracker.instance().getTick() + delay;
+            DelayedTask run = new DelayedTask(tick, new MegaEvoTicker(mega, evolver, message));
+            DelayedTask postRun = new DelayedTask(tick + 1, post);
+
+            WorldTickManager.scheduleTask(level.dimension(), preRun);
+            WorldTickManager.scheduleTask(level.dimension(), run);
+            WorldTickManager.scheduleTask(level.dimension(), postRun);
+        }
+
+        public static void scheduleEvolve(PokedexEntry mega, final IPokemob evolver, Component message)
+        {
+            scheduleEvolve(PokecubeCore.getConfig().evolutionTicks, mega, evolver, message);
+        }
+
+        public static void scheduleEvolve(int delay, PokedexEntry mega, final IPokemob evolver, Component message)
+        {
+            scheduleChange(delay, mega, evolver, message, () -> {
+                // Flag as evolving
+                evolver.setGeneralState(GeneralStates.EVOLVING, true);
+                evolver.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                evolver.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(evolver));
+            }, () -> {
+                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(evolver));
+            });
+        }
+
+        public static void scheduleRevert(PokedexEntry mega, final IPokemob evolver, Component message)
+        {
+            scheduleRevert(PokecubeCore.getConfig().evolutionTicks, mega, evolver, message);
+        }
+
+        public static void scheduleRevert(int delay, PokedexEntry mega, final IPokemob evolver, Component message)
+        {
+            scheduleChange(delay, mega, evolver, message, () -> {
+                // Flag as evolving
+                evolver.setGeneralState(GeneralStates.EVOLVING, true);
+                evolver.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                evolver.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Revert(evolver, false));
+            }, () -> {
+                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(evolver));
+            });
+        }
+
+        private final Entity mob;
+        private IPokemob pokemob;
+        private final PokedexEntry mega;
+        private final Component message;
+
+        private MegaEvoTicker(final PokedexEntry mega, final IPokemob evolver, final Component message)
         {
             this.mob = evolver.getEntity();
-            this.world = this.mob.getLevel();
-            this.evoTime = this.world.getGameTime() + evoTime;
             this.message = message;
             this.mega = mega;
             this.pokemob = evolver;
-            this.dynamaxing = dynamaxing;
-
-            // Flag as evolving
-            this.pokemob.setGeneralState(GeneralStates.EVOLVING, true);
-            this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-            this.pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
-
-            MinecraftForge.EVENT_BUS.register(this);
-
-            if (dynamaxing)
-            {
-                if (PokecubeCore.getConfig().debug_ai) PokecubeAPI.logInfo("Dynamaxing: {}", this.mob);
-            }
-
         }
 
-        @SubscribeEvent
-        public void tick(final WorldTickEvent evt)
+        @Override
+        public void run()
         {
-            if (evt.world != this.world || evt.phase != Phase.END) return;
-            if (!this.mob.isAddedToWorld() || !this.mob.isAlive() || this.set)
-            {
-                MinecraftForge.EVENT_BUS.unregister(this);
-                return;
-            }
-            if (evt.world.getGameTime() >= this.evoTime)
-            {
-                this.set = true;
-                if (this.pokemob.getCombatState(CombatStates.MEGAFORME)
-                        && this.pokemob.getOwner() instanceof ServerPlayer player)
-                    Triggers.MEGAEVOLVEPOKEMOB.trigger(player, this.pokemob);
-                final int evoTicks = this.pokemob.getEvolutionTicks();
-                final float hp = this.pokemob.getHealth();
-                this.pokemob = this.pokemob.changeForm(this.mega, true, this.permanent);
-                this.pokemob.setHealth(hp);
-                /**
-                 * Flag the new mob as evolving to continue the animation
-                 * effects.
-                 */
-                this.pokemob.setGeneralState(GeneralStates.EVOLVING, true);
-                this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-                if (this.dynamaxing)
-                {
-                    final boolean dyna = !this.pokemob.getCombatState(CombatStates.DYNAMAX);
-                    this.pokemob.setCombatState(CombatStates.DYNAMAX, dyna);
-                    final float maxHp = this.pokemob.getMaxHealth();
-                    this.pokemob.updateHealth();
-                    // we need to adjust health.
-                    if (dyna)
-                    {
-                        this.pokemob.setHealth(hp + this.pokemob.getMaxHealth() - maxHp);
-                        final Long time = Tracker.instance().getTick();
-                        this.pokemob.getEntity().getPersistentData().putLong("pokecube:dynatime", time);
-                        if (this.pokemob.getOwnerId() != null) PokecubePlayerDataHandler
-                                .getCustomDataTag(this.pokemob.getOwnerId()).putLong("pokecube:dynatime", time);
-                        this.pokemob.setCombatState(CombatStates.USINGGZMOVE, true);
-                    }
-                }
-                this.pokemob.setEvolutionTicks(evoTicks);
-                this.pokemob.getEntity().getPersistentData().remove(TagNames.REMOVED);
-                if (this.message != null) this.pokemob.displayMessageToOwner(this.message);
-                MinecraftForge.EVENT_BUS.unregister(this);
-            }
+            if (!this.mob.isAddedToWorld() || !this.mob.isAlive()) return;
+
+            if (this.pokemob.getPokedexEntry().isMega() && this.pokemob.getOwner() instanceof ServerPlayer player)
+                Triggers.MEGAEVOLVEPOKEMOB.trigger(player, this.pokemob);
+            final int evoTicks = this.pokemob.getEvolutionTicks();
+            final float hp = this.pokemob.getHealth();
+            this.pokemob = this.pokemob.changeForm(this.mega, true, false);
+            this.pokemob.setHealth(hp);
+            /**
+             * Flag the new mob as evolving to continue the animation effects.
+             */
+            this.pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+            this.pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+
+            this.pokemob.setEvolutionTicks(evoTicks);
+            this.pokemob.getEntity().getPersistentData().remove(TagNames.REMOVED);
+            if (this.message != null) this.pokemob.displayMessageToOwner(this.message);
         }
     }
 
@@ -894,7 +901,7 @@ public class PokemobEventsHandler
             }
             if (pokemob.getBossInfo() != null)
                 pokemob.getBossInfo().setProgress(living.getHealth() / living.getMaxHealth());
-            else if (pokemob.getOwnerId() == null && pokemob.getCombatState(CombatStates.DYNAMAX)
+            else if (pokemob.getOwnerId() == null && living.getPersistentData().contains("pokecube:dynatime")
                     && dim instanceof ServerLevel)
                 pokemob.setBossInfo(new ServerBossEvent(living.getDisplayName(), BossEvent.BossBarColor.RED,
                         BossEvent.BossBarOverlay.PROGRESS));

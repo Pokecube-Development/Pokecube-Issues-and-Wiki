@@ -16,13 +16,10 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier;
-import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
 import pokecube.core.ai.logic.Logic;
@@ -53,7 +50,6 @@ public abstract class PokemobBase implements IPokemob
 
         public int HELDITEMDW;
         public int EVOLTICKDW;
-        public int DYNAPOWERDW;
         public int HAPPYDW;
         public int ATTACKCOOLDOWN;
         public int NICKNAMEDW;
@@ -108,7 +104,6 @@ public abstract class PokemobBase implements IPokemob
 
             // from EntityEvolvablePokemob
             this.EVOLTICKDW = sync.register(new Data_Int().setRealtime(), Integer.valueOf(0));// evolution
-            this.DYNAPOWERDW = sync.register(new Data_Float(), Float.valueOf(1));
             // tick
 
             // From EntityMovesPokemb
@@ -131,8 +126,6 @@ public abstract class PokemobBase implements IPokemob
                                                                       // ability
         }
     }
-
-    private static final UUID DYNAMOD = new UUID(343523462346243l, 23453246267457l);
 
     /** Inventory of the pokemob. */
     protected SimpleContainer pokeChest;
@@ -262,10 +255,6 @@ public abstract class PokemobBase implements IPokemob
     protected void setMaxHealth(final float maxHealth)
     {
         final AttributeInstance health = this.getEntity().getAttribute(Attributes.MAX_HEALTH);
-        health.removeModifier(PokemobBase.DYNAMOD);
-        final AttributeModifier dynahealth = new AttributeModifier(PokemobBase.DYNAMOD, "pokecube:dynamax",
-                this.getDynamaxFactor(), Operation.MULTIPLY_BASE);
-        if (this.getCombatState(CombatStates.DYNAMAX)) health.addTransientModifier(dynahealth);
         health.setBaseValue(maxHealth);
     }
 

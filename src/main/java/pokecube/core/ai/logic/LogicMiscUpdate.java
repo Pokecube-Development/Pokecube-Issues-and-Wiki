@@ -40,11 +40,13 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
+import pokecube.api.utils.DynamaxHelper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.nests.NestTile;
+import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
@@ -142,31 +144,26 @@ public class LogicMiscUpdate extends LogicBase
     {
         final boolean angry = this.pokemob.inCombat();
 
-        boolean isDyna = pokemob.getCombatState(CombatStates.DYNAMAX);
-
+        boolean isDyna = DynamaxHelper.isDynamax(this.pokemob);
         // check dynamax timer for cooldown.
         if (isDyna)
         {
             final long time = Tracker.instance().getTick();
-            if (this.dynatime == -1)
-                this.dynatime = this.pokemob.getEntity().getPersistentData().getLong("pokecube:dynatime");
-            if (!this.de_dyna && time - PokecubeCore.getConfig().dynamax_duration > this.dynatime)
+            int dynaEnd = this.entity.getPersistentData().getInt("pokecube:dynaend");
+            this.dynatime = this.entity.getPersistentData().getInt("pokecube:dynatime");
+            if (!this.de_dyna && time - dynaEnd > this.dynatime)
             {
                 Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",
                         this.pokemob.getDisplayName());
                 this.pokemob.displayMessageToOwner(mess);
 
                 final PokedexEntry newEntry = this.pokemob.getBasePokedexEntry();
-                if (newEntry != this.pokemob.getPokedexEntry())
-                    ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
-
-                pokemob.setCombatState(CombatStates.MEGAFORME, false);
                 mess = TComponent.translatable("pokemob.dynamax.revert", this.pokemob.getDisplayName());
-                ICanEvolve.setDelayedMegaEvolve(this.pokemob, newEntry, mess, true);
-
+                MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
                 if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
 
                 this.de_dyna = true;
+                this.dynatime = -1;
             }
         }
         else

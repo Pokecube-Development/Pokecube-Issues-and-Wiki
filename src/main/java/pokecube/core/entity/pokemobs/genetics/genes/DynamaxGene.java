@@ -1,24 +1,51 @@
 package pokecube.core.entity.pokemobs.genetics.genes;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene.DynaObject;
+import thut.api.ThutCaps;
+import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
+import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
 
 public class DynamaxGene implements Gene<DynaObject>
 {
+    @Nullable
+    public static DynaObject getDyna(Entity mob)
+    {
+        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        if (genes == null) return null;
+        try
+        {
+            Alleles<DynaObject, Gene<DynaObject>> alleles = genes.getAlleles(GeneticsManager.GMAXGENE);
+            if (alleles == null) return null;
+            Gene<DynaObject> gene = alleles.getExpressed();
+            return gene.getValue();
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static class DynaObject implements INBTSerializable<CompoundTag>
     {
         public boolean gigantamax = false;
+        public int dynaLevel = 0;
 
         @Override
         public CompoundTag serializeNBT()
         {
             final CompoundTag tag = new CompoundTag();
             tag.putBoolean("gmax", this.gigantamax);
+            tag.putInt("lvl", this.dynaLevel);
             return tag;
         }
 
@@ -26,6 +53,7 @@ public class DynamaxGene implements Gene<DynaObject>
         public void deserializeNBT(final CompoundTag nbt)
         {
             this.gigantamax = nbt.getBoolean("gmax");
+            this.dynaLevel = nbt.getInt("lvl");
         }
     }
 

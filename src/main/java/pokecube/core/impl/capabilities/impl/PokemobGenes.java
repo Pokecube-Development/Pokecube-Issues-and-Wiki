@@ -9,7 +9,6 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -457,12 +456,10 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     private void refreshDynaGene()
     {
         this.genesDynamax = null;
-        final boolean wasGigant = this.getCombatState(CombatStates.GIGANTAMAX);
         this.genesDynamax = this.genes.getAlleles(GeneticsManager.GMAXGENE);
         if (this.getGenesDynamax() == null)
             this.genes.getAlleles().put(GeneticsManager.GMAXGENE, this.genesDynamax = new Alleles<>());
         this.getGenesDynamax();
-        if (wasGigant) this.getGenesDynamax().getExpressed().getValue().gigantamax = true;
     }
 
     public Alleles<DynaObject, DynamaxGene> getGenesDynamax()

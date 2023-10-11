@@ -81,6 +81,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
+import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.TimePeriod;
@@ -2089,7 +2090,7 @@ public class PokedexEntry
         // Set the custom holder regardless incase it was needed.
         if (newHolder != null) pokemob.setCustomHolder(newHolder);
         if (newForme != null && newForme != pokemob.getPokedexEntry())
-            ICanEvolve.setDelayedMegaEvolve(pokemob, newForme, null);
+            MegaEvoTicker.scheduleEvolve(newForme, pokemob, null);
     }
 
     public void setBaseForme(final PokedexEntry baseForme)

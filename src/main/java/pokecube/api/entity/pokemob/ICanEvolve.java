@@ -20,13 +20,12 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
-import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
@@ -38,33 +37,6 @@ import thut.lib.TComponent;
 public interface ICanEvolve extends IHasEntry, IHasOwner
 {
     public static final ResourceLocation EVERSTONE = new ResourceLocation("pokecube:everstone");
-
-    /**
-     * Shedules mega evolution for a few ticks later
-     *
-     * @param evolver the mob to schedule to evolve
-     * @param newForm the form to evolve to
-     * @param message the message to send on completion
-     */
-    public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm, final Component message)
-    {
-        ICanEvolve.setDelayedMegaEvolve(evolver, newForm, message, false);
-    }
-
-    /**
-     * Shedules mega evolution for a few ticks later
-     *
-     * @param evolver    the mob to schedule to evolve
-     * @param newForm    the form to evolve to
-     * @param message    the message to send on completion
-     * @param dynamaxing tif true, will set dynamax flag when completed.
-     */
-    public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm, final Component message,
-            final boolean dynamaxing)
-    {
-        if (!(evolver.getEntity().level instanceof ServerLevel)) return;
-        new MegaEvoTicker(newForm, PokecubeCore.getConfig().evolutionTicks / 2, evolver, message, dynamaxing);
-    }
 
     /**
      * Cancels the current evoluton for the pokemob, sends appropriate message
@@ -334,10 +306,10 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         return this.changeForm(newEntry, true, false);
     }
 
-    default IPokemob resetForm()
+    default IPokemob resetForm(boolean onRecall)
     {
+        PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Revert((IPokemob) this, onRecall));
         this.setPokedexEntry(getBasePokedexEntry());
-        this.setCombatState(CombatStates.MEGAFORME, false);
         return (IPokemob) this;
     }
 
@@ -450,22 +422,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
 
     }
-
-    /**
-     * This scales the max health of the pokemob when it is dynamaxed or
-     * gigantamaxed
-     *
-     * @return
-     */
-    float getDynamaxFactor();
-
-    /**
-     * This scales the max health of the pokemob when it is dynamaxed or
-     * gigantamaxed
-     *
-     * @return
-     */
-    void setDynamaxFactor(float factor);
 
     /**
      * This gets called to notifiy of a dynamax that requires an HP update.
