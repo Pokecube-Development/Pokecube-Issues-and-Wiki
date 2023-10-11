@@ -92,6 +92,7 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
@@ -818,6 +819,8 @@ public class PokedexEntry
      */
     public boolean stock = true;
 
+    public boolean generated = false;
+
     // Values in Stats
 
     @CopyToGender
@@ -1157,6 +1160,15 @@ public class PokedexEntry
         this.megaRules.clear();
         if (this._forme_items != null)
         {
+            List<FormeItem> rules = new ArrayList<>();
+            Set<String> uniques = Sets.newHashSet();
+            for (final FormeItem rule : this._forme_items)
+            {
+                if (uniques.add(JsonUtil.smol_gson.toJson(rule))) rules.add(rule);
+            }
+            this._forme_items.clear();
+            this._forme_items.addAll(rules);
+
             for (FormeItem i : _forme_items)
             {
                 PokedexEntry output = i.getOutput();
@@ -1197,6 +1209,16 @@ public class PokedexEntry
                 }
             }
         }
+
+        List<BaseMegaRule> rules = new ArrayList<>();
+        Set<String> uniques = Sets.newHashSet();
+        for (final BaseMegaRule rule : this._loaded_megarules)
+        {
+            if (uniques.add(JsonUtil.smol_gson.toJson(rule))) rules.add(rule);
+        }
+        this._loaded_megarules.clear();
+        this._loaded_megarules.addAll(rules);
+
         for (final BaseMegaRule rule : this._loaded_megarules)
         {
             String forme = rule.name != null ? rule.name : null;
@@ -1248,7 +1270,6 @@ public class PokedexEntry
                     PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
                 }
                 formeEntry.setMega(true);
-                formeEntry.setBaseForme(this);
                 this.megaRules.put(formeEntry, mrule);
                 if (PokecubeCore.getConfig().debug_data)
                     PokecubeAPI.logInfo("Added Mega: " + this + " -> " + formeEntry);
@@ -1509,7 +1530,6 @@ public class PokedexEntry
     public Ability getAbility(final int number, final IPokemob pokemob)
     {
         List<String> abilities = this.abilities;
-        if (pokemob.getCustomHolder() != null) abilities = pokemob.getCustomHolder().getAbilities(this);
         if (number < abilities.size()) return AbilityManager.getAbility(abilities.get(number));
         if (number == 2) return this.getHiddenAbility(pokemob);
         return null;
@@ -1577,8 +1597,8 @@ public class PokedexEntry
         ResourceLocation key = holder == null ? _base_description : holder.key;
         return _descriptions.computeIfAbsent(key, k -> {
 
-            PokeType type1 = holder == null ? this.type1 : holder.getTypes(this).get(0);
-            PokeType type2 = holder == null ? this.type2 : holder.getTypes(this).get(1);
+            PokeType type1 = this.type1;
+            PokeType type2 = this.type2;
 
             final PokedexEntry entry = this;
             final MutableComponent typeString = PokeType.getTranslatedName(type1);
@@ -1604,6 +1624,8 @@ public class PokedexEntry
 
     public EntityType<? extends Mob> getEntityType()
     {
+        if (this.entity_type == null && this.getBaseForme() != null)
+            this.entity_type = this.getBaseForme().getEntityType();
         return this.entity_type;
     }
 

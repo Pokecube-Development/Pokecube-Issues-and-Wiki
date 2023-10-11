@@ -90,6 +90,7 @@ public class SetupHandler
         {
             if (entry.dummy) continue;
             if (!entry.stock) continue;
+            if (entry.generated) continue;
             try
             {
                 event.put(entry.getEntityType(), attribs.build());
