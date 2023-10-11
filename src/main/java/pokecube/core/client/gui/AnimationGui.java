@@ -196,6 +196,10 @@ public class AnimationGui extends Screen
         AnimationGui.mob = AnimationGui.entry.getName();
         this.forme.setValue(AnimationGui.mob);
         this.holder = AnimationGui.entry.getModel(this.sexe);
+        if (this.holder == null && AnimationGui.entry.generated)
+        {
+            this.holder = Database.formeHoldersByKey.get(entry.getTrimmedName());
+        }
 
         if (!this.forme_alt.getValue().isEmpty()) try
         {

@@ -29,7 +29,6 @@ import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -498,8 +497,6 @@ public class JsonPokedexEntry
         if (overwrite) entry.setSpawnData(new SpawnData(entry));
         for (final SpawnRule rule : this.spawn_rules)
         {
-            final FormeHolder holder = rule.getForme(entry);
-            if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Handling Spawns for {}", entry);

@@ -410,6 +410,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
+            if (entry.generated) continue;
             final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
             final Holder holder = new Holder(entry);
             RenderPokemob.holderMap.put(type, holder);
@@ -478,7 +479,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             holder = temp;
         }
         if (holder.failTimer > 50) holder = MISSNGNO;
-
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();

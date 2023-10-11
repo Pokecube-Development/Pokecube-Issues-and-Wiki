@@ -519,8 +519,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (forme != null)
         {
             // Sync these to PGs as well
-            this.genesSpecies.getAllele(0).getValue().forme = forme;
-            this.genesSpecies.getAllele(1).getValue().forme = forme;
+            this.genesSpecies.getAllele(0).getValue().setForme(forme);
+            this.genesSpecies.getAllele(1).getValue().setForme(forme);
         }
         return pokemob;
     }

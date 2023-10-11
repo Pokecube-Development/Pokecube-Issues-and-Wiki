@@ -52,32 +52,33 @@ public abstract class PokemobSided extends PokemobBase
     public ResourceLocation modifyTexture(ResourceLocation texture)
     {
         if (texture == null) return this.getTexture();
+        PokedexEntry entry = this.getPokedexEntry();
         // If texture is the same as root entry, then we might need to adjust
         // it, so replace with out getter, which also checks the entry's root
         // texture.
-        if (texture.equals(this.getPokedexEntry().texture())) texture = this.getTexture();
+        if (texture.equals(entry.texture())) texture = this.getTexture();
 
         if (this.getCustomHolder() != null && this.getCustomHolder().texture != null && !this.getCustomHolder().texture
-                .getNamespace().equals(this.getPokedexEntry().texture().getNamespace()))
+                .getNamespace().equals(entry.texture().getNamespace()))
             return this.getCustomHolder().texture;
 
         if (!texture.getPath().contains("entity/"))
         {
-            final int index = this.getSexe() == IPokemob.FEMALE && this.entry.textureDetails[1] != null ? 1 : 0;
-            final int effects = this.entry.textureDetails[index].length;
+            final int index = this.getSexe() == IPokemob.FEMALE && entry.textureDetails[1] != null ? 1 : 0;
+            final int effects = entry.textureDetails[index].length;
             final int texIndex = this.getEntity().tickCount % effects * 3 / effects;
             if (!this.texs.containsKey(texture))
             {
-                final int maxNum = this.entry.textureDetails.length * this.entry.textureDetails[0].length;
+                final int maxNum = entry.textureDetails.length * entry.textureDetails[0].length;
                 final ResourceLocation[] tex = new ResourceLocation[maxNum];
-                String base = this.getPokedexEntry().texturePath + texture.getPath();
+                String base = entry.texturePath + texture.getPath();
 
                 if (!base.contains(":")) base = entry.getModId() + ":" + base;
-                
+
                 if (base.endsWith(".png")) base = base.substring(0, base.length() - 4);
                 for (int i = 0; i < maxNum; i++)
                 {
-                    final String path = base + this.entry.textureDetails[index][texIndex] + ".png";
+                    final String path = base + entry.textureDetails[index][texIndex] + ".png";
                     tex[i] = new ResourceLocation(path);
                 }
                 this.texs.put(texture, tex);

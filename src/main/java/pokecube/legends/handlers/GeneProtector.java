@@ -29,7 +29,7 @@ public class GeneProtector
     public boolean invalidGene(final SpeciesGene gene)
     {
         final SpeciesInfo info = gene.getValue();
-        final PokedexEntry entry = info.entry;
+        final PokedexEntry entry = info.getEntry();
         return this.invalidEntry(entry, false);
     }
 
