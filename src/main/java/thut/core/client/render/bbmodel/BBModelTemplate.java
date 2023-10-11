@@ -16,6 +16,7 @@ import net.minecraft.core.Direction;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.model.Vertex;
+import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.TextureCoordinate;
 import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
@@ -40,15 +41,12 @@ public class BBModelTemplate
     public Resolution resolution = new Resolution();
 
     public Map<String, Object> _by_uuid = new HashMap<>();
-    public Map<String, List<Element>> _unique_mesh_owners = new HashMap<>();
+    Map<String, Material> _materials = Maps.newHashMap();
 
     public void init()
     {
         elements.forEach(e -> {
             _by_uuid.put(e.uuid, e);
-            if (e.type.equals("mesh")) e.faces.forEach((key, json) -> {
-                _unique_mesh_owners.computeIfAbsent(key, var -> new ArrayList<>()).add(e);
-            });
         });
         textures.forEach(e -> _by_uuid.put(e.uuid, e));
         outliner.forEach(e -> e.init(this));
@@ -248,9 +246,9 @@ public class BBModelTemplate
                 float x = b.getRotation()[0];
                 float y = b.getRotation()[2];
                 float z = b.getRotation()[1];
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
                 if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
                 if (z != 0) quat.mul(AxisAngles.YP.rotationDegrees(z));
-                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
             }
 
             Vector3f origin = new Vector3f(origin_offset);
@@ -314,17 +312,12 @@ public class BBModelTemplate
             toPrev.sub(prev, vert);
             toOpp.sub(crnr, vert);
 
-            double d1 = toNext.angle(toPrev);
-            double d2 = toNext.angle(toOpp);
-            double d3 = toPrev.angle(toOpp);
-            // If it is a square sided quad, this is a text of squareness.
-            if (Math.abs(d2 + d3 - d1) > 1e-5)
-            {
-                return true;
-            }
-            // Otherwise check if the angle is larger between sides than to
-            // opposite.
-            return d2 > d1;
+            double angleNext = toNext.angle(toPrev);
+            double angleOpp = toNext.angle(toOpp);
+            double anglePrevOpp = toPrev.angle(toOpp);
+
+            var broken = angleOpp > angleNext || anglePrevOpp > angleNext;
+            return broken;
         }
 
         public BBMeshElement(BBModelTemplate template, Element b)
@@ -337,11 +330,11 @@ public class BBModelTemplate
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
-                float y = b.getRotation()[2];
-                float z = b.getRotation()[1];
-                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(AxisAngles.YN.rotationDegrees(z));
+                float y = b.getRotation()[1];
+                float z = b.getRotation()[2];
+                if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
                 if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
             }
 
             Vector3f origin = new Vector3f(b.origin);
@@ -369,63 +362,53 @@ public class BBModelTemplate
                 v.set(x, y, z);
                 verts.put(key, v);
             }
-
             for (var entry : b.faces.entrySet())
             {
-                var key = entry.getKey();
                 var json = entry.getValue();
                 MeshFace face = JsonUtil.gson.fromJson(json, MeshFace.class);
                 BBModelQuad quad = new BBModelQuad();
 
                 var map_order = face.vertices;
-                boolean same = !brokenQuad(face, verts);
+                var uv_order = face.uv;
+                boolean borked = brokenQuad(face, verts);
+                boolean same = !borked;
 
-                if (!same)
+                if (borked)
                 {
-                    var other_meshs = template._unique_mesh_owners.get(key);
-                    if (other_meshs.size() > 1)
+                    map_order = new ArrayList<>(face.vertices);
+                    var a = map_order.get(2);
+                    map_order.set(2, map_order.get(3));
+                    map_order.set(3, a);
+                    same = true;
+                    var bak = face.vertices;
+                    face.vertices = map_order;
+                    borked = brokenQuad(face, verts);
+                    face.vertices = bak;
+                    if (borked)
                     {
-                        var other_b = other_meshs.get(0) == b ? other_meshs.get(1) : other_meshs.get(0);
-                        MeshFace face_2 = JsonUtil.gson.fromJson(other_b.faces.get(key), MeshFace.class);
-                        map_order = face_2.vertices;
-
-                        // Now check if the face is also broken, if so, fix it
-                        // manually
-                        var borked = brokenQuad(face_2, verts);
-                        if (borked)
-                        {
-                            map_order = face.vertices;
-                            var a = face.vertices.get(1);
-                            face.vertices.set(1, face.vertices.get(2));
-                            face.vertices.set(2, a);
-                            same = true;
-                        }
-                    }
-                    else
-                    {
-                        map_order = face.vertices;
-                        var a = face.vertices.get(2);
-                        face.vertices.set(2, face.vertices.get(3));
-                        face.vertices.set(3, a);
-                        same = true;
+                        map_order = new ArrayList<>(face.vertices);
+                        a = map_order.get(1);
+                        map_order.set(1, map_order.get(2));
+                        map_order.set(2, a);
                     }
                 }
 
-                for (int j = 0; j < face.vertices.size(); j++)
+                for (int j = 0; j < map_order.size(); j++)
                 {
-                    int i = same ? j : face.vertices.size() - j - 1;
-                    String vert_key = same ? face.vertices.get(i) : map_order.get(i);
+                    int i = same ? j : map_order.size() - j - 1;
+                    String vert_key = map_order.get(i);
                     Vertex v = verts.get(vert_key);
-                    float[] uv = face.uv.get(vert_key);
+                    float[] uv = uv_order.get(vert_key);
+                    quad.texture = face.texture;
                     quad.points[j] = v;
                     quad.tex[j] = new TextureCoordinate(uv[0] / us, uv[1] / vs);
                 }
 
-                if (face.vertices.size() == 4) this.quads.add(quad);
-                else if (face.vertices.size() == 3) this.tris.add(quad);
+                if (map_order.size() == 4) this.quads.add(quad);
+                else if (map_order.size() == 3) this.tris.add(quad);
                 else
                 {
-                    ThutCore.LOGGER.error("Unsupported vertex count: " + face.vertices.size());
+                    ThutCore.LOGGER.error("Unsupported vertex count: " + map_order.size());
                 }
             }
         }

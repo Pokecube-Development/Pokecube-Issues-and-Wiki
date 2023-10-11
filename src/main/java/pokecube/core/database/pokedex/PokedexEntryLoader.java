@@ -270,7 +270,7 @@ public class PokedexEntryLoader
     {
         FormeHolder forme = holder.getForme(entry);
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded form for {}: ({} {} {}) -> ({} {} {} {})",
-                entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
+                holder.root_entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
     }
 
     public static void updateEntry(final PokedexEntry entry)

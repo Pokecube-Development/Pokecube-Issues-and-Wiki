@@ -19,7 +19,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import thut.api.entity.multipart.GenericPartEntity;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
@@ -186,7 +185,6 @@ public abstract class PokemobHasParts extends PokemobCombat implements IMultpart
     public void initParts()
     {
         float size = this.pokemobCap.getSize();
-        if (this.pokemobCap.getCombatState(CombatStates.DYNAMAX)) size = 5 / this.pokemobCap.getPokedexEntry().height;
         this.initSizes(size);
     }
 

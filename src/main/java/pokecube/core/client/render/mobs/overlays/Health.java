@@ -29,9 +29,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -174,11 +174,7 @@ public class Health
                 for (final PartEntity<?> part : entity.getParts())
                     dy = Math.max(dy, part.getBoundingBox().getYsize() + part.getY() - entity.getY());
             }
-            if (pokemob.getCombatState(CombatStates.DYNAMAX))
-            {
-                scale *= 5;
-                dy += 1;
-            }
+            scale *= SharedAttributes.getScale(entity);
 
             mat.translate(0, dy + config.heightAbove, 0);
             Quaternion quaternion;

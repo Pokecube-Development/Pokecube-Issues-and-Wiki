@@ -1,6 +1,6 @@
 package thut.core.client.render.texturing;
 
-import thut.core.client.render.animation.IAnimationChanger;
+import thut.api.entity.animation.IAnimationChanger;
 
 public interface IRetexturableModel
 {

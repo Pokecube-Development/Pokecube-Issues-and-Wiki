@@ -82,7 +82,7 @@ public class ClonerHelper
         {
             final SpeciesGene sgene = gene.getExpressed();
             final SpeciesInfo info = sgene.getValue();
-            return info.entry;
+            return info.getEntry();
         }
         return null;
     }

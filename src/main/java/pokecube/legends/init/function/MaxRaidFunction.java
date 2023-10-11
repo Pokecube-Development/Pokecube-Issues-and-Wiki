@@ -21,14 +21,13 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
-import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.utils.DynamaxHelper;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
-import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
@@ -50,7 +49,7 @@ public class MaxRaidFunction
 
             // If we took too many tries, just throw a missingno...
             if (ret == null && n++ > 10) ret = Database.missingno;
-            if (ret == null || ret.dummy || ret.isLegendary() || ret.isMega() && !ret.isGMax()) ret = null;
+            if (ret == null || ret.dummy || ret.isLegendary() || ret.isMega()) ret = null;
             if (ret != null) break;
         }
         return ret;
@@ -79,8 +78,6 @@ public class MaxRaidFunction
 
             final List<AIRoutine> bannedAI = Lists.newArrayList();
 
-            if (entry.isGMax()) pokemob.setCombatState(CombatStates.GIGANTAMAX, true);
-
             bannedAI.add(AIRoutine.BURROWS);
             bannedAI.add(AIRoutine.BEEAI);
             bannedAI.add(AIRoutine.ANTAI);
@@ -90,12 +87,9 @@ public class MaxRaidFunction
 
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
 
-            final Long time = Tracker.instance().getTick();
-            entity.getPersistentData().putLong("pokecube:dynatime", time + PokecubeLegends.config.raidDuration);
+            DynamaxHelper.dynamax(pokemob, PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
             entity.getPersistentData().putBoolean("alwaysAgress", true);
-
-            pokemob.setCombatState(CombatStates.DYNAMAX, true);
 
             bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
 

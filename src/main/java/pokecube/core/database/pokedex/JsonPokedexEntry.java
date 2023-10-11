@@ -29,7 +29,6 @@ import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -266,13 +265,12 @@ public class JsonPokedexEntry
 
     public DyeInfo dye = null;
 
-    public Boolean mega = null;
-    public Boolean gmax = null;
     public Boolean no_shiny = null;
 
     public String sound = null;
 
-    public Map<String, BodyNode> pose_shapes = null;
+    public Map<String, JsonElement> pose_shapes = null;
+    public List<JsonElement> ridden_offsets = null;
 
     public List<FormeItem> forme_items = null;
 
@@ -315,6 +313,7 @@ public class JsonPokedexEntry
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
+        entry.generated = !this.is_default;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
         if (entry.base && !registered)
         {
@@ -382,8 +381,6 @@ public class JsonPokedexEntry
         if (this.interactions != null) entry.addInteractions(this.interactions);
         if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
-        if (this.mega != null) entry.setMega(this.mega);
-        if (this.gmax != null) entry.setGMax(this.gmax);
         if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 
         if (this.size != null) this.size.accept(entry);
@@ -420,9 +417,55 @@ public class JsonPokedexEntry
 
         if (this.pose_shapes != null && !this.pose_shapes.isEmpty())
         {
-            entry.poseShapes = null;
-            this.pose_shapes.forEach((s, n) -> n.onLoad());
-            entry.poseShapes = this.pose_shapes;
+            entry.poseShapes = Maps.newHashMap();
+            this.pose_shapes.forEach((s, n) -> {
+                try
+                {
+                    BodyNode b = JsonUtil.gson.fromJson(n, BodyNode.class);
+                    b.onLoad();
+                    entry.poseShapes.put(s, b);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            });
+        }
+        if (this.ridden_offsets != null && !this.ridden_offsets.isEmpty())
+        {
+            entry.passengerOffsets = new double[this.ridden_offsets.size()][3];
+            int i = 0;
+            for (var obj : this.ridden_offsets)
+            {
+                if (obj.isJsonArray())
+                {
+                    double x = 0, y = 0, z = 0;
+                    try
+                    {
+                        var arr = obj.getAsJsonArray();
+
+                        if (arr.size() == 1)
+                        {
+                            y = arr.get(0).getAsDouble();
+                        }
+                        else if (arr.size() == 3)
+                        {
+                            x = arr.get(0).getAsDouble();
+                            y = arr.get(1).getAsDouble();
+                            z = arr.get(2).getAsDouble();
+                        }
+                        else throw new IllegalArgumentException("Needs 1 or 3 entries for a ridden_offset!");
+                    }
+                    catch (Exception e)
+                    {
+                        e.printStackTrace();
+                    }
+                    entry.passengerOffsets[i][0] = x;
+                    entry.passengerOffsets[i][1] = z;
+                    entry.passengerOffsets[i][2] = y;
+                }
+                i++;
+            }
         }
 
         if (this.base_form != null)
@@ -451,8 +494,6 @@ public class JsonPokedexEntry
         if (overwrite) entry.setSpawnData(new SpawnData(entry));
         for (final SpawnRule rule : this.spawn_rules)
         {
-            final FormeHolder holder = rule.getForme(entry);
-            if (holder != null) Database.registerFormeHolder(entry, holder);
             final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(rule);
             PokedexEntryLoader.handleAddSpawn(entry, matcher);
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Handling Spawns for {}", entry);

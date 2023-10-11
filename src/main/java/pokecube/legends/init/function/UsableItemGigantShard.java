@@ -7,11 +7,11 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.database.Database;
+import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
+import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene.DynaObject;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
 import pokecube.legends.Reference;
 import pokecube.legends.init.ItemInit;
@@ -34,16 +34,16 @@ public class UsableItemGigantShard
         public InteractionResultHolder<ItemStack> onUse(final IPokemob pokemob, final ItemStack stack,
                 final LivingEntity user)
         {
-            PokecubeAPI.logDebug(user + " " + pokemob.getOwner());
             if (user != pokemob.getOwner()) return new InteractionResultHolder<>(InteractionResult.FAIL, stack);
-            boolean gigant = pokemob.getCombatState(CombatStates.GIGANTAMAX);
+            DynaObject dyna = DynamaxGene.getDyna(pokemob.getEntity());
+            boolean gigant = dyna.gigantamax;
             // Already able to gigantamax, no effect.
             if (gigant) return super.onUse(pokemob, stack, user);
             final PokedexEntry entry = pokemob.getPokedexEntry();
             gigant = Database.getEntry(entry.getTrimmedName() + "-gmax") != null;
             // No gigantamax form for this pokemob, no effect.
             if (!gigant) return super.onUse(pokemob, stack, user);
-            pokemob.setCombatState(CombatStates.GIGANTAMAX, true);
+            dyna.gigantamax = true;
             stack.split(1);
             return new InteractionResultHolder<>(InteractionResult.SUCCESS, stack);
         }
