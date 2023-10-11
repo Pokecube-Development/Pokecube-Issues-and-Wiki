@@ -79,9 +79,10 @@ public class EntityTypes
         {
             if (entry.dummy) continue;
             if (!entry.stock) continue;
+            Pokedex.getInstance().registerPokemon(entry);
+            if (entry.generated) continue;
             try
             {
-                Pokedex.getInstance().registerPokemon(entry);
                 PokecubeCore.ENTITIES.register(entry.getTrimmedName(), () -> makePokemobEntityType(entry));
             }
             catch (final Exception e)

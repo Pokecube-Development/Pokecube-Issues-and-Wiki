@@ -20,7 +20,6 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.ItemStack;
-import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
@@ -144,8 +143,6 @@ public abstract class PokemobBase implements IPokemob
     /** Cached Team for this Pokemob */
     protected String team = "";
     protected double moveSpeed;
-    /** Cached Pokedex Entry for this pokemob. */
-    protected PokedexEntry entry;
 
     /** The happiness value of the pokemob */
     protected int bonusHappiness = 0;

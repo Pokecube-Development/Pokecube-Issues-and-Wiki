@@ -8,8 +8,6 @@ import java.util.UUID;
 
 import javax.annotation.Nullable;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -63,7 +61,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             final String anim = nbt.contains("anim") ? nbt.getString("anim") : null;
             final String model = nbt.contains("model") ? nbt.getString("model") : null;
             final String tex = nbt.contains("tex") ? nbt.getString("tex") : null;
-            boolean shiny = nbt.contains("hasShiny") ? nbt.getBoolean("hasShiny") : true;
             String entry_name = nbt.getString("entry");
 
             final ResourceLocation _model = model != null ? PokecubeItems.toPokecubeResource(model) : null;
@@ -74,7 +71,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
             final FormeHolder holder = FormeHolder.get(entry, _model, _tex, _anim,
                     PokecubeItems.toPokecubeResource(name));
-            holder.hasShiny = shiny;
             return holder;
         }
 
@@ -91,7 +87,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         // initialization.
         public ResourceLocation key;
         public DefaultFormeHolder loaded_from;
-        public boolean hasShiny = true;
 
         public boolean _is_item_forme = false;
         public PokedexEntry _entry = Database.missingno;
@@ -110,9 +105,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             this.key = name;
             this._entry = entry;
         }
-
-        private List<PokeType> _types = Lists.newArrayList();
-        public double _mass = -1;
 
         /**
          * Returns the inventory icon for the pokemob.
@@ -165,8 +157,6 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             if (this.model != null) ret.putString("model", this.model.toString());
             if (this.animation != null) ret.putString("anim", this.animation.toString());
             if (this.texture != null) ret.putString("tex", this.texture.toString());
-            // Only save this if it is not the default.
-            if (!this.hasShiny) ret.putBoolean("hasShiny", false);
             ret.putString("entry", this._entry.getTrimmedName());
             return ret;
         }
@@ -184,47 +174,9 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             return this.key.hashCode();
         }
 
-        /**
-         * @param baseEntry - Base pokedex entry to check for
-         * @return Possibly modified list of types
-         */
-        public List<PokeType> getTypes(PokedexEntry baseEntry)
-        {
-            if (this.loaded_from == null)
-            {
-                if (_types.isEmpty())
-                {
-                    _types.add(baseEntry.getType1());
-                    _types.add(baseEntry.getType2());
-                }
-                return _types;
-            }
-            else return this.loaded_from.getTypes(baseEntry);
-        }
-
-        /**
-         * 
-         * @param baseEntry - Base pokedex entry to check for
-         * @return Possibly modified list of abilities
-         */
-        public List<String> getAbilities(PokedexEntry baseEntry)
-        {
-            if (this.loaded_from != null) return this.loaded_from.getAbilities(baseEntry);
-            return baseEntry.abilities;
-        }
-
         public void setEntry(PokedexEntry entry)
         {
             this._entry = entry;
-        }
-
-        public double getMass(PokedexEntry baseEntry)
-        {
-            if (this.loaded_from == null || this.loaded_from.mass < 0)
-            {
-                return baseEntry.mass;
-            }
-            else return this.loaded_from.mass;
         }
     }
 
@@ -298,31 +250,31 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         /**
          * Stat responsibly for pokemob's maximum health
          */
-        HP, 
+        HP,
         /**
          * Stat responsible for damage caused by physical attacks
          */
-        ATTACK, 
+        ATTACK,
         /**
          * Stat responsible for reducing damage by physical attacks
          */
-        DEFENSE, 
+        DEFENSE,
         /**
          * Stat responsible for damage caused by special attacks
          */
-        SPATTACK, 
+        SPATTACK,
         /**
          * Stat responsible for reducing damage caused by special attacks
          */
-        SPDEFENSE, 
+        SPDEFENSE,
         /**
          * Stat responsible for some aspects of move use order in combat
          */
-        VIT, 
+        VIT,
         /**
          * Stat responsible for whether our attacks hit
          */
-        ACCURACY, 
+        ACCURACY,
         /**
          * Stat responsible for whether we can dodge attacks.
          */

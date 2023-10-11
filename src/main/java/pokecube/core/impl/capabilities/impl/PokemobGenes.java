@@ -49,6 +49,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
     private Alleles<DynaObject, DynamaxGene> genesDynamax;
 
+    private SpeciesGene _speciesCache = null;
+
     private boolean changing = false;
 
     private boolean _shinyCache = false;
@@ -208,39 +210,39 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 this.genesSpecies = new Alleles<>();
                 this.genes.getAlleles().put(GeneticsManager.SPECIESGENE, this.genesSpecies);
             }
-            SpeciesGene gene;
             SpeciesInfo info;
             if (this.genesSpecies.getAllele(0) == null
-                    || (info = (gene = this.genesSpecies.getExpressed()).getValue()).entry == null)
+                    || (info = (_speciesCache = this.genesSpecies.getExpressed()).getValue()).getEntry() == null)
             {
-                gene = new SpeciesGene();
-                info = gene.getValue();
-                info.entry = PokecubeCore.getEntryFor(this.getEntity().getType());
-                info.value = Tools.getSexe(info.entry.getSexeRatio(), ThutCore.newRandom());
-                info.entry = info.entry.getForGender(info.value);
-                info = info.clone();
+                _speciesCache = new SpeciesGene();
+                info = _speciesCache.getValue();
+                info.setEntry(PokecubeCore.getEntryFor(this.getEntity().getType()));
+                info.setSexe(Tools.getSexe(info.getEntry().getSexeRatio(), ThutCore.newRandom()));
+                info.setEntry(info.getEntry().getForGender(info.getSexe()));
                 // Generate the basic genes
                 this.genesSpecies.setAllele(0,
-                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (SpeciesGene) gene.mutate()
-                                : gene);
+                        _speciesCache.getMutationRate() > this.getEntity().getRandom().nextFloat()
+                                ? (SpeciesGene) _speciesCache.mutate()
+                                : _speciesCache);
                 this.genesSpecies.setAllele(1,
-                        gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (SpeciesGene) gene.mutate()
-                                : gene);
+                        _speciesCache.getMutationRate() > this.getEntity().getRandom().nextFloat()
+                                ? (SpeciesGene) _speciesCache.mutate()
+                                : _speciesCache);
                 this.genesSpecies.refreshExpressed();
-                gene = this.genesSpecies.getExpressed();
+                _speciesCache = this.genesSpecies.getExpressed();
                 // Set the expressed gene to the info made above, this is to
                 // override the gene from merging parents which results in the
                 // child state.
-                gene.setValue(info);
+                _speciesCache.setValue(info);
             }
-            info = gene.getValue();
-            info.entry = this.entry = info.entry.getForGender(info.value);
+            info = _speciesCache.getValue();
+            info.setEntry(info.getEntry().getForGender(info.getSexe()));
         }
-        if (this.entry != null) return this.entry;
-        final SpeciesGene gene = this.genesSpecies.getExpressed();
-        final SpeciesInfo info = gene.getValue();
-        assert info.entry != null;
-        return this.entry = info.entry;
+        if (this._speciesCache == null)
+        {
+            this._speciesCache = this.genesSpecies.getExpressed();
+        }
+        return _speciesCache.getValue().getTmpEntry();
     }
 
     @Override
@@ -286,7 +288,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         if (this.genesSpecies == null) this.getPokedexEntry();
         final SpeciesGene gene = this.genesSpecies.getExpressed();
         final SpeciesInfo info = gene.getValue();
-        return info.value;
+        return info.getSexe();
     }
 
     public float getSizeRaw()
@@ -407,7 +409,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 shiny = false;
                 gene.setValue(false);
             }
-            if (this.getCustomHolder() != null && !this.getCustomHolder().hasShiny) shiny = false;
             _shinyCache = shiny;
         }
         return _shinyCache;
@@ -595,7 +596,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     }
 
     @Override
-    public IPokemob setPokedexEntry(final PokedexEntry newEntry)
+    public IPokemob setPokedexEntry(PokedexEntry newEntry)
     {
         final PokedexEntry entry = this.getPokedexEntry();
         final SpeciesGene gene = this.genesSpecies.getExpressed();
@@ -604,8 +605,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         IPokemob ret = this;
         if (this.changing || !this.getEntity().isAddedToWorld())
         {
-            this.entry = newEntry;
-            info.entry = newEntry;
+            if (newEntry.generated)
+            {
+                FormeHolder holder = Database.formeHoldersByKey.get(newEntry.getTrimmedName());
+                if (holder != null) info.setForme(holder);
+            }
+            info.setEntry(newEntry);
             return ret;
         }
         this.changing = true;
@@ -613,13 +618,26 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
         // These need to be set after mega evolve call, as that also does a
         // validation of old entry.
-        this.entry = newEntry;
-        info.entry = newEntry;
+        info.setTmpEntry(newEntry);
 
         if (this.getEntity().level() != null) ret.setSize(ret.getSize());
         if (this.getEntity().level() != null && this.getEntity().isEffectiveAi())
             PacketChangeForme.sendPacketToTracking(ret.getEntity(), newEntry);
         return ret;
+    }
+
+    @Override
+    public void setBasePokedexEntry(PokedexEntry newEntry)
+    {
+        if (this._speciesCache == null) this.getPokedexEntry();
+        this._speciesCache.getValue().entry = newEntry;
+    }
+
+    @Override
+    public PokedexEntry getBasePokedexEntry()
+    {
+        if (this._speciesCache == null) this.getPokedexEntry();
+        return this._speciesCache.getValue().entry;
     }
 
     @Override
@@ -638,7 +656,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         if (sexe == IPokemob.NOSEXE || sexe == IPokemob.FEMALE || sexe == IPokemob.MALE
                 || sexe == IPokemob.SEXLEGENDARY)
         {
-            info.value = sexe;
+            info.setSexe(sexe);
             // Ensure this is in persistent data for client side tooltip
             this.entity.getPersistentData().putByte(TagNames.SEXE, sexe);
         }
@@ -696,7 +714,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     {
         if (holder != null) holder = Database.formeHolders.getOrDefault(holder.key, holder);
         // Ensures the species gene is initialised
-        this.genesSpecies.getExpressed().getValue().forme = holder;
+        this.genesSpecies.getExpressed().getValue().setForme(holder);
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesSpecies);
     }
 
@@ -704,14 +722,9 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     public FormeHolder getCustomHolder()
     {
         // Ensures the species gene is initialised
-        this.getPokedexEntry();
-        FormeHolder holder = this.genesSpecies.getExpressed().getValue().forme;
-        if (holder == null) return this.getPokedexEntry().getModel(this.getSexe());
-        if (Database.formeToEntry.getOrDefault(holder.key, this.getPokedexEntry()) != this.getPokedexEntry())
-        {
-            this.genesSpecies.getExpressed().getValue().forme = null;
-            return this.getPokedexEntry().getModel(this.getSexe());
-        }
+        var entry = this.getPokedexEntry();
+        FormeHolder holder = this.genesSpecies.getExpressed().getValue().getForme();
+        if (holder == null) return entry.getModel(this.getSexe());
         return holder;
     }
 }

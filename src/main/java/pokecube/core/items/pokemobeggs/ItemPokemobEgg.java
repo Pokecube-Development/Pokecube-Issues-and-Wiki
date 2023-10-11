@@ -111,8 +111,8 @@ public class ItemPokemobEgg extends Item
             final SpeciesGene sgene = gene.getExpressed();
             final SpeciesInfo info = sgene.getValue();
             // Lets cache this for easier lookup.
-            stack.getTag().putString("pokemob", info.entry.getTrimmedName());
-            return info.entry;
+            stack.getTag().putString("pokemob", info.getEntry().getTrimmedName());
+            return info.getEntry();
         }
         return Database.getEntry(stack.getTag().getString("pokemob"));
     }
@@ -144,7 +144,7 @@ public class ItemPokemobEgg extends Item
             final Alleles<SpeciesInfo, SpeciesGene> alleles = eggs.getAlleles(GeneticsManager.SPECIESGENE);
             final SpeciesGene gene = alleles.getExpressed();
             final SpeciesInfo info = gene.getValue();
-            nbt.putString("pokemob", info.entry.getName());
+            nbt.putString("pokemob", info.getEntry().getName());
         }
         catch (final Exception e)
         {

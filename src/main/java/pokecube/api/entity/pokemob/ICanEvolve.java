@@ -332,21 +332,13 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
 
     default PokedexEntry getMegaBase()
     {
-        final PokedexEntry entry = this.getPokedexEntry();
-        if (!(this.getCombatState(CombatStates.MEGAFORME) || entry.isMega())) return entry;
-        PokedexEntry prev = Database.getEntry(this.getEntity().getPersistentData().getString("pokecube:mega_base"));
-        if (prev == null || prev == Database.missingno) prev = entry.getBaseForme();
-        if (prev == null) return entry;
-        return prev;
+        return this.getBasePokedexEntry();
     }
 
     default IPokemob megaRevert()
     {
-        if (!(this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega())) return (IPokemob) this;
-        final PokedexEntry entry = this.getPokedexEntry();
-        final PokedexEntry prev = this.getMegaBase();
+        this.setPokedexEntry(getBasePokedexEntry());
         this.setCombatState(CombatStates.MEGAFORME, false);
-        if (prev != entry) return this.megaEvolve(prev);
         return (IPokemob) this;
     }
 
@@ -368,11 +360,14 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             this.setGeneralState(GeneralStates.EVOLVING, true);
 
-            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.level());
-            if (evolution == null)
+            if (!newEntry.generated)
             {
-                PokecubeAPI.LOGGER.warn("No Entry for " + newEntry);
-                return thisMob;
+                evolution = PokecubeCore.createPokemob(newEntry, thisEntity.level());
+                if (evolution == null)
+                {
+                    PokecubeAPI.LOGGER.warn("No Entry for " + newEntry);
+                    return thisMob;
+                }
             }
             final int id = evolution.getId();
             final UUID uuid = evolution.getUUID();
