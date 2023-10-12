@@ -1,29 +1,53 @@
-package pokecube.api.utils;
+package pokecube.core.gimmicks.mega;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.ChangeForm;
+import pokecube.core.PokecubeCore;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import thut.api.Tracker;
 import thut.lib.TComponent;
 
+/**
+ * This class handles the mega evolution mechanic. Primarily via the following:<br><br>
+ * -    Registers a handler for commands to mega-evolve<br>
+ * -    Ensures that pokemobs are able to mega-evolve<br>
+ * -    Ensures that they un-mega-evolve when recalled<br>
+ *
+ */
+@Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class MegaEvolveHelper
 {
-    public static void init()
+    /**
+     * Setup and register tera type stuff.
+     */
+    @SubscribeEvent
+    public static void init(FMLLoadCompleteEvent event)
     {
+        // Handle clearing mega evolution when recalling to pokecube
         PokecubeAPI.POKEMOB_BUS.addListener(MegaEvolveHelper::onFormRevert);
+        // Actually apply said changes
         PokecubeAPI.POKEMOB_BUS.addListener(MegaEvolveHelper::postFormChange);
+        // Register the ability to mega evolve from the owner command
         ChangeFormHandler.addChangeHandler(new MegaEvolver());
     }
 
-    public static class MegaEvolver implements IChangeHandler
+    /**
+     * Class for implementing the mega evolution via owner command
+     *
+     */
+    private static class MegaEvolver implements IChangeHandler
     {
         @Override
         public boolean handleChange(IPokemob pokemob)
@@ -80,13 +104,13 @@ public class MegaEvolveHelper
 
     }
 
-    public static boolean isMega(IPokemob pokemob)
+    private static boolean isMega(IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
         return entity.getPersistentData().contains("pokecube:megatime");
     }
 
-    public static void megaEvolve(IPokemob pokemob, PokedexEntry newEntry, Component mess)
+    private static void megaEvolve(IPokemob pokemob, PokedexEntry newEntry, Component mess)
     {
         var entity = pokemob.getEntity();
         entity.getPersistentData().putLong("pokecube:megatime", Tracker.instance().getTick());

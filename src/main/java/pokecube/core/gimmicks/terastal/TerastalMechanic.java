@@ -4,7 +4,9 @@ import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -13,6 +15,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
+import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.utils.MoveApplication;
@@ -27,6 +31,7 @@ import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.GeneRegistry;
 import thut.api.entity.genetics.IMobGenetics;
+import thut.lib.TComponent;
 
 /**
  * Implementation of the Terastallizing mechanic. This is tracked per pokemob
@@ -52,6 +57,39 @@ public class TerastalMechanic
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOW, false, TerastalMechanic::duringPreMoveUse);
         // Add listener for removing tera when recalled
         PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onRecall);
+        // Register a change handler for terastallizing
+        ChangeFormHandler.addChangeHandler(new Terastallizer());
+    }
+
+    private static class Terastallizer implements IChangeHandler
+    {
+
+        @Override
+        public boolean handleChange(IPokemob pokemob)
+        {
+            return tryTera(pokemob);
+        }
+
+        @Override
+        public int getPriority()
+        {
+            return 200;
+        }
+
+        @Override
+        public void onFail(IPokemob pokemob)
+        {
+            final LivingEntity owner = pokemob.getOwner();
+            if (owner instanceof ServerPlayer player) thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
+        }
+
+        @Override
+        public String changeKey()
+        {
+            return "terastal";
+        }
+
     }
 
     /**
