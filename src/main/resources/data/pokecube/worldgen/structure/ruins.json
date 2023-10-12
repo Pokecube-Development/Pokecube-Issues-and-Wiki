@@ -10,8 +10,7 @@
     "minecraft:pillager_outposts",
     "minecraft:villages",
     "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:legendary_tree"
+    "pokecube:villages"
   ],
   "y_settings": {
     "min_y": 64,
