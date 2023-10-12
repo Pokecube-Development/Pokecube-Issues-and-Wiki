@@ -1,4 +1,4 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.gimmicks.terastal;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,10 +13,12 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
-import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -24,8 +26,10 @@ import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
+import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
@@ -37,23 +41,40 @@ import thut.wearables.EnumWearable;
 import thut.wearables.ThutWearables;
 import thut.wearables.inventory.IWearableInventory;
 
+/**
+ * Implementation of the Terastallizing mechanic. This is tracked per pokemob
+ * via genes, and this class contains the required code for attaching the genes,
+ * managing the types, etc. This is all arranged via calling
+ * {@link TeraTypeGene#init(FMLLoadCompleteEvent)}, and via the
+ * EventBusSubscriber
+ *
+ */
+@Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
 {
+    /**
+     * Silly hats worn by terastallized pokemobs
+     */
     public static final Map<PokeType, ItemStack> SILLY_HATS = new HashMap<>();
 
-    public static void init()
+    /**
+     * Setup and register tera type stuff.
+     */
+    @SubscribeEvent
+    public static void init(FMLLoadCompleteEvent event)
     {
         // Register the genes
         GeneRegistry.register(TeraTypeGene.class);
-        // Add listner for adding the teratypes to the mobs
-        MinecraftForge.EVENT_BUS.addGenericListener(Entity.class, EventPriority.LOWEST,
-                TeraTypeGene::postCapabilityAttach);
         // Add listener for adding the STAB bonus when we are used.
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOW, false, TeraTypeGene::duringPreMoveUse);
         // Add listener for removing tera when recalled
         PokecubeAPI.POKEMOB_BUS.addListener(TeraTypeGene::onRecall);
     }
 
+    /**
+     * Ensure that the SILLY_HATS map is populated, by default we fill it with
+     * bling hats with custom models specified, and alpha of 196.
+     */
     private static void checkHats()
     {
         if (SILLY_HATS.isEmpty())
@@ -75,27 +96,54 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
         }
     }
 
+    /**
+     * @param mob - to get TeraType for
+     * @return the TeraType for the mob, null if not present.
+     */
     @Nullable
     public static TeraType getTera(Entity mob)
     {
-        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+        Alleles<TeraType, Gene<TeraType>> genes = getTeraGenes(mob);
+        if (genes == null) return null;
+        return genes.getExpressed().getValue();
+    }
+
+    /**
+     * 
+     * @param entity - to get tera genes for
+     * @return the tera genes for the entity, null if not present
+     */
+    @Nullable
+    public static Alleles<TeraType, Gene<TeraType>> getTeraGenes(Entity entity)
+    {
+
+        final IMobGenetics genes = entity.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         if (genes == null) return null;
         if (!genes.getKeys().contains(GeneticsManager.TERAGENE))
         {
             // Initialise it for the mob here.
             Alleles<TeraType, Gene<TeraType>> alleles = new Alleles<>();
-            alleles.setAllele(0, new TeraTypeGene().mutate());
-            alleles.setAllele(1, new TeraTypeGene().mutate());
+            Gene<TeraType> gene1 = new TeraTypeGene().mutate();
+            Gene<TeraType> gene2 = new TeraTypeGene().mutate();
+
+            IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+            if (pokemob != null)
+            {
+                gene1.getValue().teraType = pokemob.getType1();
+                gene2.getValue().teraType = pokemob.getType2();
+                if (gene2.getValue().teraType == PokeType.unknown) gene2.getValue().teraType = pokemob.getType1();
+            }
+            alleles.setAllele(0, gene1);
+            alleles.setAllele(1, gene2);
             alleles.getExpressed();
             genes.getAlleles().put(GeneticsManager.TERAGENE, alleles);
-            if (mob.getLevel() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
+            if (entity.getLevel() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(entity, alleles);
         }
         try
         {
             Alleles<TeraType, Gene<TeraType>> alleles = genes.getAlleles(GeneticsManager.TERAGENE);
             if (alleles == null) return null;
-            Gene<TeraType> gene = alleles.getExpressed();
-            return gene.getValue();
+            return alleles;
         }
         catch (Exception e)
         {
@@ -104,65 +152,102 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
         }
     }
 
+    /**
+     * Marks the use of terastallization. This sets the pokemob's owner's
+     * cooldown for using tera to 1, meaning they need to reset it somehow, say
+     * via healing at a pokecenter, sleeping in a bed, or whatever else we set
+     * to reset it.
+     * 
+     * @param pokemob - the pokemob trying to terastallize
+     * @return whether we did terastallize
+     */
+    public static boolean tryTera(IPokemob pokemob)
+    {
+        if (!(pokemob.getEntity().getLevel() instanceof ServerLevel)) return false;
+        Alleles<TeraType, Gene<TeraType>> genes = getTeraGenes(pokemob.getEntity());
+        if (genes == null) return false;
+        boolean canTera = !pokemob.isPlayerOwned();
+        if (!canTera)
+        {
+            CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(pokemob.getOwnerId());
+            canTera = data.getInt("pokecube:tera_cooldown") == 0;
+
+            if (canTera)
+            {
+                data.putInt("pokecube:tera_cooldown", 1);
+                PokecubePlayerDataHandler.saveCustomData(pokemob.getOwnerId().toString());
+            }
+        }
+        if (canTera)
+        {
+            genes.getExpressed().getValue().isTera = true;
+            PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
+        }
+        return canTera;
+    }
+
+    /**
+     * This clears the isTera state for the pokemob, ie breaks the
+     * terastallization when recalled.
+     */
     private static final void onRecall(RecallEvent.Post event)
     {
         TeraType type = getTera(event.recalled.getEntity());
-        if (type != null) type.isTera = false;
-    }
-
-    private static final void postCapabilityAttach(AttachCapabilitiesEvent<Entity> event)
-    {
-        IMobGenetics genes = null;
-        IPokemob pokemob = null;
-        for (var cap : event.getCapabilities().values())
+        if (type != null && type.isTera)
         {
-            if (genes == null)
-            {
-                Object o = cap.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-                if (o instanceof IMobGenetics g)
-                {
-                    genes = g;
-                }
-            }
-            if (pokemob == null)
-            {
-                Object o1 = cap.getCapability(PokemobCaps.POKEMOB_CAP, null).orElse(null);
-                if (o1 instanceof IPokemob g)
-                {
-                    pokemob = g;
-                }
-            }
-            if (genes != null && pokemob != null) break;
-        }
-        if (genes == null && pokemob == null) return;
-        if (genes != null && !genes.getKeys().contains(GeneticsManager.TERAGENE))
-        {
-            // Initialise it for the mob here.
-            Alleles<TeraType, Gene<TeraType>> alleles = new Alleles<>();
-            alleles.setAllele(0, new TeraTypeGene().mutate());
-            alleles.setAllele(1, new TeraTypeGene().mutate());
-            alleles.getExpressed();
-            genes.getAlleles().put(GeneticsManager.TERAGENE, alleles);
+            type.isTera = false;
         }
     }
 
+    /**
+     * This applies the bonus STAB, and the damage boost for low powered moves.
+     * It also increments a counter for the owner (if present), which is used to
+     * determine if the owner can terastallize their pokemob.
+     */
     private static final void duringPreMoveUse(MoveUse.DuringUse.Pre evt)
     {
         final MoveApplication move = evt.getPacket();
         final IPokemob attacker = move.getUser();
         TeraType tera = getTera(attacker.getEntity());
+
+        // Here we apply the effects to the move when terastallized.
         if (tera.isTera)
         {
             boolean originalType = move.type == attacker.originalType1() || move.type == attacker.originalType2();
             if (originalType) move.stab = true;
             if (attacker.isType(move.type)) move.stabFactor = 2.0f;
-            if (move.pwr < 60) move.pwr = 60;
+            if (move.pwr > 0 && move.pwr < 60) move.pwr = 60;
+        }
+
+        // Here we increment the tera counter if it is negative. Raids can set
+        // it negative to require a delay before use.
+        if (move.pwr > 0 && attacker.isPlayerOwned())
+        {
+            CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(attacker.getOwnerId());
+            int c;
+            if ((c = data.getInt("pokecube:tera_cooldown")) < 0)
+            {
+                data.putInt("pokecube:tera_cooldown", c + 1);
+                PokecubePlayerDataHandler.saveCustomData(attacker.getOwnerId().toString());
+            }
         }
     }
 
+    /**
+     * Holder for the mob's terastallize information, holds type and present
+     * state.
+     *
+     */
     public static class TeraType implements INBTSerializable<CompoundTag>
     {
+
+        /**
+         * Whether we are presently terastallized
+         */
         public boolean isTera = false;
+        /**
+         * The type we terastallize to
+         */
         public PokeType teraType = PokeType.unknown;
 
         @Override
@@ -201,9 +286,23 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
     }
 
     @Override
+    protected Gene<TeraType> clone()
+    {
+        Gene<TeraType> gene = new TeraTypeGene();
+        gene.getValue().teraType = this.getValue().teraType;
+        return gene;
+    }
+
+    /**
+     * We interpolate by just selecting a random one, us or other, and making a
+     * copy.
+     */
+    @Override
     public Gene<TeraType> interpolate(Gene<TeraType> other)
     {
-        return rand.nextBoolean() ? this : other;
+        Gene<TeraType> type2 = other;
+        if (other instanceof TeraTypeGene gene) type2 = gene.clone();
+        return rand.nextBoolean() ? this.clone() : type2;
     }
 
     @Override
@@ -212,6 +311,13 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
         this.getValue().deserializeNBT(tag);
     }
 
+    /**
+     * On update, we check the following each second (20ticks):<br>
+     * <br>
+     * - If terastallized, we ensure the user is monotype our type<br>
+     * - if terastallized and client side, we ensure user is wearing a silly
+     * hat.<br>
+     */
     @Override
     public void onUpdateTick(Entity entity)
     {

@@ -1,4 +1,4 @@
-package pokecube.core.moves.zmoves;
+package pokecube.core.gimmicks.zmoves;
 
 import java.util.List;
 import java.util.Map;

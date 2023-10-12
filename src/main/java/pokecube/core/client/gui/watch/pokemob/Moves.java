@@ -23,8 +23,8 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
+import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.TComponent;
 
 public class Moves extends ListPage<LineEntry>
