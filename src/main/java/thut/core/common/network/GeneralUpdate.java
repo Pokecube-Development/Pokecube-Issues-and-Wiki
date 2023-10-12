@@ -41,6 +41,14 @@ public class GeneralUpdate extends NBTPacket
         GeneralUpdate.ASSEMBLER.sendTo(new GeneralUpdate(tag), player);
     }
 
+    public static void sendToServer(CompoundTag nbt, String key)
+    {
+        CompoundTag tag = new CompoundTag();
+        tag.putString("key", key);
+        tag.put("tag", nbt);
+        GeneralUpdate.ASSEMBLER.sendToServer(new GeneralUpdate(tag));
+    }
+
     public GeneralUpdate()
     {
         super();
@@ -57,8 +65,14 @@ public class GeneralUpdate extends NBTPacket
     }
 
     @Override
+    protected void onCompleteServer(ServerPlayer player)
+    {
+        Tracker.read(this.getTag(), player);
+    }
+
+    @Override
     protected void onCompleteClient()
     {
-        Tracker.read(this.getTag());
+        Tracker.read(this.getTag(), null);
     }
 }

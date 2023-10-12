@@ -310,6 +310,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
         PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Revert((IPokemob) this, onRecall));
         this.setPokedexEntry(getBasePokedexEntry());
+        PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post((IPokemob) this));
         return (IPokemob) this;
     }
 

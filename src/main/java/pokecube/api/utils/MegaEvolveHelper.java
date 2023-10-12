@@ -1,6 +1,7 @@
 package pokecube.api.utils;
 
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import pokecube.api.PokecubeAPI;
@@ -18,6 +19,7 @@ public class MegaEvolveHelper
     public static void init()
     {
         PokecubeAPI.POKEMOB_BUS.addListener(MegaEvolveHelper::onFormRevert);
+        PokecubeAPI.POKEMOB_BUS.addListener(MegaEvolveHelper::postFormChange);
         ChangeFormHandler.addChangeHandler(new MegaEvolver());
     }
 
@@ -68,6 +70,14 @@ public class MegaEvolveHelper
             return 100;
         }
 
+        @Override
+        public void onFail(IPokemob pokemob)
+        {
+            final LivingEntity owner = pokemob.getOwner();
+            if (owner instanceof ServerPlayer player) thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
+        }
+
     }
 
     public static boolean isMega(IPokemob pokemob)
@@ -83,14 +93,21 @@ public class MegaEvolveHelper
         MegaEvoTicker.scheduleEvolve(newEntry, pokemob, mess);
     }
 
-    private static void onMegaRevert(IPokemob pokemob)
-    {
-        var entity = pokemob.getEntity();
-        entity.getPersistentData().remove("pokecube:megatime");
-    }
-
     private static void onFormRevert(ChangeForm.Revert event)
     {
-        onMegaRevert(event.getPokemob());
+        var entity = event.getPokemob().getEntity();
+        entity.getPersistentData().remove("pokecube:megatime");
+        entity.getPersistentData().putBoolean("pokecube:mega_reverted", true);
+    }
+
+    private static void postFormChange(ChangeForm.Post event)
+    {
+        var entity = event.getPokemob().getEntity();
+        if (entity.getPersistentData().contains("pokecube:mega_reverted"))
+        {
+            entity.getPersistentData().remove("pokecube:mega_reverted");
+            entity.getPersistentData().remove("pokecube:mega_ability");
+            entity.getPersistentData().remove("pokecube:mega_base");
+        }
     }
 }

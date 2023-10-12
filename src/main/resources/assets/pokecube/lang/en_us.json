@@ -281,6 +281,7 @@
     "pokemob.gui.routes": "RT",
     "pokemob.gui.ai": "AI",
     "pokemob.gui.updatestorage": "Storage Settings updated.",
+    "pokemob.gui.update.megamode": "Mega Mode Setting updated.",
     "pokemob.gui.inventory.desc": "Main Inventory",
     "pokemob.gui.storage.desc": "Storage Settings",
     "pokemob.gui.routes.desc": "Routes Settings",
@@ -446,6 +447,7 @@
     "pokemob.dynamax.too_soon": "§cYou cannot use dynamax yet!",
     "pokemob.dynamax.success": "%1$s §aDynamaxed!",
     "pokemob.dynamax.revert": "%1$s §cReverted!",
+    "pokemob.dynamax.failed": "%1$s §cfailed to Dynamax.",
 
     "pokecube.gzmode.set": "§aEnabling Z/G-max Moves!",
     "pokecube.gzmode.unset": "§aEnabling regular Moves!",

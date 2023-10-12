@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -36,6 +37,7 @@ public class DynamaxHelper
     public static void init()
     {
         PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::onFormRevert);
+        PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::postFormChange);
         ChangeFormHandler.addChangeHandler(new DynaMaxer());
     }
 
@@ -139,25 +141,40 @@ public class DynamaxHelper
             return 10;
         }
 
-    }
-
-    private static void onDynaRevert(IPokemob pokemob)
-    {
-        var entity = pokemob.getEntity();
-        entity.getPersistentData().remove("pokecube:dynadur");
-        var hpAttr = entity.getAttribute(Attributes.MAX_HEALTH);
-        hpAttr.removeModifier(DYNAMOD);
-
-        if (entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
+        @Override
+        public void onFail(IPokemob pokemob)
         {
-            var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get());
-            scaleAttr.removeModifier(DYNAMOD);
+            final LivingEntity owner = pokemob.getOwner();
+            if (owner instanceof ServerPlayer player) thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokemob.dynamax.failed", pokemob.getDisplayName()));
         }
+
     }
 
     private static void onFormRevert(ChangeForm.Revert event)
     {
-        onDynaRevert(event.getPokemob());
+        var entity = event.getPokemob().getEntity();
+        entity.getPersistentData().putBoolean("pokecube:dyna_reverted", true);
+    }
+
+    private static void postFormChange(ChangeForm.Post event)
+    {
+        var entity = event.getPokemob().getEntity();
+        if (entity.getPersistentData().contains("pokecube:dyna_reverted"))
+        {
+            entity.getPersistentData().remove("pokecube:dyna_reverted");
+            entity.getPersistentData().remove("pokecube:dynadur");
+            var hpAttr = entity.getAttribute(Attributes.MAX_HEALTH);
+            hpAttr.removeModifier(DYNAMOD);
+            // Reset health to clip to new maximum.
+            entity.setHealth(Math.min(entity.getHealth(), entity.getMaxHealth()));
+
+            if (entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
+            {
+                var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get());
+                scaleAttr.removeModifier(DYNAMOD);
+            }
+        }
     }
 
     private static final UUID DYNAMOD = new UUID(343523462346243l, 23453246267457l);
