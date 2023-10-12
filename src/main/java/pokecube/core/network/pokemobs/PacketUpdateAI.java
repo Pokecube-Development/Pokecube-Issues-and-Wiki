@@ -33,7 +33,7 @@ public class PacketUpdateAI extends Packet
             {
                 int id = nbt.getInt("I");
                 String mode = nbt.getString("M");
-                Entity e = PokecubeAPI.getEntityProvider().getEntity(player.getLevel(), id, true);
+                Entity e = PokecubeAPI.getEntityProvider().getEntity(player.level(), id, true);
                 if (e != null) e.getPersistentData().putString("pokecube:mega_mode", mode);
             }
         }

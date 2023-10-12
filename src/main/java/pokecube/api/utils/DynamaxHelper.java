@@ -50,7 +50,7 @@ public class DynamaxHelper
 
             final Entity mob = pokemob.getEntity();
             Player player = owner instanceof Player p ? p : null;
-            final Level world = mob.getLevel();
+            final Level world = mob.level();
             final BlockPos pos = mob.blockPosition();
             final PokedexEntry entry = pokemob.getPokedexEntry();
             final Component oldName = pokemob.getDisplayName();
