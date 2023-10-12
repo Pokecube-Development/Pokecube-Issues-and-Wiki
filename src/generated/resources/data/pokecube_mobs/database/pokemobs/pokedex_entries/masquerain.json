@@ -48,15 +48,29 @@
         "L": 1,
         "moves": [
           "whirlwind",
+          "mist",
           "water-gun",
+          "bubble-beam",
+          "agility",
           "quick-attack",
+          "haze",
           "bubble",
+          "baton-pass",
           "sweet-scent",
           "water-sport",
           "bug-buzz",
+          "aqua-jet",
           "ominous-wind",
           "quiver-dance",
-          "soak"
+          "soak",
+          "sticky-web"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "supersonic",
+          "silver-wind"
         ]
       },
       {
@@ -78,12 +92,6 @@
           "giga-drain",
           "air-slash"
         ]
-      },
-      {
-        "L": 32,
-        "moves": [
-          "silver-wind"
-        ]
       }
     ],
     "misc": [
@@ -91,6 +99,7 @@
       "whirlwind",
       "take-down",
       "double-edge",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -157,6 +166,7 @@
       "bug-bite",
       "ominous-wind",
       "quiver-dance",
+      "soak",
       "foul-play",
       "round",
       "scald",

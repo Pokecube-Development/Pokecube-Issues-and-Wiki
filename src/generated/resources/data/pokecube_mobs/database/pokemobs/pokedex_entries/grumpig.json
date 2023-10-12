@@ -39,6 +39,12 @@
   "moves": {
     "level_up": [
       {
+        "L": 10,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "psybeam",
@@ -135,6 +141,7 @@
       "thunder-wave",
       "dig",
       "toxic",
+      "confusion",
       "psychic",
       "night-shade",
       "mimic",

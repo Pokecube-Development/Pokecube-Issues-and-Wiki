@@ -2,7 +2,7 @@
   "name": "scizor-mega",
   "id": 212,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 210,
   "size": {
     "height": 2.0,

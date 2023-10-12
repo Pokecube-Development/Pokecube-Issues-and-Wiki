@@ -38,16 +38,19 @@
   "moves": {
     "level_up": [
       {
-        "L": 50,
+        "L": 1,
         "moves": [
-          "hydro-pump"
+          "water-gun",
+          "confusion",
+          "whirlpool",
+          "iron-defense",
+          "shell-smash"
         ]
       },
       {
-        "L": 1,
+        "L": 50,
         "moves": [
-          "confusion",
-          "whirlpool"
+          "hydro-pump"
         ]
       },
       {
@@ -69,21 +72,29 @@
         ]
       },
       {
+        "L": 23,
+        "moves": [
+          "safeguard",
+          "captivate"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "baton-pass"
         ]
       },
       {
-        "L": 26,
+        "L": 5,
         "moves": [
-          "dive"
+          "rain-dance",
+          "water-sport"
         ]
       },
       {
-        "L": 5,
+        "L": 26,
         "moves": [
-          "water-sport"
+          "dive"
         ]
       },
       {
@@ -102,12 +113,6 @@
         "L": 39,
         "moves": [
           "aqua-tail"
-        ]
-      },
-      {
-        "L": 23,
-        "moves": [
-          "captivate"
         ]
       },
       {

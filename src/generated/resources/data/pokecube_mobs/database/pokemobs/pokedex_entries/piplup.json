@@ -31,7 +31,7 @@
       "torrent"
     ],
     "hidden": [
-      "defiant"
+      "competitive"
     ]
   },
   "moves": {
@@ -61,6 +61,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "hydro-pump"
@@ -87,7 +93,8 @@
       {
         "L": 22,
         "moves": [
-          "bide"
+          "bide",
+          "swagger"
         ]
       },
       {
@@ -97,15 +104,16 @@
         ]
       },
       {
-        "L": 32,
+        "L": 11,
         "moves": [
-          "whirlpool"
+          "charm",
+          "water-sport"
         ]
       },
       {
-        "L": 11,
+        "L": 32,
         "moves": [
-          "water-sport"
+          "whirlpool"
         ]
       },
       {

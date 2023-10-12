@@ -42,8 +42,7 @@
           "pound",
           "bind",
           "growl",
-          "water-gun",
-          "pound"
+          "water-gun"
         ]
       },
       {
@@ -90,6 +89,7 @@
       }
     ],
     "misc": [
+      "pound",
       "bind",
       "take-down",
       "growl",

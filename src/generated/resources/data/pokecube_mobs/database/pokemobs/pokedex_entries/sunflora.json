@@ -44,8 +44,10 @@
           "tackle",
           "absorb",
           "growth",
-          "flower-shield",
-          "pound"
+          "synthesis",
+          "endeavor",
+          "seed-bomb",
+          "flower-shield"
         ]
       },
       {
@@ -143,6 +145,7 @@
       "pound",
       "swords-dance",
       "cut",
+      "tackle",
       "take-down",
       "double-edge",
       "hyper-beam",

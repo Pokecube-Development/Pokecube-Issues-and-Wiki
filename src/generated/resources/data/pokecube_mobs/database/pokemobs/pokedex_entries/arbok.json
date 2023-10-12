@@ -88,6 +88,13 @@
         ]
       },
       {
+        "L": 39,
+        "moves": [
+          "sludge-bomb",
+          "mud-bomb"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
           "crunch"
@@ -111,12 +118,6 @@
         "L": 28,
         "moves": [
           "poison-jab"
-        ]
-      },
-      {
-        "L": 39,
-        "moves": [
-          "mud-bomb"
         ]
       },
       {

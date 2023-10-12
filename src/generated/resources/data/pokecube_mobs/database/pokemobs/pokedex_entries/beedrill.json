@@ -42,7 +42,11 @@
         "L": 1,
         "moves": [
           "fury-attack",
-          "peck"
+          "poison-sting",
+          "peck",
+          "string-shot",
+          "harden",
+          "bug-bite"
         ]
       },
       {
@@ -66,7 +70,8 @@
       {
         "L": 14,
         "moves": [
-          "rage"
+          "rage",
+          "laser-focus"
         ]
       },
       {
@@ -79,6 +84,12 @@
         "L": 31,
         "moves": [
           "outrage"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "fury-cutter"
         ]
       },
       {
@@ -131,6 +142,7 @@
       "fury-attack",
       "take-down",
       "double-edge",
+      "poison-sting",
       "twineedle",
       "pin-missile",
       "hyper-beam",

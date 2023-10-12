@@ -41,6 +41,7 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "fire-punch",
           "ice-punch",
           "thunder-punch",
@@ -58,6 +59,12 @@
           "psybeam",
           "swagger",
           "hidden-power"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "low-kick"
         ]
       },
       {

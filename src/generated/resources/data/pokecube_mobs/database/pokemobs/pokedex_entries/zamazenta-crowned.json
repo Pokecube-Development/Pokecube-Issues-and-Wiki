@@ -16,10 +16,10 @@
   "gender_rate": 255,
   "stats": {
     "hp": 92,
-    "attack": 130,
-    "defense": 145,
+    "attack": 120,
+    "defense": 140,
     "special_attack": 80,
-    "special_defense": 145,
+    "special_defense": 140,
     "speed": 128
   },
   "evs": {

@@ -2,7 +2,7 @@
   "name": "kingler-gmax",
   "id": 99,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 166,
   "size": {
     "height": 5.3,
@@ -37,6 +37,28 @@
     "hidden": [
       "sheer-force"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2.5,0,-2.5",
+          "size": "5.0,8,5.0",
+          "ride": "2.5,6.6,2.8"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2.5,0,-2.5",
+          "size": "5.0,8,5.0",
+          "ride": "3.5,6.6,2.8"
+        }
+      ]
+    }
   },
   "old_name": "kingler_gigantamax"
 }

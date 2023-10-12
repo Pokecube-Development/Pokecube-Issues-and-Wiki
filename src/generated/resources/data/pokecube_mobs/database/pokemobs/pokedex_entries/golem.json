@@ -77,9 +77,10 @@
         ]
       },
       {
-        "L": 27,
+        "L": 12,
         "moves": [
-          "harden"
+          "harden",
+          "magnitude"
         ]
       },
       {
@@ -101,15 +102,16 @@
         ]
       },
       {
-        "L": 29,
+        "L": 4,
         "moves": [
-          "rollout"
+          "sandstorm"
         ]
       },
       {
-        "L": 12,
+        "L": 10,
         "moves": [
-          "magnitude"
+          "rollout",
+          "steamroller"
         ]
       },
       {
@@ -140,12 +142,6 @@
         "L": 22,
         "moves": [
           "bulldoze"
-        ]
-      },
-      {
-        "L": 10,
-        "moves": [
-          "steamroller"
         ]
       }
     ],

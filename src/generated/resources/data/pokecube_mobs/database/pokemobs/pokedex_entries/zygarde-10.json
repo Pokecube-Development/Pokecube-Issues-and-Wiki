@@ -1,6 +1,5 @@
 {
   "name": "zygarde-10",
-  "sound": "zygarde-10",
   "id": 718,
   "stock": true,
   "base_experience": 243,
@@ -33,9 +32,6 @@
   "abilities": {
     "normal": [
       "aura-break"
-    ],
-    "hidden": [
-      "power-construct"
     ]
   },
   "moves": {
@@ -232,12 +228,6 @@
           "type": "forme"
         }
       }
-    }
-  ],
-  "mega_rules": [
-    {
-      "name": "zygarde-complete",
-      "ability": "power-construct"
     }
   ],
   "old_name": "zygarde_10",

@@ -243,7 +243,8 @@
       "sparkling-aria",
       "smart-strike",
       "liquidation",
-      "body-press"
+      "body-press",
+      "life-dew"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

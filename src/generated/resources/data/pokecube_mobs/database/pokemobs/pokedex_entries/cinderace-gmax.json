@@ -2,7 +2,7 @@
   "name": "cinderace-gmax",
   "id": 815,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 265,
   "size": {
     "height": 5.0,
@@ -35,6 +35,23 @@
     "hidden": [
       "libero"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-4,0,-4",
+          "size": "8,5,8"
+        },
+        {
+          "name": "body1",
+          "offset": "-4,5,-4",
+          "size": "8,5,8",
+          "ride": "4,6,4"
+        }
+      ]
+    }
   },
   "old_name": "cinderace_gigantamax"
 }

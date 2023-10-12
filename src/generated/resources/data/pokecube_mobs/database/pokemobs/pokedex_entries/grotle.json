@@ -64,6 +64,12 @@
         ]
       },
       {
+        "L": 10,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "razor-leaf"
@@ -97,6 +103,12 @@
         "L": 52,
         "moves": [
           "leaf-storm"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "leafage"
         ]
       }
     ],

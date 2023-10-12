@@ -88,10 +88,10 @@
         ]
       },
       {
-        "L": 12,
+        "L": 32,
         "moves": [
           "leech-life",
-          "scary-face"
+          "spider-web"
         ]
       },
       {
@@ -101,9 +101,9 @@
         ]
       },
       {
-        "L": 32,
+        "L": 12,
         "moves": [
-          "spider-web"
+          "scary-face"
         ]
       },
       {
@@ -197,6 +197,7 @@
       "sucker-punch",
       "poison-jab",
       "x-scissor",
+      "bug-buzz",
       "giga-impact",
       "shadow-sneak",
       "cross-poison",

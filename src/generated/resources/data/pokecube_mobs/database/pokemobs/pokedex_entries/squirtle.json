@@ -117,6 +117,12 @@
         ]
       },
       {
+        "L": 0,
+        "moves": [
+          "follow-me"
+        ]
+      },
+      {
         "L": 34,
         "moves": [
           "iron-defense"
@@ -228,6 +234,7 @@
       "aqua-jet",
       "round",
       "scald",
+      "shell-smash",
       "water-pledge",
       "work-up",
       "confide",

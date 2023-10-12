@@ -43,6 +43,7 @@
         "moves": [
           "scratch",
           "tackle",
+          "growl",
           "foresight"
         ]
       },
@@ -83,6 +84,13 @@
         ]
       },
       {
+        "L": 42,
+        "moves": [
+          "reversal",
+          "me-first"
+        ]
+      },
+      {
         "L": 39,
         "moves": [
           "baton-pass"
@@ -107,12 +115,6 @@
         ]
       },
       {
-        "L": 42,
-        "moves": [
-          "me-first"
-        ]
-      },
-      {
         "L": 31,
         "moves": [
           "sucker-punch"
@@ -133,6 +135,7 @@
       "flamethrower",
       "surf",
       "ice-beam",
+      "blizzard",
       "solar-beam",
       "thunderbolt",
       "dig",

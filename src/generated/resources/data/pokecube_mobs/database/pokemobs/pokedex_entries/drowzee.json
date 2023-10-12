@@ -41,8 +41,7 @@
         "L": 1,
         "moves": [
           "pound",
-          "hypnosis",
-          "pound"
+          "hypnosis"
         ]
       },
       {
@@ -94,6 +93,13 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "mind-reader",
+          "wake-up-slap"
+        ]
+      },
+      {
         "L": 45,
         "moves": [
           "swagger"
@@ -109,12 +115,6 @@
         "L": 61,
         "moves": [
           "future-sight"
-        ]
-      },
-      {
-        "L": 29,
-        "moves": [
-          "wake-up-slap"
         ]
       },
       {

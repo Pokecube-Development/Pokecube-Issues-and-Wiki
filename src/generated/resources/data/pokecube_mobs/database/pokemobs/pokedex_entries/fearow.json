@@ -38,9 +38,23 @@
   "moves": {
     "level_up": [
       {
+        "L": 18,
+        "moves": [
+          "wing-attack",
+          "mirror-move"
+        ]
+      },
+      {
         "L": 11,
         "moves": [
           "fury-attack"
+        ]
+      },
+      {
+        "L": 23,
+        "moves": [
+          "take-down",
+          "assurance"
         ]
       },
       {
@@ -75,12 +89,6 @@
         ]
       },
       {
-        "L": 18,
-        "moves": [
-          "mirror-move"
-        ]
-      },
-      {
         "L": 15,
         "moves": [
           "aerial-ace"
@@ -90,12 +98,6 @@
         "L": 36,
         "moves": [
           "roost"
-        ]
-      },
-      {
-        "L": 23,
-        "moves": [
-          "assurance"
         ]
       }
     ],
@@ -168,6 +170,36 @@
       "laser-focus",
       "throat-chop"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-0.5,0,-0.5",
+          "size": "1,1.5,1"
+        }
+      ]
+    },
+    "flying": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-0.5,0,-0.5",
+          "size": "1,1.5,1"
+        },
+        {
+          "name": "wing1",
+          "offset": "-2,0.3,-0.4",
+          "size": "1.4,0.7,1.4"
+        },
+        {
+          "name": "wing2",
+          "offset": "0.5,0.3,-0.4",
+          "size": "1.4,0.7,1.4"
+        }
+      ]
+    }
   },
   "loot_table": "pokecube:entities/chicken_2"
 }

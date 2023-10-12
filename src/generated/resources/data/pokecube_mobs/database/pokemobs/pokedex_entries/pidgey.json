@@ -84,7 +84,8 @@
       {
         "L": 45,
         "moves": [
-          "mirror-move"
+          "mirror-move",
+          "aerial-ace"
         ]
       },
       {

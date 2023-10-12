@@ -44,8 +44,14 @@
           "gust",
           "water-gun",
           "attract",
-          "soak",
-          "pound"
+          "soak"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "flail",
+          "captivate"
         ]
       },
       {
@@ -95,12 +101,6 @@
         "L": 35,
         "moves": [
           "aqua-ring"
-        ]
-      },
-      {
-        "L": 26,
-        "moves": [
-          "captivate"
         ]
       }
     ],

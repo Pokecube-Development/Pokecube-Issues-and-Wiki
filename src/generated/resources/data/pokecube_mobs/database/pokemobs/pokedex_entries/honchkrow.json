@@ -41,10 +41,19 @@
       {
         "L": 1,
         "moves": [
+          "gust",
           "wing-attack",
+          "peck",
+          "night-shade",
           "haze",
+          "mean-look",
           "pursuit",
+          "torment",
+          "taunt",
           "astonish",
+          "air-cutter",
+          "tailwind",
+          "assurance",
           "sucker-punch",
           "night-slash"
         ]

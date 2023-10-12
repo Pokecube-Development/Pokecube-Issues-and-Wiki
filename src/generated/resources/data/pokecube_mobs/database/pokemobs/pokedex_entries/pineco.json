@@ -60,7 +60,8 @@
         "L": 20,
         "moves": [
           "bide",
-          "rollout"
+          "rollout",
+          "autotomize"
         ]
       },
       {

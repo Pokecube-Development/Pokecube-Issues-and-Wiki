@@ -37,17 +37,17 @@
   "moves": {
     "level_up": [
       {
-        "L": 10,
+        "L": 1,
         "moves": [
-          "wing-attack"
+          "pound",
+          "growl",
+          "water-gun"
         ]
       },
       {
-        "L": 1,
+        "L": 10,
         "moves": [
-          "growl",
-          "water-gun",
-          "pound"
+          "wing-attack"
         ]
       },
       {

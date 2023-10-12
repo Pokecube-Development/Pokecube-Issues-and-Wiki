@@ -78,7 +78,8 @@
         "L": 46,
         "moves": [
           "outrage",
-          "bestow"
+          "bestow",
+          "dragon-hammer"
         ]
       },
       {
@@ -102,6 +103,7 @@
       {
         "L": 30,
         "moves": [
+          "dragon-dance",
           "natural-gift",
           "wide-guard"
         ]

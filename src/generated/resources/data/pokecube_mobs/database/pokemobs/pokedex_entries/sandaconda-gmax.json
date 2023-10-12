@@ -2,7 +2,7 @@
   "name": "sandaconda-gmax",
   "id": 844,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 179,
   "size": {
     "height": 22.0
@@ -35,6 +35,48 @@
     "hidden": [
       "sand-veil"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,3,3"
+        },
+        {
+          "name": "body1",
+          "offset": "-2,3,-2",
+          "size": "4,4,4"
+        },
+        {
+          "name": "body2",
+          "offset": "-2.5,6,-2.5",
+          "size": "5,3,5",
+          "ride": "2.5,3,4.9"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.9",
+          "size": "3,3,3"
+        },
+        {
+          "name": "body1",
+          "offset": "-2,3,-3",
+          "size": "4,4,4"
+        },
+        {
+          "name": "body2",
+          "offset": "-2.5,6,-4.5",
+          "size": "5,3,5",
+          "ride": "2.5,3.4,4.5"
+        }
+      ]
+    }
   },
   "old_name": "sandaconda_gigantamax"
 }

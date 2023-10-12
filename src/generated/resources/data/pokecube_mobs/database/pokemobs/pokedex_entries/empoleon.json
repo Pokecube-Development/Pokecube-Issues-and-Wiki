@@ -33,11 +33,22 @@
       "torrent"
     ],
     "hidden": [
-      "defiant"
+      "competitive"
     ]
   },
   "moves": {
     "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "tackle",
+          "growl",
+          "bubble",
+          "charm",
+          "metal-claw"
+        ]
+      },
       {
         "L": 11,
         "moves": [
@@ -51,18 +62,15 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "tackle",
-          "growl",
-          "bubble",
-          "metal-claw"
-        ]
-      },
-      {
         "L": 46,
         "moves": [
           "mist"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "water-gun"
         ]
       },
       {

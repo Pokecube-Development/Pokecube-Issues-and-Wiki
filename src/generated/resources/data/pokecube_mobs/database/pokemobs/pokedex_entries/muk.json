@@ -46,8 +46,7 @@
           "haze",
           "poison-gas",
           "mud-slap",
-          "moonblast",
-          "pound"
+          "moonblast"
         ]
       },
       {
@@ -76,6 +75,14 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "smog",
+          "mud-shot",
+          "mud-bomb"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "sludge"
@@ -97,13 +104,6 @@
         "L": 57,
         "moves": [
           "memento"
-        ]
-      },
-      {
-        "L": 18,
-        "moves": [
-          "mud-shot",
-          "mud-bomb"
         ]
       },
       {

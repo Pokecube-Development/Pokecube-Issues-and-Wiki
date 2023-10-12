@@ -2,7 +2,7 @@
   "name": "urshifu-rapid-strike-gmax",
   "id": 892,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 275,
   "size": {
     "height": 5.0,
@@ -33,6 +33,28 @@
     "normal": [
       "unseen-fist"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2,0,-2",
+          "size": "4.0,7,4.0",
+          "ride": "3.5,5,2.4"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2,0,-2",
+          "size": "4.0,9,4.0",
+          "ride": "3.2,6.8,2.8"
+        }
+      ]
+    }
   },
   "old_name": "urshifu_rapid_gigantamax"
 }

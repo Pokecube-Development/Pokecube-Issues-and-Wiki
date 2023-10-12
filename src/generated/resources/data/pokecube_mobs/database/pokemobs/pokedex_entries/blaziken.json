@@ -50,6 +50,7 @@
           "flamethrower",
           "high-jump-kick",
           "feather-dance",
+          "close-combat",
           "flare-blitz"
         ]
       },
@@ -178,6 +179,7 @@
       "reversal",
       "protect",
       "mud-slap",
+      "detect",
       "endure",
       "swagger",
       "fury-cutter",
@@ -201,6 +203,7 @@
       "brick-break",
       "knock-off",
       "secret-power",
+      "feather-dance",
       "blaze-kick",
       "blast-burn",
       "overheat",

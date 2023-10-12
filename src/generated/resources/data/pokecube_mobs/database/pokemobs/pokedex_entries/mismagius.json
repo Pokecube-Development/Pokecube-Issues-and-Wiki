@@ -39,12 +39,22 @@
         "L": 1,
         "moves": [
           "growl",
+          "psybeam",
+          "confusion",
+          "confuse-ray",
           "psywave",
           "spite",
+          "perish-song",
+          "mean-look",
+          "pain-split",
+          "shadow-ball",
+          "grudge",
           "astonish",
           "magical-leaf",
+          "payback",
           "lucky-chant",
           "power-gem",
+          "hex",
           "phantom-force",
           "mystical-fire"
         ]

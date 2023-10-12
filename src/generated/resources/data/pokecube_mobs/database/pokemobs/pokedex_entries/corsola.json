@@ -157,6 +157,7 @@
       "body-slam",
       "double-edge",
       "mist",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -243,6 +244,7 @@
       "throat-chop",
       "stomping-tantrum",
       "liquidation",
+      "life-dew",
       "meteor-beam"
     ]
   },

@@ -41,11 +41,13 @@
         "L": 1,
         "moves": [
           "swords-dance",
+          "slam",
           "vine-whip",
           "wrap",
           "acid",
           "growth",
           "razor-leaf",
+          "poison-powder",
           "stun-spore",
           "sleep-powder",
           "leech-life",
@@ -53,15 +55,12 @@
           "stockpile",
           "spit-up",
           "swallow",
+          "knock-off",
+          "gastro-acid",
           "sucker-punch",
+          "poison-jab",
           "power-whip",
           "clear-smog"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "poison-powder"
         ]
       },
       {
@@ -96,6 +95,7 @@
       "acid",
       "hyper-beam",
       "mega-drain",
+      "growth",
       "razor-leaf",
       "solar-beam",
       "poison-powder",
