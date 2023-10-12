@@ -73,6 +73,7 @@ public class DynamaxHelper
                 {
                     Component mess = TComponent.translatable("pokemob.dynamax.command.revert", oldName);
                     pokemob.displayMessageToOwner(mess);
+                    newEntry = pokemob.getBasePokedexEntry();
                     mess = TComponent.translatable("pokemob.dynamax.revert", oldName);
                     MegaEvoTicker.scheduleRevert(newEntry, pokemob, mess);
                     return true;
@@ -182,7 +183,7 @@ public class DynamaxHelper
         float toAdd = entity.getMaxHealth() - health;
         entity.heal(toAdd);
 
-        if (entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
+        if (!info.gigantamax && entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
         {
             var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get());
             var sizeBoost = new AttributeModifier(DYNAMOD, "pokecube:dynamax", PokecubeCore.getConfig().dynamax_scale,

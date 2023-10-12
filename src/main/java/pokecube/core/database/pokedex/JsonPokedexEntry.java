@@ -248,6 +248,7 @@ public class JsonPokedexEntry
     public Sizes size = null;
     public float mass = -1;
     public boolean is_default = false;
+    public boolean is_extra_form = false;
     public int capture_rate = -1;
     public int base_happiness = -1;
     public String growth_rate = null;
@@ -313,7 +314,7 @@ public class JsonPokedexEntry
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
-        entry.generated = !this.is_default;
+        entry.generated = this.is_extra_form;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
         if (entry.base && !registered)
         {

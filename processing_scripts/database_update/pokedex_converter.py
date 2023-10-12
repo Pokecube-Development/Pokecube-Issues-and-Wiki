@@ -74,6 +74,9 @@ def is_gmax(name):
 index_map = get_pokemon_index()
 evo_chains = utils.load_evo_chains()
 
+_, all_moves_users = utils.load_all_moves()
+
+
 # This class is a mirror of the json data structure that pokecube uses for loading
 class PokedexEntry:
     def __init__(self, forme, species) -> None:
@@ -172,9 +175,9 @@ class PokedexEntry:
         self.id = forme.id
         self.stock = True
         if is_mega(self.name):
-            self.mega = True
+            self.is_extra_form = True
         if is_gmax(self.name):
-            self.gmax = True
+            self.extra_form = True
         if no_shiny(self.name):
             self.no_shiny = True
         self.base_experience = forme.base_experience
@@ -260,13 +263,14 @@ class PokedexEntry:
         moves = {}
         level_up = []
         misc = []
+        all_moves = []
 
         move_levels = {}
 
         # Used to check if learn method is level up.
         def is_levelup(details):
             return details.move_learn_method.name == 'level-up'
-
+        
         for move in forme.moves:
             name = move.move.name
 
@@ -287,6 +291,7 @@ class PokedexEntry:
                     move_levels[key] = entry
                     level_up.append(entry)
                 entry['moves'].append(name)
+                all_moves.append(name)
 
             # All other moves get added to misc moves for TMs in pokecube
             for details in move.version_group_details:
@@ -294,6 +299,14 @@ class PokedexEntry:
                     continue
                 if not name in misc:
                     misc.append(name)
+                    all_moves.append(name)
+
+        
+        if forme.name in all_moves_users:
+            _moves = all_moves_users[forme.name]
+            for move in _moves:
+                if not move in all_moves:
+                    misc.append(move)
 
         # Add the moves if we found any
         if len(level_up) > 0:
@@ -599,7 +612,7 @@ def convert_pokedex():
         for var in entry.entries:
 
             tag_name = f'pokecube:{var.name}'
-            if not tag_name in pokemob_tag_names:
+            if not tag_name in pokemob_tag_names and not var.is_extra_form:
                 pokemob_tag_names.append(tag_name)
 
             if var.name in held_tables:
