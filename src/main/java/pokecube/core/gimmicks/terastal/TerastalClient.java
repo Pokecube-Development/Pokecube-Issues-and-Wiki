@@ -22,7 +22,7 @@ public class TerastalClient
     {
         TERATEX.texturer().rate = 0;
         Status.PROVIDERS.add(pokemob -> {
-            TeraType type = TeraTypeGene.getTera(pokemob.getEntity());
+            TeraType type = TerastalMechanic.getTera(pokemob.getEntity());
             if (type != null && type.isTera)
             {
                 return TERATEX;
