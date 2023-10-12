@@ -95,7 +95,7 @@ public class TerastalMechanic
             alleles.setAllele(1, gene2);
             alleles.getExpressed();
             genes.getAlleles().put(GeneticsManager.TERAGENE, alleles);
-            if (entity.getLevel() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(entity, alleles);
+            if (entity.level() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(entity, alleles);
         }
         try
         {
@@ -121,7 +121,7 @@ public class TerastalMechanic
      */
     public static boolean tryTera(IPokemob pokemob)
     {
-        if (!(pokemob.getEntity().getLevel() instanceof ServerLevel)) return false;
+        if (!(pokemob.getEntity().level() instanceof ServerLevel)) return false;
         Alleles<TeraType, Gene<TeraType>> genes = getTeraGenes(pokemob.getEntity());
         if (genes == null) return false;
         boolean canTera = !pokemob.isPlayerOwned();
