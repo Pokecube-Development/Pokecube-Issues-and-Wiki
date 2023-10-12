@@ -25,7 +25,7 @@ public class LeleTotem extends TapuLeleCore{
 	public InteractionResult use(final BlockState stack, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
 			final BlockHitResult hit)
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			LeleTotem.addEffectTotem(entity);
 			return InteractionResult.SUCCESS;
@@ -35,7 +35,7 @@ public class LeleTotem extends TapuLeleCore{
 	
 	public static void addEffectTotem(final Player entity) 
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem())) 
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			entity.addEffect(new MobEffectInstance(MobEffects.HEALTH_BOOST, 400, 1));
 			final ItemStack _stktoremove = entity instanceof LivingEntity ? ((LivingEntity) entity).getMainHandItem() : ItemStack.EMPTY;
