@@ -603,6 +603,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         if (this.changing)
         {
             info.setTmpEntry(newEntry);
+            this.changing = false;
             return this;
         }
         if (!this.getEntity().isAddedToWorld())
@@ -613,6 +614,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 if (holder != null) info.setForme(holder);
             }
             info.setEntry(newEntry);
+            this.changing = false;
             return ret;
         }
         this.changing = true;

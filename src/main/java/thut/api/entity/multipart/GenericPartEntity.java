@@ -14,7 +14,9 @@ import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -224,6 +226,12 @@ public abstract class GenericPartEntity<E extends Entity> extends PartEntity<E>
                 this.move(MoverType.SELF, new Vec3(f, 0.0D, f));
             }
         }
+    }
+    
+    @Override
+    public ItemStack getPickedResult(HitResult target)
+    {
+        return this.getParent().getPickedResult(target);
     }
 
     @Override

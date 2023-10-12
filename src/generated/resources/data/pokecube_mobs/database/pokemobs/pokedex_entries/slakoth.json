@@ -44,6 +44,7 @@
         "L": 14,
         "moves": [
           "headbutt",
+          "rest",
           "feint-attack"
         ]
       },

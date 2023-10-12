@@ -1,7 +1,10 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
+import org.lwjgl.glfw.GLFW;
 
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -10,6 +13,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -17,10 +21,12 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
+import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.core.client.gui.helper.ScrollGui;
 import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.network.pokemobs.PacketAIRoutine;
 import pokecube.core.network.pokemobs.PacketPokemobGui;
+import pokecube.core.network.pokemobs.PacketUpdateAI;
 import pokecube.core.utils.Resources;
 import thut.lib.TComponent;
 
@@ -65,7 +71,7 @@ public class AI extends Tab
                 button.visible = false;
                 button.active = false;
 
-                if (y > this.top && y < this.top + 50)
+                if (y > this.top && y < this.top + parent.list.height)
                 {
                     button.setX(x + dx);
                     button.setY(y);
@@ -109,6 +115,9 @@ public class AI extends Tab
     }
 
     ScrollGui<AIEntry> list;
+    EditBox megaMode;
+    Button back;
+    Button fwd;
 
     public AI(GuiPokemob parent)
     {
@@ -123,6 +132,9 @@ public class AI extends Tab
         if (!active)
         {
             this.parent.children.remove(this.list);
+            this.parent.removeWidget(back);
+            this.parent.removeWidget(fwd);
+            this.parent.removeWidget(megaMode);
         }
         else
         {
@@ -141,7 +153,7 @@ public class AI extends Tab
 
         yOffset += 8;
         xOffset -= 17;
-        this.list = new ScrollGui<>(this.parent, this.parent.minecraft, 110, 50, 10, xOffset, yOffset);
+        this.list = new ScrollGui<>(this.parent, this.parent.minecraft, 110, 40, 10, xOffset, yOffset);
 
         this.list.scrollBarDx = 2;
         this.list.scrollBarDy = 4;
@@ -189,6 +201,31 @@ public class AI extends Tab
         {
             this.list.addEntry(new AIEntry(this, pokemob, thisRow.toArray(new AIButton[0])));
         }
+        xOffset += 12;
+        yOffset += 45;
+        String mode = pokemob.getEntity().getPersistentData().getString("pokecube:mega_mode");
+        parent.addRenderableWidget(
+                this.megaMode = new EditBox(parent.font, xOffset, yOffset, 80, 10, TComponent.literal(mode)));
+        this.megaMode.setValue(mode);
+        List<String> modes = new ArrayList<>();
+        modes.add("");
+        for (var h : ChangeFormHandler.processors) modes.add(h.changeKey());
+        parent.addRenderableWidget(back = new Button.Builder(TComponent.literal("<"), b -> {
+            int i = modes.indexOf(megaMode.getValue());
+            if (i == -1) i = 1;
+            i -= 1;
+            if (i < 0) i = modes.size() - 1;
+            megaMode.setValue(modes.get(i));
+            sendUpdate();
+        }).bounds(xOffset - 10, yOffset, 10, 10).build());
+        parent.addRenderableWidget(fwd = new Button.Builder(TComponent.literal(">"), b -> {
+            int i = modes.indexOf(megaMode.getValue());
+            if (i == -1) i = modes.size();
+            i += 1;
+            if (i > modes.size() - 1) i = 0;
+            megaMode.setValue(modes.get(i));
+            sendUpdate();
+        }).bounds(xOffset + 80, yOffset, 10, 10).build());
     }
 
     @Override
@@ -199,9 +236,23 @@ public class AI extends Tab
     }
 
     @Override
-    public void renderBg(GuiGraphics graphics, float partialTicks, int mouseX, int mouseY)
+    public boolean charTyped(final char typedChar, final int keyCode)
     {
-        super.renderBg(graphics, partialTicks, mouseX, mouseY);
+        final boolean ret = super.charTyped(typedChar, keyCode);
+        if (keyCode == GLFW.GLFW_KEY_ENTER)
+        {
+            this.sendUpdate();
+            return true;
+        }
+        return ret;
     }
 
+    private void sendUpdate()
+    {
+        String mode = this.megaMode.getValue();
+        PacketUpdateAI.sendMegaModePacket(this.menu.pokemob, mode);
+        this.menu.pokemob.getEntity().getPersistentData().putString("pokecube:mega_mode", mode);
+        // Send status message thingy
+        this.parent.minecraft.player.displayClientMessage(TComponent.translatable("pokemob.gui.update.megamode"), true);
+    }
 }

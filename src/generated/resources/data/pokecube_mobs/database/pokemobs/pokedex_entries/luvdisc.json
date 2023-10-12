@@ -95,13 +95,21 @@
         "L": 13,
         "moves": [
           "wish",
-          "lucky-chant"
+          "lucky-chant",
+          "tearful-look"
         ]
       },
       {
         "L": 17,
         "moves": [
           "water-pulse"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "brine",
+          "heart-stamp"
         ]
       },
       {
@@ -121,12 +129,6 @@
         "L": 42,
         "moves": [
           "soak"
-        ]
-      },
-      {
-        "L": 22,
-        "moves": [
-          "heart-stamp"
         ]
       },
       {
@@ -194,6 +196,7 @@
       "heart-stamp",
       "draining-kiss",
       "confide",
+      "baby-doll-eyes",
       "liquidation",
       "tera-blast",
       "snowscape"

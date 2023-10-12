@@ -410,10 +410,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
-            if (entry.generated) continue;
-            final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
             final Holder holder = new Holder(entry);
-            RenderPokemob.holderMap.put(type, holder);
+            if (!entry.generated)
+            {
+                final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
+                RenderPokemob.holderMap.put(type, holder);
+            }
             RenderPokemob.holders.put(entry, holder);
             // Always initialize starters, so the gui doesn't act a bit funny
             if (PokecubeCore.getConfig().preloadModels || entry.isStarter) holder.init();

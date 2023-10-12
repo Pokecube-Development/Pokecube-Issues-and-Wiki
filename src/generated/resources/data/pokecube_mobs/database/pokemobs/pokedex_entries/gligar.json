@@ -64,6 +64,13 @@
         ]
       },
       {
+        "L": 45,
+        "moves": [
+          "earthquake",
+          "sky-uppercut"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "quick-attack"
@@ -90,7 +97,8 @@
       {
         "L": 19,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "mud-slap"
         ]
       },
       {
@@ -103,12 +111,6 @@
         "L": 10,
         "moves": [
           "knock-off"
-        ]
-      },
-      {
-        "L": 45,
-        "moves": [
-          "sky-uppercut"
         ]
       },
       {

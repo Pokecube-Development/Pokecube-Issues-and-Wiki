@@ -23,6 +23,7 @@ import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
+import pokecube.core.items.megastuff.MegaCapability;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
@@ -83,7 +84,7 @@ public class InteractsAndEvolutions
 
             return super.equals(obj);
         }
-        
+
         @Override
         public String toString()
         {
@@ -256,6 +257,10 @@ public class InteractsAndEvolutions
             {
                 rightStack = Tools.isSameStack(this.stack, mobIn.getHeldItem(), true);
                 rule = true;
+                if (!rightStack)
+                {
+                    rightStack = MegaCapability.matches(mobIn.getHeldItem(), entryTo);
+                }
             }
             if (this.moveName != null && !this.moveName.isEmpty())
             {

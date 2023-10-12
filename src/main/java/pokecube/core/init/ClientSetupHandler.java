@@ -312,6 +312,60 @@ public class ClientSetupHandler
             return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
         }, PokecubeItems.SPAWN_EGG.get());
 
+        event.getItemColors().register((stack, tintIndex) -> {
+            int c0 = 0xFFFFFFFF;
+            int c1 = 0xFFFFFFFF;
+            int c2 = 0xFFFFFFFF;
+            int c3 = 0xFFFFFFFF;
+            switch (tintIndex)
+            {
+            case 1:
+                if (stack.hasTag() && stack.getTag().contains("c1")) try
+                {
+                    long l = Long.decode(stack.getTag().getString("c1"));
+                    c1 = (int) l;
+                }
+                catch (Exception e)
+                {
+                    // Do nothing for not interupting render thread
+                }
+                return c1;
+            case 2:
+                if (stack.hasTag() && stack.getTag().contains("c2")) try
+                {
+                    long l = Long.decode(stack.getTag().getString("c2"));
+                    c2 = (int) l;
+                }
+                catch (Exception e)
+                {
+                    // Do nothing for not interupting render thread
+                }
+                return c2;
+            case 3:
+                if (stack.hasTag() && stack.getTag().contains("c3")) try
+                {
+                    long l = Long.decode(stack.getTag().getString("c3"));
+                    c3 = (int) l;
+                }
+                catch (Exception e)
+                {
+                    // Do nothing for not interupting render thread
+                }
+                return c3;
+            }
+            if (stack.hasTag() && stack.getTag().contains("c0")) try
+            {
+                long l = Long.decode(stack.getTag().getString("c0"));
+                c0 = (int) l;
+            }
+            catch (Exception e)
+            {
+                // Do nothing for not interupting render thread
+            }
+            return c0;
+        }, PokecubeItems.getStack("megastone").getItem());
+
+
         for (Item i : ItemMegawearable.INSTANCES)
         {
             event.register((stack, tintIndex) -> {

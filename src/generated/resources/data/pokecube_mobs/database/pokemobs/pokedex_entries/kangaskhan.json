@@ -156,6 +156,7 @@
       }
     ],
     "misc": [
+      "pound",
       "comet-punch",
       "mega-punch",
       "fire-punch",
@@ -171,6 +172,7 @@
       "tail-whip",
       "leer",
       "bite",
+      "growl",
       "roar",
       "disable",
       "flamethrower",
@@ -254,6 +256,7 @@
       "assurance",
       "fling",
       "trump-card",
+      "last-resort",
       "sucker-punch",
       "aqua-tail",
       "drain-punch",

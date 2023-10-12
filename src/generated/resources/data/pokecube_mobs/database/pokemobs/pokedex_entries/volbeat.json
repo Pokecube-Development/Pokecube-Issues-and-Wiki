@@ -41,7 +41,8 @@
         "L": 1,
         "moves": [
           "tackle",
-          "flash"
+          "flash",
+          "play-nice"
         ]
       },
       {
@@ -75,6 +76,13 @@
         ]
       },
       {
+        "L": 26,
+        "moves": [
+          "encore",
+          "signal-beam"
+        ]
+      },
+      {
         "L": 19,
         "moves": [
           "moonlight"
@@ -90,12 +98,6 @@
         "L": 22,
         "moves": [
           "tail-glow"
-        ]
-      },
-      {
-        "L": 26,
-        "moves": [
-          "signal-beam"
         ]
       },
       {

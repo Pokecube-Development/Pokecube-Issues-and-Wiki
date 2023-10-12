@@ -90,6 +90,13 @@
         ]
       },
       {
+        "L": 26,
+        "moves": [
+          "nature-power",
+          "natural-gift"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "aromatherapy"
@@ -99,12 +106,6 @@
         "L": 22,
         "moves": [
           "magical-leaf"
-        ]
-      },
-      {
-        "L": 26,
-        "moves": [
-          "natural-gift"
         ]
       }
     ],

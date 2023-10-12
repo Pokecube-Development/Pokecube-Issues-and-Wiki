@@ -142,5 +142,27 @@
       "scorching-sands"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,2,3",
+          "ride": "1.5,1.5,1.5"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.8,0,-1.3",
+          "size": "1,1,3.5",
+          "ride": "1.8,0.2,1.3"
+        }
+      ]
+    }
+  },
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

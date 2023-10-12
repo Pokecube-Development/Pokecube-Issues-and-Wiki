@@ -31,7 +31,7 @@
   "abilities": {
     "normal": [
       "chlorophyll",
-      "early-bird"
+      "wind-rider"
     ],
     "hidden": [
       "pickpocket"
@@ -94,11 +94,14 @@
       "whirlwind",
       "mega-kick",
       "headbutt",
+      "tackle",
       "body-slam",
       "double-edge",
       "hyper-beam",
       "low-kick",
       "strength",
+      "absorb",
+      "mega-drain",
       "growth",
       "razor-leaf",
       "solar-beam",
@@ -142,6 +145,7 @@
       "shadow-ball",
       "rock-smash",
       "beat-up",
+      "fake-out",
       "heat-wave",
       "torment",
       "facade",
@@ -150,9 +154,11 @@
       "brick-break",
       "knock-off",
       "secret-power",
+      "astonish",
       "air-cutter",
       "rock-tomb",
       "silver-wind",
+      "extrasensory",
       "bullet-seed",
       "aerial-ace",
       "bounce",

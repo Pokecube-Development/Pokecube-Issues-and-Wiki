@@ -38,9 +38,23 @@
   "moves": {
     "level_up": [
       {
+        "L": 18,
+        "moves": [
+          "wing-attack",
+          "mirror-move"
+        ]
+      },
+      {
         "L": 11,
         "moves": [
           "fury-attack"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "take-down",
+          "assurance"
         ]
       },
       {
@@ -75,12 +89,6 @@
         ]
       },
       {
-        "L": 18,
-        "moves": [
-          "mirror-move"
-        ]
-      },
-      {
         "L": 8,
         "moves": [
           "pursuit"
@@ -96,12 +104,6 @@
         "L": 32,
         "moves": [
           "roost"
-        ]
-      },
-      {
-        "L": 22,
-        "moves": [
-          "assurance"
         ]
       }
     ],

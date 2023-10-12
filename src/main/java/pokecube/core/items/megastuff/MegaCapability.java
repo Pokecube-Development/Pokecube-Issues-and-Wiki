@@ -67,14 +67,14 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
     @Override
     public PokedexEntry getEntry(final ItemStack stack)
     {
-        if (stack.getItem() instanceof IMegaCapability) return ((IMegaCapability) stack.getItem()).getEntry(stack);
+        if (stack.getItem() instanceof IMegaCapability cap) return cap.getEntry(stack);
         return MegaCapability.getForStack(stack);
     }
 
     @Override
     public boolean isStone(final ItemStack stack)
     {
-        if (stack.getItem() instanceof IMegaCapability) return ((IMegaCapability) stack.getItem()).isStone(stack);
+        if (stack.getItem() instanceof IMegaCapability cap) return cap.isStone(stack);
         return ItemList.is(MegaCapability.MEGASTONES, stack);
     }
 
@@ -111,7 +111,10 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
         final boolean isStone = ItemList.is(MegaCapability.MEGASTONES, stack);
         if (isStone)
         {
-            PokedexEntry e = Database.getEntry(RegHelper.getKey(stack).getPath());
+            PokedexEntry e;
+            if (stack.hasTag() && stack.getTag().contains("mega_entry"))
+                e = Database.getEntry(stack.getTag().getString("mega_entry"));
+            else e = Database.getEntry(RegHelper.getKey(stack).getPath());
             if (e == null) e = Database.missingno;
             return e;
         }

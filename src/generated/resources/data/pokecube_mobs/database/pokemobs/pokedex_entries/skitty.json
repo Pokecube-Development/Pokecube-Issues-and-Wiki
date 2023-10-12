@@ -40,7 +40,8 @@
       {
         "L": 16,
         "moves": [
-          "double-slap"
+          "double-slap",
+          "fury-swipes"
         ]
       },
       {
@@ -67,7 +68,8 @@
       {
         "L": 22,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "payback"
         ]
       },
       {
@@ -97,6 +99,7 @@
       {
         "L": 31,
         "moves": [
+          "facade",
           "assist"
         ]
       },
@@ -121,7 +124,8 @@
       {
         "L": 43,
         "moves": [
-          "captivate"
+          "captivate",
+          "baby-doll-eyes"
         ]
       },
       {
@@ -206,6 +210,7 @@
       "copycat",
       "last-resort",
       "sucker-punch",
+      "nasty-plot",
       "mud-bomb",
       "zen-headbutt",
       "captivate",

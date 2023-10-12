@@ -40,7 +40,8 @@
       {
         "L": 8,
         "moves": [
-          "karate-chop"
+          "karate-chop",
+          "mud-slap"
         ]
       },
       {
@@ -53,6 +54,7 @@
           "focus-energy",
           "encore",
           "taunt",
+          "covet",
           "fling",
           "final-gambit"
         ]
@@ -67,7 +69,8 @@
       {
         "L": 15,
         "moves": [
-          "seismic-toss"
+          "seismic-toss",
+          "retaliate"
         ]
       },
       {
@@ -80,6 +83,13 @@
         "L": 44,
         "moves": [
           "screech"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "skull-bash",
+          "punishment"
         ]
       },
       {
@@ -128,12 +138,6 @@
         "L": 26,
         "moves": [
           "assurance"
-        ]
-      },
-      {
-        "L": 30,
-        "moves": [
-          "punishment"
         ]
       },
       {

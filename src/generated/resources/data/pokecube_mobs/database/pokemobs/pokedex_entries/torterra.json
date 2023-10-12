@@ -68,6 +68,12 @@
         ]
       },
       {
+        "L": 10,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
           "earthquake"
@@ -101,6 +107,12 @@
         "L": 57,
         "moves": [
           "leaf-storm"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "leafage"
         ]
       }
     ],

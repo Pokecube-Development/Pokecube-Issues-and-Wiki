@@ -43,15 +43,16 @@
         ]
       },
       {
-        "L": 1,
+        "L": 20,
         "moves": [
-          "protect"
+          "string-shot",
+          "hidden-power"
         ]
       },
       {
-        "L": 20,
+        "L": 1,
         "moves": [
-          "hidden-power"
+          "protect"
         ]
       },
       {

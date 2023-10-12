@@ -137,19 +137,5 @@
       "poltergeist",
       "tera-blast"
     ]
-  },
-  "model": {
-    "key": "sinistcha-artisan",
-    "tex": "sinistcha",
-    "model": "sinistcha-artisan",
-    "anim": "sinistcha"
-  },
-  "models": [
-    {
-      "key": "sinistcha-counterfeit",
-      "tex": "sinistcha",
-      "model": "sinistcha-counterfeit",
-      "anim": "sinistcha"
-    }
-  ]
+  }
 }

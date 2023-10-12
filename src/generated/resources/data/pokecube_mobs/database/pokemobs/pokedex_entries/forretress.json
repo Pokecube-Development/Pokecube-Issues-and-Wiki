@@ -65,6 +65,7 @@
       {
         "L": 20,
         "moves": [
+          "reflect",
           "bide",
           "rollout"
         ]

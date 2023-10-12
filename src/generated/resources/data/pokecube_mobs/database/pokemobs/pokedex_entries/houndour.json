@@ -73,7 +73,8 @@
         "L": 32,
         "moves": [
           "feint-attack",
-          "torment"
+          "torment",
+          "payback"
         ]
       },
       {
@@ -91,6 +92,7 @@
       {
         "L": 20,
         "moves": [
+          "taunt",
           "odor-sleuth",
           "incinerate"
         ]
@@ -105,6 +107,7 @@
         "L": 37,
         "moves": [
           "embargo",
+          "flame-charge",
           "comeuppance"
         ]
       },

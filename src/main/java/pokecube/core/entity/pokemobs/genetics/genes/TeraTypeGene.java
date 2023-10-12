@@ -65,8 +65,9 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
                 ItemStack ZCRYSTAL = PokecubeItems.getStack("pokecube_legends:z_" + name);
                 CompoundTag tag = new CompoundTag();
                 tag.put("gemTag", ZCRYSTAL.serializeNBT());
-                tag.putInt("alpha", 128);
-                tag.putString("model", "pokecube:worn/tera_hats/" + name);
+                tag.putInt("alpha", 196);
+                tag.putString("model", "pokecube:models/worn/tera_hats/tera-" + name);
+                tag.putString("tex", "pokecube:textures/worn/tera_hats/tera-hat-" + name + ".png");
                 HAT.setTag(tag);
                 if (HAT.getItem() instanceof DyeableLeatherItem dye) dye.setColor(HAT, type.colour);
                 SILLY_HATS.put(type, HAT);

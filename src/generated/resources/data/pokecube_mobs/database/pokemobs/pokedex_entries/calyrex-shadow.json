@@ -57,8 +57,7 @@
           "shadow-ball",
           "nasty-plot",
           "hex",
-          "astral-barrage",
-          "pound"
+          "astral-barrage"
         ]
       },
       {
@@ -131,6 +130,7 @@
       }
     ],
     "misc": [
+      "pound",
       "pay-day",
       "stomp",
       "double-kick",

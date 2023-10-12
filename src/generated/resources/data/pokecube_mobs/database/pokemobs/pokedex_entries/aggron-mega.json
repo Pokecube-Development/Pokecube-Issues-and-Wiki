@@ -2,7 +2,7 @@
   "name": "aggron-mega",
   "id": 306,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 284,
   "size": {
     "height": 2.2,

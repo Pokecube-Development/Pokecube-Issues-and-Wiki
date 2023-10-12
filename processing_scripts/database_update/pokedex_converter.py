@@ -74,6 +74,9 @@ def is_gmax(name):
 index_map = get_pokemon_index()
 evo_chains = utils.load_evo_chains()
 
+_, all_moves_users = utils.load_all_moves()
+
+
 # This class is a mirror of the json data structure that pokecube uses for loading
 class PokedexEntry:
     def __init__(self, forme, species) -> None:
@@ -172,9 +175,9 @@ class PokedexEntry:
         self.id = forme.id
         self.stock = True
         if is_mega(self.name):
-            self.mega = True
+            self.is_extra_form = True
         if is_gmax(self.name):
-            self.gmax = True
+            self.is_extra_form = True
         if no_shiny(self.name):
             self.no_shiny = True
         self.base_experience = forme.base_experience
@@ -260,13 +263,14 @@ class PokedexEntry:
         moves = {}
         level_up = []
         misc = []
+        all_moves = []
 
         move_levels = {}
 
         # Used to check if learn method is level up.
         def is_levelup(details):
             return details.move_learn_method.name == 'level-up'
-
+        
         for move in forme.moves:
             name = move.move.name
 
@@ -287,6 +291,7 @@ class PokedexEntry:
                     move_levels[key] = entry
                     level_up.append(entry)
                 entry['moves'].append(name)
+                all_moves.append(name)
 
             # All other moves get added to misc moves for TMs in pokecube
             for details in move.version_group_details:
@@ -294,6 +299,14 @@ class PokedexEntry:
                     continue
                 if not name in misc:
                     misc.append(name)
+                    all_moves.append(name)
+
+        
+        if forme.name in all_moves_users:
+            _moves = all_moves_users[forme.name]
+            for move in _moves:
+                if not move in all_moves:
+                    misc.append(move)
 
         # Add the moves if we found any
         if len(level_up) > 0:
@@ -492,22 +505,28 @@ def convert_assets():
             os.makedirs(os.path.dirname(name))
         shutil.copy(file, name)
 
-def convert_tags():
+def convert_tags(entries):
     jsons = [y for x in os.walk("./old/tags") for y in glob(os.path.join(x[0], '*.json'))]
     for file in jsons:
         json_in = open(file, 'r', encoding='utf-8')
         json_str = json_in.read()
         json_in.close()
         json_obj = json.loads(json_str)
-
         if 'values' in json_obj:
             old_values = json_obj['values']
-
             new_values = []
             for name in old_values:
                 orig = name
                 name = name.replace('pokecube:', '')
                 new_name = find_new_name(name, index_map.keys())
+                if new_name in entries:
+                    var = entries[new_name]
+                    if(hasattr(var, "is_extra_form")):
+                        continue
+                if name in entries:
+                    var = entries[name]
+                    if(hasattr(var, "is_extra_form")):
+                        continue
                 if new_name is not None:
                     new_name = f'pokecube:{new_name}'
                     if not new_name in new_values:
@@ -587,6 +606,7 @@ def convert_pokedex():
     values = get_species(i)
     species = []
     dex = []
+    named_entries = {}
 
     lang_files = {}
 
@@ -597,9 +617,9 @@ def convert_pokedex():
         entry = PokemonSpecies(values, pokedex, overrides)
         species.append(entry)
         for var in entry.entries:
-
+            named_entries[var.name] = var
             tag_name = f'pokecube:{var.name}'
-            if not tag_name in pokemob_tag_names:
+            if not tag_name in pokemob_tag_names and not hasattr(var, "is_extra_form"):
                 pokemob_tag_names.append(tag_name)
 
             if var.name in held_tables:
@@ -699,6 +719,8 @@ def convert_pokedex():
             os.makedirs(os.path.dirname(newfile))
         shutil.copy(original, newfile)
 
+    return named_entries
+
 def make_ability_langs():
     ability_index = utils.get_valid_numbers('ability')
 
@@ -730,7 +752,7 @@ def make_ability_langs():
             print(err)
 
 if __name__ == "__main__":
-    convert_pokedex()
-    convert_tags()
+    entries = convert_pokedex()
+    convert_tags(entries)
     convert_assets()
     make_ability_langs()

@@ -41,8 +41,7 @@
         "L": 1,
         "moves": [
           "pound",
-          "poison-gas",
-          "pound"
+          "poison-gas"
         ]
       },
       {
@@ -77,6 +76,14 @@
         ]
       },
       {
+        "L": 18,
+        "moves": [
+          "smog",
+          "mud-shot",
+          "mud-bomb"
+        ]
+      },
+      {
         "L": 15,
         "moves": [
           "sludge"
@@ -104,13 +111,6 @@
         "L": 48,
         "moves": [
           "memento"
-        ]
-      },
-      {
-        "L": 18,
-        "moves": [
-          "mud-shot",
-          "mud-bomb"
         ]
       },
       {

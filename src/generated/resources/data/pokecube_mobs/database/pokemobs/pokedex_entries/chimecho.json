@@ -43,7 +43,9 @@
           "confusion",
           "astonish",
           "healing-wish",
-          "synchronoise"
+          "last-resort",
+          "synchronoise",
+          "entrainment"
         ]
       },
       {
@@ -59,7 +61,7 @@
         ]
       },
       {
-        "L": 46,
+        "L": 52,
         "moves": [
           "psychic"
         ]
@@ -67,6 +69,7 @@
       {
         "L": 16,
         "moves": [
+          "light-screen",
           "psywave"
         ]
       },

@@ -40,6 +40,7 @@
         "L": 35,
         "moves": [
           "razor-wind",
+          "waterfall",
           "liquidation"
         ]
       },
@@ -48,6 +49,14 @@
         "moves": [
           "tackle",
           "sonic-boom"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "tail-whip",
+          "water-sport",
+          "soak"
         ]
       },
       {
@@ -100,13 +109,6 @@
         ]
       },
       {
-        "L": 7,
-        "moves": [
-          "water-sport",
-          "soak"
-        ]
-      },
-      {
         "L": 38,
         "moves": [
           "aqua-tail"
@@ -136,7 +138,9 @@
       "ice-punch",
       "razor-wind",
       "headbutt",
+      "tackle",
       "take-down",
+      "bite",
       "growl",
       "sonic-boom",
       "water-gun",

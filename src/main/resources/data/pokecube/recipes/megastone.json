@@ -15,6 +15,12 @@
     }
   },
   "result": {
+    "nbt": { 
+        "c1": "0xFFFF8844",
+        "c2": "0xFF88FF44",
+        "c3": "0xFF4488FF",
+        "mega_entry": "missingno"
+    },
     "item": "pokecube:megastone"
   }
 }

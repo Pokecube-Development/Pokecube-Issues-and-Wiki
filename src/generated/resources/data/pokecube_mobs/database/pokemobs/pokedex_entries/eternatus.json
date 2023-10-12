@@ -165,5 +165,97 @@
       "tera-blast"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,1,-1.5",
+          "size": "3,3,3",
+          "ride": "1.5,4,1.5"
+        },
+        {
+          "name": "neck1",
+          "offset": "-1.5,2.5,-4",
+          "size": "3,3,3"
+        },
+        {
+          "name": "neck2",
+          "offset": "-1.5,2,-7",
+          "size": "3,3,3"
+        },
+        {
+          "name": "tail",
+          "offset": "-1.5,1,2",
+          "size": "3,3,3"
+        },
+        {
+          "name": "tail1",
+          "offset": "-1.5,0,5",
+          "size": "3,3,3"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,3,3",
+          "ride": "1.5,4,1.5"
+        },
+        {
+          "name": "neck1",
+          "offset": "-1.5,0,-4",
+          "size": "3,3,3"
+        },
+        {
+          "name": "neck2",
+          "offset": "-1.5,0,-7",
+          "size": "3,3,3"
+        },
+        {
+          "name": "tail",
+          "offset": "-1.5,0,2",
+          "size": "3,3,3"
+        },
+        {
+          "name": "tail1",
+          "offset": "-1.5,0,5",
+          "size": "3,3,3"
+        }
+      ]
+    },
+    "flying": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,3,3",
+          "ride": "1.5,3,1.5"
+        },
+        {
+          "name": "neck1",
+          "offset": "-1.5,1,-4",
+          "size": "3,3,3"
+        },
+        {
+          "name": "neck2",
+          "offset": "-1.5,1,-7",
+          "size": "3,3,3"
+        },
+        {
+          "name": "tail",
+          "offset": "-1.5,1,2",
+          "size": "3,3,3"
+        },
+        {
+          "name": "tail1",
+          "offset": "-1.5,1,5",
+          "size": "3,3,3"
+        }
+      ]
+    }
+  },
   "loot_table": "pokecube:entities/generic_legend"
 }

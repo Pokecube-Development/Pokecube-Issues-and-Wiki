@@ -73,7 +73,8 @@
       {
         "L": 35,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "air-cutter"
         ]
       },
       {
@@ -126,6 +127,7 @@
       }
     ],
     "misc": [
+      "gust",
       "wing-attack",
       "whirlwind",
       "fly",

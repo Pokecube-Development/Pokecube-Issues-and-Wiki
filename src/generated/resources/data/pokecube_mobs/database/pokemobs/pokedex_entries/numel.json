@@ -88,6 +88,14 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "flame-wheel",
+          "flame-burst",
+          "incinerate"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "curse"
@@ -116,13 +124,6 @@
         "L": 22,
         "moves": [
           "lava-plume"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "flame-burst",
-          "incinerate"
         ]
       }
     ],

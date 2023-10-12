@@ -161,5 +161,27 @@
       "tera-blast"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,3,3",
+          "ride": "1.5,2.3,2.1"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,3,3",
+          "ride": "1.5,2.3,2.2"
+        }
+      ]
+    }
+  },
   "loot_table": "pokecube:entities/coal_1"
 }

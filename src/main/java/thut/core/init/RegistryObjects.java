@@ -36,7 +36,7 @@ public class RegistryObjects
         POWDER = ThutCore.RegistryEvents.PARTICLES.register("powder", () -> ThutParticles.POWDER);
 
         MOB_SIZE_SCALE = ThutCore.RegistryEvents.ATTRIBUTES.register("thutcore.mob_size_scale",
-                () -> new RangedAttribute("thutcore.mob_size_scale", 1, 1e-3, 1e3));
+                () -> new RangedAttribute("thutcore.mob_size_scale", 1, 1e-3, 1e3).setSyncable(true));
     }
 
     public static void init()

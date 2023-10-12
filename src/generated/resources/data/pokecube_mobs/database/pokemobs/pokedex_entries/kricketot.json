@@ -39,6 +39,7 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "tackle",
           "growl",
           "bide"

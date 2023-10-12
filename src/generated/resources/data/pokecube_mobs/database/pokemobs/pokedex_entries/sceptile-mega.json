@@ -2,7 +2,7 @@
   "name": "sceptile-mega",
   "id": 254,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 284,
   "size": {
     "height": 1.9,

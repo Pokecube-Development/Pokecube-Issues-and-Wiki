@@ -56,7 +56,8 @@
       {
         "L": 27,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "grass-knot"
         ]
       },
       {
@@ -88,7 +89,8 @@
       {
         "L": 47,
         "moves": [
-          "wring-out"
+          "wring-out",
+          "seed-bomb"
         ]
       },
       {
