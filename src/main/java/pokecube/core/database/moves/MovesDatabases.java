@@ -21,7 +21,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.tags.Tags;
-import pokecube.core.moves.zmoves.GZMoveManager;
+import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import thut.api.util.JsonUtil;
 import thut.lib.ResourceHelper;
 

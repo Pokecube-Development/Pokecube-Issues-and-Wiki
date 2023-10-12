@@ -73,7 +73,7 @@ public class RecipeRevive extends CustomRecipe
             if (PokecubeManager.isFilled(stack))
             {
                 healed = stack.copy();
-                PokecubeManager.heal(healed, PokecubeCore.proxy.getWorld());
+                PokecubeManager.heal(healed, PokecubeCore.proxy.getWorld(), false);
             }
         }
         return healed;

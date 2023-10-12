@@ -20,9 +20,9 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
+import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.EntityMoveUse;
-import pokecube.core.moves.zmoves.GZMoveManager;
 
 public class EntityTypes
 {

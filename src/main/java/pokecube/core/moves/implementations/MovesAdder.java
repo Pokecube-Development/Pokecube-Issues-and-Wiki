@@ -26,6 +26,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.WrappedAction;
+import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
 import pokecube.core.moves.templates.D_Move_Damage;
@@ -33,7 +34,6 @@ import pokecube.core.moves.world.DefaultElectricAction;
 import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
 import pokecube.core.moves.world.DefaultWaterAction;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.CompatParser.ClassFinder;
 
 public class MovesAdder implements IMoveConstants

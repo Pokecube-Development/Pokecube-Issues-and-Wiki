@@ -359,7 +359,7 @@ public class PokecubeSerializer
             entity.setOwner(owner.getUUID());
             entity.setPokecube(new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE)));
             final ItemStack item = PokecubeManager.pokemobToItem(entity);
-            PokecubeManager.heal(item, owner.level());
+            PokecubeManager.heal(item, owner.level(), false);
             entity.getEntity().discard();
             return item;
         }

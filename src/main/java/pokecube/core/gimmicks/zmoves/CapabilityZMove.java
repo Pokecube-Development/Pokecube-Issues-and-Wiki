@@ -1,4 +1,4 @@
-package pokecube.core.moves.zmoves;
+package pokecube.core.gimmicks.zmoves;
 
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;

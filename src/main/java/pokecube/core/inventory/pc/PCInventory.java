@@ -44,7 +44,7 @@ public class PCInventory extends BigInventory
         if (PokecubeManager.isFilled(mob))
         {
             final ItemStack stack = mob;
-            if (world != null) PokecubeManager.heal(stack, world);
+            if (world != null) PokecubeManager.heal(stack, world, false);
             PlayerPokemobCache.UpdateCache(mob, true, false);
             Player player = PokecubeCore.proxy.getPlayer(uuid);
             if (player != null) thut.lib.ChatHelper.sendSystemMessage(player,
