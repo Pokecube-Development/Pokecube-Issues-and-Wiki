@@ -14,7 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
-import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -81,7 +81,7 @@ public class GZMoveManager
         event.register(ZPower.class);
     }
 
-    private static void onMobUpdate(LivingUpdateEvent event)
+    private static void onMobUpdate(LivingTickEvent event)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob == null || pokemob.getOwner() == null) return;
@@ -154,10 +154,10 @@ public class GZMoveManager
             // This case, it was sent from server to client, an update packet!
             if (player == null)
             {
-                level = PokecubeCore.proxy.getPlayer().getLevel();
+                level = PokecubeCore.proxy.getPlayer().level();
             }
             // Otherwise we use player's level
-            else level = player.getLevel();
+            else level = player.level();
 
             int id = nbt.getInt("I");
             boolean mode = nbt.getBoolean("M");

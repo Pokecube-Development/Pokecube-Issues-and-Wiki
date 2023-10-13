@@ -43,7 +43,7 @@ public class DynamaxGene implements Gene<DynaObject>
             alleles.setAllele(1, gene2);
             alleles.getExpressed();
             genes.getAlleles().put(GeneticsManager.GMAXGENE, alleles);
-            if (mob.getLevel() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
+            if (mob.level() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
         }
         try
         {
@@ -130,7 +130,7 @@ public class DynamaxGene implements Gene<DynaObject>
             }
         }
 
-        if (entity.getLevel().isClientSide()) return;
+        if (entity.level().isClientSide()) return;
 
         boolean isDyna = DynamaxHelper.isDynamax(pokemob);
         // check dynamax timer for cooldown.
