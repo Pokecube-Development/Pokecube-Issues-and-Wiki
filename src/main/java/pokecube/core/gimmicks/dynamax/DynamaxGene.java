@@ -121,7 +121,7 @@ public class DynamaxGene implements Gene<DynaObject>
         if (pokemob != null && DynamaxHelper.isDynamax(pokemob))
         {
             boolean isGigant = this.getValue().gigantamax;
-            String[] g_z_moves = pokemob.getMoveStats().movesToUse;
+            String[] g_z_moves = pokemob.getMoveStats().getMovesToUse();
             for (int i = 0; i < 4; i++)
             {
                 String move = pokemob.getMove(i);

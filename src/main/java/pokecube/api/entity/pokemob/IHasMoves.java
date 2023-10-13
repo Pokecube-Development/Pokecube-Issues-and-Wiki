@@ -173,7 +173,7 @@ public interface IHasMoves extends IHasStats
         if (to != null && this.getTransformedTo() == null) return to.getMove(index);
 
         final String[] moves = this.getMoves();
-        
+
         if (index >= 0 && index < 4) return moves[index];
         if (index == 4 && this.getMoveStats().hasLearningMove()) return this.getMoveStats().getLearningMove();
 
@@ -283,12 +283,6 @@ public interface IHasMoves extends IHasStats
         // check it's not already known or forgotten
         for (int i = 0; i < this.getMovesCount(); i++) if (moveName.equals(this.getMove(i))) return;
 
-        if (thisMob.getOwner() != null && thisEntity.isAlive())
-        {
-            final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName));
-            final Component mess = TComponent.translatable("pokemob.move.notify.learn", thisMob.getDisplayName(), move);
-            thisMob.displayMessageToOwner(mess);
-        }
         boolean learned = false;
         for (int i = 0; i < this.getMovesCount(); i++)
         {
@@ -296,6 +290,13 @@ public interface IHasMoves extends IHasStats
             {
                 this.setMove(i, moveName);
                 learned = true;
+                if (thisMob.getOwner() != null && thisEntity.isAlive())
+                {
+                    final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName));
+                    final Component mess = TComponent.translatable("pokemob.move.notify.learn",
+                            thisMob.getDisplayName(), move);
+                    thisMob.displayMessageToOwner(mess);
+                }
                 break;
             }
         }

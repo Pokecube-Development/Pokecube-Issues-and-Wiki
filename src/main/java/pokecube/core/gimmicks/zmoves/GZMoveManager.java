@@ -93,7 +93,7 @@ public class GZMoveManager
 
         if (!pokemob.getEntity().getPersistentData().contains("pokecube:use-z-move")) return;
 
-        String[] g_z_moves = pokemob.getMoveStats().movesToUse;
+        String[] g_z_moves = pokemob.getMoveStats().getMovesToUse();
         for (int i = 0; i < 4; i++)
         {
             String move = pokemob.getMove(i);
@@ -112,12 +112,12 @@ public class GZMoveManager
             owner.getPersistentData().putLong("pokecube:used-z-move", tick);
             pokemob.getEntity().getPersistentData().remove("pokecube:use-z-move");
 
-            String[] g_z_moves = pokemob.getMoveStats().movesToUse;
+            String[] g_z_moves = pokemob.getMoveStats().getMovesToUse();
             for (int i = 0; i < 4; i++)
             {
                 String move = pokemob.getMove(i);
                 String zmove = GZMoveManager.getZMove(pokemob, move);
-                if (zmove != null) g_z_moves[i] = pokemob.getMoveStats().baseMoves[i];
+                if (zmove != null) g_z_moves[i] = pokemob.getMoveStats().getBaseMoves()[i];
             }
         }
     }

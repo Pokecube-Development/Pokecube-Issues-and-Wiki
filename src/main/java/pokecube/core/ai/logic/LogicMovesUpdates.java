@@ -76,8 +76,8 @@ public class LogicMovesUpdates extends LogicBase
         super.tick(world);
         this.v.set(this.entity);
 
-        String[] movesToUse = this.pokemob.getMoveStats().movesToUse;
-        
+        String[] movesToUse = this.pokemob.getMoveStats().getMovesToUse();
+
         // Run tasks that only should go on server side.
         if (!world.isClientSide)
         {
@@ -132,9 +132,14 @@ public class LogicMovesUpdates extends LogicBase
                     if (toMob != null && this.pokemob.getMoveStats().transformId != transformed.getId())
                     {
                         this.pokemob.getMoveStats().transformId = transformed.getId();
-                        System.arraycopy(toMob.getMoveStats().movesToUse, 0, movesToUse, 0, movesToUse.length);
+                        System.arraycopy(toMob.getMoveStats().getMovesToUse(), 0, movesToUse, 0, movesToUse.length);
                     }
                 }
+            }
+            else if (this.pokemob.getMoveStats().transformId != -1)
+            {
+                this.pokemob.getMoveStats().transformId = -1;
+                System.arraycopy(pokemob.getMoveStats().getBaseMoves(), 0, movesToUse, 0, movesToUse.length);
             }
         }
         // client side only checks
@@ -144,10 +149,15 @@ public class LogicMovesUpdates extends LogicBase
             IPokemob toMob = PokemobCaps.getPokemobFor(transformed);
             // This side has the appropriate caps for keeping the moves
             // lists, so we sync this over.
-            if (toMob != null && this.pokemob.getMoveStats().transformId != transformed.getId())
+            if (toMob != null)
             {
                 this.pokemob.getMoveStats().transformId = transformed.getId();
-                System.arraycopy(toMob.getMoveStats().movesToUse, 0, movesToUse, 0, movesToUse.length);
+                System.arraycopy(toMob.getMoves(), 0, movesToUse, 0, movesToUse.length);
+            }
+            else if (this.pokemob.getMoveStats().transformId != -1)
+            {
+                this.pokemob.getMoveStats().transformId = -1;
+                System.arraycopy(pokemob.getMoveStats().getBaseMoves(), 0, movesToUse, 0, movesToUse.length);
             }
         }
 

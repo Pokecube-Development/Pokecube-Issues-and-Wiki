@@ -75,7 +75,7 @@ public class PokemobMoveStats
 
     /** The Previous lvl, used to determine which moves to try to learn. */
     public int oldLevel = 0;
-    
+
     /** Moves it is trying to learn. */
     public List<String> newMoves = Lists.newArrayList();
     /** Index of new move to learn from newMoves. */
@@ -106,9 +106,9 @@ public class PokemobMoveStats
 
     public int transformId = -1;
     /** The array of moves. */
-    public String[] baseMoves = new String[4];
+    private String[] baseMoves = new String[4];
     /** The array of moves. */
-    public String[] movesToUse = new String[4];
+    private String[] movesToUse = new String[4];
 
     public void reset()
     {
@@ -169,5 +169,29 @@ public class PokemobMoveStats
         if (this.num < 0) this.num = this.newMoves.size() - 1;
         this.num = this.num % this.newMoves.size();
         return newMoves.get(this.num);
+    }
+
+    public String[] getMovesToUse()
+    {
+        return movesToUse;
+    }
+
+    public String[] setMovesToUse(String[] movesToUse)
+    {
+        if (baseMoves == movesToUse) Thread.dumpStack();
+        this.movesToUse = movesToUse;
+        return movesToUse;
+    }
+
+    public String[] getBaseMoves()
+    {
+        return baseMoves;
+    }
+
+    public String[] setBaseMoves(String[] baseMoves)
+    {
+        if (baseMoves == movesToUse) Thread.dumpStack();
+        this.baseMoves = baseMoves;
+        return baseMoves;
     }
 }
