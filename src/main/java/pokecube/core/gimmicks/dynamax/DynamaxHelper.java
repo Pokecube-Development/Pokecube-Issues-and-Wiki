@@ -183,7 +183,7 @@ public class DynamaxHelper
                     MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, newEntry, pokemob, mess,
                             () ->
                             {
-                                // Flag as evolving
+                                // Flag as evolving for animation effects
                                 pokemob.setGeneralState(GeneralStates.EVOLVING, true);
                                 pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
                                 pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);

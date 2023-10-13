@@ -3,6 +3,7 @@ package pokecube.core.gimmicks.terastal;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -15,14 +16,18 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
+import pokecube.api.events.pokemobs.ChangeForm;
+import pokecube.api.events.pokemobs.HealEvent;
 import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.gimmicks.terastal.TeraTypeGene.TeraType;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.pokemobs.PacketSyncGene;
@@ -57,6 +62,8 @@ public class TerastalMechanic
         PokecubeAPI.MOVE_BUS.addListener(EventPriority.LOW, false, TerastalMechanic::duringPreMoveUse);
         // Add listener for removing tera when recalled
         PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onRecall);
+        // Add listener for removing tera cooldown when healed at a pokecenter
+        PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onHeal);
         // Register a change handler for terastallizing
         ChangeFormHandler.addChangeHandler(new Terastallizer());
     }
@@ -67,7 +74,7 @@ public class TerastalMechanic
         @Override
         public boolean handleChange(IPokemob pokemob)
         {
-            return tryTera(pokemob);
+            return tryToggleTera(pokemob);
         }
 
         @Override
@@ -80,8 +87,17 @@ public class TerastalMechanic
         public void onFail(IPokemob pokemob)
         {
             final LivingEntity owner = pokemob.getOwner();
-            if (owner instanceof ServerPlayer player) thut.lib.ChatHelper.sendSystemMessage(player,
-                    TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
+            if (owner instanceof ServerPlayer player)
+            {
+                CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(pokemob.getOwnerId());
+                int teraCooldown = data.getInt("pokecube:tera_cooldown");
+                if (teraCooldown == 0) thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.translatable("pokecube.mega.noring", pokemob.getDisplayName()));
+                else if (teraCooldown > 0) thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.translatable("pokemob.terastal.on_cooldown"));
+                else thut.lib.ChatHelper.sendSystemMessage(player,
+                        TComponent.translatable("pokemob.terastal.not_yet", pokemob.getDisplayName()));
+            }
         }
 
         @Override
@@ -148,6 +164,40 @@ public class TerastalMechanic
         }
     }
 
+    public static void doTera(IPokemob pokemob)
+    {
+        Alleles<TeraType, Gene<TeraType>> genes = getTeraGenes(pokemob.getEntity());
+        if (pokemob.isPlayerOwned())
+        {
+            CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(pokemob.getOwnerId());
+            data.putInt("pokecube:tera_cooldown", 1);
+            PokecubePlayerDataHandler.saveCustomData(pokemob.getOwnerId().toString());
+        }
+        Component mess = TComponent.translatable("pokemob.terastal.command.transform", pokemob.getDisplayName());
+        pokemob.displayMessageToOwner(mess);
+        mess = TComponent.translatable("pokemob.terastal.success", pokemob.getDisplayName());
+
+        MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob, mess,
+                () ->
+                {
+                    // Flag as evolving for animation effects
+                    pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+                    pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                    pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                    PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
+                    if (pokemob.isPlayerOwned())
+                    {
+                        CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(pokemob.getOwnerId());
+                        data.putInt("pokecube:tera_cooldown", 1);
+                        PokecubePlayerDataHandler.saveCustomData(pokemob.getOwnerId().toString());
+                    }
+                    genes.getExpressed().getValue().isTera = true;
+                    PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
+                }, () -> {
+                    PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+                });
+    }
+
     /**
      * Marks the use of terastallization. This sets the pokemob's owner's
      * cooldown for using tera to 1, meaning they need to reset it somehow, say
@@ -157,29 +207,56 @@ public class TerastalMechanic
      * @param pokemob - the pokemob trying to terastallize
      * @return whether we did terastallize
      */
-    public static boolean tryTera(IPokemob pokemob)
+    public static boolean tryToggleTera(IPokemob pokemob)
     {
         if (!(pokemob.getEntity().getLevel() instanceof ServerLevel)) return false;
         Alleles<TeraType, Gene<TeraType>> genes = getTeraGenes(pokemob.getEntity());
         if (genes == null) return false;
+        if (genes.getExpressed().getValue().isTera)
+        {
+            Component mess = TComponent.translatable("pokemob.terastal.command.revert", pokemob.getDisplayName());
+            pokemob.displayMessageToOwner(mess);
+            mess = TComponent.translatable("pokemob.terastal.revert", pokemob.getDisplayName());
+            MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob,
+                    mess, () ->
+                    {
+                        // Flag as evolving for animation effects
+                        pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+                        pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                        pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                        PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
+                    }, () -> {
+                        genes.getExpressed().getValue().isTera = false;
+                        PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
+                        PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+                    });
+            return true;
+        }
         boolean canTera = !pokemob.isPlayerOwned();
         if (!canTera)
         {
             CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(pokemob.getOwnerId());
             canTera = data.getInt("pokecube:tera_cooldown") == 0;
-
-            if (canTera)
-            {
-                data.putInt("pokecube:tera_cooldown", 1);
-                PokecubePlayerDataHandler.saveCustomData(pokemob.getOwnerId().toString());
-            }
         }
         if (canTera)
         {
-            genes.getExpressed().getValue().isTera = true;
-            PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
+            doTera(pokemob);
         }
         return canTera;
+    }
+
+    /**
+     * This clears the isTera state for the pokemob, ie breaks the
+     * terastallization when recalled.
+     */
+    private static final void onHeal(HealEvent.Post event)
+    {
+        if (event.getContext().owner() instanceof ServerPlayer player && event.getContext().fromHealer())
+        {
+            CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(player);
+            data.putInt("pokecube:tera_cooldown", 0);
+            PokecubePlayerDataHandler.saveCustomData(player);
+        }
     }
 
     /**
