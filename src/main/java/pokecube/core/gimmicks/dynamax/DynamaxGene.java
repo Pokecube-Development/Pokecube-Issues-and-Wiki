@@ -4,10 +4,12 @@ import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.gimmicks.dynamax.DynamaxGene.DynaObject;
+import pokecube.core.network.pokemobs.PacketSyncGene;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
@@ -21,6 +23,18 @@ public class DynamaxGene implements Gene<DynaObject>
     {
         final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         if (genes == null) return null;
+        if (!genes.getKeys().contains(GeneticsManager.GMAXGENE))
+        {
+            // Initialise it for the mob here.
+            Alleles<DynaObject, Gene<DynaObject>> alleles = new Alleles<>();
+            Gene<DynaObject> gene1 = new DynamaxGene();
+            Gene<DynaObject> gene2 = new DynamaxGene();
+            alleles.setAllele(0, gene1);
+            alleles.setAllele(1, gene2);
+            alleles.getExpressed();
+            genes.getAlleles().put(GeneticsManager.GMAXGENE, alleles);
+            if (mob.getLevel() instanceof ServerLevel) PacketSyncGene.syncGeneToTracking(mob, alleles);
+        }
         try
         {
             Alleles<DynaObject, Gene<DynaObject>> alleles = genes.getAlleles(GeneticsManager.GMAXGENE);

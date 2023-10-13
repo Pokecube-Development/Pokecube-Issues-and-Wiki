@@ -10,13 +10,13 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
-import net.minecraft.world.entity.ai.attributes.Attributes;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
@@ -31,8 +31,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicBase;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
-import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
+import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
@@ -186,18 +186,7 @@ public class DynamaxHelper
                     pokemob.displayMessageToOwner(mess);
                     mess = TComponent.translatable("pokemob.dynamax.success", oldName);
                     PokecubePlayerDataHandler.getCustomDataTag(owner.getUUID()).putLong("pokecube:dynatime", time);
-                    MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, newEntry, pokemob, mess,
-                            () ->
-                            {
-                                // Flag as evolving for animation effects
-                                pokemob.setGeneralState(GeneralStates.EVOLVING, true);
-                                pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
-                                pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
-                                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
-                            }, () -> {
-                                DynamaxHelper.onDynamax(pokemob, PokecubeCore.getConfig().dynamax_duration);
-                                PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
-                            });
+                    doDynamax(pokemob, PokecubeCore.getConfig().dynamax_duration, mess);
                     return true;
                 }
             }
@@ -247,7 +236,12 @@ public class DynamaxHelper
 
     private static void postFormChange(ChangeForm.Post event)
     {
-        var entity = event.getPokemob().getEntity();
+        removeDynamax(event.getPokemob());
+    }
+
+    protected static void removeDynamax(IPokemob pokemob)
+    {
+        var entity = pokemob.getEntity();
         if (entity.getPersistentData().contains("pokecube:dyna_reverted"))
         {
             entity.getPersistentData().remove("pokecube:dyna_reverted");
@@ -272,6 +266,22 @@ public class DynamaxHelper
         return new AttributeModifier(DYNAMOD, "pokecube:dynamax", scale, Operation.MULTIPLY_TOTAL);
     }
 
+    public static void doDynamax(IPokemob pokemob, int duration, Component mess)
+    {
+        MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob, mess,
+                () ->
+                {
+                    // Flag as evolving for animation effects
+                    pokemob.setGeneralState(GeneralStates.EVOLVING, true);
+                    pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
+                    pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                    PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
+                }, () -> {
+                    DynamaxHelper.onDynamax(pokemob, duration);
+                    PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+                });
+    }
+
     /**
      * Applies the modifiers for when the mob has dynamaxed, This includes the
      * health boost and the size boost. Then also marks the duration and start
@@ -280,7 +290,7 @@ public class DynamaxHelper
      * @param pokemob
      * @param duration
      */
-    public static void onDynamax(IPokemob pokemob, int duration)
+    private static void onDynamax(IPokemob pokemob, int duration)
     {
         var entity = pokemob.getEntity();
         long time = Tracker.instance().getTick();
@@ -296,6 +306,8 @@ public class DynamaxHelper
         float toAdd = entity.getMaxHealth() - health;
         entity.heal(toAdd);
 
+        System.out.println("Boosting scale? " + info.gigantamax + " "
+                + entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()));
         if (!info.gigantamax && entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
         {
             var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get());

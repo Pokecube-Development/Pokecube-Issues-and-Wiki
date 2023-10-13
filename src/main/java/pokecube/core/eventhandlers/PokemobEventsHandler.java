@@ -395,7 +395,7 @@ public class PokemobEventsHandler
 
         // If noone has modified result of a capture event pre, we deny it if
         // the mob is not alive.
-        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onCapturePre);
+        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, PokemobEventsHandler::onCapturePre);
     }
 
     public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();

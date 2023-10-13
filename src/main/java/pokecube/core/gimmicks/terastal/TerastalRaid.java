@@ -20,7 +20,6 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.raids.IBossProvider;
 import pokecube.api.raids.RaidManager.RaidContext;
-import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
@@ -83,10 +82,6 @@ public class TerastalRaid implements IBossProvider
             long time = Tracker.instance().getTick();
             entity.getPersistentData().putLong("pokecube:tera_raid_start", time);
             entity.getPersistentData().putInt("pokecube:tera_raid_duration", RAID_DURATION);
-
-            entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
-            entity.getPersistentData().putBoolean("pokecube:tera_raid_mob", true);
-            entity.getPersistentData().putBoolean("alwaysAgress", true);
 
             bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
 

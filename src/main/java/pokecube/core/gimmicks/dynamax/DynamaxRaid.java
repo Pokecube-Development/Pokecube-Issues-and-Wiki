@@ -9,26 +9,32 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
+import pokecube.api.events.pokemobs.CaptureEvent.Post;
+import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.api.raids.IBossProvider;
 import pokecube.api.raids.RaidManager.RaidContext;
-import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
-import pokecube.core.gimmicks.terastal.TeraTypeGene;
-import pokecube.core.gimmicks.terastal.TerastalMechanic;
+import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.items.pokecubes.helper.CaptureManager;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class DynamaxRaid implements IBossProvider
 {
@@ -67,10 +73,8 @@ public class DynamaxRaid implements IBossProvider
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             final List<AIRoutine> bannedAI = Lists.newArrayList();
 
-            var genes = TerastalMechanic.getTeraGenes(entity);
-            genes.setAllele(0, new TeraTypeGene().mutate());
-            genes.setAllele(1, new TeraTypeGene().mutate());
-            genes.refreshExpressed();
+            var genes = DynamaxGene.getDyna(entity);
+            genes.gigantamax = false;
 
             bannedAI.add(AIRoutine.BURROWS);
             bannedAI.add(AIRoutine.BEEAI);
@@ -80,10 +84,6 @@ public class DynamaxRaid implements IBossProvider
             final int level = ThutCore.newRandom().nextInt(50);
 
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
-
-            entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
-            entity.getPersistentData().putBoolean("pokecube:dyna_raid_mob", true);
-            entity.getPersistentData().putBoolean("alwaysAgress", true);
 
             bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
 
@@ -99,7 +99,7 @@ public class DynamaxRaid implements IBossProvider
     public void postBossSpawn(LivingEntity boss, RaidContext context)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
-        DynamaxHelper.onDynamax(pokemob, RAID_DURATION);
+        DynamaxHelper.doDynamax(pokemob, RAID_DURATION, null);
 
         final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables().get(lootTable);
         final LootContext.Builder lootcontext$builder = new LootContext.Builder(
@@ -119,6 +119,57 @@ public class DynamaxRaid implements IBossProvider
         context.level().playLocalSound(boss.getX(), boss.getY(), boss.getZ(), SoundEvents.DRAGON_FIREBALL_EXPLODE,
                 SoundSource.NEUTRAL, 1, 1, false);
 
+    }
+
+    @Override
+    public void onBossCaptureAttempt(Pre event)
+    {
+        // Super call checks the health, then sets allow if valid
+        IBossProvider.super.onBossCaptureAttempt(event);
+        if (event.getResult() == Result.ALLOW)
+        {
+            final ResourceLocation id = PokecubeItems.getCubeId(event.getFilledCube());
+            final boolean dynamaxCube = id.toString().equals("pokecube:dynacube");
+
+            if (!dynamaxCube)
+            {
+                final Entity catcher = event.pokecube.shootingEntity;
+                if (catcher instanceof Player player)
+                    thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
+                event.setCanceled(true);
+                event.setResult(Result.DENY);
+                CaptureManager.onCaptureDenied(event.pokecube);
+            }
+        }
+    }
+
+    @Override
+    public void postBossCapture(Post event, LivingEntity fromCube)
+    {
+        IBossProvider.super.postBossCapture(event, fromCube);
+
+        final ResourceLocation id = PokecubeItems.getCubeId(event.getFilledCube());
+
+        // Catch Raids
+        if (id.toString().equals("pokecube:dynacube"))
+        {
+            final IPokemob pokemob = event.getCaught();
+            pokemob.setPokecube(PokecubeItems.getStack("pokecube"));
+
+            pokemob.getEntity().getPersistentData().putBoolean("pokecube:dyna_reverted", true);
+            DynamaxHelper.removeDynamax(pokemob);
+
+            // Pokemob Level Spawm
+            int level = pokemob.getLevel();
+
+            if (level <= 10 || level >= 40)
+            {
+                level = 20;
+                pokemob.setForSpawn(level, false);
+            }
+
+            event.setFilledCube(PokecubeManager.pokemobToItem(pokemob), true);
+        }
     }
 
     @Override
