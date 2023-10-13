@@ -4,10 +4,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.pokemobs.CaptureEvent;
-import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
@@ -21,16 +19,14 @@ public class RaidCapture
         final Entity catcher = event.pokecube.shootingEntity;
 
         final boolean dynamaxCube = id.toString().equals("pokecube:dynacube");
-        final boolean raidMob = event.mob.getPersistentData().getBoolean("pokecube_legends:raid_mob");
+        final boolean raidMob = event.mob.getPersistentData().getBoolean("pokecube:dyna_raid_mob");
 
         // Catch Raids
         if (raidMob)
         {
             if (dynamaxCube)
             {
-                if (PokecubeCore.getConfig().debug_misc)
-                    PokecubeAPI.logDebug("Life: " + event.mob.getHealth() + "Max Life: " + event.mob.getMaxHealth());
-                if (event.mob.getHealth() > event.mob.getMaxHealth() / 2)
+                if (event.mob.getHealth() >= 1)
                 {
                     if (catcher instanceof Player player)
                         thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
@@ -38,6 +34,7 @@ public class RaidCapture
                     event.setResult(Result.DENY);
                     CaptureManager.onCaptureDenied(event.pokecube);
                 }
+                else event.setResult(Result.ALLOW);
             }
             else
             {

@@ -1,12 +1,10 @@
-package pokecube.legends.init.function;
+package pokecube.core.gimmicks.dynamax;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 import com.google.common.collect.Lists;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -14,32 +12,35 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
+import pokecube.api.raids.IBossProvider;
+import pokecube.api.raids.RaidManager.RaidContext;
+import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
-import pokecube.core.gimmicks.dynamax.DynamaxHelper;
-import pokecube.legends.PokecubeLegends;
-import pokecube.legends.init.BlockInit;
+import pokecube.core.gimmicks.terastal.TeraTypeGene;
+import pokecube.core.gimmicks.terastal.TerastalMechanic;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-public class MaxRaidFunction
+public class DynamaxRaid implements IBossProvider
 {
+    public static int RAID_DURATION = 600;
+
     public static ResourceLocation lootTable = new ResourceLocation("pokecube_legends", "raids/raid_drop");
 
-    public static PokedexEntry getRandomEntry()
+    private static PokedexEntry getRandomEntry(ServerLevel level)
     {
         PokedexEntry ret = null;
         int n = 0;
-        final Random rand = ThutCore.newRandom();
+        final var rand = level.getRandom();
         while (ret == null)
         {
             // Pick a random number from 1 to just below database size, this
@@ -55,26 +56,21 @@ public class MaxRaidFunction
         return ret;
     }
 
-    public static void executeProcedure(final BlockPos pos, final BlockState state, final ServerLevel world)
+    @Override
+    public LivingEntity makeBoss(RaidContext context)
     {
-        if (state.getBlock() != BlockInit.RAID_SPAWNER.get()) return;
-
-        final PokedexEntry entry = MaxRaidFunction.getRandomEntry();
-
-        // Raid Battle We will move legendaries to the rare raids.
+        PokedexEntry entry = getRandomEntry(context.level());
         if (entry != null && entry != Database.missingno)
         {
-            final Mob entity = PokecubeCore.createPokemob(entry, world);
-            final Vector3 v = new Vector3().set(pos);
+            final Mob entity = PokecubeCore.createPokemob(entry, context.level());
+            final Vector3 v = new Vector3().set(context.pos());
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-            final LivingEntity poke = pokemob.getEntity();
-
-            final LootTable loottable = pokemob.getEntity().level().getServer().getLootData().getLootTable(MaxRaidFunction.lootTable);
-            LootParams params = new LootParams.Builder((ServerLevel) poke.level()).create(loottable.getParamSet());
-            // Generate the loot list.
-            final List<ItemStack> list = loottable.getRandomItems(params);
-
             final List<AIRoutine> bannedAI = Lists.newArrayList();
+
+            var genes = TerastalMechanic.getTeraGenes(entity);
+            genes.setAllele(0, new TeraTypeGene().mutate());
+            genes.setAllele(1, new TeraTypeGene().mutate());
+            genes.refreshExpressed();
 
             bannedAI.add(AIRoutine.BURROWS);
             bannedAI.add(AIRoutine.BEEAI);
@@ -85,29 +81,49 @@ public class MaxRaidFunction
 
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
 
-            DynamaxHelper.onDynamax(pokemob, PokecubeLegends.config.raidDuration);
-            entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
+            entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
+            entity.getPersistentData().putBoolean("pokecube:dyna_raid_mob", true);
             entity.getPersistentData().putBoolean("alwaysAgress", true);
 
             bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
 
             pokemob.spawnInit();
-
-            v.add(0, 1, 0).moveEntity(entity);
-            entity.setPos(v.x, v.y + 3, v.z);
-            world.addFreshEntity(entity);
-            entity.setHealth(entity.getMaxHealth());
-            if (!list.isEmpty()) Collections.shuffle(list);
-            final int n = 1 + world.getRandom().nextInt(4);
-            int i = 0;
-            for (final ItemStack itemstack : list)
-            {
-                if (i == 0) pokemob.setHeldItem(itemstack);
-                else new InventoryChange(entity, 2, itemstack, true).run(world);
-                if (i++ >= n) break;
-            }
-            world.playLocalSound(v.x, v.y, v.z, SoundEvents.DRAGON_FIREBALL_EXPLODE, SoundSource.NEUTRAL, 1, 1, false);
-
+            v.add(0.5, 3, 0.5).moveEntity(entity);
+            return entity;
         }
+
+        return null;
     }
+
+    @Override
+    public void postBossSpawn(LivingEntity boss, RaidContext context)
+    {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
+        DynamaxHelper.onDynamax(pokemob, RAID_DURATION);
+
+        final LootTable loottable = boss.level().getServer().getLootData().getLootTable(lootTable);
+        LootParams params = new LootParams.Builder((ServerLevel) boss.level()).create(loottable.getParamSet());
+        // Generate the loot list.
+        final List<ItemStack> list = loottable.getRandomItems(params);
+
+        if (!list.isEmpty()) Collections.shuffle(list);
+        final int n = 1 + context.level().getRandom().nextInt(4);
+        int i = 0;
+        for (final ItemStack itemstack : list)
+        {
+            if (i == 0) pokemob.setHeldItem(itemstack);
+            else new InventoryChange(boss, 2, itemstack, true).run(context.level());
+            if (i++ >= n) break;
+        }
+        context.level().playLocalSound(boss.getX(), boss.getY(), boss.getZ(), SoundEvents.DRAGON_FIREBALL_EXPLODE,
+                SoundSource.NEUTRAL, 1, 1, false);
+
+    }
+
+    @Override
+    public String getKey()
+    {
+        return "dynamax";
+    }
+
 }

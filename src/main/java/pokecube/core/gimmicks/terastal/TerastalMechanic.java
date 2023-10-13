@@ -24,6 +24,7 @@ import pokecube.api.events.pokemobs.HealEvent;
 import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.combat.MoveUse;
 import pokecube.api.moves.utils.MoveApplication;
+import pokecube.api.raids.RaidManager;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
@@ -66,6 +67,8 @@ public class TerastalMechanic
         PokecubeAPI.POKEMOB_BUS.addListener(TerastalMechanic::onHeal);
         // Register a change handler for terastallizing
         ChangeFormHandler.addChangeHandler(new Terastallizer());
+        // Register a raid type
+        RaidManager.registerBossType(new TerastalRaid());
     }
 
     private static class Terastallizer implements IChangeHandler

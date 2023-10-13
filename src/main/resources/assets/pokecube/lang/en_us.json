@@ -466,7 +466,7 @@
     "pokemob.terastal.command.revert": "§aYou tell %1$s to revert!",
     "pokemob.terastal.on_cooldown": "§cYou need to recover your tera-orb's power!",
     "pokemob.terastal.not_yet": "%1$s §ccannot use terastal yet!",
-    "pokemob.terastal.transform": "%1$s §aTerastallized!",
+    "pokemob.terastal.success": "%1$s §aTerastallized!",
     "pokemob.terastal.revert": "%1$s §cReverted!",
 
     "pokecube.gzmode.set": "§aEnabling Z/G-max Moves!",

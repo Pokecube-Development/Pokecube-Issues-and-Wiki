@@ -48,14 +48,12 @@ public class CaptureManager
     public static void captureAttempt(final EntityPokecubeBase cube, final Entity e)
     {
         if (!(cube.level() instanceof ServerLevel)) return;
-        if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity mob)) return;
         if (e.isInvulnerable()) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
         if (!cubeItem.canCapture(e, cube.getItem())) return;
         if (cube.isCapturing) return;
-        if (mob.deathTime > 0) return;
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if ((ownable != null && ownable.getOwnerId() != null && !PokecubeManager.isFilled(cube.getItem()))) return;
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
@@ -75,7 +73,20 @@ public class CaptureManager
         final CaptureEvent.Pre capturePre = new Pre(hitten, cube, mob);
         PokecubeAPI.POKEMOB_BUS.post(capturePre);
 
-        if (hitten != null)
+        // If allow, we set tilt to 5 can allow capture.
+        if (capturePre.getResult() == Result.ALLOW)
+        {
+            cube.setTilt(5);
+            cube.setTime(10);
+            final ItemStack mobStack = cube.getItem().copy();
+            PokecubeManager.addToCube(mobStack, mob);
+            cube.setItem(mobStack);
+            PokecubeManager.setTilt(cube.getItem(), 5);
+            v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
+            removeMob = true;
+            cube.setCapturing(mob);
+        }
+        else if (hitten != null)
         {
             if (capturePre.getResult() == Result.DENY) return;
             if (capturePre.isCanceled())

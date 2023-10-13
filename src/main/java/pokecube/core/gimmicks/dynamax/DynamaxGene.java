@@ -1,4 +1,4 @@
-package pokecube.core.entity.pokemobs.genetics.genes;
+package pokecube.core.gimmicks.dynamax;
 
 import javax.annotation.Nullable;
 
@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.util.INBTSerializable;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene.DynaObject;
+import pokecube.core.gimmicks.dynamax.DynamaxGene.DynaObject;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;

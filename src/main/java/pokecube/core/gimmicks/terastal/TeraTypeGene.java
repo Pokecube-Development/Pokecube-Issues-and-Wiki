@@ -37,7 +37,7 @@ public class TeraTypeGene implements Gene<TeraTypeGene.TeraType>
      * Ensure that the SILLY_HATS map is populated, by default we fill it with
      * bling hats with custom models specified, and alpha of 196.
      */
-    private static void checkHats()
+    protected static void checkHats()
     {
         if (SILLY_HATS.isEmpty())
         {
