@@ -4,7 +4,7 @@
   "type": "item",
   "rule": {
     "item": {
-      "item": "pokecube_mobs:necrozma"
+      "tag": "pokecube_mobs:necrozma"
     }
   }
 }

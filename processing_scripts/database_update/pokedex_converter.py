@@ -601,7 +601,11 @@ def convert_mega_rules(entry):
                 item = rule['item_preset']
                 if not ":" in item:
                     item = f"pokecube:{item}"
-                da_rule["item"] = {"item":item}
+                # Manually code in the 1 legacy thing which used a tag rule instead of item rule.
+                if rule['item_preset'] == 'pokecube_mobs:necrozma':
+                    da_rule["item"] = {"tag":item}
+                else:
+                    da_rule["item"] = {"item":item}
             elif 'ability' in rule:
                 type = 'ability'
                 da_rule["ability"] = rule['ability']
