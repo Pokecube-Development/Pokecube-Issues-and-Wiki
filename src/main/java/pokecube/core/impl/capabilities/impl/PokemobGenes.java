@@ -19,8 +19,6 @@ import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene.AbilityObject;
 import pokecube.core.entity.pokemobs.genetics.genes.ColourGene;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene.DynaObject;
 import pokecube.core.entity.pokemobs.genetics.genes.IVsGene;
 import pokecube.core.entity.pokemobs.genetics.genes.NatureGene;
 import pokecube.core.entity.pokemobs.genetics.genes.ShinyGene;
@@ -45,8 +43,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     Alleles<int[], ColourGene> genesColour;
     Alleles<Boolean, ShinyGene> genesShiny;
     Alleles<SpeciesInfo, SpeciesGene> genesSpecies;
-
-    private Alleles<DynaObject, DynamaxGene> genesDynamax;
 
     private SpeciesGene _speciesCache = null;
 
@@ -440,8 +436,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.genesColour = null;
         this.getRGBA();
 
-        this.refreshDynaGene();
-
         // Refresh the datamanager for moves.
         this.setMoves(this.getMoves());
         // Refresh the datamanager for evs
@@ -451,27 +445,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
         // Ensure this is in persistent data for client side tooltip
         this.entity.getPersistentData().putByte(TagNames.SEXE, this.getSexe());
-    }
-
-    private void refreshDynaGene()
-    {
-        this.genesDynamax = null;
-        this.genesDynamax = this.genes.getAlleles(GeneticsManager.GMAXGENE);
-        if (this.getGenesDynamax() == null)
-            this.genes.getAlleles().put(GeneticsManager.GMAXGENE, this.genesDynamax = new Alleles<>());
-        this.getGenesDynamax();
-    }
-
-    public Alleles<DynaObject, DynamaxGene> getGenesDynamax()
-    {
-        if (this.genesDynamax != null
-                && (this.genesDynamax.getAllele(0) == null || this.genesDynamax.getAllele(1) == null))
-        {
-            this.genesDynamax.setAllele(0, new DynamaxGene());
-            this.genesDynamax.setAllele(1, new DynamaxGene());
-            this.genes.getAlleles().put(GeneticsManager.GMAXGENE, this.genesDynamax);
-        }
-        return this.genesDynamax;
     }
 
     @Override

@@ -20,12 +20,10 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.BossEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -79,10 +77,12 @@ import pokecube.api.entity.CapabilityInhabitor;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.CustomInteractEvent;
+import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.InteractEvent;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
@@ -392,6 +392,10 @@ public class PokemobEventsHandler
         // Checks to see if we are diving mob+dive, or flyingmob+fly, and if so,
         // we speed back up breaking.
         MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onBreakSpeed);
+
+        // If noone has modified result of a capture event pre, we deny it if
+        // the mob is not alive.
+        MinecraftForge.EVENT_BUS.addListener(PokemobEventsHandler::onCapturePre);
     }
 
     public static Set<ResourceKey<Level>> BEE_RELEASE_TICK = Sets.newConcurrentHashSet();
@@ -500,6 +504,12 @@ public class PokemobEventsHandler
     private static void onInteract(final CustomInteractEvent evt)
     {
         PokemobEventsHandler.processInteract(evt, evt.getTarget());
+    }
+
+    private static void onCapturePre(CaptureEvent.Pre event)
+    {
+        if (event.getResult() != Result.DEFAULT) return;
+        if (!event.mob.isAlive()) event.setResult(Result.DENY);
     }
 
     private static void onLivingHurt(final LivingHurtEvent evt)
@@ -814,6 +824,16 @@ public class PokemobEventsHandler
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
+        if (dim instanceof ServerLevel level && living.deathTime > 0
+                && (living.getPersistentData().contains(TagNames.NOPOOF)
+                        || (pokemob != null && !pokemob.isRoutineEnabled(AIRoutine.POOFS))))
+        {
+            // Vanilla entities vanish after deathTime hits 20. that is
+            // incremented after this call is run, so we will keep it at 18
+            // here.
+            if (!(living instanceof EntityPokemob)) living.deathTime = 18;
+        }
+
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
         {
@@ -901,10 +921,6 @@ public class PokemobEventsHandler
             }
             if (pokemob.getBossInfo() != null)
                 pokemob.getBossInfo().setProgress(living.getHealth() / living.getMaxHealth());
-            else if (pokemob.getOwnerId() == null && living.getPersistentData().contains("pokecube:dynatime")
-                    && dim instanceof ServerLevel)
-                pokemob.setBossInfo(new ServerBossEvent(living.getDisplayName(), BossEvent.BossBarColor.RED,
-                        BossEvent.BossBarOverlay.PROGRESS));
             // Reset death time if we are not dead.
             if (evt.getEntityLiving().getHealth() > 0) evt.getEntityLiving().deathTime = 0;
             // Tick the logic stuff for this mob.

@@ -26,16 +26,17 @@ import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.InitAIEvent;
+import pokecube.api.raids.RaidManager;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.logic.LogicBase;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.eventhandlers.SpawnHandler.ForbiddenEntry;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
+import thut.api.entity.genetics.GeneRegistry;
 import thut.lib.TComponent;
 
 /**
@@ -51,6 +52,8 @@ public class DynamaxHelper
     @SubscribeEvent
     public static void init(FMLLoadCompleteEvent event)
     {
+        // Register the genes
+        GeneRegistry.register(DynamaxGene.class);
         // Handles reverting from dynamax
         PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::onFormRevert);
         // Handles reverting from dynamax
@@ -60,7 +63,10 @@ public class DynamaxHelper
         // lower-priority listener for InitAIEvent.Post, and then remove the
         // entry in getTickLogic() which is a DynaLogic
         PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::onAIAdd);
+        // Register handler for players dynamaxing their mobs
         ChangeFormHandler.addChangeHandler(new DynaMaxer());
+        // Register dynamax raid
+        RaidManager.registerBossType(new DynamaxRaid());
     }
 
     /**
