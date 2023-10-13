@@ -3,8 +3,6 @@
   "name": "keldeo-resolute",
   "type": "move",
   "rule": {
-    "move": {
-      "value": "secret-sword"
-    }
+    "move": "secret-sword"
   }
 }

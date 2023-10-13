@@ -3,6 +3,6 @@
   "name": "rayquaza-mega",
   "type": "move",
   "rule": {
-     "move": "dragon-ascent"
+    "move": "dragon-ascent"
   }
 }

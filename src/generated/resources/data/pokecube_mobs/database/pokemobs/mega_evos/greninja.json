@@ -3,8 +3,6 @@
   "name": "greninja-battle-bond",
   "type": "ability",
   "rule": {
-    "ability": {
-      "value": "battlebond"
-    }
+    "ability": "battlebond"
   }
 }
