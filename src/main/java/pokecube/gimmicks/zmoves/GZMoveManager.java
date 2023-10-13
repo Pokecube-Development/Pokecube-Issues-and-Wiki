@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.zmoves;
+package pokecube.gimmicks.zmoves;
 
 import java.util.List;
 import java.util.Map;
@@ -32,10 +32,10 @@ import pokecube.api.moves.MoveEntry.PowerProvider;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.tags.Tags;
-import pokecube.core.gimmicks.dynamax.D_Move_Damage;
 import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.implementations.MovesAdder;
+import pokecube.gimmicks.dynamax.D_Move_Damage;
 import thut.api.Tracker;
 import thut.api.Tracker.UpdateHandler;
 import thut.core.common.network.GeneralUpdate;

@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.terastal;
+package pokecube.gimmicks.terastal;
 
 import java.util.Collections;
 import java.util.List;

@@ -8,9 +8,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.MoveEntry;
-import pokecube.core.gimmicks.zmoves.CapabilityZMove;
-import pokecube.core.gimmicks.zmoves.ZPower;
 import pokecube.core.moves.MovesUtils;
+import pokecube.gimmicks.zmoves.CapabilityZMove;
+import pokecube.gimmicks.zmoves.ZPower;
 import pokecube.legends.items.zmove.ItemZCrystal;
 
 public class ZPowerHandler implements ZPower, ICapabilityProvider

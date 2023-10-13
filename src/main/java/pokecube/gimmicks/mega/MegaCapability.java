@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.mega;
+package pokecube.gimmicks.mega;
 
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;

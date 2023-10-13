@@ -10,8 +10,8 @@ public enum CombatStates
      * A Hunting pokemon will look for food to eat)), Either prey or berries.
      */
     HUNTING(1 << 2),
-    /** has the pokemob used a zmove this "battle" */
-    USEDZMOVE(1 << 3, false),
+//    /** has the pokemob used a zmove this "battle" */
+//    USEDZMOVE(1 << 3, false),
     /** is the pokemon leaping)), used for the leap AI */
     LEAPING(1 << 4, false),
     /**

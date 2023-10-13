@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.zmoves;
+package pokecube.gimmicks.zmoves;
 
 import pokecube.api.entity.pokemob.IPokemob;
 

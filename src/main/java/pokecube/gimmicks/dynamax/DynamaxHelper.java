@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.dynamax;
+package pokecube.gimmicks.dynamax;
 
 import java.util.List;
 import java.util.UUID;

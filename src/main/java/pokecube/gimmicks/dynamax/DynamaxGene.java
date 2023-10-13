@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.dynamax;
+package pokecube.gimmicks.dynamax;
 
 import javax.annotation.Nullable;
 
@@ -15,9 +15,9 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
-import pokecube.core.gimmicks.dynamax.DynamaxGene.DynaObject;
-import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncGene;
+import pokecube.gimmicks.dynamax.DynamaxGene.DynaObject;
+import pokecube.gimmicks.zmoves.GZMoveManager;
 import thut.api.ThutCaps;
 import thut.api.Tracker;
 import thut.api.entity.genetics.Alleles;

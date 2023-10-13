@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.dynamax;
+package pokecube.gimmicks.dynamax;
 
 import java.util.Collections;
 import java.util.List;

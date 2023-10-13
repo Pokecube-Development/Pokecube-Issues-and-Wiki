@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.mega;
+package pokecube.gimmicks.mega;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

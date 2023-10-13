@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.mega;
+package pokecube.gimmicks.mega;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
