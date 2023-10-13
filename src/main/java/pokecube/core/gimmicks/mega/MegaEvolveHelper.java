@@ -6,6 +6,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -67,6 +68,11 @@ public class MegaEvolveHelper
             for (final ItemStack stack : worn.getWearables()) if (MegaCapability.matches(stack, entry)) return true;
             return false;
         };
+    }    @SubscribeEvent
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        // Initialize the capabilities.
+        event.register(IMegaCapability.class);
     }
 
     /**
