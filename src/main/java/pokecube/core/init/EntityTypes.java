@@ -17,7 +17,6 @@ import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
-import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.EntityMoveUse;
 
@@ -85,8 +84,6 @@ public class EntityTypes
         }
         PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
         Database.postInit();
-        // Process GZ Moves after init, so that it can assign signature moves.
-        GZMoveManager.postProcess();
         PokecubeAPI.POKEMOB_BUS.post(new InitDatabase.Post());
     }
 

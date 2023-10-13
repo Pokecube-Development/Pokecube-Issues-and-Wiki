@@ -21,7 +21,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.gimmicks.zmoves.ZPower;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.nbtedit.NBTEdit;
@@ -38,7 +37,6 @@ public class SetupHandler
         event.register(IGuardAICapability.class);
         event.register(IPokemob.class);
         event.register(IOngoingAffected.class);
-        event.register(ZPower.class);
         event.register(IPokemobUseable.class);
         event.register(IInhabitable.class);
         event.register(IInhabitor.class);

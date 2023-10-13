@@ -6,6 +6,13 @@ import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
@@ -13,10 +20,12 @@ import pokecube.api.moves.MoveEntry.PowerProvider;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.tags.Tags;
+import pokecube.core.gimmicks.dynamax.D_Move_Damage;
+import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.templates.D_Move_Damage;
-import pokecube.core.moves.templates.Z_Move_Damage;
+import pokecube.core.moves.implementations.MovesAdder;
 
+@Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class GZMoveManager
 {
     public static Map<String, String> zmoves_map = Maps.newHashMap();
@@ -29,6 +38,27 @@ public class GZMoveManager
     private static Map<PokeType, MoveEntry> d_moves_by_type = Maps.newHashMap();
 
     static final Pattern GMAXENTRY = Pattern.compile("(that_gigantamax_)(\\w+)(_use)");
+
+    @SubscribeEvent(priority = EventPriority.HIGH)
+    public static void preInit(final NewRegistryEvent event)
+    {
+        MovesAdder.moveProcessors.add(GZMoveManager::process);
+        MovesAdder.moveValidators.add(GZMoveManager::isGZDMove);
+    }
+
+    @SubscribeEvent
+    public static void init(FMLLoadCompleteEvent event)
+    {
+        ItemTM.INVALID_TMS.add(s -> isGZDMove(MovesUtils.getMove(s)));
+        postProcess();
+    }
+
+    @SubscribeEvent
+    public static void registerCapabilities(final RegisterCapabilitiesEvent event)
+    {
+        // Initialize the capabilities.
+        event.register(ZPower.class);
+    }
 
     public static boolean isGZDMove(final MoveEntry entry)
     {

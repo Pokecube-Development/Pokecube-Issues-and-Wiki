@@ -68,7 +68,9 @@ public class MegaEvolveHelper
             for (final ItemStack stack : worn.getWearables()) if (MegaCapability.matches(stack, entry)) return true;
             return false;
         };
-    }    @SubscribeEvent
+    }
+
+    @SubscribeEvent
     public static void registerCapabilities(final RegisterCapabilitiesEvent event)
     {
         // Initialize the capabilities.
