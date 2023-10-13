@@ -32,15 +32,15 @@ public enum CombatStates
     /** Pokemon cannot have item used on it */
     NOITEMUSE(1 << 9),
     /** Pokemon is forbidden from swapping move */
-    NOMOVESWAP(1 << 10, false),
+    NOMOVESWAP(1 << 10, false);
 //    /** is the pokemob megaevolved */
 //    MEGAFORME(1 << 11),
 //    /** is the pokemob dynamaxed */
 //    DYNAMAX(1 << 12),
 //    /** can the pokemob gigantamax */
 //    GIGANTAMAX(1 << 13),
-    /** has the pokemob used a zmove this "battle" */
-    USINGGZMOVE(1 << 14, false);
+//    /** has the pokemob used a zmove this "battle" */
+//    USINGGZMOVE(1 << 14, false);
 
     final int mask;
     final boolean persist;

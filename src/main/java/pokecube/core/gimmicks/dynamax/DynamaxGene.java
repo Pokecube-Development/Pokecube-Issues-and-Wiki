@@ -3,18 +3,28 @@ package pokecube.core.gimmicks.dynamax;
 import javax.annotation.Nullable;
 
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.util.INBTSerializable;
+import pokecube.api.PokecubeAPI;
+import pokecube.api.data.PokedexEntry;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
+import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.gimmicks.dynamax.DynamaxGene.DynaObject;
+import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import thut.api.ThutCaps;
+import thut.api.Tracker;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
 import thut.api.entity.genetics.IMobGenetics;
 import thut.core.common.ThutCore;
+import thut.lib.TComponent;
 
 public class DynamaxGene implements Gene<DynaObject>
 {
@@ -71,7 +81,12 @@ public class DynamaxGene implements Gene<DynaObject>
         }
     }
 
+    // Our actual gene information
     private DynaObject value = new DynaObject();
+
+    // Used for the tick logic below
+    private long dynatime = -1;
+    private boolean de_dyna = false;
 
     @Override
     public ResourceLocation getKey()
@@ -97,6 +112,52 @@ public class DynamaxGene implements Gene<DynaObject>
         final DynamaxGene result = new DynamaxGene();
         result.value = ThutCore.newRandom().nextBoolean() ? other.getValue() : this.getValue();
         return result;
+    }
+
+    @Override
+    public void onUpdateTick(Entity entity)
+    {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
+        if (pokemob != null && DynamaxHelper.isDynamax(pokemob))
+        {
+            boolean isGigant = this.getValue().gigantamax;
+            String[] g_z_moves = pokemob.getMoveStats().movesToUse;
+            for (int i = 0; i < 4; i++)
+            {
+                String move = pokemob.getMove(i);
+                final String gmove = GZMoveManager.getGMove(pokemob, move, isGigant);
+                if (gmove != null) g_z_moves[i] = gmove;
+            }
+        }
+
+        if (entity.getLevel().isClientSide()) return;
+
+        boolean isDyna = DynamaxHelper.isDynamax(pokemob);
+        // check dynamax timer for cooldown.
+        if (isDyna)
+        {
+            final long time = Tracker.instance().getTick();
+            int dynaEnd = entity.getPersistentData().getInt("pokecube:dynadur");
+            this.dynatime = entity.getPersistentData().getLong("pokecube:dynatime");
+            if (!this.de_dyna && time - dynaEnd > this.dynatime)
+            {
+                Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert", pokemob.getDisplayName());
+                pokemob.displayMessageToOwner(mess);
+
+                final PokedexEntry newEntry = pokemob.getBasePokedexEntry();
+                mess = TComponent.translatable("pokemob.dynamax.revert", pokemob.getDisplayName());
+                MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
+                if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
+
+                this.de_dyna = true;
+                this.dynatime = -1;
+            }
+        }
+        else
+        {
+            this.dynatime = -1;
+            this.de_dyna = false;
+        }
     }
 
     @Override

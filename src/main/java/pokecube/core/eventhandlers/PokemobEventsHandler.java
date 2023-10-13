@@ -409,6 +409,14 @@ public class PokemobEventsHandler
         // We only consider MobEntities
         if (!(event.getEntity() instanceof Mob mob)) return;
 
+        IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+        if (pokemob != null)
+        {
+            // Initialise these when added to world.
+            pokemob.getModifiers().outOfCombatReset();
+            pokemob.getMoveStats().reset();
+        }
+
         if (mob.getLevel().isClientSide()) return;
 
         // We only want to run this from execution thread.

@@ -456,7 +456,6 @@ public class EntityPokemob extends PokemobRidable
         this.initSeats();
         data.writeInt(this.seatCount);
         this.pokemobCap.updateHealth();
-        this.pokemobCap.onGenesChanged();
         final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         final ListTag list = genes.serializeNBT();

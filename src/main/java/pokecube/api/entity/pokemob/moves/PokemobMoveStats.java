@@ -23,8 +23,8 @@ public class PokemobMoveStats
     private static final Set<String> IGNORE = Sets.newHashSet();
     static
     {
-        PokemobMoveStats.IGNORE.add("moves");
-        PokemobMoveStats.IGNORE.add("g_z_moves");
+        PokemobMoveStats.IGNORE.add("baseMoves");
+        PokemobMoveStats.IGNORE.add("movesToUse");
         PokemobMoveStats.IGNORE.add("newMoves");
         PokemobMoveStats.IGNORE.add("num");
         PokemobMoveStats.IGNORE.add("exp");
@@ -75,11 +75,7 @@ public class PokemobMoveStats
 
     /** The Previous lvl, used to determine which moves to try to learn. */
     public int oldLevel = 0;
-
-    /** The array of moves. */
-    public String[] moves = new String[4];
-    /** The array of moves. */
-    public String[] g_z_moves = new String[4];
+    
     /** Moves it is trying to learn. */
     public List<String> newMoves = Lists.newArrayList();
     /** Index of new move to learn from newMoves. */
@@ -108,11 +104,15 @@ public class PokemobMoveStats
     public LivingEntity targetEnemy = null;
     public LivingEntity targetAlly = null;
 
-    // Moves for the transformed mob
-    public String[] transformedMoves = moves;
+    public int transformId = -1;
+    /** The array of moves. */
+    public String[] baseMoves = new String[4];
+    /** The array of moves. */
+    public String[] movesToUse = new String[4];
 
     public void reset()
     {
+        System.arraycopy(baseMoves, 0, movesToUse, 0, movesToUse.length);
         for (final Field f : this.getClass().getFields()) try
         {
             if (!PokemobMoveStats.IGNORE.contains(f.getName())) f.set(this, f.get(PokemobMoveStats.defaults));

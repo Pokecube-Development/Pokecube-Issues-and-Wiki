@@ -270,11 +270,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             if (theMob.getGeneralState(GeneralStates.TAMED))
             {
-                final String[] current = theMob.getMoves();
-                if (current[3] != null)
+                if (theMob.getMove(theMob.getMovesCount() - 1) != null)
                 {
-                    for (final String s : current)
+                    for (int i = 0; i < theMob.getMovesCount(); i++)
                     {
+                        String s = theMob.getMove(i);
                         if (s == null) continue;
                         for (final String s1 : moves) if (s.equals(s1))
                         {

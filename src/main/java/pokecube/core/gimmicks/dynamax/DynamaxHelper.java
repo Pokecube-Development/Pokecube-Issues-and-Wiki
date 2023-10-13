@@ -25,10 +25,8 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.ChangeForm;
-import pokecube.api.events.pokemobs.InitAIEvent;
 import pokecube.api.raids.RaidManager;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.logic.LogicBase;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
@@ -58,70 +56,12 @@ public class DynamaxHelper
         PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::onFormRevert);
         // Handles reverting from dynamax
         PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::postFormChange);
-        // Handles adding the tick logic to automatically revert from dynamax.
-        // If you want to replace this with an addon, you can put a
-        // lower-priority listener for InitAIEvent.Post, and then remove the
-        // entry in getTickLogic() which is a DynaLogic
-        PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::onAIAdd);
         // Register handler for players dynamaxing their mobs
         ChangeFormHandler.addChangeHandler(new DynaMaxer());
         // Register dynamax raid
         RaidManager.registerBossType(new DynamaxRaid());
     }
-
-    /**
-     * Implements the tick logic for handling automatic dyna reversion after the
-     * configured delay. This sub-class is public so other addons can disable it
-     * if they want to.
-     *
-     */
-    public static class DynaLogic extends LogicBase
-    {
-        private long dynatime = -1;
-        private boolean de_dyna = false;
-
-        public DynaLogic(IPokemob pokemob)
-        {
-            super(pokemob);
-        }
-
-        @Override
-        public void tick(Level world)
-        {
-            super.tick(world);
-            if (world.isClientSide()) return;
-
-            boolean isDyna = DynamaxHelper.isDynamax(this.pokemob);
-            // check dynamax timer for cooldown.
-            if (isDyna)
-            {
-                final long time = Tracker.instance().getTick();
-                int dynaEnd = this.entity.getPersistentData().getInt("pokecube:dynadur");
-                this.dynatime = this.entity.getPersistentData().getLong("pokecube:dynatime");
-                if (!this.de_dyna && time - dynaEnd > this.dynatime)
-                {
-                    Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",
-                            this.pokemob.getDisplayName());
-                    this.pokemob.displayMessageToOwner(mess);
-
-                    final PokedexEntry newEntry = this.pokemob.getBasePokedexEntry();
-                    mess = TComponent.translatable("pokemob.dynamax.revert", this.pokemob.getDisplayName());
-                    MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
-                    if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
-
-                    this.de_dyna = true;
-                    this.dynatime = -1;
-                }
-            }
-            else
-            {
-                this.dynatime = -1;
-                this.de_dyna = false;
-            }
-        }
-
-    }
-
+    
     /**
      * Handles dynamaxing on command. Checks for valid max spots, etc.
      */
@@ -223,11 +163,6 @@ public class DynamaxHelper
         }
     }
 
-    private static void onAIAdd(InitAIEvent.Post event)
-    {
-        event.getPokemob().getTickLogic().add(new DynaLogic(event.getPokemob()));
-    }
-
     private static void onFormRevert(ChangeForm.Revert event)
     {
         var entity = event.getPokemob().getEntity();
@@ -306,8 +241,6 @@ public class DynamaxHelper
         float toAdd = entity.getMaxHealth() - health;
         entity.heal(toAdd);
 
-        System.out.println("Boosting scale? " + info.gigantamax + " "
-                + entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()));
         if (!info.gigantamax && entity.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
         {
             var scaleAttr = entity.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get());
@@ -318,7 +251,7 @@ public class DynamaxHelper
         }
     }
 
-    private static boolean isDynamax(IPokemob pokemob)
+    protected static boolean isDynamax(IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
         return entity.getPersistentData().contains("pokecube:dynadur");

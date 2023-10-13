@@ -2,11 +2,19 @@ package pokecube.core.gimmicks.zmoves;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -15,6 +23,10 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
+import pokecube.api.entity.pokemob.commandhandlers.StanceHandler.ModeInfo;
+import pokecube.api.events.pokemobs.combat.MoveUse.DuringUse;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.MoveEntry.PowerProvider;
 import pokecube.api.utils.PokeType;
@@ -24,10 +36,15 @@ import pokecube.core.gimmicks.dynamax.D_Move_Damage;
 import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.implementations.MovesAdder;
+import thut.api.Tracker;
+import thut.api.Tracker.UpdateHandler;
+import thut.core.common.network.GeneralUpdate;
 
 @Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class GZMoveManager
 {
+    public static int Z_MOVE_COOLDOWN = 600;
+
     public static Map<String, String> zmoves_map = Maps.newHashMap();
     public static Map<String, List<String>> z_sig_moves_map = Maps.newHashMap();
     private static Map<String, String> gmoves_map = Maps.newHashMap();
@@ -50,6 +67,10 @@ public class GZMoveManager
     public static void init(FMLLoadCompleteEvent event)
     {
         ItemTM.INVALID_TMS.add(s -> isGZDMove(MovesUtils.getMove(s)));
+        MinecraftForge.EVENT_BUS.addListener(GZMoveManager::onMobUpdate);
+        PokecubeAPI.MOVE_BUS.addListener(GZMoveManager::postMoveUse);
+        Tracker.HANDLERS.put(ZMoveModeHandler.HANDLER.getKey(), ZMoveModeHandler.HANDLER);
+        StanceHandler.MODE_LISTENERS.put(StanceHandler.MODE, ZMoveModeHandler.HANDLER);
         postProcess();
     }
 
@@ -58,6 +79,91 @@ public class GZMoveManager
     {
         // Initialize the capabilities.
         event.register(ZPower.class);
+    }
+
+    private static void onMobUpdate(LivingUpdateEvent event)
+    {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+        if (pokemob == null || pokemob.getOwner() == null) return;
+        LivingEntity owner = pokemob.getOwner();
+
+        long lastUse = owner.getPersistentData().getLong("pokecube:used-z-move");
+        long tick = Tracker.instance().getTick();
+        if (lastUse + Z_MOVE_COOLDOWN > tick) return;
+
+        if (!pokemob.getEntity().getPersistentData().contains("pokecube:use-z-move")) return;
+
+        String[] g_z_moves = pokemob.getMoveStats().movesToUse;
+        for (int i = 0; i < 4; i++)
+        {
+            String move = pokemob.getMove(i);
+            String zmove = GZMoveManager.getZMove(pokemob, move);
+            if (zmove != null) g_z_moves[i] = zmove;
+        }
+    }
+
+    private static void postMoveUse(DuringUse.Post event)
+    {
+        IPokemob pokemob = event.getUser();
+        LivingEntity owner = pokemob.getOwner();
+        if (owner != null && isZMove(event.getMove()))
+        {
+            long tick = Tracker.instance().getTick();
+            owner.getPersistentData().putLong("pokecube:used-z-move", tick);
+            pokemob.getEntity().getPersistentData().remove("pokecube:use-z-move");
+
+            String[] g_z_moves = pokemob.getMoveStats().movesToUse;
+            for (int i = 0; i < 4; i++)
+            {
+                String move = pokemob.getMove(i);
+                String zmove = GZMoveManager.getZMove(pokemob, move);
+                if (zmove != null) g_z_moves[i] = pokemob.getMoveStats().baseMoves[i];
+            }
+        }
+    }
+
+    public static class ZMoveModeHandler implements UpdateHandler, Consumer<ModeInfo>
+    {
+        public static ZMoveModeHandler HANDLER = new ZMoveModeHandler();
+
+        @Override
+        public void accept(ModeInfo t)
+        {
+            var pokemob = t.pokemob();
+            if (pokemob.getEntity().getPersistentData().contains("pokecube:use-z-move"))
+                pokemob.getEntity().getPersistentData().remove("pokecube:use-z-move");
+            else pokemob.getEntity().getPersistentData().putBoolean("pokecube:use-z-move", true);
+
+            CompoundTag nbt = new CompoundTag();
+            nbt.putBoolean("M", pokemob.getEntity().getPersistentData().contains("pokecube:use-z-move"));
+            nbt.putInt("I", pokemob.getEntity().getId());
+            GeneralUpdate.sendToTracking(nbt, getKey(), pokemob.getEntity());
+        }
+
+        @Override
+        public String getKey()
+        {
+            return "z-move-mode";
+        }
+
+        @Override
+        public void read(CompoundTag nbt, ServerPlayer player)
+        {
+            Level level = null;
+            // This case, it was sent from server to client, an update packet!
+            if (player == null)
+            {
+                level = PokecubeCore.proxy.getPlayer().getLevel();
+            }
+            // Otherwise we use player's level
+            else level = player.getLevel();
+
+            int id = nbt.getInt("I");
+            boolean mode = nbt.getBoolean("M");
+            Entity e = PokecubeAPI.getEntityProvider().getEntity(level, id, true);
+            if (e != null) e.getPersistentData().putBoolean("pokecube:use-z-move", mode);
+        }
+
     }
 
     public static boolean isGZDMove(final MoveEntry entry)

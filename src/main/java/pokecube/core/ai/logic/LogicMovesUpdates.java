@@ -76,10 +76,8 @@ public class LogicMovesUpdates extends LogicBase
         super.tick(world);
         this.v.set(this.entity);
 
-        // Set this first, to ensure it is cleaned up properly, it will be reset
-        // later down if needed.
-        this.pokemob.getMoveStats().transformedMoves = this.pokemob.getMoveStats().moves;
-
+        String[] movesToUse = this.pokemob.getMoveStats().movesToUse;
+        
         // Run tasks that only should go on server side.
         if (!world.isClientSide)
         {
@@ -104,7 +102,7 @@ public class LogicMovesUpdates extends LogicBase
             }
             this.index = this.pokemob.getMoveIndex();
 
-            if (this.pokemob.getMoves()[0] == null)
+            if (this.pokemob.getMove(0) == null)
             {
                 String move = IMoveNames.MOVE_TACKLE;
                 final List<String> moves = this.pokemob.getPokedexEntry().getMovesForLevel(this.pokemob.getLevel());
@@ -131,20 +129,26 @@ public class LogicMovesUpdates extends LogicBase
                     IPokemob toMob = PokemobCaps.getPokemobFor(transformed);
                     // This side has the appropriate caps for keeping the moves
                     // lists, so we sync this over.
-                    if (toMob != null) this.pokemob.getMoveStats().transformedMoves = toMob.getMoves();
+                    if (toMob != null && this.pokemob.getMoveStats().transformId != transformed.getId())
+                    {
+                        this.pokemob.getMoveStats().transformId = transformed.getId();
+                        System.arraycopy(toMob.getMoveStats().movesToUse, 0, movesToUse, 0, movesToUse.length);
+                    }
                 }
             }
         }
         // client side only checks
         else
         {
-
             LivingEntity transformed = this.pokemob.getTransformedTo();
             IPokemob toMob = PokemobCaps.getPokemobFor(transformed);
             // This side has the appropriate caps for keeping the moves
             // lists, so we sync this over.
-            if (toMob != null) this.pokemob.getMoveStats().transformedMoves = toMob.getMoves();
-            
+            if (toMob != null && this.pokemob.getMoveStats().transformId != transformed.getId())
+            {
+                this.pokemob.getMoveStats().transformId = transformed.getId();
+                System.arraycopy(toMob.getMoveStats().movesToUse, 0, movesToUse, 0, movesToUse.length);
+            }
         }
 
         // Run tasks that can be on server or client.
