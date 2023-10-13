@@ -1,8 +1,8 @@
 {
   "user": "gallade",
   "name": "gallade-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:gallademega"
     }

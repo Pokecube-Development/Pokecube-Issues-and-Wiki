@@ -1,8 +1,8 @@
 {
   "user": "salamence",
   "name": "salamence-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:salamencemega"
     }

@@ -1,8 +1,8 @@
 {
   "user": "altaria",
   "name": "altaria-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:altariamega"
     }

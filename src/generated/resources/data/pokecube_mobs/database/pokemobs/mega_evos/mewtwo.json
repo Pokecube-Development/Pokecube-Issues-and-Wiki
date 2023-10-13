@@ -2,8 +2,8 @@
   {
     "user": "mewtwo",
     "name": "mewtwo-mega-x",
-    "type": "item",
     "rule": {
+      "key": "item",
       "item": {
         "item": "pokecube:mewtwomega-x"
       }
@@ -12,8 +12,8 @@
   {
     "user": "mewtwo",
     "name": "mewtwo-mega-y",
-    "type": "item",
     "rule": {
+      "key": "item",
       "item": {
         "item": "pokecube:mewtwomega-y"
       }

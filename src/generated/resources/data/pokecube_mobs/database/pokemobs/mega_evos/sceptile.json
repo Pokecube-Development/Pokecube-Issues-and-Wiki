@@ -1,8 +1,8 @@
 {
   "user": "sceptile",
   "name": "sceptile-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:sceptilemega"
     }

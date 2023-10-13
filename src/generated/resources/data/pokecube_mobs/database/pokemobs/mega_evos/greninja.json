@@ -1,8 +1,8 @@
 {
   "user": "greninja",
   "name": "greninja-battle-bond",
-  "type": "ability",
   "rule": {
+    "key": "ability",
     "ability": "battlebond"
   }
 }

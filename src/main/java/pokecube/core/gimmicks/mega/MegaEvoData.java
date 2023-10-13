@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -43,9 +44,17 @@ public class MegaEvoData extends ResourceData
 
     public static interface MegaCondition
     {
+        default MegaCondition and(MegaCondition other)
+        {
+            return (mobIn, entryTo) -> {
+                return this.matches(mobIn, entryTo) && other.matches(mobIn, entryTo);
+            };
+        }
+
         boolean matches(IPokemob mobIn, PokedexEntry entryTo);
 
-        void init();
+        default void init()
+        {}
     }
 
     public static class Ability implements MegaCondition
@@ -57,11 +66,6 @@ public class MegaEvoData extends ResourceData
         {
             return AbilityManager.hasAbility(this.ability, mobIn);
         }
-
-        @Override
-        public void init()
-        {}
-
     }
 
     public static class Move implements MegaCondition
@@ -73,11 +77,6 @@ public class MegaEvoData extends ResourceData
         {
             return Tools.hasMove(this.move, mobIn);
         }
-
-        @Override
-        public void init()
-        {}
-
     }
 
     public static class HeldItem implements MegaCondition
@@ -114,7 +113,6 @@ public class MegaEvoData extends ResourceData
     public static class BaseRuleJson implements MegaRule
     {
         public String name;
-        public String type;
         public String user;
         public JsonElement rule;
 
@@ -138,11 +136,6 @@ public class MegaEvoData extends ResourceData
                 PokecubeAPI.LOGGER.error("Needs rule for a mega evo!");
                 return;
             }
-            if (type == null)
-            {
-                PokecubeAPI.LOGGER.error("Needs type key for a mega evo rule!");
-                return;
-            }
             this._entryTo = Database.getEntry(this.name);
             if (_entryTo == null)
             {
@@ -155,15 +148,12 @@ public class MegaEvoData extends ResourceData
                 PokecubeAPI.LOGGER.error("invalid user {} for a mega evo rule!", user);
                 return;
             }
-            Class<? extends MegaCondition> condClass = CONDITIONS.get(type);
-            if (condClass == null)
+            this._condition = makeFromElement(rule);
+            if (this._condition == null)
             {
-                PokecubeAPI.LOGGER.error("invalid type key {} for a mega evo rule!", type);
+                PokecubeAPI.LOGGER.error("invalid rule {} for a mega evo rule!", rule);
                 return;
             }
-            this._condition = JsonUtil.gson.fromJson(rule, condClass);
-            this._condition.init();
-
             List<MegaRule> rules = RULES.get(user);
             if (rules == null) RULES.put(user, rules = new ArrayList<>());
             rules.add(this);
@@ -203,6 +193,53 @@ public class MegaEvoData extends ResourceData
         Collections.shuffle(rules);
         for (var rule : rules) if (rule.matches(pokemob)) return rule.getResult();
         return null;
+    }
+
+    private static MegaCondition makeFromElement(JsonElement element)
+    {
+        if (element.isJsonArray())
+        {
+            var arr = element.getAsJsonArray();
+            return makeFromArray(arr);
+        }
+        else if (element.isJsonObject())
+        {
+            JsonObject obj = element.getAsJsonObject();
+            return makeFromObject(obj);
+        }
+        return null;
+    }
+
+    private static MegaCondition makeFromArray(JsonArray array)
+    {
+        MegaCondition root = null;
+        for (int i = 0; i < array.size(); i++)
+        {
+            JsonElement e = array.get(i);
+            var made = makeFromElement(e);
+            if (root == null) root = made;
+            else if (made != null) root = root.and(made);
+        }
+        return root;
+    }
+
+    private static MegaCondition makeFromObject(JsonObject obj)
+    {
+        if (!obj.has("key"))
+        {
+            PokecubeAPI.LOGGER.error("missing key {} for a mega evo rule!", obj);
+            return null;
+        }
+        String key = obj.get("key").getAsString();
+        Class<? extends MegaCondition> condClass = CONDITIONS.get(key);
+        if (condClass == null)
+        {
+            PokecubeAPI.LOGGER.error("invalid type key {} for a mega evo rule!", key);
+            return null;
+        }
+        MegaCondition condition = JsonUtil.gson.fromJson(obj, condClass);
+        condition.init();
+        return condition;
     }
 
     private final String tagPath;

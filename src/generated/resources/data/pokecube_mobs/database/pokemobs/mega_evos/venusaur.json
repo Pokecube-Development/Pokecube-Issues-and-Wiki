@@ -1,8 +1,8 @@
 {
   "user": "venusaur",
   "name": "venusaur-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:venusaurmega"
     }

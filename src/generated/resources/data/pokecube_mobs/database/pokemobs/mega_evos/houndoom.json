@@ -1,8 +1,8 @@
 {
   "user": "houndoom",
   "name": "houndoom-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:houndoommega"
     }

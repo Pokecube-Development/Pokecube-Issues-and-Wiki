@@ -1,8 +1,8 @@
 {
   "user": "medicham",
   "name": "medicham-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:medichammega"
     }
