@@ -1,0 +1,10 @@
+{
+  "user": "blaziken",
+  "name": "blaziken-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:blazikenmega"
+    }
+  }
+}

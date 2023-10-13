@@ -1,0 +1,10 @@
+{
+  "user": "banette",
+  "name": "banette-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:banettemega"
+    }
+  }
+}

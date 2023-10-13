@@ -1,0 +1,8 @@
+{
+  "user": "meloetta-aria",
+  "name": "meloetta-pirouette",
+  "type": "move",
+  "rule": {
+    "move": "relic-song"
+  }
+}

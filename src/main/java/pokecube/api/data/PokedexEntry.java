@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -51,11 +50,9 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.effects.materials.IMaterialAction;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.MegaEvoRule;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
@@ -995,9 +992,6 @@ public class PokedexEntry
 
     public PokedexEntry male = null;
 
-    @CopyToGender
-    public HashMap<PokedexEntry, MegaRule> megaRules = Maps.newHashMap();
-
     /** Movement type for this mob, this is a bitmask for MovementType */
     @CopyToGender
     public int mobType = 0;
@@ -1120,7 +1114,6 @@ public class PokedexEntry
     // we cache them.
     public List<Interact> _loaded_interactions = Lists.newArrayList();
     public List<FormeItem> _forme_items = Lists.newArrayList();
-    public List<BaseMegaRule> _loaded_megarules = Lists.newArrayList();
 
     /** Times not included here the pokemob will go to sleep when idle. */
     @CopyToGender
@@ -1150,7 +1143,6 @@ public class PokedexEntry
     public void postTagsReloaded()
     {
         this.formeItems.clear();
-        this.megaRules.clear();
         if (this._forme_items != null)
         {
             List<FormeItem> rules = new ArrayList<>();
@@ -1202,71 +1194,6 @@ public class PokedexEntry
                 }
             }
         }
-
-        List<BaseMegaRule> rules = new ArrayList<>();
-        Set<String> uniques = Sets.newHashSet();
-        for (final BaseMegaRule rule : this._loaded_megarules)
-        {
-            if (uniques.add(JsonUtil.smol_gson.toJson(rule))) rules.add(rule);
-        }
-        this._loaded_megarules.clear();
-        this._loaded_megarules.addAll(rules);
-
-        for (final BaseMegaRule rule : this._loaded_megarules)
-        {
-            String forme = rule.name != null ? rule.name : null;
-            if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
-            {
-                forme = this.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
-                if (rule.item_preset == null)
-                    rule.item_preset = this.getTrimmedName() + "" + ThutCore.trim(rule.preset);
-            }
-            final String move = rule.move;
-            final String ability = rule.ability;
-            final String item_preset = rule.item_preset;
-
-            if (forme == null)
-            {
-                PokecubeAPI.logInfo("Error with mega evolution for " + this + " rule: preset=" + rule.preset + " name="
-                        + rule.name);
-                continue;
-            }
-
-            final PokedexEntry formeEntry = Database.getEntry(forme);
-            if (!forme.isEmpty() && formeEntry != null)
-            {
-                ItemStack stack = ItemStack.EMPTY;
-                if (item_preset != null && !item_preset.isEmpty())
-                {
-                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(forme + " " + item_preset);
-                    stack = PokecubeItems.getStack(item_preset, false);
-                    if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
-                }
-                else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
-                if (rule.item != null)
-                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(stack + " " + rule.item.getValues());
-                if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
-                {
-                    PokecubeAPI.logInfo("Skipping Mega: " + this + " -> " + formeEntry
-                            + " as it has no conditions, or conditions cannot be met.");
-                    PokecubeAPI.LOGGER
-                            .info(" rule: preset=" + rule.preset + " name=" + rule.name + " item=" + rule.item_preset);
-                    continue;
-                }
-                final MegaEvoRule mrule = new MegaEvoRule(this);
-                if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
-                if (ability != null) mrule.ability = ability;
-                if (move != null) mrule.moveName = move;
-                if (!stack.isEmpty())
-                {
-                    mrule.stack = stack;
-                    PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
-                }
-                this.megaRules.put(formeEntry, mrule);
-                if (PokecubeCore.getConfig().debug_data)
-                    PokecubeAPI.logInfo("Added Mega: " + this + " -> " + formeEntry);
-            }
-        }
     }
 
     public void addInteractions(List<Interact> interactions)
@@ -1284,7 +1211,6 @@ public class PokedexEntry
     public void onResourcesReloaded()
     {
         this.formeItems.clear();
-        this.megaRules.clear();
         this.interactionLogic.stackActions.clear();
         // Apply loaded interactions
         if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
@@ -1619,17 +1545,6 @@ public class PokedexEntry
         if (this.entity_type == null && this.getBaseForme() != null)
             this.entity_type = this.getBaseForme().getEntityType();
         return this.entity_type;
-    }
-
-    public PokedexEntry getMegaEvo(final IPokemob pokemob)
-    {
-        for (final Entry<PokedexEntry, MegaRule> e : this.megaRules.entrySet())
-        {
-            final MegaRule rule = e.getValue();
-            final PokedexEntry entry = e.getKey();
-            if (rule.shouldMegaEvolve(pokemob, entry)) return entry;
-        }
-        return null;
     }
 
     /** @return the evolutionMode */

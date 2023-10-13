@@ -249,11 +249,5 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "medichammega"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

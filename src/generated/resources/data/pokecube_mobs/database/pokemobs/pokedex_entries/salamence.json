@@ -213,11 +213,5 @@
       "tera-blast"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "salamencemega"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_seeds_2"
 }

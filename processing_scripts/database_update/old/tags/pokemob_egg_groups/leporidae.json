@@ -3,16 +3,16 @@
   "values": [
     "pokecube:pikachu",
     "pokecube:raichu",
-    "pokecube:raichu_alola",
+    "pokecube:raichu-alola",
     "pokecube:buneary",
     "pokecube:lopunny",
-    "pokecube:lopunny_mega",
+    "pokecube:lopunny-mega",
     "pokecube:bunnelby",
     "pokecube:diggersby",
     "pokecube:scorbunny",
     "pokecube:raboot",
     "pokecube:cinderace",
-    "pokecube:morpeko",
-    "pokecube:morpeko_hangry"
+    "pokecube:morpeko-full-belly",
+    "pokecube:morpeko-hangry"
   ]
 }

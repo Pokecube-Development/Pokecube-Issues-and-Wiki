@@ -1,4 +1,4 @@
-package pokecube.core.items.megastuff;
+package pokecube.core.gimmicks.mega;
 
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.PokedexEntry;

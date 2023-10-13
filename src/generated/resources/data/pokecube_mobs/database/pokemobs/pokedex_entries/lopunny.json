@@ -245,12 +245,6 @@
       "triple-axel"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "lopunnymega"
-    }
-  ],
   "interactions": [
     {
       "male": false,

@@ -315,15 +315,5 @@
       "chilling-water"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega-X",
-      "item_preset": "mewtwomega-x"
-    },
-    {
-      "preset": "Mega-Y",
-      "item_preset": "mewtwomega-y"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

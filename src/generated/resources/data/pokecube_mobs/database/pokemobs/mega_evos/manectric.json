@@ -1,0 +1,10 @@
+{
+  "user": "manectric",
+  "name": "manectric-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:manectricmega"
+    }
+  }
+}

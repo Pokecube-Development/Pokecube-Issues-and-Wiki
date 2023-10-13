@@ -3,7 +3,7 @@
   "values": [
     "pokecube:voltorb",
     "pokecube:electrode",
-    "pokecube:voltorb_hisui",
-    "pokecube:electrode_hisui"
+    "pokecube:voltorb-hisui",
+    "pokecube:electrode-hisui"
   ]
 }

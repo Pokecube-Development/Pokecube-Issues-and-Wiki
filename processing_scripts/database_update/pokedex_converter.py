@@ -1,6 +1,6 @@
 import json
 from ignore_list import isIgnored
-from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form
+from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form, TAG_IGNORE
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -23,6 +23,7 @@ import shutil
 # advancements_dir = '../../src/generated/resources/data/pokecube_mobs/advancements/'
 
 entry_generate_dir = './new/pokemobs/pokedex_entries/'
+mega_rule_dir = './new/pokemobs/mega_evos/'
 materials_generate_dir = './new/pokemobs/materials/'
 ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
 mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
@@ -75,7 +76,6 @@ index_map = get_pokemon_index()
 evo_chains = utils.load_evo_chains()
 
 _, all_moves_users = utils.load_all_moves()
-
 
 # This class is a mirror of the json data structure that pokecube uses for loading
 class PokedexEntry:
@@ -518,15 +518,22 @@ def convert_tags(entries):
             for name in old_values:
                 orig = name
                 name = name.replace('pokecube:', '')
+                if name in TAG_IGNORE:
+                    continue
                 new_name = find_new_name(name, index_map.keys())
-                if new_name in entries:
-                    var = entries[new_name]
-                    if(hasattr(var, "is_extra_form")):
-                        continue
-                if name in entries:
-                    var = entries[name]
-                    if(hasattr(var, "is_extra_form")):
-                        continue
+                if new_name in TAG_IGNORE:
+                    continue
+
+                if "entity_types" in file:
+                    if new_name in entries:
+                        var = entries[new_name]
+                        if(hasattr(var, "is_extra_form")):
+                            continue
+                    if name in entries:
+                        var = entries[name]
+                        if(hasattr(var, "is_extra_form")):
+                            continue
+
                 if new_name is not None:
                     new_name = f'pokecube:{new_name}'
                     if not new_name in new_values:
@@ -561,6 +568,62 @@ def load_overrides(override_file, overrides):
             if key == 'name':
                 continue
             overrides[name][key] = value
+
+def convert_mega_rules(entry):
+    if not "mega_rules" in entry:
+        return
+    if not os.path.exists(mega_rule_dir):
+        os.makedirs(mega_rule_dir)
+    rules = []
+    for rule in entry["mega_rules"]:
+        _rule = {}
+        name = "???"
+        type = "item"
+        user = entry["name"]
+        da_rule = {}
+
+        if 'preset' in rule and 'item_preset' in rule:
+            key = rule['preset']
+            item = rule['item_preset']
+            if not ":" in item:
+                item = f"pokecube:{item}"
+            da_rule["item"] = {"item":item}
+            name = f'{user}-{key.lower()}'
+            name = find_new_name(name, index_map.keys())
+        elif "name" in rule:
+            name = rule['name']
+            name = find_new_name(name, index_map.keys())
+            if "move" in rule:
+                move = convert_old_move_name(rule['move'])
+                da_rule["move"] = move
+                type = "move"
+            elif 'item_preset' in rule:
+                item = rule['item_preset']
+                if not ":" in item:
+                    item = f"pokecube:{item}"
+                # Manually code in the 1 legacy thing which used a tag rule instead of item rule.
+                if rule['item_preset'] == 'pokecube_mobs:necrozma':
+                    da_rule["item"] = {"tag":item}
+                else:
+                    da_rule["item"] = {"item":item}
+            elif 'ability' in rule:
+                type = 'ability'
+                da_rule["ability"] = rule['ability']
+
+        _rule['user'] = user
+        _rule['name'] = name
+        _rule['type'] = type
+        _rule['rule'] = da_rule
+
+        rules.append(_rule)
+        
+    file = f'{mega_rule_dir}{entry["name"]}.json'
+    file = open(file, 'w')
+    if(len(rules) == 1):
+        rules = rules[0]
+    json.dump(rules, file, indent=2)
+    file.close()
+    del entry["mega_rules"]
 
 def convert_pokedex():
 
@@ -696,6 +759,7 @@ def convert_pokedex():
             os.makedirs(os.path.dirname(file))
 
         file = open(file, 'w')
+        convert_mega_rules(var)
         json.dump(var, file, indent=2)
         file.close()
 

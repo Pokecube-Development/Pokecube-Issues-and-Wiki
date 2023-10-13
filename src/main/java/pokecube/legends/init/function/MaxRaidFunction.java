@@ -21,11 +21,11 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
-import pokecube.api.utils.DynamaxHelper;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
+import pokecube.core.gimmicks.dynamax.DynamaxHelper;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.BlockInit;
 import thut.api.maths.Vector3;
@@ -85,7 +85,7 @@ public class MaxRaidFunction
 
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
 
-            DynamaxHelper.dynamax(pokemob, PokecubeLegends.config.raidDuration);
+            DynamaxHelper.onDynamax(pokemob, PokecubeLegends.config.raidDuration);
             entity.getPersistentData().putBoolean("pokecube_legends:raid_mob", true);
             entity.getPersistentData().putBoolean("alwaysAgress", true);
 

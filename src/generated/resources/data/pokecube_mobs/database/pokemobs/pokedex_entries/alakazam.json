@@ -268,11 +268,5 @@
     "model": "alakazam_female",
     "anim": "alakazam_female"
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "alakazammega"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_3"
 }

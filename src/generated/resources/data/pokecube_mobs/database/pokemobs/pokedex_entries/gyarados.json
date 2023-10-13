@@ -391,11 +391,5 @@
       ]
     }
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "gyaradosmega"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -47,6 +47,7 @@ LEGACY_REV_MAP = {
     "Lunala Dawn": "necrozma-dawn",
     "Calyrex Ice Rider": "calyrex-ice",
     "Calyrex Shadow Rider": "calyrex-shadow",
+    "Greninja Ash": "greninja-battle-bond",
 }
 
 LEGACY_MAP = {
@@ -160,6 +161,11 @@ IGNORED_FORMS = [
     "pichu-spiky-eared",
 ]
 
+TAG_IGNORE = [
+    "minior",
+    "minior-red-meteor",
+    "basculin-red-striped",
+]
 
 def banned_form(name):
     return name in IGNORED_FORMS
@@ -187,8 +193,11 @@ def find_new_name(old_name, options):
     cleaned = old_name.replace('gigantamax', 'gmax')
     cleaned = cleaned.replace('-', '')
     cleaned = cleaned.replace('_', '')
+    cleaned = cleaned.replace(' ', '')
     for new_name in options:
-        test = new_name.replace('-', '')
+        test = utils.trim(new_name)
+        test = test.replace(' ', '')
+        test = test.replace('-', '')
         test = test.replace('_', '')
         if(test==cleaned):
             return new_name

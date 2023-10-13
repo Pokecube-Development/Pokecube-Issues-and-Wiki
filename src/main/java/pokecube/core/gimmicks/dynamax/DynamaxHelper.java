@@ -1,4 +1,4 @@
-package pokecube.api.utils;
+package pokecube.core.gimmicks.dynamax;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,6 +12,10 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -21,7 +25,9 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHandler;
 import pokecube.api.events.pokemobs.ChangeForm;
+import pokecube.api.events.pokemobs.InitAIEvent;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.logic.LogicBase;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
 import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
@@ -32,16 +38,88 @@ import pokecube.core.handlers.PokecubePlayerDataHandler;
 import thut.api.Tracker;
 import thut.lib.TComponent;
 
+/**
+ * This class handles the dynamax mechanic
+ *
+ */
+@Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID)
 public class DynamaxHelper
 {
-    public static void init()
+    /**
+     * Setup and register tera type stuff.
+     */
+    @SubscribeEvent
+    public static void init(FMLLoadCompleteEvent event)
     {
+        // Handles reverting from dynamax
         PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::onFormRevert);
+        // Handles reverting from dynamax
         PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::postFormChange);
+        // Handles adding the tick logic to automatically revert from dynamax.
+        // If you want to replace this with an addon, you can put a
+        // lower-priority listener for InitAIEvent.Post, and then remove the
+        // entry in getTickLogic() which is a DynaLogic
+        PokecubeAPI.POKEMOB_BUS.addListener(DynamaxHelper::onAIAdd);
         ChangeFormHandler.addChangeHandler(new DynaMaxer());
     }
 
-    public static class DynaMaxer implements IChangeHandler
+    /**
+     * Implements the tick logic for handling automatic dyna reversion after the
+     * configured delay. This sub-class is public so other addons can disable it
+     * if they want to.
+     *
+     */
+    public static class DynaLogic extends LogicBase
+    {
+        private long dynatime = -1;
+        private boolean de_dyna = false;
+
+        public DynaLogic(IPokemob pokemob)
+        {
+            super(pokemob);
+        }
+
+        @Override
+        public void tick(Level world)
+        {
+            super.tick(world);
+            if (world.isClientSide()) return;
+
+            boolean isDyna = DynamaxHelper.isDynamax(this.pokemob);
+            // check dynamax timer for cooldown.
+            if (isDyna)
+            {
+                final long time = Tracker.instance().getTick();
+                int dynaEnd = this.entity.getPersistentData().getInt("pokecube:dynadur");
+                this.dynatime = this.entity.getPersistentData().getLong("pokecube:dynatime");
+                if (!this.de_dyna && time - dynaEnd > this.dynatime)
+                {
+                    Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",
+                            this.pokemob.getDisplayName());
+                    this.pokemob.displayMessageToOwner(mess);
+
+                    final PokedexEntry newEntry = this.pokemob.getBasePokedexEntry();
+                    mess = TComponent.translatable("pokemob.dynamax.revert", this.pokemob.getDisplayName());
+                    MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
+                    if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
+
+                    this.de_dyna = true;
+                    this.dynatime = -1;
+                }
+            }
+            else
+            {
+                this.dynatime = -1;
+                this.de_dyna = false;
+            }
+        }
+
+    }
+
+    /**
+     * Handles dynamaxing on command. Checks for valid max spots, etc.
+     */
+    private static class DynaMaxer implements IChangeHandler
     {
         @Override
         public boolean handleChange(IPokemob pokemob)
@@ -111,7 +189,7 @@ public class DynamaxHelper
                                 pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
                                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
                             }, () -> {
-                                DynamaxHelper.dynamax(pokemob, PokecubeCore.getConfig().dynamax_duration);
+                                DynamaxHelper.onDynamax(pokemob, PokecubeCore.getConfig().dynamax_duration);
                                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
                             });
                     return true;
@@ -148,7 +226,11 @@ public class DynamaxHelper
             if (owner instanceof ServerPlayer player) thut.lib.ChatHelper.sendSystemMessage(player,
                     TComponent.translatable("pokemob.dynamax.failed", pokemob.getDisplayName()));
         }
+    }
 
+    private static void onAIAdd(InitAIEvent.Post event)
+    {
+        event.getPokemob().getTickLogic().add(new DynaLogic(event.getPokemob()));
     }
 
     private static void onFormRevert(ChangeForm.Revert event)
@@ -179,12 +261,20 @@ public class DynamaxHelper
 
     private static final UUID DYNAMOD = new UUID(343523462346243l, 23453246267457l);
 
-    public static AttributeModifier makeHealthBoost(double scale)
+    private static AttributeModifier makeHealthBoost(double scale)
     {
         return new AttributeModifier(DYNAMOD, "pokecube:dynamax", scale, Operation.MULTIPLY_TOTAL);
     }
 
-    public static void dynamax(IPokemob pokemob, int duration)
+    /**
+     * Applies the modifiers for when the mob has dynamaxed, This includes the
+     * health boost and the size boost. Then also marks the duration and start
+     * time for the dynamaxing.
+     * 
+     * @param pokemob
+     * @param duration
+     */
+    public static void onDynamax(IPokemob pokemob, int duration)
     {
         var entity = pokemob.getEntity();
         long time = Tracker.instance().getTick();
@@ -210,7 +300,7 @@ public class DynamaxHelper
         }
     }
 
-    public static boolean isDynamax(IPokemob pokemob)
+    private static boolean isDynamax(IPokemob pokemob)
     {
         var entity = pokemob.getEntity();
         return entity.getPersistentData().contains("pokecube:dynadur");

@@ -13,7 +13,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.network.pokemobs.PacketCommand.DefaultHandler;
 import thut.lib.TComponent;
 
@@ -40,6 +39,15 @@ public class ChangeFormHandler extends DefaultHandler
             return Integer.compare(getPriority(), o.getPriority());
         }
     }
+
+    public static interface RingChecker
+    {
+        boolean hasFormChangeRing(LivingEntity player, IPokemob toEvolve);
+    }
+
+    public static RingChecker checker = (player, toEvolve) -> {
+        return true;
+    };
 
     public static List<IChangeHandler> processors = new ArrayList<>();
 
@@ -94,7 +102,7 @@ public class ChangeFormHandler extends DefaultHandler
         if (pokemob.getGeneralState(GeneralStates.EVOLVING) || server == null || owner == null) return;
         if (!(world instanceof ServerLevel level)) return;
 
-        final boolean hasRing = player == null || MegaCapability.canMegaEvolve(owner, pokemob);
+        final boolean hasRing = player == null || checker.hasFormChangeRing(owner, pokemob);
 
         boolean didAnything = false;
         IChangeHandler last = null;

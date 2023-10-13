@@ -10,7 +10,6 @@ import java.util.UUID;
 import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -22,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
-import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -40,13 +38,11 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.IMoveConstants.AttackCategory;
 import pokecube.api.moves.utils.IMoveConstants.ContactCategory;
-import pokecube.api.utils.DynamaxHelper;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.blocks.nests.NestTile;
-import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.playerdata.PlayerPokemobCache;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
@@ -54,14 +50,12 @@ import pokecube.core.utils.PokemobTracker;
 import pokecube.core.utils.PokemobTracker.MobEntry;
 import thut.api.AnimatedCaps;
 import thut.api.ThutCaps;
-import thut.api.Tracker;
 import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IAnimated.MolangVars;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
-import thut.lib.TComponent;
 
 /**
  * Mostly does visuals updates, such as particle effects, checking that shearing
@@ -107,8 +101,6 @@ public class LogicMiscUpdate extends LogicBase
     private String particle = null;
     private boolean initHome = false;
     private boolean checkedEvol = false;
-    private long dynatime = -1;
-    private boolean de_dyna = false;
 
     private int floatTimer = 0;
 
@@ -143,34 +135,6 @@ public class LogicMiscUpdate extends LogicBase
     private void checkAIStates(UUID ownerID)
     {
         final boolean angry = this.pokemob.inCombat();
-
-        boolean isDyna = DynamaxHelper.isDynamax(this.pokemob);
-        // check dynamax timer for cooldown.
-        if (isDyna)
-        {
-            final long time = Tracker.instance().getTick();
-            int dynaEnd = this.entity.getPersistentData().getInt("pokecube:dynadur");
-            this.dynatime = this.entity.getPersistentData().getLong("pokecube:dynatime");
-            if (!this.de_dyna && time - dynaEnd > this.dynatime)
-            {
-                Component mess = TComponent.translatable("pokemob.dynamax.timeout.revert",
-                        this.pokemob.getDisplayName());
-                this.pokemob.displayMessageToOwner(mess);
-
-                final PokedexEntry newEntry = this.pokemob.getBasePokedexEntry();
-                mess = TComponent.translatable("pokemob.dynamax.revert", this.pokemob.getDisplayName());
-                MegaEvoTicker.scheduleRevert(PokecubeCore.getConfig().evolutionTicks / 2, newEntry, pokemob, mess);
-                if (PokecubeCore.getConfig().debug_commands) PokecubeAPI.logInfo("Reverting Dynamax");
-
-                this.de_dyna = true;
-                this.dynatime = -1;
-            }
-        }
-        else
-        {
-            this.dynatime = -1;
-            this.de_dyna = false;
-        }
 
         if (this.pokemob.getGeneralState(GeneralStates.MATING) && !BrainUtils.hasMateTarget((AgeableMob) this.entity))
             this.pokemob.setGeneralState(GeneralStates.MATING, false);

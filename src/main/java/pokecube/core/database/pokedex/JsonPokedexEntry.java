@@ -22,7 +22,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.DyeInfo;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
@@ -290,7 +289,6 @@ public class JsonPokedexEntry
     public String base_form = null;
 
     public List<SpawnRule> spawn_rules = null;
-    public List<BaseMegaRule> mega_rules = null;
     public List<Interact> interactions = null;
 
     // Evolution stuff
@@ -380,7 +378,6 @@ public class JsonPokedexEntry
         if (entry == null) return;
 
         if (this.interactions != null) entry.addInteractions(this.interactions);
-        if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
         if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 

@@ -13,17 +13,12 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.PokedexEntry.MegaRule;
-import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
-import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.items.megastuff.MegaCapability;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
@@ -212,68 +207,6 @@ public class InteractsAndEvolutions
         {
             if (_itemstack.isEmpty()) _itemstack = PokecubeItems.getStack(new ResourceLocation(item));
             return _itemstack;
-        }
-    }
-
-    public static class BaseMegaRule
-    {
-        public String name;
-        public String preset;
-        public String move;
-        public String ability;
-        public Drop item;
-        public String item_preset;
-    }
-
-    public static class MegaEvoRule implements MegaRule
-    {
-        public ItemStack stack;
-        public String oreDict;
-        public String moveName;
-        public String ability;
-        final PokedexEntry baseForme;
-
-        public MegaEvoRule(final PokedexEntry baseForme)
-        {
-            this.stack = ItemStack.EMPTY;
-            this.moveName = "";
-            this.ability = "";
-            this.baseForme = baseForme;
-        }
-
-        @Override
-        public boolean shouldMegaEvolve(final IPokemob mobIn, final PokedexEntry entryTo)
-        {
-            boolean rightStack = true;
-            boolean hasMove = true;
-            boolean hasAbility = true;
-            boolean rule = false;
-            if (this.oreDict != null)
-            {
-                this.stack = PokecubeItems.getStack(this.oreDict);
-                this.oreDict = null;
-            }
-            if (!this.stack.isEmpty())
-            {
-                rightStack = Tools.isSameStack(this.stack, mobIn.getHeldItem(), true);
-                rule = true;
-                if (!rightStack)
-                {
-                    rightStack = MegaCapability.matches(mobIn.getHeldItem(), entryTo);
-                }
-            }
-            if (this.moveName != null && !this.moveName.isEmpty())
-            {
-                hasMove = Tools.hasMove(this.moveName, mobIn);
-                rule = true;
-            }
-            if (this.ability != null && !this.ability.isEmpty())
-            {
-                hasAbility = AbilityManager.hasAbility(this.ability, mobIn);
-                rule = true;
-            }
-            if (hasAbility && mobIn.getAbility() != null) hasAbility = mobIn.getAbility().canChange(mobIn, entryTo);
-            return rule && hasMove && rightStack && hasAbility;
         }
     }
 }

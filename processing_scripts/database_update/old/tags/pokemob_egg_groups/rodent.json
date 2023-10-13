@@ -2,20 +2,20 @@
   "replace": false,
   "values": [
     "pokecube:rattata",
-    "pokecube:rattata_alola",
+    "pokecube:rattata-alola",
     "pokecube:raticate",
-    "pokecube:raticate_alola",
+    "pokecube:raticate-alola",
     "pokecube:pikachu",
     "pokecube:raichu",
-    "pokecube:raichu_alola",
+    "pokecube:raichu-alola",
     "pokecube:sandshrew",
-    "pokecube:sandshrew_alola",
+    "pokecube:sandshrew-alola",
     "pokecube:sandslash",
-    "pokecube:sandslash_alola",
-    "pokecube:nidoranf",
+    "pokecube:sandslash-alola",
+    "pokecube:nidoran-f",
     "pokecube:nidorina",
     "pokecube:nidoqueen",
-    "pokecube:nidoranm",
+    "pokecube:nidoran-m",
     "pokecube:nidorino",
     "pokecube:nidoking",
     "pokecube:cyndaquil",
@@ -41,7 +41,7 @@
     "pokecube:gumshoos",
     "pokecube:skwovet",
     "pokecube:greedent",
-    "pokecube:morpeko",
-    "pokecube:morpeko_hangry"
+    "pokecube:morpeko-full-belly",
+    "pokecube:morpeko-hangry"
   ]
 }

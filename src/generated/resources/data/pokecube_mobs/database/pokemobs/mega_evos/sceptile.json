@@ -1,0 +1,10 @@
+{
+  "user": "sceptile",
+  "name": "sceptile-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:sceptilemega"
+    }
+  }
+}

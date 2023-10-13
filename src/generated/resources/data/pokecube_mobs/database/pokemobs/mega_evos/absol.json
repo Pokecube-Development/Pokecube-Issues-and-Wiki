@@ -1,0 +1,10 @@
+{
+  "user": "absol",
+  "name": "absol-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:absolmega"
+    }
+  }
+}

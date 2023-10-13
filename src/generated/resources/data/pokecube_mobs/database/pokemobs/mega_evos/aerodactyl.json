@@ -1,0 +1,10 @@
+{
+  "user": "aerodactyl",
+  "name": "aerodactyl-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:aerodactylmega"
+    }
+  }
+}

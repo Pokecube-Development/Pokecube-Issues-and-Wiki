@@ -1,0 +1,10 @@
+{
+  "user": "altaria",
+  "name": "altaria-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:altariamega"
+    }
+  }
+}

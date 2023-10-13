@@ -54,7 +54,7 @@ public class AbilityManager
     {
         final Ability ability = pokemob.getAbility();
         if (ability == null) return false;
-        return ability.toString().equalsIgnoreCase(abilityName);
+        return ability.toString().replace("-", "").equalsIgnoreCase(abilityName);
     }
 
     @SuppressWarnings("unchecked")

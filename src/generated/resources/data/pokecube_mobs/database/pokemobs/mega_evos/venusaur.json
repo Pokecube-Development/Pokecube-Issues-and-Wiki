@@ -1,0 +1,10 @@
+{
+  "user": "venusaur",
+  "name": "venusaur-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:venusaurmega"
+    }
+  }
+}

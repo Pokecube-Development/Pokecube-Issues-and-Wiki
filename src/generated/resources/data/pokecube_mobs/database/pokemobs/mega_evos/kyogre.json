@@ -1,0 +1,10 @@
+{
+  "user": "kyogre",
+  "name": "kyogre-primal",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:alphaorb"
+    }
+  }
+}

@@ -266,11 +266,5 @@
       "tera-blast"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "gengarmega"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_3"
 }
