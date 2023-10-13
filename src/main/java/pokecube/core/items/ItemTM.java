@@ -77,7 +77,6 @@ public class ItemTM extends Item
     @OnlyIn(Dist.CLIENT)
     public void appendHoverText(ItemStack item, @Nullable Level world, List<Component> list, TooltipFlag advanced) {
         item = new ItemStack(PokecubeItems.TM.get());
-        final CompoundTag nbt = item.getTag();
 //        if (nbt.getString("move") != null)
         if (Screen.hasShiftDown() && item.getTagElement("move") != null) {
             list.add(TComponent.literal(moveEffects.effect_text_simple));

@@ -12,7 +12,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -104,11 +104,10 @@ public class TerastalRaid implements IBossProvider
         IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
         TerastalMechanic.doTera(pokemob);
 
-        final LootTable loottable = pokemob.getEntity().getLevel().getServer().getLootTables().get(lootTable);
-        final LootContext.Builder lootcontext$builder = new LootContext.Builder(
-                (ServerLevel) pokemob.getEntity().getLevel()).withRandom(boss.getRandom());
+        final LootTable loottable = boss.level().getServer().getLootData().getLootTable(lootTable);
+        LootParams params = new LootParams.Builder((ServerLevel) boss.level()).create(loottable.getParamSet());
         // Generate the loot list.
-        final List<ItemStack> list = loottable.getRandomItems(lootcontext$builder.create(loottable.getParamSet()));
+        final List<ItemStack> list = loottable.getRandomItems(params);
 
         if (!list.isEmpty()) Collections.shuffle(list);
         final int n = 1 + context.level().getRandom().nextInt(4);
