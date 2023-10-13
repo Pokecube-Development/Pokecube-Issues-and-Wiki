@@ -1,0 +1,22 @@
+[
+  {
+    "user": "charizard",
+    "name": "charizard-mega-x",
+    "type": "item",
+    "rule": {
+      "item": {
+        "item": "pokecube:charizardmega-x"
+      }
+    }
+  },
+  {
+    "user": "charizard",
+    "name": "charizard-mega-y",
+    "type": "item",
+    "rule": {
+      "item": {
+        "item": "pokecube:charizardmega-y"
+      }
+    }
+  }
+]

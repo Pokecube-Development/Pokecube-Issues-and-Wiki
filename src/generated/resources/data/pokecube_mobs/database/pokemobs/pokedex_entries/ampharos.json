@@ -223,12 +223,6 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "ampharosmega"
-    }
-  ],
   "interactions": [
     {
       "male": false,

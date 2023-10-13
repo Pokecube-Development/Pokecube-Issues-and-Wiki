@@ -279,11 +279,5 @@
       }
     }
   ],
-  "mega_rules": [
-    {
-      "name": "necrozma_ultra",
-      "item_preset": "pokecube_mobs:necrozma"
-    }
-  ],
   "loot_table": "pokecube:entities/generic_legend"
 }

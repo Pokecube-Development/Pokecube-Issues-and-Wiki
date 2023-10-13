@@ -1,0 +1,10 @@
+{
+  "user": "lopunny",
+  "name": "lopunny-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:lopunnymega"
+    }
+  }
+}

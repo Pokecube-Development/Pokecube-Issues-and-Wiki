@@ -1,0 +1,10 @@
+{
+  "user": "necrozma",
+  "name": "necrozma-ultra",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube_mobs:necrozma"
+    }
+  }
+}

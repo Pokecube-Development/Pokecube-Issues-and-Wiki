@@ -260,11 +260,5 @@
       }
     }
   ],
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "latiasmega"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

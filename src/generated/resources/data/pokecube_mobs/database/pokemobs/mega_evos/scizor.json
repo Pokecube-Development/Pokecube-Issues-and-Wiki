@@ -1,0 +1,10 @@
+{
+  "user": "scizor",
+  "name": "scizor-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:scizormega"
+    }
+  }
+}

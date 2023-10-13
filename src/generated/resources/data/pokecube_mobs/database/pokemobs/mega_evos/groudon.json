@@ -1,0 +1,10 @@
+{
+  "user": "groudon",
+  "name": "groudon-primal",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:omegaorb"
+    }
+  }
+}

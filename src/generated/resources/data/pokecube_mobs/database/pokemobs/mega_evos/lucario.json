@@ -1,0 +1,10 @@
+{
+  "user": "lucario",
+  "name": "lucario-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:lucariomega"
+    }
+  }
+}

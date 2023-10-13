@@ -1,0 +1,10 @@
+{
+  "user": "slowbro",
+  "name": "slowbro-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:slowbromega"
+    }
+  }
+}

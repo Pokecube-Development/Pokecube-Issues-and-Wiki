@@ -1,0 +1,10 @@
+{
+  "user": "beedrill",
+  "name": "beedrill-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:beedrillmega"
+    }
+  }
+}

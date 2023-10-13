@@ -1,0 +1,10 @@
+{
+  "user": "steelix",
+  "name": "steelix-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:steelixmega"
+    }
+  }
+}

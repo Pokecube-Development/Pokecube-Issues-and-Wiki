@@ -101,7 +101,6 @@ import pokecube.core.inventory.pc.PCWrapper;
 import pokecube.core.inventory.tms.TMInventory;
 import pokecube.core.inventory.trade.TradeInventory;
 import pokecube.core.items.UsableItemEffects;
-import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.network.packets.PacketChoose;
@@ -569,10 +568,6 @@ public class EventsHandler
         UsableItemEffects.registerCapabilities(event);
         GeneticsManager.registerCapabilities(event);
         Common.registerCapabilities(event);
-        if (!MegaCapability.isStoneOrWearable(event.getObject())) return;
-        final ResourceLocation key = new ResourceLocation("pokecube:megawearable");
-        if (event.getCapabilities().containsKey(key)) return;
-        event.addCapability(key, new MegaCapability(event.getObject()));
     }
 
     private static void onTileCaps(final AttachCapabilitiesEvent<BlockEntity> event)

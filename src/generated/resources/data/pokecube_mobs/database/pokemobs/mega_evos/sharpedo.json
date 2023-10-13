@@ -1,0 +1,10 @@
+{
+  "user": "sharpedo",
+  "name": "sharpedo-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:sharpedomega"
+    }
+  }
+}

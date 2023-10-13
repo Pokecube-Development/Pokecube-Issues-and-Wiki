@@ -209,11 +209,5 @@
       "chilling-water"
     ]
   },
-  "mega_rules": [
-    {
-      "name": "Greninja Ash",
-      "ability": "battlebond"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_3"
 }

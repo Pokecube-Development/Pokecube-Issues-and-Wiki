@@ -211,11 +211,5 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "houndoommega"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

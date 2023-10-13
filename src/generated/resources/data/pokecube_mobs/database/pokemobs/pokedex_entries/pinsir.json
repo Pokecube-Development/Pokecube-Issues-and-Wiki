@@ -231,11 +231,5 @@
       "brutal-swing"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "pinsirmega"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

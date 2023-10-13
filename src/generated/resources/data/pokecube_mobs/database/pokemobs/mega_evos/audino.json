@@ -1,0 +1,10 @@
+{
+  "user": "audino",
+  "name": "audino-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:audinomega"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "user": "garchomp",
+  "name": "garchomp-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:garchompmega"
+    }
+  }
+}

@@ -209,11 +209,5 @@
       ]
     }
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "pidgeotmega"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_3"
 }

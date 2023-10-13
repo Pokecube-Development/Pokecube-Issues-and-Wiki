@@ -1,0 +1,10 @@
+{
+  "user": "mawile",
+  "name": "mawile-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:mawilemega"
+    }
+  }
+}

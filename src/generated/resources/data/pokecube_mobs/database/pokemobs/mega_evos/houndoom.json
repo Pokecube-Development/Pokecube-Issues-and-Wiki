@@ -1,0 +1,10 @@
+{
+  "user": "houndoom",
+  "name": "houndoom-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:houndoommega"
+    }
+  }
+}

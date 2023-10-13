@@ -1,0 +1,10 @@
+{
+  "user": "gardevoir",
+  "name": "gardevoir-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:gardevoirmega"
+    }
+  }
+}

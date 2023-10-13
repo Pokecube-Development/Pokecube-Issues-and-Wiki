@@ -1,0 +1,10 @@
+{
+  "user": "gengar",
+  "name": "gengar-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:gengarmega"
+    }
+  }
+}

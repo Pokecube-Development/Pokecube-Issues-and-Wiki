@@ -1,0 +1,10 @@
+{
+  "user": "kangaskhan",
+  "name": "kangaskhan-mega",
+  "type": "item",
+  "rule": {
+    "item": {
+      "item": "pokecube:kangaskhanmega"
+    }
+  }
+}

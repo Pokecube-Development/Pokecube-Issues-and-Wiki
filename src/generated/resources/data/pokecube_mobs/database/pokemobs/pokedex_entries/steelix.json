@@ -267,11 +267,5 @@
       "scorching-sands"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "steelixmega"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_2"
 }

@@ -9,7 +9,7 @@
     "pokecube:psyduck",
     "pokecube:golduck",
     "pokecube:farfetchd",
-    "pokecube:farfetchd_galar",
+    "pokecube:farfetchd-galar",
     "pokecube:doduo",
     "pokecube:dodrio",
     "pokecube:aerodactyl",
@@ -54,10 +54,10 @@
     "pokecube:rowlet",
     "pokecube:dartrix",
     "pokecube:decidueye",
-    "pokecube:oricorio_baile",
-    "pokecube:oricorio_pom_pom",
-    "pokecube:oricorio_sensu",
-    "pokecube:oricorio_pau",
+    "pokecube:oricorio-baile",
+    "pokecube:oricorio-pom-pom",
+    "pokecube:oricorio-sensu",
+    "pokecube:oricorio-pau",
     "pokecube:pikipek",
     "pokecube:trumbeak",
     "pokecube:toucannon",
@@ -65,6 +65,6 @@
     "pokecube:corvisquire",
     "pokecube:corviknight",
     "pokecube:cramorant",
-    "pokecube:cramorant_gulping"
+    "pokecube:cramorant-gulping"
   ]
 }
