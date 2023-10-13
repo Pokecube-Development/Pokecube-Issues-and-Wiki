@@ -1,8 +1,8 @@
 {
   "user": "latias",
   "name": "latias-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:latiasmega"
     }

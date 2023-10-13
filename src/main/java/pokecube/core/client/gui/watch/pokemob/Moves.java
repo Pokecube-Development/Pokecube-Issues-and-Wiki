@@ -22,7 +22,6 @@ import pokecube.core.client.gui.watch.GuiPokeWatch;
 import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
-import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.moves.MovesUtils;
 import thut.lib.TComponent;
 
@@ -80,8 +79,6 @@ public class Moves extends ListPage<LineEntry>
                             ? TComponent.translatable("pokewatch.ATT", value)
                             : TComponent.translatable("pokewatch.ATTSP", value);
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
-                    if (GZMoveManager.isGZDMove(move) && offset[3] != this.parent.pokemob.getMoveIndex())
-                        value = TComponent.translatable("pokewatch.moves.pwr.fmt", "???", stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
                     final int mx1 = 65 - box;

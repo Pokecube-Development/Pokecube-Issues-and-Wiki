@@ -1,8 +1,8 @@
 {
   "user": "aggron",
   "name": "aggron-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:aggronmega"
     }

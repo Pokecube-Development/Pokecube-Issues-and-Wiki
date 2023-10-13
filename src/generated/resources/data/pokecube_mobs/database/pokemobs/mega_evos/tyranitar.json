@@ -1,8 +1,8 @@
 {
   "user": "tyranitar",
   "name": "tyranitar-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:tyranitarmega"
     }

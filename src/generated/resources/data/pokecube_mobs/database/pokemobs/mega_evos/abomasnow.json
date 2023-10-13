@@ -1,8 +1,8 @@
 {
   "user": "abomasnow",
   "name": "abomasnow-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:abomasnowmega"
     }

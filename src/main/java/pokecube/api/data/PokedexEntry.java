@@ -324,11 +324,14 @@ public class PokedexEntry
             boolean rightMove = this.move.equals("");
             if (!rightMove)
             {
-                final String[] moves = mob.getMoves();
-                for (final String s : moves) if (s != null) if (s.equalsIgnoreCase(this.move))
+                for (int i = 0; i < mob.getMovesCount(); i++)
                 {
-                    rightMove = true;
-                    break;
+                    String s = mob.getMove(i);
+                    if (s != null && s.equalsIgnoreCase(this.move))
+                    {
+                        rightMove = true;
+                        break;
+                    }
                 }
             }
             ret = ret && rightMove;

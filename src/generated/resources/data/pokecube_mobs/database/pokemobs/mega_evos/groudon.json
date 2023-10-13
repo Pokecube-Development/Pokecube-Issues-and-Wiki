@@ -1,8 +1,8 @@
 {
   "user": "groudon",
   "name": "groudon-primal",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:omegaorb"
     }

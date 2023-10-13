@@ -1,6 +1,10 @@
 package pokecube.api.entity.pokemob.commandhandlers;
 
+import java.util.Map;
+import java.util.function.Consumer;
+
 import io.netty.buffer.ByteBuf;
+import it.unimi.dsi.fastutil.bytes.Byte2ObjectArrayMap;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -15,17 +19,22 @@ import thut.lib.TComponent;
 
 public class StanceHandler extends DefaultHandler
 {
-    public static final byte STAY   = 0;
-    public static final byte GUARD  = 1;
-    public static final byte SIT    = 2;
-    public static final byte GZMOVE = 3;
+    public static final byte STAY = 0;
+    public static final byte GUARD = 1;
+    public static final byte SIT = 2;
+    public static final byte MODE = 3;
 
-    boolean state;
-    byte    key;
-
-    public StanceHandler()
+    public static record ModeInfo(IPokemob pokemob, boolean state, byte mode)
     {
     }
+
+    public static Map<Byte, Consumer<ModeInfo>> MODE_LISTENERS = new Byte2ObjectArrayMap<>();
+
+    boolean state;
+    byte key;
+
+    public StanceHandler()
+    {}
 
     public StanceHandler(final Boolean state, final Byte key)
     {
@@ -44,17 +53,16 @@ public class StanceHandler extends DefaultHandler
             pokemob.setGeneralState(GeneralStates.STAYING, stay = !pokemob.getGeneralState(GeneralStates.STAYING));
             break;
         case GUARD:
-            if (PokecubeCore.getConfig().guardModeEnabled) pokemob.setCombatState(CombatStates.GUARDING, !pokemob
-                    .getCombatState(CombatStates.GUARDING));
+            if (PokecubeCore.getConfig().guardModeEnabled)
+                pokemob.setCombatState(CombatStates.GUARDING, !pokemob.getCombatState(CombatStates.GUARDING));
             else pokemob.displayMessageToOwner(TComponent.translatable("pokecube.config.guarddisabled"));
             break;
         case SIT:
             pokemob.setLogicState(LogicStates.SITTING, !pokemob.getLogicState(LogicStates.SITTING));
             break;
-        case GZMOVE:
-            pokemob.setCombatState(CombatStates.USINGGZMOVE, !pokemob.getCombatState(CombatStates.USINGGZMOVE));
-            pokemob.displayMessageToOwner(TComponent.translatable("pokecube.gzmode." + (pokemob.getCombatState(
-                    CombatStates.USINGGZMOVE) ? "set" : "unset")));
+        default:
+            ModeInfo info = new ModeInfo(pokemob, this.state, this.key);
+            MODE_LISTENERS.getOrDefault(this.key, m -> {}).accept(info);
             break;
         }
         if (stay)

@@ -10,9 +10,9 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.database.Database;
-import pokecube.core.gimmicks.dynamax.DynamaxGene;
-import pokecube.core.gimmicks.dynamax.DynamaxGene.DynaObject;
 import pokecube.core.items.UsableItemEffects.BaseUseable;
+import pokecube.gimmicks.dynamax.DynamaxGene;
+import pokecube.gimmicks.dynamax.DynamaxGene.DynaObject;
 import pokecube.legends.Reference;
 import pokecube.legends.init.ItemInit;
 

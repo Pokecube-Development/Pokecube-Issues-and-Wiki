@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.terastal;
+package pokecube.gimmicks.terastal;
 
 import javax.annotation.Nullable;
 
@@ -29,9 +29,9 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
-import pokecube.core.gimmicks.terastal.TeraTypeGene.TeraType;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.pokemobs.PacketSyncGene;
+import pokecube.gimmicks.terastal.TeraTypeGene.TeraType;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;

@@ -1,8 +1,8 @@
 {
   "user": "camerupt",
   "name": "camerupt-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:cameruptmega"
     }

@@ -74,7 +74,6 @@ import pokecube.legends.init.LegendsCreativeTabs;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.TileEntityInit;
-import pokecube.legends.init.function.RaidCapture;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
@@ -151,9 +150,6 @@ public class PokecubeLegends
         PokecubeAPI.POKEMOB_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-
-        PokecubeAPI.POKEMOB_BUS.addListener(RaidCapture::CatchPokemobRaid);
-        PokecubeAPI.POKEMOB_BUS.addListener(RaidCapture::PostCatchPokemobRaid);
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 

@@ -138,7 +138,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public String[] getMoves()
     {
-        final String[] moves = this.getMoveStats().moves;
         if (this.genesMoves == null)
         {
             if (this.genes == null) throw new RuntimeException("This should not be called here");
@@ -151,7 +150,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             if (this.genesMoves.getAllele(0) == null || this.genesMoves.getAllele(1) == null)
             {
                 final MovesGene gene = new MovesGene();
-                gene.setValue(moves);
+                gene.setValue(this.getMoveStats().getBaseMoves());
                 this.genesMoves.setAllele(0,
                         gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (MovesGene) gene.mutate()
                                 : gene);
@@ -162,7 +161,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             }
         }
         final MovesGene gene = this.genesMoves.getExpressed();
-        return this.getMoveStats().moves = gene.getValue();
+        if (gene.getValue() != this.getMoveStats().getBaseMoves())
+        {
+            this.getMoveStats().setBaseMoves(gene.getValue());
+            this.getMoveStats().reset();
+        }
+        return this.getMoveStats().getMovesToUse();
     }
 
     @Override
@@ -437,7 +441,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.getRGBA();
 
         // Refresh the datamanager for moves.
-        this.setMoves(this.getMoves());
+        this.setMoves(this.getMoveStats().getBaseMoves());
         // Refresh the datamanager for evs
         this.setEVs(this.getEVs());
 
@@ -524,10 +528,13 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     {
         // do not blanket set moves on client, or when transformed.
         if (!(this.getEntity().level() instanceof ServerLevel) || this.getTransformedTo() != null) return;
-
-        final String[] moves = this.getMoves();
-        moves[i] = moveName;
-        this.setMoves(moves);
+        // Ensures the gene is synced and valid
+        this.getMoves();
+        // Then apply it to the base moves
+        this.getMoveStats().getBaseMoves()[i] = moveName;
+        this.getMoveStats().getMovesToUse()[i] = moveName;
+        // Then sync
+        this.setMoves(this.getMoveStats().getBaseMoves());
     }
 
     @Override
@@ -549,7 +556,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 return;
             }
             final MovesGene gene = this.genesMoves.getExpressed();
-            gene.setValue(this.getMoveStats().moves = moves);
+            gene.setValue(this.getMoveStats().setBaseMoves(moves));
         }
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesMoves);
     }

@@ -1,8 +1,8 @@
 {
   "user": "sableye",
   "name": "sableye-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:sableyemega"
     }

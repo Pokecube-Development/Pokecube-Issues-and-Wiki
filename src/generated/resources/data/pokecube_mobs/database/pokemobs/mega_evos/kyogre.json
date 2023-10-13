@@ -1,8 +1,8 @@
 {
   "user": "kyogre",
   "name": "kyogre-primal",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:alphaorb"
     }

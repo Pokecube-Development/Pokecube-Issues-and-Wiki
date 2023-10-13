@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.dynamax;
+package pokecube.gimmicks.terastal;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,17 +20,15 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.raids.IBossProvider;
 import pokecube.api.raids.RaidManager.RaidContext;
-import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.tasks.TaskBase.InventoryChange;
 import pokecube.core.database.Database;
-import pokecube.core.gimmicks.terastal.TeraTypeGene;
-import pokecube.core.gimmicks.terastal.TerastalMechanic;
+import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.core.common.ThutCore;
 
-public class DynamaxRaid implements IBossProvider
+public class TerastalRaid implements IBossProvider
 {
     public static int RAID_DURATION = 600;
 
@@ -81,9 +79,9 @@ public class DynamaxRaid implements IBossProvider
 
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
 
-            entity.getPersistentData().putBoolean(TagNames.NOPOOF, true);
-            entity.getPersistentData().putBoolean("pokecube:dyna_raid_mob", true);
-            entity.getPersistentData().putBoolean("alwaysAgress", true);
+            long time = Tracker.instance().getTick();
+            entity.getPersistentData().putLong("pokecube:tera_raid_start", time);
+            entity.getPersistentData().putInt("pokecube:tera_raid_duration", RAID_DURATION);
 
             bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
 
@@ -99,7 +97,7 @@ public class DynamaxRaid implements IBossProvider
     public void postBossSpawn(LivingEntity boss, RaidContext context)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
-        DynamaxHelper.onDynamax(pokemob, RAID_DURATION);
+        TerastalMechanic.doTera(pokemob);
 
         final LootTable loottable = boss.level().getServer().getLootData().getLootTable(lootTable);
         LootParams params = new LootParams.Builder((ServerLevel) boss.level()).create(loottable.getParamSet());
@@ -117,13 +115,12 @@ public class DynamaxRaid implements IBossProvider
         }
         context.level().playLocalSound(boss.getX(), boss.getY(), boss.getZ(), SoundEvents.DRAGON_FIREBALL_EXPLODE,
                 SoundSource.NEUTRAL, 1, 1, false);
-
     }
 
     @Override
     public String getKey()
     {
-        return "dynamax";
+        return "terastal";
     }
 
 }

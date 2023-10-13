@@ -578,9 +578,9 @@ def convert_mega_rules(entry):
     for rule in entry["mega_rules"]:
         _rule = {}
         name = "???"
-        type = "item"
         user = entry["name"]
         da_rule = {}
+        da_rule['key'] = 'item'
 
         if 'preset' in rule and 'item_preset' in rule:
             key = rule['preset']
@@ -596,23 +596,22 @@ def convert_mega_rules(entry):
             if "move" in rule:
                 move = convert_old_move_name(rule['move'])
                 da_rule["move"] = move
-                type = "move"
+                da_rule['key'] = "move"
             elif 'item_preset' in rule:
                 item = rule['item_preset']
                 if not ":" in item:
                     item = f"pokecube:{item}"
                 # Manually code in the 1 legacy thing which used a tag rule instead of item rule.
                 if rule['item_preset'] == 'pokecube_mobs:necrozma':
-                    da_rule["item"] = {"tag":item}
+                    da_rule["tag"] = item
                 else:
                     da_rule["item"] = {"item":item}
             elif 'ability' in rule:
-                type = 'ability'
+                da_rule['key'] = 'ability'
                 da_rule["ability"] = rule['ability']
 
         _rule['user'] = user
         _rule['name'] = name
-        _rule['type'] = type
         _rule['rule'] = da_rule
 
         rules.append(_rule)

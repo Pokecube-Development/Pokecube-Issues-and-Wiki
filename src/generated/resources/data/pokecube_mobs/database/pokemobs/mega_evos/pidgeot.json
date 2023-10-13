@@ -1,8 +1,8 @@
 {
   "user": "pidgeot",
   "name": "pidgeot-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:pidgeotmega"
     }

@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.function.BiFunction;
+import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
 
 import org.objectweb.asm.Type;
 
@@ -26,10 +28,9 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.database.moves.MovesDatabases;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.core.eventhandlers.MoveEventsHandler.WrappedAction;
-import pokecube.core.gimmicks.zmoves.GZMoveManager;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.animations.AnimationMultiAnimations;
-import pokecube.core.moves.templates.D_Move_Damage;
+import pokecube.core.moves.templates.Move_Explode;
 import pokecube.core.moves.world.DefaultElectricAction;
 import pokecube.core.moves.world.DefaultFireAction;
 import pokecube.core.moves.world.DefaultIceAction;
@@ -42,14 +43,19 @@ public class MovesAdder implements IMoveConstants
     public static Set<Package> moveRegistryPackages = Sets.newHashSet();
 
     public static List<Function<MoveEntry, IMoveWorldEffect>> defaultWorldEffects = new ArrayList<>();
+    public static List<Consumer<MoveEntry>> moveProcessors = new ArrayList<>();
+    public static List<Predicate<MoveEntry>> moveValidators = new ArrayList<>();
 
     static
     {
-        moveRegistryPackages.add(D_Move_Damage.class.getPackage());
+        moveRegistryPackages.add(Move_Explode.class.getPackage());
         defaultWorldEffects.add(DefaultWaterAction::new);
         defaultWorldEffects.add(DefaultIceAction::new);
         defaultWorldEffects.add(DefaultElectricAction::new);
         defaultWorldEffects.add(DefaultFireAction::new);
+
+        moveProcessors.add(move -> move.postInit());
+        moveValidators.add(move -> move.checkValid());
     }
 
     public static void setupMoveAnimations()
@@ -259,8 +265,7 @@ public class MovesAdder implements IMoveConstants
         unRegged.removeIf(list::contains);
         for (final MoveEntry e : unRegged)
         {
-            boolean doesSomething = GZMoveManager.isGZDMove(e);
-            doesSomething |= e.checkValid();
+            boolean doesSomething = moveValidators.stream().anyMatch(p -> p.test(e));
             if (!doesSomething)
             {
                 MoveEntry.removeMove(e);

@@ -1,8 +1,8 @@
 {
   "user": "diancie",
   "name": "diancie-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:dianciemega"
     }

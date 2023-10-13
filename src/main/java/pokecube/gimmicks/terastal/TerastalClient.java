@@ -1,4 +1,4 @@
-package pokecube.core.gimmicks.terastal;
+package pokecube.gimmicks.terastal;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -9,8 +9,8 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.overlays.Status;
 import pokecube.core.client.render.mobs.overlays.Status.StatusOverlay;
 import pokecube.core.client.render.mobs.overlays.Status.StatusTexturer;
-import pokecube.core.gimmicks.terastal.TeraTypeGene.TeraType;
 import pokecube.core.utils.Resources;
+import pokecube.gimmicks.terastal.TeraTypeGene.TeraType;
 
 @Mod.EventBusSubscriber(bus = Bus.MOD, modid = PokecubeCore.MODID, value = Dist.CLIENT)
 public class TerastalClient

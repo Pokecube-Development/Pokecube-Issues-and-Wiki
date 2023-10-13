@@ -409,6 +409,14 @@ public class PokemobEventsHandler
         // We only consider MobEntities
         if (!(event.getEntity() instanceof Mob mob)) return;
 
+        IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+        if (pokemob != null)
+        {
+            // Initialise these when added to world.
+            pokemob.getModifiers().outOfCombatReset();
+            pokemob.getMoveStats().reset();
+        }
+
         if (mob.level().isClientSide()) return;
 
         // We only want to run this from execution thread.
@@ -617,7 +625,7 @@ public class PokemobEventsHandler
         // Handle transferring the kill info over, This is in place for mod
         // support.
         if (damageSource instanceof PokemobDamageSource && living.level() instanceof ServerLevel level)
-            (damageSource.getDirectEntity()).killedEntity(level, living);
+            damageSource.getDirectEntity().killedEntity(level, living);
 
         // Handle exp gain for the mob.
         final IPokemob attacker = PokemobCaps.getPokemobFor(damageSource.getDirectEntity());
@@ -809,7 +817,7 @@ public class PokemobEventsHandler
         long tick = living.getPersistentData().getLong("__i__");
         if (tick == Tracker.instance().getTick()) return;
         living.getPersistentData().putLong("__i__", Tracker.instance().getTick());
-        
+
         // Tick the genes
         IMobGenetics genes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         if (genes != null) genes.onUpdateTick(living);
@@ -833,6 +841,7 @@ public class PokemobEventsHandler
             // here.
             if (!(living instanceof EntityPokemob)) living.deathTime = 18;
         }
+
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
         {

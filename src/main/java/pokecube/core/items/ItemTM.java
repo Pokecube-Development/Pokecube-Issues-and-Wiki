@@ -1,6 +1,8 @@
 package pokecube.core.items;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -28,6 +30,13 @@ import thut.lib.TComponent;
 
 public class ItemTM extends Item
 {
+    public static List<Predicate<String>> INVALID_TMS = new ArrayList<>();
+
+    static
+    {
+        INVALID_TMS.add(move -> move.equals(MoveEntry.CONFUSED.name));
+    }
+
     public static boolean applyEffect(final LivingEntity mob, final ItemStack stack)
     {
         if (mob.level().isClientSide) return stack.hasTag();
@@ -57,6 +66,8 @@ public class ItemTM extends Item
     public static ItemStack getTM(final String move)
     {
         ItemStack stack = ItemStack.EMPTY;
+        if (INVALID_TMS.stream().anyMatch(s -> s.test(move))) return stack;
+
         final MoveEntry attack = MovesUtils.getMove(move.trim());
         if (attack == null)
         {

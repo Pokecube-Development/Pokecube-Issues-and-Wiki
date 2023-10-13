@@ -1,8 +1,8 @@
 {
   "user": "blaziken",
   "name": "blaziken-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:blazikenmega"
     }

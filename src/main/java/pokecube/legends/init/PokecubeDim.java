@@ -21,10 +21,9 @@ public class PokecubeDim
     // Dynamax/Gigantamax
     public double dyna(final IPokemob mob)
     {
-        final double x = 3;
-        return x;
+        return mob.getEntity().getPersistentData().contains("pokecube:raid_boss") ? 255 : 0;
     }
-    
+
     // Teams
     public double teamR(final IPokemob mob)
     {

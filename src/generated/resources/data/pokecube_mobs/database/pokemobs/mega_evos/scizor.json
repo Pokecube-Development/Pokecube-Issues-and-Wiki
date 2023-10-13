@@ -1,8 +1,8 @@
 {
   "user": "scizor",
   "name": "scizor-mega",
-  "type": "item",
   "rule": {
+    "key": "item",
     "item": {
       "item": "pokecube:scizormega"
     }

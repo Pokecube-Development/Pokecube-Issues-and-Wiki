@@ -3,8 +3,14 @@ package pokecube.api.raids;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraftforge.eventbus.api.Event.Result;
+import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.raids.RaidManager.RaidContext;
+import pokecube.core.items.pokecubes.helper.CaptureManager;
+import thut.lib.TComponent;
 
 /**
  * This interface is responsible for creating bosses for raids.
@@ -28,7 +34,29 @@ public interface IBossProvider
      * @param boss
      * @param context
      */
-    default void postBossSpawn(LivingEntity boss, RaidContext context)
+    default void postBossSpawn(@Nonnull LivingEntity boss, @Nonnull RaidContext context)
+    {
+
+    }
+
+    default void onBossCaptureAttempt(CaptureEvent.Pre event)
+    {
+        if (event.mob.getHealth() >= 1)
+        {
+            final Entity catcher = event.pokecube.shootingEntity;
+            if (catcher instanceof Player player)
+                thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
+            event.setCanceled(true);
+            event.setResult(Result.DENY);
+            CaptureManager.onCaptureDenied(event.pokecube);
+        }
+        else
+        {
+            event.setResult(Result.ALLOW);
+        }
+    }
+
+    default void postBossCapture(CaptureEvent.Post event, LivingEntity fromCube)
     {
 
     }
