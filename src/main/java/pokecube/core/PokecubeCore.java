@@ -195,7 +195,6 @@ public class PokecubeCore
             {
                 type = Database.missingno.getEntityType();
                 mob = type.create(world);
-                return mob;
             }
             else mob = type.create(world);
             PokemobCaps.getPokemobFor(mob).setPokedexEntry(entry);

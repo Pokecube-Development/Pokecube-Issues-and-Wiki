@@ -195,6 +195,7 @@ public class AnimationGui extends Screen
         if (AnimationGui.entry == null) AnimationGui.entry = Database.getEntry(AnimationGui.mob);
         AnimationGui.mob = AnimationGui.entry.getName();
         this.forme.setValue(AnimationGui.mob);
+        AnimationGui.renderMobs.clear();
         this.holder = AnimationGui.entry.getModel(this.sexe);
         if (this.holder == null && AnimationGui.entry.generated)
         {
