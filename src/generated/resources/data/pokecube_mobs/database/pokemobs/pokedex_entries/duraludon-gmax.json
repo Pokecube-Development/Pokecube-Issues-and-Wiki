@@ -2,7 +2,7 @@
   "name": "duraludon-gmax",
   "id": 884,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 187,
   "size": {
     "height": 5.5,
@@ -38,6 +38,28 @@
     "hidden": [
       "stalwart"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2.5,0,-2.5",
+          "size": "5,5,5"
+        },
+        {
+          "name": "body1",
+          "offset": "-2.5,5,-2.5",
+          "size": "5,5,5",
+          "ride": "2.5,0,3.3"
+        },
+        {
+          "name": "head",
+          "offset": "-2.5,10,-2.5",
+          "size": "5,3.5,5"
+        }
+      ]
+    }
   },
   "old_name": "duraludon_gigantamax"
 }

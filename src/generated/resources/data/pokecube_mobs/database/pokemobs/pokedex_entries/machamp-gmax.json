@@ -2,7 +2,7 @@
   "name": "machamp-gmax",
   "id": 68,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 227,
   "size": {
     "height": 5.0,
@@ -37,6 +37,18 @@
     "hidden": [
       "steadfast"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2,0,-2",
+          "size": "4.0,9,4.0",
+          "ride": "3.2,7,2.8"
+        }
+      ]
+    }
   },
   "old_name": "machamp_gigantamax"
 }

@@ -1,0 +1,10 @@
+{
+  "user": "gyarados",
+  "name": "gyarados-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:gyaradosmega"
+    }
+  }
+}

@@ -57,7 +57,6 @@ import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
@@ -368,8 +367,7 @@ public class EventsHandlerClient
             if (ClientSetupHandler.gzmove.consumeClick())
             {
                 PacketCommand.sendCommand(current, Command.STANCE,
-                        new StanceHandler(!current.getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE)
-                                .setFromOwner(true));
+                        new StanceHandler(true, StanceHandler.MODE).setFromOwner(true));
             }
         }
     }

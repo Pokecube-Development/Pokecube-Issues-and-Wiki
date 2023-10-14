@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.StringRepresentable;
@@ -40,9 +41,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.api.raids.RaidManager;
 import pokecube.core.blocks.InteractableHorizontalBlock;
 import pokecube.legends.PokecubeLegends;
-import pokecube.legends.init.function.MaxRaidFunction;
 import pokecube.legends.tileentity.RaidSpawn;
 import thut.lib.TComponent;
 
@@ -165,12 +166,11 @@ public class RaidSpawnBlock extends InteractableHorizontalBlock implements Simpl
     public InteractionResult use(final BlockState state, final Level worldIn, final BlockPos pos,
             final Player entity, final InteractionHand hand, final BlockHitResult hit)
     {
-        if (worldIn instanceof ServerLevel)
+        if (worldIn instanceof ServerLevel level && entity instanceof ServerPlayer player)
         {
             final boolean active = state.getValue(RaidSpawnBlock.ACTIVE).active();
-            if (active)
+            if (active && RaidManager.makeRaid(level, pos, player))
             {
-                MaxRaidFunction.executeProcedure(pos, state, (ServerLevel) worldIn);
                 worldIn.setBlockAndUpdate(pos, state.setValue(RaidSpawnBlock.ACTIVE, State.EMPTY));
             }
         }

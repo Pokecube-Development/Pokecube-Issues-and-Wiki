@@ -298,11 +298,5 @@
       "tera-blast"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "sableyemega"
-    }
-  ],
   "loot_table": "pokecube:entities/sand_1"
 }

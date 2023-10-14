@@ -78,6 +78,7 @@
         "L": 19,
         "moves": [
           "feint-attack",
+          "assurance",
           "power-trip"
         ]
       },
@@ -103,7 +104,8 @@
         "L": 16,
         "moves": [
           "needle-arm",
-          "bullet-seed"
+          "bullet-seed",
+          "poison-jab"
         ]
       },
       {

@@ -39,9 +39,24 @@
         "moves": [
           "scratch",
           "focus-energy",
+          "amnesia",
+          "rest",
+          "flail",
           "reversal",
           "encore",
-          "uproar"
+          "uproar",
+          "yawn",
+          "slack-off",
+          "covet",
+          "play-rough"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "headbutt",
+          "chip-away",
+          "throat-chop"
         ]
       },
       {
@@ -72,13 +87,6 @@
         "L": 37,
         "moves": [
           "focus-punch"
-        ]
-      },
-      {
-        "L": 27,
-        "moves": [
-          "chip-away",
-          "throat-chop"
         ]
       }
     ],

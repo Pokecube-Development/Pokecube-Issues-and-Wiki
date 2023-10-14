@@ -41,6 +41,8 @@ public class PacketPokemobGui extends Packet
             for (final IAIRunnable run : pokemob.getTasks()) if (run instanceof StoreTask task) ai = task;
             final StoreTask toSend = ai;
             buffer.writeNbt(toSend.serializeNBT());
+            String megaMode = target.getPersistentData().getString("pokecube:mega_mode");
+            buffer.writeUtf(megaMode);
             PacketSyncRoutes.sendUpdateClientPacket(target, player, false);
             final SimpleMenuProvider provider = new SimpleMenuProvider((i, p, e) -> new PokemobContainer(i, p, buffer),
                     target.getDisplayName());
@@ -48,6 +50,7 @@ public class PacketPokemobGui extends Packet
                 buf.writeInt(target.getId());
                 buf.writeByte(mode);
                 buf.writeNbt(toSend.serializeNBT());
+                buf.writeUtf(megaMode);
             });
         }
     }

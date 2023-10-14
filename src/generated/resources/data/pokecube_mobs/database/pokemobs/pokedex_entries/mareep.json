@@ -95,6 +95,7 @@
         "L": 39,
         "moves": [
           "signal-beam",
+          "charge-beam",
           "dazzling-gleam"
         ]
       },

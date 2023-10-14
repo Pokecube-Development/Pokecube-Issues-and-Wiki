@@ -44,6 +44,13 @@
         ]
       },
       {
+        "L": 28,
+        "moves": [
+          "headbutt",
+          "embargo"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "tackle"
@@ -80,6 +87,13 @@
         ]
       },
       {
+        "L": 13,
+        "moves": [
+          "mud-slap",
+          "odor-sleuth"
+        ]
+      },
+      {
         "L": 19,
         "moves": [
           "swagger"
@@ -104,12 +118,6 @@
         ]
       },
       {
-        "L": 13,
-        "moves": [
-          "odor-sleuth"
-        ]
-      },
-      {
         "L": 4,
         "moves": [
           "howl"
@@ -119,12 +127,6 @@
         "L": 22,
         "moves": [
           "assurance"
-        ]
-      },
-      {
-        "L": 28,
-        "moves": [
-          "embargo"
         ]
       },
       {
@@ -198,6 +200,7 @@
       "me-first",
       "sucker-punch",
       "dark-pulse",
+      "nasty-plot",
       "thunder-fang",
       "ice-fang",
       "fire-fang",

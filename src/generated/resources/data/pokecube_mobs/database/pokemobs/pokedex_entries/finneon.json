@@ -40,7 +40,6 @@
       {
         "L": 1,
         "moves": [
-          "pound",
           "pound"
         ]
       },
@@ -54,6 +53,13 @@
         "L": 6,
         "moves": [
           "water-gun"
+        ]
+      },
+      {
+        "L": 26,
+        "moves": [
+          "flail",
+          "captivate"
         ]
       },
       {
@@ -109,12 +115,6 @@
         "L": 33,
         "moves": [
           "aqua-ring"
-        ]
-      },
-      {
-        "L": 26,
-        "moves": [
-          "captivate"
         ]
       },
       {

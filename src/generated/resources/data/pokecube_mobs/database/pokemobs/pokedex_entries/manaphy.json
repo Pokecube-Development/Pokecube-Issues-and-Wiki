@@ -40,17 +40,18 @@
         ]
       },
       {
-        "L": 24,
-        "moves": [
-          "bubble-beam"
-        ]
-      },
-      {
         "L": 1,
         "moves": [
+          "water-gun",
           "bubble",
           "tail-glow",
           "water-sport"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bubble-beam"
         ]
       },
       {

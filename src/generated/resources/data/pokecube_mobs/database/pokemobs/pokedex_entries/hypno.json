@@ -49,8 +49,7 @@
           "nightmare",
           "future-sight",
           "switcheroo",
-          "nasty-plot",
-          "pound"
+          "nasty-plot"
         ]
       },
       {
@@ -90,6 +89,13 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "mind-reader",
+          "wake-up-slap"
+        ]
+      },
+      {
         "L": 45,
         "moves": [
           "swagger"
@@ -99,12 +105,6 @@
         "L": 33,
         "moves": [
           "psych-up"
-        ]
-      },
-      {
-        "L": 29,
-        "moves": [
-          "wake-up-slap"
         ]
       },
       {

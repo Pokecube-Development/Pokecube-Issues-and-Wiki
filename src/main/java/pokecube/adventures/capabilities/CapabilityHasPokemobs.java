@@ -810,7 +810,7 @@ public class CapabilityHasPokemobs
                 final Vector3 here = new Vector3().set(this.user);
                 final Vector3 t = new Vector3().set(target);
                 t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
-                PokecubeManager.heal(i, user.level);
+                PokecubeManager.heal(i, user.level, false);
 
                 LivingEntity mob = PokecubeManager.itemToMob(i, this.user.level);
 

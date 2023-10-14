@@ -244,11 +244,5 @@
       "stomping-tantrum"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "audinomega"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

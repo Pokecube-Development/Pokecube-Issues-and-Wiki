@@ -44,7 +44,10 @@
         "moves": [
           "scratch",
           "leer",
-          "ember"
+          "ember",
+          "flamethrower",
+          "facade",
+          "nasty-plot"
         ]
       },
       {
@@ -112,6 +115,12 @@
         "moves": [
           "acrobatics"
         ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "power-up-punch"
+        ]
       }
     ],
     "misc": [
@@ -178,6 +187,7 @@
       "poison-jab",
       "vacuum-wave",
       "focus-blast",
+      "nasty-plot",
       "shadow-claw",
       "rock-climb",
       "gunk-shot",

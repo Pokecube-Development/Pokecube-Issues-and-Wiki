@@ -48,7 +48,8 @@
       {
         "L": 43,
         "moves": [
-          "jump-kick"
+          "jump-kick",
+          "lunge"
         ]
       },
       {
@@ -127,7 +128,8 @@
       {
         "L": 50,
         "moves": [
-          "captivate"
+          "captivate",
+          "entrainment"
         ]
       }
     ],

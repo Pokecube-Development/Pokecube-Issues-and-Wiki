@@ -1,0 +1,10 @@
+{
+  "user": "swampert",
+  "name": "swampert-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:swampertmega"
+    }
+  }
+}

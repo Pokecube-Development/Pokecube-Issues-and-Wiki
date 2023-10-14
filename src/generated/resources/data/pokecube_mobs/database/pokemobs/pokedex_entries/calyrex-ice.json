@@ -57,8 +57,7 @@
           "iron-defense",
           "avalanche",
           "icicle-crash",
-          "glacial-lance",
-          "pound"
+          "glacial-lance"
         ]
       },
       {
@@ -130,6 +129,7 @@
       }
     ],
     "misc": [
+      "pound",
       "pay-day",
       "swords-dance",
       "stomp",

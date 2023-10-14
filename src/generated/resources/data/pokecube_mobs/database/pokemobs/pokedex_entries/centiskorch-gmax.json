@@ -2,7 +2,7 @@
   "name": "centiskorch-gmax",
   "id": 851,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 184,
   "size": {
     "height": 4.0,
@@ -38,6 +38,48 @@
     "hidden": [
       "flame-body"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,2,3"
+        },
+        {
+          "name": "neck",
+          "offset": "-1,2,-2",
+          "size": "2,2,2"
+        },
+        {
+          "name": "neck1",
+          "offset": "-1,4,-2.9",
+          "size": "2,2,2",
+          "ride": "1,3,1"
+        },
+        {
+          "name": "tail",
+          "offset": "-1.5,0,2",
+          "size": "3,2,3"
+        },
+        {
+          "name": "tail1",
+          "offset": "-1.5,0,3.5",
+          "size": "3,2,3"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.8,0,-1.3",
+          "size": "1,1,3.5",
+          "ride": "1.8,0.2,1.3"
+        }
+      ]
+    }
   },
   "old_name": "centiskorch_gigantamax"
 }

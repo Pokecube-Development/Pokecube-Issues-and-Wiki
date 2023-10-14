@@ -44,6 +44,8 @@
         "L": 1,
         "moves": [
           "tackle",
+          "rock-throw",
+          "harden",
           "iron-defense",
           "block",
           "gravity",
@@ -124,6 +126,18 @@
         "L": 40,
         "moves": [
           "stone-edge"
+        ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "body-press"
         ]
       }
     ],

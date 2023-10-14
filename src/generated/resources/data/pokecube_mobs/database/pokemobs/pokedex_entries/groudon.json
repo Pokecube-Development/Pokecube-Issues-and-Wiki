@@ -232,11 +232,5 @@
       }
     }
   ],
-  "mega_rules": [
-    {
-      "name": "Groudon Primal",
-      "item_preset": "omegaorb"
-    }
-  ],
   "loot_table": "pokecube:entities/stone_gold"
 }

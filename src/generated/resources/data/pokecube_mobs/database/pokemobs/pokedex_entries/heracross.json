@@ -245,11 +245,5 @@
     "model": "heracross_female",
     "anim": "heracross_female"
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "heracrossmega"
-    }
-  ],
   "loot_table": "pokecube:entities/bones"
 }

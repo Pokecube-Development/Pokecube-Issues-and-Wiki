@@ -1,0 +1,10 @@
+{
+  "user": "tyranitar",
+  "name": "tyranitar-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:tyranitarmega"
+    }
+  }
+}

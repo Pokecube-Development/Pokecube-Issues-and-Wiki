@@ -96,6 +96,13 @@
         ]
       },
       {
+        "L": 33,
+        "moves": [
+          "sludge-bomb",
+          "mud-bomb"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "stockpile",
@@ -107,12 +114,6 @@
         "L": 24,
         "moves": [
           "poison-jab"
-        ]
-      },
-      {
-        "L": 33,
-        "moves": [
-          "mud-bomb"
         ]
       },
       {

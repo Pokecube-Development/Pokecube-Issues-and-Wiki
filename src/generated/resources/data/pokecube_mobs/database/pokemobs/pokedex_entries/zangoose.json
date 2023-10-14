@@ -88,6 +88,14 @@
         ]
       },
       {
+        "L": 33,
+        "moves": [
+          "facade",
+          "embargo",
+          "switcheroo"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "taunt"
@@ -107,28 +115,22 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "aerial-ace",
+          "hone-claws"
+        ]
+      },
+      {
         "L": 50,
         "moves": [
           "close-combat"
         ]
       },
       {
-        "L": 33,
-        "moves": [
-          "embargo",
-          "switcheroo"
-        ]
-      },
-      {
         "L": 40,
         "moves": [
           "x-scissor"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "hone-claws"
         ]
       }
     ],

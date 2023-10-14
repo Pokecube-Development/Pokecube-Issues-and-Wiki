@@ -44,7 +44,9 @@
         "moves": [
           "guillotine",
           "sand-attack",
+          "poison-sting",
           "harden",
+          "slash",
           "knock-off",
           "poison-jab",
           "thunder-fang",
@@ -56,6 +58,13 @@
         "L": 50,
         "moves": [
           "swords-dance"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "earthquake",
+          "sky-uppercut"
         ]
       },
       {
@@ -73,19 +82,14 @@
       {
         "L": 19,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "mud-slap"
         ]
       },
       {
         "L": 16,
         "moves": [
           "fury-cutter"
-        ]
-      },
-      {
-        "L": 45,
-        "moves": [
-          "sky-uppercut"
         ]
       },
       {

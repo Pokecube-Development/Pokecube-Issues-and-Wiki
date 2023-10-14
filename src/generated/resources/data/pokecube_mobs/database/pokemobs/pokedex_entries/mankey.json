@@ -41,6 +41,7 @@
         "L": 8,
         "moves": [
           "karate-chop",
+          "mud-slap",
           "taunt"
         ]
       },
@@ -63,13 +64,22 @@
       {
         "L": 15,
         "moves": [
-          "seismic-toss"
+          "seismic-toss",
+          "retaliate"
         ]
       },
       {
         "L": 40,
         "moves": [
           "screech"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "skull-bash",
+          "u-turn",
+          "punishment"
         ]
       },
       {
@@ -100,13 +110,6 @@
         "L": 22,
         "moves": [
           "cross-chop"
-        ]
-      },
-      {
-        "L": 29,
-        "moves": [
-          "u-turn",
-          "punishment"
         ]
       },
       {

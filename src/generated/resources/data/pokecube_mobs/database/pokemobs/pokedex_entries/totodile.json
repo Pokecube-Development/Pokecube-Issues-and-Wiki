@@ -69,9 +69,17 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "low-kick",
+          "chip-away"
+        ]
+      },
+      {
         "L": 8,
         "moves": [
-          "rage"
+          "rage",
+          "mud-slap"
         ]
       },
       {
@@ -120,12 +128,6 @@
         "L": 20,
         "moves": [
           "ice-fang"
-        ]
-      },
-      {
-        "L": 29,
-        "moves": [
-          "chip-away"
         ]
       }
     ],

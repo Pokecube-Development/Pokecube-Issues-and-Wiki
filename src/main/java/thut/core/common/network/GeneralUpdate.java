@@ -3,6 +3,7 @@ package thut.core.common.network;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
@@ -41,6 +42,22 @@ public class GeneralUpdate extends NBTPacket
         GeneralUpdate.ASSEMBLER.sendTo(new GeneralUpdate(tag), player);
     }
 
+    public static void sendToServer(CompoundTag nbt, String key)
+    {
+        CompoundTag tag = new CompoundTag();
+        tag.putString("key", key);
+        tag.put("tag", nbt);
+        GeneralUpdate.ASSEMBLER.sendToServer(new GeneralUpdate(tag));
+    }
+
+    public static void sendToTracking(CompoundTag nbt, String key, Entity tracked)
+    {
+        CompoundTag tag = new CompoundTag();
+        tag.putString("key", key);
+        tag.put("tag", nbt);
+        GeneralUpdate.ASSEMBLER.sendToTracking(new GeneralUpdate(tag), tracked);
+    }
+
     public GeneralUpdate()
     {
         super();
@@ -57,8 +74,14 @@ public class GeneralUpdate extends NBTPacket
     }
 
     @Override
+    protected void onCompleteServer(ServerPlayer player)
+    {
+        Tracker.read(this.getTag(), player);
+    }
+
+    @Override
     protected void onCompleteClient()
     {
-        Tracker.read(this.getTag());
+        Tracker.read(this.getTag(), null);
     }
 }

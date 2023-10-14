@@ -1,0 +1,10 @@
+{
+  "user": "glalie",
+  "name": "glalie-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:glaliemega"
+    }
+  }
+}

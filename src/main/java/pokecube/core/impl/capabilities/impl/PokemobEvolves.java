@@ -33,18 +33,4 @@ public abstract class PokemobEvolves extends PokemobHungry
     {
         this.dataSync().set(this.params.EVOLTICKDW, Integer.valueOf(evolutionTicks));
     }
-
-    @Override
-    public float getDynamaxFactor()
-    {
-        return this.dataSync().get(this.params.DYNAPOWERDW);
-    }
-
-    @Override
-    public void setDynamaxFactor(float factor)
-    {
-        // Cap this so it is at least 1.
-        factor = Math.max(1, factor);
-        this.dataSync().set(this.params.DYNAPOWERDW, Float.valueOf(factor));
-    }
 }

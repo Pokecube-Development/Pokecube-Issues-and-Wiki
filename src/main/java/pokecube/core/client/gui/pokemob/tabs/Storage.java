@@ -45,7 +45,7 @@ public class Storage extends Tab
         super(parent, "storage");
         this.pokemob = menu.pokemob;
         this.ai = new StoreTask(this.pokemob);
-        final CompoundTag tag = this.menu.data.readNbt();
+        final CompoundTag tag = this.menu.data;
         this.ai.deserializeNBT(tag);
         this.icon = Resources.TAB_ICON_STORAGE;
     }

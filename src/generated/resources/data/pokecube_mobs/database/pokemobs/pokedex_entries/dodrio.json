@@ -46,9 +46,17 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "wing-attack",
+          "pursuit"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
-          "jump-kick"
+          "jump-kick",
+          "lunge"
         ]
       },
       {
@@ -61,6 +69,12 @@
         "L": 56,
         "moves": [
           "thrash"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "leer"
         ]
       },
       {
@@ -90,12 +104,6 @@
         "L": 0,
         "moves": [
           "tri-attack"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "pursuit"
         ]
       },
       {

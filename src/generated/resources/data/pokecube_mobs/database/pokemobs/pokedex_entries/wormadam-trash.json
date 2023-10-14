@@ -55,6 +55,13 @@
         ]
       },
       {
+        "L": 20,
+        "moves": [
+          "string-shot",
+          "hidden-power"
+        ]
+      },
+      {
         "L": 23,
         "moves": [
           "confusion"
@@ -76,12 +83,6 @@
         "L": 41,
         "moves": [
           "attract"
-        ]
-      },
-      {
-        "L": 20,
-        "moves": [
-          "hidden-power"
         ]
       },
       {
@@ -111,7 +112,8 @@
       {
         "L": 35,
         "moves": [
-          "captivate"
+          "captivate",
+          "infestation"
         ]
       },
       {
@@ -125,7 +127,10 @@
       "tackle",
       "psybeam",
       "hyper-beam",
+      "solar-beam",
       "string-shot",
+      "earthquake",
+      "dig",
       "toxic",
       "confusion",
       "psychic",
@@ -138,6 +143,8 @@
       "snore",
       "flail",
       "protect",
+      "sandstorm",
+      "giga-drain",
       "endure",
       "swagger",
       "attract",
@@ -155,6 +162,7 @@
       "endeavor",
       "skill-swap",
       "secret-power",
+      "rock-tomb",
       "metal-sound",
       "signal-beam",
       "iron-defense",
@@ -178,6 +186,7 @@
       "round",
       "ally-switch",
       "struggle-bug",
+      "bulldoze",
       "electroweb",
       "confide",
       "infestation"

@@ -57,7 +57,8 @@
           "peck",
           "sky-attack",
           "astonish",
-          "pluck"
+          "pluck",
+          "hurricane"
         ]
       },
       {
@@ -230,11 +231,5 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "altariamega"
-    }
-  ],
   "loot_table": "pokecube:entities/wool_2"
 }

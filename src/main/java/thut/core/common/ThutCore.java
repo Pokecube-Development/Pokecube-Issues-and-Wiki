@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
@@ -44,6 +45,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.loading.FMLPaths;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.ForgeRegistries.Keys;
 import thut.api.AnimatedCaps;
 import thut.api.LinkableCaps;
 import thut.api.ThutCaps;
@@ -183,6 +185,7 @@ public class ThutCore
                 .create(ForgeRegistries.PARTICLE_TYPES, ThutCore.MODID);
         public static final DeferredRegister<MenuType<?>> MENUS = DeferredRegister.create(ForgeRegistries.MENU_TYPES,
                 ThutCore.MODID);
+        public static final DeferredRegister<Attribute> ATTRIBUTES = DeferredRegister.create(Keys.ATTRIBUTES, MODID);
 
         @SubscribeEvent
         public static void registerCapabilities(final RegisterCapabilitiesEvent event)
@@ -266,6 +269,7 @@ public class ThutCore
         RegistryEvents.RECIPETYPE.register(modEventBus);
         RegistryEvents.MENUS.register(modEventBus);
         RegistryEvents.PARTICLES.register(modEventBus);
+        RegistryEvents.ATTRIBUTES.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested
         // in

@@ -16,7 +16,6 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.Tools;
 import pokecube.core.items.ItemTM;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.zmoves.GZMoveManager;
 
 @TradePresetAn(key = "allTMs")
 public class AllTMs implements TradePreset
@@ -34,13 +33,10 @@ public class AllTMs implements TradePreset
 
             final MoveEntry move = MovesUtils.getMove(name);
             if (move == null) continue;
-            // Blacklist the confused hit move
-            if (move.name.equals(MoveEntry.CONFUSED.name)) continue;
-
-            // Blacklist G, Z and D moves
-            if (GZMoveManager.isGZDMove(move)) continue;
 
             final ItemStack sell = ItemTM.getTM(name);
+            // If the move isn't valid for a TM, it ends up empty.
+            if (sell.isEmpty()) continue;
             Map<String, String> values;
             TrainerTrade recipe;
             ItemStack buy1 = ItemStack.EMPTY;
@@ -54,12 +50,12 @@ public class AllTMs implements TradePreset
             }
             recipe = new TrainerTrade(buy1, buy2, sell, trade);
             values = trade.values;
-            if (values.containsKey(TradeEntryLoader.CHANCE)) recipe.chance = Float.parseFloat(values.get(
-                    TradeEntryLoader.CHANCE));
-            if (values.containsKey(TradeEntryLoader.MIN)) recipe.min = Integer.parseInt(values.get(
-                    TradeEntryLoader.MIN));
-            if (values.containsKey(TradeEntryLoader.MAX)) recipe.max = Integer.parseInt(values.get(
-                    TradeEntryLoader.MAX));
+            if (values.containsKey(TradeEntryLoader.CHANCE))
+                recipe.chance = Float.parseFloat(values.get(TradeEntryLoader.CHANCE));
+            if (values.containsKey(TradeEntryLoader.MIN))
+                recipe.min = Integer.parseInt(values.get(TradeEntryLoader.MIN));
+            if (values.containsKey(TradeEntryLoader.MAX))
+                recipe.max = Integer.parseInt(values.get(TradeEntryLoader.MAX));
             trades.tradesList.add(recipe);
         }
     }

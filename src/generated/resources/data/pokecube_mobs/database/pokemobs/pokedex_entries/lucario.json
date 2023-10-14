@@ -276,11 +276,5 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "lucariomega"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

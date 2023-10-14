@@ -19,7 +19,6 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.pokemobs.CaptureEvent;
@@ -49,14 +48,12 @@ public class CaptureManager
     public static void captureAttempt(final EntityPokecubeBase cube, final Entity e)
     {
         if (!(cube.getLevel() instanceof ServerLevel)) return;
-        if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity mob)) return;
         if (e.isInvulnerable()) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
         if (!cubeItem.canCapture(e, cube.getItem())) return;
         if (cube.isCapturing) return;
-        if (mob.deathTime > 0) return;
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if ((ownable != null && ownable.getOwnerId() != null && !PokecubeManager.isFilled(cube.getItem()))) return;
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
@@ -76,7 +73,20 @@ public class CaptureManager
         final CaptureEvent.Pre capturePre = new Pre(hitten, cube, mob);
         PokecubeAPI.POKEMOB_BUS.post(capturePre);
 
-        if (hitten != null)
+        // If allow, we set tilt to 5 can allow capture.
+        if (capturePre.getResult() == Result.ALLOW)
+        {
+            cube.setTilt(5);
+            cube.setTime(10);
+            final ItemStack mobStack = cube.getItem().copy();
+            PokecubeManager.addToCube(mobStack, mob);
+            cube.setItem(mobStack);
+            PokecubeManager.setTilt(cube.getItem(), 5);
+            v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
+            removeMob = true;
+            cube.setCapturing(mob);
+        }
+        else if (hitten != null)
         {
             if (capturePre.getResult() == Result.DENY) return;
             if (capturePre.isCanceled())
@@ -191,14 +201,10 @@ public class CaptureManager
             cube.setItem(pokemobStack);
             HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
             if (cube.shooter != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(cube.shooter);
-            if (pokemob.getCombatState(CombatStates.MEGAFORME) || pokemob.getPokedexEntry().isMega())
-            {
-                pokemob.setCombatState(CombatStates.MEGAFORME, false);
-                final IPokemob revert = pokemob.megaRevert();
-                if (revert != null) pokemob = revert;
-                if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(
-                        AbilityManager.getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
-            }
+            final IPokemob revert = pokemob.resetForm(false);
+            if (revert != null) pokemob = revert;
+            if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(
+                    AbilityManager.getAbility(pokemob.getEntity().getPersistentData().getString(TagNames.ABILITY)));
             if (cube.shootingEntity instanceof Player player && !(cube.shootingEntity instanceof FakePlayer))
             {
                 final Component mess = TComponent.translatable("pokecube.caught", pokemob.getDisplayName());

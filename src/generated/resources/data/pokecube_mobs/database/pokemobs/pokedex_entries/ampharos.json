@@ -97,6 +97,7 @@
         "L": 51,
         "moves": [
           "signal-beam",
+          "charge-beam",
           "dazzling-gleam"
         ]
       },
@@ -222,12 +223,6 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "ampharosmega"
-    }
-  ],
   "interactions": [
     {
       "male": false,

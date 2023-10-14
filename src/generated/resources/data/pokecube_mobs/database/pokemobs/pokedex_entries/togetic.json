@@ -124,6 +124,7 @@
       }
     ],
     "misc": [
+      "pound",
       "mega-punch",
       "fly",
       "mega-kick",
@@ -236,6 +237,7 @@
       "mystical-fire",
       "dazzling-gleam",
       "smart-strike",
+      "life-dew",
       "dual-wingbeat"
     ]
   },

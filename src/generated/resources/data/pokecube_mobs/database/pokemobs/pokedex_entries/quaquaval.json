@@ -38,6 +38,15 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "water-gun",
+          "double-hit"
+        ]
+      },
+      {
         "L": 10,
         "moves": [
           "wing-attack"
@@ -47,15 +56,6 @@
         "L": 38,
         "moves": [
           "mega-kick"
-        ]
-      },
-      {
-        "L": 1,
-        "moves": [
-          "growl",
-          "water-gun",
-          "double-hit",
-          "pound"
         ]
       },
       {

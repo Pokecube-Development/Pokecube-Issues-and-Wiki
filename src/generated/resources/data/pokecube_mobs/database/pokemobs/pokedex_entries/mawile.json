@@ -224,11 +224,5 @@
       "steel-beam"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "mawilemega"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_chicken_1"
 }

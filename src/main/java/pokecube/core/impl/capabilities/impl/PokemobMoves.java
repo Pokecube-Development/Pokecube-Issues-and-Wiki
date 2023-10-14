@@ -33,7 +33,6 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ICopyMob;
@@ -167,37 +166,6 @@ public abstract class PokemobMoves extends PokemobStats
     {
         final byte ret = this.dataSync().get(this.params.MOVEINDEXDW);
         return Math.max(0, ret);
-    }
-
-    @Override
-    public String[] getMoves()
-    {
-        final IPokemob transformed = PokemobCaps.getPokemobFor(this.getTransformedTo());
-        if (transformed != null) return this.getMoveStats().transformedMoves;
-        return super.getMoves();
-    }
-
-    @Override
-    public String[] getGZMoves()
-    {
-        // We can do processing here to see what moves to supply.
-        final String[] g_z_moves = super.getGZMoves();
-        final String[] moves = this.getMoves();
-        boolean gigant = this.getCombatState(CombatStates.DYNAMAX)
-                && this.getPokedexEntry().getTrimmedName().contains("-gmax");
-        for (int i = 0; i < 4; i++)
-        {
-            final String gmove = GZMoveManager.getGMove(this, moves[i], gigant);
-            if (gmove != null)
-            {
-                if (gmove.startsWith("gmax")) gigant = false;
-                g_z_moves[i] = gmove;
-                continue;
-            }
-            final String zmove = GZMoveManager.getZMove(this, moves[i]);
-            g_z_moves[i] = zmove;
-        }
-        return g_z_moves;
     }
 
     @Override

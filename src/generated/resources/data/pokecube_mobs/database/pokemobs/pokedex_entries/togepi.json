@@ -131,6 +131,7 @@
       }
     ],
     "misc": [
+      "pound",
       "mega-punch",
       "mega-kick",
       "headbutt",
@@ -229,7 +230,8 @@
       "play-rough",
       "confide",
       "mystical-fire",
-      "dazzling-gleam"
+      "dazzling-gleam",
+      "life-dew"
     ]
   },
   "evolutions": [

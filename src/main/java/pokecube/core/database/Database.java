@@ -179,6 +179,7 @@ public class Database
     public static HashMap<PokedexEntry, List<FormeHolder>> customModels = new HashMap<>();
     public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
     public static HashMap<ResourceLocation, PokedexEntry> formeToEntry = new HashMap<>();
+    public static Map<String, FormeHolder> formeHoldersByKey = new HashMap<>();
 
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
@@ -250,6 +251,7 @@ public class Database
                 // Set all the subformes base to this new one.
                 for (final PokedexEntry e : formes)
                 {
+                    if (e.generated) continue;
                     // Set the forme.
                     e.setBaseForme(entry1);
                     // Initialize some things.
@@ -266,6 +268,7 @@ public class Database
         if (holder == null) return;
         List<FormeHolder> holders = Database.customModels.get(entry);
         Database.formeToEntry.put(holder.key, entry);
+        Database.formeHoldersByKey.put(holder.loaded_from.key, holder);
         if (holders == null) Database.customModels.put(entry, holders = Lists.newArrayList());
         if (!holders.contains(holder))
         {
@@ -458,8 +461,10 @@ public class Database
             {
                 try
                 {
-                    e.setBaseForme(base);
-                    base.copyToForm(e);
+                    if (e.getBaseForme() == null)
+                    {
+                        base.copyToForm(e);
+                    }
                 }
                 catch (final Exception e2)
                 {
@@ -806,9 +811,8 @@ public class Database
                 if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
                     PokecubeAPI.logInfo("No egg group assigned for {}", entry.getTrimmedName());
             }
-            for (final PokedexEntry entry : Database.getSortedFormes())
-                if (entry.lootTable == null && !(entry.isMega() || entry.isGMax()))
-                    PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
+            for (final PokedexEntry entry : Database.getSortedFormes()) if (entry.lootTable == null && !entry.generated)
+                PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
         }
 
         // This gets re-set to true if listener hears a reload

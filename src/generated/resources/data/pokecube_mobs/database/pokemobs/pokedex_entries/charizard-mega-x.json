@@ -2,7 +2,7 @@
   "name": "charizard-mega-x",
   "id": 6,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 285,
   "size": {
     "height": 1.7

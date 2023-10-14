@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "pound",
+          "baby-doll-eyes"
+        ]
+      },
+      {
         "L": 11,
         "moves": [
           "super-fang"
@@ -101,13 +108,6 @@
         "L": 26,
         "moves": [
           "play-rough"
-        ]
-      },
-      {
-        "L": 1,
-        "moves": [
-          "baby-doll-eyes",
-          "pound"
         ]
       },
       {

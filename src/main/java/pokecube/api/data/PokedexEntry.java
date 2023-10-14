@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
@@ -53,11 +52,9 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.effects.materials.IMaterialAction;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.MegaEvoRule;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
@@ -80,6 +77,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
+import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.TimePeriod;
@@ -91,6 +89,7 @@ import thut.api.level.terrain.TerrainManager;
 import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
+import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 import thut.lib.RegHelper;
 import thut.lib.TComponent;
@@ -327,11 +326,14 @@ public class PokedexEntry
             boolean rightMove = this.move.equals("");
             if (!rightMove)
             {
-                final String[] moves = mob.getMoves();
-                for (final String s : moves) if (s != null) if (s.equalsIgnoreCase(this.move))
+                for (int i = 0; i < mob.getMovesCount(); i++)
                 {
-                    rightMove = true;
-                    break;
+                    String s = mob.getMove(i);
+                    if (s != null && s.equalsIgnoreCase(this.move))
+                    {
+                        rightMove = true;
+                        break;
+                    }
                 }
             }
             ret = ret && rightMove;
@@ -563,7 +565,7 @@ public class PokedexEntry
                 if (action == null) return false;
                 if (!doInteract) return true;
                 final PokedexEntry forme = action.forme;
-                pokemob.megaEvolve(forme);
+                pokemob.changeForm(forme);
                 return true;
             }
             final CompoundTag data = entity.getPersistentData();
@@ -817,6 +819,8 @@ public class PokedexEntry
      */
     public boolean stock = true;
 
+    public boolean generated = false;
+
     // Values in Stats
 
     @CopyToGender
@@ -946,9 +950,6 @@ public class PokedexEntry
      */
     public boolean isGenderForme = false;
 
-    /** Can it megaevolve */
-    @CopyToGender
-    public boolean hasMegaForm = false;
     @CopyToGender
     public boolean hasShiny = true;
     /** Materials which will hurt or make it despawn. */
@@ -956,10 +957,6 @@ public class PokedexEntry
     public List<IMaterialAction> materialActions = Lists.newArrayList();
     @CopyToGender
     public float height = -1;
-    @CopyToGender
-    private boolean isMega = false;
-    @CopyToGender
-    private boolean isGMax = false;
     @CopyToGender
     public boolean ridable = true;
     /**
@@ -1000,9 +997,6 @@ public class PokedexEntry
     private Map<Integer, ArrayList<String>> lvlUpMoves;
 
     public PokedexEntry male = null;
-
-    @CopyToGender
-    public HashMap<PokedexEntry, MegaRule> megaRules = Maps.newHashMap();
 
     /** Movement type for this mob, this is a bitmask for MovementType */
     @CopyToGender
@@ -1053,6 +1047,9 @@ public class PokedexEntry
 
     @CopyToGender
     public boolean isHeatProof = false;
+
+    @CopyToGender
+    public boolean isMega = false;
 
     @CopyToGender
     public ResourceLocation sound;
@@ -1123,7 +1120,6 @@ public class PokedexEntry
     // we cache them.
     public List<Interact> _loaded_interactions = Lists.newArrayList();
     public List<FormeItem> _forme_items = Lists.newArrayList();
-    public List<BaseMegaRule> _loaded_megarules = Lists.newArrayList();
 
     /** Times not included here the pokemob will go to sleep when idle. */
     @CopyToGender
@@ -1153,9 +1149,17 @@ public class PokedexEntry
     public void postTagsReloaded()
     {
         this.formeItems.clear();
-        this.megaRules.clear();
         if (this._forme_items != null)
         {
+            List<FormeItem> rules = new ArrayList<>();
+            Set<String> uniques = Sets.newHashSet();
+            for (final FormeItem rule : this._forme_items)
+            {
+                if (uniques.add(JsonUtil.smol_gson.toJson(rule))) rules.add(rule);
+            }
+            this._forme_items.clear();
+            this._forme_items.addAll(rules);
+
             for (FormeItem i : _forme_items)
             {
                 PokedexEntry output = i.getOutput();
@@ -1196,63 +1200,6 @@ public class PokedexEntry
                 }
             }
         }
-        for (final BaseMegaRule rule : this._loaded_megarules)
-        {
-            String forme = rule.name != null ? rule.name : null;
-            if (forme == null) if (rule.preset != null) if (rule.preset.startsWith("Mega"))
-            {
-                forme = this.getTrimmedName() + "_" + ThutCore.trim(rule.preset);
-                if (rule.item_preset == null)
-                    rule.item_preset = this.getTrimmedName() + "" + ThutCore.trim(rule.preset);
-            }
-            final String move = rule.move;
-            final String ability = rule.ability;
-            final String item_preset = rule.item_preset;
-
-            if (forme == null)
-            {
-                PokecubeAPI.logInfo("Error with mega evolution for " + this + " rule: preset=" + rule.preset + " name="
-                        + rule.name);
-                continue;
-            }
-
-            final PokedexEntry formeEntry = Database.getEntry(forme);
-            if (!forme.isEmpty() && formeEntry != null)
-            {
-                ItemStack stack = ItemStack.EMPTY;
-                if (item_preset != null && !item_preset.isEmpty())
-                {
-                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(forme + " " + item_preset);
-                    stack = PokecubeItems.getStack(item_preset, false);
-                    if (stack.isEmpty()) stack = PokecubeItems.getStack(Database.trim_loose(item_preset), false);
-                }
-                else if (rule.item != null) stack = Tools.getStack(rule.item.getValues());
-                if (rule.item != null)
-                    if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(stack + " " + rule.item.getValues());
-                if ((move == null || move.isEmpty()) && stack.isEmpty() && (ability == null || ability.isEmpty()))
-                {
-                    PokecubeAPI.logInfo("Skipping Mega: " + this + " -> " + formeEntry
-                            + " as it has no conditions, or conditions cannot be met.");
-                    PokecubeAPI.LOGGER
-                            .info(" rule: preset=" + rule.preset + " name=" + rule.name + " item=" + rule.item_preset);
-                    continue;
-                }
-                final MegaEvoRule mrule = new MegaEvoRule(this);
-                if (item_preset != null && !item_preset.isEmpty()) mrule.oreDict = item_preset;
-                if (ability != null) mrule.ability = ability;
-                if (move != null) mrule.moveName = move;
-                if (!stack.isEmpty())
-                {
-                    mrule.stack = stack;
-                    PokecubeItems.ADDED_HELD.add(RegHelper.getKey(stack));
-                }
-                formeEntry.setMega(true);
-                formeEntry.setBaseForme(this);
-                this.megaRules.put(formeEntry, mrule);
-                if (PokecubeCore.getConfig().debug_data)
-                    PokecubeAPI.logInfo("Added Mega: " + this + " -> " + formeEntry);
-            }
-        }
     }
 
     public void addInteractions(List<Interact> interactions)
@@ -1270,7 +1217,6 @@ public class PokedexEntry
     public void onResourcesReloaded()
     {
         this.formeItems.clear();
-        this.megaRules.clear();
         this.interactionLogic.stackActions.clear();
         // Apply loaded interactions
         if (!this._loaded_interactions.isEmpty()) InteractionLogic.initForEntry(this, this._loaded_interactions, true);
@@ -1317,6 +1263,7 @@ public class PokedexEntry
         this.isStarter = Tags.POKEMOB.isIn("starters", this.getTrimmedName());
         this.legendary = Tags.POKEMOB.isIn("legends", this.getTrimmedName());
         this.isShadowForme = Tags.POKEMOB.isIn("shadow", this.getTrimmedName());
+        this.isMega = Tags.POKEMOB.isIn("mega_gmax", this.getTrimmedName());
 
         // Breeding whitelist is generally for legends that are explicitly
         // allowed to breed, like manaphy
@@ -1342,7 +1289,6 @@ public class PokedexEntry
         if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
 
-        if (this.isMega() || this.isGMax()) this.breeds = false;
         this.copyToGenderFormes();
     }
 
@@ -1508,7 +1454,6 @@ public class PokedexEntry
     public Ability getAbility(final int number, final IPokemob pokemob)
     {
         List<String> abilities = this.abilities;
-        if (pokemob.getCustomHolder() != null) abilities = pokemob.getCustomHolder().getAbilities(this);
         if (number < abilities.size()) return AbilityManager.getAbility(abilities.get(number));
         if (number == 2) return this.getHiddenAbility(pokemob);
         return null;
@@ -1576,8 +1521,8 @@ public class PokedexEntry
         ResourceLocation key = holder == null ? _base_description : holder.key;
         return _descriptions.computeIfAbsent(key, k -> {
 
-            PokeType type1 = holder == null ? this.type1 : holder.getTypes(this).get(0);
-            PokeType type2 = holder == null ? this.type2 : holder.getTypes(this).get(1);
+            PokeType type1 = this.type1;
+            PokeType type2 = this.type2;
 
             final PokedexEntry entry = this;
             final MutableComponent typeString = PokeType.getTranslatedName(type1);
@@ -1603,18 +1548,9 @@ public class PokedexEntry
 
     public EntityType<? extends Mob> getEntityType()
     {
+        if (this.entity_type == null && this.getBaseForme() != null)
+            this.entity_type = this.getBaseForme().getEntityType();
         return this.entity_type;
-    }
-
-    public PokedexEntry getMegaEvo(final IPokemob pokemob)
-    {
-        for (final Entry<PokedexEntry, MegaRule> e : this.megaRules.entrySet())
-        {
-            final MegaRule rule = e.getValue();
-            final PokedexEntry entry = e.getKey();
-            if (rule.shouldMegaEvolve(pokemob, entry)) return entry;
-        }
-        return null;
     }
 
     /** @return the evolutionMode */
@@ -2071,7 +2007,7 @@ public class PokedexEntry
         // Set the custom holder regardless incase it was needed.
         if (newHolder != null) pokemob.setCustomHolder(newHolder);
         if (newForme != null && newForme != pokemob.getPokedexEntry())
-            ICanEvolve.setDelayedMegaEvolve(pokemob, newForme, null);
+            MegaEvoTicker.scheduleEvolve(newForme, pokemob, null);
     }
 
     public void setBaseForme(final PokedexEntry baseForme)
@@ -2234,25 +2170,8 @@ public class PokedexEntry
                 || SpecialCaseRegister.getSpawnCondition(this) != null;
     }
 
-    public boolean isGMax()
-    {
-        return this.isGMax;
-    }
-
-    public void setGMax(final boolean isGMax)
-    {
-        this.isGMax = isGMax;
-        // Mark gmax as mega as well.
-        this.isMega = isGMax;
-    }
-
     public boolean isMega()
     {
         return this.isMega;
-    }
-
-    public void setMega(final boolean isMega)
-    {
-        this.isMega = isMega;
     }
 }

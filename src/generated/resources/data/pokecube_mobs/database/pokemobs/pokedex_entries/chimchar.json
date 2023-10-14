@@ -109,6 +109,12 @@
         "moves": [
           "acrobatics"
         ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "power-up-punch"
+        ]
       }
     ],
     "misc": [

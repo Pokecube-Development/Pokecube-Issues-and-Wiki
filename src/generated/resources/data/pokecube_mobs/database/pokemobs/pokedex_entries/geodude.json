@@ -76,9 +76,10 @@
         ]
       },
       {
-        "L": 26,
+        "L": 12,
         "moves": [
-          "harden"
+          "harden",
+          "magnitude"
         ]
       },
       {
@@ -107,21 +108,16 @@
         ]
       },
       {
+        "L": 4,
+        "moves": [
+          "sandstorm",
+          "mud-sport"
+        ]
+      },
+      {
         "L": 10,
         "moves": [
           "rollout"
-        ]
-      },
-      {
-        "L": 12,
-        "moves": [
-          "magnitude"
-        ]
-      },
-      {
-        "L": 4,
-        "moves": [
-          "mud-sport"
         ]
       },
       {

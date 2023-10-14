@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "pokecube:deoxys",
+    "pokecube:deoxys-normal",
     "pokecube:deoxys-defense",
     "pokecube:deoxys-attack",
     "pokecube:deoxys-speed"

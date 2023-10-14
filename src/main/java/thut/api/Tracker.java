@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 import it.unimi.dsi.fastutil.objects.Object2IntArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2LongArrayMap;
@@ -12,14 +14,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtIo;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent.ClientTickEvent;
 import net.minecraftforge.event.TickEvent.Phase;
 import net.minecraftforge.event.TickEvent.ServerTickEvent;
-import net.minecraftforge.event.level.LevelEvent;
 import net.minecraftforge.event.server.ServerStartedEvent;
+import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.server.ServerLifecycleHooks;
 import thut.core.common.ThutCore;
 
@@ -45,11 +48,19 @@ public class Tracker
         MinecraftForge.EVENT_BUS.addListener(Tracker::onWorldSave);
     }
 
+    public static interface UpdateHandler
+    {
+        String getKey();
+
+        void read(CompoundTag nbt, ServerPlayer player);
+    }
+
     private static long start = System.nanoTime();
     private static long n = 0;
     private static long dt = 0;
     private static Object2LongArrayMap<String> taskCounts = new Object2LongArrayMap<>();
     private static Object2IntArrayMap<String> taskNs = new Object2IntArrayMap<>();
+    public static Map<String, UpdateHandler> HANDLERS = new HashMap<>();
 
     public static void timerStart()
     {
@@ -134,7 +145,7 @@ public class Tracker
             final CompoundTag CompoundNBT = NbtIo.readCompressed(fileinputstream);
             fileinputstream.close();
             final CompoundTag tag = CompoundNBT.getCompound("Data");
-            Tracker.read(tag);
+            Tracker.read(tag, null);
         }
         catch (final IOException e)
         {
@@ -142,9 +153,9 @@ public class Tracker
         }
     }
 
-    private static void onWorldSave(final LevelEvent.Save event)
+    private static void onWorldSave(final WorldEvent.Save event)
     {
-        if (!(event.getLevel() instanceof ServerLevel level)) return;
+        if (!(event.getWorld() instanceof ServerLevel level)) return;
         if (level.dimension() != Level.OVERWORLD) return;
 
         final MinecraftServer server = ThutCore.proxy.getServer();
@@ -170,9 +181,16 @@ public class Tracker
         }
     }
 
-    public static void read(final CompoundTag nbt)
+    public static void read(final CompoundTag nbt, ServerPlayer player)
     {
-        Tracker.instance().time = nbt.getLong("tick_timer");
+        if (nbt.contains("key"))
+        {
+            String key = nbt.getString("key");
+            CompoundTag tag = nbt.getCompound("tag");
+            var handler = HANDLERS.get(key);
+            if (handler != null) handler.read(tag, player);
+        }
+        else if (player == null) Tracker.instance().time = nbt.getLong("tick_timer");
     }
 
     public static CompoundTag write()
