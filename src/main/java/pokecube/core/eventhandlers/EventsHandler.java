@@ -367,8 +367,6 @@ public class EventsHandler
 
         // This deals with running the tasks scheduled via
         MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldTick);
-        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldLoad);
-        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldUnload);
 
         // This attempts to recall the mobs following the player when they
         // change dimension.

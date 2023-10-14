@@ -14,6 +14,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingUpdateEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -81,7 +82,7 @@ public class GZMoveManager
         event.register(ZPower.class);
     }
 
-    private static void onMobUpdate(LivingUpdateEvent event)
+    private static void onMobUpdate(LivingTickEvent event)
     {
         IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob == null || pokemob.getOwner() == null) return;
