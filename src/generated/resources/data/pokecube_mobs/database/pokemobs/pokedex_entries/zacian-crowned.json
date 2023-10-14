@@ -2,6 +2,7 @@
   "name": "zacian-crowned",
   "id": 888,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 360,
   "size": {
     "height": 2.8,

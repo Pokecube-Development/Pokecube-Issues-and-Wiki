@@ -2,6 +2,7 @@
   "name": "pumpkaboo-super",
   "id": 710,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 67,
   "size": {
     "height": 0.8

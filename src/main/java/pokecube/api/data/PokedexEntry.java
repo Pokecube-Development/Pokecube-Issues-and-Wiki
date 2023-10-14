@@ -1138,13 +1138,14 @@ public class PokedexEntry
         // Nothing
     }
 
-    public PokedexEntry(final int nb, final String name)
+    public PokedexEntry(final int nb, final String name, boolean isExtraForm)
     {
         this.name = name;
         this.pokedexNb = nb;
         if (Database.getEntry(name) == null) Database.allFormes.add(this);
         else new NullPointerException("Trying to add another " + name + " " + Database.getEntry(name))
                 .printStackTrace();
+        this.generated = isExtraForm;
     }
 
     public void postTagsReloaded()
@@ -1424,7 +1425,7 @@ public class PokedexEntry
             name = name + suffix;
         }
         PokedexEntry forme = Database.getEntry(name);
-        if (forme == null) forme = new PokedexEntry(this.pokedexNb, name);
+        if (forme == null) forme = new PokedexEntry(this.pokedexNb, name, true);
         forme.setBaseForme(this);
         if (gender == IPokemob.MALE)
         {
@@ -1816,7 +1817,7 @@ public class PokedexEntry
     public String getUnlocalizedName()
     {
         String name = this.getTrimmedName();
-        if (this.isFemaleForme || this.isMaleForme) name = this.getBaseName();
+        if (this.generated) name = this.getBaseName();
         final String translated = "entity.pokecube." + name;
         return translated;
     }

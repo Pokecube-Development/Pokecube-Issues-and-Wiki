@@ -23,7 +23,6 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.Pokedex;
@@ -35,7 +34,6 @@ import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.core.PokecubeCore;
-import pokecube.core.PokecubeItems;
 import pokecube.core.client.gui.animation.AnimModule;
 import pokecube.core.client.gui.animation.IconModule;
 import pokecube.core.client.gui.animation.WornOffsetModule;
@@ -143,7 +141,6 @@ public class AnimationGui extends Screen
     public EditBox state_c;
     public EditBox state_l;
     public EditBox forme;
-    public EditBox forme_alt;
     public EditBox dyeColour;
     public EditBox rngValue;
 
@@ -152,7 +149,6 @@ public class AnimationGui extends Screen
     public FormeHolder holder = null;
 
     public List<PokedexEntry> entries = Lists.newArrayList();
-    public List<FormeHolder> formes = Lists.newArrayList();
 
     public int entryIndex = 0;
     public int formIndex = 0;
@@ -202,17 +198,6 @@ public class AnimationGui extends Screen
             this.holder = Database.formeHoldersByKey.get(entry.getTrimmedName());
         }
 
-        if (!this.forme_alt.getValue().isEmpty()) try
-        {
-            final ResourceLocation key = PokecubeItems.toPokecubeResource(this.forme_alt.getValue());
-            this.holder = Database.formeHolders.get(key);
-        }
-        catch (final Exception e)
-        {
-            this.holder = AnimationGui.entry.getModel(this.sexe);
-        }
-        this.forme_alt.setValue(this.holder == null ? "" : this.holder.key.toString());
-
         this.toRender = AnimationGui.getRenderMob(AnimationGui.entry);
         this.toRender.setSexe(this.sexe);
         this.toRender.setShiny(this.shiny);
@@ -245,7 +230,6 @@ public class AnimationGui extends Screen
         PacketPokedex.updateWatchEntry(AnimationGui.entry);
 
         this.forme.moveCursorToStart();
-        this.forme_alt.moveCursorToStart();
 
         Set<Object> states = Sets.newHashSet();
         String[] args = this.state_g.getValue().split(" ");
@@ -433,7 +417,6 @@ public class AnimationGui extends Screen
         this.state_c = new ListEditBox(this.font, this.width - 101, yOffset - 13 - yOffset / 2, 100, 10, blank);
         this.state_l = new ListEditBox(this.font, this.width - 101, yOffset + 07 - yOffset / 2, 100, 10, blank);
         this.forme = new ListEditBox(this.font, this.width - 101, yOffset + 73 - yOffset / 2, 100, 10, blank);
-        this.forme_alt = new ListEditBox(this.font, this.width - 101, yOffset + 97 - yOffset / 2, 100, 10, blank);
         this.rngValue = new ListEditBox(this.font, this.width - 101, yOffset + 123 - yOffset / 2, 100, 10, blank);
         this.dyeColour = new ListEditBox(this.font, this.width - 21, yOffset + 28 - yOffset / 2, 20, 10, blank);
         this.forme.setValue(AnimationGui.mob);
@@ -446,7 +429,6 @@ public class AnimationGui extends Screen
         this.addRenderableWidget(this.state_c);
         this.addRenderableWidget(this.state_l);
         this.addRenderableWidget(this.forme);
-        this.addRenderableWidget(this.forme_alt);
         this.addRenderableWidget(this.rngValue);
         this.addRenderableWidget(this.dyeColour);
 
@@ -502,7 +484,6 @@ public class AnimationGui extends Screen
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setValue(AnimationGui.mob);
             this.holder = AnimationGui.entry.getModel(this.sexe);
-            this.forme_alt.setValue(this.holder == null ? "" : this.holder.key.toString());
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
@@ -514,7 +495,6 @@ public class AnimationGui extends Screen
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setValue(AnimationGui.mob);
             this.holder = AnimationGui.entry.getModel(this.sexe);
-            this.forme_alt.setValue(this.holder == null ? "" : this.holder.key.toString());
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             this.onUpdated();
         }));
@@ -552,7 +532,6 @@ public class AnimationGui extends Screen
                 b.setMessage(TComponent.literal("sexe:F"));
             }
                     this.holder = AnimationGui.entry.getModel(this.sexe);
-                    this.forme_alt.setValue("");
                     this.onUpdated();
                 }));
         dy += 20;
@@ -594,7 +573,6 @@ public class AnimationGui extends Screen
                     AnimationGui.entry = i + 1 < formes.size() ? formes.get(i + 1) : formes.get(0);
                     AnimationGui.mob = AnimationGui.entry.getName();
                     this.holder = AnimationGui.entry.getModel(this.sexe);
-                    this.forme_alt.setValue(this.holder == null ? "" : this.holder.key.toString());
                     this.forme.setValue(AnimationGui.mob);
                     break;
                 }
@@ -613,60 +591,9 @@ public class AnimationGui extends Screen
                     AnimationGui.entry = i - 1 >= 0 ? formes.get(i - 1) : formes.get(formes.size() - 1);
                     AnimationGui.mob = AnimationGui.entry.getName();
                     this.holder = AnimationGui.entry.getModel(this.sexe);
-                    this.forme_alt.setValue(this.holder == null ? "" : this.holder.key.toString());
                     this.forme.setValue(AnimationGui.mob);
                     break;
                 }
-            }
-            this.onUpdated();
-        }));
-        this.addRenderableWidget(new Button(this.width - 101 + 20, yOffset + 108 - yOffset / 2, 10, 10, right, b -> {
-            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
-            if (AnimationGui.entry != null)
-            {
-                final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
-                if (holders != null) try
-                {
-                    final ResourceLocation key = this.forme_alt.getValue().isEmpty() ? null
-                            : PokecubeItems.toPokecubeResource(this.forme_alt.getValue());
-                    for (int i = 0; i < holders.size(); i++) if (key == null || holders.get(i).key.equals(key))
-                    {
-                        final FormeHolder holder = i + 1 < holders.size() ? holders.get(i + 1) : holders.get(0);
-                        this.forme_alt.setValue(holder.key.toString());
-                        break;
-                    }
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error cycling forme holder!");
-                    this.forme_alt.setValue("");
-                }
-                else this.forme_alt.setValue("");
-            }
-            this.onUpdated();
-        }));
-        this.addRenderableWidget(new Button(this.width - 101, yOffset + 108 - yOffset / 2, 10, 10, left, b -> {
-            AnimationGui.entry = Database.getEntry(AnimationGui.mob);
-            if (AnimationGui.entry != null)
-            {
-                final List<FormeHolder> holders = Database.customModels.get(AnimationGui.entry);
-                if (holders != null) try
-                {
-                    final ResourceLocation key = this.forme_alt.getValue().isEmpty() ? null
-                            : PokecubeItems.toPokecubeResource(this.forme_alt.getValue());
-                    for (int i = 0; i < holders.size(); i++) if (key == null || holders.get(i).key.equals(key))
-                    {
-                        final FormeHolder holder = i - 1 >= 0 ? holders.get(i - 1) : holders.get(holders.size() - 1);
-                        this.forme_alt.setValue(holder.key.toString());
-                        break;
-                    }
-                }
-                catch (final Exception e)
-                {
-                    PokecubeAPI.LOGGER.error("Error cycling forme holder!");
-                    this.forme_alt.setValue("");
-                }
-                else this.forme_alt.setValue("");
             }
             this.onUpdated();
         }));

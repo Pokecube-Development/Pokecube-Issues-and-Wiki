@@ -308,10 +308,11 @@ public class JsonPokedexEntry
         {
             PokecubeAPI.LOGGER.warn("Duplicate entry for {}", this.name);
         }
-        PokedexEntry entry = old == null ? new PokedexEntry(id, name) : old;
+        PokedexEntry entry = old == null ? new PokedexEntry(id, name, this.is_extra_form) : old;
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
+        // We may have overriden this for the update, so set it again anyway.
         entry.generated = this.is_extra_form;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
         if (entry.base && !registered)

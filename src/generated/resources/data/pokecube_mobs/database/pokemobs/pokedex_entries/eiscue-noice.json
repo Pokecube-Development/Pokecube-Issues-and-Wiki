@@ -2,6 +2,7 @@
   "name": "eiscue-noice",
   "id": 875,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 165,
   "size": {
     "height": 1.4

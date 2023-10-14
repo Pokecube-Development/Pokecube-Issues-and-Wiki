@@ -2,6 +2,7 @@
   "name": "shaymin-sky",
   "id": 492,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 270,
   "size": {
     "height": 0.4

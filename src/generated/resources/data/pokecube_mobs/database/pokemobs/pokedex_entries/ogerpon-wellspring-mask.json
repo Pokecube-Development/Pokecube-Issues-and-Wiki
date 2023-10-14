@@ -2,6 +2,7 @@
   "name": "ogerpon-wellspring-mask",
   "id": 1017,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": null,
   "size": {
     "height": 1.2

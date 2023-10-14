@@ -2,6 +2,7 @@
   "name": "basculin-white-striped",
   "id": 550,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 161,
   "size": {
     "height": 1.0

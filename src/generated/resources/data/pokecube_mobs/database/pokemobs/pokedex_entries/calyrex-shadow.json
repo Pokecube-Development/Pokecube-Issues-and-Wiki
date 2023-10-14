@@ -2,6 +2,7 @@
   "name": "calyrex-shadow",
   "id": 898,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 340,
   "size": {
     "height": 2.0,
