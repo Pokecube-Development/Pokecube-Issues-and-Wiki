@@ -25,7 +25,7 @@ public class MegaCapability implements ICapabilityProvider, IMegaCapability
     {
     });
 
-    protected static boolean matches(final ItemStack stack, final PokedexEntry entry)
+    public static boolean matches(final ItemStack stack, final PokedexEntry entry)
     {
         final IMegaCapability cap = stack.getCapability(MegaCapability.MEGA_CAP, null).orElse(null);
         if (cap != null) return cap.isValid(stack, entry);

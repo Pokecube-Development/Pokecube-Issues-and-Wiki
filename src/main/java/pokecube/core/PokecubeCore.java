@@ -41,6 +41,7 @@ import net.minecraftforge.registries.NewRegistryEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.matchers.MatcherLoaders;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.init.InitDatabase;
 import pokecube.api.moves.Battle;
@@ -197,7 +198,9 @@ public class PokecubeCore
                 mob = type.create(world);
             }
             else mob = type.create(world);
-            PokemobCaps.getPokemobFor(mob).setPokedexEntry(entry);
+            IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+            pokemob.setBasePokedexEntry(entry);
+            pokemob.setPokedexEntry(entry);
             return mob;
         }
         return null;

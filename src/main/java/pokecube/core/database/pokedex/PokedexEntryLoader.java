@@ -389,8 +389,7 @@ public class PokedexEntryLoader
                 }
                 if (data == null || clear)
                 {
-                    data = new EvolutionData(evolEntry);
-                    data.data = evol;
+                    data = new EvolutionData(evolEntry, evol);
                     data.preEvolution = entry;
                     // Skip any exactly duplicated entires.
                     check:

@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 import java.util.function.Predicate;
 
@@ -32,7 +31,6 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
@@ -56,6 +54,7 @@ import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
+import pokecube.api.data.pokedex.conditions.PokemobCondition;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnRule;
@@ -80,14 +79,11 @@ import pokecube.core.entity.pokemobs.DispenseBehaviourInteract;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.PokemobTerrainEffects;
 import pokecube.core.utils.TimePeriod;
 import thut.api.Tracker;
 import thut.api.entity.multipart.GenericPartEntity.BodyNode;
 import thut.api.item.ItemList;
 import thut.api.level.terrain.BiomeType;
-import thut.api.level.terrain.TerrainManager;
-import thut.api.level.terrain.TerrainSegment;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
@@ -112,10 +108,13 @@ public class PokedexEntry
 
     public static class EvolutionData
     {
+        public PokemobCondition _condition;
+        public PokedexEntry result;
+
         public SpawnBiomeMatcher matcher = null;
         public SpawnRule _match_rule = null;
 
-        public Evolution data;
+        public final Evolution data;
         public boolean dayOnly = false;
         public final PokedexEntry evolution;
         public String FX = "";
@@ -143,9 +142,10 @@ public class PokedexEntry
         // This is if it needs a specific formeHolder to evolve into this.
         public ResourceLocation neededForme = null;
 
-        public EvolutionData(final PokedexEntry evol)
+        public EvolutionData(final PokedexEntry evol, Evolution data)
         {
             this.evolution = evol;
+            this.data = data;
         }
 
         public Entity getEvolution(final LevelAccessor world)
@@ -220,52 +220,41 @@ public class PokedexEntry
             return subEvo;
         }
 
-        public boolean isInBiome(final IPokemob mob)
-        {
-            if (this.matcher != null && mob.getEntity().level instanceof ServerLevel world)
-            {
-                final LivingEntity entity = mob.getEntity();
-                final Vector3 loc = new Vector3().set(entity);
-                if (!world.isPositionEntityTicking(loc.getPos()))
-                {
-                    PokecubeAPI.LOGGER.error("Error checking for evolution, this area is not loaded!");
-                    PokecubeAPI.LOGGER.error("For: {}, at: {},{},{}", entity, loc.x, loc.y, loc.z,
-                            new IllegalStateException());
-                    return false;
-                }
-                final SpawnCheck check = new SpawnCheck(loc, world);
-                return this.matcher.matches(check);
-            }
-            return true;
-        }
-
         private void parse(final Evolution data)
         {
             this.preset = null;
-            if (data.level != null) this.level = data.level;
-            if (data.location != null) this.matcher = SpawnBiomeMatcher.get(_match_rule = data.location);
+
+            this._condition = data.toCondition();
+
+            // Everything in this scope is not actually needed for checking
+            // anymore, and is only kept for now for the descriptions!
+            {
+                if (data.level != null) this.level = data.level;
+                if (data.location != null) this.matcher = SpawnBiomeMatcher.get(_match_rule = data.location);
+                if (data.item != null) this.item = Tools.getStack(data.item.getValues());
+                if (data.item_preset != null) this.preset = PokecubeItems.toPokecubeResource(data.item_preset);
+                if (data.time != null)
+                {
+                    if (data.time.equalsIgnoreCase("day")) this.dayOnly = true;
+                    if (data.time.equalsIgnoreCase("night")) this.nightOnly = true;
+                    if (data.time.equalsIgnoreCase("dusk")) this.duskOnly = true;
+                    if (data.time.equalsIgnoreCase("dawn")) this.dawnOnly = true;
+                }
+                if (data.trade != null) this.traded = data.trade;
+                if (data.rain != null) this.rainOnly = data.rain;
+                if (data.happy != null) this.happy = data.happy;
+                if (data.sexe != null)
+                {
+                    if (data.sexe.equalsIgnoreCase("male")) this.gender = 1;
+                    if (data.sexe.equalsIgnoreCase("female")) this.gender = 2;
+                }
+                if (data.move != null) this.move = data.move;
+                if (data.chance != null) this.randomFactor = data.chance;
+                if (this.level == -1) this.level = 0;
+                if (data.form_from != null) this.neededForme = PokecubeItems.toPokecubeResource(data.form_from);
+            }
+
             if (data.animation != null) this.FX = data.animation;
-            if (data.item != null) this.item = Tools.getStack(data.item.getValues());
-            if (data.item_preset != null) this.preset = PokecubeItems.toPokecubeResource(data.item_preset);
-            if (data.time != null)
-            {
-                if (data.time.equalsIgnoreCase("day")) this.dayOnly = true;
-                if (data.time.equalsIgnoreCase("night")) this.nightOnly = true;
-                if (data.time.equalsIgnoreCase("dusk")) this.duskOnly = true;
-                if (data.time.equalsIgnoreCase("dawn")) this.dawnOnly = true;
-            }
-            if (data.trade != null) this.traded = data.trade;
-            if (data.rain != null) this.rainOnly = data.rain;
-            if (data.happy != null) this.happy = data.happy;
-            if (data.sexe != null)
-            {
-                if (data.sexe.equalsIgnoreCase("male")) this.gender = 1;
-                if (data.sexe.equalsIgnoreCase("female")) this.gender = 2;
-            }
-            if (data.move != null) this.move = data.move;
-            if (data.chance != null) this.randomFactor = data.chance;
-            if (this.level == -1) this.level = 0;
-            if (data.form_from != null) this.neededForme = PokecubeItems.toPokecubeResource(data.form_from);
             this.evoMoves.clear();
             if (data.evoMoves != null && !data.evoMoves.isEmpty())
             {
@@ -286,70 +275,13 @@ public class PokedexEntry
 
         public boolean shouldEvolve(final IPokemob mob, final ItemStack mobs)
         {
-            if (this.level < 0) return false;
-            boolean ret = mob.traded() == this.traded || !this.traded;
-            final Random rand = new Random(mob.getRNGValue());
-            if (rand.nextFloat() > this.randomFactor) return false;
-            if (this.neededForme != null)
-            {
-                if (mob.getCustomHolder() == null) return false;
-                if (!mob.getCustomHolder().key.equals(this.neededForme)) return false;
-            }
-            if (this.rainOnly)
-            {
-                final Level world = mob.getEntity().getLevel();
-                final boolean rain = world.isRaining();
-                if (!rain)
-                {
-                    final TerrainSegment t = TerrainManager.getInstance().getTerrainForEntity(mob.getEntity());
-                    final PokemobTerrainEffects teffect = (PokemobTerrainEffects) t.geTerrainEffect("pokemobEffects");
-                    if (teffect != null && !teffect.isEffectActive(PokemobTerrainEffects.WeatherEffectType.RAIN))
-                        return false;
-                }
-            }
-
-            boolean correctItem = true;
-            if (this.preset != null || !this.item.isEmpty())
-            {
-                correctItem = false;
-                if (!mobs.isEmpty()) if (this.preset != null) correctItem = ItemList.is(this.preset, mobs.getItem());
-                else correctItem = Tools.isSameStack(mobs, this.item, true);
-            }
-
             if (ItemList.is(ICanEvolve.EVERSTONE, mob.getHeldItem())) return false;
             if (ItemList.is(ICanEvolve.EVERSTONE, mobs)) return false;
-            ret = ret && correctItem;
-            final boolean correctLevel = mob.getLevel() >= this.level;
-            ret = ret && correctLevel;
-            boolean rightGender = this.gender == 0;
-            if (!rightGender) rightGender = mob.getSexe() == this.gender;
-            ret = ret && rightGender;
-            boolean rightMove = this.move.equals("");
-            if (!rightMove)
-            {
-                for (int i = 0; i < mob.getMovesCount(); i++)
-                {
-                    String s = mob.getMove(i);
-                    if (s != null && s.equalsIgnoreCase(this.move))
-                    {
-                        rightMove = true;
-                        break;
-                    }
-                }
-            }
-            ret = ret && rightMove;
-            boolean rightTime = !this.dayOnly && !this.nightOnly && !this.dawnOnly && !this.duskOnly;
-            if (!rightTime)
-            {
-                final double time = TimePeriod.getTime(mob.getEntity().getLevel());
-                rightTime = this.dayOnly ? PokedexEntry.day.contains(time)
-                        : this.nightOnly ? PokedexEntry.night.contains(time)
-                                : this.duskOnly ? PokedexEntry.dusk.contains(time) : PokedexEntry.dawn.contains(time);
-            }
-            ret = ret && rightTime;
-            if (this.happy) ret = ret && mob.getHappiness() >= 220;
-            if (ret && this.matcher != null) ret = ret && this.isInBiome(mob);
-            return ret;
+            ItemStack old = mob.getEvolutionStack();
+            mob.setEvolutionStack(mobs);
+            boolean matched = _condition.matches(mob);
+            mob.setEvolutionStack(old);
+            return matched;
         }
     }
 
@@ -1412,35 +1344,6 @@ public class PokedexEntry
     {
         if (this.male != null) this.copyFieldsToGenderForm(this.male);
         if (this.female != null) this.copyFieldsToGenderForm(this.female);
-    }
-
-    public PokedexEntry createGenderForme(final byte gender, String name)
-    {
-        if (name == null)
-        {
-            name = this.name;
-            String suffix = "";
-            if (gender == IPokemob.MALE) suffix = " Male";
-            else suffix = " Female";
-            name = name + suffix;
-        }
-        PokedexEntry forme = Database.getEntry(name);
-        if (forme == null) forme = new PokedexEntry(this.pokedexNb, name, true);
-        forme.setBaseForme(this);
-        if (gender == IPokemob.MALE)
-        {
-            forme.isMaleForme = true;
-            this.male = forme;
-            forme.sexeRatio = 0;
-        }
-        else
-        {
-            forme.isFemaleForme = true;
-            this.female = forme;
-            forme.sexeRatio = 254;
-        }
-        forme.isGenderForme = true;
-        return forme;
     }
 
     public boolean floats()

@@ -434,30 +434,36 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
         if (material != null && !Mesh.debug)
         {
-            this.materials.forEach(m -> {
-                if (m == null) return;
-                if (material.test(m))
-                {
+            synchronized (this.materials)
+            {
+                this.materials.forEach(m -> {
+                    if (m == null) return;
+                    if (material.test(m))
+                    {
+                        m.rgbabro[0] = (int) (r * this.colour_scales[0]);
+                        m.rgbabro[1] = (int) (g * this.colour_scales[1]);
+                        m.rgbabro[2] = (int) (b * this.colour_scales[2]);
+                        m.rgbabro[3] = (int) (a * this.colour_scales[3]);
+                        m.rgbabro[4] = this.brightness;
+                        m.rgbabro[5] = this.overlay;
+                    }
+                });
+            }
+        }
+        else
+        {
+            synchronized (this.shapes)
+            {
+                shapes.forEach(m -> {
+                    if (m == null) return;
                     m.rgbabro[0] = (int) (r * this.colour_scales[0]);
                     m.rgbabro[1] = (int) (g * this.colour_scales[1]);
                     m.rgbabro[2] = (int) (b * this.colour_scales[2]);
                     m.rgbabro[3] = (int) (a * this.colour_scales[3]);
                     m.rgbabro[4] = this.brightness;
                     m.rgbabro[5] = this.overlay;
-                }
-            });
-        }
-        else
-        {
-            shapes.forEach(m -> {
-                if (m == null) return;
-                m.rgbabro[0] = (int) (r * this.colour_scales[0]);
-                m.rgbabro[1] = (int) (g * this.colour_scales[1]);
-                m.rgbabro[2] = (int) (b * this.colour_scales[2]);
-                m.rgbabro[3] = (int) (a * this.colour_scales[3]);
-                m.rgbabro[4] = this.brightness;
-                m.rgbabro[5] = this.overlay;
-            });
+                });
+            }
         }
     }
 
