@@ -54,6 +54,14 @@
         ]
       },
       {
+        "L": 42,
+        "moves": [
+          "double-edge",
+          "reversal",
+          "me-first"
+        ]
+      },
+      {
         "L": 7,
         "moves": [
           "quick-attack"
@@ -81,13 +89,6 @@
         "L": 28,
         "moves": [
           "rest"
-        ]
-      },
-      {
-        "L": 42,
-        "moves": [
-          "reversal",
-          "me-first"
         ]
       },
       {
@@ -131,6 +132,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "flamethrower",
       "surf",
@@ -138,6 +140,7 @@
       "blizzard",
       "solar-beam",
       "thunderbolt",
+      "thunder",
       "dig",
       "toxic",
       "quick-attack",
@@ -199,6 +202,7 @@
       "last-resort",
       "sucker-punch",
       "aqua-tail",
+      "seed-bomb",
       "shadow-claw",
       "captivate",
       "grass-knot",
@@ -208,10 +212,15 @@
       "echoed-voice",
       "retaliate",
       "work-up",
+      "play-rough",
       "confide",
       "baby-doll-eyes",
       "power-up-punch",
-      "brutal-swing"
+      "brutal-swing",
+      "tera-blast",
+      "tidy-up",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "held_table": "pokecube:entities/oranberry_10",

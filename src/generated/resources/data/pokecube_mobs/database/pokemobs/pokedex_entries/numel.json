@@ -135,6 +135,7 @@
       "take-down",
       "double-edge",
       "growl",
+      "roar",
       "ember",
       "flamethrower",
       "strength",
@@ -205,9 +206,12 @@
       "echoed-voice",
       "incinerate",
       "bulldoze",
+      "heat-crash",
       "confide",
+      "high-horsepower",
       "stomping-tantrum",
       "body-press",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]

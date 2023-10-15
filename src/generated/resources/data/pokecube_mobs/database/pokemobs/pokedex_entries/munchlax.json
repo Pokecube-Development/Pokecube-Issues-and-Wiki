@@ -145,6 +145,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "bite",
       "flamethrower",
@@ -159,6 +160,7 @@
       "thunder",
       "earthquake",
       "fissure",
+      "dig",
       "toxic",
       "psychic",
       "screech",
@@ -193,6 +195,7 @@
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "crunch",
       "shadow-ball",
       "rock-smash",
       "whirlpool",
@@ -201,6 +204,7 @@
       "swallow",
       "facade",
       "focus-punch",
+      "helping-hand",
       "superpower",
       "recycle",
       "brick-break",
@@ -216,6 +220,7 @@
       "fling",
       "last-resort",
       "seed-bomb",
+      "giga-impact",
       "zen-headbutt",
       "rock-climb",
       "gunk-shot",
@@ -230,7 +235,10 @@
       "belch",
       "confide",
       "power-up-punch",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/pig_1"

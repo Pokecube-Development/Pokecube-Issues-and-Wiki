@@ -97,6 +97,7 @@
     ],
     "misc": [
       "vice-grip",
+      "take-down",
       "bite",
       "string-shot",
       "thunderbolt",
@@ -119,10 +120,12 @@
       "sleep-talk",
       "return",
       "frustration",
+      "baton-pass",
       "hidden-power",
       "rain-dance",
       "crunch",
       "facade",
+      "charge",
       "mud-shot",
       "shock-wave",
       "magnet-rise",
@@ -134,11 +137,17 @@
       "round",
       "acrobatics",
       "volt-switch",
+      "struggle-bug",
       "electroweb",
       "wild-charge",
+      "sticky-web",
       "confide",
+      "electric-terrain",
+      "lunge",
       "rising-voltage",
-      "skitter-smack"
+      "skitter-smack",
+      "tera-blast",
+      "pounce"
     ]
   },
   "loot_table": "minecraft:entities/spider"

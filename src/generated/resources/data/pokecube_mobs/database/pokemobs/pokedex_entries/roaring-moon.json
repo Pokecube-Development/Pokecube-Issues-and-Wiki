@@ -129,6 +129,7 @@
       "fly",
       "body-slam",
       "take-down",
+      "roar",
       "flamethrower",
       "hydro-pump",
       "hyper-beam",
@@ -151,6 +152,7 @@
       "facade",
       "taunt",
       "brick-break",
+      "knock-off",
       "hyper-voice",
       "aerial-ace",
       "dragon-claw",
@@ -178,6 +180,7 @@
       "body-press",
       "breaking-swipe",
       "scale-shot",
+      "lash-out",
       "tera-blast"
     ]
   },

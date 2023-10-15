@@ -49,19 +49,51 @@
         ]
       },
       {
+        "L": 43,
+        "moves": [
+          "flail"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
           "protect"
+        ]
+      },
+      {
+        "L": 29,
+        "moves": [
+          "endure"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "bug-buzz"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "struggle-bug"
+        ]
+      },
+      {
+        "L": 31,
+        "moves": [
+          "sticky-web"
         ]
       }
     ],
     "misc": [
       "cut",
       "tackle",
+      "take-down",
       "razor-leaf",
       "solar-beam",
       "string-shot",
       "toxic",
+      "screech",
       "double-team",
       "light-screen",
       "dream-eater",
@@ -71,14 +103,18 @@
       "snore",
       "protect",
       "giga-drain",
+      "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "facade",
       "nature-power",
@@ -87,17 +123,26 @@
       "grass-whistle",
       "signal-beam",
       "iron-defense",
+      "magical-leaf",
       "calm-mind",
       "payback",
       "worry-seed",
       "seed-bomb",
+      "bug-buzz",
       "energy-ball",
+      "switcheroo",
       "grass-knot",
       "bug-bite",
       "round",
       "struggle-bug",
       "electroweb",
-      "confide"
+      "grassy-terrain",
+      "confide",
+      "lunge",
+      "grassy-glide",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_2"

@@ -144,6 +144,7 @@
       "dig",
       "toxic",
       "double-team",
+      "haze",
       "waterfall",
       "bubble",
       "rest",
@@ -166,6 +167,7 @@
       "rain-dance",
       "rock-smash",
       "whirlpool",
+      "uproar",
       "hail",
       "facade",
       "brick-break",
@@ -173,6 +175,7 @@
       "secret-power",
       "dive",
       "hydro-cannon",
+      "weather-ball",
       "rock-tomb",
       "signal-beam",
       "aerial-ace",
@@ -183,6 +186,7 @@
       "natural-gift",
       "pluck",
       "fling",
+      "vacuum-wave",
       "giga-impact",
       "avalanche",
       "shadow-claw",
@@ -204,7 +208,10 @@
       "confide",
       "laser-focus",
       "throat-chop",
-      "liquidation"
+      "liquidation",
+      "lash-out",
+      "flip-turn",
+      "dual-wingbeat"
     ]
   },
   "loot_table": "pokecube:entities/chicken_3"

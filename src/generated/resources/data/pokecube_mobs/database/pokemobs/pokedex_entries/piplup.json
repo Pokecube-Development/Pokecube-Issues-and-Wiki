@@ -142,6 +142,7 @@
       "toxic",
       "agility",
       "double-team",
+      "haze",
       "bide",
       "waterfall",
       "bubble",
@@ -169,6 +170,7 @@
       "dive",
       "feather-dance",
       "mud-sport",
+      "weather-ball",
       "rock-tomb",
       "signal-beam",
       "aerial-ace",
@@ -192,7 +194,8 @@
       "water-pledge",
       "work-up",
       "confide",
-      "power-trip"
+      "power-trip",
+      "flip-turn"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

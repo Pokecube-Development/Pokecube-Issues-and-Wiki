@@ -118,6 +118,7 @@
       "headbutt",
       "tackle",
       "bite",
+      "roar",
       "strength",
       "absorb",
       "mega-drain",
@@ -154,6 +155,7 @@
       "nature-power",
       "superpower",
       "secret-power",
+      "sand-tomb",
       "bullet-seed",
       "natural-gift",
       "worry-seed",
@@ -165,10 +167,12 @@
       "captivate",
       "stealth-rock",
       "grass-knot",
+      "smack-down",
       "round",
       "grass-pledge",
       "work-up",
-      "confide"
+      "confide",
+      "grassy-glide"
     ]
   },
   "loot_table": "pokecube:entities/shellseed_2"

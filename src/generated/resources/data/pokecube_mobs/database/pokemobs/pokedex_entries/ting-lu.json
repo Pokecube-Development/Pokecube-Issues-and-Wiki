@@ -145,6 +145,7 @@
       "rest",
       "rock-slide",
       "substitute",
+      "spite",
       "protect",
       "scary-face",
       "mud-slap",
@@ -156,6 +157,7 @@
       "facade",
       "taunt",
       "rock-tomb",
+      "sand-tomb",
       "mud-shot",
       "dark-pulse",
       "earth-power",
@@ -169,6 +171,7 @@
       "snarl",
       "stomping-tantrum",
       "body-press",
+      "lash-out",
       "tera-blast"
     ]
   }

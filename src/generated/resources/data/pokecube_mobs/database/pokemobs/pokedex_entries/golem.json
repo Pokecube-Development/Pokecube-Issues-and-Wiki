@@ -183,7 +183,9 @@
       "substitute",
       "snore",
       "curse",
+      "flail",
       "protect",
+      "scary-face",
       "mud-slap",
       "sandstorm",
       "endure",
@@ -210,7 +212,9 @@
       "rock-tomb",
       "iron-defense",
       "block",
+      "mud-shot",
       "rock-blast",
+      "hammer-arm",
       "gyro-ball",
       "natural-gift",
       "fling",
@@ -224,6 +228,7 @@
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "wide-guard",
       "smack-down",
       "heavy-slam",
       "round",
@@ -232,7 +237,10 @@
       "steamroller",
       "confide",
       "power-up-punch",
-      "stomping-tantrum"
+      "high-horsepower",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/stone_2"

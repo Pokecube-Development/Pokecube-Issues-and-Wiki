@@ -103,6 +103,7 @@
       "bubble-beam",
       "toxic",
       "double-team",
+      "haze",
       "waterfall",
       "swift",
       "bubble",
@@ -133,6 +134,7 @@
       "knock-off",
       "secret-power",
       "dive",
+      "weather-ball",
       "signal-beam",
       "bounce",
       "covet",
@@ -149,7 +151,8 @@
       "scald",
       "confide",
       "dazzling-gleam",
-      "liquidation"
+      "liquidation",
+      "flip-turn"
     ]
   },
   "spawn_rules": [

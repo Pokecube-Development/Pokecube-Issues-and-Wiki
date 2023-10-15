@@ -121,6 +121,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "roar",
       "dig",
       "rest",
       "substitute",
@@ -148,6 +149,7 @@
       "snarl",
       "play-rough",
       "psychic-fangs",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]

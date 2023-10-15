@@ -141,6 +141,7 @@
       "dig",
       "toxic",
       "psychic",
+      "night-shade",
       "double-team",
       "confuse-ray",
       "reflect",
@@ -165,6 +166,7 @@
       "safeguard",
       "pain-split",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "shadow-ball",
       "rock-smash",
@@ -201,12 +203,17 @@
       "horn-leech",
       "phantom-force",
       "forests-curse",
+      "grassy-terrain",
       "confide",
       "venom-drench",
       "power-up-punch",
+      "branch-poke",
       "grassy-glide",
       "skitter-smack",
-      "poltergeist"
+      "lash-out",
+      "poltergeist",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/chestplate_seeds_1"
