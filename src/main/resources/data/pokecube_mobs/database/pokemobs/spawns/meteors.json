@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.meteors.general",
       "and_preset": "meteors",
       "entries": [
         {"key": "clefairy","min": 1,"max": 4,"rate": 0.25},
@@ -15,12 +16,14 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.meteors.night",
       "and_preset": "meteors,night_time",
       "entries": [
         {"key": "lunatone","min": 1,"max": 4,"rate": 0.05}
       ]
     },
     {
+      "desc": "pokecube.spawns.meteors.day",
       "and_preset": "meteors,day_time",
       "entries": [
         {"key": "solrock","min": 1,"max": 4,"rate": 0.05}

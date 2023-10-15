@@ -89,7 +89,7 @@ public class PokemobPageWriter
                 builder.append("=");
             builder.append("\n");
 
-            final Component var = entry.getDescription(null);
+            final Component var = entry.getDescription(null, null);
             String desc = PokemobPageWriter.replaceWithRefs(var.getString(), entry);
             desc = desc.replace("\n", "\n| ");
             desc = desc.replace("| - ", "|  - ");

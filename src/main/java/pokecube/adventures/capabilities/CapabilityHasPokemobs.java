@@ -820,8 +820,7 @@ public class CapabilityHasPokemobs
                 if (pokemob != null && mob.getPersistentData().getBoolean("__need_init_evos__"))
                 {
                     mob.getPersistentData().remove("__need_init_evos__");
-                    int level = pokemob.getLevel();
-                    for (int j = 1; j < level; j++) if (pokemob.getPokedexEntry().canEvolve(j))
+                    if (pokemob.canEvolve(pokemob.getHeldItem()))
                         for (final EvolutionData evo : pokemob.getPokedexEntry().getEvolutions())
                             if (evo.shouldEvolve(pokemob))
                     {

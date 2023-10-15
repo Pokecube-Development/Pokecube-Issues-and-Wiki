@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.google.gson.JsonObject;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -15,6 +16,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.Tools;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
+import thut.lib.TComponent;
 
 public class HasHeldItem implements PokemobCondition
 {
@@ -81,7 +83,6 @@ public class HasHeldItem implements PokemobCondition
         if (item != null && item.has("item"))
         {
             var element = item.get("item");
-            System.out.println(element);
             if (!element.isJsonPrimitive()) break check;
             String id = element.getAsString();
             if (id.contains("#"))
@@ -104,5 +105,23 @@ public class HasHeldItem implements PokemobCondition
         {
             _tag = TagKey.create(Keys.ITEMS, new ResourceLocation(tag));
         }
+    }
+
+    @Override
+    public Component makeDescription()
+    {
+        Component message = null;
+        if (!_value.isEmpty()) message = TComponent.translatable("pokemob.description.evolve.item",
+                this._value.getHoverName().getString());
+        else if (_tag != null)
+        {
+            var opt = ForgeRegistries.ITEMS.tags().getTag(_tag).stream().findFirst();
+            if (opt.isPresent())
+            {
+                ItemStack stack = new ItemStack(opt.get());
+                message = TComponent.translatable("pokemob.description.evolve.item", stack.getHoverName().getString());
+            }
+        }
+        return message;
     }
 }

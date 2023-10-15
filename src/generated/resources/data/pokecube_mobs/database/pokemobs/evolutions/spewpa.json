@@ -10,6 +10,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_oc",
           "or_preset": "oceans,beaches",
           "not_preset": "cold_areas"
         }
@@ -31,6 +32,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_sa",
           "and_preset": "deserts"
         }
       }
@@ -51,6 +53,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_he",
           "and_preset": "nether"
         }
       }
@@ -71,6 +74,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_en",
           "and_preset": "end"
         }
       }
@@ -91,6 +95,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_po",
           "matchers": {
             "biome": {
               "biome_tags": "#pokecube_mobs:vivillon_polar"
@@ -115,6 +120,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_ic",
           "and_preset": "cold_areas"
         }
       }
@@ -135,6 +141,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_mon",
           "and_preset": "wet_areas"
         }
       }
@@ -155,6 +162,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_su",
           "and_preset": "savannas"
         }
       }
@@ -175,6 +183,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_mod",
           "and_preset": "villages"
         }
       }
@@ -195,6 +204,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.evos.spewpa.vivillon_el",
           "or_preset": "plains,forests",
           "not_preset": "cold_areas,hot_areas,mountains"
         }

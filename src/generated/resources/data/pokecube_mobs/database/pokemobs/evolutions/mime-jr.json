@@ -14,6 +14,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.spawns.cold_snowy.snowy",
           "and_preset": "snowy_areas"
         }
       },

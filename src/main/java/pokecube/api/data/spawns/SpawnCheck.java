@@ -4,10 +4,9 @@ import java.util.Set;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkAccess;
@@ -84,21 +83,21 @@ public class SpawnCheck
     public final Weather weather;
     public final TerrainType terrain;
     public final boolean thundering;
-    public final ServerLevelAccessor world;
+    public final LevelAccessor world;
     public final ChunkAccess chunk;
     public final BlockPos pos;
     // These are only looked up if needed, but then cached for further uses of
     // the spawnCheck
     public Set<INamedStructure> namedStructures = null;
 
-    public SpawnCheck(final Vector3 location, final ServerLevelAccessor world)
+    public SpawnCheck(final Vector3 location, final LevelAccessor world)
     {
         this.world = world;
         this.pos = location.getPos();
         this.biome = location.getBiomeHolder(world);
         this.state = world.getBlockState(location.getPos());
-        ServerLevel level;
-        if (world instanceof ServerLevel) level = (ServerLevel) world;
+        Level level;
+        if (world instanceof Level l) level = l;
         else level = ((WorldGenRegionAccessor) world).getServerLevel();
         this.chunk = ITerrainProvider.getChunk(level.dimension(), new ChunkPos(location.getPos()));
         final TerrainSegment t = TerrainManager.getInstance().getTerrian(world, location);

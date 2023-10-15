@@ -173,7 +173,7 @@ public class GuiPokedex extends Screen
         var list = Lists.newArrayList(this.font.split(page, 100));
         list.add(TComponent.literal("").getVisualOrderText());
         var holder = this.pokemob != null ? this.pokemob.getCustomHolder() : null;
-        page = pokedexEntry.getDescription(holder);
+        page = pokedexEntry.getDescription(pokemob, holder);
         list.addAll(this.font.split(page, 100));
 
         final IClickListener listen = new IClickListener()

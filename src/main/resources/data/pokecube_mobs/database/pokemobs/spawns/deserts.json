@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.deserts.general",
       "and_preset": "deserts",
       "entries": [
         {"key": "trapinch","min": 1,"max": 4,"rate": 0.5},
@@ -33,6 +34,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.deserts.night",
       "and_preset": "deserts,night_time",
       "entries": [
         {"key": "sableye","min": 1,"max": 4,"rate": 0.25},
@@ -42,6 +44,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.deserts.day",
       "and_preset": "deserts,day_time",
       "entries": [
         {"key": "cacnea","min": 1,"max": 4,"rate": 0.6},
@@ -51,12 +54,14 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.deserts.hills",
       "and_preset": "deserts,hills",
       "entries": [
         {"key": "baltoy","min": 1,"max": 4,"rate": 0.3}
       ]
     },
     {
+      "desc": "pokecube.spawns.badlands.general",
       "and_preset": "badlands",
       "entries": [
         {"key": "geodude","min": 1,"max": 4,"rate": 0.3},
@@ -81,6 +86,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.badlands.night",
       "and_preset": "badlands,night_time",
       "entries": [
         {"key": "sableye","min": 1,"max": 4,"rate": 0.25},
@@ -89,6 +95,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.badlands.day",
       "and_preset": "badlands,day_time",
       "entries": [
         {"key": "solrock","min": 1,"max": 4,"rate": 0.01},
@@ -96,6 +103,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.badlands.hills",
       "and_preset": "badlands,hills",
       "entries": [
         {"key": "baltoy","min": 1,"max": 4,"rate": 0.3},
@@ -105,6 +113,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.badlands.forests",
       "and_preset": "mesa_forests",
       "entries": [
         {"key": "durant","min": 1,"max": 4,"rate": 0.5},

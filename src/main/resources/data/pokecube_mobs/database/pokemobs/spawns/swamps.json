@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.swamps.ground",
       "and_preset": "swamp_ground",
       "entries": [
         {"key": "gulpin","min": 2,"max": 4,"rate": 0.4},
@@ -24,12 +25,14 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.swamps.water",
       "and_preset": "swamp_water",
       "entries": [
         {"key": "barboach","min": 2,"max": 4,"rate": 0.3}
       ]
     },
     {
+      "desc": "pokecube.spawns.swamps.general",
       "and_preset": "swamps",
       "entries": [
         {"key": "stunfisk","min": 2,"max": 4,"rate": 0.4},

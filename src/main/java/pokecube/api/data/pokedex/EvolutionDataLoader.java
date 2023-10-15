@@ -27,7 +27,6 @@ import pokecube.api.data.pokedex.conditions.IsTraded;
 import pokecube.api.data.pokedex.conditions.PokemobCondition;
 import pokecube.api.data.pokedex.conditions.RandomChance;
 import pokecube.core.PokecubeCore;
-import pokecube.core.database.Database;
 import pokecube.core.database.resources.PackFinder;
 import thut.api.data.DataHelpers;
 import thut.api.data.DataHelpers.ResourceData;
@@ -84,13 +83,13 @@ public class EvolutionDataLoader extends ResourceData
     private void loadFromJson(JsonElement element)
     {
         var rule = JsonUtil.gson.fromJson(element, Evolution.class);
-        PokedexEntry result = Database.getEntry(rule.name);
+        PokedexEntry result = rule.getResult();
         if (result == null)
         {
             PokecubeAPI.LOGGER.error("Needs result for a evo! {}", element);
             return;
         }
-        PokedexEntry user = Database.getEntry(rule.user);
+        PokedexEntry user = rule.getUser();
         if (user == null)
         {
             PokecubeAPI.LOGGER.error("Needs user for a evo! {}", element);

@@ -125,7 +125,7 @@ public class PokecubeHelper
             PokecubeAPI.LOGGER.error("moon cube catch rate called wrong side!");
             return 1;
         }
-        if (mob.getPokedexEntry().canEvolve(1, PokecubeItems.getStack("moonstone"))) return 4;
+        if (mob.canEvolve(PokecubeItems.getStack("moonstone"))) return 4;
         if (PokecubeHelper.moonMatcher.matches(new SpawnCheck(new Vector3().set(mob.getEntity()), level))) return 4;
         return 1;
     }
