@@ -1172,6 +1172,10 @@
     "legends.spawns.ultraspace.snowy": "In snowy areas in ultraspace",
     "legends.spawns.ultraspace.anywhere": "Anywhere in ultraspace",
     "legends.spawns.ultraspace.underground": "Underground in ultraspace",
+    
+    "legends.spawns.structures.kubfu_dojo": "In Kubfu Dojos",
+    "legends.spawns.structures.kubfu_dark": "In Kubfu dark Dojos",
+    "legends.spawns.structures.kubfu_water": "In Kubfu water Dojos",
 
     "_comment39": "Messages",
     "msg.pokecube_legends.ultrakey.no_dust": "§cRequires %2$s%3$s%1$s§r §cCosmic Dust",

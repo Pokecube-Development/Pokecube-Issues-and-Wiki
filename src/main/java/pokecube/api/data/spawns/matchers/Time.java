@@ -1,10 +1,12 @@
 package pokecube.api.data.spawns.matchers;
 
+import net.minecraft.network.chat.Component;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
 import pokecube.core.utils.TimePeriod;
+import thut.lib.TComponent;
 
 /**
  * 
@@ -56,5 +58,15 @@ public class Time extends BaseMatcher
             }
         }
         if (_time == null) _time = new TimePeriod(start, end);
+    }
+
+    @Override
+    public Component makeDescription()
+    {
+        if (preset != null && !preset.isBlank())
+        {
+            return TComponent.translatable("pokemob.description.evolve." + preset);
+        }
+        return super.makeDescription();
     }
 }

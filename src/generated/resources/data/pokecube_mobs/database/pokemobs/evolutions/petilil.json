@@ -16,6 +16,7 @@
       {
         "key": "location",
         "location": {
+          "desc": "pokecube.spawns.deserts.general",
           "and_preset": "deserts",
           "matchers": {
             "time": {

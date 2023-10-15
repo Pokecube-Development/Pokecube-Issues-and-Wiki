@@ -100,59 +100,62 @@ public class SpawnListEntry
                     times = times + I18n.get("pokewatch.spawns.dawn");
                 }
                 comps.add(TComponent.literal(times));
-                String rate = "";
-                if (matcher.spawnRule.values.containsKey("Local_Rate"))
-                {
-                    float val = 0;
-                    try
-                    {
-                        val = Float.parseFloat(matcher.spawnRule.getString("Local_Rate"));
-                    }
-                    catch (final Exception e)
-                    {
-
-                    }
-                    if (val > 1e-3) val = (int) (val * 1000) / 10f;
-                    else if (val != 0)
-                    {
-                        float denom = 1000f;
-                        float numer = 100000f;
-                        float val2 = (int) (val * numer) / denom;
-                        if ((val * numer) != 0) while (val2 == 0)
-                        {
-                            numer *= 100;
-                            denom *= 100;
-                            val2 = (int) (val * numer) / denom;
-                        }
-                        val = val2;
-                    }
-                    rate = I18n.get("pokewatch.spawns.rate_local", val + "%");
-                }
-                else
-                {
-                    float val = 0;
-                    try
-                    {
-                        val = Float.parseFloat(matcher.spawnRule.getString("rate"));
-                    }
-                    catch (final Exception e)
-                    {
-
-                    }
-                    if (val > 10e-4) val = (int) (val * 1000) / 10f;
-                    else val = (int) (val * 10000) / 100f;
-
-                    if (val == 0) rate = "";
-                    else
-                    {
-                        final String var = val + "%";
-                        rate = indent + I18n.get("pokewatch.spawns.rate_single", var);
-                    }
-                }
-                if (!rate.isEmpty()) comps.add(TComponent.literal(indent + rate));
-                comps.add(TComponent.literal(""));
             }
         }
+        
+
+        String rate = "";
+        if (matcher.spawnRule.values.containsKey("Local_Rate"))
+        {
+            float val = 0;
+            try
+            {
+                val = Float.parseFloat(matcher.spawnRule.getString("Local_Rate"));
+            }
+            catch (final Exception e)
+            {
+
+            }
+            if (val > 1e-3) val = (int) (val * 1000) / 10f;
+            else if (val != 0)
+            {
+                float denom = 1000f;
+                float numer = 100000f;
+                float val2 = (int) (val * numer) / denom;
+                if ((val * numer) != 0) while (val2 == 0)
+                {
+                    numer *= 100;
+                    denom *= 100;
+                    val2 = (int) (val * numer) / denom;
+                }
+                val = val2;
+            }
+            rate = I18n.get("pokewatch.spawns.rate_local", val + "%");
+        }
+        else
+        {
+            float val = 0;
+            try
+            {
+                val = Float.parseFloat(matcher.spawnRule.getString("rate"));
+            }
+            catch (final Exception e)
+            {
+
+            }
+            if (val > 10e-4) val = (int) (val * 1000) / 10f;
+            else val = (int) (val * 10000) / 100f;
+
+            if (val == 0) rate = "";
+            else
+            {
+                final String var = val + "%";
+                rate = indent + I18n.get("pokewatch.spawns.rate_single", var);
+            }
+        }
+        if (!rate.isEmpty()) comps.add(TComponent.literal(indent + rate));
+        comps.add(TComponent.literal(""));
+        
         return comps;
     }
 

@@ -149,6 +149,20 @@ public class SpawnRule
     {
         if (_cached_desc != null) return _cached_desc;
         if (this.desc != null && !this.desc.isBlank()) _cached_desc = TComponent.translatable(desc);
+        if (_cached_desc == null)
+        {
+            if (this._matchers.isEmpty() && !this.matchers.isEmpty())
+            {
+                this.loadMatchers();
+            }
+            // We should try to somehow merge together internal ones.
+            for (var m : this._matchers)
+            {
+                var desc = m.makeDescription();
+                // For now test just returning the first though.
+                if (desc != null) return _cached_desc = desc;
+            }
+        }
         return _cached_desc;
     }
 }

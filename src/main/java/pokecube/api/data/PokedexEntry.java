@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
@@ -137,7 +138,9 @@ public class PokedexEntry
             final List<MutableComponent> comps = Lists.newArrayList();
             if (this._condition != null)
             {
+                if ("eevee".equals(data.user)) ThutCore.conf.debug = true;
                 List<Component> baseComps = PokemobCondition.getDescriptions(_condition);
+                if ("eevee".equals(data.user)) ThutCore.conf.debug = false;
                 for (var c : baseComps) comps.add(TComponent.translatable("pokemob.description.tabbed", c));
             }
             return comps;
@@ -1325,7 +1328,7 @@ public class PokedexEntry
     }
 
     @OnlyIn(Dist.CLIENT)
-    public MutableComponent getDescription(FormeHolder holder)
+    public MutableComponent getDescription(@Nullable IPokemob pokemob, @Nullable FormeHolder holder)
     {
         _descriptions.clear();
         ResourceLocation key = holder == null ? _base_description : holder.key;
@@ -1339,12 +1342,17 @@ public class PokedexEntry
             if (type2 != PokeType.unknown) typeString.append("/").append(PokeType.getTranslatedName(type2));
             final MutableComponent typeDesc = TComponent.translatable("pokemob.description.type",
                     entry.getTranslatedName(), typeString);
-            MutableComponent evoString = null;
-            if (entry.canEvolve()) for (final EvolutionData d : entry.evolutions)
+            MutableComponent evoString = TComponent.literal("");
+            for (final EvolutionData d : entry.evolutions)
             {
                 if (d.evolution == null) continue;
-                if (evoString == null) evoString = d.getEvoString();
-                else evoString = evoString.append("\n").append(d.getEvoString());
+
+                var compDesc = d.getEvoString();
+                if (pokemob != null && d.shouldEvolve(pokemob))
+                    compDesc = compDesc.setStyle(compDesc.getStyle().withColor(ChatFormatting.GOLD));
+
+                if (evoString == null) evoString = compDesc;
+                else evoString = evoString.append("\n").append(compDesc);
                 evoString.append("\n");
             }
             MutableComponent descString = typeDesc;
@@ -1354,6 +1362,18 @@ public class PokedexEntry
                         entry.getTranslatedName(), entry._evolvesFrom.getTranslatedName()));
             return descString;
         });
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public MutableComponent getDescription(@Nullable IPokemob pokemob)
+    {
+        return getDescription(pokemob, null);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public MutableComponent getDescription(@Nullable FormeHolder holder)
+    {
+        return getDescription(null, holder);
     }
 
     public EntityType<? extends Mob> getEntityType()

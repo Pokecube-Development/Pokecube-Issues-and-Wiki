@@ -11,7 +11,7 @@
   "pokecube.spawns.caves.not_cold":"In caves except cold areas",
   "pokecube.spawns.caves.lush":"In lush caves",
   "pokecube.spawns.caves.snowy":"In caves in snowy areas",
-  "pokecube.spawns.caves.water":"In warer in caves",
+  "pokecube.spawns.caves.water":"In water in caves",
   "pokecube.spawns.caves.water_shore":"Near water in caves",
   "pokecube.spawns.caves.rivers":"In caves under rivers",
   "pokecube.spawns.caves.swamps":"In caves under swamps",
@@ -117,5 +117,18 @@
   "pokecube.spawns.swamps.general":"In and around swamps",
   
   "pokecube.spawns.villages.general":"Around villages",
-  "pokecube.spawns.villages.day":"Around villages, during the day"
+  "pokecube.spawns.villages.day":"Around villages, during the day",
+  
+  "_comment2": "Pokemob specific info",
+  
+  "pokecube.evos.spewpa.vivillon_oc": "Around oceans and beaches which are not cold",
+  "pokecube.evos.spewpa.vivillon_sa": "In deserts",
+  "pokecube.evos.spewpa.vivillon_he": "In the nether",
+  "pokecube.evos.spewpa.vivillon_en": "In the end",
+  "pokecube.evos.spewpa.vivillon_po": "In cold, frozen areas",
+  "pokecube.evos.spewpa.vivillon_ic": "In cold areas",
+  "pokecube.evos.spewpa.vivillon_mon": "In wet areas",
+  "pokecube.evos.spewpa.vivillon_su": "In savannas",
+  "pokecube.evos.spewpa.vivillon_mod": "In villages",
+  "pokecube.evos.spewpa.vivillon_el": "Around most plains and forests"
  }
