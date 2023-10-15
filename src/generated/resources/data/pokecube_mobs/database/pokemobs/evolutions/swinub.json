@@ -1,0 +1,9 @@
+{
+  "name": "piloswine",
+  "user": "swinub",
+  "condition": {
+    "key": "level",
+    "level": 33
+  },
+  "evoMoves": "ice-fang"
+}

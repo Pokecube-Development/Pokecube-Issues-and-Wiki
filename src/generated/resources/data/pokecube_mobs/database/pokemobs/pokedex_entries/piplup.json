@@ -195,12 +195,5 @@
       "power-trip"
     ]
   },
-  "evolutions": [
-    {
-      "name": "prinplup",
-      "level": 16,
-      "evoMoves": "metal-claw"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

@@ -59,12 +59,5 @@
       "electroweb"
     ]
   },
-  "evolutions": [
-    {
-      "name": "metapod",
-      "level": 7,
-      "evoMoves": "harden"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

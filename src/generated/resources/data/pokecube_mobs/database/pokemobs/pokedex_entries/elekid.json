@@ -196,11 +196,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "electabuzz",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

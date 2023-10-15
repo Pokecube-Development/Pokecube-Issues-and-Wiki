@@ -115,22 +115,5 @@
       "laser-focus"
     ]
   },
-  "evolutions": [
-    {
-      "name": "hitmonlee",
-      "level": 20,
-      "evoMoves": "double-kick"
-    },
-    {
-      "name": "hitmonchan",
-      "level": 20,
-      "evoMoves": "comet-punch"
-    },
-    {
-      "name": "hitmontop",
-      "level": 20,
-      "evoMoves": "rolling-kick"
-    }
-  ],
   "loot_table": "pokecube:entities/cow_1"
 }

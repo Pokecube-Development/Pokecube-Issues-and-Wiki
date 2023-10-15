@@ -194,11 +194,5 @@
       "misty-explosion"
     ]
   },
-  "evolutions": [
-    {
-      "name": "aromatisse",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/stick"
 }

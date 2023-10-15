@@ -220,12 +220,6 @@
       "brutal-swing"
     ]
   },
-  "evolutions": [
-    {
-      "name": "graveler-alola",
-      "level": 25
-    }
-  ],
   "old_name": "geodude_alola",
   "loot_table": "pokecube:entities/redstone_1"
 }

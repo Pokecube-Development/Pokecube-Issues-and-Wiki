@@ -1,0 +1,19 @@
+{
+  "name": "chimecho",
+  "user": "chingling",
+  "condition": [
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "night"
+          }
+        }
+      }
+    },
+    {
+      "key": "happy"
+    }
+  ]
+}

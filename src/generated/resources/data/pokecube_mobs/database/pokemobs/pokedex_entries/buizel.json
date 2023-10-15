@@ -219,11 +219,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "floatzel",
-      "level": 26
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

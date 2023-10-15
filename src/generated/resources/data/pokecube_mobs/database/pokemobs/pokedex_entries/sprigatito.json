@@ -145,11 +145,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "floragato",
-      "level": 16
-    }
-  ],
   "loot_table": "pokecube:entities/money_cat_small"
 }

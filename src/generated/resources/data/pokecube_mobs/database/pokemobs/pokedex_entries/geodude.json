@@ -234,11 +234,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "graveler",
-      "level": 25
-    }
-  ],
   "loot_table": "pokecube:entities/cobble_1"
 }

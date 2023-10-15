@@ -206,11 +206,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "quilava",
-      "level": 14
-    }
-  ],
   "loot_table": "pokecube:entities/coal_1"
 }

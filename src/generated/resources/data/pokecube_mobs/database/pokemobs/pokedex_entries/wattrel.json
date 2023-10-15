@@ -142,11 +142,5 @@
       "electric-terrain",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "kilowattrel",
-      "level": 25
-    }
-  ]
+  }
 }

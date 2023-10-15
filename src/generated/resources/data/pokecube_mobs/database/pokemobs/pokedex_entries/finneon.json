@@ -202,11 +202,5 @@
     "model": "finneon_female",
     "anim": "finneon_female"
   },
-  "evolutions": [
-    {
-      "name": "lumineon",
-      "level": 31
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "silcoon",
+    "user": "wurmple",
+    "condition": [
+      {
+        "key": "level",
+        "level": 7
+      },
+      {
+        "key": "chance",
+        "chance": 0.5
+      }
+    ],
+    "evoMoves": "harden"
+  },
+  {
+    "name": "cascoon",
+    "user": "wurmple",
+    "condition": {
+      "key": "level",
+      "level": 7
+    },
+    "evoMoves": "harden"
+  }
+]

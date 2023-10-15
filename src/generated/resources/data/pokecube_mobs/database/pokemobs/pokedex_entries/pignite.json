@@ -220,12 +220,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "emboar",
-      "level": 36,
-      "animation": "55"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_pig_2"
 }

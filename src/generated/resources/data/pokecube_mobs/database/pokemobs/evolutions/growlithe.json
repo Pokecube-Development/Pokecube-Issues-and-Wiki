@@ -1,0 +1,10 @@
+{
+  "name": "arcanine",
+  "user": "growlithe",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:firestone"
+    }
+  }
+}

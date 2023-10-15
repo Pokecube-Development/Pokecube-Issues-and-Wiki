@@ -255,12 +255,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "ursaluna",
-      "item_preset": "pokecube_mobs:peat_block",
-      "time": "night"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_3"
 }

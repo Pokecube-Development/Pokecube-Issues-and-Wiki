@@ -97,11 +97,5 @@
       "steel-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "goodra-hisui",
-      "level": 50
-    }
-  ],
   "old_name": "sliggoo_hisui"
 }

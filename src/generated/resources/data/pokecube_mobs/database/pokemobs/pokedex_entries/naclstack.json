@@ -156,11 +156,5 @@
       "body-press",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "garganacl",
-      "level": 38
-    }
-  ]
+  }
 }

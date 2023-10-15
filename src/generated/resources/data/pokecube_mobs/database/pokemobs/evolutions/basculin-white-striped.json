@@ -1,0 +1,30 @@
+[
+  {
+    "name": "basculegion-male",
+    "user": "basculin-white-striped",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "sexe",
+        "sexe": "male"
+      }
+    ]
+  },
+  {
+    "name": "basculegion-female",
+    "user": "basculin-white-striped",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "sexe",
+        "sexe": "female"
+      }
+    ]
+  }
+]

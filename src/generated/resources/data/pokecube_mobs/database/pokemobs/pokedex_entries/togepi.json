@@ -234,11 +234,5 @@
       "life-dew"
     ]
   },
-  "evolutions": [
-    {
-      "name": "togetic",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

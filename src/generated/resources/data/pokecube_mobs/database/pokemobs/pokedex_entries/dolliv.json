@@ -135,11 +135,5 @@
       "tera-blast",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "arboliva",
-      "level": 35
-    }
-  ]
+  }
 }

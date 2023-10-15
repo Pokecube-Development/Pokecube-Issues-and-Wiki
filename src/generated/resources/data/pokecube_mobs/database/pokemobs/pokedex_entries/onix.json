@@ -348,12 +348,5 @@
       ]
     }
   },
-  "evolutions": [
-    {
-      "name": "steelix",
-      "item_preset": "metalcoat",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/stone_2"
 }

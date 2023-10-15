@@ -1,0 +1,10 @@
+{
+  "name": "coalossal",
+  "user": "carkol",
+  "condition": {
+    "key": "level",
+    "level": 34
+  },
+  "evoMoves": "tar-shot",
+  "animation": "18"
+}

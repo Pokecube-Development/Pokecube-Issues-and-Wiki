@@ -193,12 +193,5 @@
       "speed-swap"
     ]
   },
-  "evolutions": [
-    {
-      "name": "porygon-z",
-      "item_preset": "dubiousdisc",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

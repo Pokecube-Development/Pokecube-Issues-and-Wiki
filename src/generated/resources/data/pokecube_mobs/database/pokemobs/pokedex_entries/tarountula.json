@@ -149,12 +149,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "spidops",
-      "level": 15,
-      "evoMoves": "silk-trap"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

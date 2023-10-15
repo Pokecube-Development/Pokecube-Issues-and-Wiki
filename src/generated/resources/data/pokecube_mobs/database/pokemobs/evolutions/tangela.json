@@ -1,0 +1,8 @@
+{
+  "name": "tangrowth",
+  "user": "tangela",
+  "condition": {
+    "key": "move",
+    "move": "ancient-power"
+  }
+}

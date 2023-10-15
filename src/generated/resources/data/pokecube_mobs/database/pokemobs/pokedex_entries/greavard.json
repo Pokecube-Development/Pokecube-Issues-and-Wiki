@@ -159,11 +159,5 @@
       "stomping-tantrum",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "houndstone",
-      "level": 30
-    }
-  ]
+  }
 }

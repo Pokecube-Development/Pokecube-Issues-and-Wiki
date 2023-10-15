@@ -1,0 +1,9 @@
+{
+  "name": "rhydon",
+  "user": "rhyhorn",
+  "condition": {
+    "key": "level",
+    "level": 42
+  },
+  "evoMoves": "hammer-arm"
+}

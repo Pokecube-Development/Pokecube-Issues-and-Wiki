@@ -1,0 +1,11 @@
+{
+  "name": "probopass",
+  "user": "nosepass",
+  "condition": {
+    "key": "location",
+    "location": {
+      "and_preset": "industrial"
+    }
+  },
+  "evoMoves": "tri-attack"
+}

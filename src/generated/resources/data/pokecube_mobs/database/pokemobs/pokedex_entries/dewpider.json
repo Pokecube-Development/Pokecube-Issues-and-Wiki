@@ -187,11 +187,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "araquanid",
-      "level": 22
-    }
-  ],
   "loot_table": "pokecube:entities/spider"
 }

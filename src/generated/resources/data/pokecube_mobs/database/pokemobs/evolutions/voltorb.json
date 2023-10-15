@@ -1,0 +1,8 @@
+{
+  "name": "electrode",
+  "user": "voltorb",
+  "condition": {
+    "key": "level",
+    "level": 30
+  }
+}

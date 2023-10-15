@@ -162,11 +162,5 @@
       "tera-blast",
       "pounce"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "tinkaton",
-      "level": 38
-    }
-  ]
+  }
 }

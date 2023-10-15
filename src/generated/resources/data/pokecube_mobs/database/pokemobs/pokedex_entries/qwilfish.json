@@ -231,11 +231,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "overqwil",
-      "move": "barb-barrage"
-    }
-  ],
   "loot_table": "pokecube:entities/pufferfish"
 }

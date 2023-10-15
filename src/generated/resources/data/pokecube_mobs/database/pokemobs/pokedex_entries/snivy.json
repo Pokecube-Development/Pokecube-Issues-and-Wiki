@@ -198,12 +198,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "servine",
-      "level": 17,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

@@ -208,52 +208,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "vaporeon",
-      "animation": "splash",
-      "item_preset": "waterstone",
-      "evoMoves": "water-gun"
-    },
-    {
-      "name": "jolteon",
-      "animation": "spark",
-      "item_preset": "thunderstone",
-      "evoMoves": "thunder-shock"
-    },
-    {
-      "name": "flareon",
-      "animation": "flame",
-      "item_preset": "firestone",
-      "evoMoves": "ember"
-    },
-    {
-      "name": "espeon",
-      "time": "day",
-      "happy": true,
-      "evoMoves": "confusion"
-    },
-    {
-      "name": "umbreon",
-      "time": "night",
-      "happy": true,
-      "evoMoves": "pursuit"
-    },
-    {
-      "name": "leafeon",
-      "item_preset": "leafstone",
-      "evoMoves": "razor-leaf"
-    },
-    {
-      "name": "glaceon",
-      "item_preset": "pokecube_mobs:ice_stone",
-      "evoMoves": "icy-wind"
-    },
-    {
-      "name": "sylveon",
-      "item_preset": "pokecube_mobs:sylveon",
-      "evoMoves": "fairy-wind"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

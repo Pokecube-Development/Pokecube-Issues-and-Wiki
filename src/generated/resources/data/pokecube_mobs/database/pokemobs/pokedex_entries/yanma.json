@@ -207,11 +207,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "yanmega",
-      "move": "ancient-power"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

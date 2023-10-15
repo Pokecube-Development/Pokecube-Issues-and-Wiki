@@ -207,13 +207,5 @@
       "lash-out"
     ]
   },
-  "evolutions": [
-    {
-      "name": "tyrantrum",
-      "level": 39,
-      "time": "day",
-      "evoMoves": "rock-slide"
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

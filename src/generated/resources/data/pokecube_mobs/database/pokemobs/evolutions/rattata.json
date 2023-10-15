@@ -1,0 +1,9 @@
+{
+  "name": "raticate",
+  "user": "rattata",
+  "condition": {
+    "key": "level",
+    "level": 20
+  },
+  "evoMoves": "scary-face"
+}

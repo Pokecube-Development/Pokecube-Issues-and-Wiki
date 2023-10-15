@@ -1,0 +1,11 @@
+{
+  "name": "magnezone",
+  "user": "magneton",
+  "condition": {
+    "key": "location",
+    "location": {
+      "and_preset": "caves"
+    }
+  },
+  "evoMoves": "tri-attack"
+}

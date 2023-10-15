@@ -1,0 +1,27 @@
+[
+  {
+    "name": "toxtricity-amped",
+    "user": "toxel",
+    "condition": {
+      "key": "level",
+      "level": 30
+    },
+    "evoMoves": "spark",
+    "animation": "18"
+  },
+  {
+    "name": "toxtricity-low-key",
+    "user": "toxel",
+    "condition": [
+      {
+        "key": "level",
+        "level": 30
+      },
+      {
+        "key": "traded"
+      }
+    ],
+    "evoMoves": "spark",
+    "animation": "18"
+  }
+]

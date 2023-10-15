@@ -1,0 +1,9 @@
+{
+  "name": "darmanitan-standard",
+  "user": "darumaka",
+  "condition": {
+    "key": "level",
+    "level": 35
+  },
+  "evoMoves": "hammer-arm"
+}

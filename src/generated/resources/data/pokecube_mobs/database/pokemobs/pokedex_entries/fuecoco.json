@@ -138,11 +138,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "crocalor",
-      "level": 16
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

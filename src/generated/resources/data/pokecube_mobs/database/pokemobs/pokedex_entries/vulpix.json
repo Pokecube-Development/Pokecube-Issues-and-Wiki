@@ -248,11 +248,5 @@
       "burning-jealousy"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ninetales",
-      "item_preset": "firestone"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

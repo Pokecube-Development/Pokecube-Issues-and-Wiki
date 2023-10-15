@@ -159,12 +159,5 @@
       "dazzling-gleam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "chimecho",
-      "time": "night",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

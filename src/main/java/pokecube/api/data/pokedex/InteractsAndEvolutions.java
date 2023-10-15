@@ -19,9 +19,8 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.pokedex.conditions.AtLeastLevel;
 import pokecube.api.data.pokedex.conditions.AtLocation;
-import pokecube.api.data.pokedex.conditions.HasAbility;
-import pokecube.api.data.pokedex.conditions.HasMove;
 import pokecube.api.data.pokedex.conditions.HasHeldItem;
+import pokecube.api.data.pokedex.conditions.HasMove;
 import pokecube.api.data.pokedex.conditions.IsEntry;
 import pokecube.api.data.pokedex.conditions.IsHappy;
 import pokecube.api.data.pokedex.conditions.IsSexe;
@@ -41,17 +40,6 @@ import thut.core.common.ThutCore;
 
 public class InteractsAndEvolutions
 {
-    public static void init()
-    {
-        PokemobCondition.CONDITIONS.put("item", HasHeldItem.class);
-        PokemobCondition.CONDITIONS.put("ability", HasAbility.class);
-        PokemobCondition.CONDITIONS.put("move", HasMove.class);
-        PokemobCondition.CONDITIONS.put("location", AtLocation.class);
-        PokemobCondition.CONDITIONS.put("chance", RandomChance.class);
-        PokemobCondition.CONDITIONS.put("level", AtLeastLevel.class);
-        PokemobCondition.CONDITIONS.put("traded", IsTraded.class);
-        PokemobCondition.CONDITIONS.put("happy", IsHappy.class);
-    }
 
     public static class Evolution
     {
@@ -60,11 +48,11 @@ public class InteractsAndEvolutions
         // Below are conditions
         public Integer level; // AtLeastLevel
         public SpawnRule location; // AtLocation
+        public String time;// AtLocation
+        public Boolean rain;// AtLocation
         public Drop item; // HeldItem
         public String item_preset; // HeldItem
-        public String time;// AtLocation
         public Boolean trade;// IsTraded
-        public Boolean rain;// AtLocation
         public Boolean happy;// IsHappy
         public String sexe;// IsSexe
         public String move;// HasMove
@@ -74,9 +62,27 @@ public class InteractsAndEvolutions
         public JsonElement condition;
 
         // Below are results
+
+        /**
+         * The result of the evolution
+         */
         public String name;
+        /**
+         * The mob to evolve from, optional if this is part of the
+         * JsonPokedexEntry
+         */
+        public String user;
+        /**
+         * Animation FX related
+         */
         public String animation;
+        /**
+         * List of moves to learn on evo
+         */
         public String evoMoves;
+        /**
+         * Custom model to apply after evo.
+         */
         protected DefaultFormeHolder model = null;
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
@@ -91,17 +97,21 @@ public class InteractsAndEvolutions
             AtLocation locationTest = null;
             List<PokemobCondition> bits = new ArrayList<>();
 
+            // First check if we have a loadable condition, if so, just use
+            // that, the rest will be left as description information!
             if (condition != null)
             {
                 result = PokemobCondition.makeFromElement(condition);
+                result.init();
+                return result;
             }
+
             if (level != null)
             {
                 AtLeastLevel res = new AtLeastLevel();
                 res.level = level;
                 bits.add(res);
-                if (result == null) result = res;
-                else result = result.and(res);
+                result = res;
             }
             if (location != null)
             {
@@ -110,6 +120,30 @@ public class InteractsAndEvolutions
                 locationTest.location = location;
                 if (result == null) result = locationTest;
                 else result = result.and(locationTest);
+            }
+            if (time != null)
+            {
+                Time match = new Time();
+                match.preset = time;
+                if (locationTest == null)
+                {
+                    locationTest = new AtLocation();
+                    locationTest.location = new SpawnRule();
+                    bits.add(locationTest);
+                }
+                locationTest.location.matchers.put("time", JsonUtil.gson.toJsonTree(match));
+            }
+            if (rain != null)
+            {
+                WeatherMatch match = new WeatherMatch();
+                match.type = rain ? "rain" : "sun";
+                if (locationTest == null)
+                {
+                    locationTest = new AtLocation();
+                    locationTest.location = new SpawnRule();
+                    bits.add(locationTest);
+                }
+                locationTest.location.matchers.put("weather", JsonUtil.gson.toJsonTree(match));
             }
             if (item != null)
             {
@@ -143,36 +177,12 @@ public class InteractsAndEvolutions
                 if (result == null) result = res;
                 else result = result.and(res);
             }
-            if (time != null)
-            {
-                Time match = new Time();
-                match.preset = time;
-                if (locationTest == null)
-                {
-                    locationTest = new AtLocation();
-                    locationTest.location = new SpawnRule();
-                    bits.add(locationTest);
-                }
-                locationTest.location.matchers.put("time", JsonUtil.gson.toJsonTree(match));
-            }
             if (trade != null)
             {
                 var bit = new IsTraded();
                 bits.add(bit);
                 if (result == null) result = bit;
                 else result = result.and(bit);
-            }
-            if (rain != null)
-            {
-                WeatherMatch match = new WeatherMatch();
-                match.type = rain ? "rain" : "sun";
-                if (locationTest == null)
-                {
-                    locationTest = new AtLocation();
-                    locationTest.location = new SpawnRule();
-                    bits.add(locationTest);
-                }
-                locationTest.location.matchers.put("weather", JsonUtil.gson.toJsonTree(match));
             }
             if (happy != null)
             {

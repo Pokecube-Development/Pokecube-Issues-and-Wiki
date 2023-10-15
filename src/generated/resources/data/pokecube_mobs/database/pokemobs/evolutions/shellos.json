@@ -1,0 +1,30 @@
+[
+  {
+    "name": "gastrodon",
+    "user": "shellos_east",
+    "condition": {
+      "key": "level",
+      "level": 30
+    },
+    "model": {
+      "key": "gastrodon-east",
+      "tex": "gastrodon-east",
+      "model": "gastrodon-east",
+      "anim": "gastrodon-east"
+    }
+  },
+  {
+    "name": "gastrodon",
+    "user": "shellos_west",
+    "condition": {
+      "key": "level",
+      "level": 30
+    },
+    "model": {
+      "key": "gastrodon-west",
+      "tex": "gastrodon-west",
+      "model": "gastrodon-west",
+      "anim": "gastrodon-west"
+    }
+  }
+]

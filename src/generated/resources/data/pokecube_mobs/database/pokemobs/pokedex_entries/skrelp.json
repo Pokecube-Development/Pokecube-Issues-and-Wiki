@@ -194,12 +194,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dragalge",
-      "level": 48,
-      "evoMoves": "twister"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

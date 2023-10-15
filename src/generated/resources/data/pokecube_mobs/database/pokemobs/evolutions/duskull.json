@@ -1,0 +1,9 @@
+{
+  "name": "dusclops",
+  "user": "duskull",
+  "condition": {
+    "key": "level",
+    "level": 37
+  },
+  "evoMoves": "shadow-punch"
+}

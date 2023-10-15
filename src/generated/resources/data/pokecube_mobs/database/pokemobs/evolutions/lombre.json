@@ -1,0 +1,10 @@
+{
+  "name": "ludicolo",
+  "user": "lombre",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:waterstone"
+    }
+  }
+}

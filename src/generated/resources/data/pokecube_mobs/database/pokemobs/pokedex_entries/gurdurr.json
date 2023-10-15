@@ -190,11 +190,5 @@
       "coaching"
     ]
   },
-  "evolutions": [
-    {
-      "name": "conkeldurr",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

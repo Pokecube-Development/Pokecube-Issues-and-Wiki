@@ -1,0 +1,8 @@
+{
+  "name": "crobat",
+  "user": "golbat",
+  "condition": {
+    "key": "happy"
+  },
+  "evoMoves": "cross-poison"
+}

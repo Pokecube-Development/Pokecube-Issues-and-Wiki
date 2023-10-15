@@ -178,14 +178,6 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "raticate-alola",
-      "level": 20,
-      "time": "night",
-      "evoMoves": "scary-face"
-    }
-  ],
   "old_name": "rattata_alola",
   "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

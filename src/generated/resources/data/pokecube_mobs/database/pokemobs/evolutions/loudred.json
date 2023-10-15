@@ -1,0 +1,9 @@
+{
+  "name": "exploud",
+  "user": "loudred",
+  "condition": {
+    "key": "level",
+    "level": 40
+  },
+  "evoMoves": "crunch"
+}

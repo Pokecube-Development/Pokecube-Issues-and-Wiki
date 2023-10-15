@@ -241,11 +241,5 @@
     "model": "girafarig_female",
     "anim": "girafarig_female"
   },
-  "evolutions": [
-    {
-      "name": "farigiraf",
-      "move": "twin-beam"
-    }
-  ],
   "loot_table": "pokecube:entities/ender_cow_1"
 }

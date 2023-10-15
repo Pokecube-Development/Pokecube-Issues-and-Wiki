@@ -226,11 +226,5 @@
       "coaching"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mienshao",
-      "level": 50
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

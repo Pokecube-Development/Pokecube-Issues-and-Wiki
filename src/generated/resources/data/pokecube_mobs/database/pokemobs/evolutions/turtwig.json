@@ -1,0 +1,9 @@
+{
+  "name": "grotle",
+  "user": "turtwig",
+  "condition": {
+    "key": "level",
+    "level": 18
+  },
+  "animation": "18"
+}

@@ -477,12 +477,10 @@ public class JsonPokedexEntry
         if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
         if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, false);
     }
 
     public void postInit(PokedexEntry entry)
     {
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, true);
         this.handleSpawns(entry);
     }
 

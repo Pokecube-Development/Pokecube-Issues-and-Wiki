@@ -1,0 +1,10 @@
+{
+  "name": "hatterene",
+  "user": "hattrem",
+  "condition": {
+    "key": "level",
+    "level": 42
+  },
+  "evoMoves": "psycho-cut",
+  "animation": "18"
+}

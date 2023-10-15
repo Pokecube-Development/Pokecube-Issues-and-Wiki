@@ -1,0 +1,16 @@
+{
+  "name": "milotic",
+  "user": "feebas",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:prismscale"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ],
+  "evoMoves": "water-pulse"
+}

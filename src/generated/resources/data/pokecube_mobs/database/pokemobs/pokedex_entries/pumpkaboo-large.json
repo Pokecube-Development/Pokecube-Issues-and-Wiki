@@ -184,12 +184,6 @@
       "poltergeist"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gourgeist-large",
-      "trade": true
-    }
-  ],
   "old_name": "pumpkaboo_large",
   "loot_table": "pokecube:entities/other_seeds"
 }

@@ -214,13 +214,6 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dugtrio-alola",
-      "level": 26,
-      "evoMoves": "sand-tomb"
-    }
-  ],
   "old_name": "diglett_alola",
   "loot_table": "pokecube:entities/dirt_1"
 }

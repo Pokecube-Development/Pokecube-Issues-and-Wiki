@@ -233,11 +233,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gothorita",
-      "level": 32
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

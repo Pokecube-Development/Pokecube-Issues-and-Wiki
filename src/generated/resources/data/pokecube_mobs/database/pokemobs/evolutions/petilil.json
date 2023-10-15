@@ -1,0 +1,35 @@
+[
+  {
+    "name": "lilligant",
+    "user": "petilil",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:sunstone"
+      }
+    }
+  },
+  {
+    "name": "lilligant-hisui",
+    "user": "petilil",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "and_preset": "deserts",
+          "matchers": {
+            "time": {
+              "preset": "day"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:sunstone"
+        }
+      }
+    ]
+  }
+]

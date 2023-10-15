@@ -1,0 +1,50 @@
+[
+  {
+    "name": "sawsbuck",
+    "user": "deerling_sp",
+    "condition": {
+      "key": "level",
+      "level": 34
+    },
+    "evoMoves": "horn-leech",
+    "model": {
+      "key": "sawsbuck_sp"
+    }
+  },
+  {
+    "name": "sawsbuck",
+    "user": "deerling_su",
+    "condition": {
+      "key": "level",
+      "level": 34
+    },
+    "evoMoves": "horn-leech",
+    "model": {
+      "key": "sawsbuck_su"
+    }
+  },
+  {
+    "name": "sawsbuck",
+    "user": "deerling_wi",
+    "condition": {
+      "key": "level",
+      "level": 34
+    },
+    "evoMoves": "horn-leech",
+    "model": {
+      "key": "sawsbuck_wi"
+    }
+  },
+  {
+    "name": "sawsbuck",
+    "user": "deerling_au",
+    "condition": {
+      "key": "level",
+      "level": 34
+    },
+    "evoMoves": "horn-leech",
+    "model": {
+      "key": "sawsbuck_au"
+    }
+  }
+]

@@ -246,13 +246,6 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "persian",
-      "level": 28,
-      "evoMoves": "swift"
-    }
-  ],
   "held_table": "pokecube:entities/emerald_1_33",
   "loot_table": "pokecube:entities/money_cat_small"
 }

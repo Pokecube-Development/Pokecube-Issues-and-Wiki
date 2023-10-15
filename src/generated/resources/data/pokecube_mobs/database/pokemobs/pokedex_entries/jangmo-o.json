@@ -188,12 +188,5 @@
       "scale-shot"
     ]
   },
-  "evolutions": [
-    {
-      "name": "hakamo-o",
-      "level": 35,
-      "evoMoves": "sky-uppercut"
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

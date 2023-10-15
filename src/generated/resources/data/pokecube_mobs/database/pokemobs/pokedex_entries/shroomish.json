@@ -176,12 +176,5 @@
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "breloom",
-      "level": 23,
-      "evoMoves": "mach-punch"
-    }
-  ],
   "loot_table": "pokecube:entities/both_shrooms_1"
 }

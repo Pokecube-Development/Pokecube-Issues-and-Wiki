@@ -1,0 +1,11 @@
+{
+  "name": "darmanitan-galar-standard",
+  "user": "darumaka-galar",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube_mobs:ice_stone"
+    }
+  },
+  "evoMoves": "icicle-crash"
+}

@@ -220,12 +220,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "altaria",
-      "level": 35,
-      "evoMoves": "dragon-breath"
-    }
-  ],
   "loot_table": "pokecube:entities/wool_1"
 }

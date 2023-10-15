@@ -211,12 +211,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dugtrio",
-      "level": 26,
-      "evoMoves": "sand-tomb"
-    }
-  ],
   "loot_table": "pokecube:entities/dirt_1"
 }

@@ -143,13 +143,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cinderace",
-      "level": 35,
-      "animation": "18",
-      "evoMoves": "pyro-ball"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

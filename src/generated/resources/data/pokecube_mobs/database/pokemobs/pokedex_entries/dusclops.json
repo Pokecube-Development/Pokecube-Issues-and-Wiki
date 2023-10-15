@@ -219,12 +219,5 @@
       "poltergeist"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dusknoir",
-      "item_preset": "reapercloth",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/bones"
 }

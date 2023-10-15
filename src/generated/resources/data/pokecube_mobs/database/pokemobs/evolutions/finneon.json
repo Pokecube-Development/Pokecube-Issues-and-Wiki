@@ -1,0 +1,8 @@
+{
+  "name": "lumineon",
+  "user": "finneon",
+  "condition": {
+    "key": "level",
+    "level": 31
+  }
+}

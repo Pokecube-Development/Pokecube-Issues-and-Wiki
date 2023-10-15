@@ -198,12 +198,5 @@
       "infestation"
     ]
   },
-  "evolutions": [
-    {
-      "name": "magcargo",
-      "level": 38,
-      "evoMoves": "shell-smash"
-    }
-  ],
   "loot_table": "pokecube:entities/magma_cream"
 }

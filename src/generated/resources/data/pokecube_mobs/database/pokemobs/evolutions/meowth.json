@@ -1,0 +1,9 @@
+{
+  "name": "persian",
+  "user": "meowth",
+  "condition": {
+    "key": "level",
+    "level": 28
+  },
+  "evoMoves": "swift"
+}

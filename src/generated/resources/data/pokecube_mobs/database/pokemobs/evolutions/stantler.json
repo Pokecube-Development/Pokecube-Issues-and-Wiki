@@ -1,0 +1,16 @@
+{
+  "name": "wyrdeer",
+  "user": "stantler",
+  "condition": [
+    {
+      "key": "level",
+      "level": 20
+    },
+    {
+      "key": "location",
+      "location": {
+        "and_preset": "snowy_areas"
+      }
+    }
+  ]
+}

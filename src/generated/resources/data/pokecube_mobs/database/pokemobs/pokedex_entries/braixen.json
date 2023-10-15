@@ -208,13 +208,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "delphox",
-      "level": 36,
-      "animation": "55",
-      "evoMoves": "mystical-fire"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_stick_rabbit_1"
 }

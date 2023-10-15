@@ -216,12 +216,5 @@
       "dual-wingbeat"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mandibuzz",
-      "level": 54,
-      "evoMoves": "bone-rush"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

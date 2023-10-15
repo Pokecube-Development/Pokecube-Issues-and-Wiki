@@ -189,12 +189,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "rampardos",
-      "level": 30,
-      "evoMoves": "endeavor"
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

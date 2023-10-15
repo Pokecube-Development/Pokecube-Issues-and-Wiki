@@ -168,12 +168,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cherrim",
-      "level": 25,
-      "evoMoves": "petal-dance"
-    }
-  ],
   "loot_table": "pokecube:entities/oranberry"
 }

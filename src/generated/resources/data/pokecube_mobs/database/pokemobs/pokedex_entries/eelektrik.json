@@ -171,12 +171,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "eelektross",
-      "item_preset": "thunderstone",
-      "evoMoves": "crunch"
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_fish_2"
 }

@@ -146,12 +146,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "skeledirge",
-      "level": 36,
-      "evoMoves": "torch-song"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

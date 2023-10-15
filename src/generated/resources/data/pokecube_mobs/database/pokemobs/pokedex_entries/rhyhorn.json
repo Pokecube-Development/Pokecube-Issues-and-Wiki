@@ -250,12 +250,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "rhydon",
-      "level": 42,
-      "evoMoves": "hammer-arm"
-    }
-  ],
   "loot_table": "pokecube:entities/stone_1"
 }

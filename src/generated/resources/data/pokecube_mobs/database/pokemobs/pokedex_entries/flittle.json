@@ -133,11 +133,5 @@
       "tera-blast",
       "pounce"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "espathra",
-      "level": 35
-    }
-  ]
+  }
 }

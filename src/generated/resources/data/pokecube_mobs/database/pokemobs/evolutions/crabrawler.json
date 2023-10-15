@@ -1,0 +1,11 @@
+{
+  "name": "crabominable",
+  "user": "crabrawler",
+  "condition": {
+    "key": "location",
+    "location": {
+      "and_preset": "caves"
+    }
+  },
+  "evoMoves": "ice-punch"
+}

@@ -208,11 +208,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ursaring",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

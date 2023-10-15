@@ -47,6 +47,7 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.effects.materials.IMaterialAction;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
+import pokecube.api.data.pokedex.EvolutionDataLoader;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Action;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
@@ -221,6 +222,7 @@ public class PokedexEntry
         {
             this.preset = null;
 
+            // This is what we will actually use for the tests.
             this._condition = data.toCondition();
 
             // Everything in this scope is not actually needed for checking
@@ -1756,15 +1758,25 @@ public class PokedexEntry
 
     public void initRelations()
     {
-        final List<EvolutionData> stale = Lists.newArrayList();
-        for (final EvolutionData d : this.evolutions)
-            if (!Pokedex.getInstance().isRegistered(d.evolution)) stale.add(d);
-        this.evolutions.removeAll(stale);
-        if (!stale.isEmpty())
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(stale.size() + " stales for " + this);
         this.addRelation(this);
-        for (final EvolutionData d : this.evolutions)
+
+        this.evolutions.clear();
+
+        PokedexEntry breedEntry = this;
+        if (this.isGenderForme) breedEntry = this.getBaseForme();
+        List<Evolution> evos = EvolutionDataLoader.RULES.getOrDefault(breedEntry, Collections.emptyList());
+
+        for (final Evolution evol : evos)
         {
+            String name = evol.name;
+            final PokedexEntry evolEntry = Database.getEntry(name);
+            if (evolEntry == null)
+            {
+                PokecubeAPI.LOGGER.error("Entry {} not found for evolution of {}, skipping", name, this.name);
+                continue;
+            }
+            EvolutionData d = new EvolutionData(evolEntry, evol);
+            this.evolutions.add(d);
             d.postInit();
             final PokedexEntry temp = d.evolution;
             if (temp == null) continue;

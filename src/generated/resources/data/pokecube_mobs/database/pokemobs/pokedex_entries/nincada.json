@@ -157,12 +157,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ninjask",
-      "level": 20,
-      "evoMoves": "double-team, fury-cutter, screech"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

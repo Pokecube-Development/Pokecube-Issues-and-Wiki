@@ -1,0 +1,10 @@
+{
+  "name": "overqwil",
+  "user": "qwilfish-hisui",
+  "condition": {
+    "key": "location",
+    "location": {
+      "and_preset": "cave_water"
+    }
+  }
+}

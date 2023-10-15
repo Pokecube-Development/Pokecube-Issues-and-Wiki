@@ -1,0 +1,30 @@
+[
+  {
+    "name": "meowstic-male",
+    "user": "espurr",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "sexe",
+        "sexe": "male"
+      }
+    ]
+  },
+  {
+    "name": "meowstic-female",
+    "user": "espurr",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "sexe",
+        "sexe": "female"
+      }
+    ]
+  }
+]

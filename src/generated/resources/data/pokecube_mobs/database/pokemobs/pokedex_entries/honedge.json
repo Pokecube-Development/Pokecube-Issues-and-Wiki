@@ -180,11 +180,5 @@
       "steel-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "doublade",
-      "level": 35
-    }
-  ],
   "loot_table": "pokecube:entities/iron_1"
 }

@@ -256,11 +256,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "golduck",
-      "level": 33
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

@@ -255,12 +255,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "flaaffy",
-      "level": 15,
-      "animation": "20"
-    }
-  ],
   "loot_table": "minecraft:entities/sheep/yellow"
 }

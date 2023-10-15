@@ -1,0 +1,22 @@
+{
+  "name": "ursaluna",
+  "user": "ursaring",
+  "condition": [
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "night"
+          }
+        }
+      }
+    },
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube_mobs:peat_block"
+      }
+    }
+  ]
+}

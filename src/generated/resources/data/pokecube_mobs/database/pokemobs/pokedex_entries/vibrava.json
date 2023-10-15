@@ -233,12 +233,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "flygon",
-      "level": 45,
-      "evoMoves": "dragon-claw"
-    }
-  ],
   "loot_table": "pokecube:entities/sand_2"
 }

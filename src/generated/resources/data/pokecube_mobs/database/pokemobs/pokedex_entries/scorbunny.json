@@ -155,12 +155,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "raboot",
-      "level": 16,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

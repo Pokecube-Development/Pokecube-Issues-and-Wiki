@@ -197,11 +197,5 @@
       "strength-sap"
     ]
   },
-  "evolutions": [
-    {
-      "name": "weepinbell",
-      "level": 21
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

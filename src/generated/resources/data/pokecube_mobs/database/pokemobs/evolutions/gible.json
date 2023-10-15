@@ -1,0 +1,9 @@
+{
+  "name": "gabite",
+  "user": "gible",
+  "condition": {
+    "key": "level",
+    "level": 24
+  },
+  "evoMoves": "dual-chop"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "whimsicott",
+  "user": "cottonee",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:sunstone"
+    }
+  }
+}

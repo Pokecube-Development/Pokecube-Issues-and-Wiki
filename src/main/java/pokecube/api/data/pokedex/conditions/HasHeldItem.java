@@ -9,7 +9,9 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.crafting.CraftingHelper;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistries.Keys;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.Tools;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
@@ -38,7 +40,6 @@ public class HasHeldItem implements PokemobCondition
         {
             return Tools.isSameStack(this._value, mobIn.getEvolutionStack(), true);
         }
-
         return false;
     }
 
@@ -52,6 +53,52 @@ public class HasHeldItem implements PokemobCondition
     @Override
     public void init()
     {
+        if (item != null && item.has("id"))
+        {
+            String id = item.get("id").getAsString();
+            if (id.contains("#"))
+            {
+                this.tag = id;
+                this.item = null;
+            }
+            else
+            {
+                ResourceLocation loc = new ResourceLocation(id);
+                if (!ForgeRegistries.ITEMS.containsKey(loc))
+                {
+                    this.item = null;
+                    this.tag = id;
+                }
+                else
+                {
+                    if (item.has("item"))
+                        PokecubeAPI.LOGGER.warn("Warning: Replacing {} with {} in a item match!", item.get("item"), id);
+                    item.addProperty("item", id);
+                }
+            }
+        }
+        check:
+        if (item != null && item.has("item"))
+        {
+            var element = item.get("item");
+            System.out.println(element);
+            if (!element.isJsonPrimitive()) break check;
+            String id = element.getAsString();
+            if (id.contains("#"))
+            {
+                this.tag = id;
+                this.item = null;
+            }
+            else
+            {
+                ResourceLocation loc = new ResourceLocation(id);
+                if (!ForgeRegistries.ITEMS.containsKey(loc))
+                {
+                    this.item = null;
+                    this.tag = id;
+                }
+            }
+        }
         if (item != null) _value = CraftingHelper.getItemStack(item, true, true);
         if (!tag.isEmpty())
         {

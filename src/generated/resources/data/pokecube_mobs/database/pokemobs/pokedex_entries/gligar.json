@@ -226,16 +226,5 @@
       "throat-chop"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gliscor",
-      "item": {
-        "values": {
-          "id": "minecraft:iron_pickaxe"
-        }
-      },
-      "time": "night"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

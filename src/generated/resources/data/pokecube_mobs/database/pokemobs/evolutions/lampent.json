@@ -1,0 +1,10 @@
+{
+  "name": "chandelure",
+  "user": "lampent",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:duskstone"
+    }
+  }
+}

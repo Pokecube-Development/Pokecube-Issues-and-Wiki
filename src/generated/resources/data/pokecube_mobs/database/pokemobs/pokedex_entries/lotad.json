@@ -190,11 +190,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lombre",
-      "level": 14
-    }
-  ],
   "loot_table": "pokecube:entities/lilypad"
 }

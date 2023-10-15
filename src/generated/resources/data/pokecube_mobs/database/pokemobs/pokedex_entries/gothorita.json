@@ -218,11 +218,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gothitelle",
-      "level": 41
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

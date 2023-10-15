@@ -190,14 +190,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "crabominable",
-      "location": {
-        "and_preset": "caves"
-      },
-      "evoMoves": "ice-punch"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

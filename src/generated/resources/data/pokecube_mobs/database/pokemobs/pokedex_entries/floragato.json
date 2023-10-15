@@ -151,12 +151,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "meowscarada",
-      "level": 36,
-      "evoMoves": "flower-trick"
-    }
-  ],
   "loot_table": "pokecube:entities/money_cat_small"
 }

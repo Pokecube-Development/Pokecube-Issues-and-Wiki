@@ -184,12 +184,5 @@
       "steel-roller"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sealeo",
-      "level": 32,
-      "evoMoves": "swagger"
-    }
-  ],
   "loot_table": "pokecube:entities/both_ice"
 }

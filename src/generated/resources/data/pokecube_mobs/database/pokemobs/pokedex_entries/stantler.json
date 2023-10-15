@@ -263,14 +263,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "wyrdeer",
-      "level": 20,
-      "location": {
-        "and_preset": "snowy_areas"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/cow_1"
 }

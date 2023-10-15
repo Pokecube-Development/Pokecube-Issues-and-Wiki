@@ -161,11 +161,5 @@
       "electric-terrain",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "pawmo",
-      "level": 18
-    }
-  ]
+  }
 }

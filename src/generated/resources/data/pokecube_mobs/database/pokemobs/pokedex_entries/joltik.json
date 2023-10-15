@@ -194,12 +194,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "galvantula",
-      "level": 36,
-      "evoMoves": "sticky-web"
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_spider_1"
 }

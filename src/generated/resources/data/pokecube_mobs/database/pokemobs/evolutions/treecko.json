@@ -1,0 +1,10 @@
+{
+  "name": "grovyle",
+  "user": "treecko",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "evoMoves": "fury-cutter",
+  "animation": "18"
+}

@@ -98,11 +98,5 @@
       "thunderbolt"
     ]
   },
-  "evolutions": [
-    {
-      "name": "electrode-hisui",
-      "item_preset": "leafstone"
-    }
-  ],
   "old_name": "voltorb_hisui"
 }

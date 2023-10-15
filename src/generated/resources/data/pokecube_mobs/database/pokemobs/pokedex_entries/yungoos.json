@@ -205,12 +205,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gumshoos",
-      "level": 20,
-      "time": "day"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "braviary",
+    "user": "rufflet",
+    "condition": {
+      "key": "level",
+      "level": 54
+    },
+    "evoMoves": "superpower"
+  },
+  {
+    "name": "braviary-hisui",
+    "user": "rufflet",
+    "condition": [
+      {
+        "key": "level",
+        "level": 54
+      },
+      {
+        "key": "location",
+        "location": {
+          "and_preset": "snowy_areas"
+        }
+      }
+    ]
+  }
+]

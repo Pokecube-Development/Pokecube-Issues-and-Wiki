@@ -1,0 +1,9 @@
+{
+  "name": "klinklang",
+  "user": "klang",
+  "condition": {
+    "key": "level",
+    "level": 49
+  },
+  "evoMoves": "magnetic-flux"
+}

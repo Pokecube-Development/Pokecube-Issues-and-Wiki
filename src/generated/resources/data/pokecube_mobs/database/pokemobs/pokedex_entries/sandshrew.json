@@ -246,11 +246,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sandslash",
-      "level": 22
-    }
-  ],
   "loot_table": "pokecube:entities/sand_rabbit_1"
 }
