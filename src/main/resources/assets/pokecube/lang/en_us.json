@@ -347,7 +347,7 @@
     "pokemob.description.evolve.locations": "In %1$s.",
     "pokemob.description.evolve.from": "%1$s evolves from %2$s.",
     "pokemob.description.negate": "Not %1$s",
-    "pokemob.description.tabbed": "-  ",
+    "pokemob.description.tabbed": "-  %1$s",
 
     "_comment": "Pokedex Messages/Info",
 
