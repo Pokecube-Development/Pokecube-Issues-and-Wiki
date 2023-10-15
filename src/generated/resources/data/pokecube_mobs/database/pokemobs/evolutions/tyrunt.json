@@ -1,0 +1,21 @@
+{
+  "name": "tyrantrum",
+  "user": "tyrunt",
+  "condition": [
+    {
+      "key": "level",
+      "level": 39
+    },
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "day"
+          }
+        }
+      }
+    }
+  ],
+  "evoMoves": "rock-slide"
+}

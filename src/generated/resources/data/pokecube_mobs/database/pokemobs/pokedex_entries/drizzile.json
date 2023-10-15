@@ -131,13 +131,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "inteleon",
-      "level": 35,
-      "animation": "18",
-      "evoMoves": "snipe-shot"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

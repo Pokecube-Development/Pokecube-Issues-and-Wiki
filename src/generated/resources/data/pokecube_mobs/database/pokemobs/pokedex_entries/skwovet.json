@@ -147,13 +147,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "greedent",
-      "level": 24,
-      "animation": "18",
-      "evoMoves": "covet"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

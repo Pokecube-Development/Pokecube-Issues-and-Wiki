@@ -1,0 +1,44 @@
+[
+  {
+    "name": "solgaleo",
+    "user": "cosmoem",
+    "condition": [
+      {
+        "key": "level",
+        "level": 53
+      },
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "day"
+            }
+          }
+        }
+      }
+    ],
+    "evoMoves": "sunsteel-strike"
+  },
+  {
+    "name": "lunala",
+    "user": "cosmoem",
+    "condition": [
+      {
+        "key": "level",
+        "level": 53
+      },
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      }
+    ],
+    "evoMoves": "moongeist-beam"
+  }
+]

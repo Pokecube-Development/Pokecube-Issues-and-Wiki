@@ -1,0 +1,8 @@
+{
+  "name": "electabuzz",
+  "user": "elekid",
+  "condition": {
+    "key": "level",
+    "level": 30
+  }
+}

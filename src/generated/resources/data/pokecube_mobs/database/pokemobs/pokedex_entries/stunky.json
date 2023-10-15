@@ -230,12 +230,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "skuntank",
-      "level": 34,
-      "evoMoves": "flamethrower"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

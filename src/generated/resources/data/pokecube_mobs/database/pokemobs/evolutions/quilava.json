@@ -1,0 +1,27 @@
+[
+  {
+    "name": "typhlosion",
+    "user": "quilava",
+    "condition": {
+      "key": "level",
+      "level": 36
+    }
+  },
+  {
+    "name": "typhlosion-hisui",
+    "user": "quilava",
+    "condition": [
+      {
+        "key": "level",
+        "level": 35
+      },
+      {
+        "key": "location",
+        "location": {
+          "and_preset": "spooky_areas"
+        }
+      }
+    ],
+    "evoMoves": "hex"
+  }
+]

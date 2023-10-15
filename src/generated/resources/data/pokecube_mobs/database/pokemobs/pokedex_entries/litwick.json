@@ -208,11 +208,5 @@
       "poltergeist"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lampent",
-      "level": 41
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

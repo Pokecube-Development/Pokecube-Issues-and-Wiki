@@ -1,0 +1,28 @@
+[
+  {
+    "name": "decidueye",
+    "user": "dartrix",
+    "condition": {
+      "key": "level",
+      "level": 34
+    },
+    "evoMoves": "spirit-shackle"
+  },
+  {
+    "name": "decidueye-hisui",
+    "user": "dartrix",
+    "condition": [
+      {
+        "key": "level",
+        "level": 33
+      },
+      {
+        "key": "location",
+        "location": {
+          "and_preset": "savannas"
+        }
+      }
+    ],
+    "evoMoves": "rock-smash"
+  }
+]

@@ -1,0 +1,9 @@
+{
+  "name": "dragalge",
+  "user": "skrelp",
+  "condition": {
+    "key": "level",
+    "level": 48
+  },
+  "evoMoves": "twister"
+}

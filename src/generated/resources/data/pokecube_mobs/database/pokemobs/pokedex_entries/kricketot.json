@@ -71,12 +71,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "kricketune",
-      "level": 10,
-      "evoMoves": "fury-cutter"
-    }
-  ],
   "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

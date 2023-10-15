@@ -188,12 +188,5 @@
       "stomping-tantrum"
     ]
   },
-  "evolutions": [
-    {
-      "name": "exploud",
-      "level": 40,
-      "evoMoves": "crunch"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

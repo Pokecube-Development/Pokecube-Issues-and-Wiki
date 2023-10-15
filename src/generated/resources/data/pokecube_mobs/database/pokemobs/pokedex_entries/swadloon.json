@@ -100,12 +100,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "leavanny",
-      "happy": true,
-      "evoMoves": "slash"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_2"
 }

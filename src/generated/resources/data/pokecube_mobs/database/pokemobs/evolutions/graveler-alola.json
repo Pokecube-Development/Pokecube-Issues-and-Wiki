@@ -1,0 +1,7 @@
+{
+  "name": "golem-alola",
+  "user": "graveler-alola",
+  "condition": {
+    "key": "traded"
+  }
+}

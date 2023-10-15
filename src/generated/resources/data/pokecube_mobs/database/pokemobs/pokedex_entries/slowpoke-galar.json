@@ -245,18 +245,6 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "slowbro-galar",
-      "item_preset": "galarcuff",
-      "evoMoves": "shell-side-arm"
-    },
-    {
-      "name": "slowking-galar",
-      "item_preset": "galarwreath",
-      "evoMoves": "eerie-spell"
-    }
-  ],
   "old_name": "slowpoke_galar",
   "loot_table": "pokecube:entities/pig_1"
 }

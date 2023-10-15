@@ -192,12 +192,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dragonite",
-      "level": 55,
-      "evoMoves": "wing-attack"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

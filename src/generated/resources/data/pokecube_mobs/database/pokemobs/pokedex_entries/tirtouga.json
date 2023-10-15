@@ -215,11 +215,5 @@
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "carracosta",
-      "level": 37
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mobshell_1"
 }

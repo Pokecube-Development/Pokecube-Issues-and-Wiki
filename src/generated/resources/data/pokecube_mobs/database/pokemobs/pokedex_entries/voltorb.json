@@ -210,11 +210,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "electrode",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_creeper_1"
 }

@@ -207,12 +207,5 @@
       "aqua-cutter"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dewott",
-      "level": 17,
-      "animation": "9"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

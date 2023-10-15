@@ -159,11 +159,5 @@
       "pounce",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "grafaiai",
-      "level": 28
-    }
-  ]
+  }
 }

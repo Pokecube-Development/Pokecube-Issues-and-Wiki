@@ -15,16 +15,71 @@ public interface PokemobCondition
 {
     public static Map<String, Class<? extends PokemobCondition>> CONDITIONS = new HashMap<>();
 
+    public static class ConditionAndWrapper implements PokemobCondition
+    {
+        final PokemobCondition wrapA;
+        final PokemobCondition wrapB;
+
+        public ConditionAndWrapper(PokemobCondition wrapA, PokemobCondition wrapB)
+        {
+            this.wrapA = wrapA;
+            this.wrapB = wrapB;
+        }
+
+        @Override
+        public boolean matches(IPokemob mobIn)
+        {
+            return wrapA.matches(mobIn) && wrapB.matches(mobIn);
+        }
+    }
+
+    public static class ConditionOrWrapper implements PokemobCondition
+    {
+        final PokemobCondition wrapA;
+        final PokemobCondition wrapB;
+
+        public ConditionOrWrapper(PokemobCondition wrapA, PokemobCondition wrapB)
+        {
+            this.wrapA = wrapA;
+            this.wrapB = wrapB;
+        }
+
+        @Override
+        public boolean matches(IPokemob mobIn)
+        {
+            return wrapA.matches(mobIn) || wrapB.matches(mobIn);
+        }
+    }
+
+    public static class ConditionNotWrapper implements PokemobCondition
+    {
+        final PokemobCondition wrap;
+
+        public ConditionNotWrapper(PokemobCondition wrap)
+        {
+            this.wrap = wrap;
+        }
+
+        @Override
+        public boolean matches(IPokemob mobIn)
+        {
+            return !wrap.matches(mobIn);
+        }
+    }
+
     default PokemobCondition and(PokemobCondition other)
     {
-        return (mobIn) -> {
-            return this.matches(mobIn) && other.matches(mobIn);
-        };
+        return new ConditionAndWrapper(this, other);
+    }
+
+    default PokemobCondition or(PokemobCondition other)
+    {
+        return new ConditionOrWrapper(this, other);
     }
 
     default PokemobCondition not()
     {
-        return (mobIn) -> !this.matches(mobIn);
+        return new ConditionNotWrapper(this);
     }
 
     boolean matches(IPokemob mobIn);

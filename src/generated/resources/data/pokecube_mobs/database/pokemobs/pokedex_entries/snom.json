@@ -68,14 +68,5 @@
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "frosmoth",
-      "animation": "18",
-      "time": "night",
-      "happy": true,
-      "evoMoves": "icy-wind"
-    }
-  ],
   "loot_table": "pokecube:entities/snowball"
 }

@@ -141,12 +141,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "charjabug",
-      "level": 20,
-      "evoMoves": "charge"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

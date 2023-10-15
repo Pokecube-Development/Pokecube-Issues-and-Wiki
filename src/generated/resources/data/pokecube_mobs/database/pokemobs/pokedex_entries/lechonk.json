@@ -145,11 +145,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "oinkologne",
-      "level": 18
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

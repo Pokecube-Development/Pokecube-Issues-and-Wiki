@@ -229,11 +229,5 @@
       "coaching"
     ]
   },
-  "evolutions": [
-    {
-      "name": "scrafty",
-      "level": 39
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

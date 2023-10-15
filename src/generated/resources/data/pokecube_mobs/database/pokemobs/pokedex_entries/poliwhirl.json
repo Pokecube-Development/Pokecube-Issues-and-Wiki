@@ -214,17 +214,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "poliwrath",
-      "item_preset": "waterstone",
-      "evoMoves": "submission"
-    },
-    {
-      "name": "politoed",
-      "item_preset": "kingsrock",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_2"
 }

@@ -183,12 +183,6 @@
       "poltergeist"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gourgeist-average",
-      "trade": true
-    }
-  ],
   "old_name": "pumpkaboo",
   "loot_table": "pokecube:entities/other_seeds"
 }

@@ -212,12 +212,5 @@
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "omastar",
-      "level": 40,
-      "evoMoves": "spike-cannon"
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

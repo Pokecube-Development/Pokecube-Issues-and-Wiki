@@ -810,7 +810,7 @@ public class Database
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
-                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
+                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty() && !entry.generated)
                     PokecubeAPI.logInfo("No egg group assigned for {}", entry.getTrimmedName());
             }
             for (final PokedexEntry entry : Database.getSortedFormes()) if (entry.lootTable == null && !entry.generated)

@@ -206,11 +206,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dragonair",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

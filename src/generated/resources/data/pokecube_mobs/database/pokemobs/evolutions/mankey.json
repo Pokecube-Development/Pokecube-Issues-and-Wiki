@@ -1,0 +1,9 @@
+{
+  "name": "primeape",
+  "user": "mankey",
+  "condition": {
+    "key": "level",
+    "level": 28
+  },
+  "evoMoves": "rage"
+}

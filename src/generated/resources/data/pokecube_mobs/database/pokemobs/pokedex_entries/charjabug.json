@@ -153,14 +153,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "vikavolt",
-      "location": {
-        "and_preset": "industrial"
-      },
-      "evoMoves": "thunderbolt"
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_spider_1"
 }

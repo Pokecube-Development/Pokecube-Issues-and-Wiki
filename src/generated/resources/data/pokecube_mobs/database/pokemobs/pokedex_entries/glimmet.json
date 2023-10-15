@@ -145,11 +145,5 @@
       "dazzling-gleam",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "glimmora",
-      "level": 35
-    }
-  ]
+  }
 }

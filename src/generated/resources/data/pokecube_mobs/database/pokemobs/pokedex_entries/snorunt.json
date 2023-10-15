@@ -189,18 +189,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "glalie",
-      "level": 42,
-      "evoMoves": "freeze-dry"
-    },
-    {
-      "name": "froslass",
-      "item_preset": "dawnstone",
-      "sexe": "female",
-      "evoMoves": "ominous-wind"
-    }
-  ],
   "loot_table": "pokecube:entities/both_ice"
 }

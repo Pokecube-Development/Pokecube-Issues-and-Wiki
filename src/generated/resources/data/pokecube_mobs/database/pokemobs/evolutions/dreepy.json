@@ -1,0 +1,10 @@
+{
+  "name": "drakloak",
+  "user": "dreepy",
+  "condition": {
+    "key": "level",
+    "level": 50
+  },
+  "evoMoves": "dragon-pulse",
+  "animation": "18"
+}

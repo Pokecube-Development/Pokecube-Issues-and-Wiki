@@ -1,0 +1,9 @@
+{
+  "name": "perrserker",
+  "user": "meowth-galar",
+  "condition": {
+    "key": "level",
+    "level": 28
+  },
+  "evoMoves": "iron-head"
+}

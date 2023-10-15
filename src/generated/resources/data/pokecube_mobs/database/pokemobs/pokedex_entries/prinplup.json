@@ -189,12 +189,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "empoleon",
-      "level": 36,
-      "evoMoves": "aqua-jet"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

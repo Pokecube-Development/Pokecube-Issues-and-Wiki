@@ -182,11 +182,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "abomasnow",
-      "level": 40
-    }
-  ],
   "loot_table": "pokecube:entities/both_ice"
 }

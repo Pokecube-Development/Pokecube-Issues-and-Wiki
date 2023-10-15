@@ -188,12 +188,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "clawitzer",
-      "level": 37,
-      "evoMoves": "aura-sphere"
-    }
-  ],
   "loot_table": "pokecube:entities/shear_fish"
 }

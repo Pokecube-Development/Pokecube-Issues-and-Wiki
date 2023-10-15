@@ -221,11 +221,5 @@
     "model": "frillish_female",
     "anim": "frillish_female"
   },
-  "evolutions": [
-    {
-      "name": "jellicent",
-      "level": 40
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

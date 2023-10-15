@@ -207,11 +207,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "noivern",
-      "level": 48
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

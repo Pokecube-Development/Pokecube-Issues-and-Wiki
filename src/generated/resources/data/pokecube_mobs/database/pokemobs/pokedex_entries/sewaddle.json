@@ -146,12 +146,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "swadloon",
-      "level": 20,
-      "evoMoves": "protect"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

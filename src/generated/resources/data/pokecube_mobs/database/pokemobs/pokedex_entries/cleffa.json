@@ -183,11 +183,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "clefairy",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/moonstone"
 }

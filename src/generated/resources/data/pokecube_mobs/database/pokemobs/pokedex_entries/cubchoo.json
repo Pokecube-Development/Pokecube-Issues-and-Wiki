@@ -230,12 +230,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "beartic",
-      "level": 37,
-      "evoMoves": "icicle-crash"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -188,13 +188,5 @@
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dragapult",
-      "level": 60,
-      "animation": "18",
-      "evoMoves": "dragon-darts"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

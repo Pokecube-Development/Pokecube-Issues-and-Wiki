@@ -60,27 +60,5 @@
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "flapple",
-      "animation": "18",
-      "item": {
-        "values": {
-          "id": "minecraft:apple"
-        }
-      },
-      "evoMoves": "wing-attack"
-    },
-    {
-      "name": "appletun",
-      "animation": "18",
-      "item": {
-        "values": {
-          "id": "minecraft:golden_apple"
-        }
-      },
-      "evoMoves": "headbutt"
-    }
-  ],
   "loot_table": "pokecube:entities/apple"
 }

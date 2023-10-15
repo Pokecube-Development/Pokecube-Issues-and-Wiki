@@ -1,0 +1,22 @@
+{
+  "name": "runerigus",
+  "user": "yamask-galar",
+  "condition": [
+    {
+      "key": "level",
+      "level": 34
+    },
+    {
+      "key": "location",
+      "location": {
+        "and_preset": "extreme_hills",
+        "matchers": {
+          "time": {
+            "preset": "night"
+          }
+        }
+      }
+    }
+  ],
+  "evoMoves": "shadow-claw"
+}

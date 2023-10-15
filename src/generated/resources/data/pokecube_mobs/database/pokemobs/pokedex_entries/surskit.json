@@ -177,11 +177,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "masquerain",
-      "level": 22
-    }
-  ],
   "loot_table": "pokecube:entities/lilypad"
 }

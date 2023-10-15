@@ -232,11 +232,5 @@
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "beheeyem",
-      "level": 42
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

@@ -211,20 +211,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "samurott",
-      "level": 36,
-      "evoMoves": "slash"
-    },
-    {
-      "name": "samurott-hisui",
-      "level": 35,
-      "location": {
-        "and_preset": "beach_ground"
-      },
-      "evoMoves": "night-slash"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

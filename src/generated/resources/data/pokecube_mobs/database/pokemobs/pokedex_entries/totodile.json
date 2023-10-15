@@ -222,11 +222,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "croconaw",
-      "level": 18
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

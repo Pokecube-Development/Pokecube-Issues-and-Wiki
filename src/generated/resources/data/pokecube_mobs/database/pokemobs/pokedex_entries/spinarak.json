@@ -218,13 +218,5 @@
       "lunge"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ariados",
-      "level": 22,
-      "animation": "42",
-      "evoMoves": "swords-dance"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

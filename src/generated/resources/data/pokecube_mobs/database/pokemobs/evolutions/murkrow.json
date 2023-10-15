@@ -1,0 +1,10 @@
+{
+  "name": "honchkrow",
+  "user": "murkrow",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:duskstone"
+    }
+  }
+}

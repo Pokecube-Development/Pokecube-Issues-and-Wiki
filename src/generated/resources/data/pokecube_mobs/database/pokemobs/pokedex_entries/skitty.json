@@ -227,11 +227,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "delcatty",
-      "item_preset": "moonstone"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

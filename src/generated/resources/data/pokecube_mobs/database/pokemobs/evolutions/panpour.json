@@ -1,0 +1,10 @@
+{
+  "name": "simipour",
+  "user": "panpour",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:waterstone"
+    }
+  }
+}

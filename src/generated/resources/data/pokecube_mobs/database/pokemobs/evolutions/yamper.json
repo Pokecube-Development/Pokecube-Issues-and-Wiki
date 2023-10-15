@@ -1,0 +1,9 @@
+{
+  "name": "boltund",
+  "user": "yamper",
+  "condition": {
+    "key": "level",
+    "level": 25
+  },
+  "animation": "18"
+}

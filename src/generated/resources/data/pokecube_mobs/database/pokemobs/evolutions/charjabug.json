@@ -1,0 +1,11 @@
+{
+  "name": "vikavolt",
+  "user": "charjabug",
+  "condition": {
+    "key": "location",
+    "location": {
+      "and_preset": "industrial"
+    }
+  },
+  "evoMoves": "thunderbolt"
+}

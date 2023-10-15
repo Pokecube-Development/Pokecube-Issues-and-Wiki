@@ -1,0 +1,8 @@
+{
+  "name": "wailord",
+  "user": "wailmer",
+  "condition": {
+    "key": "level",
+    "level": 40
+  }
+}

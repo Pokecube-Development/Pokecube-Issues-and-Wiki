@@ -192,11 +192,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "crustle",
-      "level": 34
-    }
-  ],
   "loot_table": "pokecube:entities/cobble_1"
 }

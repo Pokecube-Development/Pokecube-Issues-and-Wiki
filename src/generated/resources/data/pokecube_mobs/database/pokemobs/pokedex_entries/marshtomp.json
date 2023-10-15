@@ -237,11 +237,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "swampert",
-      "level": 36
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -213,12 +213,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "swalot",
-      "level": 26,
-      "evoMoves": "body-slam"
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }

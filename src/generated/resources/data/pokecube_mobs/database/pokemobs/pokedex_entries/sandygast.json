@@ -192,11 +192,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "palossand",
-      "level": 42
-    }
-  ],
   "loot_table": "pokecube:entities/sand_1"
 }

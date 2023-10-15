@@ -262,11 +262,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "tentacruel",
-      "level": 30
-    }
-  ],
   "loot_table": "minecraft:entities/squid"
 }

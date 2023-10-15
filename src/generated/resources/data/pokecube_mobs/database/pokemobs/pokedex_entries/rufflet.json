@@ -197,19 +197,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "braviary",
-      "level": 54,
-      "evoMoves": "superpower"
-    },
-    {
-      "name": "braviary-hisui",
-      "level": 54,
-      "location": {
-        "and_preset": "snowy_areas"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

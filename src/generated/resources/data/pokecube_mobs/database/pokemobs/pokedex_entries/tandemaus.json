@@ -159,11 +159,5 @@
       "play-rough",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "maushold",
-      "level": 25
-    }
-  ]
+  }
 }

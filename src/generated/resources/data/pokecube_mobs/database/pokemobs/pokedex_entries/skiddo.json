@@ -198,12 +198,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gogoat",
-      "level": 32,
-      "evoMoves": "aerial-ace"
-    }
-  ],
   "loot_table": "pokecube:entities/sheep_1"
 }

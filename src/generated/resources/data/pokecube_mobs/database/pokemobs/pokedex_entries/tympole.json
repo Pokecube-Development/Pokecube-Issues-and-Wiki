@@ -176,11 +176,5 @@
       "infestation"
     ]
   },
-  "evolutions": [
-    {
-      "name": "palpitoad",
-      "level": 25
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }

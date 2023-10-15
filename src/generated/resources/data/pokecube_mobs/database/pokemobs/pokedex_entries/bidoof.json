@@ -191,12 +191,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "bibarel",
-      "level": 15,
-      "evoMoves": "water-gun"
-    }
-  ],
   "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

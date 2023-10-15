@@ -1,0 +1,9 @@
+{
+  "name": "dugtrio",
+  "user": "diglett",
+  "condition": {
+    "key": "level",
+    "level": 26
+  },
+  "evoMoves": "sand-tomb"
+}

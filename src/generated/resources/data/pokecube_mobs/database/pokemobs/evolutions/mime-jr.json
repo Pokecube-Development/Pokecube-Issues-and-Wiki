@@ -1,0 +1,26 @@
+[
+  {
+    "name": "mr-mime",
+    "user": "mime-jr",
+    "condition": {
+      "key": "move",
+      "move": "mimic"
+    }
+  },
+  {
+    "name": "mr-mime-galar",
+    "user": "mime-jr",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "and_preset": "snowy_areas"
+        }
+      },
+      {
+        "key": "move",
+        "move": "mimic"
+      }
+    ]
+  }
+]

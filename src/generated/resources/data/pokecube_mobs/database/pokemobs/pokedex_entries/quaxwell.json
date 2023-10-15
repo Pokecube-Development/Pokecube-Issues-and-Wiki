@@ -141,12 +141,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "quaquaval",
-      "level": 36,
-      "evoMoves": "aqua-step"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

@@ -1,0 +1,15 @@
+{
+  "name": "rhyperior",
+  "user": "rhydon",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:protector"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

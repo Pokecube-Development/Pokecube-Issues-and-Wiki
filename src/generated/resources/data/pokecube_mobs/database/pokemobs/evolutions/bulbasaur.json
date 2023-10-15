@@ -1,0 +1,9 @@
+{
+  "name": "ivysaur",
+  "user": "bulbasaur",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "animation": "18"
+}

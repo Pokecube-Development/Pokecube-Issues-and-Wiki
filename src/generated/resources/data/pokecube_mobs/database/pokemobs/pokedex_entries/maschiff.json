@@ -152,11 +152,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mabosstiff",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/coal_rabbit_1"
 }

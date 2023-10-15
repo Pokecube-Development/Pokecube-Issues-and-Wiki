@@ -1,0 +1,111 @@
+[
+  {
+    "name": "vaporeon",
+    "user": "eevee",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:waterstone"
+      }
+    },
+    "evoMoves": "water-gun",
+    "animation": "splash"
+  },
+  {
+    "name": "jolteon",
+    "user": "eevee",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:thunderstone"
+      }
+    },
+    "evoMoves": "thunder-shock",
+    "animation": "spark"
+  },
+  {
+    "name": "flareon",
+    "user": "eevee",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:firestone"
+      }
+    },
+    "evoMoves": "ember",
+    "animation": "flame"
+  },
+  {
+    "name": "espeon",
+    "user": "eevee",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "day"
+            }
+          }
+        }
+      },
+      {
+        "key": "happy"
+      }
+    ],
+    "evoMoves": "confusion"
+  },
+  {
+    "name": "umbreon",
+    "user": "eevee",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      },
+      {
+        "key": "happy"
+      }
+    ],
+    "evoMoves": "pursuit"
+  },
+  {
+    "name": "leafeon",
+    "user": "eevee",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:leafstone"
+      }
+    },
+    "evoMoves": "razor-leaf"
+  },
+  {
+    "name": "glaceon",
+    "user": "eevee",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube_mobs:ice_stone"
+      }
+    },
+    "evoMoves": "icy-wind"
+  },
+  {
+    "name": "sylveon",
+    "user": "eevee",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube_mobs:sylveon"
+      }
+    },
+    "evoMoves": "fairy-wind"
+  }
+]

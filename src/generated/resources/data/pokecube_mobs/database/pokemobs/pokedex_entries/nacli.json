@@ -150,11 +150,5 @@
       "stomping-tantrum",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "naclstack",
-      "level": 24
-    }
-  ]
+  }
 }

@@ -139,11 +139,5 @@
       "tera-blast",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "dolliv",
-      "level": 25
-    }
-  ]
+  }
 }

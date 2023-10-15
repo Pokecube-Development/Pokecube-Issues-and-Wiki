@@ -1,0 +1,9 @@
+{
+  "name": "ribombee",
+  "user": "cutiefly",
+  "condition": {
+    "key": "level",
+    "level": 25
+  },
+  "evoMoves": "pollen-puff"
+}

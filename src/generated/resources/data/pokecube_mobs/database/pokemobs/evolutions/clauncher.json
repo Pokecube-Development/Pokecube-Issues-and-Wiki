@@ -1,0 +1,9 @@
+{
+  "name": "clawitzer",
+  "user": "clauncher",
+  "condition": {
+    "key": "level",
+    "level": 37
+  },
+  "evoMoves": "aura-sphere"
+}

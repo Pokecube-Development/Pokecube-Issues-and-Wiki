@@ -208,12 +208,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "infernape",
-      "level": 36,
-      "evoMoves": "close-combat"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_2"
 }

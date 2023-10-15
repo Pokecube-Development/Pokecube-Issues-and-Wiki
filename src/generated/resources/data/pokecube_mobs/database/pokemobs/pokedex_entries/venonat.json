@@ -189,12 +189,5 @@
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "venomoth",
-      "level": 31,
-      "evoMoves": "gust"
-    }
-  ],
   "loot_table": "pokecube:entities/spider_eye"
 }

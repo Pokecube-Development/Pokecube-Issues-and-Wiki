@@ -220,12 +220,5 @@
       "brutal-swing"
     ]
   },
-  "evolutions": [
-    {
-      "name": "arbok",
-      "level": 22,
-      "evoMoves": "crunch"
-    }
-  ],
   "loot_table": "pokecube:entities/leather"
 }

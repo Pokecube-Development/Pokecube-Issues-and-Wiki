@@ -194,12 +194,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "vibrava",
-      "level": 35,
-      "evoMoves": "dragon-breath"
-    }
-  ],
   "loot_table": "pokecube:entities/sand_1"
 }

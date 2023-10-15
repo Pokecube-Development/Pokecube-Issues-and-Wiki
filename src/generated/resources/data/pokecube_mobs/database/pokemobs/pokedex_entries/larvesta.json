@@ -182,12 +182,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "volcarona",
-      "level": 59,
-      "evoMoves": "quiver-dance"
-    }
-  ],
   "loot_table": "pokecube:entities/spider"
 }

@@ -239,11 +239,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "skiploom",
-      "level": 18
-    }
-  ],
   "loot_table": "pokecube:entities/leaves"
 }

@@ -199,20 +199,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "decidueye",
-      "level": 34,
-      "evoMoves": "spirit-shackle"
-    },
-    {
-      "name": "decidueye-hisui",
-      "level": 33,
-      "location": {
-        "and_preset": "savannas"
-      },
-      "evoMoves": "rock-smash"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

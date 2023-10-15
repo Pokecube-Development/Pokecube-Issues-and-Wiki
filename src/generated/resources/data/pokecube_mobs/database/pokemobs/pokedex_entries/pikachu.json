@@ -259,19 +259,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "raichu-alola",
-      "location": {
-        "and_preset": "beaches"
-      },
-      "item_preset": "thunderstone",
-      "evoMoves": "psychic"
-    },
-    {
-      "name": "raichu",
-      "item_preset": "thunderstone"
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_rabbit_1"
 }

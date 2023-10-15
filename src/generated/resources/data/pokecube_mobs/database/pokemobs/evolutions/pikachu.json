@@ -1,0 +1,31 @@
+[
+  {
+    "name": "raichu-alola",
+    "user": "pikachu",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "and_preset": "beaches"
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:thunderstone"
+        }
+      }
+    ],
+    "evoMoves": "psychic"
+  },
+  {
+    "name": "raichu",
+    "user": "pikachu",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:thunderstone"
+      }
+    }
+  }
+]

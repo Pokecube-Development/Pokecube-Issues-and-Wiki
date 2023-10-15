@@ -226,12 +226,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "slaking",
-      "level": 36,
-      "evoMoves": "swagger"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

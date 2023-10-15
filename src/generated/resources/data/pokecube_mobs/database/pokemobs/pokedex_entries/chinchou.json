@@ -202,12 +202,5 @@
       "rising-voltage"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lanturn",
-      "level": 27,
-      "evoMoves": "spit-up, stockpile, swallow"
-    }
-  ],
   "loot_table": "pokecube:entities/glow_fish_1"
 }

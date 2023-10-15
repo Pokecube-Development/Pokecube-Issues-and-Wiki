@@ -1,0 +1,8 @@
+{
+  "name": "jynx",
+  "user": "smoochum",
+  "condition": {
+    "key": "level",
+    "level": 30
+  }
+}

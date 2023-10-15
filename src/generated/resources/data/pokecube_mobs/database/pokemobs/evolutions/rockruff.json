@@ -1,0 +1,65 @@
+[
+  {
+    "name": "lycanroc-midday",
+    "user": "rockruff",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "day"
+            }
+          }
+        }
+      }
+    ],
+    "evoMoves": "accelerock, counter, thrash"
+  },
+  {
+    "name": "lycanroc-midnight",
+    "user": "rockruff",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      }
+    ],
+    "evoMoves": "counter"
+  },
+  {
+    "name": "lycanroc-dusk",
+    "user": "rockruff",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "dusk"
+            }
+          }
+        }
+      }
+    ],
+    "evoMoves": "thrash"
+  }
+]

@@ -240,12 +240,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "camerupt",
-      "level": 33,
-      "evoMoves": "rock-slide"
-    }
-  ],
   "loot_table": "pokecube:entities/cow_1"
 }

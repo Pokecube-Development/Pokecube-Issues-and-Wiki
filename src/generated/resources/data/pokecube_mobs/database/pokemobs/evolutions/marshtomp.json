@@ -1,0 +1,8 @@
+{
+  "name": "swampert",
+  "user": "marshtomp",
+  "condition": {
+    "key": "level",
+    "level": 36
+  }
+}

@@ -177,12 +177,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "nuzleaf",
-      "level": 14,
-      "evoMoves": "razor-leaf"
-    }
-  ],
   "loot_table": "pokecube:entities/other_seeds"
 }

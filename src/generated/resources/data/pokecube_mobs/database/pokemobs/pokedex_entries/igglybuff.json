@@ -180,11 +180,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "jigglypuff",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/moonstone"
 }

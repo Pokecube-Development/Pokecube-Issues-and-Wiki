@@ -1223,9 +1223,8 @@ public class PokemobEventsHandler
                     if (pokemob.getPokedexEntry().canEvolve() && pokemob.getEntity().isEffectiveAi())
                         for (final EvolutionData d : pokemob.getPokedexEntry().getEvolutions())
                     {
-                        boolean hasItem = !d.item.isEmpty();
-                        hasItem = hasItem || d.preset != null;
-                        if (hasItem && d.shouldEvolve(pokemob, held))
+                        boolean evolve = d.shouldEvolve(pokemob, held);
+                        if (evolve && !d.shouldEvolve(pokemob, ItemStack.EMPTY))
                         {
                             valid = true;
                             break;

@@ -223,11 +223,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ambipom",
-      "move": "double-hit"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -1,0 +1,29 @@
+[
+  {
+    "name": "hitmonlee",
+    "user": "tyrogue",
+    "condition": {
+      "key": "level",
+      "level": 20
+    },
+    "evoMoves": "double-kick"
+  },
+  {
+    "name": "hitmonchan",
+    "user": "tyrogue",
+    "condition": {
+      "key": "level",
+      "level": 20
+    },
+    "evoMoves": "comet-punch"
+  },
+  {
+    "name": "hitmontop",
+    "user": "tyrogue",
+    "condition": {
+      "key": "level",
+      "level": 20
+    },
+    "evoMoves": "rolling-kick"
+  }
+]

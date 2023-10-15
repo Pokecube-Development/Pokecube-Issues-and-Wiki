@@ -1,0 +1,9 @@
+{
+  "name": "kabutops",
+  "user": "kabuto",
+  "condition": {
+    "key": "level",
+    "level": 40
+  },
+  "evoMoves": "slash"
+}
