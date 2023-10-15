@@ -361,60 +361,24 @@ public class IconModule extends AnimModule
 
     public void cylceUp()
     {
-        boolean next = false;
-        if (parent.genders[0] && parent.genders[1])
-        {
-            parent.genders[0] = false;
-            parent.genders[1] = false;
-            next = true;
-        }
-        if (!next)
-        {
-            final boolean didMale = parent.genders[0];
-            final boolean didFemale = parent.genders[1];
-            if (!didMale)
-            {
-                parent.sexe = IPokemob.MALE;
-                parent.genders[0] = true;
-            }
-            else if (!didFemale)
-            {
-                parent.sexe = IPokemob.FEMALE;
-                parent.genders[1] = true;
-            }
-            parent.holder = AnimationGui.entry.getModel(parent.sexe);
-            AnimationGui.mob = AnimationGui.entry.getForGender(parent.sexe).getName();
-            parent.forme.setValue(AnimationGui.mob);
-            parent.onUpdated();
-            return;
-        }
-
-        final List<PokedexEntry> formes = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
-        if (!formes.contains(AnimationGui.entry)) formes.add(AnimationGui.entry);
-        Collections.sort(formes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-
-        int i_here = 0;
+        List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
+        formes = Lists.newArrayList(Database.getSortedFormes());
+        
         int i_next = 0;
         for (int i = 0; i < formes.size(); i++) if (formes.get(i) == AnimationGui.entry)
         {
-            i_here = i;
             i_next = i + 1 < formes.size() ? i + 1 : 0;
             break;
         }
 
         AnimationGui.entry = formes.get(i_next);
         AnimationGui.mob = AnimationGui.entry.getName();
-        parent.holder = AnimationGui.entry.getModel(parent.sexe);
+        parent.holder = AnimationGui.entry.default_holder;
         parent.forme.setValue(AnimationGui.mob);
 
-        if (i_next <= i_here)
-        {
-            final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
-            if (num != AnimationGui.entry) AnimationGui.entry = num;
-        }
         if (AnimationGui.entry == Pokedex.getInstance().getFirstEntry()) this.cap = false;
 
-        AnimationGui.mob = AnimationGui.entry.getForGender(parent.sexe).getName();
+        AnimationGui.mob = AnimationGui.entry.getName();
         parent.forme.setValue(AnimationGui.mob);
         parent.onUpdated();
     }
