@@ -1,15 +1,19 @@
 package pokecube.api.data.pokedex.conditions;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import net.minecraft.network.chat.Component;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import thut.api.util.JsonUtil;
+import thut.lib.TComponent;
 
 public interface PokemobCondition
 {
@@ -65,6 +69,17 @@ public interface PokemobCondition
         {
             return !wrap.matches(mobIn);
         }
+
+        @Override
+        public Component makeDescription()
+        {
+            Component base = wrap.makeDescription();
+            if (base != null)
+            {
+                return TComponent.translatable("pokemob.description.negate", base);
+            }
+            return PokemobCondition.super.makeDescription();
+        }
     }
 
     default PokemobCondition and(PokemobCondition other)
@@ -86,6 +101,32 @@ public interface PokemobCondition
 
     default void init()
     {}
+
+    default Component makeDescription()
+    {
+        return TComponent.literal("Missingno");
+    }
+
+    public static void addDescriptions(List<Component> comps, PokemobCondition condition)
+    {
+        if (condition instanceof ConditionAndWrapper AND)
+        {
+            addDescriptions(comps, AND.wrapA);
+            addDescriptions(comps, AND.wrapB);
+        }
+        else
+        {
+            Component comp = condition.makeDescription();
+            if (comp != null) comps.add(comp);
+        }
+    }
+
+    public static List<Component> getDescriptions(PokemobCondition condition)
+    {
+        List<Component> comps = new ArrayList<>();
+        addDescriptions(comps, condition);
+        return comps;
+    }
 
     public static PokemobCondition makeFromElement(JsonElement element)
     {

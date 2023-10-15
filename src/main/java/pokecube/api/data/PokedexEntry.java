@@ -21,6 +21,7 @@ import com.google.common.collect.Sets;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -58,7 +59,6 @@ import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
 import pokecube.api.data.pokedex.conditions.PokemobCondition;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
-import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -71,7 +71,6 @@ import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
-import pokecube.core.client.gui.watch.util.SpawnListEntry;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
@@ -112,36 +111,12 @@ public class PokedexEntry
         public PokemobCondition _condition;
         public PokedexEntry result;
 
-        public SpawnBiomeMatcher matcher = null;
-        public SpawnRule _match_rule = null;
-
         public final Evolution data;
-        public boolean dayOnly = false;
+
         public final PokedexEntry evolution;
         public String FX = "";
-        // 1 for male, 2 for female, 0 for either;
-        public byte gender = 0;
-        public boolean happy = false;
-        // the item it must be holding, if null, any item is fine, or no items
-        // is fine
-        public ItemStack item = ItemStack.EMPTY;
-        public ResourceLocation preset = null;
-        // does it need to grow a level for the item to work
-        public boolean itemLevel = false;
-        public int level = -1;
-        public String move = "";
-        public boolean nightOnly = false;
-        public boolean dawnOnly = false;
-        public boolean duskOnly = false;
-        public PokedexEntry preEvolution;
-        public boolean rainOnly = false;
-        public float randomFactor = 1.0f;
-        public boolean traded = false;
 
         public List<String> evoMoves = Lists.newArrayList();
-
-        // This is if it needs a specific formeHolder to evolve into this.
-        public ResourceLocation neededForme = null;
 
         public EvolutionData(final PokedexEntry evol, Evolution data)
         {
@@ -160,37 +135,10 @@ public class PokedexEntry
         public List<MutableComponent> getEvoClauses()
         {
             final List<MutableComponent> comps = Lists.newArrayList();
-            if (this.level > 0) comps.add(TComponent.translatable("pokemob.description.evolve.level", this.level));
-            if (this.traded) comps.add(TComponent.translatable("pokemob.description.evolve.traded"));
-            if (this.gender == 1) comps.add(TComponent.translatable("pokemob.description.evolve.male"));
-            if (this.gender == 2) comps.add(TComponent.translatable("pokemob.description.evolve.female"));
-            if (!this.item.isEmpty()) comps.add(
-                    TComponent.translatable("pokemob.description.evolve.item", this.item.getHoverName().getString()));
-            else if (this.preset != null)
+            if (this._condition != null)
             {
-                final ItemStack stack = PokecubeItems.getStack(this.preset);
-                if (!stack.isEmpty()) comps.add(
-                        TComponent.translatable("pokemob.description.evolve.item", stack.getHoverName().getString()));
-            }
-            if (this.happy) comps.add(TComponent.translatable("pokemob.description.evolve.happy"));
-            if (this.dawnOnly) comps.add(TComponent.translatable("pokemob.description.evolve.dawn"));
-            if (this.duskOnly) comps.add(TComponent.translatable("pokemob.description.evolve.dusk"));
-            if (this.dayOnly) comps.add(TComponent.translatable("pokemob.description.evolve.day"));
-            if (this.nightOnly) comps.add(TComponent.translatable("pokemob.description.evolve.night"));
-            if (this.rainOnly) comps.add(TComponent.translatable("pokemob.description.evolve.rain"));
-
-            // TODO add in info related to needed formes.
-            if (this.randomFactor != 1)
-            {
-                final String var = (int) (100 * this.randomFactor) + "%";
-                comps.add(TComponent.translatable("pokemob.description.evolve.chance", var));
-            }
-            if (this.move != null && !this.move.isEmpty())
-                comps.add(TComponent.translatable("pokemob.description.evolve.move",
-                        MovesUtils.getMoveName(this.move, null).getString()));
-            if (this.matcher != null)
-            {
-                comps.addAll(SpawnListEntry.getGeneralDescription(matcher));
+                List<Component> baseComps = PokemobCondition.getDescriptions(_condition);
+                for (var c : baseComps) comps.add(TComponent.translatable("pokemob.description.tabbed", c));
             }
             return comps;
         }
@@ -212,8 +160,8 @@ public class PokedexEntry
              *
              */
             // @formatter:on
-            final PokedexEntry entry = this.preEvolution;
-            final PokedexEntry nex = this.evolution;
+            final PokedexEntry entry = this.data.getUser();
+            final PokedexEntry nex = this.data.getResult();
             final MutableComponent subEvo = TComponent.translatable("pokemob.description.evolve.to",
                     entry.getTranslatedName(), nex.getTranslatedName());
             final List<MutableComponent> list = this.getEvoClauses();
@@ -223,38 +171,8 @@ public class PokedexEntry
 
         private void parse(final Evolution data)
         {
-            this.preset = null;
-
             // This is what we will actually use for the tests.
             this._condition = data.toCondition();
-
-            // Everything in this scope is not actually needed for checking
-            // anymore, and is only kept for now for the descriptions!
-            {
-                if (data.level != null) this.level = data.level;
-                if (data.location != null) this.matcher = SpawnBiomeMatcher.get(_match_rule = data.location);
-                if (data.item != null) this.item = Tools.getStack(data.item.getValues());
-                if (data.item_preset != null) this.preset = PokecubeItems.toPokecubeResource(data.item_preset);
-                if (data.time != null)
-                {
-                    if (data.time.equalsIgnoreCase("day")) this.dayOnly = true;
-                    if (data.time.equalsIgnoreCase("night")) this.nightOnly = true;
-                    if (data.time.equalsIgnoreCase("dusk")) this.duskOnly = true;
-                    if (data.time.equalsIgnoreCase("dawn")) this.dawnOnly = true;
-                }
-                if (data.trade != null) this.traded = data.trade;
-                if (data.rain != null) this.rainOnly = data.rain;
-                if (data.happy != null) this.happy = data.happy;
-                if (data.sexe != null)
-                {
-                    if (data.sexe.equalsIgnoreCase("male")) this.gender = 1;
-                    if (data.sexe.equalsIgnoreCase("female")) this.gender = 2;
-                }
-                if (data.move != null) this.move = data.move;
-                if (data.chance != null) this.randomFactor = data.chance;
-                if (this.level == -1) this.level = 0;
-                if (data.form_from != null) this.neededForme = PokecubeItems.toPokecubeResource(data.form_from);
-            }
 
             if (data.animation != null) this.FX = data.animation;
             this.evoMoves.clear();
@@ -1280,22 +1198,6 @@ public class PokedexEntry
         return this.evolutions.size() > 0;
     }
 
-    public boolean canEvolve(final int level)
-    {
-        return this.canEvolve(level, ItemStack.EMPTY);
-    }
-
-    public boolean canEvolve(final int level, final ItemStack stack)
-    {
-        for (final EvolutionData d : this.evolutions)
-        {
-            boolean itemCheck = d.item == ItemStack.EMPTY;
-            if (!itemCheck && stack != ItemStack.EMPTY) itemCheck = stack.sameItem(d.item);
-            if (d.level >= 0 && level >= d.level && itemCheck) return true;
-        }
-        return false;
-    }
-
     public void copyFieldsToGenderForm(final PokedexEntry forme)
     {
         final Class<?> me = this.getClass();
@@ -1425,6 +1327,7 @@ public class PokedexEntry
     @OnlyIn(Dist.CLIENT)
     public MutableComponent getDescription(FormeHolder holder)
     {
+        _descriptions.clear();
         ResourceLocation key = holder == null ? _base_description : holder.key;
         return _descriptions.computeIfAbsent(key, k -> {
 

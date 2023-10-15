@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.villages.general",
       "and_preset": "villages",
       "entries": [
         {"key": "trubbish","min": 1,"max": 4,"rate": 0.3},
@@ -48,6 +49,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.villages.day",
       "and_preset": "villages,day_time",
       "entries": [
         {"key": "furfrou","min": 1,"max": 4,"rate": 0.08},

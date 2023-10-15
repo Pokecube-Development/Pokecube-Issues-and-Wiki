@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.cold_snowy.snowy",
       "and_preset": "snowy_areas",
       "entries": [
         {"key": "snorunt","min": 1,"max": 4,"rate": 0.5},
@@ -32,6 +33,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.cold_snowy.cold",
       "and_preset": "cold_areas,overworld",
       "entries": [
         {"key": "nickit","min": 1,"max": 4,"rate": 0.3},

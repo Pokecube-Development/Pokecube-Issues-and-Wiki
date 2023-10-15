@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.caves.general",
       "and_preset": "caves",
       "entries": [
         {"key": "zubat","min": 1,"max": 5,"rate": 0.75},
@@ -41,6 +42,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.forests",
       "and_preset": "forest_caves",
       "entries": [
         {"key": "burmy","min": 1,"max": 5,"rate": 0.2},
@@ -48,12 +50,14 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.jungles",
       "and_preset": "jungles,caves",
       "entries": [
         {"key": "croagunk","min": 1,"max": 5,"rate": 0.3}
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.plains",
       "and_preset": "plains_caves",
       "entries": [
         {"key": "bunnelby","min": 1,"max": 4,"rate": 0.3},
@@ -61,6 +65,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.mountains",
       "and_preset": "mountain_caves",
       "entries": [
         {"key": "durant","min": 1,"max": 4,"rate": 0.5},
@@ -100,6 +105,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.deserts",
       "and_preset": "desert_caves",
       "entries": [
         {"key": "yamask","min": 1,"max": 4,"rate": 0.5},
@@ -120,6 +126,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.not_dry",
       "and_preset": "caves",
       "not_preset": "dry_areas",
       "entries": [
@@ -128,6 +135,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.not_cold",
       "and_preset": "caves,cold_areas",
       "entries": [
         {"key": "jynx","min": 1,"max": 4,"rate": 0.3},
@@ -136,6 +144,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.lush",
       "and_preset": "lush_caves",
       "entries": [
         {"key": "gulpin", "min": 2, "max": 4, "rate": 0.4},
@@ -171,6 +180,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.snowy",
       "and_preset": "caves,snowy_areas",
       "entries": [
         {"key": "snover","min": 1,"max": 4,"rate": 0.5},
@@ -183,6 +193,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.water",
       "and_preset": "cave_water",
       "entries": [
         {"key": "magikarp","min": 1,"max": 4,"rate": 0.2},
@@ -191,6 +202,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.water_shore",
       "and_preset": "cave_lake_shore",
       "entries": [
         {"key": "wobbuffet","min": 1,"max": 4,"rate": 0.6},
@@ -204,6 +216,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.rivers",
       "and_preset": "rivers,caves",
       "entries": [
         {"key": "slowpoke","min": 1,"max": 4,"rate": 0.3},
@@ -215,6 +228,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.swamps",
       "and_preset": "swamps,caves",
       "entries": [
         {"key": "wooper","min": 1,"max": 4,"rate": 0.3},
@@ -225,6 +239,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.oceans",
       "and_preset": "oceans,caves",
       "entries": [
 	    {"key": "qwilfish-hisui","min": 1,"max": 4,"rate": 0.4},
@@ -233,6 +248,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.caves.beaches",
       "and_preset": "beaches,caves",
       "entries": [
         {"key": "krabby","min": 1,"max": 4,"rate": 0.3},

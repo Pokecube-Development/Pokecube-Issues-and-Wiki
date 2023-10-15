@@ -1,10 +1,11 @@
 package pokecube.api.data.spawns.matchers;
 
+import javax.annotation.Nullable;
+
 import net.minecraft.network.chat.Component;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
-import thut.lib.TComponent;
 
 public interface MatchChecker
 {
@@ -91,8 +92,9 @@ public interface MatchChecker
     default void init()
     {}
 
+    @Nullable
     default Component makeDescription()
     {
-        return TComponent.literal("Missingno");
+        return null;
     }
 }

@@ -487,22 +487,7 @@ public class EventsHandler
         }
         if (isEvoLocDebug)
         {
-            for (var entry : Database.getSortedFormes())
-            {
-                for (var d : entry.evolutions)
-                {
-                    if (d.matcher != null)
-                    {
-                        d.matcher.reset();
-                        d.matcher.parse();
-                        if (!d.matcher._valid)
-                        {
-                            PokecubeAPI.LOGGER
-                                    .error("Invalid! " + entry + " " + d.evolution + " " + d.matcher.spawnRule);
-                        }
-                    }
-                }
-            }
+
         }
         if (isSubbiomeDebug)
         {

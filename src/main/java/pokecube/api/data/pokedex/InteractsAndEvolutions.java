@@ -9,27 +9,14 @@ import java.util.function.Consumer;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.pokedex.conditions.AtLeastLevel;
-import pokecube.api.data.pokedex.conditions.AtLocation;
-import pokecube.api.data.pokedex.conditions.HasHeldItem;
-import pokecube.api.data.pokedex.conditions.HasMove;
-import pokecube.api.data.pokedex.conditions.IsEntry;
-import pokecube.api.data.pokedex.conditions.IsHappy;
 import pokecube.api.data.pokedex.conditions.IsSexe;
-import pokecube.api.data.pokedex.conditions.IsTraded;
 import pokecube.api.data.pokedex.conditions.PokemobCondition;
-import pokecube.api.data.pokedex.conditions.RandomChance;
-import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.data.spawns.matchers.Time;
-import pokecube.api.data.spawns.matchers.WeatherMatch;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
@@ -44,20 +31,6 @@ public class InteractsAndEvolutions
     public static class Evolution
     {
         public Boolean clear;
-
-        // Below are conditions
-        public Integer level; // AtLeastLevel
-        public SpawnRule location; // AtLocation
-        public String time;// AtLocation
-        public Boolean rain;// AtLocation
-        public Drop item; // HeldItem
-        public String item_preset; // HeldItem
-        public Boolean trade;// IsTraded
-        public Boolean happy;// IsHappy
-        public String sexe;// IsSexe
-        public String move;// HasMove
-        public Float chance;// RandomChance
-        public String form_from = null; // IsEntry
 
         public JsonElement condition;
 
@@ -85,18 +58,30 @@ public class InteractsAndEvolutions
          */
         protected DefaultFormeHolder model = null;
 
+        private PokedexEntry _result = null;
+        private PokedexEntry _user = null;
+
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
             if (this.model != null) return this.model.getForme(baseEntry);
             return null;
         }
 
+        public PokedexEntry getResult()
+        {
+            if (_result == null) _result = Database.getEntry(name);
+            return _result;
+        }
+
+        public PokedexEntry getUser()
+        {
+            if (_user == null) _user = Database.getEntry(user);
+            return _user;
+        }
+
         public PokemobCondition toCondition()
         {
             PokemobCondition result = null;
-            AtLocation locationTest = null;
-            List<PokemobCondition> bits = new ArrayList<>();
-
             // First check if we have a loadable condition, if so, just use
             // that, the rest will be left as description information!
             if (condition != null)
@@ -105,125 +90,6 @@ public class InteractsAndEvolutions
                 result.init();
                 return result;
             }
-
-            if (level != null)
-            {
-                AtLeastLevel res = new AtLeastLevel();
-                res.level = level;
-                bits.add(res);
-                result = res;
-            }
-            if (location != null)
-            {
-                locationTest = new AtLocation();
-                bits.add(locationTest);
-                locationTest.location = location;
-                if (result == null) result = locationTest;
-                else result = result.and(locationTest);
-            }
-            if (time != null)
-            {
-                Time match = new Time();
-                match.preset = time;
-                if (locationTest == null)
-                {
-                    locationTest = new AtLocation();
-                    locationTest.location = new SpawnRule();
-                    bits.add(locationTest);
-                }
-                locationTest.location.matchers.put("time", JsonUtil.gson.toJsonTree(match));
-            }
-            if (rain != null)
-            {
-                WeatherMatch match = new WeatherMatch();
-                match.type = rain ? "rain" : "sun";
-                if (locationTest == null)
-                {
-                    locationTest = new AtLocation();
-                    locationTest.location = new SpawnRule();
-                    bits.add(locationTest);
-                }
-                locationTest.location.matchers.put("weather", JsonUtil.gson.toJsonTree(match));
-            }
-            if (item != null)
-            {
-                var res = new HasHeldItem();
-                bits.add(res);
-                res.initFromDrop(item, false);
-                if (result == null) result = res;
-                else result = result.and(res);
-            }
-            if (item_preset != null)
-            {
-                var res = new HasHeldItem();
-                if (item_preset.contains("#")) res.tag = item_preset.replace("#", "");
-                else
-                {
-                    JsonObject obj = new JsonObject();
-                    String item = item_preset;
-                    if (!item.contains(":")) item = "pokecube:" + item;
-                    ResourceLocation loc = new ResourceLocation(item);
-                    if (!ForgeRegistries.ITEMS.containsKey(loc))
-                    {
-                        res.tag = item;
-                    }
-                    else
-                    {
-                        obj.addProperty("item", item);
-                        res.item = obj;
-                    }
-                }
-                bits.add(res);
-                if (result == null) result = res;
-                else result = result.and(res);
-            }
-            if (trade != null)
-            {
-                var bit = new IsTraded();
-                bits.add(bit);
-                if (result == null) result = bit;
-                else result = result.and(bit);
-            }
-            if (happy != null)
-            {
-                var bit = new IsHappy();
-                bits.add(bit);
-                if (result == null) result = bit;
-                else result = result.and(bit);
-            }
-            if (sexe != null)
-            {
-                var bit = new IsSexe();
-                bit.sexe = sexe;
-                bits.add(bit);
-                if (result == null) result = bit;
-                else result = result.and(bit);
-            }
-            if (move != null)
-            {
-                var bit = new HasMove();
-                bit.move = move;
-                bits.add(bit);
-                if (result == null) result = bit;
-                else result = result.and(bit);
-            }
-            if (chance != null)
-            {
-                var bit = new RandomChance();
-                bit.chance = chance;
-                bits.add(bit);
-                if (result == null) result = bit;
-                else result = result.and(bit);
-            }
-            if (form_from != null)
-            {
-                var bit = new IsEntry();
-                bit.entry = form_from;
-                bits.add(bit);
-                if (result == null) result = bit;
-                else result = result.and(bit);
-            }
-            bits.forEach(c -> c.init());
             return result;
         }
 

@@ -1,5 +1,6 @@
 package pokecube.api.data.pokedex.conditions;
 
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
@@ -29,5 +30,11 @@ public class AtLocation implements PokemobCondition
             return _matcher.matches(check);
         }
         return false;
+    }
+    
+    @Override
+    public Component makeDescription()
+    {
+        return location.makeDescription();
     }
 }
