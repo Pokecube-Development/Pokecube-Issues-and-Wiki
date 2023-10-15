@@ -1,0 +1,8 @@
+{
+  "name": "graveler-alola",
+  "user": "geodude-alola",
+  "condition": {
+    "key": "level",
+    "level": 25
+  }
+}

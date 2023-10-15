@@ -1,0 +1,9 @@
+{
+  "name": "whiscash",
+  "user": "barboach",
+  "condition": {
+    "key": "level",
+    "level": 30
+  },
+  "evoMoves": "thrash"
+}

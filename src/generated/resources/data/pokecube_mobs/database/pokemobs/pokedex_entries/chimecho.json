@@ -70,7 +70,8 @@
         "L": 16,
         "moves": [
           "light-screen",
-          "psywave"
+          "psywave",
+          "stored-power"
         ]
       },
       {
@@ -117,6 +118,7 @@
       "double-edge",
       "growl",
       "disable",
+      "psybeam",
       "thunder-wave",
       "toxic",
       "confusion",
@@ -128,6 +130,7 @@
       "defense-curl",
       "light-screen",
       "reflect",
+      "swift",
       "dream-eater",
       "flash",
       "psywave",
@@ -140,6 +143,7 @@
       "perish-song",
       "icy-wind",
       "endure",
+      "charm",
       "rollout",
       "swagger",
       "attract",
@@ -148,6 +152,8 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
+      "encore",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -166,10 +172,12 @@
       "yawn",
       "knock-off",
       "skill-swap",
+      "imprison",
       "snatch",
       "secret-power",
       "hyper-voice",
       "astonish",
+      "fake-tears",
       "cosmic-power",
       "signal-beam",
       "extrasensory",
@@ -194,10 +202,14 @@
       "stored-power",
       "ally-switch",
       "heal-pulse",
+      "snarl",
+      "disarming-voice",
+      "draining-kiss",
       "crafty-shield",
       "confide",
       "dazzling-gleam",
-      "laser-focus"
+      "laser-focus",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

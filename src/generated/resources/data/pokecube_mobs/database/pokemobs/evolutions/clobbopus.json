@@ -1,0 +1,10 @@
+{
+  "name": "grapploct",
+  "user": "clobbopus",
+  "condition": {
+    "key": "move",
+    "move": "taunt"
+  },
+  "evoMoves": "octolock",
+  "animation": "18"
+}

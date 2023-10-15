@@ -2,6 +2,7 @@
   "name": "zamazenta-crowned",
   "id": 889,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 360,
   "size": {
     "height": 2.9,
@@ -100,6 +101,7 @@
       "body-slam",
       "take-down",
       "bite",
+      "roar",
       "hyper-beam",
       "solar-beam",
       "dig",

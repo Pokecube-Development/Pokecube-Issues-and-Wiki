@@ -230,6 +230,7 @@
       "wild-charge",
       "confide",
       "throat-chop",
+      "lunge",
       "psyshield-bash",
       "tera-blast",
       "trailblaze"
@@ -260,15 +261,6 @@
             }
           }
         ]
-      }
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "wyrdeer",
-      "level": 20,
-      "location": {
-        "and_preset": "snowy_areas"
       }
     }
   ],

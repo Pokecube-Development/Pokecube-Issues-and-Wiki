@@ -11,14 +11,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
-import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.pokemobs.ChangeForm;
@@ -30,7 +28,6 @@ import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import thut.api.item.ItemList;
-import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
 
@@ -121,18 +118,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             }
         }
         if (select_from.isEmpty()) select_from.addAll(valid);
-
-        valid.clear();
-        // Now from ones left, lets filter by location requirements
-        SpawnCheck check = new SpawnCheck(new Vector3(thisEntity), (ServerLevelAccessor) thisEntity.level);
-        for (final EvolutionData d : select_from)
-        {
-            if (d.matcher != null && d.matcher.matches(check))
-            {
-                valid.add(d);
-            }
-        }
-        if (!valid.isEmpty()) select_from = valid;
         if (select_from.isEmpty()) return null;
 
         int index = 0;
@@ -161,7 +146,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             // Remove held item if it had one.
             if (neededItem && ItemStack.isSame(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
             // Init things like moves.
-            evo.getMoveStats().oldLevel = data.level - 1;
+            evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
             evo.levelUp(evo.getLevel());
 
             evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
@@ -199,7 +184,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 return thisMob;
             }
             // Evolve the mob.
-            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme);
+            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, true, true);
             if (evo != null)
             {
                 // Clear held item if used for evolving.
@@ -210,9 +195,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Lean any moves that should are supposed to have just
                 // learnt.
                 if (delayed) evo.getMoveStats().oldLevel = evo.getLevel() - 1;
-                else if (data != null) evo.getMoveStats().oldLevel = data.level - 1;
+                else if (data != null) evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
                 evo.levelUp(evo.getLevel());
 
+                evo.setBasePokedexEntry(evol);
+                evo.setPokedexEntry(evol);
                 evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                 // Don't immediately try evolving again, only wild ones

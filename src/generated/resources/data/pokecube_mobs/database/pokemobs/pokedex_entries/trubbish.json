@@ -196,11 +196,5 @@
       "corrosive-gas"
     ]
   },
-  "evolutions": [
-    {
-      "name": "garbodor",
-      "level": 36
-    }
-  ],
   "loot_table": "pokecube:entities/dirt_1"
 }

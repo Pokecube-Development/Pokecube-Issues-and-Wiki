@@ -1,0 +1,9 @@
+{
+  "name": "excadrill",
+  "user": "drilbur",
+  "condition": {
+    "key": "level",
+    "level": 31
+  },
+  "evoMoves": "horn-drill"
+}

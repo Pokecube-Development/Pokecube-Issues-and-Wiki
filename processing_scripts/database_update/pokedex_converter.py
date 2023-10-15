@@ -1,6 +1,7 @@
 import json
 from ignore_list import isIgnored
-from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form, TAG_IGNORE
+from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form,\
+                  is_extra_form, TAG_IGNORE
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -24,6 +25,7 @@ import shutil
 
 entry_generate_dir = './new/pokemobs/pokedex_entries/'
 mega_rule_dir = './new/pokemobs/mega_evos/'
+evos_rule_dir = './new/pokemobs/evolutions/'
 materials_generate_dir = './new/pokemobs/materials/'
 ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
 mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
@@ -174,9 +176,7 @@ class PokedexEntry:
         self.names = species.names
         self.id = forme.id
         self.stock = True
-        if is_mega(self.name):
-            self.is_extra_form = True
-        if is_gmax(self.name):
+        if not forme.is_default and is_extra_form(self.name):
             self.is_extra_form = True
         if no_shiny(self.name):
             self.no_shiny = True
@@ -601,11 +601,7 @@ def convert_mega_rules(entry):
                 item = rule['item_preset']
                 if not ":" in item:
                     item = f"pokecube:{item}"
-                # Manually code in the 1 legacy thing which used a tag rule instead of item rule.
-                if rule['item_preset'] == 'pokecube_mobs:necrozma':
-                    da_rule["tag"] = item
-                else:
-                    da_rule["item"] = {"item":item}
+                da_rule["item"] = {"item":item}
             elif 'ability' in rule:
                 da_rule['key'] = 'ability'
                 da_rule["ability"] = rule['ability']
@@ -623,6 +619,120 @@ def convert_mega_rules(entry):
     json.dump(rules, file, indent=2)
     file.close()
     del entry["mega_rules"]
+
+def convert_evolution(entry):
+    if not "evolutions" in entry:
+        return
+    if not os.path.exists(evos_rule_dir):
+        os.makedirs(evos_rule_dir)
+    rules = []
+    for rule in entry["evolutions"]:
+        _rule = {}
+
+        # First lets get the user and the result
+        result = rule["name"]
+        user = entry["name"]
+
+        # Now we construct the rules
+        da_rules = []
+
+        # Level rule
+        if "level" in rule:
+            sub_rule = {"key": "level"}
+            sub_rule["level"] = rule["level"]
+            da_rules.append(sub_rule)
+
+        # Location specific things
+        location = {}
+        if "location" in rule:
+            location = rule["location"]
+        if "time" in rule:
+            matchs = {}
+            if "matchers" in location:
+                matchs = location['matchers']
+            matchs['time'] = {"preset": rule["time"]}
+            location['matchers'] = matchs
+        if "rain" in rule:
+            matchs = {}
+            if "matchers" in location:
+                matchs = location['matchers']
+            weather = "rain" if rule["rain"] else "sun"
+            matchs['weather'] = {"type": weather}
+            location['matchers'] = matchs
+        if len(location) > 0:
+            sub_rule = {"key": "location"}
+            sub_rule["location"] = location
+            da_rules.append(sub_rule)
+
+        # Required items
+        if 'item_preset' in rule:
+            sub_rule = {"key": "item"}
+            item = rule['item_preset']
+            if not ":" in item:
+                item = f"pokecube:{item}"
+            sub_rule["item"] = {"item":item}
+            da_rules.append(sub_rule)
+        elif 'item' in rule:
+            item = rule["item"]["values"]
+            sub_rule = {"key": "item"}
+            sub_rule["item"] = item
+            da_rules.append(sub_rule)
+
+        # Traded
+        if "trade" in rule:
+            sub_rule = {"key": "traded"}
+            da_rules.append(sub_rule)
+
+        # Happiness needed
+        if "happy" in rule:
+            sub_rule = {"key": "happy"}
+            da_rules.append(sub_rule)
+
+        # Sexe needed
+        if "sexe" in rule:
+            sub_rule = {"key": "sexe"}
+            sub_rule["sexe"] = rule["sexe"]
+            da_rules.append(sub_rule)
+
+        # Move needed
+        if "move" in rule:
+            sub_rule = {"key": "move"}
+            sub_rule["move"] = rule["move"]
+            da_rules.append(sub_rule)
+
+        # Random Chance needed
+        if "chance" in rule:
+            sub_rule = {"key": "chance"}
+            sub_rule["chance"] = rule["chance"]
+            da_rules.append(sub_rule)
+
+        # Specific model needed
+        if "form_from" in rule:
+            user = rule["form_from"]
+
+        if len(da_rules) == 1:
+            da_rules = da_rules[0]
+
+        # Now construct the evolution
+        _rule['name'] = result
+        _rule['user'] = user
+        _rule["condition"] = da_rules
+        if "evoMoves" in rule:
+            _rule["evoMoves"] = rule["evoMoves"]
+        if "animation" in rule:
+            _rule["animation"] = rule["animation"]
+        if "model" in rule:
+            _rule["model"] = rule["model"]
+
+        rules.append(_rule)
+
+    file = f'{evos_rule_dir}{entry["name"]}.json'
+    file = open(file, 'w')
+    if(len(rules) == 1):
+        rules = rules[0]
+    json.dump(rules, file, indent=2)
+    file.close()
+    del entry["evolutions"]
 
 def convert_pokedex():
 
@@ -759,6 +869,7 @@ def convert_pokedex():
 
         file = open(file, 'w')
         convert_mega_rules(var)
+        convert_evolution(var)
         json.dump(var, file, indent=2)
         file.close()
 

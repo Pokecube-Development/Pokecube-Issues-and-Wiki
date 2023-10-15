@@ -175,11 +175,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "swellow",
-      "level": 22
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

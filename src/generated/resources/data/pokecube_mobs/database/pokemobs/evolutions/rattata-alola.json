@@ -1,0 +1,21 @@
+{
+  "name": "raticate-alola",
+  "user": "rattata-alola",
+  "condition": [
+    {
+      "key": "level",
+      "level": 20
+    },
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "night"
+          }
+        }
+      }
+    }
+  ],
+  "evoMoves": "scary-face"
+}

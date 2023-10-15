@@ -164,13 +164,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "morgrem",
-      "level": 32,
-      "animation": "18",
-      "evoMoves": "false-surrender"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

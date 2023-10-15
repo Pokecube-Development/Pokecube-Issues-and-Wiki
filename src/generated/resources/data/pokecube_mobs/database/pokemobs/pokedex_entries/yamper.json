@@ -132,12 +132,5 @@
       "rising-voltage"
     ]
   },
-  "evolutions": [
-    {
-      "name": "boltund",
-      "level": 25,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

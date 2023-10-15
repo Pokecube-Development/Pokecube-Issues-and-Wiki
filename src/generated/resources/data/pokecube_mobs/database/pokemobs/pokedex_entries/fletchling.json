@@ -189,12 +189,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "fletchinder",
-      "level": 17,
-      "evoMoves": "ember"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

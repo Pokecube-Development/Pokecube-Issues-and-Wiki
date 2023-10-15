@@ -63,6 +63,7 @@
         "L": 14,
         "moves": [
           "sonic-boom",
+          "air-cutter",
           "aerial-ace"
         ]
       },
@@ -70,7 +71,8 @@
         "L": 30,
         "moves": [
           "string-shot",
-          "pursuit"
+          "pursuit",
+          "bug-bite"
         ]
       },
       {
@@ -146,6 +148,7 @@
       "whirlwind",
       "headbutt",
       "tackle",
+      "take-down",
       "double-edge",
       "supersonic",
       "sonic-boom",
@@ -204,14 +207,12 @@
       "bug-bite",
       "ominous-wind",
       "round",
-      "confide"
+      "struggle-bug",
+      "confide",
+      "lunge",
+      "tera-blast",
+      "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "yanmega",
-      "move": "ancient-power"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

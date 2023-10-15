@@ -69,12 +69,5 @@
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "spewpa",
-      "level": 9,
-      "evoMoves": "protect"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

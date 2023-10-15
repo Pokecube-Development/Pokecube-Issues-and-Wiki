@@ -1,0 +1,9 @@
+{
+  "name": "grumpig",
+  "user": "spoink",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "teeter-dance"
+}

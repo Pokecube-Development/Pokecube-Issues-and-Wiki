@@ -126,6 +126,7 @@
       "agility",
       "swift",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "protect",
@@ -159,11 +160,5 @@
       "play-rough",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "maushold",
-      "level": 25
-    }
-  ]
+  }
 }

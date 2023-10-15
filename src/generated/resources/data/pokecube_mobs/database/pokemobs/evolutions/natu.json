@@ -1,0 +1,9 @@
+{
+  "name": "xatu",
+  "user": "natu",
+  "condition": {
+    "key": "level",
+    "level": 25
+  },
+  "evoMoves": "air-slash"
+}

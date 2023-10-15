@@ -196,11 +196,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "vigoroth",
-      "level": 18
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

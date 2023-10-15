@@ -213,6 +213,7 @@
       "thunder",
       "earthquake",
       "fissure",
+      "dig",
       "toxic",
       "psychic",
       "rage",
@@ -267,6 +268,7 @@
       "swallow",
       "facade",
       "focus-punch",
+      "helping-hand",
       "superpower",
       "recycle",
       "brick-break",
@@ -311,7 +313,10 @@
       "stomping-tantrum",
       "body-press",
       "steel-roller",
-      "terrain-pulse"
+      "terrain-pulse",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/pig_3"

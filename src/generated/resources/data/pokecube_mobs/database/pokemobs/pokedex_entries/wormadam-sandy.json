@@ -2,6 +2,7 @@
   "name": "wormadam-sandy",
   "id": 413,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 148,
   "size": {
     "height": 0.5

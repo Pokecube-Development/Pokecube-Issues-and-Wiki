@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.end.general",
       "and_preset": "end_surface",
       "entries": [
         {"key": "clefairy","min": 1,"max": 4,"rate": 0.25},
@@ -19,6 +20,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.end.caves",
       "and_preset": "end_caves",
       "entries": [
         {"key": "clefairy","min": 1,"max": 4,"rate": 0.25},

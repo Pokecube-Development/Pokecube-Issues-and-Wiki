@@ -155,6 +155,7 @@
       "harden",
       "minimize",
       "confuse-ray",
+      "haze",
       "bide",
       "metronome",
       "self-destruct",
@@ -170,6 +171,7 @@
       "thief",
       "snore",
       "curse",
+      "spite",
       "protect",
       "scary-face",
       "sludge-bomb",
@@ -197,6 +199,7 @@
       "taunt",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "imprison",
       "secret-power",
       "rock-tomb",
@@ -227,6 +230,8 @@
       "venom-drench",
       "infestation",
       "power-up-punch",
+      "lunge",
+      "lash-out",
       "tera-blast"
     ]
   },

@@ -1,0 +1,10 @@
+{
+  "name": "quilladin",
+  "user": "chespin",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "evoMoves": "needle-arm",
+  "animation": "18"
+}

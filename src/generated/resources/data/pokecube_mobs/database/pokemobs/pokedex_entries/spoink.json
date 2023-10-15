@@ -172,6 +172,7 @@
       "psych-up",
       "shadow-ball",
       "future-sight",
+      "uproar",
       "torment",
       "facade",
       "taunt",
@@ -211,18 +212,12 @@
       "confide",
       "dazzling-gleam",
       "psychic-terrain",
+      "lunge",
       "tera-blast",
       "snowscape",
       "trailblaze",
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "grumpig",
-      "level": 32,
-      "evoMoves": "teeter-dance"
-    }
-  ],
   "loot_table": "pokecube:entities/ender_pig_1"
 }

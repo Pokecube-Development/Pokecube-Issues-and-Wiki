@@ -1,0 +1,9 @@
+{
+  "name": "combusken",
+  "user": "torchic",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "evoMoves": "double-kick"
+}

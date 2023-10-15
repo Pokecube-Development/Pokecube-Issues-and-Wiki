@@ -1,0 +1,8 @@
+{
+  "name": "yanmega",
+  "user": "yanma",
+  "condition": {
+    "key": "move",
+    "move": "ancient-power"
+  }
+}

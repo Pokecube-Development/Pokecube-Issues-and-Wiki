@@ -221,15 +221,11 @@
       "phantom-force",
       "confide",
       "dazzling-gleam",
+      "lash-out",
+      "poltergeist",
       "tera-blast",
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "banette",
-      "level": 37
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

@@ -1,0 +1,9 @@
+{
+  "name": "cacturne",
+  "user": "cacnea",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "spiky-shield"
+}

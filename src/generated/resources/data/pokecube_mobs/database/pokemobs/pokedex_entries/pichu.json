@@ -168,11 +168,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "pikachu",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

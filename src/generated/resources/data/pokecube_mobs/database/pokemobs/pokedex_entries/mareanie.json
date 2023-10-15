@@ -184,6 +184,7 @@
       "confide",
       "venom-drench",
       "infestation",
+      "lunge",
       "liquidation",
       "tera-blast",
       "ice-spinner",
@@ -191,12 +192,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "toxapex",
-      "level": 38,
-      "evoMoves": "baneful-bunker"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -217,11 +217,5 @@
       "dual-wingbeat"
     ]
   },
-  "evolutions": [
-    {
-      "name": "archeops",
-      "level": 37
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

@@ -120,25 +120,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             {
                 final String path = base.texturePath.replace("entity", "entity_icon");
                 final String texture = path + this.key.getPath();
-                boolean gendered = this == base.male_holder || this == base.female_holder;
-                // 0 is male
-                gendered = gendered || base.getSexeRatio() == 0;
-                // 254 is female, 255 is no gender
-                gendered = gendered || base.getSexeRatio() >= 254;
-                if (gendered)
-                {
-                    this.icons[0][0] = new ResourceLocation(texture + ".png");
-                    this.icons[0][1] = new ResourceLocation(texture + "_s.png");
-                    this.icons[1][0] = new ResourceLocation(texture + ".png");
-                    this.icons[1][1] = new ResourceLocation(texture + "_s.png");
-                }
-                else
-                {
-                    this.icons[0][0] = new ResourceLocation(texture + "_male.png");
-                    this.icons[0][1] = new ResourceLocation(texture + "_male_s.png");
-                    this.icons[1][0] = new ResourceLocation(texture + "_female.png");
-                    this.icons[1][1] = new ResourceLocation(texture + "_female_s.png");
-                }
+                this.icons[0][0] = new ResourceLocation(texture + ".png");
+                this.icons[0][1] = new ResourceLocation(texture + "_s.png");
+                this.icons[1][0] = new ResourceLocation(texture + ".png");
+                this.icons[1][1] = new ResourceLocation(texture + "_s.png");
             }
             final int i = male ? 0 : 1;
             final int j = shiny ? 1 : 0;

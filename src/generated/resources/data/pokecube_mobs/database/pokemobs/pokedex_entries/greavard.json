@@ -119,6 +119,7 @@
     ],
     "misc": [
       "take-down",
+      "roar",
       "disable",
       "dig",
       "night-shade",
@@ -138,6 +139,7 @@
       "sunny-day",
       "crunch",
       "shadow-ball",
+      "uproar",
       "memento",
       "facade",
       "helping-hand",
@@ -157,13 +159,8 @@
       "play-rough",
       "psychic-fangs",
       "stomping-tantrum",
+      "poltergeist",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "houndstone",
-      "level": 30
-    }
-  ]
+  }
 }

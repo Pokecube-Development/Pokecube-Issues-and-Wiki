@@ -119,10 +119,12 @@
       "protect",
       "endure",
       "sleep-talk",
+      "uproar",
       "stockpile",
       "spit-up",
       "swallow",
       "facade",
+      "charge",
       "endeavor",
       "feather-dance",
       "weather-ball",
@@ -140,13 +142,8 @@
       "hurricane",
       "eerie-impulse",
       "electric-terrain",
+      "dual-wingbeat",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "kilowattrel",
-      "level": 25
-    }
-  ]
+  }
 }

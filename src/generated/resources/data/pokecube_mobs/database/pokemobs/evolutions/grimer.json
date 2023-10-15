@@ -1,0 +1,9 @@
+{
+  "name": "muk",
+  "user": "grimer",
+  "condition": {
+    "key": "level",
+    "level": 38
+  },
+  "evoMoves": "venom-drench"
+}

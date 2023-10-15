@@ -1,0 +1,15 @@
+{
+  "name": "salazzle",
+  "user": "salandit",
+  "condition": [
+    {
+      "key": "level",
+      "level": 33
+    },
+    {
+      "key": "sexe",
+      "sexe": "female"
+    }
+  ],
+  "evoMoves": "captivate"
+}

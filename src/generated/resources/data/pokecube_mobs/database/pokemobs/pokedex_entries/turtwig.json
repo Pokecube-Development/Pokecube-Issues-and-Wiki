@@ -130,6 +130,7 @@
       "thrash",
       "double-edge",
       "bite",
+      "roar",
       "strength",
       "absorb",
       "mega-drain",
@@ -185,20 +186,15 @@
       "stealth-rock",
       "grass-knot",
       "wide-guard",
+      "smack-down",
       "heavy-slam",
       "round",
       "grass-pledge",
       "work-up",
       "grassy-terrain",
-      "confide"
+      "confide",
+      "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "grotle",
-      "level": 18,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/shellseed_1"
 }

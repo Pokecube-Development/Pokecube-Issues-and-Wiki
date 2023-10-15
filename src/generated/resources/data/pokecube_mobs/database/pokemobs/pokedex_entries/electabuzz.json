@@ -208,12 +208,5 @@
       "rising-voltage"
     ]
   },
-  "evolutions": [
-    {
-      "name": "electivire",
-      "item_preset": "electirizer",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_1"
 }

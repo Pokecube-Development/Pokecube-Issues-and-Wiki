@@ -1,0 +1,9 @@
+{
+  "name": "dragonite",
+  "user": "dragonair",
+  "condition": {
+    "key": "level",
+    "level": 55
+  },
+  "evoMoves": "wing-attack"
+}

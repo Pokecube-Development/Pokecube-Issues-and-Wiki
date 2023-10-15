@@ -215,15 +215,11 @@
       "draining-kiss",
       "confide",
       "dazzling-gleam",
+      "burning-jealousy",
+      "poltergeist",
       "tera-blast",
       "snowscape"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mismagius",
-      "item_preset": "duskstone"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

@@ -1,0 +1,8 @@
+{
+  "name": "kilowattrel",
+  "user": "wattrel",
+  "condition": {
+    "key": "level",
+    "level": 25
+  }
+}

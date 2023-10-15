@@ -1,0 +1,21 @@
+{
+  "name": "aurorus",
+  "user": "amaura",
+  "condition": [
+    {
+      "key": "level",
+      "level": 39
+    },
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "night"
+          }
+        }
+      }
+    }
+  ],
+  "evoMoves": "freeze-dry"
+}

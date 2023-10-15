@@ -236,11 +236,5 @@
       "flip-turn"
     ]
   },
-  "evolutions": [
-    {
-      "name": "starmie",
-      "item_preset": "waterstone"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

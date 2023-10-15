@@ -1,0 +1,10 @@
+{
+  "name": "aegislash-blade",
+  "user": "doublade",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:duskstone"
+    }
+  }
+}

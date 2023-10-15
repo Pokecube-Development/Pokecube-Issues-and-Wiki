@@ -184,11 +184,5 @@
       "infestation"
     ]
   },
-  "evolutions": [
-    {
-      "name": "escavalier",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

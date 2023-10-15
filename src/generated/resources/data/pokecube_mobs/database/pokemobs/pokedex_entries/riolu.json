@@ -229,12 +229,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lucario",
-      "happy": true,
-      "evoMoves": "aura-sphere"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

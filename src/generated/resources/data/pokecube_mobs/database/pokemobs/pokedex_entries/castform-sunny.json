@@ -2,6 +2,7 @@
   "name": "castform-sunny",
   "id": 351,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 147,
   "size": {
     "height": 0.3

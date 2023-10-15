@@ -116,6 +116,7 @@
       "take-down",
       "dig",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "protect",
@@ -124,6 +125,7 @@
       "sleep-talk",
       "rain-dance",
       "sunny-day",
+      "uproar",
       "stockpile",
       "spit-up",
       "swallow",
@@ -145,11 +147,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "oinkologne",
-      "level": 18
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

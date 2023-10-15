@@ -65,18 +65,5 @@
       "electroweb"
     ]
   },
-  "evolutions": [
-    {
-      "name": "silcoon",
-      "level": 7,
-      "chance": 0.5,
-      "evoMoves": "harden"
-    },
-    {
-      "name": "cascoon",
-      "level": 7,
-      "evoMoves": "harden"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

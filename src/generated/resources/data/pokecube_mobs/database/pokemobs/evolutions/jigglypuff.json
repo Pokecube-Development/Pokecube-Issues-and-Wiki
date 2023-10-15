@@ -1,0 +1,10 @@
+{
+  "name": "wigglytuff",
+  "user": "jigglypuff",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:moonstone"
+    }
+  }
+}

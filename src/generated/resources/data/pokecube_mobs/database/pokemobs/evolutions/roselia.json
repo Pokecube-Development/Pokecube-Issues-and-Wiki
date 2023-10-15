@@ -1,0 +1,10 @@
+{
+  "name": "roserade",
+  "user": "roselia",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:shinystone"
+    }
+  }
+}

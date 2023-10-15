@@ -1,0 +1,10 @@
+{
+  "name": "rillaboom",
+  "user": "thwackey",
+  "condition": {
+    "key": "level",
+    "level": 35
+  },
+  "evoMoves": "drum-beating",
+  "animation": "18"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "donphan",
+  "user": "phanpy",
+  "condition": {
+    "key": "level",
+    "level": 25
+  },
+  "evoMoves": "fury-attack"
+}

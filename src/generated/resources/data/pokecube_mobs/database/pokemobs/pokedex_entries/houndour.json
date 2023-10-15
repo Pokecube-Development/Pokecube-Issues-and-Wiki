@@ -224,15 +224,11 @@
       "snarl",
       "confide",
       "psychic-fangs",
+      "burning-jealousy",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "houndoom",
-      "level": 24
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

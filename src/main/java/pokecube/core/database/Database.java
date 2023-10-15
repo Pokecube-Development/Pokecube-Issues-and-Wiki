@@ -185,12 +185,14 @@ public class Database
 
     public static List<PokedexEntry> spawnables = new ArrayList<>();
 
-    public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo");
+    public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo", false);
 
     public static final Comparator<PokedexEntry> COMPARATOR = (o1, o2) -> {
         int diff = o1.getPokedexNb() - o2.getPokedexNb();
         if (diff == 0) if (o1.base && !o2.base) diff = -1;
         else if (o2.base && !o1.base) diff = 1;
+        else if (diff == 0) if (o1.generated && !o2.generated) diff = 1;
+        else if (o2.generated && !o1.generated) diff = -1;
         else diff = o1.getName().compareTo(o2.getName());
         return diff;
     };
@@ -808,7 +810,7 @@ public class Database
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
-                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
+                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty() && !entry.generated)
                     PokecubeAPI.logInfo("No egg group assigned for {}", entry.getTrimmedName());
             }
             for (final PokedexEntry entry : Database.getSortedFormes()) if (entry.lootTable == null && !entry.generated)

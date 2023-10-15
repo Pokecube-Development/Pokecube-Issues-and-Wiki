@@ -187,6 +187,7 @@
       "curse",
       "flail",
       "protect",
+      "scary-face",
       "mud-slap",
       "sandstorm",
       "endure",
@@ -212,6 +213,7 @@
       "rock-tomb",
       "iron-defense",
       "block",
+      "mud-shot",
       "rock-blast",
       "hammer-arm",
       "gyro-ball",
@@ -231,14 +233,11 @@
       "incinerate",
       "bulldoze",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "high-horsepower",
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "graveler",
-      "level": 25
-    }
-  ],
   "loot_table": "pokecube:entities/cobble_1"
 }

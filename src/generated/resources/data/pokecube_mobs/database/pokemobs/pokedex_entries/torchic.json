@@ -227,12 +227,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "combusken",
-      "level": 16,
-      "evoMoves": "double-kick"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_chicken_1"
 }

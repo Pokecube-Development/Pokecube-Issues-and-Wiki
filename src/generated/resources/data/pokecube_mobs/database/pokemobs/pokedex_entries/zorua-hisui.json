@@ -87,11 +87,5 @@
       "dark-pulse"
     ]
   },
-  "evolutions": [
-    {
-      "name": "zoroark-hisui",
-      "level": 30
-    }
-  ],
   "old_name": "zorua_hisui"
 }

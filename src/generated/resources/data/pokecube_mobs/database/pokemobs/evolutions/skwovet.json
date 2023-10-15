@@ -1,0 +1,10 @@
+{
+  "name": "greedent",
+  "user": "skwovet",
+  "condition": {
+    "key": "level",
+    "level": 24
+  },
+  "evoMoves": "covet",
+  "animation": "18"
+}

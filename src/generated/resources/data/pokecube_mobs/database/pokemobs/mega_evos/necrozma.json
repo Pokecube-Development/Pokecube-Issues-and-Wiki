@@ -3,6 +3,8 @@
   "name": "necrozma-ultra",
   "rule": {
     "key": "item",
-    "tag": "pokecube_mobs:necrozma"
+    "item": {
+      "item": "pokecube_mobs:necrozma"
+    }
   }
 }

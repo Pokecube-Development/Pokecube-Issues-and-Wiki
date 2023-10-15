@@ -1,0 +1,10 @@
+{
+  "name": "delphox",
+  "user": "braixen",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "mystical-fire",
+  "animation": "55"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "shiftry",
+  "user": "nuzleaf",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:leafstone"
+    }
+  }
+}

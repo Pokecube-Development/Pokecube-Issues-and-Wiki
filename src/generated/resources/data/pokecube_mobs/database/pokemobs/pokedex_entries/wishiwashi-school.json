@@ -2,6 +2,7 @@
   "name": "wishiwashi-school",
   "id": 746,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 217,
   "size": {
     "height": 4.0,

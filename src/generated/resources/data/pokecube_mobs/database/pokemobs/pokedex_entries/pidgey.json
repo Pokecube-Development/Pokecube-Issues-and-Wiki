@@ -192,11 +192,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "pidgeotto",
-      "level": 18
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

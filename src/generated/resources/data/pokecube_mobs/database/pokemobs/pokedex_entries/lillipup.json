@@ -186,11 +186,5 @@
       "psychic-fangs"
     ]
   },
-  "evolutions": [
-    {
-      "name": "herdier",
-      "level": 16
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

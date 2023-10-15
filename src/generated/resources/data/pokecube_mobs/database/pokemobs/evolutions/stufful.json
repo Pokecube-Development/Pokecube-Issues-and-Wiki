@@ -1,0 +1,9 @@
+{
+  "name": "bewear",
+  "user": "stufful",
+  "condition": {
+    "key": "level",
+    "level": 27
+  },
+  "evoMoves": "bind"
+}

@@ -154,6 +154,7 @@
       "whirlwind",
       "fly",
       "fury-attack",
+      "take-down",
       "leer",
       "toxic",
       "double-team",
@@ -163,6 +164,7 @@
       "substitute",
       "thief",
       "snore",
+      "spite",
       "protect",
       "scary-face",
       "feint-attack",
@@ -180,6 +182,7 @@
       "psych-up",
       "shadow-ball",
       "rock-smash",
+      "uproar",
       "heat-wave",
       "torment",
       "flatter",
@@ -189,6 +192,7 @@
       "snatch",
       "secret-power",
       "fake-tears",
+      "air-cutter",
       "rock-tomb",
       "aerial-ace",
       "iron-defense",
@@ -213,15 +217,9 @@
       "snarl",
       "confide",
       "lash-out",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mandibuzz",
-      "level": 54,
-      "evoMoves": "bone-rush"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

@@ -1,0 +1,9 @@
+{
+  "name": "beartic",
+  "user": "cubchoo",
+  "condition": {
+    "key": "level",
+    "level": 37
+  },
+  "evoMoves": "icicle-crash"
+}

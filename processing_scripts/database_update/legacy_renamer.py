@@ -5,9 +5,6 @@ TO_MODEL = {
 }
 
 RENAMES = {
-    "minior-red-meteor": "minior-meteor",
-}
-RENAMES = {
     # Minior meteors are all the same externally, so the internals are handled in code
     "minior-red-meteor": "minior-meteor",
     # basculin red and blue stripes are essentially cosmetic, so merged to basculin
@@ -166,6 +163,29 @@ TAG_IGNORE = [
     "minior-red-meteor",
     "basculin-red-striped",
 ]
+
+NOT_EXTRA_FORMS = [
+
+]
+
+IS_EXTRA_FORM = [
+    "tauros-paldea-aqua-breed",
+    "tauros-paldea-blaze-breed",
+    "tauros-paldea-combat-breed",
+]
+
+def is_extra_form(name):
+    if name in IS_EXTRA_FORM:
+        return True
+    if '-galar' in name:
+        return False
+    if '-hisui' in name:
+        return False
+    if '-alola' in name:
+        return False
+    if '-paldea' in name:
+        return False
+    return not name in NOT_EXTRA_FORMS
 
 def banned_form(name):
     return name in IGNORED_FORMS

@@ -130,6 +130,7 @@
       "thunder-punch",
       "body-slam",
       "take-down",
+      "roar",
       "flamethrower",
       "ice-beam",
       "blizzard",
@@ -157,6 +158,7 @@
       "rain-dance",
       "sunny-day",
       "crunch",
+      "uproar",
       "facade",
       "helping-hand",
       "trick",
@@ -167,6 +169,7 @@
       "bulk-up",
       "calm-mind",
       "water-pulse",
+      "gyro-ball",
       "fling",
       "drain-punch",
       "focus-blast",
@@ -186,6 +189,7 @@
       "psychic-terrain",
       "psychic-fangs",
       "stomping-tantrum",
+      "misty-explosion",
       "tera-blast",
       "snowscape"
     ]

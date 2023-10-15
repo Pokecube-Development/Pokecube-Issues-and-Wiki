@@ -125,19 +125,5 @@
       "baby-doll-eyes"
     ]
   },
-  "evolutions": [
-    {
-      "name": "alcremie",
-      "item": {
-        "values": {
-          "id": "minecraft:milk_bucket"
-        }
-      },
-      "evoMoves": "decorate",
-      "model": {
-        "key": "alcremie_*"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/white_1"
 }

@@ -194,17 +194,11 @@
       "bulldoze",
       "drill-run",
       "confide",
+      "lunge",
       "tera-blast",
       "ice-spinner",
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "forretress",
-      "level": 31,
-      "evoMoves": "autotomize, mirror-shot"
-    }
-  ],
   "loot_table": "minecraft:entities/creeper"
 }

@@ -137,16 +137,10 @@
       "disarming-voice",
       "misty-terrain",
       "liquidation",
+      "flip-turn",
       "tera-blast",
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "quaquaval",
-      "level": 36,
-      "evoMoves": "aqua-step"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

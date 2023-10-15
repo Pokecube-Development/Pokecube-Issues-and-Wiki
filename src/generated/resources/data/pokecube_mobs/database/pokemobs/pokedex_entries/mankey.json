@@ -253,15 +253,9 @@
       "power-up-punch",
       "power-trip",
       "stomping-tantrum",
+      "lash-out",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "primeape",
-      "level": 28,
-      "evoMoves": "rage"
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

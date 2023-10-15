@@ -228,12 +228,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "muk",
-      "level": 38,
-      "evoMoves": "venom-drench"
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }

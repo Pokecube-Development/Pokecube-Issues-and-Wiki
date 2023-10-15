@@ -223,11 +223,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "drapion",
-      "level": 40
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

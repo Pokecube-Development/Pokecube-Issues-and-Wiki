@@ -147,6 +147,7 @@
       "metal-claw",
       "facade",
       "helping-hand",
+      "knock-off",
       "skill-swap",
       "fake-tears",
       "rock-tomb",
@@ -164,11 +165,5 @@
       "tera-blast",
       "pounce"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "tinkatuff",
-      "level": 24
-    }
-  ]
+  }
 }

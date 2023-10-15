@@ -2,6 +2,7 @@
   "name": "oricorio-sensu",
   "id": 741,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 167,
   "size": {
     "height": 0.6
@@ -193,6 +194,7 @@
       "hurricane",
       "confide",
       "revelation-dance",
+      "dual-wingbeat",
       "tera-blast",
       "trailblaze"
     ]

@@ -214,11 +214,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "feraligatr",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -151,12 +151,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sandaconda",
-      "level": 36,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/stone_2"
 }

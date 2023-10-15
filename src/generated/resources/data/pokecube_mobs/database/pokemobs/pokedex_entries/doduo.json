@@ -209,12 +209,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dodrio",
-      "level": 31,
-      "evoMoves": "tri-attack"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

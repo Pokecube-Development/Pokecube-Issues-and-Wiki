@@ -65,12 +65,5 @@
       "bounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gyarados",
-      "level": 20,
-      "evoMoves": "bite"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

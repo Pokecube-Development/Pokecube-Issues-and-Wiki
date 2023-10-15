@@ -1,0 +1,10 @@
+{
+  "name": "thwackey",
+  "user": "grookey",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "evoMoves": "double-hit",
+  "animation": "18"
+}

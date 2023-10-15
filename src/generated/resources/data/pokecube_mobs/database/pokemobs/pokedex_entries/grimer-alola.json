@@ -195,6 +195,7 @@
       "facade",
       "taunt",
       "helping-hand",
+      "recycle",
       "brick-break",
       "knock-off",
       "imprison",
@@ -232,13 +233,6 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "muk-alola",
-      "level": 38,
-      "evoMoves": "venom-drench"
-    }
-  ],
   "old_name": "grimer_alola",
   "loot_table": "pokecube:entities/slimeballs_1"
 }

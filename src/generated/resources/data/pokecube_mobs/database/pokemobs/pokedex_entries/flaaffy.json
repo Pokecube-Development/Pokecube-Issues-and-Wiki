@@ -127,6 +127,7 @@
       "take-down",
       "double-edge",
       "growl",
+      "roar",
       "low-kick",
       "counter",
       "seismic-toss",
@@ -229,14 +230,6 @@
           }
         ]
       }
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "ampharos",
-      "level": 30,
-      "animation": "20",
-      "evoMoves": "thunder-punch"
     }
   ],
   "loot_table": "minecraft:entities/sheep/white"

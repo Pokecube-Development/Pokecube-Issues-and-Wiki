@@ -247,12 +247,5 @@
       "expanding-force"
     ]
   },
-  "evolutions": [
-    {
-      "name": "alakazam",
-      "trade": true,
-      "evoMoves": "kinesis"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

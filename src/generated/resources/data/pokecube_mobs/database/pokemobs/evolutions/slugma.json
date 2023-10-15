@@ -1,0 +1,9 @@
+{
+  "name": "magcargo",
+  "user": "slugma",
+  "condition": {
+    "key": "level",
+    "level": 38
+  },
+  "evoMoves": "shell-smash"
+}

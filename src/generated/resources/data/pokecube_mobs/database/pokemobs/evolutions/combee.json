@@ -1,0 +1,15 @@
+{
+  "name": "vespiquen",
+  "user": "combee",
+  "condition": [
+    {
+      "key": "level",
+      "level": 21
+    },
+    {
+      "key": "sexe",
+      "sexe": "female"
+    }
+  ],
+  "evoMoves": "slash"
+}

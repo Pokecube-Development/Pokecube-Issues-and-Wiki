@@ -168,12 +168,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "tsareena",
-      "move": "stomp",
-      "evoMoves": "trop-kick"
-    }
-  ],
   "loot_table": "pokecube:entities/other_seeds"
 }

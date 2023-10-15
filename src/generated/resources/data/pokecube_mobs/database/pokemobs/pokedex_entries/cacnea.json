@@ -234,16 +234,10 @@
       "grassy-terrain",
       "confide",
       "power-up-punch",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cacturne",
-      "level": 32,
-      "evoMoves": "spiky-shield"
-    }
-  ],
   "loot_table": "pokecube:entities/cactus"
 }

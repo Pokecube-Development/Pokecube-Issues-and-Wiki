@@ -1,0 +1,9 @@
+{
+  "name": "ferrothorn",
+  "user": "ferroseed",
+  "condition": {
+    "key": "level",
+    "level": 40
+  },
+  "evoMoves": "power-whip"
+}

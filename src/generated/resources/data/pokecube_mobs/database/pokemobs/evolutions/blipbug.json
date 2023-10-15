@@ -1,0 +1,10 @@
+{
+  "name": "dottler",
+  "user": "blipbug",
+  "condition": {
+    "key": "level",
+    "level": 10
+  },
+  "evoMoves": "reflect, light-screen, confusion",
+  "animation": "18"
+}

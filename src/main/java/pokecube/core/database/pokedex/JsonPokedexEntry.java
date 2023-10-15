@@ -308,10 +308,11 @@ public class JsonPokedexEntry
         {
             PokecubeAPI.LOGGER.warn("Duplicate entry for {}", this.name);
         }
-        PokedexEntry entry = old == null ? new PokedexEntry(id, name) : old;
+        PokedexEntry entry = old == null ? new PokedexEntry(id, name, this.is_extra_form) : old;
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
+        // We may have overriden this for the update, so set it again anyway.
         entry.generated = this.is_extra_form;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
         if (entry.base && !registered)
@@ -476,12 +477,10 @@ public class JsonPokedexEntry
         if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
         if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, false);
     }
 
     public void postInit(PokedexEntry entry)
     {
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, true);
         this.handleSpawns(entry);
     }
 

@@ -1,0 +1,9 @@
+{
+  "name": "prinplup",
+  "user": "piplup",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "evoMoves": "metal-claw"
+}

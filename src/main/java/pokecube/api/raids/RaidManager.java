@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import com.google.common.collect.Lists;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerLevel;
@@ -17,6 +19,7 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.events.pokemobs.CaptureEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
@@ -24,6 +27,8 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 
 public class RaidManager
 {
+    public static int RAID_DURATION = 600;
+
     public static record RaidContext(@Nonnull ServerLevel level, @Nonnull BlockPos pos, @Nullable ServerPlayer player)
     {
     }
@@ -98,12 +103,24 @@ public class RaidManager
         boss.getPersistentData().putString("pokecube:raid_boss", bossMaker.getKey());
         boss.getPersistentData().putBoolean(TagNames.NOPOOF, true);
         boss.getPersistentData().putBoolean("alwaysAgress", true);
+
+        if (!boss.getPersistentData().contains("pokecube:raid_duration"))
+            boss.getPersistentData().putInt("pokecube:raid_duration", RAID_DURATION);
+
         level.addFreshEntity(boss);
         boss.setHealth(boss.getMaxHealth());
 
         IPokemob pokemob = PokemobCaps.getPokemobFor(boss);
-        if (pokemob != null) pokemob.setBossInfo(new ServerBossEvent(boss.getDisplayName(), BossEvent.BossBarColor.RED,
-                BossEvent.BossBarOverlay.PROGRESS));
+        if (pokemob != null)
+        {
+            final List<AIRoutine> bannedAI = Lists.newArrayList();
+            bannedAI.add(AIRoutine.BURROWS);
+            bannedAI.add(AIRoutine.BEEAI);
+            bannedAI.add(AIRoutine.ANTAI);
+            bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
+            pokemob.setBossInfo(new ServerBossEvent(boss.getDisplayName(), BossEvent.BossBarColor.RED,
+                    BossEvent.BossBarOverlay.PROGRESS));
+        }
 
         bossMaker.postBossSpawn(boss, context);
 

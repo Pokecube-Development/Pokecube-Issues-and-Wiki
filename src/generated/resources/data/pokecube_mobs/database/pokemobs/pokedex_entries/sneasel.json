@@ -207,6 +207,7 @@
       "crush-claw",
       "fake-tears",
       "aerial-ace",
+      "icicle-spear",
       "calm-mind",
       "water-pulse",
       "natural-gift",
@@ -244,16 +245,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "weavile",
-      "item": {
-        "values": {
-          "id": "minecraft:iron_axe"
-        }
-      },
-      "time": "night"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

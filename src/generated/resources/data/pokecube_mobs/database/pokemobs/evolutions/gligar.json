@@ -1,0 +1,22 @@
+{
+  "name": "gliscor",
+  "user": "gligar",
+  "condition": [
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "night"
+          }
+        }
+      }
+    },
+    {
+      "key": "item",
+      "item": {
+        "id": "minecraft:iron_pickaxe"
+      }
+    }
+  ]
+}

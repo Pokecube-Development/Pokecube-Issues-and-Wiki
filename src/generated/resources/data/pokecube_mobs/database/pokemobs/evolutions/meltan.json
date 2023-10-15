@@ -1,0 +1,9 @@
+{
+  "name": "melmetal",
+  "user": "meltan",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "thunder-punch"
+}

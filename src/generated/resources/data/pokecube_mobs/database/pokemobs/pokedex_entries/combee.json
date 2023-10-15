@@ -73,6 +73,7 @@
       "bug-bite",
       "ominous-wind",
       "struggle-bug",
+      "lunge",
       "dual-wingbeat",
       "tera-blast"
     ]
@@ -103,14 +104,6 @@
           }
         ]
       }
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "vespiquen",
-      "level": 21,
-      "sexe": "female",
-      "evoMoves": "slash"
     }
   ],
   "loot_table": "pokecube:entities/honeycomb_1"

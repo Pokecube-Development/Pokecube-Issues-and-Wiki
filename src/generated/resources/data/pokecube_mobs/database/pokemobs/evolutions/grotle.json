@@ -1,0 +1,10 @@
+{
+  "name": "torterra",
+  "user": "grotle",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "earthquake",
+  "animation": "18"
+}

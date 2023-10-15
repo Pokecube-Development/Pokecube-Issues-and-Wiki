@@ -219,12 +219,6 @@
       "baby-doll-eyes"
     ]
   },
-  "evolutions": [
-    {
-      "name": "linoone",
-      "level": 20
-    }
-  ],
   "held_table": "pokecube:entities/oranberry",
   "loot_table": "pokecube:entities/rabbit_1"
 }

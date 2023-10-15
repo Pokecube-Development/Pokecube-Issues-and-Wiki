@@ -130,11 +130,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "quaxwell",
-      "level": 16
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }
