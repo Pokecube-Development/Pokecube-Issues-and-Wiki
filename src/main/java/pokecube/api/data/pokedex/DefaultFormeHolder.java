@@ -125,7 +125,7 @@ public class DefaultFormeHolder
             PokedexEntry fromKey = Database.getEntry(this.key);
             if (fromKey == null)
             {
-                fromKey = new PokedexEntry(0, this.key);
+                fromKey = new PokedexEntry(baseEntry.getPokedexNb(), this.key, true);
                 if (this.types != null)
                 {
                     String[] types = this.types.split(",");
@@ -141,7 +141,6 @@ public class DefaultFormeHolder
                 if (hasShiny != null) fromKey.hasShiny = this.hasShiny;
                 fromKey.setBaseForme(baseEntry);
                 baseEntry.copyToForm(fromKey);
-                fromKey.generated = true;
             }
             else if (fromKey.pokedexNb != 0)
             {

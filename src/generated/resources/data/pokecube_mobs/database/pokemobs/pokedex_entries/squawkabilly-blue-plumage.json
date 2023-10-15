@@ -2,6 +2,7 @@
   "name": "squawkabilly-blue-plumage",
   "id": 931,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 146,
   "size": {
     "height": 0.6

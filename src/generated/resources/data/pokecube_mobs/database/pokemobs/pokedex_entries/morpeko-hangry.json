@@ -2,6 +2,7 @@
   "name": "morpeko-hangry",
   "id": 877,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 153,
   "size": {
     "height": 0.3

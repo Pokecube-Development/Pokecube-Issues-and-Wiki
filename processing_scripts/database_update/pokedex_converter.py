@@ -1,6 +1,7 @@
 import json
 from ignore_list import isIgnored
-from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form, TAG_IGNORE
+from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form,\
+                  is_extra_form, TAG_IGNORE
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -174,9 +175,7 @@ class PokedexEntry:
         self.names = species.names
         self.id = forme.id
         self.stock = True
-        if is_mega(self.name):
-            self.is_extra_form = True
-        if is_gmax(self.name):
+        if not forme.is_default and is_extra_form(self.name):
             self.is_extra_form = True
         if no_shiny(self.name):
             self.no_shiny = True

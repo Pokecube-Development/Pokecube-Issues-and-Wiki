@@ -270,7 +270,7 @@ public class PokedexEntryLoader
     {
         FormeHolder forme = holder.getForme(entry);
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded form for {}: ({} {} {}) -> ({} {} {} {})",
-                holder.root_entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
+                entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
     }
 
     public static void updateEntry(final PokedexEntry entry)
@@ -389,8 +389,7 @@ public class PokedexEntryLoader
                 }
                 if (data == null || clear)
                 {
-                    data = new EvolutionData(evolEntry);
-                    data.data = evol;
+                    data = new EvolutionData(evolEntry, evol);
                     data.preEvolution = entry;
                     // Skip any exactly duplicated entires.
                     check:

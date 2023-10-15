@@ -196,11 +196,6 @@ public class DynamaxHelper
 
     private static final UUID DYNAMOD = new UUID(343523462346243l, 23453246267457l);
 
-    private static AttributeModifier makeHealthBoost(double scale)
-    {
-        return new AttributeModifier(DYNAMOD, "pokecube:dynamax", scale, Operation.MULTIPLY_TOTAL);
-    }
-
     public static void doDynamax(IPokemob pokemob, int duration, Component mess)
     {
         MegaEvoTicker.scheduleChange(PokecubeCore.getConfig().evolutionTicks, pokemob.getPokedexEntry(), pokemob, mess,
@@ -233,7 +228,7 @@ public class DynamaxHelper
         entity.getPersistentData().putInt("pokecube:dynadur", duration);
         var info = DynamaxGene.getDyna(entity);
         float scale = 1.5f + 0.05f * info.dynaLevel;
-        var hpBoost = makeHealthBoost(scale);
+        var hpBoost = new AttributeModifier(DYNAMOD, "pokecube:dynamax", scale, Operation.MULTIPLY_TOTAL);
         var hpAttr = entity.getAttribute(Attributes.MAX_HEALTH);
         hpAttr.removeModifier(DYNAMOD);
         float health = entity.getMaxHealth();

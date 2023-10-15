@@ -200,7 +200,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 return thisMob;
             }
             // Evolve the mob.
-            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme);
+            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, true, true);
             if (evo != null)
             {
                 // Clear held item if used for evolving.
@@ -214,6 +214,8 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 else if (data != null) evo.getMoveStats().oldLevel = data.level - 1;
                 evo.levelUp(evo.getLevel());
 
+                evo.setBasePokedexEntry(evol);
+                evo.setPokedexEntry(evol);
                 evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                 // Don't immediately try evolving again, only wild ones

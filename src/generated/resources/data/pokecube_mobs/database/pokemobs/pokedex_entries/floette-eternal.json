@@ -2,6 +2,7 @@
   "name": "floette-eternal",
   "id": 670,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 243,
   "size": {
     "height": 0.2

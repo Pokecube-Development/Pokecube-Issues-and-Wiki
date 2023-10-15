@@ -1,219 +1,220 @@
 package pokecube.api.data.pokedex;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraftforge.common.crafting.CraftingHelper;
-import net.minecraftforge.registries.ForgeRegistries.Keys;
+import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.abilities.AbilityManager;
-import pokecube.api.data.spawns.SpawnBiomeMatcher;
-import pokecube.api.data.spawns.SpawnCheck;
+import pokecube.api.data.pokedex.conditions.AtLeastLevel;
+import pokecube.api.data.pokedex.conditions.AtLocation;
+import pokecube.api.data.pokedex.conditions.HasAbility;
+import pokecube.api.data.pokedex.conditions.HasMove;
+import pokecube.api.data.pokedex.conditions.HasHeldItem;
+import pokecube.api.data.pokedex.conditions.IsEntry;
+import pokecube.api.data.pokedex.conditions.IsHappy;
+import pokecube.api.data.pokedex.conditions.IsSexe;
+import pokecube.api.data.pokedex.conditions.IsTraded;
+import pokecube.api.data.pokedex.conditions.PokemobCondition;
+import pokecube.api.data.pokedex.conditions.RandomChance;
 import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.data.spawns.matchers.Time;
+import pokecube.api.data.spawns.matchers.WeatherMatch;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
-import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import thut.api.maths.Vector3;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
 public class InteractsAndEvolutions
 {
-    public static interface PokemobCondition
-    {
-        default PokemobCondition and(PokemobCondition other)
-        {
-            return (mobIn) -> {
-                return this.matches(mobIn) && other.matches(mobIn);
-            };
-        }
-
-        boolean matches(IPokemob mobIn);
-
-        default void init()
-        {}
-    }
-
-    public static class Ability implements PokemobCondition
-    {
-        public String ability;
-
-        @Override
-        public boolean matches(IPokemob mobIn)
-        {
-            return AbilityManager.hasAbility(this.ability, mobIn);
-        }
-    }
-
-    public static class Move implements PokemobCondition
-    {
-        public String move;
-
-        @Override
-        public boolean matches(IPokemob mobIn)
-        {
-            return Tools.hasMove(this.move, mobIn);
-        }
-    }
-
-    public static class HeldItem implements PokemobCondition
-    {
-        public JsonObject item;
-        public String tag = "";
-        private ItemStack _value = ItemStack.EMPTY;
-        private TagKey<Item> _tag = null;
-
-        @Override
-        public boolean matches(IPokemob mobIn)
-        {
-            if (_tag != null && mobIn.getHeldItem().is(_tag)) return true;
-            if (!this._value.isEmpty())
-            {
-                boolean rightStack = Tools.isSameStack(this._value, mobIn.getHeldItem(), true);
-                return rightStack;
-            }
-            return false;
-        }
-
-        @Override
-        public void init()
-        {
-            if (item != null) _value = CraftingHelper.getItemStack(item, true, true);
-            if (!tag.isEmpty())
-            {
-                _tag = TagKey.create(Keys.ITEMS, new ResourceLocation(tag));
-            }
-        }
-    }
-
-    public static class Location implements PokemobCondition
-    {
-        public SpawnRule location;
-
-        private SpawnBiomeMatcher _matcher;
-
-        @Override
-        public boolean matches(IPokemob mobIn)
-        {
-            if (_matcher == null)
-            {
-                _matcher = SpawnBiomeMatcher.get(location);
-            }
-            if (mobIn.getEntity().level instanceof ServerLevel world)
-            {
-                final LivingEntity entity = mobIn.getEntity();
-                final Vector3 loc = new Vector3().set(entity);
-                final SpawnCheck check = new SpawnCheck(loc, world);
-                return _matcher.matches(check);
-            }
-            return false;
-        }
-    }
-
-    public static PokemobCondition makeFromElement(JsonElement element)
-    {
-        if (element.isJsonArray())
-        {
-            var arr = element.getAsJsonArray();
-            return makeFromArray(arr);
-        }
-        else if (element.isJsonObject())
-        {
-            JsonObject obj = element.getAsJsonObject();
-            return makeFromObject(obj);
-        }
-        return null;
-    }
-
-    public static PokemobCondition makeFromArray(JsonArray array)
-    {
-        PokemobCondition root = null;
-        for (int i = 0; i < array.size(); i++)
-        {
-            JsonElement e = array.get(i);
-            var made = makeFromElement(e);
-            if (root == null) root = made;
-            else if (made != null) root = root.and(made);
-        }
-        return root;
-    }
-
-    public static PokemobCondition makeFromObject(JsonObject obj)
-    {
-        if (!obj.has("key"))
-        {
-            PokecubeAPI.LOGGER.error("missing key {} for a mega evo rule!", obj);
-            return null;
-        }
-        String key = obj.get("key").getAsString();
-        Class<? extends PokemobCondition> condClass = CONDITIONS.get(key);
-        if (condClass == null)
-        {
-            PokecubeAPI.LOGGER.error("invalid type key {} for a mega evo rule!", key);
-            return null;
-        }
-        PokemobCondition condition = JsonUtil.gson.fromJson(obj, condClass);
-        condition.init();
-        return condition;
-    }
-
-    public static Map<String, Class<? extends PokemobCondition>> CONDITIONS = new HashMap<>();
-
     public static void init()
     {
-        CONDITIONS.put("item", HeldItem.class);
-        CONDITIONS.put("ability", Ability.class);
-        CONDITIONS.put("move", Move.class);
+        PokemobCondition.CONDITIONS.put("item", HasHeldItem.class);
+        PokemobCondition.CONDITIONS.put("ability", HasAbility.class);
+        PokemobCondition.CONDITIONS.put("move", HasMove.class);
+        PokemobCondition.CONDITIONS.put("location", AtLocation.class);
+        PokemobCondition.CONDITIONS.put("chance", RandomChance.class);
+        PokemobCondition.CONDITIONS.put("level", AtLeastLevel.class);
+        PokemobCondition.CONDITIONS.put("traded", IsTraded.class);
+        PokemobCondition.CONDITIONS.put("happy", IsHappy.class);
     }
 
     public static class Evolution
     {
         public Boolean clear;
+
+        // Below are conditions
+        public Integer level; // AtLeastLevel
+        public SpawnRule location; // AtLocation
+        public Drop item; // HeldItem
+        public String item_preset; // HeldItem
+        public String time;// AtLocation
+        public Boolean trade;// IsTraded
+        public Boolean rain;// AtLocation
+        public Boolean happy;// IsHappy
+        public String sexe;// IsSexe
+        public String move;// HasMove
+        public Float chance;// RandomChance
+        public String form_from = null; // IsEntry
+
+        public JsonElement condition;
+
+        // Below are results
         public String name;
-        public Integer level;
-        public Integer priority;
-        public SpawnRule location;
         public String animation;
-        public Drop item;
-        public String item_preset;
-        public String time;
-        public Boolean trade;
-        public Boolean rain;
-        public Boolean happy;
-        public String sexe;
-        public String move;
-        public Float chance;
         public String evoMoves;
-
-        public String form_from = null;
-
         protected DefaultFormeHolder model = null;
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
             if (this.model != null) return this.model.getForme(baseEntry);
             return null;
+        }
+
+        public PokemobCondition toCondition()
+        {
+            PokemobCondition result = null;
+            AtLocation locationTest = null;
+            List<PokemobCondition> bits = new ArrayList<>();
+
+            if (condition != null)
+            {
+                result = PokemobCondition.makeFromElement(condition);
+            }
+            if (level != null)
+            {
+                AtLeastLevel res = new AtLeastLevel();
+                res.level = level;
+                bits.add(res);
+                if (result == null) result = res;
+                else result = result.and(res);
+            }
+            if (location != null)
+            {
+                locationTest = new AtLocation();
+                bits.add(locationTest);
+                locationTest.location = location;
+                if (result == null) result = locationTest;
+                else result = result.and(locationTest);
+            }
+            if (item != null)
+            {
+                var res = new HasHeldItem();
+                bits.add(res);
+                res.initFromDrop(item, false);
+                if (result == null) result = res;
+                else result = result.and(res);
+            }
+            if (item_preset != null)
+            {
+                var res = new HasHeldItem();
+                if (item_preset.contains("#")) res.tag = item_preset.replace("#", "");
+                else
+                {
+                    JsonObject obj = new JsonObject();
+                    String item = item_preset;
+                    if (!item.contains(":")) item = "pokecube:" + item;
+                    ResourceLocation loc = new ResourceLocation(item);
+                    if (!ForgeRegistries.ITEMS.containsKey(loc))
+                    {
+                        res.tag = item;
+                    }
+                    else
+                    {
+                        obj.addProperty("item", item);
+                        res.item = obj;
+                    }
+                }
+                bits.add(res);
+                if (result == null) result = res;
+                else result = result.and(res);
+            }
+            if (time != null)
+            {
+                Time match = new Time();
+                match.preset = time;
+                if (locationTest == null)
+                {
+                    locationTest = new AtLocation();
+                    locationTest.location = new SpawnRule();
+                    bits.add(locationTest);
+                }
+                locationTest.location.matchers.put("time", JsonUtil.gson.toJsonTree(match));
+            }
+            if (trade != null)
+            {
+                var bit = new IsTraded();
+                bits.add(bit);
+                if (result == null) result = bit;
+                else result = result.and(bit);
+            }
+            if (rain != null)
+            {
+                WeatherMatch match = new WeatherMatch();
+                match.type = rain ? "rain" : "sun";
+                if (locationTest == null)
+                {
+                    locationTest = new AtLocation();
+                    locationTest.location = new SpawnRule();
+                    bits.add(locationTest);
+                }
+                locationTest.location.matchers.put("weather", JsonUtil.gson.toJsonTree(match));
+            }
+            if (happy != null)
+            {
+                var bit = new IsHappy();
+                bits.add(bit);
+                if (result == null) result = bit;
+                else result = result.and(bit);
+            }
+            if (sexe != null)
+            {
+                var bit = new IsSexe();
+                bit.sexe = sexe;
+                bits.add(bit);
+                if (result == null) result = bit;
+                else result = result.and(bit);
+            }
+            if (move != null)
+            {
+                var bit = new HasMove();
+                bit.move = move;
+                bits.add(bit);
+                if (result == null) result = bit;
+                else result = result.and(bit);
+            }
+            if (chance != null)
+            {
+                var bit = new RandomChance();
+                bit.chance = chance;
+                bits.add(bit);
+                if (result == null) result = bit;
+                else result = result.and(bit);
+            }
+            if (form_from != null)
+            {
+                var bit = new IsEntry();
+                bit.entry = form_from;
+                bits.add(bit);
+                if (result == null) result = bit;
+                else result = result.and(bit);
+            }
+            bits.forEach(c -> c.init());
+            return result;
         }
 
         @Override
@@ -251,13 +252,18 @@ public class InteractsAndEvolutions
 
     public static class Interact
     {
+        // Conditions
         public Boolean male = true;
         public Boolean female = true;
+        public Boolean isTag = false;
+        public Drop key;
+
+        public JsonElement condition;
+
+        // Results
         public Integer cooldown = 50;
         public Integer variance = 100;
         public Integer baseHunger = 100;
-        public Boolean isTag = false;
-        public Drop key;
         public Action action;
 
         private String _ser_cache;
@@ -273,6 +279,38 @@ public class InteractsAndEvolutions
                 return this._ser_cache.equals(a._ser_cache);
             }
             return false;
+        }
+
+        public PokemobCondition toCondition()
+        {
+            PokemobCondition result = null;
+            List<PokemobCondition> bits = new ArrayList<>();
+            if (condition != null)
+            {
+                result = PokemobCondition.makeFromElement(condition);
+                bits.add(result);
+            }
+
+            if (male != null && !male)
+            {
+                var res = new IsSexe();
+                bits.add(res);
+                res.sexe = "male";
+                if (result == null) result = res.not();
+                else result = result.and(res.not());
+            }
+
+            if (female != null && !female)
+            {
+                var res = new IsSexe();
+                bits.add(res);
+                res.sexe = "female";
+                if (result == null) result = res.not();
+                else result = result.and(res.not());
+            }
+            bits.forEach(c -> c.init());
+            if (result == null) result = e -> true;
+            return result;
         }
     }
 

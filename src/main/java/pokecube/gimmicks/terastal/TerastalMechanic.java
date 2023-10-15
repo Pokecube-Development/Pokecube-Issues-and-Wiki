@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -32,6 +33,7 @@ import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
 import pokecube.core.network.pokemobs.PacketSyncGene;
 import pokecube.gimmicks.terastal.TeraTypeGene.TeraType;
+import pokecube.mixin.accessors.AttributeMaxAccessor;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.Alleles;
 import thut.api.entity.genetics.Gene;
@@ -69,6 +71,9 @@ public class TerastalMechanic
         ChangeFormHandler.addChangeHandler(new Terastallizer());
         // Register a raid type
         RaidManager.registerBossType(new TerastalRaid());
+
+        var attr = Attributes.MAX_HEALTH;
+        if (attr instanceof AttributeMaxAccessor acc && acc.maxValue() < 1e8) acc.setMaxValue(1e8);
     }
 
     private static class Terastallizer implements IChangeHandler

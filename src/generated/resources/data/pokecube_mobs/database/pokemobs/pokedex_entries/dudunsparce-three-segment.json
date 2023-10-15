@@ -2,6 +2,7 @@
   "name": "dudunsparce-three-segment",
   "id": 982,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 182,
   "size": {
     "height": 4.5

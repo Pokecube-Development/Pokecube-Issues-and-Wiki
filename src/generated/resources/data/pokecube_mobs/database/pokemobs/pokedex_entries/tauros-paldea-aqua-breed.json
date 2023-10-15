@@ -2,6 +2,7 @@
   "name": "tauros-paldea-aqua-breed",
   "id": 128,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 172,
   "size": {
     "height": 1.4

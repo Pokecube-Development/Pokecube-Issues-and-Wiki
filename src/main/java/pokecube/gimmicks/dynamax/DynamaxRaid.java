@@ -3,8 +3,6 @@ package pokecube.gimmicks.dynamax;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -20,7 +18,6 @@ import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
 import pokecube.api.raids.IBossProvider;
@@ -71,21 +68,14 @@ public class DynamaxRaid implements IBossProvider
             final Mob entity = PokecubeCore.createPokemob(entry, context.level());
             final Vector3 v = new Vector3().set(context.pos());
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
-            final List<AIRoutine> bannedAI = Lists.newArrayList();
 
             var genes = DynamaxGene.getDyna(entity);
             genes.gigantamax = false;
-
-            bannedAI.add(AIRoutine.BURROWS);
-            bannedAI.add(AIRoutine.BEEAI);
-            bannedAI.add(AIRoutine.ANTAI);
 
             // Pokemob Level Spawm
             final int level = ThutCore.newRandom().nextInt(50);
 
             pokemob.setForSpawn(Tools.levelToXp(entry.getEvolutionMode(), level), false);
-
-            bannedAI.forEach(e -> pokemob.setRoutineState(e, false));
 
             pokemob.spawnInit();
             v.add(0.5, 3, 0.5).moveEntity(entity);
