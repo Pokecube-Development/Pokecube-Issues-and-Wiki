@@ -140,11 +140,13 @@
       "toxic",
       "double-team",
       "mirror-move",
+      "swift",
       "rest",
       "substitute",
       "snore",
       "protect",
       "icy-wind",
+      "endure",
       "swagger",
       "steel-wing",
       "attract",
@@ -156,6 +158,7 @@
       "uproar",
       "hail",
       "facade",
+      "helping-hand",
       "endeavor",
       "secret-power",
       "dive",
@@ -179,8 +182,12 @@
       "round",
       "scald",
       "hurricane",
+      "disarming-voice",
       "confide",
-      "liquidation"
+      "liquidation",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

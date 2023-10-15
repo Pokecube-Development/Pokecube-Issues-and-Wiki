@@ -107,7 +107,9 @@
       "round",
       "scald",
       "confide",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/fish_1"

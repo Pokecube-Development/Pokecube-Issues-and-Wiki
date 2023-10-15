@@ -121,7 +121,8 @@
       {
         "L": 42,
         "moves": [
-          "hail"
+          "hail",
+          "snowscape"
         ]
       },
       {
@@ -161,8 +162,11 @@
       "swords-dance",
       "headbutt",
       "body-slam",
+      "take-down",
+      "mist",
       "ice-beam",
       "blizzard",
+      "low-kick",
       "counter",
       "seismic-toss",
       "earthquake",
@@ -188,6 +192,7 @@
       "protect",
       "icy-wind",
       "endure",
+      "rollout",
       "swagger",
       "fury-cutter",
       "attract",
@@ -200,6 +205,7 @@
       "metal-claw",
       "hidden-power",
       "sunny-day",
+      "mirror-coat",
       "hail",
       "facade",
       "focus-punch",
@@ -219,7 +225,9 @@
       "aqua-tail",
       "x-scissor",
       "avalanche",
+      "ice-shard",
       "shadow-claw",
+      "flash-cannon",
       "iron-head",
       "stealth-rock",
       "hone-claws",
@@ -234,7 +242,10 @@
       "aurora-veil",
       "steel-beam",
       "steel-roller",
-      "triple-axel"
+      "triple-axel",
+      "tera-blast",
+      "ice-spinner",
+      "snowscape"
     ]
   },
   "old_name": "sandshrew_alola",

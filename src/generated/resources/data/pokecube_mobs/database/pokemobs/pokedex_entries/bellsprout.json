@@ -120,6 +120,12 @@
         "moves": [
           "poison-jab"
         ]
+      },
+      {
+        "L": 52,
+        "moves": [
+          "power-whip"
+        ]
       }
     ],
     "misc": [
@@ -184,6 +190,7 @@
       "poison-jab",
       "seed-bomb",
       "energy-ball",
+      "leaf-storm",
       "power-whip",
       "captivate",
       "grass-knot",
@@ -192,9 +199,15 @@
       "round",
       "clear-smog",
       "belch",
+      "grassy-terrain",
       "confide",
       "infestation",
-      "strength-sap"
+      "strength-sap",
+      "lunge",
+      "grassy-glide",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_1"

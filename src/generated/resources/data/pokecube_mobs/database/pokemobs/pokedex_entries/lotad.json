@@ -70,6 +70,13 @@
         ]
       },
       {
+        "L": 24,
+        "moves": [
+          "leech-seed",
+          "nature-power"
+        ]
+      },
+      {
         "L": 9,
         "moves": [
           "bubble"
@@ -91,12 +98,6 @@
         "L": 27,
         "moves": [
           "rain-dance"
-        ]
-      },
-      {
-        "L": 24,
-        "moves": [
-          "nature-power"
         ]
       },
       {
@@ -128,6 +129,7 @@
       "swords-dance",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "growl",
       "mist",
@@ -174,8 +176,10 @@
       "secret-power",
       "teeter-dance",
       "astonish",
+      "weather-ball",
       "tickle",
       "bullet-seed",
+      "magical-leaf",
       "water-pulse",
       "natural-gift",
       "seed-bomb",
@@ -186,8 +190,13 @@
       "round",
       "echoed-voice",
       "scald",
+      "disarming-voice",
+      "grassy-terrain",
       "confide",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/lilypad"

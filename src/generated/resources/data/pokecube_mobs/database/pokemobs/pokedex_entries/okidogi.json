@@ -38,7 +38,7 @@
   "moves": {
     "level_up": [
       {
-        "L": 0,
+        "L": 1,
         "moves": [
           "bite",
           "low-kick",

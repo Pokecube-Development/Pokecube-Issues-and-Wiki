@@ -125,6 +125,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "roar",
       "dig",
       "agility",
       "rest",

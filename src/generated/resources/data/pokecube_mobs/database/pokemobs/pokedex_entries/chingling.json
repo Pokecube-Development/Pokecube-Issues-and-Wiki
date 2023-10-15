@@ -114,6 +114,7 @@
       "return",
       "frustration",
       "safeguard",
+      "baton-pass",
       "hidden-power",
       "rain-dance",
       "sunny-day",
@@ -143,6 +144,7 @@
       "gravity",
       "natural-gift",
       "last-resort",
+      "energy-ball",
       "zen-headbutt",
       "trick-room",
       "captivate",
@@ -156,7 +158,8 @@
       "stored-power",
       "ally-switch",
       "confide",
-      "dazzling-gleam"
+      "dazzling-gleam",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

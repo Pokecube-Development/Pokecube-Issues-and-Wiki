@@ -46,7 +46,6 @@
           "tackle",
           "absorb",
           "explosion",
-          "synthesis",
           "astonish",
           "air-cutter"
         ]
@@ -102,6 +101,12 @@
         ]
       },
       {
+        "L": 30,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
         "L": 36,
         "moves": [
           "sunny-day",
@@ -142,17 +147,20 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "hyper-beam",
       "low-kick",
       "strength",
       "absorb",
       "mega-drain",
+      "leech-seed",
       "growth",
       "razor-leaf",
       "solar-beam",
       "dig",
       "toxic",
+      "quick-attack",
       "mimic",
       "double-team",
       "harden",
@@ -169,6 +177,7 @@
       "snore",
       "spite",
       "protect",
+      "scary-face",
       "feint-attack",
       "mud-slap",
       "giga-drain",
@@ -183,22 +192,27 @@
       "frustration",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "psych-up",
       "shadow-ball",
       "rock-smash",
       "beat-up",
       "fake-out",
+      "uproar",
       "torment",
       "facade",
       "nature-power",
       "brick-break",
+      "knock-off",
       "secret-power",
       "astonish",
+      "weather-ball",
       "air-cutter",
       "rock-tomb",
       "extrasensory",
       "bullet-seed",
+      "magical-leaf",
       "leaf-blade",
       "natural-gift",
       "payback",
@@ -209,10 +223,12 @@
       "worry-seed",
       "sucker-punch",
       "dark-pulse",
+      "night-slash",
       "seed-bomb",
       "energy-ball",
       "nasty-plot",
       "defog",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "low-sweep",
@@ -225,7 +241,10 @@
       "power-up-punch",
       "solar-blade",
       "grassy-glide",
-      "lash-out"
+      "lash-out",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_1"

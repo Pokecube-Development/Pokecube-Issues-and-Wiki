@@ -153,6 +153,7 @@
       "swords-dance",
       "mega-kick",
       "jump-kick",
+      "take-down",
       "low-kick",
       "strength",
       "dig",
@@ -164,6 +165,7 @@
       "focus-energy",
       "swift",
       "high-jump-kick",
+      "fury-swipes",
       "rest",
       "rock-slide",
       "substitute",
@@ -213,6 +215,7 @@
       "focus-blast",
       "stone-edge",
       "grass-knot",
+      "hone-claws",
       "low-sweep",
       "round",
       "quick-guard",
@@ -223,7 +226,9 @@
       "dual-chop",
       "confide",
       "power-up-punch",
-      "coaching"
+      "coaching",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

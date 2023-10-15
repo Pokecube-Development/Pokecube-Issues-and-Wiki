@@ -128,6 +128,8 @@
       "swords-dance",
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
       "leer",
       "roar",
       "low-kick",
@@ -185,7 +187,8 @@
       "dual-chop",
       "noble-roar",
       "confide",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/pig_1"

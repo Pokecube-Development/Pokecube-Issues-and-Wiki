@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 21,
+        "moves": [
+          "headbutt",
+          "synthesis"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "tackle",
@@ -74,12 +81,6 @@
         "L": 12,
         "moves": [
           "rollout"
-        ]
-      },
-      {
-        "L": 21,
-        "moves": [
-          "synthesis"
         ]
       },
       {
@@ -148,6 +149,7 @@
       "frustration",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "shadow-ball",
       "rock-smash",
@@ -157,6 +159,7 @@
       "secret-power",
       "astonish",
       "bullet-seed",
+      "magical-leaf",
       "natural-gift",
       "payback",
       "power-swap",
@@ -167,6 +170,7 @@
       "energy-ball",
       "nasty-plot",
       "defog",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "foul-play",
@@ -174,7 +178,9 @@
       "retaliate",
       "grassy-terrain",
       "confide",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/other_seeds"

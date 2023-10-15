@@ -170,6 +170,7 @@
       "role-play",
       "assist",
       "brick-break",
+      "knock-off",
       "endeavor",
       "secret-power",
       "blaze-kick",
@@ -199,7 +200,8 @@
       "fire-pledge",
       "work-up",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "burning-jealousy"
     ]
   },
   "loot_table": "pokecube:entities/coal_1"

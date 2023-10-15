@@ -138,6 +138,7 @@
       "mega-kick",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "counter",
       "seismic-toss",
@@ -180,6 +181,7 @@
       "shadow-ball",
       "facade",
       "focus-punch",
+      "taunt",
       "helping-hand",
       "trick",
       "brick-break",
@@ -196,6 +198,7 @@
       "tailwind",
       "u-turn",
       "fling",
+      "air-slash",
       "bug-buzz",
       "zen-headbutt",
       "defog",
@@ -211,7 +214,11 @@
       "dazzling-gleam",
       "infestation",
       "power-up-punch",
-      "lunge"
+      "lunge",
+      "tera-blast",
+      "pounce",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/spider_eye"

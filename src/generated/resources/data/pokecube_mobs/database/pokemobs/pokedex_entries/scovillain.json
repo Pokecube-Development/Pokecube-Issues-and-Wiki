@@ -128,6 +128,7 @@
       "solar-beam",
       "fire-blast",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "protect",
@@ -153,6 +154,9 @@
       "grass-knot",
       "grassy-terrain",
       "stomping-tantrum",
+      "grassy-glide",
+      "burning-jealousy",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]

@@ -124,6 +124,7 @@
       "fly",
       "body-slam",
       "take-down",
+      "roar",
       "flamethrower",
       "hydro-pump",
       "hyper-beam",
@@ -141,6 +142,7 @@
       "heat-wave",
       "facade",
       "taunt",
+      "knock-off",
       "hyper-voice",
       "air-cutter",
       "rock-tomb",
@@ -162,6 +164,8 @@
       "hurricane",
       "snarl",
       "electric-terrain",
+      "lash-out",
+      "dual-wingbeat",
       "tera-blast"
     ]
   }

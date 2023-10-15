@@ -138,6 +138,7 @@
       "confuse-ray",
       "haze",
       "dream-eater",
+      "leech-life",
       "flash",
       "rest",
       "substitute",
@@ -198,10 +199,12 @@
       "round",
       "ally-switch",
       "hex",
+      "phantom-force",
       "confide",
       "infestation",
       "skitter-smack",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/bones"

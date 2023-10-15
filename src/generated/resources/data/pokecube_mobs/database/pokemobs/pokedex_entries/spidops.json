@@ -143,6 +143,7 @@
       "facade",
       "taunt",
       "brick-break",
+      "knock-off",
       "rock-tomb",
       "bullet-seed",
       "aerial-ace",
@@ -155,7 +156,9 @@
       "giga-impact",
       "shadow-claw",
       "grass-knot",
+      "bug-bite",
       "struggle-bug",
+      "lunge",
       "tera-blast",
       "pounce",
       "trailblaze"

@@ -141,8 +141,11 @@
       "night-shade",
       "double-team",
       "confuse-ray",
+      "haze",
       "metronome",
+      "swift",
       "dream-eater",
+      "leech-life",
       "flash",
       "rest",
       "rock-slide",
@@ -174,6 +177,7 @@
       "rock-smash",
       "torment",
       "will-o-wisp",
+      "memento",
       "facade",
       "focus-punch",
       "taunt",
@@ -209,13 +213,15 @@
       "ally-switch",
       "hex",
       "bulldoze",
+      "phantom-force",
       "confide",
       "infestation",
       "power-up-punch",
       "darkest-lariat",
       "laser-focus",
       "skitter-smack",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/bones"

@@ -49,7 +49,6 @@
           "poison-gas",
           "heat-wave",
           "defog",
-          "fairy-wind",
           "aromatic-mist",
           "strange-steam"
         ]
@@ -99,7 +98,8 @@
       {
         "L": 24,
         "moves": [
-          "aromatherapy"
+          "aromatherapy",
+          "fairy-wind"
         ]
       },
       {
@@ -134,19 +134,33 @@
       }
     ],
     "misc": [
+      "tackle",
+      "body-slam",
+      "take-down",
       "flamethrower",
+      "psybeam",
       "hyper-beam",
       "thunderbolt",
       "thunder",
+      "toxic",
       "screech",
+      "smokescreen",
+      "haze",
       "self-destruct",
+      "smog",
+      "sludge",
       "fire-blast",
+      "poison-gas",
+      "explosion",
       "rest",
       "substitute",
       "thief",
       "snore",
+      "spite",
       "protect",
+      "scary-face",
       "sludge-bomb",
+      "destiny-bond",
       "endure",
       "attract",
       "sleep-talk",
@@ -156,6 +170,7 @@
       "uproar",
       "heat-wave",
       "will-o-wisp",
+      "memento",
       "facade",
       "taunt",
       "overheat",
@@ -165,18 +180,27 @@
       "toxic-spikes",
       "dark-pulse",
       "giga-impact",
+      "defog",
+      "gunk-shot",
       "double-hit",
       "wonder-room",
       "venoshock",
       "sludge-wave",
+      "acid-spray",
       "round",
+      "clear-smog",
+      "belch",
       "misty-terrain",
       "play-rough",
+      "fairy-wind",
+      "aromatic-mist",
       "venom-drench",
       "dazzling-gleam",
       "brutal-swing",
+      "strange-steam",
       "misty-explosion",
-      "corrosive-gas"
+      "corrosive-gas",
+      "tera-blast"
     ]
   },
   "old_name": "weezing_galar",

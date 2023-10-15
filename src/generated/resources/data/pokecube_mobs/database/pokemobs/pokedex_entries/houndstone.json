@@ -125,6 +125,7 @@
     ],
     "misc": [
       "take-down",
+      "roar",
       "hyper-beam",
       "dig",
       "night-shade",
@@ -143,6 +144,7 @@
       "sunny-day",
       "crunch",
       "shadow-ball",
+      "uproar",
       "will-o-wisp",
       "facade",
       "helping-hand",
@@ -160,6 +162,7 @@
       "psychic-fangs",
       "stomping-tantrum",
       "body-press",
+      "poltergeist",
       "tera-blast"
     ]
   }

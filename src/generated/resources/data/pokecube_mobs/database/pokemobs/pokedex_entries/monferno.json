@@ -161,6 +161,7 @@
       "hidden-power",
       "sunny-day",
       "rock-smash",
+      "uproar",
       "heat-wave",
       "torment",
       "will-o-wisp",
@@ -170,6 +171,7 @@
       "helping-hand",
       "role-play",
       "brick-break",
+      "knock-off",
       "endeavor",
       "secret-power",
       "slack-off",
@@ -195,6 +197,7 @@
       "stealth-rock",
       "grass-knot",
       "hone-claws",
+      "smack-down",
       "flame-charge",
       "low-sweep",
       "round",
@@ -205,7 +208,9 @@
       "work-up",
       "dual-chop",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "burning-jealousy",
+      "lash-out"
     ]
   },
   "loot_table": "pokecube:entities/coal_2"

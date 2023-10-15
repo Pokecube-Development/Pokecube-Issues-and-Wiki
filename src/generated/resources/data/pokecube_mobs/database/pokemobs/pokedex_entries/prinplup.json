@@ -139,6 +139,7 @@
       "dig",
       "toxic",
       "double-team",
+      "haze",
       "bide",
       "waterfall",
       "bubble",
@@ -164,6 +165,7 @@
       "brick-break",
       "secret-power",
       "dive",
+      "weather-ball",
       "rock-tomb",
       "signal-beam",
       "aerial-ace",
@@ -186,7 +188,8 @@
       "quash",
       "water-pledge",
       "work-up",
-      "confide"
+      "confide",
+      "flip-turn"
     ]
   },
   "loot_table": "pokecube:entities/chicken_2"

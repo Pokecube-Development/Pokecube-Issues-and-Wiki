@@ -136,6 +136,7 @@
       "swords-dance",
       "cut",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
       "water-gun",
@@ -158,6 +159,7 @@
       "rock-slide",
       "slash",
       "substitute",
+      "thief",
       "snore",
       "spite",
       "protect",
@@ -210,7 +212,10 @@
       "chip-away",
       "scald",
       "razor-shell",
-      "confide"
+      "confide",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
   "loot_table": "pokecube:entities/shear_fish"

@@ -131,7 +131,10 @@
     "misc": [
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
       "flamethrower",
+      "psybeam",
       "hyper-beam",
       "thunderbolt",
       "thunder",
@@ -157,6 +160,7 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "zap-cannon",
       "destiny-bond",
@@ -188,10 +192,12 @@
       "toxic-spikes",
       "dark-pulse",
       "giga-impact",
+      "gunk-shot",
       "captivate",
       "double-hit",
       "venoshock",
       "sludge-wave",
+      "acid-spray",
       "round",
       "clear-smog",
       "incinerate",
@@ -199,7 +205,8 @@
       "confide",
       "venom-drench",
       "infestation",
-      "corrosive-gas"
+      "corrosive-gas",
+      "tera-blast"
     ]
   },
   "loot_table": "minecraft:entities/creeper"

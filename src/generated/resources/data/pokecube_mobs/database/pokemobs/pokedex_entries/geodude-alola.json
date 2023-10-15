@@ -154,6 +154,8 @@
       "thunder-punch",
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
       "double-edge",
       "flamethrower",
       "counter",
@@ -178,6 +180,8 @@
       "curse",
       "flail",
       "protect",
+      "mud-slap",
+      "zap-cannon",
       "sandstorm",
       "endure",
       "rollout",
@@ -198,6 +202,7 @@
       "rock-tomb",
       "iron-defense",
       "block",
+      "mud-shot",
       "rock-blast",
       "gyro-ball",
       "fling",
@@ -216,8 +221,11 @@
       "volt-switch",
       "bulldoze",
       "electroweb",
+      "wild-charge",
       "confide",
-      "brutal-swing"
+      "high-horsepower",
+      "brutal-swing",
+      "tera-blast"
     ]
   },
   "old_name": "geodude_alola",

@@ -187,6 +187,7 @@
       "shock-wave",
       "payback",
       "embargo",
+      "flare-blitz",
       "dark-pulse",
       "energy-ball",
       "trick-room",
@@ -205,7 +206,8 @@
       "mystical-fire",
       "skitter-smack",
       "burning-jealousy",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/enderpearls_1"

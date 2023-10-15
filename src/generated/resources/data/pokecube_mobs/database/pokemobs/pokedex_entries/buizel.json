@@ -142,6 +142,7 @@
       "take-down",
       "bite",
       "growl",
+      "roar",
       "sonic-boom",
       "water-gun",
       "hydro-pump",
@@ -214,6 +215,7 @@
       "confide",
       "power-up-punch",
       "liquidation",
+      "flip-turn",
       "tera-blast",
       "ice-spinner",
       "chilling-water"

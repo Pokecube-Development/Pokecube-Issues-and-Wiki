@@ -120,8 +120,11 @@
     ],
     "misc": [
       "swords-dance",
+      "whirlwind",
       "headbutt",
       "tackle",
+      "take-down",
+      "double-edge",
       "supersonic",
       "sonic-boom",
       "hyper-beam",
@@ -141,7 +144,9 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "protect",
+      "scary-face",
       "mud-slap",
       "foresight",
       "detect",
@@ -156,6 +161,7 @@
       "pursuit",
       "hidden-power",
       "sunny-day",
+      "crunch",
       "psych-up",
       "ancient-power",
       "shadow-ball",
@@ -182,7 +188,11 @@
       "round",
       "struggle-bug",
       "confide",
-      "laser-focus"
+      "laser-focus",
+      "lunge",
+      "dual-wingbeat",
+      "tera-blast",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

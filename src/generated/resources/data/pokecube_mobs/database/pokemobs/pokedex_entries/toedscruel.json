@@ -134,6 +134,7 @@
     "misc": [
       "hyper-beam",
       "solar-beam",
+      "toxic",
       "confuse-ray",
       "light-screen",
       "reflect",
@@ -150,6 +151,7 @@
       "sleep-talk",
       "rain-dance",
       "taunt",
+      "knock-off",
       "bullet-seed",
       "mud-shot",
       "magical-leaf",
@@ -168,6 +170,8 @@
       "hex",
       "grassy-terrain",
       "dazzling-gleam",
+      "lunge",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]

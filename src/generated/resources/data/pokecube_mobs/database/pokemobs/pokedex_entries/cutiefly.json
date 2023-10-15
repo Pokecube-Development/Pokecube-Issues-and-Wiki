@@ -70,6 +70,12 @@
         ]
       },
       {
+        "L": 30,
+        "moves": [
+          "covet"
+        ]
+      },
+      {
         "L": 26,
         "moves": [
           "bug-buzz"
@@ -146,6 +152,7 @@
       "signal-beam",
       "aerial-ace",
       "covet",
+      "magical-leaf",
       "calm-mind",
       "roost",
       "tailwind",
@@ -153,7 +160,9 @@
       "last-resort",
       "bug-buzz",
       "energy-ball",
+      "switcheroo",
       "defog",
+      "grass-knot",
       "bug-bite",
       "wonder-room",
       "telekinesis",
@@ -175,8 +184,12 @@
       "powder",
       "dazzling-gleam",
       "infestation",
+      "pollen-puff",
       "speed-swap",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/glowstone_dust"

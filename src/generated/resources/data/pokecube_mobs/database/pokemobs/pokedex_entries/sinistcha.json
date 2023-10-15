@@ -50,12 +50,11 @@
         ]
       },
       {
-        "L": 0,
+        "L": 1,
         "moves": [
           "stun-spore",
           "withdraw",
-          "astonish",
-          "matcha-gotcha"
+          "astonish"
         ]
       },
       {
@@ -104,6 +103,12 @@
         "L": 12,
         "moves": [
           "life-dew"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "matcha-gotcha"
         ]
       }
     ],

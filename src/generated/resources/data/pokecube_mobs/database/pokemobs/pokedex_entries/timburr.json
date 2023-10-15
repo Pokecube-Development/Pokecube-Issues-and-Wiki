@@ -137,7 +137,9 @@
       "fire-punch",
       "ice-punch",
       "thunder-punch",
+      "slam",
       "mega-kick",
+      "take-down",
       "leer",
       "low-kick",
       "counter",
@@ -151,6 +153,7 @@
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "reversal",
       "protect",
@@ -184,6 +187,7 @@
       "bulk-up",
       "wake-up-slap",
       "hammer-arm",
+      "close-combat",
       "payback",
       "fling",
       "force-palm",
@@ -203,7 +207,8 @@
       "confide",
       "power-up-punch",
       "brutal-swing",
-      "coaching"
+      "coaching",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

@@ -153,6 +153,7 @@
       "substitute",
       "thief",
       "reversal",
+      "spite",
       "protect",
       "scary-face",
       "outrage",
@@ -162,7 +163,9 @@
       "rain-dance",
       "sunny-day",
       "shadow-ball",
+      "uproar",
       "facade",
+      "focus-punch",
       "taunt",
       "helping-hand",
       "brick-break",
@@ -174,17 +177,20 @@
       "poison-jab",
       "seed-bomb",
       "drain-punch",
+      "vacuum-wave",
       "focus-blast",
       "giga-impact",
       "shadow-claw",
       "gunk-shot",
       "stone-edge",
       "stealth-rock",
+      "smack-down",
       "low-sweep",
       "acrobatics",
       "bulldoze",
       "phantom-force",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "lash-out"
     ]
   }
 }
