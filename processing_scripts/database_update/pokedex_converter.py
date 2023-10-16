@@ -29,7 +29,7 @@ evos_rule_dir = './new/pokemobs/evolutions/'
 materials_generate_dir = './new/pokemobs/materials/'
 ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
 mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
-tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
+tag_generate_dir = './new/tags/'
 advancements_dir = './new/advancements/'
 
 UPDATE_EXAMPLE = False
@@ -840,7 +840,7 @@ def convert_pokedex():
         dex.append(var)
 
     # Construct and output the default pokecube:pokemob tag
-    file = f'{tag_generate_dir}pokemob.json'
+    file = f'{tag_generate_dir}entity_types/pokemob.json'
     var = {"replace": False,"values":pokemob_tag_names}
     if not os.path.exists(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))

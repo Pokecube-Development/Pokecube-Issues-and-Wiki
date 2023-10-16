@@ -215,7 +215,7 @@ public class EventsHandlerClient
         {
             var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
             hovorTarget = Tools.getPointedEntity(event.player, 32, selector, 1);
-            EventsHandlerClient.lastSetTime = now + 500;
+            EventsHandlerClient.lastSetTime = now + 250;
         }
         if (hovorTarget != null && !hovorTarget.isAddedToWorld()) hovorTarget = null;
     }

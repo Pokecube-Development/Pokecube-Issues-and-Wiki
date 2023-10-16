@@ -62,15 +62,15 @@ public class Health
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         // Only apply to pokemobs in world
         if (pokemob == null || !entity.isAddedToWorld()) return false;
+        final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
+        // Some sanity checks
+        if (renderManager == null || renderManager.camera == null) return false;
         // If we are set to only show focused, then only show that.
-        if (PokecubeCore.getConfig().showOnlyFocused && entity != EventsHandlerClient.hovorTarget) return false;
+        if (PokecubeCore.getConfig().showOnlyFocused && (entity != EventsHandlerClient.hovorTarget && entity != renderManager.crosshairPickEntity)) return false;
         // Only apply to stock ones, unless otherwise configured
         if (PokecubeCore.getConfig().nonStockHealthbars && !pokemob.getPokedexEntry().stock) return false;
         // Only apply if in range
         if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return false;
-        final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
-        // Some sanity checks
-        if (renderManager == null || renderManager.camera == null) return false;
         final Camera viewer = renderManager.camera;
         // If viewer is riding us, do not show
         if (entity.getPassengers().contains(viewer.getEntity())) return false;
