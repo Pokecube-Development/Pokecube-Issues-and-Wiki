@@ -891,6 +891,8 @@ def convert_pokedex():
                             prey = _new
                         else:
                             _prey += f" {_new}"
+                if 'prey' in var:
+                    _prey += f" {var['prey']}"
                 var['prey'] = _prey
 
         # Output each entry into the appropriate database location
