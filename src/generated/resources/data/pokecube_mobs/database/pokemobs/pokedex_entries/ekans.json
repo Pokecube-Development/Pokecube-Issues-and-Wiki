@@ -232,5 +232,6 @@
       "trailblaze"
     ]
   },
-  "loot_table": "pokecube:entities/leather"
+  "loot_table": "pokecube:entities/leather",
+  "prey": " small_rodent"
 }

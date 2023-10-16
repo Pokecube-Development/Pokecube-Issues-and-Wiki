@@ -1695,11 +1695,11 @@ public class PokedexEntry
         this.prey.clear();
         if (this.food == null) return;
         final List<String> foodList = new ArrayList<>();
-        for (final String s : this.food) foodList.add(s);
+        for (final String s : this.food) foodList.add(s.contains(":") ? s : "pokecube:" + s);
         poke:
         for (final PokedexEntry e : Database.data.values())
         {
-            final Set<String> tags = Tags.BREEDING.lookupTags(e.getTrimmedName());
+            final Set<String> tags = Tags.CREATURES.lookupTags(e.getTrimmedName());
             for (final String s : tags) if (foodList.contains(s))
             {
                 this.prey.add(e);

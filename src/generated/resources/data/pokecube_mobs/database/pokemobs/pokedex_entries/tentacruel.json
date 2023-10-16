@@ -247,5 +247,6 @@
       }
     }
   ],
-  "loot_table": "minecraft:entities/squid"
+  "loot_table": "minecraft:entities/squid",
+  "prey": " small_fish"
 }

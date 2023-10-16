@@ -231,5 +231,6 @@
       "smart-strike"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1"
+  "loot_table": "pokecube:entities/fish_1",
+  "prey": " small_fish"
 }

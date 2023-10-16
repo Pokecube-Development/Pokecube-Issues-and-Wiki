@@ -1,7 +1,7 @@
 import json
 from ignore_list import isIgnored
 from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form,\
-                  is_extra_form, TAG_IGNORE
+                  is_extra_form, TAG_IGNORE, get_interacts
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -76,6 +76,7 @@ def is_gmax(name):
 
 index_map = get_pokemon_index()
 evo_chains = utils.load_evo_chains()
+old_interacts = get_interacts(index_map)
 
 _, all_moves_users = utils.load_all_moves()
 
@@ -868,15 +869,37 @@ def convert_pokedex():
             print(err)
 
     for var in dex:
+        # Some extra pre-processing
+        convert_mega_rules(var)
+        convert_evolution(var)
+        if var['name'] in old_interacts:
+            stats = old_interacts[var['name']]
+            if 'prey' in stats:
+                replacements = {
+                    "bird": "small_bird",
+                    "insecta": "small_bug",
+                    "rodent": "small_rodent",
+                    "plant": "small_plant",
+                    "fish": "small_fish",
+                }
+                prey = stats['prey'].lower().split(' ')
+                _prey = ""
+                for i in range(len(prey)):
+                    if prey[i] in replacements:
+                        _new = replacements[prey[i]]
+                        if len(prey) == 0:
+                            prey = _new
+                        else:
+                            _prey += f" {_new}"
+                var['prey'] = _prey
+
         # Output each entry into the appropriate database location
         file = f'{entry_generate_dir}{var["name"]}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 
-        file = open(file, 'w')
-        convert_mega_rules(var)
-        convert_evolution(var)
-        json.dump(var, file, indent=2)
+        file = open(file, 'w', newline='\n')
+        json.dump(var, file, indent=2,)
         file.close()
 
         # And also make the advancements
