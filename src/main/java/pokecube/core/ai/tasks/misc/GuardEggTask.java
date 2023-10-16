@@ -82,7 +82,7 @@ public class GuardEggTask extends TaskBase
         {
             // guarding things are respected, but we will play annoyed
             // particles.
-            if (enemy.getLevel() instanceof ServerLevel level)
+            if (enemy.level() instanceof ServerLevel level)
             {
                 double size = pokemob.getMobSizes().mag();
                 double x = this.entity.getX();
