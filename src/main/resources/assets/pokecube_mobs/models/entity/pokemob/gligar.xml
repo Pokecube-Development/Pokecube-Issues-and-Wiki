@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.5"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headCap="-30,30" headCap1="-50,50"/>
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg2:leg2_1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg1:leg1_1"/>
   <customTex default="gligar">
    <part name="Head" tex="gligareye"/>

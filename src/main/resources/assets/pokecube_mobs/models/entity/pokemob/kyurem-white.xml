@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.6"/>
-  <metadata head="neck1:neck2" headAxis="2" headAxis2="0" headCap="-5,5" headDir="-1"/>
+  <metadata head="neck1:neck2" headCap="-5,5"/>
   <phase armAngle="" duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="kyurem-white">
    <part name="Head" tex="kyuremweye"/>

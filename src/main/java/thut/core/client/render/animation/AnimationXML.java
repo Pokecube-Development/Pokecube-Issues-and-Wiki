@@ -203,7 +203,7 @@ public class AnimationXML
         @XmlAttribute(name = "headDir")
         public int headDir = -1;
         @XmlAttribute(name = "headDir2")
-        public int headDir2 = 2;
+        public int headDir2 = 1;
     }
 
     @XmlRootElement(name = "model")

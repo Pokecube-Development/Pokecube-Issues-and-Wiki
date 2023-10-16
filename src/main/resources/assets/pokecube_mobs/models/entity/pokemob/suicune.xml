@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.6"/>
-  <metadata head="neck:neck1:head" headAxis="2" headAxis2="0" headCap1="-5,5" headCap="-13,13" headDir="-1"/>
+  <metadata head="neck:neck1:head" headCap1="-5,5" headCap="-13,13"/>
   <phase duration="10" leftFront="leg1:leg1_1:foot1" leftHind="leg3:leg3_1:foot3" name="quadWalk" rightFront="leg2:leg2_1:foot2" rightHind="leg4:leg4_1:foot4"/>
   <phase angle="35" axis="1" length="100" name="snakeIdle" parts="tail1_5:tail1_6:tail1_7:tail1_8:tail1_9:tail1_10:tail1_11:tail1_12"/>
   <phase angle="35" axis="1" length="100" name="snakeIdle" parts="tail2_5:tail2_6:tail2_7:tail2_8:tail2_9:tail2_10:tail2_11:tail2_12"/>

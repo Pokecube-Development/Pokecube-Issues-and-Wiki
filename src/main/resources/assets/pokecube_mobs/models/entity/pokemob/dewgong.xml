@@ -3,7 +3,7 @@
  <model>
   <phase name="global" scale="1.0"/>
   <phase duration="10" leftArm="left_arm" leftLeg="" legAngle="15" name="biWalk" rightArm="right_arm" rightLeg="tail1"/>
-  <metadata head="Head" headAxis="2" headDir2="1"/>
+  <metadata head="Head" headDir2="1"/>
   <customTex default="dewgong">
    <part name="head" tex="dewgong_eye"/>
   </customTex>

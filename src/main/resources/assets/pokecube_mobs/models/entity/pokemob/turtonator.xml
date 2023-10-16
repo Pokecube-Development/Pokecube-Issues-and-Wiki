@@ -2,9 +2,9 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.39"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
-  <metadata head="neck2" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1"/>
-  <metadata head="neck1" headAxis="2" headAxis2="0" headCap="-35,35" headCap1="-15,15" headDir="-1"/>
+  <metadata head="head" headCap="-80,80" headCap1="-50,50"/>
+  <metadata head="neck2" headCap="-50,50" headCap1="-35,35"/>
+  <metadata head="neck1" headCap="-35,35" headCap1="-15,15"/>
   <phase duration="6" leftArm="arm2" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="arm1" rightLeg="leg2"/>
   <customTex default="turtonator">
    <part name="Head" tex="turtonatorhead"/>

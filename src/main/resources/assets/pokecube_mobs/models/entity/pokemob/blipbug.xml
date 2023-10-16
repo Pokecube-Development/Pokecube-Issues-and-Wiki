@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.2"/>
-  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-50,50" headDir="-1"/>
+  <metadata head="neck" headCap="-50,50" headCap1="-50,50"/>
   <customTex default="blipbug">
    <part name="Head" tex="blipbughead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:25"/>

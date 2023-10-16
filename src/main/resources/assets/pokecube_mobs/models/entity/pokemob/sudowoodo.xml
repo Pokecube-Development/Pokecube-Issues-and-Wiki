@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.25"/>
-  <metadata head="body3" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="1"/>
+  <metadata head="body3" headCap="-80,80" headCap1="-50,50" headDir2="-1"/>
   <phase axis="2" name="snakeIdle" parts="body1:body2:body3"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="30" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="sudowoodo">

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.84"/>
-  <metadata head="neck:neck1:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-5,5" headDir="-1"/>
+  <metadata head="neck:neck1:head" headCap="-10,10" headCap1="-5,5"/>
   <customTex default="glastrier"/>
   <phase length="20" axis="1" name="snakeWalk" parts="tail:tail1:tail2:tail3:tail4:tail5"/>
   <phase type="sitting">

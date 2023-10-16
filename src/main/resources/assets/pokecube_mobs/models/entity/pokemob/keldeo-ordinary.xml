@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.36"/>
-  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1" headDir2="1"/>
+  <metadata head="Head" headCap="-60,60" headCap1="-60,60" headDir2="-1"/>
   <customTex default="keldeo-ordinary">
    <part name="Head" tex="keldeohead"/>
    <animation diffs="0,0.51" part="Head" trigger="random:0.001:20"/>

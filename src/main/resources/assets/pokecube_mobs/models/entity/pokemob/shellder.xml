@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.35"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1" headDir2="-1"/>
+  <metadata head="head" headCap="-10,10" headCap1="-10,10" headDir2="-1"/>
   <customTex default="shellder">
    <part name="Head" tex="shellderhead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>

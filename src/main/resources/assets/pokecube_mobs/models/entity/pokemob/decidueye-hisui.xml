@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model name="">
   <phase name="global" scale="0.225"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-20,20" headDir="-1"/>
+  <metadata head="head" headCap="-80,80" headCap1="-20,20"/>
   <phase duration="10" leftArm="leg1_2" leftLeg="leg1" legAngle="20" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
   <customTex default="decidueye-hisui">
    <part name="Head" tex="decidueyehisuieye"/>
