@@ -117,8 +117,16 @@ public class IconModule extends AnimModule
     {
         parent.xRenderAngle = 35;
         parent.yRenderAngle = 5;
-        parent.yHeadRenderAngle = -5;
-        parent.xHeadRenderAngle = -15;
+        parent.yHeadRenderAngle = -45;
+        parent.xHeadRenderAngle = -45;
+
+        if (!this.cap && transitTime < 0)
+        {
+            float phase = (System.currentTimeMillis() % 100000) * 0.003f;
+            parent.xHeadRenderAngle *= Math.sin(phase);
+            parent.yHeadRenderAngle *= Math.cos(phase);
+        }
+
         IconModule.borked.clear();
         boolean debug = false;
         if (this.cap)
@@ -172,6 +180,11 @@ public class IconModule extends AnimModule
 
     public boolean updateOnButtonPress(int code)
     {
+        if (!cap && code == GLFW.GLFW_KEY_TAB)
+        {
+            transitTime = this.transitTime > 0 ? -1 : 1;
+            return true;
+        }
         if (code == GLFW.GLFW_KEY_RIGHT) if (!Screen.hasShiftDown()) this.cylceUp();
         else
         {
@@ -362,14 +375,13 @@ public class IconModule extends AnimModule
     public void cylceUp()
     {
         List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
-        formes = Lists.newArrayList(Database.getSortedFormes());
-        
-        int i_next = 0;
-        for (int i = 0; i < formes.size(); i++) if (formes.get(i) == AnimationGui.entry)
-        {
-            i_next = i + 1 < formes.size() ? i + 1 : 0;
-            break;
-        }
+        boolean alphab = !cap;
+
+        if (alphab) formes.sort((o1, o2) -> o1.name.compareTo(o2.name));
+
+        int i_next = formes.indexOf(AnimationGui.entry) + 1;
+
+        i_next = i_next >= formes.size() ? 0 : i_next;
 
         AnimationGui.entry = formes.get(i_next);
         AnimationGui.mob = AnimationGui.entry.getName();

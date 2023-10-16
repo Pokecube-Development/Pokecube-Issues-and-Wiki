@@ -25,6 +25,7 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.entity.animation.IAnimationChanger.WornOffsets;
 import thut.api.maths.Vector3;
+import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Mat;
 import thut.core.client.render.animation.AnimationXML.Merge;
@@ -109,7 +110,7 @@ public class AnimationLoader
             int headDir = 2;
             int headDir2 = 2;
             int headAxis = 2;
-            int headAxis2 = 1;
+            int headAxis2 = 0;
             final float[] headCaps =
             { -100, 100 };
             final float[] headCaps1 =
@@ -139,9 +140,16 @@ public class AnimationLoader
             final Metadata meta = file.model.metadata;
             if (meta != null)
             {
+                Metadata defaults = new Metadata();
                 AnimationLoader.addStrings(meta.head, headNames);
                 AnimationLoader.addStrings(meta.shear, shear);
                 AnimationLoader.addStrings(meta.dye, dye);
+
+                if (meta.headDir2 != defaults.headDir2 || meta.headDir != defaults.headDir || meta.headAxis != defaults.headAxis
+                        || meta.headAxis2 != defaults.headAxis2)
+                {
+                    ThutCore.LOGGER.info("Head Info:" + holder.animation + " " + JsonUtil.smol_gson.toJson(meta));
+                }
 
                 headDir = meta.headDir;
                 headDir2 = meta.headDir2;

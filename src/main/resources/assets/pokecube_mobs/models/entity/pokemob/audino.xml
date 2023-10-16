@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.22"/>
-  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="1"/>
   <phase armAngle="20" duration="10" leftArm="LeftA" leftLeg="LeftL" legAngle="25" name="biWalk" rightArm="RightA" rightLeg="RightL"/>
   <customTex default="audino">
    <part name="Head" tex="audinoeye"/>

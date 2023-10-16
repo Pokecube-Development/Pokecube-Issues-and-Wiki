@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.40"/>
-  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="1"/>
+  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" headDir2="-1"/>
   <customTex default="raichu">
    <part name="Head" tex="raichuhead"/>
    <animation diffs="0,0.34" part="Head" trigger="random:0.001:20"/>

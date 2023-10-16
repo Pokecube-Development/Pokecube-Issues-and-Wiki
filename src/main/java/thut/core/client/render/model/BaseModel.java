@@ -337,7 +337,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             float ang2 = -info.headPitch;
             float head = info.headYaw + 180;
             float diff = 0;
-            if (info.yawDirection != -1) head *= -1;
             diff = head % 360;
             diff = (diff + 360) % 360;
             diff = (diff - 180) % 360;
@@ -353,7 +352,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             Vector4 dir2;
             if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.pitchDirection, ang2);
             else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.pitchDirection, 0, ang2);
-            else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
+            else dir2 = new Vector4(info.pitchDirection, 0, 0, ang2);
             final Vector4 combined = new Vector4();
             combined.mul(dir.toQuaternion(), dir2.toQuaternion());
             part.setPostRotations(combined);
