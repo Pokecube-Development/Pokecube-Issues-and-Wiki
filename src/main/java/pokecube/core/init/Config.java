@@ -405,7 +405,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will need to execute an attack after breaking out of a cube before they can go into another for capture. [Default: true]")
     public boolean captureDelayTillAttack = true;
     @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 200]")
-    public int idleTickRate = 200;
+    public int idleTickRate = 50;
     @Configure(category = Config.mobAI, comment = "Maximum distance a wild pokemob will try to move while idle wandering. [Default: 16]")
     public int idleMaxPathWild = 16;
     @Configure(category = Config.mobAI, comment = "Maximum distance a tamed pokemob will try to move while idle wandering. [Default: 4]")

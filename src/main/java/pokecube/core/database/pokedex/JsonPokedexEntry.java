@@ -28,6 +28,7 @@ import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -389,8 +390,6 @@ public class JsonPokedexEntry
         if (this.abilities != null) this.abilities.accept(entry);
 
         if (this.model != null) entry._default_holder = this.model;
-        if (this.male_model != null) entry._male_holder = this.male_model;
-        if (this.female_model != null) entry._female_holder = this.female_model;
 
         if (this.sound != null) entry.customSound = this.sound;
         if (this.prey != null) entry.food = this.prey.trim().split(" ");
@@ -477,6 +476,10 @@ public class JsonPokedexEntry
         if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
         if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
+
+        // If it had gendered models, mark them accordingly so they get updated
+        entry.setGenderedForm(male_model, IPokemob.MALE);
+        entry.setGenderedForm(female_model, IPokemob.FEMALE);
     }
 
     public void postInit(PokedexEntry entry)

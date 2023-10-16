@@ -441,11 +441,6 @@ public class PokedexEntry
         }
     }
 
-    public static interface MegaRule
-    {
-        boolean shouldMegaEvolve(IPokemob mobIn, PokedexEntry entryTo);
-    }
-
     public static enum MovementType
     {
         FLYING(8), FLOATING(4), WATER(2), NORMAL(1);
@@ -1249,6 +1244,30 @@ public class PokedexEntry
         if (this.female != null) this.copyFieldsToGenderForm(this.female);
     }
 
+    public void setGenderedForm(DefaultFormeHolder model, byte gender)
+    {
+        if (gender == IPokemob.MALE && model != null)
+        {
+            this._male_holder = model;
+            this.male = model.getEntry();
+            this.male.isGenderForme = true;
+            this.male.isMaleForme = true;
+            this.male.setBaseForme(this);
+            this.copyToForm(male);
+            this.copyFieldsToGenderForm(this.male);
+        }
+        if (gender == IPokemob.FEMALE && model != null)
+        {
+            this._female_holder = model;
+            this.female = model.getEntry();
+            this.female.isGenderForme = true;
+            this.female.isFemaleForme = true;
+            this.female.setBaseForme(this);
+            this.copyToForm(female);
+            this.copyFieldsToGenderForm(this.female);
+        }
+    }
+
     public boolean floats()
     {
         return MovementType.FLOATING.is(this.mobType);
@@ -1405,11 +1424,12 @@ public class PokedexEntry
 
     public PokedexEntry getForGender(final byte gender)
     {
-        if (!this.base && this.isGenderForme && this.getBaseForme() != null)
-            return this.getBaseForme().getForGender(gender);
-        if (this.male == null) this.male = this;
-        if (this.female == null) this.female = this;
-        return gender == IPokemob.MALE ? this.male : this.female;
+        if (this.isGenderForme && this.getBaseForme() != null) return this.getBaseForme().getForGender(gender);
+        var m = this.male;
+        var f = this.female;
+        if (this.male == null) m = this;
+        if (this.female == null) f = this;
+        return gender == IPokemob.MALE ? m : f;
     }
 
     public int getGen()
@@ -1847,9 +1867,11 @@ public class PokedexEntry
 
     public void setBaseForme(final PokedexEntry baseForme)
     {
-        if (this.baseForme != null && baseForme != this.baseForme)
+        if (this.baseForme != null && baseForme != this.baseForme && this.baseForme != Database.missingno)
             PokecubeAPI.LOGGER.error("Trying to replace {} with {} as base for {}", this.baseForme, baseForme, this);
         this.baseForme = baseForme;
+        this.base = false;
+        this.pokedexNb = baseForme.pokedexNb;
     }
 
     public void setEntityType(final EntityType<? extends Mob> type)

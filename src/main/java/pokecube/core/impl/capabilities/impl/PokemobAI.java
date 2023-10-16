@@ -282,7 +282,11 @@ public abstract class PokemobAI extends PokemobEvolves
 
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (entity.level() == null || ThutCore.proxy.isClientSide()) return;
+        if (entity.level() == null || ThutCore.proxy.isClientSide())
+        {
+            if (entity.level() != null) PokecubeAPI.POKEMOB_BUS.post(new InitAIEvent.Post(this));
+            return;
+        }
 
         // DOLATER decide on speed scaling here?
         if (entry.stock) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
