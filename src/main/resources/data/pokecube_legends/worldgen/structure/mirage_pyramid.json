@@ -6,15 +6,6 @@
   "step": "surface_structures",
   "avoid_range": 6,
   "size": 1,
-  "structures_to_avoid": [
-    "minecraft:pillager_outposts",
-    "minecraft:villages",
-    "pokecube:towns",
-    "pokecube:villages",
-    "pokecube_legends:regi_temples",
-    "pokecube_legends:towns",
-    "pokecube_legends:villages"
-  ],
   "avoidances": {
     "avoidances": [
       {
@@ -26,6 +17,14 @@
       "mirage_pyramid"
     ]
   },
+  "structures_to_avoid": [
+    "minecraft:pillager_outposts",
+    "minecraft:villages",
+    "pokecube:towns",
+    "pokecube:villages",
+    "pokecube_legends:towns",
+    "pokecube_legends:villages"
+  ],
   "biomes": "#pokecube_world:is_ultraspace/is_desert",
   "spawn_overrides": {}
 }
