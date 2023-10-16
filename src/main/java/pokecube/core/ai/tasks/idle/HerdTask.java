@@ -64,7 +64,7 @@ public class HerdTask extends BaseIdleTask
         this.v.set(herdMid);
         final Vector3 temp = Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y);
         if (temp == null || !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE)) return;
-        herdMid.y = temp.y + this.pokemob.getPokedexEntry().preferedHeight;
+        herdMid.y = temp.y + this.pokemob.getFloatHeight();
     }
 
     /**

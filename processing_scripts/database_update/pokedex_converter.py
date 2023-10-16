@@ -516,6 +516,11 @@ def convert_tags(entries):
             old_values = json_obj['values']
             new_values = []
             for name in old_values:
+                add = ''
+                if ';' in name:
+                    vars = name.split(';')
+                    name = vars[0]
+                    add = f';{vars[1]}'
                 orig = name
                 name = name.replace('pokecube:', '')
                 if name in TAG_IGNORE:
@@ -535,7 +540,7 @@ def convert_tags(entries):
                             continue
 
                 if new_name is not None:
-                    new_name = f'pokecube:{new_name}'
+                    new_name = f'pokecube:{new_name}{add}'
                     if not new_name in new_values:
                         new_values.append(new_name)
                 elif 'arceus_' in name or 'silvally_' in name:
@@ -543,8 +548,9 @@ def convert_tags(entries):
                 else:
                     if not "#" in name and not ":" in name and name != 'egg':
                         print(f"error finding name for {name} in {file}")
-                    if not orig in new_values:
-                        new_values.append(orig)
+                    new_name = f'pokecube:{orig}{add}'
+                    if not new_name in new_values:
+                        new_values.append(new_name)
             json_obj['values'] = new_values
 
         file = file.replace('old', 'new')
