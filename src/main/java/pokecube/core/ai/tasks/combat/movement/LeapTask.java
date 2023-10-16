@@ -83,7 +83,7 @@ public class LeapTask extends TaskBase implements IAICombat
         final double dist = diff.magSq();
 
         // Wait till it is a bit closer than this...
-        if (dist >= 16.0D) return;
+        if (dist >= 16.0D || dist == 0) return;
 
         this.leapSpeed = 1.0;
 

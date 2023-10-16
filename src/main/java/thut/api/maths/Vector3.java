@@ -788,7 +788,7 @@ public class Vector3
      */
     public double magSq()
     {
-        return this.x * this.x + this.y * this.y + this.z * this.z;
+        return Math.fma(x, x, Math.fma(y, y, x * z));
     }
 
     public void moveEntity(final Entity e)
@@ -891,9 +891,9 @@ public class Vector3
         mat[2][1] = line.get(2) * line.get(1) * (1 - Mth.cos((float) angle)) + line.get(0) * Mth.sin((float) angle);
         mat[2][2] = line.get(2) * line.get(2) * (1 - Mth.cos((float) angle)) + Mth.cos((float) angle);
 
-        ret.x = mat[0][0] * this.x + mat[0][1] * this.y + mat[0][2] * this.z;
-        ret.y = mat[1][0] * this.x + mat[1][1] * this.y + mat[1][2] * this.z;
-        ret.z = mat[2][0] * this.x + mat[2][1] * this.y + mat[2][2] * this.z;
+        ret.x = Math.fma(mat[0][0], this.x, Math.fma(mat[0][1], this.y, mat[0][2] * this.z));
+        ret.y = Math.fma(mat[1][0], this.x, Math.fma(mat[1][1], this.y, mat[1][2] * this.z));
+        ret.z = Math.fma(mat[2][0], this.x, Math.fma(mat[2][1], this.y, mat[2][2] * this.z));
 
         return ret;
     }
