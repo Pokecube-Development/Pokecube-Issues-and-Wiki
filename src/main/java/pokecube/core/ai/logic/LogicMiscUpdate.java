@@ -641,7 +641,7 @@ public class LogicMiscUpdate extends LogicBase
 
         if (this.pokemob.inCombat())
         {
-            addAnimation(transients, "battling", isRidden);
+            addAnimation(anims, "battling", isRidden);
         }
         if (isRidden) addAnimation(anims, "idle", isRidden);
 
