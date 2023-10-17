@@ -194,11 +194,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "talonflame",
-      "level": 35
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

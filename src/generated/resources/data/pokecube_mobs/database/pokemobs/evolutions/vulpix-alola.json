@@ -1,0 +1,11 @@
+{
+  "name": "ninetales-alola",
+  "user": "vulpix-alola",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube_mobs:ice_stone"
+    }
+  },
+  "evoMoves": "dazzling-gleam"
+}

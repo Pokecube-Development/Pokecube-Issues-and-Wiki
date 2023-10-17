@@ -195,14 +195,9 @@
       "snarl",
       "confide",
       "stomping-tantrum",
+      "lash-out",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "hydreigon",
-      "level": 64
-    }
-  ],
   "loot_table": "pokecube:entities/pig_2"
 }

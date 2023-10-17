@@ -65,6 +65,7 @@
       {
         "L": 20,
         "moves": [
+          "reflect",
           "bide",
           "rollout"
         ]
@@ -174,6 +175,7 @@
       "secret-power",
       "rock-tomb",
       "signal-beam",
+      "sand-tomb",
       "iron-defense",
       "block",
       "rock-blast",
@@ -208,6 +210,7 @@
       "drill-run",
       "confide",
       "laser-focus",
+      "lunge",
       "smart-strike",
       "body-press",
       "steel-beam",

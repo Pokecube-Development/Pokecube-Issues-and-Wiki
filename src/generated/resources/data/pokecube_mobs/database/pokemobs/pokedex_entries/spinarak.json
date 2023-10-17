@@ -84,10 +84,10 @@
         ]
       },
       {
-        "L": 12,
+        "L": 29,
         "moves": [
           "leech-life",
-          "scary-face"
+          "spider-web"
         ]
       },
       {
@@ -97,9 +97,9 @@
         ]
       },
       {
-        "L": 29,
+        "L": 12,
         "moves": [
-          "spider-web"
+          "scary-face"
         ]
       },
       {
@@ -174,6 +174,7 @@
       "spider-web",
       "snore",
       "curse",
+      "spite",
       "protect",
       "scary-face",
       "sludge-bomb",
@@ -190,6 +191,7 @@
       "hidden-power",
       "sunny-day",
       "facade",
+      "knock-off",
       "secret-power",
       "signal-beam",
       "bounce",
@@ -199,6 +201,7 @@
       "poison-jab",
       "night-slash",
       "x-scissor",
+      "bug-buzz",
       "shadow-sneak",
       "cross-poison",
       "captivate",
@@ -206,24 +209,21 @@
       "hone-claws",
       "venoshock",
       "rage-powder",
+      "acid-spray",
       "foul-play",
       "round",
+      "hex",
       "struggle-bug",
       "electroweb",
       "sticky-web",
       "confide",
       "infestation",
       "toxic-thread",
-      "lunge"
+      "lunge",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ariados",
-      "level": 22,
-      "animation": "42",
-      "evoMoves": "swords-dance"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

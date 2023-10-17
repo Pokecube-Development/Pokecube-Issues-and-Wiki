@@ -192,11 +192,9 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
         if (!self && (!inRange || !distanced))
         {
             this.setUseMove(this.pokemob, this.targetLoc);
-            if (BrainUtils.getLeapTarget(this.entity) == null && leapDelay-- < 0)
+            if (BrainUtils.getLeapTarget(this.entity) == null)
             {
                 BrainUtils.setLeapTarget(this.entity, new EntityTracker(this.target, false));
-                this.leapDelay = (int) (PokecubeCore.getConfig().attackCooldown
-                        * PokecubeCore.getConfig().attackCooldownContactScale);
             }
         }
 
@@ -222,7 +220,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
                 this.targetLoc.clear();
                 shouldPath = false;
                 this.delayTime = this.pokemob.getAttackCooldown();
-                this.leapDelay = -1;
             }
         }
         // If there is a target location, and it should path to it, queue a path

@@ -38,6 +38,15 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "pound",
+          "growl",
+          "water-gun",
+          "double-hit"
+        ]
+      },
+      {
         "L": 10,
         "moves": [
           "wing-attack"
@@ -47,15 +56,6 @@
         "L": 38,
         "moves": [
           "mega-kick"
-        ]
-      },
-      {
-        "L": 1,
-        "moves": [
-          "growl",
-          "water-gun",
-          "double-hit",
-          "pound"
         ]
       },
       {
@@ -156,6 +156,7 @@
       "taunt",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "hydro-cannon",
       "air-cutter",
       "aerial-ace",
@@ -174,6 +175,7 @@
       "disarming-voice",
       "misty-terrain",
       "liquidation",
+      "flip-turn",
       "tera-blast",
       "ice-spinner",
       "chilling-water"

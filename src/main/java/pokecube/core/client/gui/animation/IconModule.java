@@ -94,6 +94,7 @@ public class IconModule extends AnimModule
             parent.entries.clear();
             parent.entryIndex = 0;
             this.cap = !this.cap;
+            if (this.cap) for (var e : Database.getSortedFormes()) e.getModelSize().set(1, 1, 1);
             b.setFGColor(this.cap ? 0xFF00FF00 : 0xFFFF0000);
         }).bounds(0, yOffset + dy, 40, 20).build());
 
@@ -120,7 +121,7 @@ public class IconModule extends AnimModule
         parent.yRenderAngle = 5;
         parent.yHeadRenderAngle = -5;
         parent.xHeadRenderAngle = -15;
-        
+        IconModule.borked.clear();
         boolean debug = false;
         if (this.cap)
         {
@@ -158,6 +159,7 @@ public class IconModule extends AnimModule
                         dims.x = dims.y;
                     }
                     PokecubeAPI.LOGGER.error("borked: {}", AnimationGui.entry);
+                    e.printStackTrace();
                     IconModule.tries++;
                     if (IconModule.tries > 20)
                     {
@@ -182,7 +184,6 @@ public class IconModule extends AnimModule
             parent.forme.setValue(AnimationGui.mob);
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             parent.holder = AnimationGui.entry.getModel(parent.sexe);
-            parent.forme_alt.setValue(parent.holder == null ? "" : parent.holder.key.toString());
             return true;
         }
         if (code == GLFW.GLFW_KEY_LEFT)
@@ -194,7 +195,6 @@ public class IconModule extends AnimModule
             PacketPokedex.updateWatchEntry(AnimationGui.entry);
             parent.forme.setValue(AnimationGui.mob);
             parent.holder = AnimationGui.entry.getModel(parent.sexe);
-            parent.forme_alt.setValue(parent.holder == null ? "" : parent.holder.key.toString());
             return true;
         }
         return false;
@@ -209,6 +209,8 @@ public class IconModule extends AnimModule
         final double scale = window.getGuiScale();
         int x;
         int y;
+        PokedexEntry entry = AnimationGui.entry;
+        if (parent.holder != null && parent.holder._entry != null) entry = parent.holder._entry;
 
         // The 140 is for 40 pixels for buttons, and 100 pixels for text boxes
         // then -10 for some padding, related to the 5 + for x and y below
@@ -219,8 +221,8 @@ public class IconModule extends AnimModule
         x = w / 2 - width / 2;
         y = h / 2 - height / 2;
 
-        ResourceLocation icon1 = AnimationGui.entry.getIcon(male, parent.shiny);
-        if (parent.holder != null) icon1 = parent.holder.getIcon(male, parent.shiny, AnimationGui.entry);
+        ResourceLocation icon1 = entry.getIcon(male, parent.shiny);
+        if (parent.holder != null) icon1 = parent.holder.getIcon(male, parent.shiny, entry);
 
         // Already captured for this icon.
         if (this.doneLocs.contains(icon1)) return true;
@@ -230,10 +232,10 @@ public class IconModule extends AnimModule
                 .toFile();
         outFile.getParentFile().mkdirs();
         File outFile2 = null;
-        if (parent.shiny && !AnimationGui.entry.hasShiny)
+        if (parent.shiny && !entry.hasShiny)
         {
-            ResourceLocation icon = AnimationGui.entry.getIcon(male, false);
-            if (parent.holder != null) icon = parent.holder.getIcon(male, false, AnimationGui.entry);
+            ResourceLocation icon = entry.getIcon(male, false);
+            if (parent.holder != null) icon = parent.holder.getIcon(male, false, entry);
             outFile2 = FMLPaths.CONFIGDIR.get().resolve("pokecube").resolve("img")
                     .resolve(parent.shiny ? "shiny" : "normal").resolve(icon.getNamespace()).resolve(icon.getPath())
                     .toFile();
@@ -274,42 +276,54 @@ public class IconModule extends AnimModule
         final BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 
         int maxX = 0, minX = width, maxY = 0, minY = height;
+        boolean scaled = false;
+        final Vec3f dims = entry.getModelSize();
+        if (!IconModule.original_sizes.containsKey(entry)) IconModule.original_sizes.put(entry, new Vec3f(dims));
 
-        for (int i = x0; i < x0 + width; i++) for (int j = y0; j < y0 + height; j++)
+        try
         {
-            final int k = (i + ow * j) * 4;
-            final int r = buffer.get(k) & 0xFF;
-            final int g = buffer.get(k + 1) & 0xFF;
-            final int b = buffer.get(k + 2) & 0xFF;
-            int a = 0xFF;
-            if (r == 18 && g == 19 && b == 20) a = 0;
-
-            if (a != 0)
+            for (int i = x0; i < x0 + width; i++) for (int j = y0; j < y0 + height; j++)
             {
-                minX = Math.min(minX, i);
-                maxX = Math.max(maxX, i);
-                minY = Math.min(minY, j);
-                maxY = Math.max(maxY, j);
-            }
-            x = i - x0;
-            y = height - (j - y0 + 1);
-            image.setRGB(x, y, a << 24 | r << 16 | g << 8 | b);
-        }
+                final int k = (i + ow * j) * 4;
+                final int r = buffer.get(k) & 0xFF;
+                final int g = buffer.get(k + 1) & 0xFF;
+                final int b = buffer.get(k + 2) & 0xFF;
+                int a = 0xFF;
+                if (r == 18 && g == 19 && b == 20) a = 0;
 
+                if (a != 0)
+                {
+                    minX = Math.min(minX, i);
+                    maxX = Math.max(maxX, i);
+                    minY = Math.min(minY, j);
+                    maxY = Math.max(maxY, j);
+                }
+                x = i - x0;
+                y = height - (j - y0 + 1);
+                image.setRGB(x, y, a << 24 | r << 16 | g << 8 | b);
+            }
+        }
+        catch (IndexOutOfBoundsException e1)
+        {
+            maxX = width;
+            minX = 0;
+            maxY = height;
+            maxY = 0;
+            dims.scale(2);
+            AnimationGui.sizes.put(entry, dims.y);
+            return false;
+        }
         dx = maxX - minX;
         dy = maxY - minY;
 
-        boolean scaled = false;
-        if (dx <= 0 || dy <= 0) PokecubeAPI.LOGGER.error("Error with " + AnimationGui.entry);
-        else
+        if (dx <= 0 || dy <= 0) PokecubeAPI.LOGGER.error("Error with " + entry);
+        else if (!scaled)
         {
             final float target = ow / 3f;
             final float big = 1.05f;
             final float sml = 0.95f;
             float s = width / target;
-            final Vec3f dims = AnimationGui.entry.getModelSize();
-            if (!IconModule.original_sizes.containsKey(AnimationGui.entry))
-                IconModule.original_sizes.put(AnimationGui.entry, new Vec3f(dims));
+            if (!IconModule.original_sizes.containsKey(entry)) IconModule.original_sizes.put(entry, new Vec3f(dims));
             if (s > big)
             {
                 if (slowly) s = 1.005f;
@@ -326,7 +340,7 @@ public class IconModule extends AnimModule
                 dims.x = dims.y;
                 scaled = true;
             }
-            AnimationGui.sizes.put(AnimationGui.entry, dims.y);
+            AnimationGui.sizes.put(entry, dims.y);
         }
 
         try
@@ -349,91 +363,24 @@ public class IconModule extends AnimModule
 
     public void cylceUp()
     {
-        boolean next = false;
-
-        if (parent.genders[0] && parent.genders[1])
+        List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
+        formes = Lists.newArrayList(Database.getSortedFormes());
+        
+        int i_next = 0;
+        for (int i = 0; i < formes.size(); i++) if (formes.get(i) == AnimationGui.entry)
         {
-            parent.genders[0] = false;
-            parent.genders[1] = false;
-            next = true;
-        }
-        if (!next)
-        {
-            final boolean didMale = parent.genders[0];
-            final boolean didFemale = parent.genders[1];
-            if (!didMale)
-            {
-                parent.sexe = IPokemob.MALE;
-                parent.genders[0] = true;
-            }
-            else if (!didFemale)
-            {
-                parent.sexe = IPokemob.FEMALE;
-                parent.genders[1] = true;
-            }
-            parent.forme_alt.setValue(parent.holder == null ? "" : parent.holder.key.toString());
-            parent.holder = AnimationGui.entry.getModel(parent.sexe);
-            AnimationGui.mob = AnimationGui.entry.getForGender(parent.sexe).getName();
-            parent.forme.setValue(AnimationGui.mob);
-            parent.onUpdated();
-            return;
+            i_next = i + 1 < formes.size() ? i + 1 : 0;
+            break;
         }
 
-        parent.formes = Database.customModels.getOrDefault(AnimationGui.entry, Collections.emptyList());
-        parent.entries = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
-        if (AnimationGui.entry.getBaseForme() != null && !parent.entries.contains(AnimationGui.entry.getBaseForme()))
-        {
-            parent.entries.add(AnimationGui.entry.getBaseForme());
-            Collections.sort(parent.entries, Database.COMPARATOR);
-        }
-        if (parent.entryIndex >= parent.entries.size())
-        {
-            parent.entryIndex = 0;
-            parent.formIndex = -1;
-            final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
-            if (num != AnimationGui.entry) AnimationGui.entry = num;
-            else
-            {
-                AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
-                parent.shiny = !parent.shiny;
-            }
-            parent.holder = AnimationGui.entry.getModel(parent.sexe);
-        }
-        else if (!parent.formes.isEmpty() && parent.formIndex++ < parent.formes.size() - 1)
-        {
-            parent.holder = parent.formes.get(parent.formIndex);
-            ResourceLocation icon1 = AnimationGui.entry.getIcon(parent.sexe == IPokemob.MALE, parent.shiny);
-            if (parent.holder != null)
-                icon1 = parent.holder.getIcon(parent.sexe == IPokemob.MALE, parent.shiny, AnimationGui.entry);
-            while (this.doneLocs.contains(icon1) && parent.formIndex++ < parent.formes.size() - 1)
-            {
-                parent.holder = parent.formes.get(parent.formIndex);
-                icon1 = AnimationGui.entry.getIcon(parent.sexe == IPokemob.MALE, parent.shiny);
-                if (parent.holder != null)
-                    icon1 = parent.holder.getIcon(parent.sexe == IPokemob.MALE, parent.shiny, AnimationGui.entry);
-            }
-        }
-        else if (parent.entries.size() > 0)
-        {
-            parent.formIndex = -1;
-            AnimationGui.entry = parent.entries.get(parent.entryIndex++ % parent.entries.size());
-            parent.holder = AnimationGui.entry.getModel(parent.sexe);
-            ResourceLocation icon1 = AnimationGui.entry.getIcon(parent.sexe == IPokemob.MALE, parent.shiny);
-            if (parent.holder != null)
-                icon1 = parent.holder.getIcon(parent.sexe == IPokemob.MALE, parent.shiny, AnimationGui.entry);
-            // Already captured for this icon.
-            while (this.doneLocs.contains(icon1) && parent.entryIndex < parent.entries.size())
-            {
-                AnimationGui.entry = parent.entries.get(parent.entryIndex++ % parent.entries.size());
-                parent.holder = AnimationGui.entry.getModel(parent.sexe);
-                icon1 = AnimationGui.entry.getIcon(parent.sexe == IPokemob.MALE, parent.shiny);
-                if (parent.holder != null)
-                    icon1 = parent.holder.getIcon(parent.sexe == IPokemob.MALE, parent.shiny, AnimationGui.entry);
-            }
-        }
+        AnimationGui.entry = formes.get(i_next);
+        AnimationGui.mob = AnimationGui.entry.getName();
+        parent.holder = AnimationGui.entry.default_holder;
+        parent.forme.setValue(AnimationGui.mob);
 
-        parent.forme_alt.setValue(parent.holder == null ? "" : parent.holder.key.toString());
-        AnimationGui.mob = AnimationGui.entry.getForGender(parent.sexe).getName();
+        if (AnimationGui.entry == Pokedex.getInstance().getFirstEntry()) this.cap = false;
+
+        AnimationGui.mob = AnimationGui.entry.getName();
         parent.forme.setValue(AnimationGui.mob);
         parent.onUpdated();
     }

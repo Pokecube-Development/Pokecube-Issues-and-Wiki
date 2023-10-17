@@ -16,7 +16,7 @@
   "gender_rate": 255,
   "stats": {
     "hp": 92,
-    "attack": 130,
+    "attack": 120,
     "defense": 115,
     "special_attack": 80,
     "special_defense": 115,
@@ -99,6 +99,7 @@
       "body-slam",
       "take-down",
       "bite",
+      "roar",
       "hyper-beam",
       "solar-beam",
       "dig",

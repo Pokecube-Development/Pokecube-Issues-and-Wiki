@@ -109,6 +109,12 @@
         "moves": [
           "acrobatics"
         ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "power-up-punch"
+        ]
       }
     ],
     "misc": [
@@ -164,6 +170,7 @@
       "role-play",
       "assist",
       "brick-break",
+      "knock-off",
       "endeavor",
       "secret-power",
       "blaze-kick",
@@ -193,15 +200,9 @@
       "fire-pledge",
       "work-up",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "burning-jealousy"
     ]
   },
-  "evolutions": [
-    {
-      "name": "monferno",
-      "level": 14,
-      "evoMoves": "mach-punch"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_1"
 }

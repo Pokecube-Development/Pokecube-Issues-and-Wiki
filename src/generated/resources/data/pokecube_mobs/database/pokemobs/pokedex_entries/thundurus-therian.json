@@ -2,6 +2,7 @@
   "name": "thundurus-therian",
   "id": 642,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 290,
   "size": {
     "height": 3.0,

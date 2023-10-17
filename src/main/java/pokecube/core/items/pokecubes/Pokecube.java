@@ -137,7 +137,8 @@ public class Pokecube extends Item implements IPokecube
             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             if (pokemob == null) return;
 //            list.add(TComponent.translatable(pokemob.getDisplayName().getString(), ChatFormatting.BOLD, ChatFormatting.GOLD));
-            list.add(TComponent.translatable("pokecube.tooltip.pokemob", pokemob.getDisplayName()).withStyle(ChatFormatting.BOLD, ChatFormatting.GOLD));
+            list.add(TComponent.translatable("pokecube.tooltip.pokemob", pokemob.getDisplayName())
+                    .withStyle(ChatFormatting.BOLD, ChatFormatting.GOLD));
 
             final CompoundTag pokeTag = item.getTag().getCompound(TagNames.POKEMOB);
 
@@ -153,14 +154,19 @@ public class Pokecube extends Item implements IPokecube
             if (Screen.hasShiftDown())
             {
                 String arg = "";
-                for (final String s : pokemob.getMoves())
+                for (int i = 0; i < pokemob.getMovesCount(); i++)
+                {
+                    String s = pokemob.getMove(i);
                     if (s != null) arg += I18n.get(MovesUtils.getUnlocalizedMove(s)) + ", ";
+                }
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(TComponent.translatable("pokecube.tooltip.moves", arg).withStyle(ChatFormatting.GRAY));
                 arg = "";
                 for (final Byte b : pokemob.getIVs()) arg += b + ", ";
-                list.add(TComponent.translatable("pokecube.tooltip.nature", pokemob.getNature()).withStyle(ChatFormatting.GRAY));
-                list.add(TComponent.translatable("pokecube.tooltip.ability", pokemob.getAbility()).withStyle(ChatFormatting.GRAY));
+                list.add(TComponent.translatable("pokecube.tooltip.nature", pokemob.getNature())
+                        .withStyle(ChatFormatting.GRAY));
+                list.add(TComponent.translatable("pokecube.tooltip.ability", pokemob.getAbility())
+                        .withStyle(ChatFormatting.GRAY));
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(TComponent.translatable("pokecube.tooltip.ivs", arg).withStyle(ChatFormatting.GRAY));
                 arg = "";
@@ -176,7 +182,7 @@ public class Pokecube extends Item implements IPokecube
                 final String gender = sexe == IPokemob.MALE ? "\u2642" : sexe == IPokemob.FEMALE ? "\u2640" : "";
                 if (!gender.isBlank())
                     if (sexe == IPokemob.MALE) list.add(TComponent.translatable("pokecube.tooltip.male"));
-                    if (sexe == IPokemob.FEMALE) list.add(TComponent.translatable("pokecube.tooltip.female"));
+                if (sexe == IPokemob.FEMALE) list.add(TComponent.translatable("pokecube.tooltip.female"));
             }
             else list.add(TComponent.translatable("pokecube.tooltip.advanced"));
         }

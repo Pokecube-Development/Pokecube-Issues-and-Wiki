@@ -2,7 +2,7 @@
   "name": "aerodactyl-mega",
   "id": 142,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 215,
   "size": {
     "height": 2.1,

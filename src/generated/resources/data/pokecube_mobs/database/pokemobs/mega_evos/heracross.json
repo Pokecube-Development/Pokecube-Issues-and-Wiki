@@ -1,0 +1,10 @@
+{
+  "user": "heracross",
+  "name": "heracross-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:heracrossmega"
+    }
+  }
+}

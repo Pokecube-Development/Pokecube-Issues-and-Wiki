@@ -2,7 +2,7 @@
   "name": "rillaboom-gmax",
   "id": 812,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 265,
   "size": {
     "height": 5.0,
@@ -35,6 +35,43 @@
     "hidden": [
       "grassy-surge"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "extra_bl",
+          "offset": "3.5,0,-1.8",
+          "size": "4,6,4"
+        },
+        {
+          "name": "extra_b2",
+          "offset": "3.5,6,-1.8",
+          "size": "4,6,4"
+        },
+        {
+          "name": "body",
+          "offset": "-2,0,-2",
+          "size": "4,6,4"
+        },
+        {
+          "name": "head",
+          "offset": "-2,6,-2",
+          "size": "4,3,4",
+          "ride": "2,0,3"
+        },
+        {
+          "name": "extra_al",
+          "offset": "-8.5,0,-3",
+          "size": "4,6,4"
+        },
+        {
+          "name": "extra_a2",
+          "offset": "-8.5,6,-3",
+          "size": "4,6,4"
+        }
+      ]
+    }
   },
   "old_name": "rillaboom_gigantamax"
 }

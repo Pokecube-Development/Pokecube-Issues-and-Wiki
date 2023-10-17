@@ -234,11 +234,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "fraxure",
-      "level": 38
-    }
-  ],
   "loot_table": "pokecube:entities/bones"
 }

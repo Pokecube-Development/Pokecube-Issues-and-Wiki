@@ -1,0 +1,9 @@
+{
+  "name": "vibrava",
+  "user": "trapinch",
+  "condition": {
+    "key": "level",
+    "level": 35
+  },
+  "evoMoves": "dragon-breath"
+}

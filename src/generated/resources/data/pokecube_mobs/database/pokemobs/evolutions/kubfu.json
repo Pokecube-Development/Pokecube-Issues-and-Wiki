@@ -1,0 +1,52 @@
+[
+  {
+    "name": "urshifu-single-strike",
+    "user": "kubfu",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "desc": "legends.spawns.structures.kubfu_dark",
+          "values": {
+            "structures": "pokecube_legends:kubfu_dark"
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:pdark"
+        }
+      },
+      {
+        "key": "happy"
+      }
+    ],
+    "evoMoves": "wicked-blow"
+  },
+  {
+    "name": "urshifu-rapid-strike",
+    "user": "kubfu",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "desc": "legends.spawns.structures.kubfu_water",
+          "values": {
+            "structures": "pokecube_legends:kubfu_water"
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:pwater"
+        }
+      },
+      {
+        "key": "happy"
+      }
+    ],
+    "evoMoves": "surging-strikes"
+  }
+]

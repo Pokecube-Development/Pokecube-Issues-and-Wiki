@@ -1,0 +1,9 @@
+{
+  "name": "mightyena",
+  "user": "poochyena",
+  "condition": {
+    "key": "level",
+    "level": 18
+  },
+  "evoMoves": "snarl"
+}

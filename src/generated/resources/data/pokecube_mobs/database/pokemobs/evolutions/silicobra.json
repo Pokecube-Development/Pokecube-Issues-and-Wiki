@@ -1,0 +1,9 @@
+{
+  "name": "sandaconda",
+  "user": "silicobra",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "animation": "18"
+}

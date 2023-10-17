@@ -1,0 +1,10 @@
+{
+  "name": "ninetales",
+  "user": "vulpix",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:firestone"
+    }
+  }
+}

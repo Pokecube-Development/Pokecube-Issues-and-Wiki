@@ -188,12 +188,5 @@
       "coaching"
     ]
   },
-  "evolutions": [
-    {
-      "name": "bewear",
-      "level": 27,
-      "evoMoves": "bind"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

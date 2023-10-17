@@ -207,11 +207,5 @@
       "triple-axel"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cinccino",
-      "item_preset": "shinystone"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

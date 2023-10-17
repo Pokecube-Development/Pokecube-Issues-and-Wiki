@@ -70,7 +70,8 @@
       {
         "L": 17,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "aerial-ace"
         ]
       },
       {
@@ -94,6 +95,7 @@
       {
         "L": 29,
         "moves": [
+          "taunt",
           "assist"
         ]
       },
@@ -106,7 +108,8 @@
       {
         "L": 32,
         "moves": [
-          "captivate"
+          "captivate",
+          "retaliate"
         ]
       },
       {
@@ -198,12 +201,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "purugly",
-      "level": 38,
-      "evoMoves": "swagger"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

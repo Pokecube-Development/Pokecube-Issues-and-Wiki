@@ -188,12 +188,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "excadrill",
-      "level": 31,
-      "evoMoves": "horn-drill"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

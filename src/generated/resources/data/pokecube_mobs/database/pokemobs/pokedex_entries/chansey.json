@@ -49,8 +49,7 @@
           "charm",
           "covet",
           "copycat",
-          "disarming-voice",
-          "pound"
+          "disarming-voice"
         ]
       },
       {
@@ -294,12 +293,6 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "blissey",
-      "happy": true
-    }
-  ],
   "held_table": "pokecube:entities/lucky_oval",
   "loot_table": "pokecube:entities/chicken_2"
 }

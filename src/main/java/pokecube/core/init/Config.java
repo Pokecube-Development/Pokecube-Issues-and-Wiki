@@ -404,8 +404,8 @@ public class Config extends ConfigData
     public int captureDelayTicks = 0;
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will need to execute an attack after breaking out of a cube before they can go into another for capture. [Default: true]")
     public boolean captureDelayTillAttack = true;
-    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 200]")
-    public int idleTickRate = 200;
+    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 50]")
+    public int idleTickRate = 50;
     @Configure(category = Config.mobAI, comment = "Maximum distance a wild pokemob will try to move while idle wandering. [Default: 16]")
     public int idleMaxPathWild = 16;
     @Configure(category = Config.mobAI, comment = "Maximum distance a tamed pokemob will try to move while idle wandering. [Default: 4]")
@@ -575,8 +575,8 @@ public class Config extends ConfigData
     public boolean guiAutoScale = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Allows pokemobs to auto select moves. [Default: false]")
     public boolean autoSelectMoves = false;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled. [Default: false]")
-    public boolean autoRecallPokemobs = false;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled when too far. [Default: true]")
+    public boolean autoRecallPokemobs = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will fly up or down if the player is looking sufficiently vertically. [Default: true]")
     public boolean riddenMobsAscendWithLook = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs may try to automatically path while ridden. [Default: true]")

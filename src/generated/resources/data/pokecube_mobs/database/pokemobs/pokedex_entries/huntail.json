@@ -42,7 +42,10 @@
         "L": 1,
         "moves": [
           "bite",
-          "whirlpool"
+          "water-gun",
+          "whirlpool",
+          "iron-defense",
+          "shell-smash"
         ]
       },
       {
@@ -66,7 +69,8 @@
       {
         "L": 11,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "rain-dance"
         ]
       },
       {

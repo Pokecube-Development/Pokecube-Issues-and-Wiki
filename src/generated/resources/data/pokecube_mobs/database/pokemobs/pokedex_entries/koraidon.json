@@ -133,6 +133,7 @@
       "swords-dance",
       "body-slam",
       "take-down",
+      "roar",
       "flamethrower",
       "hyper-beam",
       "low-kick",
@@ -152,8 +153,10 @@
       "sleep-talk",
       "sunny-day",
       "crunch",
+      "uproar",
       "heat-wave",
       "facade",
+      "focus-punch",
       "taunt",
       "helping-hand",
       "brick-break",
@@ -182,9 +185,12 @@
       "bulldoze",
       "dragon-tail",
       "wild-charge",
+      "heat-crash",
       "snarl",
       "stomping-tantrum",
       "body-press",
+      "scale-shot",
+      "dual-wingbeat",
       "tera-blast"
     ]
   }

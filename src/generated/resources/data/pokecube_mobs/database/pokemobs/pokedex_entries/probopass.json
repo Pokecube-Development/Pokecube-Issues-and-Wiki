@@ -44,6 +44,8 @@
         "L": 1,
         "moves": [
           "tackle",
+          "rock-throw",
+          "harden",
           "iron-defense",
           "block",
           "gravity",
@@ -125,6 +127,18 @@
         "moves": [
           "stone-edge"
         ]
+      },
+      {
+        "L": 10,
+        "moves": [
+          "smack-down"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "body-press"
+        ]
       }
     ],
     "misc": [
@@ -133,6 +147,9 @@
       "thunder-punch",
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
+      "double-edge",
       "hyper-beam",
       "strength",
       "thunderbolt",
@@ -168,9 +185,11 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "magic-coat",
       "secret-power",
       "rock-tomb",
+      "sand-tomb",
       "iron-defense",
       "block",
       "rock-blast",
@@ -189,9 +208,11 @@
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "head-smash",
       "wide-guard",
       "telekinesis",
       "smack-down",
+      "heavy-slam",
       "round",
       "ally-switch",
       "volt-switch",
@@ -199,7 +220,11 @@
       "confide",
       "magnetic-flux",
       "dazzling-gleam",
-      "stomping-tantrum"
+      "high-horsepower",
+      "stomping-tantrum",
+      "body-press",
+      "steel-beam",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/stone_2"

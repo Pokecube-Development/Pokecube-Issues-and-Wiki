@@ -134,6 +134,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "roar",
       "sing",
       "flamethrower",
       "hyper-beam",
@@ -174,9 +175,11 @@
       "flame-charge",
       "hex",
       "fire-pledge",
+      "heat-crash",
       "snarl",
       "disarming-voice",
       "stomping-tantrum",
+      "poltergeist",
       "tera-blast"
     ]
   },

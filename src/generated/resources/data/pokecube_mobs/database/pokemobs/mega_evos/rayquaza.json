@@ -1,0 +1,8 @@
+{
+  "user": "rayquaza",
+  "name": "rayquaza-mega",
+  "rule": {
+    "key": "move",
+    "move": "dragon-ascent"
+  }
+}

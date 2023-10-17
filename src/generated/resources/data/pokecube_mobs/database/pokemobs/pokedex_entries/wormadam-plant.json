@@ -65,6 +65,13 @@
         ]
       },
       {
+        "L": 20,
+        "moves": [
+          "string-shot",
+          "hidden-power"
+        ]
+      },
+      {
         "L": 23,
         "moves": [
           "confusion"
@@ -89,12 +96,6 @@
         ]
       },
       {
-        "L": 20,
-        "moves": [
-          "hidden-power"
-        ]
-      },
-      {
         "L": 50,
         "moves": [
           "bug-buzz"
@@ -109,7 +110,8 @@
       {
         "L": 35,
         "moves": [
-          "captivate"
+          "captivate",
+          "infestation"
         ]
       },
       {
@@ -127,6 +129,7 @@
       "razor-leaf",
       "solar-beam",
       "string-shot",
+      "dig",
       "toxic",
       "confusion",
       "psychic",

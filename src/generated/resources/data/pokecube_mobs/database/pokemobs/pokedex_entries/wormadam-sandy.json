@@ -2,6 +2,7 @@
   "name": "wormadam-sandy",
   "id": 413,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 148,
   "size": {
     "height": 0.5
@@ -53,6 +54,13 @@
         ]
       },
       {
+        "L": 20,
+        "moves": [
+          "string-shot",
+          "hidden-power"
+        ]
+      },
+      {
         "L": 47,
         "moves": [
           "fissure"
@@ -89,12 +97,6 @@
         ]
       },
       {
-        "L": 20,
-        "moves": [
-          "hidden-power"
-        ]
-      },
-      {
         "L": 26,
         "moves": [
           "rock-blast"
@@ -109,7 +111,8 @@
       {
         "L": 35,
         "moves": [
-          "captivate"
+          "captivate",
+          "infestation"
         ]
       },
       {
@@ -123,6 +126,7 @@
       "tackle",
       "psybeam",
       "hyper-beam",
+      "solar-beam",
       "string-shot",
       "earthquake",
       "fissure",
@@ -142,6 +146,7 @@
       "protect",
       "mud-slap",
       "sandstorm",
+      "giga-drain",
       "endure",
       "rollout",
       "swagger",

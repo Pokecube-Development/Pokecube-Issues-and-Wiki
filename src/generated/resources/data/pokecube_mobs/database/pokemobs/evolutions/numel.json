@@ -1,0 +1,9 @@
+{
+  "name": "camerupt",
+  "user": "numel",
+  "condition": {
+    "key": "level",
+    "level": 33
+  },
+  "evoMoves": "rock-slide"
+}

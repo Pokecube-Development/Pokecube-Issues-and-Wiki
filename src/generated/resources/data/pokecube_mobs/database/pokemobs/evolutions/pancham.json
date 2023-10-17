@@ -1,0 +1,11 @@
+{
+  "name": "pangoro",
+  "user": "pancham",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:duskstone"
+    }
+  },
+  "evoMoves": "bullet-punch"
+}

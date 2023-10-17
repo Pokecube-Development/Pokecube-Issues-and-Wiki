@@ -2,7 +2,7 @@
   "name": "coalossal-gmax",
   "id": 839,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 255,
   "size": {
     "height": 5.0,
@@ -37,6 +37,28 @@
     "hidden": [
       "flash-fire"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2,0,-2",
+          "size": "5,4,5"
+        },
+        {
+          "name": "body1",
+          "offset": "-2,4,-2",
+          "size": "5,4,5",
+          "ride": "2,2.6,4.4"
+        },
+        {
+          "name": "body2",
+          "offset": "-2,8,-2",
+          "size": "4,4,4"
+        }
+      ]
+    }
   },
   "old_name": "coalossal_gigantamax"
 }

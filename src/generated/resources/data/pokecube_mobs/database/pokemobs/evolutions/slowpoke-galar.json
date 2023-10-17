@@ -1,0 +1,24 @@
+[
+  {
+    "name": "slowbro-galar",
+    "user": "slowpoke-galar",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:galarcuff"
+      }
+    },
+    "evoMoves": "shell-side-arm"
+  },
+  {
+    "name": "slowking-galar",
+    "user": "slowpoke-galar",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:galarwreath"
+      }
+    },
+    "evoMoves": "eerie-spell"
+  }
+]

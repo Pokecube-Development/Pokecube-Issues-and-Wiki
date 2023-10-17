@@ -166,6 +166,7 @@ public class Health
         {
 
             float scale = .02f;
+            float mobScale = (float) SharedAttributes.getScale(entity);
 
             final float maxHealth = entity.getMaxHealth();
             final float health = Math.min(maxHealth, entity.getHealth());
@@ -180,9 +181,12 @@ public class Health
                 for (final PartEntity<?> part : entity.getParts())
                     dy = Math.max(dy, part.getBoundingBox().getYsize() + part.getY() - entity.getY());
             }
-            scale *= SharedAttributes.getScale(entity);
 
-            mat.translate(0, dy + config.heightAbove, 0);
+            dy += config.heightAbove;
+            dy *= mobScale;
+            scale *= mobScale;
+
+            mat.translate(0, dy, 0);
             Quaternionf quaternion;
             quaternion = viewer.rotation();
             mat.mulPose(quaternion);

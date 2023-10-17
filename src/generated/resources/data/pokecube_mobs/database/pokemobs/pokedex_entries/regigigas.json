@@ -112,6 +112,7 @@
       }
     ],
     "misc": [
+      "pound",
       "mega-punch",
       "fire-punch",
       "ice-punch",
@@ -163,6 +164,7 @@
       "block",
       "shock-wave",
       "gravity",
+      "hammer-arm",
       "natural-gift",
       "payback",
       "fling",

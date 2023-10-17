@@ -114,6 +114,7 @@
       "baton-pass",
       "rain-dance",
       "sunny-day",
+      "uproar",
       "facade",
       "helping-hand",
       "trick",
@@ -133,11 +134,5 @@
       "tera-blast",
       "pounce"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "espathra",
-      "level": 35
-    }
-  ]
+  }
 }

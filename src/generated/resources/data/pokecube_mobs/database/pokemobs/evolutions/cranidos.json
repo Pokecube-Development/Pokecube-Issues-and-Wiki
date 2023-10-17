@@ -1,0 +1,9 @@
+{
+  "name": "rampardos",
+  "user": "cranidos",
+  "condition": {
+    "key": "level",
+    "level": 30
+  },
+  "evoMoves": "endeavor"
+}

@@ -69,9 +69,17 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "low-kick",
+          "chip-away"
+        ]
+      },
+      {
         "L": 8,
         "moves": [
-          "rage"
+          "rage",
+          "mud-slap"
         ]
       },
       {
@@ -120,12 +128,6 @@
         "L": 20,
         "moves": [
           "ice-fang"
-        ]
-      },
-      {
-        "L": 29,
-        "moves": [
-          "chip-away"
         ]
       }
     ],
@@ -220,11 +222,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "croconaw",
-      "level": 18
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

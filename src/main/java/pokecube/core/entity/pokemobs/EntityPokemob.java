@@ -172,10 +172,31 @@ public class EntityPokemob extends PokemobRidable
         }
         if (this.deathTime >= reviveTimer && reviveTimer > 0)
         {
-            this.pokemobCap.revive(fullHeal);
-            // If we revive naturally, we remove this tag, it only applies for
-            // forced revivals
-            this.getPersistentData().remove(TagNames.REVIVED);
+            if (this.getPersistentData().contains("pokecube:raid_boss"))
+            {
+                this.pokemobCap.onRecall(true);
+                Battle battle = Battle.getBattle(this);
+                if (battle != null) battle.removeFromBattle(this);
+                for (int k = 0; k < 20; ++k)
+                {
+                    final double d2 = this.random.nextGaussian() * 0.02D;
+                    final double d0 = this.random.nextGaussian() * 0.02D;
+                    final double d1 = this.random.nextGaussian() * 0.02D;
+                    this.level.addParticle(ParticleTypes.POOF,
+                            this.getX() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(),
+                            this.getY() + this.random.nextFloat() * this.getBbHeight(),
+                            this.getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(), d2,
+                            d0, d1);
+                }
+            }
+            else
+            {
+                this.pokemobCap.revive(fullHeal);
+                // If we revive naturally, we remove this tag, it only applies
+                // for
+                // forced revivals
+                this.getPersistentData().remove(TagNames.REVIVED);
+            }
         }
     }
 
@@ -370,7 +391,6 @@ public class EntityPokemob extends PokemobRidable
         this.initSeats();
         data.writeInt(this.seatCount);
         this.pokemobCap.updateHealth();
-        this.pokemobCap.onGenesChanged();
         final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         final ListTag list = genes.serializeNBT();

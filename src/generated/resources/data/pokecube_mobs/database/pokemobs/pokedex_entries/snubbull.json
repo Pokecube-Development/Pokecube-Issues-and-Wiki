@@ -77,7 +77,8 @@
       {
         "L": 31,
         "moves": [
-          "rage"
+          "rage",
+          "taunt"
         ]
       },
       {
@@ -200,11 +201,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "granbull",
-      "level": 23
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

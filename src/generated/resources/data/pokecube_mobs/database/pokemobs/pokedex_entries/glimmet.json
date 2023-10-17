@@ -132,6 +132,7 @@
       "memento",
       "facade",
       "rock-tomb",
+      "sand-tomb",
       "iron-defense",
       "mud-shot",
       "rock-blast",
@@ -141,15 +142,10 @@
       "stone-edge",
       "stealth-rock",
       "venoshock",
+      "smack-down",
       "acid-spray",
       "dazzling-gleam",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "glimmora",
-      "level": 35
-    }
-  ]
+  }
 }

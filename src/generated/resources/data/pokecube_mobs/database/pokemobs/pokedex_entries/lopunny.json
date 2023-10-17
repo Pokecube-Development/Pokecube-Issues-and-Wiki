@@ -150,6 +150,7 @@
       "ice-punch",
       "thunder-punch",
       "cut",
+      "double-kick",
       "mega-kick",
       "jump-kick",
       "headbutt",
@@ -198,6 +199,7 @@
       "shadow-ball",
       "rock-smash",
       "uproar",
+      "flatter",
       "facade",
       "focus-punch",
       "helping-hand",
@@ -243,12 +245,6 @@
       "triple-axel"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "lopunnymega"
-    }
-  ],
   "interactions": [
     {
       "male": false,

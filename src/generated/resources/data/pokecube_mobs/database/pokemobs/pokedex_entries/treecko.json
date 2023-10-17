@@ -229,16 +229,9 @@
       "grassy-terrain",
       "confide",
       "power-up-punch",
+      "leafage",
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "grovyle",
-      "level": 16,
-      "animation": "18",
-      "evoMoves": "fury-cutter"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

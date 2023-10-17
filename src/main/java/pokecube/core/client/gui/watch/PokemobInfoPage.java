@@ -88,7 +88,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             gui.addRenderableWidget(new TexButton.Builder(page.getTitle(), b -> {
                 gui.changePage(this.index);
                 PokemobInfoPage.savedIndex = this.index;
-            }).bounds(x + buttonX, y + buttonY, 17, 17).onTooltip(new ShiftedTooltip(-buttonX, 20 - y - buttonY))
+            }).bounds(x + buttonX, y + buttonY, 17, 17).onTooltip(new ShiftedTooltip(-buttonX, -95 - buttonY))
                     .setTexture(GuiPokeWatch.getWidgetTex()).noName()
                     .setRender(new UVImgRender(uOffset, vOffset, 17, 17)).build());
         }

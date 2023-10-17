@@ -194,12 +194,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "shelgon",
-      "level": 30,
-      "evoMoves": "protect"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_1"
 }

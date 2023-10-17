@@ -213,11 +213,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dartrix",
-      "level": 17
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

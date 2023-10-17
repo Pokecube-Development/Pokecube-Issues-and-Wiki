@@ -320,7 +320,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public void preValidateVelocity()
     {
         // Calculate velocity if seeking
-        if (this.tilt > 0 || this.targetEntity != null && !this.targetEntity.isAlive())
+        if (this.tilt > 0 || this.targetEntity != null && !this.targetEntity.isAddedToWorld())
         {
             this.targetEntity = null;
             if (!this.targetLocation.equals(Vector3.secondAxisNeg)) this.targetLocation.clear();

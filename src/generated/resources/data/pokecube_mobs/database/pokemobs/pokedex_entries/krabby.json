@@ -221,11 +221,5 @@
       "liquidation"
     ]
   },
-  "evolutions": [
-    {
-      "name": "kingler",
-      "level": 29
-    }
-  ],
   "loot_table": "pokecube:entities/shear_fish"
 }

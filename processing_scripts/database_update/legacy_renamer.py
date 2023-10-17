@@ -5,9 +5,6 @@ TO_MODEL = {
 }
 
 RENAMES = {
-    "minior-red-meteor": "minior-meteor",
-}
-RENAMES = {
     # Minior meteors are all the same externally, so the internals are handled in code
     "minior-red-meteor": "minior-meteor",
     # basculin red and blue stripes are essentially cosmetic, so merged to basculin
@@ -47,6 +44,7 @@ LEGACY_REV_MAP = {
     "Lunala Dawn": "necrozma-dawn",
     "Calyrex Ice Rider": "calyrex-ice",
     "Calyrex Shadow Rider": "calyrex-shadow",
+    "Greninja Ash": "greninja-battle-bond",
 }
 
 LEGACY_MAP = {
@@ -160,6 +158,34 @@ IGNORED_FORMS = [
     "pichu-spiky-eared",
 ]
 
+TAG_IGNORE = [
+    "minior",
+    "minior-red-meteor",
+    "basculin-red-striped",
+]
+
+NOT_EXTRA_FORMS = [
+
+]
+
+IS_EXTRA_FORM = [
+    "tauros-paldea-aqua-breed",
+    "tauros-paldea-blaze-breed",
+    "tauros-paldea-combat-breed",
+]
+
+def is_extra_form(name):
+    if name in IS_EXTRA_FORM:
+        return True
+    if '-galar' in name:
+        return False
+    if '-hisui' in name:
+        return False
+    if '-alola' in name:
+        return False
+    if '-paldea' in name:
+        return False
+    return not name in NOT_EXTRA_FORMS
 
 def banned_form(name):
     return name in IGNORED_FORMS
@@ -187,8 +213,11 @@ def find_new_name(old_name, options):
     cleaned = old_name.replace('gigantamax', 'gmax')
     cleaned = cleaned.replace('-', '')
     cleaned = cleaned.replace('_', '')
+    cleaned = cleaned.replace(' ', '')
     for new_name in options:
-        test = new_name.replace('-', '')
+        test = utils.trim(new_name)
+        test = test.replace(' ', '')
+        test = test.replace('-', '')
         test = test.replace('_', '')
         if(test==cleaned):
             return new_name

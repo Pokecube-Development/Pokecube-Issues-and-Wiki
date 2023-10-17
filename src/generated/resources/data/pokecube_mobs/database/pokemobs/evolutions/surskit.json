@@ -1,0 +1,8 @@
+{
+  "name": "masquerain",
+  "user": "surskit",
+  "condition": {
+    "key": "level",
+    "level": 22
+  }
+}

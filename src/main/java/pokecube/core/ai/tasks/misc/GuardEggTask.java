@@ -2,16 +2,21 @@ package pokecube.core.ai.tasks.misc;
 
 import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.moves.Battle;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
 import pokecube.core.ai.tasks.TaskBase;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
+import thut.core.common.ThutCore;
 
 /**
  * This IAIRunnable results in the mother of an egg always staying within 4
@@ -20,24 +25,23 @@ import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
  */
 public class GuardEggTask extends TaskBase
 {
-    private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
+    private static final Map<MemoryModuleType<?>, MemoryStatus> _MEMS = Maps.newHashMap();
 
-    static
+    private static final Map<MemoryModuleType<?>, MemoryStatus> _getMems()
     {
-        MEMS.put(MemoryModules.EGG.get(), MemoryStatus.VALUE_PRESENT);
+        if (_MEMS.isEmpty())
+        {
+            // Only run when we have an egg
+            _MEMS.put(MemoryModules.EGG.get(), MemoryStatus.VALUE_PRESENT);
+        }
+        return _MEMS;
     }
-
-    public static int PATHCOOLDOWN = 50;
-    public static int SEARCHCOOLDOWN = 50;
 
     EntityPokemobEgg egg = null;
 
-    int eggSearchCooldown = 0;
-    int eggPathCooldown = 0;
-
     public GuardEggTask(final IPokemob mob)
     {
-        super(mob, MEMS);
+        super(mob, _getMems());
     }
 
     @Override
@@ -50,13 +54,11 @@ public class GuardEggTask extends TaskBase
     @Override
     public void run()
     {
+        double eggDist = this.entity.distanceToSqr(this.egg);
         // No breeding while guarding egg.
         this.pokemob.resetLoveStatus();
         // If too close to egg, don't bother moving.
-        if (this.entity.distanceToSqr(this.egg) < 4) return;
-        // On cooldown
-        if (this.eggPathCooldown-- > 0) return;
-        this.eggPathCooldown = GuardEggTask.PATHCOOLDOWN;
+        if (eggDist < 4) return;
         // Path to the egg.
         this.setWalkTo(this.egg.position(), 1, 0);
     }
@@ -74,7 +76,32 @@ public class GuardEggTask extends TaskBase
         }
         if (this.egg == null) return false;
         this.egg.mother = this.pokemob;
-        BrainUtils.deagro(this.pokemob.getEntity());
+
+        var enemy = BrainUtils.getAttackTarget(entity);
+        if (enemy != null)
+        {
+            // guarding things are respected, but we will play annoyed
+            // particles.
+            if (enemy.level() instanceof ServerLevel level)
+            {
+                double size = pokemob.getMobSizes().mag();
+                double x = this.entity.getX();
+                double y = this.entity.getY();
+                double z = this.entity.getZ();
+
+                Random r = ThutCore.newRandom();
+                for (int l = 0; l < 5; l++)
+                {
+                    double i = r.nextGaussian() * size;
+                    double j = r.nextGaussian() * size;
+                    double k = r.nextGaussian() * size;
+                    level.sendParticles(ParticleTypes.ANGRY_VILLAGER, x + i, y + j, z + k, 1, 0, 0, 0, 0);
+                }
+            }
+            Battle b = Battle.getBattle(entity);
+            if (b != null) b.removeFromBattle(entity);
+            BrainUtils.deagro(this.pokemob.getEntity());
+        }
 
         // Only run if we have a live egg to watch.
         if (this.egg != null) return this.egg.isAlive() ? true : false;

@@ -2,7 +2,7 @@
   "name": "manectric-mega",
   "id": 310,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 201,
   "size": {
     "height": 1.8

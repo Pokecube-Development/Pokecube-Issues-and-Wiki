@@ -47,7 +47,7 @@ public class PokemobSounds
                     if (e.customSound != null) e.setSound("mobs." + Database.trim(e.customSound));
                     else
                     {
-                        if (e.base) e.setSound("mobs." + e.getTrimmedName());
+                        if (e.base || e.getBaseForme() == null) e.setSound("mobs." + e.getTrimmedName());
                         else e.setSound("mobs." + e.getBaseForme().getTrimmedName());
                     }
                     e.sound = new ResourceLocation(PokecubeMobs.MODID, e.sound.getPath());
@@ -56,6 +56,7 @@ public class PokemobSounds
                 {
                     PokecubeAPI.LOGGER.error("Broken " + e.name);
                     e1.printStackTrace();
+                    continue;
                 }
             }
             if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo(e + " has Sound: " + e.sound);

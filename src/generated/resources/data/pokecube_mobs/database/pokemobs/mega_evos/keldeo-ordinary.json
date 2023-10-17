@@ -1,0 +1,8 @@
+{
+  "user": "keldeo-ordinary",
+  "name": "keldeo-resolute",
+  "rule": {
+    "key": "move",
+    "move": "secret-sword"
+  }
+}

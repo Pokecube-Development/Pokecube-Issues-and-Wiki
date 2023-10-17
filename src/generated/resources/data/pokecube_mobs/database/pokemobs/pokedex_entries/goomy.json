@@ -160,16 +160,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sliggoo",
-      "level": 40
-    },
-    {
-      "name": "sliggoo-hisui",
-      "level": 39,
-      "item_preset": "pokecube_mobs:iron_shell"
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }

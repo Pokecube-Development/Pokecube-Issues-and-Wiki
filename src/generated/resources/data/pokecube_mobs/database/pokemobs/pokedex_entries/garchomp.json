@@ -211,11 +211,5 @@
     "model": "garchomp_female",
     "anim": "garchomp_female"
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "garchompmega"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_chicken_2"
 }

@@ -1,0 +1,8 @@
+{
+  "name": "tyranitar",
+  "user": "pupitar",
+  "condition": {
+    "key": "level",
+    "level": 55
+  }
+}

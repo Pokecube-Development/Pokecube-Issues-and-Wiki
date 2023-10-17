@@ -40,6 +40,7 @@ public class PokemobSpawns extends ResourceData
     public static final class SpawnEntry
     {
         public List<MobEntry> entries = Lists.newArrayList();
+        public String desc;
         public String and_preset;
         public String not_preset;
         public String or_preset;
@@ -177,6 +178,7 @@ public class PokemobSpawns extends ResourceData
                         customRule.values.put("rate", mob.rate + "");
                         if (mob.level > 0) customRule.values.put("level", mob.level + "");
                         if (mob.variance != null) customRule.values.put("variance", mob.variance);
+                        if (entry.desc != null) customRule.desc = entry.desc;
                         final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(customRule);
                         PokedexEntryLoader.handleAddSpawn(poke, matcher);
                     }

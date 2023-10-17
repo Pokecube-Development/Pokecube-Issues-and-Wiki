@@ -133,12 +133,14 @@
     "misc": [
       "body-slam",
       "take-down",
+      "roar",
       "hyper-beam",
       "dig",
       "rest",
       "substitute",
       "thief",
       "reversal",
+      "spite",
       "protect",
       "scary-face",
       "outrage",
@@ -162,6 +164,7 @@
       "snarl",
       "play-rough",
       "psychic-fangs",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]

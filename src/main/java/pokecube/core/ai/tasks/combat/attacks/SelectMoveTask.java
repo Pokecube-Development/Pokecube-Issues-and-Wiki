@@ -62,11 +62,10 @@ public class SelectMoveTask extends CombatTask implements IAICombat
     {
         int index = this.pokemob.getMoveIndex();
         int max = 0;
-        final String[] moves = this.pokemob.getMoves();
         final double dist = this.entity.distanceToSqr(this.target.getX(), this.target.getY(), this.target.getZ());
         for (int i = 0; i < 4; i++)
         {
-            final String s = moves[i];
+            final String s = pokemob.getMove(i);
             // Cannot select a disabled move.
             if (this.pokemob.getDisableTimer(i) > 0) continue;
             if (s != null)

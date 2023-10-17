@@ -193,13 +193,5 @@
       "stomping-tantrum"
     ]
   },
-  "evolutions": [
-    {
-      "name": "pignite",
-      "level": 17,
-      "animation": "55",
-      "evoMoves": "arm-thrust"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_pig_1"
 }

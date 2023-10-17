@@ -24,8 +24,8 @@ public class Sketch implements PostMoveUse
         final String lastHitBy = attacker.getEntity().getPersistentData().getString("lastMoveHitBy");
         final MoveEntry toSketch = MovesUtils.getMove(lastHitBy);
         if (Tags.MOVE.isIn("no-sketch", lastHitBy) || toSketch == null) return;
-        for (int i = 0; i < attacker.getMoves().length; i++)
-            if (attacker.getMoves()[i] != null && attacker.getMoves()[i].equals(packet.getName()))
+        for (int i = 0; i < attacker.getMovesCount(); i++)
+            if (attacker.getMove(i) != null && attacker.getMove(i).equals(packet.getName()))
         {
             attacker.setMove(i, toSketch.name);
             attacker.displayMessageToOwner(TComponent.translatable("pokemob.move.sketched", attacker.getDisplayName(),

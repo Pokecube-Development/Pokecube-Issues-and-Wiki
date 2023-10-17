@@ -47,8 +47,7 @@
           "harden",
           "haze",
           "poison-gas",
-          "moonblast",
-          "pound"
+          "moonblast"
         ]
       },
       {
@@ -158,6 +157,7 @@
       "double-team",
       "harden",
       "minimize",
+      "haze",
       "metronome",
       "self-destruct",
       "fire-blast",
@@ -230,6 +230,7 @@
       "venom-drench",
       "infestation",
       "brutal-swing",
+      "lash-out",
       "tera-blast"
     ]
   },

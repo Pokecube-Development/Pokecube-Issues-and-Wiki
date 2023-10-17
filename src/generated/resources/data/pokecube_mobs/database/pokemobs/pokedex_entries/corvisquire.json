@@ -104,6 +104,7 @@
       "thief",
       "snore",
       "reversal",
+      "spite",
       "protect",
       "scary-face",
       "endure",
@@ -135,13 +136,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "corviknight",
-      "level": 38,
-      "animation": "18",
-      "evoMoves": "steel-wing"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

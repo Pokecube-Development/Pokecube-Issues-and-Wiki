@@ -21,11 +21,9 @@ import net.minecraftforge.common.util.LazyOptional;
 import pokecube.core.PokecubeCore;
 import pokecube.core.init.MenuTypes;
 import pokecube.core.items.ItemPokedex;
-import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokemobeggs.ItemPokemobEgg;
 import pokecube.core.network.packets.PacketPC;
-import pokecube.core.utils.CapHolders;
 import thut.api.inventory.BaseContainer;
 import thut.core.common.ThutCore;
 import thut.wearables.IActiveWearable;
@@ -48,13 +46,11 @@ public class PCContainer extends BaseContainer
     public static boolean isItemValid(final ItemStack itemstack)
     {
         if (itemstack.isEmpty()) return false;
-        final LazyOptional<IMegaCapability> mega = itemstack.getCapability(CapHolders.MEGA_CAP);
         final LazyOptional<IActiveWearable> worn = itemstack.getCapability(ThutWearables.WEARABLE_CAP);
 
         final boolean eggorCube = !PokecubeCore.getConfig().pcHoldsOnlyPokecubes || PokecubeManager.isFilled(itemstack)
                 || itemstack.getItem() instanceof WritableBookItem || itemstack.getItem() instanceof ItemPokemobEgg
-                || itemstack.getItem() instanceof ItemPokedex
-                || mega.isPresent() && mega.orElse(null).getEntry(itemstack) != null || worn.isPresent();
+                || itemstack.getItem() instanceof ItemPokedex || worn.isPresent();
         if (!eggorCube) for (final Predicate<ItemStack> tester : PCContainer.CUSTOMPCWHILTELIST)
             if (tester.test(itemstack)) return true;
         return eggorCube;

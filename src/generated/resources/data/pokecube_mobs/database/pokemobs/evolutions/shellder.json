@@ -1,0 +1,10 @@
+{
+  "name": "cloyster",
+  "user": "shellder",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:waterstone"
+    }
+  }
+}

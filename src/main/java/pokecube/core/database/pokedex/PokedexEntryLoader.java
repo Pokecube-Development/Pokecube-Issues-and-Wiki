@@ -22,12 +22,10 @@ import com.google.gson.Gson;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.PokedexEntry.MovementType;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.PokedexEntry.SpawnData.SpawnEntry;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
@@ -270,7 +268,7 @@ public class PokedexEntryLoader
     {
         FormeHolder forme = holder.getForme(entry);
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Loaded form for {}: ({} {} {}) -> ({} {} {} {})",
-                holder.root_entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
+                entry, holder.model, holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
     }
 
     public static void updateEntry(final PokedexEntry entry)
@@ -350,57 +348,6 @@ public class PokedexEntryLoader
         catch (final IllegalAccessException e)
         {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * This can be run at any point after the main entries are all known.
-     *
-     * @param entry
-     * @param xmlStats
-     * @param error
-     */
-    static void parseEvols(final PokedexEntry entry, final List<Evolution> evolutions, final boolean error)
-    {
-        if (evolutions != null && !evolutions.isEmpty())
-        {
-            if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Proccessing Evos for " + entry.getName());
-            for (final Evolution evol : evolutions)
-            {
-                final String name = evol.name;
-                final PokedexEntry evolEntry = Database.getEntry(name);
-                if (evolEntry == null)
-                {
-                    PokecubeAPI.LOGGER.error("Entry {} not found for evolution of {}, skipping", name, entry.name);
-                    continue;
-                }
-                EvolutionData data = null;
-                final boolean clear = evol.clear != null && evol.clear;
-                // check for specific clearing info for this entry.
-                for (final EvolutionData d : entry.evolutions) if (d.data.equals(evol))
-                {
-                    data = d;
-                    if (clear)
-                    {
-                        entry.evolutions.remove(d);
-                        PokecubeAPI.logInfo("Replacing evolution for " + entry + " -> " + evolEntry);
-                    }
-                    break;
-                }
-                if (data == null || clear)
-                {
-                    data = new EvolutionData(evolEntry);
-                    data.data = evol;
-                    data.preEvolution = entry;
-                    // Skip any exactly duplicated entires.
-                    check:
-                    {
-                        if (!clear) for (final EvolutionData existing : entry.evolutions)
-                            if (existing.data.equals(data.data)) break check;
-                        entry.addEvolution(data);
-                    }
-                }
-            }
         }
     }
 

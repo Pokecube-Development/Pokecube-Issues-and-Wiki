@@ -1,0 +1,9 @@
+{
+  "name": "gogoat",
+  "user": "skiddo",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "aerial-ace"
+}

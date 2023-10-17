@@ -6,8 +6,8 @@
     "pokecube:machop",
     "pokecube:machoke",
     "pokecube:machamp",
-    "pokecube:mr_mime",
-    "pokecube:mr_mime_galar",
+    "pokecube:mr-mime",
+    "pokecube:mr-mime-galar",
     "pokecube:jynx",
     "pokecube:ralts",
     "pokecube:kirlia",
@@ -15,6 +15,6 @@
     "pokecube:gothita",
     "pokecube:gothorita",
     "pokecube:gothitelle",
-    "pokecube:mr_rime"
+    "pokecube:mr-rime"
   ]
 }

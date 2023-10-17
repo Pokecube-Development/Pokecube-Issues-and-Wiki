@@ -18,8 +18,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Mob;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveConstants;
-import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene;
-import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene.TeraType;
 import pokecube.core.utils.Resources;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
@@ -95,7 +93,6 @@ public class Status
 
     public static final StatusOverlay FRZTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_FRZ), 0.05f);
     public static final StatusOverlay PARTEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_PAR), 0.05f);
-    public static final StatusOverlay TERATEX = new StatusOverlay(new StatusTexturer(Resources.STATUS_TERA), 0.15f);
 
     public static final List<Function<IPokemob, StatusOverlay>> PROVIDERS = new ArrayList<>();
 
@@ -107,17 +104,6 @@ public class Status
                     : (status & IMoveConstants.STATUS_FRZ) > 0 ? IMoveConstants.STATUS_FRZ : 0;
             if (status == 0) return null;
             return status == IMoveConstants.STATUS_FRZ ? FRZTEX : PARTEX;
-        });
-
-        TERATEX.texturer.rate = 0;
-
-        PROVIDERS.add(pokemob -> {
-            TeraType type = TeraTypeGene.getTera(pokemob.getEntity());
-            if (type != null && type.isTera)
-            {
-                return TERATEX;
-            }
-            return null;
         });
     }
 

@@ -38,6 +38,7 @@ import pokecube.core.ai.tasks.combat.movement.CicleTask;
 import pokecube.core.ai.tasks.combat.movement.DodgeTask;
 import pokecube.core.ai.tasks.combat.movement.LeapTask;
 import pokecube.core.ai.tasks.idle.ForgetHuntedByTask;
+import pokecube.core.ai.tasks.idle.HerdTask;
 import pokecube.core.ai.tasks.idle.HungerTask;
 import pokecube.core.ai.tasks.idle.IdleJumpOnShoulderTask;
 import pokecube.core.ai.tasks.idle.IdleRestTask;
@@ -102,6 +103,8 @@ public class Tasks
             if (pokemob instanceof IBreedingMob) aiList.add(new MateTask(pokemob).setPriority(2));
             // Eat things
             aiList.add(new HungerTask(pokemob).setPriority(1));
+            // Wander around
+            aiList.add(new HerdTask(pokemob, 6).setPriority(8));
             // Wander around
             aiList.add(new IdleWalkTask(pokemob).setPriority(10));
             // ocassionally sit down

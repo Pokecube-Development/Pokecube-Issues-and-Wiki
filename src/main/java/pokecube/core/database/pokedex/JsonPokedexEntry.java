@@ -22,13 +22,13 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.DyeInfo;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -248,6 +248,7 @@ public class JsonPokedexEntry
     public Sizes size = null;
     public float mass = -1;
     public boolean is_default = false;
+    public boolean is_extra_form = false;
     public int capture_rate = -1;
     public int base_happiness = -1;
     public String growth_rate = null;
@@ -289,7 +290,6 @@ public class JsonPokedexEntry
     public String base_form = null;
 
     public List<SpawnRule> spawn_rules = null;
-    public List<BaseMegaRule> mega_rules = null;
     public List<Interact> interactions = null;
 
     // Evolution stuff
@@ -309,11 +309,12 @@ public class JsonPokedexEntry
         {
             PokecubeAPI.LOGGER.warn("Duplicate entry for {}", this.name);
         }
-        PokedexEntry entry = old == null ? new PokedexEntry(id, name) : old;
+        PokedexEntry entry = old == null ? new PokedexEntry(id, name, this.is_extra_form) : old;
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
-        entry.generated = !this.is_default;
+        // We may have overriden this for the update, so set it again anyway.
+        entry.generated = this.is_extra_form;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
         if (entry.base && !registered)
         {
@@ -379,7 +380,6 @@ public class JsonPokedexEntry
         if (entry == null) return;
 
         if (this.interactions != null) entry.addInteractions(this.interactions);
-        if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
         if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 
@@ -390,8 +390,6 @@ public class JsonPokedexEntry
         if (this.abilities != null) this.abilities.accept(entry);
 
         if (this.model != null) entry._default_holder = this.model;
-        if (this.male_model != null) entry._male_holder = this.male_model;
-        if (this.female_model != null) entry._female_holder = this.female_model;
 
         if (this.sound != null) entry.customSound = this.sound;
         if (this.prey != null) entry.food = this.prey.trim().split(" ");
@@ -478,12 +476,14 @@ public class JsonPokedexEntry
         if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
         if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, false);
+
+        // If it had gendered models, mark them accordingly so they get updated
+        entry.setGenderedForm(male_model, IPokemob.MALE);
+        entry.setGenderedForm(female_model, IPokemob.FEMALE);
     }
 
     public void postInit(PokedexEntry entry)
     {
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, true);
         this.handleSpawns(entry);
     }
 

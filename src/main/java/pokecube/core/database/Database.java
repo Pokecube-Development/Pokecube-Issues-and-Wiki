@@ -185,12 +185,14 @@ public class Database
 
     public static List<PokedexEntry> spawnables = new ArrayList<>();
 
-    public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo");
+    public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo", false);
 
     public static final Comparator<PokedexEntry> COMPARATOR = (o1, o2) -> {
         int diff = o1.getPokedexNb() - o2.getPokedexNb();
         if (diff == 0) if (o1.base && !o2.base) diff = -1;
         else if (o2.base && !o1.base) diff = 1;
+        else if (diff == 0) if (o1.generated && !o2.generated) diff = 1;
+        else if (o2.generated && !o1.generated) diff = -1;
         else diff = o1.getName().compareTo(o2.getName());
         return diff;
     };
@@ -274,40 +276,6 @@ public class Database
         {
             holders.add(holder);
             Collections.sort(holders, (o1, o2) -> o1.key.compareTo(o2.key));
-        }
-    }
-
-    private static void checkGenderFormes(final List<PokedexEntry> formes, final Map.Entry<Integer, PokedexEntry> vars)
-    {
-        PokedexEntry entry = vars.getValue();
-        final PokedexEntry female = entry.getForGender(IPokemob.FEMALE);
-        final PokedexEntry male = entry.getForGender(IPokemob.MALE);
-
-        /**
-         * If the forme has both male and female entries, replace the base forme
-         * with the male forme.
-         */
-        if (male != female && male != entry && female != entry)
-        {
-            male.base = true;
-            male.male = male;
-            female.male = male;
-            male.female = female;
-            entry.dummy = true;
-            entry.base = false;
-            Database.data.put(male.getPokedexNb(), male);
-            Database.data2.put(entry.getTrimmedName(), male);
-            Database.data2.put(entry.getName(), male);
-            vars.setValue(male);
-            // Set all the subformes base to this new one.
-            for (final PokedexEntry e : formes)
-            {
-                // Set the forme.
-                e.setBaseForme(male);
-                // Initialize some things.
-                e.getBaseForme();
-            }
-            entry = male;
         }
     }
 
@@ -521,11 +489,6 @@ public class Database
                  * current base forme if needed.
                  */
                 Database.initFormes(formes, entry);
-                /**
-                 * Then Check if the entry should be replaced with a gender
-                 * version
-                 */
-                Database.checkGenderFormes(formes, vars);
                 /**
                  * Then check if the base form, or any others, are dummy forms,
                  * and replace them.
@@ -808,7 +771,7 @@ public class Database
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
-                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
+                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty() && !entry.generated)
                     PokecubeAPI.logInfo("No egg group assigned for {}", entry.getTrimmedName());
             }
             for (final PokedexEntry entry : Database.getSortedFormes()) if (entry.lootTable == null && !entry.generated)

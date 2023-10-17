@@ -114,13 +114,5 @@
       "dark-pulse"
     ]
   },
-  "evolutions": [
-    {
-      "name": "overqwil",
-      "location": {
-        "and_preset": "cave_water"
-      }
-    }
-  ],
   "old_name": "qwilfish_hisui"
 }

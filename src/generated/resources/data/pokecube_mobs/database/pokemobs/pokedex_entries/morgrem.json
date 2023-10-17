@@ -165,13 +165,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "grimmsnarl",
-      "level": 42,
-      "animation": "18",
-      "evoMoves": "spirit-break"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

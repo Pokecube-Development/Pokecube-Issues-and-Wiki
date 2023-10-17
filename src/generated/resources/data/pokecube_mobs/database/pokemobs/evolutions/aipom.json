@@ -1,0 +1,8 @@
+{
+  "name": "ambipom",
+  "user": "aipom",
+  "condition": {
+    "key": "move",
+    "move": "double-hit"
+  }
+}

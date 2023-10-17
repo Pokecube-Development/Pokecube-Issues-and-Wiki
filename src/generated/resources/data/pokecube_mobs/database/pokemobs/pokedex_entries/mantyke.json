@@ -132,6 +132,7 @@
       "tackle",
       "take-down",
       "supersonic",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -191,11 +192,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mantine",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -1,0 +1,10 @@
+{
+  "name": "togekiss",
+  "user": "togetic",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:shinystone"
+    }
+  }
+}

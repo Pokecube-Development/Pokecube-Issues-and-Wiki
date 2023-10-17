@@ -1,0 +1,33 @@
+[
+  {
+    "name": "avalugg",
+    "user": "bergmite",
+    "condition": {
+      "key": "level",
+      "level": 37
+    },
+    "evoMoves": "body-slam"
+  },
+  {
+    "name": "avalugg-hisui",
+    "user": "bergmite",
+    "condition": [
+      {
+        "key": "level",
+        "level": 37
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.mountains.general",
+          "and_preset": "extreme_hills",
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      }
+    ]
+  }
+]

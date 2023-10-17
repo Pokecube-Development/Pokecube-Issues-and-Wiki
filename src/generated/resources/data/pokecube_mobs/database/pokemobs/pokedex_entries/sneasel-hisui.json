@@ -34,7 +34,7 @@
       "keen-eye"
     ],
     "hidden": [
-      "poison-touch"
+      "pickpocket"
     ]
   },
   "moves": {
@@ -100,16 +100,5 @@
       "snarl"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sneasler",
-      "item": {
-        "values": {
-          "id": "minecraft:iron_axe"
-        }
-      },
-      "time": "day"
-    }
-  ],
   "old_name": "sneasel_hisui"
 }

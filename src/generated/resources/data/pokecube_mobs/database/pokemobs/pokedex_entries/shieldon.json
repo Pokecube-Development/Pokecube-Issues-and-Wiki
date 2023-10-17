@@ -177,12 +177,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "bastiodon",
-      "level": 30,
-      "evoMoves": "block"
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

@@ -21,7 +21,7 @@ import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.resources.PackFinder;
 import pokecube.core.database.tags.Tags;
-import pokecube.core.moves.zmoves.GZMoveManager;
+import pokecube.core.moves.implementations.MovesAdder;
 import thut.api.util.JsonUtil;
 import thut.lib.ResourceHelper;
 
@@ -149,15 +149,12 @@ public class MovesDatabases
 
             // Register the move entry.
             MoveEntry.addMove(entry);
-
-            // Let the GZMoveManager process the move as well
-            GZMoveManager.process(entry);
         }
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Registered {} moves", loadedMoves.size());
     }
 
     public static void postInitMoves()
     {
-        MoveEntry.values().forEach(e -> e.postInit());
+        MoveEntry.values().forEach(move -> MovesAdder.moveProcessors.forEach(processor -> processor.accept(move)));
     }
 }

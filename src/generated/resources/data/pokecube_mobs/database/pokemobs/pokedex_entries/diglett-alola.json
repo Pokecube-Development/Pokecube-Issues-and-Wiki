@@ -186,6 +186,7 @@
       "astonish",
       "rock-tomb",
       "metal-sound",
+      "sand-tomb",
       "aerial-ace",
       "iron-defense",
       "mud-shot",
@@ -200,6 +201,7 @@
       "stone-edge",
       "stealth-rock",
       "hone-claws",
+      "smack-down",
       "foul-play",
       "round",
       "echoed-voice",
@@ -214,13 +216,6 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dugtrio-alola",
-      "level": 26,
-      "evoMoves": "sand-tomb"
-    }
-  ],
   "old_name": "diglett_alola",
   "loot_table": "pokecube:entities/dirt_1"
 }

@@ -88,6 +88,13 @@
         ]
       },
       {
+        "L": 39,
+        "moves": [
+          "sludge-bomb",
+          "mud-bomb"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
           "crunch"
@@ -111,12 +118,6 @@
         "L": 28,
         "moves": [
           "poison-jab"
-        ]
-      },
-      {
-        "L": 39,
-        "moves": [
-          "mud-bomb"
         ]
       },
       {
@@ -170,6 +171,7 @@
       "bide",
       "skull-bash",
       "glare",
+      "leech-life",
       "rest",
       "rock-slide",
       "substitute",
@@ -178,7 +180,9 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "sludge-bomb",
+      "mud-slap",
       "giga-drain",
       "endure",
       "swagger",
@@ -196,16 +200,23 @@
       "swallow",
       "torment",
       "facade",
+      "knock-off",
       "snatch",
       "secret-power",
+      "poison-fang",
       "rock-tomb",
+      "mud-shot",
+      "poison-tail",
       "natural-gift",
       "payback",
       "gastro-acid",
+      "sucker-punch",
+      "toxic-spikes",
       "poison-jab",
       "dark-pulse",
       "aqua-tail",
       "seed-bomb",
+      "switcheroo",
       "giga-impact",
       "thunder-fang",
       "ice-fang",
@@ -220,12 +231,18 @@
       "round",
       "bulldoze",
       "dragon-tail",
+      "snarl",
       "belch",
       "confide",
       "infestation",
       "throat-chop",
       "brutal-swing",
-      "stomping-tantrum"
+      "psychic-fangs",
+      "stomping-tantrum",
+      "scale-shot",
+      "lash-out",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/leather"

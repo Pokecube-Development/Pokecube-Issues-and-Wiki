@@ -243,12 +243,6 @@
       "brutal-swing"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "absolmega"
-    }
-  ],
   "interactions": [
     {
       "male": false,

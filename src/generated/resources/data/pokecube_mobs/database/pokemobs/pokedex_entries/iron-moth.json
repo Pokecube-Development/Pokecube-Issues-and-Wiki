@@ -131,6 +131,7 @@
       "hyper-beam",
       "solar-beam",
       "fire-spin",
+      "toxic",
       "psychic",
       "agility",
       "confuse-ray",
@@ -164,6 +165,7 @@
       "hurricane",
       "electric-terrain",
       "dazzling-gleam",
+      "lunge",
       "tera-blast",
       "pounce"
     ]

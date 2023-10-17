@@ -184,16 +184,5 @@
       "flip-turn"
     ]
   },
-  "evolutions": [
-    {
-      "name": "kingdra",
-      "item": {
-        "values": {
-          "id": "minecraft:emerald"
-        }
-      },
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/squid_fish_2"
 }

@@ -1,0 +1,9 @@
+{
+  "name": "empoleon",
+  "user": "prinplup",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "aqua-jet"
+}

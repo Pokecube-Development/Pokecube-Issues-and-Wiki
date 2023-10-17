@@ -222,11 +222,5 @@
       "lash-out"
     ]
   },
-  "evolutions": [
-    {
-      "name": "malamar",
-      "level": 30
-    }
-  ],
   "loot_table": "minecraft:entities/squid"
 }

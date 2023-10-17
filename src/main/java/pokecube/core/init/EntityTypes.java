@@ -22,7 +22,6 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.EntityMoveUse;
-import pokecube.core.moves.zmoves.GZMoveManager;
 
 public class EntityTypes
 {
@@ -92,8 +91,6 @@ public class EntityTypes
         }
         PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
         Database.postInit();
-        // Process GZ Moves after init, so that it can assign signature moves.
-        GZMoveManager.postProcess();
         PokecubeAPI.POKEMOB_BUS.post(new InitDatabase.Post());
     }
 

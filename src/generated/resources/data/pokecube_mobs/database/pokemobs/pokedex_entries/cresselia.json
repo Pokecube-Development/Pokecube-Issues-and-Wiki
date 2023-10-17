@@ -15,9 +15,9 @@
   "stats": {
     "hp": 120,
     "attack": 70,
-    "defense": 120,
+    "defense": 110,
     "special_attack": 75,
-    "special_defense": 130,
+    "special_defense": 120,
     "speed": 85
   },
   "evs": {

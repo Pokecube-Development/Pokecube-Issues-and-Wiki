@@ -136,6 +136,7 @@
       "mega-kick",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "counter",
       "seismic-toss",
@@ -182,6 +183,7 @@
       "facade",
       "focus-punch",
       "helping-hand",
+      "trick",
       "wish",
       "brick-break",
       "secret-power",
@@ -198,6 +200,7 @@
       "tailwind",
       "u-turn",
       "fling",
+      "air-slash",
       "bug-buzz",
       "zen-headbutt",
       "defog",
@@ -208,12 +211,17 @@
       "round",
       "acrobatics",
       "struggle-bug",
+      "disarming-voice",
+      "draining-kiss",
       "play-rough",
       "play-nice",
       "confide",
       "dazzling-gleam",
       "infestation",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/glowstone_dust"

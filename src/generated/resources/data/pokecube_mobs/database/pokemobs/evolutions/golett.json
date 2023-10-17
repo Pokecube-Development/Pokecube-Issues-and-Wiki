@@ -1,0 +1,9 @@
+{
+  "name": "golurk",
+  "user": "golett",
+  "condition": {
+    "key": "level",
+    "level": 43
+  },
+  "evoMoves": "heavy-slam"
+}

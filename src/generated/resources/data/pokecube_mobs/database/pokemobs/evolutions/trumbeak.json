@@ -1,0 +1,9 @@
+{
+  "name": "toucannon",
+  "user": "trumbeak",
+  "condition": {
+    "key": "level",
+    "level": 28
+  },
+  "evoMoves": "beak-blast"
+}

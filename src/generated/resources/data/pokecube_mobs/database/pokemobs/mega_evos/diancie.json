@@ -1,0 +1,10 @@
+{
+  "user": "diancie",
+  "name": "diancie-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:dianciemega"
+    }
+  }
+}

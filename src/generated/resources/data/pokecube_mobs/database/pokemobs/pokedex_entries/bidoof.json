@@ -77,7 +77,8 @@
       {
         "L": 17,
         "moves": [
-          "hyper-fang"
+          "hyper-fang",
+          "taunt"
         ]
       },
       {
@@ -190,12 +191,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "bibarel",
-      "level": 15,
-      "evoMoves": "water-gun"
-    }
-  ],
   "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

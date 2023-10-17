@@ -1,0 +1,10 @@
+{
+  "name": "sunflora",
+  "user": "sunkern",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:sunstone"
+    }
+  }
+}

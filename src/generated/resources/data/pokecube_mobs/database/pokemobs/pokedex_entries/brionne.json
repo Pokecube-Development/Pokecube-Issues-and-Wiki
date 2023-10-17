@@ -180,12 +180,5 @@
       "triple-axel"
     ]
   },
-  "evolutions": [
-    {
-      "name": "primarina",
-      "level": 34,
-      "evoMoves": "sparkling-aria"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

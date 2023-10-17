@@ -1,0 +1,15 @@
+{
+  "name": "porygon2",
+  "user": "porygon",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:upgrade"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+[
+  {
+    "name": "exeggutor-alola",
+    "user": "exeggcute",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.beaches.ground",
+          "and_preset": "beaches"
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:leafstone"
+        }
+      }
+    ],
+    "evoMoves": "dragon-hammer"
+  },
+  {
+    "name": "exeggutor",
+    "user": "exeggcute",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:leafstone"
+      }
+    },
+    "evoMoves": "stomp"
+  }
+]

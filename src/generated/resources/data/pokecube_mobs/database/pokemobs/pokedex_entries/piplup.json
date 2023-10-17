@@ -31,7 +31,7 @@
       "torrent"
     ],
     "hidden": [
-      "defiant"
+      "competitive"
     ]
   },
   "moves": {
@@ -61,6 +61,12 @@
         ]
       },
       {
+        "L": 6,
+        "moves": [
+          "water-gun"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "hydro-pump"
@@ -87,7 +93,8 @@
       {
         "L": 22,
         "moves": [
-          "bide"
+          "bide",
+          "swagger"
         ]
       },
       {
@@ -97,15 +104,16 @@
         ]
       },
       {
-        "L": 32,
+        "L": 11,
         "moves": [
-          "whirlpool"
+          "charm",
+          "water-sport"
         ]
       },
       {
-        "L": 11,
+        "L": 32,
         "moves": [
-          "water-sport"
+          "whirlpool"
         ]
       },
       {
@@ -134,6 +142,7 @@
       "toxic",
       "agility",
       "double-team",
+      "haze",
       "bide",
       "waterfall",
       "bubble",
@@ -161,6 +170,7 @@
       "dive",
       "feather-dance",
       "mud-sport",
+      "weather-ball",
       "rock-tomb",
       "signal-beam",
       "aerial-ace",
@@ -184,15 +194,9 @@
       "water-pledge",
       "work-up",
       "confide",
-      "power-trip"
+      "power-trip",
+      "flip-turn"
     ]
   },
-  "evolutions": [
-    {
-      "name": "prinplup",
-      "level": 16,
-      "evoMoves": "metal-claw"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

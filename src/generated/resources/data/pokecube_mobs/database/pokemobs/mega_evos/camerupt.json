@@ -1,0 +1,10 @@
+{
+  "user": "camerupt",
+  "name": "camerupt-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:cameruptmega"
+    }
+  }
+}

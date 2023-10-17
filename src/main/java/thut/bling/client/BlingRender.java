@@ -16,6 +16,11 @@ public class BlingRender extends BlingRenderBase
     protected void initModels()
     {
         boolean reload = Util.shouldReloadModel();
+        if (reload)
+        {
+            Util.customModels.clear();
+            Util.customTextures.clear();
+        }
         if (!reload && !this.defaultModels.isEmpty()) return;
         if (!reload && !this.backpackModels.isEmpty()) return;
 
@@ -32,12 +37,14 @@ public class BlingRender extends BlingRenderBase
                     holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/anklet"));
                     break;
                 case BACK:
-                    this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag"),
-                            ModelFactory.create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag"))));
+                    this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag"), ModelFactory
+                            .create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag"))));
                     this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag_ender_vanilla"),
-                            ModelFactory.create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag"))));
+                            ModelFactory.create(
+                                    new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag"))));
                     this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag_ender_large"),
-                            ModelFactory.create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag_large"))));
+                            ModelFactory.create(new ModelHolder(
+                                    new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag_large"))));
                     continue;
                 case EAR:
                     holder = new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/earring"));

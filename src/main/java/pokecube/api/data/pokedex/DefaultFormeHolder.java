@@ -46,10 +46,6 @@ public class DefaultFormeHolder
     // As of gen 9, we have many cosmetic forms that also change mass, so we
     // inclide this here, if this is not -1, we will then apply it.
     public double mass = -1;
-    // A scaling factor for the forme, for ones which also have different sizes
-    // (like dundunsparce 3-segments)
-    public double[] scale =
-    { 1, 1, 1 };
 
     public String key = null;
     // These three allow specific models/textures for evos
@@ -65,7 +61,7 @@ public class DefaultFormeHolder
     public List<MatTexs> matTex = Lists.newArrayList();
     public String[] hidden = {};
 
-    public PokedexEntry _entry;
+    private PokedexEntry _entry = null;
 
     public Map<String, TexColours> _colourMap_ = Maps.newHashMap();
     public Map<String, MatTexs> _matsMap_ = Maps.newHashMap();
@@ -78,6 +74,34 @@ public class DefaultFormeHolder
         if (!(obj instanceof DefaultFormeHolder holder)) return false;
         if (this.key == null) return super.equals(obj);
         return this.key.equals(holder.key);
+    }
+
+    public PokedexEntry getEntry()
+    {
+        PokedexEntry fromKey = Database.getEntry(this.key);
+        if (fromKey == null)
+        {
+            fromKey = new PokedexEntry(0, this.key, true);
+            if (this.types != null)
+            {
+                String[] types = this.types.split(",");
+                fromKey.type1 = PokeType.getType(types[0]);
+                if (types.length > 1) fromKey.type2 = PokeType.getType(types[1]);
+            }
+            if (this.ability != null)
+            {
+                String[] abilities = this.ability.split(",");
+                for (String s : abilities) fromKey.abilities.add(s);
+            }
+            if (mass > 0) fromKey.mass = mass;
+            if (hasShiny != null) fromKey.hasShiny = this.hasShiny;
+        }
+        else if (fromKey.pokedexNb != 0)
+        {
+            new IllegalArgumentException("Duplicate entry!");
+        }
+        this._entry = fromKey;
+        return _entry;
     }
 
     public FormeHolder getForme(final PokedexEntry baseEntry)
@@ -126,33 +150,6 @@ public class DefaultFormeHolder
                 this.matTex.addAll(p.matTex);
             }
 
-            PokedexEntry fromKey = Database.getEntry(this.key);
-            if (fromKey == null)
-            {
-                fromKey = new PokedexEntry(0, this.key);
-                if (this.types != null)
-                {
-                    String[] types = this.types.split(",");
-                    fromKey.type1 = PokeType.getType(types[0]);
-                    if (types.length > 1) fromKey.type2 = PokeType.getType(types[1]);
-                }
-                if (this.ability != null)
-                {
-                    String[] abilities = this.ability.split(",");
-                    for (String s : abilities) fromKey.abilities.add(s);
-                }
-                if (mass > 0) fromKey.mass = mass;
-                if (hasShiny != null) fromKey.hasShiny = this.hasShiny;
-                fromKey.setBaseForme(baseEntry);
-                baseEntry.copyToForm(fromKey);
-                fromKey.generated = true;
-            }
-            else if (fromKey.pokedexNb != 0)
-            {
-                new IllegalArgumentException("Duplicate entry!");
-            }
-            this._entry = fromKey;
-
             if (this.hidden != null) for (final String element : this.hidden)
             {
                 final String value = ThutCore.trim(element);
@@ -168,11 +165,18 @@ public class DefaultFormeHolder
                 c.material = ThutCore.trim(c.material);
                 this._matsMap_.put(c.material, c);
             }
-            String model = this._entry.modelPath;
-            String modid = this._entry.getModId();
+            var base = this.getEntry().getBaseForme();
+            if (base == null || base == Database.missingno)
+            {
+                this.getEntry().setBaseForme(baseEntry);
+                baseEntry.copyToForm(this.getEntry());
+            }
+            String model = this.getEntry().modelPath;
+            String modid = this.getEntry().getModId();
             if (modid == null) modid = "pokecube_mobs";
-            if (!this._entry.texturePath.contains(":")) this._entry.texturePath = modid + ":" + this._entry.texturePath;
-            String tex = this._entry.texturePath;
+            if (!this.getEntry().texturePath.contains(":"))
+                this.getEntry().texturePath = modid + ":" + this.getEntry().texturePath;
+            String tex = this.getEntry().texturePath;
 
             ResourceLocation texl = this.tex != null ? PokecubeItems.toResource(tex + this.tex, modid) : null;
             ResourceLocation modell = this.model != null ? PokecubeItems.toResource(model + this.model, modid) : null;
@@ -183,10 +187,10 @@ public class DefaultFormeHolder
             if (animl != null && !animl.getPath().endsWith(".xml"))
                 animl = new ResourceLocation(animl.getNamespace(), animl.getPath() + ".xml");
 
-            final FormeHolder holder = FormeHolder.get(this._entry, modell, texl, animl, key);
+            final FormeHolder holder = FormeHolder.get(this.getEntry(), modell, texl, animl, key);
             holder.loaded_from = this;
-            holder._entry = this._entry;
-            Database.registerFormeHolder(this._entry, holder);
+            holder._entry = this.getEntry();
+            Database.registerFormeHolder(this.getEntry(), holder);
             return holder;
         }
         return null;

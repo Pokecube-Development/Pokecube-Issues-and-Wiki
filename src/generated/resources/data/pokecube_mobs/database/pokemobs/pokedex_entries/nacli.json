@@ -145,16 +145,11 @@
       "iron-head",
       "stone-edge",
       "stealth-rock",
+      "smack-down",
       "heavy-slam",
       "bulldoze",
       "stomping-tantrum",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "naclstack",
-      "level": 24
-    }
-  ]
+  }
 }

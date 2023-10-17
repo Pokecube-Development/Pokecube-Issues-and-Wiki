@@ -137,13 +137,5 @@
       "coaching"
     ]
   },
-  "evolutions": [
-    {
-      "name": "grapploct",
-      "animation": "18",
-      "move": "taunt",
-      "evoMoves": "octolock"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

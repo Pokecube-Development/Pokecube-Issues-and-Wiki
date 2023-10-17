@@ -248,8 +248,8 @@ public class BBModelTemplate
                 float y = b.getRotation()[1];
                 float z = b.getRotation()[2];
                 if (x != 0) quat.mul(Axis.XP.rotationDegrees(x));
-                if (y != 0) quat.mul(Axis.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(Axis.YP.rotationDegrees(z));
+                if (y != 0) quat.mul(Axis.YP.rotationDegrees(y));
+                if (z != 0) quat.mul(Axis.ZP.rotationDegrees(z));
             }
 
             Vector3f origin = new Vector3f(origin_offset);

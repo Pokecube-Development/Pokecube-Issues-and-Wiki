@@ -2,6 +2,7 @@
   "name": "shaymin-sky",
   "id": 492,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 270,
   "size": {
     "height": 0.4
@@ -161,7 +162,8 @@
       "round",
       "confide",
       "dazzling-gleam",
-      "laser-focus"
+      "laser-focus",
+      "grassy-glide"
     ]
   },
   "old_name": "shaymin_sky"

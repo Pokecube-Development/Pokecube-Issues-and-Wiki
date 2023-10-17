@@ -63,6 +63,13 @@
         ]
       },
       {
+        "L": 7,
+        "moves": [
+          "water-gun",
+          "water-sport"
+        ]
+      },
+      {
         "L": 47,
         "moves": [
           "ice-beam"
@@ -114,12 +121,6 @@
         "L": 41,
         "moves": [
           "dive"
-        ]
-      },
-      {
-        "L": 7,
-        "moves": [
-          "water-sport"
         ]
       },
       {
@@ -230,12 +231,5 @@
       "smart-strike"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dewgong",
-      "level": 34,
-      "evoMoves": "sheer-cold"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

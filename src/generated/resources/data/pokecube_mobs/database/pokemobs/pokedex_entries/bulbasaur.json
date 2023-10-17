@@ -209,12 +209,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ivysaur",
-      "level": 16,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

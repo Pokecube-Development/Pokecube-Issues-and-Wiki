@@ -2,6 +2,7 @@
   "name": "lycanroc-midnight",
   "id": 745,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 170,
   "size": {
     "height": 1.1,
@@ -170,6 +171,7 @@
       "helping-hand",
       "revenge",
       "brick-break",
+      "knock-off",
       "endeavor",
       "hyper-voice",
       "odor-sleuth",

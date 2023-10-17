@@ -121,12 +121,12 @@ public class Description extends ListPage<LineEntry>
             page = TComponent.translatable("entity.pokecube." + pokedexEntry.getTrimmedName() + ".dexDesc");
             list = Lists.newArrayList(this.font.split(page, 100));
             list.add(TComponent.literal("").getVisualOrderText());
-            page = pokedexEntry.getDescription(this.parent.pokemob.getCustomHolder());
+            page = pokedexEntry.getDescription(this.parent.pokemob, this.parent.pokemob.getCustomHolder());
             list.addAll(this.font.split(page, 100));
         }
         else
         {
-            page = pokedexEntry.getDescription(this.parent.pokemob.getCustomHolder());
+            page = pokedexEntry.getDescription(this.parent.pokemob, this.parent.pokemob.getCustomHolder());
             list = this.font.split(page, 100);
         }
 

@@ -17,8 +17,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.items.berries.BerryManager;
 import pokecube.core.items.vitamins.ItemVitamin;
-import pokecube.legends.init.BlockInit;
-import pokecube.legends.init.ItemInit;
 import thut.bling.BlingItem;
 import thut.wearables.ThutWearables;
 

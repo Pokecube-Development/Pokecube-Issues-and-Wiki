@@ -37,7 +37,7 @@ public class AttackLocationHandler extends DefaultHandler
 
         if (!evt.isCanceled() && currentMove != 5 && MovesUtils.canUseMove(pokemob))
         {
-            final MoveEntry move = MovesUtils.getMove(pokemob.getMoves()[currentMove]);
+            final MoveEntry move = MovesUtils.getMove(pokemob.getMove(currentMove));
             // Send move use message first.
             Component mess = TComponent.translatable("pokemob.action.usemove", pokemob.getDisplayName(),
                     TComponent.translatable(MovesUtils.getUnlocalizedMove(move.getName())));

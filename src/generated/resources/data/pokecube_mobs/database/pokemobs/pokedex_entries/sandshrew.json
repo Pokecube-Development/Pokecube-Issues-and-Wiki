@@ -163,6 +163,7 @@
       "double-edge",
       "poison-sting",
       "submission",
+      "low-kick",
       "counter",
       "seismic-toss",
       "strength",
@@ -192,10 +193,12 @@
       "flail",
       "protect",
       "mud-slap",
+      "spikes",
       "detect",
       "sandstorm",
       "endure",
       "rollout",
+      "false-swipe",
       "swagger",
       "fury-cutter",
       "attract",
@@ -231,26 +234,24 @@
       "earth-power",
       "shadow-claw",
       "rock-climb",
+      "stone-edge",
       "captivate",
       "stealth-rock",
       "hone-claws",
+      "smack-down",
       "round",
       "chip-away",
       "bulldoze",
       "work-up",
       "rototiller",
       "confide",
+      "high-horsepower",
       "throat-chop",
       "stomping-tantrum",
       "steel-roller",
-      "scorching-sands"
+      "scorching-sands",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sandslash",
-      "level": 22
-    }
-  ],
   "loot_table": "pokecube:entities/sand_rabbit_1"
 }

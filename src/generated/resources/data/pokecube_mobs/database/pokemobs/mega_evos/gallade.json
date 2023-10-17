@@ -1,0 +1,10 @@
+{
+  "user": "gallade",
+  "name": "gallade-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:gallademega"
+    }
+  }
+}

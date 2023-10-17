@@ -1,0 +1,26 @@
+[
+  {
+    "name": "sliggoo",
+    "user": "goomy",
+    "condition": {
+      "key": "level",
+      "level": 40
+    }
+  },
+  {
+    "name": "sliggoo-hisui",
+    "user": "goomy",
+    "condition": [
+      {
+        "key": "level",
+        "level": 39
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube_mobs:iron_shell"
+        }
+      }
+    ]
+  }
+]
