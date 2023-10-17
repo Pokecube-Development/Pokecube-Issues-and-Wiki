@@ -30,15 +30,7 @@ public class RenderMobOverlays
         if (cameraEntity == null || !event.getEntity().isAlive()) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null && event.getEntity().canUpdate())
-        {
-//            var bufferIn = event.getMultiBufferSource();
-//            if (bufferIn instanceof BufferSource b && (b.fixedBuffers instanceof ImmutableMap))
-//            { This seems to mess things up trying to do it this way, so need to find a different way.
-//                b.fixedBuffers.computeIfAbsent(Evolution.EFFECT, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
-//                b.fixedBuffers.computeIfAbsent(Health.BACKGROUND, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
-//                b.fixedBuffers.computeIfAbsent(Health.TYPE, y -> (BufferBuilder) Utils.makeBuilder(y, bufferIn));
-//            }
-            
+        {   
             final PoseStack mat = event.getPoseStack();
             Evolution.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
             ExitCube.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);

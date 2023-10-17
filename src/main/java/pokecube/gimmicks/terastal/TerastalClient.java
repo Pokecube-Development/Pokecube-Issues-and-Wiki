@@ -21,6 +21,7 @@ public class TerastalClient
     public static void init(FMLLoadCompleteEvent event)
     {
         TERATEX.texturer().rate = 0;
+        TERATEX.texturer().animated = false;
         Status.PROVIDERS.add(pokemob -> {
             TeraType type = TerastalMechanic.getTera(pokemob.getEntity());
             if (type != null && type.isTera)

@@ -293,19 +293,27 @@ public class StatueEntity extends InteractableTile
         if (modelTag.contains("size")) size = modelTag.getFloat("size");
         if (modelTag.contains("variant")) variant = modelTag.getString("variant");
 
+        ResourceLocation e_id;
         // First update ID if present, and refresh the mob
         if (id != null)
         {
-            copy.setCopiedID(new ResourceLocation(id));
+            copy.setCopiedID(e_id = new ResourceLocation(id));
             copy.setCopiedMob(null);
         }
         else
         {
-            copy.setCopiedID(new ResourceLocation("pokecube:missingno"));
+            copy.setCopiedID(e_id = new ResourceLocation("pokecube:missingno"));
             copy.setCopiedMob(null);
         }
         initMob.run();
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(copy.getCopiedMob());
+        var mob = copy.getCopiedMob();
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+        PokedexEntry entry;
+        if (pokemob != null && (entry = Database.getEntry(e_id.getPath())) != pokemob.getPokedexEntry())
+        {
+            pokemob.setBasePokedexEntry(entry);
+            pokemob.setPokedexEntry(entry);
+        }
         if (tex != null && pokemob != null)
         {
             final ResourceLocation texRes = new ResourceLocation(tex);
@@ -327,16 +335,17 @@ public class StatueEntity extends InteractableTile
             final FormeHolder holder = FormeHolder.get(pokemob.getPokedexEntry(), model, texRes, animation, name);
             pokemob.setCustomHolder(holder);
         }
-        if (over_tex != null) copy.getCopiedMob().getPersistentData().putString("statue:over_tex", over_tex);
-        if (over_tex_a != -1) copy.getCopiedMob().getPersistentData().putInt("statue:over_tex_a", over_tex_a);
+        if (over_tex != null) mob.getPersistentData().putString("statue:over_tex", over_tex);
+        if (over_tex_a != -1) mob.getPersistentData().putInt("statue:over_tex_a", over_tex_a);
+        if (anim != null) mob.getPersistentData().putString("statue:anim", anim);
         if (pokemob != null) pokemob.setSize(size);
-        final IAnimationHolder anims = copy.getCopiedMob().getCapability(ThutCaps.ANIMCAP).orElse(null);
+        final IAnimationHolder anims = mob.getCapability(ThutCaps.ANIMCAP).orElse(null);
         if (anim != null && anims != null)
         {
             anims.setFixed(true);
             anims.overridePlaying(anim);
         }
-        return copy.getCopiedMob();
+        return mob;
     }
 
     @Override
