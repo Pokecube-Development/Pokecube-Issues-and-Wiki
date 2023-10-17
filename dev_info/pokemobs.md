@@ -239,14 +239,16 @@ If the value of `stock` for the `JsonPokedexEntry` is `true`, then a minecraft `
 
 ## Pokemob Animation States
 
-Pokemob animations are run by selecting the first state which occurs in the list provided by the [IAnimated](../src/main/java/thut/api/entity/IAnimated.java) associated with the pokemob. These are populated in the orders listed below. If the mob is being ridden, then "`ridden_<anim>`" is added to the list before each of the strings listed below.
+Pokemob animations are run by selecting the first state which occurs in the list provided by the [IAnimated](../src/main/java/thut/api/entity/IAnimated.java) associated with the pokemob. These are populated in the orders listed below. If the mob is being ridden, then "ridden_\<anim>" is added to the list before each of the strings listed below.
+
+Once an animation is selected, it may then be randomised if sub-animations are registered via the xml files for that animation.
 
 ### Main animations
 
 These are put in `IAnimated.getChoices()`
 
 - "dead" - if the mob is dying
-- lower case names of [LogicStates](../src/main/java/pokecube/api/entity/pokemob/ai/LogicStates.java) in order
+- lower case names of active [LogicStates](../src/main/java/pokecube/api/entity/pokemob/ai/LogicStates.java) in order
 - "floating" - if the mob is not moving horizontally, and has pose `FALL_FLYING`
 - "flying" - if the mob has pose, has pose `FALL_FLYING`
 - "floating" - if the mob is moving horizontally, and has pose `FALL_FLYING`
@@ -258,8 +260,8 @@ These are put in `IAnimated.getChoices()`
 - "sprinting" - if the mob is sprinting
 - "guarding_walking" - if the mob is guarding and walking
 - "walking" - if the mob is walking
-- lower case names of [CombatStates](../src/main/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
-- lower case names of [GeneralStates](../src/main/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
+- lower case names of active [CombatStates](../src/main/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
+- lower case names of active [GeneralStates](../src/main/java/pokecube/api/entity/pokemob/ai/CombatStates.java) in order
 - "idle"
 
 ### Transient animations
