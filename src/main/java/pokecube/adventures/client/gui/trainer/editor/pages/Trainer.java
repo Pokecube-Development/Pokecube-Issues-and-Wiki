@@ -8,6 +8,7 @@ import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.client.gui.trainer.editor.EditorGui;
@@ -317,12 +318,11 @@ public class Trainer extends Page
             GuiPokemobHelper.renderMob(mob, x - 60, y + 80, 0, yaw, 0, yaw, 1f, partialTicks);
         }
 
-//        TODO: Fix this
-//        this.font.draw(graphics, I18n.get("Trainer Type"), x + 20, y + dy * i++, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("Name"), x + 11, y + dy * i++, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("Trades List"), x, y + dy * i++, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("Player Texture"), x, y + dy * i++, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("Custom Texture"), x, y + dy * i++, 0xFFFFFFFF);
-//        this.font.draw(graphics, I18n.get("Copied Mob"), x, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Trainer Type"), x + 20, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Name"), x + 11, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Trades List"), x, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Player Texture"), x, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Custom Texture"), x, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Copied Mob"), x, y + dy * i++, 0xFFFFFFFF);
     }
 }
