@@ -729,7 +729,7 @@ public class Vector3
      */
     public double magSq()
     {
-        return Math.fma(x, x, Math.fma(y, y, x * z));
+        return Math.fma(x, x, Math.fma(y, y, z * z));
     }
 
     public void moveEntity(final Entity e)

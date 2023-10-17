@@ -6,6 +6,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.datafixers.util.Pair;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -59,6 +60,7 @@ import pokecube.core.utils.CapHolders;
 import thut.api.entity.IBreedingMob;
 import thut.api.entity.ai.BrainUtil;
 import thut.api.entity.ai.IAIRunnable;
+import thut.api.item.ItemList;
 
 public class Tasks
 {
@@ -75,7 +77,7 @@ public class Tasks
                 MemoryModules.MOVE_TARGET.get(), MemoryModules.LEAP_TARGET.get(), MemoryModules.PATH,
                 MemoryModules.MATE_TARGET, MemoryModules.WALK_TARGET, MemoryModules.LOOK_TARGET,
                 MemoryModules.EGG.get(), MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES, MemoryModules.NOT_FOUND_PATH,
-                MemoryModuleType.DOORS_TO_CLOSE);
+                MemoryModuleType.DOORS_TO_CLOSE, MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER);
     }
 
     public static void initBrain(final Brain<?> brain)
@@ -136,6 +138,11 @@ public class Tasks
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
             task = new RunAway(MemoryModules.HUNTED_BY.get(), 1.5f);
             list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            if (ItemList.is(new ResourceLocation("pokecube", "timid"), entity))
+            {
+                task = new RunAway(MemoryModuleType.NEAREST_VISIBLE_ATTACKABLE_PLAYER, 1.5f);
+                list.add(Pair.of(1, (Behavior<? super LivingEntity>) task));
+            }
             task = new SwimTask(pokemob, 0.8F);
             list.add(Pair.of(0, (Behavior<? super LivingEntity>) task));
             list.add(Tasks.lookAtMany());

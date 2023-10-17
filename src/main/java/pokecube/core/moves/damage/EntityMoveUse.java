@@ -77,7 +77,9 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         var entity = new EntityMoveUse(EntityTypes.getMove(), level);
         entity.apply = apply.copyForMoveUse();
-        entity.setStart(new Vector3(apply.getUser().getEntity()));
+        Vector3 start = new Vector3(apply.getUser().getEntity());
+        entity.setStart(start);
+        start.moveEntity(entity);
         entity.setMove(apply.getMove());
         entity.setUser(apply.getUser().getEntity());
         entity.setTarget(apply.getTarget());
