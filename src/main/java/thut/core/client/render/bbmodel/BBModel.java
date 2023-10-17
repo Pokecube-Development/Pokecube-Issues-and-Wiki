@@ -78,7 +78,6 @@ public class BBModel extends BaseModel
             var list = entry.getValue();
             this.builtin_anims.add(key);
             tblAnims.addAll(list);
-            ThutCore.LOGGER.debug("Loaded animation: {}", key);
         }
     }
 
