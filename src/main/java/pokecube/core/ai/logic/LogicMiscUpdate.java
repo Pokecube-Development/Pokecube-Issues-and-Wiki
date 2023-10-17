@@ -232,6 +232,8 @@ public class LogicMiscUpdate extends LogicBase
             boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
             if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
         }
+
+        if (pokemob.getMoveStats().movesInProgress.isEmpty()) pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
     }
 
     private void checkEvolution()
@@ -627,9 +629,7 @@ public class LogicMiscUpdate extends LogicBase
         }
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
-            final int index = this.pokemob.getMoveIndex();
             MoveEntry move = this.pokemob.getSelectedMove();
-            if (index < 4)
             {
                 if (move != null) addAnimation(transients, "attack_" + move.name, isRidden);
                 if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)

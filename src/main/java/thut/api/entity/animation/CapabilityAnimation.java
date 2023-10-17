@@ -67,7 +67,6 @@ public class CapabilityAnimation
             this.pending = _default;
             this.playing = _default;
             this.start_times.clear();
-            if (this.playingList != DefaultImpl.EMPTY && !transients.isEmpty()) this.playingList.removeAll(transients);
             this.transients.clear();
             this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
         }
@@ -146,9 +145,7 @@ public class CapabilityAnimation
             {
                 String transitionKey = "%s->%s".formatted(this.playing, name);
                 if (!this.anims.containsKey(transitionKey))
-                {
-                    this.clean();
-                }
+                {}
                 this.pending = name;
             }
             this.getPlaying();
@@ -184,9 +181,7 @@ public class CapabilityAnimation
                                     {
                                         var selected = animList.get(index);
                                         if (this.transients.add(selected))
-                                        {
                                             this.start_times.put(selected._uuid, this._ageInTicks);
-                                        }
                                     }
                                 }
                             }
@@ -234,21 +229,21 @@ public class CapabilityAnimation
         public void postRunAnim(Animation animation)
         {
             float i = this._ageInTicks - this.start_times.getOrDefault(animation._uuid, this._ageInTicks);
-            if (this.pending != this.playing || transients.contains(animation))
+            if (!pending.equals(playing) || transients.contains(animation))
             {
-                if (i >= animation.length)
+                if (i >= animation.getLength())
                 {
-                    this.start_times.removeFloat(animation._uuid);
-                    this.transients.remove(animation);
+                    if (this.transients.remove(animation)) this.start_times.removeFloat(animation._uuid);
+                    else this.start_times.put(animation._uuid, 0);
                 }
             }
             else
             {
                 boolean dontCleanup = (animation.loops || animation.hasLimbBased || animation.holdWhenDone);
-                if (i >= animation.length && !dontCleanup)
+                if (i >= animation.getLength() && !dontCleanup)
                 {
-                    this.start_times.removeFloat(animation._uuid);
-                    this.transients.remove(animation);
+                    if (this.transients.remove(animation)) this.start_times.removeFloat(animation._uuid);
+                    else this.start_times.put(animation._uuid, 0);
                 }
             }
         }
