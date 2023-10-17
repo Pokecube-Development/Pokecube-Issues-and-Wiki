@@ -79,7 +79,7 @@ public class MergedTexture extends BaseTexture
             gA = (int) (sA * gA + sB * gB);
             bA = (int) (sA * bA + sB * bB);
 
-            nA.setPixelRGBA(xa, ya, NativeImage.combine(255, bA, gA, rA));
+            nA.setPixelRGBA(xa, ya, NativeImage.combine(aA, bA, gA, rA));
         }
 
         if (!RenderSystem.isOnRenderThreadOrInit())
