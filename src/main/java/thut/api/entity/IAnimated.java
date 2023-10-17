@@ -1,5 +1,6 @@
 package thut.api.entity;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -178,6 +179,8 @@ public interface IAnimated
         String getPendingAnimations();
 
         List<Animation> getPlaying();
+
+        Collection<Animation> getTransientPlaying();
 
         void setContext(IAnimated context);
         

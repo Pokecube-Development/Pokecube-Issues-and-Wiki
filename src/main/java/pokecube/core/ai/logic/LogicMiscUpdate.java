@@ -537,8 +537,12 @@ public class LogicMiscUpdate extends LogicBase
 
     private void addAnimation(List<String> anims, String key, boolean isRidden)
     {
-        if (isRidden) anims.add("ridden_" + key);
-        anims.add(key);
+        if (isRidden)
+        {
+            String ridden = "ridden_" + key;
+            if (!anims.contains(ridden)) anims.add(ridden);
+        }
+        if (!anims.contains(key)) anims.add(key);
     }
 
     private void checkAnimationStates()
@@ -619,7 +623,7 @@ public class LogicMiscUpdate extends LogicBase
         float blink_rate = 0.5f;
         if (!noBlink && entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
         {
-            if (!transients.contains("blink")) transients.add("blink");
+            addAnimation(transients, "blink", false);
         }
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {

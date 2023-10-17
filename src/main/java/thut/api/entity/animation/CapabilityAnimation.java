@@ -1,6 +1,7 @@
 package thut.api.entity.animation;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -38,7 +39,13 @@ public class CapabilityAnimation
         List<String> tmpTransients = new ArrayList<>();
         Set<Animation> transients = new HashSet<>();
 
-        Object2FloatOpenHashMap<UUID> non_static = new Object2FloatOpenHashMap<>();
+        /**
+         * This is a map of animation uuid -> current tick of the animation
+         */
+        Object2FloatOpenHashMap<UUID> animation_steps = new Object2FloatOpenHashMap<>();
+        /**
+         * This is a map of animation uuid -> start time for the animation
+         */
         Object2FloatOpenHashMap<UUID> start_times = new Object2FloatOpenHashMap<>();
 
         public String _default = "idle";
@@ -63,7 +70,7 @@ public class CapabilityAnimation
         {
             this.pending = _default;
             this.playing = _default;
-            this.non_static.clear();
+            this.animation_steps.clear();
             this.start_times.clear();
             if (this.playingList != DefaultImpl.EMPTY && !transients.isEmpty()) this.playingList.removeAll(transients);
             this.transients.clear();
@@ -93,11 +100,11 @@ public class CapabilityAnimation
 
         private void initPlayingList()
         {
-            this.non_static.clear();
+            this.animation_steps.clear();
             this.start_times.clear();
             for (final Animation a : this.playingList) if (a.getLength() > 0)
             {
-                this.non_static.put(a._uuid, 0);
+                this.animation_steps.put(a._uuid, 0);
                 this.start_times.removeFloat(a._uuid);
             }
         }
@@ -107,7 +114,7 @@ public class CapabilityAnimation
         {
             if (pending.equals("none"))
             {
-                non_static.clear();
+                animation_steps.clear();
                 return EMPTY;
             }
             if (!this.anims.containsKey(this.playing)) this.playing = _default;
@@ -118,13 +125,19 @@ public class CapabilityAnimation
                 this.playingList = playing;
                 initPlayingList();
             }
-            if (non_static.isEmpty() && !this.pending.isEmpty())
+            if (animation_steps.isEmpty() && !this.pending.isEmpty())
             {
                 this.playingList = this.anims.getOrDefault(this.pending, DefaultImpl.EMPTY);
                 this.playing = this.pending;
                 initPlayingList();
             }
             return this.playingList;
+        }
+
+        @Override
+        public Collection<Animation> getTransientPlaying()
+        {
+            return transients;
         }
 
         @Override
@@ -151,7 +164,7 @@ public class CapabilityAnimation
         @Override
         public void setStep(final Animation animation, final float step)
         {
-            this.non_static.put(animation._uuid, step);
+            this.animation_steps.put(animation._uuid, step);
         }
 
         @Override
@@ -168,9 +181,9 @@ public class CapabilityAnimation
                 var transients = context.transientAnimations();
                 synchronized (transients)
                 {
-                    if (!transients.isEmpty() && this.playingList != EMPTY)
+                    System.out.println(this.transients+" "+transients+" "+context);
+                    if (!transients.isEmpty())
                     {
-
                         for (var anim : transients)
                         {
                             this.tmpTransients.clear();
@@ -181,32 +194,27 @@ public class CapabilityAnimation
                                 {
                                     var animList = anims.get(s);
                                     int index = animList.size() > 1 ? e.random.nextInt(animList.size()) : 0;
-                                    this.transients.add(animList.get(index));
+                                    synchronized (transients)
+                                    {
+                                        this.transients.add(animList.get(index));
+                                    }
                                 }
                             }
                             else if (this.anims.containsKey(anim))
                             {
-                                this.transients.addAll(anims.get(anim));
+                                synchronized (transients)
+                                {
+                                    this.transients.addAll(anims.get(anim));
+                                }
                             }
                         }
                         for (Animation a : this.transients)
                         {
-                            existing:
-                            if (this.playingList.contains(a))
+                            if (!this.animation_steps.containsKey(a._uuid))
                             {
-                                // Check if we need to clean it up
-                                float started = this.start_times.getFloat(a._uuid);
-                                float shouldEnd = started + a.getLength();
-                                if (this._ageInTicks > shouldEnd)
-                                {
-                                    this.playingList.remove(a);
-                                    break existing;
-                                }
-                                continue;
+                                this.animation_steps.put(a._uuid, 0);
+                                this.start_times.removeFloat(a._uuid);
                             }
-                            this.playingList.add(0, a);
-                            this.non_static.put(a._uuid, 0);
-                            this.start_times.removeFloat(a._uuid);
                         }
                     }
                     transients.clear();
@@ -230,7 +238,7 @@ public class CapabilityAnimation
         @Override
         public void preRunAnim(Animation animation)
         {
-            this.non_static.put(animation._uuid, 0);
+            this.animation_steps.put(animation._uuid, 0);
             float t_0 = this.start_times.getOrDefault(animation._uuid, this._ageInTicks);
             this.start_times.put(animation._uuid, t_0);
             this.getMolangVars().startTimer(t_0);
@@ -239,13 +247,12 @@ public class CapabilityAnimation
         @Override
         public void postRunAnim(Animation animation)
         {
-            float i = this.non_static.getFloat(animation._uuid);
-            if (this.pending != this.playing)
+            float i = this.animation_steps.getFloat(animation._uuid);
+            if (this.pending != this.playing || transients.contains(animation))
             {
                 if (i >= animation.length)
                 {
-                    this.non_static.removeFloat(animation._uuid);
-                    if (this.transients.contains(animation)) this.playingList.remove(animation);
+                    this.animation_steps.removeFloat(animation._uuid);
                     this.transients.remove(animation);
                 }
             }
@@ -254,8 +261,7 @@ public class CapabilityAnimation
                 boolean dontCleanup = (animation.loops || animation.hasLimbBased || animation.holdWhenDone);
                 if (i >= animation.length && !dontCleanup)
                 {
-                    this.non_static.removeFloat(animation._uuid);
-                    if (this.transients.contains(animation)) this.playingList.remove(animation);
+                    this.animation_steps.removeFloat(animation._uuid);
                     this.transients.remove(animation);
                 }
             }

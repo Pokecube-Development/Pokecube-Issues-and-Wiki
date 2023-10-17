@@ -252,6 +252,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
         final List<Animation> anims = Lists.newArrayList();
         if (holder != null)
         {
+            anims.addAll(holder.getTransientPlaying());
             anims.addAll(holder.getPlaying());
             anim = !anims.isEmpty();
         }
