@@ -78,7 +78,7 @@ public class ProgressPage extends PageWithSubPages<Progress>
         Player player = this.watch.player;
         if (this.watch.target instanceof Player) player = (Player) this.watch.target;
         var title = player.getDisplayName();
-        graphics.drawCenteredString(this.font, title, x + 135 - this.font.width(title) / 2, y + 36, colour);
+        graphics.drawString(this.font, title, x + 135 - this.font.width(title) / 2, y + 36, colour, false);
     }
 
     @Override
