@@ -366,6 +366,8 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCommandRegister);
 
         // This deals with running the tasks scheduled via
+        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldUnload);
+        MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldLoad);
         MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldTick);
 
         // This attempts to recall the mobs following the player when they
