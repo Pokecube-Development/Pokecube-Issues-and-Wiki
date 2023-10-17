@@ -285,7 +285,7 @@ public class JsonHelper
         stale.forEach(s -> object.remove(s));
     }
 
-    private static void cleanEntry(final JsonObject o)
+    static void cleanEntry(final JsonObject o)
     {
         JsonHelper.cleanMember(o, "override", false);
         JsonHelper.cleanMember(o, "dummy", false);

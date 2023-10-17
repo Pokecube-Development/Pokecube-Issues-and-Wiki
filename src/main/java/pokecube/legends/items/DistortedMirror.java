@@ -54,7 +54,6 @@ public class DistortedMirror extends ItemBase
         final double x = entity.getX();
         final double y = entity.getY();
         final double z = entity.getZ();
-        float f = 0.0F;
 
         if (dim == Level.OVERWORLD)
         {

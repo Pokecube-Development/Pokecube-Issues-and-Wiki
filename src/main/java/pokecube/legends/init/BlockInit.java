@@ -2,20 +2,18 @@ package pokecube.legends.init;
 
 import java.util.Map;
 import java.util.function.ToIntFunction;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.DropExperienceBlock;
@@ -45,7 +43,6 @@ import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.registries.RegistryObject;
-import pokecube.adventures.PokecubeAdv;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.barrels.GenericBarrel;
 import pokecube.core.blocks.bookshelves.GenericBookshelf;
@@ -2663,16 +2660,6 @@ public class BlockInit
         return (state) -> {
             return state.getValue(BlockStateProperties.LIT) ? i : 0;
         };
-    }
-
-    private static Boolean never(BlockState state, BlockGetter block, BlockPos pos, EntityType<?> type)
-    {
-        return (boolean) false;
-    }
-
-    private static boolean never(BlockState state, BlockGetter block, BlockPos pos)
-    {
-        return false;
     }
 
     public static void init()
