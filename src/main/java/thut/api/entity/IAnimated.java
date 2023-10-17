@@ -194,15 +194,6 @@ public interface IAnimated
         void setPendingAnimations(final List<Animation> list, final String name);
 
         /**
-         * Sets the last tick this animation was run. Can set to 0 to count this
-         * animation as cleared.
-         *
-         * @param animation
-         * @param step
-         */
-        void setStep(Animation animation, float step);
-
-        /**
          * This should get whatever animation we think the entity should be
          * doing.
          *
