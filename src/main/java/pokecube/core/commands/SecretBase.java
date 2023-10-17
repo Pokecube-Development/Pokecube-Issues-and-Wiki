@@ -41,6 +41,12 @@ import thut.api.util.PermNodes.DefaultPermissionLevel;
 import thut.core.common.commands.CommandTools;
 import thut.lib.TComponent;
 
+/**
+ * This command teleports the player to their secret base, another player's
+ * secret base, or out of the bases. If called with the appropriate arguments,
+ * after updating the {@link #pendingBaseLocations}, then this command is also
+ * used to create the bases.
+ */
 public class SecretBase
 {
     public static Map<UUID, GlobalPos> pendingBaseLocations = Maps.newHashMap();

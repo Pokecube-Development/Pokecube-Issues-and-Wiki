@@ -24,11 +24,22 @@ import net.minecraft.world.phys.BlockHitResult;
 import pokecube.api.PokecubeAPI;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.InteractableTile;
+import pokecube.core.commands.SecretBase;
+import pokecube.mobs.moves.world.ActionSecretPower;
 import pokecube.world.dimension.SecretBaseDimension;
 import thut.api.ThutCaps;
 import thut.api.block.IOwnableTE;
 import thut.lib.TComponent;
 
+/**
+ * This provides the functionality for Secret Bases. It applies on right click
+ * interactions, and acts as the entry point for the secret base. This block
+ * stores the original block it was created from, and converts back into it if
+ * the base was invalidated.<br>
+ * <br>
+ * Bases may be invalidated by creating another secret base elsewhere. See
+ * {@link SecretBase} and (@link {@link ActionSecretPower} for more information.
+ */
 public class BaseTile extends InteractableTile
 {
     boolean any = false;
