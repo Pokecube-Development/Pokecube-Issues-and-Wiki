@@ -268,9 +268,9 @@ public abstract class Mesh
                 textureCoordinate = this.textureCoordinates[i];
                 vertex = this.vertices[i];
 
-                x = this.renderScale * (vertex.x - mx) + mx;
-                y = this.renderScale * (vertex.y - my) + my;
-                z = this.renderScale * (vertex.z - mz) + mz;
+                x = Math.fma(this.renderScale, (vertex.x - mx), mx);
+                y = Math.fma(this.renderScale, (vertex.y - my), my);
+                z = Math.fma(this.renderScale, (vertex.z - mz), mz);
 
                 dp.set(x, y, z, 1);
                 dp.transform(pos);
@@ -352,6 +352,7 @@ public abstract class Mesh
             final int j = (int) (this.material.emissiveMagnitude * 15);
             material.rgbabro[4] = j << 20 | j << 4;
         }
+//        System.out.println(this.material.tex);
         this.doRender(mat, buffer, texturer);
     }
 
