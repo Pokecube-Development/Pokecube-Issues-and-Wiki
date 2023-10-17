@@ -31,7 +31,7 @@ public class TeleportInfo extends GuiEventComponent
         {
             int x0 = PokecubeCore.getConfig().guiTeleportPos.get(0);
             int y0 = PokecubeCore.getConfig().guiTeleportPos.get(1);
-            if (x0 != bounds.x0 || y0 != bounds.y0) this.bounds.setBox(x0, y0, 89, 64);
+            if (x0 != bounds.x0 || y0 != bounds.y0 || bounds.h == 0) this.bounds.setBox(x0, y0, 89, 64);
             this.ref = PokecubeCore.getConfig().teleRef;
         }
     }

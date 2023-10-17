@@ -34,7 +34,7 @@ public class OutMobInfo extends GuiEventComponent
         {
             int x0 = PokecubeCore.getConfig().guiSelectedPos.get(0);
             int y0 = PokecubeCore.getConfig().guiSelectedPos.get(1);
-            if (x0 != bounds.x0 || y0 != bounds.y0) this.bounds.setBox(x0, y0, 154, 82);
+            if (x0 != bounds.x0 || y0 != bounds.y0 || bounds.h == 0) this.bounds.setBox(x0, y0, 154, 82);
             this.ref = PokecubeCore.getConfig().guiRef;
         }
     }

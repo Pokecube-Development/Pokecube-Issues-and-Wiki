@@ -31,7 +31,7 @@ public class TargetInfo extends GuiEventComponent
         {
             int x0 = PokecubeCore.getConfig().guiTargetPos.get(0);
             int y0 = PokecubeCore.getConfig().guiTargetPos.get(1);
-            if (x0 != bounds.x0 || y0 != bounds.y0) this.bounds.setBox(x0, y0, 150, 42);
+            if (x0 != bounds.x0 || y0 != bounds.y0 || bounds.h == 0) this.bounds.setBox(x0, y0, 150, 42);
             this.ref = PokecubeCore.getConfig().targetRef;
         }
     }
