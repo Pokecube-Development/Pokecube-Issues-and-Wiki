@@ -333,7 +333,7 @@ public abstract class PokemobMoves extends PokemobStats
                 // Check if the new target is still a combat member, if so, swap
                 // over to it
                 int i = mobs.indexOf(brainTarget);
-                if (i != -1)
+                if (i != -1 && target == null)
                 {
                     this.getMoveStats().enemyIndex = i;
                     target = brainTarget;
