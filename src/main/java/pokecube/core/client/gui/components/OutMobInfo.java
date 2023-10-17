@@ -64,6 +64,7 @@ public class OutMobInfo extends GuiEventComponent
         int x = hpOffsetX + 1;
         int y = hpOffsetY + 1;
 
+        var graphics = evt.getGraphics();
         var gui = evt.getGui();
         var info = GuiDisplayPokecubeInfo.instance();
         final IPokemob pokemob = info.getCurrentPokemob();
@@ -87,16 +88,15 @@ public class OutMobInfo extends GuiEventComponent
             }
 
             // Render HP
-            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             width = (int) (92 * ratio);
             height = 5;
             u = 0;
             v = 85;
-            gui.blit(evt.getMat(), hpOffsetX, hpOffsetY, 43, 12, 92, 7);
-            gui.blit(evt.getMat(), x, y, u, v, width, height);
+            graphics.blit(Resources.GUI_BATTLE, hpOffsetX, hpOffsetY, 43, 12, 92, 7);
+            graphics.blit(Resources.GUI_BATTLE, x, y, u, v, width, height);
 
             // Render XP
-            gui.blit(evt.getMat(), xpOffsetX, xpOffsetY, 43, 19, 92, 5);
+            graphics.blit(Resources.GUI_BATTLE, xpOffsetX, xpOffsetY, 43, 19, 92, 5);
             int current = pokemob.getExp();
             int level = pokemob.getLevel();
             int prev = Tools.levelToXp(pokemob.getExperienceMode(), level);
@@ -111,7 +111,7 @@ public class OutMobInfo extends GuiEventComponent
             height = 2;
             u = 0;
             v = 97;
-            gui.blit(evt.getMat(), x, y, u, v, width, height);
+            graphics.blit(Resources.GUI_BATTLE, x, y, u, v, width, height);
 
             // Render Hunger before status (Status will render over it)
             final float full_hunger = PokecubeCore.getConfig().pokemobLifeSpan / 4
@@ -123,7 +123,7 @@ public class OutMobInfo extends GuiEventComponent
             if (current_hunger < 0.5)
             {
                 int dv = -1 * 14;
-                gui.blit(evt.getMat(), statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
+                graphics.blit(Resources.GUI_BATTLE, statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
             }
 
             // Render Status
@@ -135,28 +135,27 @@ public class OutMobInfo extends GuiEventComponent
                 if ((status & IMoveConstants.STATUS_BRN) != 0) dv = 2 * 14;
                 if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 3 * 14;
                 if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 4 * 14;
-                gui.blit(evt.getMat(), statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
+                graphics.blit(Resources.GUI_BATTLE, statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
             }
             if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
             {
                 evt.getMat().translate(0, 0, 100);
-                gui.blit(evt.getMat(), confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
+                graphics.blit(Resources.GUI_BATTLE, confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
                 evt.getMat().translate(0, 0, -100);
             }
 
             // Render Name
             if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.4F, 1.0F);
-            gui.blit(evt.getMat(), nameOffsetX, nameOffsetY, 44, 0, 90, 13);
+            graphics.blit(Resources.GUI_BATTLE, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
 
-            gui.getFont().draw(evt.getMat(), displayName, nameOffsetX + 3, nameOffsetY + 3,
+            graphics.drawString(gui.getFont(), displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render level
-            gui.getFont().draw(evt.getMat(), "L." + level, nameOffsetX + 88 - gui.getFont().width("L." + level),
+            graphics.drawString(gui.getFont(), "L." + level, nameOffsetX + 88 - gui.getFont().width("L." + level),
                     nameOffsetY + 3, GuiDisplayPokecubeInfo.lightGrey);
 
             // Draw number of pokemon
-            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
             RenderSystem.enableBlend();
             final int n = info.getPokemobsToDisplay().length;
             final int n2 = info.indexPokemob + 1;
@@ -165,9 +164,9 @@ public class OutMobInfo extends GuiEventComponent
             evt.getMat().pushPose();
             evt.getMat().translate(nameOffsetX + 89, nameOffsetY, 0);
             if (num > 10) evt.getMat().scale(1.5f * num / 18f, 1, 1);
-            gui.blit(evt.getMat(), 0, 0, 0, 27, 15, 15);
+            graphics.blit(Resources.GUI_BATTLE, 0, 0, 0, 27, 15, 15);
             evt.getMat().popPose();
-            gui.getFont().draw(evt.getMat(), txt, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
+            graphics.drawString(gui.getFont(), txt, nameOffsetX + 95 - num / 4, nameOffsetY + 4,
                     GuiDisplayPokecubeInfo.lightGrey);
 
             // Render Moves
@@ -186,16 +185,16 @@ public class OutMobInfo extends GuiEventComponent
                     // bind texture
                     evt.getMat().pushPose();
 
-                    RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
                     RenderSystem.enableBlend();
-                    gui.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
+                    graphics.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 22, 91, 13);
 
                     // Render colour overlays.
                     if (currentMoveIndex == index)
                     {
                         // Draw selected indictator
                         RenderSystem.enableBlend();
-                        gui.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
+                        graphics.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91,
+                                13);
                         // Draw cooldown box
                         float timer = 1;
                         MoveEntry lastMove;
@@ -205,26 +204,26 @@ public class OutMobInfo extends GuiEventComponent
                                     pokemob.getLastMoveUsed(), lastMove.isRanged(pokemob), false);
                         timer = Math.max(0, Math.min(timer, 1));
                         RenderSystem.enableBlend();
-                        gui.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 35, (int) (91 * timer),
-                                13);
+                        graphics.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43, 35,
+                                (int) (91 * timer), 13);
                     }
-                    if (disabled) gui.blit(evt.getMat(), movesOffsetX, movesOffsetY + 13 * index + h, 43, 65, 91, 13);
+                    if (disabled) graphics.blit(Resources.GUI_BATTLE, movesOffsetX, movesOffsetY + 13 * index + h, 43,
+                            65, 91, 13);
 
                     evt.getMat().popPose();
                     evt.getMat().pushPose();
-                    gui.getFont().draw(evt.getMat(), MovesUtils.getMoveName(move.getName(), pokemob).getString(),
+                    graphics.drawString(gui.getFont(), MovesUtils.getMoveName(move.getName(), pokemob).getString(),
                             5 + movesOffsetX, index * 13 + movesOffsetY + 3 + h, move.getType(pokemob).colour);
                     evt.getMat().popPose();
                 }
             }
 
             // Render Mob
-            RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
 
             int mobOffsetX = 0;
             int mobOffsetY = 0;
             RenderSystem.enableBlend();
-            gui.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
+            graphics.blit(Resources.GUI_BATTLE, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
             LivingEntity mob = pokemob.getEntity();
 
@@ -252,12 +251,10 @@ public class OutMobInfo extends GuiEventComponent
 
                 evt.getMat().scale(0.5f, 0.5f, 0.5f);
 
-                RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
-
                 mobOffsetX = 45;
                 mobOffsetY = 80;
                 RenderSystem.enableBlend();
-                gui.blit(evt.getMat(), mobOffsetX, mobOffsetY, 0, 0, 42, 42);
+                graphics.blit(Resources.GUI_BATTLE, mobOffsetX, mobOffsetY, 0, 0, 42, 42);
 
                 mob = ally;
 

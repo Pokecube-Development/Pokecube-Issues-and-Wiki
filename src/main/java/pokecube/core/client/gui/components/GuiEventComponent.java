@@ -3,7 +3,6 @@ package pokecube.core.client.gui.components;
 import com.mojang.blaze3d.platform.Window;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
@@ -73,7 +72,7 @@ public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
 
     public void drawBounds(GuiEvent event)
     {
-        GuiComponent.fill(event.getMat(), pos.x0, pos.y0, pos.x1, pos.y1, 0x44FF0000);
+        event.getGraphics().fill(pos.x0, pos.y0, pos.x1, pos.y1, 0x44FF0000);
     }
 
     protected void preDraw(GuiEvent event)

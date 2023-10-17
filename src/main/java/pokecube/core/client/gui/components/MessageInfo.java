@@ -6,7 +6,6 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.MutableComponent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.GuiEvent;
@@ -106,8 +105,8 @@ public class MessageInfo extends GuiEventComponent
                 h = y + texH * shift;
                 w = x - trim;
                 final int ph = 6 * texH - h;
-                GuiComponent.fill(event.getMat(), w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
-                minecraft.font.draw(event.getMat(), mess1.get(j), x - trim, ph, 0xffffff);
+                event.getGraphics().fill(w - paddingXNeg, ph, w + trim + paddingXPos, ph + texH, 0x66000000);
+                event.getGraphics().drawString(event.getGui().getFont(), mess1.get(j), x - trim, ph, 0xffffff);
                 if (j != 0) shift++;
             }
             shift++;
