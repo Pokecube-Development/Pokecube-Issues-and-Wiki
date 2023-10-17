@@ -7,6 +7,7 @@ These files are general descriptions of the code/data structures used in Pokecub
     -   [pokemob combat](pokemobs.md#combat-structure)
     -   [pokemob attacks](pokemobs.md#attack-use-and-order)
     -   [pokemob abilities](pokemobs.md#abilities-and-their-effects)
+    -   [pokemob animations](pokemobs.md#pokemob-animation-states)
 -   [NPCs](npcs.md) - information about interactable NPCs and Trainers
     -   [npc AI](npcs.md#trainer-combat-ai)
     -   npc data

@@ -241,6 +241,8 @@ If the value of `stock` for the `JsonPokedexEntry` is `true`, then a minecraft `
 
 Pokemob animations are run by selecting the first state which occurs in the list provided by the [IAnimated](../src/main/java/thut/api/entity/IAnimated.java) associated with the pokemob. These are populated in the orders listed below. If the mob is being ridden, then "`ridden_<anim>`" is added to the list before each of the strings listed below.
 
+Once an animation is selected, it may then be randomised if sub-animations are registered via the xml files for that animation.
+
 ### Main animations
 
 These are put in `IAnimated.getChoices()`
