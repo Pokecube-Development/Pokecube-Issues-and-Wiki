@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.texture.SimpleTexture;
 import net.minecraft.client.resources.metadata.texture.TextureMetadataSection;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.FastColor;
 
 public class MergedTexture extends BaseTexture
 {
@@ -61,25 +62,25 @@ public class MergedTexture extends BaseTexture
             xa = x % nA.getWidth();
             ya = y % nA.getHeight();
             int rgbaA = nA.getPixelRGBA(xa, ya);
-            int rA = NativeImage.getR(rgbaA);
-            int gA = NativeImage.getG(rgbaA);
-            int bA = NativeImage.getB(rgbaA);
-            int aA = NativeImage.getA(rgbaA);
+            int rA = FastColor.ABGR32.red(rgbaA);
+            int gA = FastColor.ABGR32.green(rgbaA);
+            int bA = FastColor.ABGR32.blue(rgbaA);
+            int aA = FastColor.ABGR32.alpha(rgbaA);
 
             if (aA == 0) continue;
 
             int rB = rA, gB = gA, bB = bA;
 
             int rgbaB = nB.getPixelRGBA(xb, yb);
-            rB = NativeImage.getR(rgbaB);
-            gB = NativeImage.getG(rgbaB);
-            bB = NativeImage.getB(rgbaB);
+            rB = FastColor.ABGR32.red(rgbaB);
+            gB = FastColor.ABGR32.green(rgbaB);
+            bB = FastColor.ABGR32.blue(rgbaB);
 
             rA = (int) (sA * rA + sB * rB);
             gA = (int) (sA * gA + sB * gB);
             bA = (int) (sA * bA + sB * bB);
 
-            nA.setPixelRGBA(xa, ya, NativeImage.combine(aA, bA, gA, rA));
+            nA.setPixelRGBA(xa, ya, FastColor.ABGR32.color(aA, bA, gA, rA));
         }
 
         if (!RenderSystem.isOnRenderThreadOrInit())
