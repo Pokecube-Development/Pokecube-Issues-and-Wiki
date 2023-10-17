@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
 
@@ -288,13 +287,10 @@ public class AnimationGui extends Screen
     @Override
     public void render(final GuiGraphics graphics, final int unk1, final int unk2, float partialTicks)
     {
-        Matrix4f matrix4f = graphics.pose().last().pose();
         if (this.bg)
         {
             graphics.pose().pushPose();
             graphics.pose().translate(0, 0, -900);
-
-            // TODO: Check this
             graphics.fill(RenderType.guiOverlay(), 0, 0, this.width, this.height, 0xFF121314);
             graphics.pose().popPose();
         }
@@ -302,14 +298,13 @@ public class AnimationGui extends Screen
 
         final int yOffset = this.height / 2;
 
-        // TODO: Fix this
-//        this.font.drawInBatch("State-General", this.width - 101, yOffset - 42 - yOffset / 2, 0xFFFFFF);
-//        this.font.drawInBatch("State-Combat", this.width - 101, yOffset - 22 - yOffset / 2, 0xFFFFFF);
-//        this.font.drawInBatch("State-Logic", this.width - 101, yOffset - 02 - yOffset / 2, 0xFFFFFF);
-//
-//        this.font.drawInBatch("Animation", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
-//        this.font.drawInBatch("              Info:", this.width - 101, yOffset / 2 + 30, 0xFFFFFF);
-//        this.font.drawInBatch("Forme", this.width - 101, yOffset / 2 + 60, 0xFFFFFF);
+        graphics.drawCenteredString(font, "State-General", this.width - 66, yOffset - 42 - yOffset / 2, 0xFFFFFF);
+        graphics.drawCenteredString(font, "State-Combat", this.width - 68, yOffset - 22 - yOffset / 2, 0xFFFFFF);
+        graphics.drawCenteredString(font, "State-Logic", this.width - 72, yOffset - 02 - yOffset / 2, 0xFFFFFF);
+
+        graphics.drawCenteredString(font, "Animation", this.width - 81, yOffset / 2 + 30, 0xFFFFFF);
+        graphics.drawCenteredString(font, "              Info:", this.width - 64, yOffset / 2 + 30, 0xFFFFFF);
+        graphics.drawCenteredString(font, "Forme", this.width - 81, yOffset / 2 + 60, 0xFFFFFF);
 
         if (this.toRender != null)
         {
@@ -345,7 +340,6 @@ public class AnimationGui extends Screen
             entity.yHeadRotO = entity.yHeadRot;
             entity.xRotO = entity.xRot;
             entity.tickCount = Minecraft.getInstance().player.tickCount;
-            // TODO: Check this
             entity.attackAnim += 0.0125;
 
             partialTicks = minecraft.getFrameTime();

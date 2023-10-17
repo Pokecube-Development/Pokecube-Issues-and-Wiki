@@ -51,7 +51,7 @@ public class LogsToGround extends StructureProcessor
             {
                 BlockPos test = blockInfo.pos().atY(y);
                 BlockState state = level.getBlockState(test);
-                try_place = state.canBeReplaced() || state.liquid();
+                try_place = state.canBeReplaced();
                 try_place &= !level.isOutsideBuildHeight(test);
                 if (try_place) region.setBlock(test, blockInfo.state(), 2);
                 y--;

@@ -26,7 +26,7 @@ public class GuiSaveSlotButton extends Button
      */
     boolean                              xVisible;
     int                                  rightX;
-    private int                          tickCount;
+    int                                  tickCount;
 
     public GuiSaveSlotButton(final SaveStates.SaveState save, final int x, final int y, final OnPress onClick, CreateNarration narration)
     {
