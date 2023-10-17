@@ -123,8 +123,6 @@ public class EventsHandlerClient
 
         // Now for some additional client side handlers
 
-        // Register the event for drawing the move messages
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, GuiInfoMessages::draw);
         // Register the handler for drawing things like evolution, etc
         MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderSpecial);
         // Register the handler for drawing selected box around targeted
@@ -242,13 +240,15 @@ public class EventsHandlerClient
                 break hands;
             }
         }
+        for (var comp : GuiDisplayPokecubeInfo.COMPONENTS)
+            if (comp.handleClick(evt.getAction(), evt.getButton(), evt.getModifiers())) break;
     }
 
     private static void onMouseScroll(MouseScrolled.Pre event)
     {
         if (!GuiInfoMessages.fullDisplay()) return;
-        if (event.getScrollDelta() > 0) GuiInfoMessages.offset++;
-        if (event.getScrollDelta() < 0) GuiInfoMessages.offset--;
+        if (event.getScrollDelta() > 0) GuiDisplayPokecubeInfo.messageRenderer.offset++;
+        if (event.getScrollDelta() < 0) GuiDisplayPokecubeInfo.messageRenderer.offset--;
     }
 
     private static void onLeftClickEmpty(final LeftClickEmpty event)
