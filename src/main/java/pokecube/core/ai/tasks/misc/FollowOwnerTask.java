@@ -31,8 +31,8 @@ import thut.api.maths.Vector3;
  */
 public class FollowOwnerTask extends TaskBase
 {
-    private static final UUID FOLLOW_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1234-96EA6097278D");
-    private static final AttributeModifier FOLLOW_SPEED_BOOST = new AttributeModifier(
+    public static final UUID FOLLOW_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1234-96EA6097278D");
+    public static final AttributeModifier FOLLOW_SPEED_BOOST = new AttributeModifier(
             FollowOwnerTask.FOLLOW_SPEED_BOOST_ID, "following speed boost", 0.5F,
             AttributeModifier.Operation.MULTIPLY_TOTAL);
 
@@ -52,7 +52,6 @@ public class FollowOwnerTask extends TaskBase
     private PathNavigation petPathfinder;
 
     private final double speed;
-    private boolean pathing = false;
 
     float maxDist;
     float minDist;
@@ -81,7 +80,6 @@ public class FollowOwnerTask extends TaskBase
             iattributeinstance.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
 
         this.theOwner = null;
-        this.pathing = false;
     }
 
     @Override
@@ -91,7 +89,6 @@ public class FollowOwnerTask extends TaskBase
         {
             this.theOwner = this.pokemob.getOwner();
             this.ownerPos.set(this.theOwner);
-            this.pathing = true;
         }
         // Look at owner.
         if (BrainUtils.canSee(this.entity, this.theOwner)) BehaviorUtils.lookAtEntity(this.entity, this.theOwner);
@@ -130,16 +127,20 @@ public class FollowOwnerTask extends TaskBase
     @Override
     public boolean shouldRun()
     {
+        // In a battle, so no follow, do battle
+        if (this.pokemob.inCombat()) return false;
+        // if not allowed to follow, skip
         if (!this.pokemob.isRoutineEnabled(AIRoutine.FOLLOW)) return false;
+        // if unable to move, skip
         if (!TaskBase.canMove(this.pokemob)) return false;
+        // if set to stay, skip
         if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
-        final LivingEntity LivingEntity = this.pokemob.getOwner();
+        final LivingEntity owner = this.pokemob.getOwner();
         // Nothing to follow
-        if (LivingEntity == null) return false;
-        double dr2 = this.entity.distanceToSqr(LivingEntity);
-        if (this.pathing && dr2 > this.maxDist * this.maxDist) return true;
+        if (owner == null) return false;
+        double dr2 = this.entity.distanceToSqr(owner);
+        // close enough, so skip
         if (dr2 < this.minDist * this.minDist) return false;
-        if (new Vector3().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist) return false;
         this.petPathfinder = this.entity.getNavigation();
         // Follow owner.
         return true;

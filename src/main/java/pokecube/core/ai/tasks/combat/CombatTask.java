@@ -36,7 +36,7 @@ public abstract class CombatTask extends TaskBase implements IAICombat
         super(pokemob, RootTask.merge(CombatTask.MEMS, mems));
     }
 
-    public final void checkAttackTarget()
+    public void checkAttackTarget()
     {
         this.target = getAttackTarget();
     }
