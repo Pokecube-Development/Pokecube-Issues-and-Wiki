@@ -445,11 +445,6 @@ public class PokedexEntry
         }
     }
 
-    public static interface MegaRule
-    {
-        boolean shouldMegaEvolve(IPokemob mobIn, PokedexEntry entryTo);
-    }
-
     public static enum MovementType
     {
         FLYING(8), FLOATING(4), WATER(2), NORMAL(1);
@@ -876,7 +871,7 @@ public class PokedexEntry
 
     /** If the above is floating, how high does it try to float */
     @CopyToGender
-    public double preferedHeight = 1.5;
+    public double preferedHeight = 1.25;
     /** Pokemobs with these entries will be hunted. */
     @CopyToGender
     private final List<PokedexEntry> prey = new ArrayList<>();
@@ -1140,7 +1135,12 @@ public class PokedexEntry
         if (Tags.POKEMOB.isIn("active_times/dusk", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.dusk);
         if (Tags.POKEMOB.isIn("active_times/dawn", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.dawn);
 
-        if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName())) this.mobType |= MovementType.FLOATING.mask;
+        if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName()))
+        {
+            Float amount = Tags.MOVEMENT.get("floats", this.getTrimmedName());
+            if (amount != null) this.preferedHeight = amount;
+            this.mobType |= MovementType.FLOATING.mask;
+        }
         if (Tags.MOVEMENT.isIn("flies", this.getTrimmedName())) this.mobType |= MovementType.FLYING.mask;
         if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
@@ -1250,6 +1250,30 @@ public class PokedexEntry
     {
         if (this.male != null) this.copyFieldsToGenderForm(this.male);
         if (this.female != null) this.copyFieldsToGenderForm(this.female);
+    }
+
+    public void setGenderedForm(DefaultFormeHolder model, byte gender)
+    {
+        if (gender == IPokemob.MALE && model != null)
+        {
+            this._male_holder = model;
+            this.male = model.getEntry();
+            this.male.isGenderForme = true;
+            this.male.isMaleForme = true;
+            this.male.setBaseForme(this);
+            this.copyToForm(male);
+            this.copyFieldsToGenderForm(this.male);
+        }
+        if (gender == IPokemob.FEMALE && model != null)
+        {
+            this._female_holder = model;
+            this.female = model.getEntry();
+            this.female.isGenderForme = true;
+            this.female.isFemaleForme = true;
+            this.female.setBaseForme(this);
+            this.copyToForm(female);
+            this.copyFieldsToGenderForm(this.female);
+        }
     }
 
     public boolean floats()
@@ -1408,11 +1432,12 @@ public class PokedexEntry
 
     public PokedexEntry getForGender(final byte gender)
     {
-        if (!this.base && this.isGenderForme && this.getBaseForme() != null)
-            return this.getBaseForme().getForGender(gender);
-        if (this.male == null) this.male = this;
-        if (this.female == null) this.female = this;
-        return gender == IPokemob.MALE ? this.male : this.female;
+        if (this.isGenderForme && this.getBaseForme() != null) return this.getBaseForme().getForGender(gender);
+        var m = this.male;
+        var f = this.female;
+        if (this.male == null) m = this;
+        if (this.female == null) f = this;
+        return gender == IPokemob.MALE ? m : f;
     }
 
     public int getGen()
@@ -1669,11 +1694,11 @@ public class PokedexEntry
         this.prey.clear();
         if (this.food == null) return;
         final List<String> foodList = new ArrayList<>();
-        for (final String s : this.food) foodList.add(s);
+        for (final String s : this.food) foodList.add(s.contains(":") ? s : "pokecube:" + s);
         poke:
         for (final PokedexEntry e : Database.data.values())
         {
-            final Set<String> tags = Tags.BREEDING.lookupTags(e.getTrimmedName());
+            final Set<String> tags = Tags.CREATURES.lookupTags(e.getTrimmedName());
             for (final String s : tags) if (foodList.contains(s))
             {
                 this.prey.add(e);
@@ -1851,9 +1876,11 @@ public class PokedexEntry
 
     public void setBaseForme(final PokedexEntry baseForme)
     {
-        if (this.baseForme != null && baseForme != this.baseForme)
+        if (this.baseForme != null && baseForme != this.baseForme && this.baseForme != Database.missingno)
             PokecubeAPI.LOGGER.error("Trying to replace {} with {} as base for {}", this.baseForme, baseForme, this);
         this.baseForme = baseForme;
+        this.base = false;
+        this.pokedexNb = baseForme.pokedexNb;
     }
 
     public void setEntityType(final EntityType<? extends Mob> type)

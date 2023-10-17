@@ -90,6 +90,7 @@ public class EventsHandlerClient
     public static HashMap<PokedexEntry, IPokemob> renderMobs = new HashMap<>();
 
     static long lastSetTime = 0;
+    public static Entity hovorTarget = null;
 
     /**
      * In here we register all of the methods for the event listening, this is
@@ -208,7 +209,14 @@ public class EventsHandlerClient
                 PacketMountedControl.sendControlPacket(e, controller);
             }
         }
-        EventsHandlerClient.lastSetTime = System.currentTimeMillis() + 500;
+        long now = System.currentTimeMillis();
+        if (lastSetTime < now)
+        {
+            var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
+            hovorTarget = Tools.getPointedEntity(event.player, 32, selector, 1);
+            EventsHandlerClient.lastSetTime = now + 250;
+        }
+        if (hovorTarget != null && !hovorTarget.isAddedToWorld()) hovorTarget = null;
     }
 
     private static void onMouseInput(final InputEvent.MouseButton.Pre evt)
@@ -267,7 +275,6 @@ public class EventsHandlerClient
         final Player player = Minecraft.getInstance().player;
 
         boolean validToShow = true;
-        var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
         ItemStack held;
         if (!(held = player.getMainHandItem()).isEmpty() || (held = player.getOffhandItem()).isEmpty())
         {
@@ -277,7 +284,7 @@ public class EventsHandlerClient
 
         if (validToShow)
         {
-            Entity entity = Tools.getPointedEntity(player, 32, selector, 1);
+            Entity entity = hovorTarget;
             if (entity != null)
             {
                 AABB box = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());

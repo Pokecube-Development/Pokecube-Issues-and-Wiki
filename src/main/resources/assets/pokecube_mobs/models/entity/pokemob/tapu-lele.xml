@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.34"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
+  <metadata head="head" headCap="-30,30" headCap1="-30,30" headDir1="-1"/>
   <customTex default="tapu-lele">
    <part name="Eye" tex="tapu-lele_eye"/>
    <animation diffs="0,0.5" part="Eye" trigger="random:0.005:25"/>

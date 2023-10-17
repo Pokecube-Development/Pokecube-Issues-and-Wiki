@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.4"/>
-  <metadata head="neck:neck1:head" headAxis="2" headAxis2="0" headCap1="-20,20" headCap="-20,20" headDir="-1"/>
+  <metadata head="neck:neck1:head" headCap1="-20,20" headCap="-20,20"/>
   <customTex default="latios">
    <part name="Head" tex="latioseye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>

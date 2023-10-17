@@ -1,7 +1,7 @@
 import json
 from ignore_list import isIgnored
 from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form,\
-                  is_extra_form, TAG_IGNORE
+                  is_extra_form, TAG_IGNORE, get_interacts
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -29,7 +29,7 @@ evos_rule_dir = './new/pokemobs/evolutions/'
 materials_generate_dir = './new/pokemobs/materials/'
 ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
 mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
-tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
+tag_generate_dir = './new/tags/'
 advancements_dir = './new/advancements/'
 
 UPDATE_EXAMPLE = False
@@ -76,6 +76,7 @@ def is_gmax(name):
 
 index_map = get_pokemon_index()
 evo_chains = utils.load_evo_chains()
+old_interacts = get_interacts(index_map)
 
 _, all_moves_users = utils.load_all_moves()
 
@@ -516,6 +517,11 @@ def convert_tags(entries):
             old_values = json_obj['values']
             new_values = []
             for name in old_values:
+                add = ''
+                if ';' in name:
+                    vars = name.split(';')
+                    name = vars[0]
+                    add = f';{vars[1]}'
                 orig = name
                 name = name.replace('pokecube:', '')
                 if name in TAG_IGNORE:
@@ -535,7 +541,7 @@ def convert_tags(entries):
                             continue
 
                 if new_name is not None:
-                    new_name = f'pokecube:{new_name}'
+                    new_name = f'pokecube:{new_name}{add}'
                     if not new_name in new_values:
                         new_values.append(new_name)
                 elif 'arceus_' in name or 'silvally_' in name:
@@ -543,8 +549,9 @@ def convert_tags(entries):
                 else:
                     if not "#" in name and not ":" in name and name != 'egg':
                         print(f"error finding name for {name} in {file}")
-                    if not orig in new_values:
-                        new_values.append(orig)
+                    new_name = f'pokecube:{orig}{add}'
+                    if not new_name in new_values:
+                        new_values.append(new_name)
             json_obj['values'] = new_values
 
         file = file.replace('old', 'new')
@@ -840,7 +847,7 @@ def convert_pokedex():
         dex.append(var)
 
     # Construct and output the default pokecube:pokemob tag
-    file = f'{tag_generate_dir}pokemob.json'
+    file = f'{tag_generate_dir}entity_types/pokemob.json'
     var = {"replace": False,"values":pokemob_tag_names}
     if not os.path.exists(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))
@@ -862,15 +869,39 @@ def convert_pokedex():
             print(err)
 
     for var in dex:
+        # Some extra pre-processing
+        convert_mega_rules(var)
+        convert_evolution(var)
+        if var['name'] in old_interacts:
+            stats = old_interacts[var['name']]
+            if 'prey' in stats:
+                replacements = {
+                    "bird": "small_bird",
+                    "insecta": "small_bug",
+                    "rodent": "small_rodent",
+                    "plant": "small_plant",
+                    "fish": "small_fish",
+                }
+                prey = stats['prey'].lower().split(' ')
+                _prey = ""
+                for i in range(len(prey)):
+                    if prey[i] in replacements:
+                        _new = replacements[prey[i]]
+                        if len(prey) == 0:
+                            prey = _new
+                        else:
+                            _prey += f" {_new}"
+                if 'prey' in var:
+                    _prey += f" {var['prey']}"
+                var['prey'] = _prey
+
         # Output each entry into the appropriate database location
         file = f'{entry_generate_dir}{var["name"]}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 
-        file = open(file, 'w')
-        convert_mega_rules(var)
-        convert_evolution(var)
-        json.dump(var, file, indent=2)
+        file = open(file, 'w', newline='\n')
+        json.dump(var, file, indent=2,)
         file.close()
 
         # And also make the advancements

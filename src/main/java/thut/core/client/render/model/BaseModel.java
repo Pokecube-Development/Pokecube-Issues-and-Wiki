@@ -49,12 +49,14 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             this.toLoad.loadModel(this.res);
             synchronized (this.toLoad)
             {
-                // Flag as loaded before running the callback
-                this.toLoad.loaded = true;
-                // Then if we have a callback, run that
+                // if we have a callback, run that
                 if (this.toLoad.callback != null) this.toLoad.callback.run(this.toLoad);
                 // Then clear the callback
                 this.toLoad.callback = null;
+                // Then flag as loaded
+                this.toLoad.loaded = true;
+                // Then mark as no longer loading
+                this.toLoad.loading = false;
             }
         }
 
@@ -93,6 +95,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     public String name;
     protected boolean valid = true;
     protected boolean loaded = false;
+    protected boolean loading = false;
     protected ResourceLocation last_loaded = null;
 
     protected IModelCallback callback = null;
@@ -114,6 +117,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
                 this.valid = false;
                 return;
             }
+            loading = true;
             // If it did exist, then lets schedule load on another thread
             Loader loader = new Loader(this, l);
             loader.start();
@@ -132,7 +136,11 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public IModel init(final IModelCallback callback)
     {
-        if (this.loaded && this.isValid()) callback.run(this);
+        if (this.isValid() && !this.loading)
+        {
+            callback.run(this);
+            this.loaded = true;
+        }
         else this.callback = callback;
         return this;
     }
@@ -152,7 +160,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
     @Override
     public List<String> getRenderOrder()
     {
-        if ((this.renderOrder.isEmpty()) && this.loaded)
+        if ((this.renderOrder.isEmpty()) && this.isValid())
         {
             if (this.callback != null) this.callback.run(this);
             this.callback = null;
@@ -337,7 +345,6 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             float ang2 = -info.headPitch;
             float head = info.headYaw + 180;
             float diff = 0;
-            if (info.yawDirection != -1) head *= -1;
             diff = head % 360;
             diff = (diff + 360) % 360;
             diff = (diff - 180) % 360;
@@ -353,7 +360,7 @@ public abstract class BaseModel implements IModelCustom, IModel, IRetexturableMo
             Vector4 dir2;
             if (info.pitchAxis == 2) dir2 = new Vector4(0, 0, info.pitchDirection, ang2);
             else if (info.pitchAxis == 1) dir2 = new Vector4(0, info.pitchDirection, 0, ang2);
-            else dir2 = new Vector4(info.yawDirection, 0, 0, ang2);
+            else dir2 = new Vector4(info.pitchDirection, 0, 0, ang2);
             final Vector4 combined = new Vector4();
             combined.mul(dir.toQuaternion(), dir2.toQuaternion());
             part.setPostRotations(combined);

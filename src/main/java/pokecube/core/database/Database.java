@@ -279,40 +279,6 @@ public class Database
         }
     }
 
-    private static void checkGenderFormes(final List<PokedexEntry> formes, final Map.Entry<Integer, PokedexEntry> vars)
-    {
-        PokedexEntry entry = vars.getValue();
-        final PokedexEntry female = entry.getForGender(IPokemob.FEMALE);
-        final PokedexEntry male = entry.getForGender(IPokemob.MALE);
-
-        /**
-         * If the forme has both male and female entries, replace the base forme
-         * with the male forme.
-         */
-        if (male != female && male != entry && female != entry)
-        {
-            male.base = true;
-            male.male = male;
-            female.male = male;
-            male.female = female;
-            entry.dummy = true;
-            entry.base = false;
-            Database.data.put(male.getPokedexNb(), male);
-            Database.data2.put(entry.getTrimmedName(), male);
-            Database.data2.put(entry.getName(), male);
-            vars.setValue(male);
-            // Set all the subformes base to this new one.
-            for (final PokedexEntry e : formes)
-            {
-                // Set the forme.
-                e.setBaseForme(male);
-                // Initialize some things.
-                e.getBaseForme();
-            }
-            entry = male;
-        }
-    }
-
     public static String convertMoveName(final String moveNameFromBulbapedia)
     {
         final String ret = Database.trim(moveNameFromBulbapedia);
@@ -523,11 +489,6 @@ public class Database
                  * current base forme if needed.
                  */
                 Database.initFormes(formes, entry);
-                /**
-                 * Then Check if the entry should be replaced with a gender
-                 * version
-                 */
-                Database.checkGenderFormes(formes, vars);
                 /**
                  * Then check if the base form, or any others, are dummy forms,
                  * and replace them.

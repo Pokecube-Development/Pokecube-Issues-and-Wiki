@@ -136,7 +136,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (shape.material == null) return;
         if (this.matcache.add(shape.material))
         {
-            this.materials.add(shape.material);
+            synchronized (materials)
+            {
+                this.materials.add(shape.material);
+            }
             this.namedMaterials.put(shape.material.name, shape.material);
         }
     }
@@ -434,36 +437,30 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         }
         if (material != null && !Mesh.debug)
         {
-            synchronized (this.materials)
-            {
-                this.materials.forEach(m -> {
-                    if (m == null) return;
-                    if (material.test(m))
-                    {
-                        m.rgbabro[0] = (int) (r * this.colour_scales[0]);
-                        m.rgbabro[1] = (int) (g * this.colour_scales[1]);
-                        m.rgbabro[2] = (int) (b * this.colour_scales[2]);
-                        m.rgbabro[3] = (int) (a * this.colour_scales[3]);
-                        m.rgbabro[4] = this.brightness;
-                        m.rgbabro[5] = this.overlay;
-                    }
-                });
-            }
-        }
-        else
-        {
-            synchronized (this.shapes)
-            {
-                shapes.forEach(m -> {
-                    if (m == null) return;
+            this.materials.forEach(m -> {
+                if (m == null) return;
+                if (material.test(m))
+                {
                     m.rgbabro[0] = (int) (r * this.colour_scales[0]);
                     m.rgbabro[1] = (int) (g * this.colour_scales[1]);
                     m.rgbabro[2] = (int) (b * this.colour_scales[2]);
                     m.rgbabro[3] = (int) (a * this.colour_scales[3]);
                     m.rgbabro[4] = this.brightness;
                     m.rgbabro[5] = this.overlay;
-                });
-            }
+                }
+            });
+        }
+        else
+        {
+            shapes.forEach(m -> {
+                if (m == null) return;
+                m.rgbabro[0] = (int) (r * this.colour_scales[0]);
+                m.rgbabro[1] = (int) (g * this.colour_scales[1]);
+                m.rgbabro[2] = (int) (b * this.colour_scales[2]);
+                m.rgbabro[3] = (int) (a * this.colour_scales[3]);
+                m.rgbabro[4] = this.brightness;
+                m.rgbabro[5] = this.overlay;
+            });
         }
     }
 
@@ -503,15 +500,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             ThutCore.LOGGER.error("Error loading a material, trying to set it to null: {}", JsonUtil.gson.toJson(mat));
             ThutCore.LOGGER.error(new IllegalAccessException());
         }
-        this.matcache.clear();
-        this.materials.clear();
-        this.namedMaterials.clear();
-        for (Mesh shape : this.shapes)
+        synchronized (materials)
         {
-            if (this.matcache.add(shape.material))
+            this.matcache.clear();
+            this.materials.clear();
+            this.namedMaterials.clear();
+            for (Mesh shape : this.shapes)
             {
-                this.materials.add(shape.material);
-                this.namedMaterials.put(shape.material.name, shape.material);
+                if (this.matcache.add(shape.material))
+                {
+                    this.materials.add(shape.material);
+                    this.namedMaterials.put(shape.material.name, shape.material);
+                }
             }
         }
     }

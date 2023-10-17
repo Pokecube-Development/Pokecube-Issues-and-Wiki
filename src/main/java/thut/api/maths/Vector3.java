@@ -96,50 +96,6 @@ public class Vector3
     }
 
     /**
-     * Locates the first solid block in the line indicated by the direction
-     * vector, starting from the source if range is given as 0, it will check
-     * out to 320 blocks.
-     *
-     * @param world
-     * @param source
-     * @param direction
-     * @param range
-     * @return
-     */
-    public static Vector3 findNextSolidBlock(final BlockGetter world, final Vector3 source, Vector3 direction,
-            final double range)
-    {
-        direction = direction.normalize();
-        double xprev = source.x, yprev = source.y, zprev = source.z;
-        double dx, dy, dz;
-        final Vector3 test = new Vector3();
-        for (double i = 0; i < range; i += 1)
-        {
-            dx = i * direction.x;
-            dy = i * direction.y;
-            dz = i * direction.z;
-
-            final double xtest = source.x + dx, ytest = source.y + dy, ztest = source.z + dz;
-
-            if (ytest > world.getMaxBuildHeight() || ytest < world.getMinBuildHeight()) return null;
-
-            if (!(Vector3.Int(xtest) == Vector3.Int(xprev) && Vector3.Int(ytest) == Vector3.Int(yprev)
-                    && Vector3.Int(ztest) == Vector3.Int(zprev)))
-            {
-                test.set(xtest, ytest, ztest);
-                final boolean clear = test.isClearOfBlocks(world);
-
-                if (!clear) return new Vector3().set(Vector3.Int(xtest), Vector3.Int(ytest), Vector3.Int(ztest));
-            }
-
-            yprev = ytest;
-            xprev = xtest;
-            zprev = ztest;
-        }
-        return null;
-    }
-
-    /**
      * determines whether the source can see out as far as range in the given
      * direction.
      *
@@ -521,11 +477,6 @@ public class Vector3
         return v.x == this.x && v.y == this.y && v.z == this.z;
     }
 
-    public Vector3 findNextSolidBlock(final BlockGetter world, final Vector3 direction, final double range)
-    {
-        return Vector3.findNextSolidBlock(world, this, direction, range);
-    }
-
     public Entity firstEntityExcluding(final double range, final Vec3 vec31, final Level world, final Entity entity,
             Predicate<Entity> predicate)
     {
@@ -788,7 +739,7 @@ public class Vector3
      */
     public double magSq()
     {
-        return this.x * this.x + this.y * this.y + this.z * this.z;
+        return Math.fma(x, x, Math.fma(y, y, x * z));
     }
 
     public void moveEntity(final Entity e)
@@ -891,9 +842,9 @@ public class Vector3
         mat[2][1] = line.get(2) * line.get(1) * (1 - Mth.cos((float) angle)) + line.get(0) * Mth.sin((float) angle);
         mat[2][2] = line.get(2) * line.get(2) * (1 - Mth.cos((float) angle)) + Mth.cos((float) angle);
 
-        ret.x = mat[0][0] * this.x + mat[0][1] * this.y + mat[0][2] * this.z;
-        ret.y = mat[1][0] * this.x + mat[1][1] * this.y + mat[1][2] * this.z;
-        ret.z = mat[2][0] * this.x + mat[2][1] * this.y + mat[2][2] * this.z;
+        ret.x = Math.fma(mat[0][0], this.x, Math.fma(mat[0][1], this.y, mat[0][2] * this.z));
+        ret.y = Math.fma(mat[1][0], this.x, Math.fma(mat[1][1], this.y, mat[1][2] * this.z));
+        ret.z = Math.fma(mat[2][0], this.x, Math.fma(mat[2][1], this.y, mat[2][2] * this.z));
 
         return ret;
     }

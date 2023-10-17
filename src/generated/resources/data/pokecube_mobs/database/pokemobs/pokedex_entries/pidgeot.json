@@ -209,5 +209,6 @@
       ]
     }
   },
-  "loot_table": "pokecube:entities/chicken_3"
+  "loot_table": "pokecube:entities/chicken_3",
+  "prey": " small_bug"
 }

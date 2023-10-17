@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.25"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headCap="-80,80" headCap1="-50,50"/>
   <phase duration="10" leftArm="leg1_2" leftLeg="leg1" name="biWalk" rightArm="leg2_2" rightLeg="leg2"/>
   <customTex default="scyther">
    <part name="Head" tex="scytherhead"/>

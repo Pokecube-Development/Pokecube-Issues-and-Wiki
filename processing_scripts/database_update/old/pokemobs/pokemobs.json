@@ -37181,7 +37181,7 @@
             },
             "action": {
               "values": {
-                "forme": "deoxys",
+                "forme": "deoxys-normal",
                 "type": "forme"
               }
             }
@@ -59925,23 +59925,33 @@
         },
         {
           "key": "vivillon_de",
-          "tex": "vivillon_highplains"
+          "tex": "vivillon_highplains",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_el",
-          "tex": "vivillon_plains"
+          "tex": "vivillon_plains",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_oc",
-          "tex": "vivillon_ocean"
+          "tex": "vivillon_ocean",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_sa",
-          "tex": "vivillon_sandstorm"
+          "tex": "vivillon_sandstorm",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_he",
-          "tex": "vivillon_hell"
+          "tex": "vivillon_hell",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_en",
@@ -59949,23 +59959,33 @@
         },
         {
           "key": "vivillon_po",
-          "tex": "vivillon_polar"
+          "tex": "vivillon_polar",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_ic",
-          "tex": "vivillon_icesnow"
+          "tex": "vivillon_icesnow",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_mon",
-          "tex": "vivillon_monsoon"
+          "tex": "vivillon_monsoon",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_su",
-          "tex": "vivillon_sun"
+          "tex": "vivillon_sun",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_mod",
-          "tex": "vivillon_modern"
+          "tex": "vivillon_modern",
+          "model": "vivillon",
+          "anim": "vivillon"
         }
       ]
     },
@@ -77890,6 +77910,8 @@
       "models": [
         {
           "key": "alcremie1",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77916,6 +77938,8 @@
         },
         {
           "key": "alcremie2",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77942,6 +77966,8 @@
         },
         {
           "key": "alcremie3",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77968,6 +77994,8 @@
         },
         {
           "key": "alcremie4",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77994,6 +78022,8 @@
         },
         {
           "key": "alcremie5",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -78020,6 +78050,8 @@
         },
         {
           "key": "alcremie6",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -78046,6 +78078,8 @@
         },
         {
           "key": "alcremie7",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",

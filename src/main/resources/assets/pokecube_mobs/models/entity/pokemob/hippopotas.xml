@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.3"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-60,60" headCap1="-60,60"/>
   <phase female="f" male="m" name="textures"/>
   <customTex default="hippopotas">
    <part name="Head" tex="hippopotaseye"/>

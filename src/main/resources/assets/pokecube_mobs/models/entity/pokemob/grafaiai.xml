@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
 	<phase name="global" scale="0.20"/>
-	<metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
+	<metadata head="head" headCap="-40,40" headCap1="-40,40"/>
 	<phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="30"/>
     <customTex default="grafaiai">
      <part name="Eye" tex="grafaiai_eye"/>

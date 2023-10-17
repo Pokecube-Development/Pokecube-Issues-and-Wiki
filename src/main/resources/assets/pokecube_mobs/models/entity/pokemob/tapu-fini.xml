@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" scale="0.95"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headDir="-1"/>
+  <metadata head="head" headCap="-30,30"/>
   <customTex default="tapu-fini">
    <part name="Mark" tex="tapu-fini-mark"/>
    <part name="Head" tex="tapu-fini-eye"/>

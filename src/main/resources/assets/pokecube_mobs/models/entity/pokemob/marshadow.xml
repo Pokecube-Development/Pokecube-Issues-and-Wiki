@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.3"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headCap="-70,70" headCap1="-50,50"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="50" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="marshadow">
    <part name="Head" tex="marshadowhead"/>

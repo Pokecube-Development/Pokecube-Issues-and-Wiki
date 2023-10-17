@@ -3,9 +3,9 @@
  <model name="">
   <phase name="global" scale="0.65"/>
   <phase duration="10" leftArm="leg1_2" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="leg2_1" rightLeg="leg2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
-  <metadata head="neck2" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1"/>
-  <metadata head="neck1" headAxis="2" headAxis2="0" headCap="-35,35" headCap1="-15,15" headDir="-1"/>
+  <metadata head="head" headCap="-80,80" headCap1="-50,50"/>
+  <metadata head="neck2" headCap="-50,50" headCap1="-35,35"/>
+  <metadata head="neck1" headCap="-35,35" headCap1="-15,15"/>
   <customTex default="groudon-primal">
    <part name="Head" tex="groudonprimalhead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>

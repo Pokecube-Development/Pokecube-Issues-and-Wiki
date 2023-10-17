@@ -314,7 +314,7 @@ public class CapabilityAnimation
         @Override
         public void overridePlaying(final String anim)
         {
-            this.playing = anim;
+            this.playing = this.pending = anim;
         }
 
         @Override

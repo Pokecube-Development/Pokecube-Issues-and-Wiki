@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -32,6 +33,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
+import pokecube.api.events.pokemobs.ai.AnimationSelectionEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.MoveEntry;
@@ -223,10 +225,13 @@ public class LogicMiscUpdate extends LogicBase
         }
 
         // Check egg guarding
-        boolean guardingEgg = pokemob.getGeneralState(GeneralStates.GUARDEGG);
-        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
-        boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
-        if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
+        if (entity.getBrain().hasMemoryValue(MemoryModules.EGG.get()))
+        {
+            boolean guardingEgg = pokemob.getGeneralState(GeneralStates.GUARDEGG);
+            Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
+            boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
+            if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
+        }
     }
 
     private void checkEvolution()
@@ -604,6 +609,11 @@ public class LogicMiscUpdate extends LogicBase
             final String anim = ThutCore.trim(state.toString());
             if (this.pokemob.getCombatState(state)) addAnimation(anims, anim, isRidden);
         }
+        for (final GeneralStates state : GeneralStates.values())
+        {
+            final String anim = ThutCore.trim(state.toString());
+            if (this.pokemob.getGeneralState(state)) addAnimation(anims, anim, isRidden);
+        }
 
         // Add in some transients which might occur
         float blink_rate = 0.5f;
@@ -634,6 +644,8 @@ public class LogicMiscUpdate extends LogicBase
             addAnimation(transients, "battling", isRidden);
         }
         if (isRidden) addAnimation(anims, "idle", isRidden);
+
+        PokecubeAPI.POKEMOB_BUS.post(new AnimationSelectionEvent(pokemob, animated));
     }
 
     @Override

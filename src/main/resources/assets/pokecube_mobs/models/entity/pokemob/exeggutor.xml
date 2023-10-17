@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.4"/>
-  <metadata head="head1:head2:head3" headAxis="2" headAxis2="0" headCap1="-10,10" headCap="-40,40" headDir="-1"/>
+  <metadata head="head1:head2:head3" headCap1="-10,10" headCap="-40,40"/>
   <phase duration="10" leftFront="" leftHind="leg1" name="quadWalk" rightFront="" rightHind="leg2"/>
   <customTex default="exeggutor">
   <part name="Head" tex="exeggutoreye1"/>

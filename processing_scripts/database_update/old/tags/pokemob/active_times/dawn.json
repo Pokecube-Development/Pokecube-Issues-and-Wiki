@@ -1,4 +1,31 @@
 {
   "replace": false,
-  "values": []
+  "values": [
+    "pokecube:rattata",
+    "pokecube:rattata-alola",
+    "pokecube:raticate",
+    "pokecube:raticate-alola",
+    "pokecube:zubat",
+    "pokecube:golbat",
+    "pokecube:crobat",
+    "pokecube:zigzagoon",
+    "pokecube:zigzagoon-galar",
+    "pokecube:linoone",
+    "pokecube:linoone-galar",
+    "pokecube:plusle",
+    "pokecube:minun",
+    "pokecube:volbeat",
+    "pokecube:illumise",
+    "pokecube:starly",
+    "pokecube:staravia",
+    "pokecube:staraptor",
+    "pokecube:bidoof",
+    "pokecube:bibarel",
+    "pokecube:kricketot",
+    "pokecube:kricketune",
+    "pokecube:woobat",
+    "pokecube:swoobat",
+    "pokecube:noibat",
+    "pokecube:noivern"
+  ]
 }

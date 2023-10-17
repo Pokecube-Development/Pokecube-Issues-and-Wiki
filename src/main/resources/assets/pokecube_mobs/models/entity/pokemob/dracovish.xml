@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.3"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-60,60"/>
   <phase duration="6" leftArm="" leftLeg="leg1:foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2:foot2"/>
   <customTex default="dracovish">
    <part name="Eye" tex="dracovisheye"/>
