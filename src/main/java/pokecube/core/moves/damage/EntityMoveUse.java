@@ -31,6 +31,7 @@ import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
@@ -475,9 +476,16 @@ public class EntityMoveUse extends ThrowableProjectile
 
         final Entity user = this.getUser();
         final IPokemob userMob = PokemobCaps.getPokemobFor(user);
+        if (userMob != null) userMob.setCombatState(CombatStates.EXECUTINGMOVE, true);
+
         // Finished, or is invalid
         if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
+            if (userMob != null)
+            {
+                userMob.setCombatState(CombatStates.EXECUTINGMOVE, false);
+                BrainUtils.clearMoveUseTarget(userMob.getEntity());
+            }
             if (!applied)
             {
                 // Send message about having missed the target
@@ -601,6 +609,8 @@ public class EntityMoveUse extends ThrowableProjectile
 
         if (this.isDone())
         {
+            userMob.setCombatState(CombatStates.EXECUTINGMOVE, false);
+            BrainUtils.clearMoveUseTarget(userMob.getEntity());
             this.remove(RemovalReason.DISCARDED);
             if (!this.applied)
             {
