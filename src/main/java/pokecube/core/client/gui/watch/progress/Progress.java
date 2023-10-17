@@ -35,7 +35,7 @@ public abstract class Progress extends WatchPage
         final int colour = 0x336633;
         for (final String s : this.lines)
         {
-            graphics.drawCenteredString(this.font, s, x + dx - this.font.width(s) / 2, y + dy, colour);
+            graphics.drawString(this.font, s, x + dx - this.font.width(s) / 2, y + dy, colour, false);
             dy += this.font.lineHeight;
             if (s.isEmpty()) dy -= this.font.lineHeight / 1.25f;
         }
