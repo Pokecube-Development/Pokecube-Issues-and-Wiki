@@ -105,11 +105,12 @@ public class AnimationLoader
         {
             final XMLFile file = AnimationXML.load(stream);
 
+            Metadata meta = new Metadata();
             // Variables for the head rotation info
-            int headDir = 2;
-            int headDir2 = 2;
-            int headAxis = 2;
-            int headAxis2 = 1;
+            int headDir = meta.headDir;
+            int headDir2 = meta.headDir2;
+            int headAxis = meta.headAxis;
+            int headAxis2 = meta.headAxis2;
             final float[] headCaps =
             { -100, 100 };
             final float[] headCaps1 =
@@ -136,7 +137,7 @@ public class AnimationLoader
             final Map<String, List<Vector5>> phaseList = new Object2ObjectOpenHashMap<>();
             List<Phase> texPhases = new ArrayList<>();
 
-            final Metadata meta = file.model.metadata;
+            meta = file.model.metadata;
             if (meta != null)
             {
                 AnimationLoader.addStrings(meta.head, headNames);
@@ -358,9 +359,8 @@ public class AnimationLoader
                 renderer.setAnimationChanger(animator);
 
                 // Process the head rotation information.
-                if (headDir2 == 2) headDir2 = headDir;
-                if (headDir != 2) renderer.getHeadInfo().yawDirection = headDir;
-                if (headDir2 != 2) renderer.getHeadInfo().pitchDirection = headDir2;
+                renderer.getHeadInfo().yawDirection = headDir;
+                renderer.getHeadInfo().pitchDirection = headDir2;
                 renderer.getHeadInfo().yawAxis = headAxis;
                 renderer.getHeadInfo().pitchAxis = headAxis2;
                 renderer.getHeadInfo().yawCapMin = headCaps[0];

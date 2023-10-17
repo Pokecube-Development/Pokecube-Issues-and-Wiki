@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.35"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-70,70" headCap1="-60,60"/>
   <phase duration="10" leftArm="topLeftArm" leftLeg="topLeftLeg" legAngle="30" name="biWalk" rightArm="topRightArm" rightLeg="topRightLeg"/>
    <customTex default="treecko">
    <part name="treecko_eye" tex="treecko_eye"/>

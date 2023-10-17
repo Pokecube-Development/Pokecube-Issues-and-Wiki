@@ -1,4 +1,5 @@
 import utils
+import json
 
 TO_MODEL = {
     "basculin-blue-striped" : "basculin-red-striped",
@@ -252,3 +253,16 @@ def find_old_name(new_name, species, dex):
     if old_name in dex:
         return old_name
     return None
+
+def get_interacts(index_map):
+    res = {}
+    old_file = "./old/pokemobs/pokemobs_interacts.json"
+    json_in = open(old_file, 'r', encoding='utf-8')
+    json_str = json_in.read()
+    json_in.close()
+    json_obj = json.loads(json_str)
+    for entry in json_obj["pokemon"]:
+        if 'stats' in entry:
+            name = find_new_name(entry['name'], index_map.keys())
+            res[name] = entry['stats']
+    return res

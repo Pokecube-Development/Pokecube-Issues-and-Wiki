@@ -25,7 +25,6 @@ import com.mojang.blaze3d.platform.Window;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -35,7 +34,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.core.client.gui.AnimationGui;
 import pokecube.core.database.Database;
-import pokecube.core.network.packets.PacketPokedex;
 import thut.api.maths.vecmath.Vec3f;
 import thut.api.util.JsonUtil;
 import thut.lib.TComponent;
@@ -119,8 +117,16 @@ public class IconModule extends AnimModule
     {
         parent.xRenderAngle = 35;
         parent.yRenderAngle = 5;
-        parent.yHeadRenderAngle = -5;
-        parent.xHeadRenderAngle = -15;
+        parent.yHeadRenderAngle = -45;
+        parent.xHeadRenderAngle = -45;
+
+        if (!this.cap && transitTime < 0)
+        {
+            float phase = (System.currentTimeMillis() % 100000) * 0.003f;
+            parent.xHeadRenderAngle *= Math.sin(phase);
+            parent.yHeadRenderAngle *= Math.cos(phase);
+        }
+
         IconModule.borked.clear();
         boolean debug = false;
         if (this.cap)
@@ -174,27 +180,19 @@ public class IconModule extends AnimModule
 
     public boolean updateOnButtonPress(int code)
     {
-        if (code == GLFW.GLFW_KEY_RIGHT) if (!Screen.hasShiftDown()) this.cylceUp();
-        else
+        if (!cap && code == GLFW.GLFW_KEY_TAB)
         {
-            final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
-            if (num != AnimationGui.entry) AnimationGui.entry = num;
-            else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
-            AnimationGui.mob = AnimationGui.entry.getForGender(parent.sexe).getName();
-            parent.forme.setValue(AnimationGui.mob);
-            PacketPokedex.updateWatchEntry(AnimationGui.entry);
-            parent.holder = AnimationGui.entry.getModel(parent.sexe);
+            transitTime = this.transitTime > 0 ? -1 : 1;
+            return true;
+        }
+        if (code == GLFW.GLFW_KEY_RIGHT)
+        {
+            this.cylceUp();
             return true;
         }
         if (code == GLFW.GLFW_KEY_LEFT)
         {
-            final PokedexEntry num = Pokedex.getInstance().getPrevious(AnimationGui.entry, 1);
-            if (num != AnimationGui.entry) AnimationGui.entry = num;
-            else AnimationGui.entry = Pokedex.getInstance().getLastEntry();
-            AnimationGui.mob = AnimationGui.entry.getForGender(parent.sexe).getName();
-            PacketPokedex.updateWatchEntry(AnimationGui.entry);
-            parent.forme.setValue(AnimationGui.mob);
-            parent.holder = AnimationGui.entry.getModel(parent.sexe);
+            this.cycleDown();
             return true;
         }
         return false;
@@ -361,26 +359,42 @@ public class IconModule extends AnimModule
 
     }
 
-    public void cylceUp()
+    public void cycleDown()
     {
         List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
-        formes = Lists.newArrayList(Database.getSortedFormes());
-        
-        int i_next = 0;
-        for (int i = 0; i < formes.size(); i++) if (formes.get(i) == AnimationGui.entry)
-        {
-            i_next = i + 1 < formes.size() ? i + 1 : 0;
-            break;
-        }
+        boolean alphab = !cap;
+
+        if (alphab) formes.sort((o1, o2) -> o1.name.compareTo(o2.name));
+
+        int i_next = formes.indexOf(AnimationGui.entry) - 1;
+
+        i_next = i_next < 0 ? formes.size() - 1 : i_next;
 
         AnimationGui.entry = formes.get(i_next);
+
         AnimationGui.mob = AnimationGui.entry.getName();
         parent.holder = AnimationGui.entry.default_holder;
         parent.forme.setValue(AnimationGui.mob);
+        parent.onUpdated();
+    }
+
+    public void cylceUp()
+    {
+        List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
+        boolean alphab = !cap;
+
+        if (alphab) formes.sort((o1, o2) -> o1.name.compareTo(o2.name));
+
+        int i_next = formes.indexOf(AnimationGui.entry) + 1;
+
+        i_next = i_next >= formes.size() ? 0 : i_next;
+
+        AnimationGui.entry = formes.get(i_next);
 
         if (AnimationGui.entry == Pokedex.getInstance().getFirstEntry()) this.cap = false;
 
         AnimationGui.mob = AnimationGui.entry.getName();
+        parent.holder = AnimationGui.entry.default_holder;
         parent.forme.setValue(AnimationGui.mob);
         parent.onUpdated();
     }

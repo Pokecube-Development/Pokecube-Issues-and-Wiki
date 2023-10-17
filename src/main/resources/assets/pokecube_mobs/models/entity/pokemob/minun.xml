@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.20"/>
   <phase armAngle="50" duration="10" leftArm="Left_hand" leftLeg="Left_foot" legAngle="45" name="biWalk" rightArm="Right_hand" rightLeg="Right_foot"/>
-  <metadata head="Head" headAxis="2" headCap="-50,50" headDir="-1" />
+  <metadata head="Head" headCap="-50,50" />
   <customTex default="minun">
    <part name="face" tex="minunhead"/>
    <animation diffs="0,0.33" part="face" trigger="random:0.005:20"/>

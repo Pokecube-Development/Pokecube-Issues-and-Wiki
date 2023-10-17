@@ -8,7 +8,7 @@
    <part name="Head" tex="shieldoneye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>
    </customTex>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headCap="-40,40" headCap1="-50,50"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <phase type="sitting">
    <part name="body">

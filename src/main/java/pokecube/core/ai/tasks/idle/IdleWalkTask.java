@@ -104,7 +104,7 @@ public class IdleWalkTask extends BaseIdleTask
         this.v.set(this.x, this.y, this.z);
         final Vector3 temp = Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y);
         if (temp == null || !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE)) return;
-        this.y = temp.y + this.entry.preferedHeight;
+        this.y = temp.y + this.pokemob.getFloatHeight();
     }
 
     /**

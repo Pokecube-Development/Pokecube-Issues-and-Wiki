@@ -223,10 +223,13 @@ public class LogicMiscUpdate extends LogicBase
         }
 
         // Check egg guarding
-        boolean guardingEgg = pokemob.getGeneralState(GeneralStates.GUARDEGG);
-        Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
-        boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
-        if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
+        if (entity.getBrain().hasMemoryValue(MemoryModules.EGG.get()))
+        {
+            boolean guardingEgg = pokemob.getGeneralState(GeneralStates.GUARDEGG);
+            Optional<EntityPokemobEgg> eggOpt = entity.getBrain().getMemory(MemoryModules.EGG.get());
+            boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
+            if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
+        }
     }
 
     private void checkEvolution()

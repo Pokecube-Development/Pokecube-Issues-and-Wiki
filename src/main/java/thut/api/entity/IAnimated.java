@@ -68,9 +68,9 @@ public interface IAnimated
         public float pitchCapMax = 40;
         public float pitchCapMin = -40;
 
-        public int yawAxis = 1;
+        public int yawAxis = 2;
         public int pitchAxis = 0;
-        public int yawDirection = 1;
+        public int yawDirection = -1;
         public int pitchDirection = 1;
 
         public boolean fixed = false;

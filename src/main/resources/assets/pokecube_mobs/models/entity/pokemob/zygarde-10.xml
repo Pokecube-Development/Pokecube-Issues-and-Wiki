@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.45"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-60,60" headCap1="-60,60"/>
   <material name="Light" light="1" transluscent="false"/>
   <phase type="sitting">
   <part name="body">

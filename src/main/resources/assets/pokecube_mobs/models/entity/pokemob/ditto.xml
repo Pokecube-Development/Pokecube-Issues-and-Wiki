@@ -2,6 +2,6 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.6"/>
-  <metadata head="Head" headAxis="1" headAxis2="0" headCap="-60,60" headDir="1"/>
+  <metadata head="Head" headAxis="1" headCap="-60,60" headDir="1"/>
  </model>
 </ModelAnimator>

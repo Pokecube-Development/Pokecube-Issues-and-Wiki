@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headDir2="-1"/>
+  <metadata head="head" headDir2="1"/>
   <customTex default="manaphy">
    <part name="manaphy_eyes" tex="manaphy_eyes"/>
   </customTex>

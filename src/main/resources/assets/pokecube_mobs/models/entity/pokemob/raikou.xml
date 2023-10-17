@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.3"/>
-  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap1="-20,20" headCap="-20,20" headDir="-1"/>
+  <metadata head="neck:head" headCap1="-20,20" headCap="-20,20"/>
   <phase duration="10" leftFront="leg1:leg1_1" leftHind="leg3:leg3_1" name="quadWalk" rightFront="leg2:leg2_1" rightHind="leg4:leg4_1"/>
   <customTex default="raikou">
    <part name="Head" tex="raikoueye"/>

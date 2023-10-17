@@ -225,5 +225,6 @@
       "trailblaze"
     ]
   },
-  "loot_table": "minecraft:entities/spider"
+  "loot_table": "minecraft:entities/spider",
+  "prey": " small_bug"
 }

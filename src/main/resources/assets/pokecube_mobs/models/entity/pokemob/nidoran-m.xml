@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-60,60" headCap1="-60,60"/>
   <customTex default="nidoran-m">
    <part name="Head" tex="nidoranmeye"/>
    <animation diffs="0,0.515" part="Head" trigger="random:0.005:3"/>

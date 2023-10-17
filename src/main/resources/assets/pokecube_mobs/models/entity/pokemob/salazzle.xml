@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.1"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-90,90" headCap1="-30,60" headDir="-1"/>
+  <metadata head="head" headCap="-90,90" headCap1="-30,60"/>
   <phase axis="0" name="snakeIdle" parts="f1_1:f1_2:f1_3:f1_4:f1_5"/>
   <phase axis="0" name="snakeIdle" parts="f2_1:f2_2:f2_3:f2_4:f2_5"/>
   <phase axis="0" name="snakeWalk" parts="f1_1:f1_2:f1_3:f1_4:f1_5"/>

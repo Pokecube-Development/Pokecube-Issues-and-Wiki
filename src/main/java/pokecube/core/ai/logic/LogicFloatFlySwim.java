@@ -172,7 +172,8 @@ public class LogicFloatFlySwim extends LogicBase
         super.tick(world);
 
         final Path path = this.entity.getNavigation().getPath();
-        if (path != null && !path.isDone())
+        boolean hasPath = path != null && !path.isDone();
+        if (hasPath)
         {
             final BlockPos next = path.getNextNodePos();
             hereVec.set(this.entity);
@@ -197,9 +198,20 @@ public class LogicFloatFlySwim extends LogicBase
             if (nextVec.distToSq(hereVec) < 1 && path.getNextNodeIndex() + 1 < path.getNodeCount())
                 path.setNextNodeIndex(path.getNextNodeIndex() + 1);
         }
+        boolean floats = this.pokemob.floats();
+        boolean air = (floats || this.pokemob.flys());
+        boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
 
-        final boolean air = (this.pokemob.floats() || this.pokemob.flys());
-        final boolean water = this.pokemob.getEntity().isInWater() && this.pokemob.swims();
+        if (floats && !hasPath && !this.pokemob.isGrounded())
+        {
+            hereVec.set(this.entity);
+            nextVec.set(0, -1, 0);
+            Vector3 next = Vector3.getNextSurfacePoint(world, hereVec, nextVec, pokemob.getFloatHeight());
+            double vy = entity.getDeltaMovement().y;
+            Vector3 push = hereVec.set(0, 0.01, 0);
+            if (next == null) push.set(0, -0.01, 0);
+            if (Math.signum(vy) != Math.signum(push.y)) push.addVelocities(entity);
+        }
 
         if (air && this.entity.isAlive())
         {
