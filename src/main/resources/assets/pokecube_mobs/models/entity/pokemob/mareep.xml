@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.3"/>
   <phase duration="10" leftFront="leg3" leftHind="leg1" name="quadWalk" rightFront="leg4" rightHind="leg2"/>
-  <metadata dye="wool:wool_head:body" head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1" shear="wool"/>
+  <metadata dye="wool:wool_head:body" head="head" headCap="-80,80" headCap1="-50,50" shear="wool"/>
   <phase axis="1" name="snakeIdle" parts="tail1:tail2"/>
   <phase axis="0" name="snakeWalk" parts="tail1:tail2"/>
   <phase type="sitting">

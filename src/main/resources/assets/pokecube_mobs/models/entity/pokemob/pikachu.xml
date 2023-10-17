@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.30"/>
-  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <metadata head="Head" headCap="-60,60"/>
   <customTex default="pikachu">
    <part name="Head" tex="pikachuhead"/>
    <animation diffs="0,0.34" part="Head" trigger="random:0.005:20"/>

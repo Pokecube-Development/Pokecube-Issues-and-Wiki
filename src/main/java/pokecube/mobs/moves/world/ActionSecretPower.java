@@ -7,6 +7,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.block.state.BlockState;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.utils.IMoveWorldEffect;
+import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.commands.SecretBase;
 import pokecube.core.eventhandlers.MoveEventsHandler;
 import pokecube.world.terrain.PokecubeTerrainChecker;
@@ -14,6 +15,20 @@ import thut.api.Tracker;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
 
+/**
+ * This is the implementation of Secret Power's secret base creation. When used
+ * on a block, if it is a "terrain"
+ * ({@link PokecubeTerrainChecker#isTerrain(BlockState)} or "wood"
+ * ({@link PokecubeTerrainChecker#isWood(BlockState)} block, then it will
+ * convert it into the secret base block ({@link BaseBlock}), after the player
+ * clicks the provided link in chat.<br>
+ * <br>
+ * This action only applies out of combat, and if the owner is a player. It also
+ * checks the relevant permissions, configs, etc for whether secret-power may be
+ * used.<br>
+ * <br>
+ * It functions using the {@link SecretBase} command.
+ */
 public class ActionSecretPower implements IMoveWorldEffect
 {
     public ActionSecretPower()

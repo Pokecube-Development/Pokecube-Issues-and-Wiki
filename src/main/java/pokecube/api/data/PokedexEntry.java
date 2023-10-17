@@ -868,7 +868,7 @@ public class PokedexEntry
 
     /** If the above is floating, how high does it try to float */
     @CopyToGender
-    public double preferedHeight = 1.5;
+    public double preferedHeight = 1.25;
     /** Pokemobs with these entries will be hunted. */
     @CopyToGender
     private final List<PokedexEntry> prey = new ArrayList<>();
@@ -1132,7 +1132,12 @@ public class PokedexEntry
         if (Tags.POKEMOB.isIn("active_times/dusk", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.dusk);
         if (Tags.POKEMOB.isIn("active_times/dawn", this.getTrimmedName())) this.activeTimes.add(PokedexEntry.dawn);
 
-        if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName())) this.mobType |= MovementType.FLOATING.mask;
+        if (Tags.MOVEMENT.isIn("floats", this.getTrimmedName()))
+        {
+            Float amount = Tags.MOVEMENT.get("floats", this.getTrimmedName());
+            if (amount != null) this.preferedHeight = amount;
+            this.mobType |= MovementType.FLOATING.mask;
+        }
         if (Tags.MOVEMENT.isIn("flies", this.getTrimmedName())) this.mobType |= MovementType.FLYING.mask;
         if (Tags.MOVEMENT.isIn("swims", this.getTrimmedName())) this.mobType |= MovementType.WATER.mask;
         if (Tags.MOVEMENT.isIn("walks", this.getTrimmedName())) this.mobType |= MovementType.NORMAL.mask;
@@ -1686,11 +1691,11 @@ public class PokedexEntry
         this.prey.clear();
         if (this.food == null) return;
         final List<String> foodList = new ArrayList<>();
-        for (final String s : this.food) foodList.add(s);
+        for (final String s : this.food) foodList.add(s.contains(":") ? s : "pokecube:" + s);
         poke:
         for (final PokedexEntry e : Database.data.values())
         {
-            final Set<String> tags = Tags.BREEDING.lookupTags(e.getTrimmedName());
+            final Set<String> tags = Tags.CREATURES.lookupTags(e.getTrimmedName());
             for (final String s : tags) if (foodList.contains(s))
             {
                 this.prey.add(e);

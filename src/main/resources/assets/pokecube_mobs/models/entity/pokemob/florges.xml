@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.20"/>
-  <metadata dye="color:color1:*(flower)(.*)#red-purple,yellow-white,blue-light_blue,orange-pink" head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
+  <metadata dye="color:color1:*(flower)(.*)#red-purple,yellow-white,blue-light_blue,orange-pink" head="head" headCap="-30,30" headCap1="-30,30"/>
   <customTex default="florges">
    <part name="Head" tex="florgeshead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>

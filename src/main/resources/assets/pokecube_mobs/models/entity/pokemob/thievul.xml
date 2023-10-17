@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.35"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-60,60"/>
   <phase duration="10" leftFront="leg1" leftHind="leg4" name="quadWalk" rightFront="leg2" rightHind="leg3"/>
   <customTex default="thievul">
    <part name="Head" tex="thievulhead"/>

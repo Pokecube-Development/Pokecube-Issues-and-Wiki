@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
 	<phase name="global" scale="0.24"/>
-	<metadata head="head" headAxis="2" headAxis2="0" headCap="-35,35" headCap1="-35,35" headDir="-1"/>
+	<metadata head="head" headCap="-35,35" headCap1="-35,35"/>
 	<phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="30"/>
     <customTex default="cranidos">
      <part name="Head" tex="cranidos_eye"/>

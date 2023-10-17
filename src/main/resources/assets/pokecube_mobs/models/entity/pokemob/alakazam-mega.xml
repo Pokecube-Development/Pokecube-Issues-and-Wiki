@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.3"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-60,60"/>
   <worn angles="-90,0,0" id="__EYE__" offset="0,-0.04,0.4" parent="head" scale="2,1.5,1"/>
   <customTex default="alakazam-mega">
    <part name="Head" tex="alakazam_mega_eye"/>

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.30"/>
-  <metadata head="neck:neck1:head" headAxis="2" headCap="-20,20" headCap1="-10,10"  headDir="-1" headDir2="-1"/>
+  <metadata head="neck:neck1:head" headCap="-20,20" headCap1="-10,10"  headDir2="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
   <customTex default="silvally">
    <part name="Head" tex="silvallyeye_ice"/>

@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.27"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-25,25" headCap1="-25,25" headDir="-1"/>
+  <metadata head="head" headCap="-25,25" headCap1="-25,25"/>
   <phase duration="6" leftArm="" leftLeg="leg1:foot1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2:foot2"/>
   <customTex default="zapdos">
    <part name="Head" tex="zapdoseye"/>

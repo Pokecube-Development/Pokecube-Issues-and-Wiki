@@ -257,5 +257,6 @@
       "chilling-water"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2"
+  "loot_table": "pokecube:entities/chicken_2",
+  "prey": " small_fish"
 }

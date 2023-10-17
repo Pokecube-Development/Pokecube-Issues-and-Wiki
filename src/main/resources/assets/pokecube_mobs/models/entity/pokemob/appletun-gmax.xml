@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="1.5"/>
   <phase axis="0" name="snakeWalk" parts="tail1:tail2:tail3:tail4:tail5"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <metadata head="head" headCap="-20,20" headCap1="-20,20"/>
   <customTex default="appletun-gmax">
    <part name="Head" tex="appletunghead"/>
    <animation diffs="0,0.51" part="Head" trigger="random:0.005:11"/>

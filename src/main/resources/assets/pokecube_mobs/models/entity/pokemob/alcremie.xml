@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.12"/>
   <phase duration="6" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-70,70" headCap1="-60,60"/>
   <customTex default="alcremie">
    <part name="Head" tex="alcremiehead"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headDir="-1"/>
+  <metadata head="head" headCap="-20,20"/>
   <phase duration="10" leftFront="leg1" leftHind="leg3" name="quadWalk" rightFront="leg2" rightHind="leg4"/>
   <customTex default="nidorino">
    <part name="Head" tex="nidorinoeye"/>

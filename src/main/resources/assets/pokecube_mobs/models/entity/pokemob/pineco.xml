@@ -2,6 +2,6 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.4"/>
-  <metadata head="pineco" headAxis="2" headAxis2="0" headCap="-180,180" headCap1="-10,10" headDir="1"/>
+  <metadata head="pineco" headCap="-180,180" headCap1="-10,10" headDir2="1"/>
  </model>
 </ModelAnimator>

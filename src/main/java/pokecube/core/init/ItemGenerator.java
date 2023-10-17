@@ -57,7 +57,6 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.barrels.GenericBarrel;
 import pokecube.core.blocks.barrels.GenericBarrelTile;
-import pokecube.core.blocks.bases.BaseBlock;
 import pokecube.core.blocks.berries.BerryCrop;
 import pokecube.core.blocks.berries.BerryFruit;
 import pokecube.core.blocks.berries.BerryLeaf;
@@ -321,7 +320,7 @@ public class ItemGenerator
 
             // Planks
             var plank_block = makeBerryWoodThing(name, index, BERRY_WOOD_THINGS.get(6).apply(name),
-                    () -> new BaseBlock(
+                    () -> new Block(
                             BlockBehaviour.Properties.of().mapColor(ItemGenerator.berryWoods.get(name))
                                     .strength(2.0F).sound(SoundType.WOOD).instrument(NoteBlockInstrument.BASS).ignitedByLava()),
                     block ->

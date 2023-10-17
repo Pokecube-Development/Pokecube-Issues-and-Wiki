@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.22"/>
-  <metadata head="base" headAxis="2" headAxis2="0" headCap="-60,60" headDir="-1"/>
+  <metadata head="base" headCap="-60,60"/>
   <customTex default="lunatone">
    <part name="Head" tex="lunatoneeye"/>
    <animation diffs="0,0.51" part="Head" trigger="random:0.005:5"/>

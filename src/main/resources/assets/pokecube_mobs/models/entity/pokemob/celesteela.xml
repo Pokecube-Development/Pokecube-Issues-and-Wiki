@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.5"/>
-  <metadata head="neck:neck1:neck2:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <metadata head="neck:neck1:neck2:head" headCap="-10,10" headCap1="-10,10"/>
   <customTex default="celesteela">
    <part name="Head" tex="celesteelaface"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>

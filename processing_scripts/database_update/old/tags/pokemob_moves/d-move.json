@@ -1,0 +1,23 @@
+{
+  "replace": false,
+  "values": [
+    "max-flare",
+    "max-flutterby",
+    "max-lightning",
+    "max-strike",
+    "max-knuckle",
+    "max-phantasm",
+    "max-hailstorm",
+    "max-ooze",
+    "max-geyser",
+    "max-airstream",
+    "max-starfall",
+    "max-wyrmwind",
+    "max-mindstorm",
+    "max-rockfall",
+    "max-quake",
+    "max-darkness",
+    "max-overgrowth",
+    "max-steelspike"
+  ]
+}

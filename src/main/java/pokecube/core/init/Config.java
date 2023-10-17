@@ -663,8 +663,8 @@ public class Config extends ConfigData
     public boolean showArmor = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Height of the health text on the health bar. [Default: 14]")
     public int hpTextHeight = 14;
-    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display only when looking at the pokemob. [Default: false]")
-    public boolean showOnlyFocused = false;
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display only when looking at the pokemob. [Default: true]")
+    public boolean showOnlyFocused = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bars be added for non-normal pokemobs. [Default: false]")
     public boolean nonStockHealthbars = false;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should debug info display on the health bar when the F3 debug screen displays. [Default: true]")

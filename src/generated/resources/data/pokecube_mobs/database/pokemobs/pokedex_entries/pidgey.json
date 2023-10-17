@@ -192,5 +192,6 @@
       "confide"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1"
+  "loot_table": "pokecube:entities/chicken_1",
+  "prey": " small_bug"
 }
