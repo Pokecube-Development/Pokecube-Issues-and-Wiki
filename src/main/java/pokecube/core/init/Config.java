@@ -533,17 +533,17 @@ public class Config extends ConfigData
     public String teleRef = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the tamed pokemob GUI based on the position of guiRef. [Default: [0, 0]]")
-    public List<Integer> guiPos = Lists.newArrayList(new Integer[]
+    public List<Integer> guiSelectedPos = Lists.newArrayList(new Integer[]
     { 0, 0 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [89, 17]]")
-    public List<Integer> telePos = Lists.newArrayList(new Integer[]
-    { 89, 17 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [147, -42]]")
-    public List<Integer> targetPos = Lists.newArrayList(new Integer[]
-    { 147, -42 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [-150, -100]]")
-    public List<Integer> messagePos = Lists.newArrayList(new Integer[]
-    { -150, -100 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [-150, 0]]")
+    public List<Integer> guiTeleportPos = Lists.newArrayList(new Integer[]
+    { -150, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [0, 0]]")
+    public List<Integer> guiTargetPos = Lists.newArrayList(new Integer[]
+    { 0, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
+    public List<Integer> guiMessagePos = Lists.newArrayList(new Integer[]
+    { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Padding of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
     public List<Integer> messagePadding = Lists.newArrayList(new Integer[]
     { 0, 0 });
@@ -785,7 +785,12 @@ public class Config extends ConfigData
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
-        
+
+        if (guiMessagePos.size() != 2) guiMessagePos = Lists.newArrayList(0, 0);
+        if (guiSelectedPos.size() != 2) guiSelectedPos = Lists.newArrayList(0, 0);
+        if (guiTeleportPos.size() != 2) guiTeleportPos = Lists.newArrayList(-150, 0);
+        if (guiTargetPos.size() != 2) guiTargetPos = Lists.newArrayList(0, 0);
+
         DataHelpers.DEBUG = this.debug_data;
 
         this.berryStackScale = Math.max(1, this.berryStackScale);
