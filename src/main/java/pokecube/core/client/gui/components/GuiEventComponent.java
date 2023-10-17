@@ -7,6 +7,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import pokecube.core.client.GuiEvent;
 import pokecube.core.client.gui.GuiDisplayPokecubeInfo;
+import pokecube.core.client.gui.GuiInfoMessages;
 import pokecube.core.client.gui.helper.Rectangle;
 
 public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
@@ -82,7 +83,7 @@ public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
     public void drawGui(GuiEvent event)
     {
         this.preDraw(event);
-        if (Screen.hasAltDown()) drawBounds(event);
+        if (Screen.hasAltDown() && GuiInfoMessages.fullDisplay()) drawBounds(event);
         applyTransform(this);
         this._drawGui(event);
     }
