@@ -145,7 +145,9 @@ public class CapabilityAnimation
             {
                 String transitionKey = "%s->%s".formatted(this.playing, name);
                 if (!this.anims.containsKey(transitionKey))
-                {}
+                {
+                    this.playing = name;
+                }
                 this.pending = name;
             }
             this.getPlaying();
@@ -229,12 +231,14 @@ public class CapabilityAnimation
         public void postRunAnim(Animation animation)
         {
             float i = this._ageInTicks - this.start_times.getOrDefault(animation._uuid, this._ageInTicks);
-            if (!pending.equals(playing) || transients.contains(animation))
+            boolean hasPending = !pending.equals(playing);
+            if (hasPending || transients.contains(animation))
             {
                 if (i >= animation.getLength())
                 {
                     if (this.transients.remove(animation)) this.start_times.removeFloat(animation._uuid);
                     else this.start_times.put(animation._uuid, 0);
+                    if (hasPending) this.playing = this.pending;
                 }
             }
             else
@@ -244,6 +248,7 @@ public class CapabilityAnimation
                 {
                     if (this.transients.remove(animation)) this.start_times.removeFloat(animation._uuid);
                     else this.start_times.put(animation._uuid, 0);
+                    this.playing = this.pending;
                 }
             }
         }
