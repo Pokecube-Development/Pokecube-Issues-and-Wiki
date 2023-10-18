@@ -48,6 +48,7 @@ import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
 import pokecube.core.PokecubeCore;
+import pokecube.core.ai.logic.LogicMiscUpdate;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import pokecube.core.items.pokecubes.helper.SendOutManager;
@@ -55,6 +56,7 @@ import pokecube.core.utils.AITools;
 import pokecube.core.utils.EntityTools;
 import pokecube.core.utils.PokemobTracker;
 import thut.api.Tracker;
+import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 
@@ -65,6 +67,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
     static final EntityDataAccessor<Integer> ENTITYID;
     static final EntityDataAccessor<ItemStack> ITEM;
     static final EntityDataAccessor<Boolean> RELEASING;
+    static final EntityDataAccessor<Boolean> CAPTURING;
     static final EntityDataAccessor<Integer> TIME;
 
     public static boolean SEEKING = true;
@@ -75,6 +78,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         ITEM = SynchedEntityData.<ItemStack>defineId(EntityPokecubeBase.class, EntityDataSerializers.ITEM_STACK);
         RELEASING = SynchedEntityData.<Boolean>defineId(EntityPokecubeBase.class, EntityDataSerializers.BOOLEAN);
         TIME = SynchedEntityData.<Integer>defineId(EntityPokecubeBase.class, EntityDataSerializers.INT);
+        CAPTURING = SynchedEntityData.<Boolean>defineId(EntityPokecubeBase.class, EntityDataSerializers.BOOLEAN);
     }
 
     public static boolean canCaptureBasedOnConfigs(final IPokemob pokemob)
@@ -115,6 +119,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     public double speed = 2;
     public LivingEntity targetEntity;
+    public LivingEntity _capturingEntity;
     public Vector3 targetLocation = new Vector3();
 
     protected Block tile;
@@ -253,6 +258,25 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public boolean attackable()
     {
         return false;
+    }
+
+    public LivingEntity getCapturing()
+    {
+        if (!this.getEntityData().get(CAPTURING)) return null;
+        ItemStack stack = getItem();
+        if (_capturingEntity == null && PokecubeManager.isFilled(stack))
+        {
+            _capturingEntity = PokecubeManager.itemToMob(stack, level);
+            if (_capturingEntity != null)
+            {
+                _capturingEntity.tickCount = 0;
+                Vector3 loc = Vector3.readFromNBT(stack.getTag(), "_cap_pos_");
+                this.capturePos.set(loc);
+                ICopyMob.copyEntityTransforms(_capturingEntity, this);
+                System.out.println(loc + " " + this.position());
+            }
+        }
+        return _capturingEntity;
     }
 
     public void checkCollision()
@@ -423,7 +447,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
             }
             PokemobTracker.addPokecube(this);
         }
-
+        if (_capturingEntity != null) _capturingEntity.tickCount++;
         this.preValidateVelocity();
         this.checkCollision();
         this.postValidateVelocity();
@@ -474,6 +498,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.getEntityData().define(EntityPokecubeBase.ENTITYID, -1);
         this.getEntityData().define(EntityPokecubeBase.ITEM, ItemStack.EMPTY);
         this.getEntityData().define(EntityPokecubeBase.TIME, 40);
+        this.getEntityData().define(EntityPokecubeBase.CAPTURING, false);
     }
 
     /** Sets the ItemStack for this entity */
@@ -500,11 +525,10 @@ public abstract class EntityPokecubeBase extends LivingEntity
     {
         this.getEntityData().set(EntityPokecubeBase.ENTITYID, entity.getId());
         this.setDeltaMovement(0, 0, 0);
-        this.setTime(20);
+        this.setTime(LogicMiscUpdate.EXITCUBEDURATION);
         this.setReleasing(true);
         this.canBePickedUp = false;
         this.seeking = false;
-        EntityUpdate.sendEntityUpdate(this);
     }
 
     public void setReleasing(final boolean tag)
@@ -546,13 +570,17 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.isCapturing = true;
         this.canBePickedUp = false;
 
+        ItemStack stack = this.getItem();
+        this.capturePos.writeToNBT(stack.getTag(), "_cap_pos_");
+        this.setItem(stack);
+
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
         if (pokemob != null && pokemob.getBossInfo() != null)
         {
             pokemob.getBossInfo().removeAllPlayers();
             pokemob.getBossInfo().setVisible(false);
         }
-        EntityUpdate.sendEntityUpdate(this);
+        this.getEntityData().set(CAPTURING, true);
     }
 
     public void setTilt(final int n)
