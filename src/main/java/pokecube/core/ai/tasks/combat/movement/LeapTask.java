@@ -107,13 +107,7 @@ public class LeapTask extends TaskBase implements IAICombat
         dir.subtractFrom(dv);
 
         final boolean airborne = this.pokemob.floats() || this.pokemob.flys();
-        if (airborne)
-        {
-            if (!this.pokemob.inCombat()) dir.scalarMultBy(0.25);
-            else dir.y *= 2;
-        }
-        else if (pokemob.onGround() && dir.y >= 0) dir.y = Math.max(dir.y, 0.25);
-
+        if (dir.y > 0 && !airborne) dir.y = Math.max(dir.y, 0.25);
         /*
          * Apply the leap
          */
