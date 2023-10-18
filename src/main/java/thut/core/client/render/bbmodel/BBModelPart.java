@@ -128,14 +128,23 @@ public class BBModelPart extends Part
             float x = b.getRotation()[0];
             float y = b.getRotation()[1];
             float z = b.getRotation()[2];
-            if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
-            if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
-            if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+            if (b.type.equals("mesh"))
+            {
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+            }
+            else
+            {
+                if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+                if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+            }
 
             Vector3f xyz = quat.getEulerAnglesXYZ(new Vector3f());
-            newRots[0] = (float) (xyz.x() * 180 / Math.PI);
-            newRots[1] = (float) (xyz.y() * 180 / Math.PI);
-            newRots[2] = (float) (xyz.z() * 180 / Math.PI);
+            newRots[0] = (float) (Math.toDegrees(xyz.x()));
+            newRots[1] = (float) (Math.toDegrees(xyz.y()));
+            newRots[2] = (float) (Math.toDegrees(xyz.z()));
         }
         b.rotation = newRots;
         b.toMeshs(t, quads_materials, tris_materials);
