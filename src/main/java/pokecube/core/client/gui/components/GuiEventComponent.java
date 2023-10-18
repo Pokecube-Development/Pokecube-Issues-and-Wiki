@@ -148,7 +148,7 @@ public abstract class GuiEventComponent implements Comparable<GuiEventComponent>
         x /= sx;
         y /= sy;
 
-        if (clickA == 1 && clickB == 0)
+        if (clickA == 1 && clickB == 0 && GuiInfoMessages.fullDisplay())
         {
             int dx = (int) (x - mX);
             int dy = (int) (y - mY);

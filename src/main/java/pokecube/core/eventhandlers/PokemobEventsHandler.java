@@ -658,6 +658,8 @@ public class PokemobEventsHandler
         }
         // This init stage involves block checks, etc, so do that here
         pokemob.postInitAI();
+        // Refresh the genes incase they changed from the above
+        pokemob.onGenesChanged();
     }
 
     private static void onBrainInit(final BrainInitEvent event)
