@@ -375,22 +375,22 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     private void validateDirection(final Vec3 vec3d)
     {
-        final float f = (float) vec3d.horizontalDistance();
-        if (f > 0.5)
-        {
-            this.yRot = (float) (-Mth.atan2(vec3d.x, vec3d.z) * (180F / (float) Math.PI));
-            for (this.xRot = (float) (Mth.atan2(vec3d.y, f) * (180F / (float) Math.PI)); this.xRot
-                    - this.xRotO < -180.0F; this.xRotO -= 360.0F)
-                ;
-        }
-        else this.xRot = 0;
-        while (this.xRot - this.xRotO >= 180.0F) this.xRotO += 360.0F;
-        while (this.yRot - this.yRotO < -180.0F) this.yRotO -= 360.0F;
-        while (this.yRot - this.yRotO >= 180.0F) this.yRotO += 360.0F;
-        this.yBodyRot = this.yRot;
-        this.yBodyRotO = this.yRotO;
-        this.yHeadRot = this.yRot;
-        this.yHeadRotO = this.yRotO;
+        if (vec3d.lengthSqr() == 0) return;
+
+        double dx = vec3d.x;
+        double dy = vec3d.y;
+        double dz = vec3d.z;
+        double d3 = Math.sqrt(dx * dx + dz * dz);
+        Optional<Float> getXRotD = !(Math.abs(dy) > (double) 1.0E-5F) && !(Math.abs(d3) > (double) 1.0E-5F)
+                ? Optional.empty()
+                : Optional.of((float) (-(Mth.atan2(dy, d3) * (double) (180F / (float) Math.PI))));
+
+        Optional<Float> getYRotD = !(Math.abs(dz) > (double) 1.0E-5F) && !(Math.abs(dx) > (double) 1.0E-5F)
+                ? Optional.empty()
+                : Optional.of((float) (Mth.atan2(dz, dx) * (double) (180F / (float) Math.PI)) - 90.0F);
+
+        if (getYRotD.isPresent()) this.yRot = this.yHeadRot = this.yBodyRot = getYRotD.get();
+        if (getXRotD.isPresent()) this.xRot = getXRotD.get();
     }
 
     private void postValidateVelocity()
@@ -426,6 +426,11 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.xOld = this.getX();
         this.yOld = this.getY();
         this.zOld = this.getZ();
+        this.animStepO = this.animStep;
+        this.yBodyRotO = this.yBodyRot;
+        this.yHeadRotO = this.yHeadRot;
+        this.yRotO = this.getYRot();
+        this.xRotO = this.getXRot();
 
         this.autoRelease--;
         if (this.autoRelease == 0) SendOutManager.sendOut(this, true);
@@ -451,6 +456,33 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.preValidateVelocity();
         this.checkCollision();
         this.postValidateVelocity();
+        if (this.isReleasing() || _capturingEntity != null)
+        {
+            var test = _capturingEntity != null ? this._capturingEntity : this.getReleased();
+            if (test != null) this.capturePos.set(test);
+            if (this.isReleasing() && test == null && this.getTime() < LogicMiscUpdate.EXITCUBEDURATION - 2)
+                this.discard();
+            double dh = 1;
+            if (test != null) dh = test.getBbWidth();
+
+            double dx = this.capturePos.x - this.getX();
+            double dy = this.capturePos.y - this.getEyeY();
+            double dz = this.capturePos.z - this.getZ();
+            double d3 = Math.sqrt(dx * dx + dz * dz);
+            Optional<Float> getXRotD = !(Math.abs(dy) > (double) 1.0E-5F) && !(Math.abs(d3) > (double) 1.0E-5F)
+                    ? Optional.empty()
+                    : Optional.of((float) (-(Mth.atan2(dy, d3) * (double) (180F / (float) Math.PI))));
+
+            Optional<Float> getYRotD = !(Math.abs(dz) > (double) 1.0E-5F) && !(Math.abs(dx) > (double) 1.0E-5F)
+                    ? Optional.empty()
+                    : Optional.of((float) (Mth.atan2(dz, dx) * (double) (180F / (float) Math.PI)) - 90.0F);
+
+            if (getYRotD.isPresent()) this.yRot = this.yHeadRot = this.yBodyRot = getYRotD.get();
+            if (getXRotD.isPresent()) this.xRot = getXRotD.get();
+
+            Vector3 dr = new Vector3(dx, dy, dz);
+            if (dr.mag() < dh) dr.normalize().scalarMultBy(0.005).reverse().addVelocities(this);
+        }
     }
 
     @Override
@@ -518,7 +550,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public void setDeltaMovement(final Vec3 velocity)
     {
         super.setDeltaMovement(velocity);
-        this.validateDirection(velocity);
     }
 
     public void setReleased(final Entity entity)
@@ -529,6 +560,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.setReleasing(true);
         this.canBePickedUp = false;
         this.seeking = false;
+        this.capturePos.set(entity);
     }
 
     public void setReleasing(final boolean tag)
