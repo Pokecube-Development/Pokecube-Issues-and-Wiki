@@ -16,15 +16,19 @@ import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
+import pokecube.core.items.pokecubes.helper.CaptureManager;
 import thut.api.Tracker;
+import thut.api.maths.Vector3;
 
 public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPokecube>
 {
@@ -53,8 +57,10 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
             mat.pushPose();
             final float scale = 1.f;
             mat.scale(scale, scale, scale);
+            
+            boolean shaking = this.cube.getTime() < CaptureManager.CAPTURE_SHRINK_TIMER;
 
-            if (PokecubeManager.getTilt(this.cube.getItem()) > 0)
+            if (shaking && PokecubeManager.getTilt(this.cube.getItem()) > 0)
             {
                 final float rotateY = Mth.cos(Mth.abs((float) (Math.PI * this.ageInTicks) / 12));
                 final float sx = 0.0f;
@@ -97,7 +103,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
 
     @Override
     public void render(final EntityPokecube entity, final float entityYaw, final float partialTicks,
-            final PoseStack matrixStackIn, final MultiBufferSource bufferIn, final int packedLightIn)
+            final PoseStack stack, final MultiBufferSource bufferIn, final int packedLightIn)
     {
         final long time = entity.reset;
         final long world = Tracker.instance().getTick();
@@ -106,11 +112,30 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
         final ResourceLocation num = PokecubeItems.getCubeId(entity.getItem());
         if (RenderPokecube.pokecubeRenderers.containsKey(num))
         {
-            RenderPokecube.pokecubeRenderers.get(num).render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn,
+            RenderPokecube.pokecubeRenderers.get(num).render(entity, entityYaw, partialTicks, stack, bufferIn,
                     packedLightIn);
             return;
         }
-        super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
+        super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+        LivingEntity capturing = entity.getCapturing();
+        if (capturing != null)
+        {
+            var renderer = this.entityRenderDispatcher.getRenderer(capturing);
+            double dt = (CaptureManager.CAPTURE_SHRINK_TIMER - (capturing.tickCount + partialTicks));
+            double scale = dt / CaptureManager.CAPTURE_SHRINK_TIMER;
+            if (scale > 0)
+            {
+                if (capturing.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
+                {
+                    capturing.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get()).setBaseValue(scale);
+                }
+                stack.pushPose();
+                Vector3 capt = entity.capturePos;
+                stack.translate(capt.x - entity.getX(), capt.y - entity.getY(), capt.z - entity.getZ());
+                renderer.render(capturing, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+                stack.popPose();
+            }
+        }
     }
 
     @Override
