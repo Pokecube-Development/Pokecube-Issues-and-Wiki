@@ -57,14 +57,20 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
             mat.pushPose();
             final float scale = 1.f;
             mat.scale(scale, scale, scale);
-            
-            boolean shaking = this.cube.getTime() < CaptureManager.CAPTURE_SHRINK_TIMER;
 
-            if (shaking && PokecubeManager.getTilt(this.cube.getItem()) > 0)
+            LivingEntity capturing = this.cube.getCapturing();
+            boolean shaking = PokecubeManager.getTilt(this.cube.getItem()) > 0;
+
+            if (shaking && capturing != null)
+            {
+                shaking = capturing.tickCount >= CaptureManager.CAPTURE_SHRINK_TIMER;
+            }
+
+            if (shaking)
             {
                 final float rotateY = Mth.cos(Mth.abs((float) (Math.PI * this.ageInTicks) / 12));
                 final float sx = 0.0f;
-                final float sy = 1.25f;
+                final float sy = 1.375f;
                 final float sz = 0f;
                 mat.translate(sx, sy, sz);
                 mat.mulPose(Axis.ZP.rotation(rotateY));
@@ -117,6 +123,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
             return;
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
+
         LivingEntity capturing = entity.getCapturing();
         if (capturing != null)
         {

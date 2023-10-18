@@ -179,7 +179,7 @@ public class CapabilityAnimation
                                 {
                                     var animList = anims.get(s);
                                     int index = animList.size() > 1 ? e.random.nextInt(animList.size()) : 0;
-                                    synchronized (transients)
+                                    synchronized (this.transients)
                                     {
                                         var selected = animList.get(index);
                                         if (this.transients.add(selected))
@@ -189,7 +189,7 @@ public class CapabilityAnimation
                             }
                             else if (this.anims.containsKey(anim))
                             {
-                                synchronized (transients)
+                                synchronized (this.transients)
                                 {
                                     var list = anims.get(anim);
                                     for (var selected : list)
@@ -223,15 +223,22 @@ public class CapabilityAnimation
         public void preRunAnim(Animation animation)
         {
             float t_0 = this.start_times.getOrDefault(animation._uuid, this._ageInTicks);
-            this.start_times.put(animation._uuid, t_0);
             this.getMolangVars().startTimer(t_0);
         }
 
         @Override
         public void postRunAnim(Animation animation)
         {
-            float i = this._ageInTicks - this.start_times.getOrDefault(animation._uuid, this._ageInTicks);
+            float start = this.start_times.getOrDefault(animation._uuid, -1);
             boolean hasPending = !pending.equals(playing);
+            if (start < 0)
+            {
+                if (this.transients.remove(animation)) this.start_times.removeFloat(animation._uuid);
+                else this.start_times.put(animation._uuid, 0);
+                if (hasPending) this.playing = this.pending;
+                return;
+            }
+            float i = this._ageInTicks - start;
             if (hasPending || transients.contains(animation))
             {
                 if (i >= animation.getLength())
