@@ -268,11 +268,11 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
 
     static final UUID FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
     static final AttributeModifier FLYSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 1F, AttributeModifier.Operation.MULTIPLY_TOTAL);
+            "flying boost", 0.5F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     static final UUID SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
-    static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 0.25F, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(IPokemob.SWIMSPEEDFACTOR_ID,
+            "swimmig boost", 0.5F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     /*
      * Genders of pokemobs

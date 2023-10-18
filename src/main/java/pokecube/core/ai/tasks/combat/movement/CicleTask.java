@@ -128,7 +128,7 @@ public class CicleTask extends CombatTask implements IAICombat
         }
         else
         {
-            final Vector3 perp = diff.horizonalPerp().scalarMultBy(combatDistance);
+            final Vector3 perp = diff.horizonalPerp().scalarMultBy(combatDistance / 2);
             final int revTime = 200;
             if (this.entity.tickCount % revTime > revTime / 2) perp.reverse();
             perp.addTo(here);

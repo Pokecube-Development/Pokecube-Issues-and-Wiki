@@ -232,6 +232,8 @@ public class LogicMiscUpdate extends LogicBase
             boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
             if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
         }
+
+        if (pokemob.getMoveStats().movesInProgress.isEmpty()) pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
     }
 
     private void checkEvolution()
@@ -537,8 +539,12 @@ public class LogicMiscUpdate extends LogicBase
 
     private void addAnimation(List<String> anims, String key, boolean isRidden)
     {
-        if (isRidden) anims.add("ridden_" + key);
-        anims.add(key);
+        if (isRidden)
+        {
+            String ridden = "ridden_" + key;
+            if (!anims.contains(ridden)) anims.add(ridden);
+        }
+        if (!anims.contains(key)) anims.add(key);
     }
 
     private void checkAnimationStates()
@@ -619,13 +625,11 @@ public class LogicMiscUpdate extends LogicBase
         float blink_rate = 0.5f;
         if (!noBlink && entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
         {
-            if (!transients.contains("blink")) transients.add("blink");
+            addAnimation(transients, "blink", false);
         }
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
-            final int index = this.pokemob.getMoveIndex();
             MoveEntry move = this.pokemob.getSelectedMove();
-            if (index < 4)
             {
                 if (move != null) addAnimation(transients, "attack_" + move.name, isRidden);
                 if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)
@@ -641,7 +645,7 @@ public class LogicMiscUpdate extends LogicBase
 
         if (this.pokemob.inCombat())
         {
-            addAnimation(transients, "battling", isRidden);
+            addAnimation(anims, "battling", isRidden);
         }
         if (isRidden) addAnimation(anims, "idle", isRidden);
 
