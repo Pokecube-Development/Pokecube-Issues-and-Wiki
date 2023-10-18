@@ -116,7 +116,7 @@ public class BBModelPart extends Part
 
         float[] oldRots = b.rotation;
         float[] newRots = oldRots;
-        if (b.getRotation() != null)
+        if (b.getRotation() != null && !t.meta.model_format.equals("bedrock"))
         {
             newRots = Arrays.copyOf(oldRots, 3);
 
