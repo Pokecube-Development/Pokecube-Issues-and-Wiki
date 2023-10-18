@@ -110,11 +110,20 @@ public class FollowOwnerTask extends TaskBase
         final double ds2 = target.getTarget().currentPosition().distanceToSqr(this.entity.position());
         final boolean shouldSprint = isSprinting ? ds2 > 4 : ds2 > 9;
         if (shouldSprint && !isSprinting) this.entity.setSprinting(shouldSprint);
-        final AttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        iattributeinstance.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        AttributeInstance walkSpeed = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        walkSpeed.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
         if (this.entity.isSprinting())
         {
-            iattributeinstance.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+            walkSpeed.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        }
+        if (entity.getAttributes().hasAttribute(Attributes.FLYING_SPEED))
+        {
+            AttributeInstance flySpeed = this.entity.getAttribute(Attributes.FLYING_SPEED);
+            flySpeed.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+            if (this.entity.isSprinting())
+            {
+                flySpeed.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+            }
         }
         this.setWalkTo(target);
     }
