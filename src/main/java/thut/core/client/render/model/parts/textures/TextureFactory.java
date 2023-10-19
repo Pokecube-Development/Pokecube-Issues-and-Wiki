@@ -16,6 +16,18 @@ public class TextureFactory
         // First check if a mcmeta version of the file exists.
         ResourceLocation mcmeta = new ResourceLocation(tex.getNamespace(), tex.getPath() + ".mcmeta");
         BaseTexture texture = null;
+        if (tex.getPath().contains("--sep--"))
+        {
+            var paths = tex.getPath().split("--sep--");
+            if (paths.length >= 4)
+            {
+                ResourceLocation locA = new ResourceLocation(tex.getNamespace(), paths[0]);
+                ResourceLocation locB = new ResourceLocation(paths[1], paths[2]);
+                texture = new MergedTexture(locA, locB, Integer.parseInt(paths[3]));
+                texturemanager.register(tex, texture);
+                return texture;
+            }
+        }
         // default this negative so not more than expected if not found.
         NativeImage img = null;
         if (ResourceHelper.exists(mcmeta, Minecraft.getInstance().getResourceManager()))

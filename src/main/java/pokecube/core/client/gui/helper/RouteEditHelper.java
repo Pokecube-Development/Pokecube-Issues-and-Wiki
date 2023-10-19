@@ -4,6 +4,7 @@ import java.util.function.Function;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
@@ -27,6 +28,10 @@ public class RouteEditHelper
             final ListEditBox location = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
             final ListEditBox time = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
             final ListEditBox dist = new ListEditBox(fontRenderer, -200, 0, width, 10, blank);
+
+            location.setTooltip(Tooltip.create(TComponent.translatable("pokemob.route.location.tooltip")));
+            time.setTooltip(Tooltip.create(TComponent.translatable("pokemob.route.timeperiod.tooltip")));
+            dist.setTooltip(Tooltip.create(TComponent.translatable("pokemob.route.variation.tooltip")));
 
             location.registerPreFocus(parent);
             time.registerPreFocus(parent);

@@ -1,7 +1,6 @@
 package pokecube.core.client.gui.pokemob.tabs;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
 
 import com.google.common.collect.Lists;
@@ -120,36 +119,7 @@ public class Routes extends Tab
 
     @Override
     public void renderLabels(GuiGraphics graphics, int mouseX, int mouseY)
-    {
-        int x = 0;
-        int y = 20;
-        AtomicBoolean rendered = new AtomicBoolean(false);
-        locations.forEach(box -> {
-            if (box.isVisible() && box.isMouseOver(mouseX, mouseY))
-            {
-//                TODO: Fix tooltips
-//                this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.route.location.tooltip"), x, y);
-                rendered.set(true);
-            }
-        });
-        // Only render if didn't overlap previous box
-        if (!rendered.get()) timeperiods.forEach(box -> {
-            if (box.isVisible() && box.isMouseOver(mouseX, mouseY))
-            {
-//                this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.route.timeperiod.tooltip"), x, y);
-                rendered.set(true);
-            }
-        });
-        // Only render if didn't overlap previous box
-        if (!rendered.get()) variations.forEach(box -> {
-            if (box.isVisible() && box.isMouseOver(mouseX, mouseY))
-            {
-//                this.parent.renderTooltip(graphics, TComponent.translatable("pokemob.route.variation.tooltip"), x, y);
-                rendered.set(true);
-            }
-        });
-        super.renderLabels(graphics, mouseX, mouseY);
-    }
+    {}
 
     @Override
     public void render(GuiGraphics graphics, int x, int y, float f)
@@ -165,8 +135,7 @@ public class Routes extends Tab
         final int l = (this.height - this.imageHeight) / 2;
         this.num = (int) (this.list.getScrollAmount() / 50);
         final String number = this.num + "";
-        // TODO: Fix
-        // parent.font.draw(graphics, number, k + 87 - parent.font.width(number), l + 62, 0xFF888888);
+        graphics.drawString(parent.font, number, k + 87 - parent.font.width(number), l + 62, 0xFF888888);
     }
 
     @Override

@@ -10,6 +10,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Button.OnPress;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
 import pokecube.adventures.capabilities.CapabilityHasPokemobs.DefaultPokemobs;
@@ -179,13 +180,13 @@ public class AI extends Page
         final int y = this.parent.height / 2 - 72;
         final int dy = 12;
         int i = 0;
-        // TODO: Fix these
-        // this.font.draw(graphics, I18n.get("Loss Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
-        // this.font.draw(graphics, I18n.get("Win Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
-        // this.font.draw(graphics, I18n.get("Battle Cooldown"), x, y + dy * i++, 0xFFFFFFFF);
-        // this.font.draw(graphics, I18n.get("Fixed Facing"), x - 20, y + dy * i++, 0xFFFFFFFF);
 
-        // this.font.draw(graphics, I18n.get("Guard Locations"), x + 100, y, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Loss Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Win Reset Time"), x, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Battle Cooldown"), x, y + dy * i++, 0xFFFFFFFF);
+        graphics.drawString(font, I18n.get("Fixed Facing"), x - 20, y + dy * i++, 0xFFFFFFFF);
+
+        graphics.drawString(font, I18n.get("Guard Locations"), x + 100, y, 0xFFFFFFFF);
     }
 
     private void onChanged()

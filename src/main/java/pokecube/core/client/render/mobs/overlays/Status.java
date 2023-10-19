@@ -29,9 +29,9 @@ public class Status
 {
     public static class StatusTexturer implements IPartTexturer
     {
-        protected final ResourceLocation tex;
+        public ResourceLocation tex;
 
-        public IPartTexturer wrapped;
+        public IPartTexturer wrapped = null;
 
         public float time = 0;
         public float rate = 1;
@@ -47,6 +47,24 @@ public class Status
         @Override
         public ResourceLocation getTexture(final String part, final ResourceLocation default_)
         {
+            if (wrapped != null)
+            {
+                ResourceLocation wrap = default_;
+                if (wrapped.hasMapping(part)) wrap = wrapped.getTexture(part, default_);
+                if (wrap != null)
+                {
+                    wrap = new ResourceLocation(wrap.getNamespace(), wrap.getPath() + "--sep--" + tex.getNamespace()
+                            + "--sep--" + tex.getPath() + "--sep--" + alpha);
+                }
+                else
+                {
+                    wrap = default_;
+                    wrap = new ResourceLocation(wrap.getNamespace(), wrap.getPath() + "--sep--" + tex.getNamespace()
+                            + "--sep--" + tex.getPath() + "--sep--" + alpha);
+                }
+//                System.out.println(part+" "+wrap);
+                return wrap;
+            }
             return this.tex;
         }
 
@@ -60,6 +78,7 @@ public class Status
         public void bindObject(final Object thing)
         {
             this.time += rate * Minecraft.getInstance().getFrameTime() / 1000;
+            if (wrapped != null) wrapped.bindObject(thing);
         }
 
         @Override
@@ -80,7 +99,7 @@ public class Status
         @Override
         public void modifiyRGBA(final String part, final int[] rgbaIn)
         {
-            rgbaIn[3] = this.alpha;
+            if (wrapped == null) rgbaIn[3] = this.alpha;
         }
 
     }
@@ -148,20 +167,17 @@ public class Status
 
             Vector3 scale = new Vector3(s, s, s);
             mat.scale(-1.0F, -1.0F, 1.0F);
-            mat.translate(0.0D, -1.50F, 0.0d);
+            mat.translate(0.0D, -1.501F, 0.0d);
             final StatusTexturer statusTexturer = effects.texturer();
 
             final ResourceLocation default_ = effects.texturer().tex;
             final IPartTexturer texer = wrap.renderer.getTexturer();
             wrap.renderer.setTexturer(statusTexturer);
-            if (statusTexturer != null)
-            {
-                statusTexturer.bindObject(mob);
-                wrap.getParts().forEach((n, p) -> {
-                    p.applyTexture(buf, default_, statusTexturer);
-                    if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
-                });
-            }
+            statusTexturer.bindObject(mob);
+            wrap.getParts().forEach((n, p) -> {
+                p.applyTexture(buf, default_, statusTexturer);
+                if (EXCLUDED_PARTS.contains(p.getName())) p.setDisabled(true);
+            });
             renderer.getModel().prepareMobModel(mob, f5, f8, partialTicks);
             renderer.getModel().setupAnim(mob, f5, f8, f7, f2, f6);
             for (var p : wrap.getParts().values())

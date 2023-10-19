@@ -31,8 +31,8 @@ import thut.api.maths.Vector3;
  */
 public class FollowOwnerTask extends TaskBase
 {
-    private static final UUID FOLLOW_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1234-96EA6097278D");
-    private static final AttributeModifier FOLLOW_SPEED_BOOST = new AttributeModifier(
+    public static final UUID FOLLOW_SPEED_BOOST_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1234-96EA6097278D");
+    public static final AttributeModifier FOLLOW_SPEED_BOOST = new AttributeModifier(
             FollowOwnerTask.FOLLOW_SPEED_BOOST_ID, "following speed boost", 0.5F,
             AttributeModifier.Operation.MULTIPLY_TOTAL);
 
@@ -52,7 +52,6 @@ public class FollowOwnerTask extends TaskBase
     private PathNavigation petPathfinder;
 
     private final double speed;
-    private boolean pathing = false;
 
     float maxDist;
     float minDist;
@@ -77,11 +76,9 @@ public class FollowOwnerTask extends TaskBase
         this.entity.setSprinting(false);
 
         final AttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null)
-            iattributeinstance.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        iattributeinstance.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
 
         this.theOwner = null;
-        this.pathing = false;
     }
 
     @Override
@@ -91,7 +88,6 @@ public class FollowOwnerTask extends TaskBase
         {
             this.theOwner = this.pokemob.getOwner();
             this.ownerPos.set(this.theOwner);
-            this.pathing = true;
         }
         // Look at owner.
         if (BrainUtils.canSee(this.entity, this.theOwner)) BehaviorUtils.lookAtEntity(this.entity, this.theOwner);
@@ -99,9 +95,10 @@ public class FollowOwnerTask extends TaskBase
                 && this.petPathfinder.getPath().getNextNodeIndex() < this.petPathfinder.getPath().getNodeCount() - 3)
         {
             double x, y, z;
-            x = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1).x + 0.5;
-            y = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1).y + 0.5;
-            z = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1).z + 0.5;
+            var node = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1);
+            x = node.x + 0.5;
+            y = node.y + 0.5;
+            z = node.z + 0.5;
             // Or look at path location
             BrainUtils.lookAt(this.entity, x, y, z);
         }
@@ -112,12 +109,24 @@ public class FollowOwnerTask extends TaskBase
 
         final boolean isSprinting = this.entity.isSprinting();
         final double ds2 = target.getTarget().currentPosition().distanceToSqr(this.entity.position());
-        final boolean shouldSprint = isSprinting ? ds2 > 4 : ds2 > 9;
-        if (shouldSprint && !isSprinting) this.entity.setSprinting(shouldSprint);
-        final AttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
-        if (iattributeinstance.getModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST_ID) != null)
-            iattributeinstance.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
-        if (this.entity.isSprinting()) iattributeinstance.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        final boolean shouldSprint = isSprinting ? ds2 > 9 : ds2 > 64;
+        if (shouldSprint != isSprinting) this.entity.setSprinting(shouldSprint);
+        
+        AttributeInstance walkSpeed = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
+        walkSpeed.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        if (this.entity.isSprinting())
+        {
+            walkSpeed.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+        }
+        if (entity.getAttributes().hasAttribute(Attributes.FLYING_SPEED))
+        {
+            AttributeInstance flySpeed = this.entity.getAttribute(Attributes.FLYING_SPEED);
+            flySpeed.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+            if (this.entity.isSprinting())
+            {
+                flySpeed.addTransientModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
+            }
+        }
         this.setWalkTo(target);
     }
 
@@ -130,16 +139,20 @@ public class FollowOwnerTask extends TaskBase
     @Override
     public boolean shouldRun()
     {
+        // In a battle, so no follow, do battle
+        if (this.pokemob.inCombat()) return false;
+        // if not allowed to follow, skip
         if (!this.pokemob.isRoutineEnabled(AIRoutine.FOLLOW)) return false;
+        // if unable to move, skip
         if (!TaskBase.canMove(this.pokemob)) return false;
+        // if set to stay, skip
         if (this.pokemob.getGeneralState(GeneralStates.STAYING)) return false;
-        final LivingEntity LivingEntity = this.pokemob.getOwner();
+        final LivingEntity owner = this.pokemob.getOwner();
         // Nothing to follow
-        if (LivingEntity == null) return false;
-        double dr2 = this.entity.distanceToSqr(LivingEntity);
-        if (this.pathing && dr2 > this.maxDist * this.maxDist) return true;
+        if (owner == null) return false;
+        double dr2 = this.entity.distanceToSqr(owner);
+        // close enough, so skip
         if (dr2 < this.minDist * this.minDist) return false;
-        if (new Vector3().set(LivingEntity).distToSq(this.ownerPos) < this.minDist * this.minDist) return false;
         this.petPathfinder = this.entity.getNavigation();
         // Follow owner.
         return true;

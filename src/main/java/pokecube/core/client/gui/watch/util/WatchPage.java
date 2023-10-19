@@ -2,8 +2,6 @@ package pokecube.core.client.gui.watch.util;
 
 import java.util.List;
 
-import org.lwjgl.glfw.GLFW;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import net.minecraft.client.Minecraft;
@@ -79,14 +77,6 @@ public abstract class WatchPage extends Screen implements GuiEventListener
         // pressed
         final boolean subpages = this.getFocused() != null && this.getFocused().keyPressed(keyCode, b, c);
         if (subpages) return true;
-        if (keyCode == GLFW.GLFW_KEY_TAB)
-        {
-            final boolean flag = !Screen.hasShiftDown();
-            // TODO: Fix this
-            // if (!this.changeFocus(flag)) this.changeFocus(flag);
-
-            return true;
-        }
         return false;
     }
 

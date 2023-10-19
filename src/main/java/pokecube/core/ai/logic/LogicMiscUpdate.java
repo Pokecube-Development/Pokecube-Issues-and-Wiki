@@ -21,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.Vec3;
+import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -32,6 +33,7 @@ import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.entity.pokemob.stats.IStatsModifiers;
 import pokecube.api.entity.pokemob.stats.StatModifiers;
+import pokecube.api.events.pokemobs.ai.AnimationSelectionEvent;
 import pokecube.api.items.IPokecube;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.MoveEntry;
@@ -230,6 +232,8 @@ public class LogicMiscUpdate extends LogicBase
             boolean shouldGuard = eggOpt.isPresent() && eggOpt.get().isAlive();
             if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
         }
+
+        if (pokemob.getMoveStats().movesInProgress.isEmpty()) pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
     }
 
     private void checkEvolution()
@@ -535,8 +539,12 @@ public class LogicMiscUpdate extends LogicBase
 
     private void addAnimation(List<String> anims, String key, boolean isRidden)
     {
-        if (isRidden) anims.add("ridden_" + key);
-        anims.add(key);
+        if (isRidden)
+        {
+            String ridden = "ridden_" + key;
+            if (!anims.contains(ridden)) anims.add(ridden);
+        }
+        if (!anims.contains(key)) anims.add(key);
     }
 
     private void checkAnimationStates()
@@ -607,18 +615,21 @@ public class LogicMiscUpdate extends LogicBase
             final String anim = ThutCore.trim(state.toString());
             if (this.pokemob.getCombatState(state)) addAnimation(anims, anim, isRidden);
         }
+        for (final GeneralStates state : GeneralStates.values())
+        {
+            final String anim = ThutCore.trim(state.toString());
+            if (this.pokemob.getGeneralState(state)) addAnimation(anims, anim, isRidden);
+        }
 
         // Add in some transients which might occur
         float blink_rate = 0.5f;
         if (!noBlink && entity.tickCount % 40 == 0 && entity.getRandom().nextFloat() < blink_rate)
         {
-            if (!transients.contains("blink")) transients.add("blink");
+            addAnimation(transients, "blink", false);
         }
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE))
         {
-            final int index = this.pokemob.getMoveIndex();
             MoveEntry move = this.pokemob.getSelectedMove();
-            if (index < 4)
             {
                 if (move != null) addAnimation(transients, "attack_" + move.name, isRidden);
                 if (move.getAttackCategory(pokemob) == ContactCategory.CONTACT)
@@ -634,9 +645,11 @@ public class LogicMiscUpdate extends LogicBase
 
         if (this.pokemob.inCombat())
         {
-            addAnimation(transients, "battling", isRidden);
+            addAnimation(anims, "battling", isRidden);
         }
         if (isRidden) addAnimation(anims, "idle", isRidden);
+
+        PokecubeAPI.POKEMOB_BUS.post(new AnimationSelectionEvent(pokemob, animated));
     }
 
     @Override

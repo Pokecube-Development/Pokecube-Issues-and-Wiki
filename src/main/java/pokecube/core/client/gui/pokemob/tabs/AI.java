@@ -14,6 +14,7 @@ import net.minecraft.client.gui.components.AbstractSelectionList.Entry;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.FormattedText;
@@ -57,8 +58,8 @@ public class AI extends Tab
         }
 
         @Override
-        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x, final int listWidth,
-                final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
+        public void render(final GuiGraphics graphics, final int slotIndex, final int y, final int x,
+                final int listWidth, final int slotHeight, final int mouseX, final int mouseY, final boolean isSelected,
                 final float partialTicks)
         {
             int dx = 0;
@@ -179,14 +180,11 @@ public class AI extends Tab
                 nameComp = text;
             }
 
-            // TODO: Fix this
             final Button button = new Button.Builder(nameComp, (b) -> {
                 final boolean state = !pokemob.isRoutineEnabled(routine);
                 pokemob.setRoutineState(routine, state);
                 PacketAIRoutine.sentCommand(pokemob, routine, state);
-            })/*.tooltip((b, pose, x, y) -> {
-                parent.renderTooltip(tooltip, x, y);
-            })*/.bounds(xOffset, yOffset, 40, 10).build();
+            }).tooltip(Tooltip.create(tooltip)).bounds(xOffset, yOffset, 40, 10).build();
 
             button.active = button.visible = false;
             AIButton toAdd = new AIButton(button, routine);

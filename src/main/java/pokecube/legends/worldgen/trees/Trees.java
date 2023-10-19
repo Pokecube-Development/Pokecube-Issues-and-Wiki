@@ -61,23 +61,23 @@ public class Trees
     public static final RegistryObject<TreeDecoratorType<?>> TRUNK_STRING_OF_PEARLS = TREE_DECORATORS
             .register("trunk_string_of_pearls", () -> new TreeDecoratorType<>(TrunkStringOfPearlsDecorator.CODEC));
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> AGED_PINE_TREE = FeatureUtils.createKey("aged_pine_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> AGED_SPRUCE_TREE = FeatureUtils.createKey("aged_spruce_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_AGED_PINE_TREE = FeatureUtils.createKey("mega_aged_pine_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_AGED_SPRUCE_TREE = FeatureUtils.createKey("mega_aged_spruce_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AGED_PINE_TREE = FeatureUtils.createKey("pokecube_legends:aged_pine_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> AGED_SPRUCE_TREE = FeatureUtils.createKey("pokecube_legends:aged_spruce_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_AGED_PINE_TREE = FeatureUtils.createKey("pokecube_legends:mega_aged_pine_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_AGED_SPRUCE_TREE = FeatureUtils.createKey("pokecube_legends:mega_aged_spruce_tree");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> CORRUPTED_TREE = FeatureUtils.createKey("corrupted_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> DISTORTIC_TREE = FeatureUtils.createKey("distortic_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> DYNA_TREE = FeatureUtils.createKey("dyna_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> MIRAGE_TREE = FeatureUtils.createKey("mirage_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> CORRUPTED_TREE = FeatureUtils.createKey("pokecube_legends:corrupted_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> DISTORTIC_TREE = FeatureUtils.createKey("pokecube_legends:distortic_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> DYNA_TREE = FeatureUtils.createKey("pokecube_legends:dyna_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MIRAGE_TREE = FeatureUtils.createKey("pokecube_legends:mirage_tree");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> INVERTED_TREE = FeatureUtils.createKey("inverted_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> INVERTED_TREE_BEES_005 = FeatureUtils.createKey("inverted_tree_bees_005");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_INVERTED_TREE = FeatureUtils.createKey("fancy_inverted_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_INVERTED_TREE_BEES_005 = FeatureUtils.createKey("fancy_inverted_tree_bees_005");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> INVERTED_TREE = FeatureUtils.createKey("pokecube_legends:inverted_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> INVERTED_TREE_BEES_005 = FeatureUtils.createKey("pokecube_legends:inverted_tree_bees_005");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_INVERTED_TREE = FeatureUtils.createKey("pokecube_legends:fancy_inverted_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> FANCY_INVERTED_TREE_BEES_005 = FeatureUtils.createKey("pokecube_legends:fancy_inverted_tree_bees_005");
 
-    public static final ResourceKey<ConfiguredFeature<?, ?>> TEMPORAL_TREE = FeatureUtils.createKey("temporal_tree");
-    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_TEMPORAL_TREE = FeatureUtils.createKey("mega_temporal_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> TEMPORAL_TREE = FeatureUtils.createKey("pokecube_legends:temporal_tree");
+    public static final ResourceKey<ConfiguredFeature<?, ?>> MEGA_TEMPORAL_TREE = FeatureUtils.createKey("pokecube_legends:mega_temporal_tree");
 
     public static final class States
     {

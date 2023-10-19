@@ -3,6 +3,7 @@
  */
 package pokecube.api.entity.pokemob;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -55,6 +56,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     public static class FormeHolder extends ModelHolder
     {
+        public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
         public static FormeHolder load(final CompoundTag nbt)
         {
             final String name = nbt.getString("key");
@@ -77,9 +79,9 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public static FormeHolder get(PokedexEntry entry, final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
         {
-            if (Database.formeHolders.containsKey(name)) return Database.formeHolders.get(name);
+            if (FormeHolder.formeHolders.containsKey(name)) return FormeHolder.formeHolders.get(name);
             final FormeHolder holder = new FormeHolder(entry, model, texture, animation, name);
-            Database.formeHolders.put(name, holder);
+            FormeHolder.formeHolders.put(name, holder);
             return holder;
         }
 
@@ -103,7 +105,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         {
             super(model, texture, animation, name.toString());
             this.key = name;
-            this._entry = entry;
+            this.setEntry(entry);
         }
 
         /**
@@ -162,6 +164,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public void setEntry(PokedexEntry entry)
         {
             this._entry = entry;
+            if (entry != Database.missingno) entry.default_holder = this;
         }
     }
 
@@ -267,12 +270,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     static final UUID FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
-    static final AttributeModifier FLYSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 1F, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    static final AttributeModifier FLYSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID, "flying boost",
+            0.5F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     static final UUID SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
-    static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 0.25F, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(IPokemob.SWIMSPEEDFACTOR_ID, "swimmig boost",
+            0.5F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     /*
      * Genders of pokemobs

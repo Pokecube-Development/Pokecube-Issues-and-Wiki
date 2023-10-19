@@ -3,7 +3,6 @@ package pokecube.core.init;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
-import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import org.lwjgl.glfw.GLFW;
 
 import com.mojang.blaze3d.platform.InputConstants;
@@ -15,6 +14,7 @@ import net.minecraft.client.model.BoatModel;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.BiomeColors;
+import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
@@ -312,7 +312,7 @@ public class ClientSetupHandler
             return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
         }, PokecubeItems.SPAWN_EGG.get());
 
-        event.getItemColors().register((stack, tintIndex) -> {
+        event.register((stack, tintIndex) -> {
             int c0 = 0xFFFFFFFF;
             int c1 = 0xFFFFFFFF;
             int c2 = 0xFFFFFFFF;

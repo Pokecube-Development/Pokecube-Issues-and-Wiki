@@ -44,6 +44,7 @@ import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.chunk.PalettedContainer;
 import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.lighting.LevelLightEngine;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.Node;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.BlockHitResult;
@@ -624,9 +625,11 @@ public class Vector3
         {
             for (ret = world.getMaxBuildHeight(); ret > world.getMinBuildHeight(); ret--)
             {
-                final BlockState state = world.getBlockState(new BlockPos(this.intX(), ret, this.intZ()));
+                BlockPos pos = new BlockPos(this.intX(), ret, this.intZ());
+                final FluidState fluid = world.getFluidState(pos);
+                BlockState state = world.getBlockState(pos);
                 if (state == null) continue;
-                if (state.isSolid()) return ret;
+                if (fluid.isEmpty() && !state.isAir()) return ret;
             }
         }
         return ret;
@@ -676,9 +679,7 @@ public class Vector3
         if (state == null) return true;
 
         ret = this.isAir(world);
-        if (!ret) ret = ret || state.liquid();
         if (!ret) ret = ret || state.canBeReplaced();
-        if (!ret) ret = ret || !state.blocksMotion();
         if (!ret)
         {
             final VoxelShape shape = state.getCollisionShape(world, this.getPos());
@@ -729,7 +730,7 @@ public class Vector3
      */
     public double magSq()
     {
-        return Math.fma(x, x, Math.fma(y, y, x * z));
+        return Math.fma(x, x, Math.fma(y, y, z * z));
     }
 
     public void moveEntity(final Entity e)

@@ -575,7 +575,7 @@ public class SpawnBiomeMatcher
         final BlockState state = checker.state;
         final boolean isWater = state.getFluidState().is(FluidTags.WATER);
         if (isWater && !this.water) return false;
-        if (state.liquid() && !isWater) return false;
+        if (!state.getFluidState().isEmpty() && !isWater) return false;
         if (!this.air && !isWater) return false;
         final float light = checker.light;
         return light <= this.maxLight && light >= this.minLight;

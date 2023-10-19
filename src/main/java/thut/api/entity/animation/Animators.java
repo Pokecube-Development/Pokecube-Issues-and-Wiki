@@ -702,7 +702,7 @@ public class Animators
             // Apply hidden like this so last hidden state is kept
             if (wasHidden != any_hidden) part.setHidden(any_hidden);
             part.setColorScales(red_scale, green_scale, blue_scale, alpha_scale);
-            holder.setStep(animation, aniTick);
+
             if (animated)
             {
                 temp.set(px, py, pz);

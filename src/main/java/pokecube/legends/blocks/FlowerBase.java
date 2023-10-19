@@ -17,26 +17,19 @@ public class FlowerBase extends FlowerBlock
 
     public FlowerBase(final MobEffect effects, int seconds, final BlockBehaviour.Properties properties)
     {
-        super(effects, seconds, properties);
+        super(() -> effects, seconds, properties);
     }
 
     @Override
-    public boolean canBeReplaced(final BlockState state, final BlockPlaceContext useContext) {
+    public boolean canBeReplaced(final BlockState state, final BlockPlaceContext useContext)
+    {
         return false;
     }
 
-//    TODO: Removed?
-//    @SuppressWarnings("deprecation")
-//    @Override
-//    public List<ItemStack> getDrops(final BlockState state, final LootContext.Builder builder) {
-//        final List<ItemStack> dropsOriginal = super.getDrops(state, builder);
-//        if (!dropsOriginal.isEmpty())
-//            return dropsOriginal;
-//        return Collections.singletonList(new ItemStack(this, 1));
-//    }
-
     @Override
-    public int getFlammability(final BlockState state, final BlockGetter world, final BlockPos pos, final Direction face) {
+    public int getFlammability(final BlockState state, final BlockGetter world, final BlockPos pos,
+            final Direction face)
+    {
         return 2;
     }
 

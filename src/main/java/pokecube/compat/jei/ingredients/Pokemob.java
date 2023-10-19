@@ -1,7 +1,6 @@
 package pokecube.compat.jei.ingredients;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -128,18 +127,10 @@ public class Pokemob implements IIngredientType<PokedexEntry>
         if (!toAdd.isEmpty()) return toAdd;
         for (final PokedexEntry entry : Database.getSortedFormes()) if (entry != Database.missingno && entry.stock)
         {
-            final List<FormeHolder> formes = Database.customModels.getOrDefault(entry, Collections.emptyList());
             byte gender = entry.isFemaleForme ? IPokemob.FEMALE : IPokemob.MALE;
             Pokemob add = new Pokemob(entry, null, gender);
             Pokemob.ALLMAP.put(entry, add);
             toAdd.add(add);
-            for (final FormeHolder holder : formes)
-            {
-                gender = holder == entry.female_holder ? IPokemob.FEMALE : IPokemob.MALE;
-                add = new Pokemob(entry, holder, gender);
-                Pokemob.FORMMAP.put(holder, add);
-                toAdd.add(add);
-            }
         }
         return toAdd;
     }

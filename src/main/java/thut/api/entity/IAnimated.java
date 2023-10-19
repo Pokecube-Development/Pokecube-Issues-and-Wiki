@@ -1,5 +1,6 @@
 package thut.api.entity;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -179,6 +180,8 @@ public interface IAnimated
 
         List<Animation> getPlaying();
 
+        Collection<Animation> getTransientPlaying();
+
         void setContext(IAnimated context);
         
         void setAnimationChanger(IAnimationChanger changer);
@@ -189,15 +192,6 @@ public interface IAnimated
          * @param name
          */
         void setPendingAnimations(final List<Animation> list, final String name);
-
-        /**
-         * Sets the last tick this animation was run. Can set to 0 to count this
-         * animation as cleared.
-         *
-         * @param animation
-         * @param step
-         */
-        void setStep(Animation animation, float step);
 
         /**
          * This should get whatever animation we think the entity should be

@@ -125,7 +125,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
         BehaviorUtils.lookAtEntity(this.entity, this.target);
 
         // No executing move state with no target location.
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove(this.pokemob);
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty())
+            this.clearUseMove(this.pokemob);
 
         double var1 = (this.entity.getBbWidth() + 0.75) * (this.entity.getBbWidth() + 0.75);
         boolean distanced = false;

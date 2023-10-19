@@ -9,6 +9,7 @@ import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.pathfinder.Node;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.CombatStates;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
@@ -44,6 +45,8 @@ public class CicleTask extends CombatTask implements IAICombat
 
     protected void calculateCentre()
     {
+        Battle b = pokemob.getBattle();
+        if (b != null) this.centre = b.getCentre();
         if (this.centre == null)
         {
             final Vector3 targetLoc = new Vector3().set(this.target);
@@ -52,6 +55,14 @@ public class CicleTask extends CombatTask implements IAICombat
             this.centre = diff;
             this.centre.y = Math.min(attackerLoc.y, targetLoc.y);
         }
+    }
+
+    @Override
+    public void checkAttackTarget()
+    {
+        var target = this.target;
+        super.checkAttackTarget();
+        if (target != this.target) this.reset();
     }
 
     @Override
@@ -81,14 +92,13 @@ public class CicleTask extends CombatTask implements IAICombat
         // Check if we can see the target, if not, try pathing directly to it.
         if (!BrainUtils.canSee(entity, target))
         {
-            this.setWalkTo(this.target, this.movementSpeed, 0);
+            this.setWalkTo(this.centre, this.movementSpeed, 0);
             return;
         }
 
         MoveEntry attack = this.pokemob.getSelectedMove();
 
         final Vector3 here = new Vector3().set(this.entity);
-
         boolean meleeCombat = !attack.isRanged(this.pokemob) && !this.pokemob.getMoveStats().targettingSelf;
         // melee mobs will instead try to be closer to the target, instead of
         // centre of battlefield
@@ -118,7 +128,7 @@ public class CicleTask extends CombatTask implements IAICombat
         }
         else
         {
-            final Vector3 perp = diff.horizonalPerp().scalarMultBy(combatDistance);
+            final Vector3 perp = diff.horizonalPerp().scalarMultBy(combatDistance / 2);
             final int revTime = 200;
             if (this.entity.tickCount % revTime > revTime / 2) perp.reverse();
             perp.addTo(here);
@@ -130,10 +140,15 @@ public class CicleTask extends CombatTask implements IAICombat
     @Override
     public boolean shouldRun()
     {
+        // Marked as unable to move, so skip
         if (!TaskBase.canMove(this.pokemob)) return false;
+        // Update if we have a target
         this.checkAttackTarget();
-        // Has target and is angry.
-        return this.target != null && this.pokemob.getCombatState(CombatStates.BATTLING)
-                && !this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE);
+        // No target, so skip
+        if (target == null) return false;
+        // Using an attack, so skip
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) return false;
+        // Is in battle.
+        return this.pokemob.getCombatState(CombatStates.BATTLING);
     }
 }

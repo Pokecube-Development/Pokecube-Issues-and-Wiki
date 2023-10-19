@@ -31,6 +31,7 @@ import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.PokeType;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.init.ItemGenerator;
+import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
@@ -670,6 +671,8 @@ public class ItemInit
     @OnlyIn(Dist.CLIENT)
     public static void addItemModelProperties()
     {
+        RenderPokecube.ModelPokecube.CUBE_SHIFTS.put(new ResourceLocation("pokecube", "dynacube"), -0.1875f);
+
         ItemProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world,
                 entity, intu) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }

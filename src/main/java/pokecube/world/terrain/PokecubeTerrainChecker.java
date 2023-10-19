@@ -14,6 +14,7 @@ import net.minecraft.world.level.levelgen.Heightmap.Types;
 import net.minecraft.world.level.levelgen.NoiseRouter;
 import net.minecraft.world.level.levelgen.NoiseRouterData;
 import net.minecraft.world.level.levelgen.structure.Structure;
+import net.minecraft.world.level.material.FluidState;
 import pokecube.api.data.spawns.SpawnCheck.TerrainType;
 import pokecube.core.PokecubeCore;
 import pokecube.world.gen.structures.GenericJigsawStructure;
@@ -194,7 +195,8 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         final double y = v.getMaxY(world);
         if (y <= v.y) return false;
         BlockState state = v.getBlockState(world);
-        if (state.isSolid()) return PokecubeTerrainChecker.isCave(state);
+        FluidState fluid = world.getFluidState(v.getPos());
+        if (fluid.isEmpty()) return PokecubeTerrainChecker.isCave(state);
         final Vector3 up = Vector3.getNextSurfacePoint(world, v, Vector3.secondAxis, y - v.y);
         if (up == null) return false;
         state = up.getBlockState(world);
@@ -204,7 +206,8 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
     public boolean isCaveFloor(final Vector3 v, final LevelAccessor world)
     {
         final BlockState state = v.getBlockState(world);
-        if (state.isSolid()) return PokecubeTerrainChecker.isCave(state);
+        FluidState fluid = world.getFluidState(v.getPos());
+        if (fluid.isEmpty()) return PokecubeTerrainChecker.isCave(state);
         final Vector3 down = Vector3.getNextSurfacePoint(world, v, Vector3.secondAxisNeg,
                 v.y - world.getMinBuildHeight());
         if (down == null) return false;

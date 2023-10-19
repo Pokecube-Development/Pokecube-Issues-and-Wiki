@@ -6,7 +6,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.BeaconBeamBlock;
 import net.minecraft.world.level.block.StainedGlassBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import pokecube.legends.blocks.GlassBlockBase;
 
 public class SpectrumGlassBlock extends StainedGlassBlock implements BeaconBeamBlock
 {
