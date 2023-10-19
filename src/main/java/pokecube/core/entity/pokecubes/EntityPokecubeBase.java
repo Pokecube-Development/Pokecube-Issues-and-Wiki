@@ -278,7 +278,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
                 Vector3 loc = Vector3.readFromNBT(stack.getTag(), "_cap_pos_");
                 this.capturePos.set(loc);
                 ICopyMob.copyEntityTransforms(_capturingEntity, this);
-                System.out.println(loc + " " + this.position());
             }
         }
         return _capturingEntity;
