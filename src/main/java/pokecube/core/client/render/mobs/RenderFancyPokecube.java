@@ -49,7 +49,6 @@ import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
-import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
@@ -87,10 +86,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         super(renderManager, new ModelPokecube(), 0.0f);
         baseModel = this.getModel();
-        boolean bak = ThutCore.conf.asyncModelLoads;
-        ThutCore.conf.asyncModelLoads = false;
         for (ResourceLocation l : PokecubeItems.pokecubes.keySet()) makeModel(l);
-        ThutCore.conf.asyncModelLoads = bak;
     }
 
     private ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)

@@ -419,7 +419,6 @@ public class AnimationLoader
 
                     if (p.getParent() == null)
                     {
-                        p.setPreScale(scale);
                         p.setPreTranslations(offset);
                         if (noRotation != rotation) p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
                     }
