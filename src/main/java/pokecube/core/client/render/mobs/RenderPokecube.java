@@ -18,10 +18,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
+import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -127,18 +131,31 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
         LivingEntity capturing = entity.getCapturing();
         if (capturing != null)
         {
+            int duration = CaptureManager.CAPTURE_SHRINK_TIMER;
             var renderer = this.entityRenderDispatcher.getRenderer(capturing);
-            double dt = (CaptureManager.CAPTURE_SHRINK_TIMER - (capturing.tickCount + partialTicks));
-            double scale = dt / CaptureManager.CAPTURE_SHRINK_TIMER;
+            float dt = (duration - (capturing.tickCount + partialTicks));
+            float scale = dt / duration;
             if (scale > 0)
             {
                 if (capturing.getAttributes().hasAttribute(SharedAttributes.MOB_SIZE_SCALE.get()))
                 {
                     capturing.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get()).setBaseValue(scale);
                 }
+                IPokemob pokemob = PokemobCaps.getPokemobFor(capturing);
                 stack.pushPose();
                 Vector3 capt = entity.capturePos;
                 stack.translate(capt.x - entity.getX(), capt.y - entity.getY(), capt.z - entity.getZ());
+                if (pokemob != null)
+                {
+                    float scaleShift = 0;
+                    final PokedexEntry entry = pokemob.getPokedexEntry();
+                    var dims = entry.getModelSize();
+                    scaleShift = dims.y * pokemob.getSize() * scale / 2;
+                    float mobScale = pokemob.getSize();
+                    scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+                    Evolution.renderEffect(pokemob, stack, bufferIn, partialTicks, (int) dt, duration, scale,
+                            scaleShift, true);
+                }
                 renderer.render(capturing, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
                 stack.popPose();
             }
