@@ -1327,7 +1327,7 @@ public class BlockInit
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         AGED_LEAVES = PokecubeLegends.BLOCKS.register("aged_leaves",
-                () -> new AgedLeavesBlock(10,
+                () -> new AgedLeavesBlock(20,
                         BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(0.2f)
                         .sound(SoundType.GRASS).noOcclusion().isSuffocating((s, r, p) -> false)
                         .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));

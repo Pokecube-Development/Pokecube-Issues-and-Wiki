@@ -10,6 +10,8 @@ import pokecube.legends.Reference;
 public class ParticleInit
 {
     public static final RegistryObject<SimpleParticleType> AGED_LEAF;
+    public static final RegistryObject<SimpleParticleType> ERROR;
+    public static final RegistryObject<SimpleParticleType> GOLD_STAR;
     public static final RegistryObject<SimpleParticleType> INFECTED_FIRE_FLAME;
     public static final RegistryObject<SimpleParticleType> INFECTED_SMOKE;
     public static final RegistryObject<SimpleParticleType> INFECTED_SOUL;
@@ -20,6 +22,8 @@ public class ParticleInit
     static
     {
         AGED_LEAF = PokecubeLegends.PARTICLES.register("aged_leaf", () -> new SimpleParticleType(false));
+        ERROR = PokecubeLegends.PARTICLES.register("error", () -> new SimpleParticleType(false));
+        GOLD_STAR = PokecubeLegends.PARTICLES.register("gold_star", () -> new SimpleParticleType(false));
         INFECTED_FIRE_FLAME = PokecubeLegends.PARTICLES.register("infected_fire_flame", () -> new SimpleParticleType(false));
         INFECTED_SMOKE = PokecubeLegends.PARTICLES.register("infected_smoke", () -> new SimpleParticleType(false));
         INFECTED_SOUL = PokecubeLegends.PARTICLES.register("infected_soul", () -> new SimpleParticleType(false));

@@ -19,7 +19,7 @@
     },
     "particle": {
       "options": {
-        "type": "minecraft:wax_on"
+        "type": "pokecube_legends:gold_star"
       },
       "probability": 0.012
     }
