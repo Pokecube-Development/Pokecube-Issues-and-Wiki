@@ -107,7 +107,6 @@ public class CaptureManager
             else
             {
                 int n = Tools.computeCatchRate(hitten, cubeId);
-                n = 4;
                 cube.setTilt(n);
                 if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
                 else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
