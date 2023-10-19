@@ -128,6 +128,18 @@ public class IconModule extends AnimModule
         }
 
         IconModule.borked.clear();
+        if (parent.renderHolder == null)
+        {
+            this.transitTime = System.currentTimeMillis() + 100;
+            return;
+        }
+        var renderer = parent.renderHolder.wrapper;
+        if (renderer == null || !renderer.isLoaded() || !renderer.isValid())
+        {
+            this.transitTime = System.currentTimeMillis() + 100;
+            return;
+        }
+
         boolean debug = false;
         if (this.cap)
         {
@@ -364,16 +376,28 @@ public class IconModule extends AnimModule
         List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
         boolean alphab = !cap;
 
+        var entry = AnimationGui.entry;
         if (alphab) formes.sort((o1, o2) -> o1.name.compareTo(o2.name));
 
-        int i_next = formes.indexOf(AnimationGui.entry) - 1;
-
+        int i_next = formes.indexOf(entry) - 1;
         i_next = i_next < 0 ? formes.size() - 1 : i_next;
+        entry = formes.get(i_next);
 
-        AnimationGui.entry = formes.get(i_next);
+        boolean skip = entry.default_holder != null && entry.default_holder._entry != entry;
+        parent.sexe = IPokemob.MALE;
+        skip = skip || (entry.male_holder != null && entry.male_holder != entry.default_holder);
 
-        AnimationGui.mob = AnimationGui.entry.getName();
-        parent.holder = AnimationGui.entry.default_holder;
+        if (skip)
+        {
+            i_next = formes.indexOf(entry) - 1;
+            i_next = i_next < 0 ? formes.size() - 1 : i_next;
+            entry = formes.get(i_next);
+        }
+
+        if (entry == Pokedex.getInstance().getFirstEntry()) this.cap = false;
+
+        AnimationGui.mob = entry.getName();
+        parent.holder = entry.default_holder;
         parent.forme.setValue(AnimationGui.mob);
         parent.onUpdated();
     }
@@ -383,18 +407,28 @@ public class IconModule extends AnimModule
         List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
         boolean alphab = !cap;
 
+        var entry = AnimationGui.entry;
         if (alphab) formes.sort((o1, o2) -> o1.name.compareTo(o2.name));
 
-        int i_next = formes.indexOf(AnimationGui.entry) + 1;
-
+        int i_next = formes.indexOf(entry) + 1;
         i_next = i_next >= formes.size() ? 0 : i_next;
+        entry = formes.get(i_next);
 
-        AnimationGui.entry = formes.get(i_next);
+        boolean skip = entry.default_holder != null && entry.default_holder._entry != entry;
+        parent.sexe = IPokemob.MALE;
+        skip = skip || (entry.male_holder != null && entry.male_holder != entry.default_holder);
 
-        if (AnimationGui.entry == Pokedex.getInstance().getFirstEntry()) this.cap = false;
+        if (skip)
+        {
+            i_next = formes.indexOf(entry) + 1;
+            i_next = i_next >= formes.size() ? 0 : i_next;
+            entry = formes.get(i_next);
+        }
 
-        AnimationGui.mob = AnimationGui.entry.getName();
-        parent.holder = AnimationGui.entry.default_holder;
+        if (entry == Pokedex.getInstance().getFirstEntry()) this.cap = false;
+
+        AnimationGui.mob = entry.getName();
+        parent.holder = entry.default_holder;
         parent.forme.setValue(AnimationGui.mob);
         parent.onUpdated();
     }

@@ -177,7 +177,6 @@ public class Database
     public static HashMap<Integer, PokedexEntry> dummyMap = new HashMap<>();
     public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
     public static HashMap<PokedexEntry, List<FormeHolder>> customModels = new HashMap<>();
-    public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
     public static HashMap<ResourceLocation, PokedexEntry> formeToEntry = new HashMap<>();
     public static Map<String, FormeHolder> formeHoldersByKey = new HashMap<>();
 
@@ -189,11 +188,23 @@ public class Database
 
     public static final Comparator<PokedexEntry> COMPARATOR = (o1, o2) -> {
         int diff = o1.getPokedexNb() - o2.getPokedexNb();
-        if (diff == 0) if (o1.base && !o2.base) diff = -1;
-        else if (o2.base && !o1.base) diff = 1;
-        else if (diff == 0) if (o1.generated && !o2.generated) diff = 1;
-        else if (o2.generated && !o1.generated) diff = -1;
-        else diff = o1.getName().compareTo(o2.getName());
+        // Same number, so decide based on forms
+        if (diff == 0)
+        {
+            // Base always first.
+            if (o1.base && !o2.base) return -1;
+            else if (o2.base && !o1.base) return 1;
+
+            // Gendered forms have priority
+            if (o1.isGenderForme && !o2.isGenderForme) return -1;
+            else if (o2.isGenderForme && !o1.isGenderForme) return 1;
+
+            // Generated forms last
+            if (o1.generated && !o2.generated) return 1;
+            else if (o2.generated && !o1.generated) return -1;
+
+            diff = o1.getName().compareTo(o2.getName());
+        }
         return diff;
     };
     // Init some stuff for the missignno entry.
@@ -268,15 +279,8 @@ public class Database
     public static void registerFormeHolder(final PokedexEntry entry, final FormeHolder holder)
     {
         if (holder == null) return;
-        List<FormeHolder> holders = Database.customModels.get(entry);
         Database.formeToEntry.put(holder.key, entry);
         Database.formeHoldersByKey.put(holder.loaded_from.key, holder);
-        if (holders == null) Database.customModels.put(entry, holders = Lists.newArrayList());
-        if (!holders.contains(holder))
-        {
-            holders.add(holder);
-            Collections.sort(holders, (o1, o2) -> o1.key.compareTo(o2.key));
-        }
     }
 
     public static String convertMoveName(final String moveNameFromBulbapedia)

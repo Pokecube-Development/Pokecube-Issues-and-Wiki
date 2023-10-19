@@ -690,7 +690,7 @@ public class PokecubeItems extends ItemList
     public static ResourceLocation toResource(final String name, final String modid)
     {
         ResourceLocation loc;
-        if (!name.contains(":")) loc = new ResourceLocation(PokecubeCore.MODID, name);
+        if (!name.contains(":")) loc = new ResourceLocation(modid, name);
         else loc = new ResourceLocation(name);
         return loc;
     }
