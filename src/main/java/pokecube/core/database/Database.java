@@ -188,11 +188,23 @@ public class Database
 
     public static final Comparator<PokedexEntry> COMPARATOR = (o1, o2) -> {
         int diff = o1.getPokedexNb() - o2.getPokedexNb();
-        if (diff == 0) if (o1.base && !o2.base) diff = -1;
-        else if (o2.base && !o1.base) diff = 1;
-        else if (diff == 0) if (o1.generated && !o2.generated) diff = 1;
-        else if (o2.generated && !o1.generated) diff = -1;
-        else diff = o1.getName().compareTo(o2.getName());
+        // Same number, so decide based on forms
+        if (diff == 0)
+        {
+            // Base always first.
+            if (o1.base && !o2.base) return -1;
+            else if (o2.base && !o1.base) return 1;
+
+            // Gendered forms have priority
+            if (o1.isGenderForme && !o2.isGenderForme) return -1;
+            else if (o2.isGenderForme && !o1.isGenderForme) return 1;
+
+            // Generated forms last
+            if (o1.generated && !o2.generated) return 1;
+            else if (o2.generated && !o1.generated) return -1;
+
+            diff = o1.getName().compareTo(o2.getName());
+        }
         return diff;
     };
     // Init some stuff for the missignno entry.

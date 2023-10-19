@@ -126,9 +126,17 @@ public class IconModule extends AnimModule
         }
 
         IconModule.borked.clear();
-        if (parent.renderHolder == null) return;
+        if (parent.renderHolder == null)
+        {
+            this.transitTime = System.currentTimeMillis() + 100;
+            return;
+        }
         var renderer = parent.renderHolder.wrapper;
-        if (renderer == null || !renderer.isLoaded()) return;
+        if (renderer == null || !renderer.isLoaded() || !renderer.isValid())
+        {
+            this.transitTime = System.currentTimeMillis() + 100;
+            return;
+        }
 
         boolean debug = false;
         if (this.cap)
