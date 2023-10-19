@@ -34,7 +34,9 @@ import pokecube.core.client.render.mobs.overlays.Evolution;
 import pokecube.core.entity.pokecubes.EntityPokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
+import thut.api.IOwnable;
 import thut.api.ModelHolder;
+import thut.api.OwnableCaps;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
@@ -47,6 +49,7 @@ import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.wrappers.ModelWrapper;
+import thut.core.common.ThutCore;
 import thut.lib.AxisAngles;
 import thut.lib.ResourceHelper;
 
@@ -57,7 +60,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     static final ResourceLocation TEXTURE = new ResourceLocation(PokecubeCore.MODID, "textures/item/pokecubefront.png");
 
     public static record ModelSet(IAnimationChanger changer, IPartTexturer texer, ModelWrapper<EntityPokecube> model,
-            Vector3 rotPoint, Vector3 offset, Vector3 scale, HashMap<String, List<Animation>> anims)
+            Vector3 offset, Vector3 scale, HashMap<String, List<Animation>> anims)
     {
     }
 
@@ -66,6 +69,8 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
 
     // holder is set per entity, so doesn't need to be in the ModelSet
     private IAnimationHolder holder = null;
+    // This one is used as a temporary holder
+    private Vector3 rotPoint = new Vector3();
 
     // These below need to be from the model set, as depend on the model itself
     private HashMap<String, List<Animation>> anims = Maps.newHashMap();
@@ -73,7 +78,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     private IAnimationChanger changer = null;
     private IPartTexturer texer = null;
 
-    private Vector3 rotPoint = new Vector3();
     private Vector3 offset = new Vector3();
     private Vector3 scale = new Vector3();
 
@@ -83,6 +87,10 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         super(renderManager, new ModelPokecube(), 0.0f);
         baseModel = this.getModel();
+        boolean bak = ThutCore.conf.asyncModelLoads;
+        ThutCore.conf.asyncModelLoads = false;
+        for (ResourceLocation l : PokecubeItems.pokecubes.keySet()) makeModel(l);
+        ThutCore.conf.asyncModelLoads = bak;
     }
 
     private ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)
@@ -94,16 +102,16 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             var holder = new ModelHolder(modelKey);
             var model = new ModelWrapper<EntityPokecube>(holder, this);
             IModel m2 = ModelFactory.create(model.model, m -> {
-                model.imodel = m;
-                this.changer = null;
-                this.texer = null;
-                this.scale = new Vector3();
-//                this.offset = new Vector3();
-//                this.rotPoint = new Vector3();
-                this.anims = Maps.newHashMap();
-                AnimationLoader.parse(holder, model, this);
-                this.models.put(cube,
-                        new ModelSet(getAnimationChanger(), getTexturer(), model, rotPoint, scale, offset, anims));
+                synchronized (models)
+                {
+                    model.imodel = m;
+                    this.changer = null;
+                    this.texer = null;
+                    this.anims = Maps.newHashMap();
+                    AnimationLoader.parse(holder, model, this);
+                    this.models.put(cube,
+                            new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
+                }
             });
             if (m2.isValid()) return model;
         }
@@ -119,16 +127,16 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             holder.animation = animKey;
             var model = new ModelWrapper<EntityPokecube>(holder, this);
             IModel m2 = ModelFactory.create(model.model, m -> {
-                model.imodel = m;
-                this.changer = null;
-                this.texer = null;
-                this.scale = new Vector3();
-//                this.offset = new Vector3();
-//                this.rotPoint = new Vector3();
-                this.anims = Maps.newHashMap();
-                AnimationLoader.parse(holder, model, this);
-                this.models.put(cube,
-                        new ModelSet(getAnimationChanger(), getTexturer(), model, rotPoint, scale, offset, anims));
+                synchronized (models)
+                {
+                    model.imodel = m;
+                    this.changer = null;
+                    this.texer = null;
+                    this.anims = Maps.newHashMap();
+                    AnimationLoader.parse(holder, model, this);
+                    this.models.put(cube,
+                            new ModelSet(getAnimationChanger(), getTexturer(), model, offset, scale, anims));
+                }
             });
             if (m2.isValid()) return model;
         }
@@ -147,32 +155,33 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             models.clear();
         }
         final ResourceLocation num = PokecubeItems.getCubeId(item);
-        if (models.containsKey(num))
+        synchronized (models)
         {
-            var m = models.get(num);
-            this.model = m.model();
-            this.setTexturer(m.texer());
-            this.setAnimationChanger(m.changer());
-//            this.rotPoint = m.rotPoint();
-//            this.offset = m.offset();
-            this.scale = m.scale();
-            this.anims = m.anims();
-//            System.out.println(this.rotPoint);
-        }
-        else if (!noModel.contains(num))
-        {
-            var model = makeModel(num);
-            if (model == null) noModel.add(num);
-            else
+            if (models.containsKey(num))
             {
                 var m = models.get(num);
                 this.model = m.model();
                 this.setTexturer(m.texer());
                 this.setAnimationChanger(m.changer());
-//                this.rotPoint = m.rotPoint();
-//                this.offset = m.offset();
+                this.offset = m.offset();
                 this.scale = m.scale();
                 this.anims = m.anims();
+            }
+            else if (!noModel.contains(num))
+            {
+                var model = makeModel(num);
+                if (model == null) noModel.add(num);
+                else
+                {
+                    var m = models.get(num);
+                    if (m == null) return;
+                    this.model = m.model();
+                    this.setTexturer(m.texer());
+                    this.setAnimationChanger(m.changer());
+                    this.offset = m.offset();
+                    this.scale = m.scale();
+                    this.anims = m.anims();
+                }
             }
         }
         super.render(entity, entityYaw, partialTicks, stack, bufferIn, packedLightIn);
@@ -273,6 +282,17 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
         if (entityIn instanceof EntityPokecube cube)
         {
             ItemStack item = cube.getItem();
+            if (cube.isReleasing())
+            {
+                var e = cube.getReleased();
+                boolean onFail = false;
+                IOwnable test;
+                if (e instanceof LivingEntity living && (test = OwnableCaps.getOwnable(living)) != null)
+                {
+                    onFail = test.getOwnerId() == null;
+                }
+                return onFail ? "broken_out" : "releasing";
+            }
             boolean shaking = PokecubeManager.getTilt(item) > 0;
             LivingEntity capturing = cube.getCapturing();
             if (shaking && capturing != null)
@@ -282,7 +302,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
 
             if (shaking) return "shaking";
             else if (capturing != null) return "capturing";
-            else if (cube.isReleasing()) return "releasing";
             return "idle";
         }
 
