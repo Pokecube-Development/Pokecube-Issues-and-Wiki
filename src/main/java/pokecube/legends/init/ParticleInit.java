@@ -27,7 +27,4 @@ public class ParticleInit
         MUSHROOM = PokecubeLegends.PARTICLES.register("mushroom", () -> new SimpleParticleType(false));
         MIRAGE_LEAF = PokecubeLegends.PARTICLES.register("mirage_leaf", () -> new SimpleParticleType(false));
     }
-
-    public static void init()
-    {}
 }

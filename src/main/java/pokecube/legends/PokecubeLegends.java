@@ -178,7 +178,7 @@ public class PokecubeLegends
         LegendsCreativeTabs.TABS.register(modEventBus);
 
         WorldgenFeatures.init(modEventBus);
-        ParticleInit.init();
+        BlockInit.init();
         ContainerInit.init();
         EntityInit.init();
         FeaturesInit.init(modEventBus);
@@ -187,7 +187,6 @@ public class PokecubeLegends
         ItemInit.init();
         MoveRegister.init();
         TileEntityInit.init();
-        BlockInit.init();
         Trees.init(modEventBus);
 
         LegendsDistorticRecipeManager.init();
