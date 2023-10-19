@@ -178,6 +178,7 @@ public class CapabilityAnimation
                                 for (String s : tmpTransients)
                                 {
                                     var animList = anims.get(s);
+                                    if (animList == null || animList.isEmpty()) continue;
                                     int index = animList.size() > 1 ? e.random.nextInt(animList.size()) : 0;
                                     synchronized (this.transients)
                                     {
