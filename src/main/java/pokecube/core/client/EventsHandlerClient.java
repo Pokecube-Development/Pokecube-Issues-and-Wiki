@@ -278,6 +278,9 @@ public class EventsHandlerClient
         if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
         final Player player = Minecraft.getInstance().player;
 
+        if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
+        final Player player = Minecraft.getInstance().player;
+
         boolean validToShow = true;
         ItemStack held;
         if (!(held = player.getMainHandItem()).isEmpty() || (held = player.getOffhandItem()).isEmpty())
