@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -33,17 +34,21 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import thut.api.Tracker;
 import thut.api.maths.Vector3;
+import thut.lib.RegHelper;
 
 public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPokecube>
 {
     public static class ModelPokecube extends EntityModel<EntityPokecube>
     {
+        public static Object2FloatOpenHashMap<ResourceLocation> CUBE_SHIFTS = new Object2FloatOpenHashMap<>();
 
         public ModelPokecube()
         {}
 
+        ItemStack item;
         EntityPokecube cube;
         float ageInTicks;
+        float shift;
         MultiBufferSource buffer;
 
         @Override
@@ -52,6 +57,8 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
         {
             this.cube = entityIn;
             this.ageInTicks = ageInTicks;
+            this.item = cube.getItem();
+            this.shift = CUBE_SHIFTS.getOrDefault(RegHelper.getKey(item), 0.0625f);
         }
 
         @Override
@@ -63,7 +70,7 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
             mat.scale(scale, scale, scale);
 
             LivingEntity capturing = this.cube.getCapturing();
-            boolean shaking = PokecubeManager.getTilt(this.cube.getItem()) > 0;
+            boolean shaking = PokecubeManager.getTilt(item) > 0;
 
             if (shaking && capturing != null)
             {
@@ -74,16 +81,16 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
             {
                 final float rotateY = Mth.cos(Mth.abs((float) (Math.PI * this.ageInTicks) / 12));
                 final float sx = 0.0f;
-                final float sy = 1.375f;
+                final float sy = 1.501f - cube.getBbHeight() / 2;
                 final float sz = 0f;
                 mat.translate(sx, sy, sz);
                 mat.mulPose(Axis.ZP.rotation(rotateY));
                 mat.translate(-sx, -sy, -sz);
             }
-            mat.translate(0, 1.5, 0);
+            mat.translate(0, 1.5 + shift, 0);
             mat.mulPose(Axis.ZP.rotationDegrees(180));
 
-            ItemStack renderStack = this.cube.getItem();
+            ItemStack renderStack = item;
             if (renderStack == null || !(renderStack.getItem() instanceof IPokecube))
                 renderStack = PokecubeItems.POKECUBE_CUBES;
 

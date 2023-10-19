@@ -51,6 +51,7 @@ import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
@@ -270,6 +271,7 @@ public class PokecubeLegends
                 return helper.dyna(mob);
             }
         }.setName("dyna"));
+        EntityPokecubeBase.CUBE_SIZES.put(new ResourceLocation("pokecube", "dynacube"), 0.75f);
         event.register(new DefaultPokecubeBehaviour()
         {
             @Override
