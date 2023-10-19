@@ -85,6 +85,7 @@ import pokecube.legends.blocks.customblocks.taputotem.LeleTotem;
 import pokecube.legends.blocks.flowing.AshBlock;
 import pokecube.legends.blocks.flowing.MoltenMeteorBlock;
 import pokecube.legends.blocks.normalblocks.AgedGrassBlock;
+import pokecube.legends.blocks.normalblocks.AgedLeavesBlock;
 import pokecube.legends.blocks.normalblocks.AquamarineClusterBlock;
 import pokecube.legends.blocks.normalblocks.AquamarineCrystalBlock;
 import pokecube.legends.blocks.normalblocks.AshOre;
@@ -1326,7 +1327,8 @@ public class BlockInit
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         AGED_LEAVES = PokecubeLegends.BLOCKS.register("aged_leaves",
-                () -> new LeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(0.2f)
+                () -> new AgedLeavesBlock(10,
+                        BlockBehaviour.Properties.of().mapColor(MapColor.GOLD).strength(0.2f)
                         .sound(SoundType.GRASS).noOcclusion().isSuffocating((s, r, p) -> false)
                         .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));
 
@@ -1604,7 +1606,7 @@ public class BlockInit
                                 .sound(SoundType.GRASS).noCollission().noOcclusion()));
 
         MIRAGE_LEAVES = PokecubeLegends.BLOCKS.register("mirage_leaves",
-                () -> new MirageLeavesBlock(9032191,
+                () -> new MirageLeavesBlock(3,
                         BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_LIGHT_BLUE)
                                 .sound(SoundType.NYLIUM).strength(0.2f).noOcclusion().isSuffocating((s, r, p) -> false)
                                 .isValidSpawn(PokecubeItems::ocelotOrParrot).isViewBlocking((s, r, p) -> false)));

@@ -55,8 +55,11 @@ public class ClientSetupHandler
         event.registerSpriteSet(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
         event.registerSpriteSet(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);
         event.registerSpriteSet(ParticleInit.INFECTED_SPARK.get(), LavaParticle.Provider::new);
-        event.registerSpriteSet(ParticleInit.MIRAGE_LEAVES.get(),
-                (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
         event.registerSpriteSet(ParticleInit.MUSHROOM.get(), SuspendedTownParticle.Provider::new);
+
+        event.registerSpriteSet(ParticleInit.AGED_LEAF.get(),
+                (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
+        event.registerSpriteSet(ParticleInit.MIRAGE_LEAF.get(),
+                (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
     }
 }

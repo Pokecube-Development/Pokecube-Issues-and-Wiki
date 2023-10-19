@@ -73,6 +73,7 @@ import pokecube.legends.init.FluidInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.LegendsCreativeTabs;
 import pokecube.legends.init.MoveRegister;
+import pokecube.legends.init.ParticleInit;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.TileEntityInit;
 import pokecube.legends.init.function.UsableItemGigantShard;
@@ -177,7 +178,7 @@ public class PokecubeLegends
         LegendsCreativeTabs.TABS.register(modEventBus);
 
         WorldgenFeatures.init(modEventBus);
-        BlockInit.init();
+        ParticleInit.init();
         ContainerInit.init();
         EntityInit.init();
         FeaturesInit.init(modEventBus);
@@ -186,6 +187,7 @@ public class PokecubeLegends
         ItemInit.init();
         MoveRegister.init();
         TileEntityInit.init();
+        BlockInit.init();
         Trees.init(modEventBus);
 
         LegendsDistorticRecipeManager.init();

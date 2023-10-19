@@ -2,7 +2,6 @@ package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
@@ -12,11 +11,11 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.init.ParticleInit;
 
-public class MirageLeavesBlock extends LeavesBlock
+public class AgedLeavesBlock extends LeavesBlock
 {
     int particleSpawnSpeed;
 
-    public MirageLeavesBlock(int particleSpawnSpeed, final Properties properties)
+    public AgedLeavesBlock(int particleSpawnSpeed, final Properties properties)
     {
         super(properties);
         this.particleSpawnSpeed = particleSpawnSpeed;
@@ -33,7 +32,7 @@ public class MirageLeavesBlock extends LeavesBlock
             BlockState blockstate = world.getBlockState(posBelow);
             if (!isFaceFull(blockstate.getCollisionShape(world, posBelow), Direction.UP))
             {
-                ParticleUtils.spawnParticleBelow(world, pos, random, ParticleInit.MIRAGE_LEAF.get());
+                ParticleUtils.spawnParticleBelow(world, pos, random, ParticleInit.AGED_LEAF.get());
             }
         }
     }
