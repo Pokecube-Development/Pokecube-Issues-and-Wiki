@@ -133,13 +133,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "drednaw",
-      "level": 22,
-      "animation": "18",
-      "evoMoves": "rock-tomb"
-    }
-  ],
   "loot_table": "pokecube:entities/turtleshells_1"
 }

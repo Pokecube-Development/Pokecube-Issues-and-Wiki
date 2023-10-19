@@ -54,7 +54,9 @@
           "growth",
           "poison-powder",
           "stun-spore",
-          "toxic"
+          "toxic",
+          "spore",
+          "giga-drain"
         ]
       },
       {
@@ -98,7 +100,8 @@
         "L": 39,
         "moves": [
           "brick-break",
-          "sky-uppercut"
+          "sky-uppercut",
+          "drain-punch"
         ]
       },
       {
@@ -139,7 +142,9 @@
       "absorb",
       "mega-drain",
       "leech-seed",
+      "growth",
       "solar-beam",
+      "poison-powder",
       "stun-spore",
       "dig",
       "toxic",

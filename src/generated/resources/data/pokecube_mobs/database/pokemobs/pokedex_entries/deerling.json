@@ -194,6 +194,7 @@
       "grassy-terrain",
       "play-rough",
       "confide",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]
@@ -228,44 +229,6 @@
       "tex": "deerling_wi",
       "model": "deerling_wi",
       "anim": "deerling_wi"
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "sawsbuck",
-      "level": 34,
-      "evoMoves": "horn-leech",
-      "form_from": "deerling_sp",
-      "model": {
-        "key": "sawsbuck_sp"
-      }
-    },
-    {
-      "name": "sawsbuck",
-      "level": 34,
-      "evoMoves": "horn-leech",
-      "form_from": "deerling_su",
-      "model": {
-        "key": "sawsbuck_su"
-      }
-    },
-    {
-      "name": "sawsbuck",
-      "level": 34,
-      "evoMoves": "horn-leech",
-      "form_from": "deerling_wi",
-      "model": {
-        "key": "sawsbuck_wi"
-      }
-    },
-    {
-      "name": "sawsbuck",
-      "level": 34,
-      "evoMoves": "horn-leech",
-      "form_from": "deerling_au",
-      "model": {
-        "key": "sawsbuck_au"
-      }
     }
   ],
   "loot_table": "pokecube:entities/cow_1"

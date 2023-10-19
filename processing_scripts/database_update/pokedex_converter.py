@@ -1,6 +1,7 @@
 import json
 from ignore_list import isIgnored
-from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form
+from legacy_renamer import find_old_name, to_model_form, find_new_name, entry_name, banned_form,\
+                  is_extra_form, TAG_IGNORE, get_interacts
 import utils
 from utils import get_form, get_pokemon, get_species, default_or_latest, get_pokemon_index, url_to_id
 from moves_converter import convert_old_move_name
@@ -23,10 +24,12 @@ import shutil
 # advancements_dir = '../../src/generated/resources/data/pokecube_mobs/advancements/'
 
 entry_generate_dir = './new/pokemobs/pokedex_entries/'
+mega_rule_dir = './new/pokemobs/mega_evos/'
+evos_rule_dir = './new/pokemobs/evolutions/'
 materials_generate_dir = './new/pokemobs/materials/'
 ability_lang_generate_dir = './new/assets/pokecube_abilities/lang/'
 mob_lang_generate_dir = './new/assets/pokecube_mobs/lang/'
-tag_generate_dir = './new/tags/pokecube/tags/entity_types/'
+tag_generate_dir = './new/tags/'
 advancements_dir = './new/advancements/'
 
 UPDATE_EXAMPLE = False
@@ -73,6 +76,9 @@ def is_gmax(name):
 
 index_map = get_pokemon_index()
 evo_chains = utils.load_evo_chains()
+old_interacts = get_interacts(index_map)
+
+_, all_moves_users = utils.load_all_moves()
 
 # This class is a mirror of the json data structure that pokecube uses for loading
 class PokedexEntry:
@@ -171,10 +177,8 @@ class PokedexEntry:
         self.names = species.names
         self.id = forme.id
         self.stock = True
-        if is_mega(self.name):
-            self.mega = True
-        if is_gmax(self.name):
-            self.gmax = True
+        if not forme.is_default and is_extra_form(self.name):
+            self.is_extra_form = True
         if no_shiny(self.name):
             self.no_shiny = True
         self.base_experience = forme.base_experience
@@ -260,13 +264,14 @@ class PokedexEntry:
         moves = {}
         level_up = []
         misc = []
+        all_moves = []
 
         move_levels = {}
 
         # Used to check if learn method is level up.
         def is_levelup(details):
             return details.move_learn_method.name == 'level-up'
-
+        
         for move in forme.moves:
             name = move.move.name
 
@@ -287,6 +292,7 @@ class PokedexEntry:
                     move_levels[key] = entry
                     level_up.append(entry)
                 entry['moves'].append(name)
+                all_moves.append(name)
 
             # All other moves get added to misc moves for TMs in pokecube
             for details in move.version_group_details:
@@ -294,6 +300,14 @@ class PokedexEntry:
                     continue
                 if not name in misc:
                     misc.append(name)
+                    all_moves.append(name)
+
+        
+        if forme.name in all_moves_users:
+            _moves = all_moves_users[forme.name]
+            for move in _moves:
+                if not move in all_moves:
+                    misc.append(move)
 
         # Add the moves if we found any
         if len(level_up) > 0:
@@ -492,24 +506,42 @@ def convert_assets():
             os.makedirs(os.path.dirname(name))
         shutil.copy(file, name)
 
-def convert_tags():
+def convert_tags(entries):
     jsons = [y for x in os.walk("./old/tags") for y in glob(os.path.join(x[0], '*.json'))]
     for file in jsons:
         json_in = open(file, 'r', encoding='utf-8')
         json_str = json_in.read()
         json_in.close()
         json_obj = json.loads(json_str)
-
         if 'values' in json_obj:
             old_values = json_obj['values']
-
             new_values = []
             for name in old_values:
+                add = ''
+                if ';' in name:
+                    vars = name.split(';')
+                    name = vars[0]
+                    add = f';{vars[1]}'
                 orig = name
                 name = name.replace('pokecube:', '')
+                if name in TAG_IGNORE:
+                    continue
                 new_name = find_new_name(name, index_map.keys())
+                if new_name in TAG_IGNORE:
+                    continue
+
+                if "entity_types" in file:
+                    if new_name in entries:
+                        var = entries[new_name]
+                        if(hasattr(var, "is_extra_form")):
+                            continue
+                    if name in entries:
+                        var = entries[name]
+                        if(hasattr(var, "is_extra_form")):
+                            continue
+
                 if new_name is not None:
-                    new_name = f'pokecube:{new_name}'
+                    new_name = f'pokecube:{new_name}{add}'
                     if not new_name in new_values:
                         new_values.append(new_name)
                 elif 'arceus_' in name or 'silvally_' in name:
@@ -517,8 +549,9 @@ def convert_tags():
                 else:
                     if not "#" in name and not ":" in name and name != 'egg':
                         print(f"error finding name for {name} in {file}")
-                    if not orig in new_values:
-                        new_values.append(orig)
+                    new_name = f'pokecube:{orig}{add}'
+                    if not new_name in new_values:
+                        new_values.append(new_name)
             json_obj['values'] = new_values
 
         file = file.replace('old', 'new')
@@ -542,6 +575,171 @@ def load_overrides(override_file, overrides):
             if key == 'name':
                 continue
             overrides[name][key] = value
+
+def convert_mega_rules(entry):
+    if not "mega_rules" in entry:
+        return
+    if not os.path.exists(mega_rule_dir):
+        os.makedirs(mega_rule_dir)
+    rules = []
+    for rule in entry["mega_rules"]:
+        _rule = {}
+        name = "???"
+        user = entry["name"]
+        da_rule = {}
+        da_rule['key'] = 'item'
+
+        if 'preset' in rule and 'item_preset' in rule:
+            key = rule['preset']
+            item = rule['item_preset']
+            if not ":" in item:
+                item = f"pokecube:{item}"
+            da_rule["item"] = {"item":item}
+            name = f'{user}-{key.lower()}'
+            name = find_new_name(name, index_map.keys())
+        elif "name" in rule:
+            name = rule['name']
+            name = find_new_name(name, index_map.keys())
+            if "move" in rule:
+                move = convert_old_move_name(rule['move'])
+                da_rule["move"] = move
+                da_rule['key'] = "move"
+            elif 'item_preset' in rule:
+                item = rule['item_preset']
+                if not ":" in item:
+                    item = f"pokecube:{item}"
+                da_rule["item"] = {"item":item}
+            elif 'ability' in rule:
+                da_rule['key'] = 'ability'
+                da_rule["ability"] = rule['ability']
+
+        _rule['user'] = user
+        _rule['name'] = name
+        _rule['rule'] = da_rule
+
+        rules.append(_rule)
+        
+    file = f'{mega_rule_dir}{entry["name"]}.json'
+    file = open(file, 'w')
+    if(len(rules) == 1):
+        rules = rules[0]
+    json.dump(rules, file, indent=2)
+    file.close()
+    del entry["mega_rules"]
+
+def convert_evolution(entry):
+    if not "evolutions" in entry:
+        return
+    if not os.path.exists(evos_rule_dir):
+        os.makedirs(evos_rule_dir)
+    rules = []
+    for rule in entry["evolutions"]:
+        _rule = {}
+
+        # First lets get the user and the result
+        result = rule["name"]
+        user = entry["name"]
+
+        # Now we construct the rules
+        da_rules = []
+
+        # Level rule
+        if "level" in rule:
+            sub_rule = {"key": "level"}
+            sub_rule["level"] = rule["level"]
+            da_rules.append(sub_rule)
+
+        # Location specific things
+        location = {}
+        if "location" in rule:
+            location = rule["location"]
+        if "time" in rule:
+            matchs = {}
+            if "matchers" in location:
+                matchs = location['matchers']
+            matchs['time'] = {"preset": rule["time"]}
+            location['matchers'] = matchs
+        if "rain" in rule:
+            matchs = {}
+            if "matchers" in location:
+                matchs = location['matchers']
+            weather = "rain" if rule["rain"] else "sun"
+            matchs['weather'] = {"type": weather}
+            location['matchers'] = matchs
+        if len(location) > 0:
+            sub_rule = {"key": "location"}
+            sub_rule["location"] = location
+            da_rules.append(sub_rule)
+
+        # Required items
+        if 'item_preset' in rule:
+            sub_rule = {"key": "item"}
+            item = rule['item_preset']
+            if not ":" in item:
+                item = f"pokecube:{item}"
+            sub_rule["item"] = {"item":item}
+            da_rules.append(sub_rule)
+        elif 'item' in rule:
+            item = rule["item"]["values"]
+            sub_rule = {"key": "item"}
+            sub_rule["item"] = item
+            da_rules.append(sub_rule)
+
+        # Traded
+        if "trade" in rule:
+            sub_rule = {"key": "traded"}
+            da_rules.append(sub_rule)
+
+        # Happiness needed
+        if "happy" in rule:
+            sub_rule = {"key": "happy"}
+            da_rules.append(sub_rule)
+
+        # Sexe needed
+        if "sexe" in rule:
+            sub_rule = {"key": "sexe"}
+            sub_rule["sexe"] = rule["sexe"]
+            da_rules.append(sub_rule)
+
+        # Move needed
+        if "move" in rule:
+            sub_rule = {"key": "move"}
+            sub_rule["move"] = rule["move"]
+            da_rules.append(sub_rule)
+
+        # Random Chance needed
+        if "chance" in rule:
+            sub_rule = {"key": "chance"}
+            sub_rule["chance"] = rule["chance"]
+            da_rules.append(sub_rule)
+
+        # Specific model needed
+        if "form_from" in rule:
+            user = rule["form_from"]
+
+        if len(da_rules) == 1:
+            da_rules = da_rules[0]
+
+        # Now construct the evolution
+        _rule['name'] = result
+        _rule['user'] = user
+        _rule["condition"] = da_rules
+        if "evoMoves" in rule:
+            _rule["evoMoves"] = rule["evoMoves"]
+        if "animation" in rule:
+            _rule["animation"] = rule["animation"]
+        if "model" in rule:
+            _rule["model"] = rule["model"]
+
+        rules.append(_rule)
+
+    file = f'{evos_rule_dir}{entry["name"]}.json'
+    file = open(file, 'w')
+    if(len(rules) == 1):
+        rules = rules[0]
+    json.dump(rules, file, indent=2)
+    file.close()
+    del entry["evolutions"]
 
 def convert_pokedex():
 
@@ -587,6 +785,7 @@ def convert_pokedex():
     values = get_species(i)
     species = []
     dex = []
+    named_entries = {}
 
     lang_files = {}
 
@@ -597,9 +796,9 @@ def convert_pokedex():
         entry = PokemonSpecies(values, pokedex, overrides)
         species.append(entry)
         for var in entry.entries:
-
+            named_entries[var.name] = var
             tag_name = f'pokecube:{var.name}'
-            if not tag_name in pokemob_tag_names:
+            if not tag_name in pokemob_tag_names and not hasattr(var, "is_extra_form"):
                 pokemob_tag_names.append(tag_name)
 
             if var.name in held_tables:
@@ -648,7 +847,7 @@ def convert_pokedex():
         dex.append(var)
 
     # Construct and output the default pokecube:pokemob tag
-    file = f'{tag_generate_dir}pokemob.json'
+    file = f'{tag_generate_dir}entity_types/pokemob.json'
     var = {"replace": False,"values":pokemob_tag_names}
     if not os.path.exists(os.path.dirname(file)):
         os.makedirs(os.path.dirname(file))
@@ -670,13 +869,39 @@ def convert_pokedex():
             print(err)
 
     for var in dex:
+        # Some extra pre-processing
+        convert_mega_rules(var)
+        convert_evolution(var)
+        if var['name'] in old_interacts:
+            stats = old_interacts[var['name']]
+            if 'prey' in stats:
+                replacements = {
+                    "bird": "small_bird",
+                    "insecta": "small_bug",
+                    "rodent": "small_rodent",
+                    "plant": "small_plant",
+                    "fish": "small_fish",
+                }
+                prey = stats['prey'].lower().split(' ')
+                _prey = ""
+                for i in range(len(prey)):
+                    if prey[i] in replacements:
+                        _new = replacements[prey[i]]
+                        if len(prey) == 0:
+                            prey = _new
+                        else:
+                            _prey += f" {_new}"
+                if 'prey' in var:
+                    _prey += f" {var['prey']}"
+                var['prey'] = _prey
+
         # Output each entry into the appropriate database location
         file = f'{entry_generate_dir}{var["name"]}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
 
-        file = open(file, 'w')
-        json.dump(var, file, indent=2)
+        file = open(file, 'w', newline='\n')
+        json.dump(var, file, indent=2,)
         file.close()
 
         # And also make the advancements
@@ -698,6 +923,8 @@ def convert_pokedex():
         if not os.path.exists(os.path.dirname(newfile)):
             os.makedirs(os.path.dirname(newfile))
         shutil.copy(original, newfile)
+
+    return named_entries
 
 def make_ability_langs():
     ability_index = utils.get_valid_numbers('ability')
@@ -730,7 +957,7 @@ def make_ability_langs():
             print(err)
 
 if __name__ == "__main__":
-    convert_pokedex()
-    convert_tags()
+    entries = convert_pokedex()
+    convert_tags(entries)
     convert_assets()
     make_ability_langs()

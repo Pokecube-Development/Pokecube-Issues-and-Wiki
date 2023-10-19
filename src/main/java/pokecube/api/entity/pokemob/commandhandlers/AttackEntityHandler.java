@@ -49,7 +49,7 @@ public class AttackEntityHandler extends DefaultHandler
         PokecubeAPI.POKEMOB_BUS.post(event);
         if (!event.isCanceled() && currentMove != 5 && MovesUtils.canUseMove(pokemob))
         {
-            final MoveEntry move = MovesUtils.getMove(pokemob.getMoves()[currentMove]);
+            final MoveEntry move = MovesUtils.getMove(pokemob.getMove(currentMove));
             if (PokecubeCore.getConfig().debug_commands)
                 PokecubeAPI.logInfo("Starting Attack {} for {}", target, pokemob.getEntity());
 

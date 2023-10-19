@@ -14,7 +14,7 @@
     "pokecube:dialga-origin",
     "pokecube:palkia",
     "pokecube:palkia-origin",
-    "pokecube:giratina",
+    "pokecube:giratina-altered",
     "pokecube:cresselia",
     "pokecube:darkrai",
     "pokecube:druddigon",
@@ -24,12 +24,12 @@
     "pokecube:zygarde-complete",
     "pokecube:hoopa-unbound",
     "pokecube:solgaleo",
-    "pokecube:solgaleo_dusk",
+    "pokecube:necrozma-dusk",
     "pokecube:buzzwole",
     "pokecube:necrozma",
     "pokecube:orbeetle-gmax",
     "pokecube:decidueye-hisui",
-	"pokecube:koraidon",
-	"pokecube:miraidon"
+    "pokecube:koraidon",
+    "pokecube:miraidon"
   ]
 }

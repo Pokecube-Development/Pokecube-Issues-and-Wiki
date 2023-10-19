@@ -402,8 +402,8 @@ public class Config extends ConfigData
     public int captureDelayTicks = 0;
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will need to execute an attack after breaking out of a cube before they can go into another for capture. [Default: true]")
     public boolean captureDelayTillAttack = true;
-    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 200]")
-    public int idleTickRate = 200;
+    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 50]")
+    public int idleTickRate = 50;
     @Configure(category = Config.mobAI, comment = "Maximum distance a wild pokemob will try to move while idle wandering. [Default: 16]")
     public int idleMaxPathWild = 16;
     @Configure(category = Config.mobAI, comment = "Maximum distance a tamed pokemob will try to move while idle wandering. [Default: 4]")
@@ -533,17 +533,17 @@ public class Config extends ConfigData
     public String teleRef = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the tamed pokemob GUI based on the position of guiRef. [Default: [0, 0]]")
-    public List<Integer> guiPos = Lists.newArrayList(new Integer[]
+    public List<Integer> guiSelectedPos = Lists.newArrayList(new Integer[]
     { 0, 0 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [89, 17]]")
-    public List<Integer> telePos = Lists.newArrayList(new Integer[]
-    { 89, 17 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [147, -42]]")
-    public List<Integer> targetPos = Lists.newArrayList(new Integer[]
-    { 147, -42 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [-150, -100]]")
-    public List<Integer> messagePos = Lists.newArrayList(new Integer[]
-    { -150, -100 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [-150, 0]]")
+    public List<Integer> guiTeleportPos = Lists.newArrayList(new Integer[]
+    { -150, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [0, 0]]")
+    public List<Integer> guiTargetPos = Lists.newArrayList(new Integer[]
+    { 0, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
+    public List<Integer> guiMessagePos = Lists.newArrayList(new Integer[]
+    { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Padding of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
     public List<Integer> messagePadding = Lists.newArrayList(new Integer[]
     { 0, 0 });
@@ -569,8 +569,8 @@ public class Config extends ConfigData
     public boolean guiAutoScale = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Allows pokemobs to auto select moves. [Default: false]")
     public boolean autoSelectMoves = false;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled. [Default: false]")
-    public boolean autoRecallPokemobs = false;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled when too far. [Default: true]")
+    public boolean autoRecallPokemobs = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will fly up or down if the player is looking sufficiently vertically. [Default: true]")
     public boolean riddenMobsAscendWithLook = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs may try to automatically path while ridden. [Default: true]")
@@ -659,8 +659,8 @@ public class Config extends ConfigData
     public boolean showArmor = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Height of the health text on the health bar. [Default: 14]")
     public int hpTextHeight = 14;
-    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display only when looking at the pokemob. [Default: false]")
-    public boolean showOnlyFocused = false;
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display only when looking at the pokemob. [Default: true]")
+    public boolean showOnlyFocused = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bars be added for non-normal pokemobs. [Default: false]")
     public boolean nonStockHealthbars = false;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should debug info display on the health bar when the F3 debug screen displays. [Default: true]")
@@ -785,7 +785,12 @@ public class Config extends ConfigData
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
-        
+
+        if (guiMessagePos.size() != 2) guiMessagePos = Lists.newArrayList(0, 0);
+        if (guiSelectedPos.size() != 2) guiSelectedPos = Lists.newArrayList(0, 0);
+        if (guiTeleportPos.size() != 2) guiTeleportPos = Lists.newArrayList(-150, 0);
+        if (guiTargetPos.size() != 2) guiTargetPos = Lists.newArrayList(0, 0);
+
         DataHelpers.DEBUG = this.debug_data;
 
         this.berryStackScale = Math.max(1, this.berryStackScale);

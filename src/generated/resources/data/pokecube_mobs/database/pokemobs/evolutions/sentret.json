@@ -1,0 +1,9 @@
+{
+  "name": "furret",
+  "user": "sentret",
+  "condition": {
+    "key": "level",
+    "level": 15
+  },
+  "evoMoves": "agility"
+}

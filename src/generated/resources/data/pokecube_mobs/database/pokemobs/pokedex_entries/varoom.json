@@ -139,10 +139,12 @@
       "sleep-talk",
       "rain-dance",
       "sunny-day",
+      "uproar",
       "torment",
       "facade",
       "taunt",
       "iron-defense",
+      "gyro-ball",
       "toxic-spikes",
       "poison-jab",
       "zen-headbutt",
@@ -156,11 +158,5 @@
       "steel-beam",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "revavroom",
-      "level": 40
-    }
-  ]
+  }
 }

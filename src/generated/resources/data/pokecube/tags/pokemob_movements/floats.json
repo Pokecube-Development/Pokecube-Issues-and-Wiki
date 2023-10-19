@@ -20,8 +20,8 @@
     "pokecube:misdreavus",
     "pokecube:unown",
     "pokecube:corsola-galar",
-    "pokecube:lunatone",
-    "pokecube:solrock",
+    "pokecube:lunatone;0.5",
+    "pokecube:solrock;0.5",
     "pokecube:castform",
     "pokecube:castform-rainy",
     "pokecube:castform-snowy",
@@ -164,7 +164,7 @@
     "pokecube:flutter-mane",
     "pokecube:scream-tail",
     "pokecube:iron-moth",
-	"pokecube:miraidon",
+    "pokecube:miraidon",
     "pokecube:poltchageist",
     "pokecube:sinistcha"
   ]

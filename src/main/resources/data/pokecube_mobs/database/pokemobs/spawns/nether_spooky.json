@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.nether.forests",
       "and_preset": "nether_forests",
       "entries": [
         {"key": "ponyta-galar","min": 1,"max": 4,"rate": 0.3},
@@ -14,6 +15,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.nether.not_forests",
       "and_preset": "nether",
       "not_preset": "forests",
       "entries": [
@@ -22,6 +24,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.nether.general",
       "and_preset": "nether",
       "entries": [
         {"key": "koffing","min": 1,"max": 4,"rate": 0.8},
@@ -43,6 +46,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.spooky.general",
       "and_preset": "spooky_areas",
       "entries": [
         {"key": "gastly","min": 1,"max": 4,"rate": 0.4},
@@ -67,6 +71,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.spooky.caves",
       "and_preset": "spooky_areas,caves",
       "entries": [
         {"key": "spiritomb","min": 1,"max": 4,"rate": 0.2},
@@ -74,6 +79,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.spooky.not_cold",
       "and_preset": "spooky_areas",
       "not_preset": "cold_areas",
       "entries": [

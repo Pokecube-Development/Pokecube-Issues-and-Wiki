@@ -1,0 +1,10 @@
+{
+  "user": "abomasnow",
+  "name": "abomasnow-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:abomasnowmega"
+    }
+  }
+}

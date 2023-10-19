@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "pokecube:lunatone",
-    "pokecube:solrock",
-    "pokecube:minior"
+    "pokecube:solrock"
   ]
 }

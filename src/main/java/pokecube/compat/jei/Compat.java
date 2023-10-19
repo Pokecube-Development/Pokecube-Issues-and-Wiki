@@ -41,7 +41,7 @@ public class Compat implements IModPlugin
     {
         return Compat.UID;
     }
-    
+
     @Override
     public void registerIngredients(final IModIngredientRegistration registration)
     {
@@ -90,8 +90,8 @@ public class Compat implements IModPlugin
                 final Map<ResourceLocation, Interaction> tags = l.tagActions;
 
                 entry = male;
-                if (entry.canEvolve()) for (final EvolutionData data : entry.evolutions)
-                    if (data.gender != IPokemob.FEMALE) evos.add(new Evolution(entry, data));
+                if (entry.canEvolve())
+                    for (final EvolutionData data : entry.evolutions) evos.add(new Evolution(entry, data));
 
                 for (final ItemStack stack : stacks.keySet())
                 {
@@ -107,8 +107,8 @@ public class Compat implements IModPlugin
                 }
 
                 entry = female;
-                if (entry.canEvolve()) for (final EvolutionData data : entry.evolutions)
-                    if (data.gender != IPokemob.MALE) evos.add(new Evolution(entry, data));
+                if (entry.canEvolve())
+                    for (final EvolutionData data : entry.evolutions) evos.add(new Evolution(entry, data));
 
                 for (final ItemStack stack : stacks.keySet())
                 {

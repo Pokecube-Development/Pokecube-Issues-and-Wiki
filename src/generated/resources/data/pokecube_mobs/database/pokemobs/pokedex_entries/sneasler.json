@@ -31,7 +31,8 @@
   ],
   "abilities": {
     "normal": [
-      "pressure"
+      "pressure",
+      "unburden"
     ],
     "hidden": [
       "poison-touch"

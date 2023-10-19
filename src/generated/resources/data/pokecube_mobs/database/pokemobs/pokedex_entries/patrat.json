@@ -206,12 +206,5 @@
       "tearful-look"
     ]
   },
-  "evolutions": [
-    {
-      "name": "watchog",
-      "level": 20,
-      "evoMoves": "confuse-ray"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

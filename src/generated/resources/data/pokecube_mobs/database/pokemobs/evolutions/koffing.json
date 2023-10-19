@@ -1,0 +1,29 @@
+[
+  {
+    "name": "weezing",
+    "user": "koffing",
+    "condition": {
+      "key": "level",
+      "level": 35
+    },
+    "evoMoves": "double-hit"
+  },
+  {
+    "name": "weezing-galar",
+    "user": "koffing",
+    "condition": [
+      {
+        "key": "level",
+        "level": 35
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.industrial.general",
+          "and_preset": "industrial"
+        }
+      }
+    ],
+    "evoMoves": "double-hit"
+  }
+]

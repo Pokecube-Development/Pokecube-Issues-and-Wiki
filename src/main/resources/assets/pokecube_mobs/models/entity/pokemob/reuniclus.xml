@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale=".4"/>
-  <metadata head="head" headAxis="2" headCap="-60,60" headCap1="-10,30"/>
+  <metadata head="head" headCap="-60,60" headCap1="-10,30" headDir2="1"/>
   <material name="bubble" alpha="0.5" transluscent="true" smooth="true"/>
   <phase armAngle="50" duration="10" leftArm="left_cell_arm" leftLeg="" legAngle="45" name="biWalk" rightArm="right_cell_arm" rightLeg=""/>
  </model>

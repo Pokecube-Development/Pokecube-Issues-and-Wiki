@@ -1,0 +1,30 @@
+[
+  {
+    "name": "marowak-alola",
+    "user": "cubone",
+    "condition": [
+      {
+        "key": "level",
+        "level": 28
+      },
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "marowak",
+    "user": "cubone",
+    "condition": {
+      "key": "level",
+      "level": 28
+    }
+  }
+]

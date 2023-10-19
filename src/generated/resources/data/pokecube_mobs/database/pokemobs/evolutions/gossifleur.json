@@ -1,0 +1,10 @@
+{
+  "name": "eldegoss",
+  "user": "gossifleur",
+  "condition": {
+    "key": "level",
+    "level": 20
+  },
+  "evoMoves": "cotton-spore",
+  "animation": "18"
+}

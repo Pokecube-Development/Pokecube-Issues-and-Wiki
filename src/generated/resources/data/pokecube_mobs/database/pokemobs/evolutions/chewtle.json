@@ -1,0 +1,10 @@
+{
+  "name": "drednaw",
+  "user": "chewtle",
+  "condition": {
+    "key": "level",
+    "level": 22
+  },
+  "evoMoves": "rock-tomb",
+  "animation": "18"
+}

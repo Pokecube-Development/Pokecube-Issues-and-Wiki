@@ -125,6 +125,7 @@
       "swords-dance",
       "bind",
       "body-slam",
+      "wrap",
       "double-edge",
       "acid",
       "mega-drain",
@@ -193,11 +194,5 @@
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cradily",
-      "level": 40
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

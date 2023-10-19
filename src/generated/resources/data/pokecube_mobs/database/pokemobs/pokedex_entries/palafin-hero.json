@@ -2,6 +2,7 @@
   "name": "palafin-hero",
   "id": 964,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 160,
   "size": {
     "height": 1.8

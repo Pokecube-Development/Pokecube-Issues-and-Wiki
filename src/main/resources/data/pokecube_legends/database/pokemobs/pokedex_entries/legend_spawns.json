@@ -694,6 +694,7 @@
     "name":"kubfu",
     "spawn_rules":[
       {
+        "desc": "legends.spawns.structures.kubfu_dojo",
         "values":{
           "structures":"pokecube_legends:kubfu_dojo",
           "rate":"0.0"

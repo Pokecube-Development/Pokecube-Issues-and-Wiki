@@ -2,6 +2,7 @@
   "name": "meowstic-female",
   "id": 678,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 163,
   "size": {
     "height": 0.6

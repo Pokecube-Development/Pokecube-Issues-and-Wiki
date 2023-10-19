@@ -2,7 +2,7 @@
   "name": "medicham-mega",
   "id": 308,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 179,
   "size": {
     "height": 1.3

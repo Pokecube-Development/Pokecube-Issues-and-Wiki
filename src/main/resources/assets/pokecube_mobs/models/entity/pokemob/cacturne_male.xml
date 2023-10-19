@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.4"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-35,35" headDir="-1" headDir1="-1"/>
+  <metadata head="head" headCap="-50,50" headCap1="-35,35" headDir1="-1"/>
   <phase armAngle="5" duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="45" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
   <customTex default="cacturne">
    <part name="Head" tex="cacturneeye"/>

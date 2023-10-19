@@ -32,11 +32,20 @@
       "torrent"
     ],
     "hidden": [
-      "defiant"
+      "competitive"
     ]
   },
   "moves": {
     "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "pound",
+          "tackle",
+          "growl",
+          "bubble"
+        ]
+      },
       {
         "L": 28,
         "moves": [
@@ -44,17 +53,15 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "tackle",
-          "growl",
-          "bubble"
-        ]
-      },
-      {
         "L": 42,
         "moves": [
           "mist"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "water-gun"
         ]
       },
       {
@@ -84,7 +91,15 @@
       {
         "L": 24,
         "moves": [
-          "bide"
+          "bide",
+          "swagger"
+        ]
+      },
+      {
+        "L": 11,
+        "moves": [
+          "charm",
+          "water-sport"
         ]
       },
       {
@@ -97,12 +112,6 @@
         "L": 37,
         "moves": [
           "whirlpool"
-        ]
-      },
-      {
-        "L": 11,
-        "moves": [
-          "water-sport"
         ]
       },
       {
@@ -130,6 +139,7 @@
       "dig",
       "toxic",
       "double-team",
+      "haze",
       "bide",
       "waterfall",
       "bubble",
@@ -155,6 +165,7 @@
       "brick-break",
       "secret-power",
       "dive",
+      "weather-ball",
       "rock-tomb",
       "signal-beam",
       "aerial-ace",
@@ -177,15 +188,9 @@
       "quash",
       "water-pledge",
       "work-up",
-      "confide"
+      "confide",
+      "flip-turn"
     ]
   },
-  "evolutions": [
-    {
-      "name": "empoleon",
-      "level": 36,
-      "evoMoves": "aqua-jet"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

@@ -141,15 +141,10 @@
       "disarming-voice",
       "grassy-terrain",
       "play-rough",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "floragato",
-      "level": 16
-    }
-  ],
   "loot_table": "pokecube:entities/money_cat_small"
 }

@@ -2,7 +2,7 @@
   "name": "lapras-gmax",
   "id": 131,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 187,
   "size": {
     "height": 5.5,
@@ -37,6 +37,48 @@
     "hidden": [
       "hydration"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-3.5,0,-3",
+          "size": "7.0,7,7.0",
+          "ride": "3.5,7,2.5"
+        },
+        {
+          "name": "neck",
+          "offset": "-2,0,-6",
+          "size": "4,7,2"
+        },
+        {
+          "name": "neck1",
+          "offset": "-2,7,-6.5",
+          "size": "4,4,2"
+        }
+      ]
+    },
+    "swimming": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-3.5,0,-3",
+          "size": "7.0,7,7.0",
+          "ride": "3.5,7,2.5"
+        },
+        {
+          "name": "neck",
+          "offset": "-2,0,-6",
+          "size": "4,7,2"
+        },
+        {
+          "name": "neck1",
+          "offset": "-2,5,-7.5",
+          "size": "4,4,2"
+        }
+      ]
+    }
   },
   "old_name": "lapras_gigantamax"
 }

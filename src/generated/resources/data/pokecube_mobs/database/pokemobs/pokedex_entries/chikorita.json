@@ -99,6 +99,13 @@
         ]
       },
       {
+        "L": 23,
+        "moves": [
+          "nature-power",
+          "natural-gift"
+        ]
+      },
+      {
         "L": 42,
         "moves": [
           "aromatherapy"
@@ -108,12 +115,6 @@
         "L": 20,
         "moves": [
           "magical-leaf"
-        ]
-      },
-      {
-        "L": 23,
-        "moves": [
-          "natural-gift"
         ]
       }
     ],
@@ -187,12 +188,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "bayleef",
-      "level": 16,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

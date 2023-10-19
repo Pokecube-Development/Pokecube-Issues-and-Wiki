@@ -230,16 +230,9 @@
       "confide",
       "power-up-punch",
       "solar-blade",
+      "leafage",
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sceptile",
-      "level": 36,
-      "animation": "18",
-      "evoMoves": "dual-chop"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_2"
 }

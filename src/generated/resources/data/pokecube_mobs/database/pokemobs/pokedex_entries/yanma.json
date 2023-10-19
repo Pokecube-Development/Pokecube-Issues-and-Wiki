@@ -40,16 +40,17 @@
   "moves": {
     "level_up": [
       {
-        "L": 43,
+        "L": 1,
         "moves": [
-          "wing-attack"
+          "gust",
+          "tackle",
+          "foresight"
         ]
       },
       {
-        "L": 1,
+        "L": 43,
         "moves": [
-          "tackle",
-          "foresight"
+          "wing-attack"
         ]
       },
       {
@@ -61,7 +62,17 @@
       {
         "L": 14,
         "moves": [
-          "sonic-boom"
+          "sonic-boom",
+          "air-cutter",
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "string-shot",
+          "pursuit",
+          "bug-bite"
         ]
       },
       {
@@ -101,12 +112,6 @@
         ]
       },
       {
-        "L": 30,
-        "moves": [
-          "pursuit"
-        ]
-      },
-      {
         "L": 33,
         "moves": [
           "ancient-power"
@@ -138,10 +143,12 @@
       }
     ],
     "misc": [
+      "swords-dance",
       "wing-attack",
       "whirlwind",
       "headbutt",
       "tackle",
+      "take-down",
       "double-edge",
       "supersonic",
       "sonic-boom",
@@ -200,14 +207,12 @@
       "bug-bite",
       "ominous-wind",
       "round",
-      "confide"
+      "struggle-bug",
+      "confide",
+      "lunge",
+      "tera-blast",
+      "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "yanmega",
-      "move": "ancient-power"
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

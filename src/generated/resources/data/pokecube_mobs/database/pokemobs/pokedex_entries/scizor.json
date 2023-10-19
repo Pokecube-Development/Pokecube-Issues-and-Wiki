@@ -218,6 +218,7 @@
       "air-slash",
       "x-scissor",
       "bug-buzz",
+      "vacuum-wave",
       "giga-impact",
       "bullet-punch",
       "psycho-cut",
@@ -235,6 +236,7 @@
       "struggle-bug",
       "confide",
       "laser-focus",
+      "lunge",
       "brutal-swing",
       "steel-beam",
       "dual-wingbeat",
@@ -243,11 +245,5 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "scizormega"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_seeds_1"
 }

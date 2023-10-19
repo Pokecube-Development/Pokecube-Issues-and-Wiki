@@ -127,9 +127,12 @@
       "fire-punch",
       "ice-punch",
       "thunder-punch",
+      "slam",
       "mega-kick",
+      "take-down",
       "leer",
       "low-kick",
+      "counter",
       "strength",
       "rock-throw",
       "dig",
@@ -140,10 +143,13 @@
       "rest",
       "rock-slide",
       "substitute",
+      "thief",
       "snore",
       "reversal",
       "protect",
+      "mach-punch",
       "scary-face",
+      "detect",
       "endure",
       "swagger",
       "attract",
@@ -175,8 +181,10 @@
       "poison-jab",
       "drain-punch",
       "focus-blast",
+      "defog",
       "stone-edge",
       "grass-knot",
+      "wide-guard",
       "smack-down",
       "low-sweep",
       "round",
@@ -187,14 +195,9 @@
       "power-up-punch",
       "high-horsepower",
       "brutal-swing",
-      "coaching"
+      "coaching",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "conkeldurr",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

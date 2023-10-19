@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
 	<phase name="global" scale="0.2"/>
-	<metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-50,50" headDir="-1"/>
+	<metadata head="head" headCap="-40,40" headCap1="-50,50"/>
 	<phase name="biWalk" leftLeg="leg1:leg1_1" rightLeg="leg2:leg2_1" leftArm="" rightArm="" duration="10" legAngle="20"/>
     <customTex default="quaxwell">
      <part name="Eye" tex="quaxwell_eye"/>

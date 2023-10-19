@@ -1,0 +1,8 @@
+{
+  "name": "rapidash-galar",
+  "user": "ponyta-galar",
+  "condition": {
+    "key": "level",
+    "level": 40
+  }
+}

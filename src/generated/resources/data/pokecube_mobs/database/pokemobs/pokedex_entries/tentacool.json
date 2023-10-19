@@ -182,6 +182,7 @@
       "skull-bash",
       "constrict",
       "bubble",
+      "acid-armor",
       "rest",
       "substitute",
       "thief",
@@ -261,11 +262,6 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "tentacruel",
-      "level": 30
-    }
-  ],
-  "loot_table": "minecraft:entities/squid"
+  "loot_table": "minecraft:entities/squid",
+  "prey": " small_fish"
 }

@@ -810,7 +810,7 @@ public class CapabilityHasPokemobs
                 final Vector3 here = new Vector3().set(this.user);
                 final Vector3 t = new Vector3().set(target);
                 t.set(t.subtractFrom(here).scalarMultBy(0.5).addTo(here));
-                PokecubeManager.heal(i, user.level);
+                PokecubeManager.heal(i, user.level, false);
 
                 LivingEntity mob = PokecubeManager.itemToMob(i, this.user.level);
 
@@ -820,8 +820,7 @@ public class CapabilityHasPokemobs
                 if (pokemob != null && mob.getPersistentData().getBoolean("__need_init_evos__"))
                 {
                     mob.getPersistentData().remove("__need_init_evos__");
-                    int level = pokemob.getLevel();
-                    for (int j = 1; j < level; j++) if (pokemob.getPokedexEntry().canEvolve(j))
+                    if (pokemob.canEvolve(pokemob.getHeldItem()))
                         for (final EvolutionData evo : pokemob.getPokedexEntry().getEvolutions())
                             if (evo.shouldEvolve(pokemob))
                     {

@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.all.sky",
       "and_preset": "sky,all_overworld",
       "entries": [
         {"key": "swablu","min": 1,"max": 4,"rate": 0.5},
@@ -19,6 +20,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.all.general",
       "and_preset": "all_overworld",
       "entries": [
         {"key": "scatterbug","min": 1,"max": 4,"rate": 0.05},
@@ -30,6 +32,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.all.water",
       "and_preset": "all_overworld_water",
       "entries": [
         {"key": "magikarp","min": 1,"max": 4,"rate": 0.25},
@@ -37,6 +40,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.all.night",
       "and_preset": "night_time,all_overworld",
       "entries": [
         {"key": "zubat","min": 1,"max": 5,"rate": 0.5},

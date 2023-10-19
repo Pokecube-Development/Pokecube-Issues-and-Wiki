@@ -65,6 +65,13 @@
         ]
       },
       {
+        "L": 20,
+        "moves": [
+          "string-shot",
+          "hidden-power"
+        ]
+      },
+      {
         "L": 23,
         "moves": [
           "confusion"
@@ -77,21 +84,17 @@
         ]
       },
       {
-        "L": 20,
-        "moves": [
-          "hidden-power"
-        ]
-      },
-      {
         "L": 35,
         "moves": [
-          "camouflage"
+          "camouflage",
+          "roost"
         ]
       },
       {
         "L": 38,
         "moves": [
-          "silver-wind"
+          "silver-wind",
+          "struggle-bug"
         ]
       },
       {

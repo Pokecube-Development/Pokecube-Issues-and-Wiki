@@ -41,19 +41,14 @@
         "L": 41,
         "moves": [
           "razor-wind",
+          "waterfall",
           "liquidation"
-        ]
-      },
-      {
-        "L": 18,
-        "moves": [
-          "bite",
-          "pursuit"
         ]
       },
       {
         "L": 1,
         "moves": [
+          "tackle",
           "growl",
           "sonic-boom",
           "quick-attack",
@@ -61,6 +56,19 @@
           "water-sport",
           "ice-fang",
           "soak"
+        ]
+      },
+      {
+        "L": 7,
+        "moves": [
+          "tail-whip"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "bite",
+          "pursuit"
         ]
       },
       {
@@ -124,6 +132,7 @@
       "headbutt",
       "body-slam",
       "take-down",
+      "bite",
       "growl",
       "roar",
       "sonic-boom",
@@ -197,6 +206,7 @@
       "confide",
       "power-up-punch",
       "liquidation",
+      "flip-turn",
       "tera-blast",
       "ice-spinner",
       "chilling-water"

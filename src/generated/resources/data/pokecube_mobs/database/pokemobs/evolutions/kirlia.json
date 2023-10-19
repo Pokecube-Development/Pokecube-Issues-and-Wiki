@@ -1,0 +1,27 @@
+[
+  {
+    "name": "gardevoir",
+    "user": "kirlia",
+    "condition": {
+      "key": "level",
+      "level": 30
+    }
+  },
+  {
+    "name": "gallade",
+    "user": "kirlia",
+    "condition": [
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:dawnstone"
+        }
+      },
+      {
+        "key": "sexe",
+        "sexe": "male"
+      }
+    ],
+    "evoMoves": "slash"
+  }
+]

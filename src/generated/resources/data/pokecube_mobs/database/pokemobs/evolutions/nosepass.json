@@ -1,0 +1,12 @@
+{
+  "name": "probopass",
+  "user": "nosepass",
+  "condition": {
+    "key": "location",
+    "location": {
+      "desc": "pokecube.spawns.industrial.general",
+      "and_preset": "industrial"
+    }
+  },
+  "evoMoves": "tri-attack"
+}

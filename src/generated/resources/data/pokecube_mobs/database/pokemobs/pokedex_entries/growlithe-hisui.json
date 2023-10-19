@@ -33,7 +33,7 @@
       "flash-fire"
     ],
     "hidden": [
-      "justified"
+      "rock-head"
     ]
   },
   "moves": {
@@ -102,11 +102,5 @@
       "flamethrower"
     ]
   },
-  "evolutions": [
-    {
-      "name": "arcanine-hisui",
-      "item_preset": "firestone"
-    }
-  ],
   "old_name": "growlithe_hisui"
 }

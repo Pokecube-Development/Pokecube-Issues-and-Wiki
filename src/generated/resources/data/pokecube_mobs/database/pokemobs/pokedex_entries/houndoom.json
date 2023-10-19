@@ -74,7 +74,8 @@
         "L": 35,
         "moves": [
           "feint-attack",
-          "torment"
+          "torment",
+          "payback"
         ]
       },
       {
@@ -92,6 +93,7 @@
       {
         "L": 20,
         "moves": [
+          "taunt",
           "odor-sleuth",
           "incinerate"
         ]
@@ -100,6 +102,7 @@
         "L": 41,
         "moves": [
           "embargo",
+          "flame-charge",
           "comeuppance"
         ]
       },
@@ -204,15 +207,11 @@
       "laser-focus",
       "throat-chop",
       "psychic-fangs",
+      "burning-jealousy",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "houndoommega"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

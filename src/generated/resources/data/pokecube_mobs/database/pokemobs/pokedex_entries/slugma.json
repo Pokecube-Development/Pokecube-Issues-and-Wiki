@@ -131,10 +131,13 @@
     ],
     "misc": [
       "body-slam",
+      "take-down",
       "double-edge",
       "ember",
       "flamethrower",
+      "fire-spin",
       "rock-throw",
+      "earthquake",
       "toxic",
       "mimic",
       "double-team",
@@ -156,6 +159,7 @@
       "curse",
       "protect",
       "mud-slap",
+      "sandstorm",
       "endure",
       "rollout",
       "swagger",
@@ -181,11 +185,17 @@
       "overheat",
       "rock-tomb",
       "iron-defense",
+      "mud-shot",
+      "rock-blast",
       "natural-gift",
       "guard-swap",
+      "power-gem",
       "earth-power",
       "lava-plume",
+      "stone-edge",
       "captivate",
+      "stealth-rock",
+      "smack-down",
       "flame-burst",
       "flame-charge",
       "after-you",
@@ -193,16 +203,13 @@
       "clear-smog",
       "incinerate",
       "inferno",
+      "bulldoze",
+      "heat-crash",
       "confide",
-      "infestation"
+      "infestation",
+      "high-horsepower",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "magcargo",
-      "level": 38,
-      "evoMoves": "shell-smash"
-    }
-  ],
   "loot_table": "pokecube:entities/magma_cream"
 }

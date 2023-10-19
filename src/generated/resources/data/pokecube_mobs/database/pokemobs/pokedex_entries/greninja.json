@@ -49,8 +49,7 @@
           "bubble",
           "role-play",
           "night-slash",
-          "mat-block",
-          "pound"
+          "mat-block"
         ]
       },
       {
@@ -175,6 +174,7 @@
       "secret-power",
       "dive",
       "hydro-cannon",
+      "weather-ball",
       "rock-tomb",
       "extrasensory",
       "aerial-ace",
@@ -210,11 +210,5 @@
       "chilling-water"
     ]
   },
-  "mega_rules": [
-    {
-      "name": "Greninja Ash",
-      "ability": "battlebond"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_3"
 }

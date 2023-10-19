@@ -50,6 +50,13 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "take-down",
+          "hyper-fang"
+        ]
+      },
+      {
         "L": 39,
         "moves": [
           "double-edge"
@@ -59,12 +66,6 @@
         "L": 10,
         "moves": [
           "bite"
-        ]
-      },
-      {
-        "L": 16,
-        "moves": [
-          "hyper-fang"
         ]
       },
       {
@@ -82,7 +83,8 @@
       {
         "L": 13,
         "moves": [
-          "pursuit"
+          "pursuit",
+          "laser-focus"
         ]
       },
       {
@@ -151,6 +153,7 @@
       "curse",
       "protect",
       "scary-face",
+      "sludge-bomb",
       "mud-slap",
       "icy-wind",
       "endure",

@@ -229,13 +229,5 @@
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "aurorus",
-      "level": 39,
-      "time": "night",
-      "evoMoves": "freeze-dry"
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

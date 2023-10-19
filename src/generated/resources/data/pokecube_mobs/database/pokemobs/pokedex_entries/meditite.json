@@ -38,11 +38,26 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "pound",
+          "bide",
+          "work-up"
+        ]
+      },
+      {
         "L": 20,
         "moves": [
           "psybeam",
           "swagger",
           "hidden-power"
+        ]
+      },
+      {
+        "L": 4,
+        "moves": [
+          "low-kick",
+          "meditate"
         ]
       },
       {
@@ -58,22 +73,9 @@
         ]
       },
       {
-        "L": 4,
-        "moves": [
-          "meditate"
-        ]
-      },
-      {
         "L": 41,
         "moves": [
           "recover"
-        ]
-      },
-      {
-        "L": 1,
-        "moves": [
-          "bide",
-          "work-up"
         ]
       },
       {
@@ -259,11 +261,5 @@
     "model": "meditite_female",
     "anim": "meditite_female"
   },
-  "evolutions": [
-    {
-      "name": "medicham",
-      "level": 37
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

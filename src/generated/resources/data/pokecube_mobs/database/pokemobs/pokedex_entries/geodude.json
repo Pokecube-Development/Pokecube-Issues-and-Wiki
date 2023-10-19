@@ -76,9 +76,10 @@
         ]
       },
       {
-        "L": 26,
+        "L": 12,
         "moves": [
-          "harden"
+          "harden",
+          "magnitude"
         ]
       },
       {
@@ -107,21 +108,16 @@
         ]
       },
       {
+        "L": 4,
+        "moves": [
+          "sandstorm",
+          "mud-sport"
+        ]
+      },
+      {
         "L": 10,
         "moves": [
           "rollout"
-        ]
-      },
-      {
-        "L": 12,
-        "moves": [
-          "magnitude"
-        ]
-      },
-      {
-        "L": 4,
-        "moves": [
-          "mud-sport"
         ]
       },
       {
@@ -191,6 +187,7 @@
       "curse",
       "flail",
       "protect",
+      "scary-face",
       "mud-slap",
       "sandstorm",
       "endure",
@@ -216,6 +213,7 @@
       "rock-tomb",
       "iron-defense",
       "block",
+      "mud-shot",
       "rock-blast",
       "hammer-arm",
       "gyro-ball",
@@ -235,14 +233,11 @@
       "incinerate",
       "bulldoze",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "high-horsepower",
+      "stomping-tantrum",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "graveler",
-      "level": 25
-    }
-  ],
   "loot_table": "pokecube:entities/cobble_1"
 }

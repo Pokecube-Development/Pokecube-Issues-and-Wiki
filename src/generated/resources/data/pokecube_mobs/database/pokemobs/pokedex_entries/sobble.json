@@ -41,8 +41,7 @@
         "L": 1,
         "moves": [
           "pound",
-          "growl",
-          "pound"
+          "growl"
         ]
       },
       {
@@ -101,6 +100,7 @@
       }
     ],
     "misc": [
+      "pound",
       "bind",
       "take-down",
       "growl",
@@ -148,12 +148,6 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "drizzile",
-      "level": 16,
-      "animation": "18"
-    }
-  ],
-  "loot_table": "pokecube:entities/fish_1"
+  "loot_table": "pokecube:entities/fish_1",
+  "prey": " small_bug"
 }

@@ -136,14 +136,9 @@
       "grass-knot",
       "grassy-terrain",
       "strength-sap",
+      "solar-blade",
       "tera-blast",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "dolliv",
-      "level": 25
-    }
-  ]
+  }
 }

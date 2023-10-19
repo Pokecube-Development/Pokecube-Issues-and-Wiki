@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.mushrooms.general",
       "and_preset": "mushrooms",
       "entries": [
         {"key": "paras","min": 1,"max": 4,"rate": 0.3},
@@ -14,6 +15,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.mushrooms.caves",
       "and_preset": "mushrooms,caves",
       "entries": [
         {"key": "foongus","min": 1,"max": 4,"rate": 0.4},

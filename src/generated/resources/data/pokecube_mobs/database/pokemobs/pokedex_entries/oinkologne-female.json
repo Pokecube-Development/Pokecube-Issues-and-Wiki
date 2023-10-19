@@ -2,6 +2,7 @@
   "name": "oinkologne-female",
   "id": 916,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 171,
   "size": {
     "height": 1.0
@@ -129,6 +130,7 @@
       "hyper-beam",
       "dig",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "protect",
@@ -137,6 +139,7 @@
       "sleep-talk",
       "rain-dance",
       "sunny-day",
+      "uproar",
       "facade",
       "helping-hand",
       "hyper-voice",
@@ -151,8 +154,10 @@
       "bulldoze",
       "disarming-voice",
       "play-rough",
+      "high-horsepower",
       "stomping-tantrum",
       "body-press",
+      "lash-out",
       "tera-blast",
       "trailblaze",
       "chilling-water"

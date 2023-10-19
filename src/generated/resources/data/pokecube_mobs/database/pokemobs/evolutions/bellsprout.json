@@ -1,0 +1,8 @@
+{
+  "name": "weepinbell",
+  "user": "bellsprout",
+  "condition": {
+    "key": "level",
+    "level": 21
+  }
+}

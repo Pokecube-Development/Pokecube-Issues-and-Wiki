@@ -144,8 +144,10 @@
       "mimic",
       "double-team",
       "confuse-ray",
+      "haze",
       "metronome",
       "dream-eater",
+      "leech-life",
       "flash",
       "rest",
       "rock-slide",
@@ -178,6 +180,7 @@
       "rock-smash",
       "torment",
       "will-o-wisp",
+      "memento",
       "facade",
       "focus-punch",
       "taunt",
@@ -212,19 +215,14 @@
       "ally-switch",
       "hex",
       "bulldoze",
+      "phantom-force",
       "confide",
       "infestation",
       "power-up-punch",
       "skitter-smack",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dusknoir",
-      "item_preset": "reapercloth",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/bones"
 }

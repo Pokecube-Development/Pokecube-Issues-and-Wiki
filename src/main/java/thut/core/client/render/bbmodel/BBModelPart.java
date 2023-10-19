@@ -116,26 +116,34 @@ public class BBModelPart extends Part
 
         float[] oldRots = b.rotation;
         float[] newRots = oldRots;
-        if (b.getRotation() != null)
+        if (oldRots != null && !t.meta.model_format.equals("bedrock") && !b.box_uv)
         {
             newRots = Arrays.copyOf(oldRots, 3);
 
-            newRots[0] = 0;
-            newRots[1] = 0;
-            newRots[2] = 0;
             Quaternion quat = new Quaternion(0, 0, 0, 1);
             float x = b.getRotation()[0];
             float y = b.getRotation()[1];
             float z = b.getRotation()[2];
-            if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
-            if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
-            if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+
+            if (b.type.equals("cube"))
+            {
+                if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+            }
+            else if (b.type.equals("mesh"))
+            {
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+            }
 
             Vector3f xyz = quat.toYXZDegrees();
             newRots[0] = xyz.x();
             newRots[1] = xyz.y();
             newRots[2] = xyz.z();
         }
+
         b.rotation = newRots;
         b.toMeshs(t, quads_materials, tris_materials);
         b.rotation = oldRots;

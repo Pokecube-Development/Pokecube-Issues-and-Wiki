@@ -1,0 +1,15 @@
+{
+  "name": "steelix",
+  "user": "onix",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:metalcoat"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

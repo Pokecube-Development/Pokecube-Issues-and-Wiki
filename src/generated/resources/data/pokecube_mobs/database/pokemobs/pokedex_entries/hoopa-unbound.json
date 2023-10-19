@@ -2,6 +2,7 @@
   "name": "hoopa-unbound",
   "id": 720,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 306,
   "size": {
     "height": 6.5,

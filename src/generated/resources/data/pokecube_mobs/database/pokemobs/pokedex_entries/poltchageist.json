@@ -50,7 +50,7 @@
         ]
       },
       {
-        "L": 0,
+        "L": 1,
         "moves": [
           "stun-spore",
           "withdraw",
@@ -135,45 +135,5 @@
       "poltergeist",
       "tera-blast"
     ]
-  },
-  "model": {
-    "key": "poltchageist-artisan",
-    "tex": "poltchageist",
-    "model": "poltchageist-artisan",
-    "anim": "poltchageist"
-  },
-  "models": [
-    {
-      "key": "poltchageist-counterfeit",
-      "tex": "poltchageist",
-      "model": "poltchageist-counterfeit",
-      "anim": "poltchageist"
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "sinistcha",
-      "item_preset": "chippedpot",
-      "evoMoves": "matcha-gotcha",
-      "form_from": "poltchageist-artisan",
-      "model": {
-        "key": "sinistcha-antique",
-        "tex": "sinistcha",
-        "model": "sinistcha-antique",
-        "anim": "sinistcha"
-      }
-    },
-    {
-      "name": "sinistcha",
-      "item_preset": "crackedpot",
-      "evoMoves": "matcha-gotcha",
-      "form_from": "poltchageist-counterfeit",
-      "model": {
-        "key": "sinistcha-counterfeit",
-        "tex": "sinistcha",
-        "model": "sinistcha-counterfeit",
-        "anim": "sinistcha"
-      }
-    }
-  ]
+  }
 }

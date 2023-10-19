@@ -155,6 +155,7 @@
       "taunt",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "hyper-voice",
       "fake-tears",
       "metal-sound",
@@ -189,14 +190,8 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "perrserker",
-      "level": 28,
-      "evoMoves": "iron-head"
-    }
-  ],
   "old_name": "meowth_galar",
   "held_table": "pokecube:entities/emerald_1_33",
-  "loot_table": "pokecube:entities/money_cat_small"
+  "loot_table": "pokecube:entities/money_cat_small",
+  "prey": " small_bird small_rodent"
 }

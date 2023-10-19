@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.35"/>
   <phase duration="10" leftFront="lefttoparm" leftHind="leftleg" name="quadWalk" rightFront="righttoparm" rightHind="rightleg"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headCap="-60,60" headCap1="-50,50"/>
   <customTex default="gothita">
    <part name="gothita_eye" tex="gothita_eye"/>
    <animation diffs="0,0.5" part="gothita_eye" trigger="random:0.005:3"/>

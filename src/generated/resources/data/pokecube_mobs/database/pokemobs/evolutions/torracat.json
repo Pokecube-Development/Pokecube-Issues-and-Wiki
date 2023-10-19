@@ -1,0 +1,9 @@
+{
+  "name": "incineroar",
+  "user": "torracat",
+  "condition": {
+    "key": "level",
+    "level": 34
+  },
+  "evoMoves": "darkest-lariat"
+}

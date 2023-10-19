@@ -237,11 +237,5 @@
       "types": "fairy"
     }
   ],
-  "evolutions": [
-    {
-      "name": "floette",
-      "level": 19
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

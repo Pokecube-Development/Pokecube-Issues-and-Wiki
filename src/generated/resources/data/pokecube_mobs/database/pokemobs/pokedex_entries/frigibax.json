@@ -137,11 +137,5 @@
       "tera-blast",
       "snowscape"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "arctibax",
-      "level": 35
-    }
-  ]
+  }
 }

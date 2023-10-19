@@ -1,0 +1,8 @@
+{
+  "name": "gigalith",
+  "user": "boldore",
+  "condition": {
+    "key": "traded"
+  },
+  "evoMoves": "power-gem"
+}

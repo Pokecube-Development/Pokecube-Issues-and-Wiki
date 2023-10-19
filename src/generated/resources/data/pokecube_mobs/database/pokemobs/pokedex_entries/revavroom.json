@@ -134,6 +134,8 @@
       "body-slam",
       "take-down",
       "hyper-beam",
+      "toxic",
+      "haze",
       "rest",
       "substitute",
       "thief",
@@ -145,10 +147,12 @@
       "sleep-talk",
       "rain-dance",
       "sunny-day",
+      "uproar",
       "facade",
       "taunt",
       "overheat",
       "iron-defense",
+      "gyro-ball",
       "toxic-spikes",
       "poison-jab",
       "giga-impact",
@@ -160,7 +164,9 @@
       "heavy-slam",
       "acid-spray",
       "bulldoze",
+      "high-horsepower",
       "steel-beam",
+      "lash-out",
       "tera-blast"
     ]
   }

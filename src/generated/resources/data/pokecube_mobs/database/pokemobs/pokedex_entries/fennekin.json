@@ -201,15 +201,9 @@
       "confide",
       "power-up-punch",
       "psychic-terrain",
+      "burning-jealousy",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "braixen",
-      "level": 16,
-      "animation": "55"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_rabbit_1"
 }

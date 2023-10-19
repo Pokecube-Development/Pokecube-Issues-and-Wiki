@@ -136,8 +136,10 @@
       "swords-dance",
       "cut",
       "body-slam",
+      "take-down",
       "double-edge",
       "leer",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -157,6 +159,7 @@
       "rock-slide",
       "slash",
       "substitute",
+      "thief",
       "snore",
       "spite",
       "protect",
@@ -209,15 +212,11 @@
       "chip-away",
       "scald",
       "razor-shell",
-      "confide"
+      "confide",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "crawdaunt",
-      "level": 30,
-      "evoMoves": "swift"
-    }
-  ],
   "loot_table": "pokecube:entities/shear_fish"
 }

@@ -1,0 +1,8 @@
+{
+  "name": "magmar",
+  "user": "magby",
+  "condition": {
+    "key": "level",
+    "level": 30
+  }
+}

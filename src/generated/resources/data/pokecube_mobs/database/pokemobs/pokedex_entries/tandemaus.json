@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "pound",
+          "baby-doll-eyes"
+        ]
+      },
+      {
         "L": 11,
         "moves": [
           "super-fang"
@@ -104,13 +111,6 @@
         ]
       },
       {
-        "L": 1,
-        "moves": [
-          "baby-doll-eyes",
-          "pound"
-        ]
-      },
-      {
         "L": 46,
         "moves": [
           "population-bomb"
@@ -126,6 +126,7 @@
       "agility",
       "swift",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "protect",
@@ -159,11 +160,5 @@
       "play-rough",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "maushold",
-      "level": 25
-    }
-  ]
+  }
 }

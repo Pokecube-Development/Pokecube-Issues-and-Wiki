@@ -209,17 +209,10 @@
       "venom-drench",
       "scale-shot",
       "skitter-smack",
+      "burning-jealousy",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "salazzle",
-      "level": 33,
-      "sexe": "female",
-      "evoMoves": "captivate"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

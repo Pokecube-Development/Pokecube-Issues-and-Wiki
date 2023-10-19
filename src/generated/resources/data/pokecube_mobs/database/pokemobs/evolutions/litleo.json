@@ -1,0 +1,8 @@
+{
+  "name": "pyroar",
+  "user": "litleo",
+  "condition": {
+    "key": "level",
+    "level": 35
+  }
+}

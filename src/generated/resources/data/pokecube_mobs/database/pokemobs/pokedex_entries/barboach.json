@@ -185,18 +185,12 @@
       "scald",
       "bulldoze",
       "confide",
+      "high-horsepower",
       "stomping-tantrum",
       "liquidation",
       "tera-blast",
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "whiscash",
-      "level": 30,
-      "evoMoves": "thrash"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

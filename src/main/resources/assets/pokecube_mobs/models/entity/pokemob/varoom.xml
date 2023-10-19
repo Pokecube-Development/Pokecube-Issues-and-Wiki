@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.7"/>
-  <metadata head="Head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,0" headDir="1" headDir2="1"/>
+  <metadata head="Head" headCap="-10,10" headCap1="-10,0" headDir="1" headDir2="1"/>
   <material name="flame" meshs="flame" tex="textures/entity/pokemob/varoom.png" light="1" transluscent="false" cull="true" shader="alpha_shader"/>
   <worn id="__ANKLE_left__" parent="back_left_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.53"/>
   <worn id="__ANKLE_right__" parent="back_right_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.53"/>

@@ -1,0 +1,10 @@
+{
+  "name": "hattrem",
+  "user": "hatenna",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "brutal-swing",
+  "animation": "18"
+}

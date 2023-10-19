@@ -101,6 +101,13 @@
         ]
       },
       {
+        "L": 13,
+        "moves": [
+          "skill-swap",
+          "bestow"
+        ]
+      },
+      {
         "L": 35,
         "moves": [
           "fake-tears"
@@ -140,12 +147,6 @@
         "L": 49,
         "moves": [
           "entrainment"
-        ]
-      },
-      {
-        "L": 13,
-        "moves": [
-          "bestow"
         ]
       }
     ],
@@ -199,6 +200,7 @@
       "charge",
       "helping-hand",
       "wish",
+      "skill-swap",
       "secret-power",
       "fake-tears",
       "signal-beam",

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.4"/>
-  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-50,50" headCap1="-50,50" headDir="-1"/>
+  <metadata head="neck:head" headCap="-50,50" headCap1="-50,50"/>
   <customTex default="arceus_dragon">
    <part name="Head" tex="arceuseyedragon"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>

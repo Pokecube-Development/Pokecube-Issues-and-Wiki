@@ -230,11 +230,5 @@
       "expanding-force"
     ]
   },
-  "evolutions": [
-    {
-      "name": "musharna",
-      "item_preset": "moonstone"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

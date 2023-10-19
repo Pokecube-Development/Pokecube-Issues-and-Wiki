@@ -2,6 +2,7 @@
   "name": "squawkabilly-white-plumage",
   "id": 931,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 146,
   "size": {
     "height": 0.6
@@ -139,6 +140,7 @@
       "endure",
       "sleep-talk",
       "sunny-day",
+      "uproar",
       "heat-wave",
       "flatter",
       "facade",
@@ -157,6 +159,8 @@
       "final-gambit",
       "hurricane",
       "parting-shot",
+      "lash-out",
+      "dual-wingbeat",
       "tera-blast",
       "pounce"
     ]

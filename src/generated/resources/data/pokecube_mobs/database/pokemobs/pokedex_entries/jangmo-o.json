@@ -128,6 +128,8 @@
       "swords-dance",
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
       "leer",
       "roar",
       "low-kick",
@@ -185,15 +187,9 @@
       "dual-chop",
       "noble-roar",
       "confide",
-      "scale-shot"
+      "scale-shot",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "hakamo-o",
-      "level": 35,
-      "evoMoves": "sky-uppercut"
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

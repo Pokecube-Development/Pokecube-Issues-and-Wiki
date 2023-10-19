@@ -163,16 +163,10 @@
       "grassy-terrain",
       "confide",
       "dazzling-gleam",
+      "leafage",
       "pollen-puff",
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cherrim",
-      "level": 25,
-      "evoMoves": "petal-dance"
-    }
-  ],
   "loot_table": "pokecube:entities/oranberry"
 }

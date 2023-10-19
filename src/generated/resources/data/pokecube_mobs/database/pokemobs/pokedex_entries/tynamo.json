@@ -47,17 +47,12 @@
       "tackle",
       "thunder-wave",
       "spark",
+      "charge",
+      "knock-off",
       "magnet-rise",
       "charge-beam",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "eelektrik",
-      "level": 39,
-      "evoMoves": "crunch"
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_fish_1"
 }

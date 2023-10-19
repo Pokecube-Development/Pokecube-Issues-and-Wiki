@@ -1,0 +1,9 @@
+{
+  "name": "golisopod",
+  "user": "wimpod",
+  "condition": {
+    "key": "level",
+    "level": 30
+  },
+  "evoMoves": "first-impression"
+}

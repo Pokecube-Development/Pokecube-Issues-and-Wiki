@@ -75,7 +75,7 @@ public class GuiPokeWatch extends Screen
             WatchPage page = gui.createPage(index);
             gui.addRenderableWidget(new TexButton(x + buttonX, y + buttonY, 24, 24, page.getTitle(), b -> {
                 gui.changePage(this.index, true);
-            }, new ShiftedTooltip(0 - (x - x / 2), 20 - y - buttonY)).setTex(GuiPokeWatch.getWidgetTex()).noName()
+            }, new ShiftedTooltip(-128 , -95 - buttonY)).setTex(GuiPokeWatch.getWidgetTex()).noName()
                     .setRender(new UVImgRender(uOffset, vOffset, 24, 24)));
         }
     }

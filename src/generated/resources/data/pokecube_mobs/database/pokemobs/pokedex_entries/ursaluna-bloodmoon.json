@@ -2,6 +2,7 @@
   "name": "ursaluna-bloodmoon",
   "id": 901,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": null,
   "size": {
     "height": 2.4
@@ -35,7 +36,7 @@
   "moves": {
     "level_up": [
       {
-        "L": 0,
+        "L": 1,
         "moves": [
           "scratch",
           "leer",
@@ -123,6 +124,7 @@
       "low-kick",
       "earthquake",
       "dig",
+      "metronome",
       "swift",
       "rest",
       "rock-slide",
@@ -131,8 +133,10 @@
       "protect",
       "scary-face",
       "endure",
+      "charm",
       "sleep-talk",
       "metal-claw",
+      "moonlight",
       "rain-dance",
       "sunny-day",
       "crunch",
@@ -143,11 +147,16 @@
       "helping-hand",
       "brick-break",
       "hyper-voice",
+      "fake-tears",
       "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
       "mud-shot",
       "calm-mind",
+      "close-combat",
       "fling",
       "seed-bomb",
+      "drain-punch",
       "vacuum-wave",
       "focus-blast",
       "earth-power",
@@ -160,6 +169,7 @@
       "heavy-slam",
       "bulldoze",
       "snarl",
+      "play-rough",
       "high-horsepower",
       "stomping-tantrum",
       "body-press",

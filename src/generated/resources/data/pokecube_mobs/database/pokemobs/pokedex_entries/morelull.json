@@ -183,11 +183,5 @@
       "pollen-puff"
     ]
   },
-  "evolutions": [
-    {
-      "name": "shiinotic",
-      "level": 24
-    }
-  ],
   "loot_table": "pokecube:entities/both_shrooms_1"
 }

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.17"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-50,5" headDir="1"/>
+  <metadata head="head" headCap="-20,20" headCap1="-50,5" headDir2="-1"/>
   <phase duration="10" leftArm="join2" leftLeg="leg2" legAngle="10" name="biWalk" rightArm="join1" rightLeg="leg1"/>
   <customTex default="lilligant-hisui">
    <part name="Head" tex="lilliganthisuieye"/>

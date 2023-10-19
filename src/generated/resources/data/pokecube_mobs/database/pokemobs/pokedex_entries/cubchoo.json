@@ -199,6 +199,7 @@
       "rock-tomb",
       "sheer-cold",
       "aerial-ace",
+      "icicle-spear",
       "mud-shot",
       "covet",
       "water-pulse",
@@ -230,12 +231,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "beartic",
-      "level": 37,
-      "evoMoves": "icicle-crash"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -96,7 +96,8 @@
       {
         "L": 58,
         "moves": [
-          "wring-out"
+          "wring-out",
+          "power-whip"
         ]
       },
       {
@@ -119,6 +120,7 @@
       "slam",
       "vine-whip",
       "headbutt",
+      "body-slam",
       "wrap",
       "take-down",
       "double-edge",
@@ -136,6 +138,8 @@
       "double-team",
       "reflect",
       "bide",
+      "swift",
+      "leech-life",
       "flash",
       "rest",
       "substitute",
@@ -151,15 +155,20 @@
       "sleep-talk",
       "return",
       "frustration",
+      "encore",
       "sweet-scent",
       "synthesis",
       "hidden-power",
       "sunny-day",
       "facade",
       "nature-power",
+      "ingrain",
       "knock-off",
       "secret-power",
+      "weather-ball",
+      "tickle",
       "bullet-seed",
+      "magical-leaf",
       "natural-gift",
       "wring-out",
       "gastro-acid",
@@ -168,21 +177,24 @@
       "poison-jab",
       "seed-bomb",
       "energy-ball",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "bug-bite",
       "venoshock",
+      "acid-spray",
       "round",
+      "clear-smog",
+      "grassy-terrain",
       "confide",
-      "infestation"
+      "infestation",
+      "strength-sap",
+      "lunge",
+      "grassy-glide",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "victreebel",
-      "item_preset": "leafstone",
-      "evoMoves": "leaf-tornado"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_2"
 }

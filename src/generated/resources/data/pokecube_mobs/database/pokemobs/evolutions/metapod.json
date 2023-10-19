@@ -1,0 +1,9 @@
+{
+  "name": "butterfree",
+  "user": "metapod",
+  "condition": {
+    "key": "level",
+    "level": 10
+  },
+  "evoMoves": "gust"
+}

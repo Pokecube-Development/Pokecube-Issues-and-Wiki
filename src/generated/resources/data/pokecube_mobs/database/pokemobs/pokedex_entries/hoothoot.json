@@ -119,6 +119,12 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "defog"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "synchronoise"
@@ -146,6 +152,7 @@
       "double-edge",
       "growl",
       "supersonic",
+      "psybeam",
       "peck",
       "toxic",
       "confusion",
@@ -156,6 +163,8 @@
       "mimic",
       "screech",
       "double-team",
+      "confuse-ray",
+      "haze",
       "reflect",
       "mirror-move",
       "swift",
@@ -169,6 +178,7 @@
       "nightmare",
       "snore",
       "curse",
+      "spite",
       "protect",
       "feint-attack",
       "mud-slap",
@@ -193,6 +203,7 @@
       "facade",
       "magic-coat",
       "recycle",
+      "skill-swap",
       "imprison",
       "secret-power",
       "feather-dance",
@@ -208,6 +219,7 @@
       "tailwind",
       "psycho-shift",
       "air-slash",
+      "brave-bird",
       "nasty-plot",
       "zen-headbutt",
       "defog",
@@ -217,18 +229,15 @@
       "round",
       "echoed-voice",
       "stored-power",
+      "acrobatics",
       "work-up",
       "hurricane",
       "moonblast",
       "confide",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "noctowl",
-      "level": 20
-    }
-  ],
-  "loot_table": "pokecube:entities/chicken_1"
+  "loot_table": "pokecube:entities/chicken_1",
+  "prey": " small_bug"
 }

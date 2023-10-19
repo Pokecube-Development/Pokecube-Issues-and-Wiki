@@ -88,6 +88,14 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "flame-wheel",
+          "flame-burst",
+          "incinerate"
+        ]
+      },
+      {
         "L": 29,
         "moves": [
           "curse"
@@ -117,13 +125,6 @@
         "moves": [
           "lava-plume"
         ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "flame-burst",
-          "incinerate"
-        ]
       }
     ],
     "misc": [
@@ -134,6 +135,7 @@
       "take-down",
       "double-edge",
       "growl",
+      "roar",
       "ember",
       "flamethrower",
       "strength",
@@ -204,9 +206,12 @@
       "echoed-voice",
       "incinerate",
       "bulldoze",
+      "heat-crash",
       "confide",
+      "high-horsepower",
       "stomping-tantrum",
       "body-press",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]
@@ -237,13 +242,6 @@
           }
         ]
       }
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "camerupt",
-      "level": 33,
-      "evoMoves": "rock-slide"
     }
   ],
   "loot_table": "pokecube:entities/cow_1"

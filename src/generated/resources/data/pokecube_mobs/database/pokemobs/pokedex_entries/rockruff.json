@@ -195,25 +195,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lycanroc-midday",
-      "level": 25,
-      "time": "day",
-      "evoMoves": "accelerock, counter, thrash"
-    },
-    {
-      "name": "lycanroc-midnight",
-      "level": 25,
-      "time": "night",
-      "evoMoves": "counter"
-    },
-    {
-      "name": "lycanroc-dusk",
-      "level": 25,
-      "time": "dusk",
-      "evoMoves": "thrash"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

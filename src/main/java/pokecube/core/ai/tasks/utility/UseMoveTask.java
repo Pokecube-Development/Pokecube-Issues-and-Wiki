@@ -60,7 +60,6 @@ public class UseMoveTask extends UtilTask implements IMoveUseAI
     {
         this.destination.set(this.pos.currentPosition());
         final MoveEntry move = this.pokemob.getSelectedMove();
-        this.setUsingMove(this.pokemob);
 
         if (!this.running)
         {
@@ -72,7 +71,7 @@ public class UseMoveTask extends UtilTask implements IMoveUseAI
             if (self)
             {
                 this.pokemob.executeMove(null, this.destination, 0);
-                this.clearUseMove(this.pokemob);
+                this.clearUseMove(pokemob);
                 return;
             }
             final boolean ranged = move.isRanged(pokemob);
@@ -109,9 +108,8 @@ public class UseMoveTask extends UtilTask implements IMoveUseAI
         if (!this.checkRange && dist < var1) // If in range, apply the move
         {
             this.pokemob.executeMove(null, this.destination, 0);
-            this.clearUseMove(this.pokemob);
+            this.clearUseMove(pokemob);
         }
-
     }
 
     @Override
@@ -164,7 +162,6 @@ public class UseMoveTask extends UtilTask implements IMoveUseAI
             {
                 this.pokemob.executeMove(null, this.destination, 0);
                 this.running = false;
-                this.clearUseMove(this.pokemob);
             }
             else
             {

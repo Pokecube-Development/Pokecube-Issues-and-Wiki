@@ -1,0 +1,10 @@
+{
+  "name": "electrode-hisui",
+  "user": "voltorb-hisui",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:leafstone"
+    }
+  }
+}

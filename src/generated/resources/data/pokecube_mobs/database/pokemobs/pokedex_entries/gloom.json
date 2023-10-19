@@ -204,16 +204,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "vileplume",
-      "item_preset": "leafstone"
-    },
-    {
-      "name": "bellossom",
-      "item_preset": "sunstone",
-      "evoMoves": "magical-leaf"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_2"
 }

@@ -132,6 +132,7 @@
       "agility",
       "swift",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "protect",
@@ -148,6 +149,7 @@
       "crunch",
       "fake-out",
       "facade",
+      "charge",
       "helping-hand",
       "wish",
       "fling",
@@ -161,11 +163,5 @@
       "electric-terrain",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "pawmo",
-      "level": 18
-    }
-  ]
+  }
 }

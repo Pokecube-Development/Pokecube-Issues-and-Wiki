@@ -1,0 +1,9 @@
+{
+  "name": "kadabra",
+  "user": "abra",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "evoMoves": "kinesis"
+}

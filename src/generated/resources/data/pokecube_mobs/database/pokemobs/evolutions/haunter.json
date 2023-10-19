@@ -1,0 +1,9 @@
+{
+  "name": "gengar",
+  "user": "haunter",
+  "condition": {
+    "key": "traded"
+  },
+  "evoMoves": "shadow-punch",
+  "animation": "49"
+}

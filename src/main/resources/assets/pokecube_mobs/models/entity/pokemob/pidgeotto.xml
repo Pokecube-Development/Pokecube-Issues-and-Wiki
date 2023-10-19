@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.25"/>
-  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-15,15" headCap1="-15,15" headDir="-1" headDir1="-1"/>
+  <metadata head="neck:head" headCap="-15,15" headCap1="-15,15" headDir1="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="pidgeotto">
    <part name="Head" tex="pidgeotto_eye"/>

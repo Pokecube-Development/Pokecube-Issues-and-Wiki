@@ -1,0 +1,21 @@
+{
+  "name": "frosmoth",
+  "user": "snom",
+  "condition": [
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "night"
+          }
+        }
+      }
+    },
+    {
+      "key": "happy"
+    }
+  ],
+  "evoMoves": "icy-wind",
+  "animation": "18"
+}

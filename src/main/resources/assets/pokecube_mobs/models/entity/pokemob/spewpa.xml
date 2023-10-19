@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.15"/>
-  <metadata head="head" headAxis="2" headAxis2="1" headCap="-60,60" headDir="-1"/>
+  <metadata head="head" headAxis2="1" headCap="-60,60"/>
   <customTex>
    <part name="spewpa_eyes" tex="spewpa_eyes"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:1"/>

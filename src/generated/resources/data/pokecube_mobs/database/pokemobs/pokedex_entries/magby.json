@@ -159,6 +159,7 @@
       "rest",
       "substitute",
       "thief",
+      "flame-wheel",
       "snore",
       "curse",
       "protect",
@@ -207,11 +208,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "magmar",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

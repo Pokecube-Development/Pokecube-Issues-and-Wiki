@@ -1,0 +1,15 @@
+{
+  "name": "kingdra",
+  "user": "seadra",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "id": "minecraft:emerald"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

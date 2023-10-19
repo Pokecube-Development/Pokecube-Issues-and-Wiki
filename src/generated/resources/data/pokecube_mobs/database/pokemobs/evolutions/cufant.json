@@ -1,0 +1,10 @@
+{
+  "name": "copperajah",
+  "user": "cufant",
+  "condition": {
+    "key": "level",
+    "level": 34
+  },
+  "evoMoves": "heavy-slam",
+  "animation": "18"
+}

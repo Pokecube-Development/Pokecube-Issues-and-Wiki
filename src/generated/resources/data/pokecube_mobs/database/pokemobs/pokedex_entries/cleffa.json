@@ -91,6 +91,7 @@
       "double-edge",
       "sing",
       "flamethrower",
+      "psybeam",
       "counter",
       "seismic-toss",
       "solar-beam",
@@ -105,6 +106,7 @@
       "reflect",
       "metronome",
       "fire-blast",
+      "swift",
       "amnesia",
       "soft-boiled",
       "dream-eater",
@@ -156,6 +158,7 @@
       "signal-beam",
       "covet",
       "magical-leaf",
+      "calm-mind",
       "shock-wave",
       "water-pulse",
       "gravity",
@@ -176,17 +179,15 @@
       "heal-pulse",
       "incinerate",
       "work-up",
+      "disarming-voice",
       "draining-kiss",
       "misty-terrain",
       "play-rough",
-      "confide"
+      "confide",
+      "dazzling-gleam",
+      "tera-blast",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "clefairy",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/moonstone"
 }

@@ -1,0 +1,26 @@
+[
+  {
+    "name": "flapple",
+    "user": "applin",
+    "condition": {
+      "key": "item",
+      "item": {
+        "id": "minecraft:apple"
+      }
+    },
+    "evoMoves": "wing-attack",
+    "animation": "18"
+  },
+  {
+    "name": "appletun",
+    "user": "applin",
+    "condition": {
+      "key": "item",
+      "item": {
+        "id": "minecraft:golden_apple"
+      }
+    },
+    "evoMoves": "headbutt",
+    "animation": "18"
+  }
+]

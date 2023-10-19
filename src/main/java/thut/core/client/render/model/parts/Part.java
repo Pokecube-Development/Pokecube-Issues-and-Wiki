@@ -136,7 +136,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (shape.material == null) return;
         if (this.matcache.add(shape.material))
         {
-            this.materials.add(shape.material);
+            synchronized (materials)
+            {
+                this.materials.add(shape.material);
+            }
             this.namedMaterials.put(shape.material.name, shape.material);
         }
     }
@@ -497,15 +500,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             ThutCore.LOGGER.error("Error loading a material, trying to set it to null: {}", JsonUtil.gson.toJson(mat));
             ThutCore.LOGGER.error(new IllegalAccessException());
         }
-        this.matcache.clear();
-        this.materials.clear();
-        this.namedMaterials.clear();
-        for (Mesh shape : this.shapes)
+        synchronized (materials)
         {
-            if (this.matcache.add(shape.material))
+            this.matcache.clear();
+            this.materials.clear();
+            this.namedMaterials.clear();
+            for (Mesh shape : this.shapes)
             {
-                this.materials.add(shape.material);
-                this.namedMaterials.put(shape.material.name, shape.material);
+                if (this.matcache.add(shape.material))
+                {
+                    this.materials.add(shape.material);
+                    this.namedMaterials.put(shape.material.name, shape.material);
+                }
             }
         }
     }

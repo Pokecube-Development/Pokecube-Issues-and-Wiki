@@ -24,10 +24,9 @@ public class ChooseAttacks extends BaseBattleTask
         int index = outMob.getMoveIndex();
         int max = 0;
         final LivingEntity target = BrainUtils.getAttackTarget(outMob.getEntity());
-        final String[] moves = outMob.getMoves();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < outMob.getMovesCount(); i++)
         {
-            final String s = moves[i];
+            final String s = outMob.getMove(i);
             if (s != null)
             {
                 final int temp = Tools.getPower(s, outMob, target);

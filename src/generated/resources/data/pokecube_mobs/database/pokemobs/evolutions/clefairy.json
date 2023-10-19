@@ -1,0 +1,11 @@
+{
+  "name": "clefable",
+  "user": "clefairy",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:moonstone"
+    }
+  },
+  "animation": "121"
+}

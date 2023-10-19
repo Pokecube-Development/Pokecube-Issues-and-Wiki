@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="1.0"/>
-  <metadata head="neck1:neck2" headAxis="2" headAxis2="0" headCap="-35,35" headCap1="-35,35" headDir="-1" headDir1="-1"/>
+  <metadata head="neck1:neck2" headCap="-35,35" headCap1="-35,35" headDir1="-1"/>
   <phase duration="10" leftFront="leg4" leftHind="leg2" name="quadWalk" rightFront="leg3" rightHind="leg1"/>
   <customTex default="xerneas">
    <part name="Head" tex="xerneaseye"/>

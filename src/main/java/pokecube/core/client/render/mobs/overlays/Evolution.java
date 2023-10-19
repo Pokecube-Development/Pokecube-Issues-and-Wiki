@@ -19,7 +19,6 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
-import pokecube.core.ai.logic.LogicMiscUpdate;
 import thut.lib.AxisAngles;
 
 public class Evolution
@@ -53,7 +52,24 @@ public class Evolution
     {
         if (!pokemob.getEntity().isAddedToWorld()) return;
         int ticks = pokemob.getEvolutionTicks();
-        final PokedexEntry entry = pokemob.getPokedexEntry();
+
+        float scaleShift = 0;
+        float scale = 0.25f;
+        if (scaleMob)
+        {
+            final PokedexEntry entry = pokemob.getPokedexEntry();
+            float mobScale = pokemob.getSize();
+            var dims = entry.getModelSize();
+            scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
+            float scale2 = Math.min(1, (pokemob.getEntity().tickCount + 1 + partialTick) / duration);
+            scaleShift = dims.y * pokemob.getSize() * scale2 / 2;
+        }
+        renderEffect(pokemob, mat, bufferIn, partialTick, ticks, duration, scale, scaleShift, scaleMob);
+    }
+
+    public static void renderEffect(IPokemob pokemob, PoseStack mat, MultiBufferSource bufferIn, float partialTick,
+            int ticks, int duration, float scale, float scaleShift, boolean scaleMob)
+    {
         final int color1 = pokemob.getType1().colour;
         int color2 = pokemob.getType2().colour;
         if (pokemob.getType2() == PokeType.unknown) color2 = color1;
@@ -62,7 +78,6 @@ public class Evolution
         ticks = ticks - 50;
         ticks = duration - ticks;
 
-        float scale = 0.25f;
         final float time = 40 * (ticks + partialTick) / duration;
         final float f5 = time / 200f;
         final Random random = new Random(432L);
@@ -71,16 +86,7 @@ public class Evolution
 
         final VertexConsumer ivertexbuilder2 = Utils.makeBuilder(Evolution.EFFECT, bufferIn);
         mat.pushPose();
-        if (scaleMob)
-        {
-            final float mobScale = pokemob.getSize();
-            final thut.api.maths.vecmath.Vec3f dims = entry.getModelSize();
-            scale = 0.1f * Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
-            float scale2 = 1;
-            scale2 = Math.min(1,
-                    (pokemob.getEntity().tickCount + 1 + partialTick) / (float) LogicMiscUpdate.EXITCUBEDURATION);
-            mat.translate(0.0F, dims.y * pokemob.getSize() * scale2 / 2, 0.0F);
-        }
+        if (scaleMob) mat.translate(0.0F, scaleShift, 0.0F);
         for (int i = 0; i < (f5 + f5 * f5) / 2.0F * 100.0F; ++i)
         {
             mat.mulPose(AxisAngles.XP.rotationDegrees(random.nextFloat() * 360.0F));

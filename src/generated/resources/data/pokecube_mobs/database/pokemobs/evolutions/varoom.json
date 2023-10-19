@@ -1,0 +1,8 @@
+{
+  "name": "revavroom",
+  "user": "varoom",
+  "condition": {
+    "key": "level",
+    "level": 40
+  }
+}

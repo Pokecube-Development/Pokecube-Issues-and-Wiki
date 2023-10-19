@@ -61,7 +61,9 @@ public class LeapTask extends TaskBase implements IAICombat
 
     @Override
     public void reset()
-    {}
+    {
+        leapTick = -1;
+    }
 
     @Override
     public void run()
@@ -81,7 +83,7 @@ public class LeapTask extends TaskBase implements IAICombat
         final double dist = diff.magSq();
 
         // Wait till it is a bit closer than this...
-        if (dist >= 16.0D) return;
+        if (dist >= 16.0D || dist < 1e-3) return;
 
         this.leapSpeed = 1.0;
 
@@ -105,20 +107,16 @@ public class LeapTask extends TaskBase implements IAICombat
         dir.subtractFrom(dv);
 
         final boolean airborne = this.pokemob.floats() || this.pokemob.flys();
-        if (airborne && !this.pokemob.inCombat()) dir.scalarMultBy(0.25);
-        else if (airborne) dir.y *= 2;
-
+        if (dir.y > 0 && !airborne) dir.y = Math.max(dir.y, 0.25);
         /*
          * Apply the leap
          */
         dir.addVelocities(this.entity);
 
-        // Set the timer so we don't leap again rapidly
-        this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
-
         new PlaySound(this.entity.getLevel().dimension(), new Vector3().set(this.entity), this.getLeapSound(),
                 SoundSource.HOSTILE, 1, 1).run(this.world);
         BrainUtils.setLeapTarget(this.entity, null);
+        this.reset();
     }
 
     @Override
@@ -126,6 +124,8 @@ public class LeapTask extends TaskBase implements IAICombat
     {
         // Can't move, no leap
         if (!TaskBase.canMove(this.pokemob)) return false;
+        // Set the timer so we don't leap again rapidly
+        if (leapTick == -1) this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
         // On cooldown, no leap
         if (this.leapTick > this.entity.tickCount) return false;
         // Leap if we have a target pos

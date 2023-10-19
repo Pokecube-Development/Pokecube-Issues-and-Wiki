@@ -169,14 +169,9 @@
       "work-up",
       "hurricane",
       "confide",
+      "dual-wingbeat",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "staravia",
-      "level": 14
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

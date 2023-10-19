@@ -1,0 +1,8 @@
+{
+  "name": "zoroark-hisui",
+  "user": "zorua-hisui",
+  "condition": {
+    "key": "level",
+    "level": 30
+  }
+}

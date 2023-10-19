@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.3"/>
-  <metadata head="body" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
+  <metadata head="body" headCap="-30,30" headCap1="-30,30"/>
   <customTex default="tympole">
    <part name="Head" tex="tympoleeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>

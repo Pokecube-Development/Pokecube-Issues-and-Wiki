@@ -1,0 +1,8 @@
+{
+  "name": "maushold",
+  "user": "tandemaus",
+  "condition": {
+    "key": "level",
+    "level": 25
+  }
+}

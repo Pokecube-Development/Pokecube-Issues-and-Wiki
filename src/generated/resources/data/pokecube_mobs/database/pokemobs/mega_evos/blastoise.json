@@ -1,0 +1,10 @@
+{
+  "user": "blastoise",
+  "name": "blastoise-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:blastoisemega"
+    }
+  }
+}

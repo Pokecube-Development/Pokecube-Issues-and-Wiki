@@ -1,0 +1,15 @@
+{
+  "name": "porygon-z",
+  "user": "porygon2",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:dubiousdisc"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

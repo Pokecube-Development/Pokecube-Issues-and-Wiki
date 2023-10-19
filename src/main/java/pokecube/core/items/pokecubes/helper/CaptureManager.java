@@ -39,6 +39,8 @@ import thut.lib.TComponent;
 
 public class CaptureManager
 {
+    public static int CAPTURE_SHRINK_TIMER = 25;
+    
     public static void onCaptureDenied(final EntityPokecubeBase cube)
     {
         cube.spawnAtLocation(cube.getItem(), (float) 0.5);
@@ -48,14 +50,12 @@ public class CaptureManager
     public static void captureAttempt(final EntityPokecubeBase cube, final Entity e)
     {
         if (!(cube.getLevel() instanceof ServerLevel)) return;
-        if (!e.isAlive()) return;
         if (!(e instanceof LivingEntity mob)) return;
         if (e.isInvulnerable()) return;
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
         if (!cubeItem.canCapture(e, cube.getItem())) return;
         if (cube.isCapturing) return;
-        if (mob.deathTime > 0) return;
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if ((ownable != null && ownable.getOwnerId() != null && !PokecubeManager.isFilled(cube.getItem()))) return;
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
@@ -74,14 +74,27 @@ public class CaptureManager
         boolean removeMob = false;
         final CaptureEvent.Pre capturePre = new Pre(hitten, cube, mob);
         PokecubeAPI.POKEMOB_BUS.post(capturePre);
+        if (capturePre.getResult() == Result.DENY) return;
 
-        if (hitten != null)
+        // If allow, we set tilt to 5 can allow capture.
+        if (capturePre.getResult() == Result.ALLOW)
         {
-            if (capturePre.getResult() == Result.DENY) return;
+            cube.setTilt(5);
+            cube.setTime(CAPTURE_SHRINK_TIMER);
+            final ItemStack mobStack = cube.getItem().copy();
+            PokecubeManager.addToCube(mobStack, mob);
+            cube.setItem(mobStack);
+            PokecubeManager.setTilt(cube.getItem(), 5);
+            v.set(cube).addTo(0, mob.getBbHeight() / 2, 0).moveEntity(cube);
+            removeMob = true;
+            cube.setCapturing(mob);
+        }
+        else if (hitten != null)
+        {
             if (capturePre.isCanceled())
             {
-                if (cube.getTilt() == 5) cube.setTime(10);
-                else cube.setTime(20 * cube.getTilt() + 5);
+                if (cube.getTilt() == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
+                else cube.setTime(20 * cube.getTilt() + CAPTURE_SHRINK_TIMER);
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
@@ -93,8 +106,8 @@ public class CaptureManager
             {
                 final int n = Tools.computeCatchRate(hitten, cubeId);
                 cube.setTilt(n);
-                if (n == 5) cube.setTime(10);
-                else cube.setTime(20 * n + 5);
+                if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
+                else cube.setTime(20 * n + CAPTURE_SHRINK_TIMER);
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
                 PokecubeManager.setTilt(cube.getItem(), n);
@@ -128,8 +141,8 @@ public class CaptureManager
                 if (cube.getRandom().nextInt(65535) <= b) n++;
             }
             cube.setTilt(n);
-            if (n == 5) cube.setTime(10);
-            else cube.setTime(20 * n + 5);
+            if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
+            else cube.setTime(20 * n + CAPTURE_SHRINK_TIMER);
             final ItemStack mobStack = cube.getItem().copy();
             PokecubeManager.addToCube(mobStack, mob);
             cube.setItem(mobStack);
@@ -147,6 +160,7 @@ public class CaptureManager
         final LivingEntity living = SendOutManager.sendOut(cube, true);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         cube.setNotCapturing();
+        cube.setReleased(living);
 
         if (living != null) living.moveTo(cube.capturePos.x, cube.capturePos.y, cube.capturePos.z, cube.yRot, 0.0F);
         if (pokemob != null)

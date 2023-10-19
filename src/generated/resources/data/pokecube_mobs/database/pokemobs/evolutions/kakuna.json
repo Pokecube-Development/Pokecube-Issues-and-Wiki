@@ -1,0 +1,9 @@
+{
+  "name": "beedrill",
+  "user": "kakuna",
+  "condition": {
+    "key": "level",
+    "level": 10
+  },
+  "evoMoves": "twineedle"
+}

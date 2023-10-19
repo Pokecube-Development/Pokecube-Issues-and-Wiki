@@ -2,6 +2,7 @@
   "name": "kyurem-black",
   "id": 646,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 350,
   "size": {
     "height": 3.3

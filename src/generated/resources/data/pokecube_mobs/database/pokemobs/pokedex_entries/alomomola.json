@@ -46,8 +46,7 @@
           "water-sport",
           "healing-wish",
           "wide-guard",
-          "play-nice",
-          "pound"
+          "play-nice"
         ]
       },
       {
@@ -192,6 +191,8 @@
       "play-nice",
       "confide",
       "liquidation",
+      "scale-shot",
+      "flip-turn",
       "tera-blast",
       "snowscape",
       "chilling-water"

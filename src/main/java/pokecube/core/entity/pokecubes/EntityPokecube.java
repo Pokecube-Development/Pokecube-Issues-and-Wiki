@@ -316,7 +316,7 @@ public class EntityPokecube extends EntityPokecubeBase
     @Override
     public void tick()
     {
-        if (this.isReleasing() && this.getTime() < 0)
+        if (this.isReleasing() && this.getTime() <= 0)
         {
             this.discard();
             return;
@@ -353,11 +353,11 @@ public class EntityPokecube extends EntityPokecubeBase
             else if (this.getTilt() >= 0)
             {// Missed the pokemon
                 CaptureManager.captureFailed(this);
-                this.discard();
                 return;
             }
         }
-        this.setTime(this.getTime() - 1);
+        int time = this.getTime();
+        if (time > 0) this.setTime(time - 1);
         super.tick();
     }
 

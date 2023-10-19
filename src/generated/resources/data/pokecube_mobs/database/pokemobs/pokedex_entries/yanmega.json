@@ -42,7 +42,10 @@
       {
         "L": 1,
         "moves": [
+          "gust",
+          "wing-attack",
           "tackle",
+          "hypnosis",
           "quick-attack",
           "double-team",
           "foresight",
@@ -61,7 +64,15 @@
       {
         "L": 14,
         "moves": [
-          "sonic-boom"
+          "sonic-boom",
+          "aerial-ace"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "string-shot",
+          "pursuit"
         ]
       },
       {
@@ -80,12 +91,6 @@
         "L": 17,
         "moves": [
           "detect"
-        ]
-      },
-      {
-        "L": 30,
-        "moves": [
-          "pursuit"
         ]
       },
       {
@@ -114,8 +119,12 @@
       }
     ],
     "misc": [
+      "swords-dance",
+      "whirlwind",
       "headbutt",
       "tackle",
+      "take-down",
+      "double-edge",
       "supersonic",
       "sonic-boom",
       "hyper-beam",
@@ -135,7 +144,9 @@
       "substitute",
       "thief",
       "snore",
+      "reversal",
       "protect",
+      "scary-face",
       "mud-slap",
       "foresight",
       "detect",
@@ -150,6 +161,7 @@
       "pursuit",
       "hidden-power",
       "sunny-day",
+      "crunch",
       "psych-up",
       "ancient-power",
       "shadow-ball",
@@ -176,7 +188,11 @@
       "round",
       "struggle-bug",
       "confide",
-      "laser-focus"
+      "laser-focus",
+      "lunge",
+      "dual-wingbeat",
+      "tera-blast",
+      "pounce"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_1"

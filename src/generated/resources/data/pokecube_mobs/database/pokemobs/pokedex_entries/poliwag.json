@@ -155,6 +155,7 @@
       "ice-beam",
       "blizzard",
       "bubble-beam",
+      "low-kick",
       "dig",
       "toxic",
       "psychic",
@@ -166,6 +167,7 @@
       "haze",
       "bide",
       "waterfall",
+      "swift",
       "skull-bash",
       "amnesia",
       "bubble",
@@ -179,6 +181,7 @@
       "curse",
       "protect",
       "belly-drum",
+      "mud-slap",
       "icy-wind",
       "endure",
       "swagger",
@@ -192,12 +195,14 @@
       "whirlpool",
       "hail",
       "facade",
+      "focus-punch",
       "helping-hand",
       "endeavor",
       "refresh",
       "secret-power",
       "dive",
       "ice-ball",
+      "weather-ball",
       "muddy-water",
       "mud-shot",
       "water-sport",
@@ -210,14 +215,11 @@
       "round",
       "scald",
       "bulldoze",
-      "confide"
+      "confide",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "poliwhirl",
-      "level": 25
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }

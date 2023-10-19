@@ -1,0 +1,8 @@
+{
+  "name": "parasect",
+  "user": "paras",
+  "condition": {
+    "key": "level",
+    "level": 24
+  }
+}

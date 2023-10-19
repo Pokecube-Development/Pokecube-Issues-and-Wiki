@@ -1,0 +1,10 @@
+{
+  "name": "ariados",
+  "user": "spinarak",
+  "condition": {
+    "key": "level",
+    "level": 22
+  },
+  "evoMoves": "swords-dance",
+  "animation": "42"
+}

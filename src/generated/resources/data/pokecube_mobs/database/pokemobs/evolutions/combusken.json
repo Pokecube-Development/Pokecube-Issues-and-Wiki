@@ -1,0 +1,9 @@
+{
+  "name": "blaziken",
+  "user": "combusken",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "blaze-kick"
+}

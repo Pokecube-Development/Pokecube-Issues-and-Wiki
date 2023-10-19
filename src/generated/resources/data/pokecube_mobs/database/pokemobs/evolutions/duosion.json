@@ -1,0 +1,9 @@
+{
+  "name": "reuniclus",
+  "user": "duosion",
+  "condition": {
+    "key": "level",
+    "level": 41
+  },
+  "evoMoves": "dizzy-punch"
+}

@@ -184,11 +184,5 @@
       "rising-voltage"
     ]
   },
-  "evolutions": [
-    {
-      "name": "klang",
-      "level": 38
-    }
-  ],
   "loot_table": "pokecube:entities/iron_1"
 }

@@ -1,29 +1,27 @@
 package pokecube.api.data.pokedex;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonElement;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.PokedexEntry.MegaRule;
-import pokecube.api.data.abilities.AbilityManager;
-import pokecube.api.data.spawns.SpawnRule;
-import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.data.pokedex.conditions.IsSexe;
+import pokecube.api.data.pokedex.conditions.PokemobCondition;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
-import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.items.megastuff.MegaCapability;
 import thut.api.util.JsonUtil;
 import thut.core.common.ThutCore;
 
@@ -33,30 +31,66 @@ public class InteractsAndEvolutions
     public static class Evolution
     {
         public Boolean clear;
+
+        public JsonElement condition;
+
+        // Below are results
+
+        /**
+         * The result of the evolution
+         */
         public String name;
-        public Integer level;
-        public Integer priority;
-        public SpawnRule location;
+        /**
+         * The mob to evolve from, optional if this is part of the
+         * JsonPokedexEntry
+         */
+        public String user;
+        /**
+         * Animation FX related
+         */
         public String animation;
-        public Drop item;
-        public String item_preset;
-        public String time;
-        public Boolean trade;
-        public Boolean rain;
-        public Boolean happy;
-        public String sexe;
-        public String move;
-        public Float chance;
+        /**
+         * List of moves to learn on evo
+         */
         public String evoMoves;
-
-        public String form_from = null;
-
+        /**
+         * Custom model to apply after evo.
+         */
         protected DefaultFormeHolder model = null;
+
+        private PokedexEntry _result = null;
+        private PokedexEntry _user = null;
 
         public FormeHolder getForme(final PokedexEntry baseEntry)
         {
             if (this.model != null) return this.model.getForme(baseEntry);
             return null;
+        }
+
+        public PokedexEntry getResult()
+        {
+            if (_result == null) _result = Database.getEntry(name);
+            return _result;
+        }
+
+        public PokedexEntry getUser()
+        {
+            if (_user == null) _user = Database.getEntry(user);
+            return _user;
+        }
+
+        public PokemobCondition toCondition()
+        {
+            PokemobCondition result = null;
+            // First check if we have a loadable condition, if so, just use
+            // that, the rest will be left as description information!
+            if (condition != null)
+            {
+                result = PokemobCondition.makeFromElement(condition);
+                result.init();
+                return result;
+            }
+            return result;
         }
 
         @Override
@@ -94,13 +128,18 @@ public class InteractsAndEvolutions
 
     public static class Interact
     {
+        // Conditions
         public Boolean male = true;
         public Boolean female = true;
+        public Boolean isTag = false;
+        public Drop key;
+
+        public JsonElement condition;
+
+        // Results
         public Integer cooldown = 50;
         public Integer variance = 100;
         public Integer baseHunger = 100;
-        public Boolean isTag = false;
-        public Drop key;
         public Action action;
 
         private String _ser_cache;
@@ -116,6 +155,38 @@ public class InteractsAndEvolutions
                 return this._ser_cache.equals(a._ser_cache);
             }
             return false;
+        }
+
+        public PokemobCondition toCondition()
+        {
+            PokemobCondition result = null;
+            List<PokemobCondition> bits = new ArrayList<>();
+            if (condition != null)
+            {
+                result = PokemobCondition.makeFromElement(condition);
+                bits.add(result);
+            }
+
+            if (male != null && !male)
+            {
+                var res = new IsSexe();
+                bits.add(res);
+                res.sexe = "male";
+                if (result == null) result = res.not();
+                else result = result.and(res.not());
+            }
+
+            if (female != null && !female)
+            {
+                var res = new IsSexe();
+                bits.add(res);
+                res.sexe = "female";
+                if (result == null) result = res.not();
+                else result = result.and(res.not());
+            }
+            bits.forEach(c -> c.init());
+            if (result == null) result = e -> true;
+            return result;
         }
     }
 
@@ -212,68 +283,6 @@ public class InteractsAndEvolutions
         {
             if (_itemstack.isEmpty()) _itemstack = PokecubeItems.getStack(new ResourceLocation(item));
             return _itemstack;
-        }
-    }
-
-    public static class BaseMegaRule
-    {
-        public String name;
-        public String preset;
-        public String move;
-        public String ability;
-        public Drop item;
-        public String item_preset;
-    }
-
-    public static class MegaEvoRule implements MegaRule
-    {
-        public ItemStack stack;
-        public String oreDict;
-        public String moveName;
-        public String ability;
-        final PokedexEntry baseForme;
-
-        public MegaEvoRule(final PokedexEntry baseForme)
-        {
-            this.stack = ItemStack.EMPTY;
-            this.moveName = "";
-            this.ability = "";
-            this.baseForme = baseForme;
-        }
-
-        @Override
-        public boolean shouldMegaEvolve(final IPokemob mobIn, final PokedexEntry entryTo)
-        {
-            boolean rightStack = true;
-            boolean hasMove = true;
-            boolean hasAbility = true;
-            boolean rule = false;
-            if (this.oreDict != null)
-            {
-                this.stack = PokecubeItems.getStack(this.oreDict);
-                this.oreDict = null;
-            }
-            if (!this.stack.isEmpty())
-            {
-                rightStack = Tools.isSameStack(this.stack, mobIn.getHeldItem(), true);
-                rule = true;
-                if (!rightStack)
-                {
-                    rightStack = MegaCapability.matches(mobIn.getHeldItem(), entryTo);
-                }
-            }
-            if (this.moveName != null && !this.moveName.isEmpty())
-            {
-                hasMove = Tools.hasMove(this.moveName, mobIn);
-                rule = true;
-            }
-            if (this.ability != null && !this.ability.isEmpty())
-            {
-                hasAbility = AbilityManager.hasAbility(this.ability, mobIn);
-                rule = true;
-            }
-            if (hasAbility && mobIn.getAbility() != null) hasAbility = mobIn.getAbility().canChange(mobIn, entryTo);
-            return rule && hasMove && rightStack && hasAbility;
         }
     }
 }

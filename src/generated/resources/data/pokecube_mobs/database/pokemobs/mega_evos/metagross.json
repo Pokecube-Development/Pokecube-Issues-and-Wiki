@@ -1,0 +1,10 @@
+{
+  "user": "metagross",
+  "name": "metagross-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:metagrossmega"
+    }
+  }
+}

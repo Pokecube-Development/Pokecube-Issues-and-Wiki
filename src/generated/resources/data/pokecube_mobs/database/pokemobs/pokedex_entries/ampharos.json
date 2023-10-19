@@ -97,6 +97,7 @@
         "L": 51,
         "moves": [
           "signal-beam",
+          "charge-beam",
           "dazzling-gleam"
         ]
       },
@@ -137,6 +138,7 @@
       "take-down",
       "double-edge",
       "growl",
+      "roar",
       "hyper-beam",
       "low-kick",
       "counter",
@@ -222,12 +224,6 @@
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "ampharosmega"
-    }
-  ],
   "interactions": [
     {
       "male": false,

@@ -189,11 +189,5 @@
       }
     }
   ],
-  "mega_rules": [
-    {
-      "name": "Keldeo Resolute",
-      "move": "secretsword"
-    }
-  ],
   "old_name": "keldeo"
 }
