@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
@@ -36,7 +38,7 @@ public interface IModel
         return IModel.emptyAnims;
     }
 
-    default void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
+    default void initBuiltInAnimations(@Nullable IModelRenderer<?> renderer, List<Animation> tblAnims)
     {}
 
     Set<String> getHeadParts();

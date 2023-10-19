@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="1"/>
+   <material name="front" tex="textures/item/mooncubefront.png" cull="false" />
+   <material name="side_l" tex="textures/item/mooncubeside1.png" cull="false" />
+   <material name="side_r" tex="textures/item/mooncubeside0.png" cull="false" />
+   <material name="top" tex="textures/item/mooncubetop.png" cull="false" />
+   <material name="bottom" tex="textures/item/mooncubebottom.png" cull="false" />
+   <material name="back" tex="textures/item/mooncubeback.png" cull="false" />
+ </model>
+</ModelAnimator>

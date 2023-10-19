@@ -206,11 +206,8 @@ public class AnimationLoader
                 }
             }
 
-            if (renderer != null)
-            {
-                renderer.getAnimations().clear();
-                model.initBuiltInAnimations(renderer, animations);
-            }
+            if (renderer != null) renderer.getAnimations().clear();
+            model.initBuiltInAnimations(renderer, animations);
             animations.addAll(xmlAnimations);
 
             // Handle worn offsets.
@@ -234,7 +231,14 @@ public class AnimationLoader
             // Handle materials
             for (final Mat mat : file.model.materials)
             {
-                model.updateMaterial(mat);
+                try
+                {
+                    model.updateMaterial(mat);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
                 if (mat.tex.isBlank()) continue;
                 TexPart part = new TexPart();
                 part.name = mat.name;
