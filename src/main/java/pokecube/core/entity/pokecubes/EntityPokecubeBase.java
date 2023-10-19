@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import it.unimi.dsi.fastutil.objects.Object2FloatOpenHashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.particles.ParticleTypes;
@@ -21,6 +22,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.HumanoidArm;
@@ -59,6 +61,7 @@ import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
 import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
+import thut.lib.RegHelper;
 
 public abstract class EntityPokecubeBase extends LivingEntity
 {
@@ -71,6 +74,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
     static final EntityDataAccessor<Integer> TIME;
 
     public static boolean SEEKING = true;
+
+    public static Object2FloatOpenHashMap<ResourceLocation> CUBE_SIZES = new Object2FloatOpenHashMap<>();
 
     static
     {
@@ -440,11 +445,14 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
         if (this.getY() < -64.0D) this.outOfWorld();
 
+        ItemStack item = this.getItem();
+        float size = CUBE_SIZES.getOrDefault(RegHelper.getKey(item), 0.25f);
+        if (size != this.dimensions.width) this.dimensions = EntityDimensions.fixed(size, size);
         if (this.checkCube)
         {
             this.checkCube = false;
             PokemobTracker.removePokecube(this);
-            this.containedMob = PokecubeManager.itemToPokemob(this.getItem(), this.getLevel());
+            this.containedMob = PokecubeManager.itemToPokemob(item, this.getLevel());
             if (this.containedMob != null && this.shooter == null)
             {
                 this.shootingEntity = this.containedMob.getOwner();
