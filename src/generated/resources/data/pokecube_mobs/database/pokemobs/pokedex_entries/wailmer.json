@@ -211,11 +211,5 @@
       "steel-roller"
     ]
   },
-  "evolutions": [
-    {
-      "name": "wailord",
-      "level": 40
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

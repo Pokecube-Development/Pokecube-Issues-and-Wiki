@@ -1,0 +1,9 @@
+{
+  "name": "omastar",
+  "user": "omanyte",
+  "condition": {
+    "key": "level",
+    "level": 40
+  },
+  "evoMoves": "spike-cannon"
+}

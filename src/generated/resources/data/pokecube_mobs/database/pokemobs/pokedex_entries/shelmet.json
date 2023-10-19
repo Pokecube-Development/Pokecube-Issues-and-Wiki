@@ -184,11 +184,5 @@
       "skitter-smack"
     ]
   },
-  "evolutions": [
-    {
-      "name": "accelgor",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/shellseed_1"
 }

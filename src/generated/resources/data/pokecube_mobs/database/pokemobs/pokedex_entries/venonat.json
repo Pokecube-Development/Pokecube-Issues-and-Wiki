@@ -43,7 +43,8 @@
         "moves": [
           "tackle",
           "disable",
-          "foresight"
+          "foresight",
+          "struggle-bug"
         ]
       },
       {
@@ -56,6 +57,14 @@
         "L": 17,
         "moves": [
           "psybeam"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mega-drain",
+          "signal-beam",
+          "bug-buzz"
         ]
       },
       {
@@ -98,13 +107,6 @@
         "L": 41,
         "moves": [
           "poison-fang"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "signal-beam",
-          "bug-buzz"
         ]
       },
       {
@@ -183,16 +185,10 @@
       "struggle-bug",
       "confide",
       "infestation",
+      "lunge",
       "tera-blast",
       "pounce"
     ]
   },
-  "evolutions": [
-    {
-      "name": "venomoth",
-      "level": 31,
-      "evoMoves": "gust"
-    }
-  ],
   "loot_table": "pokecube:entities/spider_eye"
 }

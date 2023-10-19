@@ -100,25 +100,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "huntail",
-      "item": {
-        "values": {
-          "id": "minecraft:flint"
-        }
-      },
-      "trade": true
-    },
-    {
-      "name": "gorebyss",
-      "item": {
-        "values": {
-          "id": "minecraft:feather"
-        }
-      },
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/shulker_pearls_1"
 }

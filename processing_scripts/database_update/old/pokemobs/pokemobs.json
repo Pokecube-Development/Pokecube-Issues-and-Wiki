@@ -5794,6 +5794,7 @@
           {
             "name": "Raichu Alola",
             "location": {
+              "desc": "pokecube.spawns.beaches.ground",
               "and_preset": "beaches"
             },
             "item_preset": "thunderstone",
@@ -11631,6 +11632,7 @@
           {
             "name": "Magnezone",
             "location": {
+              "desc": "pokecube.spawns.caves.general",
               "and_preset": "caves"
             },
             "evoMoves": "triattack"
@@ -11771,6 +11773,7 @@
             "name": "Sirfetch'd",
             "level": 30,
             "location": {
+              "desc": "legends.spawns.structures.kubfu_dojo",
               "values": {
                 "structures": "pokecube_legends:kubfu_dojo"
               }
@@ -13593,6 +13596,7 @@
           {
             "name": "Exeggutor Alola",
             "location": {
+              "desc": "pokecube.spawns.beaches.ground",
               "and_preset": "beaches"
             },
             "item_preset": "leafstone",
@@ -14222,6 +14226,7 @@
             "name": "Weezing Galar",
             "level": 35,
             "location": {
+              "desc": "pokecube.spawns.industrial.general",
               "and_preset": "industrial"
             },
             "evoMoves": "doublehit"
@@ -18539,6 +18544,7 @@
             "name": "Typhlosion Hisui",
             "level": 35,
             "location": {
+              "desc": "pokecube.spawns.spooky.general",
               "and_preset": "spooky_areas"
             },
             "evoMoves": "hex"
@@ -22797,6 +22803,7 @@
           {
             "name": "overqwil",
             "location": {
+              "desc": "pokecube.spawns.caves.water",
               "and_preset": "cave_water"
             }
           }
@@ -24734,6 +24741,7 @@
             "name": "wyrdeer",
             "level": 20,
             "location": {
+              "desc": "pokecube.spawns.cold_snowy.snowy",
               "and_preset": "snowy_areas"
             }
           }
@@ -29717,6 +29725,7 @@
           {
             "name": "Probopass",
             "location": {
+              "desc": "pokecube.spawns.industrial.general",
               "and_preset": "industrial"
             },
             "evoMoves": "Tri Attack"
@@ -37172,7 +37181,7 @@
             },
             "action": {
               "values": {
-                "forme": "deoxys",
+                "forme": "deoxys-normal",
                 "type": "forme"
               }
             }
@@ -41180,6 +41189,7 @@
           {
             "name": "Mr. Mime Galar",
             "location": {
+              "desc": "pokecube.spawns.cold_snowy.snowy",
               "and_preset": "snowy_areas"
             },
             "move": "mimic"
@@ -46832,6 +46842,7 @@
             "name": "Samurott Hisui",
             "level": 35,
             "location": {
+              "desc": "pokecube.spawns.beaches.ground",
               "and_preset": "beach_ground"
             },
             "evoMoves": "nightslash"
@@ -50160,6 +50171,7 @@
           {
             "name": "lilligant_hisui",
             "location": {
+              "desc": "pokecube.spawns.deserts.general",
               "and_preset": "deserts"
             },
             "item_preset": "sunstone",
@@ -51605,6 +51617,7 @@
             "name": "Runerigus",
             "level": 34,
             "location": {
+              "desc": "pokecube.spawns.mountains.general",
               "and_preset": "extreme_hills"
             },
             "time": "night",
@@ -56352,6 +56365,7 @@
             "name": "braviary_hisui",
             "level": 54,
             "location": {
+              "desc": "pokecube.spawns.cold_snowy.snowy",
               "and_preset": "snowy_areas"
             }
           }
@@ -59655,6 +59669,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_oc",
               "or_preset": "oceans,beaches",
               "not_preset": "cold_areas"
             },
@@ -59667,6 +59682,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_sa",
               "and_preset": "deserts"
             },
             "evoMoves": "gust",
@@ -59678,6 +59694,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_he",
               "and_preset": "nether"
             },
             "evoMoves": "gust",
@@ -59689,6 +59706,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_en",
               "and_preset": "end"
             },
             "evoMoves": "gust",
@@ -59700,6 +59718,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_po",
               "matchers": {
                 "biome": {"biome_tags":"#pokecube_mobs:vivillon_polar"}
               }
@@ -59713,6 +59732,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_ic",
               "and_preset": "cold_areas"
             },
             "evoMoves": "gust",
@@ -59724,6 +59744,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_mon",
               "and_preset": "wet_areas"
             },
             "evoMoves": "gust",
@@ -59735,6 +59756,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_su",
               "and_preset": "savannas"
             },
             "evoMoves": "gust",
@@ -59746,6 +59768,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_mod",
               "and_preset": "villages"
             },
             "evoMoves": "gust",
@@ -59757,6 +59780,7 @@
             "name": "Vivillon",
             "level": 12,
             "location": {
+              "desc": "pokecube.evos.spewpa.vivillon_el",
               "or_preset": "plains,forests",
               "not_preset": "cold_areas,hot_areas,mountains"
             },
@@ -59901,23 +59925,33 @@
         },
         {
           "key": "vivillon_de",
-          "tex": "vivillon_highplains"
+          "tex": "vivillon_highplains",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_el",
-          "tex": "vivillon_plains"
+          "tex": "vivillon_plains",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_oc",
-          "tex": "vivillon_ocean"
+          "tex": "vivillon_ocean",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_sa",
-          "tex": "vivillon_sandstorm"
+          "tex": "vivillon_sandstorm",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_he",
-          "tex": "vivillon_hell"
+          "tex": "vivillon_hell",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_en",
@@ -59925,23 +59959,33 @@
         },
         {
           "key": "vivillon_po",
-          "tex": "vivillon_polar"
+          "tex": "vivillon_polar",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_ic",
-          "tex": "vivillon_icesnow"
+          "tex": "vivillon_icesnow",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_mon",
-          "tex": "vivillon_monsoon"
+          "tex": "vivillon_monsoon",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_su",
-          "tex": "vivillon_sun"
+          "tex": "vivillon_sun",
+          "model": "vivillon",
+          "anim": "vivillon"
         },
         {
           "key": "vivillon_mod",
-          "tex": "vivillon_modern"
+          "tex": "vivillon_modern",
+          "model": "vivillon",
+          "anim": "vivillon"
         }
       ]
     },
@@ -63670,6 +63714,7 @@
             "name": "Avalugg_hisui",
             "level": 37,
             "location": {
+              "desc": "pokecube.spawns.mountains.general",
               "and_preset": "extreme_hills"
             },
             "time": "night"
@@ -64845,6 +64890,7 @@
             "name": "Decidueye Hisui",
             "level": 33,
             "location": {
+              "desc": "pokecube.spawns.plains.savanna",
               "and_preset": "savannas"
             },
             "evoMoves": "rocksmash"
@@ -65887,6 +65933,7 @@
           {
             "name": "Vikavolt",
             "location": {
+              "desc": "pokecube.spawns.industrial.general",
               "and_preset": "industrial"
             },
             "evoMoves": "thunderbolt"
@@ -66018,6 +66065,7 @@
           {
             "name": "Crabominable",
             "location": {
+              "desc": "pokecube.spawns.caves.general",
               "and_preset": "caves"
             },
             "evoMoves": "icepunch"
@@ -77862,6 +77910,8 @@
       "models": [
         {
           "key": "alcremie1",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77888,6 +77938,8 @@
         },
         {
           "key": "alcremie2",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77914,6 +77966,8 @@
         },
         {
           "key": "alcremie3",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77940,6 +77994,8 @@
         },
         {
           "key": "alcremie4",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77966,6 +78022,8 @@
         },
         {
           "key": "alcremie5",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -77992,6 +78050,8 @@
         },
         {
           "key": "alcremie6",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -78018,6 +78078,8 @@
         },
         {
           "key": "alcremie7",
+          "model": "alcremie",
+          "tex": "alcremie",
           "colours": [
             {
               "material": "head",
@@ -82701,6 +82763,7 @@
           {
             "name": "Urshifu Single",
             "location": {
+              "desc": "legends.spawns.structures.kubfu_dark",
               "values": {
                 "structures": "pokecube_legends:kubfu_dark"
               }
@@ -82712,6 +82775,7 @@
           {
             "name": "Urshifu Rapid",
             "location": {
+              "desc": "legends.spawns.structures.kubfu_water",
               "values": {
                 "structures": "pokecube_legends:kubfu_water"
               }

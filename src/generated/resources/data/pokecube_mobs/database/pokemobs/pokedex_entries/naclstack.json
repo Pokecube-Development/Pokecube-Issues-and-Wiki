@@ -150,17 +150,12 @@
       "iron-head",
       "stone-edge",
       "stealth-rock",
+      "smack-down",
       "heavy-slam",
       "bulldoze",
       "stomping-tantrum",
       "body-press",
       "tera-blast"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "garganacl",
-      "level": 38
-    }
-  ]
+  }
 }

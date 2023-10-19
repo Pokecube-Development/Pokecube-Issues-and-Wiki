@@ -46,9 +46,17 @@
         ]
       },
       {
+        "L": 15,
+        "moves": [
+          "wing-attack",
+          "pursuit"
+        ]
+      },
+      {
         "L": 40,
         "moves": [
-          "jump-kick"
+          "jump-kick",
+          "lunge"
         ]
       },
       {
@@ -61,6 +69,13 @@
         "L": 50,
         "moves": [
           "thrash"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "leer",
+          "rage"
         ]
       },
       {
@@ -89,21 +104,9 @@
         ]
       },
       {
-        "L": 8,
-        "moves": [
-          "rage"
-        ]
-      },
-      {
         "L": 21,
         "moves": [
           "tri-attack"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "pursuit"
         ]
       },
       {
@@ -206,12 +209,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dodrio",
-      "level": 31,
-      "evoMoves": "tri-attack"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

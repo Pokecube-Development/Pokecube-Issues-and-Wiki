@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.05"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <metadata head="head" headCap="-10,10" headCap1="-10,10"/>
   <customTex default="cutiefly">
    <part name="Head" tex="cutieflyeye"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:4"/>

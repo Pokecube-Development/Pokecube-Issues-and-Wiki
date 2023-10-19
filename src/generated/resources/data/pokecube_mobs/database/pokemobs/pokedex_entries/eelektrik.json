@@ -144,6 +144,7 @@
       "rain-dance",
       "crunch",
       "facade",
+      "charge",
       "knock-off",
       "secret-power",
       "signal-beam",
@@ -168,15 +169,9 @@
       "eerie-impulse",
       "electric-terrain",
       "throat-chop",
+      "lunge",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "eelektross",
-      "item_preset": "thunderstone",
-      "evoMoves": "crunch"
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_fish_2"
 }

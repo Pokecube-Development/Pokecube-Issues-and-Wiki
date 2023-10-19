@@ -138,6 +138,7 @@
       "confuse-ray",
       "haze",
       "dream-eater",
+      "leech-life",
       "flash",
       "rest",
       "substitute",
@@ -198,18 +199,13 @@
       "round",
       "ally-switch",
       "hex",
+      "phantom-force",
       "confide",
       "infestation",
       "skitter-smack",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dusclops",
-      "level": 37,
-      "evoMoves": "shadow-punch"
-    }
-  ],
   "loot_table": "pokecube:entities/bones"
 }

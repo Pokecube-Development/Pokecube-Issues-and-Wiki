@@ -164,6 +164,7 @@
       "thunder",
       "earthquake",
       "toxic",
+      "confusion",
       "psychic",
       "agility",
       "mimic",
@@ -243,6 +244,7 @@
       "wonder-room",
       "psyshock",
       "telekinesis",
+      "simple-beam",
       "round",
       "stored-power",
       "ally-switch",
@@ -263,12 +265,6 @@
       "values": {
         "rate": "0.0"
       }
-    }
-  ],
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "latiosmega"
     }
   ],
   "loot_table": "pokecube:entities/chicken_2"

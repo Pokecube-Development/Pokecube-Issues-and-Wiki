@@ -125,6 +125,7 @@
       "thunder-punch",
       "cut",
       "headbutt",
+      "tackle",
       "body-slam",
       "take-down",
       "double-edge",
@@ -214,11 +215,5 @@
       "meteor-beam"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "metagrossmega"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_pearls_3"
 }

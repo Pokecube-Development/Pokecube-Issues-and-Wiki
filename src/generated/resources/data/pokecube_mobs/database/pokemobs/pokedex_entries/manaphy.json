@@ -40,17 +40,18 @@
         ]
       },
       {
-        "L": 24,
-        "moves": [
-          "bubble-beam"
-        ]
-      },
-      {
         "L": 1,
         "moves": [
+          "water-gun",
           "bubble",
           "tail-glow",
           "water-sport"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "bubble-beam"
         ]
       },
       {
@@ -113,6 +114,7 @@
       "psychic",
       "double-team",
       "light-screen",
+      "haze",
       "reflect",
       "waterfall",
       "swift",
@@ -148,6 +150,7 @@
       "secret-power",
       "dive",
       "tail-glow",
+      "weather-ball",
       "signal-beam",
       "bounce",
       "covet",
@@ -168,7 +171,8 @@
       "scald",
       "confide",
       "dazzling-gleam",
-      "liquidation"
+      "liquidation",
+      "flip-turn"
     ]
   },
   "spawn_rules": [

@@ -43,8 +43,7 @@
         "moves": [
           "pound",
           "minimize",
-          "charm",
-          "pound"
+          "charm"
         ]
       },
       {
@@ -91,6 +90,7 @@
       "toxic",
       "psychic",
       "double-team",
+      "minimize",
       "defense-curl",
       "light-screen",
       "metronome",
@@ -154,12 +154,5 @@
       "snowscape"
     ]
   },
-  "evolutions": [
-    {
-      "name": "chansey",
-      "item_preset": "ovalstone",
-      "time": "day"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

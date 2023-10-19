@@ -201,18 +201,12 @@
       "razor-shell",
       "confide",
       "liquidation",
+      "flip-turn",
       "tera-blast",
       "snowscape",
       "chilling-water",
       "aqua-cutter"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dewott",
-      "level": 17,
-      "animation": "9"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -65,9 +65,17 @@
         ]
       },
       {
+        "L": 33,
+        "moves": [
+          "low-kick",
+          "chip-away"
+        ]
+      },
+      {
         "L": 8,
         "moves": [
-          "rage"
+          "rage",
+          "mud-slap"
         ]
       },
       {
@@ -116,12 +124,6 @@
         "L": 21,
         "moves": [
           "ice-fang"
-        ]
-      },
-      {
-        "L": 33,
-        "moves": [
-          "chip-away"
         ]
       }
     ],
@@ -212,11 +214,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "feraligatr",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

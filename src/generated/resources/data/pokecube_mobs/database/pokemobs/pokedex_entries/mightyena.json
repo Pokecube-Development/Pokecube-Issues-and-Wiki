@@ -52,9 +52,24 @@
         ]
       },
       {
+        "L": 32,
+        "moves": [
+          "headbutt",
+          "embargo"
+        ]
+      },
+      {
         "L": 48,
         "moves": [
           "take-down"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "leer",
+          "mud-slap",
+          "odor-sleuth"
         ]
       },
       {
@@ -88,21 +103,9 @@
         ]
       },
       {
-        "L": 13,
-        "moves": [
-          "odor-sleuth"
-        ]
-      },
-      {
         "L": 24,
         "moves": [
           "assurance"
-        ]
-      },
-      {
-        "L": 32,
-        "moves": [
-          "embargo"
         ]
       },
       {
@@ -150,6 +153,7 @@
       "scary-face",
       "mud-slap",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -167,10 +171,13 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "yawn",
       "snatch",
       "secret-power",
       "hyper-voice",
+      "poison-fang",
+      "astonish",
       "odor-sleuth",
       "howl",
       "covet",
@@ -181,6 +188,7 @@
       "sucker-punch",
       "dark-pulse",
       "giga-impact",
+      "nasty-plot",
       "thunder-fang",
       "ice-fang",
       "fire-fang",
@@ -193,7 +201,11 @@
       "play-rough",
       "confide",
       "laser-focus",
-      "throat-chop"
+      "throat-chop",
+      "psychic-fangs",
+      "lash-out",
+      "tera-blast",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/rabbit_2"

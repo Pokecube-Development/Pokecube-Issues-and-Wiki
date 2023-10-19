@@ -1,0 +1,19 @@
+{
+  "name": "roselia",
+  "user": "budew",
+  "condition": [
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "day"
+          }
+        }
+      }
+    },
+    {
+      "key": "happy"
+    }
+  ]
+}

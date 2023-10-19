@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.38"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headCap="-80,80" headCap1="-50,50"/>
   <phase armAngle="30" duration="8" leftArm="" leftLeg="leg1:leg1_1" legAngle="20" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
   <customTex default="mr-mime-galar">
    <part name="Head" tex="mr_mime_galar_head"/>

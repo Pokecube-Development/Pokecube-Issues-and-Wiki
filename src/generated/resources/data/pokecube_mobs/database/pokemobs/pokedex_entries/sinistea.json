@@ -116,6 +116,7 @@
       "rest",
       "substitute",
       "snore",
+      "spite",
       "protect",
       "giga-drain",
       "endure",
@@ -168,32 +169,6 @@
       "tex": "sinistea",
       "model": "sinistea-phony",
       "anim": "sinistea"
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "polteageist",
-      "item_preset": "chippedpot",
-      "evoMoves": "teatime",
-      "form_from": "sinistea-antique",
-      "model": {
-        "key": "polteageist-antique",
-        "tex": "polteageist",
-        "model": "polteageist-antique",
-        "anim": "polteageist"
-      }
-    },
-    {
-      "name": "polteageist",
-      "item_preset": "crackedpot",
-      "evoMoves": "teatime",
-      "form_from": "sinistea-phony",
-      "model": {
-        "key": "polteageist-phony",
-        "tex": "polteageist",
-        "model": "polteageist-phony",
-        "anim": "polteageist"
-      }
     }
   ],
   "loot_table": "pokecube:entities/enderpearls_2"

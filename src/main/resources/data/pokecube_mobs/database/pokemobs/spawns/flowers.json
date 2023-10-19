@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.flowers.general",
       "and_preset": "flowers",
       "not_preset": "cold_areas",
       "entries": [
@@ -18,12 +19,14 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.flowers.night",
       "and_preset": "flowers,night_time",
       "entries": [
         {"key": "applin","min": 1,"max": 4,"rate": 0.2}
       ]
     },
     {
+      "desc": "pokecube.spawns.flowers.day",
       "and_preset": "flowers,day_time",
       "not_preset": "cold_areas",
       "entries": [

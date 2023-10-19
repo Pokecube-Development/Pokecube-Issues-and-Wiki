@@ -1,0 +1,8 @@
+{
+  "name": "mr-rime",
+  "user": "mr-mime",
+  "condition": {
+    "key": "level",
+    "level": 42
+  }
+}

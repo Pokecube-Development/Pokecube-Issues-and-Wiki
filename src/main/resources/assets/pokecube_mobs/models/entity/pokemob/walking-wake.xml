@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
 	<phase name="global" scale="0.8"/>
-	<metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+	<metadata head="neck:head" headCap="-10,10" headCap1="-10,10"/>
 	<phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="30"/>
 	<phase axis="0" length="120" angle="18" name="snakeSit" parts="tail1:tail1_1:tail1_2:tail1_3:tail1_4:tail1_5:tail1_6:tail1_7:tail1_8:tail1_9"/>
     <phase axis="0" length="100" angle="18" name="snakeSit" parts="tail2:tail2_1:tail2_2:tail2_3:tail2_4:tail2_5:tail2_6:tail2_7:tail2_8:tail2_9"/>

@@ -1,0 +1,15 @@
+{
+  "name": "magmortar",
+  "user": "magmar",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:magmarizer"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

@@ -10,6 +10,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.entity.ai.memory.WalkTarget;
@@ -103,6 +104,8 @@ public abstract class TaskBase extends RootTask<Mob> implements ITask
         // Don't allow motion if the mob is actually a passenger, this should
         // help for say gengars riding dragons...
         if (pokemob.getEntity().isPassenger()) return false;
+        // Pose check is cheap, so use it
+        if (pokemob.getEntity().getPose() == Pose.SLEEPING) return false;
         // Can't move at all in this case
         if (pokemob.getLogicState(LogicStates.CANNOTMOVE)) return false;
         // Don't move while sitting

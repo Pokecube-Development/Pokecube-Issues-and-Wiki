@@ -215,11 +215,5 @@
       "dual-wingbeat"
     ]
   },
-  "evolutions": [
-    {
-      "name": "swoobat",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

@@ -44,6 +44,13 @@
         ]
       },
       {
+        "L": 28,
+        "moves": [
+          "headbutt",
+          "embargo"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "tackle"
@@ -53,6 +60,14 @@
         "L": 40,
         "moves": [
           "take-down"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "leer",
+          "mud-slap",
+          "odor-sleuth"
         ]
       },
       {
@@ -104,12 +119,6 @@
         ]
       },
       {
-        "L": 13,
-        "moves": [
-          "odor-sleuth"
-        ]
-      },
-      {
         "L": 4,
         "moves": [
           "howl"
@@ -119,12 +128,6 @@
         "L": 22,
         "moves": [
           "assurance"
-        ]
-      },
-      {
-        "L": 28,
-        "moves": [
-          "embargo"
         ]
       },
       {
@@ -165,6 +168,7 @@
       "scary-face",
       "mud-slap",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -182,6 +186,7 @@
       "torment",
       "facade",
       "taunt",
+      "helping-hand",
       "yawn",
       "snatch",
       "secret-power",
@@ -198,6 +203,7 @@
       "me-first",
       "sucker-punch",
       "dark-pulse",
+      "nasty-plot",
       "thunder-fang",
       "ice-fang",
       "fire-fang",
@@ -208,15 +214,12 @@
       "retaliate",
       "snarl",
       "play-rough",
-      "confide"
+      "confide",
+      "psychic-fangs",
+      "lash-out",
+      "tera-blast",
+      "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mightyena",
-      "level": 18,
-      "evoMoves": "snarl"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

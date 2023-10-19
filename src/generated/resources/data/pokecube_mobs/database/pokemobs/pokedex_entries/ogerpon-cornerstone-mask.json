@@ -2,6 +2,7 @@
   "name": "ogerpon-cornerstone-mask",
   "id": 1017,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": null,
   "size": {
     "height": 1.2
@@ -41,7 +42,7 @@
         ]
       },
       {
-        "L": 0,
+        "L": 1,
         "moves": [
           "vine-whip",
           "leech-seed",

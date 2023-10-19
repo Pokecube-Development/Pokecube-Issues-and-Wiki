@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.4"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <metadata head="head" headCap="-60,60" headCap1="-60,60"/>
   <customTex default="cyndaquil">
    <part name="Head" tex="cyndaquileye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>

@@ -196,20 +196,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "avalugg",
-      "level": 37,
-      "evoMoves": "body-slam"
-    },
-    {
-      "name": "avalugg-hisui",
-      "level": 37,
-      "location": {
-        "and_preset": "extreme_hills"
-      },
-      "time": "night"
-    }
-  ],
   "loot_table": "pokecube:entities/both_ice"
 }

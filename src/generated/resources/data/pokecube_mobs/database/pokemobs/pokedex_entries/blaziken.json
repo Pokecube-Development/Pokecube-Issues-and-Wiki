@@ -50,6 +50,7 @@
           "flamethrower",
           "high-jump-kick",
           "feather-dance",
+          "close-combat",
           "flare-blitz"
         ]
       },
@@ -178,6 +179,7 @@
       "reversal",
       "protect",
       "mud-slap",
+      "detect",
       "endure",
       "swagger",
       "fury-cutter",
@@ -201,6 +203,7 @@
       "brick-break",
       "knock-off",
       "secret-power",
+      "feather-dance",
       "blaze-kick",
       "blast-burn",
       "overheat",
@@ -258,11 +261,5 @@
     "model": "blaziken_female",
     "anim": "blaziken_female"
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "blazikenmega"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_chicken_3"
 }

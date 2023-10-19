@@ -137,13 +137,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "carkol",
-      "level": 18,
-      "animation": "18",
-      "evoMoves": "flame-charge"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_1"
 }

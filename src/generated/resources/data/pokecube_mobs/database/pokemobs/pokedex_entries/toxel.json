@@ -74,20 +74,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "toxtricity-amped",
-      "level": 30,
-      "animation": "18",
-      "evoMoves": "spark"
-    },
-    {
-      "name": "toxtricity-low-key",
-      "level": 30,
-      "animation": "18",
-      "trade": true,
-      "evoMoves": "spark"
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_rabbit_1"
 }

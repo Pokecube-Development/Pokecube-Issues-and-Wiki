@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
 	<phase name="global" scale="0.8"/>
-	<metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+	<metadata head="head" headCap="-10,10" headCap1="-10,10"/>
 	<phase name="biWalk" leftLeg="leg1" rightLeg="leg2" leftArm="" rightArm="" duration="10" legAngle="10"/>
     <customTex default="hariyama">
      <part name="Eye" tex="hariyama_eye"/>

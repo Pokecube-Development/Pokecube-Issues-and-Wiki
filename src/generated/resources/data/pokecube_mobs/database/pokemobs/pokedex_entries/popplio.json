@@ -194,11 +194,5 @@
       "triple-axel"
     ]
   },
-  "evolutions": [
-    {
-      "name": "brionne",
-      "level": 17
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -187,6 +187,7 @@
       "shock-wave",
       "payback",
       "embargo",
+      "flare-blitz",
       "dark-pulse",
       "energy-ball",
       "trick-room",
@@ -205,14 +206,9 @@
       "mystical-fire",
       "skitter-smack",
       "burning-jealousy",
-      "poltergeist"
+      "poltergeist",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lampent",
-      "level": 41
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

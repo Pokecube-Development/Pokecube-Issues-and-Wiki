@@ -145,6 +145,7 @@
       "substitute",
       "thief",
       "snore",
+      "spite",
       "protect",
       "scary-face",
       "feint-attack",
@@ -194,12 +195,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "dragalge",
-      "level": 48,
-      "evoMoves": "twister"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

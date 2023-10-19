@@ -96,6 +96,13 @@
         ]
       },
       {
+        "L": 33,
+        "moves": [
+          "sludge-bomb",
+          "mud-bomb"
+        ]
+      },
+      {
         "L": 25,
         "moves": [
           "stockpile",
@@ -107,12 +114,6 @@
         "L": 24,
         "moves": [
           "poison-jab"
-        ]
-      },
-      {
-        "L": 33,
-        "moves": [
-          "mud-bomb"
         ]
       },
       {
@@ -161,6 +162,7 @@
       "bide",
       "skull-bash",
       "glare",
+      "leech-life",
       "rest",
       "rock-slide",
       "substitute",
@@ -171,6 +173,7 @@
       "protect",
       "scary-face",
       "sludge-bomb",
+      "mud-slap",
       "giga-drain",
       "endure",
       "swagger",
@@ -190,20 +193,24 @@
       "swallow",
       "torment",
       "facade",
+      "knock-off",
       "snatch",
       "secret-power",
       "poison-fang",
       "rock-tomb",
+      "mud-shot",
       "poison-tail",
       "natural-gift",
       "payback",
       "gastro-acid",
       "sucker-punch",
+      "toxic-spikes",
       "poison-jab",
       "dark-pulse",
       "aqua-tail",
       "seed-bomb",
       "switcheroo",
+      "fire-fang",
       "mud-bomb",
       "gunk-shot",
       "captivate",
@@ -213,18 +220,18 @@
       "acid-spray",
       "round",
       "bulldoze",
+      "snarl",
       "belch",
       "confide",
       "infestation",
-      "brutal-swing"
+      "brutal-swing",
+      "psychic-fangs",
+      "scale-shot",
+      "lash-out",
+      "tera-blast",
+      "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "arbok",
-      "level": 22,
-      "evoMoves": "crunch"
-    }
-  ],
-  "loot_table": "pokecube:entities/leather"
+  "loot_table": "pokecube:entities/leather",
+  "prey": " small_rodent"
 }

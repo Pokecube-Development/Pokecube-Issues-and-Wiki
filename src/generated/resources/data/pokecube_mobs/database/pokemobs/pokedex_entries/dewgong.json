@@ -46,6 +46,8 @@
           "headbutt",
           "horn-drill",
           "growl",
+          "water-gun",
+          "bubble-beam",
           "icy-wind",
           "fake-out",
           "signal-beam"
@@ -218,5 +220,6 @@
       "liquidation"
     ]
   },
-  "loot_table": "pokecube:entities/fish_1"
+  "loot_table": "pokecube:entities/fish_1",
+  "prey": " small_fish"
 }

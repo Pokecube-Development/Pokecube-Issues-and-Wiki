@@ -1,0 +1,8 @@
+{
+  "name": "trevenant",
+  "user": "phantump",
+  "condition": {
+    "key": "traded"
+  },
+  "evoMoves": "shadow-claw"
+}

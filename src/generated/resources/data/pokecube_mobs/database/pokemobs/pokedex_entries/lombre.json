@@ -87,6 +87,12 @@
         ]
       },
       {
+        "L": 30,
+        "moves": [
+          "leech-seed"
+        ]
+      },
+      {
         "L": 37,
         "moves": [
           "thief"
@@ -151,19 +157,26 @@
       "mega-kick",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "growl",
+      "mist",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
       "blizzard",
       "bubble-beam",
+      "counter",
       "strength",
       "absorb",
+      "mega-drain",
+      "razor-leaf",
       "solar-beam",
       "toxic",
       "mimic",
       "double-team",
+      "metronome",
       "waterfall",
       "bubble",
       "flash",
@@ -172,6 +185,7 @@
       "substitute",
       "thief",
       "snore",
+      "flail",
       "protect",
       "mud-slap",
       "icy-wind",
@@ -184,6 +198,7 @@
       "frustration",
       "dynamic-punch",
       "encore",
+      "sweet-scent",
       "synthesis",
       "hidden-power",
       "rain-dance",
@@ -199,11 +214,15 @@
       "knock-off",
       "secret-power",
       "dive",
+      "teeter-dance",
       "hyper-voice",
       "astonish",
+      "weather-ball",
+      "tickle",
       "muddy-water",
       "bullet-seed",
       "mud-shot",
+      "magical-leaf",
       "water-sport",
       "water-pulse",
       "natural-gift",
@@ -218,16 +237,15 @@
       "round",
       "echoed-voice",
       "scald",
+      "disarming-voice",
+      "grassy-terrain",
       "confide",
       "power-up-punch",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ludicolo",
-      "item_preset": "waterstone"
-    }
-  ],
   "loot_table": "pokecube:entities/lilypad"
 }

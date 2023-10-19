@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.industrial.general",
       "and_preset": "industrial",
       "entries": [
         {"key": "magnemite","min": 1,"max": 4,"rate": 0.7},
@@ -22,6 +23,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.industrial.day",
       "and_preset": "industrial,day_time",
       "entries": [
         {"key": "helioptile","min": 1,"max": 4,"rate": 0.25},
@@ -31,6 +33,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.industrial.night",
       "and_preset": "industrial,night_time",
       "entries": [
         {"key": "rotom","min": 1,"max": 4,"rate": 0.1}

@@ -15,6 +15,8 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
+import pokecube.gimmicks.dynamax.DynamaxRaid;
+import pokecube.gimmicks.terastal.TerastalRaid;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.custom.LegendaryConditions;
 import pokecube.legends.entity.WormholeEntity;
@@ -140,6 +142,9 @@ public class Config extends ConfigData
         WormholeSpawns.teleWormholeChanceNormal = this.teleWormholeChanceNormal;
         WormholeSpawns.teleWormholeChanceWorms = this.teleWormholeChanceWorms;
 
+        DynamaxRaid.RAID_DURATION = this.raidDuration;
+        TerastalRaid.RAID_DURATION = this.raidDuration;
+        
         WormholeEntity.WEIGHTED_DIM_MAP.clear();
         WormholeEntity.NO_HOLES.clear();
 

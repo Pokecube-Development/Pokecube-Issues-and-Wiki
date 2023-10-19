@@ -1,0 +1,10 @@
+{
+  "name": "carkol",
+  "user": "rolycoly",
+  "condition": {
+    "key": "level",
+    "level": 18
+  },
+  "evoMoves": "flame-charge",
+  "animation": "18"
+}

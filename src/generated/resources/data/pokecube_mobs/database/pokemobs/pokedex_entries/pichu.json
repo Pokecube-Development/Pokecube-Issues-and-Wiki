@@ -133,6 +133,7 @@
       "fake-out",
       "uproar",
       "facade",
+      "follow-me",
       "charge",
       "helping-hand",
       "wish",
@@ -167,11 +168,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "pikachu",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

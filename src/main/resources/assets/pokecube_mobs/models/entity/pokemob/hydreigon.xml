@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.38"/>
-  <metadata head="neck1:neck2:head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1" headDir1="-1"/>.0"/>
+  <metadata head="neck1:neck2:head" headCap="-20,20" headCap1="-20,20" headDir1="-1"/>.0"/>
   <customTex default="hydreigon">
    <part name="Head" tex="hydreigoneye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>

@@ -218,12 +218,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "golurk",
-      "level": 43,
-      "evoMoves": "heavy-slam"
-    }
-  ],
   "loot_table": "pokecube:entities/stone_1"
 }

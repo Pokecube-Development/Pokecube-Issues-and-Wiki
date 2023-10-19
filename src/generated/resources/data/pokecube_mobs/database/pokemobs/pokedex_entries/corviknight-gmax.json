@@ -2,7 +2,7 @@
   "name": "corviknight-gmax",
   "id": 823,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 248,
   "size": {
     "height": 5.0,
@@ -38,6 +38,28 @@
     "hidden": [
       "mirror-armor"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-3,0,-3",
+          "size": "6,8,6",
+          "ride": "4,5.5,4"
+        }
+      ]
+    },
+    "flying": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-3,0,-3",
+          "size": "6,8,6",
+          "ride": "3,5,4"
+        }
+      ]
+    }
   },
   "old_name": "corviknight_gigantamax"
 }

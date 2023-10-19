@@ -64,6 +64,14 @@
         ]
       },
       {
+        "L": 45,
+        "moves": [
+          "earthquake",
+          "crabhammer",
+          "sky-uppercut"
+        ]
+      },
+      {
         "L": 13,
         "moves": [
           "quick-attack"
@@ -90,7 +98,9 @@
       {
         "L": 19,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "mud-slap",
+          "poison-tail"
         ]
       },
       {
@@ -103,12 +113,6 @@
         "L": 10,
         "moves": [
           "knock-off"
-        ]
-      },
-      {
-        "L": 45,
-        "moves": [
-          "sky-uppercut"
         ]
       },
       {
@@ -138,6 +142,7 @@
       "wing-attack",
       "sand-attack",
       "headbutt",
+      "take-down",
       "double-edge",
       "poison-sting",
       "counter",
@@ -161,8 +166,11 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
+      "mud-slap",
+      "spikes",
       "detect",
       "sandstorm",
       "endure",
@@ -180,6 +188,7 @@
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "crunch",
       "rock-smash",
       "torment",
       "facade",
@@ -191,6 +200,7 @@
       "sky-uppercut",
       "sand-tomb",
       "aerial-ace",
+      "mud-shot",
       "poison-tail",
       "roost",
       "natural-gift",
@@ -200,6 +210,7 @@
       "payback",
       "fling",
       "power-trick",
+      "toxic-spikes",
       "rock-polish",
       "poison-jab",
       "dark-pulse",
@@ -207,9 +218,13 @@
       "aqua-tail",
       "x-scissor",
       "earth-power",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
       "rock-climb",
       "defog",
       "cross-poison",
+      "gunk-shot",
       "stone-edge",
       "captivate",
       "stealth-rock",
@@ -221,19 +236,14 @@
       "struggle-bug",
       "bulldoze",
       "confide",
-      "throat-chop"
+      "high-horsepower",
+      "throat-chop",
+      "lunge",
+      "psychic-fangs",
+      "scale-shot",
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gliscor",
-      "item": {
-        "values": {
-          "id": "minecraft:iron_pickaxe"
-        }
-      },
-      "time": "night"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

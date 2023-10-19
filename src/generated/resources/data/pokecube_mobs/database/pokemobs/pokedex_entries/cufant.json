@@ -169,13 +169,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "copperajah",
-      "level": 34,
-      "animation": "18",
-      "evoMoves": "heavy-slam"
-    }
-  ],
   "loot_table": "pokecube:entities/terracota_1"
 }

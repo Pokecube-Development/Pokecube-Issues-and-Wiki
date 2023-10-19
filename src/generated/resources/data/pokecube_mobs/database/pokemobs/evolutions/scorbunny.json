@@ -1,0 +1,9 @@
+{
+  "name": "raboot",
+  "user": "scorbunny",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "animation": "18"
+}

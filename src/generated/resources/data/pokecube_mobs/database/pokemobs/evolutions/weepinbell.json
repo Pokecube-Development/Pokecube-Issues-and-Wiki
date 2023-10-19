@@ -1,0 +1,11 @@
+{
+  "name": "victreebel",
+  "user": "weepinbell",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:leafstone"
+    }
+  },
+  "evoMoves": "leaf-tornado"
+}

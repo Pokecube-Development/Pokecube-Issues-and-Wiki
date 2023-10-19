@@ -41,8 +41,7 @@
         "L": 1,
         "moves": [
           "pound",
-          "hypnosis",
-          "pound"
+          "hypnosis"
         ]
       },
       {
@@ -94,6 +93,13 @@
         ]
       },
       {
+        "L": 29,
+        "moves": [
+          "mind-reader",
+          "wake-up-slap"
+        ]
+      },
+      {
         "L": 45,
         "moves": [
           "swagger"
@@ -109,12 +115,6 @@
         "L": 61,
         "moves": [
           "future-sight"
-        ]
-      },
-      {
-        "L": 29,
-        "moves": [
-          "wake-up-slap"
         ]
       },
       {
@@ -172,6 +172,7 @@
       "double-team",
       "barrier",
       "light-screen",
+      "haze",
       "reflect",
       "bide",
       "metronome",
@@ -217,6 +218,7 @@
       "magic-coat",
       "recycle",
       "brick-break",
+      "knock-off",
       "skill-swap",
       "imprison",
       "snatch",
@@ -253,11 +255,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "hypno",
-      "level": 26
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

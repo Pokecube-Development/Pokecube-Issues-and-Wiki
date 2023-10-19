@@ -1,0 +1,9 @@
+{
+  "name": "boldore",
+  "user": "roggenrola",
+  "condition": {
+    "key": "level",
+    "level": 25
+  },
+  "evoMoves": "power-gem"
+}

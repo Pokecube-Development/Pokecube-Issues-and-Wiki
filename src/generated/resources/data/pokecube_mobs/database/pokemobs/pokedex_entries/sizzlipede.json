@@ -142,12 +142,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "centiskorch",
-      "level": 28,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

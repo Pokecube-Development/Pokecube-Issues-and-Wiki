@@ -148,6 +148,7 @@
       "facade",
       "helping-hand",
       "brick-break",
+      "knock-off",
       "skill-swap",
       "fake-tears",
       "rock-tomb",
@@ -162,11 +163,5 @@
       "tera-blast",
       "pounce"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "tinkaton",
-      "level": 38
-    }
-  ]
+  }
 }

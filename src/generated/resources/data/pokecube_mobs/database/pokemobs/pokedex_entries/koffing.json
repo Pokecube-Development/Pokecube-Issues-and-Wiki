@@ -132,6 +132,8 @@
     "misc": [
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
       "flamethrower",
       "psybeam",
       "thunderbolt",
@@ -159,6 +161,7 @@
       "curse",
       "spite",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "zap-cannon",
       "destiny-bond",
@@ -192,9 +195,11 @@
       "assurance",
       "toxic-spikes",
       "dark-pulse",
+      "gunk-shot",
       "captivate",
       "venoshock",
       "sludge-wave",
+      "acid-spray",
       "round",
       "clear-smog",
       "incinerate",
@@ -202,23 +207,9 @@
       "confide",
       "venom-drench",
       "infestation",
-      "corrosive-gas"
+      "corrosive-gas",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "weezing",
-      "level": 35,
-      "evoMoves": "double-hit"
-    },
-    {
-      "name": "weezing-galar",
-      "level": 35,
-      "location": {
-        "and_preset": "industrial"
-      },
-      "evoMoves": "double-hit"
-    }
-  ],
   "loot_table": "minecraft:entities/creeper"
 }

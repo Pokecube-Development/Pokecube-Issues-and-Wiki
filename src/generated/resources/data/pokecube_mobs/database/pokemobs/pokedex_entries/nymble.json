@@ -127,17 +127,12 @@
       "u-turn",
       "x-scissor",
       "bug-buzz",
+      "bug-bite",
       "struggle-bug",
       "skitter-smack",
       "tera-blast",
       "pounce",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "lokix",
-      "level": 24
-    }
-  ]
+  }
 }

@@ -1,0 +1,10 @@
+{
+  "name": "haunter",
+  "user": "gastly",
+  "condition": {
+    "key": "level",
+    "level": 25
+  },
+  "evoMoves": "shadow-punch",
+  "animation": "49"
+}

@@ -45,6 +45,13 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "take-down",
+          "hyper-fang"
+        ]
+      },
+      {
         "L": 31,
         "moves": [
           "double-edge"
@@ -69,12 +76,6 @@
         ]
       },
       {
-        "L": 16,
-        "moves": [
-          "hyper-fang"
-        ]
-      },
-      {
         "L": 28,
         "moves": [
           "super-fang"
@@ -83,7 +84,8 @@
       {
         "L": 13,
         "moves": [
-          "pursuit"
+          "pursuit",
+          "laser-focus"
         ]
       },
       {
@@ -151,6 +153,7 @@
       "curse",
       "reversal",
       "protect",
+      "sludge-bomb",
       "mud-slap",
       "icy-wind",
       "endure",
@@ -194,12 +197,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "raticate",
-      "level": 20,
-      "evoMoves": "scary-face"
-    }
-  ],
   "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

@@ -46,6 +46,7 @@
           "thunder-shock",
           "quick-attack",
           "charge",
+          "wild-charge",
           "ion-deluge",
           "electric-terrain"
         ]
@@ -165,6 +166,7 @@
       "torment",
       "facade",
       "focus-punch",
+      "charge",
       "taunt",
       "helping-hand",
       "brick-break",

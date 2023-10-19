@@ -204,6 +204,7 @@
       "sunny-day",
       "psych-up",
       "facade",
+      "charge",
       "helping-hand",
       "magic-coat",
       "recycle",
@@ -236,12 +237,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "magneton",
-      "level": 30,
-      "evoMoves": "tri-attack"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_redstone_1"
 }

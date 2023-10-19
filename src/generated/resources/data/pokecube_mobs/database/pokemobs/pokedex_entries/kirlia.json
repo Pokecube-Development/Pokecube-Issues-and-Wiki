@@ -195,6 +195,7 @@
       "trick",
       "magic-coat",
       "recycle",
+      "knock-off",
       "skill-swap",
       "imprison",
       "snatch",
@@ -233,17 +234,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gardevoir",
-      "level": 30
-    },
-    {
-      "name": "gallade",
-      "item_preset": "dawnstone",
-      "sexe": "male",
-      "evoMoves": "slash"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

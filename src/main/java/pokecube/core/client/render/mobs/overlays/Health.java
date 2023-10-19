@@ -35,6 +35,7 @@ import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
+import pokecube.core.client.EventsHandlerClient;
 import pokecube.core.eventhandlers.StatsCollector;
 import pokecube.core.handlers.playerdata.PokecubePlayerStats;
 import pokecube.core.init.Config;
@@ -61,15 +62,15 @@ public class Health
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         // Only apply to pokemobs in world
         if (pokemob == null || !entity.isAddedToWorld()) return false;
-        // Only apply to stock ones, unless otherwise configured
-        if (PokecubeCore.getConfig().nonStockHealthbars && !pokemob.getPokedexEntry().stock) return false;
-        // Only apply if in range
-        if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return false;
         final EntityRenderDispatcher renderManager = Minecraft.getInstance().getEntityRenderDispatcher();
         // Some sanity checks
         if (renderManager == null || renderManager.camera == null) return false;
         // If we are set to only show focused, then only show that.
-        if (PokecubeCore.getConfig().showOnlyFocused && entity != renderManager.crosshairPickEntity) return false;
+        if (PokecubeCore.getConfig().showOnlyFocused && (entity != EventsHandlerClient.hovorTarget && entity != renderManager.crosshairPickEntity)) return false;
+        // Only apply to stock ones, unless otherwise configured
+        if (PokecubeCore.getConfig().nonStockHealthbars && !pokemob.getPokedexEntry().stock) return false;
+        // Only apply if in range
+        if (entity.distanceTo(viewPoint) > PokecubeCore.getConfig().maxDistance) return false;
         final Camera viewer = renderManager.camera;
         // If viewer is riding us, do not show
         if (entity.getPassengers().contains(viewer.getEntity())) return false;
@@ -160,6 +161,7 @@ public class Health
         {
 
             float scale = .02f;
+            float mobScale = (float) SharedAttributes.getScale(entity);
 
             final float maxHealth = entity.getMaxHealth();
             final float health = Math.min(maxHealth, entity.getHealth());
@@ -174,9 +176,12 @@ public class Health
                 for (final PartEntity<?> part : entity.getParts())
                     dy = Math.max(dy, part.getBoundingBox().getYsize() + part.getY() - entity.getY());
             }
-            scale *= SharedAttributes.getScale(entity);
 
-            mat.translate(0, dy + config.heightAbove, 0);
+            dy += config.heightAbove;
+            dy *= mobScale;
+            scale *= mobScale;
+
+            mat.translate(0, dy, 0);
             Quaternion quaternion;
             quaternion = viewer.rotation();
             mat.mulPose(quaternion);

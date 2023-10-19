@@ -1,0 +1,9 @@
+{
+  "name": "toxapex",
+  "user": "mareanie",
+  "condition": {
+    "key": "level",
+    "level": 38
+  },
+  "evoMoves": "baneful-bunker"
+}

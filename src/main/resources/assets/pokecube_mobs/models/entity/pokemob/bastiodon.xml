@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.42"/>
-  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <metadata head="neck" headCap="-10,10" headCap1="-10,10"/>
   <phase duration="10" leftFront="leg3:leg3_1" leftHind="leg2:leg2_1" name="quadWalk" rightFront="leg4:leg4_1" rightHind="leg1:leg1_1"/>
   <customTex default="bastiodon">
    <part name="Head" tex="bastiodoneye"/>

@@ -169,11 +169,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "zebstrika",
-      "level": 27
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_cow_1"
 }

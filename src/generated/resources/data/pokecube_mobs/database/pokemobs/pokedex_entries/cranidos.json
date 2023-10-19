@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 28,
+        "moves": [
+          "swords-dance",
+          "chip-away"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "headbutt",
@@ -71,7 +78,8 @@
       {
         "L": 10,
         "moves": [
-          "pursuit"
+          "pursuit",
+          "rock-polish"
         ]
       },
       {
@@ -96,12 +104,6 @@
         "L": 46,
         "moves": [
           "head-smash"
-        ]
-      },
-      {
-        "L": 28,
-        "moves": [
-          "chip-away"
         ]
       }
     ],
@@ -187,12 +189,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "rampardos",
-      "level": 30,
-      "evoMoves": "endeavor"
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

@@ -124,6 +124,7 @@
       "sunny-day",
       "facade",
       "helping-hand",
+      "weather-ball",
       "bullet-seed",
       "magical-leaf",
       "seed-bomb",
@@ -132,14 +133,9 @@
       "leaf-storm",
       "grass-knot",
       "grassy-terrain",
+      "solar-blade",
       "tera-blast",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "arboliva",
-      "level": 35
-    }
-  ]
+  }
 }

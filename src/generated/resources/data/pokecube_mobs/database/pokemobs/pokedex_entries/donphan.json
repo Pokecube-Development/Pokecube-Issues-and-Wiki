@@ -47,9 +47,16 @@
         "L": 1,
         "moves": [
           "horn-attack",
+          "tackle",
+          "take-down",
+          "double-edge",
           "growl",
           "defense-curl",
+          "flail",
+          "endure",
+          "charm",
           "odor-sleuth",
+          "last-resort",
           "thunder-fang",
           "fire-fang",
           "bulldoze"
@@ -68,12 +75,6 @@
         ]
       },
       {
-        "L": 17,
-        "moves": [
-          "flail"
-        ]
-      },
-      {
         "L": 37,
         "moves": [
           "scary-face"
@@ -89,6 +90,7 @@
         "L": 30,
         "moves": [
           "magnitude",
+          "rock-tomb",
           "stomping-tantrum"
         ]
       },
@@ -173,6 +175,7 @@
       "hyper-voice",
       "odor-sleuth",
       "rock-tomb",
+      "sand-tomb",
       "iron-defense",
       "block",
       "bounce",
@@ -194,12 +197,14 @@
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "smack-down",
       "heavy-slam",
       "round",
       "echoed-voice",
       "bulldoze",
       "play-rough",
       "confide",
+      "high-horsepower",
       "smart-strike",
       "brutal-swing",
       "stomping-tantrum",

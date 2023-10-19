@@ -1,0 +1,10 @@
+{
+  "name": "cinccino",
+  "user": "minccino",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:shinystone"
+    }
+  }
+}

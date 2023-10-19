@@ -1,0 +1,9 @@
+{
+  "name": "galvantula",
+  "user": "joltik",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "sticky-web"
+}

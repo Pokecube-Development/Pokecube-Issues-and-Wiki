@@ -1,0 +1,9 @@
+{
+  "name": "marshtomp",
+  "user": "mudkip",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "evoMoves": "mud-shot"
+}

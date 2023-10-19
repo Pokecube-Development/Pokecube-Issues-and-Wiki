@@ -44,7 +44,9 @@
         "moves": [
           "guillotine",
           "sand-attack",
+          "poison-sting",
           "harden",
+          "slash",
           "knock-off",
           "poison-jab",
           "thunder-fang",
@@ -56,6 +58,14 @@
         "L": 50,
         "moves": [
           "swords-dance"
+        ]
+      },
+      {
+        "L": 45,
+        "moves": [
+          "earthquake",
+          "crabhammer",
+          "sky-uppercut"
         ]
       },
       {
@@ -73,19 +83,14 @@
       {
         "L": 19,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "mud-slap"
         ]
       },
       {
         "L": 16,
         "moves": [
           "fury-cutter"
-        ]
-      },
-      {
-        "L": 45,
-        "moves": [
-          "sky-uppercut"
         ]
       },
       {
@@ -117,13 +122,18 @@
       "guillotine",
       "swords-dance",
       "cut",
+      "wing-attack",
       "sand-attack",
       "headbutt",
+      "take-down",
+      "double-edge",
       "hyper-beam",
+      "counter",
       "strength",
       "earthquake",
       "dig",
       "toxic",
+      "agility",
       "quick-attack",
       "screech",
       "double-team",
@@ -136,9 +146,11 @@
       "thief",
       "snore",
       "protect",
+      "scary-face",
       "feint-attack",
       "sludge-bomb",
       "mud-slap",
+      "spikes",
       "sandstorm",
       "endure",
       "false-swipe",
@@ -149,10 +161,13 @@
       "sleep-talk",
       "return",
       "frustration",
+      "baton-pass",
       "iron-tail",
+      "metal-claw",
       "hidden-power",
       "rain-dance",
       "sunny-day",
+      "crunch",
       "rock-smash",
       "torment",
       "facade",
@@ -162,13 +177,18 @@
       "secret-power",
       "rock-tomb",
       "sky-uppercut",
+      "sand-tomb",
       "aerial-ace",
+      "mud-shot",
+      "poison-tail",
       "roost",
       "natural-gift",
+      "feint",
       "tailwind",
       "u-turn",
       "payback",
       "fling",
+      "toxic-spikes",
       "rock-polish",
       "poison-jab",
       "dark-pulse",
@@ -181,6 +201,8 @@
       "ice-fang",
       "fire-fang",
       "defog",
+      "cross-poison",
+      "gunk-shot",
       "stone-edge",
       "captivate",
       "stealth-rock",
@@ -192,8 +214,13 @@
       "struggle-bug",
       "bulldoze",
       "confide",
+      "high-horsepower",
       "throat-chop",
-      "brutal-swing"
+      "lunge",
+      "brutal-swing",
+      "psychic-fangs",
+      "dual-wingbeat",
+      "tera-blast"
     ]
   },
   "loot_table": "pokecube:entities/chicken_1"

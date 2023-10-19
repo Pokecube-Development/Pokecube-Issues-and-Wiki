@@ -64,7 +64,7 @@ public class Compat
     static
     {
         pokecube.compat.Compat.BUS.register(Compat.class);
-        DERP = new PokedexEntry(-1, "vanilla_mob");
+        DERP = new PokedexEntry(-1, "vanilla_mob", false);
         Compat.DERP.type1 = PokeType.unknown;
         Compat.DERP.type2 = PokeType.unknown;
         Compat.DERP.base = true;
@@ -213,7 +213,7 @@ public class Compat
                 PokedexEntry newDerp = Database.getEntry(name);
                 if (newDerp == null)
                 {
-                    newDerp = new PokedexEntry(Compat.DERP.getPokedexNb(), name);
+                    newDerp = new PokedexEntry(Compat.DERP.getPokedexNb(), name, true);
                     newDerp.setBaseForme(Compat.DERP);
                     Compat.DERP.copyToForm(newDerp);
                     newDerp.stock = false;

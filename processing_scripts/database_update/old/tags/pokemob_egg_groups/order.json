@@ -1,8 +1,8 @@
 {
   "replace": false,
   "values": [
-    "pokecube:zygarde_50",
-    "pokecube:zygarde_10",
-    "pokecube:zygarde_100"
+    "pokecube:zygarde-50",
+    "pokecube:zygarde-10",
+    "pokecube:zygarde-complete"
   ]
 }

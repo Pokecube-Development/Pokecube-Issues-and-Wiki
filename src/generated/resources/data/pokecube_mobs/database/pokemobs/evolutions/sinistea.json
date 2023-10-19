@@ -1,0 +1,36 @@
+[
+  {
+    "name": "polteageist",
+    "user": "sinistea-antique",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:chippedpot"
+      }
+    },
+    "evoMoves": "teatime",
+    "model": {
+      "key": "polteageist-antique",
+      "tex": "polteageist",
+      "model": "polteageist-antique",
+      "anim": "polteageist"
+    }
+  },
+  {
+    "name": "polteageist",
+    "user": "sinistea-phony",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:crackedpot"
+      }
+    },
+    "evoMoves": "teatime",
+    "model": {
+      "key": "polteageist-phony",
+      "tex": "polteageist",
+      "model": "polteageist-phony",
+      "anim": "polteageist"
+    }
+  }
+]

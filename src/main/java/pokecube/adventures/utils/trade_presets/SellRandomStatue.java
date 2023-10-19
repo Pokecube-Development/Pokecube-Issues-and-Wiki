@@ -1,7 +1,5 @@
 package pokecube.adventures.utils.trade_presets;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import net.minecraft.nbt.CompoundTag;
@@ -13,7 +11,6 @@ import pokecube.adventures.utils.TradeEntryLoader;
 import pokecube.adventures.utils.TradeEntryLoader.Trade;
 import pokecube.adventures.utils.TradeEntryLoader.TradePreset;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.utils.Tools;
 import pokecube.core.database.Database;
 import thut.lib.RegHelper;
@@ -49,34 +46,14 @@ public class SellRandomStatue implements TradePreset
     {
         for (final PokedexEntry e : Database.getSortedFormes())
         {
-            List<FormeHolder> variants = Database.customModels.getOrDefault(e, Collections.emptyList());
-            if (variants.isEmpty())
-            {
-                ItemStack statue = new ItemStack(PokecubeAdv.STATUE.get());
-                CompoundTag modelTag = new CompoundTag();
+            ItemStack statue = new ItemStack(PokecubeAdv.STATUE.get());
+            CompoundTag modelTag = new CompoundTag();
 
-                modelTag.putString("id", RegHelper.getKey(e.getEntityType()).toString());
-                modelTag.putString("over_tex", "minecraft:textures/block/stone.png");
-                statue.getOrCreateTagElement("BlockEntityTag").put("custom_model", modelTag);
+            modelTag.putString("id", RegHelper.getKey(e.getEntityType()).toString());
+            modelTag.putString("over_tex", "minecraft:textures/block/stone.png");
+            statue.getOrCreateTagElement("BlockEntityTag").put("custom_model", modelTag);
 
-                addTrade(statue, trade, trades);
-            }
-            else
-            {
-                ItemStack statue = new ItemStack(PokecubeAdv.STATUE.get());
-                CompoundTag modelTag = new CompoundTag();
-
-                for (FormeHolder variant : variants)
-                {
-                    modelTag.putString("variant", variant.key.toString());
-                }
-
-                modelTag.putString("id", RegHelper.getKey(e.getEntityType()).toString());
-                modelTag.putString("over_tex", "minecraft:textures/block/stone.png");
-                statue.getOrCreateTagElement("BlockEntityTag").put("custom_model", modelTag);
-
-                addTrade(statue, trade, trades);
-            }
+            addTrade(statue, trade, trades);
         }
     }
 

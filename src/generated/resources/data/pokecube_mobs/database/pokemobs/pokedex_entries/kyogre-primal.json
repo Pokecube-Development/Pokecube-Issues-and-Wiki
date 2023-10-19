@@ -2,7 +2,7 @@
   "name": "kyogre-primal",
   "id": 382,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 347,
   "size": {
     "height": 4.0,

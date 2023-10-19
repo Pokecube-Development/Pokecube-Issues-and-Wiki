@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 21,
+        "moves": [
+          "headbutt",
+          "synthesis"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "tackle",
@@ -77,12 +84,6 @@
         ]
       },
       {
-        "L": 21,
-        "moves": [
-          "synthesis"
-        ]
-      },
-      {
         "L": 27,
         "moves": [
           "sunny-day"
@@ -111,9 +112,12 @@
       "razor-wind",
       "swords-dance",
       "headbutt",
+      "tackle",
       "body-slam",
       "take-down",
       "double-edge",
+      "absorb",
+      "mega-drain",
       "leech-seed",
       "growth",
       "solar-beam",
@@ -145,6 +149,7 @@
       "frustration",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "shadow-ball",
       "rock-smash",
@@ -152,16 +157,20 @@
       "facade",
       "nature-power",
       "secret-power",
+      "astonish",
       "bullet-seed",
+      "magical-leaf",
       "natural-gift",
       "payback",
       "power-swap",
       "worry-seed",
+      "sucker-punch",
       "night-slash",
       "seed-bomb",
       "energy-ball",
       "nasty-plot",
       "defog",
+      "leaf-storm",
       "captivate",
       "grass-knot",
       "foul-play",
@@ -169,15 +178,10 @@
       "retaliate",
       "grassy-terrain",
       "confide",
-      "grassy-glide"
+      "grassy-glide",
+      "tera-blast",
+      "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "nuzleaf",
-      "level": 14,
-      "evoMoves": "razor-leaf"
-    }
-  ],
   "loot_table": "pokecube:entities/other_seeds"
 }

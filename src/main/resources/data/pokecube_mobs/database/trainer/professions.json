@@ -867,26 +867,90 @@
         {
           "level": 1,
           "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:pokemobegg", "n": "4"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
           ]
         },
         {
           "level": 2,
           "trades": [
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "minecraft:writable_book", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "8"}}
+              ]
+            },
+            {
+              "exp": 5,
+              "sell": {"values": {"id": "minecraft:clock", "n": "1"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "8"}}
+              ]
+            }
           ]
         },
         {
           "level": 3,
           "trades": [
+            {
+              "exp": 1,
+              "sell": {"values": {"id": "pokecube:tm", "n": "2"}},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "1"}}
+              ]
+            }
           ]
         },
         {
           "level": 4,
           "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_world:maps/castle_n"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
           ]
         },
         {
           "level": 5,
           "trades": [
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_world:maps/team_rocket"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_world:maps/team_magma"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            },
+            {
+              "custom": "sellExplorationMap",
+              "exp": 10,
+              "count": 1,
+              "values": {"id": "pokecube_world:maps/team_aqua"},
+              "buys": [
+                {"values": {"id": "minecraft:emerald", "n": "16"}}
+              ]
+            }
           ]
         }
       ]

@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="1.7"/>
-  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-60,60" headDir="-1"/>
+  <metadata head="neck" headCap="-60,60" headCap1="-60,60"/>
   <customTex default="coalossal-gmax">
   <part name="Coal" tex="coalossal-gmax"/>
   <part name="Head" tex="coalossalghead"/>

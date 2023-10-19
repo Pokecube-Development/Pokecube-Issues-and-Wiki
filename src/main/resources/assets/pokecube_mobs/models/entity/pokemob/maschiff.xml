@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.25"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <metadata head="head" headCap="-20,20" headCap1="-20,20"/>
   <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
   <customTex default="maschiff">
    <part name="Head" tex="maschiff_eye"/>

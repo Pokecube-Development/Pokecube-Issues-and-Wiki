@@ -246,11 +246,6 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "parasect",
-      "level": 24
-    }
-  ],
-  "loot_table": "pokecube:entities/both_shrooms_1"
+  "loot_table": "pokecube:entities/both_shrooms_1",
+  "prey": " small_plant"
 }

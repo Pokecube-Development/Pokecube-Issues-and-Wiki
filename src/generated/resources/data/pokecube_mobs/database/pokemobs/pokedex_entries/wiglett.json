@@ -131,11 +131,5 @@
       "tera-blast",
       "chilling-water"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "wugtrio",
-      "level": 26
-    }
-  ]
+  }
 }

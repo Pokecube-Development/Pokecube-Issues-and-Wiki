@@ -159,13 +159,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "thwackey",
-      "level": 16,
-      "animation": "18",
-      "evoMoves": "double-hit"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

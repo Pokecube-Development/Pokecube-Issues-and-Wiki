@@ -44,7 +44,10 @@
         "moves": [
           "scratch",
           "leer",
-          "ember"
+          "ember",
+          "flamethrower",
+          "facade",
+          "nasty-plot"
         ]
       },
       {
@@ -112,6 +115,12 @@
         "moves": [
           "acrobatics"
         ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "power-up-punch"
+        ]
       }
     ],
     "misc": [
@@ -152,6 +161,7 @@
       "hidden-power",
       "sunny-day",
       "rock-smash",
+      "uproar",
       "heat-wave",
       "torment",
       "will-o-wisp",
@@ -161,6 +171,7 @@
       "helping-hand",
       "role-play",
       "brick-break",
+      "knock-off",
       "endeavor",
       "secret-power",
       "slack-off",
@@ -178,6 +189,7 @@
       "poison-jab",
       "vacuum-wave",
       "focus-blast",
+      "nasty-plot",
       "shadow-claw",
       "rock-climb",
       "gunk-shot",
@@ -185,6 +197,7 @@
       "stealth-rock",
       "grass-knot",
       "hone-claws",
+      "smack-down",
       "flame-charge",
       "low-sweep",
       "round",
@@ -195,15 +208,10 @@
       "work-up",
       "dual-chop",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "burning-jealousy",
+      "lash-out"
     ]
   },
-  "evolutions": [
-    {
-      "name": "infernape",
-      "level": 36,
-      "evoMoves": "close-combat"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_2"
 }

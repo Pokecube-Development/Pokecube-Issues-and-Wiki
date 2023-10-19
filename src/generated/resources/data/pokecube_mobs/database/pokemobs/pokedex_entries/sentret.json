@@ -43,6 +43,7 @@
         "moves": [
           "scratch",
           "tackle",
+          "growl",
           "foresight"
         ]
       },
@@ -50,6 +51,14 @@
         "L": 25,
         "moves": [
           "slam"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "double-edge",
+          "reversal",
+          "me-first"
         ]
       },
       {
@@ -107,12 +116,6 @@
         ]
       },
       {
-        "L": 42,
-        "moves": [
-          "me-first"
-        ]
-      },
-      {
         "L": 31,
         "moves": [
           "sucker-punch"
@@ -129,12 +132,15 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "flamethrower",
       "surf",
       "ice-beam",
+      "blizzard",
       "solar-beam",
       "thunderbolt",
+      "thunder",
       "dig",
       "toxic",
       "quick-attack",
@@ -196,6 +202,7 @@
       "last-resort",
       "sucker-punch",
       "aqua-tail",
+      "seed-bomb",
       "shadow-claw",
       "captivate",
       "grass-knot",
@@ -205,19 +212,17 @@
       "echoed-voice",
       "retaliate",
       "work-up",
+      "play-rough",
       "confide",
       "baby-doll-eyes",
       "power-up-punch",
-      "brutal-swing"
+      "brutal-swing",
+      "tera-blast",
+      "tidy-up",
+      "trailblaze",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "furret",
-      "level": 15,
-      "evoMoves": "agility"
-    }
-  ],
   "held_table": "pokecube:entities/oranberry_10",
   "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

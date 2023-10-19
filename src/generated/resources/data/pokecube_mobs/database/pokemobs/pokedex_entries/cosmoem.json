@@ -52,19 +52,5 @@
       "cosmic-power"
     ]
   },
-  "evolutions": [
-    {
-      "name": "solgaleo",
-      "level": 53,
-      "time": "day",
-      "evoMoves": "sunsteel-strike"
-    },
-    {
-      "name": "lunala",
-      "level": 53,
-      "time": "night",
-      "evoMoves": "moongeist-beam"
-    }
-  ],
   "loot_table": "pokecube:entities/cosmic"
 }

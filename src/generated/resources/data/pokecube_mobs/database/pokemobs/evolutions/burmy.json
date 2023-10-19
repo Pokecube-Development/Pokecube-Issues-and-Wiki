@@ -1,0 +1,62 @@
+[
+  {
+    "name": "wormadam-plant",
+    "user": "burmy-plant",
+    "condition": [
+      {
+        "key": "level",
+        "level": 20
+      },
+      {
+        "key": "sexe",
+        "sexe": "female"
+      }
+    ],
+    "evoMoves": "quiver-dance"
+  },
+  {
+    "name": "wormadam-sandy",
+    "user": "burmy-sandy",
+    "condition": [
+      {
+        "key": "level",
+        "level": 20
+      },
+      {
+        "key": "sexe",
+        "sexe": "female"
+      }
+    ],
+    "evoMoves": "quiver-dance"
+  },
+  {
+    "name": "wormadam-trash",
+    "user": "burmy-trash",
+    "condition": [
+      {
+        "key": "level",
+        "level": 20
+      },
+      {
+        "key": "sexe",
+        "sexe": "female"
+      }
+    ],
+    "evoMoves": "quiver-dance"
+  },
+  {
+    "name": "mothim",
+    "user": "burmy",
+    "condition": [
+      {
+        "key": "level",
+        "level": 20
+      },
+      {
+        "key": "sexe",
+        "sexe": "male"
+      }
+    ],
+    "evoMoves": "quiver-dance"
+  }
+]

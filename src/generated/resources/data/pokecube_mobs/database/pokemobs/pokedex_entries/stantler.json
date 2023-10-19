@@ -48,7 +48,8 @@
       {
         "L": 43,
         "moves": [
-          "jump-kick"
+          "jump-kick",
+          "lunge"
         ]
       },
       {
@@ -127,7 +128,8 @@
       {
         "L": 50,
         "moves": [
-          "captivate"
+          "captivate",
+          "entrainment"
         ]
       }
     ],
@@ -228,6 +230,7 @@
       "wild-charge",
       "confide",
       "throat-chop",
+      "lunge",
       "psyshield-bash",
       "tera-blast",
       "trailblaze"
@@ -258,15 +261,6 @@
             }
           }
         ]
-      }
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "wyrdeer",
-      "level": 20,
-      "location": {
-        "and_preset": "snowy_areas"
       }
     }
   ],

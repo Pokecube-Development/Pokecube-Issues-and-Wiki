@@ -57,7 +57,8 @@
       {
         "L": 19,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "pain-split"
         ]
       },
       {
@@ -203,16 +204,13 @@
       "dazzling-gleam",
       "infestation",
       "throat-chop",
+      "burning-jealousy",
+      "lash-out",
+      "poltergeist",
       "tera-blast",
       "pounce",
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "banettemega"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

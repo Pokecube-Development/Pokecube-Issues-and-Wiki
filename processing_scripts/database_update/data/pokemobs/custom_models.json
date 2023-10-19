@@ -7,22 +7,21 @@
         "model": "wooper",
         "anim": "wooper"
       },
-      "models": [
+      "female_model": 
         {
           "key": "wooper_female",
           "tex": "wooper",
           "model": "wooper_female",
           "anim": "wooper_female"
         },
-		{
+		    "male_model": {
           "key": "wooper_male",
           "tex": "wooper",
           "model": "wooper_male",
           "anim": "wooper_male"
         }
-      ]
     },
-	{
+	  {
       "name":"maushold",
       "model": {
         "key": "maushold",

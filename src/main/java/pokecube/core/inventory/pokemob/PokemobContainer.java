@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
@@ -30,7 +31,7 @@ public class PokemobContainer extends BaseContainer
     public final IPokemob pokemob;
 
     public byte mode;
-    public FriendlyByteBuf data;
+    public CompoundTag data;
     Inventory playerInv;
 
     public PokemobContainer(final int id, final Inventory playerInv, final FriendlyByteBuf data)
@@ -44,7 +45,9 @@ public class PokemobContainer extends BaseContainer
         this.pokemob = PokemobCaps.getPokemobFor(entity);
         this.pokemobInv = this.pokemob.getInventory();
         this.mode = data.readByte();
-        this.data = data;
+        this.data = data.readNbt();
+        String megaMode = data.readUtf();
+        entity.getPersistentData().putString("pokecube:mega_mode", megaMode);
         this.pokemobInv.startOpen(playerInv.player);
         this.playerInv = playerInv;
         this.initSlots();

@@ -2,6 +2,7 @@
   "name": "meloetta-pirouette",
   "id": 648,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 270,
   "size": {
     "height": 0.6

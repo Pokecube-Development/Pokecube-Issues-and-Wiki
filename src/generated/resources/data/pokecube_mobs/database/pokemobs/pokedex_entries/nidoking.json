@@ -57,7 +57,8 @@
           "flatter",
           "helping-hand",
           "toxic-spikes",
-          "poison-jab"
+          "poison-jab",
+          "sludge-wave"
         ]
       },
       {
@@ -90,6 +91,7 @@
       "mega-kick",
       "headbutt",
       "horn-attack",
+      "fury-attack",
       "horn-drill",
       "tackle",
       "body-slam",
@@ -160,6 +162,7 @@
       "beat-up",
       "uproar",
       "torment",
+      "flatter",
       "facade",
       "focus-punch",
       "taunt",

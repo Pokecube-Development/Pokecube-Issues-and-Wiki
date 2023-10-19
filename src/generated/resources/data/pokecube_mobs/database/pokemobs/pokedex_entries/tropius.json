@@ -78,7 +78,8 @@
         "L": 46,
         "moves": [
           "outrage",
-          "bestow"
+          "bestow",
+          "dragon-hammer"
         ]
       },
       {
@@ -102,6 +103,7 @@
       {
         "L": 30,
         "moves": [
+          "dragon-dance",
           "natural-gift",
           "wide-guard"
         ]
@@ -149,6 +151,7 @@
       "substitute",
       "snore",
       "curse",
+      "spite",
       "protect",
       "mud-slap",
       "outrage",
@@ -204,6 +207,7 @@
       "hurricane",
       "grassy-terrain",
       "confide",
+      "solar-blade",
       "dragon-hammer",
       "brutal-swing",
       "stomping-tantrum",

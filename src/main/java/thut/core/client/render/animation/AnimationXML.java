@@ -193,7 +193,7 @@ public class AnimationXML
         @XmlAttribute(name = "dye")
         public String dye;
         @XmlAttribute(name = "headAxis")
-        public int headAxis = 1;
+        public int headAxis = 2;
         @XmlAttribute(name = "headAxis2")
         public int headAxis2 = 0;
         @XmlAttribute(name = "headCap")
@@ -201,9 +201,9 @@ public class AnimationXML
         @XmlAttribute(name = "headCap1")
         public String headCap1 = "-30, 70";
         @XmlAttribute(name = "headDir")
-        public int headDir = 1;
+        public int headDir = -1;
         @XmlAttribute(name = "headDir2")
-        public int headDir2 = 2;
+        public int headDir2 = -1;
     }
 
     @XmlRootElement(name = "model")

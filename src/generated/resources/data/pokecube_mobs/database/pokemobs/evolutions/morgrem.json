@@ -1,0 +1,10 @@
+{
+  "name": "grimmsnarl",
+  "user": "morgrem",
+  "condition": {
+    "key": "level",
+    "level": 42
+  },
+  "evoMoves": "spirit-break",
+  "animation": "18"
+}

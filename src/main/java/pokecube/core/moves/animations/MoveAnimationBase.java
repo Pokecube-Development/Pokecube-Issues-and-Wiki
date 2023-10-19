@@ -20,6 +20,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
 
         public int rgba = 0xFFFFFFFF;
         public int duration = 5;
+        public int applyAfter = 0;
         public int lifetime = 5;
 
         public boolean customColour = false;
@@ -47,7 +48,7 @@ public abstract class MoveAnimationBase implements IMoveAnimation
     @Override
     public int getApplicationTick()
     {
-        return this.values.duration;
+        return this.values.applyAfter;
     }
 
     public int getColourFromMove(final MoveEntry move, int alpha)

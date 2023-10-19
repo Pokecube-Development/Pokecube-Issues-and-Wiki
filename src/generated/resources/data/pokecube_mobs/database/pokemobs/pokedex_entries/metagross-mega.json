@@ -2,7 +2,7 @@
   "name": "metagross-mega",
   "id": 376,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 315,
   "size": {
     "height": 2.5

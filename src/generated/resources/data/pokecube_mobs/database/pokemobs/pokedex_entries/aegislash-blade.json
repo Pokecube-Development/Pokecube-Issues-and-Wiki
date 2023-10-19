@@ -2,6 +2,7 @@
   "name": "aegislash-blade",
   "id": 681,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 250,
   "size": {
     "height": 1.7,

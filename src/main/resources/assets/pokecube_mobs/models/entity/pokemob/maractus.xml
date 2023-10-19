@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale=".3"/>
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1" legAngle="45" name="biWalk" rightArm="" rightLeg="leg2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1"/>
+  <metadata head="head" headCap="-30,30" headCap1="-30,30"/>
   <phase type="sitting">
    <part name="body1">
     <component length="9" name="1" rotChange="0,0,5," startKey="0"/>

@@ -1,0 +1,15 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:boomburst",
+    "pokecube:bugbuzz",
+    "pokecube:disarmingvoice",
+    "pokecube:echoedvoice",
+    "pokecube:overdrive",
+    "pokecube:relicsong",
+    "pokecube:round",
+    "pokecube:snarl",
+    "pokecube:sparklingaria",
+    "pokecube:uproar"
+  ]
+}

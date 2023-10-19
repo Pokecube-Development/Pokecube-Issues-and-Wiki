@@ -1,0 +1,12 @@
+{
+  "name": "magnezone",
+  "user": "magneton",
+  "condition": {
+    "key": "location",
+    "location": {
+      "desc": "pokecube.spawns.caves.general",
+      "and_preset": "caves"
+    }
+  },
+  "evoMoves": "tri-attack"
+}

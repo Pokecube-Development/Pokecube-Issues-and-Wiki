@@ -1,0 +1,22 @@
+[
+  {
+    "user": "mewtwo",
+    "name": "mewtwo-mega-x",
+    "rule": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:mewtwomega-x"
+      }
+    }
+  },
+  {
+    "user": "mewtwo",
+    "name": "mewtwo-mega-y",
+    "rule": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:mewtwomega-y"
+      }
+    }
+  }
+]

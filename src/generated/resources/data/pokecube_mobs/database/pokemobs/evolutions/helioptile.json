@@ -1,0 +1,10 @@
+{
+  "name": "heliolisk",
+  "user": "helioptile",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:sunstone"
+    }
+  }
+}

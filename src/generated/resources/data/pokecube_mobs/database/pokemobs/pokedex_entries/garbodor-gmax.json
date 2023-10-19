@@ -2,7 +2,7 @@
   "name": "garbodor-gmax",
   "id": 569,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 166,
   "size": {
     "height": 5.9,
@@ -36,6 +36,28 @@
     "hidden": [
       "aftermath"
     ]
+  },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-5,0,-5",
+          "size": "10,4,10"
+        },
+        {
+          "name": "body1",
+          "offset": "-4,4,-4",
+          "size": "8,4,8"
+        },
+        {
+          "name": "head",
+          "offset": "-4,8,-4",
+          "size": "8,4,8",
+          "ride": "4,1,5"
+        }
+      ]
+    }
   },
   "old_name": "garbodor_gigantamax"
 }

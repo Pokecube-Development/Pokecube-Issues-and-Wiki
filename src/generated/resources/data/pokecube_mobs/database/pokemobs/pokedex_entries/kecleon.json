@@ -53,6 +53,13 @@
         ]
       },
       {
+        "L": 16,
+        "moves": [
+          "disable",
+          "feint-attack"
+        ]
+      },
+      {
         "L": 18,
         "moves": [
           "psybeam"
@@ -83,21 +90,16 @@
         ]
       },
       {
-        "L": 16,
+        "L": 30,
         "moves": [
-          "feint-attack"
+          "detect",
+          "camouflage"
         ]
       },
       {
         "L": 21,
         "moves": [
           "ancient-power"
-        ]
-      },
-      {
-        "L": 30,
-        "moves": [
-          "camouflage"
         ]
       },
       {
@@ -127,7 +129,8 @@
       {
         "L": 50,
         "moves": [
-          "synchronoise"
+          "synchronoise",
+          "foul-play"
         ]
       }
     ],

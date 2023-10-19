@@ -1,0 +1,10 @@
+{
+  "name": "simisage",
+  "user": "pansage",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:leafstone"
+    }
+  }
+}

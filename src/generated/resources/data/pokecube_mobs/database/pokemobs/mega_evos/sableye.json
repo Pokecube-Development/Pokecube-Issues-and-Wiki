@@ -1,0 +1,10 @@
+{
+  "user": "sableye",
+  "name": "sableye-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:sableyemega"
+    }
+  }
+}

@@ -28,13 +28,11 @@ import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
 import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene;
 import pokecube.core.entity.pokemobs.genetics.genes.ColourGene;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
 import pokecube.core.entity.pokemobs.genetics.genes.IVsGene;
 import pokecube.core.entity.pokemobs.genetics.genes.NatureGene;
 import pokecube.core.entity.pokemobs.genetics.genes.ShinyGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SizeGene;
 import pokecube.core.entity.pokemobs.genetics.genes.SpeciesGene;
-import pokecube.core.entity.pokemobs.genetics.genes.TeraTypeGene;
 import pokecube.core.impl.PokecubeMod;
 import thut.api.ThutCaps;
 import thut.api.entity.genetics.GeneRegistry;
@@ -138,9 +136,6 @@ public class GeneticsManager
         GeneRegistry.register(NatureGene.class);
         GeneRegistry.register(ShinyGene.class);
         GeneRegistry.register(SizeGene.class);
-        GeneRegistry.register(DynamaxGene.class);
-        
-        TeraTypeGene.init();
     }
 
     public static void initEgg(final IMobGenetics eggs, final IMobGenetics mothers, final IMobGenetics fathers)

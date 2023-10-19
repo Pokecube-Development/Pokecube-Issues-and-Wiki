@@ -68,12 +68,12 @@ public class DodgeTask extends CombatTask implements IAICombat
         /*
          * Compute a random perpendicular direction.
          */
-        final Vector3 loc = new Vector3().set(this.entity);
-        final Vector3 target = new Vector3().set(this.pos.currentPosition());
-        final Vector3 temp = new Vector3();
-        Vector3 perp = target.subtractFrom(loc).rotateAboutLine(Vector3.secondAxis, Math.PI / 2, temp);
-        if (Math.random() > 0.5) perp = perp.scalarMultBy(-1);
-        perp = perp.normalize();
+        Vector3 loc = new Vector3().set(this.entity);
+        Vector3 target = new Vector3().set(this.pos.currentPosition());
+        Vector3 temp = new Vector3();
+        target.subtractFrom(loc).rotateAboutLine(Vector3.secondAxis, Math.PI / 2, temp);
+        if (Math.random() > 0.5) temp.scalarMultBy(-1);
+        Vector3 perp = temp.normalize();
         if (perp.isNaN())
         {
             new Exception().printStackTrace();

@@ -1,0 +1,28 @@
+[
+  {
+    "name": "glalie",
+    "user": "snorunt",
+    "condition": {
+      "key": "level",
+      "level": 42
+    },
+    "evoMoves": "freeze-dry"
+  },
+  {
+    "name": "froslass",
+    "user": "snorunt",
+    "condition": [
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:dawnstone"
+        }
+      },
+      {
+        "key": "sexe",
+        "sexe": "female"
+      }
+    ],
+    "evoMoves": "ominous-wind"
+  }
+]

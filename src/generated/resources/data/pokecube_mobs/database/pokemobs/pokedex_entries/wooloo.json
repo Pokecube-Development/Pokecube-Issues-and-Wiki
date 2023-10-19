@@ -186,12 +186,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "dubwool",
-      "level": 24,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/wool_1"
 }

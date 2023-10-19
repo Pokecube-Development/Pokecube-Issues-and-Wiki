@@ -74,9 +74,10 @@
         ]
       },
       {
-        "L": 27,
+        "L": 12,
         "moves": [
-          "harden"
+          "harden",
+          "magnitude"
         ]
       },
       {
@@ -98,15 +99,15 @@
         ]
       },
       {
-        "L": 10,
+        "L": 4,
         "moves": [
-          "rollout"
+          "sandstorm"
         ]
       },
       {
-        "L": 12,
+        "L": 10,
         "moves": [
-          "magnitude"
+          "rollout"
         ]
       },
       {
@@ -175,7 +176,9 @@
       "substitute",
       "snore",
       "curse",
+      "flail",
       "protect",
+      "scary-face",
       "mud-slap",
       "sandstorm",
       "endure",
@@ -201,31 +204,34 @@
       "rock-tomb",
       "iron-defense",
       "block",
+      "mud-shot",
       "rock-blast",
+      "hammer-arm",
       "gyro-ball",
       "natural-gift",
       "fling",
       "sucker-punch",
       "rock-polish",
+      "focus-blast",
       "earth-power",
       "rock-climb",
+      "iron-head",
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "wide-guard",
       "smack-down",
+      "heavy-slam",
       "round",
       "incinerate",
       "bulldoze",
       "confide",
       "power-up-punch",
-      "stomping-tantrum"
+      "high-horsepower",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "golem",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/stone_2"
 }

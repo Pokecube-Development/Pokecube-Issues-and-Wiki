@@ -132,13 +132,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "eldegoss",
-      "level": 20,
-      "animation": "18",
-      "evoMoves": "cotton-spore"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

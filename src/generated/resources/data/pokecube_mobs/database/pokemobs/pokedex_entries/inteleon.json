@@ -45,8 +45,7 @@
           "bind",
           "growl",
           "water-gun",
-          "acrobatics",
-          "pound"
+          "acrobatics"
         ]
       },
       {
@@ -105,6 +104,7 @@
       }
     ],
     "misc": [
+      "pound",
       "swords-dance",
       "bind",
       "take-down",
@@ -117,6 +117,7 @@
       "hyper-beam",
       "agility",
       "light-screen",
+      "haze",
       "reflect",
       "focus-energy",
       "metronome",
@@ -151,7 +152,9 @@
       "sucker-punch",
       "dark-pulse",
       "air-slash",
+      "vacuum-wave",
       "giga-impact",
+      "smack-down",
       "soak",
       "round",
       "scald",
@@ -163,10 +166,12 @@
       "snipe-shot",
       "breaking-swipe",
       "scale-shot",
+      "flip-turn",
       "tera-blast",
       "snowscape",
       "chilling-water"
     ]
   },
-  "loot_table": "pokecube:entities/fish_3"
+  "loot_table": "pokecube:entities/fish_3",
+  "prey": " small_bug"
 }

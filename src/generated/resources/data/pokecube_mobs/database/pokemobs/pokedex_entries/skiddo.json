@@ -194,16 +194,10 @@
       "play-rough",
       "confide",
       "stomping-tantrum",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gogoat",
-      "level": 32,
-      "evoMoves": "aerial-ace"
-    }
-  ],
   "loot_table": "pokecube:entities/sheep_1"
 }
