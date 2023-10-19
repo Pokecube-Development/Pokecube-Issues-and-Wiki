@@ -177,7 +177,6 @@ public class Database
     public static HashMap<Integer, PokedexEntry> dummyMap = new HashMap<>();
     public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
     public static HashMap<PokedexEntry, List<FormeHolder>> customModels = new HashMap<>();
-    public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
     public static HashMap<ResourceLocation, PokedexEntry> formeToEntry = new HashMap<>();
     public static Map<String, FormeHolder> formeHoldersByKey = new HashMap<>();
 
@@ -268,15 +267,8 @@ public class Database
     public static void registerFormeHolder(final PokedexEntry entry, final FormeHolder holder)
     {
         if (holder == null) return;
-        List<FormeHolder> holders = Database.customModels.get(entry);
         Database.formeToEntry.put(holder.key, entry);
         Database.formeHoldersByKey.put(holder.loaded_from.key, holder);
-        if (holders == null) Database.customModels.put(entry, holders = Lists.newArrayList());
-        if (!holders.contains(holder))
-        {
-            holders.add(holder);
-            Collections.sort(holders, (o1, o2) -> o1.key.compareTo(o2.key));
-        }
     }
 
     public static String convertMoveName(final String moveNameFromBulbapedia)

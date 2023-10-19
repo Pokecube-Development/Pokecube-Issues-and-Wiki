@@ -381,6 +381,12 @@ public class AnimationGui extends Screen
                     e.printStackTrace();
                 }
             }
+            if (this.renderHolder.wrapper == null)
+            {
+                this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
+                if (this.holder != null)
+                    this.renderHolder = RenderPokemob.customs.getOrDefault(this.holder.key, this.renderHolder);
+            }
             RenderSystem.setShaderLights(AxisAngles.YN, AxisAngles.ZN);
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens

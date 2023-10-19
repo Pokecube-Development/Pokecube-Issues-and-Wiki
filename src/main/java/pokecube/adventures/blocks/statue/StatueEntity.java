@@ -30,7 +30,6 @@ import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.utils.PokeType;
@@ -278,20 +277,16 @@ public class StatueEntity extends InteractableTile
 
     public static LivingEntity initMob(ICopyMob copy, CompoundTag modelTag, Runnable initMob)
     {
-        String tex = null;
         String anim = null;
         String over_tex = null;
         int over_tex_a = -1;
         String id = null;
-        String variant = null;
         float size = 1;
         if (modelTag.contains("id")) id = modelTag.getString("id");
-        if (modelTag.contains("tex")) tex = modelTag.getString("tex");
         if (modelTag.contains("over_tex")) over_tex = modelTag.getString("over_tex");
         if (modelTag.contains("over_tex_a")) over_tex_a = modelTag.getInt("over_tex_a");
         if (modelTag.contains("anim")) anim = modelTag.getString("anim");
         if (modelTag.contains("size")) size = modelTag.getFloat("size");
-        if (modelTag.contains("variant")) variant = modelTag.getString("variant");
 
         ResourceLocation e_id;
         // First update ID if present, and refresh the mob
@@ -313,27 +308,6 @@ public class StatueEntity extends InteractableTile
         {
             pokemob.setBasePokedexEntry(entry);
             pokemob.setPokedexEntry(entry);
-        }
-        if (tex != null && pokemob != null)
-        {
-            final ResourceLocation texRes = new ResourceLocation(tex);
-
-            String base_name = pokemob.getPokedexEntry().getTrimmedName();
-            if (variant != null) base_name = variant;
-
-            final ResourceLocation name = new ResourceLocation(texRes.getNamespace(), base_name + texRes.getPath());
-            FormeHolder old = pokemob.getCustomHolder();
-
-            if (variant != null)
-            {
-                old = Database.formeHolders.get(new ResourceLocation(variant));
-                if (old == null) old = pokemob.getCustomHolder();
-            }
-
-            final ResourceLocation model = old != null ? old.model : null;
-            final ResourceLocation animation = old != null ? old.animation : null;
-            final FormeHolder holder = FormeHolder.get(pokemob.getPokedexEntry(), model, texRes, animation, name);
-            pokemob.setCustomHolder(holder);
         }
         if (over_tex != null) mob.getPersistentData().putString("statue:over_tex", over_tex);
         if (over_tex_a != -1) mob.getPersistentData().putInt("statue:over_tex_a", over_tex_a);

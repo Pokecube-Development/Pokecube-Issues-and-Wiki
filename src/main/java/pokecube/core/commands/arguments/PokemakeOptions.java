@@ -8,15 +8,11 @@ import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.utils.Tools;
-import pokecube.core.PokecubeItems;
-import pokecube.core.database.Database;
 import thut.api.entity.IMobColourable;
 import thut.api.maths.Vector3;
 import thut.lib.TComponent;
@@ -64,7 +60,6 @@ public class PokemakeOptions
     boolean   asWild      = false;
     ItemStack held        = ItemStack.EMPTY;
     boolean   shiny       = false;
-    String    formeHolder = "";
     byte      gender      = -3;
     String    ability     = "";
     double    x, y, z;
@@ -91,13 +86,6 @@ public class PokemakeOptions
                 this.blue, this.alpha);
 
         mob.setHealth(mob.getMaxHealth());
-
-        if (!this.formeHolder.isEmpty())
-        {
-            final ResourceLocation formetag = PokecubeItems.toPokecubeResource(this.formeHolder);
-            final FormeHolder holder = Database.formeHolders.get(formetag);
-            mob.setCustomHolder(holder);
-        }
         mob.setHeldItem(this.held);
         mob.setShiny(this.shiny);
         if (this.gender != -3) mob.setSexe(this.gender);

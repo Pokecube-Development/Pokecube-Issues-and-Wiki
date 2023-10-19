@@ -28,9 +28,9 @@ public class Pokedex
         return Pokedex.instance;
     }
 
-    private final ArrayList<PokedexEntry>    entries;
+    private final ArrayList<PokedexEntry> entries;
     private final Map<PokedexEntry, Integer> entryIndecies;
-    private final HashSet<PokedexEntry>      registeredFormes;
+    private final HashSet<PokedexEntry> registeredFormes;
 
     /**
      *
@@ -76,14 +76,12 @@ public class Pokedex
                     new NullPointerException());
             return this.getFirstEntry();
         }
-        while (index + i < 0)
-            i += this.entries.size();
+        while (index + i < 0) i += this.entries.size();
         index = (index + i) % this.entries.size();
         if (this.entries.get(index) == Database.missingno)
         {
             i = (int) Math.signum(i);
-            while (index + i < 0)
-                i += this.entries.size();
+            while (index + i < 0) i += this.entries.size();
             index = (index + i) % this.entries.size();
         }
         return this.entries.get(index);
@@ -92,6 +90,46 @@ public class Pokedex
     public PokedexEntry getPrevious(final PokedexEntry pokedexEntry, final int i)
     {
         return this.getNext(pokedexEntry, -i);
+    }
+
+    public PokedexEntry getNextForm(PokedexEntry entry)
+    {
+        List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
+        int i_next = formes.indexOf(entry) + 1;
+        i_next = i_next >= formes.size() ? 0 : i_next;
+        PokedexEntry newEntry = formes.get(i_next);
+
+        boolean skip = newEntry.default_holder != null && newEntry.default_holder._entry != newEntry;
+        skip = skip || (newEntry.male_holder != null && newEntry.male_holder != newEntry.default_holder);
+
+        if (skip)
+        {
+            i_next = formes.indexOf(newEntry) + 1;
+            i_next = i_next >= formes.size() ? 0 : i_next;
+            newEntry = formes.get(i_next);
+        }
+        if (newEntry.getPokedexNb() != entry.getPokedexNb()) newEntry = entry;
+        return newEntry;
+    }
+
+    public PokedexEntry getPreviousForm(PokedexEntry entry)
+    {
+        List<PokedexEntry> formes = Lists.newArrayList(Database.getSortedFormes());
+        int i_next = formes.indexOf(entry) - 1;
+        i_next = i_next < 0 ? formes.size() - 1 : i_next;
+        PokedexEntry newEntry = formes.get(i_next);
+
+        boolean skip = newEntry.default_holder != null && newEntry.default_holder._entry != newEntry;
+        skip = skip || (newEntry.male_holder != null && newEntry.male_holder != newEntry.default_holder);
+
+        if (skip)
+        {
+            i_next = formes.indexOf(newEntry) - 1;
+            i_next = i_next < 0 ? formes.size() - 1 : i_next;
+            newEntry = formes.get(i_next);
+        }
+        if (newEntry.getPokedexNb() != entry.getPokedexNb()) newEntry = entry;
+        return newEntry;
     }
 
     public Set<PokedexEntry> getRegisteredEntries()
@@ -116,7 +154,6 @@ public class Pokedex
     {
         Collections.sort(this.entries, Database.COMPARATOR);
         this.entryIndecies.clear();
-        for (int i = 0; i < this.entries.size(); i++)
-            this.entryIndecies.put(this.entries.get(i), i);
+        for (int i = 0; i < this.entries.size(); i++) this.entryIndecies.put(this.entries.get(i), i);
     }
 }
