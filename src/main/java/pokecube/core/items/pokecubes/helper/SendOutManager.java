@@ -125,7 +125,7 @@ public class SendOutManager
         Vector3 v = cube.v0.set(cube);
 
         // If we are breaking out from capture, directly set to old spot
-        if (cube.isCapturing) v.set(cube.capturePos);
+        if (cube.isCapturing()) v.set(cube.capturePos);
         // Otherwise look for free room, etc
         else
         {

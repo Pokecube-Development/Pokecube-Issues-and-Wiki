@@ -19,10 +19,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.RegisterCubeRenderer;
 import pokecube.api.items.IPokecube;
 import pokecube.core.PokecubeItems;
 import pokecube.core.client.render.mobs.RenderPokecube.ModelPokecube;
@@ -110,6 +112,9 @@ public class RenderPokecube extends LivingEntityRenderer<EntityPokecube, ModelPo
     public RenderPokecube(final EntityRendererProvider.Context renderManager)
     {
         super(renderManager, new ModelPokecube(), 0);
+        pokecubeRenderers.clear();
+        MinecraftForge.EVENT_BUS.post(new RegisterCubeRenderer());
+        new RenderFancyPokecube(renderManager);
     }
 
     @Override

@@ -364,7 +364,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.here.set(this.getEntity());
         this.here.moveEntity(entity);
         this.here.clear().setVelocities(entity);
-        entity.targetEntity = null;
+        entity.setSeeking(null);
         entity.targetLocation.clear();
         this.getEntity().getLevel().addFreshEntity(entity);
     }
