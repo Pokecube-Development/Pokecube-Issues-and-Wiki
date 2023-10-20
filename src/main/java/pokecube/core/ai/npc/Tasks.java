@@ -7,7 +7,6 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.mojang.datafixers.util.Pair;
 
-import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
@@ -71,8 +70,8 @@ public class Tasks
     {
         Predicate<LivingEntity> isCat = (mob) -> mob.getType()==EntityType.CAT;
         Predicate<LivingEntity> isNpc = (mob) -> mob instanceof NpcMob;
-        Predicate<AgeableMob> isNpc2 = (mob) -> mob instanceof NpcMob;
-        Predicate<AgeableMob> canBreed = (mob) -> mob.canBreed();
+        Predicate<LivingEntity> isNpc2 = (mob) -> mob instanceof NpcMob;
+        Predicate<LivingEntity> canBreed = (mob) -> mob instanceof NpcMob npc &&  npc.canBreed();
         
         var interact_npc = InteractWith.of(isNpc, 8, MemoryModuleType.INTERACTION_TARGET, speed, 2);
         var interact_cat =  InteractWith.of(isCat, 8, MemoryModuleType.INTERACTION_TARGET, speed, 2);

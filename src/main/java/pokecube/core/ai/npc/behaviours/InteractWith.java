@@ -24,14 +24,14 @@ public class InteractWith
     }
 
     @SuppressWarnings("unchecked")
-    public static <E extends LivingEntity, T extends LivingEntity> BehaviorControl<E> of(Predicate<T> targetMatch,
-            int range, Predicate<E> matcher_1, Predicate<T> matcher_2, MemoryModuleType<T> memory, float speed,
-            int maxrange)
+    public static <E extends LivingEntity, T extends LivingEntity, M extends LivingEntity> BehaviorControl<E> of(
+            Predicate<T> targetMatch, int range, Predicate<E> userMatch, Predicate<T> targetValid,
+            MemoryModuleType<M> memory, float speed, int maxrange)
     {
         int i = range * range;
-        var final_target_match = targetMatch.and(matcher_2);
+        Predicate<LivingEntity> final_target_match = (Predicate<LivingEntity>) targetMatch.and(targetValid);
         Predicate<LivingEntity> predicate = (target) -> {
-            return final_target_match.test((T) target);
+            return final_target_match.test(target);
         };
         return BehaviorBuilder.create((mob) -> {
             return mob
@@ -42,13 +42,14 @@ public class InteractWith
                     {
                         return (level, user, timestamp) -> {
                             NearestVisibleLivingEntities nearestvisiblelivingentities = mob.get(visible_access);
-                            if (matcher_1.test(user) && nearestvisiblelivingentities.contains(predicate))
+                            if (userMatch.test(user) && nearestvisiblelivingentities.contains(predicate))
                             {
                                 Optional<LivingEntity> optional = nearestvisiblelivingentities.findClosest((target) -> {
+                                    System.out.println(target);
                                     return target.distanceToSqr(user) <= (double) i && predicate.test(target);
                                 });
                                 optional.ifPresent((target) -> {
-                                    memory_access.set((T) target);
+                                    memory_access.set((M) target);
                                     position_access.set(new EntityTracker(target, true));
                                     walk_access.set(new WalkTarget(new EntityTracker(target, false), speed, maxrange));
                                 });
