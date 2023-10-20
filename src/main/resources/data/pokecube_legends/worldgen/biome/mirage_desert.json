@@ -9,7 +9,12 @@
     "water_fog_color": 65484,
     "grass_color": 2542847,
     "foliage_color": 35327,
-    "ambient_sound": "minecraft:ambient.warped_forest.loop",
+    "music": {
+      "sound": "minecraft:music.overworld.lush_caves",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
+    },
     "mood_sound": {
       "sound": "minecraft:ambient.warped_forest.mood",
       "tick_delay": 6000,
