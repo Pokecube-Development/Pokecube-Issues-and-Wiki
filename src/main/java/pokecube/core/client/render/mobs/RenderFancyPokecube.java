@@ -323,7 +323,7 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
             if (shaking) return "shaking";
             else if (capturing != null) return "capturing";
 
-            if (!cube.isOnGround())
+            if (!cube.onGround())
             {
                 var v = cube.getDeltaMovement();
                 double dh = Math.fma(v.x, v.x, v.z * v.z);
