@@ -1353,7 +1353,7 @@ public class BlockInit
                                 .sound(SoundType.WOOD).dynamicShape()));
 
         AGED_PLANKS = PokecubeLegends.BLOCKS.register("aged_planks", () -> new Block(BlockBehaviour.Properties.of()
-                .mapColor(MapColor.TERRACOTTA_GREEN).strength(2.0f).sound(SoundType.WOOD)));
+                .mapColor(MapColor.TERRACOTTA_GREEN).strength(2.0f).sound(SoundType.WOOD).ignitedByLava()));
         AGED_STAIRS = PokecubeLegends.BLOCKS.register("aged_stairs",
                 () -> new ItemGenerator.GenericStairs(Blocks.OAK_STAIRS.defaultBlockState(), BlockBehaviour.Properties
                         .of().mapColor(MapColor.TERRACOTTA_GREEN).strength(2.0f).sound(SoundType.WOOD)));
