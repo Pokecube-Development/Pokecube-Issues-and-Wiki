@@ -51,7 +51,7 @@ minecraft {
             properties '-XX': '+FlightRecorder'
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
             source sourceSets.main
         }
         client_2 {
@@ -60,28 +60,28 @@ minecraft {
             jvmArg "-Xmx2G" // Set this one to low ram
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev2'
+            args '-mixin.config=pokecube.mixins.json', "-mixin.config=thutcore.mixins.json", '--username', 'Dev2'
         }
         client_3 {
             parent runs.client
             taskName 'run_client_3'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev3'
+            args '-mixin.config=pokecube.mixins.json', "-mixin.config=thutcore.mixins.json", '--username', 'Dev3'
         }
         client_4 {
             parent runs.client
             taskName 'run_client_4'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev4'
+            args '-mixin.config=pokecube.mixins.json', "-mixin.config=thutcore.mixins.json", '--username', 'Dev4'
         }
         test_client {
             parent runs.client
             taskName 'run_test_client'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
 
             mods {
                 TestMods { sources sourceSets.test }
@@ -96,7 +96,7 @@ minecraft {
             properties '-XX': '+FlightRecorder'
             jvmArg "-Xmx2G"
             workingDirectory project.file('run').canonicalPath
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
             source sourceSets.main
         }
         test_server {
@@ -104,7 +104,7 @@ minecraft {
             taskName 'run_test_server'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
 
             mods {
                 TestMods { sources sourceSets.test }
@@ -149,7 +149,7 @@ tasks.named('jar', Jar).configure {
 	        "Implementation-Version": VERSION_COMPILE,
 	        "Implementation-Vendor" :"${author_name}",
 	        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-	        "MixinConfigs": "pokecube.mixins.json"
+	        "MixinConfigs": ["pokecube.mixins.json", "thutcore.mixins.json"]
         ])
     }
 

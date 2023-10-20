@@ -15,6 +15,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
+import thut.api.mixin.accessors.WalkAniAccessor;
 import thut.lib.RegHelper;
 
 public interface ICopyMob extends INBTSerializable<CompoundTag>
@@ -167,10 +168,12 @@ public interface ICopyMob extends INBTSerializable<CompoundTag>
         to.yBodyRotO = from.yBodyRotO;
         to.yBodyRot = from.yBodyRot;
 
-//        TODO: Fix this
-//        to.animationSpeedOld = from.animationSpeedOld;
-//        to.animationPosition = from.animationPosition;
-//        to.animationSpeed = from.animationSpeed;
+        WalkAniAccessor toWalk = (WalkAniAccessor) to.walkAnimation;
+        WalkAniAccessor fromWalk = (WalkAniAccessor) from.walkAnimation;
+        
+        toWalk.copyCap$setPosition(fromWalk.copyCap$position());
+        toWalk.copyCap$setSpeedOld(fromWalk.copyCap$speedOld());
+        toWalk.copyCap$setSpeed(fromWalk.copyCap$speed());
 
         to.setOnGround(from.onGround());
         to.wasTouchingWater = from.wasTouchingWater;
