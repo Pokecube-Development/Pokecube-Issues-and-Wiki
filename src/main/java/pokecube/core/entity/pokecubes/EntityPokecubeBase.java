@@ -71,9 +71,10 @@ public abstract class EntityPokecubeBase extends LivingEntity
     static final EntityDataAccessor<ItemStack> ITEM;
     static final EntityDataAccessor<Boolean> RELEASING;
     static final EntityDataAccessor<Boolean> CAPTURING;
+    static final EntityDataAccessor<Boolean> SEEKING;
     static final EntityDataAccessor<Integer> TIME;
 
-    public static boolean SEEKING = true;
+    public static boolean CUBES_SEEK = true;
 
     public static Object2FloatOpenHashMap<ResourceLocation> CUBE_SIZES = new Object2FloatOpenHashMap<>();
 
@@ -84,6 +85,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         RELEASING = SynchedEntityData.<Boolean>defineId(EntityPokecubeBase.class, EntityDataSerializers.BOOLEAN);
         TIME = SynchedEntityData.<Integer>defineId(EntityPokecubeBase.class, EntityDataSerializers.INT);
         CAPTURING = SynchedEntityData.<Boolean>defineId(EntityPokecubeBase.class, EntityDataSerializers.BOOLEAN);
+        SEEKING = SynchedEntityData.<Boolean>defineId(EntityPokecubeBase.class, EntityDataSerializers.BOOLEAN);
     }
 
     public static boolean canCaptureBasedOnConfigs(final IPokemob pokemob)
@@ -111,8 +113,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public int autoRelease = -1;
     public boolean isLoot = false;
 
-    public boolean isCapturing = false;
-
     private boolean checkCube = false;
 
     public ResourceLocation lootTable = null;
@@ -137,7 +137,6 @@ public abstract class EntityPokecubeBase extends LivingEntity
 
     private Entity ignoreEntity;
     private int ignoreTime;
-    public boolean seeking = EntityPokecubeBase.SEEKING;
 
     NonNullList<ItemStack> stuff = NonNullList.create();
 
@@ -191,9 +190,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         switch (result.getType())
         {
         case BLOCK:
-            this.seeking = false;
+            this.setSeeking(null);
             this.targetLocation.clear();
-            this.targetEntity = null;
 
             // Only handle this on server, and if not capturing something
             if (serverSide)
@@ -357,7 +355,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final Vector3 target = new Vector3();
         if (this.targetEntity != null) target.set(this.targetEntity, true);
         else target.set(this.targetLocation);
-        if (!target.isEmpty() && this.seeking)
+        if (!target.isEmpty() && this.isSeeking())
         {
             final Vector3 here = new Vector3().set(this);
             final Vector3 dir = new Vector3().set(target);
@@ -440,7 +438,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         if (this.autoRelease == 0) SendOutManager.sendOut(this, true);
         final boolean capturing = this.getTilt() >= 0;
         final boolean releasing = this.isReleasing();
-        if (capturing || releasing) this.seeking = false;
+        if (capturing || releasing) this.setSeeking(null);
 
         // TODO: Check this, removed hardcode check of -64, datapacks can change this
         if (this.getY() < this.level.getMinBuildHeight()) this.onBelowWorld();
@@ -502,7 +500,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         compound.putBoolean("releasing", this.isReleasing());
         if (this.shooter != null) compound.putString("shooter", this.shooter.toString());
         if (this.getItem() != null) compound.put("Item", this.getItem().save(new CompoundTag()));
-        if (this.isCapturing) this.capturePos.writeToNBT(compound, "capt_");
+        if (this.getEntityData().get(CAPTURING)) this.capturePos.writeToNBT(compound, "capt_");
         compound.putByte("inGround", (byte) (this.inGround ? 1 : 0));
         compound.putInt("autorelease", this.autoRelease);
         if (this.shooter != null) compound.put("owner", NbtUtils.createUUID(this.shooter));
@@ -522,8 +520,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         final CompoundTag CompoundNBT1 = compound.getCompound("Item");
         this.setItem(ItemStack.of(CompoundNBT1));
         if (compound.contains("shooter")) this.shooter = UUID.fromString(compound.getString("shooter"));
-        this.isCapturing = compound.contains("capt_x");
-        if (this.isCapturing) this.capturePos = Vector3.readFromNBT(compound, "capt_");
+        if (compound.contains("capt_x")) this.capturePos = Vector3.readFromNBT(compound, "capt_");
         this.autoRelease = compound.getInt("autorelease");
         this.inGround = compound.getByte("inGround") == 1;
         if (compound.contains("owner", 10)) this.shooter = NbtUtils.loadUUID(compound.getCompound("owner"));
@@ -539,6 +536,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.getEntityData().define(EntityPokecubeBase.ITEM, ItemStack.EMPTY);
         this.getEntityData().define(EntityPokecubeBase.TIME, 40);
         this.getEntityData().define(EntityPokecubeBase.CAPTURING, false);
+        this.getEntityData().define(EntityPokecubeBase.SEEKING, false);
     }
 
     /** Sets the ItemStack for this entity */
@@ -567,8 +565,8 @@ public abstract class EntityPokecubeBase extends LivingEntity
         this.setTime(LogicMiscUpdate.EXITCUBEDURATION);
         this.setReleasing(true);
         this.canBePickedUp = false;
-        this.seeking = false;
         this.capturePos.set(entity);
+        this.setSeeking(null);
     }
 
     public void setReleasing(final boolean tag)
@@ -606,8 +604,7 @@ public abstract class EntityPokecubeBase extends LivingEntity
         mob.getPersistentData().putBoolean(TagNames.CAPTURING, true);
         this.setDeltaMovement(0, 0, 0);
         this.capturePos.set(mob);
-        this.seeking = false;
-        this.isCapturing = true;
+        this.setSeeking(null);
         this.canBePickedUp = false;
 
         ItemStack stack = this.getItem();
@@ -621,6 +618,11 @@ public abstract class EntityPokecubeBase extends LivingEntity
             pokemob.getBossInfo().setVisible(false);
         }
         this.getEntityData().set(CAPTURING, true);
+    }
+
+    public boolean isCapturing()
+    {
+        return this.getEntityData().get(CAPTURING);
     }
 
     public void setTilt(final int n)
@@ -680,6 +682,18 @@ public abstract class EntityPokecubeBase extends LivingEntity
     public boolean isReleasing()
     {
         return this.getEntityData().get(EntityPokecubeBase.RELEASING);
+    }
+
+    public boolean isSeeking()
+    {
+        return this.getEntityData().get(EntityPokecubeBase.SEEKING);
+    }
+
+    public void setSeeking(LivingEntity target)
+    {
+        if (target != null) this.getEntityData().set(EntityPokecubeBase.SEEKING, true);
+        else this.getEntityData().set(EntityPokecubeBase.SEEKING, false);
+        this.targetEntity = target;
     }
 
     public static HitResult rayTrace(final Entity projectile, final boolean checkEntityCollision,

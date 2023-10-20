@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
@@ -71,6 +72,10 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     // This one is used as a temporary holder
     private Vector3 rotPoint = new Vector3();
 
+    // Temp listes for presently running animations
+    private final List<String> toRunNames = Lists.newArrayList();
+    private final List<Animation> toRun = Lists.newArrayList();
+
     // These below need to be from the model set, as depend on the model itself
     private HashMap<String, List<Animation>> anims = Maps.newHashMap();
 
@@ -86,7 +91,11 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     {
         super(renderManager, new ModelPokecube(), 0.0f);
         baseModel = this.getModel();
-        for (ResourceLocation l : PokecubeItems.pokecubes.keySet()) makeModel(l);
+        for (ResourceLocation l : PokecubeItems.pokecubes.keySet())
+        {
+            var model = this.makeModel(l);
+            if (model != null) RenderPokecube.pokecubeRenderers.computeIfAbsent(l, l2 -> this);
+        }
     }
 
     private ModelWrapper<EntityPokecube> makeModel(ResourceLocation cube)
@@ -273,6 +282,21 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     }
 
     @Override
+    public List<Animation> getAnimations(Entity entity, String phase)
+    {
+        this.toRun.clear();
+        this.toRunNames.clear();
+        if (this.getAnimationChanger() != null)
+            this.getAnimationChanger().getAlternates(this.toRunNames, this.getAnimations().keySet(), entity, phase);
+        for (final String name : this.toRunNames)
+        {
+            final List<Animation> anims = this.getAnimations().get(name);
+            if (anims != null) this.toRun.addAll(anims);
+        }
+        return this.toRun;
+    }
+
+    @Override
     public String getAnimation(final Entity entityIn)
     {
         if (entityIn instanceof EntityPokecube cube)
@@ -298,6 +322,13 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
 
             if (shaking) return "shaking";
             else if (capturing != null) return "capturing";
+
+            if (!cube.isOnGround())
+            {
+                var v = cube.getDeltaMovement();
+                double dh = Math.fma(v.x, v.x, v.z * v.z);
+                if (dh > 0) return cube.isSeeking() ? "seeking" : "flying";
+            }
             return "idle";
         }
 

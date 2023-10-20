@@ -56,7 +56,7 @@ public class CaptureManager
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
         if (!cubeItem.canCapture(e, cube.getItem())) return;
-        if (cube.isCapturing) return;
+        if (cube.isCapturing()) return;
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if ((ownable != null && ownable.getOwnerId() != null && !PokecubeManager.isFilled(cube.getItem()))) return;
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());

@@ -56,8 +56,8 @@ import pokecube.core.client.gui.pokemob.GuiPokemob;
 import pokecube.core.client.render.RenderMoves;
 import pokecube.core.client.render.mobs.GenericBoatRenderer;
 import pokecube.core.client.render.mobs.RenderEgg;
-import pokecube.core.client.render.mobs.RenderFancyPokecube;
 import pokecube.core.client.render.mobs.RenderNPC;
+import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.core.client.render.mobs.RenderPokemob;
 import pokecube.core.database.Database;
 import pokecube.core.entity.boats.GenericBoat;
@@ -265,7 +265,7 @@ public class ClientSetupHandler
             final EntityType<? extends Mob> t = e.getEntityType();
             event.registerEntityRenderer(t, (manager) -> new RenderPokemob(e, manager));
         }
-        event.registerEntityRenderer(EntityTypes.getPokecube(), RenderFancyPokecube::new);
+        event.registerEntityRenderer(EntityTypes.getPokecube(), RenderPokecube::new);
         event.registerEntityRenderer(EntityTypes.getMove(), RenderMoves::new);
         event.registerEntityRenderer(EntityTypes.getNpc(), RenderNPC::new);
         event.registerEntityRenderer(EntityTypes.getEgg(), RenderEgg::new);
