@@ -617,6 +617,7 @@ public class LegendsCreativeTabs extends CoreCreativeTabs {
                 output.accept(BlockInit.TAPU_KOKO_CORE.get());
                 output.accept(BlockInit.TAPU_FINI_CORE.get());
                 output.accept(BlockInit.TAPU_LELE_CORE.get());
+                output.accept(BlockInit.MAGEARNA_BLOCK.get());
                 output.accept(BlockInit.HEATRAN_BLOCK.get());
                 output.accept(BlockInit.LEGENDARY_SPAWN.get());
 
