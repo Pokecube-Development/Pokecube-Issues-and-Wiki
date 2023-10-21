@@ -11,7 +11,7 @@
       "item": "pokecube_legends:golem_stone"
     },
     "X": {
-      "tag": "minecraft:planks"
+      "tag": "forge:storage_blocks/redstone"
     }
   },
   "result": {

@@ -1,4 +1,5 @@
 {
+	"credit": "Made with Blockbench",
 	"parent": "pokecube:block/pokecubes",
 	"textures": {
 		"top": "pokecube:item/dynacubetop",
@@ -34,7 +35,10 @@
 		},
 		"gui": {
 			"rotation": [30, 225, 0],
-			"scale": [0.625, 0.625, 0.625]
+			"scale": [0.75, 0.75, 0.75]
+		},
+		"head": {
+			"scale": [1.35, 1.35, 1.35]
 		},
 		"fixed": {
 			"scale": [0.75, 0.75, 0.75]

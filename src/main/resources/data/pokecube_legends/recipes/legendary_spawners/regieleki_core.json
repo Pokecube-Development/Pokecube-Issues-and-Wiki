@@ -11,7 +11,7 @@
       "tag": "forge:storage_blocks/redstone"
     },
     "A": {
-      "tag": "forge:storage_blocks/ruby"
+      "item": "pokecube_legends:totem_block"
     },
     "S": {
       "tag": "forge:storage_blocks/sapphire"

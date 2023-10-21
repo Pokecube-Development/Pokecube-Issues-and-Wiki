@@ -195,6 +195,10 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void registerParticleFactories(final ParticleFactoryRegisterEvent event)
     {
+        Minecraft.getInstance().particleEngine.register(ParticleInit.GOLD_STAR.get(),
+                SuspendedTownParticle.HappyVillagerProvider::new);
+        Minecraft.getInstance().particleEngine.register(ParticleInit.ERROR.get(),
+                SuspendedTownParticle.HappyVillagerProvider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_FIRE_FLAME.get(),
                 FlameParticle.Provider::new);
         Minecraft.getInstance().particleEngine.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
