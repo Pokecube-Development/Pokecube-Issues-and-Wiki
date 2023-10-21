@@ -115,6 +115,9 @@ import pokecube.legends.blocks.normalblocks.OneWayMirageGlass;
 import pokecube.legends.blocks.normalblocks.OneWaySpectrumGlass;
 import pokecube.legends.blocks.normalblocks.OneWayStainedGlass;
 import pokecube.legends.blocks.normalblocks.OneWayTintedGlass;
+import pokecube.legends.blocks.normalblocks.PastelPinkDynaLeavesBlock;
+import pokecube.legends.blocks.normalblocks.PinkDynaLeavesBlock;
+import pokecube.legends.blocks.normalblocks.RedDynaLeavesBlock;
 import pokecube.legends.blocks.normalblocks.SpectrumGlassBlock;
 import pokecube.legends.blocks.normalblocks.SpectrumGlassPaneBlock;
 import pokecube.legends.blocks.normalblocks.UnrefinedAquamarineBlock;
@@ -1734,17 +1737,17 @@ public class BlockInit
 
         // Dyna Leaves
         DYNA_LEAVES_RED = PokecubeLegends.BLOCKS.register("dyna_leaves_red",
-                () -> new DynaLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                () -> new RedDynaLeavesBlock(15, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_RED)
                         .strength(0.2f).sound(SoundType.AZALEA_LEAVES).noOcclusion()
                         .isSuffocating((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES_PINK = PokecubeLegends.BLOCKS.register("dyna_leaves_pink",
-                () -> new DynaLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                () -> new PinkDynaLeavesBlock(15, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_MAGENTA)
                         .strength(0.2f).sound(SoundType.AZALEA_LEAVES).noOcclusion()
                         .isSuffocating((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .isViewBlocking((s, r, p) -> false)));
         DYNA_LEAVES_PASTEL_PINK = PokecubeLegends.BLOCKS.register("dyna_leaves_pastel_pink",
-                () -> new DynaLeavesBlock(BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
+                () -> new PastelPinkDynaLeavesBlock(15, BlockBehaviour.Properties.of().mapColor(MapColor.COLOR_PINK)
                         .strength(0.2f).sound(SoundType.AZALEA_LEAVES).noOcclusion()
                         .isSuffocating((s, r, p) -> false).isValidSpawn(PokecubeItems::ocelotOrParrot)
                         .isViewBlocking((s, r, p) -> false)));

@@ -61,6 +61,12 @@ public class ClientSetupHandler
 
         event.registerSpriteSet(ParticleInit.AGED_LEAF.get(),
                 (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
+        event.registerSpriteSet(ParticleInit.DYNA_LEAF_RED.get(),
+                (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
+        event.registerSpriteSet(ParticleInit.DYNA_LEAF_PINK.get(),
+                (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
+        event.registerSpriteSet(ParticleInit.DYNA_LEAF_PASTEL_PINK.get(),
+                (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
         event.registerSpriteSet(ParticleInit.MIRAGE_LEAF.get(),
                 (spriteSet) -> (particleType, world, x, y, z, j, k, l) -> new FallingLeafParticle(world, x, y, z, spriteSet));
     }
