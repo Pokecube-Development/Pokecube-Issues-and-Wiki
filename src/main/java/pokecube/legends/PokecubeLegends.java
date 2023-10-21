@@ -73,7 +73,6 @@ import pokecube.legends.init.FluidInit;
 import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.LegendsCreativeTabs;
 import pokecube.legends.init.MoveRegister;
-import pokecube.legends.init.ParticleInit;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.TileEntityInit;
 import pokecube.legends.init.function.UsableItemGigantShard;

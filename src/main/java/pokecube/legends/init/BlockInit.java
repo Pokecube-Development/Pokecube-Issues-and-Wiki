@@ -97,7 +97,6 @@ import pokecube.legends.blocks.normalblocks.CorruptedLeavesBlock;
 import pokecube.legends.blocks.normalblocks.CrackedDistorticStone;
 import pokecube.legends.blocks.normalblocks.DistorticGrassBlock;
 import pokecube.legends.blocks.normalblocks.DistorticStoneBlock;
-import pokecube.legends.blocks.normalblocks.DynaLeavesBlock;
 import pokecube.legends.blocks.normalblocks.FungalNyliumBlock;
 import pokecube.legends.blocks.normalblocks.InfectedCampfireBlock;
 import pokecube.legends.blocks.normalblocks.InfectedFireBlock;
