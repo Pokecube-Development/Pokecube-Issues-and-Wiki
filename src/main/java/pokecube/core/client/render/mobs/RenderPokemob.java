@@ -406,6 +406,9 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void register()
     {
+        customs.clear();
+        holderMap.clear();
+        holders.clear();
         if (ThutCore.conf.debug_models) PokecubeAPI.logInfo("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
@@ -442,6 +445,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context p_i50961_1_)
     {
         super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
+        if (entry == Database.missingno) register();
         if (RenderPokemob.holders.containsKey(entry)) this.holder = RenderPokemob.holders.get(entry);
         else
         {
