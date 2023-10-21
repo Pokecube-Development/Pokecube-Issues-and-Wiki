@@ -315,7 +315,7 @@ public class ClientSetupHandler
             return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
         }, PokecubeItems.EGG.get());
 
-        event.getItemColors().register((stack, tintIndex) -> {
+        event.register((stack, tintIndex) -> {
             int c0 = 0xFFFFFFFF;
             int c1 = 0xFFFFFFFF;
             int c2 = 0xFFFFFFFF;
