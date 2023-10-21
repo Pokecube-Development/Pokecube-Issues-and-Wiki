@@ -7,18 +7,18 @@
     "RCR"
   ],
   "key": {
-    "C": {
-      "item": "minecraft:terracotta"
+    "R": {
+      "item": "minecraft:magma_block"
     },
     "A": {
-      "tag": "forge:storage_blocks/redstone"
+      "item": "pokecube_legends:totem_block"
     },
-    "R": {
-      "tag": "forge:storage_blocks/gold"
+    "C": {
+      "tag": "forge:storage_blocks/iron"
     }
   },
   "result": {
-    "item": "pokecube_legends:regirock_spawn",
+    "item": "pokecube_legends:registeel_spawn",
     "count": 1
   }
 }

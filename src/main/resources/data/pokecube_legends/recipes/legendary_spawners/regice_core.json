@@ -11,7 +11,7 @@
       "tag": "forge:storage_blocks/lapis"
     },
     "A": {
-      "tag": "forge:storage_blocks/redstone"
+      "item": "pokecube_legends:totem_block"
     },
     "C": {
       "item": "minecraft:packed_ice"
