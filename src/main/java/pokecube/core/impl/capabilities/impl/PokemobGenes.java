@@ -603,6 +603,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         // These need to be set after change form call, as that also does a
         // validation of old entry.
         info.setTmpEntry(newEntry);
+        if (info.getTmpForme() == entry.default_holder) info.setTmpForme(newEntry.default_holder);
 
         if (this.getEntity().getLevel() != null) ret.setSize(ret.getSize());
         if (this.getEntity().getLevel() != null && this.getEntity().isEffectiveAi())
@@ -618,6 +619,10 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         FormeHolder form = Database.formeHoldersByKey.getOrDefault(newEntry.getTrimmedName(),
                 newEntry.getModel(this.getSexe()));
         this._speciesCache.getValue().setForme(form);
+        
+        // Reset the types cache
+        this.getModifiers().type1 = null;
+        this.getModifiers().type2 = null;
     }
 
     @Override
@@ -699,7 +704,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public void setCustomHolder(FormeHolder holder)
     {
-        if (holder != null) holder = Database.formeHolders.getOrDefault(holder.key, holder);
         // Ensures the species gene is initialised
         this.genesSpecies.getExpressed().getValue().setForme(holder);
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesSpecies);

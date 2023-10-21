@@ -28,6 +28,7 @@ import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeItems;
 import pokecube.core.entity.boats.GenericBoat;
 import pokecube.core.init.ItemGenerator;
+import pokecube.core.client.render.mobs.RenderPokecube;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.Reference;
 import pokecube.legends.items.DistortedMirror;
@@ -353,11 +354,9 @@ public class ItemInit
                 () -> new ItemBase("static_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
 
         ICE_CARROT = PokecubeLegends.ITEMS.register("ice_carrot",
-                () -> new ItemBase("ice_carrot", 3, PokecubeLegends.TAB_LEGENDS,
-                        Rarity.RARE, FoodInit.ICE_CARROT, 16));
-        SHADOW_CARROT = PokecubeLegends.ITEMS.register("shadow_carrot",
-                () -> new ItemBase("shadow_carrot", 3, PokecubeLegends.TAB_LEGENDS,
-                        Rarity.RARE, FoodInit.SHADOW_CARROT, 16));
+                () -> new ItemBase("ice_carrot", 3, PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.ICE_CARROT, 16));
+        SHADOW_CARROT = PokecubeLegends.ITEMS.register("shadow_carrot", () -> new ItemBase("shadow_carrot", 3,
+                PokecubeLegends.TAB_LEGENDS, Rarity.RARE, FoodInit.SHADOW_CARROT, 16));
 
         // Misc
         AZURE_FLUTE = PokecubeLegends.ITEMS.register("azure_flute",
@@ -382,10 +381,8 @@ public class ItemInit
                 () -> new ItemBase("meteorite", 1, PokecubeItems.TAB_ITEMS, 16));
         NIGHTMARE_BOOK = PokecubeLegends.ITEMS.register("nightmare_book",
                 () -> new ItemBase("nightmare_book", 2, PokecubeLegends.TAB_LEGENDS, 1));
-        NMOON = PokecubeLegends.ITEMS.register("n_moon",
-                () -> new ItemBase("n_moon", 1, PokecubeItems.TAB_ITEMS, 1));
-        NSUN = PokecubeLegends.ITEMS.register("n_sun",
-                () -> new ItemBase("n_sun", 1, PokecubeItems.TAB_ITEMS, 1));
+        NMOON = PokecubeLegends.ITEMS.register("n_moon", () -> new ItemBase("n_moon", 1, PokecubeItems.TAB_ITEMS, 1));
+        NSUN = PokecubeLegends.ITEMS.register("n_sun", () -> new ItemBase("n_sun", 1, PokecubeItems.TAB_ITEMS, 1));
         PRISION_BOTTLE = PokecubeLegends.ITEMS.register("prisonbottle",
                 () -> new ItemBase("prisonbottle", 3, PokecubeItems.TAB_ITEMS, 1));
         REVEAL_GLASS = PokecubeLegends.ITEMS.register("revealglass",
@@ -404,9 +401,11 @@ public class ItemInit
         COBALION_SWORD = PokecubeLegends.ITEMS.register("cobalion_sword",
                 () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("cobalion_sword").setTooltipExtraLine(2));
-        KELDEO_SWORD = PokecubeLegends.ITEMS.register("keldeo_sword",
-                () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
-                        PokecubeLegends.TAB_LEGENDS).setTooltipName("keldeo_sword").setTooltipExtraLine(2).setShiny());
+        KELDEO_SWORD = PokecubeLegends.ITEMS
+                .register("keldeo_sword",
+                        () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
+                                PokecubeLegends.TAB_LEGENDS).setTooltipName("keldeo_sword").setTooltipExtraLine(2)
+                                        .setShiny());
         TERRAKION_SWORD = PokecubeLegends.ITEMS.register("terrakion_sword",
                 () -> new LegendsSword(ItemInit.MATERIAL_JUSTISE, 2, -2.4F, new Item.Properties(),
                         PokecubeLegends.TAB_LEGENDS).setTooltipName("terrakion_sword").setTooltipExtraLine(2));
@@ -420,7 +419,8 @@ public class ItemInit
         // Shields
         ZAMAZENTA_SHIELD = PokecubeLegends.ITEMS.register("zamazenta_shield",
                 () -> new ZamazentaShieldItem(Tiers.NETHERITE, "zamazenta_shield",
-                        new Item.Properties().durability(200).tab(PokecubeLegends.TAB_LEGENDS).fireResistant()).setTooltipExtraLine(1));
+                        new Item.Properties().durability(200).tab(PokecubeLegends.TAB_LEGENDS).fireResistant())
+                                .setTooltipExtraLine(1));
 
         // Items Creative Tab - Sorting depends on the order the items are
         // listed in
@@ -448,10 +448,8 @@ public class ItemInit
         GALARWREATH = PokecubeLegends.ITEMS.register("galarwreath", () -> new ItemBase(PokecubeItems.TAB_ITEMS, 1));
         GIGANTIC_SHARD = PokecubeLegends.ITEMS.register("gigantic_shard",
                 () -> new ItemBase("gigantic_shard", PokecubeItems.TAB_ITEMS, 1).setShiny());
-        PDARK = PokecubeLegends.ITEMS.register("pdark",
-                () -> new ItemBase("pdark", 1, PokecubeItems.TAB_ITEMS, 1));
-        PWATER = PokecubeLegends.ITEMS.register("pwater",
-                () -> new ItemBase("pwater", 1, PokecubeItems.TAB_ITEMS, 1));
+        PDARK = PokecubeLegends.ITEMS.register("pdark", () -> new ItemBase("pdark", 1, PokecubeItems.TAB_ITEMS, 1));
+        PWATER = PokecubeLegends.ITEMS.register("pwater", () -> new ItemBase("pwater", 1, PokecubeItems.TAB_ITEMS, 1));
         REINS_U = PokecubeLegends.ITEMS.register("reins_u",
                 () -> new ItemBase("reins_u", 1, PokecubeItems.TAB_ITEMS, 1));
         WISHING_PIECE = PokecubeLegends.ITEMS.register("wishing_piece",
@@ -483,21 +481,29 @@ public class ItemInit
                         new Item.Properties().tab(PokecubeLegends.TAB_DIMENSIONS)));
         // Signs
         AGED_SIGN = PokecubeLegends.ITEMS.register("aged_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.AGED_SIGN.get(), BlockInit.AGED_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.AGED_SIGN.get(), BlockInit.AGED_WALL_SIGN.get()));
         CONCRETE_SIGN = PokecubeLegends.ITEMS.register("concrete_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CONCRETE_SIGN.get(), BlockInit.CONCRETE_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.CONCRETE_SIGN.get(), BlockInit.CONCRETE_WALL_SIGN.get()));
         CONCRETE_DENSE_SIGN = PokecubeLegends.ITEMS.register("concrete_dense_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CONCRETE_DENSE_SIGN.get(), BlockInit.CONCRETE_DENSE_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.CONCRETE_DENSE_SIGN.get(), BlockInit.CONCRETE_DENSE_WALL_SIGN.get()));
         CORRUPTED_SIGN = PokecubeLegends.ITEMS.register("corrupted_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.CORRUPTED_SIGN.get(), BlockInit.CORRUPTED_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.CORRUPTED_SIGN.get(), BlockInit.CORRUPTED_WALL_SIGN.get()));
         DISTORTIC_SIGN = PokecubeLegends.ITEMS.register("distortic_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.DISTORTIC_SIGN.get(), BlockInit.DISTORTIC_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.DISTORTIC_SIGN.get(), BlockInit.DISTORTIC_WALL_SIGN.get()));
         INVERTED_SIGN = PokecubeLegends.ITEMS.register("inverted_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.INVERTED_SIGN.get(), BlockInit.INVERTED_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.INVERTED_SIGN.get(), BlockInit.INVERTED_WALL_SIGN.get()));
         MIRAGE_SIGN = PokecubeLegends.ITEMS.register("mirage_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.MIRAGE_SIGN.get(), BlockInit.MIRAGE_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.MIRAGE_SIGN.get(), BlockInit.MIRAGE_WALL_SIGN.get()));
         TEMPORAL_SIGN = PokecubeLegends.ITEMS.register("temporal_sign",
-                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS), BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
+                () -> new SignItem(new Item.Properties().stacksTo(16).tab(PokecubeLegends.TAB_DIMENSIONS),
+                        BlockInit.TEMPORAL_SIGN.get(), BlockInit.TEMPORAL_WALL_SIGN.get()));
 
         ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.AGED_PLANKS, "aged", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
         ItemGenerator.BOATS.add(new GenericBoat.BoatRegister(BlockInit.CONCRETE_PLANKS, "concrete", PokecubeLegends.TAB_DIMENSIONS, PokecubeLegends.ITEMS));
@@ -644,6 +650,8 @@ public class ItemInit
     @OnlyIn(Dist.CLIENT)
     public static void addItemModelProperties()
     {
+        RenderPokecube.ModelPokecube.CUBE_SHIFTS.put(new ResourceLocation("pokecube", "dynacube"), -0.1875f);
+
         ItemProperties.register(ItemInit.ZAMAZENTA_SHIELD.get(), new ResourceLocation("blocking"), (stack, world,
                 entity, intu) -> entity != null && entity.isUsingItem() && entity.getUseItem() == stack ? 1.0F : 0.0F);
     }

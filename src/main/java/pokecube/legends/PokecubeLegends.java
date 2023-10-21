@@ -53,6 +53,7 @@ import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
@@ -131,7 +132,7 @@ public class PokecubeLegends
             .create(RegHelper.RECIPE_TYPE_REGISTRY, Reference.ID);
 
     /** Packs Textures,Tags,etc... */
-    public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
+    public static ResourceLocation TOTEM_FUEL_TAG = new ResourceLocation(Reference.ID, "totem_fuel");
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -306,6 +307,7 @@ public class PokecubeLegends
                 return helper.dyna(mob);
             }
         }.setName("dyna"));
+        EntityPokecubeBase.CUBE_SIZES.put(new ResourceLocation("pokecube", "dynacube"), 0.75f);
         event.register(new DefaultPokecubeBehaviour()
         {
             @Override

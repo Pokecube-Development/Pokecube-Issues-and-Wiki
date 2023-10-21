@@ -37,6 +37,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -295,7 +296,7 @@ public class EntityPokemob extends PokemobRidable
             this.calculateEntityAnimation(this, false);
             return;
         }
-        this.flyingSpeed = 0.02f;
+        this.flyingSpeed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.125f;
         // Swimming mobs get their own treatment while swimming
         if (this.isEffectiveAi() && this.isInWater() && this.pokemobCap.swims())
         {

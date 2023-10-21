@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -169,7 +170,11 @@ public class ClientSetupHandler
                     ItemProperties.register(i, new ResourceLocation(PokecubeCore.MODID, "rendering_overlay"),
                             (stack, level, living, id) ->
                             {
-                                if (!PokecubeManager.isFilled(stack)) return 0.0f;
+                                if (level != null || !PokecubeManager.isFilled(stack)) return 0.0f;
+                                if (!(living instanceof Player)) return 0.0f;
+                                if (stack.getEntityRepresentation() != null
+                                        && stack.getEntityRepresentation().isAddedToWorld())
+                                    return 0.0f;
                                 boolean renderingOverlay = Pokecube.renderingOverlay;
                                 return renderingOverlay ? 1.0F : 0.0F;
                             });

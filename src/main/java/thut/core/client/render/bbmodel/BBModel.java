@@ -51,6 +51,7 @@ public class BBModel extends BaseModel
             }
             BBModelTemplate t = JsonUtil.gson.fromJson(reader, BBModelTemplate.class);
             reader.close();
+            this.template = t;
             t.init();
             this.makeObjects(t);
         }
@@ -106,7 +107,6 @@ public class BBModel extends BaseModel
         {
             this.parts.put(p.getName(), p);
         }
-        this.template = t;
     }
 
     @Override

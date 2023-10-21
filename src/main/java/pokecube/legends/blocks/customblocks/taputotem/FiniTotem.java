@@ -25,7 +25,7 @@ public class FiniTotem extends TapuFiniCore{
 	public InteractionResult use(final BlockState stack, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
 			final BlockHitResult hit)
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			FiniTotem.addEffectTotem(entity);
 			return InteractionResult.SUCCESS;
@@ -35,7 +35,7 @@ public class FiniTotem extends TapuFiniCore{
 	
 	public static void addEffectTotem(final Player entity) 
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem())) 
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 1));
 			final ItemStack _stktoremove = entity instanceof LivingEntity ? ((LivingEntity) entity).getMainHandItem() : ItemStack.EMPTY;

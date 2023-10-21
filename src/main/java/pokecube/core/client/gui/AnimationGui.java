@@ -1,6 +1,5 @@
 package pokecube.core.client.gui;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -188,6 +187,18 @@ public class AnimationGui extends Screen
     public void onUpdated()
     {
         AnimationGui.entry = Database.getEntry(this.forme.getValue());
+
+        if (AnimationGui.entry != null)
+        {
+            boolean skip = AnimationGui.entry.default_holder != null
+                    && AnimationGui.entry.default_holder._entry != AnimationGui.entry;
+            if (skip) AnimationGui.entry = AnimationGui.entry.default_holder._entry;
+            else if (AnimationGui.entry.default_holder == null)
+            {
+                AnimationGui.entry = AnimationGui.entry.getForGender(sexe);
+            }
+        }
+
         if (AnimationGui.entry == null) AnimationGui.entry = Database.getEntry(AnimationGui.mob);
         AnimationGui.mob = AnimationGui.entry.getName();
         this.forme.setValue(AnimationGui.mob);
@@ -381,6 +392,12 @@ public class AnimationGui extends Screen
                     e.printStackTrace();
                 }
             }
+            if (this.renderHolder.wrapper == null)
+            {
+                this.renderHolder = RenderPokemob.holders.get(AnimationGui.entry);
+                if (this.holder != null)
+                    this.renderHolder = RenderPokemob.customs.getOrDefault(this.holder.key, this.renderHolder);
+            }
             RenderSystem.setShaderLights(AxisAngles.YN, AxisAngles.ZN);
             final float l = AnimationGui.entry.getModelSize().lengthSquared();
             // Sometimes things go bad and this happens
@@ -481,6 +498,12 @@ public class AnimationGui extends Screen
             final PokedexEntry num = Pokedex.getInstance().getPrevious(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
             else AnimationGui.entry = Pokedex.getInstance().getLastEntry();
+
+            PokedexEntry entry = AnimationGui.entry;
+            PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
+            if (nextE == entry) nextE = Pokedex.getInstance().getFirstForm(entry);
+            AnimationGui.entry = nextE;
+
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setValue(AnimationGui.mob);
             this.holder = AnimationGui.entry.getModel(this.sexe);
@@ -492,6 +515,12 @@ public class AnimationGui extends Screen
             final PokedexEntry num = Pokedex.getInstance().getNext(AnimationGui.entry, 1);
             if (num != AnimationGui.entry) AnimationGui.entry = num;
             else AnimationGui.entry = Pokedex.getInstance().getFirstEntry();
+
+            PokedexEntry entry = AnimationGui.entry;
+            PokedexEntry nextE = Pokedex.getInstance().getNextForm(entry);
+            if (nextE == entry) nextE = Pokedex.getInstance().getFirstForm(entry);
+            AnimationGui.entry = nextE;
+
             AnimationGui.mob = AnimationGui.entry.getForGender(this.sexe).getName();
             this.forme.setValue(AnimationGui.mob);
             this.holder = AnimationGui.entry.getModel(this.sexe);
@@ -531,7 +560,8 @@ public class AnimationGui extends Screen
                 this.sexe = IPokemob.FEMALE;
                 b.setMessage(TComponent.literal("sexe:F"));
             }
-                    this.holder = AnimationGui.entry.getModel(this.sexe);
+                    AnimationGui.entry = AnimationGui.entry.getForGender(sexe);
+                    this.forme.setValue(AnimationGui.entry.name);
                     this.onUpdated();
                 }));
         dy += 20;
@@ -565,17 +595,10 @@ public class AnimationGui extends Screen
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
             {
-                final List<PokedexEntry> formes = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
-                if (!formes.contains(AnimationGui.entry)) formes.add(AnimationGui.entry);
-                Collections.sort(formes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-                for (int i = 0; i < formes.size(); i++) if (formes.get(i) == AnimationGui.entry)
-                {
-                    AnimationGui.entry = i + 1 < formes.size() ? formes.get(i + 1) : formes.get(0);
-                    AnimationGui.mob = AnimationGui.entry.getName();
-                    this.holder = AnimationGui.entry.getModel(this.sexe);
-                    this.forme.setValue(AnimationGui.mob);
-                    break;
-                }
+                AnimationGui.entry = Pokedex.getInstance().getNextForm(entry);
+                AnimationGui.mob = AnimationGui.entry.getName();
+                this.holder = AnimationGui.entry.getModel(this.sexe);
+                this.forme.setValue(AnimationGui.mob);
             }
             this.onUpdated();
         }));
@@ -583,17 +606,10 @@ public class AnimationGui extends Screen
             AnimationGui.entry = Database.getEntry(AnimationGui.mob);
             if (AnimationGui.entry != null)
             {
-                final List<PokedexEntry> formes = Lists.newArrayList(Database.getFormes(AnimationGui.entry));
-                if (!formes.contains(AnimationGui.entry)) formes.add(AnimationGui.entry);
-                Collections.sort(formes, (o1, o2) -> o1.getName().compareTo(o2.getName()));
-                for (int i = 0; i < formes.size(); i++) if (formes.get(i) == AnimationGui.entry)
-                {
-                    AnimationGui.entry = i - 1 >= 0 ? formes.get(i - 1) : formes.get(formes.size() - 1);
-                    AnimationGui.mob = AnimationGui.entry.getName();
-                    this.holder = AnimationGui.entry.getModel(this.sexe);
-                    this.forme.setValue(AnimationGui.mob);
-                    break;
-                }
+                AnimationGui.entry = Pokedex.getInstance().getPreviousForm(entry);
+                AnimationGui.mob = AnimationGui.entry.getName();
+                this.holder = AnimationGui.entry.getModel(this.sexe);
+                this.forme.setValue(AnimationGui.mob);
             }
             this.onUpdated();
         }));

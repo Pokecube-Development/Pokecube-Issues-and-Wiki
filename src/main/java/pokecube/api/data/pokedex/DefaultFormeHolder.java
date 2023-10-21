@@ -111,8 +111,8 @@ public class DefaultFormeHolder
             if (DefaultFormeHolder._main_init_)
             {
                 final String key = this.key.substring(0, this.key.length() - 1);
-                if (this._matches.isEmpty()) for (final ResourceLocation test : Database.formeHolders.keySet())
-                    if (test.getPath().startsWith(key)) this._matches.add(Database.formeHolders.get(test));
+                if (this._matches.isEmpty()) for (final ResourceLocation test : FormeHolder.formeHolders.keySet())
+                    if (test.getPath().startsWith(key)) this._matches.add(FormeHolder.formeHolders.get(test));
                 if (!this._matches.isEmpty())
                     return this._matches.get(ThutCore.newRandom().nextInt(this._matches.size()));
             }
@@ -121,13 +121,13 @@ public class DefaultFormeHolder
         if (this.key != null)
         {
             final ResourceLocation key = PokecubeItems.toPokecubeResource(this.key);
-            if (Database.formeHolders.containsKey(key)) return Database.formeHolders.get(key);
+            if (FormeHolder.formeHolders.containsKey(key)) return FormeHolder.formeHolders.get(key);
 
             parent_check:
             if (this.parent != null)
             {
                 final ResourceLocation pkey = PokecubeItems.toPokecubeResource(this.parent);
-                final FormeHolder parent = Database.formeHolders.get(pkey);
+                final FormeHolder parent = FormeHolder.formeHolders.get(pkey);
                 if (parent == null || parent.loaded_from == null)
                 {
                     PokecubeAPI.LOGGER.error(
@@ -173,10 +173,13 @@ public class DefaultFormeHolder
             }
             String model = this.getEntry().modelPath;
             String modid = this.getEntry().getModId();
-            if (modid == null) modid = "pokecube_mobs";
-            if (!this.getEntry().texturePath.contains(":"))
-                this.getEntry().texturePath = modid + ":" + this.getEntry().texturePath;
             String tex = this.getEntry().texturePath;
+            if (modid == null) modid = "pokecube_mobs";
+            if (!tex.contains(":")) tex = modid + ":" + tex;
+            if (!model.contains(":")) model = modid + ":" + model;
+
+            this.getEntry().texturePath = tex;
+            this.getEntry().modelPath = model;
 
             ResourceLocation texl = this.tex != null ? PokecubeItems.toResource(tex + this.tex, modid) : null;
             ResourceLocation modell = this.model != null ? PokecubeItems.toResource(model + this.model, modid) : null;

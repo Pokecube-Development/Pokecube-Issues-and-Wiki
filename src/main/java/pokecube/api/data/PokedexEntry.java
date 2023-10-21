@@ -1876,11 +1876,13 @@ public class PokedexEntry
 
     public void setBaseForme(final PokedexEntry baseForme)
     {
+        if (baseForme == this) return;
         if (this.baseForme != null && baseForme != this.baseForme && this.baseForme != Database.missingno)
             PokecubeAPI.LOGGER.error("Trying to replace {} with {} as base for {}", this.baseForme, baseForme, this);
         this.baseForme = baseForme;
         this.base = false;
         this.pokedexNb = baseForme.pokedexNb;
+        this.modId = baseForme.modId;
     }
 
     public void setEntityType(final EntityType<? extends Mob> type)

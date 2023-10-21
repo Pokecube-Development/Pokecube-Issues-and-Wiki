@@ -375,9 +375,9 @@ public class Pokecube extends Item implements IPokecube
                 target = null;
             boolean used = false;
             final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 10;
-            if (target != null && EntityPokecubeBase.SEEKING)
+            if (target != null && EntityPokecubeBase.CUBES_SEEK)
                 used = this.throwPokecubeAt(worldIn, player, stack, targetLocation, target) != null;
-            else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
+            else if (filledOrSneak || !EntityPokecubeBase.CUBES_SEEK)
             {
                 float power = (this.getUseDuration(stack) - timeLeft) / (float) 100;
                 power = Math.min(1, power);
@@ -465,8 +465,7 @@ public class Pokecube extends Item implements IPokecube
 
         temp.moveEntity(entity);
         entity.shoot(direction.norm(), power * 10);
-        entity.seeking = false;
-        entity.targetEntity = null;
+        entity.setSeeking(null);
         entity.targetLocation.clear();
         if (hasMob && !thrower.isShiftKeyDown()) entity.targetLocation.y = -1;
         if (!world.isClientSide)
@@ -497,7 +496,7 @@ public class Pokecube extends Item implements IPokecube
         if (target instanceof LivingEntity || PokecubeManager.isFilled(cube) || thrower.isShiftKeyDown()
                 || thrower instanceof FakePlayer)
         {
-            if (target instanceof LivingEntity living) entity.targetEntity = living;
+            if (target instanceof LivingEntity living) entity.setSeeking(living);
             if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
                 targetLocation = Vector3.secondAxisNeg;
             entity.targetLocation.set(targetLocation);
@@ -526,7 +525,7 @@ public class Pokecube extends Item implements IPokecube
             if (thrower.isShiftKeyDown())
             {
                 temp.clear().setVelocities(entity);
-                entity.targetEntity = null;
+                entity.setSeeking(null);
                 entity.targetLocation.clear();
             }
             if (!world.isClientSide)

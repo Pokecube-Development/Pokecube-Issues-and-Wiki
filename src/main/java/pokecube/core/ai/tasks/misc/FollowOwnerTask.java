@@ -95,9 +95,10 @@ public class FollowOwnerTask extends TaskBase
                 && this.petPathfinder.getPath().getNextNodeIndex() < this.petPathfinder.getPath().getNodeCount() - 3)
         {
             double x, y, z;
-            x = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1).x + 0.5;
-            y = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1).y + 0.5;
-            z = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1).z + 0.5;
+            var node = this.petPathfinder.getPath().getNode(this.petPathfinder.getPath().getNextNodeIndex() + 1);
+            x = node.x + 0.5;
+            y = node.y + 0.5;
+            z = node.z + 0.5;
             // Or look at path location
             BrainUtils.lookAt(this.entity, x, y, z);
         }
@@ -108,8 +109,9 @@ public class FollowOwnerTask extends TaskBase
 
         final boolean isSprinting = this.entity.isSprinting();
         final double ds2 = target.getTarget().currentPosition().distanceToSqr(this.entity.position());
-        final boolean shouldSprint = isSprinting ? ds2 > 4 : ds2 > 9;
-        if (shouldSprint && !isSprinting) this.entity.setSprinting(shouldSprint);
+        final boolean shouldSprint = isSprinting ? ds2 > 9 : ds2 > 64;
+        if (shouldSprint != isSprinting) this.entity.setSprinting(shouldSprint);
+        
         final AttributeInstance iattributeinstance = this.entity.getAttribute(Attributes.MOVEMENT_SPEED);
         iattributeinstance.removeModifier(FollowOwnerTask.FOLLOW_SPEED_BOOST);
         if (this.entity.isSprinting())

@@ -556,11 +556,7 @@ public class CapabilityHasPokemobs
                         "npcs_defeated");
                 defeatedList.validate(this.user, defeatResetKey);
 
-                if (this.rewards.getRewards() != null)
-                {
-                    this.rewards.giveReward(player, this.user);
-                    this.checkDefeatAchievement(player);
-                }
+                if (this.rewards.getRewards() != null) this.checkDefeatAchievement(player);
 
                 // If applicable, increase reputation for winning the battle.
                 if (this.user instanceof Villager villager)

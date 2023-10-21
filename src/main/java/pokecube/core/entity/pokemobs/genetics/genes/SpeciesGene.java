@@ -118,7 +118,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
         public @Nullable FormeHolder getForme()
         {
-            if (this.forme != null && this.forme._entry == null) this.forme._entry = this.entry;
+            if (this.forme != null && this.forme._entry == null) this.forme.setEntry(entry);
             if (this.tmpForme != null) return tmpForme;
             return forme;
         }
@@ -245,7 +245,6 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         String[] args = mutation.result.split(":;");
 
         PokedexEntry value = Database.getEntry(args[0]);
-        FormeHolder forme = args.length > 1 ? Database.formeHolders.get(new ResourceLocation(args[1])) : null;
 
         if (value != null)
         {
@@ -253,7 +252,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             // Ensure gender ratios are correct
             newGene.info.setSexe(SpeciesGene.getSexe(newGene.info.getEntry().getSexeRatio(), this.rand));
             // Also apply the formeholder if present (defaults to null)
-            newGene.info.setForme(forme);
+            newGene.info.setForme(newGene.info.getEntry().default_holder);
         }
     }
 

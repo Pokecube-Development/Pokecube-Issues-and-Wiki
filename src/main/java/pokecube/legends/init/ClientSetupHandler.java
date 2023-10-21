@@ -55,6 +55,8 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void registerParticleFactories(final RegisterParticleProvidersEvent event)
     {
+        event.register(ParticleInit.GOLD_STAR.get(), FlameParticle.Provider::new);
+        event.register(ParticleInit.ERROR.get(), SmokeParticle.Provider::new);
         event.register(ParticleInit.INFECTED_FIRE_FLAME.get(), FlameParticle.Provider::new);
         event.register(ParticleInit.INFECTED_SMOKE.get(), SmokeParticle.Provider::new);
         event.register(ParticleInit.INFECTED_SOUL.get(), SoulParticle.Provider::new);

@@ -244,11 +244,29 @@ public class BBModelTemplate
             if (b.getRotation() != null)
             {
                 float x = b.getRotation()[0];
-                float y = b.getRotation()[2];
-                float z = b.getRotation()[1];
-                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
-                if (y != 0) quat.mul(AxisAngles.ZP.rotationDegrees(y));
-                if (z != 0) quat.mul(AxisAngles.YP.rotationDegrees(z));
+                float y = b.getRotation()[1];
+                float z = b.getRotation()[2];
+                if (template.meta.model_format.equals("bedrock"))
+                {
+                    if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+                    if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                    if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                }
+                else
+                {
+                    if (b.box_uv)
+                    {
+                        if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+                        if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                        if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                    }
+                    else
+                    {
+                        if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+                        if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                        if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                    }
+                }
             }
 
             Vector3f origin = new Vector3f(origin_offset);

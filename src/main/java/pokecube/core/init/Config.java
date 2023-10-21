@@ -303,10 +303,10 @@ public class Config extends ConfigData
     public int pokemobLifeSpan = 8000;
     @Configure(category = Config.mobAI, comment = "This is a cooldown between the pokemob deciding to attack a player, and the pokemob actually doing so, this gives some warning when you are about to be attacked. [Default: 100]")
     public int pokemobagressticks = 100;
-    @Configure(category = Config.mobAI, comment = "This is how often wild pokemobs make random sounds, higher numbers result in less noise. [Default: 100]")
-    public int idleSoundRate = 100;
+    @Configure(category = Config.mobAI, comment = "This is how often wild pokemobs make random sounds, higher numbers result in less noise. [Default: 200]")
+    public int idleSoundRate = 200;
     @Configure(category = Config.mobAI, comment = "This scales how loud wild pokemob sounds are, lower numbers are lower volumes. [Default: 0.25]")
-    public double idleSoundVolume = 0.25;
+    public double idleSoundVolume = 0.2;
 
     @Configure(category = Config.mobAI, comment = "This number multiplied by mobSpawnNumber is how many mobs can be in an area before pokemobs stop breeding, this is for wild pokemobs. [Default: 2]")
     public double mateDensityWild = 2;
@@ -733,8 +733,8 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, type = Type.SERVER, comment = "Number of pages in the PC. [Default: 32]")
     public int pcPageCount = 32;
 
-    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Time in ticks it takes for a pokemob to evolve, note that recalling during this time will cancel the evolution! [Default: 100]")
-    public int evolutionTicks = 100;
+    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Time in ticks it takes for a pokemob to evolve, note that recalling during this time will cancel the evolution! [Default: 60]")
+    public int evolutionTicks = 60;
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "Distance that secret base radar works within. [Default: 64]")
     public int baseRadarRange = 64;
 

@@ -157,7 +157,7 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             else if (keyCode == GLFW.GLFW_KEY_ENTER)
         {
             PokedexEntry entry = this.pokemob.getPokedexEntry();
-            final PokedexEntry newEntry = Database.getEntry(this.search.getValue());
+            PokedexEntry newEntry = Database.getEntry(this.search.getValue());
             // Search to see if maybe it was a translated name put into the
             // search.
             if (newEntry == null)
@@ -177,7 +177,11 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                 // entry.
                 if (Pokedex.getInstance().getIndex(entry) == null) entry = null;
             }
-
+            if (newEntry != null)
+            {
+                boolean skip = newEntry.default_holder != null && newEntry.default_holder._entry != newEntry;
+                if (skip) newEntry = newEntry.default_holder._entry;
+            }
             if (newEntry != null)
             {
                 this.search.setValue(newEntry.getName());
@@ -218,10 +222,20 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             pokemob = AnimationGui.getRenderMob(entry);
         }
         this.pokemob = pokemob;
+        var entry = pokemob.getPokedexEntry();
+        if (!pokemob.getEntity().isAddedToWorld())
+        {
+            if (entry.isGenderForme)
+            {
+                pokemob.setSexe(entry.isMaleForme ? IPokemob.MALE : IPokemob.FEMALE);
+            }
+            else if (entry.getSexeRatio() == 0) pokemob.setSexe(IPokemob.MALE);
+            else if (entry.getSexeRatio() == 254) pokemob.setSexe(IPokemob.FEMALE);
+        }
         this.search.setVisible(!this.watch.canEdit(pokemob));
-        this.search.setValue(pokemob.getPokedexEntry().getName());
-        PacketPokedex.sendSpecificSpawnsRequest(pokemob.getPokedexEntry());
-        PacketPokedex.updateWatchEntry(pokemob.getPokedexEntry());
+        this.search.setValue(entry.getName());
+        PacketPokedex.sendSpecificSpawnsRequest(entry);
+        PacketPokedex.updateWatchEntry(entry);
         // Force close and open the page to update.
         this.changePage(this.index);
     }
@@ -249,21 +263,37 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
             final int my = (int) (mouseY - y);
 
             // The box to click goes from (ox, oy) -> (ox + dx, oy + dy)
-            int ox = 8;
-            int oy = 26;
-            int dx = 10;
-            int dy = 10;
+            int ox = 13;
+            int oy = 27;
+            int dx = 12;
+            int dy = 12;
 
             // Click for toggling if it is male or female
             if (mx > ox && mx < ox + dx && my > oy && my < oy + dy)
             {
+                var old = this.pokemob.getPokedexEntry();
+                var e = old;
                 switch (this.pokemob.getSexe())
                 {
                 case IPokemob.MALE:
+                    e = old.getForGender(IPokemob.FEMALE);
                     this.pokemob.setSexe(IPokemob.FEMALE);
+                    if (e != old)
+                    {
+                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.initPages(this.pokemob);
                     break;
                 case IPokemob.FEMALE:
+                    e = old.getForGender(IPokemob.MALE);
                     this.pokemob.setSexe(IPokemob.MALE);
+                    if (e != old)
+                    {
+                        this.pokemob = this.pokemob.setPokedexEntry(e);
+                        this.pokemob.setBasePokedexEntry(e);
+                    }
+                    this.initPages(this.pokemob);
                     break;
                 }
                 this.pokemob.onGenesChanged();
@@ -381,10 +411,10 @@ public class PokemobInfoPage extends PageWithSubPages<PokeInfoPage>
                         || StatsCollector.getHatched(pokedexEntry.getBaseForme(), Minecraft.getInstance().player) > 0;
 
             IPokemob pokemob = this.pokemob;
-            
+
             PokeType _type1 = pokemob.getType1();
             PokeType _type2 = pokemob.getType2();
-            
+
             // Copy the stuff to the render mob if this mob is in world
             if (pokemob.getEntity().isAddedToWorld())
             {

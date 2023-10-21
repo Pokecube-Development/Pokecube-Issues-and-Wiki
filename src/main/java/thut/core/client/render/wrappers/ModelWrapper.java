@@ -304,4 +304,10 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         return imodel.getRenderOrder();
     }
+    
+    @Override
+    public void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
+    {
+        this.imodel.initBuiltInAnimations(renderer, tblAnims);
+    }
 }
