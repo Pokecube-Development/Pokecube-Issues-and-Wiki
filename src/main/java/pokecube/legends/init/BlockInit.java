@@ -2356,7 +2356,7 @@ public class BlockInit
         // Tapus Totems
         TOTEM_BLOCK = PokecubeLegends.BLOCKS.register("totem_block",
                 () -> new BlockBase(MapColor.COLOR_LIGHT_GRAY,
-                        SoundType.STONE, NoteBlockInstrument.BASS, true, 1.5f, 10f));
+                        SoundType.STONE, NoteBlockInstrument.BASS, true, 3f, 10f));
 
         for (int i = 0; i < totemKeys.length; i++)
         {
@@ -2399,29 +2399,29 @@ public class BlockInit
         // Regi Cores
         GOLEM_STONE = PokecubeLegends.BLOCKS.register("golem_stone",
                 () -> new BlockBase(MapColor.TERRACOTTA_WHITE,
-                        SoundType.PACKED_MUD, NoteBlockInstrument.BASS, true, 5f, 10f));
+                        SoundType.PACKED_MUD, NoteBlockInstrument.BASS, true, 3f, 10f));
         REGISTEEL_CORE = PokecubeLegends.BLOCKS.register("registeel_spawn",
                 () -> new FaceBlockBase(MapColor.TERRACOTTA_WHITE, Direction.NORTH,
-                        SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 15, 10f));
+                        SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 5f, 10f));
         REGICE_CORE = PokecubeLegends.BLOCKS.register("regice_spawn",
                 () -> new FaceBlockBase(MapColor.TERRACOTTA_WHITE, Direction.NORTH,
-                        SoundType.PACKED_MUD, NoteBlockInstrument.HAT, true, 15, 10f));
+                        SoundType.PACKED_MUD, NoteBlockInstrument.HAT, true, 5f, 10f));
         REGIROCK_CORE = PokecubeLegends.BLOCKS.register("regirock_spawn",
                 () -> new FaceBlockBase(MapColor.TERRACOTTA_WHITE, Direction.NORTH,
-                 SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 15, 10f));
+                 SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 5f, 10f));
         REGIELEKI_CORE = PokecubeLegends.BLOCKS.register("regieleki_spawn",
                 () -> new FaceBlockBase(MapColor.TERRACOTTA_WHITE, Direction.NORTH,
-                 SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 15, 10f));
+                 SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 5f, 10f));
         REGIDRAGO_CORE = PokecubeLegends.BLOCKS.register("regidrago_spawn",
                 () -> new FaceBlockBase(MapColor.TERRACOTTA_WHITE, Direction.NORTH,
-                 SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 15, 10f));
+                 SoundType.PACKED_MUD, NoteBlockInstrument.BASEDRUM, true, 5f, 10f));
         REGIGIGA_CORE = PokecubeLegends.BLOCKS.register("regigiga_spawn",
                 () -> new FaceBlockBase(MapColor.TERRACOTTA_WHITE, Direction.NORTH,
-                        SoundType.PACKED_MUD, NoteBlockInstrument.HARP, true, 15, 10f));
+                        SoundType.PACKED_MUD, NoteBlockInstrument.HARP, true, 5f, 10f));
 
         LEGENDARY_SPAWN = PokecubeLegends.BLOCKS.register("legendary_spawn",
                 () -> new BlockBase(MapColor.GOLD,
-                        SoundType.METAL, NoteBlockInstrument.BASS, true, 50f, 30f));
+                        SoundType.METAL, NoteBlockInstrument.BASS, true, 5f, 15f));
 
         HEATRAN_BLOCK = PokecubeLegends.BLOCKS.register("heatran_spawn",
                 () -> new HeatranBlock(BlockBehaviour.Properties.of().mapColor(MapColor.NETHER)
@@ -2430,7 +2430,7 @@ public class BlockInit
 
         MAGEARNA_BLOCK = PokecubeLegends.BLOCKS.register("magearna_spawn",
                 () -> new MagearnaBlock(BlockBehaviour.Properties.of().mapColor(MapColor.SAND)
-                        .strength(300, 300).sound(SoundType.STONE).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5, 15).sound(SoundType.STONE).requiresCorrectToolForDrops().dynamicShape()));
 
         // Tapus
         TAPU_KOKO_CORE = PokecubeLegends.BLOCKS.register("koko_core",

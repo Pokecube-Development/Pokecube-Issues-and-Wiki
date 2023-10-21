@@ -26,7 +26,7 @@ public class BuluTotem extends TapuBuluCore
 	public InteractionResult use(final BlockState stack, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
 			final BlockHitResult hit)
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			BuluTotem.addEffectTotem(entity);
 			return InteractionResult.SUCCESS;
@@ -36,7 +36,7 @@ public class BuluTotem extends TapuBuluCore
 	
 	public static void addEffectTotem(final Player entity)
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			entity.addEffect(new MobEffectInstance(MobEffects.DAMAGE_RESISTANCE, 400, 1));
 			final ItemStack _stktoremove = entity instanceof LivingEntity ? ((LivingEntity) entity).getMainHandItem() : ItemStack.EMPTY;

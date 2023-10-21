@@ -126,7 +126,7 @@ public class PokecubeLegends
             .create(RegHelper.RECIPE_TYPE_REGISTRY, Reference.ID);
 
     /** Packs Textures,Tags,etc... */
-    public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
+    public static ResourceLocation TOTEM_FUEL_TAG = new ResourceLocation(Reference.ID, "totem_fuel");
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
