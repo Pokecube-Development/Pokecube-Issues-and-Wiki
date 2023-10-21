@@ -1,34 +1,39 @@
 package pokecube.legends.blocks.normalblocks;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.BlockParticleOption;
-import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.util.ParticleUtils;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import pokecube.legends.init.ParticleInit;
 
 public class MirageLeavesBlock extends LeavesBlock
 {
-    public MirageLeavesBlock(final int color, final Properties properties)
+    int particleSpawnSpeed;
+
+    public MirageLeavesBlock(int particleSpawnSpeed, final Properties properties)
     {
         super(properties);
+        this.particleSpawnSpeed = particleSpawnSpeed;
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public void animateTick(final BlockState state, final Level world, final BlockPos pos, final RandomSource random)
     {
-        if (random.nextInt(3) == 0) {
-            final BlockPos pos1 = pos.below();
-            if (world.isEmptyBlock(pos1))
+        super.animateTick(state, world, pos, random);
+
+        if (random.nextInt(particleSpawnSpeed) == 0) {
+            final BlockPos posBelow = pos.below();
+            BlockState blockstate = world.getBlockState(posBelow);
+            if (!isFaceFull(blockstate.getCollisionShape(world, posBelow), Direction.UP))
             {
-                final double d0 = pos.getX() + random.nextDouble();
-                final double d1 = pos.getY() - 0.05D;
-                final double d2 = pos.getZ() + random.nextDouble();
-                world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+                ParticleUtils.spawnParticleBelow(world, pos, random, ParticleInit.MIRAGE_LEAF.get());
             }
         }
     }

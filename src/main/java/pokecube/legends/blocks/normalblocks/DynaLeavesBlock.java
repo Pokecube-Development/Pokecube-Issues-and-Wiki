@@ -21,7 +21,7 @@ public class DynaLeavesBlock extends LeavesBlock implements IForgeShearable
 {
     public static final BooleanProperty SNOWY = BlockStateProperties.SNOWY;
     public static final IntegerProperty DISTANCE = BlockStateProperties.DISTANCE;;
-    public static final BooleanProperty PERSISTENT = BlockStateProperties.PERSISTENT;;
+    public static final BooleanProperty PERSISTENT = BlockStateProperties.PERSISTENT;
 
     public DynaLeavesBlock(final Properties properties)
     {

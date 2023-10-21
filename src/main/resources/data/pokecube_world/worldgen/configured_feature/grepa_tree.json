@@ -35,18 +35,53 @@
         }
       },
       "trunk_placer": {
-        "type": "minecraft:forking_trunk_placer",
+        "type": "minecraft:cherry_trunk_placer",
         "base_height": 7,
-        "height_rand_a": 2,
-        "height_rand_b": 2
+        "branch_count": {
+          "type": "minecraft:weighted_list",
+          "distribution": [
+            {
+              "data": 1,
+              "weight": 1
+            },
+            {
+              "data": 2,
+              "weight": 2
+            },
+            {
+              "data": 3,
+              "weight": 2
+            }
+          ]
+        },
+        "branch_end_offset_from_top": {
+          "type": "minecraft:uniform",
+          "value": {
+            "max_inclusive": 0,
+            "min_inclusive": -1
+          }
+        },
+        "branch_horizontal_length": {
+          "type": "minecraft:uniform",
+          "value": {
+            "max_inclusive": 3,
+            "min_inclusive": 2
+          }
+        },
+        "branch_start_offset_from_top": {
+          "max_inclusive": -3,
+          "min_inclusive": -4
+        },
+        "height_rand_a": 1,
+        "height_rand_b": 0
       },
       "foliage_placer": {
         "type": "pokecube:round_foliage_placer",
         "radius": {
           "type": "minecraft:uniform",
           "value": {
-            "min_inclusive": 2,
-            "max_inclusive": 3
+            "min_inclusive": 3,
+            "max_inclusive": 6
           }
         },
         "offset": 1,

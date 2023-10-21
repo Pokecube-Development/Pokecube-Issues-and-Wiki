@@ -9,7 +9,12 @@
     "water_fog_color": 8892184,
     "grass_color": 4896398,
     "foliage_color": 4896398,
-    "ambient_sound": "minecraft:ambient.cave",
+    "music": {
+      "sound": "minecraft:music.overworld.lush_caves",
+      "min_delay": 12000,
+      "max_delay": 24000,
+      "replace_current_music": false
+    },
     "mood_sound": {
       "sound": "minecraft:ambient.cave",
       "tick_delay": 6000,

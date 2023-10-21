@@ -10,6 +10,7 @@
   "structures_to_avoid": [
     "minecraft:pillager_outposts",
     "minecraft:villages",
+    "pokecube:ruins",
     "pokecube:towns",
     "pokecube:villages",
     "pokecube_legends:towns",

@@ -26,6 +26,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.legends.PokecubeLegends;
 import pokecube.legends.init.FeaturesInit;
 import pokecube.legends.init.ItemInit;
+import pokecube.legends.init.ParticleInit;
 import pokecube.legends.worldgen.DimensionTranserHelper;
 import thut.lib.TComponent;
 
@@ -125,7 +126,7 @@ public class UltraKey extends ItemBase
 
             } else
             {
-                teleportFailEffects(entity, world, ParticleTypes.WAX_ON, SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
+                teleportFailEffects(entity, world, ParticleInit.ERROR.get(), SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
             }
 
         } else if (entity instanceof Player player && player.getInventory()
@@ -136,10 +137,10 @@ public class UltraKey extends ItemBase
                     PokecubeLegends.config.ultraKeyRequiredFuelAmount, ChatFormatting.RED, ChatFormatting.BOLD);
             player.displayClientMessage(TComponent.translatable(message), true);
 
-            teleportFailEffects(entity, world, ParticleTypes.WAX_ON, SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
+            teleportFailEffects(entity, world, ParticleInit.ERROR.get(), SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
         } else
         {
-            teleportFailEffects(entity, world, ParticleTypes.WAX_ON, SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
+            teleportFailEffects(entity, world, ParticleInit.ERROR.get(), SoundEvents.AXE_SCRAPE, SoundEvents.BEACON_DEACTIVATE);
         }
     }
 
