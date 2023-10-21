@@ -162,7 +162,6 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void loaded(final FMLLoadCompleteEvent event)
     {
-        RenderPokemob.register();
         event.enqueueWork(() -> {
             for (Item[] arr : PokecubeItems.pokecubes.values())
             {
