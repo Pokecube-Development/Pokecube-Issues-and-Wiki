@@ -62,7 +62,8 @@ public class LeapTask extends TaskBase implements IAICombat
     @Override
     public void reset()
     {
-        leapTick = -1;
+        // Set the timer so we don't leap again rapidly
+        this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
     }
 
     @Override
@@ -107,14 +108,28 @@ public class LeapTask extends TaskBase implements IAICombat
         dir.subtractFrom(dv);
 
         final boolean airborne = this.pokemob.floats() || this.pokemob.flys();
-        if (dir.y > 0 && !airborne) dir.y = Math.max(dir.y, 0.25);
-        /*
-         * Apply the leap
-         */
-        dir.addVelocities(this.entity);
+        // Increase leap speed for airborne things, they have a bit more
+        // friction while in the air.
+        if (!airborne) dir.scalarMultBy(2);
+        // Otherwise, if it is on the ground, it should jump a bit if leaping
+        // but not downwards
+        else if (dir.y >= 0) dir.y = Math.max(dir.y, 0.25);
 
+        double dh = Math.fma(dir.x, dir.x, dir.x * dir.z);
+        // If too close, then put a minimum horizontal distance for the leap.
+        if (dh > 0 && dh < 0.01)
+        {
+            dh = Math.sqrt(dh);
+            dir.x *= 0.1 / dh;
+            dir.z *= 0.1 / dh;
+        }
+        // Now apply the actual leap
+        dir.addVelocities(this.entity);
+        // Then play leap sound
         new PlaySound(this.entity.getLevel().dimension(), new Vector3().set(this.entity), this.getLeapSound(),
                 SoundSource.HOSTILE, 1, 1).run(this.world);
+
+        // Then reset things so we don't immediately re-leap.
         BrainUtils.setLeapTarget(this.entity, null);
         this.reset();
     }
@@ -124,8 +139,6 @@ public class LeapTask extends TaskBase implements IAICombat
     {
         // Can't move, no leap
         if (!TaskBase.canMove(this.pokemob)) return false;
-        // Set the timer so we don't leap again rapidly
-        if (leapTick == -1) this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
         // On cooldown, no leap
         if (this.leapTick > this.entity.tickCount) return false;
         // Leap if we have a target pos
