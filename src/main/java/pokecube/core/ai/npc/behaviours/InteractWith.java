@@ -45,7 +45,6 @@ public class InteractWith
                             if (userMatch.test(user) && nearestvisiblelivingentities.contains(predicate))
                             {
                                 Optional<LivingEntity> optional = nearestvisiblelivingentities.findClosest((target) -> {
-                                    System.out.println(target);
                                     return target.distanceToSqr(user) <= (double) i && predicate.test(target);
                                 });
                                 optional.ifPresent((target) -> {
