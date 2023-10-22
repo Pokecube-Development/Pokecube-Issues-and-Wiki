@@ -106,6 +106,16 @@ public class SendOutManager
         final boolean checkPerms = isPlayers && hasPokemob;
         boolean hasPerms = true;
 
+        if ((mob instanceof LivingEntity living && !living.isAlive()))
+        {
+            if (isPlayers && cube.shootingEntity.isAlive())
+            {
+                Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
+                cube.discard();
+            }
+            return null;
+        }
+
         // Check permissions
         if (checkPerms) hasPerms = Permissions.canSendOut(pokemob.getPokedexEntry(), user, false, true);
 
