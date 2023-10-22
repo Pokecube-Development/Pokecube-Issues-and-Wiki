@@ -839,24 +839,11 @@ public class PokemobEventsHandler
         final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, living.blockPosition(),
                 PokecubeCore.getConfig().movementPauseThreshold + dist);
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
-
-        final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
-        if (dim instanceof ServerLevel level && living.deathTime > 0
-                && (living.getPersistentData().contains(TagNames.NOPOOF)
-                        || (pokemob != null && !pokemob.isRoutineEnabled(AIRoutine.POOFS))))
-        {
-            // Vanilla entities vanish after deathTime hits 20. that is
-            // incremented after this call is run, so we will keep it at 18
-            // here.
-            if (!(living instanceof EntityPokemob)) living.deathTime = 18;
-        }
-
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
         {
             if (pokemobCap.returning)
             {
-                mob.remove(RemovalReason.DISCARDED);
                 evt.setCanceled(true);
                 return;
             }
