@@ -78,7 +78,6 @@ import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -839,6 +838,7 @@ public class PokemobEventsHandler
         final boolean tooFast = ridden && !TerrainManager.isAreaLoaded(dim, living.blockPosition(),
                 PokecubeCore.getConfig().movementPauseThreshold + dist);
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
+        final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
         {
