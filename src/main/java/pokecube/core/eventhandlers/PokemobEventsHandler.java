@@ -73,6 +73,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.CapabilityInhabitor;
+import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -272,9 +273,12 @@ public class PokemobEventsHandler
                 evolver.setGeneralState(GeneralStates.EVOLVING, true);
                 evolver.setGeneralState(GeneralStates.EXITINGCUBE, false);
                 evolver.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                evolver.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(evolver));
             }, () -> {
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(evolver));
+                evolver.setGeneralState(GeneralStates.EVOLVING, false);
+                evolver.setEvolutionStack(ItemStack.EMPTY);
             });
         }
 
@@ -290,9 +294,12 @@ public class PokemobEventsHandler
                 evolver.setGeneralState(GeneralStates.EVOLVING, true);
                 evolver.setGeneralState(GeneralStates.EXITINGCUBE, false);
                 evolver.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                evolver.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Revert(evolver, false));
             }, () -> {
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(evolver));
+                evolver.setGeneralState(GeneralStates.EVOLVING, false);
+                evolver.setEvolutionStack(ItemStack.EMPTY);
             });
         }
 

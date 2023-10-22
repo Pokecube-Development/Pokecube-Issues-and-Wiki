@@ -9,12 +9,14 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -28,6 +30,7 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.raids.RaidManager;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.handlers.PokecubePlayerDataHandler;
@@ -192,6 +195,7 @@ public class TerastalMechanic
                     pokemob.setGeneralState(GeneralStates.EVOLVING, true);
                     pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
                     pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                    pokemob.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
                     PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
                     if (pokemob.isPlayerOwned())
                     {
@@ -203,6 +207,8 @@ public class TerastalMechanic
                     PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
                 }, () -> {
                     PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+                    pokemob.setGeneralState(GeneralStates.EVOLVING, false);
+                    pokemob.setEvolutionStack(ItemStack.EMPTY);
                 });
     }
 
@@ -232,11 +238,14 @@ public class TerastalMechanic
                         pokemob.setGeneralState(GeneralStates.EVOLVING, true);
                         pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
                         pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                        pokemob.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
                         PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
                     }, () -> {
                         genes.getExpressed().getValue().isTera = false;
                         PacketSyncGene.syncGeneToTracking(pokemob.getEntity(), genes);
                         PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+                        pokemob.setGeneralState(GeneralStates.EVOLVING, false);
+                        pokemob.setEvolutionStack(ItemStack.EMPTY);
                     });
             return true;
         }
@@ -245,6 +254,7 @@ public class TerastalMechanic
         {
             CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(pokemob.getOwnerId());
             canTera = data.getInt("pokecube:tera_cooldown") == 0;
+            canTera = true;
         }
         if (canTera)
         {

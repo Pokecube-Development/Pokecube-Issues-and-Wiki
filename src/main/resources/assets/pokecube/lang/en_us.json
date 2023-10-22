@@ -409,6 +409,9 @@
     "pokecube.denied": "§cThe Pokémob refuses to enter the cube!",
     "pokecube.noroom": "§cThere is not enough room for the Pokémob here.",
     "pokecube.badaim": "§cI should probably aim more carefully",
+    
+    "pokecube.raid.capture.generic": "§aToss a Pokécube to catch %1$s!",
+    "pokecube.raid.capture.dynamax": "§aToss a Dynamax cube to catch %1$s!",
 
     "pokemob.evolution.start": "§aWhat? %1$s §ais evolving!",
     "pokemob.evolution.cancel": "§cHuh? %1$s §cstopped evolving.",
