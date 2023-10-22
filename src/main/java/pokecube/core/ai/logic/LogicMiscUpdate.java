@@ -259,6 +259,10 @@ public class LogicMiscUpdate extends LogicBase
         }
         if (evolving)
         {
+            if (ItemList.is(ICanEvolve.EVERSTONE, this.pokemob.getEvolutionStack()))
+            {
+                return;
+            }
             if (evo_ticks <= 0)
             {
                 this.pokemob.setGeneralState(GeneralStates.EVOLVING, false);

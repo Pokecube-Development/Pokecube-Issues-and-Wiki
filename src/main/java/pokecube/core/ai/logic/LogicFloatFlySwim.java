@@ -288,9 +288,7 @@ public class LogicFloatFlySwim extends LogicBase
                 this.time_at_pos++;
                 if (this.time_at_pos > 100)
                 {
-                    final double dr = nextVec.distanceTo(hereVec);
-                    if (dr < 3) nextVec.moveEntity(this.entity);
-                    else this.entity.getNavigation().stop();
+                    this.entity.getNavigation().stop();
                     this.time_at_pos = 0;
                 }
             }

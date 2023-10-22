@@ -21,6 +21,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.events.pokemobs.CaptureEvent;
+import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.moves.Battle;
 import pokecube.api.utils.TagNames;
 import pokecube.core.items.pokecubes.PokecubeManager;
@@ -35,8 +36,25 @@ public class RaidManager
 
     public static void init()
     {
+        PokecubeAPI.POKEMOB_BUS.addListener(RaidManager::onBossFaint);
         PokecubeAPI.POKEMOB_BUS.addListener(RaidManager::preBossCapture);
         PokecubeAPI.POKEMOB_BUS.addListener(RaidManager::postBossCapture);
+    }
+
+    private static void onBossFaint(FaintEvent event)
+    {
+        if (event.pokemob.getEntity().getPersistentData().contains("pokecube:raid_boss"))
+        {
+            String key = event.pokemob.getEntity().getPersistentData().getString("pokecube:raid_boss");
+            IBossProvider bossMaker = RAID_TYPES.get(key);
+
+            if (bossMaker != null
+                    && !event.pokemob.getEntity().getPersistentData().contains("pokecube:raid_boss_faint"))
+            {
+                event.pokemob.getEntity().getPersistentData().putBoolean("pokecube:raid_boss_faint", true);
+                bossMaker.onBossFaint(event);
+            }
+        }
     }
 
     private static void preBossCapture(CaptureEvent.Pre event)
@@ -61,6 +79,7 @@ public class RaidManager
             String key = mob.getPersistentData().getString("pokecube:raid_boss");
             IBossProvider bossMaker = RAID_TYPES.get(key);
             mob.getPersistentData().remove("pokecube:raid_boss");
+            mob.getPersistentData().remove("pokecube:raid_boss_faint");
             if (bossMaker != null)
             {
                 bossMaker.postBossCapture(event, mob);

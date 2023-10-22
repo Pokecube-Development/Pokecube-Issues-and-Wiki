@@ -5,6 +5,7 @@ import java.util.List;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
@@ -20,6 +21,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.events.pokemobs.CaptureEvent.Post;
 import pokecube.api.events.pokemobs.CaptureEvent.Pre;
+import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.raids.IBossProvider;
 import pokecube.api.raids.RaidManager.RaidContext;
 import pokecube.api.utils.Tools;
@@ -160,6 +162,15 @@ public class DynamaxRaid implements IBossProvider
 
             event.setFilledCube(PokecubeManager.pokemobToItem(pokemob), true);
         }
+    }
+
+    @Override
+    public void onBossFaint(FaintEvent event)
+    {
+
+        if (event.pokemob.getEntity().getLastHurtByMob() instanceof ServerPlayer player)
+            thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokecube.raid.capture.dynamax", event.pokemob.getDisplayName()));
     }
 
     @Override

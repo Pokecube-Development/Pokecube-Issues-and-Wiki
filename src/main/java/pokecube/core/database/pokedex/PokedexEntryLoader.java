@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
@@ -19,6 +20,7 @@ import org.apache.commons.lang3.ClassUtils;
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -273,18 +275,13 @@ public class PokedexEntryLoader
 
     public static void updateEntry(final PokedexEntry entry)
     {
-        // TODO update specific entry
-//        PokemobsDatabases.load();
-//
-//        final List<XMLPokedexEntry> entries = Lists.newArrayList(PokemobsDatabases.compound.pokemon);
-//
-//        for (final XMLPokedexEntry xmlEntry : entries)
-//        {
-//            final String name = xmlEntry.name;
-//            if (!name.equals(entry.getName())) continue;
-//            PokedexEntryLoader.updateEntry(xmlEntry, false);
-//            return;
-//        }
+        var json = entry._root_json;
+        if (json != null)
+        {
+            Predicate<ResourceLocation> valid = l -> JsonPokedexEntry._compound_files.contains(l)
+                    || json.__loaded_from.contains(l);
+            JsonPokedexEntry.loadPokedex(valid, false);
+        }
     }
 
     public static void onReloaded()

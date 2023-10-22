@@ -3,11 +3,12 @@ package pokecube.api.raids;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.eventbus.api.Event.Result;
 import pokecube.api.events.pokemobs.CaptureEvent;
+import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.raids.RaidManager.RaidContext;
 import pokecube.core.items.pokecubes.helper.CaptureManager;
 import thut.lib.TComponent;
@@ -44,7 +45,7 @@ public interface IBossProvider
         if (event.mob.getHealth() >= 1)
         {
             final Entity catcher = event.pokecube.shootingEntity;
-            if (catcher instanceof Player player)
+            if (catcher instanceof ServerPlayer player)
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
             event.setCanceled(true);
             event.setResult(Result.DENY);
@@ -61,8 +62,16 @@ public interface IBossProvider
 
     }
 
+    default void onBossFaint(FaintEvent event)
+    {
+        if(event.pokemob.getEntity().getLastHurtByMob() instanceof ServerPlayer player)
+            thut.lib.ChatHelper.sendSystemMessage(player,
+                    TComponent.translatable("pokecube.raid.capture.generic", event.pokemob.getDisplayName()));
+    }
+
     /**
      * @return String key for this boss type.
      */
     String getKey();
+
 }
