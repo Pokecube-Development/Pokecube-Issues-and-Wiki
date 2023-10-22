@@ -63,7 +63,7 @@ public class LeapTask extends TaskBase implements IAICombat
     public void reset()
     {
         // Set the timer so we don't leap again rapidly
-        this.leapTick = this.entity.tickCount + PokecubeCore.getConfig().attackCooldown / 2;
+        this.leapTick = -1;
     }
 
     @Override
@@ -84,7 +84,11 @@ public class LeapTask extends TaskBase implements IAICombat
         final double dist = diff.magSq();
 
         // Wait till it is a bit closer than this...
-        if (dist >= 16.0D || dist < 1e-3) return;
+        if (dist >= 16.0D)
+        {
+            setWalkTo(leapTarget, 1.8, 0);
+            return;
+        }
 
         this.leapSpeed = 1.0;
 
@@ -110,10 +114,12 @@ public class LeapTask extends TaskBase implements IAICombat
         final boolean airborne = this.pokemob.floats() || this.pokemob.flys();
         // Increase leap speed for airborne things, they have a bit more
         // friction while in the air.
-        if (!airborne) dir.scalarMultBy(2);
+        if (airborne) dir.scalarMultBy(1.1);
         // Otherwise, if it is on the ground, it should jump a bit if leaping
         // but not downwards
         else if (dir.y >= 0) dir.y = Math.max(dir.y, 0.25);
+
+        if (!airborne && !pokemob.isOnGround()) return;
 
         double dh = Math.fma(dir.x, dir.x, dir.x * dir.z);
         // If too close, then put a minimum horizontal distance for the leap.
@@ -139,10 +145,14 @@ public class LeapTask extends TaskBase implements IAICombat
     {
         // Can't move, no leap
         if (!TaskBase.canMove(this.pokemob)) return false;
-        // On cooldown, no leap
-        if (this.leapTick > this.entity.tickCount) return false;
+        // Update the leap target here.
+        this.pos = BrainUtils.getLeapTarget(this.entity);
+        // Leap may have been interupted, so clear this state if so.
+        if (this.pos == null) pokemob.setCombatState(CombatStates.LEAPING, false);
+        // Executing the leap, so return true.
+        if (pokemob.getCombatState(CombatStates.LEAPING)) return true;
         // Leap if we have a target pos
-        return (this.pos = BrainUtils.getLeapTarget(this.entity)) != null;
+        return pos != null;
     }
 
 }
