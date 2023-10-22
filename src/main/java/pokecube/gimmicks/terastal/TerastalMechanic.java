@@ -254,7 +254,6 @@ public class TerastalMechanic
         {
             CompoundTag data = PokecubePlayerDataHandler.getCustomDataTag(pokemob.getOwnerId());
             canTera = data.getInt("pokecube:tera_cooldown") == 0;
-            canTera = true;
         }
         if (canTera)
         {
