@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -236,6 +237,8 @@ public class JsonPokedexEntry
 
     public static String ENTIRE_DATABASE_CACHE = "";
 
+    public static List<ResourceLocation> _compound_files = new ArrayList<>();
+
     public boolean replace = false;
     public boolean remove = false;
 
@@ -295,6 +298,8 @@ public class JsonPokedexEntry
     // Evolution stuff
     public List<Evolution> evolutions = null;
 
+    public List<ResourceLocation> __loaded_from = new ArrayList<>();
+
     /**
      * Blank constructor for json factory.
      */
@@ -341,6 +346,7 @@ public class JsonPokedexEntry
         {
             return other;
         }
+        for (var l : other.__loaded_from) if (!this.__loaded_from.contains(l)) this.__loaded_from.add(l);
         mergeBasic(other);
         return this;
     }
@@ -504,17 +510,27 @@ public class JsonPokedexEntry
 
     public static void loadPokedex()
     {
+        loadPokedex(l -> true, true);
+    }
+
+    public static void loadPokedex(Predicate<ResourceLocation> valid, boolean updateCache)
+    {
         final String path = "database/pokemobs/pokedex_entries/";
         final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         Map<String, List<JsonPokedexEntry>> toLoad = Maps.newHashMap();
+        if (updateCache) _compound_files.clear();
+        var oldLoaded = LOADED;
+        if (updateCache) LOADED = new ArrayList<>();
         resources.forEach((l, r) -> {
             try
             {
+                if (!valid.test(l)) return;
                 List<JsonPokedexEntry> entries = loadDatabase(ResourceHelper.getStream(r), l);
                 entries.forEach(entry -> {
                     toLoad.compute(entry.name, (key, list) -> {
                         var ret = list;
                         if (ret == null) ret = Lists.newArrayList();
+                        if (!_compound_files.contains(l)) entry.__loaded_from.add(l);
                         ret.add(entry);
                         return ret;
                     });
@@ -554,14 +570,19 @@ public class JsonPokedexEntry
         loaded.sort(null);
 
         // Now we init the cache for telling clients about it
-        ENTIRE_DATABASE_CACHE = JsonUtil.smol_gson.toJson(loaded);
+        if (updateCache) ENTIRE_DATABASE_CACHE = JsonUtil.smol_gson.toJson(loaded);
 
         // Stage 1, create the pokedex entries
         for (var load : loaded) load.toPokedexEntry();
         // Stage 2 initialise them
         for (var load : loaded) load.initStage2(Database.getEntry(load.name));
 
-        registered = true;
+        if (updateCache) registered = true;
+        else for (var load : LOADED)
+        {
+            load.postInit(Database.getEntry(load.name));
+        }
+        if (updateCache) LOADED = oldLoaded;
     }
 
     public static void postInit()
@@ -613,6 +634,7 @@ public class JsonPokedexEntry
         reader.close();
         if (json.isJsonArray())
         {
+            if (!_compound_files.contains(source)) _compound_files.add(source);
             var array = json.getAsJsonArray();
             populateFromArray(array, list, source);
         }
