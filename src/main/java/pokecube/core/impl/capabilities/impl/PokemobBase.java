@@ -40,6 +40,7 @@ import thut.core.common.world.mobs.data.types.Data_Byte;
 import thut.core.common.world.mobs.data.types.Data_Float;
 import thut.core.common.world.mobs.data.types.Data_Int;
 import thut.core.common.world.mobs.data.types.Data_ItemStack;
+import thut.core.common.world.mobs.data.types.Data_Long;
 import thut.core.common.world.mobs.data.types.Data_String;
 
 public abstract class PokemobBase implements IPokemob
@@ -71,6 +72,7 @@ public abstract class PokemobBase implements IPokemob
         public int TYPE1DW;
         public int TYPE2DW;
         public int ABILITYNAMEID;
+        public int TIMEOFDEATH;
 
         public final int[] DISABLE = new int[4];
 
@@ -122,8 +124,11 @@ public abstract class PokemobBase implements IPokemob
             // Flavours for various berries eaten.
             for (int i = 0; i < 4; i++) this.DISABLE[i] = sync.register(new Data_Int(), Integer.valueOf(0));
 
-            this.ABILITYNAMEID = sync.register(new Data_String(), "");// Name of
-                                                                      // ability
+            // Ability name
+            this.ABILITYNAMEID = sync.register(new Data_String(), "");
+
+            // Death time for tracking animations, respawning, etc
+            this.TIMEOFDEATH = sync.register(new Data_Long(), 0l);
         }
     }
 
@@ -292,5 +297,17 @@ public abstract class PokemobBase implements IPokemob
     {
         this.bossEvent = event;
         if (this.getEntity().level instanceof ServerLevel && event != null) PacketPingBoss.onNewBossEvent(this);
+    }
+
+    @Override
+    public long getDeathTime()
+    {
+        return this.dataSync().get(params.TIMEOFDEATH);
+    }
+
+    @Override
+    public void setDeathTime(long time)
+    {
+        this.dataSync().set(params.TIMEOFDEATH, time);
     }
 }

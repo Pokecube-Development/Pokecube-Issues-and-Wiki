@@ -53,6 +53,7 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
+import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
@@ -357,6 +358,14 @@ public class Pokecube extends Item implements IPokecube
     {
         if (MobEntity instanceof Player player && !worldIn.isClientSide)
         {
+            if (stack.hasTag())
+            {
+                long cooldownStart = stack.getTag().getLong("pokecube:recall_tick");
+                if (Tracker.instance().getTick() < cooldownStart + PokecubeCore.getConfig().deadDespawnTimer)
+                {
+                    return;
+                }
+            }
             final Predicate<Entity> selector = input -> {
                 final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
                 if (!AITools.validCombatTargets.test(input)) return false;
