@@ -95,7 +95,6 @@ public class CicleTask extends CombatTask implements IAICombat
         if (!BrainUtils.canSee(entity, target))
         {
             this.setWalkTo(this.centre, this.movementSpeed, 0);
-            System.out.println("No See!");
             return;
         }
 
