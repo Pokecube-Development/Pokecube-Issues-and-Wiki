@@ -38,12 +38,12 @@ public class BlingRender extends BlingRenderBase
                     break;
                 case BACK:
                     this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag"), ModelFactory
-                            .create(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag"))));
+                            .createScaled(new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/bag"))));
                     this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag_ender_vanilla"),
-                            ModelFactory.create(
+                            ModelFactory.createScaled(
                                     new ModelHolder(new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag"))));
                     this.backpackModels.put(new ResourceLocation(ThutBling.MODID, "bling_bag_ender_large"),
-                            ModelFactory.create(new ModelHolder(
+                            ModelFactory.createScaled(new ModelHolder(
                                     new ResourceLocation(ThutBling.MODID, "models/worn/ender_bag_large"))));
                     continue;
                 case EAR:
@@ -70,7 +70,7 @@ public class BlingRender extends BlingRenderBase
                 default:
                     break;
                 }
-                if (holder != null) model = ModelFactory.create(holder);
+                if (holder != null) model = ModelFactory.createScaled(holder);
                 if (model != null)
                 {
                     this.defaultModels.put(slot, model);

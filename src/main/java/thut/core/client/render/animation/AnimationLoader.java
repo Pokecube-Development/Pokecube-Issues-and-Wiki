@@ -245,6 +245,8 @@ public class AnimationLoader
                 part.tex = mat.tex;
                 texs.parts.add(part);
             }
+            holder.setLoadedOffset(offset);
+            holder.setLoadedScale(scale);
 
             if (renderer != null) synchronized (renderer)
             {
@@ -417,11 +419,8 @@ public class AnimationLoader
                         m.tex = holder.texture;
                     }
 
-                    if (p.getParent() == null)
-                    {
-                        p.setPreTranslations(offset);
-                        if (noRotation != rotation) p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
-                    }
+                    if (p.getParent() == null && noRotation != rotation)
+                        p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
                 }
 
             }

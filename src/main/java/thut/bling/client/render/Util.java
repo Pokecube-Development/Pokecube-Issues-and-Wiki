@@ -74,7 +74,7 @@ public class Util
             if (imodel == null)
             {
                 final ResourceLocation loc = new ResourceLocation(model);
-                imodel = ModelFactory.create(new ModelHolder(loc));
+                imodel = ModelFactory.createScaled(new ModelHolder(loc));
                 if (model != null)
                 {
                     Util.customModels.put(model, imodel);

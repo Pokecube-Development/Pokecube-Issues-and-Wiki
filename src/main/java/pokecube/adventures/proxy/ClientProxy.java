@@ -28,7 +28,7 @@ public class ClientProxy extends CommonProxy
                 final int brightness, final int overlay)
         {
             if (bag == null)
-                bag = ModelFactory.create(new ModelHolder(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag")));
+                bag = ModelFactory.createScaled(new ModelHolder(new ResourceLocation(PokecubeAdv.MODID, "models/worn/bag")));
             Back.renderBack(mat, buff, wearer, stack, bag, brightness, overlay);
         }
     }
