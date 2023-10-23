@@ -28,4 +28,8 @@ public interface IMoveWorldEffect
     {
 
     }
+    
+    default boolean isValid() {
+        return true;
+    }
 }

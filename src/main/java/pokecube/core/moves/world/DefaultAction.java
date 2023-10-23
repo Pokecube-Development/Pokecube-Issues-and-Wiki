@@ -25,10 +25,4 @@ public class DefaultAction implements IMoveWorldEffect
     {
         return this.move.name;
     }
-
-    public boolean isValid(IPokemob user)
-    {
-        return false;
-    }
-
 }
