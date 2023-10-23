@@ -119,6 +119,30 @@
           "weight": 1
         }
       ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "indeedee-male",
+      "options": [
+        {
+          "result": "indeedee-male"
+        },
+        {
+          "result": "indeedee-female"
+        }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "indeedee-female",
+      "options": [
+        {
+          "result": "indeedee-male"
+        },
+        {
+          "result": "indeedee-female"
+        }
+      ]
     }
   ]
 }
