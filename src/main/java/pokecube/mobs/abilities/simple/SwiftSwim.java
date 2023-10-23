@@ -11,7 +11,7 @@ import pokecube.core.moves.MovesUtils;
 public class SwiftSwim extends Ability {
     @Override
     public void onAgress(IPokemob mob, LivingEntity target) {
-        final Level world = mob.getEntity().getLevel();
+        final Level world = mob.getEntity().level();
         final boolean rain = world.isRaining();
         if (rain) {
             byte boost = IMoveConstants.VIT;
