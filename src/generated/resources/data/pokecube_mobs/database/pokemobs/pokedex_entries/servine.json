@@ -173,12 +173,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "serperior",
-      "level": 36,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_2"
 }

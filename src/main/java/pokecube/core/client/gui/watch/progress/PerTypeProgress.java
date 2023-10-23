@@ -83,8 +83,8 @@ public class PerTypeProgress extends Progress
     {
         super.init();
         final int x = this.watch.width / 2 - 30;
-        final int y = this.watch.height / 2 + 53;
-        this.text = new EditBox(this.font, x, y - 30, 60, 10, TComponent.literal(""));
+        final int y = this.watch.height / 2 + 53; //-30
+        this.text = new EditBox(this.font, x, y - 18, 60, 10, TComponent.literal(""));
         this.addRenderableWidget(this.text);
     }
 

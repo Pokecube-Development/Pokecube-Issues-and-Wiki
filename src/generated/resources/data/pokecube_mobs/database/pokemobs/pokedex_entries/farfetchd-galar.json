@@ -165,25 +165,6 @@
       "dual-wingbeat"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sirfetchd",
-      "item_preset": "protector",
-      "trade": true,
-      "evoMoves": "iron-defense"
-    },
-    {
-      "name": "sirfetchd",
-      "level": 30,
-      "location": {
-        "values": {
-          "structures": "pokecube_legends:kubfu_dojo"
-        }
-      },
-      "item_preset": "protector",
-      "evoMoves": "iron-defense"
-    }
-  ],
   "old_name": "farfetchd_galar",
   "loot_table": "pokecube:entities/chicken_1"
 }

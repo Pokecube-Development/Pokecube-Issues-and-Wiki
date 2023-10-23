@@ -1,5 +1,6 @@
 package pokecube.core.client.gui.watch;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.lwjgl.glfw.GLFW;
@@ -11,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -19,6 +19,7 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.client.gui.helper.TexButton;
+import pokecube.core.client.gui.helper.TexButton.ShiftedTooltip;
 import pokecube.core.client.gui.helper.TexButton.UVImgRender;
 import pokecube.core.client.gui.watch.util.WatchPage;
 import pokecube.core.impl.PokecubeMod;
@@ -42,10 +43,41 @@ public class GuiPokeWatch extends Screen
         {
             final int x = (this.watch.width - 160) / 2 + 80;
             final int y = (this.watch.height - 160) / 2 + 70;
-            GuiComponent.drawCenteredString(mat, this.font, I18n.get("pokewatch.title.blank"), x, y - 20, 0xFFFFFFFF);
+            GuiComponent.drawCenteredString(mat, this.font, I18n.get("pokewatch.title.blank"), x + 35, y - 15,
+                    0xFFFFFFFF);
             super.render(mat, mouseX, mouseY, partialTicks);
         }
+    }
 
+    public static class UVHolder
+    {
+        private int uOffset = 0;
+        private int vOffset = 0;
+
+        private int buttonX = 0;
+        private int buttonY = 0;
+
+        private int index = 0;
+
+        public UVHolder(int x, int y, int u, int v, int index)
+        {
+            this.buttonX = x;
+            this.buttonY = y;
+            this.uOffset = u;
+            this.vOffset = v;
+            this.index = index;
+        }
+
+        public void makeButton(GuiPokeWatch gui)
+        {
+            final int x = gui.width / 2;
+            final int y = gui.height / 2 - 5;
+            WatchPage page = gui.createPage(index);
+            gui.addRenderableWidget(new TexButton(x + buttonX, y + buttonY, 24, 24, page.getTitle(), b -> {
+                gui.changePage(this.index, true);
+            }, new ShiftedTooltip(-128 , -95 - buttonY)).setTex(GuiPokeWatch.getWidgetTex()).noName()
+                    .setRender(new UVImgRender(uOffset, vOffset, 24, 24)));
+        }
     }
 
     public static final ResourceLocation makeWatchTexture(final String tex)
@@ -62,7 +94,7 @@ public class GuiPokeWatch extends Screen
 
     static
     {
-        GuiPokeWatch.PAGELIST.add(StartPage.class);
+        GuiPokeWatch.PAGELIST.add(StartWatch.class);
         GuiPokeWatch.PAGELIST.add(PokemobInfoPage.class);
         GuiPokeWatch.PAGELIST.add(WikiPage.class);
         GuiPokeWatch.PAGELIST.add(SpawnsPage.class);
@@ -201,32 +233,16 @@ public class GuiPokeWatch extends Screen
         this.current_page = this.createPage(GuiPokeWatch.lastPage);
         this.current_page.itemRenderer = this.itemRenderer = Minecraft.getInstance().getItemRenderer();
         this.current_page.init();
-        final int x = this.width / 2;
-        final int y = this.height / 2 - 5;
-        final Component next = TComponent.translatable("block.pc.next");
-        final Component prev = TComponent.translatable("block.pc.previous");
-        final Component home = TComponent.translatable("pokewatch.button.home");
-        final TexButton nextBtn = this.addRenderableWidget(new TexButton(x + 14, y + 40, 17, 17, next, b -> {
-            int index = this.index;
-            if (index < GuiPokeWatch.PAGELIST.size() - 1) index++;
-            else index = 0;
-            this.changePage(index);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
-        final TexButton prevBtn = this.addRenderableWidget(new TexButton(x - 33, y + 40, 17, 17, prev, b -> {
-            int index = this.index;
-            if (index > 0) index--;
-            else index = GuiPokeWatch.PAGELIST.size() - 1;
-            this.changePage(index);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(144, 0, 17, 17)));
-        final TexButton homeBtn = this.addRenderableWidget(new TexButton(x - 17, y + 40, 32, 17, home, b -> {
-            final int index = 0;
-            this.changePage(index, true);
-        }).setTex(GuiPokeWatch.getWidgetTex()).setRender(new UVImgRender(168, 0, 32, 17)));
 
-        nextBtn.setFGColor(0x444444);
-        prevBtn.setFGColor(0x444444);
-        homeBtn.setFGColor(0x444444);
-
+        List<UVHolder> buttons = new ArrayList<>();
+        buttons.add(new UVHolder(-152, -85, 24, 108, 0)); // home
+        buttons.add(new UVHolder(128, -85, 0, 0, 1)); // Pokedex
+        buttons.add(new UVHolder(128, -61, 96, 0, 2)); // wiki
+        buttons.add(new UVHolder(128, -37, 48, 0, 3)); // spawns
+        buttons.add(new UVHolder(128, -13, 72, 0, 4)); // trainer
+        buttons.add(new UVHolder(128, 11, 24, 0, 5)); // teleport
+        buttons.add(new UVHolder(128, 35, 120, 0, 6)); // bases/meteors
+        buttons.forEach(uv -> uv.makeButton(this));
         this.current_page.onPageOpened();
     }
 

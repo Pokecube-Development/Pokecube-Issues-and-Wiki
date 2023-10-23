@@ -19,11 +19,11 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.entity.IAnimated.IAnimationHolder;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
 import thut.api.util.JsonUtil;
 import thut.core.client.render.animation.AnimationXML.Mat;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.Vertex;
 import thut.core.client.render.texturing.IPartTexturer;
@@ -62,6 +62,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     private float ds = 1;
     public float ds0 = 1;
     public float ds1 = 1;
+    private float ds2 = 1;
 
     public float[] colour_scales =
     { 1f, 1f, 1f, 1f };
@@ -135,7 +136,10 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         if (shape.material == null) return;
         if (this.matcache.add(shape.material))
         {
-            this.materials.add(shape.material);
+            synchronized (materials)
+            {
+                this.materials.add(shape.material);
+            }
             this.namedMaterials.put(shape.material.name, shape.material);
         }
     }
@@ -252,7 +256,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
-            s.scale = ds / ds1;
+            s.renderScale = ds2;
+            s.cullScale = ds / ds2;
             // Render each Shape
             s.renderShape(mat, buffer, this.texturer);
         }
@@ -327,6 +332,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         this.colour_scales[2] = 1;
         this.colour_scales[3] = 1;
         this.hidden = false;
+        ds2 = 1;
     }
 
     @Override
@@ -475,8 +481,8 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     @Override
     public void updateMaterial(final Mat mat, final Material material)
     {
-        String[] parts = mat.name.split(":");
         if (mat.meshs == null) mat.meshs = "";
+        String[] parts = mat.meshs.split(":");
         if (mat.meshs.equals(this.getName()))
         {
             for (final Mesh mesh : this.shapes) mesh.setMaterial(material);
@@ -484,7 +490,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         else for (final String s : parts) for (final Mesh mesh : this.shapes)
         {
             if (mesh.name == null) mesh.name = this.getName();
-            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name))
+            if (mesh.name.equals(ThutCore.trim(s)) || mesh.name.equals(mat.name) || this.getName().equals(s))
             {
                 mesh.setMaterial(material);
             }
@@ -494,15 +500,18 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
             ThutCore.LOGGER.error("Error loading a material, trying to set it to null: {}", JsonUtil.gson.toJson(mat));
             ThutCore.LOGGER.error(new IllegalAccessException());
         }
-        this.matcache.clear();
-        this.materials.clear();
-        this.namedMaterials.clear();
-        for (Mesh shape : this.shapes)
+        synchronized (materials)
         {
-            if (this.matcache.add(shape.material))
+            this.matcache.clear();
+            this.materials.clear();
+            this.namedMaterials.clear();
+            for (Mesh shape : this.shapes)
             {
-                this.materials.add(shape.material);
-                this.namedMaterials.put(shape.material.name, shape.material);
+                if (this.matcache.add(shape.material))
+                {
+                    this.materials.add(shape.material);
+                    this.namedMaterials.put(shape.material.name, shape.material);
+                }
             }
         }
     }
@@ -535,6 +544,12 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public boolean isDisabled()
     {
         return disabled;
+    }
+
+    @Override
+    public void setPostScale(Vector3 scale)
+    {
+        ds2 = (float) scale.mag();
     }
 
     @Override

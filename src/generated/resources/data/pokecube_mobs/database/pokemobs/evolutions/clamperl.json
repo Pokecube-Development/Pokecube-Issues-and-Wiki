@@ -1,0 +1,32 @@
+[
+  {
+    "name": "huntail",
+    "user": "clamperl",
+    "condition": [
+      {
+        "key": "item",
+        "item": {
+          "id": "minecraft:flint"
+        }
+      },
+      {
+        "key": "traded"
+      }
+    ]
+  },
+  {
+    "name": "gorebyss",
+    "user": "clamperl",
+    "condition": [
+      {
+        "key": "item",
+        "item": {
+          "id": "minecraft:feather"
+        }
+      },
+      {
+        "key": "traded"
+      }
+    ]
+  }
+]

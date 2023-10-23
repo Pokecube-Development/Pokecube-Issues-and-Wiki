@@ -2,11 +2,31 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.15"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
-  <phase duration="10" leftFront="leg4" leftHind="leg1" name="quadWalk" rightFront="leg3" rightHind="leg2"/>
-  <customTex default="shaymin-land">
-   <part name="Head" tex="shayminlandhead"/>
-   <animation diffs="0,0.5" part="Head" trigger="random:0.005:5"/>
+  <metadata head="head" headCap="-20,20" headCap1="-20,20"/>
+  <phase duration="10" leftFront="leg1" leftHind="foot3" name="quadWalk" rightFront="leg2" rightHind="foot4"/>
+  <customTex default="shaymin_land">
+   <part name="Head" tex="shaymin_land_face"/>
+   <animation diffs="0.5,0" part="Head" trigger="random:0.005:5"/>
   </customTex>
+  <phase type="idle">
+   <part name="body">
+    <component length="10" name="1" rotChange="0,0,-1" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,2" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-1" startKey="10"/>
+   </part>
+   <part name="foot4">
+    <component length="10" name="1" rotOffset="0,10,0" startKey="0"/>
+   </part>
+   <part name="foot3">
+    <component length="10" name="1" rotOffset="0,-10,0" startKey="0"/>
+   </part>
+  </phase>
+  <phase type="walking">
+   <part name="body">
+    <component length="10" name="1" rotOffset="6,0,0" posOffset="0,-1,0" rotChange="0,0,-2" startKey="0"/>
+    <component length="10" name="2" rotChange="0,0,4" startKey="5"/>
+	<component length="10" name="3" rotChange="0,0,-2" startKey="10"/>
+   </part>
+  </phase>
  </model>
 </ModelAnimator>

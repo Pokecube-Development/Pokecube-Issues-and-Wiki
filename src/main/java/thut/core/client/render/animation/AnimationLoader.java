@@ -22,6 +22,8 @@ import net.minecraft.resources.ResourceLocation;
 import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
+import thut.api.entity.animation.IAnimationChanger.WornOffsets;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Mat;
@@ -31,7 +33,6 @@ import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.animation.AnimationXML.TexPart;
 import thut.core.client.render.animation.AnimationXML.Worn;
 import thut.core.client.render.animation.AnimationXML.XMLFile;
-import thut.core.client.render.animation.IAnimationChanger.WornOffsets;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -104,11 +105,12 @@ public class AnimationLoader
         {
             final XMLFile file = AnimationXML.load(stream);
 
+            Metadata meta = new Metadata();
             // Variables for the head rotation info
-            int headDir = 2;
-            int headDir2 = 2;
-            int headAxis = 2;
-            int headAxis2 = 1;
+            int headDir = meta.headDir;
+            int headDir2 = meta.headDir2;
+            int headAxis = meta.headAxis;
+            int headAxis2 = meta.headAxis2;
             final float[] headCaps =
             { -100, 100 };
             final float[] headCaps1 =
@@ -135,7 +137,7 @@ public class AnimationLoader
             final Map<String, List<Vector5>> phaseList = new Object2ObjectOpenHashMap<>();
             List<Phase> texPhases = new ArrayList<>();
 
-            final Metadata meta = file.model.metadata;
+            meta = file.model.metadata;
             if (meta != null)
             {
                 AnimationLoader.addStrings(meta.head, headNames);
@@ -204,11 +206,8 @@ public class AnimationLoader
                 }
             }
 
-            if (renderer != null)
-            {
-                renderer.getAnimations().clear();
-                model.initBuiltInAnimations(renderer, animations);
-            }
+            if (renderer != null) renderer.getAnimations().clear();
+            model.initBuiltInAnimations(renderer, animations);
             animations.addAll(xmlAnimations);
 
             // Handle worn offsets.
@@ -232,7 +231,14 @@ public class AnimationLoader
             // Handle materials
             for (final Mat mat : file.model.materials)
             {
-                model.updateMaterial(mat);
+                try
+                {
+                    model.updateMaterial(mat);
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
                 if (mat.tex.isBlank()) continue;
                 TexPart part = new TexPart();
                 part.name = mat.name;
@@ -357,9 +363,8 @@ public class AnimationLoader
                 renderer.setAnimationChanger(animator);
 
                 // Process the head rotation information.
-                if (headDir2 == 2) headDir2 = headDir;
-                if (headDir != 2) renderer.getHeadInfo().yawDirection = headDir;
-                if (headDir2 != 2) renderer.getHeadInfo().pitchDirection = headDir2;
+                renderer.getHeadInfo().yawDirection = headDir;
+                renderer.getHeadInfo().pitchDirection = headDir2;
                 renderer.getHeadInfo().yawAxis = headAxis;
                 renderer.getHeadInfo().pitchAxis = headAxis2;
                 renderer.getHeadInfo().yawCapMin = headCaps[0];
@@ -414,7 +419,6 @@ public class AnimationLoader
 
                     if (p.getParent() == null)
                     {
-                        p.setPreScale(scale);
                         p.setPreTranslations(offset);
                         if (noRotation != rotation) p.setDefaultAngles(rotation.x(), rotation.y(), rotation.z());
                     }

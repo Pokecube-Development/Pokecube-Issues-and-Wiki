@@ -29,7 +29,6 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.pokedex.DefaultFormeHolder;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -617,24 +616,11 @@ public class PokecubeMobs
             entry.texturePath = tex;
             if (!tex.contains(":")) entry.texturePath = modid + ":" + tex;
             else tex = tex.split(":")[1];
+            if (!model.contains(":")) entry.modelPath = modid + ":" + model;
+            else model = model.split(":")[1];
             entry.model = new ResourceLocation(modid, model + entry.getTrimmedName() + entry.modelExt);
             entry.texture = new ResourceLocation(modid, tex + entry.getTrimmedName() + ".png");
             entry.animation = new ResourceLocation(modid, model + entry.getTrimmedName() + ".xml");
-        });
-        Database.customModels.forEach((entry, list) -> {
-            if (modid.equals(entry.getModId())) list.forEach(forme -> {
-                DefaultFormeHolder holder = forme.loaded_from;
-                if (forme.texture != null) forme.texture = new ResourceLocation(modid,
-                        forme.texture.getPath() + (forme.texture.getPath().endsWith(".png") ? "" : ".png"));
-                if (forme.model != null && forme.model != PokedexEntry.MODELNO)
-                    forme.model = new ResourceLocation(modid, forme.model.getPath());
-                if (forme.animation != null && forme.animation != PokedexEntry.ANIMNO)
-                    forme.animation = new ResourceLocation(modid,
-                            forme.animation.getPath() + (forme.animation.getPath().endsWith(".xml") ? "" : ".xml"));
-                if (PokecubeCore.getConfig().debug_data)
-                    PokecubeAPI.logInfo("Model holder for {}: ({} {} {}) -> ({} {} {} {})", entry, holder.model,
-                            holder.anim, holder.tex, forme.key, forme.model, forme.animation, forme.texture);
-            });
         });
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Finished adjusting model and texture locations");
     }

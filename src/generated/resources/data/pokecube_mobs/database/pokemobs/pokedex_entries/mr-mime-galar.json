@@ -203,12 +203,6 @@
       "triple-axel"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mr-rime",
-      "level": 42
-    }
-  ],
   "old_name": "mr_mime_galar",
   "loot_table": "pokecube:entities/rabbit_2"
 }

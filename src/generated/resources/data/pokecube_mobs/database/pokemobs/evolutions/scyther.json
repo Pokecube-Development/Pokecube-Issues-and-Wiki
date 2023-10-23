@@ -1,0 +1,27 @@
+[
+  {
+    "name": "scizor",
+    "user": "scyther",
+    "condition": [
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:metalcoat"
+        }
+      },
+      {
+        "key": "traded"
+      }
+    ]
+  },
+  {
+    "name": "kleavor",
+    "user": "scyther",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube_mobs:black_metal"
+      }
+    }
+  }
+]

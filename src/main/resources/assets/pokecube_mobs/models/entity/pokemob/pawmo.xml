@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="0.55"/>
+  <metadata head="head" headCap="-30,30" headAxis="1"/>
+  <customTex default="pawmo">
+  </customTex>
+  <worn id="__HAT__" parent="box_4_029" offset="0,-0.37,-0.509" angles="127,0,0" scale="1"/>
+ </model>
+</ModelAnimator>

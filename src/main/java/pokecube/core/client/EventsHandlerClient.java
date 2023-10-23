@@ -58,7 +58,6 @@ import pokecube.api.entity.pokemob.IHasCommands.Command;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
 import pokecube.api.entity.pokemob.commandhandlers.StanceHandler;
@@ -79,6 +78,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.impl.capabilities.DefaultPokemob;
 import pokecube.core.init.ClientSetupHandler;
+import pokecube.core.items.pokecubes.Pokecube;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.animations.MoveAnimationHelper;
 import pokecube.core.network.pokemobs.PacketBattleTargets;
@@ -91,6 +91,7 @@ public class EventsHandlerClient
     public static HashMap<PokedexEntry, IPokemob> renderMobs = new HashMap<>();
 
     static long lastSetTime = 0;
+    public static Entity hovorTarget = null;
 
     /**
      * In here we register all of the methods for the event listening, this is
@@ -121,8 +122,6 @@ public class EventsHandlerClient
 
         // Now for some additional client side handlers
 
-        // Register the event for drawing the move messages
-        MinecraftForge.EVENT_BUS.addListener(EventPriority.LOWEST, false, GuiInfoMessages::draw);
         // Register the handler for drawing things like evolution, etc
         MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderSpecial);
         // Register the handler for drawing selected box around targeted
@@ -209,7 +208,14 @@ public class EventsHandlerClient
                 PacketMountedControl.sendControlPacket(e, controller);
             }
         }
-        EventsHandlerClient.lastSetTime = System.currentTimeMillis() + 500;
+        long now = System.currentTimeMillis();
+        if (lastSetTime < now)
+        {
+            var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
+            hovorTarget = Tools.getPointedEntity(event.player, 32, selector, 1);
+            EventsHandlerClient.lastSetTime = now + 250;
+        }
+        if (hovorTarget != null && !hovorTarget.isAddedToWorld()) hovorTarget = null;
     }
 
     private static void onMouseInput(final RawMouseEvent evt)
@@ -231,13 +237,15 @@ public class EventsHandlerClient
                 break hands;
             }
         }
+        for (var comp : GuiDisplayPokecubeInfo.COMPONENTS)
+            if (comp.handleClick(evt.getAction(), evt.getButton(), evt.getModifiers())) break;
     }
 
     private static void onMouseScroll(MouseScrollEvent.Pre event)
     {
         if (!GuiInfoMessages.fullDisplay()) return;
-        if (event.getScrollDelta() > 0) GuiInfoMessages.offset++;
-        if (event.getScrollDelta() < 0) GuiInfoMessages.offset--;
+        if (event.getScrollDelta() > 0) GuiDisplayPokecubeInfo.messageRenderer.offset++;
+        if (event.getScrollDelta() < 0) GuiDisplayPokecubeInfo.messageRenderer.offset--;
     }
 
     private static void onLeftClickEmpty(final LeftClickEmpty event)
@@ -260,11 +268,14 @@ public class EventsHandlerClient
 
     private static void renderBounds(final RenderLevelStageEvent event)
     {
+        boolean alt = Screen.hasAltDown();
+        boolean ctrl = Screen.hasControlDown();
+        Pokecube.renderingOverlay = alt || ctrl;
+
         if (event.getStage() != Stage.AFTER_SOLID_BLOCKS || !PokecubeCore.getConfig().showTargetBox) return;
         final Player player = Minecraft.getInstance().player;
 
         boolean validToShow = true;
-        var selector = GuiDisplayPokecubeInfo.instance().getAttackSelector();
         ItemStack held;
         if (!(held = player.getMainHandItem()).isEmpty() || (held = player.getOffhandItem()).isEmpty())
         {
@@ -274,7 +285,7 @@ public class EventsHandlerClient
 
         if (validToShow)
         {
-            Entity entity = Tools.getPointedEntity(player, 32, selector, 1);
+            Entity entity = hovorTarget;
             if (entity != null)
             {
                 AABB box = entity.getBoundingBox().move(-entity.getX(), -entity.getY(), -entity.getZ());
@@ -364,8 +375,7 @@ public class EventsHandlerClient
             if (ClientSetupHandler.gzmove.consumeClick())
             {
                 PacketCommand.sendCommand(current, Command.STANCE,
-                        new StanceHandler(!current.getCombatState(CombatStates.USINGGZMOVE), StanceHandler.GZMOVE)
-                                .setFromOwner(true));
+                        new StanceHandler(true, StanceHandler.MODE).setFromOwner(true));
             }
         }
     }
@@ -394,7 +404,7 @@ public class EventsHandlerClient
                     {
                         final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
                         Minecraft.getInstance().getItemRenderer().blitOffset += 200;
-                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y);
                         Minecraft.getInstance().getItemRenderer().blitOffset = z;
                     }
                     else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);
@@ -433,7 +443,7 @@ public class EventsHandlerClient
                     {
                         final float z = Minecraft.getInstance().getItemRenderer().blitOffset;
                         Minecraft.getInstance().getItemRenderer().blitOffset += 100;
-                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y - 2);
+                        Minecraft.getInstance().getItemRenderer().renderGuiItem(pokemob.getHeldItem(), x, y);
                         Minecraft.getInstance().getItemRenderer().blitOffset = z;
                     }
                     else EventsHandlerClient.renderIcon(pokemob, x, y, 16, 16);

@@ -1,0 +1,11 @@
+{
+  "name": "chloroblast",
+  "id": 835,
+  "power": 150,
+  "pp": 5,
+  "priority": 0,
+  "type": "grass",
+  "accuracy": 95,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

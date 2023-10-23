@@ -26,10 +26,13 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 {
     public static class SpeciesInfo
     {
-        public byte value;
+        private byte value;
         public PokedexEntry entry;
+        private PokedexEntry tmpEntry;
         @Nullable
-        public FormeHolder forme;
+        private FormeHolder forme;
+        @Nullable
+        private FormeHolder tmpForme;
 
         @Override
         public SpeciesInfo clone()
@@ -45,33 +48,105 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         public boolean equals(final Object obj)
         {
             if (!(obj instanceof SpeciesInfo info)) return false;
-            return this.value == info.value && (this.entry == null ? true : this.entry.equals(info.entry));
+            return this.getSexe() == info.getSexe()
+                    && (this.getEntry() == null ? true : this.getEntry().equals(info.getEntry()));
         }
 
         void load(final CompoundTag tag)
         {
-            this.value = tag.getByte("G");
+            this.setSexe(tag.getByte("G"));
             this.entry = Database.getEntry(tag.getString("E"));
+            if (tag.contains("TE")) this.tmpEntry = Database.getEntry(tag.getString("T"));
             if (tag.contains("F"))
             {
-                forme = FormeHolder.load(tag.getCompound("F"));
+                this.forme = FormeHolder.load(tag.getCompound("F"));
                 if (forme != null && forme._entry == Database.missingno) forme.setEntry(this.entry);
+            }
+            if (tag.contains("TF"))
+            {
+                this.tmpForme = FormeHolder.load(tag.getCompound("F"));
+                if (tmpForme != null && tmpForme._entry == Database.missingno && this.tmpEntry != null)
+                    tmpForme.setEntry(this.tmpEntry);
             }
         }
 
         CompoundTag save()
         {
             final CompoundTag tag = new CompoundTag();
-            tag.putByte("G", this.value);
+            tag.putByte("G", value);
             if (this.entry != null) tag.putString("E", this.entry.getName());
+            if (this.tmpEntry != null) tag.putString("TE", this.tmpEntry.getName());
             if (forme != null) tag.put("F", forme.save());
+            if (tmpForme != null) tag.put("TF", tmpForme.save());
             return tag;
         }
 
         @Override
         public String toString()
         {
-            return this.entry + " " + this.value;
+            return this.getEntry() + " " + this.getSexe();
+        }
+
+        public PokedexEntry getBaseEntry()
+        {
+            // this inits the forme's entry if it exists.
+            getForme();
+            return this.forme != null ? this.forme._entry : this.entry;
+        }
+
+        public PokedexEntry getEntry()
+        {
+            var forme = this.getForme();
+            if (forme != null) return forme._entry;
+            return entry;
+        }
+
+        public void setEntry(PokedexEntry entry)
+        {
+            this.entry = entry;
+        }
+
+        public byte getSexe()
+        {
+            return value;
+        }
+
+        public void setSexe(byte value)
+        {
+            this.value = value;
+        }
+
+        public @Nullable FormeHolder getForme()
+        {
+            if (this.forme != null && this.forme._entry == null) this.forme.setEntry(entry);
+            if (this.tmpForme != null) return tmpForme;
+            return forme;
+        }
+
+        public void setForme(@Nullable FormeHolder forme)
+        {
+            this.forme = forme;
+        }
+
+        public PokedexEntry getTmpEntry()
+        {
+            if (tmpEntry == null) return getEntry();
+            return tmpEntry;
+        }
+
+        public void setTmpEntry(PokedexEntry tmpEntry)
+        {
+            this.tmpEntry = tmpEntry;
+        }
+
+        public @Nullable FormeHolder getTmpForme()
+        {
+            return tmpForme;
+        }
+
+        public void setTmpForme(@Nullable FormeHolder forme)
+        {
+            this.tmpForme = forme;
         }
     }
 
@@ -89,7 +164,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     /** The value here is of format {gender, ratio}. */
     public SpeciesGene()
     {
-        this.info.value = 0;
+        this.info.setSexe((byte) 0);
     }
 
     @Override
@@ -121,12 +196,11 @@ public class SpeciesGene implements Gene<SpeciesInfo>
     {
         final SpeciesGene newGene = new SpeciesGene();
         final SpeciesGene otherG = (SpeciesGene) other;
-        SpeciesGene mother = this.info.value == IPokemob.FEMALE ? this : this.info.value > 0 ? this : otherG;
-        if (this.info.value == otherG.info.value) mother = this.rand.nextFloat() < 0.5 ? this : otherG;
+        SpeciesGene mother = this.info.getSexe() == IPokemob.FEMALE ? this : this.info.getSexe() > 0 ? this : otherG;
+        if (this.info.getSexe() == otherG.info.getSexe()) mother = this.rand.nextFloat() < 0.5 ? this : otherG;
         final SpeciesGene father = mother == otherG ? this : otherG;
         newGene.setValue(mother.info.clone());
-        if (newGene.info.entry.isMega()) newGene.info.entry = newGene.info.entry.getBaseForme();
-        newGene.info.entry = newGene.info.entry.getChild(father.info.entry);
+        newGene.info.setEntry(newGene.info.getBaseEntry().getChild(father.info.getBaseEntry()));
 
         // First get out whatever the default choice was here.
         newGene.mutate();
@@ -138,12 +212,12 @@ public class SpeciesGene implements Gene<SpeciesInfo>
 
             // These are the possile combinations of mutations, we will check
             // them in this order.
-            opts.add(mother.info.entry.getTrimmedName() + "+" + father.info.entry.getTrimmedName());
-            opts.add(father.info.entry.getTrimmedName() + "+" + mother.info.entry.getTrimmedName());
-            opts.add("null+" + mother.info.entry.getTrimmedName());
-            opts.add("null+" + father.info.entry.getTrimmedName());
-            opts.add(mother.info.entry.getTrimmedName() + "+null");
-            opts.add(father.info.entry.getTrimmedName() + "+null");
+            opts.add(mother.info.getBaseEntry().getTrimmedName() + "+" + father.info.getBaseEntry().getTrimmedName());
+            opts.add(father.info.getBaseEntry().getTrimmedName() + "+" + mother.info.getBaseEntry().getTrimmedName());
+            opts.add("null+" + mother.info.getBaseEntry().getTrimmedName());
+            opts.add("null+" + father.info.getBaseEntry().getTrimmedName());
+            opts.add(mother.info.getBaseEntry().getTrimmedName() + "+null");
+            opts.add(father.info.getBaseEntry().getTrimmedName() + "+null");
             opts.add("");
 
             Collections.shuffle(opts);
@@ -152,7 +226,7 @@ public class SpeciesGene implements Gene<SpeciesInfo>
             for (String s : opts)
             {
                 if (!s.isEmpty()) s = s + "->";
-                s = s + newGene.info.entry.getTrimmedName();
+                s = s + newGene.info.getBaseEntry().getTrimmedName();
                 mutated = mutations.containsKey(s);
                 if (mutated)
                 {
@@ -171,15 +245,14 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         String[] args = mutation.result.split(":;");
 
         PokedexEntry value = Database.getEntry(args[0]);
-        FormeHolder forme = args.length > 1 ? Database.formeHolders.get(new ResourceLocation(args[1])) : null;
 
         if (value != null)
         {
-            newGene.info.entry = value;
+            newGene.info.setEntry(value);
             // Ensure gender ratios are correct
-            newGene.info.value = SpeciesGene.getSexe(newGene.info.entry.getSexeRatio(), this.rand);
+            newGene.info.setSexe(SpeciesGene.getSexe(newGene.info.getEntry().getSexeRatio(), this.rand));
             // Also apply the formeholder if present (defaults to null)
-            newGene.info.forme = forme;
+            newGene.info.setForme(newGene.info.getEntry().default_holder);
         }
     }
 
@@ -195,9 +268,9 @@ public class SpeciesGene implements Gene<SpeciesInfo>
         final SpeciesGene newGene = new SpeciesGene();
         newGene.setValue(this.info.clone());
         // Prevents mobs from hatching with wrong forms.
-        newGene.info.entry = this.info.entry.getChild();
+        newGene.info.setEntry(this.info.getEntry().getChild());
         // Ensure gender ratios are correct
-        newGene.info.value = SpeciesGene.getSexe(newGene.info.entry.getSexeRatio(), this.rand);
+        newGene.info.setSexe(SpeciesGene.getSexe(newGene.info.getEntry().getSexeRatio(), this.rand));
         return newGene;
     }
 

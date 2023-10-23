@@ -1,4 +1,24 @@
 {
   "replace": false,
-  "values": []
+  "values": [
+    "pokecube:clefairy",
+    "pokecube:clefable",
+    "pokecube:zubat",
+    "pokecube:golbat",
+    "pokecube:hoothoot",
+    "pokecube:noctowl",
+    "pokecube:spinarak",
+    "pokecube:ariados",
+    "pokecube:crobat",
+    "pokecube:dustox",
+    "pokecube:volbeat",
+    "pokecube:illumise",
+    "pokecube:lunatone",
+    "pokecube:kricketot",
+    "pokecube:kricketune",
+    "pokecube:woobat",
+    "pokecube:swoobat",
+    "pokecube:noibat",
+    "pokecube:noivern"
+  ]
 }

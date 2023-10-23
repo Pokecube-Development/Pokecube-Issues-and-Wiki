@@ -14,7 +14,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -99,11 +98,23 @@ public class SendOutManager
 
         final boolean hasMob = mob != null;
         final boolean hasPokemob = pokemob != null;
-        final boolean isPlayers = cube.shootingEntity instanceof ServerPlayer
-                && !(cube.shootingEntity instanceof FakePlayer);
+        final boolean isPlayers = hasPokemob && pokemob.isPlayerOwned();
+
+        if (!isPlayers && (mob instanceof LivingEntity living && living.getHealth() <= 0)) return null;
+
         final ServerPlayer user = isPlayers ? (ServerPlayer) cube.shootingEntity : null;
         final boolean checkPerms = isPlayers && hasPokemob;
         boolean hasPerms = true;
+
+        if ((mob instanceof LivingEntity living && !living.isAlive()))
+        {
+            if (isPlayers && cube.shootingEntity.isAlive())
+            {
+                Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
+                cube.discard();
+            }
+            return null;
+        }
 
         // Check permissions
         if (checkPerms) hasPerms = Permissions.canSendOut(pokemob.getPokedexEntry(), user, false, true);
@@ -124,7 +135,7 @@ public class SendOutManager
         Vector3 v = cube.v0.set(cube);
 
         // If we are breaking out from capture, directly set to old spot
-        if (cube.isCapturing) v.set(cube.capturePos);
+        if (cube.isCapturing()) v.set(cube.capturePos);
         // Otherwise look for free room, etc
         else
         {
@@ -216,7 +227,7 @@ public class SendOutManager
         if (pokemob != null)
         {
             pokemob.onSendOut();
-            pokemob.setGeneralState(GeneralStates.TAMED, true);
+            if (pokemob.getOwnerId() != null) pokemob.setGeneralState(GeneralStates.TAMED, true);
             pokemob.setGeneralState(GeneralStates.EXITINGCUBE, true);
             pokemob.setEvolutionTicks(50 + PokecubeCore.getConfig().exitCubeDuration);
             final Entity owner = pokemob.getOwner();

@@ -2,7 +2,7 @@
   "name": "diancie-mega",
   "id": 719,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 315,
   "size": {
     "height": 1.1,
@@ -196,5 +196,6 @@
       "dazzling-gleam"
     ]
   },
+  "sound": "diancie-mega",
   "old_name": "diancie_mega"
 }

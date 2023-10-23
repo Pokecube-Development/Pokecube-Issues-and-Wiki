@@ -194,11 +194,5 @@
       "chilling-water"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "abomasnowmega"
-    }
-  ],
   "loot_table": "pokecube:entities/snow_rabbit_2"
 }

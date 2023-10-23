@@ -77,13 +77,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "drakloak",
-      "level": 50,
-      "animation": "18",
-      "evoMoves": "dragon-pulse"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_1"
 }

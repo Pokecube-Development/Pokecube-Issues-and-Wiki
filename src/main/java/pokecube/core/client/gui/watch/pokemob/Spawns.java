@@ -13,8 +13,8 @@ import pokecube.core.network.packets.PacketPokedex;
 
 public class Spawns extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_spawn");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_spawn_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_spawn");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_spawn_nm");
 
     int last = 0;
 
@@ -41,11 +41,11 @@ public class Spawns extends ListPage<LineEntry>
         super.initList();
         int offsetX = (this.watch.width - GuiPokeWatch.GUIW) / 2 + 90;
         int offsetY = (this.watch.height - GuiPokeWatch.GUIH) / 2 + 30;
-        final int height = this.font.lineHeight * 7;
+        final int height = this.font.lineHeight * 9; //7
         final int width = 110;
 
-        final int dx = 50;
-        final int dy = 5;
+        final int dx = 48; //50
+        final int dy = 12; //5
         offsetX += dx;
         offsetY += dy;
 

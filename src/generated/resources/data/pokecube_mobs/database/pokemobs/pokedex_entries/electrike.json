@@ -186,11 +186,5 @@
       "rising-voltage"
     ]
   },
-  "evolutions": [
-    {
-      "name": "manectric",
-      "level": 26
-    }
-  ],
   "loot_table": "pokecube:entities/redstone_rabbit_1"
 }

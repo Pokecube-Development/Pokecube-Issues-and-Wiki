@@ -1,12 +1,10 @@
 import utils
+import json
 
 TO_MODEL = {
     "basculin-blue-striped" : "basculin-red-striped",
 }
 
-RENAMES = {
-    "minior-red-meteor": "minior-meteor",
-}
 RENAMES = {
     # Minior meteors are all the same externally, so the internals are handled in code
     "minior-red-meteor": "minior-meteor",
@@ -47,6 +45,7 @@ LEGACY_REV_MAP = {
     "Lunala Dawn": "necrozma-dawn",
     "Calyrex Ice Rider": "calyrex-ice",
     "Calyrex Shadow Rider": "calyrex-shadow",
+    "Greninja Ash": "greninja-battle-bond",
 }
 
 LEGACY_MAP = {
@@ -160,6 +159,34 @@ IGNORED_FORMS = [
     "pichu-spiky-eared",
 ]
 
+TAG_IGNORE = [
+    "minior",
+    "minior-red-meteor",
+    "basculin-red-striped",
+]
+
+NOT_EXTRA_FORMS = [
+
+]
+
+IS_EXTRA_FORM = [
+    "tauros-paldea-aqua-breed",
+    "tauros-paldea-blaze-breed",
+    "tauros-paldea-combat-breed",
+]
+
+def is_extra_form(name):
+    if name in IS_EXTRA_FORM:
+        return True
+    if '-galar' in name:
+        return False
+    if '-hisui' in name:
+        return False
+    if '-alola' in name:
+        return False
+    if '-paldea' in name:
+        return False
+    return not name in NOT_EXTRA_FORMS
 
 def banned_form(name):
     return name in IGNORED_FORMS
@@ -187,8 +214,11 @@ def find_new_name(old_name, options):
     cleaned = old_name.replace('gigantamax', 'gmax')
     cleaned = cleaned.replace('-', '')
     cleaned = cleaned.replace('_', '')
+    cleaned = cleaned.replace(' ', '')
     for new_name in options:
-        test = new_name.replace('-', '')
+        test = utils.trim(new_name)
+        test = test.replace(' ', '')
+        test = test.replace('-', '')
         test = test.replace('_', '')
         if(test==cleaned):
             return new_name
@@ -223,3 +253,16 @@ def find_old_name(new_name, species, dex):
     if old_name in dex:
         return old_name
     return None
+
+def get_interacts(index_map):
+    res = {}
+    old_file = "./old/pokemobs/pokemobs_interacts.json"
+    json_in = open(old_file, 'r', encoding='utf-8')
+    json_str = json_in.read()
+    json_in.close()
+    json_obj = json.loads(json_str)
+    for entry in json_obj["pokemon"]:
+        if 'stats' in entry:
+            name = find_new_name(entry['name'], index_map.keys())
+            res[name] = entry['stats']
+    return res

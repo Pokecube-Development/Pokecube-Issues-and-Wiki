@@ -22,10 +22,11 @@ import pokecube.api.moves.utils.MoveApplication;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.ai.brain.MemoryModules;
+import pokecube.core.ai.tasks.IMoveUseAI;
 import thut.api.entity.ai.VectorPosWrapper;
 import thut.api.maths.Vector3;
 
-public class UseMoveTask extends UtilTask
+public class UseMoveTask extends UtilTask implements IMoveUseAI
 {
     private static final Map<MemoryModuleType<?>, MemoryStatus> MEMS = Maps.newHashMap();
 
@@ -70,6 +71,7 @@ public class UseMoveTask extends UtilTask
             if (self)
             {
                 this.pokemob.executeMove(null, this.destination, 0);
+                this.clearUseMove(pokemob);
                 return;
             }
             final boolean ranged = move.isRanged(pokemob);
@@ -104,8 +106,10 @@ public class UseMoveTask extends UtilTask
             BrainUtils.setLeapTarget(this.entity, new VectorPosWrapper(this.destination));
 
         if (!this.checkRange && dist < var1) // If in range, apply the move
+        {
             this.pokemob.executeMove(null, this.destination, 0);
-
+            this.clearUseMove(pokemob);
+        }
     }
 
     @Override

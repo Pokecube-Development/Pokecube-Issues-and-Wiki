@@ -49,6 +49,7 @@
       {
         "L": 1,
         "moves": [
+          "whirlwind",
           "tackle",
           "supersonic",
           "disable",
@@ -57,13 +58,21 @@
           "foresight",
           "silver-wind",
           "bug-buzz",
-          "quiver-dance"
+          "quiver-dance",
+          "struggle-bug"
         ]
       },
       {
         "L": 17,
         "moves": [
           "psybeam"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "mega-drain",
+          "signal-beam"
         ]
       },
       {
@@ -106,12 +115,6 @@
         "L": 47,
         "moves": [
           "poison-fang"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "signal-beam"
         ]
       },
       {
@@ -206,6 +209,7 @@
       "struggle-bug",
       "confide",
       "infestation",
+      "lunge",
       "tera-blast",
       "pounce"
     ]

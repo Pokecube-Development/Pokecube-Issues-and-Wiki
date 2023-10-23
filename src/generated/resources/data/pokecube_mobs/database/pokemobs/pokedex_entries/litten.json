@@ -189,11 +189,5 @@
       "power-trip"
     ]
   },
-  "evolutions": [
-    {
-      "name": "torracat",
-      "level": 17
-    }
-  ],
   "loot_table": "pokecube:entities/coal_rabbit_1"
 }

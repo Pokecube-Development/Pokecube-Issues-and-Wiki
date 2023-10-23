@@ -213,17 +213,12 @@
       "power-trip",
       "brutal-swing",
       "stomping-tantrum",
+      "scale-shot",
       "skitter-smack",
       "lash-out",
       "scorching-sands",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "krookodile",
-      "level": 40
-    }
-  ],
   "loot_table": "pokecube:entities/sand_rabbit_2"
 }

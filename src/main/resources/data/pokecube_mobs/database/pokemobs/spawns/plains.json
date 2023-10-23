@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.plains.general",
       "and_preset": "plains",
       "entries": [
         {"key": "pidgey","min": 1,"max": 4,"rate": 0.4},
@@ -79,6 +80,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.plains.not_cold_dry",
       "and_preset": "plains",
       "not_preset": "cold_areas,dry_areas",
       "entries": [
@@ -105,6 +107,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.plains.dry",
       "and_preset": "plains,dry_areas",
       "entries": [
         {"key": "tauros-paldea-blaze-breed","min": 1,"max": 4,"rate": 0.02},
@@ -113,6 +116,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.plains.snowy",
       "and_preset": "plains,snowy_areas",
       "entries": [
         {"key": "swinub","min": 1,"max": 4,"rate": 0.3},
@@ -120,8 +124,8 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.plains.savanna",
       "and_preset": "savannas",
-      "not_preset": "cold_areas",
       "entries": [
         {"key": "rhyhorn","min": 1,"max": 4,"rate": 0.15},
         {"key": "phanpy","min": 1,"max": 3,"rate": 0.15},
@@ -133,7 +137,7 @@
 
         {"key": "falinks","min": 1,"max": 2,"rate": 0.1},
         {"key": "litleo","min": 1,"max": 4,"rate": 0.1},
-        {"key": "hippopatas","min": 1,"max": 4,"rate": 0.1},
+        {"key": "hippopotas","min": 1,"max": 4,"rate": 0.1},
         {"key": "mankey","min": 1,"max": 3,"rate": 0.1},
         {"key": "flittle","min": 1,"max": 2,"rate": 0.1},
 
@@ -145,13 +149,15 @@
       ]
     },
     {
-      "and_preset": "savannas, rivers",
+      "desc": "pokecube.spawns.plains.not_cold",
+      "and_preset": "plains",
       "not_preset": "cold_areas",
       "entries": [
         {"key": "ducklett","min": 1,"max": 2,"rate": 0.08}
       ]
     },
     {
+      "desc": "pokecube.spawns.plains.night",
       "and_preset": "plains,night_time",
       "entries": [
         {"key": "zigzagoon_galar","min": 1,"max": 4,"rate": 0.3},
@@ -165,6 +171,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.plains.day",
       "and_preset": "plains,day_time",
       "entries": [
         {"key": "oddish","min": 1,"max": 4,"rate": 0.25},

@@ -154,13 +154,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "coalossal",
-      "level": 34,
-      "animation": "18",
-      "evoMoves": "tar-shot"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_1"
 }

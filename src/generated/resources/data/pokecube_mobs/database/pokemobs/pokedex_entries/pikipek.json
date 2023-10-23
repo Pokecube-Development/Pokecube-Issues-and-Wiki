@@ -168,11 +168,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "trumbeak",
-      "level": 14
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

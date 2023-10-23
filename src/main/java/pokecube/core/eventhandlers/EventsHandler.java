@@ -13,6 +13,7 @@ import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -69,11 +70,16 @@ import pokecube.api.entity.CapabilityInhabitor.InhabitorProvider;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.CustomInteractEvent;
+import pokecube.api.events.LevelEntityEvent;
+import pokecube.api.events.pokemobs.FaintEvent;
+import pokecube.api.moves.Battle;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.PokeType;
+import pokecube.api.utils.TagNames;
 import pokecube.compat.wearables.sided.Common;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
@@ -101,7 +107,6 @@ import pokecube.core.inventory.pc.PCWrapper;
 import pokecube.core.inventory.tms.TMInventory;
 import pokecube.core.inventory.trade.TradeInventory;
 import pokecube.core.items.UsableItemEffects;
-import pokecube.core.items.megastuff.MegaCapability;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.network.packets.PacketChoose;
@@ -339,6 +344,9 @@ public class EventsHandler
         // This handles one part of preventing natural spawns for the mobs
         // disabled via configs
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onCheckSpawnCheck);
+        // Handle forwarding the vanilla level entity events to appropriate
+        // listeners.
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onVanillaEntityEvent);
 
         // Here we handle bed healing if enabled in configs
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onPlayerWakeUp);
@@ -488,22 +496,7 @@ public class EventsHandler
         }
         if (isEvoLocDebug)
         {
-            for (var entry : Database.getSortedFormes())
-            {
-                for (var d : entry.evolutions)
-                {
-                    if (d.matcher != null)
-                    {
-                        d.matcher.reset();
-                        d.matcher.parse();
-                        if (!d.matcher._valid)
-                        {
-                            PokecubeAPI.LOGGER
-                                    .error("Invalid! " + entry + " " + d.evolution + " " + d.matcher.spawnRule);
-                        }
-                    }
-                }
-            }
+
         }
         if (isSubbiomeDebug)
         {
@@ -569,10 +562,6 @@ public class EventsHandler
         UsableItemEffects.registerCapabilities(event);
         GeneticsManager.registerCapabilities(event);
         Common.registerCapabilities(event);
-        if (!MegaCapability.isStoneOrWearable(event.getObject())) return;
-        final ResourceLocation key = new ResourceLocation("pokecube:megawearable");
-        if (event.getCapabilities().containsKey(key)) return;
-        event.addCapability(key, new MegaCapability(event.getObject()));
     }
 
     private static void onTileCaps(final AttachCapabilitiesEvent<BlockEntity> event)
@@ -623,6 +612,131 @@ public class EventsHandler
             final AvoidEntityGoal<?> avoidAI = new AvoidEntityGoal<>(creeper, EntityPokemob.class, 6.0F, 1.0D, 1.2D,
                     e -> PokemobCaps.getPokemobFor(e).isType(PokeType.getType("psychic")));
             creeper.goalSelector.addGoal(3, avoidAI);
+        }
+    }
+
+    public static void playPoofParticles(LivingEntity living)
+    {
+        for (int k = 0; k < 20; ++k)
+        {
+            final double d2 = living.random.nextGaussian() * 0.02D;
+            final double d0 = living.random.nextGaussian() * 0.02D;
+            final double d1 = living.random.nextGaussian() * 0.02D;
+            living.level.addParticle(ParticleTypes.POOF,
+                    living.getX() + living.random.nextFloat() * living.getBbWidth() * 2.0F - living.getBbWidth(),
+                    living.getY() + living.random.nextFloat() * living.getBbHeight(),
+                    living.getZ() + living.random.nextFloat() * living.getBbWidth() * 2.0F - living.getBbWidth(), d2,
+                    d0, d1);
+        }
+    }
+
+    public static void preTickLivingDeath(LivingEntity living)
+    {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(living);
+        if (pokemob == null) return;
+        long time = Tracker.instance().getTick();
+        if (pokemob.getDeathTime() <= 0) pokemob.setDeathTime(time);
+
+        int deadTimer = PokecubeCore.getConfig().deadDespawnTimer;
+        int reviveTimer = PokecubeCore.getConfig().deadReviveTimer;
+        int deathTime = (int) (time - pokemob.getDeathTime());
+
+        final boolean isTamed = pokemob.getOwnerId() != null;
+        boolean fullHeal = !isTamed;
+
+        boolean poofDisabled = false;
+        boolean noPoof = living.getPersistentData().getBoolean(TagNames.NOPOOF)
+                || (poofDisabled = !pokemob.isRoutineEnabled(AIRoutine.POOFS));
+        boolean forcePoof = living.getPersistentData().getBoolean("pokecube:force_poof");
+        if (noPoof)
+        {
+            fullHeal = true;
+            if (poofDisabled) reviveTimer = PokecubeCore.getConfig().noPoofReviveTimer;
+        }
+        else if (isTamed && !forcePoof)
+        {
+            final FaintEvent event = new FaintEvent(pokemob);
+            PokecubeAPI.POKEMOB_BUS.post(event);
+            final Result res = event.getResult();
+            boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn
+                    : PokecubeCore.getConfig().wildDeadDespawn;
+            despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
+            if (despawn)
+            {
+                pokemob.onRecall(true);
+                living.getPersistentData().putBoolean("pokecube:force_poof", true);
+            }
+        }
+        if (deathTime >= deadTimer && forcePoof)
+        {
+            living.deathTime = 19;
+            if (living.level.isClientSide())
+            {
+                living.remove(Entity.RemovalReason.KILLED);
+                playPoofParticles(living);
+            }
+            return;
+        }
+        else if (deathTime < deadTimer || noPoof)
+        {
+            // Pause the death timer to prevent vanilla poofing
+            if (living.deathTime >= 19) living.deathTime = -2;
+            if (!noPoof && deathTime >= deadTimer)
+            {
+                final FaintEvent event = new FaintEvent(pokemob);
+                PokecubeAPI.POKEMOB_BUS.post(event);
+                final Result res = event.getResult();
+                boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn
+                        : PokecubeCore.getConfig().wildDeadDespawn;
+                despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
+                if (despawn) pokemob.onRecall(true);
+            }
+        }
+        // Otherwise set death timer back to 19 to enable vanilla poofing
+        else if (living.deathTime >= 19) living.deathTime = 19;
+
+        if (deathTime >= reviveTimer && reviveTimer > 0)
+        {
+            if (forcePoof)
+            {
+                living.deathTime = 19;
+                return;
+            }
+            if (living.getPersistentData().contains("pokecube:raid_boss"))
+            {
+                pokemob.onRecall(true);
+                Battle battle = Battle.getBattle(living);
+                if (battle != null) battle.removeFromBattle(living);
+                if (living.level.isClientSide()) playPoofParticles(living);
+            }
+            else
+            {
+                pokemob.revive(fullHeal);
+                // If we revive naturally, we remove this tag, it only applies
+                // for
+                // forced revivals
+                living.getPersistentData().remove(TagNames.REVIVED);
+            }
+        }
+    }
+
+    public static void postTickLivingDeath(LivingEntity living)
+    {
+        // Between pre and post there is a deathTime++, so it we set to -2
+        // before, it should be -1 now, so set timer to 20.
+        if (living.deathTime == -1)
+        {
+            living.deathTime = 20;
+        }
+    }
+
+    private static void onVanillaEntityEvent(final LevelEntityEvent event)
+    {
+        if (event.getKey() == 60)
+        {
+            IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
+            if (pokemob == null || pokemob.getOwnerId() == null) return;
+            pokemob.onRecall(true);
         }
     }
 

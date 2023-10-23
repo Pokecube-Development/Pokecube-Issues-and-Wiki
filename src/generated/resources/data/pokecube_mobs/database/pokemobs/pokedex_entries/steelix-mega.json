@@ -2,7 +2,7 @@
   "name": "steelix-mega",
   "id": 208,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 214,
   "size": {
     "height": 10.5,
@@ -228,5 +228,6 @@
       "stomping-tantrum"
     ]
   },
+  "sound": "steelix-mega",
   "old_name": "steelix_mega"
 }

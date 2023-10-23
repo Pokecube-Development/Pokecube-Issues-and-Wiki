@@ -1,0 +1,8 @@
+{
+  "name": "talonflame",
+  "user": "fletchinder",
+  "condition": {
+    "key": "level",
+    "level": 35
+  }
+}

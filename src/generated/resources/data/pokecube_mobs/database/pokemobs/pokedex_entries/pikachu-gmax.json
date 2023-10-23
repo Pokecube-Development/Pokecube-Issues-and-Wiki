@@ -2,7 +2,7 @@
   "name": "pikachu-gmax",
   "id": 25,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 112,
   "size": {
     "height": 21.0
@@ -35,5 +35,38 @@
       "lightning-rod"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2,0,-2",
+          "size": "4,5,4",
+          "ride": "2,7,3"
+        },
+        {
+          "name": "head",
+          "offset": "-2.2,5,-2.3",
+          "size": "3,4,4.5"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2,0,-2",
+          "size": "4,5,4",
+          "ride": "2,5,3"
+        },
+        {
+          "name": "head",
+          "offset": "-1.5,1.5,-5",
+          "size": "3,3,3"
+        }
+      ]
+    }
+  },
+  "sound": "pikachu-gmax",
   "old_name": "pikachu_gigantamax"
 }

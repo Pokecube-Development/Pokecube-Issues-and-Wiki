@@ -2,6 +2,7 @@
   "name": "darmanitan-zen",
   "id": 555,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 189,
   "size": {
     "height": 1.3

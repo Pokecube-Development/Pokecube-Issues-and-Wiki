@@ -78,7 +78,8 @@
       {
         "L": 56,
         "moves": [
-          "mirror-move"
+          "mirror-move",
+          "aerial-ace"
         ]
       },
       {
@@ -178,11 +179,36 @@
       "laser-focus"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "pidgeotmega"
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-0.5,0,-0.5",
+          "size": "1,1.5,1"
+        }
+      ]
+    },
+    "flying": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-0.5,0,-0.5",
+          "size": "1,1.5,1"
+        },
+        {
+          "name": "wing1",
+          "offset": "-2,0.3,-0.4",
+          "size": "1.4,0.7,1.4"
+        },
+        {
+          "name": "wing2",
+          "offset": "0.5,0.3,-0.4",
+          "size": "1.4,0.7,1.4"
+        }
+      ]
     }
-  ],
-  "loot_table": "pokecube:entities/chicken_3"
+  },
+  "loot_table": "pokecube:entities/chicken_3",
+  "prey": " small_bug"
 }

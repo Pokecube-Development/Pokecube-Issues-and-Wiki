@@ -211,11 +211,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "haxorus",
-      "level": 48
-    }
-  ],
   "loot_table": "pokecube:entities/bones"
 }

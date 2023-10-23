@@ -133,6 +133,7 @@
     "misc": [
       "swords-dance",
       "cut",
+      "tackle",
       "take-down",
       "double-edge",
       "absorb",
@@ -175,6 +176,7 @@
       "ingrain",
       "endeavor",
       "secret-power",
+      "weather-ball",
       "grass-whistle",
       "bullet-seed",
       "magical-leaf",
@@ -194,11 +196,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sunflora",
-      "item_preset": "sunstone"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

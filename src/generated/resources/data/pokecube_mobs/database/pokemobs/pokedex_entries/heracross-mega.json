@@ -2,7 +2,7 @@
   "name": "heracross-mega",
   "id": 214,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 210,
   "size": {
     "height": 1.7,
@@ -193,5 +193,6 @@
       "brutal-swing"
     ]
   },
+  "sound": "heracross-mega",
   "old_name": "heracross_mega"
 }

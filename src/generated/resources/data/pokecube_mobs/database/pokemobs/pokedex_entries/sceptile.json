@@ -243,6 +243,7 @@
       "confide",
       "power-up-punch",
       "solar-blade",
+      "leafage",
       "laser-focus",
       "throat-chop",
       "brutal-swing",
@@ -251,11 +252,5 @@
       "grassy-glide"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "sceptilemega"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_3"
 }

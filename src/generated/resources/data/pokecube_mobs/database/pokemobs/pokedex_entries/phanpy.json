@@ -155,6 +155,7 @@
       "hyper-voice",
       "odor-sleuth",
       "rock-tomb",
+      "sand-tomb",
       "mud-shot",
       "natural-gift",
       "last-resort",
@@ -167,6 +168,7 @@
       "captivate",
       "stealth-rock",
       "head-smash",
+      "smack-down",
       "heavy-slam",
       "round",
       "echoed-voice",
@@ -179,12 +181,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "donphan",
-      "level": 25,
-      "evoMoves": "fury-attack"
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

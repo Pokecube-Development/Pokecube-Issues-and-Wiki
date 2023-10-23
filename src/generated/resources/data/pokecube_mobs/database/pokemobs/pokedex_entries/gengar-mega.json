@@ -2,7 +2,7 @@
   "name": "gengar-mega",
   "id": 94,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 270,
   "size": {
     "height": 1.4,
@@ -230,5 +230,6 @@
       "laser-focus"
     ]
   },
+  "sound": "gengar-mega",
   "old_name": "gengar_mega"
 }

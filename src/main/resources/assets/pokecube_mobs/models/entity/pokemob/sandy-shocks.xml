@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" offset="0,0,0" rotation="1,0,0,0" scale="0.55"/>
+  <customTex default="sandy-shocks">
+   <part name="face" tex="sandy-shocks-face"/>
+   <part name="face_001" tex="sandy-shocks-face"/>
+   <part name="face_002" tex="sandy-shocks-face"/>
+   <part name="filling" tex="sandy-shocks-filling"/>
+   <part name="filling_001" tex="sandy-shocks-filling"/>
+   <part name="filling_002" tex="sandy-shocks-filling"/>
+   <part name="filling_003" tex="sandy-shocks-filling"/>
+   <part name="filling_004" tex="sandy-shocks-filling"/>
+   <part name="filling_005" tex="sandy-shocks-filling"/>
+   <part name="filling_006" tex="sandy-shocks-filling"/>
+   <part name="filling_007" tex="sandy-shocks-filling"/>
+   <part name="filling_008" tex="sandy-shocks-filling"/>
+   <part name="filling_009" tex="sandy-shocks-filling"/>
+   <part name="filling_010" tex="sandy-shocks-filling"/>
+   <part name="filling_011" tex="sandy-shocks-filling"/>
+   <part name="filling_012" tex="sandy-shocks-filling"/>
+   <part name="filling_013" tex="sandy-shocks-filling"/>
+   <part name="filling_014" tex="sandy-shocks-filling"/>
+   <part name="filling_015" tex="sandy-shocks-filling"/>
+   <part name="filling_016" tex="sandy-shocks-filling"/>
+   <part name="filling_017" tex="sandy-shocks-filling"/>
+  </customTex>
+ </model>
+</ModelAnimator>

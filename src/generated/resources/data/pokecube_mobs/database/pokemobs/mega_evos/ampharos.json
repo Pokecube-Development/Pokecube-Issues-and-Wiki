@@ -1,0 +1,10 @@
+{
+  "user": "ampharos",
+  "name": "ampharos-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:ampharosmega"
+    }
+  }
+}

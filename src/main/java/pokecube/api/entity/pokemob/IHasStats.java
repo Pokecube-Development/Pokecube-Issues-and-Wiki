@@ -1,7 +1,6 @@
 package pokecube.api.entity.pokemob;
 
 import pokecube.api.data.abilities.Ability;
-import pokecube.api.entity.pokemob.IPokemob.FormeHolder;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -147,6 +146,9 @@ public interface IHasStats extends IHasEntry
         return Tools.xpToLevel(this.getExperienceMode(), this.getExp());
     }
 
+    /**
+     * @return maximum health for our mob.
+     */
     default float getMaxHealth()
     {
         return this.getEntity().getMaxHealth();
@@ -179,19 +181,32 @@ public interface IHasStats extends IHasEntry
     }
 
     /**
+     * @return type 1 before any combat modifications
+     */
+    default PokeType originalType1()
+    {
+        return this.getPokedexEntry().getType1();
+    }
+
+    /**
+     * @return type 2 before any combat modifications
+     */
+    default PokeType originalType2()
+    {
+        return this.getPokedexEntry().getType2();
+    }
+
+    /**
      * Returns 1st type.
      *
      * @see PokeType
-     * @return the byte type
+     * @return the first type
      */
     default PokeType getType1()
     {
         if (this.getModifiers().type1 == null)
         {
-            IPokemob us = (IPokemob) this;
-            FormeHolder holder = us.getCustomHolder();
-            this.getModifiers().type1 = holder == null ? this.getPokedexEntry().getType1()
-                    : holder.getTypes(getPokedexEntry()).get(0);
+            this.getModifiers().type1 = originalType1();
         }
         return this.getModifiers().type1;
     }
@@ -200,16 +215,13 @@ public interface IHasStats extends IHasEntry
      * Returns 2nd type.
      *
      * @see PokeType
-     * @return the byte type
+     * @return the second type
      */
     default PokeType getType2()
     {
         if (this.getModifiers().type2 == null)
         {
-            IPokemob us = (IPokemob) this;
-            FormeHolder holder = us.getCustomHolder();
-            this.getModifiers().type2 = holder == null ? this.getPokedexEntry().getType2()
-                    : holder.getTypes(getPokedexEntry()).get(1);
+            this.getModifiers().type2 = originalType2();
         }
         return this.getModifiers().type2;
     }
@@ -223,8 +235,6 @@ public interface IHasStats extends IHasEntry
     default double getWeight()
     {
         double mass = this.getPokedexEntry().mass;
-        if (((IPokemob) this).getCustomHolder() != null)
-            mass = ((IPokemob) this).getCustomHolder().getMass(this.getPokedexEntry());
         return this.getSize() * this.getSize() * this.getSize() * mass;
     }
 
@@ -277,6 +287,12 @@ public interface IHasStats extends IHasEntry
      */
     IPokemob setExp(int exp, boolean notifyLevelUp);
 
+    /**
+     * Sets current health for our mob.
+     * 
+     * @param health - value to set for health, should be at most
+     *               {@link #getMaxHealth()}
+     */
     default void setHealth(final float health)
     {
         this.getEntity().setHealth(health);

@@ -1,18 +1,29 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "deep_oceans",
-        "types": "#minecraft:is_deep_ocean,#pokecube_world:is_ultraspace/is_deep_ocean",
-        "and_preset": "overworld"
+      "preset":"deep_oceans",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "biome_tags":"#minecraft:is_deep_ocean"
+        }
       }
     },
     {
-      "values": {
-        "preset": "ocean_monument",
-        "air": "false",
-        "structures": "minecraft:monument",
-        "types": "all"
+      "preset":"villages",
+      "matchers":{
+        "structures":{
+          "names":"#minecraft:village"
+        }
+      }
+    },
+    {
+      "preset":"ocean_monument",
+      "and_preset":"in_water",
+      "matchers":{
+        "structures":{
+          "names":"minecraft:monument"
+        }
       }
     }
   ]

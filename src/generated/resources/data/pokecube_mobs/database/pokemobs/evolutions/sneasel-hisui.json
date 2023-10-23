@@ -1,0 +1,22 @@
+{
+  "name": "sneasler",
+  "user": "sneasel-hisui",
+  "condition": [
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "day"
+          }
+        }
+      }
+    },
+    {
+      "key": "item",
+      "item": {
+        "id": "minecraft:iron_axe"
+      }
+    }
+  ]
+}

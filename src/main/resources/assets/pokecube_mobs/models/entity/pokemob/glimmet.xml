@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="0.8"/>
+  <metadata head="Head" headAxis="1" headCap="-40,40" headCap1="-30,30" headDir2="-1"/>
+  <material name="glass" meshs="glass" tex="textures/entity/pokemob/glimmet.png" light="0" transluscent="true" cull="true"/>
+  <material name="eyes" meshs="eyes" tex="textures/entity/pokemob/glimmet.png" light="1" transluscent="false" cull="true" shader="eyes_shader"/>
+  <worn id="__ANKLE_left__" parent="back_left_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.53"/>
+  <worn id="__ANKLE_right__" parent="back_right_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.53"/>
+  <worn id="__BACK__" parent="back" offset="0,0.07,1.65" angles="253,0,0" scale="1.41"/>
+  <worn id="__FINGER_left__" parent="bone5" offset="0.099,0.539,-0.092" angles="90,270,180" scale="3.104"/>
+  <worn id="__EAR_left__" parent="left_ear" offset="0.23,-0.1,0.32" angles="0,131,0" scale="2.3"/>
+  <worn id="__EAR_right__" parent="right_ear" offset="-0.23,-0.1,0.32" angles="0,-131,0" scale="2.3"/>
+  <worn id="__EYE__" parent="head" offset="0,-0.08,0.39" angles="90,180,180" scale="1.28"/>
+  <worn id="__HAT__" parent="head" offset="0,0,0.5" angles="90,180,180" scale="1"/>
+  <worn id="__NECK__" parent="back" offset="0,-0.4,1.6" angles="-90,0,0" scale="1.21"/>
+  <worn id="__WRIST_left__" parent="armleft2" offset="0.591,0.13,-0.125" angles="90,90,180" scale="2.125"/>
+  <worn id="__WRIST_right__" parent="armright2" offset="-0.509,0.13,-0.125" angles="90,90,180" scale="2.125"/>
+ </model>
+</ModelAnimator>

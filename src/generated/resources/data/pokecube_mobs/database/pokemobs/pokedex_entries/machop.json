@@ -260,11 +260,5 @@
       "coaching"
     ]
   },
-  "evolutions": [
-    {
-      "name": "machoke",
-      "level": 28
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

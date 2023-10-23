@@ -141,6 +141,7 @@
       "body-slam",
       "take-down",
       "double-edge",
+      "mist",
       "water-gun",
       "hydro-pump",
       "surf",
@@ -148,6 +149,7 @@
       "blizzard",
       "bubble-beam",
       "submission",
+      "low-kick",
       "counter",
       "seismic-toss",
       "strength",
@@ -161,13 +163,16 @@
       "mimic",
       "double-team",
       "defense-curl",
+      "haze",
       "bide",
       "metronome",
       "waterfall",
+      "swift",
       "skull-bash",
       "amnesia",
       "bubble",
       "psywave",
+      "splash",
       "rest",
       "substitute",
       "thief",
@@ -197,6 +202,7 @@
       "endeavor",
       "secret-power",
       "dive",
+      "weather-ball",
       "muddy-water",
       "mud-shot",
       "water-sport",
@@ -207,24 +213,16 @@
       "earth-power",
       "mud-bomb",
       "captivate",
+      "low-sweep",
       "round",
       "scald",
       "bulldoze",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "liquidation",
+      "tera-blast",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "poliwrath",
-      "item_preset": "waterstone",
-      "evoMoves": "submission"
-    },
-    {
-      "name": "politoed",
-      "item_preset": "kingsrock",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_2"
 }

@@ -52,7 +52,6 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
             this.setExp(statsTag.getInt(TagNames.EXP), false);
             this.setStatus(statsTag.getInt(TagNames.STATUS));
             this.addHappiness(statsTag.getInt(TagNames.HAPPY));
-            this.setDynamaxFactor(statsTag.getFloat(TagNames.DYNAPOWER));
         }
         // Read moves tag
         if (!movesTag.isEmpty())
@@ -80,7 +79,6 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
                 final int j = CompoundNBT1.getByte("Slot") & 255;
                 if (j < this.getInventory().getContainerSize())
                     this.getInventory().setItem(j, ItemStack.of(CompoundNBT1));
-                this.setHeldItem(this.getInventory().getItem(1));
             }
         }
         // Read Breeding tag
@@ -154,7 +152,6 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         statsTag.putInt(TagNames.EXP, this.getExp());
         statsTag.putInt(TagNames.STATUS, this.getStatus());
         statsTag.putInt(TagNames.HAPPY, this.bonusHappiness);
-        statsTag.putFloat(TagNames.DYNAPOWER, this.getDynamaxFactor());
 
         // Write moves tag
         final CompoundTag movesTag = new CompoundTag();

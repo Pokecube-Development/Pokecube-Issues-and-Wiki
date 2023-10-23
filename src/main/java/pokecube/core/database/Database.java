@@ -48,9 +48,9 @@ import pokecube.api.events.init.InitDatabase;
 import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.blocks.berries.BerryGenManager;
+import pokecube.core.database.pokedex.JsonPokedexEntry;
 import pokecube.core.database.pokedex.PokedexEntryLoader;
 import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
-import pokecube.core.database.pokedex.PokemobsDatabases;
 import pokecube.core.database.recipes.IRecipeParser;
 import pokecube.core.database.recipes.XMLRecipeHandler;
 import pokecube.core.database.resources.PackFinder;
@@ -117,7 +117,7 @@ public class Database
         public Boolean isStarter()
         {
             if (!this.values.containsKey(XMLSpawnEntry.STARTER)) return null;
-            return Boolean.parseBoolean(this.values.get(XMLSpawnEntry.STARTER));
+            return Boolean.parseBoolean(this.getString(XMLSpawnEntry.STARTER));
         }
     }
 
@@ -177,20 +177,34 @@ public class Database
     public static HashMap<Integer, PokedexEntry> dummyMap = new HashMap<>();
     public static HashMap<String, ArrayList<PokedexEntry>> mobReplacements = new HashMap<>();
     public static HashMap<PokedexEntry, List<FormeHolder>> customModels = new HashMap<>();
-    public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
     public static HashMap<ResourceLocation, PokedexEntry> formeToEntry = new HashMap<>();
+    public static Map<String, FormeHolder> formeHoldersByKey = new HashMap<>();
 
     public static Int2ObjectOpenHashMap<List<PokedexEntry>> formLists = new Int2ObjectOpenHashMap<>();
 
     public static List<PokedexEntry> spawnables = new ArrayList<>();
 
-    public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo");
+    public static final PokedexEntry missingno = new PokedexEntry(0, "MissingNo", false);
 
     public static final Comparator<PokedexEntry> COMPARATOR = (o1, o2) -> {
         int diff = o1.getPokedexNb() - o2.getPokedexNb();
-        if (diff == 0) if (o1.base && !o2.base) diff = -1;
-        else if (o2.base && !o1.base) diff = 1;
-        else diff = o1.getName().compareTo(o2.getName());
+        // Same number, so decide based on forms
+        if (diff == 0)
+        {
+            // Base always first.
+            if (o1.base && !o2.base) return -1;
+            else if (o2.base && !o1.base) return 1;
+
+            // Gendered forms have priority
+            if (o1.isGenderForme && !o2.isGenderForme) return -1;
+            else if (o2.isGenderForme && !o1.isGenderForme) return 1;
+
+            // Generated forms last
+            if (o1.generated && !o2.generated) return 1;
+            else if (o2.generated && !o1.generated) return -1;
+
+            diff = o1.getName().compareTo(o2.getName());
+        }
         return diff;
     };
     // Init some stuff for the missignno entry.
@@ -250,6 +264,7 @@ public class Database
                 // Set all the subformes base to this new one.
                 for (final PokedexEntry e : formes)
                 {
+                    if (e.generated) continue;
                     // Set the forme.
                     e.setBaseForme(entry1);
                     // Initialize some things.
@@ -264,48 +279,8 @@ public class Database
     public static void registerFormeHolder(final PokedexEntry entry, final FormeHolder holder)
     {
         if (holder == null) return;
-        List<FormeHolder> holders = Database.customModels.get(entry);
         Database.formeToEntry.put(holder.key, entry);
-        if (holders == null) Database.customModels.put(entry, holders = Lists.newArrayList());
-        if (!holders.contains(holder))
-        {
-            holders.add(holder);
-            Collections.sort(holders, (o1, o2) -> o1.key.compareTo(o2.key));
-        }
-    }
-
-    private static void checkGenderFormes(final List<PokedexEntry> formes, final Map.Entry<Integer, PokedexEntry> vars)
-    {
-        PokedexEntry entry = vars.getValue();
-        final PokedexEntry female = entry.getForGender(IPokemob.FEMALE);
-        final PokedexEntry male = entry.getForGender(IPokemob.MALE);
-
-        /**
-         * If the forme has both male and female entries, replace the base forme
-         * with the male forme.
-         */
-        if (male != female && male != entry && female != entry)
-        {
-            male.base = true;
-            male.male = male;
-            female.male = male;
-            male.female = female;
-            entry.dummy = true;
-            entry.base = false;
-            Database.data.put(male.getPokedexNb(), male);
-            Database.data2.put(entry.getTrimmedName(), male);
-            Database.data2.put(entry.getName(), male);
-            vars.setValue(male);
-            // Set all the subformes base to this new one.
-            for (final PokedexEntry e : formes)
-            {
-                // Set the forme.
-                e.setBaseForme(male);
-                // Initialize some things.
-                e.getBaseForme();
-            }
-            entry = male;
-        }
+        Database.formeHoldersByKey.put(holder.loaded_from.key, holder);
     }
 
     public static String convertMoveName(final String moveNameFromBulbapedia)
@@ -422,15 +397,6 @@ public class Database
         // loaded.
         MinecraftForge.EVENT_BUS.post(new InitDatabase.Load());
 
-        // Make the pokedex entries with what was in database.
-        try
-        {
-            PokedexEntryLoader.makeEntries(true);
-        }
-        catch (final Exception e)
-        {
-            PokecubeAPI.LOGGER.error("Error with databases ", e);
-        }
         // Init the lists of what all forms are loaded.
         Database.initFormLists();
 
@@ -467,8 +433,10 @@ public class Database
             {
                 try
                 {
-                    e.setBaseForme(base);
-                    base.copyToForm(e);
+                    if (e.getBaseForme() == null)
+                    {
+                        base.copyToForm(e);
+                    }
                 }
                 catch (final Exception e2)
                 {
@@ -525,11 +493,6 @@ public class Database
                  * current base forme if needed.
                  */
                 Database.initFormes(formes, entry);
-                /**
-                 * Then Check if the entry should be replaced with a gender
-                 * version
-                 */
-                Database.checkGenderFormes(formes, vars);
                 /**
                  * Then check if the base form, or any others, are dummy forms,
                  * and replace them.
@@ -812,12 +775,11 @@ public class Database
             for (final PokedexEntry entry : Database.getSortedFormes())
             {
                 final Set<String> ourTags = Tags.BREEDING.lookupTags(entry.getTrimmedName());
-                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty())
+                if (Tags.BREEDING.validLoad && entry.breeds && ourTags.isEmpty() && !entry.generated)
                     PokecubeAPI.logInfo("No egg group assigned for {}", entry.getTrimmedName());
             }
-            for (final PokedexEntry entry : Database.getSortedFormes())
-                if (entry.lootTable == null && !(entry.isMega() || entry.isGMax()))
-                    PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
+            for (final PokedexEntry entry : Database.getSortedFormes()) if (entry.lootTable == null && !entry.generated)
+                PokecubeAPI.logInfo("Missing loot table for {}", entry.getTrimmedName());
         }
 
         // This gets re-set to true if listener hears a reload
@@ -825,9 +787,6 @@ public class Database
         Database.needs_reload = false;
         dt = System.nanoTime() - time;
         if (PokecubeCore.getConfig().debug_data) PokecubeAPI.logInfo("Resource Stage 5: {}s", dt / 1e9d);
-
-        // Generate debug file with entries
-        if (PokecubeCore.getConfig().debug_data) PokedexEntryLoader.writeCompoundDatabase(PokemobsDatabases.compound);
     }
 
     /**
@@ -918,7 +877,7 @@ public class Database
         CombatTypeLoader.loadTypes();
         // Load in the various databases, starting with moves, then pokemobs.
         MovesAdder.registerMoves();
-        PokemobsDatabases.preInitLoad();
+        JsonPokedexEntry.loadPokedex();
         // Finally load in the abilities
         AbilityManager.init();
 

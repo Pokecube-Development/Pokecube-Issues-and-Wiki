@@ -2,6 +2,7 @@
   "name": "calyrex-ice",
   "id": 898,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 340,
   "size": {
     "height": 2.2,
@@ -57,8 +58,7 @@
           "iron-defense",
           "avalanche",
           "icicle-crash",
-          "glacial-lance",
-          "pound"
+          "glacial-lance"
         ]
       },
       {
@@ -130,6 +130,7 @@
       }
     ],
     "misc": [
+      "pound",
       "pay-day",
       "swords-dance",
       "stomp",
@@ -235,5 +236,6 @@
       "trailblaze"
     ]
   },
+  "sound": "calyrex-ice",
   "old_name": "calyrex_ice_rider"
 }

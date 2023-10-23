@@ -1,0 +1,11 @@
+{
+  "name": "twin-beam",
+  "id": 888,
+  "power": 40,
+  "pp": 10,
+  "priority": 0,
+  "type": "psychic",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

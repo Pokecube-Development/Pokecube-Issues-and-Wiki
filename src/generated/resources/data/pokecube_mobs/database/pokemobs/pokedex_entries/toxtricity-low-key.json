@@ -2,6 +2,7 @@
   "name": "toxtricity-low-key",
   "id": 849,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 176,
   "size": {
     "height": 1.6,
@@ -221,6 +222,7 @@
       "trailblaze"
     ]
   },
+  "sound": "toxtricity-low-key",
   "old_name": "toxtricity_lowkey",
   "loot_table": "pokecube:entities/redstone_rabbit_2"
 }

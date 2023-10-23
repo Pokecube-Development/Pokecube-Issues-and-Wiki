@@ -1,0 +1,8 @@
+{
+  "name": "alakazam",
+  "user": "kadabra",
+  "condition": {
+    "key": "traded"
+  },
+  "evoMoves": "kinesis"
+}

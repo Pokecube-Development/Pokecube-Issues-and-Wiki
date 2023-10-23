@@ -69,8 +69,7 @@
       {
         "L": 1,
         "moves": [
-          "twister",
-          "dragon-ascent"
+          "twister"
         ]
       },
       {
@@ -236,12 +235,6 @@
         "structures": "pokecube_legends:sky_pillar",
         "rate": "0.0"
       }
-    }
-  ],
-  "mega_rules": [
-    {
-      "name": "Rayquaza Mega",
-      "move": "dragonascent"
     }
   ],
   "loot_table": "pokecube:entities/enderpearls_2"

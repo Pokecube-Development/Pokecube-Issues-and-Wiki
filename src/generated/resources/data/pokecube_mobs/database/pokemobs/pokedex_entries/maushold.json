@@ -38,6 +38,15 @@
   "moves": {
     "level_up": [
       {
+        "L": 1,
+        "moves": [
+          "pound",
+          "follow-me",
+          "baby-doll-eyes",
+          "tidy-up"
+        ]
+      },
+      {
         "L": 11,
         "moves": [
           "super-fang"
@@ -59,15 +68,6 @@
         "L": 41,
         "moves": [
           "beat-up"
-        ]
-      },
-      {
-        "L": 1,
-        "moves": [
-          "follow-me",
-          "baby-doll-eyes",
-          "pound",
-          "tidy-up"
         ]
       },
       {
@@ -128,6 +128,7 @@
       "agility",
       "swift",
       "rest",
+      "super-fang",
       "substitute",
       "thief",
       "protect",

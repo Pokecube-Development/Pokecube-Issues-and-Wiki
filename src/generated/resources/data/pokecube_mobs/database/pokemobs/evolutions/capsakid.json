@@ -1,0 +1,10 @@
+{
+  "name": "scovillain",
+  "user": "capsakid",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:firestone"
+    }
+  }
+}

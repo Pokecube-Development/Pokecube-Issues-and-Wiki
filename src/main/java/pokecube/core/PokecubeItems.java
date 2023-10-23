@@ -192,7 +192,7 @@ public class PokecubeItems extends ItemList
     public static boolean resetTimeTags = false;
     public static Vector<Long> times = new Vector<>();
 
-    private static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
+    public static HashMap<ResourceLocation, Item[]> pokecubes = new HashMap<>();
 
     /** contains pokecubes that should be rendered using the default renderer */
     private static Set<ResourceLocation> cubeIds = new HashSet<>();
@@ -211,9 +211,11 @@ public class PokecubeItems extends ItemList
                 () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1), false));
         POKEWATCH = PokecubeCore.ITEMS.register("pokewatch",
                 () -> new ItemPokedex(new Properties().tab(PokecubeItems.TAB_ITEMS).stacksTo(1), true));
-        BERRYJUICE = PokecubeCore.ITEMS.register("berryjuice",
-                () -> new Item(new Properties().food(new FoodProperties.Builder().nutrition(4)
-                        .saturationMod(0.3F).build()).tab(PokecubeItems.TAB_ITEMS)));
+        BERRYJUICE = PokecubeCore.ITEMS
+                .register("berryjuice",
+                        () -> new Item(new Properties()
+                                .food(new FoodProperties.Builder().nutrition(4).saturationMod(0.3F).build())
+                                .tab(PokecubeItems.TAB_ITEMS)));
         EGG = PokecubeCore.ITEMS.register("pokemobegg",
                 () -> new ItemPokemobEgg(new Properties().tab(PokecubeItems.TAB_ITEMS)));
         CANDY = PokecubeCore.ITEMS.register("candy",
@@ -773,7 +775,7 @@ public class PokecubeItems extends ItemList
     public static ResourceLocation toResource(final String name, final String modid)
     {
         ResourceLocation loc;
-        if (!name.contains(":")) loc = new ResourceLocation(PokecubeCore.MODID, name);
+        if (!name.contains(":")) loc = new ResourceLocation(modid, name);
         else loc = new ResourceLocation(name);
         return loc;
     }

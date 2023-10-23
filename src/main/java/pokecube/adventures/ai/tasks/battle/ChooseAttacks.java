@@ -4,33 +4,14 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.moves.MoveEntry;
 import pokecube.api.utils.Tools;
 import pokecube.core.ai.brain.BrainUtils;
-import pokecube.core.moves.MovesUtils;
 
 public class ChooseAttacks extends BaseBattleTask
 {
     public ChooseAttacks(final LivingEntity trainer)
     {
         super(trainer);
-    }
-
-    /**
-     * @param move   - the attack to check
-     * @param user   - the user of the sttack
-     * @param target - the target of the attack
-     * @return - the damage that will be dealt by the attack (before reduction
-     *         due to armour)
-     */
-    private int getPower(final String move, final IPokemob user, final LivingEntity target)
-    {
-        final MoveEntry attack = MovesUtils.getMove(move);
-        if (attack == null || target == null) return 0;
-        int pwr = attack.getPWR(user, target);
-        final IPokemob mob = PokemobCaps.getPokemobFor(target);
-        if (mob != null) pwr *= Tools.getAttackEfficiency(attack.getType(user), mob.getType1(), mob.getType2());
-        return pwr;
     }
 
     /**
@@ -43,13 +24,12 @@ public class ChooseAttacks extends BaseBattleTask
         int index = outMob.getMoveIndex();
         int max = 0;
         final LivingEntity target = BrainUtils.getAttackTarget(outMob.getEntity());
-        final String[] moves = outMob.getMoves();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < outMob.getMovesCount(); i++)
         {
-            final String s = moves[i];
+            final String s = outMob.getMove(i);
             if (s != null)
             {
-                final int temp = this.getPower(s, outMob, target);
+                final int temp = Tools.getPower(s, outMob, target);
                 if (temp > max)
                 {
                     index = i;

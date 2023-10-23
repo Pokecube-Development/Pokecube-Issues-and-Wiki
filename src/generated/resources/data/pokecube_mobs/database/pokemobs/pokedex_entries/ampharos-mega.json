@@ -2,7 +2,7 @@
   "name": "ampharos-mega",
   "id": 181,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 275,
   "size": {
     "height": 1.4,
@@ -190,5 +190,6 @@
       "brutal-swing"
     ]
   },
+  "sound": "ampharos-mega",
   "old_name": "ampharos_mega"
 }

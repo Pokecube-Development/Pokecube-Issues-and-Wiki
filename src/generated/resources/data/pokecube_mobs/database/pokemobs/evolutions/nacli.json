@@ -1,0 +1,8 @@
+{
+  "name": "naclstack",
+  "user": "nacli",
+  "condition": {
+    "key": "level",
+    "level": 24
+  }
+}

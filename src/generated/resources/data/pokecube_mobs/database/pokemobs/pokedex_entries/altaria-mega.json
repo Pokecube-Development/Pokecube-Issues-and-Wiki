@@ -2,7 +2,7 @@
   "name": "altaria-mega",
   "id": 334,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 207,
   "size": {
     "height": 1.5
@@ -203,5 +203,6 @@
       "dazzling-gleam"
     ]
   },
+  "sound": "altaria-mega",
   "old_name": "altaria_mega"
 }

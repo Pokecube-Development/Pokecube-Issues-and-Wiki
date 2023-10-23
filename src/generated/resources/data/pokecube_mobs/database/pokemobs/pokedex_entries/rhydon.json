@@ -142,6 +142,7 @@
       "horn-attack",
       "fury-attack",
       "horn-drill",
+      "tackle",
       "body-slam",
       "take-down",
       "double-edge",
@@ -260,12 +261,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "rhyperior",
-      "item_preset": "protector",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/stone_2"
 }

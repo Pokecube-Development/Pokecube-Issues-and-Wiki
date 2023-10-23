@@ -1,0 +1,9 @@
+{
+  "name": "volcarona",
+  "user": "larvesta",
+  "condition": {
+    "key": "level",
+    "level": 59
+  },
+  "evoMoves": "quiver-dance"
+}

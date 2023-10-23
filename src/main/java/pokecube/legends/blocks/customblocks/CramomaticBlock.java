@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -63,10 +61,12 @@ public class CramomaticBlock extends Rotates implements SimpleWaterloggedBlock
     public void appendHoverText(final ItemStack stack, final BlockGetter worldIn, final List<Component> tooltip,
             final TooltipFlag flagIn)
     {
-        String message;
-        if (Screen.hasShiftDown()) message = I18n.get("pokecube_legends." + this.infoName +".tooltip", ChatFormatting.GOLD, ChatFormatting.RESET);
-        else message = I18n.get("pokecube.tooltip.advanced");
-        tooltip.add(TComponent.translatable(message));
+		if (Screen.hasShiftDown())
+		{
+			tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip"));
+			tooltip.add(TComponent.translatable("legends." + this.infoName + ".tooltip.line1"));
+		}
+		else tooltip.add(TComponent.translatable("pokecube.tooltip.advanced"));
     }
 
     // Precise selection box

@@ -149,11 +149,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "palafin",
-      "level": 38
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

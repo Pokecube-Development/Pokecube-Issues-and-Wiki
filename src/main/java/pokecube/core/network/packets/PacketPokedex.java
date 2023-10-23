@@ -35,7 +35,6 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -228,7 +227,7 @@ public class PacketPokedex extends NBTPacket
             String match = PacketPokedex.serialize(matcher);
             if (match == null)
             {
-                System.out.println("Error with " + e);
+                System.out.println("Error with spawn entry for " + e);
                 continue;
             }
             spawns.putString("e" + n, e.getName());
@@ -385,36 +384,15 @@ public class PacketPokedex extends NBTPacket
 
         // List of mobs that cannot breed
         final ListTag no_breed = new ListTag();
-        // List of spawn biome matchers for evolutions
-        final ListTag evo_rules = new ListTag();
 
         // Put in a list of mobs that cannot breed
         for (final PokedexEntry e : Database.getSortedFormes())
         {
             if (!e.breeds) no_breed.add(StringTag.valueOf(e.getTrimmedName()));
             CompoundTag tag = new CompoundTag();
-            final ListTag evos = new ListTag();
             tag.putString("id", e.getTrimmedName());
-            for (EvolutionData d : e.evolutions)
-            {
-                if (d._match_rule != null)
-                {
-                    String msg = PacketPokedex.serialize(d.matcher);
-                    if (msg == null) continue;
-                    CompoundTag sub = new CompoundTag();
-                    sub.putString("old", gson.toJson(d._match_rule));
-                    sub.putString("new", msg);
-                    evos.add(sub);
-                }
-            }
-            if (!evos.isEmpty())
-            {
-                tag.put("l", evos);
-                evo_rules.add(tag);
-            }
         }
         message.getTag().put("no_breed", no_breed);
-        if (!evo_rules.isEmpty()) message.getTag().put("evo_rules", evo_rules);
         PacketPokedex.ASSEMBLER.sendTo(message, target);
     }
 
@@ -509,33 +487,6 @@ public class PacketPokedex extends NBTPacket
                 final PokedexEntry p = Database.getEntry(no_breed.getString(i));
                 if (p != null) PacketPokedex.noBreeding.add(p);
             }
-            if (this.getTag().contains("evo_rules"))
-            {
-                final ListTag evo_rules = this.getTag().getList("evo_rules", 10);
-                for (int i = 0; i < evo_rules.size(); i++)
-                {
-                    CompoundTag tag = evo_rules.getCompound(i);
-                    PokedexEntry e = Database.getEntry(tag.getString("id"));
-                    if (e == null) continue;
-                    final ListTag evos = tag.getList("l", 10);
-                    outer:
-                    for (int ii = 0; ii < evos.size(); ii++)
-                    {
-                        tag = evos.getCompound(ii);
-                        String old = tag.getString("old");
-                        SpawnBiomeMatcher match = PacketPokedex.gson.fromJson(tag.getString("new"),
-                                SpawnBiomeMatcher.class);
-                        for (EvolutionData d : e.evolutions)
-                        {
-                            if (d._match_rule != null && old.equals(gson.toJson(d._match_rule)))
-                            {
-                                d.matcher = match;
-                                continue outer;
-                            }
-                        }
-                    }
-                }
-            }
             return;
         }
     }
@@ -544,9 +495,6 @@ public class PacketPokedex extends NBTPacket
     {
         // Initialise the client lists of biomes/types
         SpawnBiomeMatcher.populateClientValues(matcher);
-        // If no biomes or subbiomes, just throw null string, usually means this
-        // spawn is not possible due to settings, etc.
-        if (!matcher._valid || matcher.clientStuff.isEmpty()) return null;
         // Then serialise it
         final String ret = PacketPokedex.gson.toJson(matcher);
         // Then clear afterwards

@@ -28,9 +28,9 @@ import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.CapabilityAnimation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
@@ -125,6 +125,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
         final ModelHolder holder = new ModelHolder(RenderEgg.MODEL, RenderEgg.TEXTURE, RenderEgg.ANIM, "pokemob_egg");
         final ModelWrapper<EntityPokemobEgg> model = new ModelWrapper<>(holder, this);
         model.imodel = ModelFactory.create(holder, m -> {
+            model.imodel = m;
             AnimationLoader.parse(model.model, model, this);
         });
         return model;

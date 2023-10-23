@@ -42,7 +42,9 @@
         "moves": [
           "scratch",
           "growl",
-          "fake-out"
+          "fake-out",
+          "sucker-punch",
+          "play-rough"
         ]
       },
       {
@@ -72,7 +74,8 @@
       {
         "L": 17,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "aerial-ace"
         ]
       },
       {
@@ -96,13 +99,15 @@
       {
         "L": 29,
         "moves": [
+          "taunt",
           "assist"
         ]
       },
       {
         "L": 32,
         "moves": [
-          "captivate"
+          "captivate",
+          "retaliate"
         ]
       },
       {

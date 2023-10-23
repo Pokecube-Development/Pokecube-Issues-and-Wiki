@@ -228,11 +228,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "bisharp",
-      "level": 52
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

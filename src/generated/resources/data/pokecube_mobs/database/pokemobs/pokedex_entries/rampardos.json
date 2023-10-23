@@ -38,6 +38,13 @@
   "moves": {
     "level_up": [
       {
+        "L": 28,
+        "moves": [
+          "swords-dance",
+          "chip-away"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "headbutt",
@@ -83,6 +90,12 @@
         ]
       },
       {
+        "L": 10,
+        "moves": [
+          "rock-polish"
+        ]
+      },
+      {
         "L": 43,
         "moves": [
           "zen-headbutt"
@@ -92,12 +105,6 @@
         "L": 58,
         "moves": [
           "head-smash"
-        ]
-      },
-      {
-        "L": 28,
-        "moves": [
-          "chip-away"
         ]
       }
     ],

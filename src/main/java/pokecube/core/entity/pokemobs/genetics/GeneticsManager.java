@@ -28,7 +28,6 @@ import pokecube.core.entity.pokemobs.genetics.epigenes.EVsGene;
 import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene;
 import pokecube.core.entity.pokemobs.genetics.genes.ColourGene;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
 import pokecube.core.entity.pokemobs.genetics.genes.IVsGene;
 import pokecube.core.entity.pokemobs.genetics.genes.NatureGene;
 import pokecube.core.entity.pokemobs.genetics.genes.ShinyGene;
@@ -86,6 +85,7 @@ public class GeneticsManager
     public static final ResourceLocation IVSGENE = new ResourceLocation(PokecubeMod.ID, "ivs");
     public static final ResourceLocation EVSGENE = new ResourceLocation(PokecubeMod.ID, "evs");
     public static final ResourceLocation GMAXGENE = new ResourceLocation(PokecubeMod.ID, "gmax");
+    public static final ResourceLocation TERAGENE = new ResourceLocation(PokecubeMod.ID, "tera");
 
     public static final ResourceLocation SPECIESGENE = new ResourceLocation(PokecubeMod.ID, "species");
 
@@ -125,19 +125,6 @@ public class GeneticsManager
         return ret;
     }
 
-    public static void handleEpigenetics(final IPokemob pokemob)
-    {
-        // pokemob.onGenesChanged();
-    }
-
-    public static void handleLoad(final IPokemob pokemob)
-    {
-        final Entity mob = pokemob.getEntity();
-        final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
-        if (!genes.getAlleles().isEmpty()) return;
-        GeneticsManager.initMob(mob);
-    }
-
     private static void init()
     {
         GeneRegistry.register(AbilityGene.class);
@@ -149,7 +136,6 @@ public class GeneticsManager
         GeneRegistry.register(NatureGene.class);
         GeneRegistry.register(ShinyGene.class);
         GeneRegistry.register(SizeGene.class);
-        GeneRegistry.register(DynamaxGene.class);
     }
 
     public static void initEgg(final IMobGenetics eggs, final IMobGenetics mothers, final IMobGenetics fathers)

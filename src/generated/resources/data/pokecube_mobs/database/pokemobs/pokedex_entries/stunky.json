@@ -190,6 +190,7 @@
       "facade",
       "taunt",
       "helping-hand",
+      "knock-off",
       "snatch",
       "secret-power",
       "astonish",
@@ -230,12 +231,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "skuntank",
-      "level": 34,
-      "evoMoves": "flamethrower"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -143,6 +143,7 @@
       "headbutt",
       "tackle",
       "body-slam",
+      "take-down",
       "double-edge",
       "tail-whip",
       "pin-missile",
@@ -169,6 +170,7 @@
       "substitute",
       "thief",
       "snore",
+      "flail",
       "protect",
       "belly-drum",
       "mud-slap",
@@ -221,6 +223,7 @@
       "rototiller",
       "play-rough",
       "confide",
+      "baby-doll-eyes",
       "throat-chop",
       "stomping-tantrum"
     ]
@@ -251,12 +254,6 @@
           }
         ]
       }
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "obstagoon",
-      "level": 35
     }
   ],
   "loot_table": "pokecube:entities/rabbit_2"

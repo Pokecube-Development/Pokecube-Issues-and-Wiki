@@ -2,6 +2,7 @@
   "name": "floette-eternal",
   "id": 670,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 243,
   "size": {
     "height": 0.2
@@ -173,6 +174,7 @@
       "light-of-ruin"
     ]
   },
+  "sound": "floette-eternal",
   "old_name": "floette_eternal",
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

@@ -169,12 +169,6 @@
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cursola",
-      "level": 38
-    }
-  ],
   "old_name": "corsola_galar",
   "loot_table": "pokecube:entities/enderpearls_1"
 }

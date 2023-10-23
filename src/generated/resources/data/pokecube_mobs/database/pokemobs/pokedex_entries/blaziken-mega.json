@@ -2,7 +2,7 @@
   "name": "blaziken-mega",
   "id": 257,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 284,
   "size": {
     "height": 1.9,
@@ -187,5 +187,6 @@
       "laser-focus"
     ]
   },
+  "sound": "blaziken-mega",
   "old_name": "blaziken_mega"
 }

@@ -1,0 +1,233 @@
+[
+  {
+    "name": "applin",
+    "evolutions": [
+      {
+        "name": "flapple",
+        "time": "night",
+        "animation": "18",
+        "item": {
+          "values": {
+            "id": "minecraft:golden_apple"
+          }
+        },
+        "evoMoves": "wing-attack"
+      },
+      {
+        "name": "appletun",
+        "time": "day",
+        "animation": "18",
+        "item": {
+          "values": {
+            "id": "minecraft:golden_apple"
+          }
+        },
+        "evoMoves": "headbutt"
+      },
+      {
+        "name": "dipplin",
+        "time": "dawn",
+        "animation": "18",
+        "item": {
+          "values": {
+            "id": "minecraft:golden_apple"
+          }
+        },
+        "evoMoves": "double-hit"
+      }
+    ]
+  },
+  {
+    "name": "bisharp",
+    "evolutions": [
+      {
+        "name": "kingambit",
+        "item": {
+          "values": {
+            "id": "minecraft:netherite_sword"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "name": "bramblin",
+    "evolutions": [
+      {
+        "name": "brambleghast",
+        "happy": true
+      }
+    ]
+  },
+  {
+    "name": "capsakid",
+    "evolutions": [
+      {
+        "name": "scovillain",
+        "item_preset": "firestone"
+      }
+    ]
+  },
+  {
+    "name": "cetoddle",
+    "evolutions": [
+      {
+        "name": "cetitan",
+        "item_preset": "pokecube_mobs:ice_stone",
+        "evoMoves": "dazzling-gleam"
+      }
+    ]
+  },
+  {
+    "name": "charcadet",
+    "evolutions": [
+      {
+        "name": "armarouge",
+        "time": "day",
+        "item": {
+          "values": {
+            "id": "minecraft:diamond_chestplate"
+          }
+        },
+        "evoMoves": "psyshock"
+      },
+      {
+        "name": "charcadet",
+        "time": "night",
+        "item": {
+          "values": {
+            "id": "minecraft:diamond_chestplate"
+          }
+        },
+        "evoMoves": "shadow-claw"
+      }
+    ]
+  },
+  {
+    "name": "greavard",
+    "evolutions": [
+      {
+        "name": "houndstone",
+        "level": 30,
+        "time": "night"
+      }
+    ]
+  },
+  {
+    "name": "pancham",
+    "evolutions": [
+      {
+        "name": "pangoro",
+        "item_preset": "duskstone",
+        "level": 32,
+        "evoMoves": "bullet-punch"
+      }
+    ]
+  },
+  {
+    "name": "finizen",
+    "evolutions": [
+      {
+        "name": "palafin",
+        "happy": true
+      }
+    ]
+  },
+  {
+    "name": "pawmo",
+    "evolutions": [
+      {
+        "name": "pawmot",
+        "happy": true
+      }
+    ]
+  },
+  {
+    "name": "rellor",
+    "evolutions": [
+      {
+        "name": "rabsca",
+        "happy": true
+      }
+    ]
+  },
+  {
+    "name": "primeape",
+    "evolutions": [
+      {
+        "name": "annihilape",
+        "move": "rage-fist"
+      }
+    ]
+  },
+  {
+    "name": "sliggoo",
+    "evolutions": [
+      {
+        "name": "goodra",
+        "level": 50,
+        "location": {
+          "and_preset": "raining"
+        },
+        "evoMoves": "aqua-tail"
+      }
+    ]
+  },
+  {
+    "name": "sliggoo-hisui",
+    "evolutions": [
+      {
+        "name": "goodra-hisui",
+        "level": 50,
+        "location": {
+          "and_preset": "raining"
+        },
+        "evoMoves": "iron-tail"
+      }
+    ]
+  },
+  {
+    "name": "tadbulb",
+    "evolutions": [
+      {
+        "name": "bellibolt",
+        "item_preset": "pokecube_mobs:thunder_stone"
+      }
+    ]
+  },
+  {
+    "name": "tandemaus",
+    "evolutions": [
+      {
+        "name": "maushold",
+        "level": 25
+      },
+      {
+        "name": "maushold",
+        "level": 25,
+        "chance": 0.01,
+        "model": {
+          "key": "maushold-family-of-three"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ursaring",
+    "evolutions": [
+      {
+        "name": "ursaluna",
+        "item_preset": "pokecube_mobs:peat_block",
+        "time": "night"
+      },
+      {
+        "name": "ursaluna-bloodmoon",
+        "item_preset": "pokecube_mobs:peat_block",
+        "time": "night",
+        "location": {
+          "and_preset": "spooky_areas"
+        }
+      }
+    ]
+  }
+]

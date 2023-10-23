@@ -1,0 +1,10 @@
+{
+  "name": "venusaur",
+  "user": "ivysaur",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "petal-blizzard",
+  "animation": "18"
+}

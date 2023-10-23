@@ -2,7 +2,7 @@
   "name": "snorlax-gmax",
   "id": 143,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 189,
   "size": {
     "height": 4.0,
@@ -37,5 +37,33 @@
       "gluttony"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-5,0,-5",
+          "size": "10,5,10"
+        },
+        {
+          "name": "body2",
+          "offset": "-4,4,-4",
+          "size": "8,4,8",
+          "ride": "3,6,5"
+        },
+        {
+          "name": "tree",
+          "offset": "-1.5,8,-1.5",
+          "size": "3,4,3"
+        },
+        {
+          "name": "head",
+          "offset": "-2,1,2.9",
+          "size": "4,4,2"
+        }
+      ]
+    }
+  },
+  "sound": "snorlax-gmax",
   "old_name": "snorlax_gigantamax"
 }

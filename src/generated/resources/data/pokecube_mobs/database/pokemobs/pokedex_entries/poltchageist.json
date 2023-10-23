@@ -1,0 +1,139 @@
+{
+  "name": "poltchageist",
+  "id": 1012,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 0.1
+  },
+  "mass": 1.1,
+  "is_default": true,
+  "capture_rate": 120,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 40,
+    "attack": 45,
+    "defense": 45,
+    "special_attack": 74,
+    "special_defense": 54,
+    "speed": 50
+  },
+  "evs": {
+    "special_attack": 1
+  },
+  "types": [
+    "grass",
+    "ghost"
+  ],
+  "abilities": {
+    "normal": [
+      "hospitality"
+    ],
+    "hidden": [
+      "heatproof"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 6,
+        "moves": [
+          "absorb"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "mega-drain"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "stun-spore",
+          "withdraw",
+          "astonish"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "giga-drain"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "shadow-ball"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "memento"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "leaf-storm"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "rage-powder"
+        ]
+      },
+      {
+        "L": 18,
+        "moves": [
+          "foul-play"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "hex"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "life-dew"
+        ]
+      }
+    ],
+    "misc": [
+      "solar-beam",
+      "night-shade",
+      "reflect",
+      "rest",
+      "substitute",
+      "spite",
+      "protect",
+      "giga-drain",
+      "endure",
+      "sleep-talk",
+      "shadow-ball",
+      "uproar",
+      "imprison",
+      "iron-defense",
+      "magical-leaf",
+      "calm-mind",
+      "energy-ball",
+      "nasty-plot",
+      "trick-room",
+      "leaf-storm",
+      "foul-play",
+      "scald",
+      "hex",
+      "phantom-force",
+      "grassy-terrain",
+      "poltergeist",
+      "tera-blast"
+    ]
+  }
+}

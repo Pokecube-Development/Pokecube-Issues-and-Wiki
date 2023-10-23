@@ -307,13 +307,13 @@ public class BurrowHab implements IInhabitable, INBTSerializable<CompoundTag>, I
                     final PokedexEntry other = entries.get(1);
                     final SpeciesGene geneA = new SpeciesGene();
                     SpeciesInfo info = geneA.getValue();
-                    info.entry = entry;
+                    info.setEntry(entry);
                     final SpeciesGene geneB = new SpeciesGene();
                     info = geneB.getValue();
-                    info.entry = other;
+                    info.setEntry(other);
                     final SpeciesGene newGene = (SpeciesGene) geneA.interpolate(geneB);
                     info = newGene.getValue();
-                    entry = info.entry;
+                    entry = info.getEntry();
                     if (!this.related.contains(entry)) this.addRelations(entry, this.mutations);
                 }
                 final BlockPos pos = this.burrow.getCenter();

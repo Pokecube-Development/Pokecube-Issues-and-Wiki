@@ -117,6 +117,7 @@
       "counter",
       "earthquake",
       "dig",
+      "toxic",
       "recover",
       "haze",
       "waterfall",
@@ -161,12 +162,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "clodsire",
-      "level": 20,
-      "evoMoves": "amnesia"
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }

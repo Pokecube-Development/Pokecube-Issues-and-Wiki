@@ -42,11 +42,11 @@ import thut.api.entity.IAnimated;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
 import thut.core.client.render.animation.AnimationXML.Phase;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
@@ -406,13 +406,19 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void register()
     {
+        customs.clear();
+        holderMap.clear();
+        holders.clear();
         if (ThutCore.conf.debug_models) PokecubeAPI.logInfo("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
-            final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
             final Holder holder = new Holder(entry);
-            RenderPokemob.holderMap.put(type, holder);
+            if (!entry.generated)
+            {
+                final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
+                RenderPokemob.holderMap.put(type, holder);
+            }
             RenderPokemob.holders.put(entry, holder);
             // Always initialize starters, so the gui doesn't act a bit funny
             if (PokecubeCore.getConfig().preloadModels || entry.isStarter) holder.init();
@@ -439,6 +445,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context p_i50961_1_)
     {
         super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
+        if (entry == Database.missingno) register();
         if (RenderPokemob.holders.containsKey(entry)) this.holder = RenderPokemob.holders.get(entry);
         else
         {
@@ -460,10 +467,28 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return;
         PokedexEntry entry = pokemob.getPokedexEntry();
+
         Holder holder = RenderPokemob.holders.getOrDefault(entry, this.holder);
-        if (pokemob.getCustomHolder() != null)
+        FormeHolder forme = pokemob.getCustomHolder();
+
+        if (forme == null || forme == entry.default_holder)
         {
-            final FormeHolder forme = pokemob.getCustomHolder();
+            byte sexe = pokemob.getSexe();
+            if (entry.male != null && sexe == IPokemob.MALE)
+            {
+                holder = RenderPokemob.holders.getOrDefault(entry.male, this.holder);
+                forme = entry.male_holder;
+            }
+            else if (entry.female != null && sexe == IPokemob.FEMALE)
+            {
+                holder = RenderPokemob.holders.getOrDefault(entry.female, this.holder);
+                forme = entry.female_holder;
+            }
+            else forme = entry.default_holder;
+        }
+
+        if (forme != null)
+        {
             final ResourceLocation model = forme.key;
             Holder temp = RenderPokemob.customs.get(model);
             if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
@@ -477,8 +502,8 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             holder = temp;
         }
-        if (holder.failTimer > 50) holder = MISSNGNO;
 
+        if (holder.failTimer > 50) holder = MISSNGNO;
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
             holder.init();

@@ -121,6 +121,7 @@
       "thief",
       "snore",
       "reversal",
+      "spite",
       "protect",
       "scary-face",
       "endure",
@@ -164,5 +165,6 @@
       "tera-blast"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_1"
+  "loot_table": "pokecube:entities/chicken_1",
+  "prey": " small_bug"
 }

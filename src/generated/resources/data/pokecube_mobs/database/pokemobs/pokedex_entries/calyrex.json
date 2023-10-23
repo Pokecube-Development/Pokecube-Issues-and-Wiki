@@ -41,8 +41,7 @@
           "pound",
           "mega-drain",
           "growth",
-          "confusion",
-          "pound"
+          "confusion"
         ]
       },
       {
@@ -115,6 +114,7 @@
       }
     ],
     "misc": [
+      "pound",
       "pay-day",
       "take-down",
       "psybeam",
@@ -153,6 +153,7 @@
       "mud-shot",
       "magical-leaf",
       "calm-mind",
+      "gravity",
       "power-swap",
       "guard-swap",
       "seed-bomb",

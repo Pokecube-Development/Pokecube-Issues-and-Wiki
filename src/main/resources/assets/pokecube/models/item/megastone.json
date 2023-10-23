@@ -1,6 +1,9 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "pokecube:item/megastone"
+    "layer0": "pokecube:item/megastone_0",
+    "layer1": "pokecube:item/megastone_1",
+    "layer2": "pokecube:item/megastone_2",
+    "layer3": "pokecube:item/megastone_3"
   }
 }

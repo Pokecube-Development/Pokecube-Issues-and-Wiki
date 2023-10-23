@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.39"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-80,80" headCap1="-50,50" headDir="-1"/>
+  <metadata head="head" headCap="-80,80" headCap1="-50,50"/>
   <customTex default="frillishmale">
    <part name="Head" tex="frillishmhead"/>
    <animation diffs="0.4,0" part="Head" trigger="random:0.005:1"/>

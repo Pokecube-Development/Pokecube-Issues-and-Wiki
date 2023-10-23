@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="0.85"/>
+  <metadata head="Head" headAxis="1" headCap="-20,20" headCap1="-20,10" headDir2="-1"/>
+  <worn id="__ANKLE_left__" parent="back_left_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.53"/>
+  <worn id="__ANKLE_right__" parent="back_right_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.53"/>
+  <worn id="__BACK__" parent="body" offset="0,0.23,0.07" angles="180,0,180" scale="0.74"/>
+  <worn id="__EAR_left__" parent="left_ear" offset="0.23,-0.1,0.32" angles="0,131,0" scale="2.3"/>
+  <worn id="__EAR_right__" parent="right_ear" offset="-0.23,-0.1,0.32" angles="0,-131,0" scale="2.3"/>
+  <worn id="__EYE__" parent="head" offset="0,0.11,0.18" angles="90,180,0" scale="1.18"/>
+  <worn id="__HAT__" parent="head" offset="0,0.2,0.2" angles="90,180,0" scale="0.9"/>
+  <worn id="__NECK__" parent="head" offset="0,0.2,0.08" angles="0,0,0" scale="1.21"/>
+  <worn id="__WRIST_left__" parent="front_left_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.52"/>
+  <worn id="__WRIST_right__" parent="front_right_leg" offset="0,-0.03,-0.06" angles="90,0,0" scale="0.52"/>
+ </model>
+</ModelAnimator>

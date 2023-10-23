@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.25"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
+  <metadata head="head" headCap="-40,40" headCap1="-40,40"/>
   <phase duration="10" leftArm="" leftLeg="leg1" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="swanna">
    <part name="Head" tex="swannaeye"/>
@@ -22,16 +22,16 @@
     <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
    </part>
    <part name="wing1">
-    <component length="1" name="1" rotOffset="0,30,-70," startKey="0"/>
-   </part>
-   <part name="wing1_1">
-    <component length="1" name="1" rotOffset="10,50,0," startKey="0"/>
+    <component length="1" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="wing2">
-    <component length="1" name="1" rotOffset="0,-30,70," startKey="0"/>
+    <component length="1" name="1" hidden="true" startKey="0"/>
    </part>
-   <part name="wing2_1">
-    <component length="1" name="1" rotOffset="10,-50,0," startKey="0"/>
+   <part name="c_wing1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="c_wing2">
+    <component length="1" name="1" hidden="false" startKey="0"/>
    </part>
   </phase>
   <phase type="walking">
@@ -48,16 +48,16 @@
     <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
    </part>
    <part name="wing1">
-    <component length="1" name="1" rotOffset="0,30,-70," startKey="0"/>
-   </part>
-   <part name="wing1_1">
-    <component length="1" name="1" rotOffset="10,50,0," startKey="0"/>
+    <component length="1" name="1" hidden="true" startKey="0"/>
    </part>
    <part name="wing2">
-    <component length="1" name="1" rotOffset="0,-30,70," startKey="0"/>
+    <component length="1" name="1" hidden="true" startKey="0"/>
    </part>
-   <part name="wing2_1">
-    <component length="1" name="1" rotOffset="10,-50,0," startKey="0"/>
+   <part name="c_wing1">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+   </part>
+   <part name="c_wing2">
+    <component length="1" name="1" hidden="false" startKey="0"/>
    </part>
   </phase>
   <phase type="swimming">
@@ -96,7 +96,12 @@
     <component length="1" name="1" rotOffset="60,0,0," startKey="0"/>
    </part>
   </phase>
-  <phase type="flying">
+  <phase type="floating">
+   <part name="body">
+    <component length="6" name="1" posChange="0,8,0" rotOffset="-20,0,0," startKey="0"/>
+    <component length="6" name="2" posChange="0,-16,0" startKey="5"/>
+    <component length="6" name="3" posChange="0,8,0" startKey="10"/>
+   </part>
    <part name="neck1">
     <component length="10" name="1" rotChange="1,0,0," rotOffset="2,0,0," startKey="0"/>
     <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
@@ -109,15 +114,88 @@
     <component length="10" name="1" rotChange="1,0,0," rotOffset="10,0,0," startKey="0"/>
     <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
    </part>
+   <part name="c_wing1">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="c_wing2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
    <part name="wing1">
-    <component length="10" name="1" rotChange="0,0,-60" rotOffset="0,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,120" startKey="5"/>
-	<component length="10" name="3" rotChange="0,0,-60" startKey="10"/>
+    <component length="6" name="1" rotChange="0,0,45" rotOffset="-5,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,-90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,45" startKey="10"/>
+   </part>
+   <part name="wing1_1">
+    <component length="6" name="1" rotChange="0,0,45" rotOffset="0,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,-90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,45" startKey="10"/>
    </part>
    <part name="wing2">
-    <component length="10" name="1" rotChange="0,0,60" rotOffset="0,0,0" startKey="0"/>
-    <component length="10" name="2" rotChange="0,0,-120" startKey="5"/>
-	<component length="10" name="3" rotChange="0,0,60" startKey="10"/>
+    <component length="6" name="1" rotChange="0,0,-45" rotOffset="-5,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,-45" startKey="10"/>
+   </part>
+   <part name="wing2_1">
+    <component length="6" name="1" rotChange="0,0,-45" rotOffset="0,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,-45" startKey="10"/>
+   </part>
+   <part name="leg1">
+    <component length="1" name="1" rotOffset="30,0,0," startKey="0"/>
+   </part>
+   <part name="leg1_1">
+    <component length="1" name="1" rotOffset="60,0,0," startKey="0"/>
+   </part>
+   <part name="leg2">
+    <component length="1" name="1" rotOffset="30,0,0," startKey="0"/>
+   </part>
+   <part name="leg2_1">
+    <component length="1" name="1" rotOffset="60,0,0," startKey="0"/>
+   </part>
+  </phase>
+  <phase type="flying">
+   <part name="body">
+    <component length="6" name="1" rotOffset="10,0,0," posChange="0,3,0" startKey="0"/>
+    <component length="6" name="2" posChange="0,-6,0" startKey="5"/>
+    <component length="6" name="3" posChange="0,3,0" startKey="10"/>
+   </part>
+   <part name="neck1">
+    <component length="10" name="1" rotChange="1,0,0," rotOffset="2,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="neck2">
+    <component length="10" name="1" rotChange="1,0,0," rotOffset="10,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="neck3">
+    <component length="10" name="1" rotChange="1,0,0," rotOffset="10,0,0," startKey="0"/>
+    <component length="10" name="2" rotChange="-1,0,0," startKey="10"/>
+   </part>
+   <part name="c_wing1">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="c_wing2">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+   </part>
+   <part name="wing1">
+    <component length="6" name="1" rotChange="0,0,45" rotOffset="-5,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,-90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,45" startKey="10"/>
+   </part>
+   <part name="wing1_1">
+    <component length="6" name="1" rotChange="0,0,45" rotOffset="0,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,-90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,45" startKey="10"/>
+   </part>
+   <part name="wing2">
+    <component length="6" name="1" rotChange="0,0,-45" rotOffset="-5,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,-45" startKey="10"/>
+   </part>
+   <part name="wing2_1">
+    <component length="6" name="1" rotChange="0,0,-45" rotOffset="0,0,0" startKey="0"/>
+    <component length="6" name="2" rotChange="0,0,90" startKey="5"/>
+    <component length="6" name="3" rotChange="0,0,-45" startKey="10"/>
    </part>
    <part name="leg1">
     <component length="1" name="1" rotOffset="30,0,0," startKey="0"/>

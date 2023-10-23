@@ -255,15 +255,5 @@
       "tera-blast"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega-X",
-      "item_preset": "charizardmega-x"
-    },
-    {
-      "preset": "Mega-Y",
-      "item_preset": "charizardmega-y"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_3"
 }

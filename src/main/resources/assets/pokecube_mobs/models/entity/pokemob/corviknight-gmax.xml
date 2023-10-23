@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="3.5"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-30,30" headCap1="-30,30" headDir="-1" headDir1="-1"/>
+  <metadata head="head" headCap="-30,30" headCap1="-30,30" headDir1="-1"/>
   <phase duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="corviknight-gmax">
    <part name="Eye" tex="corviknightmaxhead"/>

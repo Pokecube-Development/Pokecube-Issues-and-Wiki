@@ -221,12 +221,5 @@
       "dual-wingbeat"
     ]
   },
-  "evolutions": [
-    {
-      "name": "xatu",
-      "level": 25,
-      "evoMoves": "air-slash"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

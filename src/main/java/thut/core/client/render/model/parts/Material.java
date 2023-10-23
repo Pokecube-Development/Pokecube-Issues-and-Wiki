@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.RenderStateShard.DepthTestStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import thut.api.maths.vecmath.Vec3f;
+import thut.core.client.render.model.parts.textures.BaseTexture;
 
 public class Material
 {
@@ -67,13 +68,20 @@ public class Material
     public boolean flat = true;
     public int[] rgbabro = new int[6];
 
+    public float expectedTexH = -1;
+    public float expectedTexW = -1;
+
+    public BaseTexture texture_object;
+    public Mode vertexMode = null;
+
     public String shader = "";
 
     public RenderTypeProvider renderType = RenderTypeProvider.NORMAL;
 
     static MultiBufferSource.BufferSource lastImpl = null;
 
-    final Map<ResourceLocation, RenderType> types = new Object2ObjectOpenHashMap<>();
+    final Map<String, RenderType> types = new Object2ObjectOpenHashMap<>(2);
+    final Map<ResourceLocation, double[]> uv_scales = new Object2ObjectOpenHashMap<>(2);
 
     public Material(final String name)
     {
@@ -120,8 +128,14 @@ public class Material
     {
         if (Material.lastImpl == null) Material.lastImpl = Minecraft.getInstance().renderBuffers().bufferSource();
         if (this.tex == null || Material.lastImpl == null) return buffer;
+        this.vertexMode = mode;
         final RenderType type = this.makeRenderType(this.tex, mode);
         VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
         return newBuffer;
+    }
+
+    public BaseTexture getTexture()
+    {
+        return texture_object;
     }
 }

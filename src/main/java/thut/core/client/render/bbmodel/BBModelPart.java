@@ -1,12 +1,15 @@
 package thut.core.client.render.bbmodel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Quaternion;
+import com.mojang.math.Vector3f;
 
 import pokecube.api.PokecubeAPI;
 import thut.api.maths.Vector4;
@@ -108,14 +111,46 @@ public class BBModelPart extends Part
     {
         List<Mesh> shapes = new ArrayList<>();
 
-        Map<String, List<List<Object>>> quads_materials = Maps.newHashMap();
-        Map<String, List<List<Object>>> tris_materials = Maps.newHashMap();
+        Map<String, List<List<Object>>> quads_materials = new HashMap<>();
+        Map<String, List<List<Object>>> tris_materials = new HashMap<>();
 
+        float[] oldRots = b.rotation;
+        float[] newRots = oldRots;
+        if (oldRots != null && !t.meta.model_format.equals("bedrock") && !b.box_uv)
+        {
+            newRots = Arrays.copyOf(oldRots, 3);
+
+            Quaternion quat = new Quaternion(0, 0, 0, 1);
+            float x = b.getRotation()[0];
+            float y = b.getRotation()[1];
+            float z = b.getRotation()[2];
+
+            if (b.type.equals("cube"))
+            {
+                if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+            }
+            else if (b.type.equals("mesh"))
+            {
+                if (x != 0) quat.mul(AxisAngles.XP.rotationDegrees(x));
+                if (y != 0) quat.mul(AxisAngles.YP.rotationDegrees(y));
+                if (z != 0) quat.mul(AxisAngles.ZP.rotationDegrees(z));
+            }
+
+            Vector3f xyz = quat.toYXZDegrees();
+            newRots[0] = xyz.x();
+            newRots[1] = xyz.y();
+            newRots[2] = xyz.z();
+        }
+
+        b.rotation = newRots;
         b.toMeshs(t, quads_materials, tris_materials);
+        b.rotation = oldRots;
 
         if (quads_materials.isEmpty() && tris_materials.isEmpty())
             PokecubeAPI.logDebug("No parts for " + t.name + " " + b.name);
-        Map<String, Material> mats = Maps.newHashMap();
+        var mats = t._materials;
 
         quads_materials.forEach((key, lists) -> {
             List<Object> order = lists.get(0);
@@ -124,7 +159,9 @@ public class BBModelPart extends Part
             Mesh m = new JsonMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]),
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
-            Material mat = new Material(m.name);
+            Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            mat.expectedTexH = t.resolution.height;
+            mat.expectedTexW = t.resolution.width;
             mats.put(m.name, mat);
             if (b.box_uv || t.meta.box_uv) mat.cull = true;
             m.setMaterial(mat);
@@ -135,10 +172,14 @@ public class BBModelPart extends Part
             List<Object> order = lists.get(0);
             List<Object> verts = lists.get(1);
             List<Object> tex = lists.get(2);
+
             Mesh m = new X3dMesh(order.toArray(new Integer[0]), verts.toArray(new Vertex[0]), null,
                     tex.toArray(new TextureCoordinate[0]));
             m.name = ThutCore.trim(key);
             Material mat = mats.getOrDefault(m.name, new Material(m.name));
+            mat.expectedTexH = t.resolution.height;
+            mat.expectedTexW = t.resolution.width;
+            mats.put(m.name, mat);
             if (b.box_uv || t.meta.box_uv) mat.cull = true;
             m.setMaterial(mat);
             shapes.add(m);
@@ -167,7 +208,7 @@ public class BBModelPart extends Part
         super.resetToInit();
         rx = ry = rz = 0;
     }
-    
+
     @Override
     public void setDefaultAngles(float rx, float ry, float rz)
     {

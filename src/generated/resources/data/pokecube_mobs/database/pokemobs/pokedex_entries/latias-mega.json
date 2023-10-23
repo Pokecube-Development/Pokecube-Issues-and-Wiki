@@ -2,7 +2,7 @@
   "name": "latias-mega",
   "id": 380,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 315,
   "size": {
     "height": 1.4,
@@ -221,5 +221,6 @@
       "laser-focus"
     ]
   },
+  "sound": "latias-mega",
   "old_name": "latias_mega"
 }

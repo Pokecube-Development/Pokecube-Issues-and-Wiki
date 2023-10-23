@@ -162,6 +162,7 @@
       "strength",
       "solar-beam",
       "earthquake",
+      "fissure",
       "dig",
       "toxic",
       "mimic",
@@ -199,6 +200,7 @@
       "facade",
       "superpower",
       "secret-power",
+      "astonish",
       "air-cutter",
       "rock-tomb",
       "silver-wind",
@@ -212,6 +214,7 @@
       "air-slash",
       "bug-buzz",
       "dragon-pulse",
+      "dragon-rush",
       "earth-power",
       "defog",
       "draco-meteor",
@@ -221,19 +224,14 @@
       "round",
       "struggle-bug",
       "bulldoze",
+      "dragon-tail",
       "boomburst",
       "confide",
+      "laser-focus",
       "throat-chop",
       "dual-wingbeat",
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "flygon",
-      "level": 45,
-      "evoMoves": "dragon-claw"
-    }
-  ],
   "loot_table": "pokecube:entities/sand_2"
 }

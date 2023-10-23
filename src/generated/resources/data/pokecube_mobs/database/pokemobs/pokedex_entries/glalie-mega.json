@@ -2,7 +2,7 @@
   "name": "glalie-mega",
   "id": 362,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 203,
   "size": {
     "height": 2.1
@@ -160,5 +160,6 @@
       "laser-focus"
     ]
   },
+  "sound": "glalie-mega",
   "old_name": "glalie_mega"
 }

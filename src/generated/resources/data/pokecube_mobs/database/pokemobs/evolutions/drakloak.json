@@ -1,0 +1,10 @@
+{
+  "name": "dragapult",
+  "user": "drakloak",
+  "condition": {
+    "key": "level",
+    "level": 60
+  },
+  "evoMoves": "dragon-darts",
+  "animation": "18"
+}

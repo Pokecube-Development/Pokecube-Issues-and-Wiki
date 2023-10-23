@@ -6,6 +6,7 @@
   "refmap": "pokecube.refmap.json",
   "mixins": [
     "MixinBaseFireBlock",
+    "accessors.AttributeMaxAccessor",
     "accessors.ChunkAccessAcessor",
     "accessors.WorldGenRegionAccessor",
     "brain.MixinLivingEntityInit",
@@ -13,6 +14,9 @@
     "brain.MixinMobEntity",
     "entity.ICapabilityCache",
     "entity.BeeHiveFix",
+    "entity.LevelEntityEventServer",
+    "entity.LevelEntityEventClient",
+    "entity.EntityDeathMixin",
     "features.LessJungleBushInStructuresMixin",
     "features.NoBasaltColumnsInStructuresMixin",
     "features.NoDeltasInStructuresMixin",

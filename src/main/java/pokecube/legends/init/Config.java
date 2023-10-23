@@ -15,6 +15,8 @@ import net.minecraft.world.level.Level;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.core.database.Database;
+import pokecube.gimmicks.dynamax.DynamaxRaid;
+import pokecube.gimmicks.terastal.TerastalRaid;
 import pokecube.legends.Reference;
 import pokecube.legends.conditions.custom.LegendaryConditions;
 import pokecube.legends.entity.WormholeEntity;
@@ -65,10 +67,12 @@ public class Config extends ConfigData
     public int ticksPortalDespawn = 1200;
 
     // Ultra Space
-    @Configure(category = "ultraspace", comment = "Allows the Ultra key to consume fuel. [Default: true]")
-    public boolean enableUltraKeyConsume = true;
-    @Configure(category = "ultraspace", comment = "Amount of fuel for the Ultra Key to consume. [Default: 5]")
-    public int ultraKeyConsumeAmount = 5;
+    @Configure(category = "ultraspace", comment = "Requires the Ultra Key to consume Cosmic Dust. [Default: true]")
+    public boolean ultraKeyRequireFuel = true;
+    @Configure(category = "ultraspace", comment = "Amount of Cosmic Dust for the Ultra Key to consume. [Default: 5]")
+    public int ultraKeyRequiredFuelAmount = 5;
+    @Configure(category = "ultraspace", comment = "Cooldown for the Ultra Key in ticks. [Default: 200]")
+    public int ultraKeyCooldown = 200;
 
     // Distortic World
     @Configure(category = "distortic", comment = "Cooldown for the mirror in ticks. [Default: 800]")
@@ -138,6 +142,9 @@ public class Config extends ConfigData
         WormholeSpawns.teleWormholeChanceNormal = this.teleWormholeChanceNormal;
         WormholeSpawns.teleWormholeChanceWorms = this.teleWormholeChanceWorms;
 
+        DynamaxRaid.RAID_DURATION = this.raidDuration;
+        TerastalRaid.RAID_DURATION = this.raidDuration;
+        
         WormholeEntity.WEIGHTED_DIM_MAP.clear();
         WormholeEntity.NO_HOLES.clear();
 
@@ -228,8 +235,8 @@ public class Config extends ConfigData
             }
         });
 
-        if (this.enableUltraKeyConsume == true)
-            if (this.ultraKeyConsumeAmount <= 1 || this.ultraKeyConsumeAmount >= 30) this.ultraKeyConsumeAmount = 5;
+        if (this.ultraKeyRequireFuel == true)
+            if (this.ultraKeyRequiredFuelAmount <= 1 || this.ultraKeyRequiredFuelAmount >= 30) this.ultraKeyRequiredFuelAmount = 5;
 
         if (this.mirrorCooldown <= 300) this.mirrorCooldown = 800;
 

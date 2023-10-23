@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.lakes.general",
       "and_preset": "lakes",
       "entries": [
         {"key": "lotad","min": 1,"max": 4,"rate": 0.4},
@@ -27,6 +28,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.rivers.general",
       "and_preset": "rivers",
       "entries": [
         {"key": "lotad","min": 1,"max": 4,"rate": 0.4},
@@ -45,9 +47,12 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.rivers.ground",
       "and_preset": "river_ground",
       "entries": [
         {"key": "yanma","min": 1,"max": 4,"rate": 0.3},
+        
+        {"key": "smoliv","min": 1,"max": 4,"rate": 0.3},
 
         {"key": "tadbulb","min": 1,"max": 4,"rate": 0.3},
 
@@ -64,12 +69,7 @@
       ]
     },
     {
-      "and_preset": "river_ground, hot_areas",
-      "entries": [
-        {"key": "smoliv","min": 1,"max": 4,"rate": 0.3}
-      ]
-    },
-    {
+      "desc": "pokecube.spawns.lakes.ground",
       "and_preset": "lake_ground",
       "entries": [
         {"key": "surskit","min": 1,"max": 4,"rate": 0.4},
@@ -89,12 +89,14 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.lakes.ground_hot",
       "and_preset": "lake_ground, hot_areas",
       "entries": [
         {"key": "smoliv","min": 1,"max": 4,"rate": 0.4}
       ]
     },
     {
+      "desc": "pokecube.spawns.lakes.water",
       "and_preset": "lake_water",
       "entries": [
         {"key": "magikarp","min": 1,"max": 4,"rate": 1},
@@ -120,6 +122,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.rivers.water",
       "and_preset": "river_water",
       "entries": [
         {"key": "magikarp","min": 1,"max": 4,"rate": 1},

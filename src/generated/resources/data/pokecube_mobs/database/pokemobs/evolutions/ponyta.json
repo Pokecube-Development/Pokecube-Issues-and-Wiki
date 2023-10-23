@@ -1,0 +1,9 @@
+{
+  "name": "rapidash",
+  "user": "ponyta",
+  "condition": {
+    "key": "level",
+    "level": 40
+  },
+  "evoMoves": "fury-attack"
+}

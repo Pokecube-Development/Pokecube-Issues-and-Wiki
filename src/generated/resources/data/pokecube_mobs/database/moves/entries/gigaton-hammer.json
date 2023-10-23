@@ -1,0 +1,11 @@
+{
+  "name": "gigaton-hammer",
+  "id": 893,
+  "power": 160,
+  "pp": 5,
+  "priority": 0,
+  "type": "steel",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

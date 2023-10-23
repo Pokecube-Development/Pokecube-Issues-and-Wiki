@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator>
+ <model>
+  <phase name="global" scale="1.0" offset="0,0.15,0.15" rotation="x:-90,y:0"/>
+ </model>
+</ModelAnimator>

@@ -1,0 +1,11 @@
+{
+  "name": "collision-course",
+  "id": 878,
+  "power": 100,
+  "pp": 5,
+  "priority": 0,
+  "type": "fighting",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

@@ -219,11 +219,5 @@
       "steel-roller"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lairon",
-      "level": 32
-    }
-  ],
   "loot_table": "pokecube:entities/iron_1"
 }

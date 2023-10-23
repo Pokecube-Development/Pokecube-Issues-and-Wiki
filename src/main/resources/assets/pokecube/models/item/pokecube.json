@@ -18,5 +18,13 @@
         0.375
       ]
     }
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pokecube:rendering_overlay": 0.5
+      },
+      "model": "pokecube:item/blank"
+    }
+  ]
 }

@@ -188,11 +188,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "amoonguss",
-      "level": 39
-    }
-  ],
   "loot_table": "pokecube:entities/both_shrooms_1"
 }

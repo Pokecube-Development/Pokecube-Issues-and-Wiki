@@ -1,43 +1,35 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "day_time",
-        "night": "false",
-        "dawn": "false",
-        "dusk": "false",
-        "day": "true",
-        "types": "all"
+      "preset":"day_time",
+      "matchers":{
+        "time":{
+          "preset":"day"
+        }
       }
     },
     {
-      "values": {
-        "preset": "night_time",
-        "night": "true",
-        "dawn": "false",
-        "dusk": "false",
-        "day": "false",
-        "types": "all"
+      "preset":"night_time",
+      "matchers":{
+        "time":{
+          "preset":"night"
+        }
       }
     },
     {
-      "values": {
-        "preset": "dusk",
-        "night": "false",
-        "dawn": "false",
-        "dusk": "true",
-        "day": "false",
-        "types": "all"
+      "preset":"dusk",
+      "matchers":{
+        "time":{
+          "preset":"dusk"
+        }
       }
     },
     {
-      "values": {
-        "preset": "dawn",
-        "night": "false",
-        "dawn": "true",
-        "dusk": "false",
-        "day": "false",
-        "types": "all"
+      "preset":"dawn",
+      "matchers":{
+        "time":{
+          "preset":"dawn"
+        }
       }
     }
   ]

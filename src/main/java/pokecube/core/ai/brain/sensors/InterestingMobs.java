@@ -21,6 +21,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.phys.AABB;
+import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -42,7 +43,6 @@ public class InterestingMobs extends Sensor<LivingEntity>
         if (!pokemob.canBreed()) return false;
         if (!pokemob.getPokedexEntry().breeds) return false;
         if (pokemob.getPokedexEntry().isMega()) return false;
-        if (pokemob.getPokedexEntry().isGMax()) return false;
         if (!pokemob.isRoutineEnabled(AIRoutine.MATE)) return false;
         if (pokemob.getCombatState(CombatStates.MATEFIGHT)) return true;
         if (pokemob.getCombatState(CombatStates.BATTLING) || BrainUtils.hasAttackTarget(pokemob.getEntity()))
@@ -52,11 +52,10 @@ public class InterestingMobs extends Sensor<LivingEntity>
 
     long lastUpdate = 0;
 
-    private boolean isValid(final AgeableMob entityIn, final AgeableMob otherAnimal)
+    private boolean isValid(final AgeableMob entityIn, final AgeableMob otherAnimal, IPokemob other)
     {
         final IBreedingMob us = BreedableCaps.getBreedable(entityIn);
         if (entityIn == otherAnimal) return false;
-        final IPokemob other = PokemobCaps.getPokemobFor(otherAnimal);
         if (other != null && !InterestingMobs.canPokemobMate(other)) return false;
         final IBreedingMob them = BreedableCaps.getBreedable(otherAnimal);
         // Make the breeding check take either direction. This allows checking
@@ -83,6 +82,7 @@ public class InterestingMobs extends Sensor<LivingEntity>
         final List<Projectile> projectiles = Lists.newArrayList();
         final List<LivingEntity> mobs = Lists.newArrayList();
         final List<LivingEntity> visible = Lists.newArrayList();
+        final List<LivingEntity> herd = Lists.newArrayList();
         EntityPokemobEgg egg = null;
         final double dh = 8;
         final double dv = 4;
@@ -98,6 +98,16 @@ public class InterestingMobs extends Sensor<LivingEntity>
         for (final Entity e : list) if (e instanceof LivingEntity living)
         {
             mobs.add(living);
+            IPokemob pokemob = PokemobCaps.getPokemobFor(e);
+            if (pokemob != null && us != null)
+            {
+                boolean bothWild = pokemob.getOwnerId() == null && us.getOwnerId() == null;
+                if (us.getPokedexEntry().areRelated(pokemob.getPokedexEntry())
+                        && (bothWild || TeamManager.sameTeam(entityIn, e)))
+                {
+                    herd.add(living);
+                }
+            }
             if (living instanceof EntityPokemobEgg newEgg && entityIn.getUUID().equals(newEgg.getMotherId()))
             {
                 if (egg == null) egg = newEgg;
@@ -107,7 +117,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
             {
                 visible.add(living);
                 final boolean validMate = canMate && e instanceof AgeableMob mob
-                        && mateBox.intersects(living.getBoundingBox()) && this.isValid((AgeableMob) entityIn, mob);
+                        && mateBox.intersects(living.getBoundingBox())
+                        && this.isValid((AgeableMob) entityIn, mob, pokemob);
                 if (validMate) mates.add((AgeableMob) living);
             }
         }
@@ -122,6 +133,8 @@ public class InterestingMobs extends Sensor<LivingEntity>
         else brain.eraseMemory(MemoryModuleType.NEAREST_LIVING_ENTITIES);
         if (!items.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_ITEMS.get(), items);
         else brain.eraseMemory(MemoryModules.VISIBLE_ITEMS.get());
+        if (!herd.isEmpty()) brain.setMemory(MemoryModules.HERD_MEMBERS.get(), herd);
+        else brain.eraseMemory(MemoryModules.HERD_MEMBERS.get());
         if (!projectiles.isEmpty()) brain.setMemory(MemoryModules.VISIBLE_PROJECTILES.get(), projectiles);
         else brain.eraseMemory(MemoryModules.VISIBLE_PROJECTILES.get());
         if (brain.checkMemory(MemoryModules.EGG.get(), MemoryStatus.REGISTERED))

@@ -141,6 +141,7 @@
       "double-edge",
       "leer",
       "growl",
+      "roar",
       "ember",
       "flamethrower",
       "submission",
@@ -223,13 +224,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "charizard",
-      "level": 36,
-      "animation": "55",
-      "evoMoves": "wing-attack"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_2"
 }

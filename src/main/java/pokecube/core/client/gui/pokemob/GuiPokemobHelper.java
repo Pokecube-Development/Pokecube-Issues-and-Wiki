@@ -23,7 +23,6 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.core.PokecubeCore;
 import pokecube.core.client.render.mobs.RenderMobOverlays;
 import pokecube.core.database.Database;
@@ -111,10 +110,7 @@ public class GuiPokemobHelper
                 var dims = pokemob.getPokedexEntry().getModelSize();
                 mobScale = Math.max(dims.z * mobScale, Math.max(dims.y * mobScale, dims.x * mobScale));
             }
-
-            if (pokemob.getCombatState(CombatStates.DYNAMAX)) scale /= PokecubeCore.getConfig().dynamax_scale;
-            else scale /= mobScale;
-
+            scale /= mobScale;
             scale /= pokemob.getSize();
         }
         mat.pushPose();

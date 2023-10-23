@@ -152,6 +152,7 @@
       "thunder",
       "earthquake",
       "toxic",
+      "confusion",
       "psychic",
       "agility",
       "mimic",
@@ -257,12 +258,6 @@
       "values": {
         "rate": "0.0"
       }
-    }
-  ],
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "latiasmega"
     }
   ],
   "loot_table": "pokecube:entities/chicken_2"

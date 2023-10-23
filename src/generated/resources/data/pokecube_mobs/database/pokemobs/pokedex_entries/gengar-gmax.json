@@ -2,7 +2,7 @@
   "name": "gengar-gmax",
   "id": 94,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 225,
   "size": {
     "height": 5.0,
@@ -34,5 +34,32 @@
       "cursed-body"
     ]
   },
+  "pose_shapes": {
+    "sitting": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-4,0,-4",
+          "size": "8,3,2"
+        }
+      ]
+    },
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-4,0,-4",
+          "size": "8,7.5,2",
+          "ride": "4,3,5"
+        },
+        {
+          "name": "mouth",
+          "offset": "-4,0,-7",
+          "size": "8,7.5,2"
+        }
+      ]
+    }
+  },
+  "sound": "gengar-gmax",
   "old_name": "gengar_gigantamax"
 }

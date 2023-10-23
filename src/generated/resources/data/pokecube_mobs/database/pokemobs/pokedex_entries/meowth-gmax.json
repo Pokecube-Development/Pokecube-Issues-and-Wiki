@@ -2,7 +2,7 @@
   "name": "meowth-gmax",
   "id": 52,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 58,
   "size": {
     "height": 6.0,
@@ -37,5 +37,48 @@
       "unnerve"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,5,3"
+        },
+        {
+          "name": "body1",
+          "offset": "-1.5,5,-1.5",
+          "size": "3,3,3"
+        },
+        {
+          "name": "head",
+          "offset": "-1.5,8.5,-1.5",
+          "size": "3,3,3",
+          "ride": "1.5,0,2"
+        }
+      ]
+    },
+    "walking": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,5,3"
+        },
+        {
+          "name": "body1",
+          "offset": "-1.5,5,2.5",
+          "size": "3,3,3"
+        },
+        {
+          "name": "head",
+          "offset": "-1.5,8.5,3.5",
+          "size": "3,3,3",
+          "ride": "1.5,-2.4,-4"
+        }
+      ]
+    }
+  },
+  "sound": "meowth-gmax",
   "old_name": "meowth_gigantamax"
 }

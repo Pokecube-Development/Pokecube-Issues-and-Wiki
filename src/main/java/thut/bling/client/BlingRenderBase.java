@@ -34,8 +34,7 @@ public abstract class BlingRenderBase
         IModel imodel = Util.getCustomModel(stack);
         if (imodel != null) return imodel;
 
-        if (slot != EnumWearable.BACK)
-        imodel = this.defaultModels.get(slot);
+        if (slot != EnumWearable.BACK) imodel = this.defaultModels.get(slot);
         else imodel = this.backpackModels.get(RegHelper.getKey(stack));
 
         return imodel;
@@ -62,7 +61,7 @@ public abstract class BlingRenderBase
             final String tex = id.getNamespace() + ":textures/item/" + id.getPath() + ".png";
             stack.getTag().putString("gem", tex);
         }
-        if (model == null && slot != EnumWearable.EYE) return;
+        if (model == null) return;
         switch (slot)
         {
         case ANKLE:

@@ -1,0 +1,9 @@
+{
+  "name": "spewpa",
+  "user": "scatterbug",
+  "condition": {
+    "key": "level",
+    "level": 9
+  },
+  "evoMoves": "protect"
+}

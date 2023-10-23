@@ -148,6 +148,8 @@
   "models": [
     {
       "key": "alcremie1",
+      "model": "alcremie",
+      "tex": "alcremie",
       "colours": [
         {
           "material": "head",
@@ -174,6 +176,8 @@
     },
     {
       "key": "alcremie2",
+      "model": "alcremie",
+      "tex": "alcremie",
       "colours": [
         {
           "material": "head",
@@ -200,6 +204,8 @@
     },
     {
       "key": "alcremie3",
+      "model": "alcremie",
+      "tex": "alcremie",
       "colours": [
         {
           "material": "head",
@@ -226,6 +232,8 @@
     },
     {
       "key": "alcremie4",
+      "model": "alcremie",
+      "tex": "alcremie",
       "colours": [
         {
           "material": "head",
@@ -252,6 +260,8 @@
     },
     {
       "key": "alcremie5",
+      "model": "alcremie",
+      "tex": "alcremie",
       "colours": [
         {
           "material": "head",
@@ -278,6 +288,8 @@
     },
     {
       "key": "alcremie6",
+      "model": "alcremie",
+      "tex": "alcremie",
       "colours": [
         {
           "material": "head",
@@ -304,6 +316,8 @@
     },
     {
       "key": "alcremie7",
+      "model": "alcremie",
+      "tex": "alcremie",
       "colours": [
         {
           "material": "head",

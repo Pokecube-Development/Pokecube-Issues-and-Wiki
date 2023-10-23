@@ -1,0 +1,10 @@
+{
+  "name": "corviknight",
+  "user": "corvisquire",
+  "condition": {
+    "key": "level",
+    "level": 38
+  },
+  "evoMoves": "steel-wing",
+  "animation": "18"
+}

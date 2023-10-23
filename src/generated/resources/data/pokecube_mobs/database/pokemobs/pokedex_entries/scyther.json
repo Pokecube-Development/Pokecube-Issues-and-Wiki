@@ -226,6 +226,7 @@
       "struggle-bug",
       "confide",
       "laser-focus",
+      "lunge",
       "brutal-swing",
       "dual-wingbeat",
       "tera-blast",
@@ -233,16 +234,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "scizor",
-      "item_preset": "metalcoat",
-      "trade": true
-    },
-    {
-      "name": "kleavor",
-      "item_preset": "pokecube_mobs:black_metal"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_2"
 }

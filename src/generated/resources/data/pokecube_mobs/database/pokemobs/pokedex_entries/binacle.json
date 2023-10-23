@@ -214,11 +214,5 @@
       "liquidation"
     ]
   },
-  "evolutions": [
-    {
-      "name": "barbaracle",
-      "level": 39
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

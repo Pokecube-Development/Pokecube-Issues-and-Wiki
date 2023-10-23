@@ -188,11 +188,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mudsdale",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/cow_1"
 }

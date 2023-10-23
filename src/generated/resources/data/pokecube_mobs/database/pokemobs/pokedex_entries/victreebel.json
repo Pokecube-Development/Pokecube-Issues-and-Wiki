@@ -41,11 +41,13 @@
         "L": 1,
         "moves": [
           "swords-dance",
+          "slam",
           "vine-whip",
           "wrap",
           "acid",
           "growth",
           "razor-leaf",
+          "poison-powder",
           "stun-spore",
           "sleep-powder",
           "leech-life",
@@ -53,15 +55,12 @@
           "stockpile",
           "spit-up",
           "swallow",
+          "knock-off",
+          "gastro-acid",
           "sucker-punch",
+          "poison-jab",
           "power-whip",
           "clear-smog"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "poison-powder"
         ]
       },
       {
@@ -96,6 +95,7 @@
       "acid",
       "hyper-beam",
       "mega-drain",
+      "growth",
       "razor-leaf",
       "solar-beam",
       "poison-powder",
@@ -107,6 +107,8 @@
       "double-team",
       "reflect",
       "bide",
+      "swift",
+      "leech-life",
       "flash",
       "rest",
       "substitute",
@@ -114,6 +116,7 @@
       "snore",
       "curse",
       "protect",
+      "scary-face",
       "sludge-bomb",
       "giga-drain",
       "endure",
@@ -122,6 +125,7 @@
       "sleep-talk",
       "return",
       "frustration",
+      "encore",
       "sweet-scent",
       "synthesis",
       "hidden-power",
@@ -131,9 +135,13 @@
       "swallow",
       "facade",
       "nature-power",
+      "ingrain",
       "knock-off",
       "secret-power",
+      "weather-ball",
+      "tickle",
       "bullet-seed",
+      "magical-leaf",
       "leaf-blade",
       "natural-gift",
       "gastro-acid",
@@ -149,10 +157,19 @@
       "grass-knot",
       "bug-bite",
       "venoshock",
+      "acid-spray",
       "round",
+      "clear-smog",
       "leaf-tornado",
+      "grassy-terrain",
       "confide",
-      "infestation"
+      "infestation",
+      "strength-sap",
+      "lunge",
+      "grassy-glide",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/wheat_seeds_3"

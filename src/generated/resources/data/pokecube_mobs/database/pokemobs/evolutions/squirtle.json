@@ -1,0 +1,9 @@
+{
+  "name": "wartortle",
+  "user": "squirtle",
+  "condition": {
+    "key": "level",
+    "level": 16
+  },
+  "animation": "9"
+}

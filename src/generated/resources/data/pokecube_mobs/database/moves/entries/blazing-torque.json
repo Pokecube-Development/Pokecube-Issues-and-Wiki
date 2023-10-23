@@ -1,0 +1,11 @@
+{
+  "name": "blazing-torque",
+  "id": 896,
+  "power": 80,
+  "pp": 10,
+  "priority": 0,
+  "type": "fire",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

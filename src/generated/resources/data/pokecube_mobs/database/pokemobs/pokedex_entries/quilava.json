@@ -197,22 +197,9 @@
       "play-rough",
       "confide",
       "burn-up",
+      "burning-jealousy",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "typhlosion",
-      "level": 36
-    },
-    {
-      "name": "typhlosion-hisui",
-      "level": 35,
-      "location": {
-        "and_preset": "spooky_areas"
-      },
-      "evoMoves": "hex"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_2"
 }

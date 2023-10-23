@@ -77,6 +77,30 @@ def get_move(number):
 def url_to_id(var):
     return int(var.url.split('/')[-2])
 
+def load_all_moves():
+    moves_index = get_moves_index()
+    moves_map = {}
+    users_map = {}
+    for key, number in moves_index.items():
+        move = get("move", number)
+        mobs = []
+        if key in moves_map:
+            mobs = moves_map[key]
+        else:
+            moves_map[key] = mobs
+        for entry in move.learned_by_pokemon:
+            name = entry.name
+            mobs.append(name)
+            moves = []
+            if name in users_map:
+                moves = users_map[name]
+            else:
+                users_map[name] = moves
+            if not key in moves:
+                moves.append(key)
+    return moves_map, users_map
+
+
 def load_evo_chains():
     evo_chain_dir = './.cache/api-data/data/api/v2/evolution-chain/'
     evos = {}
@@ -107,7 +131,10 @@ def load_evo_chains():
     return evos
 
 if __name__ == "__main__":
-    evos = load_evo_chains()
-    for key, value in evos.items():
-        print(key)
-        [print(" ",x['name']) for x in value]
+    # evos = load_evo_chains()
+    # for key, value in evos.items():
+    #     print(key)
+    #     [print(" ",x['name']) for x in value]
+    moves, users = load_all_moves()
+    for key, value in users.items():
+        print(key, value)

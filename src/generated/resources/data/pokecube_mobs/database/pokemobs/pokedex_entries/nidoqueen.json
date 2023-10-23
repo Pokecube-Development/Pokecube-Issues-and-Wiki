@@ -57,7 +57,8 @@
           "flatter",
           "helping-hand",
           "superpower",
-          "toxic-spikes"
+          "toxic-spikes",
+          "sludge-wave"
         ]
       },
       {
@@ -97,6 +98,7 @@
       "double-edge",
       "tail-whip",
       "poison-sting",
+      "bite",
       "growl",
       "roar",
       "flamethrower",
@@ -125,6 +127,7 @@
       "bide",
       "fire-blast",
       "skull-bash",
+      "fury-swipes",
       "rest",
       "rock-slide",
       "super-fang",
@@ -159,6 +162,7 @@
       "beat-up",
       "uproar",
       "torment",
+      "flatter",
       "facade",
       "focus-punch",
       "taunt",

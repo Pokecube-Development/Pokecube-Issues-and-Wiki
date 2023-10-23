@@ -1,0 +1,158 @@
+{
+  "name": "okidogi",
+  "id": 1014,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.8
+  },
+  "mass": 92.2,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 88,
+    "attack": 128,
+    "defense": 115,
+    "special_attack": 58,
+    "special_defense": 86,
+    "speed": 80
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "poison",
+    "fighting"
+  ],
+  "abilities": {
+    "normal": [
+      "toxic-chain"
+    ],
+    "hidden": [
+      "guard-dog"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "bite",
+          "low-kick",
+          "bulk-up"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "counter"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "crunch"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "poison-fang"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "howl"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "force-palm"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "giga-impact"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "brutal-swing"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "body-slam",
+      "take-down",
+      "roar",
+      "hyper-beam",
+      "low-kick",
+      "dig",
+      "toxic",
+      "rest",
+      "substitute",
+      "thief",
+      "reversal",
+      "spite",
+      "protect",
+      "scary-face",
+      "sludge-bomb",
+      "outrage",
+      "endure",
+      "sleep-talk",
+      "metal-claw",
+      "crunch",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "brick-break",
+      "knock-off",
+      "rock-tomb",
+      "bulk-up",
+      "poison-tail",
+      "close-combat",
+      "fling",
+      "poison-jab",
+      "drain-punch",
+      "focus-blast",
+      "giga-impact",
+      "shadow-claw",
+      "thunder-fang",
+      "ice-fang",
+      "fire-fang",
+      "gunk-shot",
+      "iron-head",
+      "low-sweep",
+      "snarl",
+      "high-horsepower",
+      "psychic-fangs",
+      "stomping-tantrum",
+      "body-press",
+      "lash-out",
+      "tera-blast"
+    ]
+  }
+}

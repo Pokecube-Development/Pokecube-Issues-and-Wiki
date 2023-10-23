@@ -1,0 +1,9 @@
+{
+  "name": "sharpedo",
+  "user": "carvanha",
+  "condition": {
+    "key": "level",
+    "level": 30
+  },
+  "evoMoves": "slash"
+}

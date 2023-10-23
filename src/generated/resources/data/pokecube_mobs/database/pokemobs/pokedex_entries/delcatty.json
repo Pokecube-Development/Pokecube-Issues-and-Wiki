@@ -42,10 +42,23 @@
         "L": 1,
         "moves": [
           "double-slap",
+          "tackle",
+          "double-edge",
+          "tail-whip",
           "growl",
           "sing",
+          "fury-swipes",
+          "charm",
           "attract",
-          "fake-out"
+          "heal-bell",
+          "fake-out",
+          "facade",
+          "covet",
+          "payback",
+          "copycat",
+          "disarming-voice",
+          "play-rough",
+          "baby-doll-eyes"
         ]
       }
     ],
@@ -109,6 +122,7 @@
       "last-resort",
       "sucker-punch",
       "giga-impact",
+      "nasty-plot",
       "zen-headbutt",
       "captivate",
       "grass-knot",

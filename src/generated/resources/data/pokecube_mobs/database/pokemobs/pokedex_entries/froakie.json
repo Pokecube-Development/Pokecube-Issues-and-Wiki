@@ -40,8 +40,7 @@
         "L": 1,
         "moves": [
           "pound",
-          "growl",
-          "pound"
+          "growl"
         ]
       },
       {
@@ -197,12 +196,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "frogadier",
-      "level": 16,
-      "animation": "9"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

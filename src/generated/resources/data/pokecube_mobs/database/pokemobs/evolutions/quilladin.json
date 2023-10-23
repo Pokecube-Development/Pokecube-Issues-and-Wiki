@@ -1,0 +1,10 @@
+{
+  "name": "chesnaught",
+  "user": "quilladin",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "spiky-shield",
+  "animation": "18"
+}

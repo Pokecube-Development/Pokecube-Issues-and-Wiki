@@ -1,0 +1,15 @@
+{
+  "name": "dusknoir",
+  "user": "dusclops",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:reapercloth"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

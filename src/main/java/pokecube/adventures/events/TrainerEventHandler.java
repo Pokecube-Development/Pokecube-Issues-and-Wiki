@@ -90,6 +90,7 @@ import pokecube.api.events.pokemobs.RecallEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SendOut;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.ai.BrainInitEvent;
+import pokecube.api.moves.Battle;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.npc.Activities;
@@ -99,6 +100,7 @@ import pokecube.core.database.pokedex.PokedexEntryLoader.Drop;
 import pokecube.core.entity.npc.NpcMob;
 import pokecube.core.entity.npc.NpcType;
 import pokecube.core.eventhandlers.SpawnHandler;
+import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
@@ -520,15 +522,24 @@ public class TrainerEventHandler
                 if (canTrade) state = MessageState.INTERACT;
             }
             final int timer = player.tickCount;
-            if (player.getPersistentData().getInt("__msg_sent_last_") != timer)
-                messages.sendMessage(state, player, target.getDisplayName(), player.getDisplayName());
-            player.getPersistentData().putInt("__msg_sent_last_", timer);
-            if (messages.doAction(state,
-                    pokemobs.setLatestContext(new ActionContext(player, living, evt.getItemStack()))))
+            if (player.getPersistentData().getInt("__msg_sent_last_") == timer)
             {
                 evt.setCanceled(true);
                 evt.setCancellationResult(succeed);
             }
+            else
+            {
+                if (player.getPersistentData().getInt("__msg_sent_last_") != timer)
+                    messages.sendMessage(state, player, target.getDisplayName(), player.getDisplayName());
+                player.getPersistentData().putInt("__msg_sent_last_", timer);
+                if (messages.doAction(state,
+                        pokemobs.setLatestContext(new ActionContext(player, living, evt.getItemStack()))))
+                {
+                    evt.setCanceled(true);
+                    evt.setCancellationResult(succeed);
+                }
+            }
+
         }
     }
 
@@ -591,6 +602,7 @@ public class TrainerEventHandler
     {
         final boolean isPlayerOrUnknown = evt.owner == null || evt.players;
         if (isPlayerOrUnknown) return;
+        if (PokecubeMod.fakeUUID.equals(evt.owner)) return;
         // This prevents the cube from ending up on the ground when recalled
         evt.setCanceled(true);
     }
@@ -610,6 +622,29 @@ public class TrainerEventHandler
         if (pokemobHolder != null)
         {
             if (recalled == pokemobHolder.getOutMob()) pokemobHolder.setOutMob(null);
+
+            // If the npc was battling, we need to ensure that the target
+            // pokemob has a cooldown set, otherwise it might auto-switch to us
+            // directly.
+            if (recalled.getMoveStats().targetEnemy != null)
+            {
+                IPokemob targetMob = PokemobCaps.getPokemobFor(recalled.getMoveStats().targetEnemy);
+                if (targetMob != null)
+                {
+                    // If we have a new pokemob to send out, add an attack
+                    // cooldown for the pokemob.
+                    if (!pokemobHolder.getNextPokemob().isEmpty())
+                    {
+                        targetMob.setAttackCooldown(PokecubeAdv.config.trainerSendOutDelay);
+                    }
+                    else
+                    {
+                        // Otherwise, remove us from the battle.
+                        Battle b = Battle.getBattle(owner);
+                        if (b != null) b.removeFromBattle(owner);
+                    }
+                }
+            }
             pokemobHolder.addPokemob(PokecubeManager.pokemobToItem(recalled));
             evt.setCanceled(true);
             recalled.markRemoved();
@@ -626,8 +661,15 @@ public class TrainerEventHandler
     {
         final IPokemob sent = evt.pokemob;
         final LivingEntity owner = sent.getOwner();
-        if (owner == null || owner instanceof Player) return;
         final IHasPokemobs pokemobHolder = TrainerCaps.getHasPokemobs(owner);
+        if (owner == null || owner instanceof Player)
+        {
+            if (pokemobHolder != null)
+            {
+                pokemobHolder.setOutMob(evt.pokemob);
+            }
+            return;
+        }
         if (pokemobHolder != null)
         {
             if (pokemobHolder.getOutMob() != null && pokemobHolder.getOutMob() != evt.pokemob)

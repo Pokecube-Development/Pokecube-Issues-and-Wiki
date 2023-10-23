@@ -1,0 +1,10 @@
+{
+  "name": "ampharos",
+  "user": "flaaffy",
+  "condition": {
+    "key": "level",
+    "level": 30
+  },
+  "evoMoves": "thunder-punch",
+  "animation": "20"
+}

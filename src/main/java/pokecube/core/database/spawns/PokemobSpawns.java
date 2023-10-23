@@ -40,6 +40,7 @@ public class PokemobSpawns extends ResourceData
     public static final class SpawnEntry
     {
         public List<MobEntry> entries = Lists.newArrayList();
+        public String desc;
         public String and_preset;
         public String not_preset;
         public String or_preset;
@@ -54,6 +55,12 @@ public class PokemobSpawns extends ResourceData
         public int level = -1;
         public String variance;
         public String variant = "";
+
+        @Override
+        public String toString()
+        {
+            return JsonUtil.gson.toJson(this);
+        }
     }
 
     private static final SpawnList MASTER_LIST = new SpawnList();
@@ -105,12 +112,12 @@ public class PokemobSpawns extends ResourceData
                 rule = SpawnPresets.PRESETS.get(preset);
                 if (rule != null) rule = rule.copy();
 
-                if (presets.length > 1)
+                if (presets.length > 0)
                 {
                     // In this case, we merge all of the other rules in via
                     // ANDPRESETS
                     rule = new SpawnRule();
-                    rule.values.put(SpawnBiomeMatcher.ANDPRESET, entry.and_preset);
+                    rule.and_preset = entry.and_preset;
                 }
             }
 
@@ -123,17 +130,17 @@ public class PokemobSpawns extends ResourceData
                     rule = SpawnPresets.PRESETS.get(preset);
                     if (rule != null) rule = rule.copy();
 
-                    if (presets.length > 1)
+                    if (presets.length > 0)
                     {
                         // In this case, we merge all of the other rules in via
                         // ORPRESETS
                         rule = new SpawnRule();
-                        rule.values.put(SpawnBiomeMatcher.ORPRESET, entry.or_preset);
+                        rule.or_preset = entry.or_preset;
                     }
                 }
                 else
                 {
-                    rule.values.put(SpawnBiomeMatcher.ORPRESET, entry.or_preset);
+                    rule.or_preset = entry.or_preset;
                 }
             }
 
@@ -143,7 +150,7 @@ public class PokemobSpawns extends ResourceData
                 if (entry.not_preset != null)
                 {
                     // Finally add in the NOTPRESET
-                    rule.values.put(SpawnBiomeMatcher.NOTPRESET, entry.not_preset);
+                    rule.not_preset = entry.not_preset;
                 }
 
                 // Final instance of rule so that it works in the below lambda
@@ -171,6 +178,7 @@ public class PokemobSpawns extends ResourceData
                         customRule.values.put("rate", mob.rate + "");
                         if (mob.level > 0) customRule.values.put("level", mob.level + "");
                         if (mob.variance != null) customRule.values.put("variance", mob.variance);
+                        if (entry.desc != null) customRule.desc = entry.desc;
                         final SpawnBiomeMatcher matcher = SpawnBiomeMatcher.get(customRule);
                         PokedexEntryLoader.handleAddSpawn(poke, matcher);
                     }
@@ -220,7 +228,7 @@ public class PokemobSpawns extends ResourceData
                 final List<SpawnEntry> conds = m.rules;
                 for (final SpawnEntry rule : conds)
                 {
-                    if (rule.and_preset == null && rule.or_preset == null)
+                    if (rule.and_preset == null && rule.or_preset == null && rule.not_preset == null)
                     {
                         PokecubeAPI.LOGGER.error("Missing preset tag for {}, skipping it.", rule.entries);
                         continue;

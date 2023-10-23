@@ -1,0 +1,10 @@
+{
+  "name": "sceptile",
+  "user": "grovyle",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "dual-chop",
+  "animation": "18"
+}

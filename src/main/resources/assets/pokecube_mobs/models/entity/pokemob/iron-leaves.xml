@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model>
   <phase name="global" scale="0.16"/>
-  <metadata head="neck:neck1:neck2:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-15,15" headDir="-1"/>
+  <metadata head="neck:neck1:neck2:head" headCap="-10,10" headCap1="-15,15"/>
   <phase duration="8" leftFront="leg4:foot4" leftHind="leg2:foot2" name="quadWalk" rightFront="leg3:foot3" rightHind="leg1:foot1"/>
   <customTex default="iron_leaves">
    <part name="Head" tex="iron_leaves_eye"/>

@@ -40,8 +40,7 @@
           "confusion",
           "mimic",
           "transform",
-          "reflect-type",
-          "pound"
+          "reflect-type"
         ]
       },
       {
@@ -179,6 +178,7 @@
       "defense-curl",
       "barrier",
       "light-screen",
+      "haze",
       "reflect",
       "focus-energy",
       "bide",
@@ -265,6 +265,7 @@
       "facade",
       "focus-punch",
       "nature-power",
+      "charge",
       "taunt",
       "helping-hand",
       "trick",
@@ -446,6 +447,7 @@
       "throat-chop",
       "pollen-puff",
       "psychic-terrain",
+      "lunge",
       "speed-swap",
       "smart-strike",
       "brutal-swing",

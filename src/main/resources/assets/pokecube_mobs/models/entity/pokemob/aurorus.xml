@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.8"/>
-  <metadata head="neck1:head" headAxis="2" headAxis2="0" headCap="-45,45" headCap1="-30,30" headDir="-1"/>
+  <metadata head="neck1:head" headCap="-45,45" headCap1="-30,30"/>
   <phase duration="10" leftFront="leg2:leg2_1" leftHind="leg4:leg4_1" name="quadWalk" rightFront="leg3:leg3_1" rightHind="leg1:leg1_1"/>
   <customTex default="aurorus">
    <part name="Head" tex="auroruseye"/>

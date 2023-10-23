@@ -1,0 +1,10 @@
+{
+  "user": "latios",
+  "name": "latios-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:latiosmega"
+    }
+  }
+}

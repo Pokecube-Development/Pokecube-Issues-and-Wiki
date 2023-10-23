@@ -171,6 +171,7 @@
       "uproar",
       "facade",
       "focus-punch",
+      "charge",
       "helping-hand",
       "brick-break",
       "secret-power",
@@ -195,11 +196,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "electabuzz",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

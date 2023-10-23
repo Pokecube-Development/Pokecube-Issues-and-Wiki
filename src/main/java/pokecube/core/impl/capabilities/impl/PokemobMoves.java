@@ -21,6 +21,7 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
+import pokecube.api.events.pokemobs.combat.MoveUse.ActualMoveUse;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
@@ -32,7 +33,6 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect;
 import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketSyncMoveUse;
 import pokecube.core.utils.AITools;
 import thut.api.entity.ICopyMob;
@@ -78,57 +78,63 @@ public abstract class PokemobMoves extends PokemobStats
         // graphical indicator of move cooldowns
         PacketSyncMoveUse.sendUpdate(this);
 
-        final int statusChange = this.getChanges();
-        final IPokemob targetMob = PokemobCaps.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
-        if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)
+        if (!PokecubeAPI.MOVE_BUS.post(new ActualMoveUse.PreMoveStatus(this, move, target)))
         {
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red", this.getDisplayName());
-            this.displayMessageToOwner(mess);
-            if (targetMob != null)
+            final int statusChange = this.getChanges();
+            final IPokemob targetMob = PokemobCaps.getPokemobFor(BrainUtils.getAttackTarget(this.getEntity()));
+            if ((statusChange & IMoveConstants.CHANGE_FLINCH) != 0)
             {
-                mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "green", this.getDisplayName());
-                targetMob.displayMessageToOwner(mess);
-            }
-            this.removeChange(IMoveConstants.CHANGE_FLINCH);
-            return;
-        }
-
-        if ((statusChange & IMoveConstants.CHANGE_CONFUSED) != 0) if (Math.random() > 0.75)
-        {
-            this.removeChange(IMoveConstants.CHANGE_CONFUSED);
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "green",
-                    this.getDisplayName());
-            if (targetMob != null)
-            {
-                mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "red",
+                Component mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "red",
                         this.getDisplayName());
-                targetMob.displayMessageToOwner(mess);
+                this.displayMessageToOwner(mess);
+                if (targetMob != null)
+                {
+                    mess = CommandTools.makeTranslatedMessage("pokemob.status.flinch", "green", this.getDisplayName());
+                    targetMob.displayMessageToOwner(mess);
+                }
+                this.removeChange(IMoveConstants.CHANGE_FLINCH);
+                return;
             }
-            this.displayMessageToOwner(mess);
-        }
-        else if (Math.random() > 0.5)
-        {
-            MovesUtils.doAttack(MoveEntry.CONFUSED.name, this, this.getEntity());
-            Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red",
-                    this.getDisplayName());
-            if (targetMob != null)
+
+            if ((statusChange & IMoveConstants.CHANGE_CONFUSED) != 0) if (Math.random() > 0.75)
             {
-                mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "green", this.getDisplayName());
-                targetMob.displayMessageToOwner(mess);
+                this.removeChange(IMoveConstants.CHANGE_CONFUSED);
+                Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "green",
+                        this.getDisplayName());
+                if (targetMob != null)
+                {
+                    mess = CommandTools.makeTranslatedMessage("pokemob.status.confuse.remove", "red",
+                            this.getDisplayName());
+                    targetMob.displayMessageToOwner(mess);
+                }
+                this.displayMessageToOwner(mess);
             }
-            this.displayMessageToOwner(mess);
-            return;
+            else if (Math.random() > 0.5)
+            {
+                MovesUtils.doAttack(MoveEntry.CONFUSED.name, this, this.getEntity());
+                Component mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "red",
+                        this.getDisplayName());
+                if (targetMob != null)
+                {
+                    mess = CommandTools.makeTranslatedMessage("pokemob.status.confusion", "green",
+                            this.getDisplayName());
+                    targetMob.displayMessageToOwner(mess);
+                }
+                this.displayMessageToOwner(mess);
+                return;
+            }
+
+            if (this.getMoveStats().infatuateTarget != null)
+                if (!this.getMoveStats().infatuateTarget.isAlive()) this.getMoveStats().infatuateTarget = null;
+                else if (Math.random() > 0.5)
+            {
+                final Component mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red",
+                        this.getDisplayName());
+                this.displayMessageToOwner(mess);
+                return;
+            }
         }
 
-        if (this.getMoveStats().infatuateTarget != null)
-            if (!this.getMoveStats().infatuateTarget.isAlive()) this.getMoveStats().infatuateTarget = null;
-            else if (Math.random() > 0.5)
-        {
-            final Component mess = CommandTools.makeTranslatedMessage("pokemob.status.infatuate", "red",
-                    this.getDisplayName());
-            this.displayMessageToOwner(mess);
-            return;
-        }
         if (this.here == null) this.here = new Vector3();
         this.here.set(this.getEntity()).addTo(0, this.getEntity().getEyeHeight(), 0);
         MovesUtils.useMove(move, this.getEntity(), target, this.here, targetLocation);
@@ -160,37 +166,6 @@ public abstract class PokemobMoves extends PokemobStats
     {
         final byte ret = this.dataSync().get(this.params.MOVEINDEXDW);
         return Math.max(0, ret);
-    }
-
-    @Override
-    public String[] getMoves()
-    {
-        final IPokemob transformed = PokemobCaps.getPokemobFor(this.getTransformedTo());
-        if (transformed != null) return this.getMoveStats().transformedMoves;
-        return super.getMoves();
-    }
-
-    @Override
-    public String[] getGZMoves()
-    {
-        // We can do processing here to see what moves to supply.
-        final String[] g_z_moves = super.getGZMoves();
-        final String[] moves = this.getMoves();
-        boolean gigant = this.getCombatState(CombatStates.DYNAMAX)
-                && this.getPokedexEntry().getTrimmedName().contains("-gmax");
-        for (int i = 0; i < 4; i++)
-        {
-            final String gmove = GZMoveManager.getGMove(this, moves[i], gigant);
-            if (gmove != null)
-            {
-                if (gmove.startsWith("gmax")) gigant = false;
-                g_z_moves[i] = gmove;
-                continue;
-            }
-            final String zmove = GZMoveManager.getZMove(this, moves[i]);
-            g_z_moves[i] = zmove;
-        }
-        return g_z_moves;
     }
 
     @Override
@@ -278,14 +253,25 @@ public abstract class PokemobMoves extends PokemobStats
         {
             Battle b = Battle.getBattle(entity);
 
-            // If we have no battle, but owner does, we join owner's battle
-            if (b == null && owner != null)
+            if (owner != null)
             {
-                b = Battle.getBattle(owner);
-                if (b != null)
+                Battle b2 = Battle.getBattle(owner);
+                if (b2 != b)
                 {
-                    var mobs = b.getEnemies(owner);
-                    if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.get(0));
+                    // If owner has no battle, but we do, owner joins our battle
+                    if (b2 == null)
+                    {
+                        var mobs = b.getEnemies(entity);
+                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(owner, mobs.get(0));
+                    }
+                    else if (b == null)
+                    {
+                        // If we have no battle, but owner does, we join owner's
+                        // battle
+                        b = b2;
+                        var mobs = b.getEnemies(owner);
+                        if (!mobs.isEmpty()) Battle.createOrAddToBattle(entity, mobs.get(0));
+                    }
                 }
             }
             this.setBattle(b);
@@ -347,7 +333,7 @@ public abstract class PokemobMoves extends PokemobStats
                 // Check if the new target is still a combat member, if so, swap
                 // over to it
                 int i = mobs.indexOf(brainTarget);
-                if (i != -1)
+                if (i != -1 && target == null)
                 {
                     this.getMoveStats().enemyIndex = i;
                     target = brainTarget;

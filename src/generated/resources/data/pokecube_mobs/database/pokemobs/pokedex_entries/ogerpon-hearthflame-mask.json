@@ -1,0 +1,165 @@
+{
+  "name": "ogerpon-hearthflame-mask",
+  "id": 1017,
+  "stock": true,
+  "is_extra_form": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.2
+  },
+  "mass": 39.8,
+  "is_default": false,
+  "capture_rate": 5,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 80,
+    "attack": 120,
+    "defense": 84,
+    "special_attack": 60,
+    "special_defense": 96,
+    "speed": 110
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "grass",
+    "fire"
+  ],
+  "abilities": {
+    "normal": [
+      "mold-breaker"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 18,
+        "moves": [
+          "slam"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "vine-whip",
+          "leech-seed",
+          "quick-attack",
+          "follow-me"
+        ]
+      },
+      {
+        "L": 12,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "focus-energy"
+        ]
+      },
+      {
+        "L": 42,
+        "moves": [
+          "synthesis"
+        ]
+      },
+      {
+        "L": 60,
+        "moves": [
+          "superpower"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "power-whip"
+        ]
+      },
+      {
+        "L": 66,
+        "moves": [
+          "wood-hammer"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "low-sweep"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "spiky-shield"
+        ]
+      },
+      {
+        "L": 36,
+        "moves": [
+          "throat-chop"
+        ]
+      },
+      {
+        "L": 30,
+        "moves": [
+          "ivy-cudgel"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "double-kick",
+      "take-down",
+      "low-kick",
+      "counter",
+      "solar-beam",
+      "rest",
+      "substitute",
+      "reversal",
+      "protect",
+      "scary-face",
+      "spikes",
+      "sandstorm",
+      "giga-drain",
+      "endure",
+      "charm",
+      "false-swipe",
+      "sleep-talk",
+      "encore",
+      "rain-dance",
+      "sunny-day",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "knock-off",
+      "rock-tomb",
+      "bullet-seed",
+      "magical-leaf",
+      "u-turn",
+      "fling",
+      "seed-bomb",
+      "energy-ball",
+      "giga-impact",
+      "zen-headbutt",
+      "leaf-storm",
+      "grass-knot",
+      "low-sweep",
+      "retaliate",
+      "horn-leech",
+      "grassy-terrain",
+      "play-rough",
+      "solar-blade",
+      "stomping-tantrum",
+      "grassy-glide",
+      "lash-out",
+      "tera-blast",
+      "trailblaze"
+    ]
+  }
+}

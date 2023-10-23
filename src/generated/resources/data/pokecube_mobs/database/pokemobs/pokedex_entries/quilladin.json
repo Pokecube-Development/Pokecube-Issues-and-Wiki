@@ -208,17 +208,10 @@
       "confide",
       "power-up-punch",
       "stomping-tantrum",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "chesnaught",
-      "level": 36,
-      "animation": "18",
-      "evoMoves": "spiky-shield"
-    }
-  ],
   "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

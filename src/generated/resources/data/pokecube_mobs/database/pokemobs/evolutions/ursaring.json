@@ -1,0 +1,47 @@
+[
+  {
+    "name": "ursaluna",
+    "user": "ursaring",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube_mobs:peat_block"
+        }
+      }
+    ]
+  },
+  {
+    "name": "ursaluna-bloodmoon",
+    "user": "ursaring",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "and_preset": "spooky_areas",
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube_mobs:peat_block"
+        }
+      }
+    ]
+  }
+]

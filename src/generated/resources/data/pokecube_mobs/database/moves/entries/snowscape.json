@@ -1,0 +1,10 @@
+{
+  "name": "snowscape",
+  "id": 883,
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "ice",
+  "target": "entire-field",
+  "damage_class": "status"
+}

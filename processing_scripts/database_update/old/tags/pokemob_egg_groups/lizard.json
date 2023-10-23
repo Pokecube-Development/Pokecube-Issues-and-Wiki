@@ -5,14 +5,14 @@
     "pokecube:charmeleon",
     "pokecube:charizard",
     "pokecube:slowpoke",
-    "pokecube:slowpoke_galar",
+    "pokecube:slowpoke-galar",
     "pokecube:slowbro",
-    "pokecube:slowbro_mega",
-    "pokecube:slowbro_galar",
+    "pokecube:slowbro-mega",
+    "pokecube:slowbro-galar",
     "pokecube:treecko",
     "pokecube:grovyle",
     "pokecube:sceptile",
-    "pokecube:sceptile_mega",
+    "pokecube:sceptile-mega",
     "pokecube:kecleon",
     "pokecube:helioptile",
     "pokecube:heliolisk",
@@ -25,7 +25,7 @@
     "pokecube:drizzile",
     "pokecube:inteleon",
     "pokecube:toxel",
-    "pokecube:toxtricity_amped",
-    "pokecube:toxtricity_lowkey"
+    "pokecube:toxtricity-amped",
+    "pokecube:toxtricity-low-key"
   ]
 }

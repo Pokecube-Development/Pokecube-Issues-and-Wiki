@@ -195,12 +195,5 @@
       "flip-turn"
     ]
   },
-  "evolutions": [
-    {
-      "name": "sharpedo",
-      "level": 30,
-      "evoMoves": "slash"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

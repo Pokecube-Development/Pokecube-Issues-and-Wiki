@@ -1,0 +1,74 @@
+[
+  {
+    "name": "flapple",
+    "user": "applin",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "id": "minecraft:golden_apple"
+        }
+      }
+    ],
+    "evoMoves": "wing-attack",
+    "animation": "18"
+  },
+  {
+    "name": "appletun",
+    "user": "applin",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "day"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "id": "minecraft:golden_apple"
+        }
+      }
+    ],
+    "evoMoves": "headbutt",
+    "animation": "18"
+  },
+  {
+    "name": "dipplin",
+    "user": "applin",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "dawn"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "id": "minecraft:golden_apple"
+        }
+      }
+    ],
+    "evoMoves": "double-hit",
+    "animation": "18"
+  }
+]

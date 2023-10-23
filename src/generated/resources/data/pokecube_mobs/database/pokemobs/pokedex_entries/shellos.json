@@ -215,29 +215,5 @@
       "anim": "shellos_west"
     }
   ],
-  "evolutions": [
-    {
-      "name": "gastrodon",
-      "level": 30,
-      "form_from": "shellos_east",
-      "model": {
-        "key": "gastrodon-east",
-        "tex": "gastrodon-east",
-        "model": "gastrodon-east",
-        "anim": "gastrodon-east"
-      }
-    },
-    {
-      "name": "gastrodon",
-      "level": 30,
-      "form_from": "shellos_west",
-      "model": {
-        "key": "gastrodon-west",
-        "tex": "gastrodon-west",
-        "model": "gastrodon-west",
-        "anim": "gastrodon-west"
-      }
-    }
-  ],
   "loot_table": "pokecube:entities/slimeballs_1"
 }

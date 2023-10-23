@@ -2,7 +2,7 @@
   "name": "venusaur-gmax",
   "id": 3,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 236,
   "size": {
     "height": 5.0,
@@ -38,5 +38,18 @@
       "chlorophyll"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-4,0,-4",
+          "size": "8,7,5",
+          "ride": "4,6.5,4"
+        }
+      ]
+    }
+  },
+  "sound": "venusaur-gmax",
   "old_name": "venusaur_gigantamax"
 }

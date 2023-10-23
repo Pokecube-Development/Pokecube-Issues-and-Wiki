@@ -30,6 +30,7 @@ import pokecube.api.events.combat.JoinBattleEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.brain.BrainUtils;
 import pokecube.core.utils.AITools;
+import thut.api.maths.Vector3;
 import thut.api.world.IWorldTickListener;
 import thut.api.world.WorldTickManager;
 
@@ -137,6 +138,8 @@ public class Battle
             final BattleManager manager = BattleManager.managers.get(level.dimension());
             final Battle battle = new Battle(level, manager);
             battle.addToBattle(mobA, mobB);
+            Vector3 centre = new Vector3(mobA).addTo(mobB.getX(), mobB.getY(), mobB.getZ()).scalarMultBy(0.5);
+            battle.setCentre(centre);
             manager.addBattle(battle);
             battle.start();
         }
@@ -159,12 +162,14 @@ public class Battle
     private final ServerLevel world;
     private final BattleManager manager;
 
+    private Vector3 centre = null;
+
     private final Object2IntArrayMap<LivingEntity> aliveTracker = new Object2IntArrayMap<>();
 
     boolean valid = false;
     boolean ended = false;
 
-    public Battle(final ServerLevel world, final BattleManager manager)
+    private Battle(final ServerLevel world, final BattleManager manager)
     {
         this.aliveTracker.defaultReturnValue(0);
         this.manager = manager;
@@ -255,7 +260,7 @@ public class Battle
         s2.sort(BATTLESORTER);
     }
 
-    private void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
+    public void addToBattle(final LivingEntity mobA, final LivingEntity mobB)
     {
         final String teamA = TeamManager.getTeam(mobA);
         final String teamB = TeamManager.getTeam(mobB);
@@ -268,6 +273,9 @@ public class Battle
 
         final boolean bIs1 = this.side1.containsKey(mobB.getUUID());
         final boolean bIs2 = this.side2.containsKey(mobB.getUUID());
+
+        // Already in the battle, so skip.
+        if ((aIs1 || aIs2) && (bIs1 || bIs2)) return;
 
         if (aIs1 || bIs2)
         {
@@ -475,5 +483,15 @@ public class Battle
     public int hashCode()
     {
         return this.battleID.hashCode();
+    }
+
+    public Vector3 getCentre()
+    {
+        return centre;
+    }
+
+    public void setCentre(Vector3 centre)
+    {
+        this.centre = centre;
     }
 }

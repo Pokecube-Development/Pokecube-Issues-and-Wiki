@@ -45,7 +45,8 @@
           "leer",
           "water-gun",
           "agility",
-          "rage"
+          "rage",
+          "mud-slap"
         ]
       },
       {
@@ -64,6 +65,13 @@
         "L": 76,
         "moves": [
           "hydro-pump"
+        ]
+      },
+      {
+        "L": 37,
+        "moves": [
+          "low-kick",
+          "chip-away"
         ]
       },
       {
@@ -112,12 +120,6 @@
         "L": 21,
         "moves": [
           "ice-fang"
-        ]
-      },
-      {
-        "L": 37,
-        "moves": [
-          "chip-away"
         ]
       }
     ],

@@ -1,0 +1,10 @@
+{
+  "name": "flower-trick",
+  "id": 870,
+  "power": 70,
+  "pp": 10,
+  "priority": 0,
+  "type": "grass",
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

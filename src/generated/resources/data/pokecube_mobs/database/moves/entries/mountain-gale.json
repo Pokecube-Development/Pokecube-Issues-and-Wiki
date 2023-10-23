@@ -1,0 +1,11 @@
+{
+  "name": "mountain-gale",
+  "id": 836,
+  "power": 100,
+  "pp": 10,
+  "priority": 0,
+  "type": "ice",
+  "accuracy": 85,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

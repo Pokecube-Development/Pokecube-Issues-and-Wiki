@@ -13,8 +13,8 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.vecmath.Vec3f;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.parts.Material;
 import thut.core.client.render.texturing.IPartTexturer;
 import thut.core.client.render.texturing.IRetexturableModel;

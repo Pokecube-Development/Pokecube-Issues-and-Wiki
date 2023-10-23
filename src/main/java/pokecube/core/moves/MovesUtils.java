@@ -57,7 +57,6 @@ import pokecube.core.impl.entity.impl.PersistantStatusEffect.Status;
 import pokecube.core.impl.entity.impl.StatEffect;
 import pokecube.core.moves.MoveQueue.MoveQueuer;
 import pokecube.core.moves.damage.EntityMoveUse;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PacketSyncModifier;
 import thut.api.boom.ExplosionCustom;
@@ -749,8 +748,6 @@ public class MovesUtils implements IMoveConstants
                     if (s != target) use.set(s);
 
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, use);
-                    if (GZMoveManager.zmoves_map.containsValue(move.name))
-                        pokemob.setCombatState(CombatStates.USEDZMOVE, true);
 
                     if (PokecubeCore.getConfig().debug_moves) PokecubeAPI.logInfo("Queuing move: {} used by {} on {}",
                             move.name, user.getDisplayName().getString(), s.getDisplayName().getString());
@@ -776,8 +773,6 @@ public class MovesUtils implements IMoveConstants
                         if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)))
                             break apply_test;
                         final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
-                        if (GZMoveManager.zmoves_map.containsValue(move.name))
-                            pokemob.setCombatState(CombatStates.USEDZMOVE, true);
                         MoveQueuer.queueMove(moveUse);
                         did = true;
                     }
@@ -789,8 +784,6 @@ public class MovesUtils implements IMoveConstants
                         break apply_test;
                     if (mob != target) end.set(mob);
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
-                    if (GZMoveManager.zmoves_map.containsValue(move.name))
-                        pokemob.setCombatState(CombatStates.USEDZMOVE, true);
                     MoveQueuer.queueMove(moveUse);
                     did = true;
                 }
@@ -800,8 +793,6 @@ public class MovesUtils implements IMoveConstants
                     if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, null)))
                         break apply_test;
                     final EntityMoveUse moveUse = EntityMoveUse.create(level, apply, end);
-                    if (GZMoveManager.zmoves_map.containsValue(move.name))
-                        pokemob.setCombatState(CombatStates.USEDZMOVE, true);
                     MoveQueuer.queueMove(moveUse);
                     did = true;
                 }

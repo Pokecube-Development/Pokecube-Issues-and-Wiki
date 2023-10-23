@@ -1,0 +1,9 @@
+{
+  "name": "breloom",
+  "user": "shroomish",
+  "condition": {
+    "key": "level",
+    "level": 23
+  },
+  "evoMoves": "mach-punch"
+}

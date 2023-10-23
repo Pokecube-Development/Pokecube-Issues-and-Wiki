@@ -168,13 +168,6 @@
       "lash-out"
     ]
   },
-  "evolutions": [
-    {
-      "name": "linoone-galar",
-      "level": 20,
-      "evoMoves": "slash"
-    }
-  ],
   "old_name": "zigzagoon_galar",
   "held_table": "pokecube:entities/persimberry",
   "loot_table": "pokecube:entities/rabbit_1"

@@ -1,0 +1,10 @@
+{
+  "name": "meganium",
+  "user": "bayleef",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "petal-dance",
+  "animation": "18"
+}

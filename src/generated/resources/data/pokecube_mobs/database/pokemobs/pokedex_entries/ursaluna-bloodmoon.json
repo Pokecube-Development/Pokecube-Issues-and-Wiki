@@ -1,0 +1,180 @@
+{
+  "name": "ursaluna-bloodmoon",
+  "id": 901,
+  "stock": true,
+  "is_extra_form": true,
+  "base_experience": null,
+  "size": {
+    "height": 2.4
+  },
+  "mass": 290.0,
+  "is_default": false,
+  "capture_rate": 75,
+  "base_happiness": 70,
+  "growth_rate": "medium",
+  "gender_rate": 127,
+  "stats": {
+    "hp": 113,
+    "attack": 70,
+    "defense": 120,
+    "special_attack": 135,
+    "special_defense": 65,
+    "speed": 52
+  },
+  "evs": {
+    "attack": 3
+  },
+  "types": [
+    "ground",
+    "normal"
+  ],
+  "abilities": {
+    "normal": [
+      "minds-eye"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "leer",
+          "lick",
+          "headlong-rush"
+        ]
+      },
+      {
+        "L": 17,
+        "moves": [
+          "harden"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "fury-swipes"
+        ]
+      },
+      {
+        "L": 41,
+        "moves": [
+          "rest",
+          "snore"
+        ]
+      },
+      {
+        "L": 22,
+        "moves": [
+          "slash"
+        ]
+      },
+      {
+        "L": 35,
+        "moves": [
+          "scary-face"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "hammer-arm"
+        ]
+      },
+      {
+        "L": 13,
+        "moves": [
+          "payback"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "earth-power"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "moonblast"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "play-nice"
+        ]
+      },
+      {
+        "L": 70,
+        "moves": [
+          "blood-moon"
+        ]
+      }
+    ],
+    "misc": [
+      "fire-punch",
+      "ice-punch",
+      "thunder-punch",
+      "swords-dance",
+      "body-slam",
+      "take-down",
+      "roar",
+      "hyper-beam",
+      "low-kick",
+      "earthquake",
+      "dig",
+      "metronome",
+      "swift",
+      "rest",
+      "rock-slide",
+      "substitute",
+      "thief",
+      "protect",
+      "scary-face",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "metal-claw",
+      "moonlight",
+      "rain-dance",
+      "sunny-day",
+      "crunch",
+      "uproar",
+      "facade",
+      "focus-punch",
+      "taunt",
+      "helping-hand",
+      "brick-break",
+      "hyper-voice",
+      "fake-tears",
+      "rock-tomb",
+      "aerial-ace",
+      "bulk-up",
+      "mud-shot",
+      "calm-mind",
+      "close-combat",
+      "fling",
+      "seed-bomb",
+      "drain-punch",
+      "vacuum-wave",
+      "focus-blast",
+      "earth-power",
+      "giga-impact",
+      "avalanche",
+      "shadow-claw",
+      "gunk-shot",
+      "stone-edge",
+      "smack-down",
+      "heavy-slam",
+      "bulldoze",
+      "snarl",
+      "play-rough",
+      "high-horsepower",
+      "stomping-tantrum",
+      "body-press",
+      "tera-blast",
+      "trailblaze"
+    ]
+  }
+}

@@ -192,12 +192,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "octillery",
-      "level": 25,
-      "evoMoves": "octazooka"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

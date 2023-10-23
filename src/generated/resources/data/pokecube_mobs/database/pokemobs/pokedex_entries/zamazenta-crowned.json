@@ -2,6 +2,7 @@
   "name": "zamazenta-crowned",
   "id": 889,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 360,
   "size": {
     "height": 2.9,
@@ -16,10 +17,10 @@
   "gender_rate": 255,
   "stats": {
     "hp": 92,
-    "attack": 130,
-    "defense": 145,
+    "attack": 120,
+    "defense": 140,
     "special_attack": 80,
-    "special_defense": 145,
+    "special_defense": 140,
     "speed": 128
   },
   "evs": {
@@ -100,6 +101,7 @@
       "body-slam",
       "take-down",
       "bite",
+      "roar",
       "hyper-beam",
       "solar-beam",
       "dig",
@@ -165,5 +167,6 @@
       "trailblaze"
     ]
   },
+  "sound": "zamazenta-crowned",
   "old_name": "zamazenta_crowned"
 }

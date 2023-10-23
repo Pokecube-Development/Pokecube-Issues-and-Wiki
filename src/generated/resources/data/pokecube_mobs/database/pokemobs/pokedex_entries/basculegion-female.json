@@ -2,6 +2,7 @@
   "name": "basculegion-female",
   "id": 902,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 265,
   "size": {
     "height": 3.0,
@@ -30,7 +31,7 @@
   ],
   "abilities": {
     "normal": [
-      "rattled",
+      "swift-swim",
       "adaptability"
     ],
     "hidden": [

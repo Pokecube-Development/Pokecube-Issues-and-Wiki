@@ -78,6 +78,7 @@
         "L": 19,
         "moves": [
           "feint-attack",
+          "assurance",
           "power-trip"
         ]
       },
@@ -103,7 +104,8 @@
         "L": 16,
         "moves": [
           "needle-arm",
-          "bullet-seed"
+          "bullet-seed",
+          "poison-jab"
         ]
       },
       {
@@ -198,6 +200,7 @@
       "superpower",
       "revenge",
       "brick-break",
+      "knock-off",
       "secret-power",
       "needle-arm",
       "bullet-seed",
@@ -231,7 +234,10 @@
       "confide",
       "spiky-shield",
       "power-up-punch",
+      "lunge",
       "stomping-tantrum",
+      "grassy-glide",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]

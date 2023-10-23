@@ -43,15 +43,16 @@
         ]
       },
       {
-        "L": 1,
+        "L": 20,
         "moves": [
-          "protect"
+          "string-shot",
+          "hidden-power"
         ]
       },
       {
-        "L": 20,
+        "L": 1,
         "moves": [
-          "hidden-power"
+          "protect"
         ]
       },
       {
@@ -71,35 +72,6 @@
       "electroweb"
     ]
   },
-  "evolutions": [
-    {
-      "name": "wormadam-plant",
-      "level": 20,
-      "form_from": "burmy-plant",
-      "sexe": "female",
-      "evoMoves": "quiver-dance"
-    },
-    {
-      "name": "wormadam-sandy",
-      "level": 20,
-      "form_from": "burmy-sandy",
-      "sexe": "female",
-      "evoMoves": "quiver-dance"
-    },
-    {
-      "name": "wormadam-trash",
-      "level": 20,
-      "form_from": "burmy-trash",
-      "sexe": "female",
-      "evoMoves": "quiver-dance"
-    },
-    {
-      "name": "mothim",
-      "level": 20,
-      "sexe": "male",
-      "evoMoves": "quiver-dance"
-    }
-  ],
   "model": {
     "key": "burmy-plant",
     "tex": "burmy-plant",

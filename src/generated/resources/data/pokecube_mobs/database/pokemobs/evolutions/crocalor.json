@@ -1,0 +1,9 @@
+{
+  "name": "skeledirge",
+  "user": "crocalor",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "torch-song"
+}

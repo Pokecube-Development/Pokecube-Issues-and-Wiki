@@ -2,6 +2,7 @@
   "name": "zacian-crowned",
   "id": 888,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 360,
   "size": {
     "height": 2.8,
@@ -16,7 +17,7 @@
   "gender_rate": 255,
   "stats": {
     "hp": 92,
-    "attack": 170,
+    "attack": 150,
     "defense": 115,
     "special_attack": 80,
     "special_defense": 115,
@@ -161,5 +162,6 @@
       "trailblaze"
     ]
   },
+  "sound": "zacian-crowned",
   "old_name": "zacian_crowned"
 }

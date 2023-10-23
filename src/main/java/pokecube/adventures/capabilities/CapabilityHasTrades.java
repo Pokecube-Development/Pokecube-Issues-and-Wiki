@@ -81,21 +81,9 @@ public class CapabilityHasTrades
         }
 
         @Override
-        public void initTrades()
-        {
-            // We do nothing, as are intended as a holder for IMerchants.
-        }
-
-        @Override
         public void verify(final ItemStack stack)
         {
             this.onTraded.accept(stack);
-        }
-
-        @Override
-        public void setValidator(final Consumer<ItemStack> validator)
-        {
-            this.onTraded = validator;
         }
 
     }

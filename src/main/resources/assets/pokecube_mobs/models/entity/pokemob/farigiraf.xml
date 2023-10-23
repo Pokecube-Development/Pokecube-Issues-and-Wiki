@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" scale="0.45"/>
-  <metadata head="neck:neck1:neck2:neck3:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <metadata head="neck:neck1:neck2:neck3:head" headCap="-10,10" headCap1="-10,10"/>
   <customTex default="farigiraf">
    <part name="Eye" tex="farigiraf-eyeextra"/>
    <animation diffs="0.535,0" part="Eye" trigger="random:0.005:25"/>

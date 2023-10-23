@@ -1,0 +1,9 @@
+{
+  "name": "octillery",
+  "user": "remoraid",
+  "condition": {
+    "key": "level",
+    "level": 25
+  },
+  "evoMoves": "octazooka"
+}

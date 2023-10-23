@@ -170,11 +170,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "marill",
-      "happy": true
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

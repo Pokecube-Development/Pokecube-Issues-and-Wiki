@@ -43,8 +43,7 @@
           "pound",
           "growl",
           "water-gun",
-          "bubble",
-          "pound"
+          "bubble"
         ]
       },
       {
@@ -190,13 +189,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "greninja",
-      "level": 36,
-      "animation": "9",
-      "evoMoves": "water-shuriken"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

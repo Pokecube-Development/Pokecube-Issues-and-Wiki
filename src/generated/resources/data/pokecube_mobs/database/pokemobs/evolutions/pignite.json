@@ -1,0 +1,9 @@
+{
+  "name": "emboar",
+  "user": "pignite",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "animation": "55"
+}

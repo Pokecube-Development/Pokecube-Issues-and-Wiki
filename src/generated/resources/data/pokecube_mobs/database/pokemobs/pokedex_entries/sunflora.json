@@ -44,8 +44,10 @@
           "tackle",
           "absorb",
           "growth",
-          "flower-shield",
-          "pound"
+          "synthesis",
+          "endeavor",
+          "seed-bomb",
+          "flower-shield"
         ]
       },
       {
@@ -143,6 +145,7 @@
       "pound",
       "swords-dance",
       "cut",
+      "tackle",
       "take-down",
       "double-edge",
       "hyper-beam",
@@ -185,6 +188,7 @@
       "ingrain",
       "endeavor",
       "secret-power",
+      "weather-ball",
       "grass-whistle",
       "bullet-seed",
       "magical-leaf",
@@ -204,6 +208,7 @@
       "grassy-terrain",
       "confide",
       "dazzling-gleam",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]

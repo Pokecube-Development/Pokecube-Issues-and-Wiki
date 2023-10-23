@@ -2,7 +2,7 @@
   "name": "groudon-primal",
   "id": 383,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 347,
   "size": {
     "height": 5.0,
@@ -191,5 +191,6 @@
       "stomping-tantrum"
     ]
   },
+  "sound": "groudon-primal",
   "old_name": "groudon_primal"
 }

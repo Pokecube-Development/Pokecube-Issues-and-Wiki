@@ -1,0 +1,11 @@
+{
+  "name": "bitter-malice",
+  "id": 841,
+  "power": 75,
+  "pp": 10,
+  "priority": 0,
+  "type": "ghost",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

@@ -2,6 +2,7 @@
   "name": "tornadus-therian",
   "id": 641,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 290,
   "size": {
     "height": 1.4,
@@ -203,6 +204,7 @@
       "chilling-water"
     ]
   },
+  "sound": "tornadus-therian",
   "interactions": [
     {
       "male": true,

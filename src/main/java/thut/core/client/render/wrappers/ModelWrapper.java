@@ -27,10 +27,10 @@ import thut.api.ModelHolder;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.IMobColourable;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.animation.AnimationXML.Mat;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
@@ -303,5 +303,11 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public List<String> getRenderOrder()
     {
         return imodel.getRenderOrder();
+    }
+    
+    @Override
+    public void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
+    {
+        this.imodel.initBuiltInAnimations(renderer, tblAnims);
     }
 }

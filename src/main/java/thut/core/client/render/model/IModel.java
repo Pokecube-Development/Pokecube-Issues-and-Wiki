@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.annotation.Nullable;
+
 import com.google.common.collect.ImmutableSet;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
@@ -36,7 +38,7 @@ public interface IModel
         return IModel.emptyAnims;
     }
 
-    default void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
+    default void initBuiltInAnimations(@Nullable IModelRenderer<?> renderer, List<Animation> tblAnims)
     {}
 
     Set<String> getHeadParts();
@@ -91,6 +93,8 @@ public interface IModel
     {
         mat.name = ThutCore.trim(mat.name);
         final Material material = new Material(mat.name);
+        material.expectedTexH = mat.height;
+        material.expectedTexW = mat.width;
         material.diffuseColor = new Vec3f(1, 1, 1);
         material.emissiveColor = new Vec3f(mat.light, mat.light, mat.light);
         material.emissiveMagnitude = Math.min(1, (float) (material.emissiveColor.length() / Math.sqrt(3)) / 0.8f);

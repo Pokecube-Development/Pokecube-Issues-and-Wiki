@@ -1,0 +1,10 @@
+{
+  "name": "greninja",
+  "user": "frogadier",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "water-shuriken",
+  "animation": "9"
+}

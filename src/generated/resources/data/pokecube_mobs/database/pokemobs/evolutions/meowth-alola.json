@@ -1,0 +1,8 @@
+{
+  "name": "persian-alola",
+  "user": "meowth-alola",
+  "condition": {
+    "key": "happy"
+  },
+  "evoMoves": "swift"
+}

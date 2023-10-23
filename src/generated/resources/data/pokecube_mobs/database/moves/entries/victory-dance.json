@@ -1,0 +1,10 @@
+{
+  "name": "victory-dance",
+  "id": 837,
+  "power": 0,
+  "pp": 10,
+  "priority": 0,
+  "type": "fighting",
+  "target": "user",
+  "damage_class": "status"
+}

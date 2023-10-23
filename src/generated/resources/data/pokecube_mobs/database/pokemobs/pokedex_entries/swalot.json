@@ -47,8 +47,7 @@
           "yawn",
           "wring-out",
           "gunk-shot",
-          "venom-drench",
-          "pound"
+          "venom-drench"
         ]
       },
       {
@@ -73,6 +72,12 @@
         "L": 37,
         "moves": [
           "sludge-bomb"
+        ]
+      },
+      {
+        "L": 54,
+        "moves": [
+          "pain-split"
         ]
       },
       {
@@ -167,6 +172,7 @@
       "helping-hand",
       "brick-break",
       "yawn",
+      "knock-off",
       "snatch",
       "secret-power",
       "bullet-seed",

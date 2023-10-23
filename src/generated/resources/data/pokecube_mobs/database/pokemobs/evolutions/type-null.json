@@ -1,0 +1,8 @@
+{
+  "name": "silvally",
+  "user": "type-null",
+  "condition": {
+    "key": "happy"
+  },
+  "evoMoves": "multi-attack"
+}

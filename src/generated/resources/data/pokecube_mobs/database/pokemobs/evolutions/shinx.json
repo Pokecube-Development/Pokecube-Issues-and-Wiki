@@ -1,0 +1,8 @@
+{
+  "name": "luxio",
+  "user": "shinx",
+  "condition": {
+    "key": "level",
+    "level": 15
+  }
+}

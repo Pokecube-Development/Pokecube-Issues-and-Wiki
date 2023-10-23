@@ -238,11 +238,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "hariyama",
-      "level": 24
-    }
-  ],
   "loot_table": "minecraft:entities/cow_1"
 }

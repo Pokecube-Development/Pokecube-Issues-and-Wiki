@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.35"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-60,60" headCap1="-70,70" headDir="-1" headDir1="-1"/>
+  <metadata head="head" headCap="-60,60" headCap1="-70,70" headDir1="-1"/>
   <customTex default="mismagius">
    <part name="Head" tex="mismagiuseye"/>
    <animation diffs="0,0.35" part="Head" trigger="random:0.005:4"/>

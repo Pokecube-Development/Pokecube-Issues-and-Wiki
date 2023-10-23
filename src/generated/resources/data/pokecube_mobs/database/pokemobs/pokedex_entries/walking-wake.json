@@ -116,6 +116,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "roar",
       "flamethrower",
       "hydro-pump",
       "surf",
@@ -134,8 +135,9 @@
       "rain-dance",
       "sunny-day",
       "crunch",
-      "fake-out",
       "facade",
+      "knock-off",
+      "weather-ball",
       "dragon-claw",
       "mud-shot",
       "dragon-dance",
@@ -145,9 +147,11 @@
       "fire-fang",
       "draco-meteor",
       "hone-claws",
+      "scald",
       "hurricane",
       "snarl",
       "liquidation",
+      "flip-turn",
       "tera-blast",
       "chilling-water"
     ]

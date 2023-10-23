@@ -2,7 +2,7 @@
 <ModelAnimator version="0.1">
  <model name="">
   <phase name="global" offset="0,0,0.02" scale="0.1"/>
-  <metadata head="neck1:head" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1"/>
+  <metadata head="neck1:head" headCap="-70,70" headCap1="-60,60"/>
   <customTex default="appletun">
    <part name="Head" tex="appletuneye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:11"/>

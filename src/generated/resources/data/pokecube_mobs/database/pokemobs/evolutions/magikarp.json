@@ -1,0 +1,9 @@
+{
+  "name": "gyarados",
+  "user": "magikarp",
+  "condition": {
+    "key": "level",
+    "level": 20
+  },
+  "evoMoves": "bite"
+}

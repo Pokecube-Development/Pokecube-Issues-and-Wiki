@@ -39,12 +39,14 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.events.init.RegisterPokecubes;
 import pokecube.api.items.IPokecube.DefaultPokecubeBehaviour;
 import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
+import pokecube.core.entity.pokecubes.EntityPokecubeBase;
 import pokecube.core.eventhandlers.SpawnHandler;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock;
 import pokecube.legends.blocks.customblocks.RaidSpawnBlock.State;
@@ -66,7 +68,6 @@ import pokecube.legends.init.ItemInit;
 import pokecube.legends.init.MoveRegister;
 import pokecube.legends.init.PokecubeDim;
 import pokecube.legends.init.TileEntityInit;
-import pokecube.legends.init.function.RaidCapture;
 import pokecube.legends.init.function.UsableItemGigantShard;
 import pokecube.legends.init.function.UsableItemNatureEffects;
 import pokecube.legends.init.function.UsableItemZMoveEffects;
@@ -121,7 +122,7 @@ public class PokecubeLegends
             .create(Registry.RECIPE_TYPE_REGISTRY, Reference.ID);
 
     /** Packs Textures,Tags,etc... */
-    public static ResourceLocation FUELTAG = new ResourceLocation(Reference.ID, "fuel");
+    public static ResourceLocation TOTEM_FUEL_TAG = new ResourceLocation(Reference.ID, "totem_fuel");
 
     @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, modid = Reference.ID)
     public static class RegistryHandler
@@ -129,7 +130,8 @@ public class PokecubeLegends
         @SubscribeEvent
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
-            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes();
+            final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
+                    .add(SharedAttributes.MOB_SIZE_SCALE.get());
             event.put(EntityInit.WORMHOLE.get(), attribs.build());
         }
     }
@@ -144,9 +146,6 @@ public class PokecubeLegends
         PokecubeAPI.POKEMOB_BUS.register(this);
 
         MinecraftForge.EVENT_BUS.register(new ForgeEventHandlers());
-
-        PokecubeAPI.POKEMOB_BUS.addListener(RaidCapture::CatchPokemobRaid);
-        PokecubeAPI.POKEMOB_BUS.addListener(RaidCapture::PostCatchPokemobRaid);
 
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
@@ -526,6 +525,7 @@ public class PokecubeLegends
                 return helper.dyna(mob);
             }
         }.setName("dyna"));
+        EntityPokecubeBase.CUBE_SIZES.put(new ResourceLocation("pokecube", "dynacube"), 0.75f);
         event.register(new DefaultPokecubeBehaviour()
         {
             @Override

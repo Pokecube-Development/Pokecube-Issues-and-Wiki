@@ -2,6 +2,7 @@
   "name": "aegislash-blade",
   "id": 681,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 250,
   "size": {
     "height": 1.7,
@@ -122,6 +123,7 @@
       "steel-beam"
     ]
   },
+  "sound": "aegislash-blade",
   "old_name": "aegislash_blade",
   "loot_table": "pokecube:entities/iron_3"
 }

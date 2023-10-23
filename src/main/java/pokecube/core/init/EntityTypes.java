@@ -19,7 +19,6 @@ import pokecube.core.entity.pokemobs.EntityPokemob;
 import pokecube.core.entity.pokemobs.PokemobType;
 import pokecube.core.items.pokemobeggs.EntityPokemobEgg;
 import pokecube.core.moves.damage.EntityMoveUse;
-import pokecube.core.moves.zmoves.GZMoveManager;
 
 public class EntityTypes
 {
@@ -32,7 +31,8 @@ public class EntityTypes
     static
     {
         BOAT = PokecubeCore.ENTITIES.register("boat",
-                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build("boat"));
+                () -> EntityType.Builder.<GenericBoat>of(GenericBoat::new, MobCategory.MISC).sized(1.375F, 0.5625F)
+                        .clientTrackingRange(10).build("boat"));
         EGG = PokecubeCore.ENTITIES.register("egg",
                 () -> EntityType.Builder.of(EntityPokemobEgg::new, MobCategory.CREATURE).noSummon().fireImmune()
                         .sized(0.35f, 0.35f).build("egg"));
@@ -71,9 +71,10 @@ public class EntityTypes
         {
             if (entry.dummy) continue;
             if (!entry.stock) continue;
+            Pokedex.getInstance().registerPokemon(entry);
+            if (entry.generated) continue;
             try
             {
-                Pokedex.getInstance().registerPokemon(entry);
                 PokecubeCore.ENTITIES.register(entry.getTrimmedName(), () -> makePokemobEntityType(entry));
             }
             catch (final Exception e)
@@ -83,8 +84,6 @@ public class EntityTypes
         }
         PokecubeAPI.POKEMOB_BUS.post(new RegisterPokemobsEvent.Post());
         Database.postInit();
-        // Process GZ Moves after init, so that it can assign signature moves.
-        GZMoveManager.postProcess();
         PokecubeAPI.POKEMOB_BUS.post(new InitDatabase.Post());
     }
 

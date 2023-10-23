@@ -1,0 +1,8 @@
+{
+  "name": "lickilicky",
+  "user": "lickitung",
+  "condition": {
+    "key": "move",
+    "move": "rollout"
+  }
+}

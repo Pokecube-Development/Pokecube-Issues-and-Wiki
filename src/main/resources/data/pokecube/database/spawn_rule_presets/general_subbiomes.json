@@ -1,83 +1,84 @@
 {
-  "rules": [
+  "rules":[
     {
-      "values": {
-        "preset": "all",
-        "types": "all"
+      "preset":"all",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"all"
+        }
       }
     },
     {
-      "values": {
-        "preset": "all_nether",
-        "and_preset": "all,nether"
+      "preset":"all_nether",
+      "and_preset":"all,nether"
+    },
+    {
+      "preset":"all_overworld",
+      "and_preset":"all,overworld"
+    },
+    {
+      "preset":"all_overworld_water",
+      "and_preset":"all,overworld,in_water"
+    },
+    {
+      "preset":"all_not_caves",
+      "and_preset":"all",
+      "not_preset":"cave_subbiome"
+    },
+    {
+      "preset":"sky",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"sky"
+        }
       }
     },
     {
-      "values": {
-        "preset": "all_overworld",
-        "and_preset": "all,overworld"
+      "preset":"flowers",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"flower"
+        }
       }
     },
     {
-      "values": {
-        "preset": "all_overworld_water",
-        "and_preset": "all,overworld",
-        "air": "false"
+      "preset":"hills",
+      "matchers":{
+        "terrain":{
+          "type":"hills"
+        }
       }
     },
     {
-      "values": {
-        "preset": "all_not_caves",
-        "and_preset": "all",
-        "not_preset": "cave_subbiome"
+      "preset":"meteors",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"meteor"
+        }
       }
     },
     {
-      "values": {
-        "preset": "sky",
-        "types": "sky"
+      "preset":"ruins",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"ruin"
+        }
       }
     },
     {
-      "values": {
-        "preset": "flowers",
-        "types": "flower"
+      "preset":"industrial",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"industrial"
+        }
       }
     },
     {
-      "values": {
-        "preset": "hills",
-        "terrain": "hills"
-      }
-    },
-    {
-      "values": {
-        "preset": "meteors",
-        "types": "meteor"
-      }
-    },
-    {
-      "values": {
-        "preset": "villages",
-        "types": "village"
-      }
-    },
-    {
-      "values": {
-        "preset": "ruins",
-        "types": "ruin"
-      }
-    },
-    {
-      "values": {
-        "preset": "industrial",
-        "types": "industrial"
-      }
-    },
-    {
-      "values": {
-        "preset": "cave_subbiome",
-        "types": "cave"
+      "preset":"cave_subbiome",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"cave"
+        }
       }
     }
   ]

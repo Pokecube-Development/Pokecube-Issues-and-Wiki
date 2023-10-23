@@ -223,12 +223,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "zoroark",
-      "level": 30,
-      "evoMoves": "night-slash"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.25"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <metadata head="head" headCap="-20,20" headCap1="-20,20"/>
   <customTex default="tapu-koko">
    <part name="Head" tex="tapukokoeye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:4"/>

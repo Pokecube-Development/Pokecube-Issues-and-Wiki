@@ -1,0 +1,11 @@
+{
+  "name": "blood-moon",
+  "id": 901,
+  "power": 140,
+  "pp": 5,
+  "priority": 0,
+  "type": "normal",
+  "accuracy": 100,
+  "target": "selected-pokemon",
+  "damage_class": "special"
+}

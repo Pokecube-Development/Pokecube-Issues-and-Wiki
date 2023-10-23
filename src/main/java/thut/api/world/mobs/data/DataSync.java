@@ -2,6 +2,10 @@ package thut.api.world.mobs.data;
 
 import java.util.List;
 
+/**
+ * Capability for synchronizing generic values between server and client.
+ *
+ */
 public interface DataSync
 {
     /**

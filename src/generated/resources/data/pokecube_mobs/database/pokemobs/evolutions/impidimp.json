@@ -1,0 +1,10 @@
+{
+  "name": "morgrem",
+  "user": "impidimp",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "false-surrender",
+  "animation": "18"
+}

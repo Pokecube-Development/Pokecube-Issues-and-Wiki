@@ -1,0 +1,21 @@
+{
+  "name": "lurantis",
+  "user": "fomantis",
+  "condition": [
+    {
+      "key": "level",
+      "level": 34
+    },
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "day"
+          }
+        }
+      }
+    }
+  ],
+  "evoMoves": "petal-blizzard"
+}

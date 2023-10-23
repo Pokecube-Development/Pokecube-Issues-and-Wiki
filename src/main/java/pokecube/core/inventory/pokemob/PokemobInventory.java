@@ -8,6 +8,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -82,19 +83,27 @@ public class PokemobInventory extends SimpleContainer implements Nameable
     public ItemStack getItem(int slot)
     {
         if (SLOTMAP.containsKey(slot)) return entity.getItemBySlot(SLOTMAP.get(slot));
+        if (slot == 1) return entity.getMainHandItem();
         return start.getItem(slot);
     }
 
     @Override
     public ItemStack removeItem(int slot, int amount)
     {
-        if (slot == 1 && pokemob != null) pokemob.setHeldItem(ItemStack.EMPTY);
         if (SLOTMAP.containsKey(slot))
         {
             List<ItemStack> list = tmpList;
             list.set(0, getItem(slot));
             return list != null && !list.get(0).isEmpty() ? ContainerHelper.removeItem(list, 0, amount)
                     : ItemStack.EMPTY;
+        }
+        if (slot == 1)
+        {
+            ItemStack stack = entity.getMainHandItem();
+            ItemStack empty = ItemStack.EMPTY;
+            pokemob.onHeldItemChanged(empty);
+            entity.setItemInHand(InteractionHand.MAIN_HAND, empty);
+            return stack;
         }
         return start.removeItem(slot, amount);
     }
@@ -117,18 +126,29 @@ public class PokemobInventory extends SimpleContainer implements Nameable
                 return ItemStack.EMPTY;
             }
         }
+        if (slot == 1)
+        {
+            ItemStack stack = entity.getMainHandItem();
+            ItemStack empty = ItemStack.EMPTY;
+            pokemob.onHeldItemChanged(empty);
+            entity.setItemInHand(InteractionHand.MAIN_HAND, empty);
+            return stack;
+        }
         return start.removeItemNoUpdate(slot);
     }
 
     @Override
     public void setItem(int slot, ItemStack stack)
     {
-        if (slot == 1 && pokemob != null) pokemob.setHeldItem(stack);
-        if (SLOTMAP.containsKey(slot))
+        if (slot == 1)
+        {
+            stack = pokemob.onHeldItemChanged(stack);
+            entity.setItemSlot(EquipmentSlot.MAINHAND, stack);
+        }
+        else if (SLOTMAP.containsKey(slot))
         {
             EquipmentSlot _slot = SLOTMAP.get(slot);
-            if (pokemob != null && (_slot == EquipmentSlot.MAINHAND)) pokemob.setHeldItem(stack);
-            else entity.setItemSlot(_slot, stack);
+            entity.setItemSlot(_slot, stack);
         }
         else start.setItem(slot, stack);
     }

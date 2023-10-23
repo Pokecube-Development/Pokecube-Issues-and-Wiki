@@ -51,12 +51,11 @@ public class IdleRestTask extends BaseIdleTask
         boolean sitting = pokemob.getLogicState(LogicStates.SITTING);
         restTimer--;
         if (restTimer > 0) return;
-
         if (sitting)
         {
             pokemob.setLogicState(LogicStates.SITTING, false);
             reset();
-            restTimer *= 2;
+            restTimer *= 10;
         }
         else
         {
@@ -75,11 +74,12 @@ public class IdleRestTask extends BaseIdleTask
         if (!this.pokemob.isRoutineEnabled(AIRoutine.WANDER)) return false;
 
         // Don't run in combat
-        if (!this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
+        if (this.pokemob.getCombatState(CombatStates.BATTLING)) return false;
 
-        final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED)
-                && !this.pokemob.getGeneralState(GeneralStates.STAYING);
-        return !tameFactor;
+        // Tamed mobs will only wander when set to STAYING mode
+        if (this.pokemob.getGeneralState(GeneralStates.TAMED))
+            return this.pokemob.getGeneralState(GeneralStates.STAYING);
+        return true;
     }
 
 }

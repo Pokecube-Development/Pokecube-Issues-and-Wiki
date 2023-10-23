@@ -1,0 +1,8 @@
+{
+  "name": "poliwhirl",
+  "user": "poliwag",
+  "condition": {
+    "key": "level",
+    "level": 25
+  }
+}

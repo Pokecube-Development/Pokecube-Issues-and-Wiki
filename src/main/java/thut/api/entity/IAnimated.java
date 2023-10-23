@@ -1,5 +1,6 @@
 package thut.api.entity;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.nfunk.jep.JEP;
 
 import net.minecraft.world.entity.Entity;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 
 public interface IAnimated
 {
@@ -67,9 +69,9 @@ public interface IAnimated
         public float pitchCapMax = 40;
         public float pitchCapMin = -40;
 
-        public int yawAxis = 1;
+        public int yawAxis = 2;
         public int pitchAxis = 0;
-        public int yawDirection = 1;
+        public int yawDirection = -1;
         public int pitchDirection = 1;
 
         public boolean fixed = false;
@@ -178,7 +180,11 @@ public interface IAnimated
 
         List<Animation> getPlaying();
 
+        Collection<Animation> getTransientPlaying();
+
         void setContext(IAnimated context);
+        
+        void setAnimationChanger(IAnimationChanger changer);
 
         /**
          * This is the animation about to be run.
@@ -186,15 +192,6 @@ public interface IAnimated
          * @param name
          */
         void setPendingAnimations(final List<Animation> list, final String name);
-
-        /**
-         * Sets the last tick this animation was run. Can set to 0 to count this
-         * animation as cleared.
-         *
-         * @param animation
-         * @param step
-         */
-        void setStep(Animation animation, float step);
 
         /**
          * This should get whatever animation we think the entity should be

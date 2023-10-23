@@ -199,11 +199,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "stoutland",
-      "level": 32
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

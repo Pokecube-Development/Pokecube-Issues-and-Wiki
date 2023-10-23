@@ -1,0 +1,9 @@
+{
+  "name": "bastiodon",
+  "user": "shieldon",
+  "condition": {
+    "key": "level",
+    "level": 30
+  },
+  "evoMoves": "block"
+}

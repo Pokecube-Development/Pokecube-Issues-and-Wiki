@@ -1,0 +1,11 @@
+{
+  "name": "stone-axe",
+  "id": 830,
+  "power": 65,
+  "pp": 15,
+  "priority": 0,
+  "type": "rock",
+  "accuracy": 90,
+  "target": "selected-pokemon",
+  "damage_class": "physical"
+}

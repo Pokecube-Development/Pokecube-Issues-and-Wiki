@@ -1,0 +1,156 @@
+{
+  "name": "fezandipiti",
+  "id": 1016,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.4
+  },
+  "mass": 30.1,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 88,
+    "attack": 91,
+    "defense": 82,
+    "special_attack": 70,
+    "special_defense": 125,
+    "speed": 99
+  },
+  "evs": {
+    "special_defense": 3
+  },
+  "types": [
+    "poison",
+    "fairy"
+  ],
+  "abilities": {
+    "normal": [
+      "toxic-chain"
+    ],
+    "hidden": [
+      "technician"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 24,
+        "moves": [
+          "wing-attack"
+        ]
+      },
+      {
+        "L": 1,
+        "moves": [
+          "double-kick",
+          "peck",
+          "poison-gas",
+          "disarming-voice"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "quick-attack"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "swagger",
+          "flatter"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "attract"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "beat-up"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "roost"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "cross-poison"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "tail-slap"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "moonblast"
+        ]
+      }
+    ],
+    "misc": [
+      "swords-dance",
+      "fly",
+      "take-down",
+      "hyper-beam",
+      "toxic",
+      "agility",
+      "light-screen",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "icy-wind",
+      "endure",
+      "charm",
+      "sleep-talk",
+      "shadow-ball",
+      "uproar",
+      "heat-wave",
+      "facade",
+      "taunt",
+      "air-cutter",
+      "aerial-ace",
+      "poison-tail",
+      "calm-mind",
+      "tailwind",
+      "u-turn",
+      "poison-jab",
+      "dark-pulse",
+      "air-slash",
+      "brave-bird",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "venoshock",
+      "acid-spray",
+      "hex",
+      "acrobatics",
+      "hurricane",
+      "disarming-voice",
+      "play-rough",
+      "dazzling-gleam",
+      "lash-out",
+      "dual-wingbeat",
+      "tera-blast"
+    ]
+  }
+}

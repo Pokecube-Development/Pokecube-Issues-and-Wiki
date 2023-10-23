@@ -142,6 +142,7 @@
       "facade",
       "taunt",
       "helping-hand",
+      "knock-off",
       "mud-shot",
       "u-turn",
       "fling",
@@ -159,11 +160,5 @@
       "pounce",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "grafaiai",
-      "level": 28
-    }
-  ]
+  }
 }

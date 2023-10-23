@@ -1,0 +1,153 @@
+{
+  "name": "munkidori",
+  "id": 1015,
+  "stock": true,
+  "base_experience": null,
+  "size": {
+    "height": 1.0
+  },
+  "mass": 12.2,
+  "is_default": true,
+  "capture_rate": 3,
+  "base_happiness": 0,
+  "growth_rate": "slow",
+  "gender_rate": 255,
+  "stats": {
+    "hp": 88,
+    "attack": 75,
+    "defense": 66,
+    "special_attack": 130,
+    "special_defense": 90,
+    "speed": 106
+  },
+  "evs": {
+    "special_attack": 3
+  },
+  "types": [
+    "poison",
+    "psychic"
+  ],
+  "abilities": {
+    "normal": [
+      "toxic-chain"
+    ],
+    "hidden": [
+      "frisk"
+    ]
+  },
+  "moves": {
+    "level_up": [
+      {
+        "L": 1,
+        "moves": [
+          "scratch",
+          "confusion",
+          "fake-out",
+          "flatter"
+        ]
+      },
+      {
+        "L": 16,
+        "moves": [
+          "psybeam"
+        ]
+      },
+      {
+        "L": 40,
+        "moves": [
+          "psychic"
+        ]
+      },
+      {
+        "L": 64,
+        "moves": [
+          "future-sight"
+        ]
+      },
+      {
+        "L": 8,
+        "moves": [
+          "helping-hand"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "poison-jab"
+        ]
+      },
+      {
+        "L": 56,
+        "moves": [
+          "nasty-plot"
+        ]
+      },
+      {
+        "L": 48,
+        "moves": [
+          "sludge-wave"
+        ]
+      },
+      {
+        "L": 24,
+        "moves": [
+          "clear-smog"
+        ]
+      },
+      {
+        "L": 72,
+        "moves": [
+          "parting-shot"
+        ]
+      }
+    ],
+    "misc": [
+      "psybeam",
+      "hyper-beam",
+      "toxic",
+      "psychic",
+      "night-shade",
+      "confuse-ray",
+      "light-screen",
+      "metronome",
+      "swift",
+      "rest",
+      "substitute",
+      "thief",
+      "spite",
+      "protect",
+      "sludge-bomb",
+      "mud-slap",
+      "endure",
+      "sleep-talk",
+      "baton-pass",
+      "shadow-ball",
+      "uproar",
+      "facade",
+      "taunt",
+      "helping-hand",
+      "trick",
+      "imprison",
+      "calm-mind",
+      "u-turn",
+      "fling",
+      "poison-jab",
+      "focus-blast",
+      "giga-impact",
+      "nasty-plot",
+      "shadow-claw",
+      "gunk-shot",
+      "grass-knot",
+      "psyshock",
+      "venoshock",
+      "acid-spray",
+      "stored-power",
+      "hex",
+      "psychic-terrain",
+      "lash-out",
+      "poltergeist",
+      "tera-blast",
+      "trailblaze"
+    ]
+  }
+}

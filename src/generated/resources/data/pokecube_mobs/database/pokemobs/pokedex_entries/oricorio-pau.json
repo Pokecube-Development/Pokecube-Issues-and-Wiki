@@ -2,6 +2,7 @@
   "name": "oricorio-pau",
   "id": 741,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 167,
   "size": {
     "height": 0.6
@@ -37,7 +38,6 @@
       {
         "L": 1,
         "moves": [
-          "pound",
           "pound"
         ]
       },
@@ -194,6 +194,7 @@
       "hurricane",
       "confide",
       "revelation-dance",
+      "dual-wingbeat",
       "tera-blast",
       "trailblaze"
     ]

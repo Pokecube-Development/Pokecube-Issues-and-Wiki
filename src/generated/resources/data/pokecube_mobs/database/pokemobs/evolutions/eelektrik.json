@@ -1,0 +1,11 @@
+{
+  "name": "eelektross",
+  "user": "eelektrik",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:thunderstone"
+    }
+  },
+  "evoMoves": "crunch"
+}

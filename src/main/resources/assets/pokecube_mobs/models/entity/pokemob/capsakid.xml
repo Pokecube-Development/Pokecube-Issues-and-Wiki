@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="0.45"/>
+  <metadata head="head" headCap="-60,60" headDir2="1" />
+  <material name="mouth" meshs="mouth:mouth_open" tex="textures/entity/pokemob/capsakid-mouth.png" light="0" transluscent="false" cull="false"/>
+  <material name="eyes" meshs="eyes:eyes_closed" tex="textures/entity/pokemob/capsakid-eye.png" light="0" transluscent="false" cull="false"/>
+  <customTex default="capsakid">
+  </customTex>
+ </model>
+</ModelAnimator>

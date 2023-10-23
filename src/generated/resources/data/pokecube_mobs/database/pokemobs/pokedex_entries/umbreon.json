@@ -57,7 +57,8 @@
           "baton-pass",
           "helping-hand",
           "covet",
-          "copycat"
+          "copycat",
+          "foul-play"
         ]
       },
       {
@@ -146,6 +147,7 @@
       "tail-whip",
       "bite",
       "growl",
+      "roar",
       "hyper-beam",
       "thunder-wave",
       "dig",

@@ -483,9 +483,9 @@ public class Animators
                 final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
-                rx += component.rotChange[0] * ratio + component.rotOffset[0];
-                ry += component.rotChange[1] * ratio + component.rotOffset[1];
-                rz += component.rotChange[2] * ratio + component.rotOffset[2];
+                rx += Math.fma(component.rotChange[0], ratio, component.rotOffset[0]);
+                ry += Math.fma(component.rotChange[1], ratio, component.rotOffset[1]);
+                rz += Math.fma(component.rotChange[2], ratio, component.rotOffset[2]);
             }
 
             channel = CHANNEL.POS;
@@ -529,9 +529,9 @@ public class Animators
                 final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
-                px += component.posChange[0] * ratio + component.posOffset[0];
-                py += component.posChange[1] * ratio + component.posOffset[1];
-                pz += component.posChange[2] * ratio + component.posOffset[2];
+                px += Math.fma(component.posChange[0], ratio, component.posOffset[0]);
+                py += Math.fma(component.posChange[1], ratio, component.posOffset[1]);
+                pz += Math.fma(component.posChange[2], ratio, component.posOffset[2]);
             }
 
             channel = CHANNEL.SCALE;
@@ -575,9 +575,9 @@ public class Animators
                 final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
-                sx *= component.scaleChange[0] * ratio + component.scaleOffset[0];
-                sy *= component.scaleChange[1] * ratio + component.scaleOffset[1];
-                sz *= component.scaleChange[2] * ratio + component.scaleOffset[2];
+                sx *= Math.fma(component.scaleChange[0], ratio, component.scaleOffset[0]);
+                sy *= Math.fma(component.scaleChange[1], ratio, component.scaleOffset[1]);
+                sz *= Math.fma(component.scaleChange[2], ratio, component.scaleOffset[2]);
             }
 
             channel = CHANNEL.OPACITY;
@@ -620,7 +620,7 @@ public class Animators
                 final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
-                alpha_scale *= component.opacityOffset + ratio * component.opacityChange;
+                alpha_scale *= Math.fma(component.opacityChange, ratio, component.opacityOffset);
             }
 
             channel = CHANNEL.COLOUR;
@@ -664,9 +664,9 @@ public class Animators
                 final float length = component.length == 0 ? 1 : component.length;
                 final float ratio = componentTimer / length;
 
-                red_scale *= component.colChange[0] * ratio + component.colOffset[0];
-                green_scale *= component.colChange[1] * ratio + component.colOffset[1];
-                blue_scale *= component.colChange[2] * ratio + component.colOffset[2];
+                red_scale *= Math.fma(component.colChange[0], ratio, component.colOffset[0]);
+                green_scale *= Math.fma(component.colChange[1], ratio, component.colOffset[1]);
+                blue_scale *= Math.fma(component.colChange[2], ratio, component.colOffset[2]);
 
                 red_scale *= dc[0];
                 green_scale *= dc[1];
@@ -702,7 +702,7 @@ public class Animators
             // Apply hidden like this so last hidden state is kept
             if (wasHidden != any_hidden) part.setHidden(any_hidden);
             part.setColorScales(red_scale, green_scale, blue_scale, alpha_scale);
-            holder.setStep(animation, aniTick);
+
             if (animated)
             {
                 temp.set(px, py, pz);

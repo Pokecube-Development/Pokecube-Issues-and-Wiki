@@ -1,0 +1,9 @@
+{
+  "name": "dustox",
+  "user": "cascoon",
+  "condition": {
+    "key": "level",
+    "level": 10
+  },
+  "evoMoves": "gust"
+}

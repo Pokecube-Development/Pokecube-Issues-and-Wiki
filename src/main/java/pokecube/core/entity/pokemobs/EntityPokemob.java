@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -37,6 +36,7 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.TamableAnimal;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -47,7 +47,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.pathfinder.Path;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.eventbus.api.Event.Result;
 import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
@@ -58,7 +57,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
-import pokecube.api.events.pokemobs.FaintEvent;
 import pokecube.api.events.pokemobs.SpawnEvent;
 import pokecube.api.events.pokemobs.SpawnEvent.SpawnContext;
 import pokecube.api.events.pokemobs.SpawnEvent.Variance;
@@ -132,46 +130,6 @@ public class EntityPokemob extends PokemobRidable
     public Packet<?> getAddEntityPacket()
     {
         return NetworkHooks.getEntitySpawningPacket(this);
-    }
-
-    @Override
-    protected void tickDeath()
-    {
-        ++this.deathTime;
-        if (!(this.getLevel() instanceof ServerLevel)) return;
-
-        if (this.isVehicle()) this.ejectPassengers();
-
-        final boolean isTamed = this.pokemobCap.getOwnerId() != null;
-        boolean despawn = isTamed ? PokecubeCore.getConfig().tameDeadDespawn : PokecubeCore.getConfig().wildDeadDespawn;
-        this.setNoGravity(false);
-        final boolean noPoof = this.getPersistentData().getBoolean(TagNames.NOPOOF);
-        if (this.deathTime >= PokecubeCore.getConfig().deadDespawnTimer)
-        {
-            final FaintEvent event = new FaintEvent(this.pokemobCap);
-            PokecubeAPI.POKEMOB_BUS.post(event);
-            final Result res = event.getResult();
-            despawn = res == Result.DEFAULT ? despawn : res == Result.ALLOW;
-            if (despawn && !noPoof) this.pokemobCap.onRecall(true);
-            for (int k = 0; k < 20; ++k)
-            {
-                final double d2 = this.random.nextGaussian() * 0.02D;
-                final double d0 = this.random.nextGaussian() * 0.02D;
-                final double d1 = this.random.nextGaussian() * 0.02D;
-                this.level.addParticle(ParticleTypes.POOF,
-                        this.getX() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(),
-                        this.getY() + this.random.nextFloat() * this.getBbHeight(),
-                        this.getZ() + this.random.nextFloat() * this.getBbWidth() * 2.0F - this.getBbWidth(), d2, d0,
-                        d1);
-            }
-        }
-        if (this.deathTime >= PokecubeCore.getConfig().deadReviveTimer && PokecubeCore.getConfig().deadReviveTimer > 0)
-        {
-            this.pokemobCap.revive();
-            // If we revive naturally, we remove this tag, it only applies for
-            // forced revivals
-            this.getPersistentData().remove(TagNames.REVIVED);
-        }
     }
 
     @Override
@@ -259,7 +217,7 @@ public class EntityPokemob extends PokemobRidable
             this.calculateEntityAnimation(this, false);
             return;
         }
-        this.flyingSpeed = 0.02f;
+        this.flyingSpeed = (float) this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.125f;
         // Swimming mobs get their own treatment while swimming
         if (this.isEffectiveAi() && this.isInWater() && this.pokemobCap.swims())
         {
@@ -441,7 +399,6 @@ public class EntityPokemob extends PokemobRidable
         this.initSeats();
         data.writeInt(this.seatCount);
         this.pokemobCap.updateHealth();
-        this.pokemobCap.onGenesChanged();
         final IMobGenetics genes = this.getCapability(ThutCaps.GENETICS_CAP).orElse(this.pokemobCap.genes);
         final FriendlyByteBuf buffer = new FriendlyByteBuf(data);
         final ListTag list = genes.serializeNBT();
@@ -602,7 +559,7 @@ public class EntityPokemob extends PokemobRidable
         }
         if (!this.level.isClientSide)
         {
-            boolean climb = this.horizontalCollision && this.getNavigation().isInProgress();
+            boolean climb = this.horizontalCollision;
             if (climb && climbDelay-- < 0)
             {
                 final Path p = this.getNavigation().getPath();

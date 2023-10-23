@@ -1,0 +1,10 @@
+{
+  "user": "alakazam",
+  "name": "alakazam-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:alakazammega"
+    }
+  }
+}

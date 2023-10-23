@@ -2,7 +2,7 @@
   "name": "camerupt-mega",
   "id": 323,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 196,
   "size": {
     "height": 2.5
@@ -171,5 +171,6 @@
       "stomping-tantrum"
     ]
   },
+  "sound": "camerupt-mega",
   "old_name": "camerupt_mega"
 }

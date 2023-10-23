@@ -1,0 +1,10 @@
+{
+  "name": "charizard",
+  "user": "charmeleon",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "evoMoves": "wing-attack",
+  "animation": "55"
+}

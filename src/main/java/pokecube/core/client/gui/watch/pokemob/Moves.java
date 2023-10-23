@@ -6,7 +6,6 @@ import java.util.Set;
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -25,13 +24,12 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.TComponent;
 
 public class Moves extends ListPage<LineEntry>
 {
-    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_moves");
-    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_moves_nm");
+    public static final ResourceLocation TEX_DM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_moves");
+    public static final ResourceLocation TEX_NM = GuiPokeWatch.makeWatchTexture("pokewatchgui_pokedex_moves_nm");
 
     private int[][] moveOffsets;
 
@@ -82,8 +80,6 @@ public class Moves extends ListPage<LineEntry>
                             ? TComponent.translatable("pokewatch.ATT", value)
                             : TComponent.translatable("pokewatch.ATTSP", value);
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
-                    if (GZMoveManager.isGZDMove(move) && offset[3] != this.parent.pokemob.getMoveIndex())
-                        value = TComponent.translatable("pokewatch.moves.pwr.fmt", "???", stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
                     final int mx1 = 65 - box;
@@ -177,11 +173,11 @@ public class Moves extends ListPage<LineEntry>
                     added.add(s);
                     final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                     final MutableComponent main = TComponent.translatable("pokewatch.moves.lvl", i, moveName);
-                    main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                    main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                             .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                             .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                     this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                            .setClickListner(listener).shadow());
+                            .setClickListner(listener));
                 }
             }
             for (final String s : entry.getMoves())
@@ -192,11 +188,11 @@ public class Moves extends ListPage<LineEntry>
                 added.add(s);
                 final MutableComponent moveName = MovesUtils.getMoveName(s, pokemob);
                 final MutableComponent main = TComponent.translatable("pokewatch.moves.tm", moveName);
-                main.setStyle(main.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN))
+                main.setStyle(main.getStyle().withColor(TextColor.fromRgb(0x449944))
                         .withClickEvent(new ClickEvent(ClickEvent.Action.CHANGE_PAGE, s))
                         .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TComponent.literal(s))));
                 this.list.addEntry(new LineEntry(this.list, 0, 0, this.font, main.getVisualOrderText(), colour)
-                        .setClickListner(listener).shadow());
+                        .setClickListner(listener));
             }
         }
     }

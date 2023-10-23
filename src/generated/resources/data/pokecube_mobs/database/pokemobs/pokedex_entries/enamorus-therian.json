@@ -2,6 +2,7 @@
   "name": "enamorus-therian",
   "id": 905,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 116,
   "size": {
     "height": 1.6,
@@ -106,6 +107,7 @@
       "psychic"
     ]
   },
+  "sound": "enamorus-therian",
   "interactions": [
     {
       "male": true,

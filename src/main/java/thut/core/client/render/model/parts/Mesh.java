@@ -1,5 +1,7 @@
 package thut.core.client.render.model.parts;
 
+import java.util.Arrays;
+
 import org.lwjgl.opengl.GL11;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -49,7 +51,8 @@ public abstract class Mesh
     final int iter;
 
     private final float len;
-    public float scale = 1;
+    public float cullScale = 1;
+    public float renderScale = 1;
 
     private final TextureCoordinate dummyTex = new TextureCoordinate(0, 0);
     public static Vector4f METRIC = new Vector4f(1, 1, 1, 0);
@@ -89,18 +92,15 @@ public abstract class Mesh
         Vec3f maxs = new Vec3f(Float.MIN_VALUE, Float.MIN_VALUE, Float.MIN_VALUE);
         final Vec3f c = new Vec3f();
 
+        // In this case, just fill all with dummy tex.
+        if (tex == null) Arrays.fill(textureCoordinates, dummyTex);
+        // Fill the order array first.
+        for (int i = 0; i < order.length; i++) this.order[i] = order[i];
+
         int i_1, i_2, i_3, i_4 = 0;
         // Calculate the normals for each triangle.
         for (int i = 0; i < this.order.length; i += iter)
         {
-            for (int j = i; j < i + iter; j++)
-            {
-                this.order[j] = order[j];
-
-                // In this case, just fill all with dummy tex.
-                if (tex == null) textureCoordinates[j] = dummyTex;
-            }
-
             i_1 = this.order[i + 0];
             i_2 = this.order[i + 1];
             i_3 = this.order[i + 2];
@@ -160,6 +160,7 @@ public abstract class Mesh
 
         // Initialize a "default" material for us
         this.material = new Material("auto:" + this.name);
+        this.material.vertexMode = this.vertexMode;
     }
 
     private final Vector3f dummy3 = new Vector3f();
@@ -176,7 +177,7 @@ public abstract class Mesh
         if (modelCullThreshold > 0)
         {
             float a = windowScale;
-            float s = len * scale;
+            float s = len * cullScale;
 
             dp.set(s, s, s, 0);
             dp.transform(pos);
@@ -211,16 +212,86 @@ public abstract class Mesh
 
         final boolean flat = this.material.flat;
         Vertex[] normals = flat ? this.normalList : this.normals;
-        final com.mojang.math.Vector3f dn = this.dummy3;
+        final Vector3f dn = this.dummy3;
         final Matrix3f norms = matrixstack$entry.normal();
 
         Vertex vertex;
         Vertex normal;
         TextureCoordinate textureCoordinate;
 
-        // Loop over this rather than the array directly, so that we can skip by
-        // more than 1 if culling.
-        for (int i0 = 0; i0 < this.order.length; i0++)
+        float du = (float) this.uvShift[0];
+        float dv = (float) this.uvShift[1];
+        float su = 1;
+        float sv = 1;
+
+        if (this.material.getTexture() != null)
+        {
+            float[] ouv = this.material.getTexture().getTexOffset();
+            float[] suv = this.material.getTexture().getTexScale();
+            du += ouv[0];
+            dv += ouv[1];
+
+            su *= suv[0];
+            sv *= suv[1];
+        }
+
+        if (this.renderScale != 1)
+        {
+            float dx = (max.x - min.x) / 2;
+            float mx = min.x + dx;
+
+            float dy = (max.y - min.y) / 2;
+            float my = min.y + dy;
+
+            float dz = (max.z - min.z) / 2;
+            float mz = min.z + dz;
+
+            // This loop is copied here vs below for performance reasons, we
+            // can't guarentee compiler flags are set properly.
+            for (int i0 = 0; i0 < this.order.length; i0++)
+            {
+                int i = this.order[i0];
+
+                verts++;
+
+                normal = normals[i0];
+
+                // Normals first, as they define culling.
+                nx = normal.x;
+                ny = normal.y;
+                nz = normal.z;
+
+                dn.set(nx, ny, nz);
+                dn.transform(norms);
+
+                // Next we can pull out the coordinates if not culled.
+                textureCoordinate = this.textureCoordinates[i];
+                vertex = this.vertices[i];
+
+                x = Math.fma(this.renderScale, (vertex.x - mx), mx);
+                y = Math.fma(this.renderScale, (vertex.y - my), my);
+                z = Math.fma(this.renderScale, (vertex.z - mz), mz);
+
+                dp.set(x, y, z, 1);
+                dp.transform(pos);
+
+                // This results in u * su + du
+                u = Math.fma(textureCoordinate.u, su, du);
+                v = Math.fma(textureCoordinate.v, sv, dv);
+
+                // We use the default mob format, since that is what mobs use.
+                // This means we need these in this order!
+                buffer.vertex(
+                //@formatter:off
+                    dp.x(), dp.y(), dp.z(),
+                    red, green, blue, alpha,
+                    u, v,
+                    overlayUV, lightmapUV,
+                    dn.x(), dn.y(), dn.z());
+                //@formatter:on
+            }
+        }
+        else for (int i0 = 0; i0 < this.order.length; i0++)
         {
             int i = this.order[i0];
 
@@ -247,8 +318,9 @@ public abstract class Mesh
             dp.set(x, y, z, 1);
             dp.transform(pos);
 
-            u = textureCoordinate.u + (float) this.uvShift[0];
-            v = textureCoordinate.v + (float) this.uvShift[1];
+            // This results in u * su + du
+            u = Math.fma(textureCoordinate.u, su, du);
+            v = Math.fma(textureCoordinate.v, sv, dv);
 
             // We use the default mob format, since that is what mobs use.
             // This means we need these in this order!
@@ -280,6 +352,7 @@ public abstract class Mesh
             final int j = (int) (this.material.emissiveMagnitude * 15);
             material.rgbabro[4] = j << 20 | j << 4;
         }
+//        System.out.println(this.material.tex);
         this.doRender(mat, buffer, texturer);
     }
 

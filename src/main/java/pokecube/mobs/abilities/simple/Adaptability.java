@@ -12,6 +12,7 @@ public class Adaptability extends Ability
     public void preMoveUse(final IPokemob mob, final MoveApplication move)
     {
         if (!areWeUser(mob, move)) return;
-        move.stabFactor = 2;
+        if (move.stabFactor < 2) move.stabFactor = 2;
+        else move.stabFactor = 2.25f;
     }
 }

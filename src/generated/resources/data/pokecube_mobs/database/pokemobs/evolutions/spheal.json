@@ -1,0 +1,9 @@
+{
+  "name": "sealeo",
+  "user": "spheal",
+  "condition": {
+    "key": "level",
+    "level": 32
+  },
+  "evoMoves": "swagger"
+}

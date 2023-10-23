@@ -53,6 +53,7 @@ import pokecube.core.init.EntityTypes;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.utils.AITools;
 import pokecube.core.utils.Permissions;
+import thut.api.Tracker;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Vec3f;
@@ -63,6 +64,7 @@ import thut.lib.TComponent;
 
 public class Pokecube extends Item implements IPokecube
 {
+    public static boolean renderingOverlay = false;
 
     private static final List<Predicate<Entity>> _blacklist = Lists.newArrayList();
 
@@ -137,7 +139,8 @@ public class Pokecube extends Item implements IPokecube
             final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
             if (pokemob == null) return;
 //            list.add(TComponent.translatable(pokemob.getDisplayName().getString(), ChatFormatting.BOLD, ChatFormatting.GOLD));
-            list.add(TComponent.translatable("pokecube.tooltip.pokemob", pokemob.getDisplayName()).withStyle(ChatFormatting.BOLD, ChatFormatting.GOLD));
+            list.add(TComponent.translatable("pokecube.tooltip.pokemob", pokemob.getDisplayName())
+                    .withStyle(ChatFormatting.BOLD, ChatFormatting.GOLD));
 
             final CompoundTag pokeTag = item.getTag().getCompound(TagNames.POKEMOB);
 
@@ -146,21 +149,28 @@ public class Pokecube extends Item implements IPokecube
             final int lvlexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel());
             final int exp = pokemob.getExp() - lvlexp;
             final int neededexp = Tools.levelToXp(pokemob.getExperienceMode(), pokemob.getLevel() + 1) - lvlexp;
-            list.add(TComponent.translatable("pokecube.tooltip.level", pokemob.getLevel()).withStyle(ChatFormatting.GRAY));
-            list.add(TComponent.translatable("pokecube.tooltip.health", health, maxHealth).withStyle(ChatFormatting.GRAY));
+            list.add(TComponent.translatable("pokecube.tooltip.level", pokemob.getLevel())
+                    .withStyle(ChatFormatting.GRAY));
+            list.add(TComponent.translatable("pokecube.tooltip.health", health, maxHealth)
+                    .withStyle(ChatFormatting.GRAY));
             list.add(TComponent.translatable("pokecube.tooltip.xp", exp, neededexp).withStyle(ChatFormatting.GRAY));
 
             if (Screen.hasShiftDown())
             {
                 String arg = "";
-                for (final String s : pokemob.getMoves())
+                for (int i = 0; i < pokemob.getMovesCount(); i++)
+                {
+                    String s = pokemob.getMove(i);
                     if (s != null) arg += I18n.get(MovesUtils.getUnlocalizedMove(s)) + ", ";
+                }
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(TComponent.translatable("pokecube.tooltip.moves", arg).withStyle(ChatFormatting.GRAY));
                 arg = "";
                 for (final Byte b : pokemob.getIVs()) arg += b + ", ";
-                list.add(TComponent.translatable("pokecube.tooltip.nature", pokemob.getNature()).withStyle(ChatFormatting.GRAY));
-                list.add(TComponent.translatable("pokecube.tooltip.ability", pokemob.getAbility()).withStyle(ChatFormatting.GRAY));
+                list.add(TComponent.translatable("pokecube.tooltip.nature", pokemob.getNature())
+                        .withStyle(ChatFormatting.GRAY));
+                list.add(TComponent.translatable("pokecube.tooltip.ability", pokemob.getAbility())
+                        .withStyle(ChatFormatting.GRAY));
                 if (arg.endsWith(", ")) arg = arg.substring(0, arg.length() - 2);
                 list.add(TComponent.translatable("pokecube.tooltip.ivs", arg).withStyle(ChatFormatting.GRAY));
                 arg = "";
@@ -176,7 +186,7 @@ public class Pokecube extends Item implements IPokecube
                 final String gender = sexe == IPokemob.MALE ? "\u2642" : sexe == IPokemob.FEMALE ? "\u2640" : "";
                 if (!gender.isBlank())
                     if (sexe == IPokemob.MALE) list.add(TComponent.translatable("pokecube.tooltip.male"));
-                    if (sexe == IPokemob.FEMALE) list.add(TComponent.translatable("pokecube.tooltip.female"));
+                if (sexe == IPokemob.FEMALE) list.add(TComponent.translatable("pokecube.tooltip.female"));
             }
             else list.add(TComponent.translatable("pokecube.tooltip.advanced"));
         }
@@ -265,7 +275,7 @@ public class Pokecube extends Item implements IPokecube
     @Override
     public boolean isDamaged(final ItemStack stack)
     {
-        return PokecubeManager.isFilled(stack);
+        return !renderingOverlay && PokecubeManager.isFilled(stack);
     }
 
     @Override
@@ -348,6 +358,14 @@ public class Pokecube extends Item implements IPokecube
     {
         if (MobEntity instanceof Player player && !worldIn.isClientSide)
         {
+            if (stack.hasTag())
+            {
+                long cooldownStart = stack.getTag().getLong("pokecube:recall_tick");
+                if (Tracker.instance().getTick() < cooldownStart + PokecubeCore.getConfig().deadDespawnTimer)
+                {
+                    return;
+                }
+            }
             final Predicate<Entity> selector = input -> {
                 final IPokemob pokemob = PokemobCaps.getPokemobFor(input);
                 if (!AITools.validCombatTargets.test(input)) return false;
@@ -367,9 +385,9 @@ public class Pokecube extends Item implements IPokecube
                 target = null;
             boolean used = false;
             final boolean filledOrSneak = filled || player.isShiftKeyDown() || dt > 10;
-            if (target != null && EntityPokecubeBase.SEEKING)
+            if (target != null && EntityPokecubeBase.CUBES_SEEK)
                 used = this.throwPokecubeAt(worldIn, player, stack, targetLocation, target) != null;
-            else if (filledOrSneak || !EntityPokecubeBase.SEEKING)
+            else if (filledOrSneak || !EntityPokecubeBase.CUBES_SEEK)
             {
                 float power = (this.getUseDuration(stack) - timeLeft) / (float) 100;
                 power = Math.min(1, power);
@@ -457,8 +475,7 @@ public class Pokecube extends Item implements IPokecube
 
         temp.moveEntity(entity);
         entity.shoot(direction.norm(), power * 10);
-        entity.seeking = false;
-        entity.targetEntity = null;
+        entity.setSeeking(null);
         entity.targetLocation.clear();
         if (hasMob && !thrower.isShiftKeyDown()) entity.targetLocation.y = -1;
         if (!world.isClientSide)
@@ -489,7 +506,7 @@ public class Pokecube extends Item implements IPokecube
         if (target instanceof LivingEntity || PokecubeManager.isFilled(cube) || thrower.isShiftKeyDown()
                 || thrower instanceof FakePlayer)
         {
-            if (target instanceof LivingEntity living) entity.targetEntity = living;
+            if (target instanceof LivingEntity living) entity.setSeeking(living);
             if (target == null && targetLocation == null && PokecubeManager.isFilled(cube))
                 targetLocation = Vector3.secondAxisNeg;
             entity.targetLocation.set(targetLocation);
@@ -518,7 +535,7 @@ public class Pokecube extends Item implements IPokecube
             if (thrower.isShiftKeyDown())
             {
                 temp.clear().setVelocities(entity);
-                entity.targetEntity = null;
+                entity.setSeeking(null);
                 entity.targetLocation.clear();
             }
             if (!world.isClientSide)

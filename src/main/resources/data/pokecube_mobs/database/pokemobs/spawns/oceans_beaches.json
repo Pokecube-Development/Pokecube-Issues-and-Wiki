@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.oceans.general",
       "and_preset": "oceans",
       "entries": [
         {"key": "clobbopus","min": 1,"max": 4,"rate": 0.2},
@@ -11,6 +12,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.oceans.not_cold",
       "and_preset": "oceans",
       "not_preset": "cold_areas",
       "entries": [
@@ -19,6 +21,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.oceans.ground",
       "and_preset": "ocean_ground",
       "entries": [
         {"key": "wingull","min": 1,"max": 4,"rate": 0.5},
@@ -28,6 +31,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.oceans.water",
       "and_preset": "ocean_water",
       "entries": [
         {"key": "magikarp","min": 1,"max": 4,"rate": 1},
@@ -72,12 +76,14 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.oceans.water_night",
       "and_preset": "ocean_water,night_time",
       "entries": [
         {"key": "inkay","min": 1,"max": 4,"rate": 1}
       ]
     },
     {
+      "desc": "pokecube.spawns.beaches.general",
       "and_preset": "beaches",
       "entries": [
         {"key": "binacle","min": 1,"max": 4,"rate": 0.5},
@@ -104,6 +110,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.beaches.ground",
       "and_preset": "beach_ground",
       "entries": [
         {"key": "wingull","min": 1,"max": 4,"rate": 0.5},
@@ -120,6 +127,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.beaches.water",
       "and_preset": "beach_water",
       "entries": [
         {"key": "magikarp","min": 1,"max": 4,"rate": 1},
@@ -143,6 +151,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.beaches.water_night",
       "and_preset": "beach_water,night_time",
       "entries": [
         {"key": "inkay","min": 1,"max": 4,"rate": 1},

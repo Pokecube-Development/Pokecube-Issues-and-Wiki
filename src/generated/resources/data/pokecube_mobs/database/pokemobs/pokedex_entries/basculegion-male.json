@@ -30,7 +30,7 @@
   ],
   "abilities": {
     "normal": [
-      "rattled",
+      "swift-swim",
       "adaptability"
     ],
     "hidden": [

@@ -43,7 +43,6 @@
         "moves": [
           "absorb",
           "stun-spore",
-          "covet",
           "struggle-bug",
           "fairy-wind"
         ]
@@ -64,6 +63,12 @@
         "L": 13,
         "moves": [
           "silver-wind"
+        ]
+      },
+      {
+        "L": 32,
+        "moves": [
+          "covet"
         ]
       },
       {
@@ -104,12 +109,14 @@
       }
     ],
     "misc": [
+      "take-down",
       "hyper-beam",
       "absorb",
       "solar-beam",
       "stun-spore",
       "toxic",
       "psychic",
+      "agility",
       "double-team",
       "light-screen",
       "reflect",
@@ -154,8 +161,10 @@
       "last-resort",
       "bug-buzz",
       "energy-ball",
+      "switcheroo",
       "giga-impact",
       "defog",
+      "grass-knot",
       "bug-bite",
       "wonder-room",
       "telekinesis",
@@ -163,18 +172,26 @@
       "quiver-dance",
       "after-you",
       "round",
+      "stored-power",
       "ally-switch",
       "acrobatics",
       "struggle-bug",
+      "sticky-web",
       "draining-kiss",
       "play-rough",
       "fairy-wind",
+      "moonblast",
       "confide",
+      "aromatic-mist",
       "dazzling-gleam",
       "infestation",
       "pollen-puff",
+      "lunge",
       "speed-swap",
-      "dual-wingbeat"
+      "dual-wingbeat",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
   "loot_table": "pokecube:entities/glowstone_dust"

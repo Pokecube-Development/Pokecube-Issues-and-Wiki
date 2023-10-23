@@ -25,10 +25,10 @@ import pokecube.mobs.client.smd.impl.MutableVertex;
 import thut.api.entity.IAnimated.HeadInfo;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.entity.animation.Animation;
+import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.api.maths.vecmath.Mat4f;
 import thut.core.client.render.animation.AnimationXML.Mat;
-import thut.core.client.render.animation.IAnimationChanger;
 import thut.core.client.render.model.IExtendedModelPart;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelCustom;
@@ -414,6 +414,13 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
 
     @Override
     public void setColorScales(float r, float g, float b, float a)
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    @Override
+    public void setPostScale(Vector3 scale)
     {
         // TODO Auto-generated method stub
         

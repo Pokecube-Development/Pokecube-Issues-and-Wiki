@@ -11,61 +11,29 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraftforge.common.MinecraftForge;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
-import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
+import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.events.pokemobs.EvolveEvent;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.Database;
-import pokecube.core.entity.pokemobs.genetics.GeneticsManager;
 import pokecube.core.eventhandlers.PokemobEventsHandler.EvoTicker;
-import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
 import pokecube.core.moves.MovesUtils;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.EntityTools;
 import thut.api.item.ItemList;
-import thut.api.maths.Vector3;
 import thut.core.common.network.EntityUpdate;
 import thut.lib.TComponent;
 
 public interface ICanEvolve extends IHasEntry, IHasOwner
 {
     public static final ResourceLocation EVERSTONE = new ResourceLocation("pokecube:everstone");
-
-    /**
-     * Shedules mega evolution for a few ticks later
-     *
-     * @param evolver the mob to schedule to evolve
-     * @param newForm the form to evolve to
-     * @param message the message to send on completion
-     */
-    public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm, final Component message)
-    {
-        ICanEvolve.setDelayedMegaEvolve(evolver, newForm, message, false);
-    }
-
-    /**
-     * Shedules mega evolution for a few ticks later
-     *
-     * @param evolver    the mob to schedule to evolve
-     * @param newForm    the form to evolve to
-     * @param message    the message to send on completion
-     * @param dynamaxing tif true, will set dynamax flag when completed.
-     */
-    public static void setDelayedMegaEvolve(final IPokemob evolver, final PokedexEntry newForm, final Component message,
-            final boolean dynamaxing)
-    {
-        if (!(evolver.getEntity().level instanceof ServerLevel)) return;
-        new MegaEvoTicker(newForm, PokecubeCore.getConfig().evolutionTicks / 2, evolver, message, dynamaxing);
-    }
 
     /**
      * Cancels the current evoluton for the pokemob, sends appropriate message
@@ -150,18 +118,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             }
         }
         if (select_from.isEmpty()) select_from.addAll(valid);
-
-        valid.clear();
-        // Now from ones left, lets filter by location requirements
-        SpawnCheck check = new SpawnCheck(new Vector3(thisEntity), (ServerLevelAccessor) thisEntity.level);
-        for (final EvolutionData d : select_from)
-        {
-            if (d.matcher != null && d.matcher.matches(check))
-            {
-                valid.add(d);
-            }
-        }
-        if (!valid.isEmpty()) select_from = valid;
         if (select_from.isEmpty()) return null;
 
         int index = 0;
@@ -180,12 +136,17 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             EvolveEvent evt = new EvolveEvent.Pre(thisMob, evol, data);
             PokecubeAPI.POKEMOB_BUS.post(evt);
             if (evt.isCanceled()) return null;
+
+            // Determine if immediate
+            boolean immediate = true;
+            if (this.getEntity().isAddedToWorld() && this.getEntity().getLevel() instanceof ServerLevel level)
+                immediate = !level.isHandlingTick();
             // change to new forme.
-            final IPokemob evo = this.megaEvolve(((EvolveEvent.Pre) evt).forme);
+            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, immediate, true);
             // Remove held item if it had one.
             if (neededItem && ItemStack.isSame(stack, thisMob.getHeldItem())) evo.setHeldItem(ItemStack.EMPTY);
             // Init things like moves.
-            evo.getMoveStats().oldLevel = data.level - 1;
+            evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
             evo.levelUp(evo.getLevel());
 
             evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
@@ -223,7 +184,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 return thisMob;
             }
             // Evolve the mob.
-            final IPokemob evo = this.megaEvolve(((EvolveEvent.Pre) evt).forme);
+            final IPokemob evo = this.changeForm(((EvolveEvent.Pre) evt).forme, true, true);
             if (evo != null)
             {
                 // Clear held item if used for evolving.
@@ -234,9 +195,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 // Lean any moves that should are supposed to have just
                 // learnt.
                 if (delayed) evo.getMoveStats().oldLevel = evo.getLevel() - 1;
-                else if (data != null) evo.getMoveStats().oldLevel = data.level - 1;
+                else if (data != null) evo.getMoveStats().oldLevel = thisMob.getMoveStats().oldLevel;
                 evo.levelUp(evo.getLevel());
 
+                evo.setBasePokedexEntry(evol);
+                evo.setPokedexEntry(evol);
                 evo.setCustomHolder(data.data.getForme(evo.getPokedexEntry()));
 
                 // Don't immediately try evolving again, only wild ones
@@ -294,11 +257,11 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         {
             if (theMob.getGeneralState(GeneralStates.TAMED))
             {
-                final String[] current = theMob.getMoves();
-                if (current[3] != null)
+                if (theMob.getMove(theMob.getMovesCount() - 1) != null)
                 {
-                    for (final String s : current)
+                    for (int i = 0; i < theMob.getMovesCount(); i++)
                     {
+                        String s = theMob.getMove(i);
                         if (s == null) continue;
                         for (final String s1 : moves) if (s.equals(s1))
                         {
@@ -323,30 +286,18 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         return theMob;
     }
 
-    default IPokemob megaEvolve(final PokedexEntry newEntry)
+    default IPokemob changeForm(final PokedexEntry newEntry)
     {
         if (this.getEntity().getLevel() instanceof ServerLevel level)
-            return this.megaEvolve(newEntry, !level.isHandlingTick());
-        return this.megaEvolve(newEntry, true);
+            return this.changeForm(newEntry, !level.isHandlingTick(), false);
+        return this.changeForm(newEntry, true, false);
     }
 
-    default PokedexEntry getMegaBase()
+    default IPokemob resetForm(boolean onRecall)
     {
-        final PokedexEntry entry = this.getPokedexEntry();
-        if (!(this.getCombatState(CombatStates.MEGAFORME) || entry.isMega())) return entry;
-        PokedexEntry prev = Database.getEntry(this.getEntity().getPersistentData().getString("pokecube:mega_base"));
-        if (prev == null || prev == Database.missingno) prev = entry.getBaseForme();
-        if (prev == null) return entry;
-        return prev;
-    }
-
-    default IPokemob megaRevert()
-    {
-        if (!(this.getCombatState(CombatStates.MEGAFORME) || this.getPokedexEntry().isMega())) return (IPokemob) this;
-        final PokedexEntry entry = this.getPokedexEntry();
-        final PokedexEntry prev = this.getMegaBase();
-        this.setCombatState(CombatStates.MEGAFORME, false);
-        if (prev != entry) return this.megaEvolve(prev);
+        PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Revert((IPokemob) this, onRecall));
+        this.setPokedexEntry(getBasePokedexEntry());
+        PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post((IPokemob) this));
         return (IPokemob) this;
     }
 
@@ -356,7 +307,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
      * @param newEntry new pokedex entry to have
      * @return the new pokemob, return this if it fails
      */
-    default IPokemob megaEvolve(final PokedexEntry newEntry, final boolean immediate)
+    default IPokemob changeForm(PokedexEntry newEntry, boolean immediate, boolean permanent)
     {
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = (IPokemob) this;
@@ -367,36 +318,38 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
         if (newEntry != null && newEntry != oldEntry)
         {
             this.setGeneralState(GeneralStates.EVOLVING, true);
-
-            evolution = PokecubeCore.createPokemob(newEntry, thisEntity.getLevel());
-            if (evolution == null)
+            if (permanent)
             {
-                PokecubeAPI.LOGGER.warn("No Entry for " + newEntry);
-                return thisMob;
+                evolution = PokecubeCore.createPokemob(newEntry, thisEntity.getLevel());
+                if (evolution == null)
+                {
+                    PokecubeAPI.LOGGER.warn("No Entry for " + newEntry);
+                    return thisMob;
+                }
             }
-            final int id = evolution.getId();
-            final UUID uuid = evolution.getUUID();
             evoMob = PokemobCaps.getPokemobFor(evolution);
             // Reset nickname if needed.
-            if (this.getPokemonNickname().equals(oldEntry.getName())) this.setPokemonNickname("");
+            if (this.getPokemonNickname().equals(oldEntry.getName())) evoMob.setPokemonNickname("");
 
-            // Copy NBT data over
-            evolution.load(thisEntity.saveWithoutId(new CompoundTag()));
+            if (permanent)
+            {
+                final int id = evolution.getId();
+                final UUID uuid = evolution.getUUID();
+                // Copy NBT data over
+                evolution.load(thisEntity.saveWithoutId(new CompoundTag()));
+                // Copy transforms over.
+                EntityTools.copyEntityTransforms(evolution, thisEntity);
+                evolution.setId(id);
+                evolution.setUUID(uuid);
 
-            // Copy transforms over.
-            EntityTools.copyEntityTransforms(evolution, thisEntity);
-            evolution.setId(id);
-            evolution.setUUID(uuid);
-
-            // Sync over any active moves
-            evoMob.getMoveStats().movesInProgress.addAll(thisMob.getMoveStats().movesInProgress);
-            IPokemob fevoMob = evoMob;
-            evoMob.getMoveStats().movesInProgress.forEach(m -> m.setUser(fevoMob));
+                // Sync over any active moves
+                evoMob.getMoveStats().movesInProgress.addAll(thisMob.getMoveStats().movesInProgress);
+                IPokemob fevoMob = evoMob;
+                evoMob.getMoveStats().movesInProgress.forEach(m -> m.setUser(fevoMob));
+            }
 
             // Flag the mob as evolving.
             evoMob.setGeneralState(GeneralStates.EVOLVING, true);
-
-            GeneticsManager.handleEpigenetics(evoMob);
 
             evoMob.onGenesChanged();
 
@@ -407,24 +360,26 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
             evolution.getPersistentData().remove("pokecube:mega_base");
 
             // Sync ability back, or store old ability.
-            if (evoMob.getPokedexEntry().isMega())
+            if (!permanent)
             {
-                if (thisMob.getAbility() != null)
-                    evolution.getPersistentData().putString("pokecube:mega_ability", thisMob.getAbility().toString());
-                evolution.getPersistentData().putString("pokecube:mega_base", oldEntry.getTrimmedName());
-                final Ability ability = newEntry.getAbility(0, evoMob);
-                if (PokecubeCore.getConfig().debug_ai)
-                    PokecubeAPI.logInfo("Mega Evolving, changing ability to " + ability);
-
-                if (ability != null) evoMob.setAbilityRaw(ability);
-            }
-            else if (thisEntity.getPersistentData().contains("pokecube:mega_ability"))
-            {
-                final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");
-                evolution.getPersistentData().remove("pokecube:mega_ability");
-                if (!ability.isEmpty()) evoMob.setAbilityRaw(AbilityManager.getAbility(ability));
-                if (PokecubeCore.getConfig().debug_ai)
-                    PokecubeAPI.logInfo("Un Mega Evolving, changing ability back to " + ability);
+                if (thisEntity.getPersistentData().contains("pokecube:mega_ability"))
+                {
+                    final String ability = thisEntity.getPersistentData().getString("pokecube:mega_ability");
+                    evolution.getPersistentData().remove("pokecube:mega_ability");
+                    if (!ability.isEmpty()) evoMob.setAbilityRaw(AbilityManager.getAbility(ability));
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.logInfo("Un Mega Evolving, changing ability back to " + ability);
+                }
+                else
+                {
+                    if (thisMob.getAbility() != null) evolution.getPersistentData().putString("pokecube:mega_ability",
+                            thisMob.getAbility().toString());
+                    evolution.getPersistentData().putString("pokecube:mega_base", oldEntry.getTrimmedName());
+                    final Ability ability = newEntry.getAbility(0, evoMob);
+                    if (PokecubeCore.getConfig().debug_ai)
+                        PokecubeAPI.logInfo("Mega Evolving, changing ability to " + ability);
+                    if (ability != null) evoMob.setAbilityRaw(ability);
+                }
             }
 
             final EvolveEvent evt = new EvolveEvent.Post(evoMob);
@@ -455,22 +410,6 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
     {
 
     }
-
-    /**
-     * This scales the max health of the pokemob when it is dynamaxed or
-     * gigantamaxed
-     *
-     * @return
-     */
-    float getDynamaxFactor();
-
-    /**
-     * This scales the max health of the pokemob when it is dynamaxed or
-     * gigantamaxed
-     *
-     * @return
-     */
-    void setDynamaxFactor(float factor);
 
     /**
      * This gets called to notifiy of a dynamax that requires an HP update.

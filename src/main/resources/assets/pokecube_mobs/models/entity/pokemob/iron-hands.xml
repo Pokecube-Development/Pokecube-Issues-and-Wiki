@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ModelAnimator version="0.1">
+ <model>
+  <phase name="global" scale="1"/>
+  <metadata head="head" headCap="-60,60" headCap1="-60,60" headDir2="1"/>
+  <customTex default="iron-hands">
+   <part name="belly" tex="bellibolt-belly"/>
+   <animation diffs="0,0.34, 0,0.67, 0,0.1" part="belly" trigger="sequence"/>
+  </customTex>
+   <material name="glow" light="1" transluscent="false" shader="eyes_shader"/>
+   <phase type="idle">
+   <part name="belly">
+    <component length="1" name="1" hidden="true" startKey="0"/>
+	<component length="1" name="2" hidden="false" startKey="100"/>
+	<component length="1" name="3" hidden="true" startKey="200"/>
+   </part>
+   <part name="eyes">
+    <component length="1" name="1" hidden="false" startKey="0"/>
+	<component length="1" name="2" hidden="true" startKey="100"/>
+	<component length="1" name="3" hidden="false" startKey="110"/>
+   </part>
+  </phase>
+ </model>
+</ModelAnimator>

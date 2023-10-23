@@ -121,6 +121,7 @@
     "misc": [
       "body-slam",
       "take-down",
+      "roar",
       "dig",
       "rest",
       "substitute",
@@ -148,15 +149,10 @@
       "snarl",
       "play-rough",
       "psychic-fangs",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mabosstiff",
-      "level": 30
-    }
-  ],
   "loot_table": "pokecube:entities/coal_rabbit_1"
 }

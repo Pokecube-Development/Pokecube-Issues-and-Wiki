@@ -183,12 +183,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "salamence",
-      "level": 50,
-      "evoMoves": "fly"
-    }
-  ],
   "loot_table": "pokecube:entities/shellseed_1"
 }

@@ -33,6 +33,7 @@ import net.minecraftforge.network.NetworkHooks;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.moves.Battle;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveAnimation.MovePacketInfo;
@@ -79,7 +80,9 @@ public class EntityMoveUse extends ThrowableProjectile
     {
         var entity = new EntityMoveUse(EntityTypes.getMove(), level);
         entity.apply = apply.copyForMoveUse();
-        entity.setStart(new Vector3(apply.getUser().getEntity()));
+        Vector3 start = new Vector3(apply.getUser().getEntity());
+        entity.setStart(start);
+        start.moveEntity(entity);
         entity.setMove(apply.getMove());
         entity.setUser(apply.getUser().getEntity());
         entity.setTarget(apply.getTarget());
@@ -474,27 +477,40 @@ public class EntityMoveUse extends ThrowableProjectile
 
         final Entity user = this.getUser();
         final IPokemob userMob = PokemobCaps.getPokemobFor(user);
+        if (userMob != null) userMob.setCombatState(CombatStates.EXECUTINGMOVE, true);
+
         // Finished, or is invalid
         if (this.getMove() == null || user == null || age < 0 || !this.isAlive() || !user.isAlive())
         {
-            this.discard();
-            if (!this.applied && PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+            if (userMob != null)
             {
-                PokecubeAPI.logInfo("A: Attack {} by {} terminated without applying!", this.getMove().getName(),
-                        user.getDisplayName().getString());
+                userMob.setCombatState(CombatStates.EXECUTINGMOVE, false);
+                BrainUtils.clearMoveUseTarget(userMob.getEntity());
             }
+            if (!applied)
+            {
+                // Send message about having missed the target
+                if (target != null && userMob != null) MovesUtils.displayEfficiencyMessages(userMob, target, -1, 0);
+                if (PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+                {
+                    PokecubeAPI.logInfo("B: Attack {} by {} terminated without applying!", this.getMove().getName(),
+                            user.getDisplayName().getString());
+                }
+            }
+            this.discard();
             return;
         }
 
         this.prev.set(this.here);
+
         AABB testBox = this.getBoundingBox();
         final MoveEntry attack = this.getMove();
 
         final List<AABB> hitboxes = Lists.newArrayList();
 
         // These are divided by 2, as inflate applies to both directions!
-        final float sh = (float) Math.max(this.size.x, this.size.z) / 2;
-        final float sv = (float) this.size.y / 2;
+        final float sh = 0.25f + (float) Math.max(this.size.x, this.size.z) / 2;
+        final float sv = 0.25f + (float) this.size.y / 2;
 
         if (attack.isAoE())
         {
@@ -594,11 +610,18 @@ public class EntityMoveUse extends ThrowableProjectile
 
         if (this.isDone())
         {
+            userMob.setCombatState(CombatStates.EXECUTINGMOVE, false);
+            BrainUtils.clearMoveUseTarget(userMob.getEntity());
             this.remove(RemovalReason.DISCARDED);
-            if (!this.applied && PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+            if (!this.applied)
             {
-                PokecubeAPI.logInfo("B: Attack {} by {} terminated without applying!", this.getMove().getName(),
-                        user.getDisplayName().getString());
+                // Send message about having missed the target
+                if (target != null) MovesUtils.displayEfficiencyMessages(userMob, target, -1, 0);
+                if (PokecubeCore.getConfig().debug_moves && user != null && this.getMove() != null)
+                {
+                    PokecubeAPI.logInfo("B: Attack {} by {} terminated without applying!", this.getMove().getName(),
+                            user.getDisplayName().getString());
+                }
             }
         }
     }

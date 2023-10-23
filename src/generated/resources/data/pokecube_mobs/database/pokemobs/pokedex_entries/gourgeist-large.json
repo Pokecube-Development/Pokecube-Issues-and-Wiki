@@ -2,6 +2,7 @@
   "name": "gourgeist-large",
   "id": 711,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 173,
   "size": {
     "height": 1.1

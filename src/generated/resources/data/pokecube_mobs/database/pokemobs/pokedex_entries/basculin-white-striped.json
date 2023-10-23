@@ -2,6 +2,7 @@
   "name": "basculin-white-striped",
   "id": 550,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 161,
   "size": {
     "height": 1.0
@@ -90,18 +91,6 @@
       "ice-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "basculegion-male",
-      "level": 25,
-      "sexe": "male"
-    },
-    {
-      "name": "basculegion-female",
-      "level": 25,
-      "sexe": "female"
-    }
-  ],
   "old_name": "basculin_hisui",
   "loot_table": "pokecube:entities/fish_1"
 }

@@ -39,6 +39,7 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "tackle",
           "growl",
           "bide"
@@ -67,15 +68,9 @@
       "endeavor",
       "bug-bite",
       "struggle-bug",
+      "lunge",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "kricketune",
-      "level": 10,
-      "evoMoves": "fury-cutter"
-    }
-  ],
   "loot_table": "pokecube:entities/chestplate_seeds_1"
 }

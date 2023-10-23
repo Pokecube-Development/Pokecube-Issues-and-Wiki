@@ -1,0 +1,9 @@
+{
+  "name": "fletchinder",
+  "user": "fletchling",
+  "condition": {
+    "key": "level",
+    "level": 17
+  },
+  "evoMoves": "ember"
+}

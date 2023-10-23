@@ -1,6 +1,7 @@
 {
   "rules": [
     {
+      "desc": "pokecube.spawns.ruins.general",
       "and_preset": "ruins",
       "entries": [
         {"key": "unown","min": 1,"max": 4,"rate": 0.5, "variant": "unown_*"},
@@ -24,6 +25,7 @@
       ]
     },
     {
+      "desc": "pokecube.spawns.ruins.hills",
       "and_preset": "ruins,hills",
       "entries": [
         {"key": "bronzor","min": 1,"max": 4,"rate": 0.1}

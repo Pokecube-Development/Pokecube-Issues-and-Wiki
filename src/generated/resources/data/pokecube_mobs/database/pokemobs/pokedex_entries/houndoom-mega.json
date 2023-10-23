@@ -2,7 +2,7 @@
   "name": "houndoom-mega",
   "id": 229,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 210,
   "size": {
     "height": 1.9,
@@ -177,5 +177,6 @@
       "throat-chop"
     ]
   },
+  "sound": "houndoom-mega",
   "old_name": "houndoom_mega"
 }
