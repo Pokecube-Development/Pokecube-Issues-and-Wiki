@@ -1,0 +1,11 @@
+{
+  "name": "cetitan",
+  "user": "cetoddle",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube_mobs:ice_stone"
+    }
+  },
+  "evoMoves": "dazzling-gleam"
+}

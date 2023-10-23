@@ -3,6 +3,6 @@
   "name": "greninja-battle-bond",
   "rule": {
     "key": "ability",
-    "ability": "battlebond"
+    "ability": "battle-bond"
   }
 }

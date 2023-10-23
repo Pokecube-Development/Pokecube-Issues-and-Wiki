@@ -226,6 +226,7 @@
       "tera-blast"
     ]
   },
+  "sound": "thundurus-incarnate",
   "spawn_rules": [
     {
       "values": {

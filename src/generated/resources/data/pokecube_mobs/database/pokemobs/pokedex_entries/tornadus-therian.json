@@ -204,6 +204,7 @@
       "chilling-water"
     ]
   },
+  "sound": "tornadus-therian",
   "interactions": [
     {
       "male": true,
