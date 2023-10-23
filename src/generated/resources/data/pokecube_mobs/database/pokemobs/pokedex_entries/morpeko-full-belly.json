@@ -189,6 +189,7 @@
       "tera-blast"
     ]
   },
+  "sound": "morpeko-full-belly",
   "old_name": "morpeko",
   "loot_table": "pokecube:entities/rotten_rabbit_1"
 }

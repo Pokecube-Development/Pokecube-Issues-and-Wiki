@@ -63,5 +63,6 @@
       "hex",
       "tera-blast"
     ]
-  }
+  },
+  "sound": "gimmighoul-roaming"
 }

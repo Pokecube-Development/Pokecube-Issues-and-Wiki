@@ -191,6 +191,7 @@
       "scorching-sands"
     ]
   },
+  "sound": "zygarde-complete",
   "interactions": [
     {
       "male": true,

@@ -1,8 +1,27 @@
-{
-  "name": "maushold",
-  "user": "tandemaus",
-  "condition": {
-    "key": "level",
-    "level": 25
+[
+  {
+    "name": "maushold",
+    "user": "tandemaus",
+    "condition": {
+      "key": "level",
+      "level": 25
+    }
+  },
+  {
+    "name": "maushold",
+    "user": "tandemaus",
+    "condition": [
+      {
+        "key": "level",
+        "level": 25
+      },
+      {
+        "key": "chance",
+        "chance": 0.01
+      }
+    ],
+    "model": {
+      "key": "maushold-family-of-three"
+    }
   }
-}
+]

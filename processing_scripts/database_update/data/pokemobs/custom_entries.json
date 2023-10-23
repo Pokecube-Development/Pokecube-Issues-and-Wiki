@@ -107,5 +107,253 @@
           "name":"MissingNo."
         }
       ]
+    },
+    {
+      "name": "rayquaza",
+      "id": 384,
+      "stock": true,
+      "base_experience": 340,
+      "size": {
+        "height": 1.0,
+        "length": 7.0
+      },
+      "mass": 206.5,
+      "is_default": true,
+      "capture_rate": 45,
+      "base_happiness": 0,
+      "growth_rate": "slow",
+      "gender_rate": 255,
+      "stats": {
+        "hp": 105,
+        "attack": 150,
+        "defense": 90,
+        "special_attack": 150,
+        "special_defense": 90,
+        "speed": 95
+      },
+      "evs": {
+        "attack": 2,
+        "special_attack": 1
+      },
+      "types": [
+        "dragon",
+        "flying"
+      ],
+      "abilities": {
+        "normal": [
+          "air-lock"
+        ]
+      },
+      "moves": {
+        "level_up": [
+          {
+            "L": 65,
+            "moves": [
+              "fly"
+            ]
+          },
+          {
+            "L": 90,
+            "moves": [
+              "hyper-beam"
+            ]
+          },
+          {
+            "L": 35,
+            "moves": [
+              "rest"
+            ]
+          },
+          {
+            "L": 5,
+            "moves": [
+              "scary-face"
+            ]
+          },
+          {
+            "L": 80,
+            "moves": [
+              "outrage"
+            ]
+          },
+          {
+            "L": 1,
+            "moves": [
+              "twister"
+            ]
+          },
+          {
+            "L": 20,
+            "moves": [
+              "crunch",
+              "dragon-claw"
+            ]
+          },
+          {
+            "L": 45,
+            "moves": [
+              "extreme-speed"
+            ]
+          },
+          {
+            "L": 15,
+            "moves": [
+              "ancient-power"
+            ]
+          },
+          {
+            "L": 75,
+            "moves": [
+              "hyper-voice"
+            ]
+          },
+          {
+            "L": 60,
+            "moves": [
+              "dragon-dance"
+            ]
+          },
+          {
+            "L": 30,
+            "moves": [
+              "air-slash"
+            ]
+          },
+          {
+            "L": 50,
+            "moves": [
+              "dragon-pulse"
+            ]
+          },
+          {
+            "L": 72,
+            "moves": [
+              "hurricane"
+            ]
+          }
+        ],
+        "misc": [
+          "swords-dance",
+          "fly",
+          "bind",
+          "headbutt",
+          "body-slam",
+          "take-down",
+          "double-edge",
+          "roar",
+          "flamethrower",
+          "hydro-pump",
+          "surf",
+          "ice-beam",
+          "blizzard",
+          "hyper-beam",
+          "strength",
+          "solar-beam",
+          "thunderbolt",
+          "thunder-wave",
+          "thunder",
+          "earthquake",
+          "toxic",
+          "mimic",
+          "double-team",
+          "fire-blast",
+          "waterfall",
+          "swift",
+          "rest",
+          "rock-slide",
+          "substitute",
+          "snore",
+          "protect",
+          "scary-face",
+          "mud-slap",
+          "icy-wind",
+          "outrage",
+          "sandstorm",
+          "endure",
+          "swagger",
+          "fury-cutter",
+          "sleep-talk",
+          "return",
+          "frustration",
+          "iron-tail",
+          "hidden-power",
+          "twister",
+          "rain-dance",
+          "sunny-day",
+          "crunch",
+          "psych-up",
+          "extreme-speed",
+          "ancient-power",
+          "rock-smash",
+          "whirlpool",
+          "uproar",
+          "facade",
+          "helping-hand",
+          "brick-break",
+          "secret-power",
+          "dive",
+          "hyper-voice",
+          "overheat",
+          "rock-tomb",
+          "cosmic-power",
+          "aerial-ace",
+          "dragon-claw",
+          "bulk-up",
+          "dragon-dance",
+          "shock-wave",
+          "water-pulse",
+          "gyro-ball",
+          "natural-gift",
+          "tailwind",
+          "u-turn",
+          "fling",
+          "aqua-tail",
+          "air-slash",
+          "dragon-pulse",
+          "focus-blast",
+          "energy-ball",
+          "earth-power",
+          "giga-impact",
+          "avalanche",
+          "shadow-claw",
+          "defog",
+          "draco-meteor",
+          "iron-head",
+          "stone-edge",
+          "stealth-rock",
+          "hone-claws",
+          "round",
+          "echoed-voice",
+          "sky-drop",
+          "incinerate",
+          "bulldoze",
+          "dragon-tail",
+          "wild-charge",
+          "hurricane",
+          "confide",
+          "dragon-ascent",
+          "brutal-swing",
+          "breaking-swipe",
+          "scale-shot",
+          "meteor-beam",
+          "tera-blast"
+        ]
+      },
+      "spawn_rules": [
+        {
+          "values": {
+            "structures": "pokecube_legends:sky_pillar",
+            "rate": "0.0"
+          }
+        }
+      ],
+      "mega_rules": [
+        {
+          "name": "rayquaza-mega",
+          "move": "dragon-ascent",
+          "item_preset": "pokecube_legends:meteorite"
+        }
+      ],
+      "loot_table": "pokecube:entities/enderpearls_2"
     }
 ]
