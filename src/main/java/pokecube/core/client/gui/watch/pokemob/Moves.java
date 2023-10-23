@@ -68,7 +68,7 @@ public class Moves extends ListPage<LineEntry>
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 graphics.drawString(this.font, moveName, x + dx, y + dy + offset[1] + offset[4],
-                        move.getType(pokemob).colour);
+                        move.getType(pokemob).colour, false);
                 final int length = this.font.width(moveName);
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
                 if (mouseOver)
@@ -86,7 +86,7 @@ public class Moves extends ListPage<LineEntry>
                     final int dy1 = this.font.lineHeight;
                     graphics.fill(x + mx1 - 1, y + my1 - 1, x + mx1 + box + 1, y + my1 + dy1 + 1, 0xFF78C850);
                     graphics.fill(x + mx1, y + my1, x + mx1 + box, y + my1 + dy1, 0xFF000000);
-                    graphics.drawString(this.font, info, x + mx1 + 1, y + my1 + 1, 0xFFFFFFFF);
+                    graphics.drawString(this.font, info, x + mx1 + 1, y + my1 + 1, 0xFFFFFFFF, false);
                 }
             }
         }

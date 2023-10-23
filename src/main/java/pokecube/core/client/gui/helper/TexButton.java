@@ -267,7 +267,7 @@ public class TexButton extends Button
             graphics.drawString(fontrenderer, msg, (int) (this.getX() + this.getWidth() / 2 - dx),
                     this.getY() + (this.getHeight() - 8) / 2, j | 255 << 24, false);
         }
-        if (this.isHoveredOrFocused() && this.onTooltip != null)
+        if (this.isHovered() && this.onTooltip != null)
             this.onTooltip.onTooltip(this, graphics, mouseX, mouseY);
     }
 
