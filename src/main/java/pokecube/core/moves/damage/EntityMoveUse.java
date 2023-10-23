@@ -238,6 +238,10 @@ public class EntityMoveUse extends ThrowableProjectile
         // If the core living is not valid, we just quit there.
         if (!this.valid.test(living)) return;
 
+        boolean selfMove = user == this.getTarget();
+        // Self move should only hit user.
+        if (selfMove && target != user) return;
+
         final UUID targetID = living.getUUID();
         final Entity targ = this.getTarget();
         final UUID targId = targ == null ? null : targ.getUUID();
@@ -271,7 +275,7 @@ public class EntityMoveUse extends ThrowableProjectile
             this.applied = true;
 
             // Don't penetrate through blocking mobs, so end the move here.
-            if (living.isBlocking() && !this.getMove().isAoE())
+            if (selfMove || (living.isBlocking() && !this.getMove().isAoE()))
             {
                 this.finished = true;
                 // We only apply this to do block effects, not for damage. For

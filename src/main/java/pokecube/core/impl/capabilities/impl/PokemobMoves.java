@@ -459,7 +459,7 @@ public abstract class PokemobMoves extends PokemobStats
     }
 
     @Override
-    public boolean setStatus(int status, int turns)
+    public boolean setStatus(IPokemob source, int status, int turns)
     {
         non:
         if (this.getStatus() != IMoveConstants.STATUS_NON)
@@ -499,6 +499,7 @@ public abstract class PokemobMoves extends PokemobStats
         this.setStatusTimer(timer);
         PersistantStatusEffect statusEffect;
         statusEffect = new PersistantStatusEffect(status, turns);
+        if (source != null) statusEffect.setSource(source.getEntity().getUUID());
         return CapabilityAffected.addEffect(this.getEntity(), statusEffect);
     }
 

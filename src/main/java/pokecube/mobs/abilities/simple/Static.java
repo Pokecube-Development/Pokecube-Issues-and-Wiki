@@ -18,6 +18,6 @@ public class Static extends Ability
         final IPokemob attacker = move.getUser();
         if (move.hit
                 && attack.isContact(attacker) && Math.random() > 0.7)
-            attacker.setStatus(IMoveConstants.STATUS_PAR);
+            attacker.setStatus(mob, IMoveConstants.STATUS_PAR);
     }
 }

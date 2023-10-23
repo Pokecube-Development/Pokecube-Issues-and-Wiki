@@ -25,7 +25,7 @@ public class MovePsychoShift implements PostMoveUse
         if (hit != null && !failed)
         {
             if (hit.getStatus() != IMoveConstants.STATUS_NON) failed = true;
-            else if (hit.setStatus(attacker.getStatus())) attacker.healStatus();
+            else if (hit.setStatus(attacker, attacker.getStatus())) attacker.healStatus();
             else failed = true;
         }
         if (failed) MovesUtils.displayEfficiencyMessages(attacker, packet.getTarget(), -2, 0);

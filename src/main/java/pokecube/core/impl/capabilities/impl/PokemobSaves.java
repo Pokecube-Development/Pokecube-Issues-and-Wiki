@@ -50,7 +50,7 @@ public abstract class PokemobSaves extends PokemobOwned implements TagNames
         if (!statsTag.isEmpty())
         {
             this.setExp(statsTag.getInt(TagNames.EXP), false);
-            this.setStatus(statsTag.getInt(TagNames.STATUS));
+            this.setStatus(null, statsTag.getInt(TagNames.STATUS));
             this.addHappiness(statsTag.getInt(TagNames.HAPPY));
         }
         // Read moves tag
