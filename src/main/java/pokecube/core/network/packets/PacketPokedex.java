@@ -227,7 +227,7 @@ public class PacketPokedex extends NBTPacket
             String match = PacketPokedex.serialize(matcher);
             if (match == null)
             {
-                System.out.println("Error with spawn entry for " + e);
+                PokecubeAPI.LOGGER.error("Error with spawn entry for " + e);
                 continue;
             }
             spawns.putString("e" + n, e.getName());

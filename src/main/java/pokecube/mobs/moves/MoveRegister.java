@@ -61,7 +61,7 @@ public class MoveRegister
             @Override
             public PokeType getType(IPokemob user)
             {
-                if (user == null) return null;
+                if (user == null) return PokeType.unknown;
 
                 if (types == null) types = new PokeType[]
                 { PokeType.getType("fighting"), PokeType.getType("flying"), PokeType.getType("poison"),
@@ -85,12 +85,12 @@ public class MoveRegister
         });
 
         TYPES.put("judgment", user -> {
-            if (user == null) return null;
+            if (user == null) return PokeType.unknown;
             return user.getType1();
         });
 
         TYPES.put("multi-attack", user -> {
-            if (user == null) return null;
+            if (user == null) return PokeType.unknown;
             return user.getType1();
         });
 

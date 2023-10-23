@@ -6,6 +6,9 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
+import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.ai.tasks.TaskBase;
 import thut.api.entity.ai.RootTask;
 
 public class LookAtTask extends RootTask<Mob>
@@ -39,6 +42,8 @@ public class LookAtTask extends RootTask<Mob>
     @Override
     protected void tick(final ServerLevel worldIn, final Mob owner, final long gameTime)
     {
+        IPokemob pokemob = PokemobCaps.getPokemobFor(owner);
+        if (pokemob != null && !TaskBase.canMove(pokemob)) return;
         owner.getBrain().getMemory(MemoryModuleType.LOOK_TARGET).ifPresent((pos) -> {
             owner.getLookControl().setLookAt(pos.currentPosition());
         });

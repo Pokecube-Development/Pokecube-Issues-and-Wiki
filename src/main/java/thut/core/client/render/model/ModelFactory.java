@@ -87,6 +87,28 @@ public class ModelFactory
         });
     }
 
+    public static IModel createWithRenderer(final ModelHolder model, IModelRenderer<?> renderer)
+    {
+        return ModelFactory.create(model, m -> {
+            AnimationLoader.parse(model, m, renderer);
+        });
+    }
+
+    public static IModel createScaled(final ModelHolder model)
+    {
+        return ModelFactory.create(model, m -> {
+            AnimationLoader.parse(model, m, null);
+            for (IExtendedModelPart p : m.getParts().values())
+            {
+                if (p.getParent() == null)
+                {
+                    p.setPreScale(model.getLoadedScale());
+                    p.setPreTranslations(model.getLoadedOffset());
+                }
+            }
+        });
+    }
+
     public static Set<String> getValidExtensions()
     {
         return ModelFactory.modelFactories.keySet();

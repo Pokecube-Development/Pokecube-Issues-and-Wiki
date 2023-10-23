@@ -79,8 +79,9 @@ public class MovesAdder implements IMoveConstants
                 {
                     if (combined == null) combined = func.apply(move);
                     else combined = new WrappedAction(combined, func.apply(move));
+                    if (!combined.isValid()) combined = null;
                 }
-                MoveEventsHandler.addOrMergeActions(combined);
+                if (combined != null) MoveEventsHandler.addOrMergeActions(combined);
             }
         }
     }
