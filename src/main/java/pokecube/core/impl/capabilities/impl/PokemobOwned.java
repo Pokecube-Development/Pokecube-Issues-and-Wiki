@@ -266,7 +266,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (getOwnerId() != null)
         {
             itemstack = PokecubeManager.pokemobToItem(this);
-            itemstack.getTag().putLong("pokecube:recall_tick", Tracker.instance().getTick());
+            if (onDeath) itemstack.getTag().putLong("pokecube:recall_tick", Tracker.instance().getTick());
         }
         toPlayer:
         if (owner instanceof Player player)
