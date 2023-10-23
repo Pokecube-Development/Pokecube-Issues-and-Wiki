@@ -64,7 +64,7 @@ public class GulpMissile extends Ability
         else if (mobs == GulpMissile.pikachu) if (move.hit)
         {
             attacker.getEntity().hurt(source, amount);
-            MovesUtils.setStatus(attacker.getEntity(), IMoveConstants.STATUS_PAR);
+            MovesUtils.setStatus(mob, attacker.getEntity(), IMoveConstants.STATUS_PAR);
             mob.setPokedexEntry(GulpMissile.baseNormal);
         }
     }

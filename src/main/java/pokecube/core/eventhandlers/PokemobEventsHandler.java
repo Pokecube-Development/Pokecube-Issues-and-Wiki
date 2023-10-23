@@ -605,6 +605,8 @@ public class PokemobEventsHandler
 
     private static void onLivingAttacked(final LivingAttackEvent event)
     {
+        if (event.getSource().getDirectEntity() == event.getEntity()) return;
+        if (event.getSource().getEntity() == event.getEntity()) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getSource().getDirectEntity());
         if (pokemob != null) pokemob.setCombatState(CombatStates.NOITEMUSE, false);
 

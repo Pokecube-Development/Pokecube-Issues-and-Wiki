@@ -1,5 +1,7 @@
 package pokecube.core.impl.entity.impl;
 
+import java.util.UUID;
+
 import net.minecraft.resources.ResourceLocation;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 
@@ -8,6 +10,7 @@ public abstract class BaseEffect implements IOngoingEffect
     private final ResourceLocation id;
 
     private int duration;
+    private UUID source;
 
     public BaseEffect(ResourceLocation id)
     {
@@ -31,5 +34,18 @@ public abstract class BaseEffect implements IOngoingEffect
     {
         this.duration = duration;
     }
+
+    @Override
+    public UUID getSource()
+    {
+        return source;
+    }
+
+    @Override
+    public void setSource(UUID source)
+    {
+        this.source = source;
+    }
+
 
 }

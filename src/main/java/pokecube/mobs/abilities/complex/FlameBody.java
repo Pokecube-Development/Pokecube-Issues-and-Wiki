@@ -35,7 +35,7 @@ public class FlameBody extends Ability
         final MoveEntry attack = move.getMove();
         final IPokemob attacker = move.getUser();
         if (move.hit && attack.isContact(attacker) && Math.random() > 0.7)
-            attacker.setStatus(IMoveConstants.STATUS_BRN);
+            attacker.setStatus(mob, IMoveConstants.STATUS_BRN);
     }
 
     @Override

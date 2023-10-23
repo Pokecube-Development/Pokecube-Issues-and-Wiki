@@ -79,13 +79,27 @@ public class LeapTask extends TaskBase implements IAICombat
         final Vector3 diff = this.leapTarget.subtract(location);
 
         /* Don't leap up if too far. */
-        if (diff.y > 5) return;
+        if (diff.y > 5)
+        {
+            // Instead path to target quickly
+            setWalkTo(leapTarget, 1.8, 0);
+            return;
+        }
 
         final double dist = diff.magSq();
+        double dh = Math.fma(diff.x, diff.x, diff.x * diff.z);
 
         // Wait till it is a bit closer than this...
         if (dist >= 16.0D)
         {
+            // Instead path to target quickly
+            setWalkTo(leapTarget, 1.8, 0);
+            return;
+        }
+        // Not close enough horizontally for a leap
+        else if (dh > 1)
+        {
+            // Instead path to target quickly
             setWalkTo(leapTarget, 1.8, 0);
             return;
         }
@@ -121,7 +135,7 @@ public class LeapTask extends TaskBase implements IAICombat
 
         if (!airborne && !pokemob.isOnGround()) return;
 
-        double dh = Math.fma(dir.x, dir.x, dir.x * dir.z);
+        dh = Math.fma(dir.x, dir.x, dir.x * dir.z);
         // If too close, then put a minimum horizontal distance for the leap.
         if (dh > 0 && dh < 0.01)
         {
@@ -145,6 +159,8 @@ public class LeapTask extends TaskBase implements IAICombat
     {
         // Can't move, no leap
         if (!TaskBase.canMove(this.pokemob)) return false;
+
+        if (leapTick++ > 10) BrainUtils.setLeapTarget(this.entity, null);
         // Update the leap target here.
         this.pos = BrainUtils.getLeapTarget(this.entity);
         // Leap may have been interupted, so clear this state if so.

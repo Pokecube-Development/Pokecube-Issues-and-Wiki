@@ -63,7 +63,7 @@ public class Synchronize extends Ability
         if (areWeUser(mob, move)) return;
         if (move.status_effects != IMoveConstants.STATUS_NON && mob.getStatus() == IMoveConstants.STATUS_NON)
             if (move.status_effects != IMoveConstants.STATUS_FRZ && move.status_effects != IMoveConstants.STATUS_SLP)
-                MovesUtils.setStatus(move.getUser().getEntity(), move.status_effects);
+                MovesUtils.setStatus(mob, move.getUser().getEntity(), move.status_effects);
     }
 
     @Override
