@@ -1,12 +1,9 @@
 package pokecube.mobs.abilities.simple;
 
-import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.MoveApplication;
-import pokecube.api.utils.PokeType;
 import pokecube.core.database.tags.Tags;
 
 @AbilityProvider(name = "mega-launcher")

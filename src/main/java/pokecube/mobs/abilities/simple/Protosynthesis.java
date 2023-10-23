@@ -1,15 +1,13 @@
 package pokecube.mobs.abilities.simple;
 
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityProvider;
 import pokecube.api.entity.pokemob.IPokemob;
-import pokecube.api.moves.utils.MoveApplication;
-import net.minecraft.world.entity.LivingEntity;
-import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.core.moves.MovesUtils;
-import pokecube.api.entity.pokemob.IPokemob.Stats;
 @AbilityProvider(name = "protosynthesis")
 public class Protosynthesis extends Ability {
     @Override

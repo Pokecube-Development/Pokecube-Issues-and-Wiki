@@ -6,7 +6,6 @@ import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.moves.MoveEntry;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.moves.utils.MoveApplication;
-import thut.core.common.ThutCore;
 
 @AbilityProvider(name = "poison-point")
 public class PoisonPoint extends Ability
@@ -19,7 +18,7 @@ public class PoisonPoint extends Ability
         final IPokemob attacker = move.getUser();
         if (move.hit && attack.isContact(attacker) && Math.random() > 0.7)
         {
-            attacker.setStatus(IMoveConstants.STATUS_PSN);
+            attacker.setStatus(mob, IMoveConstants.STATUS_PSN);
         }
     }
 }
