@@ -639,10 +639,17 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             if (activeHolder.hasSleepAnim) return;
             Direction direction = entity.getBedOrientation();
-            float f1 = direction != null ? sleepDirectionToRotation(direction) : rotationYaw;
-            stack.mulPose(AxisAngles.YP.rotationDegrees(f1));
-            stack.mulPose(AxisAngles.ZP.rotationDegrees(this.getFlipDegrees(entity)));
-            stack.mulPose(AxisAngles.YP.rotationDegrees(270.0F));
+            if (direction != Direction.UP)
+            {
+                float f1 = sleepDirectionToRotation(direction);
+                stack.mulPose(AxisAngles.YP.rotationDegrees(f1));
+                stack.mulPose(AxisAngles.ZP.rotationDegrees(this.getFlipDegrees(entity)));
+                stack.mulPose(AxisAngles.YP.rotationDegrees(270.0F));
+            }
+            else
+            {
+                stack.mulPose(AxisAngles.ZP.rotationDegrees(90));
+            }
         }
         else if (isEntityUpsideDown(entity))
         {
