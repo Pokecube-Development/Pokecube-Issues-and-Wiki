@@ -67,8 +67,8 @@ public class CapabilityTerrainAffected
             if (this.theMob == null) return;
             if (this.terrain == null)
             {
-                this.terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
-                this.onTerrainEntry(this.terrain);
+                var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
+                this.onTerrainEntry(terrain);
                 return;
             }
             var mobPos = SectionPos.of(this.theMob.blockPosition());
@@ -76,8 +76,8 @@ public class CapabilityTerrainAffected
                     && mobPos.y() == this.terrain.chunkY;
             if (!samePos)
             {
-                this.terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
-                this.onTerrainEntry(this.terrain);
+                var terrain = TerrainManager.getInstance().getTerrainForEntity(this.theMob);
+                this.onTerrainEntry(terrain);
                 return;
             }
             if (this.effects == null) return;
