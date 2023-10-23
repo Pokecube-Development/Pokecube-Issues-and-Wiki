@@ -422,7 +422,6 @@ public class MoveEventsHandler
                 if ((_action = new DefaultFireAction(move)).isValid()) break actions;
                 _action = null;
             }
-            System.out.println(_action);
             action = _action == null ? new DefaultAction(move) : _action;
             MoveEventsHandler.register(action);
             action.init();

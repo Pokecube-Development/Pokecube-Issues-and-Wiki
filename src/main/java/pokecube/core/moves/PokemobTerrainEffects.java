@@ -257,7 +257,6 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public void doEntryEffect(final LivingEntity entity)
     {
-        if (entity instanceof ServerPlayer) System.out.println(this.effects + " " + entity);
         if (!this.hasEffects()) return;
         final IPokemob mob = PokemobCaps.getPokemobFor(entity);
         if (mob != null && entity.getLevel() instanceof ServerLevel)
