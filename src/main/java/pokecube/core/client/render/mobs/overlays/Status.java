@@ -62,7 +62,6 @@ public class Status
                     wrap = new ResourceLocation(wrap.getNamespace(), wrap.getPath() + "--sep--" + tex.getNamespace()
                             + "--sep--" + tex.getPath() + "--sep--" + alpha);
                 }
-//                System.out.println(part+" "+wrap);
                 return wrap;
             }
             return this.tex;

@@ -352,7 +352,6 @@ public abstract class Mesh
             final int j = (int) (this.material.emissiveMagnitude * 15);
             material.rgbabro[4] = j << 20 | j << 4;
         }
-//        System.out.println(this.material.tex);
         this.doRender(mat, buffer, texturer);
     }
 
