@@ -1,0 +1,13 @@
+{
+  "rules":[
+    {
+      "preset":"cave_lake_shore",
+      "and_preset":"overworld",
+      "matchers":{
+        "biome":{
+          "sub_biomes":"cavewater"
+        }
+      }
+    }
+  ]
+}
