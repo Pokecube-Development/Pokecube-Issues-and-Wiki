@@ -9,6 +9,7 @@ import it.unimi.dsi.fastutil.ints.Int2ObjectArrayMap;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
@@ -53,13 +54,19 @@ public class PersistantStatusEffect extends BaseEffect
             if (effect.getDuration() == 0) toRemove = true;
             final int duration = PokecubeCore.getConfig().attackCooldown * 5;
 
-            LivingEntity targetM = entity.getKillCredit();
-            if (targetM == null) targetM = entity.getLastHurtByMob();
-            if (targetM == null) targetM = entity.getLastHurtMob();
-            if (targetM == null) targetM = entity;
+            LivingEntity damageSource = null;
+            if (entity.level instanceof ServerLevel level && effect.getSource() != null)
+            {
+                Entity e = level.getEntity(effect.getSource());
+                if (e instanceof LivingEntity living) damageSource = living;
+            }
+            if (damageSource == null) damageSource = entity.getKillCredit();
+            if (damageSource == null) damageSource = entity.getLastHurtByMob();
+            if (damageSource == null) damageSource = entity.getLastHurtMob();
+            if (damageSource == null) damageSource = entity;
             float scale = 1;
-            final IPokemob user = PokemobCaps.getPokemobFor(targetM);
-            final DamageSource source = new StatusEffectDamageSource(targetM);
+            final IPokemob user = PokemobCaps.getPokemobFor(damageSource);
+            final DamageSource source = new StatusEffectDamageSource(damageSource);
             if (pokemob != null)
             {
                 source.bypassMagic();
@@ -71,7 +78,7 @@ public class PersistantStatusEffect extends BaseEffect
             else scale = (float) (entity instanceof Npc ? PokecubeCore.getConfig().pokemobToNPCDamageRatio
                     : PokecubeCore.getConfig().pokemobToOtherMobDamageRatio);
             if (scale <= 0) toRemove = true;
-            
+
             switch (this.status)
             {
             case BADPOISON:
@@ -260,5 +267,4 @@ public class PersistantStatusEffect extends BaseEffect
         if (this.status != null) tag.putByte("S", (byte) this.status.ordinal());
         return tag;
     }
-
 }

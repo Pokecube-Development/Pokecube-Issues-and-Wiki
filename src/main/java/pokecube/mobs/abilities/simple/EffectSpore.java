@@ -20,9 +20,9 @@ public class EffectSpore extends Ability
         if (move.hit && attack.isContact(attacker) && Math.random() > 0.7)
         {
             final int num = ThutCore.newRandom().nextInt(30);
-            if (num < 9) attacker.setStatus(IMoveConstants.STATUS_PSN);
-            if (num < 19) attacker.setStatus(IMoveConstants.STATUS_PAR);
-            else attacker.setStatus(IMoveConstants.STATUS_SLP);
+            if (num < 9) attacker.setStatus(mob, IMoveConstants.STATUS_PSN);
+            if (num < 19) attacker.setStatus(mob, IMoveConstants.STATUS_PAR);
+            else attacker.setStatus(mob, IMoveConstants.STATUS_SLP);
         }
     }
 }
