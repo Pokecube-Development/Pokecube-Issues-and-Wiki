@@ -16,6 +16,506 @@
     "sound": "oricorio-pau"
   },
   {
+    "name": "abomasnow-mega",
+    "sound": "abomasnow-mega"
+  },
+  {
+    "name": "absol-mega",
+    "sound": "absol-mega"
+  },
+  {
+    "name": "aggron-mega",
+    "sound": "aggron-mega"
+  },
+  {
+    "name": "alakazam-mega",
+    "sound": "alakazam-mega"
+  },
+  {
+    "name": "altaria-mega",
+    "sound": "altaria-mega"
+  },
+  {
+    "name": "ampharos-mega",
+    "sound": "ampharos-mega"
+  },
+  {
+    "name": "audino-mega",
+    "sound": "audino-mega"
+  },
+  {
+    "name": "banette-mega",
+    "sound": "banette-mega"
+  },
+  {
+    "name": "beedrill-mega",
+    "sound": "beedrill-mega"
+  },
+  {
+    "name": "blastoise-mega",
+    "sound": "blastoise-mega"
+  },
+  {
+    "name": "blaziken-mega",
+    "sound": "blaziken-mega"
+  },
+  {
+    "name": "camerupt-mega",
+    "sound": "camerupt-mega"
+  },
+  {
+    "name": "charizard-mega-x",
+    "sound": "charizard-mega-x"
+  },
+  {
+    "name": "charizard-mega-y",
+    "sound": "charizard-mega-y"
+  },
+  {
+    "name": "diancie-mega",
+    "sound": "diancie-mega"
+  },
+  {
+    "name": "gallade-mega",
+    "sound": "gallade-mega"
+  },
+  {
+    "name": "garchomp-mega",
+    "sound": "garchomp-mega"
+  },
+  {
+    "name": "gardevoir-mega",
+    "sound": "gardevoir-mega"
+  },
+  {
+    "name": "gengar-mega",
+    "sound": "gengar-mega"
+  },
+  {
+    "name": "glalie-mega",
+    "sound": "glalie-mega"
+  },
+  {
+    "name": "gyarados-mega",
+    "sound": "gyarados-mega"
+  },
+  {
+    "name": "heracross-mega",
+    "sound": "heracross-mega"
+  },
+  {
+    "name": "houndoom-mega",
+    "sound": "houndoom-mega"
+  },
+  {
+    "name": "kangaskhan-mega",
+    "sound": "kangaskhan-mega"
+  },
+  {
+    "name": "latias-mega",
+    "sound": "latias-mega"
+  },
+  {
+    "name": "latios-mega",
+    "sound": "latios-mega"
+  },
+  {
+    "name": "lopunny-mega",
+    "sound": "lopunny-mega"
+  },
+  {
+    "name": "lucario-mega",
+    "sound": "lucario-mega"
+  },
+  {
+    "name": "manectric-mega",
+    "sound": "manectric-mega"
+  },
+  {
+    "name": "mawile-mega",
+    "sound": "mawile-mega"
+  },
+  {
+    "name": "medicham-mega",
+    "sound": "medicham-mega"
+  },
+  {
+    "name": "metagross-mega",
+    "sound": "metagross-mega"
+  },
+  {
+    "name": "mewtwo-mega-x",
+    "sound": "mewtwo-mega-x"
+  },
+  {
+    "name": "mewtwo-mega-y",
+    "sound": "mewtwo-mega-y"
+  },
+  {
+    "name": "pidgeot-mega",
+    "sound": "pidgeot-mega"
+  },
+  {
+    "name": "pinsir-mega",
+    "sound": "pinsir-mega"
+  },
+  {
+    "name": "rayquaza-mega",
+    "sound": "rayquaza-mega"
+  },
+  {
+    "name": "sableye-mega",
+    "sound": "sableye-mega"
+  },
+  {
+    "name": "salamence-mega",
+    "sound": "salamence-mega"
+  },
+  {
+    "name": "sceptile-mega",
+    "sound": "sceptile-mega"
+  },
+  {
+    "name": "scizor-mega",
+    "sound": "scizor-mega"
+  },
+  {
+    "name": "sharpedo-mega",
+    "sound": "sharpedo-mega"
+  },
+  {
+    "name": "slowbro-mega",
+    "sound": "slowbro-mega"
+  },
+  {
+    "name": "steelix-mega",
+    "sound": "steelix-mega"
+  },
+  {
+    "name": "swampert-mega",
+    "sound": "swampert-mega"
+  },
+  {
+    "name": "tyranitar-mega",
+    "sound": "tyranitar-mega"
+  },
+  {
+    "name": "venusaur-mega",
+    "sound": "venusaur-mega"
+  },
+  {
+    "name": "aegislash-blade",
+    "sound": "aegislash-blade"
+  },
+  {
+    "name": "aegislash-shield",
+    "sound": "aegislash-shield"
+  },
+  {
+    "name": "alcremie-gmax",
+    "sound": "alcremie-gmax"
+  },
+  {
+    "name": "appletun-gmax",
+    "sound": "appletun-gmax"
+  },
+  {
+    "name": "blastoise-gmax",
+    "sound": "blastoise-gmax"
+  },
+  {
+    "name": "butterfree-gmax",
+    "sound": "butterfree-gmax"
+  },
+  {
+    "name": "centiskorch-gmax",
+    "sound": "centiskorch-gmax"
+  },
+  {
+    "name": "cinderace-gmax",
+    "sound": "cinderace-gmax"
+  },
+  {
+    "name": "coalossal-gmax",
+    "sound": "coalossal-gmax"
+  },
+  {
+    "name": "copperajah-gmax",
+    "sound": "copperajah-gmax"
+  },
+  {
+    "name": "corviknight-gmax",
+    "sound": "corviknight-gmax"
+  },
+  {
+    "name": "drednaw-gmax",
+    "sound": "drednaw-gmax"
+  },
+  {
+    "name": "eevee-gmax",
+    "sound": "eevee-gmax"
+  },
+  {
+    "name": "flapple-gmax",
+    "sound": "flapple-gmax"
+  },
+  {
+    "name": "garbodor-gmax",
+    "sound": "garbodor-gmax"
+  },
+  {
+    "name": "gengar-gmax",
+    "sound": "gengar-gmax"
+  },
+  {
+    "name": "grimmsnarl-gmax",
+    "sound": "grimmsnarl-gmax"
+  },
+  {
+    "name": "hatterene-gmax",
+    "sound": "hatterene-gmax"
+  },
+  {
+    "name": "inteleon-gmax",
+    "sound": "inteleon-gmax"
+  },
+  {
+    "name": "kingler-gmax",
+    "sound": "kingler-gmax"
+  },
+  {
+    "name": "lapras-gmax",
+    "sound": "lapras-gmax"
+  },
+  {
+    "name": "machamp-gmax",
+    "sound": "machamp-gmax"
+  },
+  {
+    "name": "melmetal-gmax",
+    "sound": "melmetal-gmax"
+  },
+  {
+    "name": "meowth-gmax",
+    "sound": "meowth-gmax"
+  },
+  {
+    "name": "orbeetle-gmax",
+    "sound": "orbeetle-gmax"
+  },
+  {
+    "name": "pikachu-gmax",
+    "sound": "pikachu-gmax"
+  },
+  {
+    "name": "rillaboom-gmax",
+    "sound": "rillaboom-gmax"
+  },
+  {
+    "name": "sandaconda-gmax",
+    "sound": "sandaconda-gmax"
+  },
+  {
+    "name": "snorlax-gmax",
+    "sound": "snorlax-gmax"
+  },
+  {
+    "name": "venusaur-gmax",
+    "sound": "venusaur-gmax"
+  },
+  {
+    "name":"calyrex-ice",
+    "sound": "calyrex-ice"
+  },
+  {
+    "name":"calyrex-shadow",
+    "sound": "calyrex-shadow"
+  },
+  {
+    "name":"cramorant-gorging",
+    "sound": "cramorant-gorging"
+  },
+  {
+    "name":"cramorant-gulping",
+    "sound": "cramorant-gulping"
+  },
+  {
+    "name":"enamorus-incarnate",
+    "sound": "enamorus-incarnate"
+  },
+  {
+    "name":"landorus-incarnate",
+    "sound": "landorus-incarnate"
+  },
+  {
+    "name":"tornadus-incarnate",
+    "sound": "tornadus-incarnate"
+  },
+  {
+    "name":"thundurus-incarnate",
+    "sound": "thundurus-incarnate"
+  },
+  {
+    "name":"enamorus-therian",
+    "sound": "enamorus-therian"
+  },
+  {
+    "name":"landorus-therian",
+    "sound": "landorus-therian"
+  },
+  {
+    "name":"tornadus-therian",
+    "sound": "tornadus-therian"
+  },
+  {
+    "name":"thundurus-therian",
+    "sound": "thundurus-therian"
+  },
+  {
+    "name":"eternatus-eternamax",
+    "sound": "eternatus-eternamax"
+  },
+  {
+    "name":"floette-eternal",
+    "sound": "floette-eternal"
+  },
+  {
+    "name":"gimmighoul-roaming",
+    "sound": "gimmighoul-roaming"
+  },
+  {
+    "name":"gourgeist-super",
+    "sound": "gourgeist-super"
+  },
+  {
+    "name":"groudon-primal",
+    "sound": "groudon-primal"
+  },
+  {
+    "name":"kyogre-primal",
+    "sound": "kyogre-primal"
+  },
+  {
+    "name":"hoopa-unbound",
+    "sound": "hoopa-unbound"
+  },
+  {
+    "name":"indeedee-female",
+    "sound": "indeedee-female"
+  },
+  {
+    "name":"indeedee-male",
+    "sound": "indeedee-male"
+  },
+  {
+    "name":"lycanroc-dusk",
+    "sound": "lycanroc-dusk"
+  },
+  {
+    "name":"lycanroc-midday",
+    "sound": "lycanroc-midday"
+  },
+  {
+    "name":"lycanroc-midnight",
+    "sound": "lycanroc-midnight"
+  },
+  {
+    "name":"morpeko-full-belly",
+    "sound": "morpeko-full-belly"
+  },
+  {
+    "name":"morpeko-hangry",
+    "sound": "morpeko-hangry"
+  },
+  {
+    "name":"necrozma-dawn",
+    "sound": "necrozma-dawn"
+  },
+  {
+    "name":"necrozma-dusk",
+    "sound": "necrozma-dusk"
+  },
+  {
+    "name":"necrozma-ultra",
+    "sound": "necrozma-ultra"
+  },
+  {
+    "name":"oinkologne-female",
+    "sound": "oinkologne-female"
+  },
+  {
+    "name":"palafin-hero",
+    "sound": "palafin-hero"
+  },
+  {
+    "name":"tatsugiri-droopy",
+    "sound": "tatsugiri-droopy"
+  },
+  {
+    "name":"tatsugiri-stretchy",
+    "sound": "tatsugiri-stretchy"
+  },
+  {
+    "name":"toxtricity-amped",
+    "sound": "toxtricity-amped"
+  },
+  {
+    "name":"toxtricity-amped-gmax",
+    "sound": "toxtricity-gmax"
+  },
+  {
+    "name":"toxtricity-low-key",
+    "sound": "toxtricity-low-key"
+  },
+  {
+    "name":"toxtricity-low-key-gmax",
+    "sound": "toxtricity-gmax"
+  },
+  {
+    "name":"urshifu-rapid-strike",
+    "sound": "urshifu-rapid-strike"
+  },
+  {
+    "name":"urshifu-rapid-strike-gmax",
+    "sound": "urshifu-rapid-strike-gmax"
+  },
+  {
+    "name":"urshifu-single-strike",
+    "sound": "urshifu-single-strike"
+  },
+  {
+    "name":"urshifu-single-strike-gmax",
+    "sound": "urshifu-single-strike-gmax"
+  },
+  {
+    "name":"wishiwashi-school",
+    "sound": "wishiwashi-school"
+  },
+  {
+    "name":"wishiwashi-solo",
+    "sound": "wishiwashi-solo"
+  },
+  {
+    "name":"zacian-crowned",
+    "sound": "zacian-crowned"
+  },
+  {
+    "name":"zamazenta-crowned",
+    "sound": "zamazenta-crowned"
+  },
+  {
+    "name":"zygarde-10",
+    "sound": "zygarde-10"
+  },
+  {
+    "name":"zygarde-50",
+    "sound": "zygarde-50"
+  },
+  {
+    "name":"zygarde-complete",
+    "sound": "zygarde-complete"
+  },
+  {
     "name":"burmy",
     "evolutions":[
       {
