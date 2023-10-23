@@ -40,7 +40,8 @@ import thut.lib.TComponent;
 public class CaptureManager
 {
     public static int CAPTURE_SHRINK_TIMER = 25;
-    
+    public static int CAPTURE_SHAKE_TIME = 20;
+
     public static void onCaptureDenied(final EntityPokecubeBase cube)
     {
         cube.spawnAtLocation(cube.getItem(), (float) 0.5);
@@ -55,7 +56,7 @@ public class CaptureManager
         if (e.getPersistentData().contains(TagNames.CAPTURING)) return;
         if (!(cube.getItem().getItem() instanceof IPokecube cubeItem)) return;
         if (!cubeItem.canCapture(e, cube.getItem())) return;
-        if (cube.isCapturing) return;
+        if (cube.isCapturing()) return;
         final IOwnable ownable = OwnableCaps.getOwnable(mob);
         if ((ownable != null && ownable.getOwnerId() != null && !PokecubeManager.isFilled(cube.getItem()))) return;
         final ResourceLocation cubeId = PokecubeItems.getCubeId(cube.getItem());
@@ -93,8 +94,9 @@ public class CaptureManager
         {
             if (capturePre.isCanceled())
             {
-                if (cube.getTilt() == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
-                else cube.setTime(20 * cube.getTilt() + CAPTURE_SHRINK_TIMER);
+                int n = cube.getTilt();
+                if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
+                else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
                 PokecubeManager.setTilt(cube.getItem(), cube.getTilt());
@@ -104,10 +106,10 @@ public class CaptureManager
             }
             else
             {
-                final int n = Tools.computeCatchRate(hitten, cubeId);
+                int n = Tools.computeCatchRate(hitten, cubeId);
                 cube.setTilt(n);
                 if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
-                else cube.setTime(20 * n + CAPTURE_SHRINK_TIMER);
+                else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
                 hitten.setPokecube(cube.getItem());
                 cube.setItem(PokecubeManager.pokemobToItem(hitten));
                 PokecubeManager.setTilt(cube.getItem(), n);
@@ -142,7 +144,7 @@ public class CaptureManager
             }
             cube.setTilt(n);
             if (n == 5) cube.setTime(CAPTURE_SHRINK_TIMER);
-            else cube.setTime(20 * n + CAPTURE_SHRINK_TIMER);
+            else cube.setTime(CAPTURE_SHAKE_TIME * n + CAPTURE_SHRINK_TIMER);
             final ItemStack mobStack = cube.getItem().copy();
             PokecubeManager.addToCube(mobStack, mob);
             cube.setItem(mobStack);

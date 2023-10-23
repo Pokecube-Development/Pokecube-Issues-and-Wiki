@@ -12,6 +12,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.SharedAttributes;
+import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler;
@@ -27,6 +29,7 @@ import pokecube.api.entity.pokemob.commandhandlers.ChangeFormHandler.IChangeHand
 import pokecube.api.events.pokemobs.ChangeForm;
 import pokecube.api.raids.RaidManager;
 import pokecube.core.PokecubeCore;
+import pokecube.core.PokecubeItems;
 import pokecube.core.blocks.maxspot.MaxTile;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.PokemobEventsHandler.MegaEvoTicker;
@@ -205,10 +208,13 @@ public class DynamaxHelper
                     pokemob.setGeneralState(GeneralStates.EVOLVING, true);
                     pokemob.setGeneralState(GeneralStates.EXITINGCUBE, false);
                     pokemob.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                    pokemob.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
                     PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(pokemob));
                 }, () -> {
                     DynamaxHelper.onDynamax(pokemob, duration);
                     PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(pokemob));
+                    pokemob.setGeneralState(GeneralStates.EVOLVING, false);
+                    pokemob.setEvolutionStack(ItemStack.EMPTY);
                 });
     }
 

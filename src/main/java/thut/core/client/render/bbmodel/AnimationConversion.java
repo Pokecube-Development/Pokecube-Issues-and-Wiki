@@ -20,6 +20,12 @@ public class AnimationConversion
     {
         String jep = molang;
 
+        if (molang.contains("NaN"))
+        {
+            ThutCore.LOGGER.error("Warning, NaN in molang " + molang);
+            jep = jep.replace("NaN", "0");
+        }
+
         jep = jep.replaceAll("math.", "");// We do not need "math."
         jep = jep.replaceAll("Math.", "");// We do not need "math."
 

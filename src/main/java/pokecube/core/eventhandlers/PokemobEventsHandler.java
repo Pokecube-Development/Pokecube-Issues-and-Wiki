@@ -74,10 +74,10 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.api.entity.CapabilityInhabitable;
 import pokecube.api.entity.CapabilityInhabitor;
+import pokecube.api.entity.pokemob.ICanEvolve;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
@@ -272,9 +272,12 @@ public class PokemobEventsHandler
                 evolver.setGeneralState(GeneralStates.EVOLVING, true);
                 evolver.setGeneralState(GeneralStates.EXITINGCUBE, false);
                 evolver.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                evolver.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Pre(evolver));
             }, () -> {
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(evolver));
+                evolver.setGeneralState(GeneralStates.EVOLVING, false);
+                evolver.setEvolutionStack(ItemStack.EMPTY);
             });
         }
 
@@ -290,9 +293,12 @@ public class PokemobEventsHandler
                 evolver.setGeneralState(GeneralStates.EVOLVING, true);
                 evolver.setGeneralState(GeneralStates.EXITINGCUBE, false);
                 evolver.setEvolutionTicks(PokecubeCore.getConfig().evolutionTicks + 50);
+                evolver.setEvolutionStack(PokecubeItems.getStack(ICanEvolve.EVERSTONE));
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Revert(evolver, false));
             }, () -> {
                 PokecubeAPI.POKEMOB_BUS.post(new ChangeForm.Post(evolver));
+                evolver.setGeneralState(GeneralStates.EVOLVING, false);
+                evolver.setEvolutionStack(ItemStack.EMPTY);
             });
         }
 
@@ -834,22 +840,11 @@ public class PokemobEventsHandler
         if (tooFast) living.setDeltaMovement(0, living.getDeltaMovement().y, 0);
 
         final IPokemob pokemob = PokemobCaps.getPokemobFor(living);
-        if (dim instanceof ServerLevel level && living.deathTime > 0
-                && (living.getPersistentData().contains(TagNames.NOPOOF)
-                        || (pokemob != null && !pokemob.isRoutineEnabled(AIRoutine.POOFS))))
-        {
-            // Vanilla entities vanish after deathTime hits 20. that is
-            // incremented after this call is run, so we will keep it at 18
-            // here.
-            if (!(living instanceof EntityPokemob)) living.deathTime = 18;
-        }
-
         if (pokemob instanceof DefaultPokemob pokemobCap && living instanceof EntityPokemob mob
                 && dim instanceof ServerLevel level)
         {
             if (pokemobCap.returning)
             {
-                mob.remove(RemovalReason.DISCARDED);
                 evt.setCanceled(true);
                 return;
             }

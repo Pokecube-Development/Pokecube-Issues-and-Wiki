@@ -2,8 +2,6 @@ package pokecube.core.impl.capabilities.impl;
 
 import java.util.UUID;
 
-import com.google.common.collect.Lists;
-
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -24,7 +22,6 @@ import net.minecraft.world.scores.PlayerTeam;
 import net.minecraft.world.scores.Scoreboard;
 import pokecube.api.PokecubeAPI;
 import pokecube.api.data.abilities.Ability;
-import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
@@ -55,6 +52,7 @@ import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.network.pokemobs.PacketPokemobMessage;
 import pokecube.core.network.pokemobs.PokemobPacketHandler.MessageServer;
 import pokecube.core.utils.CapHolders;
+import thut.api.Tracker;
 import thut.core.common.ThutCore;
 import thut.lib.TComponent;
 
@@ -191,13 +189,8 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
     {}
 
     @Override
-    public void onRecall(final boolean onDeath)
+    public void onRecall(boolean onDeath)
     {
-        if (this.isRemoved())
-        {
-            this.getEntity().discard();
-            return;
-        }
         // We use this directly as isAlive() also checks hp!
         final boolean removed = this.getEntity().isRemoved();
         if (removed) return;
@@ -209,13 +202,13 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         if (!(this.getEntity().getLevel() instanceof ServerLevel))
         {
             final MessageServer packet = new MessageServer(MessageServer.RETURN, this.getEntity().getId());
-            PokecubeCore.packets.sendToServer(packet);
+            if (!onDeath) PokecubeCore.packets.sendToServer(packet);
             return;
         }
-        else this.executeRecall();
+        else this.executeRecall(onDeath);
     }
 
-    protected void executeRecall()
+    protected void executeRecall(boolean onDeath)
     {
         final UUID id = this.getEntity().getUUID();
         final Entity mob = this.getEntity();
@@ -239,11 +232,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.setGeneralState(GeneralStates.EXITINGCUBE, false);
         this.setGeneralState(GeneralStates.EVOLVING, false);
 
-        if (this.returning)
-        {
-            this.getEntity().discard();
-            return;
-        }
+        if (this.returning) return;
 
         this.returning = true;
 
@@ -251,27 +240,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
 
         final Ability ab = this.getAbility();
         if (ab != null) base = ab.onRecall(base);
-
-        if (base != this && base != null)
-        {
-            final float hp = this.getHealth();
-            base.setHealth(hp);
-            if (base == this) this.returning = false;
-            if (this.getEntity().getPersistentData().contains(TagNames.ABILITY)) base.setAbilityRaw(
-                    AbilityManager.getAbility(this.getEntity().getPersistentData().getString(TagNames.ABILITY)));
-            base.onRecall();
-            this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
-            this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
-            this.getEntity().captureDrops(null);
-            this.getEntity().discard();
-            EventsHandler.Schedule(world, w -> {
-                final ServerLevel srld = (ServerLevel) w;
-                final Entity original = srld.getEntity(id);
-                if (original == mob) original.setRemoved(RemovalReason.DISCARDED);
-                return true;
-            });
-            return;
-        }
 
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Recalling " + this.getEntity());
         // Clear the pokemob's motion on recall
@@ -291,14 +259,18 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         // Reset this so that the ability shows correctly on the cube.
         this.timeSinceCombat = -50;
 
-        this.getEntity().captureDrops(Lists.newArrayList());
         final Player tosser = PokecubeMod.getFakePlayer(this.getEntity().getLevel());
 
         boolean added = false;
+        ItemStack itemstack = ItemStack.EMPTY;
+        if (getOwnerId() != null)
+        {
+            itemstack = PokecubeManager.pokemobToItem(this);
+            itemstack.getTag().putLong("pokecube:recall_tick", Tracker.instance().getTick());
+        }
         toPlayer:
         if (owner instanceof Player player)
         {
-            final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
             boolean noRoom = false;
             final boolean ownerDead = player.getHealth() <= 0;
             if (ownerDead || player.getInventory().getFreeSlot() == -1) noRoom = true;
@@ -319,17 +291,15 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         }
         if (!added && this.getOwnerId() != null)
         {
-            final ItemStack itemstack = PokecubeManager.pokemobToItem(this);
-            final PCEvent event = new PCEvent(world, itemstack.copy(), this.getOwnerId(), this.isPlayerOwned());
+            itemstack = itemstack.copy();
+            final PCEvent event = new PCEvent(world, itemstack, this.getOwnerId(), this.isPlayerOwned());
             PokecubeAPI.POKEMOB_BUS.post(event);
-            if (!event.isCanceled()) this.onToss(tosser, itemstack.copy());
+            if (!event.isCanceled()) this.onToss(tosser, itemstack);
         }
 
         // This ensures it can't be caught by dupe
         this.getEntity().getPersistentData().putBoolean(TagNames.REMOVED, true);
         this.getEntity().getPersistentData().putBoolean(TagNames.CAPTURING, true);
-        this.getEntity().captureDrops(null);
-        this.getEntity().discard();
 
         final LivingEntity targ = BrainUtils.getAttackTarget(this.getEntity());
         /**
@@ -347,12 +317,27 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
             else targ.setLastHurtByMob(this.getOwner());
         }
 
+        // If it was on death, then instead what we do here is fake that we are
+        // still around, to play death animations
+        if (onDeath)
+        {
+            this.setOwner(PokecubeMod.fakeUUID);
+            this.getEntity().getPersistentData().putBoolean(TagNames.NODROP, true);
+            this.getEntity().setRemoved(RemovalReason.DISCARDED);
+            this.getEntity().setUUID(UUID.randomUUID());
+            this.getEntity().revive();
+            ServerLevel level = (ServerLevel) this.getEntity().level;
+            level.addWithUUID(this.getEntity());
+            return;
+        }
+
         EventsHandler.Schedule(world, w -> {
             final ServerLevel srld = (ServerLevel) w;
             final Entity original = srld.getEntity(id);
             if (original == mob) original.setRemoved(RemovalReason.DISCARDED);
             return true;
         });
+        this.getEntity().discard();
     }
 
     private void onToss(final LivingEntity owner, final ItemStack itemstack)
@@ -364,7 +349,7 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.here.set(this.getEntity());
         this.here.moveEntity(entity);
         this.here.clear().setVelocities(entity);
-        entity.targetEntity = null;
+        entity.setSeeking(null);
         entity.targetLocation.clear();
         this.getEntity().getLevel().addFreshEntity(entity);
     }

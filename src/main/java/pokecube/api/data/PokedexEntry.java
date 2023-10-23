@@ -201,6 +201,7 @@ public class PokedexEntry
             if (ItemList.is(ICanEvolve.EVERSTONE, mob.getHeldItem())) return false;
             if (ItemList.is(ICanEvolve.EVERSTONE, mobs)) return false;
             ItemStack old = mob.getEvolutionStack();
+            if (ItemList.is(ICanEvolve.EVERSTONE, old)) return false;
             mob.setEvolutionStack(mobs);
             boolean matched = _condition.matches(mob);
             mob.setEvolutionStack(old);

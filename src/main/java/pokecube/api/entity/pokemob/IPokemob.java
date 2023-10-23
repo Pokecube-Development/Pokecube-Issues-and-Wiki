@@ -38,6 +38,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import thut.api.ModelHolder;
+import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
@@ -57,6 +58,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     public static class FormeHolder extends ModelHolder
     {
         public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
+
         public static FormeHolder load(final CompoundTag nbt)
         {
             final String name = nbt.getString("key");
@@ -841,7 +843,23 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         mob.setHealth(fullHp ? this.getStat(Stats.HP, false) : 1);
         mob.hurtTime = 0;
         mob.deathTime = 0;
+        this.setDeathTime(0);
     }
+
+    /**
+     * 
+     * @return the time of death of this mob, if 0 or below, mob is not dead. This
+     *         time is set from {@link #setDeathTime(long)}, and should be set
+     *         the the value of {@link Tracker#getTick()}
+     */
+    long getDeathTime();
+
+    /**
+     * Sets the time of death, if revived, this should be set to 0;
+     * 
+     * @param time
+     */
+    void setDeathTime(long time);
 
     /**
      * Saves our state to NBT

@@ -106,6 +106,16 @@ public class SendOutManager
         final boolean checkPerms = isPlayers && hasPokemob;
         boolean hasPerms = true;
 
+        if ((mob instanceof LivingEntity living && !living.isAlive()))
+        {
+            if (isPlayers && cube.shootingEntity.isAlive())
+            {
+                Tools.giveItem((Player) cube.shootingEntity, cube.getItem());
+                cube.discard();
+            }
+            return null;
+        }
+
         // Check permissions
         if (checkPerms) hasPerms = Permissions.canSendOut(pokemob.getPokedexEntry(), user, false, true);
 
@@ -125,7 +135,7 @@ public class SendOutManager
         Vector3 v = cube.v0.set(cube);
 
         // If we are breaking out from capture, directly set to old spot
-        if (cube.isCapturing) v.set(cube.capturePos);
+        if (cube.isCapturing()) v.set(cube.capturePos);
         // Otherwise look for free room, etc
         else
         {

@@ -1,9 +1,11 @@
 package pokecube.core.ai.tasks.combat.movement;
 
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.Direction;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.pathfinder.Node;
@@ -111,7 +113,7 @@ public class CicleTask extends CombatTask implements IAICombat
         // If we are using a melee move, try to stay closer to the target!
         if (meleeCombat)
         {
-            combatDistance = Math.min(combatDistance, 1);
+            combatDistance /= 2;
             meleeCombat = true;
         }
         combatDistance = Math.max(combatDistance, 1);
@@ -121,7 +123,7 @@ public class CicleTask extends CombatTask implements IAICombat
         // combat. Otherwise, find a random spot in a consistant direction
         // related to the center to run in, this results in the mobs somewhat
         // circling the middle, and reversing direction every 10 seconds or so.
-        if (diff.magSq() > combatDistanceSq)
+        if (diff.magSq() > combatDistanceSq + 1)
         {
             if (meleeCombat) this.setWalkTo(this.target, this.movementSpeed, 0);
             else this.setWalkTo(this.centre, this.movementSpeed, 0);
@@ -129,11 +131,17 @@ public class CicleTask extends CombatTask implements IAICombat
         else
         {
             final Vector3 perp = diff.horizonalPerp().scalarMultBy(combatDistance / 2);
-            final int revTime = 200;
-            if (this.entity.tickCount % revTime > revTime / 2) perp.reverse();
+            final int revTime = 800;
+
+            perp.set(centre);
+            diff.set(Direction.NORTH).scalarMultBy(combatDistance / 2);
+            if (this.entity.tickCount % revTime > revTime / 2) diff.reverse();
+            double phase = new Random(pokemob.getRNGValue()).nextDouble() * (2 * Math.PI);
+            double angle = (entity.tickCount * Math.PI / 100 + phase) % (2 * Math.PI);
+            diff.rotateAboutLine(Vector3.secondAxis, angle, here);
             perp.addTo(here);
-            if (Math.abs(perp.y - this.centre.y) > combatDistance / 2) perp.y = this.centre.y;
-            this.setWalkTo(perp, this.movementSpeed, 0);
+            here.set(entity);
+            if (here.distanceTo(perp) > 1) this.setWalkTo(perp, this.movementSpeed / 2, 0);
         }
     }
 
@@ -148,6 +156,8 @@ public class CicleTask extends CombatTask implements IAICombat
         if (target == null) return false;
         // Using an attack, so skip
         if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE)) return false;
+        // Using an attack, so skip
+        if (this.pokemob.getCombatState(CombatStates.LEAPING)) return false;
         // Is in battle.
         return this.pokemob.getCombatState(CombatStates.BATTLING);
     }
