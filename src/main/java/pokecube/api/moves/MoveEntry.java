@@ -33,7 +33,7 @@ public class MoveEntry implements IMoveConstants
     public static interface TypeProvider
     {
         @Nullable
-        PokeType getType(final IPokemob user);
+        PokeType getType(@Nullable IPokemob user);
     }
 
     public static interface PowerProvider
@@ -43,7 +43,7 @@ public class MoveEntry implements IMoveConstants
 
     public static interface CategoryProvider
     {
-        ContactCategory getAttackCategory(IPokemob user);
+        ContactCategory getAttackCategory(@Nullable IPokemob user);
     }
 
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)

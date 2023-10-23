@@ -49,9 +49,9 @@ public class DefaultIceAction extends DefaultAction
     }
 
     @Override
-    public boolean isValid(IPokemob user)
+    public boolean isValid()
     {
-        return move.getType(user) == PokeType.getType("ice") && move.isContact(user) && move.power > 0;
+        return move.getType(null) == PokeType.getType("ice") && move.isContact(null) && move.power > 0;
     }
 
 }

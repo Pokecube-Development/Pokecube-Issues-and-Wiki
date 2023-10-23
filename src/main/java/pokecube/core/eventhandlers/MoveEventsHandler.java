@@ -36,7 +36,6 @@ import pokecube.api.moves.utils.IMoveNames;
 import pokecube.api.moves.utils.IMoveWorldEffect;
 import pokecube.api.moves.utils.MoveApplication;
 import pokecube.api.moves.utils.MoveApplication.StatusApplier;
-import pokecube.api.utils.PokeType;
 import pokecube.core.PokecubeCore;
 import pokecube.core.database.tags.Tags;
 import pokecube.core.eventhandlers.SpawnHandler.ForbidReason;
@@ -414,12 +413,17 @@ public class MoveEventsHandler
         IMoveWorldEffect action = MoveEventsHandler.actionMap.get(move.name);
         if (action == null)
         {
-            boolean doesDamage = move.isContact(attacker) && move.power > 0;
-            if (move.getType(attacker) == PokeType.getType("water")) action = new DefaultWaterAction(move);
-            if (move.getType(attacker) == PokeType.getType("ice") && doesDamage) action = new DefaultIceAction(move);
-            if (move.getType(attacker) == PokeType.getType("electric")) action = new DefaultElectricAction(move);
-            if (move.getType(attacker) == PokeType.getType("fire")) action = new DefaultFireAction(move);
-            else action = new DefaultAction(move);
+            DefaultAction _action = null;
+            actions:
+            {
+                if ((_action = new DefaultWaterAction(move)).isValid()) break actions;
+                if ((_action = new DefaultIceAction(move)).isValid()) break actions;
+                if ((_action = new DefaultElectricAction(move)).isValid()) break actions;
+                if ((_action = new DefaultFireAction(move)).isValid()) break actions;
+                _action = null;
+            }
+            System.out.println(_action);
+            action = _action == null ? new DefaultAction(move) : _action;
             MoveEventsHandler.register(action);
             action.init();
         }
