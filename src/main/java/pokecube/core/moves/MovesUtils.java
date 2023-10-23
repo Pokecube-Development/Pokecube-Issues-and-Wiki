@@ -2,8 +2,11 @@ package pokecube.core.moves;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import java.util.function.Predicate;
 
 import javax.annotation.Nonnull;
@@ -602,7 +605,7 @@ public class MovesUtils implements IMoveConstants
         return var11;
     }
 
-    public static boolean setStatus(final LivingEntity attacked, int status)
+    public static boolean setStatus(final IPokemob source, final LivingEntity attacked, int status)
     {
         final IPokemob attackedPokemob = PokemobCaps.getPokemobFor(attacked);
 
@@ -617,7 +620,7 @@ public class MovesUtils implements IMoveConstants
             status = Status.values()[j].getMask();
             if (attackedPokemob != null)
             {
-                final boolean apply = attackedPokemob.setStatus(status);
+                final boolean apply = attackedPokemob.setStatus(source, status);
                 applied = applied || apply;
                 if (apply) attackedPokemob.getEntity().getNavigation().stop();
                 return true;
@@ -629,6 +632,7 @@ public class MovesUtils implements IMoveConstants
                 {
                     applied = true;
                     final IOngoingEffect effect = new PersistantStatusEffect(status, 5);
+                    if (source != null) effect.setSource(source.getEntity().getUUID());
                     affected.addEffect(effect);
                 }
             }
@@ -715,6 +719,8 @@ public class MovesUtils implements IMoveConstants
         Level level = mob.level;
         Battle battle = Battle.getBattle(mob);
 
+        Set<UUID> applied = new HashSet<>();
+
         if (battle != null)
         {
             List<LivingEntity> targets = Lists.newArrayList();
@@ -738,7 +744,7 @@ public class MovesUtils implements IMoveConstants
             for (var s : targets)
             {
                 apply.setTarget(s);
-                if (target_test.test(apply))
+                if (target_test.test(apply) && applied.add(s.getUUID()))
                 {
                     if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, s))) continue;
                     // In this case, we had selected a new target from the
@@ -768,7 +774,7 @@ public class MovesUtils implements IMoveConstants
                 if (target != null)
                 {
                     apply.setTarget(target);
-                    if (target_test.test(apply))
+                    if (target_test.test(apply) && applied.add(target.getUUID()))
                     {
                         if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)))
                             break apply_test;
@@ -778,7 +784,7 @@ public class MovesUtils implements IMoveConstants
                     }
                 }
                 apply.setTarget(mob);
-                if (target_test.test(apply))
+                if (target_test.test(apply) && applied.add(mob.getUUID()))
                 {
                     if (PokecubeAPI.MOVE_BUS.post(new MoveUse.ActualMoveUse.Init(pokemob, move, target)))
                         break apply_test;

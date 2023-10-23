@@ -108,7 +108,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             LivingEntity target = t.move().getTarget();
             if (t.move().status_chance > target.getRandom().nextDouble())
             {
-                if (MovesUtils.setStatus(target, t.move().status_effects))
+                if (MovesUtils.setStatus(t.move().getUser(), target, t.move().status_effects))
                 {
                     MovesUtils.displayStatusMessages(t.move().user, target, t.move().status_effects, true);
                     if (PokecubeCore.getConfig().debug_moves)

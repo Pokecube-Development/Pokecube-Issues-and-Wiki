@@ -265,11 +265,17 @@ public class PokemobTerrainEffects implements ITerrainEffect
         {
             if (this.effects.containsKey(EntryEffectType.POISON.getIndex()) && !mob.isType(PokeType.getType("poison"))
                     && !mob.isType(PokeType.getType("steel")))
-                mob.setStatus(IMoveConstants.STATUS_PSN);
+            {
+                var user = this.effects.get(EntryEffectType.POISON.getIndex()).getMob();
+                mob.setStatus(user, IMoveConstants.STATUS_PSN);
+            }
 
             if (this.effects.containsKey(EntryEffectType.POISON2.getIndex()) && !mob.isType(PokeType.getType("poison"))
                     && !mob.isType(PokeType.getType("steel")))
-                mob.setStatus(IMoveConstants.STATUS_PSN2);
+            {
+                var user = this.effects.get(EntryEffectType.POISON2.getIndex()).getMob();
+                mob.setStatus(user, IMoveConstants.STATUS_PSN2);
+            }
 
             if (this.effects.containsKey(EntryEffectType.SPIKES.getIndex()))
             {

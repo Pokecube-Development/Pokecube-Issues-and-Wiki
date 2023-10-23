@@ -480,7 +480,7 @@ public class EventsHandlerClient
             final CompoundTag pokeTag = itemStack.getTag();
             EventsHandlerClient.setFromNBT(pokemob, pokeTag);
             pokemob.setPokecube(itemStack);
-            pokemob.setStatus(PokecubeManager.getStatus(itemStack));
+            pokemob.setStatus(null, PokecubeManager.getStatus(itemStack));
             pokemob.getEntity().clearFire();
             return pokemob;
         }

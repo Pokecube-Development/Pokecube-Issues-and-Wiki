@@ -3,6 +3,9 @@ package pokecube.api.entity;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
@@ -43,12 +46,12 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
         }
 
         /**
-         * if you have an effect that allows multiple in some cases, but not
-         * all cases, you can use this to filter whether the effect should be
-         * added. This method will only be called if allowMultiple returns true,
-         * and will always be called directly before applying affected. This
-         * means you can use this to edit this effect and then cancel
-         * application of affected. <br>
+         * if you have an effect that allows multiple in some cases, but not all
+         * cases, you can use this to filter whether the effect should be added.
+         * This method will only be called if allowMultiple returns true, and
+         * will always be called directly before applying affected. This means
+         * you can use this to edit this effect and then cancel application of
+         * affected. <br>
          * <br>
          * ACCEPT -> add the new effect and return true.<br>
          * DENY -> Do not add the new effect, return false.<br>
@@ -66,13 +69,25 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
         default void deserializeNBT(final CompoundTag nbt)
         {
             this.setDuration(nbt.getInt("D"));
+            if (nbt.contains("U")) setSource(nbt.getUUID("U"));
         }
+
+        @Nullable
+        /**
+         * @return the UUID of the mob responsible for the effect
+         */
+        UUID getSource();
+
+        /**
+         * @param source - UUID if the mob responsible for this effect.
+         */
+        void setSource(@Nullable UUID source);
 
         /**
          * @return how many times should affectTarget be called. by default,
          *         this happens once every
-         *         {@link pokecube.core.init.Config#attackCooldown} ticks,
-         *         if this value is less than 0, it will never run out.
+         *         {@link pokecube.core.init.Config#attackCooldown} ticks, if
+         *         this value is less than 0, it will never run out.
          */
         int getDuration();
 
@@ -89,6 +104,7 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
         {
             final CompoundTag tag = new CompoundTag();
             tag.putInt("D", this.getDuration());
+            if (this.getSource() != null) tag.putUUID("U", getSource());
             return tag;
         }
 
@@ -142,18 +158,17 @@ public interface IOngoingAffected extends INBTSerializable<ListTag>
     default ListTag serializeNBT()
     {
         final ListTag list = new ListTag();
-        for (final IOngoingEffect effect : this.getEffects())
-            if (effect.onSavePersistant())
+        for (final IOngoingEffect effect : this.getEffects()) if (effect.onSavePersistant())
+        {
+            final CompoundTag tag = effect.serializeNBT();
+            if (tag != null)
             {
-                final CompoundTag tag = effect.serializeNBT();
-                if (tag != null)
-                {
-                    final CompoundTag nbt = new CompoundTag();
-                    nbt.putString("K", effect.getID() + "");
-                    nbt.put("V", tag);
-                    list.add(nbt);
-                }
+                final CompoundTag nbt = new CompoundTag();
+                nbt.putString("K", effect.getID() + "");
+                nbt.put("V", tag);
+                list.add(nbt);
             }
+        }
         return list;
     }
 

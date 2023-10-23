@@ -405,9 +405,9 @@ public interface IHasMoves extends IHasStats
      * @param status the status to set
      * @return whether the status has actually been set
      */
-    default boolean setStatus(final int status)
+    default boolean setStatus(IPokemob source, int status)
     {
-        return this.setStatus(status, -1);
+        return this.setStatus(source, status, -1);
     }
 
     /**
@@ -418,7 +418,7 @@ public interface IHasMoves extends IHasStats
      * @param turns  How many times attackCooldown should the status apply.
      * @return whether the status has actually been set
      */
-    boolean setStatus(int status, int turns);
+    boolean setStatus(IPokemob source, int status, int turns);
 
     /**
      * Sets the initial status timer. The timer will be decreased until 0. The
