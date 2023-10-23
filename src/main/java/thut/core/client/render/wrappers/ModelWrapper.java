@@ -177,7 +177,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
             final int packedOverlayIn, final float red, final float green, final float blue, final float alpha)
     {
         if (this.entityIn == null) return;
-        if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
+        if (this.imodel == null) this.imodel = ModelFactory.createWithRenderer(this.model, this.renderer);
         if (!this.isLoaded()) return;
         mat.pushPose();
         this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
@@ -253,7 +253,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     public void prepareMobModel(final T entityIn, final float limbSwing, final float limbSwingAmount,
             final float partialTickTime)
     {
-        if (this.imodel == null) this.imodel = ModelFactory.create(this.model);
+        if (this.imodel == null) this.imodel = ModelFactory.createWithRenderer(this.model, this.renderer);
         if (!this.isLoaded()) return;
         this.setEntity(entityIn);
         final IAnimationHolder holder = AnimationHelper.getHolder(entityIn);
