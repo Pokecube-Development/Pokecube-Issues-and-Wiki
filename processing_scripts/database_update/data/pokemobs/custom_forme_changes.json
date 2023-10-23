@@ -164,5 +164,15 @@
         "forme": "calyrex-shadow"
       }
     ]
+  },
+  
+  {
+    "name": "greninja",
+    "mega_rules": [
+      {
+        "name": "greninja-battle-bond",
+        "ability": "battle-bond"
+      }
+    ],
   }
 ]
