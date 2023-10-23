@@ -1,0 +1,10 @@
+{
+  "name": "kingambit",
+  "user": "bisharp",
+  "condition": {
+    "key": "item",
+    "item": {
+      "id": "minecraft:netherite_sword"
+    }
+  }
+}

@@ -1,0 +1,48 @@
+[
+  {
+    "name": "armarouge",
+    "user": "charcadet",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "day"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "id": "minecraft:diamond_chestplate"
+        }
+      }
+    ],
+    "evoMoves": "psyshock"
+  },
+  {
+    "name": "charcadet",
+    "user": "charcadet",
+    "condition": [
+      {
+        "key": "location",
+        "location": {
+          "matchers": {
+            "time": {
+              "preset": "night"
+            }
+          }
+        }
+      },
+      {
+        "key": "item",
+        "item": {
+          "id": "minecraft:diamond_chestplate"
+        }
+      }
+    ],
+    "evoMoves": "shadow-claw"
+  }
+]

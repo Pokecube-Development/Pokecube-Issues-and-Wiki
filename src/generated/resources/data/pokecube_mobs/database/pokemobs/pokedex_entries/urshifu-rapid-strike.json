@@ -193,6 +193,7 @@
       "chilling-water"
     ]
   },
+  "sound": "urshifu-rapid-strike",
   "old_name": "urshifu_rapid",
   "loot_table": "pokecube:entities/generic_legend"
 }

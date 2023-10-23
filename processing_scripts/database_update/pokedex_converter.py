@@ -507,6 +507,10 @@ def convert_assets():
         shutil.copy(file, name)
 
 def convert_tags(entries):
+
+    def is_pokemob_tag(file):
+        return not "pokemob_moves" in file
+
     jsons = [y for x in os.walk("./old/tags") for y in glob(os.path.join(x[0], '*.json'))]
     for file in jsons:
         json_in = open(file, 'r', encoding='utf-8')
@@ -523,7 +527,8 @@ def convert_tags(entries):
                     name = vars[0]
                     add = f';{vars[1]}'
                 orig = name
-                name = name.replace('pokecube:', '')
+                if name.startswith("pokecube:"):
+                    name = name.replace('pokecube:', '')
                 if name in TAG_IGNORE:
                     continue
                 new_name = find_new_name(name, index_map.keys())
@@ -541,15 +546,19 @@ def convert_tags(entries):
                             continue
 
                 if new_name is not None:
-                    new_name = f'pokecube:{new_name}{add}'
+                    if not ":" in new_name:
+                        new_name = f'pokecube:{new_name}{add}'
                     if not new_name in new_values:
                         new_values.append(new_name)
                 elif 'arceus_' in name or 'silvally_' in name:
                     pass
                 else:
-                    if not "#" in name and not ":" in name and name != 'egg':
+                    if not "#" in name and not ":" in name and name != 'egg' and is_pokemob_tag(file):
                         print(f"error finding name for {name} in {file}")
-                    new_name = f'pokecube:{orig}{add}'
+                    if not ":" in orig and is_pokemob_tag(file):
+                        new_name = f'pokecube:{orig}{add}'
+                    else:
+                        new_name = orig
                     if not new_name in new_values:
                         new_values.append(new_name)
             json_obj['values'] = new_values
@@ -760,6 +769,7 @@ def convert_pokedex():
     load_overrides('custom_misc', overrides)
     load_overrides('custom_dyeable', overrides)
     load_overrides('custom_models', overrides)
+    load_overrides('custom_evolutions', overrides)
 
     tables = './data/pokemobs/loot_tables.json'
     file = open(tables, 'r')

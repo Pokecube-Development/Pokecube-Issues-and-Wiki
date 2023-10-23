@@ -192,6 +192,7 @@
       "scorching-sands"
     ]
   },
+  "sound": "zygarde-10",
   "spawn_rules": [
     {
       "values": {
