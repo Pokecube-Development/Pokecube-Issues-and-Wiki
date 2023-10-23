@@ -185,6 +185,7 @@
       "poltergeist"
     ]
   },
+  "sound": "gourgeist-super",
   "old_name": "gourgeist_super",
   "loot_table": "pokecube:entities/other_seeds"
 }

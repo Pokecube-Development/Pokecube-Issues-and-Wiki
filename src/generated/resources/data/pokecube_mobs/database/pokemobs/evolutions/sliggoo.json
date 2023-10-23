@@ -1,9 +1,17 @@
 {
   "name": "goodra",
   "user": "sliggoo",
-  "condition": {
-    "key": "level",
-    "level": 50
-  },
+  "condition": [
+    {
+      "key": "level",
+      "level": 50
+    },
+    {
+      "key": "location",
+      "location": {
+        "and_preset": "raining"
+      }
+    }
+  ],
   "evoMoves": "aqua-tail"
 }

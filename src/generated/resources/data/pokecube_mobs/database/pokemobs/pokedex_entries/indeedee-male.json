@@ -170,6 +170,7 @@
       "tera-blast"
     ]
   },
+  "sound": "indeedee-male",
   "old_name": "indeedee",
   "loot_table": "pokecube:entities/enderpearls_2"
 }

@@ -174,6 +174,7 @@
       "light-of-ruin"
     ]
   },
+  "sound": "floette-eternal",
   "old_name": "floette_eternal",
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

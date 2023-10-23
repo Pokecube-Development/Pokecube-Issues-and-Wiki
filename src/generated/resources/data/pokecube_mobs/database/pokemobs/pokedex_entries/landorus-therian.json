@@ -203,6 +203,7 @@
       "tera-blast"
     ]
   },
+  "sound": "landorus-therian",
   "interactions": [
     {
       "male": true,
