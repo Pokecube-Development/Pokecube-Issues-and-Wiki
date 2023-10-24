@@ -21,7 +21,7 @@ public class NoLakesInStructuresMixin
 {
 
     @Inject(method = "place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z", at = @At(value = "HEAD"), cancellable = true)
-    private void repurposedstructures_noLakesInStructures(FeaturePlaceContext<BlockStateConfiguration> context,
+    private void pokecube$noLakesInStructures(FeaturePlaceContext<BlockStateConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
         if (!(context.level() instanceof WorldGenRegionAccessor accessor))
