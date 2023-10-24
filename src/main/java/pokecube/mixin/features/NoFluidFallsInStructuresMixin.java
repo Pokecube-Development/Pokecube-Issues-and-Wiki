@@ -21,7 +21,7 @@ public class NoFluidFallsInStructuresMixin
 {
 
     @Inject(method = "place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z", at = @At(value = "HEAD"), cancellable = true)
-    private void repurposedstructures_noLavaInStructures(FeaturePlaceContext<SpringConfiguration> context,
+    private void pokecube$noLavaInStructures(FeaturePlaceContext<SpringConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
         if (!(context.level() instanceof WorldGenRegionAccessor accessor)) return;

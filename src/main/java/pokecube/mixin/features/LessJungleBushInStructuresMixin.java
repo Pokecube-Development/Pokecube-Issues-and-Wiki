@@ -21,7 +21,7 @@ import thut.lib.RegHelper;
 public class LessJungleBushInStructuresMixin
 {
     @Inject(method = "place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z", at = @At(value = "HEAD"), cancellable = true)
-    private void repurposedstructures_lessJungleBushInStructures(FeaturePlaceContext<TreeConfiguration> context,
+    private void pokecube$lessJungleBushInStructures(FeaturePlaceContext<TreeConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
         // Detect jungle bush like tree
