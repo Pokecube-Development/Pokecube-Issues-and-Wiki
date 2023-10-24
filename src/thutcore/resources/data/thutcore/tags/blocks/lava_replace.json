@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "#thutcore:dust_replace",
+    "#thutcore:solid_flowing_blocks",
+    "#thutcore:flowing_blocks"
+  ]
+}

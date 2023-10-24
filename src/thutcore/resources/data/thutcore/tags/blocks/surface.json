@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "#thutcore:rocks",
+    "#thutcore:ground",
+    "minecraft:snow",
+    "minecraft:snow_block",
+    {"id": "#pokecube_legends:ash", "required": false}
+  ]
+}

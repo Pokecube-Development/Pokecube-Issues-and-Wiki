@@ -23,9 +23,11 @@ repositories {
     }
 }
 
-mixin { 
-    add sourceSets.main, "pokecube.refmap.json"
+mixin {
+    add sourceSets.main, "thutcore.refmap.json"
+    
     config "pokecube.mixins.json"
+    config "thutcore.mixins.json"
 }
 
 ext {
@@ -63,21 +65,21 @@ minecraft {
             jvmArg "-Xmx2G" // Set this one to low ram
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', "-mixin.config=thutcore.mixins.json", '--username', 'Dev2'
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev2'
         }
         client_3 {
             parent runs.client
             taskName 'run_client_3'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', "-mixin.config=thutcore.mixins.json", '--username', 'Dev3'
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev3'
         }
         client_4 {
             parent runs.client
             taskName 'run_client_4'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', "-mixin.config=thutcore.mixins.json", '--username', 'Dev4'
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev4'
         }
         test_client {
             parent runs.client
@@ -126,6 +128,8 @@ dependencies {
 }
 
 sourceSets {
+    main.java.srcDirs += 'src/thutcore/java'
+    main.resources.srcDirs += 'src/thutcore/resources'
     main.resources.srcDirs += 'src/generated/resources'
 }
 

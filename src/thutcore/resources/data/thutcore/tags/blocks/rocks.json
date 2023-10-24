@@ -1,0 +1,19 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:smooth_basalt",
+    "minecraft:calcite",
+    "minecraft:amethyst_block",
+    "minecraft:budding_amethyst",
+    "minecraft:raw_iron_block",
+    "minecraft:raw_copper_block",
+    "minecraft:raw_gold_block",
+    "#forge:stone",
+    "#forge:ores",
+    "#forge:sandstone",
+    "#minecraft:base_stone_overworld",
+    "#minecraft:base_stone_nether",
+    "#minecraft:copper_ores",
+    {"id": "pokecube_legends:meteorite_block", "required": false}
+  ]
+}
