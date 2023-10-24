@@ -31,7 +31,7 @@ public class OneWayGlass extends GlassBlock
     public BlockState getStateForPlacement(final BlockPlaceContext context)
     {
         Direction direction = context.getNearestLookingDirection().getOpposite();
-        return (BlockState)((BlockState)this.defaultBlockState().setValue(FACING, direction));
+        return this.defaultBlockState().setValue(FACING, direction);
     }
 
   	@Override

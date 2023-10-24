@@ -27,7 +27,7 @@ public class DistortedIslandsFeature extends Feature<NoneFeatureConfiguration>
       WorldGenLevel worldLevel = context.level();
       Random random = context.random();
       BlockPos pos = context.origin();
-      float f = (float)(random.nextInt(4) + 4);
+      float f = random.nextInt(4) + 4;
 
       for(int y = 0 + random.nextInt(2); f > 0.5F; --y)
       {
@@ -35,7 +35,7 @@ public class DistortedIslandsFeature extends Feature<NoneFeatureConfiguration>
          {
             for(int z = Mth.floor(-f); z <= Mth.ceil(f); ++z)
             {
-                if ((float)(x * x + z * z) <= (f + 1.0F) * (f + 1.0F))
+                if (x * x + z * z <= (f + 1.0F) * (f + 1.0F))
                 {
                     this.setBlock(worldLevel, pos.offset(x, y, z), BlockInit.DISTORTIC_STONE.get().defaultBlockState());
                      this.setBlock(worldLevel, pos.offset(x, y + 1, z), BlockInit.DISTORTIC_GRASS_BLOCK.get().defaultBlockState());
@@ -45,7 +45,7 @@ public class DistortedIslandsFeature extends Feature<NoneFeatureConfiguration>
                 }
             }
          }
-         f = (float)((double)f - ((double)random.nextInt(2) + 0.5D));
+         f = (float)(f - (random.nextInt(2) + 0.5D));
       }
       return true;
    }

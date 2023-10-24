@@ -23,9 +23,9 @@ public class PollutingBlossomBlock extends SporeBlossomBlock
       int i = pos.getX();
       int j = pos.getY();
       int k = pos.getZ();
-      double d0 = (double)i + random.nextDouble();
-      double d1 = (double)j + 0.7D;
-      double d2 = (double)k + random.nextDouble();
+      double d0 = i + random.nextDouble();
+      double d1 = j + 0.7D;
+      double d2 = k + random.nextDouble();
       world.addParticle(ParticleTypes.ASH, d0, d1, d2, 0.0D, 0.0D, 0.0D);
       BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos();
 
@@ -35,8 +35,8 @@ public class PollutingBlossomBlock extends SporeBlossomBlock
          BlockState mutableState = world.getBlockState(mutablePos);
          if (!mutableState.isCollisionShapeFullBlock(world, mutablePos))
          {
-            world.addParticle(ParticleTypes.LARGE_SMOKE, (double)mutablePos.getX() + random.nextDouble(), 
-                    (double)mutablePos.getY() + random.nextDouble(), (double)mutablePos.getZ() + random.nextDouble(), 0.0D, 0.0D, 0.0D);
+            world.addParticle(ParticleTypes.LARGE_SMOKE, mutablePos.getX() + random.nextDouble(), 
+                    mutablePos.getY() + random.nextDouble(), mutablePos.getZ() + random.nextDouble(), 0.0D, 0.0D, 0.0D);
          }
       }
    }

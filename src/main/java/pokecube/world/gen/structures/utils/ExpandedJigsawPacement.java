@@ -164,9 +164,9 @@ public class ExpandedJigsawPacement
                     {
                         int max_box_size = 80;
                         int max_box_height = 512;
-                        AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_height),
-                                (double) (j - max_box_size), (double) (i + max_box_size + 1),
-                                (double) (k + max_box_height + 1), (double) (j + max_box_size + 1));
+                        AABB aabb = new AABB(i - max_box_size, k - max_box_height,
+                                j - max_box_size, i + max_box_size + 1,
+                                k + max_box_height + 1, j + max_box_size + 1);
 
                         List<Placer> attempts = Lists.newArrayList();
 
@@ -787,12 +787,12 @@ public class ExpandedJigsawPacement
                     }
                     else
                     {
-                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {}", (Object) resourcelocation1);
+                        PokecubeAPI.LOGGER.warn("Empty or non-existent fallback pool: {}", resourcelocation1);
                     }
                 }
                 else
                 {
-                    PokecubeAPI.LOGGER.warn("Empty or non-existent pool: {}", (Object) next_pool_name);
+                    PokecubeAPI.LOGGER.warn("Empty or non-existent pool: {}", next_pool_name);
                 }
             }
 
