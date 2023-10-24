@@ -23,9 +23,9 @@ public class InfectedTorch extends TorchBlock
     @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource rand)
     {
-        double d0 = (double) pos.getX() + 0.5D;
-        double d1 = (double) pos.getY() + 0.8D;
-        double d2 = (double) pos.getZ() + 0.5D;
+        double d0 = pos.getX() + 0.5D;
+        double d1 = pos.getY() + 0.8D;
+        double d2 = pos.getZ() + 0.5D;
         world.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
         world.addParticle(ParticleInit.INFECTED_FIRE_FLAME.get(), d0, d1, d2, 0.0D, 0.0D, 0.0D);
     }

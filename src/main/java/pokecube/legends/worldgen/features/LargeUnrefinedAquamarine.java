@@ -57,7 +57,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
                return false;
             } else
             {
-               int i = (int)((float)column.height() * largeUnrefinedAquamarineConfig.maxColumnRadiusToCaveHeightRatio);
+               int i = (int)(column.height() * largeUnrefinedAquamarineConfig.maxColumnRadiusToCaveHeightRatio);
                int j = Mth.clamp(i, largeUnrefinedAquamarineConfig.columnRadius.getMinValue(), 
                        largeUnrefinedAquamarineConfig.columnRadius.getMaxValue());
                int k = Mth.randomBetweenInclusive(random, largeUnrefinedAquamarineConfig.columnRadius.getMinValue(), j);
@@ -103,7 +103,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
 
    public static LargeUnrefinedAquamarine.LargeUnrefineAquamarine makeAquamarine(BlockPos pos, boolean b, RandomSource random, int i, FloatProvider floatProvider, FloatProvider floatProvider1)
    {
-      return new LargeUnrefinedAquamarine.LargeUnrefineAquamarine(pos, b, i, (double)floatProvider.sample(random), (double)floatProvider1.sample(random));
+      return new LargeUnrefinedAquamarine.LargeUnrefineAquamarine(pos, b, i, floatProvider.sample(random), floatProvider1.sample(random));
    }
 
    public void placeDebugMarkers(WorldGenLevel world, BlockPos pos, Column.Range column, LargeUnrefinedAquamarine.WindOffsetter windOffsetter)
@@ -172,7 +172,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
 
       private int getHeightAtRadius(float f)
       {
-         return (int)AquamarineUtils.getAquamarineHeight((double)f, (double)this.radius, this.scale, this.bluntness);
+         return (int)AquamarineUtils.getAquamarineHeight(f, this.radius, this.scale, this.bluntness);
       }
 
       void placeBlocks(WorldGenLevel world, RandomSource random, LargeUnrefinedAquamarine.WindOffsetter windOffsetter)
@@ -181,15 +181,15 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
          {
             for(int j = -this.radius; j <= this.radius; ++j)
             {
-               float f = Mth.sqrt((float)(i * i + j * j));
-               if (!(f > (float)this.radius))
+               float f = Mth.sqrt(i * i + j * j);
+               if (!(f > this.radius))
                {
                   int k = this.getHeightAtRadius(f);
                   if (k > 0)
                   {
-                     if ((double)random.nextFloat() < 0.2D)
+                     if (random.nextFloat() < 0.2D)
                      {
-                        k = (int)((float)k * Mth.randomBetween(random, 0.8F, 1.0F));
+                        k = (int)(k * Mth.randomBetween(random, 0.8F, 1.0F));
                      }
 
                      BlockPos.MutableBlockPos mutablePos = this.root.offset(i, 0, j).mutable();
@@ -220,7 +220,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
 
       boolean isSuitableForWind(LargeDripstoneConfiguration config)
       {
-         return this.radius >= config.minRadiusForWind && this.bluntness >= (double)config.minBluntnessForWind;
+         return this.radius >= config.minRadiusForWind && this.bluntness >= config.minBluntnessForWind;
       }
    }
 
@@ -235,7 +235,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
          this.originY = i;
          float f = floatProvider.sample(random);
          float f1 = Mth.randomBetween(random, 0.0F, (float)Math.PI);
-         this.windSpeed = new Vec3((double)(Mth.cos(f1) * f), 0.0D, (double)(Mth.sin(f1) * f));
+         this.windSpeed = new Vec3(Mth.cos(f1) * f, 0.0D, Mth.sin(f1) * f);
       }
 
       private WindOffsetter()
@@ -257,7 +257,7 @@ public class LargeUnrefinedAquamarine extends Feature<LargeDripstoneConfiguratio
          } else
          {
             int i = this.originY - pos.getY();
-            Vec3 vec3 = this.windSpeed.scale((double)i);
+            Vec3 vec3 = this.windSpeed.scale(i);
             return pos.offset(vec3.x, 0.0D, vec3.z);
          }
       }

@@ -49,12 +49,12 @@ public class AquamarineUtils
         else
         {
             float f = 6.0F;
-            float f1 = f / (float) x;
+            float f1 = f / x;
 
             for (float f2 = 0.0F; f2 < ((float) Math.PI * 2F); f2 += f1)
             {
-                int i = (int) (Mth.cos(f2) * (float) x);
-                int j = (int) (Mth.sin(f2) * (float) x);
+                int i = (int) (Mth.cos(f2) * x);
+                int j = (int) (Mth.sin(f2) * x);
                 if (isEmptyOrWaterOrLava(world, pos.offset(i, 0, j)))
                 {
                     return false;

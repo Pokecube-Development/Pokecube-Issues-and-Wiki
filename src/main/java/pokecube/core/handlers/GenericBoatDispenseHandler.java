@@ -28,9 +28,9 @@ public class GenericBoatDispenseHandler extends DefaultDispenseItemBehavior
     {
         Direction direction = source.getBlockState().getValue(DispenserBlock.FACING);
         Level level = source.getLevel();
-        double d0 = source.x() + (double) ((float) direction.getStepX() * 1.125F);
-        double d1 = source.y() + (double) ((float) direction.getStepY() * 1.125F);
-        double d2 = source.z() + (double) ((float) direction.getStepZ() * 1.125F);
+        double d0 = source.x() + direction.getStepX() * 1.125F;
+        double d1 = source.y() + direction.getStepY() * 1.125F;
+        double d2 = source.z() + direction.getStepZ() * 1.125F;
         BlockPos blockpos = source.getPos().relative(direction);
         GenericBoat boat = this.isChestBoat ? new GenericChestBoat(level, d0, d1, d2)
                 : new GenericBoat(level, d0, d1, d2);

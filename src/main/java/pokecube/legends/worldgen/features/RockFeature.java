@@ -49,11 +49,11 @@ public class RockFeature extends Feature<BlockStateConfiguration>
             int i = random.nextInt(2);
             int j = random.nextInt(2);
             int k = random.nextInt(2);
-            float f = (float)(i + j + k) * 0.333F + 0.5F;
+            float f = (i + j + k) * 0.333F + 0.5F;
 
             for(BlockPos pos1 : BlockPos.betweenClosed(pos.offset(-i, -j, -k), pos.offset(i, j, k)))
             {
-               if (pos1.distSqr(pos) <= (double)(f * f))
+               if (pos1.distSqr(pos) <= f * f)
                {
                   world.setBlock(pos1, stateConfig.state, 4);
                }

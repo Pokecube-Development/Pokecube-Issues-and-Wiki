@@ -30,7 +30,7 @@ public class DistortedIslandsFeature extends Feature<NoneFeatureConfiguration>
         WorldGenLevel worldLevel = context.level();
         RandomSource random = context.random();
         BlockPos pos = context.origin();
-        float f = (float) (random.nextInt(4) + 4);
+        float f = random.nextInt(4) + 4;
 
         Map<BlockPos, BlockState> toPlace = Maps.newHashMap();
 

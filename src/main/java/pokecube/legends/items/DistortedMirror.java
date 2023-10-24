@@ -79,7 +79,7 @@ public class DistortedMirror extends ItemBase
             world.playLocalSound(x, y, z, SoundEvents.BEACON_DEACTIVATE,
                     SoundSource.PLAYERS, 1, 1, false);
 
-            if (entity instanceof Player) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
+            entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
             return InteractionResultHolder.success(stack);
@@ -106,7 +106,7 @@ public class DistortedMirror extends ItemBase
             world.playLocalSound(x, y, z, SoundEvents.BEACON_DEACTIVATE,
                     SoundSource.PLAYERS, 1, 1, false);
 
-            if (entity instanceof Player) entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
+            entity.getCooldowns().addCooldown(ItemInit.GIRATINA_MIRROR.get(),
                     PokecubeLegends.config.mirrorCooldown);
 
             return InteractionResultHolder.success(stack);

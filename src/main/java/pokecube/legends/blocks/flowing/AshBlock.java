@@ -161,9 +161,9 @@ public class AshBlock extends FlowingBlock
             BlockPos posBelow = pos.below();
             if (FallingBlock.isFree(world.getBlockState(posBelow)))
             {
-                double d0 = (double) pos.getX() + random.nextDouble();
-                double d1 = (double) pos.getY() - 0.05D;
-                double d2 = (double) pos.getZ() + random.nextDouble();
+                double d0 = pos.getX() + random.nextDouble();
+                double d1 = pos.getY() - 0.05D;
+                double d2 = pos.getZ() + random.nextDouble();
 
                 // TODO falling dust particle needs a mixin to use this!
                 world.addParticle(new BlockParticleOption(ParticleTypes.FALLING_DUST, state), d0, d1, d2, 0.0D, 0.0D,

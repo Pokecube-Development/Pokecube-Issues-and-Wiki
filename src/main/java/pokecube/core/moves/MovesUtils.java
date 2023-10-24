@@ -625,7 +625,7 @@ public class MovesUtils implements IMoveConstants
                 if (apply) attackedPokemob.getEntity().getNavigation().stop();
                 return true;
             }
-            else if (attacked instanceof LivingEntity)
+            else if (attacked != null)
             {
                 final IOngoingAffected affected = CapabilityAffected.getAffected(attacked);
                 if (affected != null)

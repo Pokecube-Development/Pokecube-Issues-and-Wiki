@@ -383,13 +383,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
         double dy = vec3d.y;
         double dz = vec3d.z;
         double d3 = Math.sqrt(dx * dx + dz * dz);
-        Optional<Float> getXRotD = !(Math.abs(dy) > (double) 1.0E-5F) && !(Math.abs(d3) > (double) 1.0E-5F)
+        Optional<Float> getXRotD = !(Math.abs(dy) > 1.0E-5F) && !(Math.abs(d3) > 1.0E-5F)
                 ? Optional.empty()
-                : Optional.of((float) (-(Mth.atan2(dy, d3) * (double) (180F / (float) Math.PI))));
+                : Optional.of((float) (-(Mth.atan2(dy, d3) * (180F / (float) Math.PI))));
 
-        Optional<Float> getYRotD = !(Math.abs(dz) > (double) 1.0E-5F) && !(Math.abs(dx) > (double) 1.0E-5F)
+        Optional<Float> getYRotD = !(Math.abs(dz) > 1.0E-5F) && !(Math.abs(dx) > 1.0E-5F)
                 ? Optional.empty()
-                : Optional.of((float) (Mth.atan2(dz, dx) * (double) (180F / (float) Math.PI)) - 90.0F);
+                : Optional.of((float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F);
 
         if (getYRotD.isPresent()) this.yRot = this.yHeadRot = this.yBodyRot = getYRotD.get();
         if (getXRotD.isPresent()) this.xRot = getXRotD.get();
@@ -474,13 +474,13 @@ public abstract class EntityPokecubeBase extends LivingEntity
             double dy = this.capturePos.y - this.getEyeY();
             double dz = this.capturePos.z - this.getZ();
             double d3 = Math.sqrt(dx * dx + dz * dz);
-            Optional<Float> getXRotD = !(Math.abs(dy) > (double) 1.0E-5F) && !(Math.abs(d3) > (double) 1.0E-5F)
+            Optional<Float> getXRotD = !(Math.abs(dy) > 1.0E-5F) && !(Math.abs(d3) > 1.0E-5F)
                     ? Optional.empty()
-                    : Optional.of((float) (-(Mth.atan2(dy, d3) * (double) (180F / (float) Math.PI))));
+                    : Optional.of((float) (-(Mth.atan2(dy, d3) * (180F / (float) Math.PI))));
 
-            Optional<Float> getYRotD = !(Math.abs(dz) > (double) 1.0E-5F) && !(Math.abs(dx) > (double) 1.0E-5F)
+            Optional<Float> getYRotD = !(Math.abs(dz) > 1.0E-5F) && !(Math.abs(dx) > 1.0E-5F)
                     ? Optional.empty()
-                    : Optional.of((float) (Mth.atan2(dz, dx) * (double) (180F / (float) Math.PI)) - 90.0F);
+                    : Optional.of((float) (Mth.atan2(dz, dx) * (180F / (float) Math.PI)) - 90.0F);
 
             if (getYRotD.isPresent()) this.yRot = this.yHeadRot = this.yBodyRot = getYRotD.get();
             if (getXRotD.isPresent()) this.xRot = getXRotD.get();
