@@ -20,7 +20,7 @@ public class NoDeltasInStructuresMixin
 {
 
     @Inject(method = "place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z", at = @At(value = "HEAD"), cancellable = true)
-    private void repurposedstructures_noDeltasInStructures(FeaturePlaceContext<DeltaFeatureConfiguration> context,
+    private void pokecube$noDeltasInStructures(FeaturePlaceContext<DeltaFeatureConfiguration> context,
             CallbackInfoReturnable<Boolean> cir)
     {
         if (!(context.level() instanceof WorldGenRegionAccessor accessor))

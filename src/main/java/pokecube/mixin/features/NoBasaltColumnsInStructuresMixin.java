@@ -23,7 +23,7 @@ public class NoBasaltColumnsInStructuresMixin
 {
 
     @Inject(method = "canPlaceAt(Lnet/minecraft/world/level/LevelAccessor;ILnet/minecraft/core/BlockPos$MutableBlockPos;)Z", at = @At(value = "HEAD"), cancellable = true)
-    private static void repurposedstructures_noBasaltColumnsInStructures(LevelAccessor levelAccessor, int seaLevel,
+    private static void pokecube$noBasaltColumnsInStructures(LevelAccessor levelAccessor, int seaLevel,
             BlockPos.MutableBlockPos mutableBlockPos, CallbackInfoReturnable<Boolean> cir)
     {
         if (!(levelAccessor instanceof WorldGenRegionAccessor accessor))
