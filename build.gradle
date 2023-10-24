@@ -23,7 +23,10 @@ repositories {
     }
 }
 
-mixin { add sourceSets.main, "pokecube.refmap.json" }
+mixin { 
+    add sourceSets.main, "pokecube.refmap.json"
+    config "pokecube.mixins.json"
+}
 
 ext {
     VERSION_COMPILE = gitVersion("${version_major}.${version_minor}")
@@ -145,11 +148,10 @@ tasks.named('jar', Jar).configure {
 	        "Specification-Title": "${compile_name}",
 	        "Specification-Vendor": "${author_name}",
 	        "Specification-Version": VERSION_COMPILE,
-	        "Implementation-Title": project.name,
+	        "Implementation-Title": "Pokecube",
 	        "Implementation-Version": VERSION_COMPILE,
 	        "Implementation-Vendor" :"${author_name}",
-	        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-	        "MixinConfigs": ["pokecube.mixins.json", "thutcore.mixins.json"]
+	        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 

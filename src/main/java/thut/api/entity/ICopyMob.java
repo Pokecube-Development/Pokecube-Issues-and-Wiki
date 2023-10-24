@@ -13,9 +13,9 @@ import net.minecraft.world.level.Level;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.registries.ForgeRegistries;
+import pokecube.mixin.accessors.WalkAniAccessor;
 import thut.api.entity.event.CopySetEvent;
 import thut.api.entity.event.CopyUpdateEvent;
-import thut.api.mixin.accessors.WalkAniAccessor;
 import thut.lib.RegHelper;
 
 public interface ICopyMob extends INBTSerializable<CompoundTag>
