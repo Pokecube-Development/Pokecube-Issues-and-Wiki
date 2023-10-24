@@ -325,7 +325,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
                 {
                     float scale = 1;
                     scale = Math.min(1,
-                            (entity.tickCount + 1 + partialTick) / (float) LogicMiscUpdate.EXITCUBEDURATION);
+                            (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
                     s = Math.max(0.01f, s * scale);
                 }
                 else
@@ -617,12 +617,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         if (this.isShaking(entity))
         {
-            rotationYaw += (float) (Math.cos((double) entity.tickCount * 3.25D) * Math.PI * (double) 0.4F);
+            rotationYaw += (float) (Math.cos(entity.tickCount * 3.25D) * Math.PI * 0.4F);
         }
         if (entity.deathTime > 0)
         {
             if (activeHolder.hasDeathAnim) return;
-            float f = ((float) entity.deathTime + rotationYaw - 1.0F) / 20.0F * 1.6F;
+            float f = (entity.deathTime + rotationYaw - 1.0F) / 20.0F * 1.6F;
             f = Mth.sqrt(f);
             if (f > 1.0F)
             {
@@ -633,7 +633,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         else if (entity.isAutoSpinAttack())
         {
             stack.mulPose(Axis.XP.rotationDegrees(-90.0F - entity.getXRot()));
-            stack.mulPose(Axis.YP.rotationDegrees(((float) entity.tickCount + partialTicks) * -75.0F));
+            stack.mulPose(Axis.YP.rotationDegrees((entity.tickCount + partialTicks) * -75.0F));
         }
         else if (sleeping)
         {
@@ -653,7 +653,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         }
         else if (isEntityUpsideDown(entity))
         {
-            stack.translate(0.0D, (double) (entity.getBbHeight() + 0.1F), 0.0D);
+            stack.translate(0.0D, (entity.getBbHeight() + 0.1F), 0.0D);
             stack.mulPose(Axis.ZP.rotationDegrees(180.0F));
         }
     }

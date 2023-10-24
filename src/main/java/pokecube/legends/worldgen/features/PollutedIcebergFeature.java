@@ -67,7 +67,7 @@ public class PollutedIcebergFeature extends IcebergFeature
           {
              for(int k3 = -1; k3 > -i1; --k3)
              {
-                int l3 = flag1 ? Mth.ceil((float)k1 * (1.0F - (float)Math.pow((double)k3, 2.0D) / ((float)i1 * 8.0F))) : k1;
+                int l3 = flag1 ? Mth.ceil(k1 * (1.0F - (float)Math.pow(k3, 2.0D) / (i1 * 8.0F))) : k1;
                 int l2 = this.heightDependentRadiusSteep(random, -k3, i1, j1);
                 if (i3 < l2) {
                    this.generateIcebergBlock(world, random, pos, i1, i3, k3, j3, l2, l3, flag1, j, d0, flag, state);
@@ -129,7 +129,7 @@ public class PollutedIcebergFeature extends IcebergFeature
        {
           boolean flag = !b || random.nextDouble() > 0.05D;
           int i = b ? 3 : 2;
-          if (b1 && !stateWorld.is(Blocks.WATER) && (double)x <= (double)random.nextInt(Math.max(1, y / i)) + (double)y * 0.6D && flag)
+          if (b1 && !stateWorld.is(Blocks.WATER) && x <= random.nextInt(Math.max(1, y / i)) + y * 0.6D && flag)
           {
              this.setBlock(worldAccessor, pos, Blocks.SNOW_BLOCK.defaultBlockState());
           } else

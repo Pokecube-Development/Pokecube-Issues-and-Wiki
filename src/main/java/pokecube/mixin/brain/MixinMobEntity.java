@@ -63,7 +63,7 @@ public abstract class MixinMobEntity extends LivingEntity
     {
         if (!this.checked_for_ai)
         {
-            LivingEntity living = (LivingEntity) (Object) this;
+            LivingEntity living = this;
             final Brain<?> brain = living.getBrain();
             BrainUtil.addToBrain(brain, Lists.newArrayList(MemoryModules.DUMMY.get()), Lists.newArrayList());
             final List<Pair<Integer, ? extends Behavior<? super LivingEntity>>> dummyTasks = Lists.newArrayList();

@@ -140,8 +140,8 @@ public class EventsHandler
                 {
                     // this is a massively nerfed version of the HARM effect.
                     // The default one is a bit too OP.
-                    if (!player.isInvertedHealAndHarm()) player.hurt(player.damageSources().magic(), (float) (2));
-                    else player.heal((float) (2));
+                    if (!player.isInvertedHealAndHarm()) player.hurt(player.damageSources().magic(), 2);
+                    else player.heal(2);
                 }
             }
 

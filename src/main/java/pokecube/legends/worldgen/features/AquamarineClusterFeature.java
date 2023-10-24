@@ -190,9 +190,9 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
         else
         {
             int i = Math.abs(x) + Math.abs(y);
-            float f = (float) Mth.clampedMap((double) i, 0.0D, (double) config.maxDistanceFromCenterAffectingHeightBias,
-                    (double) z / 2.0D, 0.0D);
-            return (int) randomBetweenBiased(random, 0.0F, (float) z, f, (float) config.heightDeviation);
+            float f = (float) Mth.clampedMap(i, 0.0D, config.maxDistanceFromCenterAffectingHeightBias,
+                    z / 2.0D, 0.0D);
+            return (int) randomBetweenBiased(random, 0.0F, z, f, config.heightDeviation);
         }
     }
 
@@ -244,8 +244,8 @@ public class AquamarineClusterFeature extends Feature<DripstoneClusterConfigurat
         int i = x - Math.abs(z);
         int j = y - Math.abs(a);
         int k = Math.min(i, j);
-        return (double) Mth.clampedMap((float) k, 0.0F,
-                (float) config.maxDistanceFromEdgeAffectingChanceOfDripstoneColumn,
+        return Mth.clampedMap(k, 0.0F,
+                config.maxDistanceFromEdgeAffectingChanceOfDripstoneColumn,
                 config.chanceOfDripstoneColumnAtMaxDistanceFromCenter, 1.0F);
     }
 

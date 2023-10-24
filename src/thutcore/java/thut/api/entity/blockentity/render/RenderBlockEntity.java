@@ -56,8 +56,6 @@ public class RenderBlockEntity<T extends BlockEntityBase> extends EntityRenderer
     public void render(final T entity, final float entityYaw, final float partialTicks, final PoseStack mat,
             final MultiBufferSource bufferIn, final int packedLightIn)
     {
-        // Incase some other mod tries to render as us.
-        if (!(entity instanceof IBlockEntity)) return;
         try
         {
             mat.pushPose();

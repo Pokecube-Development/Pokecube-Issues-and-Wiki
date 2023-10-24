@@ -18,7 +18,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.entity.LevelEntityGetter;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -44,7 +43,7 @@ public class Count
         final Set<UUID> found = Sets.newHashSet();
         for (final Entity o : mobs.getAll())
         {
-            final IPokemob e = PokemobCaps.getPokemobFor((ICapabilityProvider) o);
+            final IPokemob e = PokemobCaps.getPokemobFor(o);
             if (e != null)
             {
                 if (!found.add(e.getEntity().getUUID())) continue;

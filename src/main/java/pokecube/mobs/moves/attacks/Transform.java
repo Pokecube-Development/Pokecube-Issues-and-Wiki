@@ -34,7 +34,7 @@ public class Transform implements PostMoveUse, PreProcessor
         IPokemob attacker = packet.getUser();
         LivingEntity attacked = packet.getTarget();
 
-        if (attacked instanceof LivingEntity && attacked != attacker.getTransformedTo())
+        if (attacked != null && attacked != attacker.getTransformedTo())
             attacker.setTransformedTo(attacked);
     }
 

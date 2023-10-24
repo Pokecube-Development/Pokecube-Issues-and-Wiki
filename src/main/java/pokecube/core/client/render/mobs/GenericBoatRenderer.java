@@ -55,7 +55,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
         matricStack.pushPose();
         matricStack.translate(0.0D, 0.375D, 0.0D);
         matricStack.mulPose(Axis.YP.rotationDegrees(180.0F - entityYaw));
-        float f = (float) boat.getHurtTime() - partialTicks;
+        float f = boat.getHurtTime() - partialTicks;
         float f1 = boat.getDamage() - partialTicks;
         if (f1 < 0.0F)
         {
@@ -64,7 +64,7 @@ public class GenericBoatRenderer extends EntityRenderer<GenericBoat>
 
         if (f > 0.0F)
         {
-            matricStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(f) * f * f1 / 10.0F * (float) boat.getHurtDir()));
+            matricStack.mulPose(Axis.XP.rotationDegrees(Mth.sin(f) * f * f1 / 10.0F * boat.getHurtDir()));
         }
 
         float f2 = boat.getBubbleAngle(partialTicks);

@@ -721,7 +721,7 @@ public class RoadBuilder extends AbstractBot
         for (BlockPos p : signs)
         {
             double facing = -Math.atan2(dir.x, dir.z) * 180 / Math.PI;
-            int rot = Mth.floor((double) ((90.0F + facing) * 16.0F / 360.0F) + 0.5D) & 15;
+            int rot = Mth.floor((90.0F + facing) * 16.0F / 360.0F + 0.5D) & 15;
             this.setBlock(level, p, Blocks.OAK_SIGN.defaultBlockState().setValue(StandingSignBlock.ROTATION, rot), 2);
             var opt = level.getBlockEntity(p, BlockEntityType.SIGN);
             if (opt.isPresent())

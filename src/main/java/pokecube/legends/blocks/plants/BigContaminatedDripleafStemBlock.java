@@ -49,7 +49,7 @@ public class BigContaminatedDripleafStemBlock extends BigDripleafStemBlock
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter block, BlockPos pos, CollisionContext context)
     {
-        switch ((Direction) state.getValue(FACING))
+        switch (state.getValue(FACING))
         {
         case SOUTH:
             return SOUTH_SHAPE;

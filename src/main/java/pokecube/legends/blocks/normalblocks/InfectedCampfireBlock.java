@@ -38,7 +38,7 @@ public class InfectedCampfireBlock extends CampfireBlock
     {
        if (!entity.fireImmune() && state.getValue(LIT) && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity))
        {
-          entity.hurt(world.damageSources().inFire(), (float)this.fireDamage);
+          entity.hurt(world.damageSources().inFire(), this.fireDamage);
           if (entity instanceof LivingEntity)
           {
               ((LivingEntity) entity).addEffect(new MobEffectInstance(MobEffects.WITHER, 100, 0));
@@ -73,7 +73,7 @@ public class InfectedCampfireBlock extends CampfireBlock
         {
             if (source.nextInt(10) == 0)
             {
-                world.playLocalSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D,
+                world.playLocalSound(pos.getX() + 0.5D, pos.getY() + 0.5D, pos.getZ() + 0.5D,
                         SoundEvents.CAMPFIRE_CRACKLE, SoundSource.BLOCKS, 0.5F + source.nextFloat(), source.nextFloat() * 0.7F + 0.6F, false);
             }
 
@@ -81,8 +81,8 @@ public class InfectedCampfireBlock extends CampfireBlock
             {
                 for(int i = 0; i < source.nextInt(1) + 1; ++i)
                 {
-                    world.addParticle(ParticleInit.INFECTED_SPARK.get(), (double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D,
-                            (double)pos.getZ() + 0.5D, (double)(source.nextFloat() / 2.0F), 5.0E-5D, (double)(source.nextFloat() / 2.0F));
+                    world.addParticle(ParticleInit.INFECTED_SPARK.get(), pos.getX() + 0.5D, pos.getY() + 0.5D,
+                            pos.getZ() + 0.5D, source.nextFloat() / 2.0F, 5.0E-5D, source.nextFloat() / 2.0F);
                 }
             }
         }
