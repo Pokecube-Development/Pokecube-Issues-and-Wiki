@@ -10,7 +10,6 @@
     "accessors.AttributeMaxAccessor",
     "accessors.ChunkAccessAcessor",
     "accessors.WorldGenRegionAccessor",
-    "accessors.WalkAniAccessor",
     "brain.MixinLivingEntityInit",
     "brain.MixinVilagerBrainUpdate",
     "brain.MixinMobEntity",
