@@ -1,0 +1,54 @@
+{
+    "_comment": "Thut's Concrete Language Properties",
+    "_comment": "@author Thutmose and Vexatos",
+
+    "_comment": "Misc",
+    "itemGroup.thut": "Thut's Mods",
+    
+    "teledest.location": "[%1$s, %2$s, %3$s: %4$s]",
+
+    "_comment": "Commands",
+    "thutcore.command.settings.check": "%1$s §aestá atualmente definido para:§6 %2$s",
+    "thutcore.command.settings.set": "%1$s §adefinido como:§6 %2$s",
+    
+    "msg.subbiome.set": "§aDefina o Subbioma da área selecionada para:§6 %1$s",
+    "msg.subbiome.setcorner": "§aSeleção de canto inicializada:§6 %1$s",
+    
+    "_comment": "Sub Biomes",
+    "thutcore.biometype.none": "Nenhum",
+    "thutcore.biometype.sky": "Ceú",
+    "thutcore.biometype.flower": "Área de flores",
+    "thutcore.biometype.lake": "Lago",
+    "thutcore.biometype.industrial": "Área industrial",
+    "thutcore.biometype.meteor": "Área do Meteoro",
+    "thutcore.biometype.ruin": "Ruína",
+    "thutcore.biometype.cave": "Caverna",
+    "thutcore.biometype.cavewater": "Lago da Caverna",
+    "thutcore.biometype.village": "Aldeão",
+    "thutcore.biometype.all": "Tudo",
+    "thutcore.biometype.inside": "Dentro",
+    
+    "_comment": "Config Options",
+    
+    "thutcore.config.not_finished": "Inacabado, use os comandos do jogo ou edite os arquivos de configuração diretamente.",
+    
+    "thutcore.config.explosions": "Configurações de explosão",
+    "thutcore.config.explosions.tooltip": "Configurações de explosão",
+    "thutcore.config.explosionRadius.tooltip": "Raio máximo de efeito de explosões, reduza isso para reduzir o uso de RAM de explosões.",
+    "thutcore.config.explosionRate.tooltip": "Taxa na qual as explosões são calculadas. Valores mais baixos resultam em explosões mais demoradas, mas com menos atraso.",
+    "thutcore.config.affectAir.tooltip": "são blocos de ar afetados por explosões, se isso for falso, mobs no ar podem não sofrer danos.",
+    "thutcore.config.minBlastEffect.tooltip": "As explosões terminarão quando sua força cair abaixo disso.",
+
+    "thutcore.config.biomes": "Configurações de bioma e subbioma",
+    "thutcore.config.biomes.tooltip": "Configurações de bioma e subbioma",
+    "thutcore.config.resetAllTerrain.tooltip": "Se verdadeiro, não carregará subbiomas do nbt, redefinindo-os assim.",
+    "thutcore.config.customBiomeMappings.tooltip": "Definições de bloco personalizadas para subbiomas, o formato é <subbiome>-><blockinfo>, Exemplo: crystalcave->quark:crystal resultaria em áreas com blocos de cristais de quarks sendo subbiomas de cavernas cristalinas.",
+
+    "thutcore.config.ai": "Configurações de IA",
+    "thutcore.config.ai.tooltip": "Configurações de IA",
+    "thutcore.config.threadCount.tooltip": "Número de encadeamentos de IA a serem criados na inicialização, a IA de mob personalizada é distribuída para esses encadeamentos.",
+
+    "thutcore.config.blockentity": "Entidades de bloco configuração",
+    "thutcore.config.blockentity.tooltip": "Entidades de bloco configuração",
+    "thutcore.config.whitelist.tooltip": "IDs de entidade de bloco que são confirmados para funcionar com entidades de bloco."
+}
