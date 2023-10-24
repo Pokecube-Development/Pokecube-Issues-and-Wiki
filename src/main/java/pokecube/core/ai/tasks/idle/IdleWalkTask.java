@@ -132,7 +132,8 @@ public class IdleWalkTask extends BaseIdleTask
     protected void doGroundIdle()
     {
         this.v.set(this.x, this.y, this.z);
-        this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y));
+        this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg,
+                this.v.y - entity.level.getMinBuildHeight()));
         if (this.v != null) this.y = this.v.y;
     }
 
