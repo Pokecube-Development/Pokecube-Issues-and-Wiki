@@ -346,7 +346,7 @@ public class SpawnBiomeMatcher
         // have those manually check here.
         if (this._usesMatchers)
         {
-            boolean valid = true;
+            boolean valid = !this._biomeMatchers.isEmpty();
             for (var matcher : this._biomeMatchers) valid = valid && matcher.matches(biome);
             return valid;
         }
