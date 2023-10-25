@@ -225,11 +225,9 @@ public class PacketPokedex extends NBTPacket
             final SpawnBiomeMatcher matcher = matchers.get(e);
             matcher.spawnRule.values.put("Local_Rate", rates.get(e) + "");
             String match = PacketPokedex.serialize(matcher);
-            if (match == null)
-            {
-                PokecubeAPI.LOGGER.error("Error with spawn entry for " + e);
-                continue;
-            }
+            // This is null in the case that the spawn is not valid, or is
+            // hidden by the desc being set to __hidden__
+            if (match == null) continue;
             spawns.putString("e" + n, e.getName());
             spawns.putString("" + n, match);
             n++;
@@ -250,7 +248,8 @@ public class PacketPokedex extends NBTPacket
         if (entry.getSpawnData() != null) for (final SpawnBiomeMatcher matcher : entry.getSpawnData().matchers.keySet())
         {
             String serialised = PacketPokedex.serialize(matcher);
-            // This is null in the case that the spawn is not valid.
+            // This is null in the case that the spawn is not valid, or is
+            // hidden by the desc being set to __hidden__
             if (serialised == null) continue;
             spawns.putString("" + n, serialised);
             n++;
@@ -493,6 +492,7 @@ public class PacketPokedex extends NBTPacket
 
     public static String serialize(final SpawnBiomeMatcher matcher)
     {
+        if ("__hidden__".equals(matcher.spawnRule.desc)) return null;
         // Initialise the client lists of biomes/types
         SpawnBiomeMatcher.populateClientValues(matcher);
         // Then serialise it
