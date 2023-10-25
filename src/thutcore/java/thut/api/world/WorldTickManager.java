@@ -84,7 +84,14 @@ public class WorldTickManager
             {
                 delayed.removeIf(task -> {
                     if (task.getTick() > Tracker.instance().getTick()) return false;
-                    task.run();
+                    try
+                    {
+                        task.run();
+                    }
+                    catch (Exception e)
+                    {
+                        ThutCore.LOGGER.error("Error running a delayed task!", e);
+                    }
                     return true;
                 });
             }
