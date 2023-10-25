@@ -145,8 +145,9 @@ public class OutMobInfo extends GuiEventComponent
             }
 
             // Render Name
-            if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.4F, 1.0F);
+            if (currentMoveIndex == 5) RenderSystem.setShaderColor(0.0F, 1.0F, 0.0F, 1.0F);
             graphics.blit(Resources.GUI_BATTLE, nameOffsetX, nameOffsetY, 44, 0, 90, 13);
+            if (currentMoveIndex == 5) RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
 
             graphics.drawString(gui.getFont(), displayName, nameOffsetX + 3, nameOffsetY + 3,
                     GuiDisplayPokecubeInfo.lightGrey);
