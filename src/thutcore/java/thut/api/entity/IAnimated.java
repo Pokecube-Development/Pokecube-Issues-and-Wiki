@@ -41,6 +41,8 @@ public interface IAnimated
      */
     Object getContext();
 
+    Map<Object, Object> activeParticles();
+
     public static class HeadInfo
     {
         public static final HeadInfo DUMMY = new HeadInfo();

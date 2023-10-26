@@ -91,11 +91,11 @@ public interface IExtendedModelPart extends IModelCustom
         IExtendedModelPart.sort(order, this.getSubParts());
     }
 
-    default boolean convertToGlobal(PoseStack mat, Vector3f fill)
+    default Entity convertToGlobal(PoseStack mat, Vector3f fill)
     {
-        if (this.getAnimationHolder() == null) return false;
-        if (this.getAnimationHolder().getContext() == null) return false;
-        if (!(this.getAnimationHolder().getContext().getContext() instanceof Entity e)) return false;
+        if (this.getAnimationHolder() == null) return null;
+        if (this.getAnimationHolder().getContext() == null) return null;
+        if (!(this.getAnimationHolder().getContext().getContext() instanceof Entity e)) return null;
 
         PoseStack mat2 = new PoseStack();
         mat2.last().pose().load(mat.last().pose());
@@ -129,7 +129,7 @@ public interface IExtendedModelPart extends IModelCustom
         // And subtract from camera location.
         fill.set((float) (-x + pos.x()), (float) (-y + pos.y()), (float) (-z + pos.z()));
 
-        return true;
+        return e;
     }
 
     default void preRender(PoseStack mat)
