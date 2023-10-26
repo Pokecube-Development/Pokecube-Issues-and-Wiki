@@ -330,6 +330,12 @@ public class CapabilityAnimation
         }
 
         @Override
+        public IAnimated getContext()
+        {
+            return this.context;
+        }
+
+        @Override
         public void setAnimationChanger(IAnimationChanger changer)
         {
             this.changer = changer;

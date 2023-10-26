@@ -183,7 +183,9 @@ public interface IAnimated
         Collection<Animation> getTransientPlaying();
 
         void setContext(IAnimated context);
-        
+
+        IAnimated getContext();
+
         void setAnimationChanger(IAnimationChanger changer);
 
         /**

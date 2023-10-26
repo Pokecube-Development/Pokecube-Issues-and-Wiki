@@ -9,9 +9,13 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Vector3f;
+import com.mojang.math.Vector4f;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
 import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
@@ -85,6 +89,47 @@ public interface IExtendedModelPart extends IModelCustom
     default void sort(final List<String> order)
     {
         IExtendedModelPart.sort(order, this.getSubParts());
+    }
+
+    default boolean convertToGlobal(PoseStack mat, Vector3f fill)
+    {
+        if (this.getAnimationHolder() == null) return false;
+        if (this.getAnimationHolder().getContext() == null) return false;
+        if (!(this.getAnimationHolder().getContext().getContext() instanceof Entity e)) return false;
+
+        PoseStack mat2 = new PoseStack();
+        mat2.last().pose().load(mat.last().pose());
+        this.preRender(mat2);
+
+        Vector4f test = new Vector4f(0, 0, 0, 1);
+        test.transform(mat2.last().pose());
+
+        // Distance left/right
+        double dx = test.x() / 1;
+        // Distance up/down, this one is inverted it seems
+        double dy = -test.y() / 1;
+        // Distance centered
+        double dz = test.z() / 1;
+
+        var camera = Minecraft.getInstance().gameRenderer.getMainCamera();
+
+        // Directions of camera
+        var left = camera.getLeftVector();
+        var up = camera.getUpVector();
+        var fwd = camera.getLookVector();
+
+        var pos = camera.getPosition();
+
+        double x, y, z;
+        // Now transform back from camera coordinates
+        x = left.x() * dx + up.x() * dy + fwd.x() * dz;
+        y = left.y() * dx + up.y() * dy + fwd.y() * dz;
+        z = left.z() * dx + up.z() * dy + fwd.z() * dz;
+
+        // And subtract from camera location.
+        fill.set((float) (-x + pos.x()), (float) (-y + pos.y()), (float) (-z + pos.z()));
+
+        return true;
     }
 
     default void preRender(PoseStack mat)
