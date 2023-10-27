@@ -41,6 +41,8 @@ public interface IAnimated
      */
     Object getContext();
 
+    Map<Object, Object> activeParticles();
+
     public static class HeadInfo
     {
         public static final HeadInfo DUMMY = new HeadInfo();
@@ -183,7 +185,9 @@ public interface IAnimated
         Collection<Animation> getTransientPlaying();
 
         void setContext(IAnimated context);
-        
+
+        IAnimated getContext();
+
         void setAnimationChanger(IAnimationChanger changer);
 
         /**

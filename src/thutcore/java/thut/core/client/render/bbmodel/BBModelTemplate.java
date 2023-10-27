@@ -699,6 +699,10 @@ public class BBModelTemplate
             Object x;
             Object y;
             Object z;
+            String effect;
+            String locator;
+            String script;
+            String file;
         }
     }
 

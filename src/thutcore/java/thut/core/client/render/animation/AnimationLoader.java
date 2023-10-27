@@ -254,6 +254,9 @@ public class AnimationLoader
                 IPartTexturer texturer = renderer.getTexturer();
                 IAnimationChanger animator = renderer.getAnimationChanger();
 
+                renderer.getParticleSources().clear();
+                if (file.model.particles != null) renderer.getParticleSources().addAll(file.model.particles);
+
                 if (texturer == null) renderer.setTexturer(texturer = new TextureHelper());
                 else texturer.reset();
                 if (animator == null) renderer.setAnimationChanger(animator = new AnimationChanger());

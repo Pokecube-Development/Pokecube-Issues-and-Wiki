@@ -181,13 +181,13 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
         this.transformGlobal(mat, buffer, this.renderer.getAnimation(this.entityIn), this.entityIn,
                 Minecraft.getInstance().getFrameTime());
         final Set<String> excluded = Sets.newHashSet();
-
         this.imodel.getParts().forEach((partName, part) -> {
             if (part.isHidden())
             {
                 excluded.add(partName);
                 excluded.addAll(part.getRecursiveChildNames());
             }
+            else for (var source : renderer.getParticleSources()) source.onRender(mat, part);
             if (part.getParent() == null)
             {
                 this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
@@ -296,7 +296,7 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
     {
         return imodel.getRenderOrder();
     }
-    
+
     @Override
     public void initBuiltInAnimations(IModelRenderer<?> renderer, List<Animation> tblAnims)
     {

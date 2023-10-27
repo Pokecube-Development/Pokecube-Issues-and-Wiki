@@ -149,7 +149,7 @@ public class BBModelPart extends Part
         b.toMeshs(t, quads_materials, tris_materials);
         b.rotation = oldRots;
 
-        if (quads_materials.isEmpty() && tris_materials.isEmpty())
+        if (quads_materials.isEmpty() && tris_materials.isEmpty() && !b.type.equals("locator"))
             ThutCore.logDebug("No parts for " + t.name + " " + b.name);
         var mats = t._materials;
 

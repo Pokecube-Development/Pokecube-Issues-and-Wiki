@@ -2,7 +2,7 @@
   "rules":[
     {
       "preset":"forests",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -12,7 +12,7 @@
     },
     {
       "preset":"taigas",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -22,7 +22,7 @@
     },
     {
       "preset":"jungles",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -32,7 +32,7 @@
     },
     {
       "preset":"plains",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -42,7 +42,7 @@
     },
     {
       "preset":"savannas",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -52,12 +52,12 @@
     },
     {
       "preset":"deserts",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld,dry_areas,sandy_areas"
     },
     {
       "preset":"badlands",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -67,7 +67,7 @@
     },
     {
       "preset":"mesa_forests",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld,badlands",
       "matchers":{
         "biome":{
@@ -77,7 +77,7 @@
     },
     {
       "preset":"mountains",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "or_preset":"extreme_hills",
       "and_preset":"overworld",
       "matchers":{
@@ -88,7 +88,7 @@
     },
     {
       "preset":"extreme_hills",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -98,7 +98,7 @@
     },
     {
       "preset":"mushrooms",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -108,13 +108,13 @@
     },
     {
       "preset":"swamps",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "or_preset":"swamp_ground,swamp_water",
       "and_preset":"overworld"
     },
     {
       "preset":"swamp_ground",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -124,7 +124,7 @@
     },
     {
       "preset":"river_ground",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -138,7 +138,7 @@
     },
     {
       "preset":"lake_ground",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -152,7 +152,7 @@
     },
     {
       "preset":"beach_ground",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
@@ -166,7 +166,7 @@
     },
     {
       "preset":"ocean_ground",
-      "not_preset": "caves",
+      "not_preset": "custom_subbiomes",
       "and_preset":"overworld",
       "matchers":{
         "biome":{
