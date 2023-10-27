@@ -25,6 +25,13 @@ import thut.core.client.render.texturing.IPartTexturer;
 
 public interface IExtendedModelPart extends IModelCustom
 {
+    public static interface IPartRenderAdder
+    {
+        boolean shouldAddTo(IExtendedModelPart part);
+
+        void onRender(PoseStack mat, IExtendedModelPart part);
+    }
+
     public static void sort(final List<String> order, final Map<String, IExtendedModelPart> parts)
     {
         order.clear();
@@ -56,6 +63,8 @@ public interface IExtendedModelPart extends IModelCustom
             return s1.compareTo(s2);
         });
     }
+
+    void addPartRenderAdder(IPartRenderAdder adder);
 
     void addChild(IExtendedModelPart child);
 
