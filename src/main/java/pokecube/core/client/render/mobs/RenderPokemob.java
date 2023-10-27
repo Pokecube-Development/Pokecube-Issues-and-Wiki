@@ -1,6 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +47,6 @@ import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
 import thut.core.client.render.animation.AnimationXML.CustomTex;
-import thut.core.client.render.animation.AnimationXML.ParticleSource;
 import thut.core.client.render.animation.AnimationXML.Phase;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
@@ -150,7 +148,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public Map<String, PartInfo> parts = new Object2ObjectOpenHashMap<>();
         Map<String, List<Vector5>> global;
         public Map<String, List<Animation>> animations = new Object2ObjectOpenHashMap<>();
-        private List<ParticleSource> particles = new ArrayList<>();
         private final List<String> toRunNames = Lists.newArrayList();
         private final List<Animation> toRun = Lists.newArrayList();
         private Vector3 offset = new Vector3();;
@@ -384,12 +381,6 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         public HeadInfo getHeadInfo()
         {
             return this.headInfo;
-        }
-
-        @Override
-        public List<ParticleSource> getParticleSources()
-        {
-            return particles;
         }
     }
 

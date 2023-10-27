@@ -1,5 +1,6 @@
 package thut.core.client.render.model.parts;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -36,8 +37,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
 {
     private final Map<String, IExtendedModelPart> parts = new Object2ObjectOpenHashMap<>();
 
-    private final List<String> order = Lists.newArrayList();
-    private final List<Mesh> shapes = Lists.newArrayList();
+    private final List<IPartRenderAdder> renderAdders = new ArrayList<>();
+    private final List<String> order = new ArrayList<>();
+    private final List<Mesh> shapes = new ArrayList<>();
 
     private final String name;
 
@@ -254,6 +256,9 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void render(final PoseStack mat, final VertexConsumer buffer)
     {
         if (this.isDisabled()) return;
+
+        for (var adder : this.renderAdders) adder.onRender(mat, this);
+
         this.preRender(mat);
         for (final Mesh s : this.shapes)
         {
@@ -578,5 +583,11 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public boolean isHeadPart()
     {
         return isHead;
+    }
+
+    @Override
+    public void addPartRenderAdder(IPartRenderAdder adder)
+    {
+        if (adder.shouldAddTo(this)) this.renderAdders.add(adder);
     }
 }

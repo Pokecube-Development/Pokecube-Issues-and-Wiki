@@ -1,6 +1,5 @@
 package pokecube.core.client.render.mobs;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,7 +45,6 @@ import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.bling.client.render.Util;
 import thut.core.client.render.animation.AnimationLoader;
-import thut.core.client.render.animation.AnimationXML.ParticleSource;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
@@ -80,7 +78,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
 
     // These below need to be from the model set, as depend on the model itself
     private HashMap<String, List<Animation>> anims = Maps.newHashMap();
-    private List<ParticleSource> particles = new ArrayList<>();
 
     private IAnimationChanger changer = null;
     private IPartTexturer texer = null;
@@ -420,12 +417,6 @@ public class RenderFancyPokecube extends LivingEntityRenderer<EntityPokecube, En
     public HeadInfo getHeadInfo()
     {
         return HeadInfo.DUMMY;
-    }
-
-    @Override
-    public List<ParticleSource> getParticleSources()
-    {
-        return particles;
     }
 
 }

@@ -425,4 +425,11 @@ public class SMDModel implements IModelCustom, IModel, IRetexturableModel, IFake
         // TODO Auto-generated method stub
         
     }
+
+    @Override
+    public void addPartRenderAdder(IPartRenderAdder adder)
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

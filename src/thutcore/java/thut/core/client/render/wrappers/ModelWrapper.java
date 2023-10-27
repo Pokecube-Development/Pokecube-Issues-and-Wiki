@@ -187,7 +187,6 @@ public class ModelWrapper<T extends Entity> extends EntityModel<T> implements IM
                 excluded.add(partName);
                 excluded.addAll(part.getRecursiveChildNames());
             }
-            else for (var source : renderer.getParticleSources()) source.onRender(mat, part);
             if (part.getParent() == null)
             {
                 this.initColours(part, this.entityIn, packedLightIn, packedOverlayIn);
