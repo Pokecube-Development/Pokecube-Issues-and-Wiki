@@ -202,13 +202,18 @@ public class EntityMoveUse extends ThrowableProjectile
         if (!this.getUser().level().isClientSide())
         {
             // Put us and our user in here by default.
-            this.apply.alreadyHit.add(this.getUUID());
+            this.addIgnoredEntity(this);
             // Only put user in if it is not the target, this allows self moves
             // to work properly
-            if (this.getUser() != this.getTarget()) this.apply.alreadyHit.add(this.getUser().getUUID());
+            if (this.getUser() != this.getTarget() || this.getTarget() == null) this.addIgnoredEntity(this.getUser());
             this.apply.finished = this::isDone;
             userMob.getMoveStats().addMoveInProgress(userMob, this.apply);
         }
+    }
+
+    public void addIgnoredEntity(Entity entity)
+    {
+        if (entity != null) this.apply.alreadyHit.add(entity.getUUID());
     }
 
     @Override
@@ -245,7 +250,7 @@ public class EntityMoveUse extends ThrowableProjectile
         final Entity targ = this.getTarget();
         final UUID targId = targ == null ? null : targ.getUUID();
 
-        this.apply.alreadyHit.add(targetID);
+        this.addIgnoredEntity(targ);
 
         // Only hit multipart entities once
         // Only can hit our valid target!

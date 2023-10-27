@@ -651,7 +651,9 @@ public class MoveApplication implements Comparable<MoveApplication>
 
     /**
      * Collection of UUIDs of mobs this has already applied to. This is used by
-     * the EntityMoveUse to decide what mobs to hit.
+     * the EntityMoveUse to decide what mobs to hit. This is also populated with
+     * entity uuids for mobs which are invalid targets for the move, such as the
+     * user for melee moves.
      */
     public Set<UUID> alreadyHit = Sets.newHashSet();
 
