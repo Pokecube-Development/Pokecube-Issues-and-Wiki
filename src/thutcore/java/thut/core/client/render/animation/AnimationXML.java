@@ -21,6 +21,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraftforge.registries.ForgeRegistries;
 import thut.core.client.render.model.IExtendedModelPart;
+import thut.core.client.render.model.IExtendedModelPart.IPartRenderAdder;
 import thut.core.common.ThutCore;
 import thut.core.xml.bind.Factory;
 import thut.core.xml.bind.annotation.XmlAnyAttribute;
@@ -31,7 +32,7 @@ import thut.core.xml.bind.annotation.XmlRootElement;
 public class AnimationXML
 {
     @XmlRootElement(name = "particle")
-    public static class ParticleSource
+    public static class ParticleSource implements IPartRenderAdder
     {
         @XmlAttribute(name = "density")
         public float density = 0.1f;
@@ -72,10 +73,16 @@ public class AnimationXML
             }
         }
 
-        public void onRender(PoseStack mat, IExtendedModelPart part)
+        @Override
+        public boolean shouldAddTo(IExtendedModelPart part)
         {
             if (_particleType == null) init();
-            if (!_parts.contains(part.getName())) return;
+            return _parts.contains(part.getName());
+        }
+
+        @Override
+        public void onRender(PoseStack mat, IExtendedModelPart part)
+        {
             Entity mob = part.convertToGlobal(mat, _place);
             if (mob == null || _type == null || !(mob.level instanceof ClientLevel level) || !mob.isAddedToWorld())
                 return;

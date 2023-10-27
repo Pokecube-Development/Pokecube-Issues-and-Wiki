@@ -15,7 +15,6 @@ import thut.api.entity.animation.Animation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.api.maths.Vector4;
-import thut.core.client.render.animation.AnimationXML.ParticleSource;
 import thut.core.client.render.texturing.IPartTexturer;
 
 public interface IModelRenderer<T extends Entity>
@@ -64,8 +63,6 @@ public interface IModelRenderer<T extends Entity>
     IAnimationChanger getAnimationChanger();
 
     Map<String, List<Animation>> getAnimations();
-
-    List<ParticleSource> getParticleSources();
 
     default Vector3 getRotationOffset()
     {
