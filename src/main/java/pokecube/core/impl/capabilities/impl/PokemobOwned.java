@@ -493,6 +493,13 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.resetLoveStatus();
         final IPokemob pokemob = this;
         this.spawnInitRule = info;
+        final FormeHolder holder = info.getForme(pokemob.getPokedexEntry());
+        if (holder != null)
+        {
+            pokemob.setBasePokedexEntry(holder._entry);
+            pokemob.setPokedexEntry(holder._entry);
+            pokemob.setCustomHolder(holder);
+        }
         FormeHolder forme = this.getCustomHolder();
         if (forme != null)
         {
@@ -544,10 +551,12 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         pokemob.getEntity().setHealth(pokemob.getEntity().getMaxHealth());
 
         // If we have some spawn info, lets process it.
-        if (this.spawnInitRule != null)
+        final FormeHolder holder = this.spawnInitRule.getForme(pokemob.getPokedexEntry());
+        if (holder != null)
         {
-            final FormeHolder holder = this.spawnInitRule.getForme(pokemob.getPokedexEntry());
-            if (holder != null) pokemob.setCustomHolder(holder);
+            pokemob.setBasePokedexEntry(holder._entry);
+            pokemob.setPokedexEntry(holder._entry);
+            pokemob.setCustomHolder(holder);
         }
         if (pokemob != this) pokemob.spawnInit(this.spawnInitRule);
         return pokemob;

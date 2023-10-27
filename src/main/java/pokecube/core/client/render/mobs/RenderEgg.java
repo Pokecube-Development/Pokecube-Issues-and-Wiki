@@ -1,6 +1,7 @@
 package pokecube.core.client.render.mobs;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import thut.api.entity.animation.CapabilityAnimation;
 import thut.api.entity.animation.IAnimationChanger;
 import thut.api.maths.Vector3;
 import thut.core.client.render.animation.AnimationLoader;
+import thut.core.client.render.animation.AnimationXML.ParticleSource;
 import thut.core.client.render.model.IModel;
 import thut.core.client.render.model.IModelRenderer;
 import thut.core.client.render.model.ModelFactory;
@@ -106,6 +108,7 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     }
 
     private final HashMap<String, List<Animation>> anims = Maps.newHashMap();
+    private List<ParticleSource> particles = new ArrayList<>();
 
     private IAnimationChanger changer = new EggColourer();
     private IPartTexturer texer = null;
@@ -256,5 +259,11 @@ public class RenderEgg extends LivingEntityRenderer<EntityPokemobEgg, ModelWrapp
     public HeadInfo getHeadInfo()
     {
         return HeadInfo.DUMMY;
+    }
+
+    @Override
+    public List<ParticleSource> getParticleSources()
+    {
+        return particles;
     }
 }
