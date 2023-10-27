@@ -274,7 +274,7 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
     public void renderAllExcept(final PoseStack mat, final VertexConsumer buffer,
             final Collection<String> excludedGroupNames)
     {
-        boolean skip = this.hidden;
+        boolean skip = this.isHidden();
         if (skip || excludedGroupNames.contains(this.name)) return;
         if (!skip)
         {
@@ -326,13 +326,14 @@ public abstract class Part implements IExtendedModelPart, IRetexturableModel
         // Post rot is head direction
         this.postRot.set(0, 0, 0, 1);
         this.preTrans.set(offset);
+        this.preScale.set(1, 1, 1);
         this.postTrans.clear();
         this.colour_scales[0] = 1;
         this.colour_scales[1] = 1;
         this.colour_scales[2] = 1;
         this.colour_scales[3] = 1;
         this.hidden = false;
-        ds2 = 1;
+        ds0 = ds = ds2 = 1;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package thut.api;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.Lists;
 
@@ -24,6 +26,7 @@ public class AnimatedCaps
 
         private final List<String> anims = Lists.newArrayList();
         private final List<String> transients = Lists.newArrayList();
+        private final Map<Object, Object> particles = new HashMap<>();
         private final Object context;
 
         public Impl(Object context)
@@ -53,6 +56,12 @@ public class AnimatedCaps
         public Object getContext()
         {
             return context;
+        }
+
+        @Override
+        public Map<Object, Object> activeParticles()
+        {
+            return particles;
         }
     }
 
