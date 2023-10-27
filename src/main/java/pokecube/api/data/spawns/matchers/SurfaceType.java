@@ -3,6 +3,7 @@ package pokecube.api.data.spawns.matchers;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnCheck;
 import pokecube.api.data.spawns.SpawnCheck.MatchResult;
+import thut.api.maths.Vector3;
 
 /**
  * 
@@ -25,12 +26,13 @@ public class SurfaceType extends BaseMatcher
     public MatchResult _matches(SpawnBiomeMatcher matcher, SpawnCheck checker)
     {
         if (_caves && _surface) return MatchResult.SUCCEED;
-        int y = checker.location.getMaxY(checker.world);
-        if (!_caves && checker.location.y <= y)
+        Vector3 location = new Vector3(checker.pos);
+        int y = location.getMaxY(checker.world);
+        if (!_caves && location.y <= y)
         {
             return MatchResult.FAIL;
         }
-        if (!_surface && checker.location.y >= y)
+        if (!_surface && location.y >= y)
         {
             return MatchResult.FAIL;
         }

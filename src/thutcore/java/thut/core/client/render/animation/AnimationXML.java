@@ -8,10 +8,11 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
+import org.joml.Vector3f;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

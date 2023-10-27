@@ -7,10 +7,11 @@ import java.util.function.Predicate;
 
 import javax.annotation.Nullable;
 
+import org.joml.Vector3f;
+import org.joml.Vector4f;
+
 import com.google.common.collect.Sets;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Vector3f;
-import com.mojang.math.Vector4f;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -98,11 +99,11 @@ public interface IExtendedModelPart extends IModelCustom
         if (!(this.getAnimationHolder().getContext().getContext() instanceof Entity e)) return null;
 
         PoseStack mat2 = new PoseStack();
-        mat2.last().pose().load(mat.last().pose());
+        mat2.last().pose().set(mat.last().pose());
         this.preRender(mat2);
 
         Vector4f test = new Vector4f(0, 0, 0, 1);
-        test.transform(mat2.last().pose());
+        test.mul(mat2.last().pose());
 
         // Distance left/right
         double dx = test.x() / 1;
