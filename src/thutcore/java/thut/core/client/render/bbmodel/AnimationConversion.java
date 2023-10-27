@@ -33,6 +33,11 @@ public class AnimationConversion
         jep = jep.replace("sin(", "sin_deg(");
         jep = jep.replace("cos(", "cos_deg(");
         jep = jep.replace("tan(", "tan_deg(");
+        
+        // also apparently case isn't important
+        jep = jep.replace("Sin(", "sin_deg(");
+        jep = jep.replace("Cos(", "cos_deg(");
+        jep = jep.replace("Tan(", "tan_deg(");
 
         if (forcedLimbs)
         {

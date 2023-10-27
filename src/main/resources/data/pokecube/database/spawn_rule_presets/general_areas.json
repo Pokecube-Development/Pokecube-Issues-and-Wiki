@@ -97,6 +97,30 @@
           "f":"y - 150"
         }
       }
+    },
+    {
+      "preset":"on_surface",
+      "matchers":{
+        "surface":{
+          "type":"surface"
+        }
+      }
+    },
+    {
+      "preset":"below_surface",
+      "matchers":{
+        "surface":{
+          "type":"underground"
+        }
+      }
+    },
+    {
+      "preset":"ignore_surface",
+      "matchers":{
+        "surface":{
+          "type":"any"
+        }
+      }
     }
   ]
 }
