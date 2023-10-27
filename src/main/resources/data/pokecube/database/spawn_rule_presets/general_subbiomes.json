@@ -80,6 +80,10 @@
           "sub_biomes":"cave"
         }
       }
+    },
+    {
+      "preset":"custom_subbiomes",
+      "or_preset":"ruins,industrial,meteors,caves"
     }
   ]
 }
