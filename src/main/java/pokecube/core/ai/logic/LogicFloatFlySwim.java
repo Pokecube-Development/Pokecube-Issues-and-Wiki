@@ -222,7 +222,7 @@ public class LogicFloatFlySwim extends LogicBase
             }
             this.state = NaviState.FLY;
         }
-        else if (water && this.entity.isAlive())
+        else if (water)
         {
             if (this.state != NaviState.SWIM)
             {

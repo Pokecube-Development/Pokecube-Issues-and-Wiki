@@ -19,6 +19,7 @@ import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.HappinessType;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.ai.LogicStates;
 import pokecube.api.events.pokemobs.CaptureEvent;
@@ -206,6 +207,12 @@ public class CaptureManager
             cube.setItem(pokemobStack);
             HappinessType.applyHappiness(pokemob, HappinessType.TRADE);
             if (cube.shooter != null && !pokemob.getGeneralState(GeneralStates.TAMED)) pokemob.setOwner(cube.shooter);
+            /*
+             * Set not to wander around by default, they can choose to enable this
+             * later.
+             */
+            pokemob.setRoutineState(AIRoutine.WANDER, false);
+            
             final IPokemob revert = pokemob.resetForm(false);
             if (revert != null) pokemob = revert;
             if (pokemob.getEntity().getPersistentData().contains(TagNames.ABILITY)) pokemob.setAbilityRaw(
