@@ -8,7 +8,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -240,7 +239,7 @@ public class PacketTrainer extends NBTPacket
             final String var = JsonUtil.gson.toJson(thing);
             args = args + var;
             final StructureEvent.ReadTag event = new ReadTag(args, vec.getPos(), player.getLevel(),
-                    (ServerLevel) player.getLevel(), player.getRandom(), BoundingBox.infinite());
+                    player.getLevel(), player.getRandom(), BoundingBox.infinite());
             MinecraftForge.EVENT_BUS.post(event);
             break;
         case UPDATETRAINER:

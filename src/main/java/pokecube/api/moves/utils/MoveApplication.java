@@ -105,7 +105,7 @@ public class MoveApplication implements Comparable<MoveApplication>
             LivingEntity target = t.move().getTarget();
             if (t.move().status_chance > target.getRandom().nextDouble())
             {
-                if (MovesUtils.setStatus(target, t.move().status_effects))
+                if (MovesUtils.setStatus(t.move().getUser(), target, t.move().status_effects))
                 {
                     MovesUtils.displayStatusMessages(t.move().user, target, t.move().status_effects, true);
                     if (PokecubeCore.getConfig().debug_moves)
@@ -645,7 +645,9 @@ public class MoveApplication implements Comparable<MoveApplication>
 
     /**
      * Collection of UUIDs of mobs this has already applied to. This is used by
-     * the EntityMoveUse to decide what mobs to hit.
+     * the EntityMoveUse to decide what mobs to hit. This is also populated with
+     * entity uuids for mobs which are invalid targets for the move, such as the
+     * user for melee moves.
      */
     public Set<UUID> alreadyHit = Sets.newHashSet();
 

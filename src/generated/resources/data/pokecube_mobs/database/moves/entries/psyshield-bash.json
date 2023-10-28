@@ -7,6 +7,5 @@
   "type": "psychic",
   "accuracy": 90,
   "target": "selected-pokemon",
-  "damage_class": "physical",
-  "effect_chance": 100
+  "damage_class": "physical"
 }

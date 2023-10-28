@@ -48,7 +48,7 @@ public class NpcMateTask extends VillagerMakeLove
         level.broadcastEntityEvent(ageablemob, (byte) 18);
         level.broadcastEntityEvent(mob, (byte) 18);
         int i = 275 + mob.getRandom().nextInt(50);
-        this.birthTimestamp = time + (long) i;
+        this.birthTimestamp = time + i;
     }
 
     protected void tick(ServerLevel level, Villager mob, long time)

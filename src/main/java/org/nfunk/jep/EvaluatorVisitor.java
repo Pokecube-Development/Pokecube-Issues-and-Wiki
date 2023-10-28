@@ -175,7 +175,7 @@ public class EvaluatorVisitor implements ParserVisitor
         // the responsability of the evaluate method.
         if (pfmc instanceof SpecialEvaluationI special) return special.evaluate(node, data, this, this.stack);
 
-        if (EvaluatorVisitor.debug == true)
+        if (EvaluatorVisitor.debug)
             System.out.println("Stack size before childrenAccept: " + this.stack.size());
 
         // evaluate all children (each leaves their result on the stack)
@@ -184,7 +184,7 @@ public class EvaluatorVisitor implements ParserVisitor
             data = node.childrenAccept(this, data);
             node_order.add(node);
         }
-        if (EvaluatorVisitor.debug == true) System.out.println("Stack size after childrenAccept: " + this.stack.size());
+        if (EvaluatorVisitor.debug) System.out.println("Stack size after childrenAccept: " + this.stack.size());
 
         if (pfmc.getNumberOfParameters() == -1) // need to tell the class how
                                                 // many parameters it can take
@@ -196,7 +196,7 @@ public class EvaluatorVisitor implements ParserVisitor
 
         pfmc.run(this.stack);
 
-        if (EvaluatorVisitor.debug == true) System.out.println("Stack size after run: " + this.stack.size());
+        if (EvaluatorVisitor.debug) System.out.println("Stack size after run: " + this.stack.size());
 
         return data;
     }

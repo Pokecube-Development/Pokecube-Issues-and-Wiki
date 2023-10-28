@@ -61,16 +61,16 @@ public class MeteoriteSpikeFeature extends Feature<NoneFeatureConfiguration>
 
          for(int k = 0; k < i; ++k)
          {
-            float f = (1.0F - (float)k / (float)i) * (float)j;
+            float f = (1.0F - (float)k / (float)i) * j;
             int l = Mth.ceil(f);
 
             for(int i1 = -l; i1 <= l; ++i1)
             {
-               float f1 = (float)Mth.abs(i1) - 0.25F;
+               float f1 = Mth.abs(i1) - 0.25F;
 
                for(int j1 = -l; j1 <= l; ++j1)
                {
-                  float f2 = (float)Mth.abs(j1) - 0.25F;
+                  float f2 = Mth.abs(j1) - 0.25F;
                   if ((i1 == 0 && j1 == 0 || !(f1 * f1 + f2 * f2 > f * f)) && (i1 != -l && i1 != l && j1 != -l && j1 != l || !(random.nextFloat() > 0.75F)))
                   {
                      BlockState stateOffset = world.getBlockState(pos.offset(i1, k, j1));

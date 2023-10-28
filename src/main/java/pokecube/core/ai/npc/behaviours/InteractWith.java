@@ -97,7 +97,7 @@ public class InteractWith<E extends LivingEntity, T extends LivingEntity> extend
 
     private boolean canInteract(E p_186039_, LivingEntity p_186040_)
     {
-        return this.type.test(p_186040_) && p_186040_.distanceToSqr(p_186039_) <= (double) this.interactionRangeSqr
+        return this.type.test(p_186040_) && p_186040_.distanceToSqr(p_186039_) <= this.interactionRangeSqr
                 && this.targetFilter.test(p_186040_);
     }
 }

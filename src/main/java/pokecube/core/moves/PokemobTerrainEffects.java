@@ -200,7 +200,7 @@ public class PokemobTerrainEffects implements ITerrainEffect
                 && Tracker.instance().getTick() % (2 * PokecubeCore.getConfig().attackCooldown) != 0)
             return;
         if (!AITools.validCombatTargets.test(entity) || !(entity.getLevel() instanceof ServerLevel level)) return;
-
+        if (!this.hasEffects()) return;
         final IPokemob mob = PokemobCaps.getPokemobFor(entity);
         boolean immune = false;
         final float thisMaxHP = entity.getMaxHealth();
@@ -257,16 +257,23 @@ public class PokemobTerrainEffects implements ITerrainEffect
 
     public void doEntryEffect(final LivingEntity entity)
     {
+        if (!this.hasEffects()) return;
         final IPokemob mob = PokemobCaps.getPokemobFor(entity);
         if (mob != null && entity.getLevel() instanceof ServerLevel)
         {
             if (this.effects.containsKey(EntryEffectType.POISON.getIndex()) && !mob.isType(PokeType.getType("poison"))
                     && !mob.isType(PokeType.getType("steel")))
-                mob.setStatus(IMoveConstants.STATUS_PSN);
+            {
+                var user = this.effects.get(EntryEffectType.POISON.getIndex()).getMob();
+                mob.setStatus(user, IMoveConstants.STATUS_PSN);
+            }
 
             if (this.effects.containsKey(EntryEffectType.POISON2.getIndex()) && !mob.isType(PokeType.getType("poison"))
                     && !mob.isType(PokeType.getType("steel")))
-                mob.setStatus(IMoveConstants.STATUS_PSN2);
+            {
+                var user = this.effects.get(EntryEffectType.POISON2.getIndex()).getMob();
+                mob.setStatus(user, IMoveConstants.STATUS_PSN2);
+            }
 
             if (this.effects.containsKey(EntryEffectType.SPIKES.getIndex()))
             {

@@ -20,8 +20,8 @@ import pokecube.api.moves.utils.MoveApplication.PostMoveUse;
 @MoveProvider(name = "transform")
 public class Transform implements PostMoveUse, PreProcessor
 {
-    CategoryProvider categoryProvider = user -> user.getTransformedTo() == null ? ContactCategory.RANGED
-            : ContactCategory.CONTACT;
+    CategoryProvider categoryProvider = user -> user == null ? ContactCategory.CONTACT
+            : user.getTransformedTo() == null ? ContactCategory.RANGED : ContactCategory.CONTACT;
 
     @Override
     public void applyPostMove(Damage t)
@@ -34,7 +34,7 @@ public class Transform implements PostMoveUse, PreProcessor
         IPokemob attacker = packet.getUser();
         LivingEntity attacked = packet.getTarget();
 
-        if (attacked instanceof LivingEntity && attacked != attacker.getTransformedTo())
+        if (attacked != null && attacked != attacker.getTransformedTo())
             attacker.setTransformedTo(attacked);
     }
 

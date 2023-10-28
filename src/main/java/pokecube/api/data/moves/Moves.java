@@ -34,6 +34,7 @@ public class Moves
         public String move_category = "damage";
         public int flinch_chance;
         public int crit_rate;
+        public float cooldown = 1.0f;
         public String effect_text_extend;
         public String effect_text_simple;
         public int effect_chance;
@@ -103,6 +104,8 @@ public class Moves
         public boolean _multi_target = false;
         public int _effect_index = -1;
         public String _preset;
+
+        // Additional cooldown for moves after use.
         public float _post_attack_delay_factor = 1;
 
         public String _effect_text_extend = "";
@@ -151,6 +154,8 @@ public class Moves
                 this._max_turns = move.max_turns;
                 this._min_hits = move.min_hits;
                 this._max_hits = move.max_hits;
+
+                this._post_attack_delay_factor = move.cooldown;
             }
         }
 

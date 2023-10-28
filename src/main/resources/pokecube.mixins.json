@@ -3,7 +3,7 @@
   "required": true,
   "package": "pokecube.mixin",
   "compatibilityLevel": "JAVA_17",
-  "refmap": "pokecube.refmap.json",
+  "refmap": "thutcore.refmap.json",
   "mixins": [
     "MixinBaseFireBlock",
     "accessors.AttributeMaxAccessor",
@@ -14,8 +14,6 @@
     "brain.MixinMobEntity",
     "entity.ICapabilityCache",
     "entity.BeeHiveFix",
-    "entity.LevelEntityEventServer",
-    "entity.LevelEntityEventClient",
     "entity.EntityDeathMixin",
     "features.LessJungleBushInStructuresMixin",
     "features.NoBasaltColumnsInStructuresMixin",
