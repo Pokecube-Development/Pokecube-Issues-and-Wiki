@@ -233,7 +233,7 @@ public class LogicMiscUpdate extends LogicBase
             if (guardingEgg != shouldGuard) pokemob.setGeneralState(GeneralStates.GUARDEGG, shouldGuard);
         }
 
-        if (pokemob.getMoveStats().movesInProgress.isEmpty()) pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
+        if (!pokemob.getMoveStats().isExecutingMoves()) pokemob.setCombatState(CombatStates.EXECUTINGMOVE, false);
     }
 
     private void checkEvolution()
