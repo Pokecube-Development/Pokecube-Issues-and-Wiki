@@ -19,7 +19,7 @@ public class ItemTiers
             new ResourceLocation("pokecube_legends:needs_rainbow_wing_tool"));
 
     public static final Tier RAINBOW_WING = TierSortingRegistry.registerTier(
-            new ForgeTier(5, 5000, 10, 100, 0, ItemTiers.RAINBOW_WING_TAG,
+            new ForgeTier(5, 5000, 10, 8, 0, ItemTiers.RAINBOW_WING_TAG,
                     () -> Ingredient.of(ItemInit.RAINBOW_WING.get())),
             new ResourceLocation("pokecube_legends:rainbow_wing"), List.of(Tiers.DIAMOND), List.of());
 }

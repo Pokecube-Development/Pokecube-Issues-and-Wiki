@@ -255,7 +255,7 @@ public class ItemInit
         OCEAN_ORB = PokecubeLegends.ITEMS.register("oceanorb",
                 () -> new ItemBase("oceanorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         RAINBOW_ORB = PokecubeLegends.ITEMS.register("legendaryorb",
-                () -> new ItemBase("legendaryorb", 2, PokecubeLegends.TAB_LEGENDS, 1).setShiny());
+                () -> new ItemBase("legendaryorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         RED_ORB = PokecubeLegends.ITEMS.register("redorb",
                 () -> new ItemBase("redorb", 2, PokecubeLegends.TAB_LEGENDS, 1));
         REGIS_ORB = PokecubeLegends.ITEMS.register("regisorb",
@@ -345,7 +345,7 @@ public class ItemInit
         LUNAR_WING = PokecubeLegends.ITEMS.register("lunar_wing",
                 () -> new ItemBase("lunar_wing", 2, PokecubeLegends.TAB_LEGENDS, 1));
         RAINBOW_WING = PokecubeLegends.ITEMS.register("rainbow_wing",
-                () -> new ItemBase("rainbow_wing", 1, PokecubeLegends.TAB_LEGENDS, 1).setShiny());
+                () -> new ItemBase("rainbow_wing", 1, PokecubeLegends.TAB_LEGENDS, 1));
         SILVER_WING = PokecubeLegends.ITEMS.register("silver_wing",
                 () -> new ItemBase("silver_wing", 1, PokecubeLegends.TAB_LEGENDS, 1));
         STATIC_WING = PokecubeLegends.ITEMS.register("static_wing",
