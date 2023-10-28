@@ -247,15 +247,19 @@ public class AnimationLoader
             }
             holder.setLoadedOffset(offset);
             holder.setLoadedScale(scale);
+            
+            if (file.model.particles != null) model.getParts().values().forEach(part -> {
+                for (var m : file.model.particles)
+                {
+                    part.addPartRenderAdder(m);
+                }
+            });
 
             if (renderer != null) synchronized (renderer)
             {
                 // Objects for modifying textures/animations
                 IPartTexturer texturer = renderer.getTexturer();
                 IAnimationChanger animator = renderer.getAnimationChanger();
-
-                renderer.getParticleSources().clear();
-                if (file.model.particles != null) renderer.getParticleSources().addAll(file.model.particles);
 
                 if (texturer == null) renderer.setTexturer(texturer = new TextureHelper());
                 else texturer.reset();

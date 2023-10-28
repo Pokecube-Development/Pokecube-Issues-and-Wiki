@@ -26,7 +26,6 @@ import pokecube.api.data.spawns.SpawnRule;
 import pokecube.api.entity.TeamManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
-import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.events.PCEvent;
@@ -432,11 +431,6 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
          */
         this.setGeneralState(GeneralStates.TAMED, true);
         /*
-         * Set not to wander around by default, they can choose to enable this
-         * later.
-         */
-        this.setRoutineState(AIRoutine.WANDER, false);
-        /*
          * Set owner, and set original owner if none already exists.
          */
         this.getOwnerHolder().setOwner(e);
@@ -493,12 +487,15 @@ public abstract class PokemobOwned extends PokemobAI implements ContainerListene
         this.resetLoveStatus();
         final IPokemob pokemob = this;
         this.spawnInitRule = info;
-        final FormeHolder holder = info.getForme(pokemob.getPokedexEntry());
-        if (holder != null)
+        if (info != null)
         {
-            pokemob.setBasePokedexEntry(holder._entry);
-            pokemob.setPokedexEntry(holder._entry);
-            pokemob.setCustomHolder(holder);
+            final FormeHolder holder = info.getForme(pokemob.getPokedexEntry());
+            if (holder != null)
+            {
+                pokemob.setBasePokedexEntry(holder._entry);
+                pokemob.setPokedexEntry(holder._entry);
+                pokemob.setCustomHolder(holder);
+            }
         }
         FormeHolder forme = this.getCustomHolder();
         if (forme != null)

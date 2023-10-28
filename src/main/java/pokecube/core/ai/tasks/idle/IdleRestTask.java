@@ -67,8 +67,8 @@ public class IdleRestTask extends BaseIdleTask
     /** Water things will not idle path out of water. */
     protected BlockPos doWaterIdle()
     {
-        if (this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER)) return v.getPos();
-        return doGroundIdle();
+        if (!this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER)) return null;
+        return v.getPos();
     }
 
     protected BlockPos getLocation()
@@ -99,7 +99,12 @@ public class IdleRestTask extends BaseIdleTask
         }
         if (!goHome)
         {
-            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance);
+            double minDy = 0;
+            double maxDy = 2;
+
+            boolean verticalMotion = entry.flys() || entry.floats() || (entry.swims() && entity.isInWater());
+            if (verticalMotion) minDy = -2;
+            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance, minDy, maxDy);
             if (v == null) return null;
             double diff = Math.max(this.entry.length * this.pokemob.getSize(),
                     this.entry.width * this.pokemob.getSize());
@@ -127,6 +132,12 @@ public class IdleRestTask extends BaseIdleTask
         }
         else
         {
+            if (restTimer < -400)
+            {
+                restPos = null;
+                restTimer = 20 + this.entity.getRandom().nextInt(IdleWalkTask.IDLETIMER)
+                        + this.entity.getRandom().nextInt(100);
+            }
             if (restPos == null) restPos = getLocation();
             else
             {

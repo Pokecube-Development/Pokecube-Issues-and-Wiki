@@ -134,12 +134,6 @@ public class MoveEntry implements IMoveConstants
     public boolean fixed = false;
     public boolean defrosts = false;
 
-    /**
-     * Scaling factor on cooldown, if not specified in the json, this gets set
-     * to 4 for moves like hyperbeam
-     */
-    public float cooldown_scale = 1.0f;
-
     /** Status, Special, Physical */
 
     public AttackCategory category = AttackCategory.OTHER;

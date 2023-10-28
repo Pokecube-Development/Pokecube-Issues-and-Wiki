@@ -13,7 +13,6 @@ import com.mojang.blaze3d.vertex.VertexFormat.Mode;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.MultiBufferSource.BufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.DepthTestStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -78,7 +77,7 @@ public class Material
 
     public RenderTypeProvider renderType = RenderTypeProvider.NORMAL;
 
-    static MultiBufferSource.BufferSource lastImpl = null;
+    MultiBufferSource bufferSource = null;
 
     final Map<String, RenderType> types = new Object2ObjectOpenHashMap<>(2);
     final Map<ResourceLocation, double[]> uv_scales = new Object2ObjectOpenHashMap<>(2);
@@ -110,7 +109,7 @@ public class Material
     public void makeVertexBuilder(final ResourceLocation texture, final MultiBufferSource buffer, Mode mode)
     {
         this.makeRenderType(texture, mode);
-        if (buffer instanceof BufferSource) Material.lastImpl = (BufferSource) buffer;
+        bufferSource = buffer;
     }
 
     private RenderType makeRenderType(final ResourceLocation tex, Mode mode)
@@ -126,11 +125,11 @@ public class Material
 
     public VertexConsumer preRender(final PoseStack mat, final VertexConsumer buffer, Mode mode)
     {
-        if (Material.lastImpl == null) Material.lastImpl = Minecraft.getInstance().renderBuffers().bufferSource();
-        if (this.tex == null || Material.lastImpl == null) return buffer;
+        if (bufferSource == null) bufferSource = Minecraft.getInstance().renderBuffers().bufferSource();
+        if (this.tex == null || bufferSource == null) return buffer;
         this.vertexMode = mode;
         final RenderType type = this.makeRenderType(this.tex, mode);
-        VertexConsumer newBuffer = Material.lastImpl.getBuffer(type);
+        VertexConsumer newBuffer = bufferSource.getBuffer(type);
         return newBuffer;
     }
 

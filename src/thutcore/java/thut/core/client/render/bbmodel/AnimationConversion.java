@@ -3,6 +3,7 @@ package thut.core.client.render.bbmodel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import thut.api.entity.IAnimated.MolangVars;
@@ -25,19 +26,21 @@ public class AnimationConversion
             ThutCore.LOGGER.error("Warning, NaN in molang " + molang);
             jep = jep.replace("NaN", "0");
         }
+        // Ignore case
+        jep = jep.toLowerCase(Locale.ROOT);
 
         jep = jep.replaceAll("math.", "");// We do not need "math."
-        jep = jep.replaceAll("Math.", "");// We do not need "math."
+
+        // cleanup missing * symbols
+        jep = jep.replace(")clamp", ")*clamp");
+        jep = jep.replace(")sin", ")*sin");
+        jep = jep.replace(")cos", ")*cos");
+        jep = jep.replace(")tan", ")*tan");
 
         // We take radians for these, not degreees.
         jep = jep.replace("sin(", "sin_deg(");
         jep = jep.replace("cos(", "cos_deg(");
         jep = jep.replace("tan(", "tan_deg(");
-        
-        // also apparently case isn't important
-        jep = jep.replace("Sin(", "sin_deg(");
-        jep = jep.replace("Cos(", "cos_deg(");
-        jep = jep.replace("Tan(", "tan_deg(");
 
         if (forcedLimbs)
         {
@@ -54,7 +57,6 @@ public class AnimationConversion
             ThutCore.LOGGER.error("Error with molang to jep conversion, was not complete! " + molang + " " + jep);
             jep = "0";
         }
-
         return jep;
     }
 

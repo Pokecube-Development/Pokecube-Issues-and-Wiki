@@ -114,9 +114,16 @@ PHYSICAL_RANGED = {
 }
 
 index_map = get_moves_index()
+move_modifications = {}
+
+mod_file = "./data/moves/move_adjustments.json"
+arr = json.load(open(mod_file, 'r'))
+for var in arr:
+    if 'name' in var:
+        key = var['name']
+        move_modifications[key] = var
 
 OUTPUT_FLAVOUR_TEXT = False
-
 
 def is_english(details):
     return details.language.name == 'en'
@@ -165,6 +172,9 @@ class MoveEntry:
             if entry.language.name == 'en':
                 self.effect_text_extend = entry.effect
                 self.effect_text_simple = entry.short_effect
+
+                if "User foregoes its next turn to recharge." in self.effect_text_simple:
+                    self.cooldown = 3.0
 
         if move.effect_chance is not None:
             self.effect_chance = move.effect_chance
@@ -364,12 +374,18 @@ def convert_moves():
 
         move_entries.append(entry)
 
+        values = entry.__dict__
+        if name in move_modifications:
+            overrides = move_modifications[name]
+            for key, value in overrides.items():
+                values[key] = value
+
         # Dump the entry file
         file = f'../../src/generated/resources/data/pokecube_mobs/database/moves/entries/{name}.json'
         if not os.path.exists(os.path.dirname(file)):
             os.makedirs(os.path.dirname(file))
         file = open(file, 'w', encoding='utf-8')
-        json.dump(entry.__dict__, file, indent=2, ensure_ascii=False)
+        json.dump(values, file, indent=2, ensure_ascii=False)
         file.close()
 
     # Post process for the "special" z-moves

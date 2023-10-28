@@ -9,6 +9,8 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
+import thut.api.AnimatedCaps;
+import thut.api.entity.IAnimated.IAnimationHolder;
 import thut.bling.client.render.Ankle;
 import thut.bling.client.render.Back;
 import thut.bling.client.render.Ear;
@@ -19,6 +21,7 @@ import thut.bling.client.render.Neck;
 import thut.bling.client.render.Util;
 import thut.bling.client.render.Waist;
 import thut.bling.client.render.Wrist;
+import thut.core.client.render.animation.AnimationHelper;
 import thut.core.client.render.model.IModel;
 import thut.lib.RegHelper;
 import thut.wearables.EnumWearable;
@@ -62,6 +65,9 @@ public abstract class BlingRenderBase
             stack.getTag().putString("gem", tex);
         }
         if (model == null) return;
+        final IAnimationHolder holder = AnimationHelper.getHolder(wearer);
+        holder.setContext(AnimatedCaps.getAnimated(wearer));
+        model.setAnimationHolder(holder);
         switch (slot)
         {
         case ANKLE:

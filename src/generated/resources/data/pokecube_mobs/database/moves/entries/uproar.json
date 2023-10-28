@@ -11,6 +11,8 @@
   "flavor_text": "The user attacks in an uproar for three turns. During that time, no Pokémon can fall asleep.",
   "move_category": "damage",
   "ailment": "none",
+  "max_turns": 3,
+  "min_turns": 3,
   "effect_text_extend": "Inflicts regular damage.  User is forced to use this move for 2–5 turns, selected at random.  All Pokémon on the field wake up, and none can fall to sleep until the lock-in ends.\n\nPokémon cannot use rest during this effect.\n\nThis move cannot be selected by sleep talk.",
   "effect_text_simple": "Forced to use this move for several turns.  Pokémon cannot fall asleep in that time."
 }
