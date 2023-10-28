@@ -18,6 +18,6 @@ public class Rest implements HealProvider
         IPokemob attacker = packet.getUser();
         attacker.healStatus();
         attacker.healChanges();
-        attacker.setStatus(IMoveConstants.STATUS_SLP, 2);
+        attacker.setStatus(attacker, IMoveConstants.STATUS_SLP, 2);
     }
 }

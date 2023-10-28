@@ -103,11 +103,13 @@ public class TargetInfo extends GuiEventComponent
                     if ((status & IMoveConstants.STATUS_FRZ) != 0) dv = 1 * 14;
                     if ((status & IMoveConstants.STATUS_PAR) != 0) dv = 3 * 14;
                     if ((status & IMoveConstants.STATUS_PSN) != 0) dv = 4 * 14;
+                    RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
                     gui.blit(evt.getMat(), statusOffsetX, statusOffsetY, 0, 138 + dv, 15, 15);
                 }
                 if ((pokemob.getChanges() & IMoveConstants.CHANGE_CONFUSED) != 0)
                 {
                     evt.getMat().translate(0, 0, 100);
+                    RenderSystem.setShaderTexture(0, Resources.GUI_BATTLE);
                     gui.blit(evt.getMat(), confuseOffsetX, confuseOffsetY, 0, 211, 24, 16);
                     evt.getMat().translate(0, 0, -100);
                 }

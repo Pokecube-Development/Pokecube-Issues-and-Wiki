@@ -54,8 +54,8 @@ public class Rectangle
         int dy = this.y0;
         if (dx < 0) this.setBox(x0 = (x0 - dx), y0, w, h);
         if (dy < 0) this.setBox(x0, y0 = (y0 - dy), w, h);
-        dx = (int) (scaledWidth - x1);
-        dy = (int) (scaledHeight - y1);
+        dx = scaledWidth - x1;
+        dy = scaledHeight - y1;
         if (dx < 0) this.setBox(x0 = (x0 + dx), y0, w, h);
         if (dy < 0) this.setBox(x0, y0 = (y0 + dy), w, h);
     }

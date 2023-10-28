@@ -304,7 +304,7 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
         if (isTip(state, true))
         {
             int i = getStalactiteSizeFromTip(world, pos, 6);
-            float f = 1.0F * (float) i;
+            float f = 1.0F * i;
             entity.setHurtsEntities(f, 40);
         }
         world.addFreshEntity(entity);
@@ -416,9 +416,9 @@ public class AquamarineCrystalBlock extends PointedDripstoneBlock implements Fal
     public static void spawnDripParticle(Level world, BlockPos pos, BlockState state, Fluid fluid)
     {
         Vec3 vec3 = state.getOffset(world, pos);
-        double d1 = (double) pos.getX() + 0.5D + vec3.x;
-        double d2 = (double) ((float) (pos.getY() + 1) - 0.6875F) - 0.0D;
-        double d3 = (double) pos.getZ() + 0.5D + vec3.z;
+        double d1 = pos.getX() + 0.5D + vec3.x;
+        double d2 = pos.getY() + 1 - 0.6875F - 0.0D;
+        double d3 = pos.getZ() + 0.5D + vec3.z;
         Fluid fluid1 = getDripFluid(world, fluid);
         @SuppressWarnings("deprecation")
         ParticleOptions particle = fluid1.is(FluidTags.LAVA) ? ParticleTypes.DRIPPING_DRIPSTONE_LAVA

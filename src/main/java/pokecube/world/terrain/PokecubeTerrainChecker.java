@@ -48,7 +48,7 @@ public class PokecubeTerrainChecker extends TerrainChecker implements ISubBiomeC
         int k = QuartPos.fromBlock(pos.getZ());
         Climate.TargetPoint climate$targetpoint = generator.climateSampler().sample(i, j, k);
         float f4 = Climate.unquantizeCoord(climate$targetpoint.weirdness());
-        double d0 = (double) TerrainShaper.peaksAndValleys(f4);
+        double d0 = TerrainShaper.peaksAndValleys(f4);
         return d0 > 0.5 ? TerrainType.HILLS : TerrainType.FLAT;
     }
 

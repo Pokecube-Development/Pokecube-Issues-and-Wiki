@@ -30,12 +30,12 @@ public abstract class ICapabilityCache extends CapabilityProvider<Entity>
     {
         if (!EntityTools.isCached(cap))
         {
-            ICapabilityProvider us = ((ICapabilityProvider) (Object) this);
+            ICapabilityProvider us = (this);
             return us.getCapability(cap, null);
         }
         @SuppressWarnings("unchecked")
         LazyOptional<T> value = (LazyOptional<T>) CAPCACHE.computeIfAbsent(cap, c -> {
-            ICapabilityProvider us = ((ICapabilityProvider) (Object) this);
+            ICapabilityProvider us = (this);
             return us.getCapability(cap, null);
         });
         if (!value.isPresent() || !value.resolve().isPresent()) CAPCACHE.remove(cap);

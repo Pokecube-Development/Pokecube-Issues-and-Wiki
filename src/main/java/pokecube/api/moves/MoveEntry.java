@@ -33,7 +33,7 @@ public class MoveEntry implements IMoveConstants
     public static interface TypeProvider
     {
         @Nullable
-        PokeType getType(final IPokemob user);
+        PokeType getType(@Nullable IPokemob user);
     }
 
     public static interface PowerProvider
@@ -43,7 +43,7 @@ public class MoveEntry implements IMoveConstants
 
     public static interface CategoryProvider
     {
-        ContactCategory getAttackCategory(IPokemob user);
+        ContactCategory getAttackCategory(@Nullable IPokemob user);
     }
 
     public static record MoveSounds(SoundEvent onSource, SoundEvent onTarget)
@@ -133,12 +133,6 @@ public class MoveEntry implements IMoveConstants
     public boolean ohko = false;
     public boolean fixed = false;
     public boolean defrosts = false;
-
-    /**
-     * Scaling factor on cooldown, if not specified in the json, this gets set
-     * to 4 for moves like hyperbeam
-     */
-    public float cooldown_scale = 1.0f;
 
     /** Status, Special, Physical */
 

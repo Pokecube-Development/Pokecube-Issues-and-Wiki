@@ -220,6 +220,7 @@ public class PokecubeManager
                 PokecubeManager.heal(mob);
                 PokecubeAPI.POKEMOB_BUS.post(new HealEvent.Post(mob, fromHealer));
                 PokecubeManager.addToCube(stack, mob);
+                stack.setHoverName(mob.getDisplayName());
                 PokecubeManager.setStatus(stack, IMoveConstants.STATUS_NON);
             }
             catch (final Throwable e)
@@ -261,6 +262,8 @@ public class PokecubeManager
             final CompoundTag tag = stack.getTag().getCompound(TagNames.POKEMOB);
             for (final String key : PokecubeManager.TAGSTOREMOVE) tag.getCompound("ForgeData").remove(key);
             EntityUpdate.readMob(mob, tag);
+            IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+            if (pokemob != null) pokemob.setPokecube(stack);
         }
         catch (final Exception e)
         {

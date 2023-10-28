@@ -5,7 +5,6 @@ import java.util.Random;
 
 import com.google.common.collect.Maps;
 
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.ai.memory.MemoryStatus;
 import net.minecraft.world.level.pathfinder.Node;
@@ -120,9 +119,6 @@ public class CicleTask extends CombatTask implements IAICombat
 
         final int combatDistanceSq = combatDistance * combatDistance;
         // If the mob has left the combat radius, try to return to the centre of
-        // combat. Otherwise, find a random spot in a consistant direction
-        // related to the center to run in, this results in the mobs somewhat
-        // circling the middle, and reversing direction every 10 seconds or so.
         if (diff.magSq() > combatDistanceSq + 1)
         {
             if (meleeCombat) this.setWalkTo(this.target, this.movementSpeed, 0);
@@ -130,18 +126,19 @@ public class CicleTask extends CombatTask implements IAICombat
         }
         else
         {
-            final Vector3 perp = diff.horizonalPerp().scalarMultBy(combatDistance / 2);
-            final int revTime = 800;
-
-            perp.set(centre);
-            diff.set(Direction.NORTH).scalarMultBy(combatDistance / 2);
-            if (this.entity.tickCount % revTime > revTime / 2) diff.reverse();
-            double phase = new Random(pokemob.getRNGValue()).nextDouble() * (2 * Math.PI);
-            double angle = (entity.tickCount * Math.PI / 100 + phase) % (2 * Math.PI);
-            diff.rotateAboutLine(Vector3.secondAxis, angle, here);
-            perp.addTo(here);
-            here.set(entity);
-            if (here.distanceTo(perp) > 1) this.setWalkTo(perp, this.movementSpeed / 2, 0);
+            Vector3 perp = new Vector3(target);
+            // Otherwise. find direction of target from centre, and get a
+            // location on the opposite side of it.
+            perp.subtractFrom(centre).reverse().norm().scalarMultBy(combatDistance);
+            perp.y = 0;
+            diff.set(perp);
+            // Apply a random phase offset from that location
+            double phase = (new Random(pokemob.getRNGValue()).nextDouble() - 1) * (Math.PI / 6);
+            diff.rotateAboutLine(Vector3.secondAxis, phase, here);
+            
+            perp.set(centre).addTo(here);
+            // Then path to it.
+            this.setWalkTo(perp, this.movementSpeed * 0.75, 0);
         }
     }
 

@@ -23,7 +23,12 @@ apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
 apply plugin: 'org.spongepowered.mixin'
 
-mixin { add sourceSets.main, "pokecube.refmap.json" }
+mixin {
+    add sourceSets.main, "thutcore.refmap.json"
+    
+    config "pokecube.mixins.json"
+    config "thutcore.mixins.json"
+}
 
 ext {
     VERSION_COMPILE = gitVersion("${version_major}.${version_minor}")
@@ -51,7 +56,7 @@ minecraft {
             properties '-XX': '+FlightRecorder'
             properties 'forge.logging.console.level': 'debug'
             workingDirectory project.file('run').canonicalPath
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
             source sourceSets.main
         }
         client_2 {
@@ -59,28 +64,28 @@ minecraft {
             taskName 'run_client_2'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev2'
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev2'
         }
         client_3 {
             parent runs.client
             taskName 'run_client_3'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev3'
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev3'
         }
         client_4 {
             parent runs.client
             taskName 'run_client_4'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            args '-mixin.config=pokecube.mixins.json', '--username', 'Dev4'
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json", '--username', 'Dev4'
         }
         test_client {
             parent runs.client
             taskName 'run_test_client'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
 
             mods {
                 TestMods { sources sourceSets.test }
@@ -95,7 +100,7 @@ minecraft {
             properties '-XX': '+FlightRecorder'
             jvmArg "-Xmx2G"
             workingDirectory project.file('run').canonicalPath
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
             source sourceSets.main
         }
         test_server {
@@ -103,7 +108,7 @@ minecraft {
             taskName 'run_test_server'
 
             environment 'MOD_CLASSES', 'dummy' // Needed to work around FG limitation, FG will replace this!
-            arg "-mixin.config=pokecube.mixins.json"
+            args "-mixin.config=pokecube.mixins.json", "-mixin.config=thutcore.mixins.json"
 
             mods {
                 TestMods { sources sourceSets.test }
@@ -149,6 +154,8 @@ dependencies {
 }
 
 sourceSets {
+    main.java.srcDirs += 'src/thutcore/java'
+    main.resources.srcDirs += 'src/thutcore/resources'
     main.resources.srcDirs += 'src/generated/resources'
 }
 
@@ -161,8 +168,7 @@ jar {
         "Implementation-Title": project.name,
         "Implementation-Version": VERSION_COMPILE,
         "Implementation-Vendor" :"${author_name}",
-        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-        "MixinConfigs": "pokecube.mixins.json"
+        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
     }
 }
 
@@ -175,45 +181,6 @@ processResources.doLast {
 
 def replaceParameters(filename, find, replace) {
     ant.replace(file:filename,token:find,value:replace)
-}
-
-task sourcesJar(type: Jar) {
-	classifier = "sources"
-	from sourceSets.main.allJava
-}
-
-task serverJar(type: Jar) {	
-    classifier = 'server'
-    from sourceSets.main.output	
-    manifest {
-        attributes 'FMLAT': 'accesstransformer.cfg',
-        "Specification-Title": "${compile_name}",
-        "Specification-Vendor": "${author_name}",
-        "Specification-Version": VERSION_COMPILE,
-        "Implementation-Title": project.name,
-        "Implementation-Version": VERSION_COMPILE,
-        "Implementation-Vendor" :"${author_name}",
-        "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-        "MixinConfigs": "pokecube.mixins.json"
-    }
-    exclude '**/assets/pokecube_mobs/gen*'
-    exclude '**/assets/pokecube_mobs/sound*'
-    exclude '**/assets/pokecube/sound*'
-    exclude '**/textures*'
-    exclude '**/models*'
-    exclude '**/client*'
-    exclude '**/blockstates*'
-}
-
-task deobfJar(type: Jar) {	
-    classifier = 'deobf'
-    from sourceSets.main.output	
-}
-
-artifacts {
-	archives sourcesJar
-    archives deobfJar
-    reobf { serverJar {}}
 }
 
 def cleanTOML()

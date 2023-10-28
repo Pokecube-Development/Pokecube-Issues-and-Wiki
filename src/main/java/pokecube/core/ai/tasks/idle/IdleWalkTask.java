@@ -35,7 +35,7 @@ public class IdleWalkTask extends BaseIdleTask
     public static int IDLETIMER = 1;
 
     public static Vector3 getRandomPointNear(final BlockGetter world, final IPokemob mob, final Vector3 v,
-            final int distance)
+            final int distance, double minDy, double maxDy)
     {
         final Random rand = ThutCore.newRandom();
 
@@ -48,7 +48,7 @@ public class IdleWalkTask extends BaseIdleTask
         if (Math.abs(z) > distance) z = Math.signum(z) * distance;
 
         // Don't select distances too far up/down from current.
-        final double y = Math.min(Math.max(1, rand.nextGaussian() * 4), 2);
+        final double y = Math.min(Math.max(minDy, rand.nextGaussian() * 4), maxDy);
         v.addTo(x, y, z);
 
         // Ensure the target location is loaded.
@@ -132,7 +132,8 @@ public class IdleWalkTask extends BaseIdleTask
     protected void doGroundIdle()
     {
         this.v.set(this.x, this.y, this.z);
-        this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y));
+        this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg,
+                this.v.y - entity.level.getMinBuildHeight()));
         if (this.v != null) this.y = this.v.y;
     }
 
@@ -148,7 +149,7 @@ public class IdleWalkTask extends BaseIdleTask
     protected void doWaterIdle()
     {
         this.v.set(this.x, this.y, this.z);
-        if (this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER))
+        if (!this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER))
         {
             this.x = this.entity.getX();
             this.y = this.entity.getY();
@@ -190,7 +191,13 @@ public class IdleWalkTask extends BaseIdleTask
         }
         else
         {
-            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance);
+            double minDy = 0;
+            double maxDy = 2;
+
+            boolean verticalMotion = entry.flys() || entry.floats() || (entry.swims() && entity.isInWater());
+            if (verticalMotion) minDy = -2;
+
+            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance, minDy, maxDy);
             if (v == null) return false;
             double diff = Math.max(this.entry.length * this.pokemob.getSize(),
                     this.entry.width * this.pokemob.getSize());
