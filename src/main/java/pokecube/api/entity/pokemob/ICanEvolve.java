@@ -343,9 +343,7 @@ public interface ICanEvolve extends IHasEntry, IHasOwner
                 evolution.setUUID(uuid);
 
                 // Sync over any active moves
-                evoMob.getMoveStats().movesInProgress.addAll(thisMob.getMoveStats().movesInProgress);
-                IPokemob fevoMob = evoMob;
-                evoMob.getMoveStats().movesInProgress.forEach(m -> m.setUser(fevoMob));
+                thisMob.getMoveStats().changeMovesUser(evoMob);
             }
 
             // Flag the mob as evolving.

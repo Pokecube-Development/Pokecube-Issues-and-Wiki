@@ -126,13 +126,29 @@ public class PokemobMoveStats
     public void checkMovesInProgress(IPokemob user)
     {
         targettingSelf = false;
-        movesInProgress.removeIf(s -> s.isFinished());
-        for (var move : movesInProgress)
+        synchronized (movesInProgress)
         {
-            if (move.getTarget() == user.getEntity())
+            movesInProgress.removeIf(s -> s.isFinished());
+            for (var move : movesInProgress)
             {
-                targettingSelf = true;
-                break;
+                if (move.getTarget() == user.getEntity())
+                {
+                    targettingSelf = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void changeMovesUser(IPokemob newUser)
+    {
+        PokemobMoveStats from = newUser.getMoveStats();
+        synchronized (movesInProgress)
+        {
+            synchronized (from.movesInProgress)
+            {
+                from.movesInProgress.addAll(this.movesInProgress);
+                from.movesInProgress.forEach(m -> m.setUser(newUser));
             }
         }
     }
@@ -140,7 +156,15 @@ public class PokemobMoveStats
     public void addMoveInProgress(IPokemob user, MoveApplication application)
     {
         this.targettingSelf |= application.getTarget() == user.getEntity();
-        this.movesInProgress.add(application);
+        synchronized (movesInProgress)
+        {
+            this.movesInProgress.add(application);
+        }
+    }
+
+    public boolean isExecutingMoves()
+    {
+        return !movesInProgress.isEmpty();
     }
 
     public boolean addPendingMove(String move, IPokemob notify)
