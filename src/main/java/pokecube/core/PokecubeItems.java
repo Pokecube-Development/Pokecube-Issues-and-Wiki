@@ -130,7 +130,7 @@ public class PokecubeItems extends ItemList
         }
     };
 
-    public static final ResourceLocation POKEMOBEGG = new ResourceLocation("pokecube:pokemob_egg");
+    public static final ResourceLocation POKEMOBEGG = new ResourceLocation("pokecube:pokemobegg");
     public static final ResourceLocation HELDKEY = new ResourceLocation("pokecube:pokemob_held");
     public static final ResourceLocation EVOSKEY = new ResourceLocation("pokecube:pokemob_evo");
     public static final ResourceLocation TMKEY = new ResourceLocation("pokecube:tms");

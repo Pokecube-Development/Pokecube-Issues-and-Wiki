@@ -107,31 +107,7 @@ public class ClonerHelper
 
     public static IMobGenetics getGenes(final ItemStack stack)
     {
-        if (stack.isEmpty() || !stack.hasTag()) return null;
-        final CompoundTag nbt = stack.getTag();
-        if (!nbt.contains(GeneticsManager.GENES))
-        {
-            if (PokecubeManager.isFilled(stack))
-            {
-                final CompoundTag poketag = nbt.getCompound(TagNames.POKEMOB);
-                if (!poketag.getCompound("ForgeCaps").contains(GeneticsManager.POKECUBEGENETICS.toString()))
-                    return null;
-                if (!poketag.getCompound("ForgeCaps").getCompound(GeneticsManager.POKECUBEGENETICS.toString())
-                        .contains("V"))
-                    return null;
-                final Tag genes = poketag.getCompound("ForgeCaps")
-                        .getCompound(GeneticsManager.POKECUBEGENETICS.toString()).get("V");
-                final IMobGenetics eggs = new DefaultGenetics();
-                eggs.deserializeNBT((ListTag) genes);
-                return eggs;
-            }
-            return null;
-        }
-        final Tag genes = nbt.get(GeneticsManager.GENES);
-        final IMobGenetics eggs = new DefaultGenetics();
-        eggs.deserializeNBT((ListTag) genes);
-        if (eggs.getAlleles().isEmpty()) return null;
-        return eggs;
+        return GeneticsManager.getGenes(stack);
     }
 
     public static Set<Class<? extends Gene<?>>> getGeneSelectors(final ItemStack stack)
@@ -197,13 +173,6 @@ public class ClonerHelper
         return SelectorValue.load(selectorTag);
     }
 
-    public static boolean isDNAContainer(final ItemStack stack)
-    {
-        if (stack.isEmpty() || !stack.hasTag()) return false;
-        final String potion = stack.getTag().getString("Potion");
-        return potion.equals("minecraft:water") || potion.equals("minecraft:mundane");
-    }
-
     private static <T, GENE extends Gene<T>> void merge(final IMobGenetics source, final IMobGenetics destination,
             final IGeneSelector selector, final ResourceLocation loc)
     {
@@ -230,7 +199,14 @@ public class ClonerHelper
     public static void setGenes(final ItemStack stack, final IMobGenetics sourceGenes, final IMobGenetics genes,
             final EditType reason)
     {
-        if (stack.isEmpty() || !stack.hasTag()) return;
+        if (stack.isEmpty()) return;
+        IMobGenetics destGenes = ClonerHelper.getGenes(stack);
+        if (destGenes != null)
+        {
+            genes.getAlleles().forEach((key, value) -> destGenes.getAlleles().put(key, value));
+            return;
+        }
+        if (!stack.hasTag() && destGenes == null) return;
         MinecraftForge.EVENT_BUS.post(new GeneEditEvent(sourceGenes, genes, reason));
         final CompoundTag nbt = stack.getTag();
         final Tag geneTag = genes.serializeNBT();

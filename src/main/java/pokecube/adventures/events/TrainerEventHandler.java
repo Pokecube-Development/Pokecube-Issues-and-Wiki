@@ -104,6 +104,7 @@ import pokecube.core.impl.PokecubeMod;
 import pokecube.core.items.pokecubes.PokecubeManager;
 import pokecube.core.moves.damage.PokemobDamageSource;
 import pokecube.core.moves.damage.TerrainDamageSource;
+import pokecube.core.utils.EntityTools;
 import thut.api.inventory.npc.NpcContainer;
 import thut.api.item.ItemList;
 import thut.api.maths.Vector3;
@@ -441,13 +442,43 @@ public class TrainerEventHandler
      */
     public static void processInteract(final PlayerInteractEvent evt, final Entity target)
     {
-        if (!(target instanceof LivingEntity living)) return;
+        LivingEntity living = EntityTools.getCoreLiving(target);
+        if (living == null) return;
 
         Player player = evt.getPlayer();
         InteractionHand hand = evt.getHand();
 
         final IHasMessages messages = TrainerCaps.getMessages(target);
         final IHasPokemobs pokemobs = TrainerCaps.getHasPokemobs(target);
+
+//        // EXAMPLE OF SPLICING GENES FROM ITEMS INTO LIVING MOBS
+//        var key = RegHelper.getKey(evt.getItemStack());
+//        gene_splice:
+//        if (key.toString().contains("dna_splicer"))
+//        {
+//            IMobGenetics newGenes = GeneticsManager.getGenes(evt.getItemStack());
+//            IMobGenetics mobGenes = living.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
+//            if (newGenes == null || mobGenes == null) break gene_splice;
+//            ItemStack tmp = new ItemStack(Items.BOOK);
+//            tmp.setTag(new CompoundTag());
+//            ListTag list = new ListTag();
+//            list.add(StringTag.valueOf("all"));
+//            tmp.getTag().put("Pages", list);
+//            var selector = new ItemBasedSelector(tmp);
+//            ItemStack bottle = new ItemStack(Items.POTION);
+//            IMobGenetics bottleGenes = GeneticsManager.getGenes(bottle);
+//            for (var _key : mobGenes.getKeys()) bottleGenes.getAlleles().put(_key, mobGenes.getAlleles().get(_key));
+//            ClonerHelper.spliceGenes(newGenes, bottle, selector);
+//            for (var _key : bottleGenes.getKeys()) mobGenes.getAlleles().put(_key, bottleGenes.getAlleles().get(_key));
+//            if (player instanceof ServerPlayer splayer)
+//            {
+//                for (final Alleles<?, ?> allele : mobGenes.getAlleles().values())
+//                    PacketSyncGene.syncGene(living, allele, splayer);
+//                EntityUpdate.sendEntityUpdate(living);
+//            }
+//            evt.setCanceled(true);
+//            return;
+//        }
 
         InteractionResult succeed = InteractionResult.sidedSuccess(target.level.isClientSide);
 
