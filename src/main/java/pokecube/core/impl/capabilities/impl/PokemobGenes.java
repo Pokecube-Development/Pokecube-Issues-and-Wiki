@@ -330,7 +330,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public float getSize()
     {
-        return (float) (this.getSizeRaw() * PokecubeCore.getConfig().scalefactor);
+        return this.getSizeRaw();
     }
 
     private void initAbilityGene()

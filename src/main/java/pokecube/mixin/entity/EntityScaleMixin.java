@@ -9,6 +9,7 @@ import net.minecraft.world.entity.LivingEntity;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.core.PokecubeCore;
 
 @Mixin(LivingEntity.class)
 public class EntityScaleMixin
@@ -30,6 +31,7 @@ public class EntityScaleMixin
         size *= SharedAttributes.getScale(_this);
         if (_pokemob != null)
         {
+            size *= PokecubeCore.getConfig().scalefactor;
             // Reset this if we set it from dynamaxing
             if (_this.getParts() != null && _this.getParts().length == 0) _this.noCulling = false;
             if (size > 3) _this.noCulling = true;

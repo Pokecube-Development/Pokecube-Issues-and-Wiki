@@ -530,16 +530,18 @@ public class EventsHandler
             final DefaultAffected affected = new DefaultAffected((LivingEntity) event.getObject());
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
+
+        final GeneticsProvider genes = new GeneticsProvider();
+        event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+
         if (event.getObject() instanceof EntityPokemob mob
                 && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
             final DefaultPokemob pokemob = new DefaultPokemob(mob);
-            final GeneticsProvider genes = new GeneticsProvider();
             final DataSync_Impl data = new DataSync_Impl();
             final TextureableCaps.PokemobCap tex = new TextureableCaps.PokemobCap(mob);
             pokemob.setDataSync(data);
             pokemob.genes = genes.wrapped;
-            event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);
