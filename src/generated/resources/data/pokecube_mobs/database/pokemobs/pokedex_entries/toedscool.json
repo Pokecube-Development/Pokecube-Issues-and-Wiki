@@ -173,14 +173,10 @@
       "hex",
       "grassy-terrain",
       "dazzling-gleam",
+      "lunge",
+      "grassy-glide",
       "tera-blast",
       "trailblaze"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "toedscruel",
-      "level": 30
-    }
-  ]
+  }
 }

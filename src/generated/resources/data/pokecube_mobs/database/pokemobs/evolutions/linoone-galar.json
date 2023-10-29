@@ -1,0 +1,9 @@
+{
+  "name": "obstagoon",
+  "user": "linoone-galar",
+  "condition": {
+    "key": "level",
+    "level": 35
+  },
+  "evoMoves": "obstruct"
+}

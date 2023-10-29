@@ -193,11 +193,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "pyroar",
-      "level": 35
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

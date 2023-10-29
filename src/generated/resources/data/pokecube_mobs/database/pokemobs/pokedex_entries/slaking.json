@@ -38,19 +38,35 @@
         "L": 1,
         "moves": [
           "scratch",
+          "focus-energy",
+          "fury-swipes",
+          "slash",
+          "reversal",
+          "endure",
           "encore",
+          "uproar",
+          "focus-punch",
           "yawn",
           "slack-off",
           "hammer-arm",
           "fling",
           "punishment",
-          "sucker-punch"
+          "sucker-punch",
+          "play-rough"
         ]
       },
       {
         "L": 52,
         "moves": [
           "mega-kick"
+        ]
+      },
+      {
+        "L": 27,
+        "moves": [
+          "headbutt",
+          "chip-away",
+          "throat-chop"
         ]
       },
       {
@@ -66,15 +82,16 @@
         ]
       },
       {
-        "L": 39,
+        "L": 14,
         "moves": [
-          "flail"
+          "rest",
+          "feint-attack"
         ]
       },
       {
-        "L": 14,
+        "L": 39,
         "moves": [
-          "feint-attack"
+          "flail"
         ]
       },
       {
@@ -87,13 +104,6 @@
         "L": 23,
         "moves": [
           "covet"
-        ]
-      },
-      {
-        "L": 27,
-        "moves": [
-          "chip-away",
-          "throat-chop"
         ]
       }
     ],
@@ -159,12 +169,14 @@
       "sunny-day",
       "shadow-ball",
       "rock-smash",
+      "uproar",
       "facade",
       "focus-punch",
       "taunt",
       "helping-hand",
       "brick-break",
       "yawn",
+      "knock-off",
       "secret-power",
       "slack-off",
       "hyper-voice",
@@ -208,8 +220,10 @@
       "play-rough",
       "confide",
       "power-up-punch",
+      "high-horsepower",
       "stomping-tantrum",
       "body-press",
+      "lash-out",
       "tera-blast",
       "pounce",
       "trailblaze",

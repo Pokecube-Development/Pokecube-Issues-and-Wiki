@@ -1,0 +1,9 @@
+{
+  "name": "serperior",
+  "user": "servine",
+  "condition": {
+    "key": "level",
+    "level": 36
+  },
+  "animation": "18"
+}

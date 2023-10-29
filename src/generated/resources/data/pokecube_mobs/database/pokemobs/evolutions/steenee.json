@@ -1,0 +1,9 @@
+{
+  "name": "tsareena",
+  "user": "steenee",
+  "condition": {
+    "key": "move",
+    "move": "stomp"
+  },
+  "evoMoves": "trop-kick"
+}

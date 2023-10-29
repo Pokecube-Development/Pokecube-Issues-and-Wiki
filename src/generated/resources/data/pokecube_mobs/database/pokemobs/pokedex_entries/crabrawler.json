@@ -160,6 +160,7 @@
       "helping-hand",
       "superpower",
       "brick-break",
+      "knock-off",
       "endeavor",
       "rock-tomb",
       "iron-defense",
@@ -190,14 +191,5 @@
       "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "crabominable",
-      "location": {
-        "and_preset": "caves"
-      },
-      "evoMoves": "ice-punch"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_1"
 }

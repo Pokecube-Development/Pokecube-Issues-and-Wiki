@@ -2,6 +2,7 @@
   "name": "tatsugiri-droopy",
   "id": 978,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 166,
   "size": {
     "height": 0.3
@@ -130,8 +131,10 @@
       "giga-impact",
       "nasty-plot",
       "draco-meteor",
+      "lunge",
       "tera-blast",
       "chilling-water"
     ]
-  }
+  },
+  "sound": "tatsugiri-droopy"
 }

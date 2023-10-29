@@ -42,6 +42,7 @@
         "L": 1,
         "moves": [
           "scratch",
+          "growl",
           "quick-attack",
           "defense-curl",
           "foresight",
@@ -52,6 +53,14 @@
         "L": 28,
         "moves": [
           "slam"
+        ]
+      },
+      {
+        "L": 50,
+        "moves": [
+          "double-edge",
+          "reversal",
+          "me-first"
         ]
       },
       {
@@ -103,12 +112,6 @@
         ]
       },
       {
-        "L": 50,
-        "moves": [
-          "me-first"
-        ]
-      },
-      {
         "L": 36,
         "moves": [
           "sucker-punch"
@@ -124,6 +127,7 @@
       "slam",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "flamethrower",
       "surf",
@@ -141,20 +145,24 @@
       "mimic",
       "double-team",
       "defense-curl",
+      "focus-energy",
       "swift",
       "amnesia",
       "fury-swipes",
       "rest",
       "super-fang",
+      "slash",
       "substitute",
       "thief",
       "snore",
       "curse",
+      "reversal",
       "protect",
       "mud-slap",
       "foresight",
       "detect",
       "endure",
+      "charm",
       "rollout",
       "swagger",
       "fury-cutter",
@@ -191,9 +199,11 @@
       "last-resort",
       "sucker-punch",
       "aqua-tail",
+      "seed-bomb",
       "focus-blast",
       "giga-impact",
       "shadow-claw",
+      "zen-headbutt",
       "captivate",
       "grass-knot",
       "charge-beam",
@@ -203,9 +213,15 @@
       "echoed-voice",
       "retaliate",
       "work-up",
+      "play-rough",
       "confide",
+      "baby-doll-eyes",
       "power-up-punch",
-      "brutal-swing"
+      "brutal-swing",
+      "tera-blast",
+      "tidy-up",
+      "trailblaze",
+      "chilling-water"
     ]
   },
   "interactions": [

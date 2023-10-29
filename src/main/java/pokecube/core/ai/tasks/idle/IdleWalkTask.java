@@ -35,7 +35,7 @@ public class IdleWalkTask extends BaseIdleTask
     public static int IDLETIMER = 1;
 
     public static Vector3 getRandomPointNear(final BlockGetter world, final IPokemob mob, final Vector3 v,
-            final int distance)
+            final int distance, double minDy, double maxDy)
     {
         final Random rand = ThutCore.newRandom();
 
@@ -48,7 +48,7 @@ public class IdleWalkTask extends BaseIdleTask
         if (Math.abs(z) > distance) z = Math.signum(z) * distance;
 
         // Don't select distances too far up/down from current.
-        final double y = Math.min(Math.max(1, rand.nextGaussian() * 4), 2);
+        final double y = Math.min(Math.max(minDy, rand.nextGaussian() * 4), maxDy);
         v.addTo(x, y, z);
 
         // Ensure the target location is loaded.
@@ -71,11 +71,13 @@ public class IdleWalkTask extends BaseIdleTask
             _MEMS.put(MemoryModules.MOVE_TARGET.get(), MemoryStatus.VALUE_ABSENT);
             // Don't run if we have a path
             _MEMS.put(MemoryModules.PATH, MemoryStatus.VALUE_ABSENT);
+            // Don't run if guarding an egg
+            _MEMS.put(MemoryModules.EGG.get(), MemoryStatus.VALUE_ABSENT);
         }
         return _MEMS;
     }
 
-    final PokedexEntry entry;
+    PokedexEntry entry;
 
     private double x;
     private double y;
@@ -97,12 +99,12 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     /** Floating things try to stay their preferedHeight from the ground. */
-    private void doFloatingIdle()
+    protected void doFloatingIdle()
     {
         this.v.set(this.x, this.y, this.z);
         final Vector3 temp = Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y);
         if (temp == null || !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE)) return;
-        this.y = temp.y + this.entry.preferedHeight;
+        this.y = temp.y + this.pokemob.getFloatHeight();
     }
 
     /**
@@ -110,7 +112,7 @@ public class IdleWalkTask extends BaseIdleTask
      * will decide to path downwards, the height they path to will be centered
      * around players, to prevent them from all flying way up, or way down
      */
-    private void doFlyingIdle()
+    protected void doFlyingIdle()
     {
         final boolean grounded = !this.pokemob.isRoutineEnabled(AIRoutine.AIRBORNE);
         final boolean tamed = this.pokemob.getGeneralState(GeneralStates.TAMED)
@@ -127,15 +129,16 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     /** Grounded things will path to surface points. */
-    private void doGroundIdle()
+    protected void doGroundIdle()
     {
         this.v.set(this.x, this.y, this.z);
-        this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg, this.v.y));
+        this.v.set(Vector3.getNextSurfacePoint(this.world, this.v, Vector3.secondAxisNeg,
+                this.v.y - entity.level.getMinBuildHeight()));
         if (this.v != null) this.y = this.v.y;
     }
 
     /** Stationary things will not idle path at all */
-    public void doStationaryIdle()
+    protected void doStationaryIdle()
     {
         this.x = this.entity.getX();
         this.y = this.entity.getY();
@@ -143,10 +146,10 @@ public class IdleWalkTask extends BaseIdleTask
     }
 
     /** Water things will not idle path out of water. */
-    public void doWaterIdle()
+    protected void doWaterIdle()
     {
         this.v.set(this.x, this.y, this.z);
-        if (this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER))
+        if (!this.world.getFluidState(this.v.getPos()).is(FluidTags.WATER))
         {
             this.x = this.entity.getX();
             this.y = this.entity.getY();
@@ -154,10 +157,11 @@ public class IdleWalkTask extends BaseIdleTask
         }
     }
 
-    private boolean getLocation()
+    protected boolean getLocation()
     {
         final boolean tameFactor = this.pokemob.getGeneralState(GeneralStates.TAMED)
                 && !this.pokemob.getGeneralState(GeneralStates.STAYING);
+        if (this.entry != pokemob.getPokedexEntry()) this.entry = pokemob.getPokedexEntry();
         int distance = tameFactor ? PokecubeCore.getConfig().idleMaxPathTame : PokecubeCore.getConfig().idleMaxPathWild;
         boolean goHome = false;
         if (!tameFactor)
@@ -187,10 +191,16 @@ public class IdleWalkTask extends BaseIdleTask
         }
         else
         {
-            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance);
+            double minDy = 0;
+            double maxDy = 2;
+
+            boolean verticalMotion = entry.flys() || entry.floats() || (entry.swims() && entity.isInWater());
+            if (verticalMotion) minDy = -2;
+
+            final Vector3 v = IdleWalkTask.getRandomPointNear(this.world, this.pokemob, this.v, distance, minDy, maxDy);
             if (v == null) return false;
-            double diff = Math.max(this.pokemob.getPokedexEntry().length * this.pokemob.getSize(),
-                    this.pokemob.getPokedexEntry().width * this.pokemob.getSize());
+            double diff = Math.max(this.entry.length * this.pokemob.getSize(),
+                    this.entry.width * this.pokemob.getSize());
             diff = Math.max(2, diff);
             if (this.v1.distToSq(v) < diff) return false;
             this.x = v.x;
@@ -208,8 +218,8 @@ public class IdleWalkTask extends BaseIdleTask
     public void run()
     {
         if (!this.getLocation()) return;
-        if (this.pokemob.getPokedexEntry().flys()) this.doFlyingIdle();
-        else if (this.pokemob.getPokedexEntry().floats()) this.doFloatingIdle();
+        if (this.entry.flys()) this.doFlyingIdle();
+        else if (this.entry.floats()) this.doFloatingIdle();
         else if (this.entry.swims() && this.entity.isInWater()) this.doWaterIdle();
         else if (this.entry.isStationary) this.doStationaryIdle();
         else this.doGroundIdle();

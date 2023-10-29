@@ -1,0 +1,11 @@
+{
+  "name": "sandslash-alola",
+  "user": "sandshrew-alola",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube_mobs:ice_stone"
+    }
+  },
+  "evoMoves": "icicle-spear"
+}

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.6"/>
-  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <metadata head="neck:head" headCap="-20,20" headCap1="-20,20"/>
   <customTex default="rapidash">
    <part name="Head" tex="rapidasheye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:1"/>

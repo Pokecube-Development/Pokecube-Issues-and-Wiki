@@ -1,0 +1,26 @@
+[
+  {
+    "name": "slowbro",
+    "user": "slowpoke",
+    "condition": {
+      "key": "level",
+      "level": 37
+    },
+    "evoMoves": "withdraw"
+  },
+  {
+    "name": "slowking",
+    "user": "slowpoke",
+    "condition": [
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:kingsrock"
+        }
+      },
+      {
+        "key": "traded"
+      }
+    ]
+  }
+]

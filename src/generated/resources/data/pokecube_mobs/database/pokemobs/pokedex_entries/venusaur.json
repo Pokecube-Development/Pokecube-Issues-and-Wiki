@@ -224,11 +224,5 @@
     "model": "venusaur_female",
     "anim": "venusaur_female"
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "venusaurmega"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_3"
 }

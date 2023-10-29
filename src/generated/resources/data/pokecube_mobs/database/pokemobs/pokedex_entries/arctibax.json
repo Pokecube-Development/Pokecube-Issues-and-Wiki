@@ -121,6 +121,7 @@
       "helping-hand",
       "brick-break",
       "aerial-ace",
+      "icicle-spear",
       "dragon-claw",
       "dragon-pulse",
       "avalanche",
@@ -131,11 +132,5 @@
       "tera-blast",
       "snowscape"
     ]
-  },
-  "evolutions": [
-    {
-      "name": "baxcalibur",
-      "level": 54
-    }
-  ]
+  }
 }

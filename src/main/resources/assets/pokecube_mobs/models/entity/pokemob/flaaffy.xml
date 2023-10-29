@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.3"/>
-  <metadata head="neck" headAxis="2" headAxis2="0" headCap="-70,70" headCap1="-60,60" headDir="-1" dye="wool1:wool2:wool3:wool4:wool5" shear="wool"/>
+  <metadata head="neck" headCap="-70,70" headCap1="-60,60" dye="wool1:wool2:wool3:wool4:wool5" shear="wool"/>
   <phase armAngle="50" duration="10" leftArm="" leftLeg="leg1" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2"/>
   <customTex default="flaaffy">
    <part name="Head" tex="flaaffyeye"/>

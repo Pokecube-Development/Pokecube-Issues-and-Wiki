@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.3"/>
   <phase duration="10" leftArm="leg1" leftLeg="leg_1" legAngle="10" name="biWalk" rightArm="leg2" rightLeg="leg_2"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <metadata head="head" headCap="-20,20" headCap1="-20,20"/>
   <customTex default="hattrem">
    <part name="Head" tex="hattremhead"/>
    <animation diffs="0.5,0" part="Head" trigger="random:0.005:20"/>

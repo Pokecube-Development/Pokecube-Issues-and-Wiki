@@ -1,0 +1,8 @@
+{
+  "name": "jumpluff",
+  "user": "skiploom",
+  "condition": {
+    "key": "level",
+    "level": 27
+  }
+}

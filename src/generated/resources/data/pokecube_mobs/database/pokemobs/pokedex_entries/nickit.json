@@ -132,13 +132,5 @@
       "lash-out"
     ]
   },
-  "evolutions": [
-    {
-      "name": "thievul",
-      "level": 18,
-      "animation": "18",
-      "evoMoves": "thief"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_2"
 }

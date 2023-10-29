@@ -1,0 +1,28 @@
+[
+  {
+    "name": "typhlosion",
+    "user": "quilava",
+    "condition": {
+      "key": "level",
+      "level": 36
+    }
+  },
+  {
+    "name": "typhlosion-hisui",
+    "user": "quilava",
+    "condition": [
+      {
+        "key": "level",
+        "level": 35
+      },
+      {
+        "key": "location",
+        "location": {
+          "desc": "pokecube.spawns.spooky.general",
+          "and_preset": "spooky_areas"
+        }
+      }
+    ],
+    "evoMoves": "hex"
+  }
+]

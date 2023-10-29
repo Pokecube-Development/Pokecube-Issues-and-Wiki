@@ -92,6 +92,7 @@
       "razor-wind",
       "cut",
       "tackle",
+      "take-down",
       "razor-leaf",
       "solar-beam",
       "string-shot",
@@ -110,6 +111,7 @@
       "protect",
       "giga-drain",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -119,6 +121,7 @@
       "baton-pass",
       "synthesis",
       "hidden-power",
+      "rain-dance",
       "sunny-day",
       "facade",
       "nature-power",
@@ -128,6 +131,7 @@
       "silver-wind",
       "signal-beam",
       "iron-defense",
+      "magical-leaf",
       "calm-mind",
       "payback",
       "me-first",
@@ -136,6 +140,7 @@
       "air-slash",
       "bug-buzz",
       "energy-ball",
+      "switcheroo",
       "grass-knot",
       "bug-bite",
       "round",
@@ -143,15 +148,13 @@
       "electroweb",
       "sticky-web",
       "grassy-terrain",
-      "confide"
+      "confide",
+      "lunge",
+      "grassy-glide",
+      "tera-blast",
+      "pounce",
+      "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "swadloon",
-      "level": 20,
-      "evoMoves": "protect"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

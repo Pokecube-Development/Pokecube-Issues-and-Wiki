@@ -207,11 +207,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "zweilous",
-      "level": 50
-    }
-  ],
   "loot_table": "pokecube:entities/pig_1"
 }

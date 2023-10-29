@@ -48,6 +48,7 @@
     ],
     "misc": [
       "headbutt",
+      "tackle",
       "take-down",
       "iron-defense",
       "zen-headbutt",
@@ -55,12 +56,5 @@
       "steel-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "metang",
-      "level": 20,
-      "evoMoves": "confusion, metal-claw"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_pearls_1"
 }

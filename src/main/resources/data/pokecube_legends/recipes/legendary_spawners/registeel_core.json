@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spawner",
+  "pattern": [
+    "RCR",
+    "CAC",
+    "RCR"
+  ],
+  "key": {
+    "R": {
+      "item": "minecraft:magma_block"
+    },
+    "A": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "C": {
+      "tag": "forge:storage_blocks/iron"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:registeel_spawn",
+    "count": 1
+  }
+}

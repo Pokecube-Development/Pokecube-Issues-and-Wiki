@@ -123,6 +123,7 @@
       "psybeam",
       "hyper-beam",
       "solar-beam",
+      "thunder-shock",
       "thunderbolt",
       "thunder-wave",
       "thunder",
@@ -192,12 +193,5 @@
       "speed-swap"
     ]
   },
-  "evolutions": [
-    {
-      "name": "porygon-z",
-      "item_preset": "dubiousdisc",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

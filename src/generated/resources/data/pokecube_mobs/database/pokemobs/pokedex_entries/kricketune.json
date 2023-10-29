@@ -39,9 +39,12 @@
       {
         "L": 1,
         "moves": [
+          "pound",
           "tackle",
           "growl",
-          "bide"
+          "bide",
+          "bug-bite",
+          "struggle-bug"
         ]
       },
       {
@@ -192,6 +195,7 @@
       "power-up-punch",
       "laser-focus",
       "throat-chop",
+      "lunge",
       "tera-blast",
       "pounce",
       "trailblaze"

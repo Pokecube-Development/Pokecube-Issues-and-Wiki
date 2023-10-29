@@ -1,0 +1,15 @@
+{
+  "name": "electivire",
+  "user": "electabuzz",
+  "condition": [
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:electirizer"
+      }
+    },
+    {
+      "key": "traded"
+    }
+  ]
+}

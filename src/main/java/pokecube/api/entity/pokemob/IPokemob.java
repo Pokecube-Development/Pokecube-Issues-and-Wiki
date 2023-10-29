@@ -3,6 +3,7 @@
  */
 package pokecube.api.entity.pokemob;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -37,6 +38,7 @@ import pokecube.core.PokecubeCore;
 import pokecube.core.PokecubeItems;
 import pokecube.core.database.Database;
 import thut.api.ModelHolder;
+import thut.api.Tracker;
 import thut.api.entity.ICopyMob;
 import thut.api.entity.IHungrymob;
 import thut.api.entity.IMobColourable;
@@ -55,6 +57,8 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
      */
     public static class FormeHolder extends ModelHolder
     {
+        public static HashMap<ResourceLocation, FormeHolder> formeHolders = new HashMap<>();
+
         public static FormeHolder load(final CompoundTag nbt)
         {
             final String name = nbt.getString("key");
@@ -77,9 +81,9 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public static FormeHolder get(PokedexEntry entry, final ResourceLocation model, final ResourceLocation texture,
                 final ResourceLocation animation, final ResourceLocation name)
         {
-            if (Database.formeHolders.containsKey(name)) return Database.formeHolders.get(name);
+            if (FormeHolder.formeHolders.containsKey(name)) return FormeHolder.formeHolders.get(name);
             final FormeHolder holder = new FormeHolder(entry, model, texture, animation, name);
-            Database.formeHolders.put(name, holder);
+            FormeHolder.formeHolders.put(name, holder);
             return holder;
         }
 
@@ -103,7 +107,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         {
             super(model, texture, animation, name.toString());
             this.key = name;
-            this._entry = entry;
+            this.setEntry(entry);
         }
 
         /**
@@ -120,25 +124,10 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
             {
                 final String path = base.texturePath.replace("entity", "entity_icon");
                 final String texture = path + this.key.getPath();
-                boolean gendered = this == base.male_holder || this == base.female_holder;
-                // 0 is male
-                gendered = gendered || base.getSexeRatio() == 0;
-                // 254 is female, 255 is no gender
-                gendered = gendered || base.getSexeRatio() >= 254;
-                if (gendered)
-                {
-                    this.icons[0][0] = new ResourceLocation(texture + ".png");
-                    this.icons[0][1] = new ResourceLocation(texture + "_s.png");
-                    this.icons[1][0] = new ResourceLocation(texture + ".png");
-                    this.icons[1][1] = new ResourceLocation(texture + "_s.png");
-                }
-                else
-                {
-                    this.icons[0][0] = new ResourceLocation(texture + "_male.png");
-                    this.icons[0][1] = new ResourceLocation(texture + "_male_s.png");
-                    this.icons[1][0] = new ResourceLocation(texture + "_female.png");
-                    this.icons[1][1] = new ResourceLocation(texture + "_female_s.png");
-                }
+                this.icons[0][0] = new ResourceLocation(texture + ".png");
+                this.icons[0][1] = new ResourceLocation(texture + "_s.png");
+                this.icons[1][0] = new ResourceLocation(texture + ".png");
+                this.icons[1][1] = new ResourceLocation(texture + "_s.png");
             }
             final int i = male ? 0 : 1;
             final int j = shiny ? 1 : 0;
@@ -177,6 +166,7 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         public void setEntry(PokedexEntry entry)
         {
             this._entry = entry;
+            if (entry != Database.missingno) entry.default_holder = this;
         }
     }
 
@@ -282,12 +272,12 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
     }
 
     static final UUID FLYSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1235-96EA6097278D");
-    static final AttributeModifier FLYSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 1F, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    static final AttributeModifier FLYSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID, "flying boost",
+            0.5F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     static final UUID SWIMSPEEDFACTOR_ID = UUID.fromString("662A6B8D-DA3E-4C1C-1236-96EA6097278D");
-    static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(IPokemob.FLYSPEEDFACTOR_ID,
-            "following speed boost", 0.25F, AttributeModifier.Operation.MULTIPLY_TOTAL);
+    static final AttributeModifier SWIMSPEEDFACTOR = new AttributeModifier(IPokemob.SWIMSPEEDFACTOR_ID, "swimmig boost",
+            0.5F, AttributeModifier.Operation.MULTIPLY_TOTAL);
 
     /*
      * Genders of pokemobs
@@ -853,7 +843,23 @@ public interface IPokemob extends IHasMobAIStates, IHasMoves, ICanEvolve, IHasOw
         mob.setHealth(fullHp ? this.getStat(Stats.HP, false) : 1);
         mob.hurtTime = 0;
         mob.deathTime = 0;
+        this.setDeathTime(0);
     }
+
+    /**
+     * 
+     * @return the time of death of this mob, if 0 or below, mob is not dead. This
+     *         time is set from {@link #setDeathTime(long)}, and should be set
+     *         the the value of {@link Tracker#getTick()}
+     */
+    long getDeathTime();
+
+    /**
+     * Sets the time of death, if revived, this should be set to 0;
+     * 
+     * @param time
+     */
+    void setDeathTime(long time);
 
     /**
      * Saves our state to NBT

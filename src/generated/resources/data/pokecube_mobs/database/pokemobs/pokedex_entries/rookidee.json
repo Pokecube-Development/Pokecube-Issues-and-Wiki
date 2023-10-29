@@ -149,12 +149,6 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "corvisquire",
-      "level": 18,
-      "animation": "18"
-    }
-  ],
-  "loot_table": "pokecube:entities/chicken_1"
+  "loot_table": "pokecube:entities/chicken_1",
+  "prey": " small_bug"
 }

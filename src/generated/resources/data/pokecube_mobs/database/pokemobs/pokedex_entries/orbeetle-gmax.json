@@ -2,7 +2,7 @@
   "name": "orbeetle-gmax",
   "id": 826,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 253,
   "size": {
     "height": 14.0
@@ -37,5 +37,23 @@
       "telepathy"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-1.5,0,-1.5",
+          "size": "3,2,3",
+          "ride": "1.5,0,1.5"
+        },
+        {
+          "name": "body1",
+          "offset": "-3,2,-2",
+          "size": "6,4,6"
+        }
+      ]
+    }
+  },
+  "sound": "orbeetle-gmax",
   "old_name": "orbeetle_gigantamax"
 }

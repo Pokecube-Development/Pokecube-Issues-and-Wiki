@@ -2,7 +2,7 @@
   "name": "swampert-mega",
   "id": 260,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 286,
   "size": {
     "height": 1.9
@@ -173,5 +173,6 @@
       "stomping-tantrum"
     ]
   },
+  "sound": "swampert-mega",
   "old_name": "swampert_mega"
 }

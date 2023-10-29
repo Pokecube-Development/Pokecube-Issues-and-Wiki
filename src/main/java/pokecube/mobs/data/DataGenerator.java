@@ -159,7 +159,7 @@ public class DataGenerator
     {
         for (final PokedexEntry e : Database.getSortedFormes())
         {
-            if (e == Database.missingno || e.dummy || e.isMega()) continue;
+            if (e == Database.missingno || e.dummy) continue;
             DataGenerator.registerAchievements(e);
         }
         final File dir = new File("../src/generated/resources/assets/pokecube_mobs/");

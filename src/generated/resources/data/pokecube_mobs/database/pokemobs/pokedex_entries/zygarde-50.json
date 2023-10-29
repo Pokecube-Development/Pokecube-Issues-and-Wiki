@@ -1,6 +1,5 @@
 {
   "name": "zygarde-50",
-  "sound": "zygarde-50",
   "id": 718,
   "stock": true,
   "base_experience": 300,
@@ -31,9 +30,6 @@
   "abilities": {
     "normal": [
       "aura-break"
-    ],
-    "hidden": [
-      "power-construct"
     ]
   },
   "moves": {
@@ -203,6 +199,7 @@
       "scorching-sands"
     ]
   },
+  "sound": "zygarde-50",
   "spawn_rules": [
     {
       "values": {
@@ -232,16 +229,10 @@
       },
       "action": {
         "values": {
-          "forme": "zygarde10",
+          "forme": "zygarde100",
           "type": "forme"
         }
       }
-    }
-  ],
-  "mega_rules": [
-    {
-      "name": "zygarde-complete",
-      "ability": "power-construct"
     }
   ],
   "old_name": "zygarde_50",

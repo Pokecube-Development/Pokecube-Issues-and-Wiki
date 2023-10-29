@@ -2,7 +2,7 @@
   "name": "lopunny-mega",
   "id": 428,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 203,
   "size": {
     "height": 1.3,
@@ -203,6 +203,7 @@
       "brutal-swing"
     ]
   },
+  "sound": "lopunny-mega",
   "interactions": [
     {
       "male": false,

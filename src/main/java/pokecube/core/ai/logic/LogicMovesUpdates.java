@@ -76,9 +76,7 @@ public class LogicMovesUpdates extends LogicBase
         super.tick(world);
         this.v.set(this.entity);
 
-        // Set this first, to ensure it is cleaned up properly, it will be reset
-        // later down if needed.
-        this.pokemob.getMoveStats().transformedMoves = this.pokemob.getMoveStats().moves;
+        String[] movesToUse = this.pokemob.getMoveStats().getMovesToUse();
 
         // Run tasks that only should go on server side.
         if (!world.isClientSide)
@@ -104,7 +102,7 @@ public class LogicMovesUpdates extends LogicBase
             }
             this.index = this.pokemob.getMoveIndex();
 
-            if (this.pokemob.getMoves()[0] == null)
+            if (this.pokemob.getMove(0) == null)
             {
                 String move = IMoveNames.MOVE_TACKLE;
                 final List<String> moves = this.pokemob.getPokedexEntry().getMovesForLevel(this.pokemob.getLevel());
@@ -131,20 +129,36 @@ public class LogicMovesUpdates extends LogicBase
                     IPokemob toMob = PokemobCaps.getPokemobFor(transformed);
                     // This side has the appropriate caps for keeping the moves
                     // lists, so we sync this over.
-                    if (toMob != null) this.pokemob.getMoveStats().transformedMoves = toMob.getMoves();
+                    if (toMob != null && this.pokemob.getMoveStats().transformId != transformed.getId())
+                    {
+                        this.pokemob.getMoveStats().transformId = transformed.getId();
+                        System.arraycopy(toMob.getMoveStats().getMovesToUse(), 0, movesToUse, 0, movesToUse.length);
+                    }
                 }
+            }
+            else if (this.pokemob.getMoveStats().transformId != -1)
+            {
+                this.pokemob.getMoveStats().transformId = -1;
+                System.arraycopy(pokemob.getMoveStats().getBaseMoves(), 0, movesToUse, 0, movesToUse.length);
             }
         }
         // client side only checks
         else
         {
-
             LivingEntity transformed = this.pokemob.getTransformedTo();
             IPokemob toMob = PokemobCaps.getPokemobFor(transformed);
             // This side has the appropriate caps for keeping the moves
             // lists, so we sync this over.
-            if (toMob != null) this.pokemob.getMoveStats().transformedMoves = toMob.getMoves();
-            
+            if (toMob != null)
+            {
+                this.pokemob.getMoveStats().transformId = transformed.getId();
+                System.arraycopy(toMob.getMoves(), 0, movesToUse, 0, movesToUse.length);
+            }
+            else if (this.pokemob.getMoveStats().transformId != -1)
+            {
+                this.pokemob.getMoveStats().transformId = -1;
+                System.arraycopy(pokemob.getMoveStats().getBaseMoves(), 0, movesToUse, 0, movesToUse.length);
+            }
         }
 
         // Run tasks that can be on server or client.
@@ -156,7 +170,7 @@ public class LogicMovesUpdates extends LogicBase
 
         // Only reduce cooldown if the pokemob does not currently have a
         // move being fired.
-        if (num > 0 && this.pokemob.getMoveStats().movesInProgress.isEmpty()) this.pokemob.setAttackCooldown(num - 1);
+        if (num > 0 && !this.pokemob.getMoveStats().isExecutingMoves()) this.pokemob.setAttackCooldown(num - 1);
 
         // Update abilities.
         if (this.pokemob.getAbility() != null && this.entity.isEffectiveAi())

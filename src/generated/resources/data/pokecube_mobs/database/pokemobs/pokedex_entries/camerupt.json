@@ -45,8 +45,10 @@
         "L": 1,
         "moves": [
           "tackle",
+          "double-edge",
           "growl",
           "ember",
+          "flamethrower",
           "fissure",
           "focus-energy",
           "eruption"
@@ -74,6 +76,14 @@
         "L": 0,
         "moves": [
           "rock-slide"
+        ]
+      },
+      {
+        "L": 15,
+        "moves": [
+          "flame-wheel",
+          "flame-burst",
+          "incinerate"
         ]
       },
       {
@@ -105,13 +115,6 @@
         "L": 22,
         "moves": [
           "lava-plume"
-        ]
-      },
-      {
-        "L": 15,
-        "moves": [
-          "flame-burst",
-          "incinerate"
         ]
       }
     ],
@@ -186,6 +189,7 @@
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "smack-down",
       "flame-burst",
       "heavy-slam",
       "flame-charge",
@@ -194,19 +198,16 @@
       "echoed-voice",
       "incinerate",
       "bulldoze",
+      "heat-crash",
       "confide",
+      "high-horsepower",
       "stomping-tantrum",
       "body-press",
+      "lash-out",
       "tera-blast",
       "trailblaze"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "cameruptmega"
-    }
-  ],
   "interactions": [
     {
       "male": true,

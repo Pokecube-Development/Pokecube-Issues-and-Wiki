@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "pokecube:rattata",
+    "pokecube:rattata-alola",
+    "pokecube:pikachu",
+    "pokecube:sandshrew",
+    "pokecube:sandshrew-alola",
+    "pokecube:nidoran-f",
+    "pokecube:nidoran-m",
+    "pokecube:cyndaquil",
+    "pokecube:sentret",
+    "pokecube:pichu",
+    "pokecube:marill",
+    "pokecube:whismur",
+    "pokecube:azurill",
+    "pokecube:plusle",
+    "pokecube:minun",
+    "pokecube:bidoof",
+    "pokecube:pachirisu",
+    "pokecube:minccino",
+    "pokecube:emolga",
+    "pokecube:dedenne",
+    "pokecube:togedemaru",
+    "pokecube:yungoos",
+    "pokecube:skwovet",
+    "pokecube:morpeko-full-belly",
+    "pokecube:morpeko-hangry"
+  ]
+}

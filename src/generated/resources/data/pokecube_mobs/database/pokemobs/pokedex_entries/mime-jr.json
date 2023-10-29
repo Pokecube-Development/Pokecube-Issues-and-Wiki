@@ -229,6 +229,7 @@
       "natural-gift",
       "fling",
       "copycat",
+      "sucker-punch",
       "drain-punch",
       "nasty-plot",
       "trick-room",
@@ -250,19 +251,6 @@
       "psychic-terrain"
     ]
   },
-  "evolutions": [
-    {
-      "name": "mr-mime",
-      "move": "mimic"
-    },
-    {
-      "name": "mr-mime-galar",
-      "location": {
-        "and_preset": "snowy_areas"
-      },
-      "move": "mimic"
-    }
-  ],
   "old_name": "mime_jr",
   "loot_table": "pokecube:entities/rabbit_2"
 }

@@ -2,7 +2,7 @@
   "name": "rayquaza-mega",
   "id": 384,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 351,
   "size": {
     "height": 1.5,
@@ -200,5 +200,6 @@
       "brutal-swing"
     ]
   },
+  "sound": "rayquaza-mega",
   "old_name": "rayquaza_mega"
 }

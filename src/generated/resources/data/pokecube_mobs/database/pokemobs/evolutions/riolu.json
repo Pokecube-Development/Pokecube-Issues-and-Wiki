@@ -1,0 +1,8 @@
+{
+  "name": "lucario",
+  "user": "riolu",
+  "condition": {
+    "key": "happy"
+  },
+  "evoMoves": "aura-sphere"
+}

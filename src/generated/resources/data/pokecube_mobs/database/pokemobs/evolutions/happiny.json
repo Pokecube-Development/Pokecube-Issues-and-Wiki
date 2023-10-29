@@ -1,0 +1,22 @@
+{
+  "name": "chansey",
+  "user": "happiny",
+  "condition": [
+    {
+      "key": "location",
+      "location": {
+        "matchers": {
+          "time": {
+            "preset": "day"
+          }
+        }
+      }
+    },
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:ovalstone"
+      }
+    }
+  ]
+}

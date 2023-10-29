@@ -1,0 +1,17 @@
+{
+  "name": "wyrdeer",
+  "user": "stantler",
+  "condition": [
+    {
+      "key": "level",
+      "level": 20
+    },
+    {
+      "key": "location",
+      "location": {
+        "desc": "pokecube.spawns.cold_snowy.snowy",
+        "and_preset": "snowy_areas"
+      }
+    }
+  ]
+}

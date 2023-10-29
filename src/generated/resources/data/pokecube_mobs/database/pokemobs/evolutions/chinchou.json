@@ -1,0 +1,9 @@
+{
+  "name": "lanturn",
+  "user": "chinchou",
+  "condition": {
+    "key": "level",
+    "level": 27
+  },
+  "evoMoves": "spit-up, stockpile, swallow"
+}

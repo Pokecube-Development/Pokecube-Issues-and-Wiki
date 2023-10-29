@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.4"/>
   <phase duration="10" leftArm="" leftLeg="leg1:foot2" legAngle="25" name="biWalk" rightArm="" rightLeg="leg2:foot1"/>
-  <metadata head="neck1:head" headAxis="2" headAxis2="0" headCap="-20,20" headCap1="-20,20" headDir="-1"/>
+  <metadata head="neck1:head" headCap="-20,20" headCap1="-20,20"/>
   <customTex default="typhlosion-hisui">
    <part name="Head" tex="typhlosionhisuieye"/>
    <animation diffs="0,0.5" part="Head" trigger="random:0.005:3"/>

@@ -123,6 +123,7 @@
     "misc": [
       "hyper-beam",
       "solar-beam",
+      "toxic",
       "confuse-ray",
       "light-screen",
       "reflect",
@@ -139,6 +140,7 @@
       "sunny-day",
       "facade",
       "rock-tomb",
+      "sand-tomb",
       "iron-defense",
       "mud-shot",
       "rock-blast",
@@ -152,6 +154,7 @@
       "stone-edge",
       "stealth-rock",
       "venoshock",
+      "smack-down",
       "acid-spray",
       "dazzling-gleam",
       "tera-blast"

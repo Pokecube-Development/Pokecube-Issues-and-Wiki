@@ -220,11 +220,5 @@
       "dual-wingbeat"
     ]
   },
-  "evolutions": [
-    {
-      "name": "golbat",
-      "level": 22
-    }
-  ],
   "loot_table": "pokecube:entities/spider_eye"
 }

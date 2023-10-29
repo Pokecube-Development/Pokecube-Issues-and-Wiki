@@ -1,0 +1,10 @@
+{
+  "name": "delcatty",
+  "user": "skitty",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:moonstone"
+    }
+  }
+}

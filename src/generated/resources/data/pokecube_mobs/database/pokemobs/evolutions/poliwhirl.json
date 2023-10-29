@@ -1,0 +1,28 @@
+[
+  {
+    "name": "poliwrath",
+    "user": "poliwhirl",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:waterstone"
+      }
+    },
+    "evoMoves": "submission"
+  },
+  {
+    "name": "politoed",
+    "user": "poliwhirl",
+    "condition": [
+      {
+        "key": "item",
+        "item": {
+          "item": "pokecube:kingsrock"
+        }
+      },
+      {
+        "key": "traded"
+      }
+    ]
+  }
+]

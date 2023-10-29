@@ -2238,7 +2238,7 @@ public class BlockInit
 
         // Tapus Totems
         TOTEM_BLOCK = PokecubeLegends.DECORATION_TAB.register("totem_block",
-                () -> new BlockBase(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY, 1.5f, 10f, SoundType.STONE, true));
+                () -> new BlockBase(Material.STONE, MaterialColor.COLOR_LIGHT_GRAY, 3f, 10f, SoundType.STONE, true));
 
         for (int i = 0; i < totemKeys.length; i++)
         {
@@ -2281,27 +2281,27 @@ public class BlockInit
         // Legendary Spawners
         // Regi Cores
         GOLEM_STONE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("golem_stone",
-                () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_WHITE, 5f, 10f, SoundType.STONE, true));
+                () -> new BlockBase(Material.STONE, MaterialColor.TERRACOTTA_WHITE, 3f, 10f, SoundType.STONE, true));
         REGISTEEL_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("registeel_spawn",
-                () -> new FaceBlockBase(Material.METAL, MaterialColor.TERRACOTTA_WHITE, 15, 10f, SoundType.METAL,
+                () -> new FaceBlockBase(Material.METAL, MaterialColor.TERRACOTTA_WHITE, 5f, 10f, SoundType.METAL,
                         true));
         REGICE_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("regice_spawn",
-                () -> new FaceBlockBase(Material.ICE_SOLID, MaterialColor.TERRACOTTA_WHITE, 15, 10f, SoundType.GLASS,
+                () -> new FaceBlockBase(Material.ICE_SOLID, MaterialColor.TERRACOTTA_WHITE, 5f, 10f, SoundType.GLASS,
                         true));
         REGIROCK_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("regirock_spawn",
-                () -> new FaceBlockBase(Material.STONE, MaterialColor.TERRACOTTA_WHITE, 15, 10f, SoundType.STONE,
+                () -> new FaceBlockBase(Material.STONE, MaterialColor.TERRACOTTA_WHITE, 5f, 10f, SoundType.STONE,
                         true));
         REGIELEKI_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("regieleki_spawn",
-                () -> new FaceBlockBase(Material.STONE, MaterialColor.TERRACOTTA_WHITE, 15, 10f, SoundType.STONE,
+                () -> new FaceBlockBase(Material.STONE, MaterialColor.TERRACOTTA_WHITE, 5f, 10f, SoundType.STONE,
                         true));
         REGIDRAGO_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("regidrago_spawn",
-                () -> new FaceBlockBase(Material.CLAY, MaterialColor.TERRACOTTA_WHITE, 15, 10f, SoundType.STONE, true));
+                () -> new FaceBlockBase(Material.CLAY, MaterialColor.TERRACOTTA_WHITE, 5f, 10f, SoundType.STONE, true));
         REGIGIGA_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("regigiga_spawn",
-                () -> new FaceBlockBase(Material.HEAVY_METAL, MaterialColor.TERRACOTTA_WHITE, 15, 10f, SoundType.METAL,
+                () -> new FaceBlockBase(Material.HEAVY_METAL, MaterialColor.TERRACOTTA_WHITE, 5f, 10f, SoundType.METAL,
                         true));
 
         LEGENDARY_SPAWN = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("legendary_spawn",
-                () -> new BlockBase(Material.METAL, MaterialColor.GOLD, 50f, 30f, SoundType.METAL, true));
+                () -> new BlockBase(Material.METAL, MaterialColor.GOLD, 5f, 15f, SoundType.METAL, true));
 
         HEATRAN_BLOCK = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("heatran_spawn",
                 () -> new HeatranBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.NETHER)
@@ -2310,7 +2310,7 @@ public class BlockInit
 
         MAGEARNA_BLOCK = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("magearna_spawn",
                 () -> new MagearnaBlock(BlockBehaviour.Properties.of(Material.STONE, MaterialColor.SAND)
-                        .strength(300, 300).sound(SoundType.STONE).requiresCorrectToolForDrops().dynamicShape()));
+                        .strength(5, 15).sound(SoundType.STONE).requiresCorrectToolForDrops().dynamicShape()));
 
         // Tapus
         TAPU_KOKO_CORE = PokecubeLegends.POKECUBE_BLOCKS_TAB.register("koko_core",

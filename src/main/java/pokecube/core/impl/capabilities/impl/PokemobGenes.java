@@ -9,7 +9,6 @@ import pokecube.api.data.abilities.Ability;
 import pokecube.api.data.abilities.AbilityManager;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.Nature;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.utils.TagNames;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -20,8 +19,6 @@ import pokecube.core.entity.pokemobs.genetics.epigenes.MovesGene;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene;
 import pokecube.core.entity.pokemobs.genetics.genes.AbilityGene.AbilityObject;
 import pokecube.core.entity.pokemobs.genetics.genes.ColourGene;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene;
-import pokecube.core.entity.pokemobs.genetics.genes.DynamaxGene.DynaObject;
 import pokecube.core.entity.pokemobs.genetics.genes.IVsGene;
 import pokecube.core.entity.pokemobs.genetics.genes.NatureGene;
 import pokecube.core.entity.pokemobs.genetics.genes.ShinyGene;
@@ -46,8 +43,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     Alleles<int[], ColourGene> genesColour;
     Alleles<Boolean, ShinyGene> genesShiny;
     Alleles<SpeciesInfo, SpeciesGene> genesSpecies;
-
-    private Alleles<DynaObject, DynamaxGene> genesDynamax;
 
     private SpeciesGene _speciesCache = null;
 
@@ -143,7 +138,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public String[] getMoves()
     {
-        final String[] moves = this.getMoveStats().moves;
         if (this.genesMoves == null)
         {
             if (this.genes == null) throw new RuntimeException("This should not be called here");
@@ -156,7 +150,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             if (this.genesMoves.getAllele(0) == null || this.genesMoves.getAllele(1) == null)
             {
                 final MovesGene gene = new MovesGene();
-                gene.setValue(moves);
+                gene.setValue(this.getMoveStats().getBaseMoves());
                 this.genesMoves.setAllele(0,
                         gene.getMutationRate() > this.getEntity().getRandom().nextFloat() ? (MovesGene) gene.mutate()
                                 : gene);
@@ -167,7 +161,12 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             }
         }
         final MovesGene gene = this.genesMoves.getExpressed();
-        return this.getMoveStats().moves = gene.getValue();
+        if (gene.getValue() != this.getMoveStats().getBaseMoves())
+        {
+            this.getMoveStats().setBaseMoves(gene.getValue());
+            this.getMoveStats().reset();
+        }
+        return this.getMoveStats().getMovesToUse();
     }
 
     @Override
@@ -325,13 +324,13 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             size = 1f;
             gene.setValue(size);
         }
-        return size;
+        return this.getEntity().getScale();
     }
 
     @Override
     public float getSize()
     {
-        return (float) (this.getSizeRaw() * PokecubeCore.getConfig().scalefactor);
+        return this.getSizeRaw();
     }
 
     private void initAbilityGene()
@@ -441,10 +440,8 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         this.genesColour = null;
         this.getRGBA();
 
-        this.refreshDynaGene();
-
         // Refresh the datamanager for moves.
-        this.setMoves(this.getMoves());
+        this.setMoves(this.getMoveStats().getBaseMoves());
         // Refresh the datamanager for evs
         this.setEVs(this.getEVs());
 
@@ -452,29 +449,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
 
         // Ensure this is in persistent data for client side tooltip
         this.entity.getPersistentData().putByte(TagNames.SEXE, this.getSexe());
-    }
-
-    private void refreshDynaGene()
-    {
-        this.genesDynamax = null;
-        final boolean wasGigant = this.getCombatState(CombatStates.GIGANTAMAX);
-        this.genesDynamax = this.genes.getAlleles(GeneticsManager.GMAXGENE);
-        if (this.getGenesDynamax() == null)
-            this.genes.getAlleles().put(GeneticsManager.GMAXGENE, this.genesDynamax = new Alleles<>());
-        this.getGenesDynamax();
-        if (wasGigant) this.getGenesDynamax().getExpressed().getValue().gigantamax = true;
-    }
-
-    public Alleles<DynaObject, DynamaxGene> getGenesDynamax()
-    {
-        if (this.genesDynamax != null
-                && (this.genesDynamax.getAllele(0) == null || this.genesDynamax.getAllele(1) == null))
-        {
-            this.genesDynamax.setAllele(0, new DynamaxGene());
-            this.genesDynamax.setAllele(1, new DynamaxGene());
-            this.genes.getAlleles().put(GeneticsManager.GMAXGENE, this.genesDynamax);
-        }
-        return this.genesDynamax;
     }
 
     @Override
@@ -554,10 +528,13 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     {
         // do not blanket set moves on client, or when transformed.
         if (!(this.getEntity().getLevel() instanceof ServerLevel) || this.getTransformedTo() != null) return;
-
-        final String[] moves = this.getMoves();
-        moves[i] = moveName;
-        this.setMoves(moves);
+        // Ensures the gene is synced and valid
+        this.getMoves();
+        // Then apply it to the base moves
+        this.getMoveStats().getBaseMoves()[i] = moveName;
+        this.getMoveStats().getMovesToUse()[i] = moveName;
+        // Then sync
+        this.setMoves(this.getMoveStats().getBaseMoves());
     }
 
     @Override
@@ -579,7 +556,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 return;
             }
             final MovesGene gene = this.genesMoves.getExpressed();
-            gene.setValue(this.getMoveStats().moves = moves);
+            gene.setValue(this.getMoveStats().setBaseMoves(moves));
         }
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesMoves);
     }
@@ -603,7 +580,13 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         final SpeciesInfo info = gene.getValue();
         if (newEntry == null || newEntry == entry) return this;
         IPokemob ret = this;
-        if (this.changing || !this.getEntity().isAddedToWorld())
+        if (this.changing)
+        {
+            info.setTmpEntry(newEntry);
+            this.changing = false;
+            return this;
+        }
+        if (!this.getEntity().isAddedToWorld())
         {
             if (newEntry.generated)
             {
@@ -611,14 +594,16 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 if (holder != null) info.setForme(holder);
             }
             info.setEntry(newEntry);
+            this.changing = false;
             return ret;
         }
         this.changing = true;
-        ret = this.megaEvolve(newEntry);
+        ret = this.changeForm(newEntry);
 
-        // These need to be set after mega evolve call, as that also does a
+        // These need to be set after change form call, as that also does a
         // validation of old entry.
         info.setTmpEntry(newEntry);
+        if (info.getTmpForme() == entry.default_holder) info.setTmpForme(newEntry.default_holder);
 
         if (this.getEntity().getLevel() != null) ret.setSize(ret.getSize());
         if (this.getEntity().getLevel() != null && this.getEntity().isEffectiveAi())
@@ -631,13 +616,20 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     {
         if (this._speciesCache == null) this.getPokedexEntry();
         this._speciesCache.getValue().entry = newEntry;
+        FormeHolder form = Database.formeHoldersByKey.getOrDefault(newEntry.getTrimmedName(),
+                newEntry.getModel(this.getSexe()));
+        this._speciesCache.getValue().setForme(form);
+
+        // Reset the types cache
+        this.getModifiers().type1 = null;
+        this.getModifiers().type2 = null;
     }
 
     @Override
     public PokedexEntry getBasePokedexEntry()
     {
         if (this._speciesCache == null) this.getPokedexEntry();
-        return this._speciesCache.getValue().entry;
+        return this._speciesCache.getValue().getBaseEntry();
     }
 
     @Override
@@ -703,7 +695,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 final float max = (float) (maxS / Math.max(a, Math.max(c, b)));
                 size *= max;
             }
-            this.getEntity().getDimensions(this.getEntity().getPose()).scale(size);
+            this.getEntity().refreshDimensions();
         }
         final SizeGene gene = this.genesSize.getExpressed();
         gene.setValue(size);
@@ -712,7 +704,6 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
     @Override
     public void setCustomHolder(FormeHolder holder)
     {
-        if (holder != null) holder = Database.formeHolders.getOrDefault(holder.key, holder);
         // Ensures the species gene is initialised
         this.genesSpecies.getExpressed().getValue().setForme(holder);
         PacketSyncGene.syncGeneToTracking(this.getEntity(), this.genesSpecies);

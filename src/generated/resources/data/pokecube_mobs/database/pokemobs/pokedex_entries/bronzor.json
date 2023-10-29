@@ -218,12 +218,5 @@
       "ice-spinner"
     ]
   },
-  "evolutions": [
-    {
-      "name": "bronzong",
-      "level": 33,
-      "evoMoves": "block"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_1"
 }

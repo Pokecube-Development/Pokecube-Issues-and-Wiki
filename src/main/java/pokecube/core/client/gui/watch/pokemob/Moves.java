@@ -24,7 +24,6 @@ import pokecube.core.client.gui.watch.PokemobInfoPage;
 import pokecube.core.client.gui.watch.util.LineEntry;
 import pokecube.core.client.gui.watch.util.LineEntry.IClickListener;
 import pokecube.core.moves.MovesUtils;
-import pokecube.core.moves.zmoves.GZMoveManager;
 import thut.lib.TComponent;
 
 public class Moves extends ListPage<LineEntry>
@@ -69,7 +68,7 @@ public class Moves extends ListPage<LineEntry>
             if (move != null)
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
-                GuiComponent.drawString(mat, this.font, moveName, x + dx, y + dy + offset[1] + offset[4],
+                this.font.draw(mat, moveName, x + dx, y + dy + offset[1] + offset[4],
                         move.getType(pokemob).colour);
                 final int length = this.font.width(moveName);
                 boolean mouseOver = mx > 0 && mx < length && my > offset[1] && my < offset[1] + this.font.lineHeight;
@@ -81,8 +80,6 @@ public class Moves extends ListPage<LineEntry>
                             ? TComponent.translatable("pokewatch.ATT", value)
                             : TComponent.translatable("pokewatch.ATTSP", value);
                     if (pwr > 0) value = TComponent.translatable("pokewatch.moves.pwr.fmt", pwr, stat);
-                    if (GZMoveManager.isGZDMove(move) && offset[3] != this.parent.pokemob.getMoveIndex())
-                        value = TComponent.translatable("pokewatch.moves.pwr.fmt", "???", stat);
                     Component info = TComponent.translatable("pokewatch.moves.pwr", value);
                     final int box = Math.max(10, this.font.width(info) + 2);
                     final int mx1 = 65 - box;
@@ -102,7 +99,7 @@ public class Moves extends ListPage<LineEntry>
             {
                 Component moveName = MovesUtils.getMoveName(move.getName(), pokemob);
                 final int oy = 10;
-                GuiComponent.drawString(mat, this.font, moveName, x + dx, y + dy + offset[1] + oy,
+                this.font.draw(mat, moveName, x + dx, y + dy + offset[1] + oy,
                         move.getType(this.parent.pokemob).colour);
             }
         }

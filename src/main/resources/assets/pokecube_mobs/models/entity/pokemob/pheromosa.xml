@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.11"/>
-  <metadata head="neck:head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <metadata head="neck:head" headCap="-10,10" headCap1="-10,10"/>
   <phase duration="10" leftArm="foot1" leftLeg="leg2" legAngle="10" name="biWalk" rightArm="foot2" rightLeg="leg1"/>
   <customTex default="pheromosa">
    <part name="Head" tex="pheromosa_eye"/>

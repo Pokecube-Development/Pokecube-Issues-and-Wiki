@@ -50,6 +50,16 @@
         ]
       },
       {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "poison-sting",
+          "string-shot",
+          "harden",
+          "bug-bite"
+        ]
+      },
+      {
         "L": 22,
         "moves": [
           "psybeam"
@@ -80,6 +90,13 @@
         ]
       },
       {
+        "L": 25,
+        "moves": [
+          "leech-life",
+          "silver-wind"
+        ]
+      },
+      {
         "L": 37,
         "moves": [
           "protect"
@@ -89,12 +106,6 @@
         "L": 17,
         "moves": [
           "moonlight"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "silver-wind"
         ]
       },
       {

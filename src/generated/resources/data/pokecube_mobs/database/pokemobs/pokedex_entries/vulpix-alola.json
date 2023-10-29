@@ -155,6 +155,12 @@
         ]
       },
       {
+        "L": 48,
+        "moves": [
+          "freeze-dry"
+        ]
+      },
+      {
         "L": 21,
         "moves": [
           "dazzling-gleam"
@@ -170,6 +176,7 @@
     "misc": [
       "headbutt",
       "body-slam",
+      "take-down",
       "tail-whip",
       "roar",
       "disable",
@@ -204,6 +211,7 @@
       "frustration",
       "safeguard",
       "pain-split",
+      "baton-pass",
       "encore",
       "iron-tail",
       "hidden-power",
@@ -211,43 +219,47 @@
       "psych-up",
       "hail",
       "facade",
+      "helping-hand",
       "role-play",
       "imprison",
       "grudge",
       "secret-power",
       "weather-ball",
+      "fake-tears",
       "extrasensory",
       "sheer-cold",
+      "icicle-spear",
       "howl",
       "covet",
       "payback",
       "power-swap",
       "dark-pulse",
       "aqua-tail",
+      "nasty-plot",
       "ice-shard",
       "zen-headbutt",
       "captivate",
       "foul-play",
       "round",
+      "stored-power",
       "hex",
       "frost-breath",
       "tail-slap",
       "freeze-dry",
+      "disarming-voice",
       "draining-kiss",
+      "misty-terrain",
+      "play-rough",
       "moonblast",
       "confide",
       "dazzling-gleam",
       "baby-doll-eyes",
-      "aurora-veil"
+      "aurora-veil",
+      "tera-blast",
+      "snowscape",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ninetales-alola",
-      "item_preset": "pokecube_mobs:ice_stone",
-      "evoMoves": "dazzling-gleam"
-    }
-  ],
   "old_name": "vulpix_alola",
   "loot_table": "pokecube:entities/snow_rabbit_1"
 }

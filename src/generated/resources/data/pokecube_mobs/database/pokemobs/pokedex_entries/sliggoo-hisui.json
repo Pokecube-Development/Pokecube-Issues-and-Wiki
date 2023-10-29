@@ -31,7 +31,7 @@
   "abilities": {
     "normal": [
       "sap-sipper",
-      "overcoat"
+      "shell-armor"
     ],
     "hidden": [
       "gooey"
@@ -97,11 +97,5 @@
       "steel-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "goodra-hisui",
-      "level": 50
-    }
-  ],
   "old_name": "sliggoo_hisui"
 }

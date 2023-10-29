@@ -125,6 +125,7 @@
       "thunder-punch",
       "cut",
       "headbutt",
+      "tackle",
       "body-slam",
       "take-down",
       "double-edge",
@@ -207,12 +208,5 @@
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "metagross",
-      "level": 45,
-      "evoMoves": "hammer-arm"
-    }
-  ],
   "loot_table": "pokecube:entities/iron_pearls_2"
 }

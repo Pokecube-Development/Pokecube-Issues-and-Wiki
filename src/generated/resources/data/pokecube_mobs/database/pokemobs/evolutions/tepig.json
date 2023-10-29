@@ -1,0 +1,10 @@
+{
+  "name": "pignite",
+  "user": "tepig",
+  "condition": {
+    "key": "level",
+    "level": 17
+  },
+  "evoMoves": "arm-thrust",
+  "animation": "55"
+}

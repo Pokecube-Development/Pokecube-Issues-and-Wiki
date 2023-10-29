@@ -205,11 +205,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "simipour",
-      "item_preset": "waterstone"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

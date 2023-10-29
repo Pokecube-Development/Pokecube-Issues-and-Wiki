@@ -50,8 +50,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
     Vector3 v1 = new Vector3();
     Vector3 v2 = new Vector3();
 
-    private final float speed = 1.8f;
-
     /** Used for when to execute attacks. */
     protected int delayTime = -1;
     protected int leapDelay = -1;
@@ -80,15 +78,13 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
     public void run()
     {
         // Check if the pokemob has an active move being used, if so return
-        if (!this.pokemob.getMoveStats().movesInProgress.isEmpty()) return;
+        if (this.pokemob.getMoveStats().isExecutingMoves()) return;
 
         this.attack = this.pokemob.getSelectedMove();
         final boolean self = "user".equals(attack.root_entry._target_type);
 
         if (!this.waitingToStart)
         {
-            if (!self && !this.pokemob.getGeneralState(GeneralStates.CONTROLLED))
-                this.setWalkTo(this.target.position(), this.speed, 0);
             this.targetLoc.set(this.target);
             this.waitingToStart = true;
             /**
@@ -125,7 +121,8 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
         BehaviorUtils.lookAtEntity(this.entity, this.target);
 
         // No executing move state with no target location.
-        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty()) this.clearUseMove(this.pokemob);
+        if (this.pokemob.getCombatState(CombatStates.EXECUTINGMOVE) && this.targetLoc.isEmpty())
+            this.clearUseMove(this.pokemob);
 
         double var1 = (this.entity.getBbWidth() + 0.75) * (this.entity.getBbWidth() + 0.75);
         boolean distanced = false;
@@ -144,7 +141,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
         this.delayTime = this.pokemob.getAttackCooldown();
         final boolean canUseMove = MovesUtils.canUseMove(this.pokemob);
         if (!canUseMove) return;
-        boolean shouldPath = this.delayTime <= 0;
         boolean inRange = false;
 
         // Checks to see if the target is in range.
@@ -184,7 +180,6 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
                 this.delayTime = this.pokemob.getAttackCooldown();
                 delay = true;
             }
-            shouldPath = false;
             if (!self) this.setUseMove(this.pokemob, this.targetLoc);
             else this.clearUseMove(this.pokemob);
         }
@@ -192,11 +187,9 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
         if (!self && (!inRange || !distanced))
         {
             this.setUseMove(this.pokemob, this.targetLoc);
-            if (BrainUtils.getLeapTarget(this.entity) == null && leapDelay-- < 0)
+            if (BrainUtils.getLeapTarget(this.entity) == null)
             {
                 BrainUtils.setLeapTarget(this.entity, new EntityTracker(this.target, false));
-                this.leapDelay = (int) (PokecubeCore.getConfig().attackCooldown
-                        * PokecubeCore.getConfig().attackCooldownContactScale);
             }
         }
 
@@ -220,14 +213,9 @@ public class UseAttacksTask extends CombatTask implements IAICombat, IMoveUseAI
                 this.clearUseMove(this.pokemob);
                 this.pokemob.setCombatState(CombatStates.NOITEMUSE, false);
                 this.targetLoc.clear();
-                shouldPath = false;
                 this.delayTime = this.pokemob.getAttackCooldown();
-                this.leapDelay = -1;
             }
         }
-        // If there is a target location, and it should path to it, queue a path
-        // for the mob.
-        if (!this.targetLoc.isEmpty() && shouldPath) this.setWalkTo(this.target.position(), this.speed, 0);
     }
 
     @Override

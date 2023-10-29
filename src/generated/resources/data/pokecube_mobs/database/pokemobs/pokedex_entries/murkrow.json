@@ -73,7 +73,8 @@
       {
         "L": 35,
         "moves": [
-          "feint-attack"
+          "feint-attack",
+          "air-cutter"
         ]
       },
       {
@@ -126,6 +127,7 @@
       }
     ],
     "misc": [
+      "gust",
       "wing-attack",
       "whirlwind",
       "fly",
@@ -218,14 +220,10 @@
       "hurricane",
       "snarl",
       "confide",
+      "lash-out",
+      "dual-wingbeat",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "honchkrow",
-      "item_preset": "duskstone"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_1"
 }

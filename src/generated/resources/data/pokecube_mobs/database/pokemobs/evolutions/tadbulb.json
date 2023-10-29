@@ -1,0 +1,10 @@
+{
+  "name": "bellibolt",
+  "user": "tadbulb",
+  "condition": {
+    "key": "item",
+    "item": {
+      "item": "pokecube_mobs:thunder_stone"
+    }
+  }
+}

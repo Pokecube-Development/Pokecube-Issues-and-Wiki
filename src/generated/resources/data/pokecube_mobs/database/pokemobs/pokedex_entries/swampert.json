@@ -159,6 +159,7 @@
       "double-edge",
       "growl",
       "roar",
+      "supersonic",
       "water-gun",
       "hydro-pump",
       "surf",
@@ -169,6 +170,7 @@
       "counter",
       "seismic-toss",
       "strength",
+      "rock-throw",
       "earthquake",
       "dig",
       "toxic",
@@ -249,11 +251,5 @@
       "flip-turn"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "swampertmega"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

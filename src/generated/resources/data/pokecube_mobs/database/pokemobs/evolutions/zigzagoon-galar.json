@@ -1,0 +1,9 @@
+{
+  "name": "linoone-galar",
+  "user": "zigzagoon-galar",
+  "condition": {
+    "key": "level",
+    "level": 20
+  },
+  "evoMoves": "slash"
+}

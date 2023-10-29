@@ -1,0 +1,9 @@
+{
+  "name": "kricketune",
+  "user": "kricketot",
+  "condition": {
+    "key": "level",
+    "level": 10
+  },
+  "evoMoves": "fury-cutter"
+}

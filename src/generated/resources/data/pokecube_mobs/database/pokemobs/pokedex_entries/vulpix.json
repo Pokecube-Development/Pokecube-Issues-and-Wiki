@@ -200,6 +200,7 @@
       "protect",
       "feint-attack",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -207,6 +208,7 @@
       "frustration",
       "safeguard",
       "pain-split",
+      "baton-pass",
       "encore",
       "iron-tail",
       "hidden-power",
@@ -216,6 +218,7 @@
       "will-o-wisp",
       "memento",
       "facade",
+      "helping-hand",
       "role-play",
       "imprison",
       "grudge",
@@ -225,12 +228,14 @@
       "extrasensory",
       "howl",
       "covet",
+      "healing-wish",
       "natural-gift",
       "payback",
       "power-swap",
       "flare-blitz",
       "dark-pulse",
       "energy-ball",
+      "nasty-plot",
       "zen-headbutt",
       "captivate",
       "ominous-wind",
@@ -242,17 +247,13 @@
       "incinerate",
       "inferno",
       "tail-slap",
+      "snarl",
       "confide",
       "mystical-fire",
       "baby-doll-eyes",
-      "burning-jealousy"
+      "burning-jealousy",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ninetales",
-      "item_preset": "firestone"
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_1"
 }

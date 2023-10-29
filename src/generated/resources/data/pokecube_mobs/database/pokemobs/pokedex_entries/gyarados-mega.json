@@ -2,7 +2,7 @@
   "name": "gyarados-mega",
   "id": 130,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 224,
   "size": {
     "height": 1.0,
@@ -213,5 +213,6 @@
       "brutal-swing"
     ]
   },
+  "sound": "gyarados-mega",
   "old_name": "gyarados_mega"
 }

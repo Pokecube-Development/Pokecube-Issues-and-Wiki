@@ -1,0 +1,14 @@
+{
+  "name": "alcremie",
+  "user": "milcery",
+  "condition": {
+    "key": "item",
+    "item": {
+      "id": "minecraft:milk_bucket"
+    }
+  },
+  "evoMoves": "decorate",
+  "model": {
+    "key": "alcremie_*"
+  }
+}

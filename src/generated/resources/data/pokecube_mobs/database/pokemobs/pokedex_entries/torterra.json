@@ -68,6 +68,12 @@
         ]
       },
       {
+        "L": 10,
+        "moves": [
+          "growth"
+        ]
+      },
+      {
         "L": 0,
         "moves": [
           "earthquake"
@@ -101,6 +107,12 @@
         "L": 57,
         "moves": [
           "leaf-storm"
+        ]
+      },
+      {
+        "L": 6,
+        "moves": [
+          "leafage"
         ]
       }
     ],
@@ -153,6 +165,7 @@
       "superpower",
       "secret-power",
       "rock-tomb",
+      "sand-tomb",
       "bullet-seed",
       "block",
       "frenzy-plant",
@@ -171,12 +184,15 @@
       "stealth-rock",
       "grass-knot",
       "wood-hammer",
+      "smack-down",
       "round",
       "grass-pledge",
       "bulldoze",
       "work-up",
       "confide",
-      "stomping-tantrum"
+      "high-horsepower",
+      "stomping-tantrum",
+      "grassy-glide"
     ]
   },
   "loot_table": "pokecube:entities/shellseed_3"

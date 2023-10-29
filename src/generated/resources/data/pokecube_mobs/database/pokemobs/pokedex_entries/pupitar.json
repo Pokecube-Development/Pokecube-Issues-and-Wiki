@@ -203,15 +203,11 @@
       "snarl",
       "confide",
       "power-up-punch",
+      "high-horsepower",
       "stomping-tantrum",
+      "lash-out",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "tyranitar",
-      "level": 55
-    }
-  ],
   "loot_table": "pokecube:entities/stone_gold"
 }

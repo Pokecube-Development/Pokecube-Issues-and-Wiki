@@ -2,6 +2,7 @@
   "name": "landorus-therian",
   "id": 645,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 300,
   "size": {
     "height": 1.3,
@@ -202,6 +203,7 @@
       "tera-blast"
     ]
   },
+  "sound": "landorus-therian",
   "interactions": [
     {
       "male": true,

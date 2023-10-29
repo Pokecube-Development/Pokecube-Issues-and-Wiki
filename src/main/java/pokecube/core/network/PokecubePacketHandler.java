@@ -75,5 +75,6 @@ public class PokecubePacketHandler
         PokecubeCore.packets.registerMessage(PacketBattleTargets.class, PacketBattleTargets::new);
 
         PacketCommand.init();
+        PacketUpdateAI.init();
     }
 }

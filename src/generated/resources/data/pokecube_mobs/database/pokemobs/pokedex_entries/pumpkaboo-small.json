@@ -2,6 +2,7 @@
   "name": "pumpkaboo-small",
   "id": 710,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 67,
   "size": {
     "height": 0.3
@@ -183,12 +184,6 @@
       "poltergeist"
     ]
   },
-  "evolutions": [
-    {
-      "name": "gourgeist-small",
-      "trade": true
-    }
-  ],
   "old_name": "pumpkaboo_small",
   "loot_table": "pokecube:entities/other_seeds"
 }

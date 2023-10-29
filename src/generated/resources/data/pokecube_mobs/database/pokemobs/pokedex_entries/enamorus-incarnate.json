@@ -109,6 +109,7 @@
       "psychic"
     ]
   },
+  "sound": "enamorus-incarnate",
   "interactions": [
     {
       "male": true,

@@ -12,5 +12,6 @@
   "move_category": "damage",
   "ailment": "none",
   "effect_text_extend": "Inflicts regular damage.  User loses its next turn to \"recharge\", and cannot attack or switch out during that turn.",
-  "effect_text_simple": "User foregoes its next turn to recharge."
+  "effect_text_simple": "User foregoes its next turn to recharge.",
+  "cooldown": 3.0
 }

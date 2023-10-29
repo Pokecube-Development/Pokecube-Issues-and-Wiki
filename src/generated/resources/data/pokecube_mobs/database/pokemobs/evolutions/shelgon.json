@@ -1,0 +1,9 @@
+{
+  "name": "salamence",
+  "user": "shelgon",
+  "condition": {
+    "key": "level",
+    "level": 50
+  },
+  "evoMoves": "fly"
+}

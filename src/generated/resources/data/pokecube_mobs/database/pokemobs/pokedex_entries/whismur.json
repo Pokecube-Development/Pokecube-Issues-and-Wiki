@@ -190,12 +190,5 @@
       "confide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "loudred",
-      "level": 20,
-      "evoMoves": "bite"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

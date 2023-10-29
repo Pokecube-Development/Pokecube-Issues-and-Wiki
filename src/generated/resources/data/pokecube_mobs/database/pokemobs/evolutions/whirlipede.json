@@ -1,0 +1,9 @@
+{
+  "name": "scolipede",
+  "user": "whirlipede",
+  "condition": {
+    "key": "level",
+    "level": 30
+  },
+  "evoMoves": "baton-pass"
+}

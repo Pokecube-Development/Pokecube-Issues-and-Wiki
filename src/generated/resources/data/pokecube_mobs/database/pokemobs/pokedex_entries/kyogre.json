@@ -199,11 +199,5 @@
       }
     }
   ],
-  "mega_rules": [
-    {
-      "name": "Kyogre Primal",
-      "item_preset": "alphaorb"
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

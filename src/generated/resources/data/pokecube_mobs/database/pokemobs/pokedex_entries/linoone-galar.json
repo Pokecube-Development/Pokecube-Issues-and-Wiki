@@ -199,13 +199,6 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "obstagoon",
-      "level": 35,
-      "evoMoves": "obstruct"
-    }
-  ],
   "old_name": "linoone_galar",
   "loot_table": "pokecube:entities/rabbit_2"
 }

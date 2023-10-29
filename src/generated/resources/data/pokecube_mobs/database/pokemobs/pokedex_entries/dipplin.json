@@ -51,13 +51,12 @@
         ]
       },
       {
-        "L": 0,
+        "L": 1,
         "moves": [
           "withdraw",
           "sweet-scent",
           "recycle",
-          "astonish",
-          "double-hit"
+          "astonish"
         ]
       },
       {
@@ -94,6 +93,12 @@
         "L": 40,
         "moves": [
           "energy-ball"
+        ]
+      },
+      {
+        "L": 0,
+        "moves": [
+          "double-hit"
         ]
       },
       {

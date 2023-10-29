@@ -175,6 +175,7 @@
       "facade",
       "superpower",
       "secret-power",
+      "astonish",
       "rock-tomb",
       "signal-beam",
       "sand-tomb",
@@ -189,15 +190,9 @@
       "bulldoze",
       "confide",
       "first-impression",
+      "laser-focus",
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "vibrava",
-      "level": 35,
-      "evoMoves": "dragon-breath"
-    }
-  ],
   "loot_table": "pokecube:entities/sand_1"
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -22,13 +23,13 @@ import pokecube.api.PokecubeAPI;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.data.PokedexEntry.SpawnData;
 import pokecube.api.data.pokedex.DefaultFormeHolder;
-import pokecube.api.data.pokedex.InteractsAndEvolutions.BaseMegaRule;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.DyeInfo;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Evolution;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.FormeItem;
 import pokecube.api.data.pokedex.InteractsAndEvolutions.Interact;
 import pokecube.api.data.spawns.SpawnBiomeMatcher;
 import pokecube.api.data.spawns.SpawnRule;
+import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.utils.PokeType;
 import pokecube.api.utils.Tools;
 import pokecube.core.PokecubeCore;
@@ -236,6 +237,8 @@ public class JsonPokedexEntry
 
     public static String ENTIRE_DATABASE_CACHE = "";
 
+    public static List<ResourceLocation> _compound_files = new ArrayList<>();
+
     public boolean replace = false;
     public boolean remove = false;
 
@@ -248,6 +251,7 @@ public class JsonPokedexEntry
     public Sizes size = null;
     public float mass = -1;
     public boolean is_default = false;
+    public boolean is_extra_form = false;
     public int capture_rate = -1;
     public int base_happiness = -1;
     public String growth_rate = null;
@@ -265,8 +269,6 @@ public class JsonPokedexEntry
 
     public DyeInfo dye = null;
 
-    public Boolean mega = null;
-    public Boolean gmax = null;
     public Boolean no_shiny = null;
 
     public String sound = null;
@@ -291,11 +293,12 @@ public class JsonPokedexEntry
     public String base_form = null;
 
     public List<SpawnRule> spawn_rules = null;
-    public List<BaseMegaRule> mega_rules = null;
     public List<Interact> interactions = null;
 
     // Evolution stuff
     public List<Evolution> evolutions = null;
+
+    public List<ResourceLocation> __loaded_from = new ArrayList<>();
 
     /**
      * Blank constructor for json factory.
@@ -311,10 +314,12 @@ public class JsonPokedexEntry
         {
             PokecubeAPI.LOGGER.warn("Duplicate entry for {}", this.name);
         }
-        PokedexEntry entry = old == null ? new PokedexEntry(id, name) : old;
+        PokedexEntry entry = old == null ? new PokedexEntry(id, name, this.is_extra_form) : old;
         entry._root_json = this;
         entry.stock = this.stock;
         entry.base = this.is_default;
+        // We may have overriden this for the update, so set it again anyway.
+        entry.generated = this.is_extra_form;
         if (this.old_name != null) RegistryChangeFixer.registerRename(this.old_name, name);
         if (entry.base && !registered)
         {
@@ -341,6 +346,7 @@ public class JsonPokedexEntry
         {
             return other;
         }
+        for (var l : other.__loaded_from) if (!this.__loaded_from.contains(l)) this.__loaded_from.add(l);
         mergeBasic(other);
         return this;
     }
@@ -380,10 +386,7 @@ public class JsonPokedexEntry
         if (entry == null) return;
 
         if (this.interactions != null) entry.addInteractions(this.interactions);
-        if (this.mega_rules != null) entry._loaded_megarules.addAll(this.mega_rules);
 
-        if (this.mega != null) entry.setMega(this.mega);
-        if (this.gmax != null) entry.setGMax(this.gmax);
         if (this.no_shiny != null) entry.hasShiny = !this.no_shiny;
 
         if (this.size != null) this.size.accept(entry);
@@ -393,8 +396,6 @@ public class JsonPokedexEntry
         if (this.abilities != null) this.abilities.accept(entry);
 
         if (this.model != null) entry._default_holder = this.model;
-        if (this.male_model != null) entry._male_holder = this.male_model;
-        if (this.female_model != null) entry._female_holder = this.female_model;
 
         if (this.sound != null) entry.customSound = this.sound;
         if (this.prey != null) entry.food = this.prey.trim().split(" ");
@@ -481,12 +482,14 @@ public class JsonPokedexEntry
         if (this.female_model != null) PokedexEntryLoader.initFormeModel(entry, female_model);
         if (this.male_model != null) PokedexEntryLoader.initFormeModel(entry, male_model);
         if (this.models != null) PokedexEntryLoader.initFormeModels(entry, this.models);
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, false);
+
+        // If it had gendered models, mark them accordingly so they get updated
+        entry.setGenderedForm(male_model, IPokemob.MALE);
+        entry.setGenderedForm(female_model, IPokemob.FEMALE);
     }
 
     public void postInit(PokedexEntry entry)
     {
-        PokedexEntryLoader.parseEvols(entry, this.evolutions, true);
         this.handleSpawns(entry);
     }
 
@@ -507,17 +510,27 @@ public class JsonPokedexEntry
 
     public static void loadPokedex()
     {
+        loadPokedex(l -> true, true);
+    }
+
+    public static void loadPokedex(Predicate<ResourceLocation> valid, boolean updateCache)
+    {
         final String path = "database/pokemobs/pokedex_entries/";
         final Map<ResourceLocation, Resource> resources = PackFinder.getJsonResources(path);
         Map<String, List<JsonPokedexEntry>> toLoad = Maps.newHashMap();
+        if (updateCache) _compound_files.clear();
+        var oldLoaded = LOADED;
+        if (updateCache) LOADED = new ArrayList<>();
         resources.forEach((l, r) -> {
             try
             {
+                if (!valid.test(l)) return;
                 List<JsonPokedexEntry> entries = loadDatabase(ResourceHelper.getStream(r), l);
                 entries.forEach(entry -> {
                     toLoad.compute(entry.name, (key, list) -> {
                         var ret = list;
                         if (ret == null) ret = Lists.newArrayList();
+                        if (!_compound_files.contains(l)) entry.__loaded_from.add(l);
                         ret.add(entry);
                         return ret;
                     });
@@ -557,14 +570,19 @@ public class JsonPokedexEntry
         loaded.sort(null);
 
         // Now we init the cache for telling clients about it
-        ENTIRE_DATABASE_CACHE = JsonUtil.smol_gson.toJson(loaded);
+        if (updateCache) ENTIRE_DATABASE_CACHE = JsonUtil.smol_gson.toJson(loaded);
 
         // Stage 1, create the pokedex entries
         for (var load : loaded) load.toPokedexEntry();
         // Stage 2 initialise them
         for (var load : loaded) load.initStage2(Database.getEntry(load.name));
 
-        registered = true;
+        if (updateCache) registered = true;
+        else for (var load : LOADED)
+        {
+            load.postInit(Database.getEntry(load.name));
+        }
+        if (updateCache) LOADED = oldLoaded;
     }
 
     public static void postInit()
@@ -616,6 +634,7 @@ public class JsonPokedexEntry
         reader.close();
         if (json.isJsonArray())
         {
+            if (!_compound_files.contains(source)) _compound_files.add(source);
             var array = json.getAsJsonArray();
             populateFromArray(array, list, source);
         }

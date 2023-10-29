@@ -157,6 +157,7 @@
       "body-slam",
       "double-edge",
       "mist",
+      "water-gun",
       "hydro-pump",
       "surf",
       "ice-beam",
@@ -243,14 +244,9 @@
       "throat-chop",
       "stomping-tantrum",
       "liquidation",
+      "life-dew",
       "meteor-beam"
     ]
   },
-  "evolutions": [
-    {
-      "name": "cursola",
-      "level": 38
-    }
-  ],
   "loot_table": "pokecube:entities/fish_2"
 }

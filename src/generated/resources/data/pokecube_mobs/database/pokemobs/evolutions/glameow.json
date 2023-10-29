@@ -1,0 +1,9 @@
+{
+  "name": "purugly",
+  "user": "glameow",
+  "condition": {
+    "key": "level",
+    "level": 38
+  },
+  "evoMoves": "swagger"
+}

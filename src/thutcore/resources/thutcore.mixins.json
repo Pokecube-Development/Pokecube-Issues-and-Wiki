@@ -1,0 +1,17 @@
+
+{
+  "required": true,
+  "package": "thut.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "thutcore.refmap.json",
+  "mixins": [
+    "entity.LevelEntityEventServer",
+    "entity.LevelEntityEventClient"
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "minVersion": "0.8"
+}

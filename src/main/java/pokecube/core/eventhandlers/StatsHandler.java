@@ -62,6 +62,7 @@ public class StatsHandler
         if (!EntityPokecubeBase.canCaptureBasedOnConfigs(evt.getCaught()))
         {
             evt.setCanceled(true);
+            evt.setResult(Result.DENY);
             if (catcher instanceof Player player)
                 thut.lib.ChatHelper.sendSystemMessage(player, TComponent.translatable("pokecube.denied"));
             CaptureManager.onCaptureDenied(evt.pokecube);

@@ -2,7 +2,7 @@
   "name": "drednaw-gmax",
   "id": 834,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 170,
   "size": {
     "height": 5.0,
@@ -39,5 +39,28 @@
       "swift-swim"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-3.5,0,-3.5",
+          "size": "7.0,11.0,7.0",
+          "ride": "3.5,10,3.5"
+        }
+      ]
+    },
+    "swimming": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-3.5,0,-4.5",
+          "size": "7,7.5,9",
+          "ride": "3.5,7,4.5"
+        }
+      ]
+    }
+  },
+  "sound": "drednaw-gmax",
   "old_name": "drednaw_gigantamax"
 }

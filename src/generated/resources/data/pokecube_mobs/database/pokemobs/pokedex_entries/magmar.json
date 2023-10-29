@@ -174,6 +174,7 @@
       "rest",
       "substitute",
       "thief",
+      "flame-wheel",
       "snore",
       "curse",
       "protect",
@@ -197,6 +198,7 @@
       "will-o-wisp",
       "facade",
       "focus-punch",
+      "follow-me",
       "taunt",
       "helping-hand",
       "brick-break",
@@ -225,12 +227,5 @@
       "scorching-sands"
     ]
   },
-  "evolutions": [
-    {
-      "name": "magmortar",
-      "item_preset": "magmarizer",
-      "trade": true
-    }
-  ],
   "loot_table": "pokecube:entities/blaze_rabbit_2"
 }

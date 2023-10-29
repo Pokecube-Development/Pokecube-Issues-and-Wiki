@@ -1,8 +1,8 @@
 {
   "name": "zygarde-complete",
-  "sound": "zygarde-complete",
   "id": 718,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 354,
   "size": {
     "height": 4.5,
@@ -191,6 +191,7 @@
       "scorching-sands"
     ]
   },
+  "sound": "zygarde-complete",
   "interactions": [
     {
       "male": true,

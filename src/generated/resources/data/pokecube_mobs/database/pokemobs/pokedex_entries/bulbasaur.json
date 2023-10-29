@@ -4,7 +4,9 @@
   "stock": true,
   "base_experience": 64,
   "size": {
-    "height": 0.7
+    "height": 0.5,
+    "width": 0.5,
+    "length": 0.7
   },
   "mass": 6.9,
   "is_default": true,
@@ -209,12 +211,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ivysaur",
-      "level": 16,
-      "animation": "18"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

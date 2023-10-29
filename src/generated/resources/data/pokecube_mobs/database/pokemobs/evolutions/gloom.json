@@ -1,0 +1,23 @@
+[
+  {
+    "name": "vileplume",
+    "user": "gloom",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:leafstone"
+      }
+    }
+  },
+  {
+    "name": "bellossom",
+    "user": "gloom",
+    "condition": {
+      "key": "item",
+      "item": {
+        "item": "pokecube:sunstone"
+      }
+    },
+    "evoMoves": "magical-leaf"
+  }
+]

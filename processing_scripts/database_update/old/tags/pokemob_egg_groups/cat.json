@@ -2,10 +2,10 @@
   "replace": false,
   "values": [
     "pokecube:meowth",
-    "pokecube:meowth_alola",
-    "pokecube:meowth_galar",
+    "pokecube:meowth-alola",
+    "pokecube:meowth-galar",
     "pokecube:persian",
-    "pokecube:persian_alola",
+    "pokecube:persian-alola",
     "pokecube:abra",
     "pokecube:mew",
     "pokecube:skitty",

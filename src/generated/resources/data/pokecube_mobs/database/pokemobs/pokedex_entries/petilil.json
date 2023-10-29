@@ -201,19 +201,5 @@
       "trailblaze"
     ]
   },
-  "evolutions": [
-    {
-      "name": "lilligant",
-      "item_preset": "sunstone"
-    },
-    {
-      "name": "lilligant-hisui",
-      "location": {
-        "and_preset": "deserts"
-      },
-      "item_preset": "sunstone",
-      "time": "day"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

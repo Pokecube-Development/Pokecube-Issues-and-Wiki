@@ -1,0 +1,9 @@
+{
+  "name": "nuzleaf",
+  "user": "seedot",
+  "condition": {
+    "key": "level",
+    "level": 14
+  },
+  "evoMoves": "razor-leaf"
+}

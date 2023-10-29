@@ -2,6 +2,7 @@
   "name": "gimmighoul-roaming",
   "id": 999,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 60,
   "size": {
     "height": 0.1
@@ -62,5 +63,6 @@
       "hex",
       "tera-blast"
     ]
-  }
+  },
+  "sound": "gimmighoul-roaming"
 }

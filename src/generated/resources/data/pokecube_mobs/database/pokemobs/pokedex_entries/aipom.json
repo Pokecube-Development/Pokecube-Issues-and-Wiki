@@ -130,6 +130,7 @@
       "sand-attack",
       "headbutt",
       "body-slam",
+      "take-down",
       "double-edge",
       "tail-whip",
       "low-kick",
@@ -184,6 +185,7 @@
       "facade",
       "focus-punch",
       "taunt",
+      "helping-hand",
       "role-play",
       "revenge",
       "brick-break",
@@ -194,6 +196,7 @@
       "tickle",
       "aerial-ace",
       "bounce",
+      "mud-shot",
       "covet",
       "shock-wave",
       "water-pulse",
@@ -211,6 +214,7 @@
       "grass-knot",
       "double-hit",
       "hone-claws",
+      "smack-down",
       "low-sweep",
       "foul-play",
       "round",
@@ -220,14 +224,11 @@
       "work-up",
       "tail-slap",
       "confide",
-      "power-up-punch"
+      "power-up-punch",
+      "tera-blast",
+      "trailblaze",
+      "chilling-water"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ambipom",
-      "move": "double-hit"
-    }
-  ],
   "loot_table": "pokecube:entities/rabbit_1"
 }

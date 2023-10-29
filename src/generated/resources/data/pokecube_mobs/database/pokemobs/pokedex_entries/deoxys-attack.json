@@ -2,6 +2,7 @@
   "name": "deoxys-attack",
   "id": 386,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 270,
   "size": {
     "height": 1.7,

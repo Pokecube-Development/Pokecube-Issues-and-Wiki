@@ -109,9 +109,9 @@ public class ExpandedJigsawPacementVanillaLike
 
                     int max_box_size = 80;
                     int max_box_height = 80;
-                    AABB aabb = new AABB((double) (i - max_box_size), (double) (k - max_box_height),
-                            (double) (j - max_box_size), (double) (i + max_box_size + 1),
-                            (double) (k + max_box_height + 1), (double) (j + max_box_size + 1));
+                    AABB aabb = new AABB(i - max_box_size, k - max_box_height,
+                            j - max_box_size, i + max_box_size + 1,
+                            k + max_box_height + 1, j + max_box_size + 1);
 
                     if (config.maxDepth() > 0)
                     {
@@ -485,12 +485,12 @@ public class ExpandedJigsawPacementVanillaLike
                     }
                     else
                     {
-                        LOGGER.warn("Empty or non-existent fallback pool: {}", (Object) fallback_loc);
+                        LOGGER.warn("Empty or non-existent fallback pool: {}", fallback_loc);
                     }
                 }
                 else
                 {
-                    LOGGER.warn("Empty or non-existent pool: {}", (Object) next_loc);
+                    LOGGER.warn("Empty or non-existent pool: {}", next_loc);
                 }
             }
 

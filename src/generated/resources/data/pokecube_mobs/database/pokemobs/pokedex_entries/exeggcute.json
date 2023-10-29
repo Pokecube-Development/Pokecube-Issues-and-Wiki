@@ -146,6 +146,7 @@
       "take-down",
       "double-edge",
       "strength",
+      "absorb",
       "mega-drain",
       "leech-seed",
       "solar-beam",
@@ -221,20 +222,5 @@
       "grassy-glide"
     ]
   },
-  "evolutions": [
-    {
-      "name": "exeggutor-alola",
-      "location": {
-        "and_preset": "beaches"
-      },
-      "item_preset": "leafstone",
-      "evoMoves": "dragon-hammer"
-    },
-    {
-      "name": "exeggutor",
-      "item_preset": "leafstone",
-      "evoMoves": "stomp"
-    }
-  ],
   "loot_table": "pokecube:entities/wheat_seeds_1"
 }

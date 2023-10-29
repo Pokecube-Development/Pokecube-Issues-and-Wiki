@@ -74,6 +74,7 @@ import pokecube.adventures.items.bag.BagItem;
 import pokecube.adventures.proxy.CommonProxy;
 import pokecube.adventures.utils.RecipePokeAdv;
 import pokecube.api.PokecubeAPI;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.trainers.TrainerCaps;
 import pokecube.api.events.init.RegisterMiscItems;
 import pokecube.api.utils.PokeType;
@@ -98,8 +99,8 @@ public class PokecubeAdv
         public static void onEntityAttributes(final EntityAttributeCreationEvent event)
         {
             final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                    .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK)
-                    .add(Attributes.MAX_HEALTH, 20.0D);
+                    .add(SharedAttributes.MOB_SIZE_SCALE.get()).add(Attributes.FOLLOW_RANGE, 16.0D)
+                    .add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 20.0D);
             event.put(EntityTypes.getTrainer(), attribs.build());
             event.put(EntityTypes.getLeader(), attribs.build());
         }

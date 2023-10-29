@@ -2,7 +2,7 @@
   "name": "absol-mega",
   "id": 359,
   "stock": true,
-  "mega": true,
+  "is_extra_form": true,
   "base_experience": 198,
   "size": {
     "height": 1.2
@@ -219,5 +219,6 @@
       "brutal-swing"
     ]
   },
+  "sound": "absol-mega",
   "old_name": "absol_mega"
 }

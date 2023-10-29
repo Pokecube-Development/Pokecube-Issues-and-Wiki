@@ -39,6 +39,12 @@
   "moves": {
     "level_up": [
       {
+        "L": 10,
+        "moves": [
+          "growl"
+        ]
+      },
+      {
         "L": 1,
         "moves": [
           "psybeam",
@@ -135,6 +141,7 @@
       "thunder-wave",
       "dig",
       "toxic",
+      "confusion",
       "psychic",
       "night-shade",
       "mimic",
@@ -171,6 +178,7 @@
       "sunny-day",
       "psych-up",
       "shadow-ball",
+      "uproar",
       "torment",
       "facade",
       "focus-punch",
@@ -225,6 +233,7 @@
       "power-up-punch",
       "laser-focus",
       "psychic-terrain",
+      "lunge",
       "stomping-tantrum",
       "body-press",
       "tera-blast",

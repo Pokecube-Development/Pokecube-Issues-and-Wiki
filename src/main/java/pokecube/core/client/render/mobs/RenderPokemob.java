@@ -318,20 +318,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             float s = 1;
-            if (pokemob != null)
+            if (pokemob != null && pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             {
-                s = pokemob.getSize();
-                if (pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
-                {
-                    float scale = 1;
-                    scale = Math.min(1,
-                            (entity.tickCount + 1 + partialTick) / (float) LogicMiscUpdate.EXITCUBEDURATION);
-                    s = Math.max(0.01f, s * scale);
-                }
-                else
-                {
-                    s = pokemob.getEntity().getScale();
-                }
+                float scale = 1;
+                scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
+                s = Math.max(0.01f, s * scale);
             }
             float sx = (float) this.getScale().x;
             float sy = (float) this.getScale().y;
@@ -406,14 +397,19 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
     public static void register()
     {
+        customs.clear();
+        holderMap.clear();
+        holders.clear();
         if (ThutCore.conf.debug_models) PokecubeAPI.logInfo("Registering Models to the renderer.");
         for (final PokedexEntry entry : Database.getSortedFormes())
         {
             if (!entry.stock) continue;
-            if (entry.generated) continue;
-            final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
             final Holder holder = new Holder(entry);
-            RenderPokemob.holderMap.put(type, holder);
+            if (!entry.generated)
+            {
+                final PokemobType<?> type = (PokemobType<?>) entry.getEntityType();
+                RenderPokemob.holderMap.put(type, holder);
+            }
             RenderPokemob.holders.put(entry, holder);
             // Always initialize starters, so the gui doesn't act a bit funny
             if (PokecubeCore.getConfig().preloadModels || entry.isStarter) holder.init();
@@ -440,6 +436,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
     public RenderPokemob(final PokedexEntry entry, final EntityRendererProvider.Context p_i50961_1_)
     {
         super(p_i50961_1_, new ModelWrapper(RenderPokemob.getMissingNo(), RenderPokemob.getMissingNo()), 1);
+        if (entry == Database.missingno) register();
         if (RenderPokemob.holders.containsKey(entry)) this.holder = RenderPokemob.holders.get(entry);
         else
         {
@@ -461,10 +458,28 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
         if (pokemob == null) return;
         PokedexEntry entry = pokemob.getPokedexEntry();
+
         Holder holder = RenderPokemob.holders.getOrDefault(entry, this.holder);
-        if (pokemob.getCustomHolder() != null)
+        FormeHolder forme = pokemob.getCustomHolder();
+
+        if (forme == null || forme == entry.default_holder)
         {
-            final FormeHolder forme = pokemob.getCustomHolder();
+            byte sexe = pokemob.getSexe();
+            if (entry.male != null && sexe == IPokemob.MALE)
+            {
+                holder = RenderPokemob.holders.getOrDefault(entry.male, this.holder);
+                forme = entry.male_holder;
+            }
+            else if (entry.female != null && sexe == IPokemob.FEMALE)
+            {
+                holder = RenderPokemob.holders.getOrDefault(entry.female, this.holder);
+                forme = entry.female_holder;
+            }
+            else forme = entry.default_holder;
+        }
+
+        if (forme != null)
+        {
             final ResourceLocation model = forme.key;
             Holder temp = RenderPokemob.customs.get(model);
             if (temp == null || temp.wrapper == null || !temp.wrapper.isValid())
@@ -478,6 +493,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
             }
             holder = temp;
         }
+
         if (holder.failTimer > 50) holder = MISSNGNO;
         if (holder.wrapper == null || !holder.wrapper.isLoaded())
         {
@@ -500,6 +516,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         this.model = holder.wrapper;
         this.shadowRadius = entity.getBbWidth();
         this.activeHolder = holder;
+        this.shadowRadius = 0;
 
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
@@ -592,12 +609,12 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
 
         if (this.isShaking(entity))
         {
-            rotationYaw += (float) (Math.cos((double) entity.tickCount * 3.25D) * Math.PI * (double) 0.4F);
+            rotationYaw += (float) (Math.cos(entity.tickCount * 3.25D) * Math.PI * 0.4F);
         }
         if (entity.deathTime > 0)
         {
             if (activeHolder.hasDeathAnim) return;
-            float f = ((float) entity.deathTime + rotationYaw - 1.0F) / 20.0F * 1.6F;
+            float f = (entity.deathTime + rotationYaw - 1.0F) / 20.0F * 1.6F;
             f = Mth.sqrt(f);
             if (f > 1.0F)
             {
@@ -608,20 +625,27 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         else if (entity.isAutoSpinAttack())
         {
             stack.mulPose(AxisAngles.XP.rotationDegrees(-90.0F - entity.getXRot()));
-            stack.mulPose(AxisAngles.YP.rotationDegrees(((float) entity.tickCount + partialTicks) * -75.0F));
+            stack.mulPose(AxisAngles.YP.rotationDegrees((entity.tickCount + partialTicks) * -75.0F));
         }
         else if (sleeping)
         {
             if (activeHolder.hasSleepAnim) return;
             Direction direction = entity.getBedOrientation();
-            float f1 = direction != null ? sleepDirectionToRotation(direction) : rotationYaw;
-            stack.mulPose(AxisAngles.YP.rotationDegrees(f1));
-            stack.mulPose(AxisAngles.ZP.rotationDegrees(this.getFlipDegrees(entity)));
-            stack.mulPose(AxisAngles.YP.rotationDegrees(270.0F));
+            if (direction != Direction.UP)
+            {
+                float f1 = sleepDirectionToRotation(direction);
+                stack.mulPose(AxisAngles.YP.rotationDegrees(f1));
+                stack.mulPose(AxisAngles.ZP.rotationDegrees(this.getFlipDegrees(entity)));
+                stack.mulPose(AxisAngles.YP.rotationDegrees(270.0F));
+            }
+            else
+            {
+                stack.mulPose(AxisAngles.ZP.rotationDegrees(90));
+            }
         }
         else if (isEntityUpsideDown(entity))
         {
-            stack.translate(0.0D, (double) (entity.getBbHeight() + 0.1F), 0.0D);
+            stack.translate(0.0D, entity.getBbHeight() + 0.1F, 0.0D);
             stack.mulPose(AxisAngles.ZP.rotationDegrees(180.0F));
         }
     }

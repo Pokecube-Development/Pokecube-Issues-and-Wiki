@@ -3,7 +3,7 @@
  <model name="">
   <phase name="global" scale="0.5"/>
   <phase duration="10" leftArm="larm1" leftLeg="lleg1" name="biWalk" rightArm="rarm1" rightLeg="rleg1"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-40,40" headCap1="-40,40" headDir="-1"/>
+  <metadata head="head" headCap="-40,40" headCap1="-40,40"/>
   <customTex default="vigoroth">
    <part name="vigorotheye" tex="vigorotheye"/>
    <animation diffs="0,0.5" part="vigorotheye" trigger="random:0.005:3"/>

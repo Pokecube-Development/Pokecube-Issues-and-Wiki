@@ -109,7 +109,8 @@
       {
         "L": 40,
         "moves": [
-          "trump-card"
+          "trump-card",
+          "last-resort"
         ]
       },
       {

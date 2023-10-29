@@ -148,12 +148,5 @@
       }
     }
   ],
-  "evolutions": [
-    {
-      "name": "naganadel",
-      "move": "dragon-pulse",
-      "evoMoves": "air-cutter"
-    }
-  ],
   "loot_table": "pokecube:entities/spider"
 }

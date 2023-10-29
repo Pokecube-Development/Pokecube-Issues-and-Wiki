@@ -200,9 +200,9 @@ public class DefaultFireAction extends DefaultAction
     }
 
     @Override
-    public boolean isValid(IPokemob user)
+    public boolean isValid()
     {
-        return move.getType(user) == PokeType.getType("fire");
+        return move.getType(null) == PokeType.getType("fire");
     }
 
 }

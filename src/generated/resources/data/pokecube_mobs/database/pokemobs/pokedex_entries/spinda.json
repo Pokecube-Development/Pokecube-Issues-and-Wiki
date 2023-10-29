@@ -45,6 +45,13 @@
         ]
       },
       {
+        "L": 23,
+        "moves": [
+          "body-slam",
+          "dizzy-punch"
+        ]
+      },
+      {
         "L": 55,
         "moves": [
           "thrash"
@@ -66,12 +73,6 @@
         "L": 19,
         "moves": [
           "hypnosis"
-        ]
-      },
-      {
-        "L": 23,
-        "moves": [
-          "dizzy-punch"
         ]
       },
       {

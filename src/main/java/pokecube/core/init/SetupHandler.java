@@ -5,6 +5,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -14,15 +15,14 @@ import pokecube.api.ai.IInhabitor;
 import pokecube.api.blocks.IInhabitable;
 import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.items.IPokemobUseable;
 import pokecube.core.PokecubeCore;
 import pokecube.core.ai.routes.IGuardAICapability;
 import pokecube.core.database.Database;
 import pokecube.core.eventhandlers.EventsHandler;
-import pokecube.core.items.megastuff.IMegaCapability;
 import pokecube.core.moves.PokemobTerrainEffects;
-import pokecube.core.moves.zmoves.ZPower;
 import pokecube.core.network.PokecubePacketHandler;
 import pokecube.nbtedit.NBTEdit;
 import pokecube.world.terrain.PokecubeTerrainChecker;
@@ -38,8 +38,6 @@ public class SetupHandler
         event.register(IGuardAICapability.class);
         event.register(IPokemob.class);
         event.register(IOngoingAffected.class);
-        event.register(ZPower.class);
-        event.register(IMegaCapability.class);
         event.register(IPokemobUseable.class);
         event.register(IInhabitable.class);
         event.register(IInhabitor.class);
@@ -81,7 +79,8 @@ public class SetupHandler
         if (PokecubeCore.getConfig().debug_misc) PokecubeAPI.logInfo("Registering Pokecube Attributes");
 
         final AttributeSupplier.Builder attribs = LivingEntity.createLivingAttributes()
-                .add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
+                .add(SharedAttributes.MOB_SIZE_SCALE.get()).add(Attributes.FOLLOW_RANGE, 16.0D)
+                .add(Attributes.ATTACK_KNOCKBACK).add(Attributes.MAX_HEALTH, 10.0D);
         event.put(EntityTypes.getPokecube(), attribs.build());
         event.put(EntityTypes.getEgg(), attribs.build());
         event.put(EntityTypes.getNpc(), attribs.build());
@@ -100,6 +99,15 @@ public class SetupHandler
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onEntityAttributesModify(final EntityAttributeModificationEvent event)
+    {
+        event.getTypes().forEach(e -> {
+            if (!event.has(e, SharedAttributes.MOB_SIZE_SCALE.get()))
+                event.add(e, SharedAttributes.MOB_SIZE_SCALE.get());
+        });
     }
 
 }

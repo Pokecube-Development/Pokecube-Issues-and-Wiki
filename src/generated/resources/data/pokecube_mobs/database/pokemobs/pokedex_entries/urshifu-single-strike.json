@@ -129,6 +129,7 @@
       "body-slam",
       "take-down",
       "leer",
+      "roar",
       "low-kick",
       "counter",
       "dig",
@@ -194,6 +195,7 @@
       "trailblaze"
     ]
   },
+  "sound": "urshifu-single-strike",
   "old_name": "urshifu_single",
   "loot_table": "pokecube:entities/generic_legend"
 }

@@ -1,0 +1,10 @@
+{
+  "user": "pinsir",
+  "name": "pinsir-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:pinsirmega"
+    }
+  }
+}

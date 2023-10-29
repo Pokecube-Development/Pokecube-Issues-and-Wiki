@@ -21,6 +21,7 @@ import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DyeableLeatherItem;
 import net.minecraft.world.item.Item;
@@ -161,7 +162,6 @@ public class ClientSetupHandler
     @SubscribeEvent
     public static void loaded(final FMLLoadCompleteEvent event)
     {
-        RenderPokemob.register();
         event.enqueueWork(() -> {
             for (Item[] arr : PokecubeItems.pokecubes.values())
             {
@@ -170,7 +170,11 @@ public class ClientSetupHandler
                     ItemProperties.register(i, new ResourceLocation(PokecubeCore.MODID, "rendering_overlay"),
                             (stack, level, living, id) ->
                             {
-                                if (!PokecubeManager.isFilled(stack)) return 0.0f;
+                                if (level != null || !PokecubeManager.isFilled(stack)) return 0.0f;
+                                if (!(living instanceof Player)) return 0.0f;
+                                if (stack.getEntityRepresentation() != null
+                                        && stack.getEntityRepresentation().isAddedToWorld())
+                                    return 0.0f;
                                 boolean renderingOverlay = Pokecube.renderingOverlay;
                                 return renderingOverlay ? 1.0F : 0.0F;
                             });
@@ -322,6 +326,60 @@ public class ClientSetupHandler
             if (entry != null) return tintIndex == 0 ? entry.getType1().colour : entry.getType2().colour;
             return tintIndex == 0 ? type.colour : 0xFFFFFFFF;
         }, PokecubeItems.EGG.get());
+
+        event.getItemColors().register((stack, tintIndex) -> {
+            int c0 = 0xFFFFFFFF;
+            int c1 = 0xFFFFFFFF;
+            int c2 = 0xFFFFFFFF;
+            int c3 = 0xFFFFFFFF;
+            switch (tintIndex)
+            {
+            case 1:
+                if (stack.hasTag() && stack.getTag().contains("c1")) try
+                {
+                    long l = Long.decode(stack.getTag().getString("c1"));
+                    c1 = (int) l;
+                }
+                catch (Exception e)
+                {
+                    // Do nothing for not interupting render thread
+                }
+                return c1;
+            case 2:
+                if (stack.hasTag() && stack.getTag().contains("c2")) try
+                {
+                    long l = Long.decode(stack.getTag().getString("c2"));
+                    c2 = (int) l;
+                }
+                catch (Exception e)
+                {
+                    // Do nothing for not interupting render thread
+                }
+                return c2;
+            case 3:
+                if (stack.hasTag() && stack.getTag().contains("c3")) try
+                {
+                    long l = Long.decode(stack.getTag().getString("c3"));
+                    c3 = (int) l;
+                }
+                catch (Exception e)
+                {
+                    // Do nothing for not interupting render thread
+                }
+                return c3;
+            }
+            if (stack.hasTag() && stack.getTag().contains("c0")) try
+            {
+                long l = Long.decode(stack.getTag().getString("c0"));
+                c0 = (int) l;
+            }
+            catch (Exception e)
+            {
+                // Do nothing for not interupting render thread
+            }
+            return c0;
+        }, PokecubeItems.getStack("megastone").getItem());
+
 
         for (Item i : ItemMegawearable.INSTANCES)
         {

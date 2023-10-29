@@ -2,6 +2,7 @@
   "name": "urshifu-rapid-strike",
   "id": 892,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 275,
   "size": {
     "height": 1.9,
@@ -192,6 +193,7 @@
       "chilling-water"
     ]
   },
+  "sound": "urshifu-rapid-strike",
   "old_name": "urshifu_rapid",
   "loot_table": "pokecube:entities/generic_legend"
 }

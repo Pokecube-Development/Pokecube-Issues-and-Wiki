@@ -5,7 +5,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -25,7 +24,7 @@ public class FiniTotem extends TapuFiniCore{
 	public InteractionResult use(final BlockState stack, final Level world, final BlockPos pos, final Player entity, final InteractionHand hand,
 			final BlockHitResult hit)
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem()))
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			FiniTotem.addEffectTotem(entity);
 			return InteractionResult.SUCCESS;
@@ -35,10 +34,10 @@ public class FiniTotem extends TapuFiniCore{
 	
 	public static void addEffectTotem(final Player entity) 
 	{
-		if (ItemList.is(PokecubeLegends.FUELTAG, entity.getMainHandItem())) 
+		if (ItemList.is(PokecubeLegends.TOTEM_FUEL_TAG, entity.getMainHandItem()))
 		{
 			entity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 400, 1));
-			final ItemStack _stktoremove = entity instanceof LivingEntity ? ((LivingEntity) entity).getMainHandItem() : ItemStack.EMPTY;
+			final ItemStack _stktoremove = entity.getMainHandItem();
 			if (!entity.isCreative()) entity.getInventory().clearOrCountMatchingItems(p -> _stktoremove.getItem() == p.getItem(), 1,
             	entity.inventoryMenu.getCraftSlots());
 		}

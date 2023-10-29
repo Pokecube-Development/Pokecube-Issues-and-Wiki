@@ -41,7 +41,8 @@
       {
         "L": 22,
         "moves": [
-          "comet-punch"
+          "comet-punch",
+          "struggle-bug"
         ]
       },
       {
@@ -97,7 +98,8 @@
       {
         "L": 19,
         "moves": [
-          "silver-wind"
+          "silver-wind",
+          "roost"
         ]
       },
       {
@@ -189,11 +191,5 @@
       "power-up-punch"
     ]
   },
-  "evolutions": [
-    {
-      "name": "ledian",
-      "level": 18
-    }
-  ],
   "loot_table": "minecraft:entities/spider"
 }

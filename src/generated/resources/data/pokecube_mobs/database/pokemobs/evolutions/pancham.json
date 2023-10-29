@@ -1,0 +1,17 @@
+{
+  "name": "pangoro",
+  "user": "pancham",
+  "condition": [
+    {
+      "key": "level",
+      "level": 32
+    },
+    {
+      "key": "item",
+      "item": {
+        "item": "pokecube:duskstone"
+      }
+    }
+  ],
+  "evoMoves": "bullet-punch"
+}

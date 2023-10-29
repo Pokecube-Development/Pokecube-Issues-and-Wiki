@@ -15,11 +15,9 @@ import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
 import pokecube.adventures.PokecubeAdv;
 import pokecube.api.data.PokedexEntry.EvolutionData;
 import pokecube.compat.jei.ingredients.Pokemob;
-import pokecube.core.PokecubeItems;
 import thut.lib.TComponent;
 
 public class Category implements IRecipeCategory<Evolution>
@@ -93,13 +91,13 @@ public class Category implements IRecipeCategory<Evolution>
         IRecipeSlotBuilder inputMob = builder.addSlot(RecipeIngredientRole.INPUT, 18, 18);
         inputMob.addIngredient(Pokemob.TYPE, recipe.from);
 
-        ItemStack needed = recipe.data.item;
-        if (needed.isEmpty() && recipe.data.preset != null) needed = PokecubeItems.getStack(recipe.data.preset);
-        if (!needed.isEmpty())
-        {
-            IRecipeSlotBuilder inputStack = builder.addSlot(RecipeIngredientRole.INPUT, 51, 1);
-            inputStack.addItemStack(needed);
-        }
+//        ItemStack needed = recipe.data.item;
+//        if (needed.isEmpty() && recipe.data.preset != null) needed = PokecubeItems.getStack(recipe.data.preset);
+//        if (!needed.isEmpty())
+//        {
+//            IRecipeSlotBuilder inputStack = builder.addSlot(RecipeIngredientRole.INPUT, 51, 1);
+//            inputStack.addItemStack(needed);
+//        }
     }
 
 }

@@ -155,15 +155,9 @@
       "work-up",
       "hurricane",
       "confide",
+      "dual-wingbeat",
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "staraptor",
-      "level": 34,
-      "evoMoves": "close-combat"
-    }
-  ],
   "loot_table": "pokecube:entities/chicken_2"
 }

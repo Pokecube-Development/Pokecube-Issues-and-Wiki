@@ -206,6 +206,7 @@
       "chilling-water"
     ]
   },
+  "sound": "tornadus-incarnate",
   "spawn_rules": [
     {
       "values": {

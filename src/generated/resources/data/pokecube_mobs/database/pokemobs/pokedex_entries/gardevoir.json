@@ -204,6 +204,7 @@
       "wish",
       "magic-coat",
       "recycle",
+      "knock-off",
       "skill-swap",
       "imprison",
       "snatch",
@@ -213,12 +214,14 @@
       "magical-leaf",
       "calm-mind",
       "shock-wave",
+      "gravity",
       "healing-wish",
       "natural-gift",
       "fling",
       "power-swap",
       "guard-swap",
       "aura-sphere",
+      "vacuum-wave",
       "focus-blast",
       "energy-ball",
       "giga-impact",
@@ -252,11 +255,5 @@
       "tera-blast"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "gardevoirmega"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_3"
 }

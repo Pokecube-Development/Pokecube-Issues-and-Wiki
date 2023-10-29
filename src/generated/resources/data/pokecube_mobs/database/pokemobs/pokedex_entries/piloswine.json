@@ -136,10 +136,12 @@
       "headbutt",
       "horn-attack",
       "fury-attack",
+      "tackle",
       "body-slam",
       "take-down",
       "thrash",
       "double-edge",
+      "bite",
       "roar",
       "mist",
       "ice-beam",
@@ -148,12 +150,14 @@
       "peck",
       "strength",
       "earthquake",
+      "fissure",
       "dig",
       "toxic",
       "mimic",
       "double-team",
       "defense-curl",
       "light-screen",
+      "haze",
       "reflect",
       "amnesia",
       "rest",
@@ -161,6 +165,8 @@
       "substitute",
       "snore",
       "curse",
+      "flail",
+      "reversal",
       "powder-snow",
       "protect",
       "scary-face",
@@ -169,6 +175,7 @@
       "detect",
       "sandstorm",
       "endure",
+      "charm",
       "swagger",
       "attract",
       "sleep-talk",
@@ -193,16 +200,23 @@
       "earth-power",
       "giga-impact",
       "avalanche",
+      "ice-shard",
       "ice-fang",
       "mud-bomb",
       "stone-edge",
       "captivate",
       "stealth-rock",
+      "smack-down",
       "round",
       "bulldoze",
+      "icicle-crash",
+      "freeze-dry",
       "confide",
       "high-horsepower",
-      "stomping-tantrum"
+      "stomping-tantrum",
+      "tera-blast",
+      "snowscape",
+      "trailblaze"
     ]
   },
   "interactions": [
@@ -231,12 +245,6 @@
           }
         ]
       }
-    }
-  ],
-  "evolutions": [
-    {
-      "name": "mamoswine",
-      "move": "ancient-power"
     }
   ],
   "loot_table": "pokecube:entities/pig_1"

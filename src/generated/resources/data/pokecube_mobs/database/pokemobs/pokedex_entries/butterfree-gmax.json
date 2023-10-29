@@ -2,7 +2,7 @@
   "name": "butterfree-gmax",
   "id": 12,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 178,
   "size": {
     "height": 3.0,
@@ -38,5 +38,38 @@
       "tinted-lens"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-0.5,0,-0.5",
+          "size": "1,0.8,1"
+        },
+        {
+          "name": "head",
+          "offset": "-0.5,0.8,-0.5",
+          "size": "1,0.6,1",
+          "ride": "0.5,1,0.8"
+        }
+      ]
+    },
+    "flying": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-0.5,0,-0.5",
+          "size": "1,0.8,1"
+        },
+        {
+          "name": "head",
+          "offset": "-0.5,0.8,-0.9",
+          "size": "1,0.6,1",
+          "ride": "0.5,1,1.8"
+        }
+      ]
+    }
+  },
+  "sound": "butterfree-gmax",
   "old_name": "butterfree_gigantamax"
 }

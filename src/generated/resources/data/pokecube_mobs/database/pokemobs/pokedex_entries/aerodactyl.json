@@ -220,11 +220,5 @@
       "dual-wingbeat"
     ]
   },
-  "mega_rules": [
-    {
-      "preset": "Mega",
-      "item_preset": "aerodactylmega"
-    }
-  ],
   "loot_table": "pokecube:entities/fossil_mob"
 }

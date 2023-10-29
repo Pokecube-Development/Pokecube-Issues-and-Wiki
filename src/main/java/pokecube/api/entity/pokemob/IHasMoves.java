@@ -1,6 +1,7 @@
 package pokecube.api.entity.pokemob;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.LivingEntity;
@@ -8,7 +9,6 @@ import pokecube.api.entity.CapabilityAffected;
 import pokecube.api.entity.IOngoingAffected;
 import pokecube.api.entity.IOngoingAffected.IOngoingEffect;
 import pokecube.api.entity.pokemob.IHasCommands.Command;
-import pokecube.api.entity.pokemob.ai.CombatStates;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
 import pokecube.api.entity.pokemob.commandhandlers.SwapMovesHandler;
 import pokecube.api.entity.pokemob.moves.PokemobMoveStats;
@@ -163,25 +163,16 @@ public interface IHasMoves extends IHasStats
     /**
      * Gets the {@link String} id of the specified move.
      *
-     * @param i from 0 to 3
+     * @param i from 0 to {@link #getMovesCount()}-1
      * @return the String name of the move
      */
+    @Nullable
     default String getMove(final int index)
     {
         final IPokemob to = PokemobCaps.getPokemobFor(this.getTransformedTo());
         if (to != null && this.getTransformedTo() == null) return to.getMove(index);
 
         final String[] moves = this.getMoves();
-        if (this.getCombatState(CombatStates.USINGGZMOVE))
-        {
-            final String[] gzmoves = this.getGZMoves();
-            String move;
-            if (index >= 0 && index < 4 && (move = gzmoves[index]) != null)
-            {
-                gzmoves.toString();
-                return move;
-            }
-        }
 
         if (index >= 0 && index < 4) return moves[index];
         if (index == 4 && this.getMoveStats().hasLearningMove()) return this.getMoveStats().getLearningMove();
@@ -198,22 +189,21 @@ public interface IHasMoves extends IHasStats
     int getMoveIndex();
 
     /**
+     * Defaults to 4
+     * 
+     * @return number of moves we can know at a time.
+     */
+    default int getMovesCount()
+    {
+        return 4;
+    }
+
+    /**
      * Returns all the 4 available moves name.
      *
      * @return an array of 4 {@link String}
      */
     String[] getMoves();
-
-    /**
-     * This returns the names of any available Gmax or Z-moves for the pokemob,
-     * their indicies correspond directly to the equivalent moves in getMoves()
-     *
-     * @return an array of 4 {@link String}
-     */
-    default String[] getGZMoves()
-    {
-        return this.getMoveStats().g_z_moves;
-    }
 
     /**
      * @return PokemobMoveStats object that contains all of our info about
@@ -288,40 +278,39 @@ public interface IHasMoves extends IHasStats
     {
         if (moveName == null || this.getEntity().getLevel() == null || this.getEntity().getLevel().isClientSide) return;
         if (!MovesUtils.isMoveImplemented(moveName)) return;
-        final String[] moves = this.getMoves();
         final LivingEntity thisEntity = this.getEntity();
         final IPokemob thisMob = PokemobCaps.getPokemobFor(thisEntity);
         // check it's not already known or forgotten
-        for (final String move : moves) if (moveName.equals(move)) return;
+        for (int i = 0; i < this.getMovesCount(); i++) if (moveName.equals(this.getMove(i))) return;
 
-        if (thisMob.getOwner() != null && thisEntity.isAlive())
+        boolean learned = false;
+        for (int i = 0; i < this.getMovesCount(); i++)
         {
-            final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName));
-            final Component mess = TComponent.translatable("pokemob.move.notify.learn", thisMob.getDisplayName(), move);
-            thisMob.displayMessageToOwner(mess);
-        }
-        if (moves[0] == null) this.setMove(0, moveName);
-        else if (moves[1] == null) this.setMove(1, moveName);
-        else if (moves[2] == null) this.setMove(2, moveName);
-        else if (moves[3] == null) this.setMove(3, moveName);
-        else if (this.getGeneralState(GeneralStates.TAMED))
-        {
-            if (moves[3] != null)
+            if (this.getMove(i) == null)
             {
-                for (final String s : moves)
+                this.setMove(i, moveName);
+                learned = true;
+                if (thisMob.getOwner() != null && thisEntity.isAlive())
                 {
-                    if (s == null) continue;
-                    if (s.equals(moveName)) return;
+                    final Component move = TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName));
+                    final Component mess = TComponent.translatable("pokemob.move.notify.learn",
+                            thisMob.getDisplayName(), move);
+                    thisMob.displayMessageToOwner(mess);
                 }
-                final Component mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "",
-                        thisMob.getDisplayName().getString(),
-                        TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName)));
-                thisMob.displayMessageToOwner(mess);
-                this.getMoveStats().addPendingMove(moveName, (IPokemob) this);
-                return;
+                break;
             }
         }
-        else
+
+        if (!learned && this.getGeneralState(GeneralStates.TAMED))
+        {
+            final Component mess = CommandTools.makeTranslatedMessage("pokemob.move.notify.learn", "",
+                    thisMob.getDisplayName().getString(),
+                    TComponent.translatable(MovesUtils.getUnlocalizedMove(moveName)));
+            thisMob.displayMessageToOwner(mess);
+            this.getMoveStats().addPendingMove(moveName, (IPokemob) this);
+            return;
+        }
+        else if (!learned)
         {
             final int index = thisEntity.getRandom().nextInt(4);
             this.setMove(index, moveName);
@@ -416,9 +405,9 @@ public interface IHasMoves extends IHasStats
      * @param status the status to set
      * @return whether the status has actually been set
      */
-    default boolean setStatus(final int status)
+    default boolean setStatus(IPokemob source, int status)
     {
-        return this.setStatus(status, -1);
+        return this.setStatus(source, status, -1);
     }
 
     /**
@@ -429,7 +418,7 @@ public interface IHasMoves extends IHasStats
      * @param turns  How many times attackCooldown should the status apply.
      * @return whether the status has actually been set
      */
-    boolean setStatus(int status, int turns);
+    boolean setStatus(IPokemob source, int status, int turns);
 
     /**
      * Sets the initial status timer. The timer will be decreased until 0. The

@@ -2,7 +2,7 @@
 <ModelAnimator>
  <model>
   <phase name="global" scale="0.22"/>
-  <metadata head="head" headAxis="2" headAxis2="0" headCap="-10,10" headCap1="-10,10" headDir="-1"/>
+  <metadata head="head" headCap="-10,10" headCap1="-10,10"/>
   <phase duration="10" leftArm="" leftLeg="leg1:leg1_1" legAngle="15" name="biWalk" rightArm="" rightLeg="leg2:leg2_1"/>
   <customTex default="urshifu">
    <part name="Head" tex="urshifueye"/>

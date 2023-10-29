@@ -200,16 +200,11 @@
       "clear-smog",
       "scald",
       "confide",
+      "laser-focus",
       "liquidation",
       "scale-shot",
       "flip-turn"
     ]
   },
-  "evolutions": [
-    {
-      "name": "seadra",
-      "level": 32
-    }
-  ],
   "loot_table": "pokecube:entities/squid_fish_1"
 }

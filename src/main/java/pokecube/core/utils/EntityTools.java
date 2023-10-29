@@ -4,9 +4,12 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Predicate;
 
+import javax.annotation.Nullable;
+
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
@@ -15,7 +18,9 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.entity.pokemob.IPokemob;
+import pokecube.api.entity.pokemob.PokemobCaps;
 import thut.api.entity.ICopyMob;
+import thut.api.item.ItemList;
 
 public class EntityTools
 {
@@ -29,6 +34,21 @@ public class EntityTools
     public static void registerCachedCap(Capability<?> cap)
     {
         CACHED_CAPS.add(cap);
+    }
+
+    public static boolean is(ResourceLocation key, @Nullable LivingEntity entity, @Nullable IPokemob mob)
+    {
+        return ItemList.is(key, entity);
+    }
+
+    public static boolean is(ResourceLocation key, @Nullable IPokemob mob)
+    {
+        return is(key, mob != null ? mob.getEntity() : null, mob);
+    }
+
+    public static boolean is(ResourceLocation key, @Nullable LivingEntity mob)
+    {
+        return is(key, mob, PokemobCaps.getPokemobFor(mob));
     }
 
     public static void copyEntityData(final LivingEntity to, final LivingEntity from)

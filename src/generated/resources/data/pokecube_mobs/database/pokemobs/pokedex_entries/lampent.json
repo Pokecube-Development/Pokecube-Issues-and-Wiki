@@ -137,10 +137,12 @@
       "double-team",
       "minimize",
       "confuse-ray",
+      "haze",
       "smog",
       "fire-blast",
       "dream-eater",
       "flash",
+      "acid-armor",
       "rest",
       "substitute",
       "thief",
@@ -174,13 +176,16 @@
       "shock-wave",
       "payback",
       "embargo",
+      "flare-blitz",
       "dark-pulse",
       "energy-ball",
       "trick-room",
+      "power-split",
       "telekinesis",
       "flame-burst",
       "flame-charge",
       "round",
+      "clear-smog",
       "ally-switch",
       "hex",
       "incinerate",
@@ -189,14 +194,10 @@
       "mystical-fire",
       "skitter-smack",
       "burning-jealousy",
-      "poltergeist"
+      "lash-out",
+      "poltergeist",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "chandelure",
-      "item_preset": "duskstone"
-    }
-  ],
   "loot_table": "pokecube:entities/enderpearls_2"
 }

@@ -2,10 +2,12 @@ package pokecube.core.entity.pokecubes;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Random;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
@@ -316,19 +318,38 @@ public class EntityPokecube extends EntityPokecubeBase
     @Override
     public void tick()
     {
-        if (this.isReleasing() && this.getTime() < 0)
+        int time = this.getTime();
+        if (this.isReleasing() && time <= 0)
         {
             this.discard();
             return;
         }
         capture:
-        if (this.getLevel() instanceof ServerLevel)
+        if (this.getLevel() instanceof ServerLevel level)
         {
-            final boolean validTime = this.getTime() <= 0;
+            final boolean validTime = time <= 0;
+            boolean succeeded = this.getTilt() >= 4;
+
+            if (succeeded && time < 5)
+            {
+                double size = 2 * this.getBbWidth();
+                double x = this.getX();
+                double y = this.getY();
+                double z = this.getZ();
+
+                Random r = ThutCore.newRandom();
+                for (int l = 0; l < 2; l++)
+                {
+                    double i = (0.5 - r.nextDouble()) * size;
+                    double j = (0.5 - r.nextDouble()) * size + size / 2;
+                    double k = (0.5 - r.nextDouble()) * size;
+                    level.sendParticles(ParticleTypes.ELECTRIC_SPARK, x + i, y + j, z + k, 1, 0, 0, 0, 0);
+                }
+            }
 
             if (!validTime) break capture;
             // Captured the pokemon
-            if (this.getTilt() >= 4)
+            if (succeeded)
             {
                 if (CaptureManager.captureSucceed(this))
                 {
@@ -353,11 +374,10 @@ public class EntityPokecube extends EntityPokecubeBase
             else if (this.getTilt() >= 0)
             {// Missed the pokemon
                 CaptureManager.captureFailed(this);
-                this.discard();
                 return;
             }
         }
-        this.setTime(this.getTime() - 1);
+        if (time > 0) this.setTime(time - 1);
         super.tick();
     }
 

@@ -121,6 +121,7 @@
     ],
     "misc": [
       "bind",
+      "wrap",
       "double-edge",
       "flamethrower",
       "water-gun",
@@ -156,6 +157,7 @@
       "mud-slap",
       "octazooka",
       "icy-wind",
+      "lock-on",
       "endure",
       "swagger",
       "attract",

@@ -143,6 +143,30 @@
           "result": "indeedee-female"
         }
       ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "oinkologne",
+      "options": [
+        {
+          "result": "oinkologne-male"
+        },
+        {
+          "result": "oinkologne-female"
+        }
+      ]
+    },
+    {
+      "geneType": "pokecube:species",
+      "output": "oinkologne-female",
+      "options": [
+        {
+          "result": "oinkologne"
+        },
+        {
+          "result": "oinkologne-female"
+        }
+      ]
     }
   ]
 }

@@ -23,6 +23,7 @@ import pokecube.api.data.PokedexEntry;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.IPokemob.Stats;
 import pokecube.api.entity.pokemob.PokemobCaps;
+import pokecube.api.events.pokemobs.HealEvent;
 import pokecube.api.items.IPokecube.PokecubeBehaviour;
 import pokecube.api.moves.utils.IMoveConstants;
 import pokecube.api.utils.TagNames;
@@ -78,8 +79,8 @@ public class PokecubeManager
         if (!PokecubeManager.isFilled(stack)) return ItemStack.EMPTY;
         try
         {
-            final ListTag equipmentTags = (ListTag) TagNames.getPokecubePokemobTag(stack.getTag()).getCompound(
-                    TagNames.INVENTORYTAG).get(TagNames.ITEMS);
+            final ListTag equipmentTags = (ListTag) TagNames.getPokecubePokemobTag(stack.getTag())
+                    .getCompound(TagNames.INVENTORYTAG).get(TagNames.ITEMS);
             for (int i = 0; i < equipmentTags.size(); i++)
             {
                 final byte slot = equipmentTags.getCompound(i).getByte("Slot");
@@ -89,8 +90,7 @@ public class PokecubeManager
             }
         }
         catch (final Exception e)
-        {
-        }
+        {}
         return ItemStack.EMPTY;
     }
 
@@ -147,8 +147,9 @@ public class PokecubeManager
 
     public static CompoundTag getSealTag(final ItemStack stack)
     {
-        if (PokecubeManager.isFilled(stack)) return stack.getTag().getCompound(TagNames.POKEMOB).getCompound(
-                TagNames.VISUALSTAG).getCompound(TagNames.POKECUBE).getCompound("tag").getCompound(TagNames.POKESEAL);
+        if (PokecubeManager.isFilled(stack))
+            return stack.getTag().getCompound(TagNames.POKEMOB).getCompound(TagNames.VISUALSTAG)
+                    .getCompound(TagNames.POKECUBE).getCompound("tag").getCompound(TagNames.POKESEAL);
         else if (stack.hasTag()) return stack.getTag().getCompound(TagNames.POKESEAL);
         return null;
     }
@@ -187,6 +188,12 @@ public class PokecubeManager
         }
     }
 
+    /**
+     * Called the heal the mob, it will set health to max health, will reset
+     * hurtTime and deathTime, and if a pokemob, will reset hunger back to full.
+     * 
+     * @param mob
+     */
     public static void heal(final LivingEntity mob)
     {
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
@@ -195,30 +202,37 @@ public class PokecubeManager
         {
             pokemob.revive(true);
             maxHP = pokemob.getStat(Stats.HP, false);
+            pokemob.setHungerTime(-PokecubeCore.getConfig().pokemobLifeSpan / 4);
         }
         mob.hurtTime = 0;
         mob.deathTime = 0;
         mob.setHealth(maxHP);
     }
 
-    public static void heal(final ItemStack stack, final Level world)
+    public static void heal(final ItemStack stack, final Level world, boolean fromHealer)
     {
         if (PokecubeManager.isFilled(stack))
         {
             try
             {
                 final LivingEntity mob = PokecubeManager.itemToMob(stack, world);
+                PokecubeAPI.POKEMOB_BUS.post(new HealEvent.Pre(mob, fromHealer));
                 PokecubeManager.heal(mob);
+                PokecubeAPI.POKEMOB_BUS.post(new HealEvent.Post(mob, fromHealer));
                 PokecubeManager.addToCube(stack, mob);
+                stack.setHoverName(mob.getDisplayName());
+                PokecubeManager.setStatus(stack, IMoveConstants.STATUS_NON);
             }
             catch (final Throwable e)
             {
                 e.printStackTrace();
             }
-            final CompoundTag poketag = TagNames.getPokecubePokemobTag(stack.getTag());
-            poketag.getCompound(TagNames.AITAG).putInt(TagNames.HUNGER, -PokecubeCore.getConfig().pokemobLifeSpan / 4);
-            PokecubeManager.setStatus(stack, IMoveConstants.STATUS_NON);
         }
+    }
+
+    public static void heal(final ItemStack stack, final Level world)
+    {
+        heal(stack, world, true);
     }
 
     public static boolean isFilled(final ItemStack stack)
@@ -246,9 +260,10 @@ public class PokecubeManager
         try
         {
             final CompoundTag tag = stack.getTag().getCompound(TagNames.POKEMOB);
-            for (final String key : PokecubeManager.TAGSTOREMOVE)
-                tag.getCompound("ForgeData").remove(key);
+            for (final String key : PokecubeManager.TAGSTOREMOVE) tag.getCompound("ForgeData").remove(key);
             EntityUpdate.readMob(mob, tag);
+            IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
+            if (pokemob != null) pokemob.setPokecube(stack);
         }
         catch (final Exception e)
         {
@@ -281,8 +296,8 @@ public class PokecubeManager
     public static ItemStack pokemobToItem(final IPokemob pokemob)
     {
         ItemStack itemStack = pokemob.getPokecube();
-        if (itemStack.isEmpty()) itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE),
-                1);
+        if (itemStack.isEmpty())
+            itemStack = new ItemStack(PokecubeItems.getFilledCube(PokecubeBehaviour.DEFAULTCUBE), 1);
         itemStack = itemStack.copy();
         PokecubeManager.addToCube(itemStack, pokemob.getEntity());
         itemStack.setCount(1);

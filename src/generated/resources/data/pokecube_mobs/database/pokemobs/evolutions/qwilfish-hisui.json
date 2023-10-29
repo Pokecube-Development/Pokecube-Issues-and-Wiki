@@ -1,0 +1,11 @@
+{
+  "name": "overqwil",
+  "user": "qwilfish-hisui",
+  "condition": {
+    "key": "location",
+    "location": {
+      "desc": "pokecube.spawns.caves.water",
+      "and_preset": "cave_water"
+    }
+  }
+}

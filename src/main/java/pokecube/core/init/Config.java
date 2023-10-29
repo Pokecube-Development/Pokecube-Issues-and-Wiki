@@ -303,10 +303,10 @@ public class Config extends ConfigData
     public int pokemobLifeSpan = 8000;
     @Configure(category = Config.mobAI, comment = "This is a cooldown between the pokemob deciding to attack a player, and the pokemob actually doing so, this gives some warning when you are about to be attacked. [Default: 100]")
     public int pokemobagressticks = 100;
-    @Configure(category = Config.mobAI, comment = "This is how often wild pokemobs make random sounds, higher numbers result in less noise. [Default: 100]")
-    public int idleSoundRate = 100;
+    @Configure(category = Config.mobAI, comment = "This is how often wild pokemobs make random sounds, higher numbers result in less noise. [Default: 200]")
+    public int idleSoundRate = 200;
     @Configure(category = Config.mobAI, comment = "This scales how loud wild pokemob sounds are, lower numbers are lower volumes. [Default: 0.25]")
-    public double idleSoundVolume = 0.25;
+    public double idleSoundVolume = 0.2;
 
     @Configure(category = Config.mobAI, comment = "This number multiplied by mobSpawnNumber is how many mobs can be in an area before pokemobs stop breeding, this is for wild pokemobs. [Default: 2]")
     public double mateDensityWild = 2;
@@ -396,14 +396,14 @@ public class Config extends ConfigData
 
     @Configure(category = Config.mobAI, comment = "Scaling factor on pokemob flight speed while pathing normally. [Default: 1.25]")
     public double flyPathingSpeedFactor = 1.25f;
-    @Configure(category = Config.mobAI, comment = "Scaling factor on pokemob swim speed while pathing normally. [Default: 0.65]")
-    public double swimPathingSpeedFactor = 0.65f;
+    @Configure(category = Config.mobAI, comment = "Scaling factor on pokemob swim speed while pathing normally. [Default: 1.25]")
+    public double swimPathingSpeedFactor = 1.25f;
     @Configure(category = Config.mobAI, comment = "Pokemobs will refuse to enter the pokecube again for this many ticks after a failed capture. [Default: 0]")
     public int captureDelayTicks = 0;
     @Configure(category = Config.mobAI, comment = "If true, pokemobs will need to execute an attack after breaking out of a cube before they can go into another for capture. [Default: true]")
     public boolean captureDelayTillAttack = true;
-    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 200]")
-    public int idleTickRate = 200;
+    @Configure(category = Config.mobAI, comment = "How often pokemobs attempt to perform an idle action, such as walking, etc. Larger numbers are better for server performance, but result in less wandering of wild pokemobs. [Default: 50]")
+    public int idleTickRate = 50;
     @Configure(category = Config.mobAI, comment = "Maximum distance a wild pokemob will try to move while idle wandering. [Default: 16]")
     public int idleMaxPathWild = 16;
     @Configure(category = Config.mobAI, comment = "Maximum distance a tamed pokemob will try to move while idle wandering. [Default: 4]")
@@ -517,8 +517,8 @@ public class Config extends ConfigData
     public List<String> softSpawnBiomeBlacklist = Lists.newArrayList("the_bumblezone:sugar_water_floor",
             "the_bumblezone:hive_wall", "the_bumblezone:hive_pillar");
 
-    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 2]")
-    public int spawnRate = 3;
+    @Configure(category = Config.spawning, comment = "This is how often the code attempts to spawn pokemobs near a player. [Default: 3]")
+    public int spawnRate = 1;
     @Configure(category = Config.spawning, comment = "Default radius of effect for repels, also applies to dynamax spots. [Default: 16]")
     public int repelRadius = 16;
 
@@ -533,17 +533,17 @@ public class Config extends ConfigData
     public String teleRef = "top_right";
 
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the tamed pokemob GUI based on the position of guiRef. [Default: [0, 0]]")
-    public List<Integer> guiPos = Lists.newArrayList(new Integer[]
+    public List<Integer> guiSelectedPos = Lists.newArrayList(new Integer[]
     { 0, 0 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [89, 17]]")
-    public List<Integer> telePos = Lists.newArrayList(new Integer[]
-    { 89, 17 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [147, -42]]")
-    public List<Integer> targetPos = Lists.newArrayList(new Integer[]
-    { 147, -42 });
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [-150, -100]]")
-    public List<Integer> messagePos = Lists.newArrayList(new Integer[]
-    { -150, -100 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the teleport pokemob GUI based on the position of teleRef. [Default: [-150, 0]]")
+    public List<Integer> guiTeleportPos = Lists.newArrayList(new Integer[]
+    { -150, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the target pokemob GUI based on the position of targetRef. [Default: [0, 0]]")
+    public List<Integer> guiTargetPos = Lists.newArrayList(new Integer[]
+    { 0, 0 });
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Offset of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
+    public List<Integer> guiMessagePos = Lists.newArrayList(new Integer[]
+    { 0, 0 });
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Padding of the pokemob message GUI based on the position of messageRef. [Default: [0, 0]]")
     public List<Integer> messagePadding = Lists.newArrayList(new Integer[]
     { 0, 0 });
@@ -569,8 +569,8 @@ public class Config extends ConfigData
     public boolean guiAutoScale = false;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Allows pokemobs to auto select moves. [Default: false]")
     public boolean autoSelectMoves = false;
-    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled. [Default: false]")
-    public boolean autoRecallPokemobs = false;
+    @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will be to auto recalled when too far. [Default: true]")
+    public boolean autoRecallPokemobs = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs will fly up or down if the player is looking sufficiently vertically. [Default: true]")
     public boolean riddenMobsAscendWithLook = true;
     @Configure(category = Config.client, type = Type.CLIENT, comment = "Pokemobs may try to automatically path while ridden. [Default: true]")
@@ -659,8 +659,8 @@ public class Config extends ConfigData
     public boolean showArmor = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Height of the health text on the health bar. [Default: 14]")
     public int hpTextHeight = 14;
-    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display only when looking at the pokemob. [Default: false]")
-    public boolean showOnlyFocused = false;
+    @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bar display only when looking at the pokemob. [Default: true]")
+    public boolean showOnlyFocused = true;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should the health bars be added for non-normal pokemobs. [Default: false]")
     public boolean nonStockHealthbars = false;
     @Configure(category = Config.healthbars, type = Type.CLIENT, comment = "Should debug info display on the health bar when the F3 debug screen displays. [Default: true]")
@@ -692,7 +692,7 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "If true, dead tamed pokemobs will vanish like normal mobs do on death, but they will return to their pokecubes when they vanish. [Default: true]")
     public boolean tameDeadDespawn = true;
 
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "The time in ticks it takes for the dead mobs to vanish if allowed. [Default: 20]")
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "The time in ticks it takes for the dead mobs to vanish if allowed. [Default: 60]")
     public int deadDespawnTimer = 60;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "If they did not vanish by this time, they will revive instead, wild ones at full hp, tame ones at 1 hp. [Default: 600]")
     public int deadReviveTimer = 600;
@@ -700,7 +700,7 @@ public class Config extends ConfigData
     public int noPoofReviveTimer = 600;
 
     // ridden Speed multipliers
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 1.0]")
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while flying. [Default: 0.3]")
     public double flySpeedFactor = 0.3;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor of the riding speed while in water. [Default: 1.0]")
     public double surfSpeedFactor = 1;
@@ -714,8 +714,8 @@ public class Config extends ConfigData
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Approximate cooldown for attacks in ticks, larger values will slow down combat. [Default: 20]")
     public int attackCooldown = 20;
 
-    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for ranged attacks. [Default: 1]")
-    public double attackCooldownRangedScale = 2.0;
+    @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for ranged attacks. [Default: 1.75]")
+    public double attackCooldownRangedScale = 1.75;
     @Configure(category = Config.mobAI, type = Type.SERVER, comment = "Scaling factor for cooldowns for contact attacks. [Default: 1]")
     public double attackCooldownContactScale = 1.0;
 
@@ -733,7 +733,7 @@ public class Config extends ConfigData
     @Configure(category = Config.misc, type = Type.SERVER, comment = "Number of pages in the PC. [Default: 32]")
     public int pcPageCount = 32;
 
-    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Time in ticks it takes for a pokemob to evolve, note that recalling during this time will cancel the evolution! [Default: 50]")
+    @Configure(category = Config.advanced, type = Type.SERVER, comment = "Time in ticks it takes for a pokemob to evolve, note that recalling during this time will cancel the evolution! [Default: 60]")
     public int evolutionTicks = 60;
     @Configure(category = Config.advanced, type = Type.SERVER, comment = "Distance that secret base radar works within. [Default: 64]")
     public int baseRadarRange = 64;
@@ -785,7 +785,12 @@ public class Config extends ConfigData
 
         IdleWalkTask.IDLETIMER = this.idleTickRate;
         HungerTask.TICKRATE = this.hungerTickRate;
-        
+
+        if (guiMessagePos.size() != 2) guiMessagePos = Lists.newArrayList(0, 0);
+        if (guiSelectedPos.size() != 2) guiSelectedPos = Lists.newArrayList(0, 0);
+        if (guiTeleportPos.size() != 2) guiTeleportPos = Lists.newArrayList(-150, 0);
+        if (guiTargetPos.size() != 2) guiTargetPos = Lists.newArrayList(0, 0);
+
         DataHelpers.DEBUG = this.debug_data;
 
         this.berryStackScale = Math.max(1, this.berryStackScale);

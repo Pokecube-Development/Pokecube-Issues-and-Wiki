@@ -2,6 +2,7 @@
   "name": "wishiwashi-school",
   "id": 746,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 217,
   "size": {
     "height": 4.0,
@@ -181,6 +182,7 @@
       "flip-turn"
     ]
   },
+  "sound": "wishiwashi-school",
   "old_name": "wishiwashi_school",
   "loot_table": "pokecube:entities/fish_2"
 }

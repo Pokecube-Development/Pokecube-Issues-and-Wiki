@@ -63,14 +63,6 @@ public abstract class PokemobAI extends PokemobEvolves
     private Battle battle;
 
     @Override
-    public boolean getCombatState(final CombatStates state)
-    {
-        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
-            return this.getGenesDynamax().getExpressed().getValue().gigantamax;
-        return super.getCombatState(state);
-    }
-
-    @Override
     public float getPitch()
     {
         return this.dataSync().get(this.params.DIRECTIONPITCHDW);
@@ -155,7 +147,7 @@ public abstract class PokemobAI extends PokemobEvolves
         this.setGeneralState(GeneralStates.EVOLVING, false);
 
         // Play the sound for the mob.
-        this.getEntity().playSound(this.getSound(), 0.25f, 1);
+        this.getEntity().playAmbientSound();
 
         // Do the shiny particle effect.
         if (this.isShiny())
@@ -187,14 +179,6 @@ public abstract class PokemobAI extends PokemobEvolves
     }
 
     @Override
-    public void setCombatState(final CombatStates state, final boolean flag)
-    {
-        if (state == CombatStates.GIGANTAMAX && this.getGenesDynamax() != null)
-            this.getGenesDynamax().getExpressed().getValue().gigantamax = flag;
-        super.setCombatState(state, flag);
-    }
-
-    @Override
     public void setDirectionPitch(final float pitch)
     {
         this.dataSync().set(this.params.DIRECTIONPITCHDW, pitch);
@@ -208,7 +192,7 @@ public abstract class PokemobAI extends PokemobEvolves
             pokeballId = pokeballId.copy();
             pokeballId.setCount(1);
             // Remove the extra tag containing data about this pokemob
-            if (pokeballId.hasTag() && pokeballId.getTag().contains("Pokemob")) pokeballId.getTag().remove("Pokemob");
+            if (pokeballId.hasTag()) pokeballId.getTag().remove("Pokemob");
         }
         this.pokecube = pokeballId;
     }
@@ -298,10 +282,21 @@ public abstract class PokemobAI extends PokemobEvolves
 
         // If the mob was constructed without a world somehow (during init for
         // JEI, etc), do not bother with AI stuff.
-        if (entity.getLevel() == null || ThutCore.proxy.isClientSide()) return;
+        if (entity.getLevel() == null || ThutCore.proxy.isClientSide())
+        {
+            if (entity.getLevel() != null) PokecubeAPI.POKEMOB_BUS.post(new InitAIEvent.Post(this));
+            return;
+        }
 
         // DOLATER decide on speed scaling here?
-        if (entry.stock) entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
+        if (entry.stock)
+        {
+            entity.getAttribute(Attributes.MOVEMENT_SPEED).setBaseValue(0.2F);
+            if (entity.getAttributes().hasAttribute(Attributes.KNOCKBACK_RESISTANCE))
+            {
+                entity.getAttribute(Attributes.KNOCKBACK_RESISTANCE).setBaseValue(0.98F);
+            }
+        }
 
         this.tasks = Lists.newArrayList();
         Tasks.initBrain(brain);

@@ -50,6 +50,16 @@
         ]
       },
       {
+        "L": 1,
+        "moves": [
+          "tackle",
+          "poison-sting",
+          "string-shot",
+          "harden",
+          "bug-bite"
+        ]
+      },
+      {
         "L": 12,
         "moves": [
           "absorb"
@@ -70,7 +80,15 @@
       {
         "L": 37,
         "moves": [
-          "rage"
+          "rage",
+          "protect"
+        ]
+      },
+      {
+        "L": 25,
+        "moves": [
+          "leech-life",
+          "silver-wind"
         ]
       },
       {
@@ -95,12 +113,6 @@
         "L": 20,
         "moves": [
           "air-cutter"
-        ]
-      },
-      {
-        "L": 25,
-        "moves": [
-          "silver-wind"
         ]
       },
       {

@@ -23,8 +23,8 @@ public class PokemobMoveStats
     private static final Set<String> IGNORE = Sets.newHashSet();
     static
     {
-        PokemobMoveStats.IGNORE.add("moves");
-        PokemobMoveStats.IGNORE.add("g_z_moves");
+        PokemobMoveStats.IGNORE.add("baseMoves");
+        PokemobMoveStats.IGNORE.add("movesToUse");
         PokemobMoveStats.IGNORE.add("newMoves");
         PokemobMoveStats.IGNORE.add("num");
         PokemobMoveStats.IGNORE.add("exp");
@@ -76,10 +76,6 @@ public class PokemobMoveStats
     /** The Previous lvl, used to determine which moves to try to learn. */
     public int oldLevel = 0;
 
-    /** The array of moves. */
-    public String[] moves = new String[4];
-    /** The array of moves. */
-    public String[] g_z_moves = new String[4];
     /** Moves it is trying to learn. */
     public List<String> newMoves = Lists.newArrayList();
     /** Index of new move to learn from newMoves. */
@@ -108,11 +104,15 @@ public class PokemobMoveStats
     public LivingEntity targetEnemy = null;
     public LivingEntity targetAlly = null;
 
-    // Moves for the transformed mob
-    public String[] transformedMoves = moves;
+    public int transformId = -1;
+    /** The array of moves. */
+    private String[] baseMoves = new String[4];
+    /** The array of moves. */
+    private String[] movesToUse = new String[4];
 
     public void reset()
     {
+        System.arraycopy(baseMoves, 0, movesToUse, 0, movesToUse.length);
         for (final Field f : this.getClass().getFields()) try
         {
             if (!PokemobMoveStats.IGNORE.contains(f.getName())) f.set(this, f.get(PokemobMoveStats.defaults));
@@ -126,13 +126,29 @@ public class PokemobMoveStats
     public void checkMovesInProgress(IPokemob user)
     {
         targettingSelf = false;
-        movesInProgress.removeIf(s -> s.isFinished());
-        for (var move : movesInProgress)
+        synchronized (movesInProgress)
         {
-            if (move.getTarget() == user.getEntity())
+            movesInProgress.removeIf(s -> s.isFinished());
+            for (var move : movesInProgress)
             {
-                targettingSelf = true;
-                break;
+                if (move.getTarget() == user.getEntity())
+                {
+                    targettingSelf = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    public void changeMovesUser(IPokemob newUser)
+    {
+        PokemobMoveStats from = newUser.getMoveStats();
+        synchronized (movesInProgress)
+        {
+            synchronized (from.movesInProgress)
+            {
+                from.movesInProgress.addAll(this.movesInProgress);
+                from.movesInProgress.forEach(m -> m.setUser(newUser));
             }
         }
     }
@@ -140,7 +156,15 @@ public class PokemobMoveStats
     public void addMoveInProgress(IPokemob user, MoveApplication application)
     {
         this.targettingSelf |= application.getTarget() == user.getEntity();
-        this.movesInProgress.add(application);
+        synchronized (movesInProgress)
+        {
+            this.movesInProgress.add(application);
+        }
+    }
+
+    public boolean isExecutingMoves()
+    {
+        return !movesInProgress.isEmpty();
     }
 
     public boolean addPendingMove(String move, IPokemob notify)
@@ -169,5 +193,29 @@ public class PokemobMoveStats
         if (this.num < 0) this.num = this.newMoves.size() - 1;
         this.num = this.num % this.newMoves.size();
         return newMoves.get(this.num);
+    }
+
+    public String[] getMovesToUse()
+    {
+        return movesToUse;
+    }
+
+    public String[] setMovesToUse(String[] movesToUse)
+    {
+        if (baseMoves == movesToUse) Thread.dumpStack();
+        this.movesToUse = movesToUse;
+        return movesToUse;
+    }
+
+    public String[] getBaseMoves()
+    {
+        return baseMoves;
+    }
+
+    public String[] setBaseMoves(String[] baseMoves)
+    {
+        if (baseMoves == movesToUse) Thread.dumpStack();
+        this.baseMoves = baseMoves;
+        return baseMoves;
     }
 }

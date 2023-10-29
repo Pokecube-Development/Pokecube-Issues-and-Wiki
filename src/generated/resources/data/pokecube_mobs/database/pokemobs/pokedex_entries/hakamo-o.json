@@ -129,9 +129,12 @@
       "mega-kick",
       "headbutt",
       "tackle",
+      "body-slam",
+      "take-down",
       "leer",
       "roar",
       "low-kick",
+      "counter",
       "earthquake",
       "toxic",
       "screech",
@@ -154,10 +157,14 @@
       "return",
       "frustration",
       "safeguard",
+      "dragon-breath",
       "iron-tail",
+      "metal-claw",
       "hidden-power",
+      "sunny-day",
       "uproar",
       "facade",
+      "focus-punch",
       "taunt",
       "brick-break",
       "rock-tomb",
@@ -174,6 +181,7 @@
       "x-scissor",
       "dragon-pulse",
       "drain-punch",
+      "vacuum-wave",
       "focus-blast",
       "shadow-claw",
       "draco-meteor",
@@ -189,15 +197,9 @@
       "confide",
       "brutal-swing",
       "scale-shot",
-      "coaching"
+      "coaching",
+      "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "kommo-o",
-      "level": 45,
-      "evoMoves": "clanging-scales"
-    }
-  ],
   "loot_table": "pokecube:entities/pig_2"
 }

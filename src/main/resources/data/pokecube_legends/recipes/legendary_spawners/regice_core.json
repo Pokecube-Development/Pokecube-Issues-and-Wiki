@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "pokecube_legends:spawner",
+  "pattern": [
+    "RCR",
+    "CAC",
+    "RCR"
+  ],
+  "key": {
+    "R": {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    "A": {
+      "item": "pokecube_legends:totem_block"
+    },
+    "C": {
+      "item": "minecraft:packed_ice"
+    }
+  },
+  "result": {
+    "item": "pokecube_legends:regice_spawn",
+    "count": 1
+  }
+}

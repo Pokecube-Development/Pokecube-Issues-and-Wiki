@@ -171,6 +171,7 @@
       "double-team",
       "confuse-ray",
       "light-screen",
+      "haze",
       "bide",
       "metronome",
       "waterfall",
@@ -210,6 +211,7 @@
       "helping-hand",
       "role-play",
       "brick-break",
+      "knock-off",
       "skill-swap",
       "secret-power",
       "dive",
@@ -227,6 +229,7 @@
       "worry-seed",
       "aqua-tail",
       "power-gem",
+      "vacuum-wave",
       "focus-blast",
       "giga-impact",
       "nasty-plot",
@@ -254,5 +257,6 @@
       "chilling-water"
     ]
   },
-  "loot_table": "pokecube:entities/chicken_2"
+  "loot_table": "pokecube:entities/chicken_2",
+  "prey": " small_fish"
 }

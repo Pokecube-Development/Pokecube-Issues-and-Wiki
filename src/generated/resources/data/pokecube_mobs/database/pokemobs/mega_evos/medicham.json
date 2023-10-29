@@ -1,0 +1,10 @@
+{
+  "user": "medicham",
+  "name": "medicham-mega",
+  "rule": {
+    "key": "item",
+    "item": {
+      "item": "pokecube:medichammega"
+    }
+  }
+}

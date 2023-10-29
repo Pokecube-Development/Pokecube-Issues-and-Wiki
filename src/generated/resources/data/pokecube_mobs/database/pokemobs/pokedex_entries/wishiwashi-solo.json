@@ -180,6 +180,7 @@
       "flip-turn"
     ]
   },
+  "sound": "wishiwashi-solo",
   "old_name": "wishiwashi",
   "loot_table": "pokecube:entities/fish_1"
 }

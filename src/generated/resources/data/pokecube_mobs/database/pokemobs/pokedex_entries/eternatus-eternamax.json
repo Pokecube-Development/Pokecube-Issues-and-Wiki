@@ -2,7 +2,7 @@
   "name": "eternatus-eternamax",
   "id": 890,
   "stock": true,
-  "gmax": true,
+  "is_extra_form": true,
   "base_experience": 563,
   "size": {
     "height": 100.0
@@ -150,5 +150,23 @@
       "meteor-beam"
     ]
   },
+  "pose_shapes": {
+    "idle": {
+      "parts": [
+        {
+          "name": "body",
+          "offset": "-2,1,-2",
+          "size": "4,4,4",
+          "ride": "2,7,2"
+        },
+        {
+          "name": "body1",
+          "offset": "-2,10,5",
+          "size": "8,8,8"
+        }
+      ]
+    }
+  },
+  "sound": "eternatus-eternamax",
   "old_name": "eternatus_gigantamax"
 }

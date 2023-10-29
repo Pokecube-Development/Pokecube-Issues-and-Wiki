@@ -152,6 +152,7 @@
       "leer",
       "bite",
       "growl",
+      "roar",
       "ember",
       "flamethrower",
       "submission",
@@ -240,12 +241,5 @@
       "tera-blast"
     ]
   },
-  "evolutions": [
-    {
-      "name": "charmeleon",
-      "level": 16,
-      "animation": "55"
-    }
-  ],
   "loot_table": "pokecube:entities/coal_1"
 }

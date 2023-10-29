@@ -2,6 +2,7 @@
   "name": "necrozma-ultra",
   "id": 800,
   "stock": true,
+  "is_extra_form": true,
   "base_experience": 339,
   "size": {
     "height": 7.5,
@@ -190,5 +191,6 @@
       "brutal-swing"
     ]
   },
+  "sound": "necrozma-ultra",
   "old_name": "necrozma_ultra"
 }

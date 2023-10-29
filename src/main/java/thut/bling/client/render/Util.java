@@ -62,8 +62,8 @@ public class Util
                 rendertype$state);
     }
 
-    static Map<String, IModel> customModels = Maps.newHashMap();
-    static Map<String, ResourceLocation[]> customTextures = Maps.newHashMap();
+    public static Map<String, IModel> customModels = Maps.newHashMap();
+    public static Map<String, ResourceLocation[]> customTextures = Maps.newHashMap();
 
     public static IModel getCustomModel(final ItemStack stack)
     {
@@ -74,7 +74,7 @@ public class Util
             if (imodel == null)
             {
                 final ResourceLocation loc = new ResourceLocation(model);
-                imodel = ModelFactory.create(new ModelHolder(loc));
+                imodel = ModelFactory.createScaled(new ModelHolder(loc));
                 if (model != null)
                 {
                     Util.customModels.put(model, imodel);
@@ -149,6 +149,7 @@ public class Util
         {
             int alpha = 255;
             Color colour;
+            ResourceLocation[] texs = getCustomTextures(null, stack);
             if (stack.hasTag() && stack.getTag().contains("alpha")) alpha = stack.getTag().getInt("alpha");
             if (stack.getItem() instanceof DyeableLeatherItem dyed)
             {
@@ -168,6 +169,10 @@ public class Util
             {
                 for (final IExtendedModelPart part1 : model.getParts().values())
                 {
+                    if (texs != null) for (var m : part1.getMaterials())
+                    {
+                        m.tex = texs[0];
+                    }
                     part1.setRGBABrO(colour.getRed(), colour.getGreen(), colour.getBlue(), alpha, brightness, overlay);
                     part1.setRGBABrO(notColurable, 255, 255, 255, alpha, brightness, overlay);
                 }
