@@ -38,7 +38,6 @@ public class RainbowSword extends SwordItem
         ItemStack stack = player.getItemInHand(hand);
         world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.FIRECHARGE_USE,
                 SoundSource.NEUTRAL, 0.5F, 0.4F / (world.getRandom().nextFloat() * 0.4F + 0.8F));
-        player.getCooldowns().addCooldown(this, 20);
 
         double x = player.getX() + (double)(player.getDirection().getStepX() * 0.3F);
         double y = player.getY() + (double)(player.getDirection().getStepY() * 0.3F);
@@ -61,6 +60,7 @@ public class RainbowSword extends SwordItem
         }
 
         player.awardStat(Stats.ITEM_USED.get(this));
+
         if (!player.getAbilities().instabuild) {
             stack.hurtAndBreak(3, player, (entity) ->
             {
@@ -68,6 +68,7 @@ public class RainbowSword extends SwordItem
             });
         }
 
+        player.getCooldowns().addCooldown(this, 20);
         return InteractionResultHolder.sidedSuccess(stack, world.isClientSide());
     }
 }
