@@ -324,13 +324,13 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
             size = 1f;
             gene.setValue(size);
         }
-        return size;
+        return this.getEntity().getScale();
     }
 
     @Override
     public float getSize()
     {
-        return (float) (this.getSizeRaw() * PokecubeCore.getConfig().scalefactor);
+        return this.getSizeRaw();
     }
 
     private void initAbilityGene()
@@ -619,7 +619,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
         FormeHolder form = Database.formeHoldersByKey.getOrDefault(newEntry.getTrimmedName(),
                 newEntry.getModel(this.getSexe()));
         this._speciesCache.getValue().setForme(form);
-        
+
         // Reset the types cache
         this.getModifiers().type1 = null;
         this.getModifiers().type2 = null;
@@ -695,7 +695,7 @@ public abstract class PokemobGenes extends PokemobSided implements IMobColourabl
                 final float max = (float) (maxS / Math.max(a, Math.max(c, b)));
                 size *= max;
             }
-            this.getEntity().getDimensions(this.getEntity().getPose()).scale(size);
+            this.getEntity().refreshDimensions();
         }
         final SizeGene gene = this.genesSize.getExpressed();
         gene.setValue(size);

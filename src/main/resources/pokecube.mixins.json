@@ -15,6 +15,7 @@
     "entity.ICapabilityCache",
     "entity.BeeHiveFix",
     "entity.EntityDeathMixin",
+    "entity.EntityScaleMixin",
     "features.LessJungleBushInStructuresMixin",
     "features.NoBasaltColumnsInStructuresMixin",
     "features.NoDeltasInStructuresMixin",

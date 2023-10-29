@@ -147,7 +147,7 @@ public abstract class PokemobAI extends PokemobEvolves
         this.setGeneralState(GeneralStates.EVOLVING, false);
 
         // Play the sound for the mob.
-        this.getEntity().playSound(this.getSound(), 0.25f, 1);
+        this.getEntity().playAmbientSound();
 
         // Do the shiny particle effect.
         if (this.isShiny())
