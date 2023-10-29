@@ -121,7 +121,7 @@ public class DefaultGenetics implements IMobGenetics
             final ResourceLocation key = new ResourceLocation(tag.getString("K"));
             try
             {
-                alleles.load(tag.getCompound("V"));
+                alleles.load(tag.getCompound("V"), key);
                 this.getAlleles().put(key, alleles);
             }
             catch (final Exception e)

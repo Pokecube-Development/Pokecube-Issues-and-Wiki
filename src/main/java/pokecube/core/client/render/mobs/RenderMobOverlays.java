@@ -7,8 +7,11 @@ import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.client.event.RenderNameplateEvent;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.core.PokecubeCore;
@@ -21,7 +24,7 @@ public class RenderMobOverlays
 {
     public static boolean enabled = true;
 
-    public static void renderSpecial(final RenderLivingEvent.Post<Mob, EntityModel<Mob>> event)
+    public static void renderPost(final RenderLivingEvent.Post<Mob, EntityModel<Mob>> event)
     {
         if (!RenderMobOverlays.enabled) return;
         final Minecraft mc = Minecraft.getInstance();
@@ -30,7 +33,7 @@ public class RenderMobOverlays
         if (cameraEntity == null || !event.getEntity().isAlive()) return;
         final IPokemob pokemob = PokemobCaps.getPokemobFor(event.getEntity());
         if (pokemob != null && event.getEntity().canUpdate())
-        {   
+        {
             final PoseStack mat = event.getPoseStack();
             Evolution.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
             ExitCube.render(pokemob, mat, event.getMultiBufferSource(), partialTicks);
@@ -49,4 +52,18 @@ public class RenderMobOverlays
         }
     }
 
+    public static void renderPre(final RenderLivingEvent.Pre<Mob, EntityModel<Mob>> event)
+    {
+        float scale = (float) SharedAttributes.getScale(event.getEntity());
+        if (scale != 1) event.getPoseStack().scale(scale, scale, scale);
+    }
+
+    public static void renderNameplate(final RenderNameplateEvent event)
+    {
+        if (event.getEntity() instanceof LivingEntity living)
+        {
+            float scale = 1 / (float) SharedAttributes.getScale(living);
+            if (scale != 1) event.getPoseStack().scale(scale, scale, scale);
+        }
+    }
 }

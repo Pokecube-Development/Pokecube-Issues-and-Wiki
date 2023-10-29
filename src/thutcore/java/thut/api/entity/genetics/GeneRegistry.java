@@ -23,11 +23,10 @@ public class GeneRegistry
         return GeneRegistry.geneMap.values();
     }
 
-    public static Gene<?> load(final CompoundTag tag) throws Exception
+    public static Gene<?> load(final CompoundTag tag, ResourceLocation key) throws Exception
     {
         Gene<?> ret = null;
-        final ResourceLocation resource = new ResourceLocation(tag.getString("K"));
-        ret = GeneRegistry.geneMap.get(resource).getConstructor().newInstance();
+        ret = GeneRegistry.geneMap.get(key).getConstructor().newInstance();
         ret.load(tag);
         return ret;
     }
@@ -49,9 +48,7 @@ public class GeneRegistry
 
     public static CompoundTag save(final Gene<?> gene)
     {
-        final CompoundTag tag = gene.save();
-        tag.putString("K", gene.getKey().toString());
-        return tag;
+        return gene.save();
     }
 
 }

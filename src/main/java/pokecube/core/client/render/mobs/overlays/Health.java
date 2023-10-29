@@ -32,7 +32,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.entity.PartEntity;
 import pokecube.api.data.PokedexEntry;
-import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -167,7 +166,6 @@ public class Health
         {
 
             float scale = .02f;
-            float mobScale = (float) SharedAttributes.getScale(entity);
 
             final float maxHealth = entity.getMaxHealth();
             final float health = Math.min(maxHealth, entity.getHealth());
@@ -184,8 +182,6 @@ public class Health
             }
 
             dy += config.heightAbove;
-            dy *= mobScale;
-            scale *= mobScale;
 
             mat.translate(0, dy, 0);
             Quaternionf quaternion;

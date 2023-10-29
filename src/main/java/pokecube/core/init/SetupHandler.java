@@ -5,6 +5,7 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.event.entity.EntityAttributeModificationEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
@@ -98,6 +99,15 @@ public class SetupHandler
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @SubscribeEvent
+    public static void onEntityAttributesModify(final EntityAttributeModificationEvent event)
+    {
+        event.getTypes().forEach(e -> {
+            if (!event.has(e, SharedAttributes.MOB_SIZE_SCALE.get()))
+                event.add(e, SharedAttributes.MOB_SIZE_SCALE.get());
+        });
     }
 
 }

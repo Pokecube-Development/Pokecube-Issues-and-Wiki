@@ -2,6 +2,7 @@ package pokecube.core.network.pokemobs;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -50,7 +51,9 @@ public class PacketSyncGene extends Packet
         this.entityId = buffer.readInt();
         try
         {
-            this.genes.load(buffer.readNbt());
+            var tag = buffer.readNbt();
+            ResourceLocation key = new ResourceLocation(tag.getString("K"));
+            this.genes.load(tag, key);
         }
         catch (final Exception e)
         {
@@ -68,8 +71,8 @@ public class PacketSyncGene extends Packet
         if (mob == null) return;
         final IMobGenetics genes = mob.getCapability(ThutCaps.GENETICS_CAP, null).orElse(null);
         final IPokemob pokemob = PokemobCaps.getPokemobFor(mob);
-        if (genes != null && alleles != null && alleles.getExpressed() != null) genes.getAlleles().put(alleles
-                .getExpressed().getKey(), alleles);
+        if (genes != null && alleles != null && alleles.getExpressed() != null)
+            genes.getAlleles().put(alleles.getExpressed().getKey(), alleles);
         if (pokemob != null) pokemob.onGenesChanged();
     }
 
@@ -81,6 +84,7 @@ public class PacketSyncGene extends Packet
         try
         {
             tag = this.genes.save();
+            tag.putString("K", this.genes.getExpressed().getKey().toString());
         }
         catch (final Exception e)
         {

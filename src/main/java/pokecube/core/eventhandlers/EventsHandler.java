@@ -44,6 +44,7 @@ import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.TickEvent.PlayerTickEvent;
+import net.minecraftforge.event.entity.EntityEvent;
 import net.minecraftforge.event.entity.EntityJoinLevelEvent;
 import net.minecraftforge.event.entity.EntityTravelToDimensionEvent;
 import net.minecraftforge.event.entity.living.LivingEvent.LivingTickEvent;
@@ -68,6 +69,7 @@ import pokecube.api.entity.CapabilityAffected.DefaultAffected;
 import pokecube.api.entity.CapabilityInhabitable.SaveableHabitatProvider;
 import pokecube.api.entity.CapabilityInhabitor.InhabitorProvider;
 import pokecube.api.entity.IOngoingAffected;
+import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
@@ -379,6 +381,8 @@ public class EventsHandler
         MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldLoad);
         MinecraftForge.EVENT_BUS.addListener(WorldTickManager::onWorldUnload);
 
+        MinecraftForge.EVENT_BUS.addListener(EventsHandler::onMobSize);
+
         // This attempts to recall the mobs following the player when they
         // change dimension.
         MinecraftForge.EVENT_BUS.addListener(EventsHandler::onChangeDimension);
@@ -535,16 +539,18 @@ public class EventsHandler
             final DefaultAffected affected = new DefaultAffected((LivingEntity) event.getObject());
             event.addCapability(EventsHandler.AFFECTEDCAP, affected);
         }
+
+        final GeneticsProvider genes = new GeneticsProvider();
+        event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
+
         if (event.getObject() instanceof EntityPokemob mob
                 && !event.getCapabilities().containsKey(EventsHandler.POKEMOBCAP))
         {
             final DefaultPokemob pokemob = new DefaultPokemob(mob);
-            final GeneticsProvider genes = new GeneticsProvider();
             final DataSync_Impl data = new DataSync_Impl();
             final TextureableCaps.PokemobCap tex = new TextureableCaps.PokemobCap(mob);
             pokemob.setDataSync(data);
             pokemob.genes = genes.wrapped;
-            event.addCapability(GeneticsManager.POKECUBEGENETICS, genes);
             event.addCapability(EventsHandler.POKEMOBCAP, pokemob);
             event.addCapability(EventsHandler.DATACAP, data);
             event.addCapability(EventsHandler.TEXTURECAP, tex);
@@ -784,7 +790,6 @@ public class EventsHandler
             }
             poke.onTick();
         }
-
         if (evt.getEntity().level().isClientSide || !evt.getEntity().isAlive()) return;
         final int tick = Math.max(PokecubeCore.getConfig().attackCooldown, 1);
         // Handle ongoing effects for this mob.
@@ -868,6 +873,17 @@ public class EventsHandler
         final List<Entity> pokemobs = new ArrayList<>(world.getEntities(EntityTypeTest.forClass(Entity.class),
                 e -> EventsHandler.shouldRecallOnChangeDimension(entity, e)));
         PCEventsHandler.recallAll(pokemobs, false);
+    }
+
+    private static void onMobSize(EntityEvent.Size event)
+    {
+        // Attributes can be null when this is called in the initial set for the
+        // constructor of the Entity itself.
+        if (event.getEntity() instanceof LivingEntity living && living.getAttributes() != null)
+        {
+            double s = SharedAttributes.getScale(living);
+            event.setNewEyeHeight((float) (event.getNewEyeHeight() * s));
+        }
     }
 
     private static void onPlayerTick(final PlayerTickEvent event)
