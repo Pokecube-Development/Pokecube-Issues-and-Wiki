@@ -123,7 +123,9 @@ public class EventsHandlerClient
         // Now for some additional client side handlers
 
         // Register the handler for drawing things like evolution, etc
-        MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderSpecial);
+        MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderPost);
+        MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderPre);
+        MinecraftForge.EVENT_BUS.addListener(RenderMobOverlays::renderNameplate);
         // Register the handler for drawing selected box around targeted
         // entities for throwing cubes at
         MinecraftForge.EVENT_BUS.addListener(EventsHandlerClient::renderBounds);
