@@ -877,8 +877,6 @@ public class EventsHandler
 
     private static void onPlayerTick(final PlayerTickEvent event)
     {
-        event.player.getAttribute(SharedAttributes.MOB_SIZE_SCALE.get()).setBaseValue(0.1f);
-        event.player.refreshDimensions();
         if (event.side == LogicalSide.SERVER && event.player instanceof ServerPlayer player)
         {
             final IPokemob ridden = PokemobCaps.getPokemobFor(player.getVehicle());
