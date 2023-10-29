@@ -10,7 +10,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.client.event.RenderNameplateEvent;
+import net.minecraftforge.client.event.RenderNameTagEvent;
 import pokecube.api.entity.SharedAttributes;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.PokemobCaps;
@@ -58,7 +58,7 @@ public class RenderMobOverlays
         if (scale != 1) event.getPoseStack().scale(scale, scale, scale);
     }
 
-    public static void renderNameplate(final RenderNameplateEvent event)
+    public static void renderNameplate(final RenderNameTagEvent event)
     {
         if (event.getEntity() instanceof LivingEntity living)
         {
