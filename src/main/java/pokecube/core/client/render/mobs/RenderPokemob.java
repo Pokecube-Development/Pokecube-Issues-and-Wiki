@@ -318,20 +318,11 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         {
             final IPokemob pokemob = PokemobCaps.getPokemobFor(entity);
             float s = 1;
-            if (pokemob != null)
+            if (pokemob != null && pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
             {
-                s = pokemob.getSize();
-                if (pokemob.getGeneralState(GeneralStates.EXITINGCUBE))
-                {
-                    float scale = 1;
-                    scale = Math.min(1,
-                            (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
-                    s = Math.max(0.01f, s * scale);
-                }
-                else
-                {
-                    s = pokemob.getEntity().getScale();
-                }
+                float scale = 1;
+                scale = Math.min(1, (entity.tickCount + 1 + partialTick) / LogicMiscUpdate.EXITCUBEDURATION);
+                s = Math.max(0.01f, s * scale);
             }
             float sx = (float) this.getScale().x;
             float sy = (float) this.getScale().y;
@@ -525,6 +516,7 @@ public class RenderPokemob extends MobRenderer<Mob, ModelWrapper<Mob>>
         this.model = holder.wrapper;
         this.shadowRadius = entity.getBbWidth();
         this.activeHolder = holder;
+        this.shadowRadius = 0;
 
         super.render(entity, entityYaw, partialTicks, matrixStackIn, bufferIn, packedLightIn);
     }
