@@ -20,7 +20,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.ForgeMod;
-import net.minecraftforge.entity.PartEntity;
 import pokecube.api.entity.pokemob.IPokemob;
 import pokecube.api.entity.pokemob.ai.AIRoutine;
 import pokecube.api.entity.pokemob.ai.GeneralStates;
@@ -125,7 +124,6 @@ public class LogicMountedControl extends LogicBase
         return this.input;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void tick(final Level level)
     {
@@ -146,13 +144,6 @@ public class LogicMountedControl extends LogicBase
                 this.wasRiding = false;
             }
             return;
-        }
-        if (entity.getParts() != null)
-        {
-            for (PartEntity<?> e : entity.getParts())
-            {
-                e.maxUpStep = this.entity.getStepHeight();
-            }
         }
 
         this.wasRiding = true;

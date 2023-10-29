@@ -170,7 +170,7 @@ public class LogicMovesUpdates extends LogicBase
 
         // Only reduce cooldown if the pokemob does not currently have a
         // move being fired.
-        if (num > 0 && this.pokemob.getMoveStats().movesInProgress.isEmpty()) this.pokemob.setAttackCooldown(num - 1);
+        if (num > 0 && !this.pokemob.getMoveStats().isExecutingMoves()) this.pokemob.setAttackCooldown(num - 1);
 
         // Update abilities.
         if (this.pokemob.getAbility() != null && this.entity.isEffectiveAi())
